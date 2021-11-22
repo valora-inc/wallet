@@ -342,7 +342,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="EscrowedPaymentListItem/CallToActions/global:remind/Button"
+          testID="EscrowedPaymentListItem/CallToActions/remind/Button"
         >
           <Text
             style={
@@ -363,7 +363,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
               ]
             }
           >
-            global:remind
+            remind
           </Text>
         </View>
         <View
@@ -383,7 +383,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="EscrowedPaymentListItem/CallToActions/global:reclaim/Button"
+          testID="EscrowedPaymentListItem/CallToActions/reclaim/Button"
         >
           <Text
             style={
@@ -404,7 +404,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
               ]
             }
           >
-            global:reclaim
+            reclaim
           </Text>
         </View>
       </View>

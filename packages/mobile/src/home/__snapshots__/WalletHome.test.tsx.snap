@@ -408,7 +408,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                         }
                         testID="undefined/Text"
                       >
-                        exchangeFlow9:whatIsGold
+                        whatIsGold
                       </Text>
                       <View
                         style={
@@ -478,7 +478,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                           onResponderTerminate={[Function]}
                           onResponderTerminationRequest={[Function]}
                           onStartShouldSetResponder={[Function]}
-                          testID="undefined/CallToActions/global:dismiss/Button"
+                          testID="undefined/CallToActions/dismiss/Button"
                         >
                           <Text
                             style={
@@ -500,7 +500,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                               ]
                             }
                           >
-                            global:dismiss
+                            dismiss
                           </Text>
                         </View>
                       </View>
@@ -746,7 +746,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
               }
             }
           >
-            paymentRequestFlow:request
+            request
           </Text>
         </View>
       </View>

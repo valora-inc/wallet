@@ -63,7 +63,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             ]
           }
         >
-          exchangeFlow9:withdrawCeloTo
+          withdrawCeloTo
         </Text>
       </View>
       <Text
@@ -151,7 +151,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               ]
             }
           >
-            exchangeFlow9:withdrawCeloAmount
+            withdrawCeloAmount
           </Text>
         </View>
         <Text
@@ -607,7 +607,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
           }
         >
-          global:withdraw
+          withdraw
         </Text>
       </View>
     </View>

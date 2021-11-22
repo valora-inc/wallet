@@ -25,7 +25,7 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
     const daysSinceTransaction = timeDeltaInDays(Date.now(), item.timestamp)
     const key =
       daysSinceTransaction <= 7
-        ? i18n.t('walletFlow5:feedSectionHeaderRecent')
+        ? i18n.t('feedSectionHeaderRecent')
         : formatFeedSectionTitle(item.timestamp, i18n)
     sections[key] = sections[key] || {
       daysSinceTransaction,
@@ -46,7 +46,7 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
 export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
   const { makerAmount } = confirmationProps
   const isSold = makerAmount.currencyCode === Currency.Celo
-  return isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold')
+  return isSold ? i18n.t('soldGold') : i18n.t('purchasedGold')
 }
 
 export const transferReviewHeader = (
@@ -59,40 +59,38 @@ export const transferReviewHeader = (
   const isCeloTx = confirmationProps.amount.currencyCode === Currency.Celo
   switch (type) {
     case TokenTransactionType.Sent:
-      headerText = i18n.t(
-        isCeloTx ? 'walletFlow5:transactionHeaderWithdrewCelo' : 'walletFlow5:transactionHeaderSent'
-      )
+      headerText = i18n.t(isCeloTx ? 'transactionHeaderWithdrewCelo' : 'transactionHeaderSent')
       break
     case TokenTransactionType.EscrowSent:
-      headerText = i18n.t('walletFlow5:transactionHeaderEscrowSent')
+      headerText = i18n.t('transactionHeaderEscrowSent')
       break
     case TokenTransactionType.Received:
       const address = confirmationProps.address ?? ''
       if (rewardsSenders.includes(address) || addressToDisplayName[address]?.isCeloRewardSender) {
-        headerText = i18n.t('walletFlow5:transactionHeaderCeloReward')
+        headerText = i18n.t('transactionHeaderCeloReward')
       } else {
         headerText = isCeloTx
-          ? i18n.t('walletFlow5:transactionHeaderCeloDeposit')
-          : i18n.t('walletFlow5:transactionHeaderReceived')
+          ? i18n.t('transactionHeaderCeloDeposit')
+          : i18n.t('transactionHeaderReceived')
       }
       break
     case TokenTransactionType.EscrowReceived:
-      headerText = i18n.t('walletFlow5:transactionHeaderEscrowReceived')
+      headerText = i18n.t('transactionHeaderEscrowReceived')
       break
     case TokenTransactionType.VerificationFee:
-      headerText = i18n.t('walletFlow5:transactionHeaderVerificationFee')
+      headerText = i18n.t('transactionHeaderVerificationFee')
       break
     case TokenTransactionType.Faucet:
-      headerText = i18n.t('walletFlow5:transactionHeaderFaucet')
+      headerText = i18n.t('transactionHeaderFaucet')
       break
     case TokenTransactionType.InviteSent:
-      headerText = i18n.t('walletFlow5:transactionHeaderInviteSent')
+      headerText = i18n.t('transactionHeaderInviteSent')
       break
     case TokenTransactionType.InviteReceived:
-      headerText = i18n.t('walletFlow5:transactionHeaderInviteReceived')
+      headerText = i18n.t('transactionHeaderInviteReceived')
       break
     case TokenTransactionType.NetworkFee:
-      headerText = i18n.t('walletFlow5:transactionHeaderNetworkFee')
+      headerText = i18n.t('transactionHeaderNetworkFee')
       break
   }
 

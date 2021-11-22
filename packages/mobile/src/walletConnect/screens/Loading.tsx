@@ -8,7 +8,6 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { isScreenOnForeground, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -19,7 +18,7 @@ const CONNECTION_TIMEOUT = 10_000
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectLoading>
 
 function Loading({ route }: Props) {
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const timer = setTimeout(async () => {

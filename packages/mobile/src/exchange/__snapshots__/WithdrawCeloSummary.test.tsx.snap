@@ -42,7 +42,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           ]
         }
       >
-        exchangeFlow9:withdrawCeloAmount
+        withdrawCeloAmount
       </Text>
     </View>
     <Text

@@ -24,7 +24,6 @@ import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { useFeeCurrency } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
@@ -89,7 +88,7 @@ function useRecipientToSendTo(paramRecipient: Recipient) {
 }
 
 function SendConfirmation(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const {
     origin,
@@ -263,7 +262,7 @@ function SendConfirmation(props: Props) {
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
           action: onSendClick,
-          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
+          text: isInvite ? t('sendAndInvite') : t('send'),
           disabled: isSending,
         }}
         isSending={isSending}
@@ -316,7 +315,7 @@ function SendConfirmation(props: Props) {
         <Dialog
           title={t('encryption.warningModalHeader')}
           isVisible={encryptionDialogVisible}
-          actionText={t('global:dismiss')}
+          actionText={t('dismiss')}
           actionPress={onDismissEncryptionModal}
         >
           {t('encryption.warningModalBody')}

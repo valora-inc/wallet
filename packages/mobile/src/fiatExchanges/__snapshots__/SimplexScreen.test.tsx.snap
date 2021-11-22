@@ -250,7 +250,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:ok
+                    ok
                   </Text>
                 </View>
               </View>
@@ -467,7 +467,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:ok
+                    ok
                   </Text>
                 </View>
               </View>
@@ -503,7 +503,7 @@ exports[`SimplexScreen renders correctly 1`] = `
             ]
           }
         >
-          global:amount
+          amount
            (
           cUSD
           )
@@ -645,7 +645,7 @@ exports[`SimplexScreen renders correctly 1`] = `
             ]
           }
         >
-          global:subtotal
+          subtotal
         </Text>
         <Text
           style={
@@ -819,7 +819,7 @@ exports[`SimplexScreen renders correctly 1`] = `
             ]
           }
         >
-          global:Total
+          Total
         </Text>
         <Text
           style={
@@ -1181,7 +1181,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                       ]
                     }
                   >
-                    global:ok
+                    ok
                   </Text>
                 </View>
               </View>
@@ -1398,7 +1398,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                       ]
                     }
                   >
-                    global:ok
+                    ok
                   </Text>
                 </View>
               </View>
@@ -1434,7 +1434,7 @@ exports[`SimplexScreen renders correctly 2`] = `
             ]
           }
         >
-          global:amount
+          amount
            (
           cUSD
           )
@@ -1576,7 +1576,7 @@ exports[`SimplexScreen renders correctly 2`] = `
             ]
           }
         >
-          global:subtotal
+          subtotal
         </Text>
         <Text
           style={
@@ -1750,7 +1750,7 @@ exports[`SimplexScreen renders correctly 2`] = `
             ]
           }
         >
-          global:Total
+          Total
         </Text>
         <Text
           style={

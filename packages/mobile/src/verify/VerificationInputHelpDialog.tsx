@@ -3,7 +3,6 @@ import React, { useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text } from 'react-native'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   isVisible: boolean
@@ -18,7 +17,7 @@ export default function VerificationInputHelpDialog({
   onPressBack,
   onPressSkip,
 }: Props) {
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
   const translationContext = secondsLeft > 0 ? 'countdown' : null
 
   // Animates when countdown becomes inactive
@@ -38,7 +37,6 @@ export default function VerificationInputHelpDialog({
       <Text style={styles.body}>
         <Trans
           i18nKey="verificationInputHelpDialog.body"
-          ns={Namespaces.onboarding}
           tOptions={{ context: translationContext }}
           count={secondsLeft}
         >

@@ -9,7 +9,6 @@ import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
-import { Namespaces } from 'src/i18n'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
 
@@ -48,7 +47,7 @@ const SeeThroughOverlay = () => {
 }
 
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const inset = useSafeAreaInsets()
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const isEmulator = DeviceInfo.useIsEmulator ? DeviceInfo.useIsEmulator().result : false

@@ -18,7 +18,6 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
@@ -54,7 +53,7 @@ type Props = RouteProps
 const { decimalSeparator } = getNumberFormatSettings()
 
 function SendAmountLegacy(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const [amount, setAmount] = useState('')
   const defaultCurrency = useSelector(defaultCurrencySelector)
@@ -138,7 +137,7 @@ function SendAmountLegacy(props: Props) {
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}
-        text={t('global:review')}
+        text={t('review')}
         showLoading={
           recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
         }

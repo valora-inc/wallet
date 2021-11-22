@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
 SelectLocalCurrency.navigationOptions = () => ({
   ...headerWithBackButton,
-  headerTitle: i18n.t('global:localCurrencyTitle'),
+  headerTitle: i18n.t('localCurrencyTitle'),
 })
 
 export default SelectLocalCurrency

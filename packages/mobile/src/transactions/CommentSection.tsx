@@ -4,14 +4,13 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   comment?: string | null
 }
 
 export default function CommentSection({ comment }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   if (!comment) {
     return null
   }

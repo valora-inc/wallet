@@ -19,7 +19,6 @@ import {
 } from 'src/config'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
@@ -82,7 +81,7 @@ export function useInputAmounts(
 }
 
 function SendAmount(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const [amount, setAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
@@ -209,7 +208,7 @@ function SendAmount(props: Props) {
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}
-        text={t('global:review')}
+        text={t('review')}
         showLoading={
           recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
         }

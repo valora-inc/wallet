@@ -55,9 +55,7 @@ describe('EscrowedPaymentReminderNotification', () => {
       </Provider>
     )
 
-    fireEvent.press(
-      contact.getByTestId('EscrowedPaymentListItem/CallToActions/global:remind/Button')
-    )
+    fireEvent.press(contact.getByTestId('EscrowedPaymentListItem/CallToActions/remind/Button'))
     await flushMicrotasksQueue()
     expect(Share.share).toHaveBeenCalled()
   })

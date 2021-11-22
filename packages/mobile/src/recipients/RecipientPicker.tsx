@@ -18,7 +18,7 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -263,7 +263,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect(
-  mapStateToProps,
-  {}
-)(withTranslation<RecipientProps>(Namespaces.sendFlow7)(RecipientPicker))
+export default connect(mapStateToProps, {})(withTranslation<RecipientProps>()(RecipientPicker))

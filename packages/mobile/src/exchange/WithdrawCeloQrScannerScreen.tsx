@@ -58,7 +58,7 @@ WithdrawCeloQrScannerScreen.navigationOptions = () => {
   return {
     ...nuxNavigationOptions,
     headerLeft: () => <BackButton color={colors.light} />,
-    headerTitle: i18n.t('exchangeFlow9:withdrawScanQrTitle'),
+    headerTitle: i18n.t('withdrawScanQrTitle'),
     headerTitleStyle: {
       ...fontStyles.navigationHeader,
       headerTitleAlign: 'center',

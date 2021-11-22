@@ -106,11 +106,11 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
 export function getFullCurrencyName(currency: Currency | null) {
   switch (currency) {
     case Currency.Dollar:
-      return i18n.t('global:celoDollars')
+      return i18n.t('celoDollars')
     case Currency.Euro:
-      return i18n.t('global:celoEuros')
+      return i18n.t('celoEuros')
     case Currency.Celo:
-      return i18n.t('global:celoGold')
+      return i18n.t('celoGold')
     default:
       return null
   }

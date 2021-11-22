@@ -16,7 +16,7 @@ import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmatio
 import CalculateFee, { CalculateFeeChildren } from 'src/fees/CalculateFee'
 import { FeeType } from 'src/fees/reducer'
 import { getFeeInTokens } from 'src/fees/selectors'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -138,7 +138,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
           FooterComponent={this.renderFooter}
           confirmButton={{
             action: this.onConfirm,
-            text: t('global:confirm'),
+            text: t('confirm'),
             disabled:
               isReclaiming ||
               !userHasEnough ||
@@ -198,4 +198,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, {}, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.sendFlow7)(ReclaimPaymentConfirmationScreen))
+)(withTranslation<Props>()(ReclaimPaymentConfirmationScreen))
