@@ -4,8 +4,8 @@ import {
   sendPaymentNotification,
   _setInviteRewardsSenders,
   _setKnownAddressesCache,
+  _setRegistrationsRef,
   _setRewardsSenders,
-  _setTestRegistrations,
 } from '../src/firebase'
 
 const SENDER_ADDRESS = '0x123456'
@@ -33,8 +33,17 @@ const mockedKnownAddressesCache = {
   },
 }
 
+const mockedRegistrationsRef = {
+  on: jest.fn((event, callback) =>
+    // @ts-ignore: Only mocking the `val` property
+    callback({ val: () => ({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } }) })
+  ),
+}
+
 describe('sendPaymentNotification', () => {
   beforeEach(() => {
+    // @ts-ignore: Only mocking the `on` property
+    _setRegistrationsRef(mockedRegistrationsRef)
     //@ts-ignore: Only mocking getDisplayInfo
     _setKnownAddressesCache(mockedKnownAddressesCache)
     mockedMessagingSend.mockClear()
@@ -43,7 +52,6 @@ describe('sendPaymentNotification', () => {
   it('should send a payment notification for cUSD', async () => {
     expect.hasAssertions()
 
-    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     _setRewardsSenders([])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, 150, {})
@@ -77,7 +85,6 @@ describe('sendPaymentNotification', () => {
   })
 
   it('should send a deposit received notification for CELO', async () => {
-    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     _setRewardsSenders([])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
@@ -90,7 +97,6 @@ describe('sendPaymentNotification', () => {
   })
 
   it('should send a reward received notification', async () => {
-    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     _setRewardsSenders([SENDER_ADDRESS])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.EURO, 150, {})
@@ -105,7 +111,6 @@ describe('sendPaymentNotification', () => {
   })
 
   it('should send an invite reward received notification', async () => {
-    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     _setRewardsSenders([])
     _setInviteRewardsSenders([SENDER_ADDRESS])
 

@@ -1,4 +1,3 @@
-import { DataSnapshot } from '@firebase/database-types'
 import Analytics from 'analytics-node'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
@@ -25,26 +24,23 @@ let lastBlockRef: admin.database.Reference
 let lastInviteBlockRef: admin.database.Reference
 let knownAddressesCache: KnownAddressesCache
 
+interface Registration {
+  fcmToken: string
+  language?: string
+  txHashes?: { [txHash: string]: string | undefined }
+}
 export interface Registrations {
-  [address: string]:
-    | {
-        fcmToken: string
-        language?: string
-        txHashes?: { [txHash: string]: string | undefined }
-      }
-    | undefined
-    | null
+  [address: string]: Registration | undefined | null
 }
 
-let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 let lastInviteBlockNotified: number = -1
 
 let rewardsSenders: string[] = []
 let inviteRewardsSenders: string[] = []
 
-export function _setTestRegistrations(testRegistrations: Registrations) {
-  registrations = testRegistrations
+export function _setRegistrationsRef(testRegistrationsRef: admin.database.Reference) {
+  registrationsRef = testRegistrationsRef
 }
 
 export function _setRewardsSenders(testRewardsSenders: string[]) {
@@ -59,27 +55,11 @@ export function _setKnownAddressesCache(testKnownAddressesCache: KnownAddressesC
   knownAddressesCache = testKnownAddressesCache
 }
 
-function firebaseFetchError(nodeKey: string) {
-  return (errorObject: any) => {
-    console.error(`${nodeKey} data read failed:`, errorObject.code)
-  }
-}
-
 export function initializeDb() {
   database = admin.database()
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
   lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
-
-  function addOrUpdateRegistration(snapshot: DataSnapshot) {
-    const registration = snapshot?.val() ?? {}
-    console.debug('New or updated registration:', snapshot.key, registration)
-    if (snapshot.key) {
-      registrations[snapshot.key] = registration
-    }
-  }
-  registrationsRef.on('child_added', addOrUpdateRegistration, firebaseFetchError('registration'))
-  registrationsRef.on('child_changed', addOrUpdateRegistration, firebaseFetchError('registration'))
 
   lastBlockRef.on(
     'value',
@@ -139,12 +119,26 @@ export function initializeDb() {
   knownAddressesCache.startListening(database)
 }
 
+export function getRegistration(address: string) {
+  let registration: Registration | undefined
+  registrationsRef.on(
+    'value',
+    (snapshot) => {
+      registration = (snapshot?.val() || {})[address]
+    },
+    (errorObject: any) => {
+      console.error('Get registration for address failed failed:', errorObject.code)
+    }
+  )
+  return registration
+}
+
 export function getTokenFromAddress(address: string) {
-  return registrations[address]?.fcmToken ?? null
+  return getRegistration(address)?.fcmToken ?? null
 }
 
 export function getTranslatorForAddress(address: string) {
-  const registration = registrations[address]
+  const registration = getRegistration(address)
   const language = registration && registration.language
   // Language is set and i18next has the proper config
   if (language) {
