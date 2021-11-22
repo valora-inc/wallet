@@ -15,7 +15,7 @@ export default function InviteAndSendModal({ isVisible, name, onInvite, onCancel
 
   return (
     <Dialog
-      title={t('inviteAndSendDialog.title')}
+      title={t('inviteAndSendDialog.title', { name })}
       isVisible={isVisible}
       actionText={t('inviteAndSendDialog.button')}
       actionPress={onInvite}
