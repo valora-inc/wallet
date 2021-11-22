@@ -1,13 +1,13 @@
 {
   "invite": "Invitar",
-  "celoRewards": "Recompensas CELO",
+  "celoRewards": "Recompensas Celo",
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
   "legal": "Legal",
-  "securityAndData": "Seguridad y Datos",
+  "securityAndData": "Seguridad y datos",
   "changePin": "Cambiar PIN",
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
@@ -976,7 +976,7 @@
   "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
     "0": "Cada semana, se utiliza una tarifa muy pequeña (menos del 0,01%) del saldo en Celo Dólares de cada usuario para mantener el valor del Celo Dólar estable. Para obtener más información sobre las tarifas de Celo, consulta ",
-    "1": "nuestras preguntas frecuentes."
+    "1": "Preguntas frecuentes"
   },
   "confirmingTransaction": "Confirmando…",
   "confirmingExchange": "Confirmando…",
