@@ -4,7 +4,7 @@ import { ApolloError } from 'apollo-boost'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { FeedType } from 'src/transactions/TransactionFeed'
 
 interface OwnProps {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.walletFlow5)(NoActivity)
+export default withTranslation<Props>()(NoActivity)

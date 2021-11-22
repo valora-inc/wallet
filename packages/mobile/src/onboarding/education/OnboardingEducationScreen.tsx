@@ -9,7 +9,6 @@ import { StyleSheet } from 'react-native'
 import Education, { EducationTopic } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { onboardingEducation1, onboardingEducation2, onboardingEducation3 } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -18,24 +17,24 @@ import { Screens } from 'src/navigator/Screens'
 import LanguageButton from 'src/onboarding/LanguageButton'
 
 function useStep() {
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
 
   return React.useMemo(() => {
     return [
       {
-        title: t('education.step1'),
+        title: t('onboardingEducation.step1'),
         isTopTitle: true,
         image: onboardingEducation1,
         topic: EducationTopic.onboarding,
       },
       {
-        title: t('education.step2'),
+        title: t('onboardingEducation.step2'),
         isTopTitle: true,
         image: onboardingEducation2,
         topic: EducationTopic.onboarding,
       },
       {
-        title: t('education.step3'),
+        title: t('onboardingEducation.step3'),
         isTopTitle: true,
         image: onboardingEducation3,
         topic: EducationTopic.onboarding,
@@ -45,7 +44,7 @@ function useStep() {
 }
 
 export default function OnboardingEducationScreen() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   const headerHeight = useHeaderHeight()
   const stepInfo = useStep()
@@ -66,9 +65,9 @@ export default function OnboardingEducationScreen() {
       embeddedNavBar={null}
       stepInfo={stepInfo}
       finalButtonType={BtnTypes.ONBOARDING}
-      finalButtonText={t('global:getStarted')}
+      finalButtonText={t('getStarted')}
       buttonType={BtnTypes.ONBOARDING_SECONDARY}
-      buttonText={t('global:next')}
+      buttonText={t('next')}
       dotStyle={progressDots.circlePassiveOnboarding}
       activeDotStyle={progressDots.circleActiveOnboarding}
       onFinish={onFinish}

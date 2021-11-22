@@ -2,7 +2,6 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation } from 'react-native'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   getClipboardContent: () => Promise<string>
@@ -15,7 +14,7 @@ export default function ClipboardAwarePasteButton({
   shouldShow,
   onPress,
 }: Props) {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   useLayoutEffect(() => {
     LayoutAnimation.easeInEaseOut()

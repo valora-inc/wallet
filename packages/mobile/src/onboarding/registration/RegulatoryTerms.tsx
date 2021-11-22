@@ -11,7 +11,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, PRIVACY_LINK, TOS_LINK } from 'src/config'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -70,13 +70,13 @@ export class RegulatoryTerms extends React.Component<Props> {
           <Logo type={LogoTypes.DARK} height={32} />
           <Text style={styles.title}>{t('terms.title')}</Text>
           <Text style={styles.disclaimer}>
-            <Trans ns={Namespaces.nuxNamePin1} i18nKey={'terms.info'}>
+            <Trans i18nKey={'terms.info'}>
               <Text onPress={this.onPressGoToTerms} style={styles.disclaimerLink} />
             </Trans>
           </Text>
           <Text style={styles.header}>{t('terms.heading1')}</Text>
           <Text style={styles.disclaimer}>
-            <Trans ns={Namespaces.nuxNamePin1} i18nKey={'terms.privacy'}>
+            <Trans i18nKey={'terms.privacy'}>
               <Text onPress={this.onPressGoToPrivacyPolicy} style={styles.disclaimerLink} />
             </Trans>
           </Text>
@@ -91,7 +91,7 @@ export class RegulatoryTerms extends React.Component<Props> {
               style={[styles.button, insets && insets.bottom <= MARGIN && { marginBottom: MARGIN }]}
               type={BtnTypes.ONBOARDING}
               size={BtnSizes.FULL}
-              text={t('global:accept')}
+              text={t('accept')}
               onPress={this.onPressAccept}
               testID={'AcceptTermsButton'}
             />
@@ -105,7 +105,7 @@ export class RegulatoryTerms extends React.Component<Props> {
 export default connect<{}, DispatchProps, {}, RootState>(
   null,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.nuxNamePin1)(RegulatoryTerms))
+)(withTranslation<Props>()(RegulatoryTerms))
 
 const styles = StyleSheet.create({
   container: {

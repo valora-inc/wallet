@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Namespaces } from 'src/i18n'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeLock from 'src/pincode/PincodeLock'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
@@ -48,7 +47,7 @@ describe('PincodeLock', () => {
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(getByText(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
+    expect(getByText(`${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])
   })
 })

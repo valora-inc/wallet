@@ -15,7 +15,7 @@ import WebView from 'src/components/WebView'
 import { SIMPLEX_FEES_URL } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -30,7 +30,7 @@ type Props = RouteProps
 function SimplexScreen({ route, navigation }: Props) {
   const [loadSimplexCheckout, setLoadSimplexCheckout] = useState(false)
   const [redirected, setRedirected] = useState(false)
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const { simplexQuote, userIpAddress } = route.params
 
@@ -144,7 +144,7 @@ function SimplexScreen({ route, navigation }: Props) {
 SimplexScreen.navigationOptions = () => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
-  headerTitle: () => <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} />,
+  headerTitle: () => <HeaderTitleWithBalance title={i18n.t('addFunds')} />,
 })
 
 const styles = StyleSheet.create({

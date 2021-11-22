@@ -41,7 +41,7 @@ exports[`Contact renders correctly 1`] = `
           }
         }
       >
-        global:message
+        message
       </Text>
       <View
         style={
@@ -231,7 +231,7 @@ exports[`Contact renders correctly 1`] = `
                 }
               }
             >
-              global:submit
+              submit
             </Text>
           </View>
         </View>

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
@@ -22,7 +21,7 @@ export default function SendBar({ selectedCurrency, skipImport }: Props) {
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }
 
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   return (
     <View style={styles.container} testID="SendBar">

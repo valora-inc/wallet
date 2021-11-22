@@ -23,7 +23,7 @@ export const spendScreenOptions = () => {
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t('fiatExchangeFlow:spend'),
+    headerTitle: i18n.t('spend'),
   }
 }
 
@@ -47,7 +47,7 @@ function Spend(props: Props) {
     }
   }
 
-  const { t } = useTranslation('fiatExchangeFlow')
+  const { t } = useTranslation()
 
   // TODO Dynamically fetch merchant links so they can be updated between releases
   const merchants: SpendMerchant[] = SPEND_MERCHANT_LINKS

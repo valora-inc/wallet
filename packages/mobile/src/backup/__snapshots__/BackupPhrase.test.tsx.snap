@@ -291,7 +291,7 @@ exports[`renders correctly with backup not completed 1`] = `
             }
           }
         >
-          global:continue
+          continue
         </Text>
       </View>
     </View>

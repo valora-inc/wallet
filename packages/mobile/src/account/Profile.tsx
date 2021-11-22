@@ -47,7 +47,7 @@ function Profile({ navigation, route }: Props) {
 
     navigation.setOptions({
       headerRight: () => (
-        <TopBarTextButton title={i18n.t('global:save')} testID="SaveButton" onPress={onSave} />
+        <TopBarTextButton title={i18n.t('save')} testID="SaveButton" onPress={onSave} />
       ),
     })
   }, [navigation, newName, newPictureUri, picturePath])
@@ -80,7 +80,7 @@ function Profile({ navigation, route }: Props) {
           />
         </View>
         <SettingsItemInput
-          value={newName ?? t('global:unknown')}
+          value={newName ?? t('unknown')}
           testID="ProfileEditName"
           title={t('name')}
           placeholder={t('yourName')}
