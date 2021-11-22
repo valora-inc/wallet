@@ -28,7 +28,6 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import { balancesSelector } from 'src/stableToken/selectors'
-import { tokenErrorSelector } from 'src/tokens/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -46,7 +45,6 @@ function WalletHome() {
   const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
   const balances = useSelector(balancesSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
-  const tokenBalancesError = useSelector(tokenErrorSelector)
 
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
