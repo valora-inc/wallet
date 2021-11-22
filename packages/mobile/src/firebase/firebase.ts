@@ -10,10 +10,9 @@ import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { RemoteFeatureFlags } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
-import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { handleNotification } from 'src/firebase/notifications'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
@@ -235,12 +234,12 @@ https://firebase.google.com/docs/remote-config
 This also allows us to run AB tests.
 https://firebase.google.com/docs/ab-testing/abtest-config
 */
-export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | null> {
+export async function fetchRemoteConfigValues(): Promise<RemoteFeatureFlags | null> {
   if (!FIREBASE_ENABLED) {
     return null
   }
 
-  await remoteConfig().setDefaults(FEATURE_FLAG_DEFAULTS)
+  await remoteConfig().setDefaults(REMOTE_CONFIG_VALUES_DEFAULTS)
   // Don't cache values so we fetch the latest every time. https://rnfirebase.io/remote-config/usage
   await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 0 })
   await remoteConfig().fetchAndActivate()
@@ -249,8 +248,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
   Logger.debug(TAG, `Updated feature flags: ${JSON.stringify(flags)}`)
 
   // When adding a new feature flag there are 2 places that need updating:
-  // the RemoteFeatureFlags interface as well as the FEATURE_FLAG_DEFAULTS map
-  // FEATURE_FLAG_DEFAULTS is in featureFlagDefaults.ts
+  // the RemoteFeatureFlags interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
+  // REMOTE_CONFIG_VALUES_DEFAULTS is in featureFlagDefaults.ts
   // RemoteFeatureFlags is in app/saga.ts
 
   return {

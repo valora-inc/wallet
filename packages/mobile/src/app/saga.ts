@@ -26,7 +26,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  updateFeatureFlags,
+  updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
   getLastTimeBackgrounded,
@@ -37,7 +37,7 @@ import {
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -138,7 +138,7 @@ export function* checkAndroidMobileServicesSaga() {
   yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
-export interface RemoteFeatureFlags {
+export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   inviteRewardCusd: number
@@ -177,12 +177,12 @@ export function* appRemoteFeatureFlagSaga() {
     const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
     if (isAppActive && isRefreshTime) {
-      const { flags }: { flags: RemoteFeatureFlags | undefined } = yield race({
-        flags: call(fetchRemoteFeatureFlags),
+      const { configValues }: { configValues: RemoteConfigValues | undefined } = yield race({
+        configValues: call(fetchRemoteConfigValues),
         timeout: delay(FETCH_TIMEOUT_DURATION),
       })
-      if (flags) {
-        yield put(updateFeatureFlags(flags))
+      if (configValues) {
+        yield put(updateRemoteConfigValues(configValues))
         lastLoadTime = Date.now()
       }
     }
