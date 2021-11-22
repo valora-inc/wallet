@@ -10,6 +10,7 @@ import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
+import { RemoteConfigValues } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -234,7 +235,7 @@ https://firebase.google.com/docs/remote-config
 This also allows us to run AB tests.
 https://firebase.google.com/docs/ab-testing/abtest-config
 */
-export async function fetchRemoteConfigValues(): Promise<RemoteFeatureFlags | null> {
+export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | null> {
   if (!FIREBASE_ENABLED) {
     return null
   }
@@ -245,12 +246,12 @@ export async function fetchRemoteConfigValues(): Promise<RemoteFeatureFlags | nu
   await remoteConfig().fetchAndActivate()
 
   const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
-  Logger.debug(TAG, `Updated feature flags: ${JSON.stringify(flags)}`)
+  Logger.debug(TAG, `Updated remote config values: ${JSON.stringify(flags)}`)
 
-  // When adding a new feature flag there are 2 places that need updating:
-  // the RemoteFeatureFlags interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
-  // REMOTE_CONFIG_VALUES_DEFAULTS is in featureFlagDefaults.ts
-  // RemoteFeatureFlags is in app/saga.ts
+  // When adding a new remote config value there are 2 places that need updating:
+  // the RemoteConfigValues interface as well as the REMOTE_CONFIG_VALUES_DEFAULTS map
+  // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
+  // RemoteConfigValues is in app/saga.ts
 
   return {
     hideVerification: flags.hideVerification.asBoolean(),
