@@ -579,7 +579,7 @@
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la Red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una cuenta de Valora, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni siquiera cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO, cUSD y cEUR son parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Solo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de Valora (“Límite diario”). Si deseas solicitar un aumento a este límite diario, deberás ponerte en contacto con support@valoraapp.com y proporcionar información personal adicional. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
   },
-  "fullName": "Nombre completo",
+  "fullName": "Nombre",
   "fullNamePlaceholder": "Nombre y apellido",
   "importIt": "Restaurar cuenta",
   "important": "Importante",
@@ -623,9 +623,9 @@
     "pleaseKeepAppOpen": "Por favor, no salgas de esta pantalla o tendrás que reiniciar",
     "learnMore": "Más información",
     "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "card2": "Una vez que se conecte tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
+    "card3": "Conectar tu número de teléfono también te permite ver quiénes de tus amigos están en {{appName}}.",
+    "card4": "Requerimos tres mensajes de confirmación para mantener tu cuenta más segura."
   },
   "skipModal": {
     "header": "¿Omitir la conexión?",
@@ -661,9 +661,9 @@
     "cta": "Comprar búsquedas (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
-    "step2": "Send funds across borders",
-    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
+    "step1": "{{appName}} es una nueva forma de enviar y recibir valor en todo el mundo",
+    "step2": "Envía fondos sin fronteras",
+    "step3": "Conveniente, confiable y seguro. Tu teléfono es tu billetera"
   },
   "welcome": {
     "title": "Comparte dinero con quienes valoras",
@@ -672,8 +672,8 @@
   },
   "accessContacts": {
     "disclosure": {
-      "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
+      "title": "Importar contactos",
+      "body": "Valora quiere importar tus contactos. Al continuar con este proceso, doy acceso a los números de teléfono, nombres y fotos de perfil de mis contactos con fines de conectarme con ellos a través de Valora."
     }
   },
   "createAccount": "Crear Cuenta",
