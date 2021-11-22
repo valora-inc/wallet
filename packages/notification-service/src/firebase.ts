@@ -119,9 +119,9 @@ export function initializeDb() {
   knownAddressesCache.startListening(database)
 }
 
-export function getRegistration(address: string) {
+export async function getRegistration(address: string) {
   let registration: Registration | undefined
-  registrationsRef.on(
+  await registrationsRef.once(
     'value',
     (snapshot) => {
       registration = (snapshot?.val() || {})[address]
@@ -133,12 +133,13 @@ export function getRegistration(address: string) {
   return registration
 }
 
-export function getTokenFromAddress(address: string) {
-  return getRegistration(address)?.fcmToken ?? null
+export async function getTokenFromAddress(address: string) {
+  const registration = await getRegistration(address)
+  return registration?.fcmToken ?? null
 }
 
-export function getTranslatorForAddress(address: string) {
-  const registration = getRegistration(address)
+export async function getTranslatorForAddress(address: string) {
+  const registration = await getRegistration(address)
   const language = registration && registration.language
   // Language is set and i18next has the proper config
   if (language) {
@@ -247,7 +248,7 @@ export async function sendPaymentNotification(
   // Set the metric tracking this delay
   metrics.setBlockDelay(lastBlockNotified - blockNumber)
 
-  const t = getTranslatorForAddress(recipientAddress)
+  const t = await getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
 
   setDefaultNameAndImageIfAvailable(data, senderAddress)
@@ -267,7 +268,7 @@ export async function sendPaymentNotification(
 }
 
 export async function sendInviteNotification(inviter: string) {
-  const t = getTranslatorForAddress(inviter)
+  const t = await getTranslatorForAddress(inviter)
   return sendNotification(t('inviteTitle'), t('inviteBody'), inviter, {
     type: NotificationTypes.INVITE_REDEEMED,
   })
@@ -279,7 +280,7 @@ export async function sendNotification(
   address: string,
   data: { [key: string]: string }
 ) {
-  const token = getTokenFromAddress(address)
+  const token = await getTokenFromAddress(address)
   if (!token) {
     console.info('FCM token missing for address:', address)
     return

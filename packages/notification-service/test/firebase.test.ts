@@ -34,7 +34,7 @@ const mockedKnownAddressesCache = {
 }
 
 const mockedRegistrationsRef = {
-  on: jest.fn((event, callback) =>
+  once: jest.fn((event, callback) =>
     // @ts-ignore: Only mocking the `val` property
     callback({ val: () => ({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } }) })
   ),
