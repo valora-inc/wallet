@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { hideAlert, showError } from 'src/alert/actions'
-import { SendEvents } from 'src/analytics/Events'
+import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
@@ -172,8 +172,23 @@ function useTransactionCallbacks({
   ])
 
   const onRequest = useCallback(() => {
-    // TODO: Add payment requests for multiple tokens
-  }, [])
+    const transactionData = getTransactionData(TokenTransactionType.PayRequest)
+
+    if (addressValidationType !== AddressValidationType.NONE && !recipient.address) {
+      navigate(Screens.ValidateRecipientIntro, {
+        transactionData,
+        addressValidationType,
+        isOutgoingPaymentRequest: true,
+        origin,
+      })
+    } else if (recipientVerificationStatus !== RecipientVerificationStatus.VERIFIED) {
+      ValoraAnalytics.track(RequestEvents.request_unavailable, continueAnalyticsParams)
+      navigate(Screens.PaymentRequestUnavailable, { transactionData })
+    } else {
+      ValoraAnalytics.track(RequestEvents.request_amount_continue, continueAnalyticsParams)
+      navigate(Screens.PaymentRequestConfirmation, { transactionData })
+    }
+  }, [addressValidationType, getTransactionData])
 
   return { onSend, onRequest }
 }

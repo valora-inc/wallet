@@ -169,6 +169,7 @@ function SendAmount(props: Props) {
       <DisconnectBanner />
       <View style={styles.contentContainer}>
         <SendAmountValue
+          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={usingLocalAmount}

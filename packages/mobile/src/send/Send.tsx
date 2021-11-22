@@ -125,18 +125,17 @@ function Send({ route }: Props) {
         }
       )
 
-      // TODO: Add payment request support in the new flow.
-      if (multiTokenUseSendFlow && !isOutgoingPaymentRequest) {
+      if (multiTokenUseSendFlow) {
         navigate(Screens.SendAmount, {
           recipient,
           isOutgoingPaymentRequest,
-          origin: SendOrigin.AppSendFlow,
+          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
         })
       } else {
         navigate(Screens.SendAmountLegacy, {
           recipient,
           isOutgoingPaymentRequest,
-          origin: SendOrigin.AppSendFlow,
+          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
           forceCurrency,
         })
       }

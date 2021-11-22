@@ -83,7 +83,7 @@ describe('ValidateRecipientAccount', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
       addressJustValidated: true,

@@ -21,7 +21,7 @@ import {
   mockAccount2Invite,
   mockAccountInvite,
   mockE164NumberInvite,
-  mockTransactionData,
+  mockTransactionDataLegacy,
 } from 'test/values'
 
 expect.extend({ toBeDisabled })
@@ -55,8 +55,8 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 }
 
 const mockTransactionData2 = {
-  type: mockTransactionData.type,
-  recipient: mockTransactionData.recipient,
+  type: mockTransactionDataLegacy.type,
+  recipient: mockTransactionDataLegacy.recipient,
   amount: new BigNumber('3.70676691729323308271'),
   currency: Currency.Dollar,
   reason: '',
@@ -64,7 +64,7 @@ const mockTransactionData2 = {
 
 const mockScreenProps = (isOutgoingPaymentRequest?: true) =>
   getMockStackScreenProps(Screens.SendAmountLegacy, {
-    recipient: mockTransactionData.recipient,
+    recipient: mockTransactionDataLegacy.recipient,
     isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
   })
@@ -449,7 +449,7 @@ describe('SendAmountLegacy', () => {
       )
       enterAmount(tree, AMOUNT_VALID)
       fireEvent.press(tree.getByTestId('Review'))
-      expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
+      expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmationLegacy, {
         transactionData: mockTransactionData2,
       })
     })

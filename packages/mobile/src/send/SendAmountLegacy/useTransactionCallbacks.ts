@@ -225,7 +225,7 @@ function useTransactionCallbacks({
       navigate(Screens.PaymentRequestUnavailable, { transactionData })
     } else {
       ValoraAnalytics.track(RequestEvents.request_amount_continue, continueAnalyticsParams)
-      navigate(Screens.PaymentRequestConfirmation, { transactionData })
+      navigate(Screens.PaymentRequestConfirmationLegacy, { transactionData })
     }
   }, [addressValidationType, getTransactionData])
 

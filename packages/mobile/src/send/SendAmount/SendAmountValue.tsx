@@ -17,6 +17,7 @@ interface Props {
   tokenAmount: BigNumber
   usingLocalAmount: boolean
   tokenAddress: string
+  isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
 }
@@ -26,6 +27,7 @@ function SendAmountValue({
   tokenAmount,
   usingLocalAmount,
   tokenAddress,
+  isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
 }: Props) {
@@ -41,9 +43,11 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        <BorderlessButton style={styles.maxButtonContainer} onPress={onPressMax}>
-          <Text style={styles.maxButton}>{t('max')}</Text>
-        </BorderlessButton>
+        {isOutgoingPaymentRequest ? null : (
+          <BorderlessButton style={styles.maxButtonContainer} onPress={onPressMax}>
+            <Text style={styles.maxButton}>{t('max')}</Text>
+          </BorderlessButton>
+        )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
             {usingLocalAmount && (

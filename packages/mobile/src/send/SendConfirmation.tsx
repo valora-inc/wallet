@@ -63,7 +63,7 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
       }
     : noHeader
 
-function useRecipientToSendTo(paramRecipient: Recipient) {
+export function useRecipientToSendTo(paramRecipient: Recipient) {
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   return useMemo(() => {

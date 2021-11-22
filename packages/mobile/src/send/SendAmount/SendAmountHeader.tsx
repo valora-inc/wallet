@@ -41,15 +41,16 @@ function SendAmountHeader({
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    tokensWithBalance.length >= 2 && !isOutgoingPaymentRequest && !disallowCurrencyChange
+    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText
     let title
     if (!canChangeToken) {
-      titleText = isOutgoingPaymentRequest
-        ? i18n.t('request')
-        : i18n.t('sendToken', { token: tokenInfo?.symbol })
+      titleText = i18n.t('sendToken', { token: tokenInfo?.symbol })
+      title = titleText
+    } else if (isOutgoingPaymentRequest) {
+      titleText = i18n.t('request')
       title = titleText
     } else {
       titleText = i18n.t('send')
@@ -78,6 +79,7 @@ function SendAmountHeader({
         }
       />
       <TokenBottomSheet
+        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}

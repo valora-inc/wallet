@@ -27,7 +27,7 @@ import {
   mockAccountInvite,
   mockE164NumberInvite,
   mockInviteTransactionData,
-  mockTransactionData,
+  mockTransactionDataLegacy,
 } from 'test/values'
 
 // A fee of 0.01 cUSD.
@@ -52,7 +52,7 @@ jest.mock('src/send/saga')
 const mockedGetSendFee = getSendFee as jest.Mock
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
-  transactionData: mockTransactionData,
+  transactionData: mockTransactionDataLegacy,
   origin: SendOrigin.AppSendFlow,
 })
 
@@ -255,7 +255,7 @@ describe('SendConfirmationLegacy', () => {
     fireEvent.press(getByTestId('accountEditButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
       origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
+      transactionData: mockTransactionDataLegacy,
       addressValidationType: mockAddressValidationType,
     })
   })

@@ -26,7 +26,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
@@ -99,7 +99,7 @@ function navigateToConfirmationScreen(
   const isLegacy = isLegacyTransactionData(transactionData)
   if (isLegacy) {
     if (isOutgoingPaymentRequest) {
-      navigate(Screens.PaymentRequestConfirmation, {
+      navigate(Screens.PaymentRequestConfirmationLegacy, {
         transactionData: transactionData as TransactionDataInputLegacy,
         addressJustValidated: true,
       })
@@ -112,8 +112,10 @@ function navigateToConfirmationScreen(
     }
   } else {
     if (isOutgoingPaymentRequest) {
-      // This case should never happen yet.
-      navigateHome()
+      navigate(Screens.PaymentRequestConfirmation, {
+        transactionData: transactionData as TransactionDataInput,
+        addressJustValidated: true,
+      })
     } else {
       navigate(Screens.SendConfirmation, {
         transactionData: transactionData as TransactionDataInput,

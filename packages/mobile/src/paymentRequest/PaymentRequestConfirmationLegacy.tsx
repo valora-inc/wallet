@@ -14,8 +14,12 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
-import TokenDisplay from 'src/components/TokenDisplay'
-import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
+import TotalLineItem from 'src/components/TotalLineItem'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -23,8 +27,7 @@ import { writePaymentRequest } from 'src/paymentRequest/actions'
 import { PaymentRequestStatus } from 'src/paymentRequest/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useInputAmounts } from 'src/send/SendAmount'
-import { useRecipientToSendTo } from 'src/send/SendConfirmation'
+import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -32,7 +35,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 // @ts-ignore
 const TAG = 'paymentRequest/confirmation'
 
-type Props = StackScreenProps<StackParamList, Screens.PaymentRequestConfirmation>
+type Props = StackScreenProps<StackParamList, Screens.PaymentRequestConfirmationLegacy>
 
 export const paymentConfirmationScreenNavOptions = () => ({
   ...emptyHeader,
@@ -42,14 +45,15 @@ export const paymentConfirmationScreenNavOptions = () => ({
 function PaymentRequestConfirmation({ route }: Props) {
   const [comment, setComment] = useState('')
   const { transactionData, addressJustValidated } = route.params
-  const requesteeAddress = useSelector(walletAddressSelector)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const requesterE164Number = useSelector(e164NumberSelector)
 
-  const recipient = useRecipientToSendTo(transactionData.recipient)
-  const { tokenAmount, usdAmount } = useInputAmounts(
-    transactionData.inputAmount.toString(),
-    transactionData.amountIsInLocalCurrency,
-    transactionData.tokenAddress
+  const confirmationInput = getConfirmationInput(
+    transactionData,
+    e164NumberToAddress,
+    secureSendPhoneNumberMapping
   )
 
   const { t } = useTranslation()
@@ -68,25 +72,27 @@ function PaymentRequestConfirmation({ route }: Props) {
   }
 
   const onConfirm = async () => {
+    const { amount, recipient, recipientAddress: requesteeAddress } = confirmationInput
+
     if (!recipient) {
       throw new Error("Can't request without valid recipient")
     }
 
-    if (!requesteeAddress) {
+    if (!walletAddress) {
       throw new Error("Can't request without a valid account")
     }
 
-    if (!recipient.address) {
+    if (!requesteeAddress) {
       throw new Error('Error passing through the requestee address')
     }
 
     const paymentInfo = {
-      amount: usdAmount.toString(),
+      amount: amount.toString(),
       comment: comment || undefined,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
-      requesterAddress: requesteeAddress,
+      requesterAddress: walletAddress,
       requesterE164Number: requesterE164Number ?? undefined,
-      requesteeAddress: recipient.address.toLowerCase(),
+      requesteeAddress: requesteeAddress.toLowerCase(),
       status: PaymentRequestStatus.REQUESTED,
       notified: false,
     }
@@ -96,10 +102,15 @@ function PaymentRequestConfirmation({ route }: Props) {
     Logger.showMessage(t('requestSent'))
   }
 
+  const amount = {
+    value: confirmationInput.amount,
+    currencyCode: confirmationInput.currency,
+  }
+
   const renderFooter = () => {
     return (
       <View style={styles.feeContainer}>
-        <TokenTotalLineItem tokenAmount={tokenAmount} tokenAddress={transactionData.tokenAddress} />
+        <TotalLineItem amount={amount} showExchangeRate={false} />
       </View>
     )
   }
@@ -117,17 +128,15 @@ function PaymentRequestConfirmation({ route }: Props) {
       >
         <View style={styles.transferContainer}>
           <View style={styles.headerContainer}>
-            <ContactCircle recipient={recipient} />
+            <ContactCircle recipient={confirmationInput.recipient} />
             <View style={styles.recipientInfoContainer}>
               <Text style={styles.headerText}>{t('requesting')}</Text>
-              <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
+              <Text style={styles.displayName}>
+                {getDisplayName(confirmationInput.recipient, t)}
+              </Text>
             </View>
           </View>
-          <TokenDisplay
-            style={styles.amount}
-            amount={tokenAmount}
-            tokenAddress={transactionData.tokenAddress}
-          />
+          <CurrencyDisplay type={DisplayType.Default} style={styles.amount} amount={amount} />
           <CommentTextInput
             testID={'request'}
             onCommentChange={setComment}

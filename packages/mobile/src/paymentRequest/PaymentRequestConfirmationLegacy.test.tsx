@@ -2,9 +2,9 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
-import PaymentRequestConfirmation from 'src/paymentRequest/PaymentRequestConfirmation'
+import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount2, mockE164Number, mockTransactionData } from 'test/values'
+import { mockAccount2, mockE164Number, mockTransactionDataLegacy } from 'test/values'
 
 const store = createMockStore({
   account: {
@@ -15,16 +15,15 @@ const store = createMockStore({
   },
 })
 
-const mockScreenProps = getMockStackScreenProps(Screens.PaymentRequestConfirmation, {
-  transactionData: mockTransactionData,
-  addressJustValidated: true,
+const mockScreenProps = getMockStackScreenProps(Screens.PaymentRequestConfirmationLegacy, {
+  transactionData: mockTransactionDataLegacy,
 })
 
 describe('PaymentRequestConfirmation', () => {
-  it('renders correctly for request payment confirmation', () => {
+  it('renders correctly for request payment confirmation (Legacy)', () => {
     const tree = render(
       <Provider store={store}>
-        <PaymentRequestConfirmation {...mockScreenProps} />
+        <PaymentRequestConfirmationLegacy {...mockScreenProps} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -33,7 +32,7 @@ describe('PaymentRequestConfirmation', () => {
   it('updates the comment/reason', () => {
     const tree = render(
       <Provider store={store}>
-        <PaymentRequestConfirmation {...mockScreenProps} />
+        <PaymentRequestConfirmationLegacy {...mockScreenProps} />
       </Provider>
     )
 

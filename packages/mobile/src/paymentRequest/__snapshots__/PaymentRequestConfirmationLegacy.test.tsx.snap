@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PaymentRequestConfirmation renders correctly for request payment confirmation 1`] = `
+exports[`PaymentRequestConfirmation renders correctly for request payment confirmation (Legacy) 1`] = `
 <RNCSafeAreaView
   edges={
     Array [
@@ -77,7 +77,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                         "justifyContent": "center",
                       },
                       Object {
-                        "backgroundColor": "hsl(195, 53%, 93%)",
+                        "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
                         "width": 40,
@@ -95,7 +95,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                           "fontSize": 16,
                         },
                         Object {
-                          "color": "hsl(195, 67%, 24%)",
+                          "color": "hsl(0, 67%, 24%)",
                           "fontSize": 20,
                         },
                       ]
@@ -140,14 +140,20 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             </View>
             <Text
               style={
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 32,
-                  "lineHeight": 40,
-                  "paddingVertical": 8,
-                }
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 32,
+                    "lineHeight": 40,
+                    "paddingVertical": 8,
+                  },
+                  Object {
+                    "color": "#2E3338",
+                  },
+                ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -256,101 +262,19 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <Text
-            testID="TotalLineItem/Total"
+            style={
+              Array [
+                undefined,
+                Object {
+                  "color": undefined,
+                },
+              ]
+            }
+            testID="TotalLineItem/Total/value"
           >
             
             $
             1.33
-          </Text>
-        </Text>
-      </View>
-      <View
-        style={
-          Array [
-            Object {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            Object {
-              "marginVertical": 0,
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
-            }
-          }
-        >
-          <Text
-            style={
-              Array [
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                },
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                },
-              ]
-            }
-          >
-            <Text
-              style={
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                }
-              }
-              testID="TotalLineItem/ExchangeRate"
-            >
-              cUSD
-               @ 
-              <Text>
-                
-                $
-                1.33
-              </Text>
-            </Text>
-          </Text>
-        </View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#9CA4A9",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 14,
-                "lineHeight": 18,
-              },
-            ]
-          }
-        >
-          <Text
-            testID="TotalLineItem/Subtotal"
-          >
-            
-            1.00
-             cUSD
           </Text>
         </Text>
       </View>

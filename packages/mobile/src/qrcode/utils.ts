@@ -134,22 +134,32 @@ export function* handleBarcode(
     }
 
     const isLegacy = isLegacyTransactionData(secureSendTxData)
-    if (isOutgoingPaymentRequest && isLegacy) {
-      navigate(Screens.PaymentRequestConfirmation, {
-        transactionData: secureSendTxData as TransactionDataInputLegacy,
-        addressJustValidated: true,
-      })
-    } else if (isLegacy) {
-      navigate(Screens.SendConfirmationLegacy, {
-        transactionData: secureSendTxData as TransactionDataInputLegacy,
-        addressJustValidated: true,
-        origin: SendOrigin.AppSendFlow,
-      })
-    } else {
-      navigate(Screens.SendConfirmation, {
-        transactionData: secureSendTxData as TransactionDataInput,
-        origin: SendOrigin.AppSendFlow,
-      })
+    if (isLegacy) {
+      if (isOutgoingPaymentRequest) {
+        navigate(Screens.PaymentRequestConfirmationLegacy, {
+          transactionData: secureSendTxData as TransactionDataInputLegacy,
+          addressJustValidated: true,
+        })
+      } else {
+        navigate(Screens.SendConfirmationLegacy, {
+          transactionData: secureSendTxData as TransactionDataInputLegacy,
+          addressJustValidated: true,
+          origin: SendOrigin.AppSendFlow,
+        })
+      }
+    }
+    if (!isLegacy) {
+      if (isOutgoingPaymentRequest) {
+        navigate(Screens.PaymentRequestConfirmation, {
+          transactionData: secureSendTxData as TransactionDataInput,
+          addressJustValidated: true,
+        })
+      } else {
+        navigate(Screens.SendConfirmation, {
+          transactionData: secureSendTxData as TransactionDataInput,
+          origin: SendOrigin.AppSendFlow,
+        })
+      }
     }
     return
   }
