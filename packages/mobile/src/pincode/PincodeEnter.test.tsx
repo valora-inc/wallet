@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeEnter from 'src/pincode/PincodeEnter'
@@ -53,7 +52,7 @@ describe('PincodeEnter', () => {
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
-    expect(getByText(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
+    expect(getByText(`${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])
   })
 })

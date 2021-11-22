@@ -76,11 +76,11 @@ describe(sendInvite, () => {
       .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .run()
 
-    expect(i18n.t).toHaveBeenCalledWith('sendFlow7:inviteWithEscrowedPayment', {
+    expect(i18n.t).toHaveBeenCalledWith('inviteWithEscrowedPayment', {
       amount: AMOUNT_TO_SEND.toFixed(2).toString(),
       token: 'cUSD',
       link: DYNAMIC_DOWNLOAD_LINK,
     })
-    expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
+    expect(Share.share).toHaveBeenCalledWith({ message: 'inviteWithEscrowedPayment' })
   })
 })

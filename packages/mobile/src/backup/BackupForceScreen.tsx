@@ -13,7 +13,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DelayButton from 'src/backup/DelayButton'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { Namespaces } from 'src/i18n'
 import Logo from 'src/icons/Logo'
 import { emptyHeader } from 'src/navigator/Headers'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -26,7 +25,7 @@ const TAG = 'BackupForceScreen'
 type Props = StackScreenProps<StackParamList, Screens.BackupForceScreen>
 
 function BackupForceScreen({ navigation }: Props) {
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const startBackup = () => {

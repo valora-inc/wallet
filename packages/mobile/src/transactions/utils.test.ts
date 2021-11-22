@@ -55,7 +55,7 @@ describe('groupFeedItemsInSections', () => {
     const sections = groupFeedItemsInSections(feedItems)
     expect(sections.length).toEqual(6)
 
-    expect(sections[0].title).toEqual('walletFlow5:feedSectionHeaderRecent')
+    expect(sections[0].title).toEqual('feedSectionHeaderRecent')
     expect(sections[0].data.length).toEqual(2)
 
     expect(sections[1].title).toEqual('September')

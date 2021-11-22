@@ -192,7 +192,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                     }
                   }
                 >
-                  walletFlow5:feedItemAddress, {"address":"0x0000...7E57"}
+                  feedItemAddress, {"address":"0x0000...7E57"}
                 </Text>
               </View>
             </View>
@@ -220,7 +220,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               numberOfLines={5}
               onBlur={[Function]}
               onChangeText={[Function]}
-              placeholder="addDescription, {}"
+              placeholder="addDescription"
               placeholderTextColor="#1AB775"
               rejectResponderTermination={true}
               returnKeyType="done"
@@ -404,7 +404,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.body, {"name":"walletFlow5:feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
+                        inviteAndSendDialog.body, {"name":"feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
                       </Text>
                     </View>
                   </RCTScrollView>
@@ -453,7 +453,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:cancel
+                        cancel
                       </Text>
                     </View>
                     <View
@@ -691,7 +691,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:dismiss
+                        dismiss
                       </Text>
                     </View>
                   </View>
@@ -1072,7 +1072,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:send"
+              accessibilityLabel="send"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -1083,7 +1083,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 }
               }
             >
-              global:send
+              send
             </Text>
           </View>
         </View>

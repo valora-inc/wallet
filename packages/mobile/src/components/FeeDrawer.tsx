@@ -9,7 +9,6 @@ import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
-import { Namespaces } from 'src/i18n'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 
@@ -44,7 +43,7 @@ export default function FeeDrawer({
   currencyInfo,
   showLocalAmount,
 }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
 
   const toggleExpanded = () => {
@@ -108,7 +107,7 @@ export default function FeeDrawer({
         <View>
           {isExchange && (
             <LineItemRow
-              title={t('exchangeFlow9:exchangeFee')}
+              title={t('exchangeFee')}
               titleIcon={<ExchangeFeeIcon />}
               amount={
                 exchangeAmount && (

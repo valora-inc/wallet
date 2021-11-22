@@ -11,7 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Namespaces } from 'src/i18n'
 import { checkPin } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -20,12 +19,12 @@ function PincodeLock() {
   const [pin, setPin] = useState('')
   const [errorText, setErrorText] = useState<string | undefined>(undefined)
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.nuxNamePin1)
+  const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
 
   const onWrongPin = () => {
     setPin('')
-    setErrorText(t(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`))
+    setErrorText(t(`${ErrorMessages.INCORRECT_PIN}`))
   }
 
   const onCorrectPin = () => {

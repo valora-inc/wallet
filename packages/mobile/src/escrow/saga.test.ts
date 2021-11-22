@@ -36,7 +36,7 @@ import {
 } from 'test/values'
 
 describe(transferToEscrow, () => {
-  it.only('transfers successfully if all parameters are right', async () => {
+  it('transfers successfully if all parameters are right', async () => {
     const kit = await getContractKitAsync()
     const phoneHashDetails: PhoneNumberHashDetails = {
       e164Number: mockE164Number,

@@ -144,7 +144,6 @@ describe('SendAmountLegacy', () => {
           dismissAfter: null,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('needMoreFundsToSend', {
-            ns: 'global',
             amountNeeded: '106.9852',
             currencySymbol: '$',
           }),
@@ -176,7 +175,7 @@ describe('SendAmountLegacy', () => {
           buttonMessage: null,
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
-          message: i18n.t('requestLimitError', { ns: 'global', limit: 1000 }),
+          message: i18n.t('requestLimitError', { limit: 1000 }),
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'requestLimitError',
@@ -209,7 +208,6 @@ describe('SendAmountLegacy', () => {
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('paymentLimitReached', {
-            ns: 'global',
             currencySymbol: '$',
             dailyRemaining: '1330',
             dailyLimit: '1330',

@@ -9,7 +9,6 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { Namespaces } from 'src/i18n'
 import { Currency } from 'src/utils/currencies'
 
 interface WithdrawCeloProps {
@@ -25,12 +24,12 @@ export default function WithdrawCeloSummary({
   recipientAddress,
   feeEstimate,
 }: WithdrawCeloProps) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   return (
     <View style={style}>
       <LineItemRow
-        title={t('exchangeFlow9:withdrawCeloAmount')}
+        title={t('withdrawCeloAmount')}
         textStyle={fontStyles.regular}
         amount={
           <CurrencyDisplay

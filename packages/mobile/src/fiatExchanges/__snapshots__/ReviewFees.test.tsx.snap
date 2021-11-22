@@ -230,7 +230,7 @@ exports[`ReviewFees renders correctly 1`] = `
                   ]
                 }
               >
-                global:ok
+                ok
               </Text>
             </View>
           </View>
@@ -447,7 +447,7 @@ exports[`ReviewFees renders correctly 1`] = `
                   ]
                 }
               >
-                global:ok
+                ok
               </Text>
             </View>
           </View>
@@ -483,7 +483,7 @@ exports[`ReviewFees renders correctly 1`] = `
         ]
       }
     >
-      global:amount
+      amount
        (
       CELO
       )
@@ -625,7 +625,7 @@ exports[`ReviewFees renders correctly 1`] = `
         ]
       }
     >
-      global:subtotal
+      subtotal
     </Text>
     <Text
       style={
@@ -696,7 +696,7 @@ exports[`ReviewFees renders correctly 1`] = `
       >
         Simplex
          
-        exchangeFlow9:fee
+        fee
       </Text>
       <View
         accessible={true}
@@ -813,7 +813,7 @@ exports[`ReviewFees renders correctly 1`] = `
         ]
       }
     >
-      global:Total
+      Total
     </Text>
     <Text
       style={
@@ -1090,7 +1090,7 @@ exports[`ReviewFees renders correctly 2`] = `
                   ]
                 }
               >
-                global:ok
+                ok
               </Text>
             </View>
           </View>
@@ -1307,7 +1307,7 @@ exports[`ReviewFees renders correctly 2`] = `
                   ]
                 }
               >
-                global:ok
+                ok
               </Text>
             </View>
           </View>
@@ -1343,7 +1343,7 @@ exports[`ReviewFees renders correctly 2`] = `
         ]
       }
     >
-      global:amount
+      amount
        (
       CELO
       )
@@ -1485,7 +1485,7 @@ exports[`ReviewFees renders correctly 2`] = `
         ]
       }
     >
-      global:subtotal
+      subtotal
     </Text>
     <Text
       style={
@@ -1659,7 +1659,7 @@ exports[`ReviewFees renders correctly 2`] = `
         ]
       }
     >
-      global:Total
+      Total
     </Text>
     <Text
       style={

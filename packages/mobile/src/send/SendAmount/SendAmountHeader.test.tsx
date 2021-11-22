@@ -67,7 +67,7 @@ describe('SendAmountHeader', () => {
     })
 
     expect(queryByTestId('onChangeToken')).toBeNull()
-    expect(getByText('sendFlow7:sendToken, {"token":"cEUR"}')).toBeDefined()
+    expect(getByText('sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
   it("allows changing the token if there's more than one token with balance", () => {
@@ -77,7 +77,7 @@ describe('SendAmountHeader', () => {
 
     const tokenPicker = getByTestId('onChangeToken')
     expect(tokenPicker).not.toBeNull()
-    expect(getByText('sendFlow7:send')).toBeDefined()
+    expect(getByText('send')).toBeDefined()
 
     fireEvent.press(tokenPicker)
     expect(findByTestId('TokenBottomSheetContainer')).toBeTruthy()

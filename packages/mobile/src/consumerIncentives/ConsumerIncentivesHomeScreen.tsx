@@ -14,7 +14,6 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CELO_REWARDS_T_AND_C } from 'src/brandingConfig'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { Namespaces } from 'src/i18n'
 import { boostRewards, earn1, earn2, earn3 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -26,7 +25,7 @@ import { Currency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
-  const { t } = useTranslation(Namespaces.consumerIncentives)
+  const { t } = useTranslation()
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const insets = useSafeAreaInsets()
 
@@ -65,9 +64,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
           <Times />
         </Touchable>
         <Image source={boostRewards} />
-        <Text style={styles.title}>{t('title')}</Text>
+        <Text style={styles.title}>{t('consumerIncentivesTitle')}</Text>
         <Text style={styles.description}>
-          {t('summary', { currency, percent: rewardsPercent })}
+          {t('consumerIncentivesSummary', { currency, percent: rewardsPercent })}
         </Text>
         <View style={styles.section}>
           <Image source={earn1} style={styles.sectionImage} resizeMode="contain" />
@@ -102,7 +101,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         </View>
         <Text style={[styles.description, { marginTop: 24 }]}>{t('conclusion')}</Text>
         <TouchableOpacity onPress={onLearnMore} testID="ConsumerIncentives/learnMore">
-          <Text style={styles.learnMore}>{t('global:learnMore')}</Text>
+          <Text style={styles.learnMore}>{t('learnMore')}</Text>
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.buttonContainer}>

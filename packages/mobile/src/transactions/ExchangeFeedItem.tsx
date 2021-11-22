@@ -3,7 +3,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet } from 'react-native'
 import { ExchangeItemFragment } from 'src/apollo/types'
-import { Namespaces } from 'src/i18n'
 import { transactionExchange } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateToExchangeReview } from 'src/transactions/actions'
@@ -17,7 +16,7 @@ type Props = ExchangeItemFragment & {
 }
 
 export function ExchangeFeedItem(props: Props) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const { type, amount, makerAmount, takerAmount, status, timestamp } = props
 
   const onPress = () => {

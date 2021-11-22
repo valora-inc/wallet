@@ -5,7 +5,6 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { INVITE_REWARDS_TERMS_LINK } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -14,7 +13,7 @@ import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { Currency } from 'src/utils/currencies'
 
 export function InviteRewardsBanner() {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
   const rewardAmount = useSelector((state) => state.send.inviteRewardCusd)
 
   const openInviteTerms = () => {
@@ -36,7 +35,6 @@ export function InviteRewardsBanner() {
             <Trans
               i18nKey={'inviteRewardsBanner.body'}
               tOptions={{ amount: rewardAmount, currency }}
-              ns={Namespaces.inviteFlow11}
             >
               <Text style={styles.learnMore} />
             </Trans>

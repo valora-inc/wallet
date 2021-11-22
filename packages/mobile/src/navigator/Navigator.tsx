@@ -323,7 +323,7 @@ const exchangeReviewScreenOptions = ({
 }) => {
   const { makerToken } = route.params
   const isCeloPurchase = makerToken !== Currency.Celo
-  const title = isCeloPurchase ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
+  const title = isCeloPurchase ? i18n.t('buyGold') : i18n.t('sellGold')
   const cancelEventName = isCeloPurchase
     ? CeloExchangeEvents.celo_buy_cancel
     : CeloExchangeEvents.celo_sell_cancel
