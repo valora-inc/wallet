@@ -12,7 +12,7 @@ import {
   EscrowTransferPaymentAction,
   fetchSentEscrowPayments,
 } from 'src/escrow/actions'
-import { reclaimFromEscrow, transferToEscrow } from 'src/escrow/saga'
+import { reclaimFromEscrow, registerStandbyTransaction, transferToEscrow } from 'src/escrow/saga'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -38,6 +38,7 @@ import {
 describe(transferToEscrow, () => {
   it('transfers successfully if all parameters are right', async () => {
     const kit = await getContractKitAsync()
+    const escrowContract = await kit.contracts.getEscrow()
     const phoneHashDetails: PhoneNumberHashDetails = {
       e164Number: mockE164Number,
       phoneHash: mockE164NumberHash,
@@ -59,8 +60,8 @@ describe(transferToEscrow, () => {
         [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])
       .put(fetchSentEscrowPayments())
+      .call(registerStandbyTransaction, escrowTransferAction.context, '10', escrowContract.address)
       .run()
-    const escrowContract = await kit.contracts.getEscrow()
     expect(mockContract.methods.approve).toHaveBeenCalledWith(
       escrowContract.address,
       '10000000000000000000'
