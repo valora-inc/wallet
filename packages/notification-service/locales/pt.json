@@ -2,7 +2,7 @@
   "paymentReceivedTitle": "Pagamento Recebido",
   "paymentReceivedBody": "Você recebeu {{amount}} {{currency}} ",
   "celoReceivedTitle": "Depósito de CELO recebido",
-  "celoReceivedBody": "Você acabou de receber {{amount}} CELO! Você pode ganhar, poupar e gastar na Valora. Clique para saber mais.",
+  "celoReceivedBody": "Você acabou de receber {{amount}} CELO! Você pode ganhar, poupar e gastar na Valora. Toque para saber mais.",
   "dollar": "cUSD",
   "euro": "cEUR",
   "gold": "CELO",
