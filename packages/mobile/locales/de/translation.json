@@ -160,8 +160,8 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "customerIncentivesTitle": "Boost your Rewards",
-  "customerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "customerIncentivesTitle": "Erhöhe deine Belohnungen",
+  "customerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
     "header": "Wöchentliche Auszahlung",
     "text": "Sende und gib aus wie gewohnt und erhalte Belohnungen auf den verbleibenden Saldo."
@@ -209,8 +209,8 @@
   "subtotalAmount": "Zwischensumme @ <1></1>",
   "inputSubtotal": "Zwischensumme @ <2></2>",
   "inputSubtotal_gold": "$t(celoGold) @ <2></2>",
-  "buyGoldAmount": "Buy <0></0> $t(gold)",
-  "sellGoldAmount": "Sell <0></0> $t(gold)",
+  "buyGoldAmount": "Kaufen <0></0> $t(gold)",
+  "sellGoldAmount": "Verkaufen <0></0> $t(gold)",
   "includeExchangeFee": "* beinhaltet Umtauschgebühr",
   "available": "Verfügbar",
   "newBalance": "Neuer Saldo",
@@ -522,20 +522,20 @@
   "notNow": "Nicht jetzt",
   "goldEducationSteps": [
     {
-      "title": "What is CELO?",
-      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+      "title": "Was ist CELO?",
+      "text": "CELO ist eine digitale Währung, die den Celo Dollar (cUSD) stabil hält."
     },
     {
-      "title": "CELO’s price changes",
-      "text": "If more people use the Celo Dollar, the value of CELO increases. Unlike CELO, the Celo Dollar doesn't change in value. "
+      "title": "Preisänderungen bei CELO",
+      "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von Celo. Im Gegensatz zu CELO ändert sich der Celo Dollar nicht."
     },
     {
-      "title": "Shape the Celo Network",
-      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+      "title": "Forme das Celo-Netzwerk",
+      "text": "Wenn Du CELO gedrückt hältst, kannst Du für Änderungen und Funktionen stimmen, die Du im Celo Netzwerk sehen möchtest."
     },
     {
-      "title": "Please buy and sell responsibly",
-      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+      "title": "Bitte kaufe und verkaufe verantwortungsbewusst",
+      "text": "{{appName}} erlaubt es dir, CELO zu kaufen und zu verkaufen. CELO birgt ein Risiko von finanziellen Verlusten, bitte achte darauf, dass Du vorsichtig bist."
     }
   ],
   "inviteWithWhatsapp": "Mit WhatsApp einladen",
@@ -579,7 +579,7 @@
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
     "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für einen finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
-  "fullName": "Vollständiger Name",
+  "fullName": "Name",
   "fullNamePlaceholder": "Vollständiger Name",
   "importIt": "Wallet wiederherstellen",
   "important": "Wichtig",
@@ -619,13 +619,13 @@
     "skip": "Vorerst überspringen"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "confirming": "Bestätige Telefonnummer…",
+    "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder Du musst neu starten",
+    "learnMore": "Mehr Infos",
+    "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
+    "card2": "Sobald deine Nummer bestätigt ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
+    "card3": "Bestätigen erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
+    "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
   },
   "skipModal": {
     "header": "Bestätigung überspringen?",
@@ -661,9 +661,9 @@
     "cta": "Kaufe Lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
-    "step2": "Send funds across borders",
-    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
+    "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
+    "step2": "Sende Krypto in der ganzen Welt",
+    "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
   "welcome": {
     "title": "Teile Krypto mit denen, die es wert sind",
@@ -672,8 +672,8 @@
   },
   "accessContacts": {
     "disclosure": {
-      "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
+      "title": "Kontakte importieren",
+      "body": "Valora würde gerne deine Kontakte importieren. Durch Tippen auf dem unteren Button erlaube ich den Zugriff auf Telefonnummern, Namen und Fotos meiner Kontakte zum Zweck der Verbindung mit ihnen über Valora"
     }
   },
   "createAccount": "Konto erstellen",
