@@ -390,7 +390,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
                       </Text>
                       <Text
                         style={

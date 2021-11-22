@@ -154,12 +154,14 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     const { onSelectRecipient, t } = this.props
     const recipient: MobileRecipient = {
       displayNumber,
-      name: t('sendToMobileNumber'),
       e164PhoneNumber,
     }
     return (
       <>
-        <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+        <RecipientItem
+          recipient={{ ...recipient, name: t('sendToMobileNumber') }}
+          onSelectRecipient={() => onSelectRecipient(recipient)}
+        />
         {this.renderItemSeparator()}
       </>
     )
