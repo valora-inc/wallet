@@ -8,7 +8,7 @@ import {
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'
 import * as RNFS from 'react-native-fs'
-import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILE, TOS_LINK } from 'src/config'
+import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILEPATH, TOS_LINK } from 'src/config'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
@@ -20,9 +20,9 @@ async function getAvailableResources(
   if (
     allowOtaTranslations &&
     DeviceInfo.getVersion() === otaTranslationsAppVersion &&
-    (await RNFS.exists(OTA_TRANSLATIONS_FILE))
+    (await RNFS.exists(OTA_TRANSLATIONS_FILEPATH))
   ) {
-    cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILE))
+    cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILEPATH))
   }
 
   const resources: Resource = {}

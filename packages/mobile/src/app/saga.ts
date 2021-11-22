@@ -43,7 +43,7 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { CROWDIN_DISTRIBUTION_HASH, OTA_TRANSLATIONS_FILE } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH, OTA_TRANSLATIONS_FILEPATH } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -327,12 +327,12 @@ export function* handleSetAppState(action: SetAppState) {
 }
 
 export function* handleSaveOtaTranslations(language: string, translations: Resource) {
-  const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
+  const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILEPATH)
   if (hasPreviouslyFetchedTranslations) {
-    yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
+    yield RNFS.unlink(OTA_TRANSLATIONS_FILEPATH)
   }
 
-  yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [language]: translations }))
+  yield RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
 }
 
 export function* handleFetchOtaTranslations() {

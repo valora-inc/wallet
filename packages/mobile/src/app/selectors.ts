@@ -110,9 +110,7 @@ export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
 export const allowOtaTranslationsSelector = (state: RootState) => state.app.allowOtaTranslations
 export const otaTranslationsLastUpdateSelector = (state: RootState) =>
   state.app.otaTranslationsLastUpdate
-
 export const otaTranslationsAppVersionSelector = (state: RootState) =>
   state.app.otaTranslationsAppVersion
-
 export const otaTranslationsLanguageSelector = (state: RootState) =>
   state.app.otaTranslationsLanguage
