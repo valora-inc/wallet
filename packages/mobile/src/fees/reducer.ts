@@ -1,6 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { FeeInfo } from 'src/fees/saga'
-import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 export enum FeeType {
   INVITE = 'invite',
@@ -36,7 +35,6 @@ export interface EstimateFeeAction {
   paymentID?: string // Must be set if feeType === RECLAIM_ESCROW
 }
 
-const rehydrate = createAction<any>(REHYDRATE)
 export const estimateFee = createAction<EstimateFeeAction>('FEES/ESTIMATE_FEE')
 export const feeEstimated = createAction<{
   tokenAddress: string
@@ -46,14 +44,6 @@ export const feeEstimated = createAction<{
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(rehydrate, (state, action) => {
-      // hack to allow rehydrate actions here
-      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'fees')
-      return {
-        ...state,
-        ...hydrated,
-      }
-    })
     .addCase(estimateFee, (state, action) => ({
       ...state,
       estimates: {

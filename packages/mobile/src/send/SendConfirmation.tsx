@@ -11,8 +11,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
@@ -47,7 +49,6 @@ import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = StackScreenProps<
@@ -166,7 +167,7 @@ function SendConfirmation(props: Props) {
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={Currency.Dollar}
+          currency={feeCurrency}
           securityFee={securityFee}
           showDekfee={!isDekRegistered}
           dekFee={dekFee}
@@ -221,6 +222,11 @@ function SendConfirmation(props: Props) {
   }
 
   const sendOrInvite = () => {
+    if (!feeEstimate?.feeInfo) {
+      // This should never happen because the confirm button is disabled if this happens.
+      dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
+      return
+    }
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       isScan: !!props.route.params?.isFromScan,
@@ -242,7 +248,7 @@ function SendConfirmation(props: Props) {
         usdAmount,
         comment,
         recipient,
-        feeEstimate?.feeInfo,
+        feeEstimate.feeInfo,
         fromModal
       )
     )
@@ -263,7 +269,7 @@ function SendConfirmation(props: Props) {
         confirmButton={{
           action: onSendClick,
           text: isInvite ? t('sendAndInvite') : t('send'),
-          disabled: isSending,
+          disabled: isSending || !feeEstimate?.feeInfo,
         }}
         isSending={isSending}
       >

@@ -240,7 +240,7 @@ function* sendPayment(
   usdAmount: BigNumber,
   tokenAddress: string,
   comment: string,
-  feeInfo?: FeeInfo
+  feeInfo: FeeInfo
 ) {
   const context = newTransactionContext(TAG, 'Send payment')
 
@@ -264,7 +264,7 @@ function* sendPayment(
       context.id,
       tokenAddress,
       amount,
-      feeInfo ? JSON.stringify(feeInfo) : 'undefined'
+      JSON.stringify(feeInfo)
     )
 
     // TODO: Add temporary tx to feed.
@@ -295,9 +295,9 @@ function* sendPayment(
       userAddress,
       context,
       undefined,
-      feeInfo?.currency,
-      feeInfo?.gas?.toNumber(),
-      feeInfo?.gasPrice
+      feeInfo.currency,
+      feeInfo.gas?.toNumber(),
+      feeInfo.gasPrice
     )
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {
