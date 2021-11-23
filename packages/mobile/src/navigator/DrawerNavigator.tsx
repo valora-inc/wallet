@@ -28,6 +28,7 @@ import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
 import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Support from 'src/account/Support'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -58,6 +59,7 @@ import { Screens } from 'src/navigator/Screens'
 import { default as useSelector } from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { navigate } from 'src/navigator/NavigationService'
 
 const TAG = 'NavigationService'
 
@@ -227,7 +229,7 @@ export default function DrawerNavigator() {
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      {features.SHOW_INVITE_MENU_ITEM && (
+      {true && (
         <Drawer.Screen
           name={'InviteModal'}
           component={InviteFriendModal}
@@ -241,6 +243,14 @@ export default function DrawerNavigator() {
         name={Screens.Settings}
         component={SettingsScreen}
         options={{ title: t('settings'), drawerIcon: Settings }}
+      />
+      <Drawer.Screen
+        name={Screens.LinkBankAccountScreen}
+        component={LinkBankAccountScreen}
+        initialParams={{
+          onPress: () => this.props.navigation.navigate(Screens.LinkBankAccountScreen),
+        }}
+        options={{ title: t('linkBankAccount'), drawerIcon: Settings }}
       />
       <Drawer.Screen
         name={Screens.Support}

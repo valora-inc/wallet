@@ -61,6 +61,7 @@ import {
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
@@ -445,6 +446,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={Licenses.navigationOptions}
       name={Screens.Licenses}
       component={Licenses}
+    />
+    <Navigator.Screen
+      options={LinkBankAccountScreen.navigationOptions}
+      name={Screens.LinkBankAccountScreen}
+      component={LinkBankAccountScreen}
     />
     <Navigator.Screen
       options={headerWithBackButton}

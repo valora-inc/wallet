@@ -24,6 +24,8 @@ import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -133,7 +135,7 @@ function WalletHome() {
     data: [{}],
     renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
   })
-
+  navigate(Screens.LinkBankAccountScreen)
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar middleElement={<Logo />} scrollPosition={scrollPosition} />
