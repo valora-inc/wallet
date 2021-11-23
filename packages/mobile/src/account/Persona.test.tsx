@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
-import { mockMnemonic } from 'test/values'
+import { mockAccount, mockMnemonic } from 'test/values'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -31,7 +31,9 @@ jest.mock('@celo/utils/lib/signatureUtils', () => {
 
 describe('Persona', () => {
   const mockFetch = fetch as FetchMock
-  const store = createMockStore({})
+  const store = createMockStore({
+    web3: { mtwAddress: mockAccount },
+  })
 
   beforeEach(() => {
     jest.useRealTimers()
