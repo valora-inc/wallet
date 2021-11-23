@@ -131,16 +131,20 @@ function TokenBottomSheet({
         <Text style={styles.title}>{t('selectToken')}</Text>
         {isOutgoingPaymentRequest
           ? coreTokens.map((tokenInfo, index) => {
-              ;<React.Fragment key={`token-${tokenInfo.address}`}>
-                {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-              </React.Fragment>
+              return (
+                <React.Fragment key={`token-${tokenInfo.address}`}>
+                  {index > 0 && <View style={styles.separator} />}
+                  <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+                </React.Fragment>
+              )
             })
           : tokens.map((tokenInfo, index) => {
-              ;<React.Fragment key={`token-${tokenInfo.address}`}>
-                {index > 0 && <View style={styles.separator} />}
-                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-              </React.Fragment>
+              return (
+                <React.Fragment key={`token-${tokenInfo.address}`}>
+                  {index > 0 && <View style={styles.separator} />}
+                  <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+                </React.Fragment>
+              )
             })}
       </Animated.ScrollView>
     </View>
