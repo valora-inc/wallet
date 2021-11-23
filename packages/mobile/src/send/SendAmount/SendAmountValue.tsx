@@ -46,14 +46,9 @@ function SendAmountValue({
     <>
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
-          <View style={styles.optionsContainer}>
-            <BorderlessButton style={styles.buttonContainer} onPress={onPressMax}>
-              <Text style={styles.button}>{t('max')}</Text>
-            </BorderlessButton>
-            <BorderlessButton style={styles.buttonContainer} onPress={onPressClear}>
-              <Text style={styles.button}>{t('clear')}</Text>
-            </BorderlessButton>
-          </View>
+          <BorderlessButton style={styles.buttonContainer} onPress={onPressMax}>
+            <Text style={styles.button}>{t('max')}</Text>
+          </BorderlessButton>
         )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
@@ -66,12 +61,12 @@ function SendAmountValue({
             )}
             <View style={styles.amountContainer}>
               <Text
-                textBreakStrategy={'simple'}
+                textBreakStrategy="simple"
                 adjustsFontSizeToFit={true}
                 numberOfLines={1}
                 minimumFontScale={0.4}
                 selectable={true}
-                ellipsizeMode={'tail'}
+                ellipsizeMode="tail"
                 style={styles.mainAmount}
               >
                 {inputAmount ? inputAmount : 0}
@@ -120,10 +115,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
   },
   valuesContainer: {
     flex: 1,

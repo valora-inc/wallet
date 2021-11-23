@@ -8,6 +8,7 @@ interface Props {
   onDigitPress: (digit: number) => void
   onBackspacePress: () => void
   onDecimalPress?: () => void
+  onBackspaceLongPress?: () => void
   decimalSeparator?: string
   testID?: string
 }
@@ -60,7 +61,11 @@ export default function NumberKeypad(props: Props) {
           <View style={styles.digit} />
         )}
         <DigitButton digit={0} onDigitPress={props.onDigitPress} />
-        <Touchable borderless={true} onPress={props.onBackspacePress}>
+        <Touchable
+          borderless={true}
+          onPress={props.onBackspacePress}
+          onLongPress={props.onBackspaceLongPress}
+        >
           <View style={styles.digit}>
             <Backspace />
           </View>
