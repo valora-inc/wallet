@@ -527,7 +527,7 @@
     },
     {
       "title": "CELO Preisveränderungen",
-      "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von CELO. Im Gegensatz zu CELO ändert sich der Celo Dollar nicht."
+      "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von CELO. Im Gegensatz zu CELO verändert sich der Wert der Celo Dollar nicht."
     },
     {
       "title": "Gestalte das Celo-Netzwerk",
@@ -535,7 +535,7 @@
     },
     {
       "title": "Bitte kaufe und verkaufe verantwortungsbewusst",
-      "text": "{{appName}} erlaubt es dir, CELO zu kaufen und zu verkaufen. CELO birgt ein Risiko finanziellen Verlusts, bitte achte darauf, dass Du vorsichtig bist."
+      "text": "{{appName}} erlaubt es dir, CELO zu kaufen und zu verkaufen. CELO birgt ein Risiko finanziellen Verlusts, bitte geh umsichtig vor."
     }
   ],
   "inviteWithWhatsapp": "Mit WhatsApp einladen",
@@ -577,7 +577,7 @@
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für einen finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
   "fullName": "Name",
   "fullNamePlaceholder": "Vollständiger Name",
@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Zahlung gesendet",
-  "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
+  "feedItemCeloRewardReceivedTitle": "Erhaltene CELO-Belohnungen",
   "feedItemRewardReceivedTitle": "Celo-Netzwerk",
   "feedItemRewardReceivedInfo": "Wöchentliche Belohnungen",
   "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
