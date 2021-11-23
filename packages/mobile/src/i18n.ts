@@ -7,22 +7,10 @@ import {
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'
-import * as RNFS from 'react-native-fs'
-import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILEPATH, TOS_LINK } from 'src/config'
+import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
+import { getOtaTranslations } from 'src/utils/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
-
-export function saveOtaTranslations(language: string, translations: Resource) {
-  return RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
-}
-
-export async function getOtaTranslations() {
-  let cachedTranslations: Resource = {}
-  if (await RNFS.exists(OTA_TRANSLATIONS_FILEPATH)) {
-    cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILEPATH))
-  }
-  return cachedTranslations
-}
 
 async function getAvailableResources(
   allowOtaTranslations: boolean,
@@ -34,10 +22,10 @@ async function getAvailableResources(
   }
 
   const resources: Resource = {}
-  for (const [lng, value] of Object.entries(locales)) {
-    Object.defineProperty(resources, lng, {
+  for (const [language, value] of Object.entries(locales)) {
+    Object.defineProperty(resources, language, {
       get: () => ({
-        translation: cachedTranslations[lng] || value!.strings.translation,
+        translation: cachedTranslations[language] || value!.strings.translation,
       }),
       enumerable: true,
     })
