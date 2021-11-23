@@ -65,7 +65,15 @@ function SendAmountValue({
               </View>
             )}
             <View style={styles.amountContainer}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainAmount}>
+              <Text
+                textBreakStrategy={'simple'}
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                minimumFontScale={0.4}
+                selectable={true}
+                ellipsizeMode={'tail'}
+                style={styles.mainAmount}
+              >
                 {inputAmount ? inputAmount : 0}
               </Text>
             </View>
@@ -154,6 +162,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     fontSize: 64,
     lineHeight: undefined,
+    fontFamily: 'arial',
   },
   secondaryAmount: {
     ...fontStyles.small,
