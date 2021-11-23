@@ -72,9 +72,8 @@ function TokenBottomSheet({
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
 
-  const tokens = !isOutgoingPaymentRequest
-    ? useSelector(tokensWithBalanceSelector)
-    : useSelector(coreTokensSelector)
+  const tokens = useSelector(tokensWithBalanceSelector)
+  const coreTokens = useSelector(coreTokensSelector)
 
   const { t } = useTranslation()
 
@@ -130,14 +129,19 @@ function TokenBottomSheet({
         onLayout={onLayout}
       >
         <Text style={styles.title}>{t('selectToken')}</Text>
-        {tokens.map((tokenInfo, index) => {
-          return (
-            <React.Fragment key={`token-${tokenInfo.address}`}>
-              {index > 0 && <View style={styles.separator} />}
-              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-            </React.Fragment>
-          )
-        })}
+        {isOutgoingPaymentRequest
+          ? coreTokens.map((tokenInfo, index) => {
+              ;<React.Fragment key={`token-${tokenInfo.address}`}>
+                {index > 0 && <View style={styles.separator} />}
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+              </React.Fragment>
+            })
+          : tokens.map((tokenInfo, index) => {
+              ;<React.Fragment key={`token-${tokenInfo.address}`}>
+                {index > 0 && <View style={styles.separator} />}
+                <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+              </React.Fragment>
+            })}
       </Animated.ScrollView>
     </View>
   )
