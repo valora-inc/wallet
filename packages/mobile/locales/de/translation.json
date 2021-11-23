@@ -40,7 +40,7 @@
     "resetNow": "Jetzt zurücksetzen"
   },
   "promptConfirmRevokeModal": {
-    "header": "Bist Du sicher, dass du dein Valora-Konto widerrufen möchtest?",
+    "header": "Bist du sicher, dass du dein Valora-Konto widerrufen möchtest?",
     "body": "Einmal widerrufen, kann dieses Konto nicht widerrufen werden. Nur widerrufen, wenn du sicher bist, dass du dieses Konto nie mehr benötigst.",
     "revoke": "Widerrufen"
   },
@@ -148,8 +148,8 @@
       "text": "Deine Wiederherstellungsphrase ist die einzige Möglichkeit, auf dein Konto zuzugreifen."
     },
     {
-      "title": "Ohne deine Wiederherstellungsphrase kannst Du den Zugriff für immer verlieren",
-      "text": "Wenn Du dein Telefon verlierst, musst du deine Wiederherstellungsphrase haben, um dein Konto zurück zu bekommen. Niemand, nicht einmal {{appName}}, wird in der Lage sein, dein Saldo ohne es wiederherzustellen."
+      "title": "Ohne deine Wiederherstellungsphrase kannst du den Zugriff für immer verlieren",
+      "text": "Wenn du dein Telefon verlierst, musst du deine Wiederherstellungsphrase haben, um dein Konto zurück zu bekommen. Niemand, nicht einmal {{appName}}, wird in der Lage sein, dein Saldo ohne es wiederherzustellen."
     },
     {
       "title": "Notiere es",
@@ -531,7 +531,7 @@
     },
     {
       "title": "Gestalte das Celo-Netzwerk",
-      "text": "Durch das Halten von CELO kannst Du für Änderungen und Funktionen stimmen, die Du im Celo-Netzwerk sehen möchtest."
+      "text": "Durch das Halten von CELO kannst du für Änderungen und Funktionen stimmen, die du im Celo-Netzwerk sehen möchtest."
     },
     {
       "title": "Bitte kaufe und verkaufe verantwortungsbewusst",
@@ -548,7 +548,7 @@
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
-  "inviteAnyone": "Sende einfach an deine Freunde, indem Du deine Kontakte hinzufügst",
+  "inviteAnyone": "Sende einfach an deine Freunde, indem du deine Kontakte hinzufügst",
   "inviteReceived": "Einladung erhalten",
   "escrowPaymentNotificationTitle": "{{mobile}} eingeladen",
   "inviteDialog": {
@@ -577,7 +577,7 @@
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Guthaben wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor du Vermögenswerte kaufst. Du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
   "fullName": "Name",
   "fullNamePlaceholder": "Vollständiger Name",
@@ -612,7 +612,7 @@
   "retryVerification": "Bestätigung wiederholen",
   "education": {
     "header": "Bestätige dein Telefon",
-    "body1": "Als nächstes bestätigst Du bitte deine Telefonnummer.",
+    "body1": "Als nächstes bestätigst du bitte deine Telefonnummer.",
     "body2": "Verbinden macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
     "learnMore": "Erfahre mehr über die Telefonbestätigung",
     "start": "Startbestätigung",
@@ -620,7 +620,7 @@
   },
   "verificationLoading": {
     "confirming": "Bestätige Telefonnummer…",
-    "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder Du musst neu starten",
+    "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder du musst neu starten",
     "learnMore": "Mehr Infos",
     "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
     "card2": "Sobald deine Nummer bestätigt ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
@@ -639,8 +639,8 @@
     "body1InsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
     "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "body1SaltQuotaExceeded": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
-    "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn Du mehr Lookups gekauft hast",
-    "enterCodesBody": "Wenn Du bereits drei Codes per SMS erhalten hast, kannst Du diese trotzdem eingeben.",
+    "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn du mehr Lookups gekauft hast",
+    "enterCodesBody": "Wenn du bereits drei Codes per SMS erhalten hast, kannst du diese trotzdem eingeben.",
     "enterCodesButton": "Codes eingeben"
   },
   "retryWithFornoModal": {
@@ -649,7 +649,7 @@
     "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
     "retryButton": "Mit Datensparmodus wiederholen"
   },
-  "congratsVerified": "Herzlichen Glückwunsch, Du bist jetzt bestätigt!",
+  "congratsVerified": "Herzlichen Glückwunsch, du bist jetzt bestätigt!",
   "notification": {
     "body": "Zahlungen direkt an deine Telefonnummer erhalten",
     "cta": "Jetzt verbinden"
@@ -691,7 +691,7 @@
   },
   "inviteCode": {
     "title": "Einladungscode",
-    "body": "Hast Du eine Zahlung oder Einladung erhalten? Wenn ja, kopiere und füge den Einladungscode unten ein.",
+    "body": "Hast du eine Zahlung oder Einladung erhalten? Wenn ja, kopiere und füge den Einladungscode unten ein.",
     "label": "Einladungscode",
     "codePlaceholder": "Einladungscode eingeben",
     "noCode": "Kein Einladungscode vorhanden",
@@ -703,7 +703,7 @@
     "title": "Telefonnummer",
     "header": "Verbinde deine Telefonnummer",
     "body": "Um sicherzustellen, dass deine Nummer wirklich deine ist, senden wir dir drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
-    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst Du drei Nachrichten.",
+    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst du drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
@@ -712,19 +712,19 @@
     "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
   },
   "verificationSkipDialog": {
-    "title": "Bist Du sicher?",
+    "title": "Bist du sicher?",
     "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
-  "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor Du erneut sendest",
+  "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
     "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Saldo an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
-    "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die Du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
+    "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
@@ -754,7 +754,7 @@
     },
     "bodySection2": {
       "title": "Einige oder alle Nachrichten fehlen?",
-      "defaultContent": "Wenn Du Probleme mit dem Empfang von Nachrichten hast, kannst Du diesen Schritt vorerst überspringen und später erneut versuchen. Manchmal kann es einige Minuten dauern, bis Nachrichten eintreffen.",
+      "defaultContent": "Wenn du Probleme mit dem Empfang von Nachrichten hast, kannst du diesen Schritt vorerst überspringen und später erneut versuchen. Manchmal kann es einige Minuten dauern, bis Nachrichten eintreffen.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
       "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunde verfügbar sein.",
       "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunden verfügbar sein."
@@ -764,7 +764,7 @@
     "back": "Zurück"
   },
   "emptyAccount": {
-    "description": "Dieses Konto hat kein Guthaben. Möchtest Du es trotzdem verwenden?",
+    "description": "Dieses Konto hat kein Guthaben. Möchtest du es trotzdem verwenden?",
     "useAccount": "Konto benutzen",
     "title": "Saldo <0></0>"
   },
@@ -942,7 +942,7 @@
   "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}} verbunden. Du kannst dich mit weiteren Apps verbinden, indem du ihren QR-Code scannst.",
   "disconnect": "Verbindung trennen",
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
-  "disconnectBody": "Bist Du sicher, dass Du die Verbindung zu {{dappName}} trennen möchtest?",
+  "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
   "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
   "timeoutTitle": "Zeitüberschreitung!",
   "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
