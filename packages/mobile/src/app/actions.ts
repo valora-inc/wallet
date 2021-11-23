@@ -1,4 +1,4 @@
-import { RemoteFeatureFlags } from 'src/app/saga'
+import { RemoteConfigValues } from 'src/app/saga'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -27,7 +27,7 @@ export enum Actions {
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
   MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
-  UPDATE_FEATURE_FLAGS = 'APP/UPDATE_FEATURE_FLAGS',
+  UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   TOGGLE_INVITE_MODAL = 'APP/TOGGLE_INVITE_MODAL',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
@@ -119,9 +119,9 @@ interface MinAppVersionDeterminedAction {
   minVersion: string | null
 }
 
-export interface UpdateFeatureFlagsAction {
-  type: Actions.UPDATE_FEATURE_FLAGS
-  flags: RemoteFeatureFlags
+export interface UpdateConfigValuesAction {
+  type: Actions.UPDATE_REMOTE_CONFIG_VALUES
+  configValues: RemoteConfigValues
 }
 
 export interface VerificationMigrationRanAction {
@@ -151,7 +151,7 @@ export type ActionTypes =
   | SetSessionId
   | OpenUrlAction
   | MinAppVersionDeterminedAction
-  | UpdateFeatureFlagsAction
+  | UpdateConfigValuesAction
   | InviteModalAction
   | ActiveScreenChangedAction
   | AppMounted
@@ -246,9 +246,11 @@ export const minAppVersionDetermined = (
   minVersion,
 })
 
-export const updateFeatureFlags = (flags: RemoteFeatureFlags): UpdateFeatureFlagsAction => ({
-  type: Actions.UPDATE_FEATURE_FLAGS,
-  flags,
+export const updateRemoteConfigValues = (
+  configValues: RemoteConfigValues
+): UpdateConfigValuesAction => ({
+  type: Actions.UPDATE_REMOTE_CONFIG_VALUES,
+  configValues,
 })
 
 export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalAction => ({
