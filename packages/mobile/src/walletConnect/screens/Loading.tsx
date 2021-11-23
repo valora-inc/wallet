@@ -13,7 +13,7 @@ import { isScreenOnForeground, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 
-const CONNECTION_TIMEOUT = 10_000
+const CONNECTION_TIMEOUT = 20_000
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectLoading>
 
