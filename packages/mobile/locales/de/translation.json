@@ -360,7 +360,7 @@
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
-  "startEarning": "Beginne Belohnungen zu erhalten",
+  "startEarning": "Beginne zu verdienen",
   "backToWallet": "Zurück zu Wallet",
   "exchangeForGold": "Umtausch gegen CELO",
   "missingFullName": "Name darf nicht leer sein",
@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Zahlung gesendet",
-  "feedItemCeloRewardReceivedTitle": "Erhaltene CELO-Belohnungen",
+  "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
   "feedItemRewardReceivedTitle": "Celo-Netzwerk",
   "feedItemRewardReceivedInfo": "Wöchentliche Belohnungen",
   "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
@@ -1073,5 +1073,6 @@
     "title": "Was bedeutet Gesamtsaldo?",
     "body": "Dein Gesamtsaldo ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtsaldo ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtsaldo angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
-  }
+  },
+  "personaAccountEndpointFail": "Die Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später noch einmal"
 }
