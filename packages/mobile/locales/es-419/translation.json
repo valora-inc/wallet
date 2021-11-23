@@ -348,7 +348,7 @@
   "namePhoneAddress": "Nombre, teléfono o dirección",
   "payments": "Pagos",
   "activity": "Actividad",
-  "earnRewards": "Obtén recompensas",
+  "earnRewards": "Gana recompensas",
   "notEnoughStableError": "No tienes suficientes {{token}} para hacer el cambio",
   "notEnoughGoldError": "No tienes suficientes CELO para hacer el cambio",
   "exchangeFailed": "No fue posible hacer el cambio, vuelve a intentarlo",
@@ -360,7 +360,7 @@
   "getStarted": "Primeros pasos",
   "manageCeloDollars": "Administrar Celo Dólares",
   "sendCeloDollars": "Enviar Celo Dólares",
-  "startEarning": "Comienza a obtener recompensas",
+  "startEarning": "Comienza a ganar",
   "backToWallet": "Volver a la billetera",
   "exchangeForGold": "Cambiar a CELO",
   "missingFullName": "El nombre no puede estar vacío",
@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pago enviado",
-  "feedItemCeloRewardReceivedTitle": "Recompensas CELO recibidas",
+  "feedItemCeloRewardReceivedTitle": "CELO ganados",
   "feedItemRewardReceivedTitle": "Red Celo",
   "feedItemRewardReceivedInfo": "Recompensas semanales",
   "feedItemInviteRewardReceivedTitle": "Red Celo",
@@ -1073,5 +1073,6 @@
     "title": "¿Qué es el saldo total?",
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
-  }
+  },
+  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later"
 }
