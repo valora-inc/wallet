@@ -131,10 +131,10 @@ const styles = StyleSheet.create({
   symbolContainer: {
     justifyContent: 'center',
   },
-  maxButtonContainer: {
+  buttonContainer: {
     padding: 8,
   },
-  maxButton: {
+  button: {
     color: colors.gray4,
   },
   swapInput: {
