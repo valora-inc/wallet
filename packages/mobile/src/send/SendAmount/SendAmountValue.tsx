@@ -20,7 +20,6 @@ interface Props {
   isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
-  onPressClear: () => void
 }
 
 function SendAmountValue({
@@ -31,7 +30,6 @@ function SendAmountValue({
   isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
-  onPressClear,
 }: Props) {
   const { t } = useTranslation()
 
