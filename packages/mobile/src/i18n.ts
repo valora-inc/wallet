@@ -12,13 +12,8 @@ import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILEPATH, TOS_LINK } f
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-export async function saveOtaTranslations(language: string, translations: Resource) {
-  const hasPreviouslyFetchedTranslations = await RNFS.exists(OTA_TRANSLATIONS_FILEPATH)
-  if (hasPreviouslyFetchedTranslations) {
-    await RNFS.unlink(OTA_TRANSLATIONS_FILEPATH)
-  }
-
-  await RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
+export function saveOtaTranslations(language: string, translations: Resource) {
+  return RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
 }
 
 export async function getOtaTranslations() {
