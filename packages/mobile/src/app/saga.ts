@@ -8,7 +8,9 @@ import { eventChannel } from 'redux-saga'
 import {
   call,
   cancelled,
+  delay,
   put,
+  race,
   select,
   spawn,
   take,
@@ -29,7 +31,7 @@ import {
   SetAppState,
   setAppState,
   setOtaTranslationsLastUpdate,
-  updateFeatureFlags,
+  updateRemoteConfigValues,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
@@ -43,9 +45,9 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { saveOtaTranslations } from 'src/i18n'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -148,10 +150,9 @@ export function* checkAndroidMobileServicesSaga() {
   yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
-export interface RemoteFeatureFlags {
+export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
@@ -189,14 +190,17 @@ export function* appRemoteFeatureFlagSaga() {
     const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
     if (isAppActive && isRefreshTime) {
-      const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
-      if (flags) {
-        yield put(updateFeatureFlags(flags))
-        if (flags.allowOtaTranslations) {
+      const { configValues }: { configValues: RemoteConfigValues | undefined } = yield race({
+        configValues: call(fetchRemoteConfigValues),
+        timeout: delay(FETCH_TIMEOUT_DURATION),
+      })
+      if (configValues) {
+        yield put(updateRemoteConfigValues(configValues))
+        lastLoadTime = Date.now()
+        if (configValues.allowOtaTranslations) {
           yield put(fetchOtaTranslations())
         }
       }
-      lastLoadTime = Date.now()
     }
 
     const action: SetAppState = yield take(Actions.SET_APP_STATE)

@@ -407,7 +407,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"Jane Doe"}
                       </Text>
                       <Text
                         style={

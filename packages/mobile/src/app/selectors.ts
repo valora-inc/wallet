@@ -59,9 +59,6 @@ export const walletConnectEnabledSelector = (state?: RootState) => ({
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
-export const shortVerificationCodesEnabledSelector = (state: RootState) =>
-  state.app.shortVerificationCodesEnabled
-
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
 export const ranVerificationMigrationSelector = (state: RootState) =>

@@ -138,7 +138,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
 
     // Tranfser the funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
-    yield call(registerStandbyTransaction, context, convertedAmount, escrowWrapper.address)
+    yield call(registerStandbyTransaction, context, amount.toString(), escrowWrapper.address)
     const transferTx = escrowWrapper.transfer(
       phoneHash,
       tokenAddress,
@@ -171,7 +171,11 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
   }
 }
 
-function* registerStandbyTransaction(context: TransactionContext, value: string, address: string) {
+export function* registerStandbyTransaction(
+  context: TransactionContext,
+  value: string,
+  address: string
+) {
   yield put(
     addStandbyTransaction({
       context,
