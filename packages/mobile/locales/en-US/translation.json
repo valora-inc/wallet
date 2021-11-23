@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "requirePinOnAppOpen": "Require Pin on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -94,7 +94,7 @@
   "raiseLimitBegin": "Begin Identity Verification",
   "raiseLimitResume": "Resume Identity Verification",
   "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
+  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{}}",
   "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
   "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign Tx",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -348,7 +348,7 @@
   "namePhoneAddress": "Name, phone, or address",
   "payments": "Payments",
   "activity": "Activity",
-  "earnRewards": "Get Rewards",
+  "earnRewards": "Earn Rewards",
   "notEnoughStableError": "Not enough {{token}} to make exchange",
   "notEnoughGoldError": "Not enough CELO to make exchange",
   "exchangeFailed": "Exchange failed, please retry",
@@ -360,7 +360,7 @@
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
-  "startEarning": "Start getting rewards",
+  "startEarning": "Start Earning",
   "backToWallet": "Back to Wallet",
   "exchangeForGold": "Exchange for CELO",
   "missingFullName": "Name cannot be empty",
@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Payment Sent",
-  "feedItemCeloRewardReceivedTitle": "CELO rewards received",
+  "feedItemCeloRewardReceivedTitle": "Earned CELO",
   "feedItemRewardReceivedTitle": "Celo Network",
   "feedItemRewardReceivedInfo": "Weekly Rewards",
   "feedItemInviteRewardReceivedTitle": "Celo Network",
@@ -1073,5 +1073,6 @@
     "title": "What does Total Balance mean?",
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
-  }
+  },
+  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later"
 }
