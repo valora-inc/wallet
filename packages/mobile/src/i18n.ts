@@ -12,15 +12,7 @@ import { getOtaTranslations } from 'src/utils/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-async function getAvailableResources(
-  allowOtaTranslations: boolean,
-  otaTranslationsAppVersion: string
-) {
-  let cachedTranslations: Resource = {}
-  if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
-    cachedTranslations = await getOtaTranslations()
-  }
-
+async function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
     Object.defineProperty(resources, language, {
@@ -38,7 +30,11 @@ export async function initI18n(
   allowOtaTranslations: boolean,
   otaTranslationsAppVersion: string
 ) {
-  const resources = await getAvailableResources(allowOtaTranslations, otaTranslationsAppVersion)
+  let cachedTranslations: Resource = {}
+  if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
+    cachedTranslations = await getOtaTranslations()
+  }
+  const resources = await getAvailableResources(cachedTranslations)
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
