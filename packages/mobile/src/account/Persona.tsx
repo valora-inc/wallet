@@ -15,7 +15,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import { Namespaces } from 'src/i18n'
 import Logger from 'src/utils/Logger'
-import { accountAddressSelector } from 'src/web3/selectors'
+import { mtwAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -27,7 +27,7 @@ const Persona = ({ kycStatus }: Props) => {
   const { t } = useTranslation(Namespaces.translation)
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
-  const accountAddress = useSelector(accountAddressSelector)
+  const accountMTWAddress = useSelector(mtwAddressSelector)
 
   const dispatch = useDispatch()
 
@@ -40,13 +40,16 @@ const Persona = ({ kycStatus }: Props) => {
       return
     }
 
-    if (!accountAddress) {
-      Logger.error(TAG, "Can't render Persona because accountAddress is null")
+    if (!accountMTWAddress) {
+      // accountMTWAddress can be null if user's phone number is not verified.
+      // Current plan for initial PFP release is to monitor drop off rate for users who haven't verified their phone numbers yet
+      // Discussion -> https://valora-app.slack.com/archives/C025V1D6F3J/p1637606953112000
+      Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
 
     Inquiry.fromTemplate(templateId)
-      .referenceId(accountAddress)
+      .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         Logger.info(
@@ -66,7 +69,8 @@ const Persona = ({ kycStatus }: Props) => {
   }, [templateId])
 
   const getPrivateKey = async (): Promise<string> => {
-    const mnemonic = await getStoredMnemonic(accountAddress)
+    const mnemonic = await getStoredMnemonic(accountMTWAddress)
+
     if (!mnemonic) {
       throw new Error('Unable to fetch mnemonic from the store')
     }
@@ -79,23 +83,23 @@ const Persona = ({ kycStatus }: Props) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${accountAddress}:${serializedSignature}`,
+        authorization: `Valora ${accountMTWAddress}:${serializedSignature}`,
       },
-      body: JSON.stringify({ accountAddress }),
+      body: JSON.stringify({ accountMTWAddress }),
     })
   }
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      if (!accountAddress) {
-        Logger.error(TAG, "Can't render Persona because accountAddress is null")
+      if (!accountMTWAddress) {
+        Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
         return
       }
       const privateKey = await getPrivateKey()
       const signature = signMessage(
-        `post /account/create ${JSON.stringify({ accountAddress })}`,
+        `post /account/create ${JSON.stringify({ accountMTWAddress })}`,
         privateKey,
-        accountAddress
+        accountMTWAddress
       )
       const serializedSignature = serializeSignature(signature)
 
