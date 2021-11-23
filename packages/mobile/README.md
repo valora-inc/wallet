@@ -74,7 +74,8 @@ To test your GCP access, try running `yarn keys:decrypt` from the wallet repo ro
 
 #### For External contributors
 
-External contributors can build and run the mobile application with the following differences:
+External contributors don't need to decrypt repository secrets and can successfully build and run the mobile application with the following differences:
+
 - the default branding will be used (some images/icons will appear in purple or will be missing)
 - Firebase related features needs to be disabled. You can do this by setting `FIREBASE_ENABLED=true` in the `packages/mobile/.env.*` files.
 
