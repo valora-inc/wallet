@@ -18,7 +18,6 @@ import {
   handleDeepLink,
   handleFetchOtaTranslations,
   handleOpenUrl,
-  handleSaveOtaTranslations,
   handleSetAppState,
 } from 'src/app/saga'
 import {
@@ -31,6 +30,7 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { saveOtaTranslations } from 'src/i18n'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -333,7 +333,7 @@ describe('App saga', () => {
       [select(otaTranslationsLanguageSelector), 'en-US'],
       [select(currentLanguageSelector), 'en-US'],
       [select(otaTranslationsLastUpdateSelector), timestamp],
-      [call(handleSaveOtaTranslations, 'en-US', translations), null],
+      [call(saveOtaTranslations, 'en-US', translations), null],
     ]
 
     await expectSaga(handleFetchOtaTranslations)
@@ -344,7 +344,7 @@ describe('App saga', () => {
     await expectSaga(handleFetchOtaTranslations)
       .provide([
         [select(currentLanguageSelector), 'de'],
-        [call(handleSaveOtaTranslations, 'de', translations), null],
+        [call(saveOtaTranslations, 'de', translations), null],
         ...defaultProviders,
       ])
       .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'de'))
