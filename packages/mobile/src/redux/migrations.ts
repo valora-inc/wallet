@@ -328,4 +328,5 @@ export const migrations = {
     return state
   },
   20: (state: any) => state,
+  21: (state: any) => state,
 }
