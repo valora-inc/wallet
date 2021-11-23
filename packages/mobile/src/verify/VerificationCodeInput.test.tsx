@@ -28,7 +28,6 @@ describe('VerificationCodeInput', () => {
     return render(
       <Provider store={store}>
         <VerificationCodeInput
-          shortVerificationCodesEnabled={false}
           label="Test label"
           index={0}
           inputValue={mockAttestationMessage.code}

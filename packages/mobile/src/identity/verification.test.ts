@@ -9,10 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import {
-  logPhoneNumberTypeEnabledSelector,
-  shortVerificationCodesEnabledSelector,
-} from 'src/app/selectors'
+import { logPhoneNumberTypeEnabledSelector } from 'src/app/selectors'
 import {
   cancelVerification,
   completeAttestationCode,
@@ -354,7 +351,6 @@ describe(doVerificationFlowSaga, () => {
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
         [select(logPhoneNumberTypeEnabledSelector), false],
-        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -426,7 +422,6 @@ describe(doVerificationFlowSaga, () => {
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
         [select(logPhoneNumberTypeEnabledSelector), false],
-        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -546,7 +541,6 @@ describe(doVerificationFlowSaga, () => {
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockActionableAttestations],
         [select(logPhoneNumberTypeEnabledSelector), false],
-        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentLanguageSelector), 'us-en'],
         [
