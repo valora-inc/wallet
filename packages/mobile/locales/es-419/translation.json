@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pago enviado",
-  "feedItemCeloRewardReceivedTitle": "CELO ganados",
+  "feedItemCeloRewardReceivedTitle": "Recompensas CELO recibidas",
   "feedItemRewardReceivedTitle": "Red Celo",
   "feedItemRewardReceivedInfo": "Recompensas semanales",
   "feedItemInviteRewardReceivedTitle": "Red Celo",
