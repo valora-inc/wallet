@@ -13,7 +13,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
-import { Namespaces } from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
 
@@ -24,7 +23,7 @@ export interface Props {
 }
 
 const Persona = ({ kycStatus }: Props) => {
-  const { t } = useTranslation(Namespaces.translation)
+  const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
