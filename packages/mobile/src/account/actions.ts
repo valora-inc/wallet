@@ -1,4 +1,4 @@
-import { DailyLimitRequestStatus, PincodeType } from 'src/account/reducer'
+import { DailyLimitRequestStatus, KycStatus, PincodeType } from 'src/account/reducer'
 
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
@@ -31,6 +31,7 @@ export enum Actions {
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
+  UPDATE_KYC_STATUS = 'ACCOUNT/UPDATE_KYC_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
 }
 
@@ -172,6 +173,11 @@ export interface UpdateDailyLimitRequestStatusAction {
   dailyLimitRequestStatus: DailyLimitRequestStatus
 }
 
+export interface UpdateKycStatusAction {
+  type: Actions.UPDATE_KYC_STATUS
+  kycStatus?: KycStatus
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -203,6 +209,7 @@ export type ActionTypes =
   | ProfileUploadedAction
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
+  | UpdateKycStatusAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -370,4 +377,9 @@ export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction =
 export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
   type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
   dailyLimitRequestStatus: status,
+})
+
+export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
+  type: Actions.UPDATE_KYC_STATUS,
+  kycStatus,
 })
