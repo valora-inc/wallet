@@ -68,26 +68,26 @@ export default class FirebasePriceUpdater {
     const imagesUrls = await this.getImagesUrlInfo()
     const kit = await getContractKit()
 
-    await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (token: string) => {
+    await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (tokenAddress: string) => {
       try {
         // @ts-ignore
-        const tokenContract = new kit.web3.eth.Contract(erc20Abi, token)
+        const tokenContract = new kit.web3.eth.Contract(erc20Abi, tokenAddress)
         const symbol = await tokenContract.methods.symbol().call()
         const name = await tokenContract.methods.name().call()
         const decimals = await tokenContract.methods.decimals().call()
 
-        await updateFirebase(`${FIREBASE_NODE_KEY}/${token}`, {
+        await updateFirebase(`${FIREBASE_NODE_KEY}/${tokenAddress}`, {
           decimals,
           symbol,
           name,
-          usdPrice: prices[token].toString(),
+          usdPrice: prices[tokenAddress].toString(),
           priceFetchedAt: fetchTime,
-          address: token,
-          imageUrl: imagesUrls[token],
+          address: tokenAddress,
+          imageUrl: imagesUrls[tokenAddress],
         })
-        console.log(`New token added: ${token}`)
+        console.info(`New token added: ${tokenAddress}`)
       } catch (e) {
-        console.warn(`Couldn't add new token: ${token}`, (e as Error)?.message)
+        console.warn(`Couldn't add new token: ${tokenAddress}`, (e as Error)?.message)
       }
     })
   }
