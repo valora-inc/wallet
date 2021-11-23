@@ -24,7 +24,7 @@ import {
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -58,7 +58,7 @@ function ImportWallet({ navigation, route }: Props) {
   const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
 
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
 
   async function autocompleteSavedMnemonic() {
     if (!accountToRecoverFromStoreWipe) {
@@ -166,7 +166,7 @@ function ImportWallet({ navigation, route }: Props) {
                 <CodeInput
                   // TODO: Use a special component instead of CodeInput here,
                   // cause it should be used for entering verification codes only
-                  label={t('global:accountKey')}
+                  label={t('accountKey')}
                   status={codeStatus}
                   inputValue={backupPhrase}
                   inputPlaceholder={t('importExistingKey.keyPlaceholder')}
@@ -182,7 +182,7 @@ function ImportWallet({ navigation, route }: Props) {
                   style={styles.button}
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
-                  text={t('global:restore')}
+                  text={t('restore')}
                   type={BtnTypes.ONBOARDING}
                   disabled={
                     isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
@@ -194,7 +194,7 @@ function ImportWallet({ navigation, route }: Props) {
               <KeyboardSpacer onToggle={onToggleKeyboard} />
               <Dialog
                 title={
-                  <Trans i18nKey="emptyAccount.title" ns={Namespaces.onboarding}>
+                  <Trans i18nKey="emptyAccount.title">
                     <CurrencyDisplay
                       amount={{
                         value: new BigNumber(0),
@@ -207,7 +207,7 @@ function ImportWallet({ navigation, route }: Props) {
                 actionText={t('emptyAccount.useAccount')}
                 actionPress={onPressRestore}
                 secondaryActionPress={onPressTryAnotherKey}
-                secondaryActionText={t('global:goBack')}
+                secondaryActionText={t('goBack')}
               >
                 {t('emptyAccount.description')}
               </Dialog>
@@ -223,15 +223,15 @@ ImportWallet.navigationOptions = {
   ...nuxNavigationOptions,
   headerLeft: () => (
     <TopBarTextButtonOnboarding
-      title={i18n.t('global:cancel')}
+      title={i18n.t('cancel')}
       // Note: redux state reset is handled by UseBackToWelcomeScreen
       onPress={() => navigate(Screens.Welcome)}
     />
   ),
   headerTitle: () => (
     <HeaderTitleWithSubtitle
-      title={i18n.t('nuxNamePin1:importIt')}
-      subTitle={i18n.t('onboarding:restoreAccountSteps', { step: '3' })}
+      title={i18n.t('importIt')}
+      subTitle={i18n.t('restoreAccountSteps', { step: '3' })}
     />
   ),
 }

@@ -469,7 +469,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               }
             }
           >
-            global:amount 
+            amount 
           </Text>
         </View>
         <TextInput
@@ -665,7 +665,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         testID="FiatExchangeNextButton"
       >
         <Text
-          accessibilityLabel="global:next"
+          accessibilityLabel="next"
           maxFontSizeMultiplier={1}
           style={
             Object {
@@ -676,7 +676,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             }
           }
         >
-          global:next
+          next
         </Text>
       </View>
     </View>
@@ -1169,7 +1169,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               }
             }
           >
-            global:amount 
+            amount 
           </Text>
         </View>
         <TextInput
@@ -1365,7 +1365,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         testID="FiatExchangeNextButton"
       >
         <Text
-          accessibilityLabel="global:next"
+          accessibilityLabel="next"
           maxFontSizeMultiplier={1}
           style={
             Object {
@@ -1376,7 +1376,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             }
           }
         >
-          global:next
+          next
         </Text>
       </View>
     </View>

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { setRetryVerificationWithForno } from 'src/account/actions'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import { cancelVerification } from 'src/identity/actions'
 import { VerificationStatus } from 'src/identity/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -18,7 +17,7 @@ interface Props {
 
 export function VerificationFailedModal({ verificationStatus, retryWithForno, fornoMode }: Props) {
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.nuxVerification2)
+  const { t } = useTranslation()
   const [isDismissed, setIsDismissed] = useState(true)
 
   useEffect(() => {

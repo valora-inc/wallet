@@ -5,7 +5,7 @@ import { WithTranslation } from 'react-i18next'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ErrorScreen from 'src/app/ErrorScreen'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 
 interface State {
   childError: Error | null
@@ -38,4 +38,4 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 }
 
-export default withTranslation<Props>(Namespaces.global)(ErrorBoundary)
+export default withTranslation<Props>()(ErrorBoundary)

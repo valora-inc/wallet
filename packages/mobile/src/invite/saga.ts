@@ -61,7 +61,7 @@ export function* sendInvite(
     if (!tokenInfo) {
       throw new Error(`Token with address ${tokenAddress} not found`)
     }
-    const message = i18n.t('sendFlow7:inviteWithEscrowedPayment', {
+    const message = i18n.t('inviteWithEscrowedPayment', {
       amount: amount.toFixed(2),
       token: tokenInfo.symbol,
       link: DYNAMIC_DOWNLOAD_LINK,

@@ -7,7 +7,6 @@ import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CELO_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   onPressWithdraw: () => void
@@ -15,7 +14,7 @@ interface Props {
 
 // Actions container for CP-DOTO restricted countries
 export default function RestrictedCeloExchange({ onPressWithdraw }: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   const celoBalance = useSelector(celoTokenBalanceSelector)
 

@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -39,7 +38,7 @@ export default function ReviewFees({
 }: Props) {
   const [showFeeExplanation, setShowFeeExplanation] = useState(false)
   const [showFeeDiscountExplanation, setShowFeeDiscountExplanation] = useState(false)
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const openFeeExplanation = () => setShowFeeExplanation(true)
   const closeFeeExplanation = () => setShowFeeExplanation(false)
@@ -71,11 +70,7 @@ export default function ReviewFees({
 
   return (
     <View style={[styles.review]}>
-      <Dialog
-        isVisible={showFeeExplanation}
-        actionText={t('global:ok')}
-        actionPress={closeFeeExplanation}
-      >
+      <Dialog isVisible={showFeeExplanation} actionText={t('ok')} actionPress={closeFeeExplanation}>
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
@@ -85,7 +80,7 @@ export default function ReviewFees({
       </Dialog>
       <Dialog
         isVisible={showFeeDiscountExplanation}
-        actionText={t('global:ok')}
+        actionText={t('ok')}
         actionPress={closeFeeDiscountExplanation}
       >
         <Text style={[fontStyles.large600]}>{t('providerFeeDiscountDialog.title')}</Text>
@@ -94,7 +89,7 @@ export default function ReviewFees({
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>
-          {t('global:amount')} ({token})
+          {t('amount')} ({token})
         </Text>
         <Text style={[styles.reviewLineText]}>{showAmount(crypto.amount, true)}</Text>
       </View>
@@ -108,14 +103,14 @@ export default function ReviewFees({
       </View>
       <View style={[styles.line]} />
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText]}>{t('global:subtotal')}</Text>
+        <Text style={[styles.reviewLineText]}>{t('subtotal')}</Text>
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.subTotal)}</Text>
       </View>
       {!feeWaived ? (
         <View style={[styles.reviewLine]}>
           <View style={[styles.reviewLineInfo]}>
             <Text style={[styles.reviewLineText]}>
-              {provider} {t('exchangeFlow9:fee')}
+              {provider} {t('fee')}
             </Text>
             <Touchable
               style={[styles.icon]}
@@ -143,7 +138,7 @@ export default function ReviewFees({
         </View>
       )}
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('global:Total')}</Text>
+        <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('Total')}</Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>
           {showAmount(fiat.total, false, [styles.reviewLineTextTotal])}
         </Text>

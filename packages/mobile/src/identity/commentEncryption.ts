@@ -126,7 +126,7 @@ function _decryptComment(
     // for old comments and/or mismatch between DEK types btwn sender + receiver
     // To cover this case, the comment is hidden instead of showing garbage
     Logger.warn(TAG + 'decryptComment', 'Comment appears to be ciphertext, hiding comment')
-    return { comment: i18n.t('global:commentUnavailable') }
+    return { comment: i18n.t('commentUnavailable') }
   }
 }
 

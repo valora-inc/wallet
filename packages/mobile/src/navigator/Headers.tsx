@@ -10,7 +10,7 @@ import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -137,7 +137,7 @@ export function HeaderTitleWithBalance({ title, token, switchTitleAndSubtitle = 
 
   const subTitle =
     balance != null ? (
-      <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
+      <Trans i18nKey="balanceAvailable">
         <CurrencyDisplay
           style={switchTitleAndSubtitle ? styles.headerTitle : styles.headerSubTitle}
           amount={{
@@ -148,7 +148,7 @@ export function HeaderTitleWithBalance({ title, token, switchTitleAndSubtitle = 
       </Trans>
     ) : (
       // TODO: a null balance doesn't necessarily mean it's loading
-      i18n.t('global:loading')
+      i18n.t('loading')
     )
 
   return (
@@ -168,7 +168,7 @@ export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps)
   const tokenInfo = useTokenInfo(token)
 
   const subTitle = tokenInfo ? (
-    <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
+    <Trans i18nKey="balanceAvailable">
       <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={tokenInfo.balance} />
     </Trans>
   ) : (

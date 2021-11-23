@@ -155,7 +155,7 @@ export const NavigatorWrapper = () => {
   }
 
   const onInvite = async () => {
-    const message = i18n.t('sendFlow7:inviteWithoutPayment', {
+    const message = i18n.t('inviteWithoutPayment', {
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     ValoraAnalytics.track(InviteEvents.invite_from_menu)
