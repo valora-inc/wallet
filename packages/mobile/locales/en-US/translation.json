@@ -815,6 +815,7 @@
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",
+  "clear": "CLEAR",
   "inviteSendTo": "Invite & send to",
   "keepMoneySafe": "We'll keep this money safe until your friend creates a {{appName}} account",
   "searchFriends": "Try entering a phone number if you are unable to find who you're looking for",

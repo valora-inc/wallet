@@ -17,8 +17,10 @@ interface Props {
   tokenAmount: BigNumber
   usingLocalAmount: boolean
   tokenAddress: string
+  isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
+  onPressClear: () => void
 }
 
 function SendAmountValue({
@@ -26,8 +28,10 @@ function SendAmountValue({
   tokenAmount,
   usingLocalAmount,
   tokenAddress,
+  isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
+  onPressClear,
 }: Props) {
   const { t } = useTranslation()
 
@@ -41,9 +45,16 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        <BorderlessButton style={styles.maxButtonContainer} onPress={onPressMax}>
-          <Text style={styles.maxButton}>{t('max')}</Text>
-        </BorderlessButton>
+        {isOutgoingPaymentRequest ? null : (
+          <View style={styles.optionsContainer}>
+            <BorderlessButton style={styles.buttonContainer} onPress={onPressMax}>
+              <Text style={styles.button}>{t('max')}</Text>
+            </BorderlessButton>
+            <BorderlessButton style={styles.buttonContainer} onPress={onPressClear}>
+              <Text style={styles.button}>{t('clear')}</Text>
+            </BorderlessButton>
+          </View>
+        )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
             {usingLocalAmount && (
@@ -101,6 +112,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  optionsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   valuesContainer: {
     flex: 1,

@@ -102,6 +102,9 @@ function SendAmount(props: Props) {
     // TODO: Take into account fee amount if only one fee token has a balance.
     setAmount(usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toString())
   }
+  const onPressClear = () => {
+    setAmount('')
+  }
   const onSwapInput = () => setUsingLocalAmount(!usingLocalAmount)
 
   const dispatch = useDispatch()
@@ -175,6 +178,7 @@ function SendAmount(props: Props) {
           tokenAddress={transferTokenAddress}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
+          onPressClear={onPressClear}
         />
         <AmountKeypad
           amount={amount}
