@@ -12,17 +12,30 @@ import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILEPATH, TOS_LINK } f
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
+export async function saveOtaTranslations(language: string, translations: Resource) {
+  const hasPreviouslyFetchedTranslations = await RNFS.exists(OTA_TRANSLATIONS_FILEPATH)
+  if (hasPreviouslyFetchedTranslations) {
+    await RNFS.unlink(OTA_TRANSLATIONS_FILEPATH)
+  }
+
+  await RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
+}
+
+export async function getOtaTranslations() {
+  let cachedTranslations: Resource = {}
+  if (await RNFS.exists(OTA_TRANSLATIONS_FILEPATH)) {
+    cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILEPATH))
+  }
+  return cachedTranslations
+}
+
 async function getAvailableResources(
   allowOtaTranslations: boolean,
   otaTranslationsAppVersion: string
 ) {
   let cachedTranslations: Resource = {}
-  if (
-    allowOtaTranslations &&
-    DeviceInfo.getVersion() === otaTranslationsAppVersion &&
-    (await RNFS.exists(OTA_TRANSLATIONS_FILEPATH))
-  ) {
-    cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILEPATH))
+  if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
+    cachedTranslations = await getOtaTranslations()
   }
 
   const resources: Resource = {}

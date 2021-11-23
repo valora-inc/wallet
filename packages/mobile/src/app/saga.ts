@@ -1,10 +1,9 @@
 import OtaClient from '@crowdin/ota-client'
 import URLSearchParamsReal from '@ungap/url-search-params'
-import i18n, { Resource } from 'i18next'
+import i18n from 'i18next'
 import _ from 'lodash'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import * as RNFS from 'react-native-fs'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -44,9 +43,10 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { CROWDIN_DISTRIBUTION_HASH, OTA_TRANSLATIONS_FILEPATH } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
+import { saveOtaTranslations } from 'src/i18n'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -327,15 +327,6 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
-export function* handleSaveOtaTranslations(language: string, translations: Resource) {
-  const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILEPATH)
-  if (hasPreviouslyFetchedTranslations) {
-    yield RNFS.unlink(OTA_TRANSLATIONS_FILEPATH)
-  }
-
-  yield RNFS.writeFile(OTA_TRANSLATIONS_FILEPATH, JSON.stringify({ [language]: translations }))
-}
-
 export function* handleFetchOtaTranslations() {
   const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
   if (allowOtaTranslations) {
@@ -361,7 +352,7 @@ export function* handleFetchOtaTranslations() {
         )
         i18n.addResourceBundle(currentLanguage, 'translation', translations, true, true)
 
-        yield call(handleSaveOtaTranslations, currentLanguage, translations)
+        yield call(saveOtaTranslations, currentLanguage, translations)
         yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
       }
     } catch (error) {
