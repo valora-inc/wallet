@@ -68,7 +68,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             }
           }
         >
-          verificationInput.body, {"phoneNumber":"+1 415-555-6666"}
+          verificationInput.body, {"context":"short","phoneNumber":"+1 415-555-6666"}
         </Text>
         <View>
           <View
@@ -115,7 +115,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
-                    "padding": 16,
+                    "padding": 20,
                     "paddingBottom": 4,
                   }
                 }
@@ -134,6 +134,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 13,
                         "lineHeight": 16,
+                        "textAlign": "center",
                       }
                     }
                   >
@@ -156,7 +157,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                       allowFontScaling={true}
                       autoCapitalize="none"
                       autoCorrect={false}
-                      keyboardType="visible-password"
+                      keyboardType="number-pad"
                       onBlur={[Function]}
                       onChangeText={[Function]}
                       onFocus={[Function]}
@@ -175,11 +176,17 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                           },
                           undefined,
                           Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
                             "minHeight": undefined,
+                            "textAlign": "center",
                           },
                         ]
                       }
                       testID="VerificationCode0"
+                      textContentType="username"
                       underlineColorAndroid="transparent"
                       value=""
                     />
@@ -227,8 +234,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                     "alignItems": "center",
                     "flex": 1,
                     "flexDirection": "row",
-                    "padding": 16,
-                    "paddingVertical": 12,
+                    "padding": 20,
                   }
                 }
               >
@@ -248,6 +254,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "lineHeight": 16,
                         "marginBottom": 4,
                         "opacity": 0.5,
+                        "textAlign": "center",
                       }
                     }
                   >
@@ -259,8 +266,9 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                       Object {
                         "color": "#A49B80",
                         "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
+                        "fontSize": 18,
+                        "lineHeight": 24,
+                        "textAlign": "center",
                       }
                     }
                   >
@@ -309,8 +317,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                     "alignItems": "center",
                     "flex": 1,
                     "flexDirection": "row",
-                    "padding": 16,
-                    "paddingVertical": 12,
+                    "padding": 20,
                   }
                 }
               >
@@ -330,6 +337,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                         "lineHeight": 16,
                         "marginBottom": 4,
                         "opacity": 0.5,
+                        "textAlign": "center",
                       }
                     }
                   >
@@ -341,8 +349,9 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                       Object {
                         "color": "#A49B80",
                         "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
+                        "fontSize": 18,
+                        "lineHeight": 24,
+                        "textAlign": "center",
                       }
                     }
                   >
