@@ -97,7 +97,7 @@ describe('GoldTransactionFeedItem', () => {
     )
     expect(tree).toMatchSnapshot()
 
-    // This is an even more degraded mode, when we can't get the exchange rate from the blockchain-api, better than nothing
+    // This is an even more degraded mode, when we can't get the exchange rate from the blockchain-api or locally, better than nothing
     expect(getElementText(tree.getByTestId('GoldTransactionFeedItemRate/value'))).toEqual('-')
     expect(getElementText(tree.getByTestId('GoldTransactionFeedItemAmount/value'))).toEqual('-')
   })
