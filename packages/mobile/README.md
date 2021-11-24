@@ -57,7 +57,12 @@ brew install watchman
 brew install jq
 ```
 
-#### Google Cloud
+### Repository secrets
+
+#### For Valora employees only
+
+_This is only for Valora employees._
+
 You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-mobile-alfajores`.)
 
 Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
@@ -67,13 +72,20 @@ for logging in with Google credentials.
 To test your GCP access, try running `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`.
 (You will not need to run this command on an ongoing basis, since it is done automatically as part of the `postinstall` script.)
 
+#### For External contributors
+
+External contributors don't need to decrypt repository secrets and can successfully build and run the mobile application with the following differences:
+
+- the default branding will be used (some images/icons will appear in pink or will be missing)
+- Firebase related features needs to be disabled. You can do this by setting `FIREBASE_ENABLED=false` in the `packages/mobile/.env.*` files.
+
 ### iOS
 
 #### Enroll in the Apple Developer Program
 
 In order to successfully set up your iOS development environment you will need to enroll in the [Apple Developer Program]. It is recommended that you enroll from an iOS device by downloading the Apple Developer App in the App Store. Using the app will result in the fastest processing of your enrollment.
 
-_If you are a cLabs employee, please ask to be added to the cLabs iOS development team._
+_If you are a Valora employee, please ask to be added to the Valora iOS development team._
 
 #### Install Xcode
 
