@@ -44,7 +44,7 @@ function SendAmountValue({
     <>
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
-          <BorderlessButton style={styles.buttonContainer} onPress={onPressMax}>
+          <BorderlessButton onPress={onPressMax}>
             <Text style={styles.button}>{t('max')}</Text>
           </BorderlessButton>
         )}
@@ -100,7 +100,7 @@ function SendAmountValue({
             )}
           </View>
         </View>
-        <Touchable style={styles.swapInput} onPress={onSwapInput} borderless={true}>
+        <Touchable onPress={onSwapInput} borderless={true}>
           <SwapInput />
         </Touchable>
       </View>
@@ -128,30 +128,27 @@ const styles = StyleSheet.create({
   symbolContainer: {
     justifyContent: 'center',
   },
-  buttonContainer: {
-    padding: 8,
-  },
   button: {
     color: colors.gray4,
-  },
-  swapInput: {
-    padding: 8,
   },
   mainSymbol: {
     ...fontStyles.regular,
     fontSize: 24,
     lineHeight: 64,
-    marginHorizontal: 2,
   },
   secondarySymbol: {
     ...fontStyles.small,
     marginHorizontal: 2,
   },
+  // font family, font weight and width are fixes for truncated text on Android https://github.com/facebook/react-native/issues/15114
   mainAmount: {
     ...fontStyles.regular,
     fontSize: 64,
     lineHeight: undefined,
     fontFamily: 'arial',
+    fontWeight: 'normal',
+    width: '100%',
+    paddingHorizontal: 2,
   },
   secondaryAmount: {
     ...fontStyles.small,
