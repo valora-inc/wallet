@@ -35,16 +35,18 @@ export function ExchangeFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
   // We always show Local Currency to cGLD exchage rate
   // independent of transaction type
-  const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount!
+  const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
-    value: localAmount.exchangeRate,
+    value: localAmount?.exchangeRate,
     currencyCode: Currency.Dollar,
-    localAmount: {
-      value: localAmount.exchangeRate,
-      exchangeRate: localAmount.exchangeRate,
-      currencyCode: localAmount.currencyCode,
-    },
+    localAmount: localAmount
+      ? {
+          value: localAmount.exchangeRate,
+          exchangeRate: localAmount.exchangeRate,
+          currencyCode: localAmount.currencyCode,
+        }
+      : null,
   }
 
   return (
@@ -62,10 +64,15 @@ export function ExchangeFeedItem(props: Props) {
               hideCode={true}
               showLocalAmount={true}
               style={styles.exchangeRate}
+              testID="GoldTransactionFeedItemRate"
             />
           </View>
           <View>
-            <CurrencyDisplay amount={amount} style={styles.amount} />
+            <CurrencyDisplay
+              amount={amount}
+              style={styles.amount}
+              testID="GoldTransactionFeedItemAmount"
+            />
           </View>
         </View>
         <View style={styles.secondRow}>
