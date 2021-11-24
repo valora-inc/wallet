@@ -34,16 +34,18 @@ export default function ExchangeConfirmationCard(props: Props) {
   const totalFee = new BigNumber(tobinTax).plus(fee)
   const feeCurrency = Currency.Dollar
 
-  const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount!
+  const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
-    value: localAmount.exchangeRate,
+    value: localAmount?.exchangeRate,
     currencyCode: Currency.Dollar,
-    localAmount: {
-      value: localAmount.exchangeRate,
-      exchangeRate: localAmount.exchangeRate,
-      currencyCode: localAmount.currencyCode,
-    },
+    localAmount: localAmount
+      ? {
+          value: localAmount.exchangeRate,
+          exchangeRate: localAmount.exchangeRate,
+          currencyCode: localAmount.currencyCode,
+        }
+      : null,
   }
 
   const goldAmount = {
@@ -68,13 +70,22 @@ export default function ExchangeConfirmationCard(props: Props) {
           <View style={styles.flexStart}>
             <View style={styles.amountRow}>
               <Text style={styles.exchangeBodyText}>{t('goldAmount')}</Text>
-              <CurrencyDisplay style={styles.currencyAmountText} amount={goldAmount} />
+              <CurrencyDisplay
+                style={styles.currencyAmountText}
+                amount={goldAmount}
+                testID="CeloAmount"
+              />
             </View>
             <HorizontalLine />
             <LineItemRow
               title={
                 <Trans i18nKey="subtotalAmount">
-                  Subtotal @ <CurrencyDisplay amount={exchangeRateAmount} showLocalAmount={true} />
+                  Subtotal @{' '}
+                  <CurrencyDisplay
+                    amount={exchangeRateAmount}
+                    showLocalAmount={true}
+                    testID="CeloExchangeRate"
+                  />
                 </Trans>
               }
               amount={<CurrencyDisplay amount={subtotalAmount} />}
