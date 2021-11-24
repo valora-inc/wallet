@@ -79,7 +79,7 @@ describe('GoldTransactionFeedItem', () => {
     )
   })
 
-  it('renders correctly when local amount is null and no local exchange rate was set', () => {
+  it('renders correctly when local amount is null and no local exchange rate is set', () => {
     const tree = render(
       <Provider store={createMockStore({ localCurrency: { exchangeRates: {} } })}>
         <GoldTransactionFeedItem
@@ -97,7 +97,7 @@ describe('GoldTransactionFeedItem', () => {
     )
     expect(tree).toMatchSnapshot()
 
-    // This is a degraded mode, when we can't get the exchange rate from the blockchain-api, better than nothing
+    // This is an even more degraded mode, when we can't get the exchange rate from the blockchain-api, better than nothing
     expect(getElementText(tree.getByTestId('GoldTransactionFeedItemRate/value'))).toEqual('-')
     expect(getElementText(tree.getByTestId('GoldTransactionFeedItemAmount/value'))).toEqual('-')
   })

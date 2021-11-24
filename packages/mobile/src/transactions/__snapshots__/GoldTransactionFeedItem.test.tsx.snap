@@ -273,7 +273,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null 1`]
 </View>
 `;
 
-exports[`GoldTransactionFeedItem renders correctly when local amount is null and no local exchange rate was set 1`] = `
+exports[`GoldTransactionFeedItem renders correctly when local amount is null and no local exchange rate is set 1`] = `
 <View
   accessible={true}
   focusable={true}
