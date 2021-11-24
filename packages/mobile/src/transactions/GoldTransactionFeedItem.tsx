@@ -38,7 +38,7 @@ export function ExchangeFeedItem(props: Props) {
   const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
-    value: localAmount?.exchangeRate,
+    value: localAmount?.exchangeRate || '',
     currencyCode: Currency.Dollar,
     localAmount: localAmount
       ? {
