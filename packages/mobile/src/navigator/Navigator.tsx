@@ -631,6 +631,11 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       component={SendConfirmation}
       options={sendConfirmationScreenNavOptions}
     />
+    <Navigator.Screen
+      name={Screens.SendConfirmationLegacyModal}
+      component={SendConfirmationLegacy}
+      options={sendConfirmationLegacyScreenNavOptions}
+    />
   </>
 )
 
