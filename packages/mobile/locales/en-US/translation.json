@@ -661,9 +661,9 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
-    "step2": "Send funds across borders",
-    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
+    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
+    "step2": "With Valora, it’s easy to access and easy to grow your crypto.",
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
     "title": "Share money with those you value",
