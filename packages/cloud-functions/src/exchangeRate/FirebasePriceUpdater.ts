@@ -2,17 +2,21 @@ import { configs, createNewManager, ExchangeRateManager, PriceByAddress } from '
 import axios from 'axios'
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
+import erc20Abi from '../abis/ERC20.json'
 import { EXCHANGES, UBESWAP } from '../config'
 import { getContractKit } from '../contractKit'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
-import erc20Abi from './ERC20.json'
 
 const FIREBASE_NODE_KEY = '/tokensInfo'
 
 const MAX_CONCURRENCY = 30
 
 const RETRIES_LIMIT = 5
+
+interface ImageUrls {
+  [address: string]: string
+}
 
 export default class FirebasePriceUpdater {
   manager: ExchangeRateManager
@@ -32,7 +36,9 @@ export default class FirebasePriceUpdater {
 
     const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
 
-    await this.updatePresentTokens(prices, tokensInfoRaw, fetchTime)
+    const imagesUrls = await this.getImagesUrlInfo()
+
+    await this.updatePresentTokens(prices, fetchTime, imagesUrls, tokensInfoRaw)
 
     const tokenAddresses = Object.values(tokensInfoRaw).map((tokenInfo: any) =>
       tokenInfo.address?.toLowerCase()
@@ -41,20 +47,35 @@ export default class FirebasePriceUpdater {
       (tokenAddress: string) => !tokenAddresses.includes(tokenAddress)
     )
 
-    await this.updateNotPresentTokens(prices, notAddedTokens, fetchTime)
+    await this.updateNotPresentTokens(prices, fetchTime, imagesUrls, notAddedTokens)
   }
 
-  private async updatePresentTokens(prices: PriceByAddress, tokensInfoRaw: any, fetchTime: number) {
+  private async updatePresentTokens(
+    prices: PriceByAddress,
+    fetchTime: number,
+    imageUrls: ImageUrls,
+    tokensInfoRaw: any
+  ) {
     await asyncPool(
       MAX_CONCURRENCY,
       Object.entries(tokensInfoRaw),
       async ([key, token]: [string, any]) => {
         const address = token?.address?.toLowerCase()
-        if (address && prices[address]) {
-          await updateFirebase(`${FIREBASE_NODE_KEY}/${key}`, {
-            usdPrice: prices[address].toString(),
-            priceFetchedAt: fetchTime,
-          })
+        try {
+          if (address && prices[address]) {
+            const updateInfo: any = {
+              usdPrice: prices[address].toString(),
+              priceFetchedAt: fetchTime,
+            }
+
+            if (imageUrls[address]) {
+              updateInfo.imageUrl = imageUrls[address]
+            }
+
+            await updateFirebase(`${FIREBASE_NODE_KEY}/${key}`, updateInfo)
+          }
+        } catch (e) {
+          console.warn(`Couldn't update token: ${address}`, (e as Error)?.message)
         }
       }
     )
@@ -62,10 +83,10 @@ export default class FirebasePriceUpdater {
 
   private async updateNotPresentTokens(
     prices: PriceByAddress,
-    tokenAddresses: string[],
-    fetchTime: number
+    fetchTime: number,
+    imagesUrls: ImageUrls,
+    tokenAddresses: string[]
   ) {
-    const imagesUrls = await this.getImagesUrlInfo()
     const kit = await getContractKit()
 
     await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (tokenAddress: string) => {
@@ -83,6 +104,7 @@ export default class FirebasePriceUpdater {
           usdPrice: prices[tokenAddress].toString(),
           priceFetchedAt: fetchTime,
           address: tokenAddress,
+          // Question: Do we want to upload the token info even if we don't have an image?
           imageUrl: imagesUrls[tokenAddress],
         })
         console.info(`New token added: ${tokenAddress}`)
@@ -93,7 +115,7 @@ export default class FirebasePriceUpdater {
   }
 
   // This will change on #1500
-  private async getImagesUrlInfo() {
+  private async getImagesUrlInfo(): Promise<ImageUrls> {
     const rawTokens = await axios.get(UBESWAP.token_list)
     return rawTokens.data.tokens.reduce(
       (acc: any, token: any) => ({ ...acc, [token.address.toLowerCase()]: token.logoURI }),

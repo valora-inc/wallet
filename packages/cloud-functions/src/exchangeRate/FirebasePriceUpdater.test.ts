@@ -105,6 +105,7 @@ describe('FirebasePriceUpdater', () => {
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1`, {
       usdPrice: '1.5',
       priceFetchedAt: MOCKED_DATE,
+      imageUrl: 'address1Uri',
     })
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key2`, {
       usdPrice: '1.7',
