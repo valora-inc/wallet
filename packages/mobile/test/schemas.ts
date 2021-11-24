@@ -839,6 +839,18 @@ export const v20Schema = {
   },
 }
 
+export const v21Schema = {
+  ...v20Schema,
+  _persist: {
+    ...v20Schema._persist,
+    version: 21,
+  },
+  account: {
+    ...v20Schema.account,
+    kycStatus: undefined,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v20Schema as Partial<RootState>
+  return v21Schema as Partial<RootState>
 }
