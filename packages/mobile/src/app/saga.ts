@@ -356,7 +356,7 @@ export function* handleFetchOtaTranslations() {
         )
         i18n.addResourceBundle(currentLanguage, 'translation', translations, true, true)
 
-        yield call(saveOtaTranslations, currentLanguage, translations)
+        yield call(saveOtaTranslations, { [currentLanguage]: translations })
         yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
       }
     } catch (error) {

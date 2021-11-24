@@ -9,7 +9,7 @@ describe('otaTranslations utils', () => {
   it('should save the translations', async () => {
     const writeToFileSpy = jest.spyOn(RNFS, 'writeFile')
 
-    await saveOtaTranslations('de', translation.de)
+    await saveOtaTranslations(translation)
 
     expect(writeToFileSpy).toHaveBeenCalledTimes(1)
     expect(writeToFileSpy).toHaveBeenCalledWith(OTA_TRANSLATIONS_FILEPATH, stringTranslation)
