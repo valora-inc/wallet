@@ -102,7 +102,7 @@ function WalletHome() {
       balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
     )
     const hasCelo = balances[Currency.Celo]?.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
-    const isAccountBalanceZero = !hasStable && !hasCelo
+    const isAccountBalanceZero = hasStable === false && hasCelo === false
 
     return cashInButtonExpEnabled && isAccountBalanceZero
   }
