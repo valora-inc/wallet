@@ -662,11 +662,11 @@
   },
   "onboardingEducation": {
     "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una billetera cripto.",
-    "step2": "Con Valora, accede y multiplica tus cripto en pocos pasos.",
-    "step3": "Conveniente, confiable y seguro. Tu teléfono es tu billetera"
+    "step2": "Con Valora, accede y multiplica tus criptomonedas en pocos pasos.",
+    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
   "welcome": {
-    "title": "Comparte dinero con quienes valoras",
+    "title": "Entra de lleno al futuro de las criptomonedas con Valora.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente"
   },
@@ -1074,5 +1074,5 @@
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   },
-  "personaAccountEndpointFail": "La verificación de la identidad no está disponible actualmente. Vuelve a intentarlo más tarde"
+  "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde."
 }
