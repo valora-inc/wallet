@@ -348,7 +348,7 @@
   "namePhoneAddress": "Name, Telefon oder Adresse",
   "payments": "Zahlungen",
   "activity": "Aktivität",
-  "earnRewards": "Erhalte Belohnungen",
+  "earnRewards": "Belohnungen erhalten",
   "notEnoughStableError": "Nicht genug {{token}} zum umtauschen",
   "notEnoughGoldError": "Nicht genug CELO zum umtauschen",
   "exchangeFailed": "Umtausch fehlgeschlagen, bitte erneut versuchen",
