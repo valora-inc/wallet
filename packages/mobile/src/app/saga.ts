@@ -23,7 +23,6 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
-  fetchOtaTranslations,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
@@ -197,9 +196,6 @@ export function* appRemoteFeatureFlagSaga() {
       if (configValues) {
         yield put(updateRemoteConfigValues(configValues))
         lastLoadTime = Date.now()
-        if (configValues.allowOtaTranslations) {
-          yield put(fetchOtaTranslations())
-        }
       }
     }
 
@@ -366,7 +362,10 @@ export function* handleFetchOtaTranslations() {
 }
 
 export function* watchOtaTranslations() {
-  yield takeLatest(Actions.FETCH_OTA_TRANSLATIONS, handleFetchOtaTranslations)
+  yield takeLatest(
+    [Actions.SET_LANGUAGE, Actions.UPDATE_REMOTE_CONFIG_VALUES],
+    handleFetchOtaTranslations
+  )
 }
 
 export function* appSaga() {

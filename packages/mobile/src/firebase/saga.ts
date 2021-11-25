@@ -13,7 +13,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { Actions as AppActions, fetchOtaTranslations, SetLanguage } from 'src/app/actions'
+import { Actions as AppActions, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
@@ -82,8 +82,6 @@ function* initializeFirebase() {
 }
 
 export function* syncLanguageSelection({ language }: SetLanguage) {
-  yield put(fetchOtaTranslations())
-
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)
   try {

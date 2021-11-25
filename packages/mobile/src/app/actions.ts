@@ -104,10 +104,6 @@ export interface AppUnmounted {
   type: Actions.APP_UNMOUNTED
 }
 
-export interface FetchOtaTranslationsAction {
-  type: Actions.FETCH_OTA_TRANSLATIONS
-}
-
 export interface SetSessionId {
   type: Actions.SET_SESSION_ID
   sessionId: string
@@ -235,10 +231,6 @@ export const appMounted = (): AppMounted => ({
 
 export const appUnmounted = (): AppUnmounted => ({
   type: Actions.APP_UNMOUNTED,
-})
-
-export const fetchOtaTranslations = (): FetchOtaTranslationsAction => ({
-  type: Actions.FETCH_OTA_TRANSLATIONS,
 })
 
 export const setSessionId = (sessionId: string) => ({
