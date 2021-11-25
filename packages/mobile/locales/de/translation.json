@@ -661,12 +661,12 @@
     "cta": "Kaufe Lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
-    "step2": "Sende Krypto in der ganzen Welt",
-    "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
+    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
+    "step2": "With Valora, it’s easy to access and easy to grow your crypto.",
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
-    "title": "Teile Krypto mit denen, die es wert sind",
+    "title": "Step into the future of crypto with Valora.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
