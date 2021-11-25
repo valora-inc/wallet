@@ -15,6 +15,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
+import pjson from '../../package.json'
 
 const TAG = 'PERSONA'
 
@@ -50,6 +51,7 @@ const Persona = ({ kycStatus }: Props) => {
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
+      .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         Logger.info(
           TAG,
