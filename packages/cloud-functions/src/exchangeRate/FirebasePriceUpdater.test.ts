@@ -99,17 +99,19 @@ describe('FirebasePriceUpdater', () => {
   })
 
   it('refreshes all prices correctly', async () => {
-    await firebasePriceUpdater.updateAllPrices()
+    await firebasePriceUpdater.updateTokensInfo()
 
     expect(updateFirebaseMock).toHaveBeenCalledTimes(3)
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1`, {
       usdPrice: '1.5',
       priceFetchedAt: MOCKED_DATE,
       imageUrl: 'address1Uri',
+      address: 'address1',
     })
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key2`, {
       usdPrice: '1.7',
       priceFetchedAt: MOCKED_DATE,
+      address: 'address2',
     })
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/not_added_address`, {
       decimals: 18,
