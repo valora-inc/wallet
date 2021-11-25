@@ -264,7 +264,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                         }
                         testID="undefined/Text"
                       >
-                        backupKeyFlow6:backupKeyNotification
+                        backupKeyNotification
                       </Text>
                       <View
                         style={
@@ -293,7 +293,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                           onResponderTerminate={[Function]}
                           onResponderTerminationRequest={[Function]}
                           onStartShouldSetResponder={[Function]}
-                          testID="undefined/CallToActions/backupKeyFlow6:introPrimaryAction/Button"
+                          testID="undefined/CallToActions/introPrimaryAction/Button"
                         >
                           <Text
                             style={
@@ -314,7 +314,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                               ]
                             }
                           >
-                            backupKeyFlow6:introPrimaryAction
+                            introPrimaryAction
                           </Text>
                         </View>
                       </View>

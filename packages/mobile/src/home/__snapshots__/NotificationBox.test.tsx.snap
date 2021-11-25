@@ -83,7 +83,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
                 testID="undefined/Text"
               >
-                backupKeyFlow6:backupKeyNotification
+                backupKeyNotification
               </Text>
               <View
                 style={
@@ -112,7 +112,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/backupKeyFlow6:introPrimaryAction/Button"
+                  testID="undefined/CallToActions/introPrimaryAction/Button"
                 >
                   <Text
                     style={
@@ -133,7 +133,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    backupKeyFlow6:introPrimaryAction
+                    introPrimaryAction
                   </Text>
                 </View>
               </View>
