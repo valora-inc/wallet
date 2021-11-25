@@ -48,6 +48,7 @@
     "@celo/react-native-sms-retriever": "git+https://github.com/celo-org/react-native-sms-retriever#11e078e",
     "@celo/utils": "~1.2.4",
     "@celo/wallet-rpc": "~1.2.0",
+    "@crowdin/ota-client": "^0.4.0",
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
     "@pedrouid/environment": "^1.0.1",

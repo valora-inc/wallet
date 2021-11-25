@@ -43,6 +43,10 @@ export interface State {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
+  otaTranslationsLastUpdate: number
+  otaTranslationsAppVersion: string
+  otaTranslationsLanguage: string
 }
 
 const initialState = {
@@ -80,6 +84,10 @@ const initialState = {
   multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
+  allowOtaTranslations: REMOTE_CONFIG_VALUES_DEFAULTS.allowOtaTranslations,
+  otaTranslationsLastUpdate: 0,
+  otaTranslationsAppVersion: '0',
+  otaTranslationsLanguage: '',
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language
@@ -195,6 +203,7 @@ export const appReducer = (
         multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
+        allowOtaTranslations: action.configValues.allowOtaTranslations,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -217,6 +226,13 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
+      }
+    case Actions.OTA_TRANSLATIONS_UPDATED:
+      return {
+        ...state,
+        otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
+        otaTranslationsAppVersion: action.otaTranslationsAppVersion,
+        otaTranslationsLanguage: action.otaTranslationsLanguage,
       }
     default:
       return state

@@ -103,3 +103,11 @@ export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
 export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
 export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
   state.app.multiTokenUseUpdatedFeed
+
+export const allowOtaTranslationsSelector = (state: RootState) => state.app.allowOtaTranslations
+export const otaTranslationsLastUpdateSelector = (state: RootState) =>
+  state.app.otaTranslationsLastUpdate
+export const otaTranslationsAppVersionSelector = (state: RootState) =>
+  state.app.otaTranslationsAppVersion
+export const otaTranslationsLanguageSelector = (state: RootState) =>
+  state.app.otaTranslationsLanguage

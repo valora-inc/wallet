@@ -35,4 +35,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   multiTokenShowHomeBalances: true,
   multiTokenUseSendFlow: false,
   multiTokenUseUpdatedFeed: false,
+  allowOtaTranslations: false,
 }
