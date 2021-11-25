@@ -97,7 +97,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('backupKeyFlow6:backupKeyNotification')).toBeTruthy()
+    expect(getByText('backupKeyNotification')).toBeTruthy()
   })
 
   it('renders educations when not complete yet', () => {
