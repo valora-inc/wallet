@@ -58,7 +58,7 @@ describe('I18nGate', () => {
     await act(() => initI18nPromise)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('pt-BR')
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('pt-BR', false, '0')
     expect(setLanguageSpy).not.toHaveBeenCalled()
   })
 
@@ -73,7 +73,7 @@ describe('I18nGate', () => {
     await act(flushMicrotasksQueue)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('de')
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('de', false, '0')
     expect(setLanguageSpy).toHaveBeenCalledWith('de')
   })
 
@@ -84,7 +84,7 @@ describe('I18nGate', () => {
     await act(() => initI18nPromise)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US')
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US', false, '0')
     expect(setLanguageSpy).not.toHaveBeenCalled()
   })
 
