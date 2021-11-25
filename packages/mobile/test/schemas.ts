@@ -847,6 +847,21 @@ export const v21Schema = {
   },
 }
 
+export const v22Schema = {
+  ...v21Schema,
+  _persist: {
+    ...v21Schema._persist,
+    version: 22,
+  },
+  app: {
+    ...v21Schema.app,
+    allowOtaTranslations: false,
+    otaTranslationsLastUpdate: 0,
+    otaTranslationsAppVersion: '0',
+    otaTranslationsLanguage: '',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v21Schema as Partial<RootState>
+  return v22Schema as Partial<RootState>
 }

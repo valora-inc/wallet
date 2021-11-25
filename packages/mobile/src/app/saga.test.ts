@@ -1,11 +1,34 @@
+import i18n from 'i18next'
+import DeviceInfo from 'react-native-device-info'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
-import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
-import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import {
+  appLock,
+  openDeepLink,
+  openUrl,
+  otaTranslationsUpdated,
+  setAppState,
+} from 'src/app/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
+import {
+  handleDeepLink,
+  handleFetchOtaTranslations,
+  handleOpenUrl,
+  handleSetAppState,
+} from 'src/app/saga'
+import {
+  allowOtaTranslationsSelector,
+  getAppLocked,
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+  otaTranslationsAppVersionSelector,
+  otaTranslationsLanguageSelector,
+  otaTranslationsLastUpdateSelector,
+} from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -13,9 +36,27 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
+import { saveOtaTranslations } from 'src/utils/otaTranslations'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('@crowdin/ota-client', () => {
+  return function () {
+    return {
+      getManifestTimestamp: jest.fn(() => 123456),
+      getLanguageMappings: jest.fn(),
+      getStringsByLocale: jest.fn(() => ({
+        someLang: { someNamespace: { someKey: 'someValue ' } },
+      })),
+    }
+  }
+})
+
+jest.mock('i18next', () => ({
+  addResourceBundle: jest.fn(),
+}))
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -23,7 +64,8 @@ jest.mock('src/utils/time', () => ({
 
 jest.mock('src/dappkit/dappkit')
 
-const MockedAnalytics = ValoraAnalytics as any
+const MockedAnalytics = mocked(ValoraAnalytics)
+const MockedI18n = mocked(i18n)
 
 describe('App saga', () => {
   beforeEach(() => {
@@ -278,5 +320,45 @@ describe('App saga', () => {
         [select(getRequirePinOnAppOpen), true],
       ])
       .run()
+  })
+
+  it('Handles fetching over the air translations', async () => {
+    const translations = { someLang: { someNamespace: { someKey: 'someValue ' } } }
+    const timestamp = 123456
+    const appVersion = '1.0.0'
+    const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
+    mockedVersion.mockImplementation(() => appVersion)
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [select(allowOtaTranslationsSelector), true],
+      [select(otaTranslationsAppVersionSelector), appVersion],
+      [select(otaTranslationsLanguageSelector), 'en-US'],
+      [select(currentLanguageSelector), 'en-US'],
+      [select(otaTranslationsLastUpdateSelector), timestamp],
+      [call(saveOtaTranslations, { 'en-US': translations }), null],
+    ]
+
+    // last fetched translations are outdated
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([[select(otaTranslationsLastUpdateSelector), 0], ...defaultProviders])
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
+      .run()
+
+    // last fetched translations are for a different language
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([
+        [select(currentLanguageSelector), 'de'],
+        [call(saveOtaTranslations, { de: translations }), null],
+        ...defaultProviders,
+      ])
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'de'))
+      .run()
+
+    // last fetched translations are for a previous app version
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([[select(otaTranslationsAppVersionSelector), '0.9.0'], ...defaultProviders])
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
+      .run()
+
+    expect(MockedI18n.addResourceBundle).toHaveBeenCalledTimes(3)
   })
 })

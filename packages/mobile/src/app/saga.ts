@@ -1,4 +1,7 @@
+import OtaClient from '@crowdin/ota-client'
 import URLSearchParamsReal from '@ungap/url-search-params'
+import i18n from 'i18next'
+import _ from 'lodash'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
@@ -24,18 +27,24 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
+  otaTranslationsUpdated,
   SetAppState,
   setAppState,
   updateRemoteConfigValues,
 } from 'src/app/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
 import {
+  allowOtaTranslationsSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  otaTranslationsAppVersionSelector,
+  otaTranslationsLanguageSelector,
+  otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { FETCH_TIMEOUT_DURATION } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -46,6 +55,7 @@ import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { saveOtaTranslations } from 'src/utils/otaTranslations'
 import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
@@ -55,6 +65,7 @@ import {
 import { parse } from 'url'
 
 const TAG = 'app/saga'
+const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
 
 // There are cases, when user will put the app into `background` state,
 // but we do not want to lock it immeditely. Here are some examples:
@@ -162,6 +173,7 @@ export interface RemoteConfigValues {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -315,10 +327,52 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* handleFetchOtaTranslations() {
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  if (allowOtaTranslations) {
+    try {
+      const lastFetchLanguage = yield select(otaTranslationsLanguageSelector)
+      const currentLanguage = yield select(currentLanguageSelector)
+      const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+      const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
+      const lastFetchAppVersion = yield select(otaTranslationsAppVersionSelector)
+
+      if (
+        lastFetchLanguage !== currentLanguage ||
+        lastFetchTime !== timestamp ||
+        DeviceInfo.getVersion() !== lastFetchAppVersion
+      ) {
+        const languageMappings = yield call([otaClient, otaClient.getLanguageMappings])
+        const customMappedLanguage = _.findKey(languageMappings, { locale: currentLanguage })
+
+        const translations = yield call(
+          [otaClient, otaClient.getStringsByLocale],
+          undefined,
+          customMappedLanguage || currentLanguage
+        )
+        i18n.addResourceBundle(currentLanguage, 'translation', translations, true, true)
+
+        yield call(saveOtaTranslations, { [currentLanguage]: translations })
+        yield put(otaTranslationsUpdated(timestamp, DeviceInfo.getVersion(), currentLanguage))
+      }
+    } catch (error) {
+      Logger.error(`${TAG}@handleFetchOtaTranslations`, error)
+    }
+  }
+}
+
+export function* watchOtaTranslations() {
+  yield takeLatest(
+    [Actions.SET_LANGUAGE, Actions.UPDATE_REMOTE_CONFIG_VALUES],
+    handleFetchOtaTranslations
+  )
+}
+
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
+  yield spawn(watchOtaTranslations)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
