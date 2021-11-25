@@ -15,7 +15,7 @@ describe('otaTranslations utils', () => {
     expect(writeToFileSpy).toHaveBeenCalledWith(OTA_TRANSLATIONS_FILEPATH, stringTranslation)
   })
 
-  it('should return the cached translations', async () => {
+  it('should return the cached translations when present', async () => {
     jest.spyOn(RNFS, 'exists').mockResolvedValueOnce(true)
     jest.spyOn(RNFS, 'readFile').mockResolvedValueOnce(stringTranslation)
 
@@ -24,7 +24,7 @@ describe('otaTranslations utils', () => {
     expect(result).toEqual(translation)
   })
 
-  it('should return no cached translations', async () => {
+  it('should return no cached translations when not present', async () => {
     jest.spyOn(RNFS, 'exists').mockResolvedValueOnce(false)
 
     const result = await getOtaTranslations()

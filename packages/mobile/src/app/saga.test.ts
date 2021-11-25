@@ -40,6 +40,7 @@ import { saveOtaTranslations } from 'src/utils/otaTranslations'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('@crowdin/ota-client', () => {
   return function () {
@@ -63,8 +64,8 @@ jest.mock('src/utils/time', () => ({
 
 jest.mock('src/dappkit/dappkit')
 
-const MockedAnalytics = ValoraAnalytics as jest.Mocked<typeof ValoraAnalytics>
-const MockedI18n = i18n as jest.Mocked<typeof i18n>
+const MockedAnalytics = mocked(ValoraAnalytics)
+const MockedI18n = mocked(i18n)
 
 describe('App saga', () => {
   beforeEach(() => {
@@ -336,11 +337,13 @@ describe('App saga', () => {
       [call(saveOtaTranslations, { 'en-US': translations }), null],
     ]
 
+    // last fetched translations are outdated
     await expectSaga(handleFetchOtaTranslations)
       .provide([[select(otaTranslationsLastUpdateSelector), 0], ...defaultProviders])
       .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
       .run()
 
+    // last fetched translations are for a different language
     await expectSaga(handleFetchOtaTranslations)
       .provide([
         [select(currentLanguageSelector), 'de'],
@@ -350,6 +353,7 @@ describe('App saga', () => {
       .put(otaTranslationsUpdated(timestamp, appVersion, 'de'))
       .run()
 
+    // last fetched translations are for a previous app version
     await expectSaga(handleFetchOtaTranslations)
       .provide([[select(otaTranslationsAppVersionSelector), '0.9.0'], ...defaultProviders])
       .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
