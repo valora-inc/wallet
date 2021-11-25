@@ -662,11 +662,11 @@
   },
   "onboardingEducation": {
     "step1": "A cripto tão fácil quanto enviar mensagens. Seu celular é a sua carteira.",
-    "step2": "Envie fundos internacionalmente",
-    "step3": "Conveniente, confiável e seguro. Seu celular é a sua conta"
+    "step2": "Com a Valora, acesse e multiplique suas criptomoedas facilmente.",
+    "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
   "welcome": {
-    "title": "Compartilhe dinheiro com quem você valoriza",
+    "title": "Mergulhe no mundo cripto com a Valora.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente"
   },
@@ -1026,7 +1026,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pagamento enviado",
-  "feedItemCeloRewardReceivedTitle": "Recompensa de CELO",
+  "feedItemCeloRewardReceivedTitle": "Ganho de CELO",
   "feedItemRewardReceivedTitle": "Rede Celo",
   "feedItemRewardReceivedInfo": "Recompensas semanais",
   "feedItemInviteRewardReceivedTitle": "Rede Celo",
