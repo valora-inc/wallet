@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require Pin on App Open",
+  "requirePinOnAppOpen": "Require PIN on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -94,7 +94,7 @@
   "raiseLimitBegin": "Begin Identity Verification",
   "raiseLimitResume": "Resume Identity Verification",
   "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{}}",
+  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
   "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
   "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign Tx",
+    "signTX": "Sign TX",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -661,12 +661,12 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
-    "step2": "Send funds across borders",
-    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
+    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
+    "step2": "With Valora, it’s easy to access and easy to grow your crypto.",
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
-    "title": "Share money with those you value",
+    "title": "Step into the future of crypto with Valora.",
     "createAccount": "Create new account",
     "restoreAccount": "Restore my account"
   },
