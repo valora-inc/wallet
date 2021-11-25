@@ -1,3 +1,4 @@
+import pjson from '@celo/mobile/package.json'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { generateKeys } from '@celo/utils/lib/account'
 import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
@@ -15,7 +16,6 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
-import pjson from '../../package.json'
 
 const TAG = 'PERSONA'
 
