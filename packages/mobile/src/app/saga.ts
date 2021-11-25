@@ -27,9 +27,9 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
+  otaTranslationsUpdated,
   SetAppState,
   setAppState,
-  setOtaTranslationsLastUpdate,
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -353,7 +353,7 @@ export function* handleFetchOtaTranslations() {
         i18n.addResourceBundle(currentLanguage, 'translation', translations, true, true)
 
         yield call(saveOtaTranslations, { [currentLanguage]: translations })
-        yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
+        yield put(otaTranslationsUpdated(timestamp, DeviceInfo.getVersion(), currentLanguage))
       }
     } catch (error) {
       Logger.error(`${TAG}@handleFetchOtaTranslations`, error)

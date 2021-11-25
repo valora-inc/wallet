@@ -227,7 +227,7 @@ export const appReducer = (
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
       }
-    case Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE:
+    case Actions.OTA_TRANSLATIONS_UPDATED:
       return {
         ...state,
         otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,

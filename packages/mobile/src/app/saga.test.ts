@@ -10,8 +10,8 @@ import {
   appLock,
   openDeepLink,
   openUrl,
+  otaTranslationsUpdated,
   setAppState,
-  setOtaTranslationsLastUpdate,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
@@ -338,7 +338,7 @@ describe('App saga', () => {
 
     await expectSaga(handleFetchOtaTranslations)
       .provide([[select(otaTranslationsLastUpdateSelector), 0], ...defaultProviders])
-      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
       .run()
 
     await expectSaga(handleFetchOtaTranslations)
@@ -347,12 +347,12 @@ describe('App saga', () => {
         [call(saveOtaTranslations, { de: translations }), null],
         ...defaultProviders,
       ])
-      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'de'))
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'de'))
       .run()
 
     await expectSaga(handleFetchOtaTranslations)
       .provide([[select(otaTranslationsAppVersionSelector), '0.9.0'], ...defaultProviders])
-      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
+      .put(otaTranslationsUpdated(timestamp, appVersion, 'en-US'))
       .run()
 
     expect(MockedI18n.addResourceBundle).toHaveBeenCalledTimes(3)
