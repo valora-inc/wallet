@@ -619,7 +619,7 @@ exports[`HomeTokenBalance renders correctly with no balance 1`] = `
     }
     testID="TotalTokenBalance"
   >
-    $
+    ₱
     0.00
   </Text>
 </View>

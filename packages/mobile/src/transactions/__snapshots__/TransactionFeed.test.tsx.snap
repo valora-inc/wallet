@@ -238,7 +238,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                 testID="FeedItemAmountDisplay/value"
               >
                 -
-                $
+                ₱
                 39.90
               </Text>
             </View>

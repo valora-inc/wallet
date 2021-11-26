@@ -607,7 +607,7 @@ describe('transfer feed item renders correctly', () => {
       </Provider>
     )
     const amountComponent = getByTestId('FeedItemAmountDisplay/value')
-    expect(amountFromComponent(amountComponent)).toEqual('+$0.008')
+    expect(amountFromComponent(amountComponent)).toEqual('+₱0.008')
   })
   it('for received with a value lower than 0.001', () => {
     const { getByTestId } = render(
@@ -635,6 +635,6 @@ describe('transfer feed item renders correctly', () => {
       </Provider>
     )
     const amountComponent = getByTestId('FeedItemAmountDisplay/value')
-    expect(amountFromComponent(amountComponent)).toEqual('+<$0.001')
+    expect(amountFromComponent(amountComponent)).toEqual('+<₱0.001')
   })
 })

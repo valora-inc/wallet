@@ -142,8 +142,8 @@ export const vNeg1Schema = {
   localCurrency: {
     isLoading: false,
     exchangeRate: '1.33',
-    preferredCurrencyCode: 'MXN',
-    fetchedCurrencyCode: 'MXN',
+    preferredCurrencyCode: 'PHP',
+    fetchedCurrencyCode: 'PHP',
   },
   imports: {
     isImportingWallet: false,
