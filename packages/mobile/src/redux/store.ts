@@ -95,6 +95,7 @@ export const configureStore = (initialState = {}) => {
       createDebugger({
         stateWhitelist: [
           'app',
+          'i18n',
           'networkInfo',
           'alert',
           'goldToken',

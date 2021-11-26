@@ -855,6 +855,10 @@ export const v22Schema = {
   },
   app: {
     ...v21Schema.app,
+    language: undefined,
+  },
+  i18n: {
+    language: v21Schema.app.language,
     allowOtaTranslations: false,
     otaTranslationsLastUpdate: 0,
     otaTranslationsAppVersion: '0',
