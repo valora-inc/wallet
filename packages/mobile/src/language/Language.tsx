@@ -32,7 +32,7 @@ function LanguageScreen({ route }: Props) {
   const nextScreen = route.params?.nextScreen
 
   const onSelect = (language: string, code: string) => {
-    changeLanguage(code)
+    void changeLanguage(code)
     // Wait for next frame before navigating
     // so the user can see the changed selection briefly
     requestAnimationFrame(() => {
