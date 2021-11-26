@@ -390,7 +390,7 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[22](v21Schema)
 
     expect(migratedSchema.i18n).toEqual({
-      language: v21Schema.app.language,
+      language: 'es-419',
       allowOtaTranslations: false,
       otaTranslationsLastUpdate: 0,
       otaTranslationsAppVersion: '0',
