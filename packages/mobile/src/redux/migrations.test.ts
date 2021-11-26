@@ -11,6 +11,7 @@ import {
   v17Schema,
   v18Schema,
   v1Schema,
+  v21Schema,
   v2Schema,
   v7Schema,
   v8Schema,
@@ -384,5 +385,17 @@ describe('Redux persist migrations', () => {
     const migratedSchema2 = migrations[19](v18Stub)
     expect(migratedSchema2.walletConnect.v1).toBe(v18Schema.walletConnect.v1)
     expect(migratedSchema2.walletConnect.v2).toBeUndefined()
+  })
+  it('works for v21 to v22', () => {
+    const migratedSchema = migrations[22](v21Schema)
+
+    expect(migratedSchema.i18n).toEqual({
+      language: v21Schema.app.language,
+      allowOtaTranslations: false,
+      otaTranslationsLastUpdate: 0,
+      otaTranslationsAppVersion: '0',
+      otaTranslationsLanguage: '',
+    })
+    expect(migratedSchema.app.language).toBe(undefined)
   })
 })
