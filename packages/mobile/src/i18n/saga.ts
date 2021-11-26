@@ -5,7 +5,6 @@ import DeviceInfo from 'react-native-device-info'
 import { call, put, select, spawn, takeLatest } from 'redux-saga/effects'
 import { Actions as AppActions } from 'src/app/actions'
 import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
-import { otaTranslationsUpdated, setLanguage } from 'src/i18n/i18nSlice'
 import { saveOtaTranslations } from 'src/i18n/otaTranslations'
 import {
   allowOtaTranslationsSelector,
@@ -14,6 +13,7 @@ import {
   otaTranslationsLanguageSelector,
   otaTranslationsLastUpdateSelector,
 } from 'src/i18n/selectors'
+import { otaTranslationsUpdated, setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'i18n/saga'

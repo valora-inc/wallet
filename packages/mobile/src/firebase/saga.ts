@@ -1,7 +1,6 @@
 import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
-import { PayloadAction } from '@reduxjs/toolkit'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -27,7 +26,7 @@ import {
   setUserLanguage,
   watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
-import { setLanguage } from 'src/i18n/i18nSlice'
+import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'

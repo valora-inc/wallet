@@ -7,7 +7,7 @@ import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import * as I18n from 'src/i18n'
 import I18nGate from 'src/i18n/I18nGate'
-import * as I18nActions from 'src/i18n/i18nSlice'
+import * as I18nActions from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 

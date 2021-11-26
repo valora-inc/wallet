@@ -3,7 +3,6 @@ import DeviceInfo from 'react-native-device-info'
 import { expectSaga } from 'redux-saga-test-plan'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { otaTranslationsUpdated } from 'src/i18n/i18nSlice'
 import { saveOtaTranslations } from 'src/i18n/otaTranslations'
 import { handleFetchOtaTranslations } from 'src/i18n/saga'
 import {
@@ -13,6 +12,7 @@ import {
   otaTranslationsLanguageSelector,
   otaTranslationsLastUpdateSelector,
 } from 'src/i18n/selectors'
+import { otaTranslationsUpdated } from 'src/i18n/slice'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('@crowdin/ota-client', () => {

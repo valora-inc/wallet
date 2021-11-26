@@ -381,7 +381,7 @@ export async function readOnceFromFirebase(path: string) {
     .then((snapshot) => snapshot.val())
 }
 
-export async function setUserLanguage(address: string, language: string) {
+export async function setUserLanguage(address: string, language: string | null) {
   try {
     Logger.info(TAG, `Setting language selection for user ${address}`)
     const regRef = firebase.database().ref('registrations')

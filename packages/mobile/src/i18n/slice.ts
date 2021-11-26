@@ -19,13 +19,13 @@ const initialState: State = {
   otaTranslationsLanguage: '',
 }
 
-export interface OtaTranslationsUpdatedAction {
+interface OtaTranslationsUpdatedAction {
   otaTranslationsLastUpdate: number
   otaTranslationsAppVersion: string
   otaTranslationsLanguage: string
 }
 
-export const i18nSlice = createSlice({
+export const slice = createSlice({
   name: 'i18n',
   initialState,
   reducers: {
@@ -55,6 +55,6 @@ export const i18nSlice = createSlice({
   },
 })
 
-export const { otaTranslationsUpdated, setLanguage } = i18nSlice.actions
+export const { otaTranslationsUpdated, setLanguage } = slice.actions
 
-export default i18nSlice.reducer
+export default slice.reducer
