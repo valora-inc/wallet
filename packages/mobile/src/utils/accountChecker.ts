@@ -62,7 +62,7 @@ export async function resetStateOnInvalidStoredAccount(state: RootState) {
         // which we can't unlock without the password hash
         ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, { walletAddress })
         await deleteNodeData()
-        Logger.info('redux/store', `State reset`)
+        Logger.info(TAG, `State reset`)
         return undefined
       }
     }
