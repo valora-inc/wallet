@@ -83,7 +83,7 @@ function* initializeFirebase() {
   }
 }
 
-export function* syncLanguageSelection(action: PayloadAction<string>) {
+export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)
   try {
