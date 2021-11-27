@@ -152,7 +152,7 @@ exports[`FiatExchange renders correctly 1`] = `
             testID="undefined/value"
           >
             
-            $
+            ₱
             0.00
           </Text>
         </View>
