@@ -252,7 +252,7 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
 }
 
 export function getDeviceModel() {
-  return device.name.split(' ')[1].replace(/[(]|[)]/g, '')
+  return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
 }
 
 export async function setUrlDenyList(
