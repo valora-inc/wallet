@@ -422,7 +422,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             testID="undefined/value"
           >
             
-            $
+            ₱
             6.00
           </Text>
         </Text>
@@ -967,7 +967,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             testID="undefined/value"
           >
             
-            $
+            ₱
             6.00
           </Text>
         </Text>

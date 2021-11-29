@@ -160,7 +160,7 @@ exports[`renders correctly 1`] = `
                 testID="undefined/value"
               >
                 
-                $
+                ₱
                 2.64
               </Text>
             </Text>
@@ -305,7 +305,7 @@ exports[`renders correctly 1`] = `
                       testID="feeDrawer/ExchangeConfirmationCard/totalFee/value"
                     >
                       
-                      $
+                      ₱
                       0
                     </Text>
                   </Text>
@@ -398,7 +398,7 @@ exports[`renders correctly 1`] = `
                 testID="TotalLineItem/Total/value"
               >
                 
-                $
+                ₱
                 2.64
               </Text>
             </Text>
@@ -693,7 +693,7 @@ exports[`renders correctly when local amount is null 1`] = `
                 testID="undefined/value"
               >
                 
-                $
+                ₱
                 2.64
               </Text>
             </Text>
@@ -838,7 +838,7 @@ exports[`renders correctly when local amount is null 1`] = `
                       testID="feeDrawer/ExchangeConfirmationCard/totalFee/value"
                     >
                       
-                      $
+                      ₱
                       0
                     </Text>
                   </Text>
@@ -931,7 +931,7 @@ exports[`renders correctly when local amount is null 1`] = `
                 testID="TotalLineItem/Total/value"
               >
                 
-                $
+                ₱
                 2.64
               </Text>
             </Text>
@@ -1633,7 +1633,7 @@ exports[`renders correctly with giant numbers 1`] = `
                 testID="undefined/value"
               >
                 
-                $
+                ₱
                 31,920,000.00
               </Text>
             </Text>
@@ -1778,7 +1778,7 @@ exports[`renders correctly with giant numbers 1`] = `
                       testID="feeDrawer/ExchangeConfirmationCard/totalFee/value"
                     >
                       
-                      $
+                      ₱
                       0
                     </Text>
                   </Text>
@@ -1871,7 +1871,7 @@ exports[`renders correctly with giant numbers 1`] = `
                 testID="TotalLineItem/Total/value"
               >
                 
-                $
+                ₱
                 31,920,000.00
               </Text>
             </Text>
