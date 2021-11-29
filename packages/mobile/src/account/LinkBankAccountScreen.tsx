@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import fontStyles from '@celo/react-components/styles/fonts'
 import colors from '@celo/react-components/styles/colors'
-import VerfiedCheckmark from 'src/icons/VerfiedCheckmark'
+import VerificationComplete from 'src/icons/VerificationComplete'
+import VerificationDenied from 'src/icons/VerificationDenied'
+import VerificationPending from 'src/icons/VerificationPending'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 
 enum KycStatus {
   Created = 'created',
@@ -26,7 +30,7 @@ function LinkBankAccountScreen({ kycStatus }: Props) {
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
-        <StepOne kycStatus={KycStatus.Completed} />
+        <StepOne kycStatus={KycStatus.Pending} />
         <StepTwo disabled={!kycStatus || kycStatus !== KycStatus.Completed} />
       </ScrollView>
     </SafeAreaView>
@@ -41,7 +45,7 @@ function StepOne({ kycStatus }: Props) {
       return (
         <View style={styles.stepOne}>
           <View style={styles.iconContainer}>
-            <VerfiedCheckmark />
+            <VerificationComplete />
           </View>
           <Text style={styles.action}>Verification Complete</Text>
           <Text style={styles.description}>
@@ -51,10 +55,58 @@ function StepOne({ kycStatus }: Props) {
         </View>
       )
     case KycStatus.Failed:
-      return null
+      return (
+        <View style={styles.stepOne}>
+          <View style={styles.iconContainer}>
+            <VerificationDenied />
+          </View>
+          <Text style={styles.action}>Verification denied</Text>
+          <Text style={styles.description}>
+            We were unable to verify your identity. Please contact support to continue linking your
+            bank account.
+          </Text>
+          <Button
+            text="Try Again"
+            onPress={() => {
+              /* TODO: Retry Persona Flow */
+            }}
+            type={BtnTypes.SECONDARY}
+            size={BtnSizes.MEDIUM}
+            style={styles.statusButton}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              navigate(Screens.SupportContact)
+            }}
+          >
+            <Text style={styles.contactSupport}>{'Contact Support'}</Text>
+          </TouchableOpacity>
+        </View>
+      )
     case KycStatus.Pending:
-      return null
+      return (
+        <View style={styles.stepOne}>
+          <View style={styles.iconContainer}>
+            <VerificationPending />
+          </View>
+          <Text style={styles.action}>Review in progress</Text>
+          <Text style={styles.description}>
+            Your information has been recieved and is being reviewed. This will take up to [number
+            of days] days.
+          </Text>
+          <Button
+            text="Contact Support"
+            onPress={() => {
+              navigate(Screens.SupportContact)
+            }}
+            type={BtnTypes.SECONDARY}
+            size={BtnSizes.MEDIUM}
+            style={styles.statusButton}
+          />
+        </View>
+      )
     case KycStatus.Expired:
+      /* TODO: Write Expired state view once we have designs */
       return null
     default:
       return (
@@ -147,6 +199,13 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginBottom: 12,
+  },
+  contactSupport: {
+    ...fontStyles.regular600,
+    marginTop: 26,
+  },
+  statusButton: {
+    marginTop: 24,
   },
 })
 
