@@ -63,9 +63,9 @@ describe('TokenBottomSheet', () => {
     expect(tree.getByTestId('TokenBottomSheetContainer')).toBeTruthy()
 
     expect(amountFromComponent(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
-    expect(amountFromComponent(getByTestId('LocalcUSDBalance'))).toBe('$13.30')
+    expect(amountFromComponent(getByTestId('LocalcUSDBalance'))).toBe('₱13.30')
     expect(amountFromComponent(getByTestId('cEURBalance'))).toBe('20.00 cEUR')
-    expect(amountFromComponent(getByTestId('LocalcEURBalance'))).toBe('$31.92') // 20 * 1.2 (cEUR price) * 1.33 (MXN price)
+    expect(amountFromComponent(getByTestId('LocalcEURBalance'))).toBe('₱31.92') // 20 * 1.2 (cEUR price) * 1.33 (PHP price)
 
     expect(tree).toMatchSnapshot()
   })
