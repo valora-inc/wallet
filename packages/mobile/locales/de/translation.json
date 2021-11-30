@@ -160,8 +160,8 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "customerIncentivesTitle": "Erhöhe deine Belohnungen",
-  "customerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
+  "consumerIncentivesTitle": "Erhöhe deine Belohnungen",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
     "header": "Wöchentliche Auszahlung",
     "text": "Sende und gib aus wie gewohnt und erhalte Belohnungen auf den verbleibenden Saldo."
@@ -661,12 +661,12 @@
     "cta": "Kaufe Lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
-    "step2": "Mit Valora ist es ein einfach, auf deine Krypto zuzugreifen und sie zu vermehren.",
-    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Senden, Ausgeben und Entdecken."
+    "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
+    "step2": "Sende Krypto in der ganzen Welt",
+    "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
   "welcome": {
-    "title": "Steige mit Valora in die Zukunft von Krypto ein.",
+    "title": "Teile Krypto mit denen, die es wert sind",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
