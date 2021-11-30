@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
-    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y se una. <0>Más información</0>"
+    "body": "Gana {{amount}} {{currency}} cuando envíes fondos a un amigo y este se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
