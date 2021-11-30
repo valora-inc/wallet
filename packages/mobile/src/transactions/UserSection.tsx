@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
-import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 
@@ -26,7 +25,7 @@ export default function UserSection({
   avatar,
   expandable = true,
 }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const [expanded, setExpanded] = useState(expandable && addressHasChanged)
 
   const toggleExpanded = () => {

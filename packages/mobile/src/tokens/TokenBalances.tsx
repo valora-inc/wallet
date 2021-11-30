@@ -12,8 +12,8 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { TokenBalance, totalTokenBalanceSelector } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
@@ -24,10 +24,10 @@ function TokenBalancesScreen({ navigation }: Props) {
   const header = () => {
     return (
       <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{i18n.t('walletFlow5:balances')}</Text>
+        <Text style={fontStyles.navigationHeader}>{i18n.t('balances')}</Text>
         <Text style={styles.subtext}>
           {localCurrencySymbol}
-          {totalBalance}
+          {totalBalance?.toFormat(2)}
         </Text>
       </View>
     )
@@ -41,7 +41,7 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   function getTokenDisplay(token: TokenBalance) {
     return (
-      <View style={styles.tokenContainer}>
+      <View key={`Token${token.address}`} style={styles.tokenContainer}>
         <View style={styles.row}>
           <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
           <View style={styles.tokenLabels}>
@@ -55,7 +55,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             tokenAddress={token.address}
             style={styles.tokenAmt}
             showLocalAmount={false}
-            showSymbol={true}
+            showSymbol={false}
             testID={`tokenBalance:${token.symbol}`}
           />
           <TokenDisplay
@@ -69,11 +69,7 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
-  return (
-    <ScrollView style={styles.scrollContainer}>
-      {tokens.map((token) => getTokenDisplay(token))}
-    </ScrollView>
-  )
+  return <ScrollView style={styles.scrollContainer}>{tokens.map(getTokenDisplay)}</ScrollView>
 }
 
 TokenBalancesScreen.navigationOptions = {

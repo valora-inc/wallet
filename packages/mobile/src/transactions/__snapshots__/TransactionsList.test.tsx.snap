@@ -259,7 +259,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -413,7 +413,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -861,7 +861,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1015,7 +1015,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1308,7 +1308,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "amount": Object {
               "currencyCode": "cUSD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "1.33",
                 "value": "-133",
               },
@@ -1327,7 +1327,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "amount": Object {
               "currencyCode": "cUSD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "1.33",
                 "value": "-26.6",
               },
@@ -1337,7 +1337,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "makerAmount": Object {
               "currencyCode": "cUSD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "1.33",
                 "value": "26.6",
               },
@@ -1347,7 +1347,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "takerAmount": Object {
               "currencyCode": "cGLD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "0.8866666666666666666711",
                 "value": "26.600000000000000000133",
               },
@@ -1361,7 +1361,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "amount": Object {
               "currencyCode": "cUSD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "1.33",
                 "value": "26.6",
               },
@@ -1371,7 +1371,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "makerAmount": Object {
               "currencyCode": "cGLD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "0.8866666666666666666711",
                 "value": "26.600000000000000000133",
               },
@@ -1381,7 +1381,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "takerAmount": Object {
               "currencyCode": "cUSD",
               "localAmount": Object {
-                "currencyCode": "MXN",
+                "currencyCode": "PHP",
                 "exchangeRate": "1.33",
                 "value": "26.6",
               },
@@ -1557,7 +1557,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1711,7 +1711,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -2035,7 +2035,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
               </Text>
               <Text
                 style={
@@ -2062,7 +2062,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 testID="FeedItemAmountDisplay/value"
               >
                 -
-                $
+                ₱
                 133.00
               </Text>
             </View>
@@ -2193,7 +2193,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 testID="FeedItemAmountDisplay/value"
               >
                 -
-                $
+                ₱
                 26.60
               </Text>
             </View>
@@ -2326,7 +2326,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 testID="FeedItemAmountDisplay/value"
               >
                 +
-                $
+                ₱
                 26.60
               </Text>
             </View>

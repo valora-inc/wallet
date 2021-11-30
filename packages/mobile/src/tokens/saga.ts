@@ -3,25 +3,28 @@ import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
+import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
+  fetchTokenBalances,
   setTokenBalances,
-  setTotalTokenBalance,
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
+  tokenBalanceFetchError,
 } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
@@ -267,68 +270,91 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
-export async function getERC20TokenBalance(token: StoredTokenBalance, address: string) {
-  let balance = null
+interface FetchedTokenBalance {
+  tokenAddress: string
+  balance: string
+}
+
+interface UserBalancesResponse {
+  userBalances: {
+    balances: FetchedTokenBalance[]
+  }
+}
+
+export async function fetchTokenBalancesForAddress(
+  address: string
+): Promise<FetchedTokenBalance[]> {
+  const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
+    query: gql`
+      query FetchUserBalances($address: Address!) {
+        userBalances(address: $address) {
+          balances {
+            tokenAddress
+            balance
+          }
+        }
+      }
+    `,
+    variables: {
+      address,
+    },
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  })
+
+  return response.data.userBalances.balances
+}
+
+export function* fetchTokenBalancesSaga() {
   try {
-    const contract = await getERC20TokenContract(token.address)
-    balance = await contract.methods.balanceOf(address).call()
+    const address: string | null = yield select(walletAddressSelector)
+    if (!address) {
+      Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
+      return
+    }
+    // In e2e environment we use a static token list since we can't access Firebase.
+    const tokens: StoredTokenBalances = isE2EEnv
+      ? e2eTokens()
+      : yield call(readOnceFromFirebase, 'tokensInfo')
+    const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
+    for (const token of Object.values(tokens) as StoredTokenBalance[]) {
+      const tokenBalance = tokenBalances.find(
+        (t) => t.tokenAddress.toLowerCase() === token.address.toLowerCase()
+      )
+      if (!tokenBalance) {
+        token.balance = '0'
+      } else {
+        token.balance = new BigNumber(tokenBalance.balance)
+          .dividedBy(new BigNumber(10).pow(token.decimals))
+          .toString()
+      }
+    }
+    yield put(setTokenBalances(tokens))
+    ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
-    Logger.error(TAG, `error fetching balance for ${token.name}`, error)
-  }
-  return balance
-}
-
-export function* fetchReadableTokenBalance(address: string, token: StoredTokenBalance) {
-  const balance: number | null = yield call(getERC20TokenBalance, token, address)
-  return {
-    ...token,
-    balance:
-      balance || balance === 0
-        ? new BigNumber(balance)
-            .dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
-            .toString()
-        : null,
+    yield put(tokenBalanceFetchError())
+    Logger.error(TAG, 'error fetching user balances', error.message)
+    ValoraAnalytics.track(AppEvents.fetch_balance_error, {
+      error: error.message,
+    })
   }
 }
 
-export function* importTokenInfo() {
-  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
-  const address: string = yield select(walletAddressSelector)
-  const fetchedTokenBalances: StoredTokenBalance[] = yield all(
-    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
-  )
-  const balances: StoredTokenBalances = {}
-  for (const tokenBalance of fetchedTokenBalances) {
-    balances[tokenBalance.address] = tokenBalance
+export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  if (!tokenInfo) {
+    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
   }
-  yield put(setTokenBalances(balances))
+
+  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+  return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
-export function* getTokenLocalAmount(tokenInfo: TokenBalance) {
-  const exchangeRate: Record<Currency, string | null> = yield select(
-    localCurrencyExchangeRatesSelector
-  )
-  const usdRate = exchangeRate[Currency.Dollar]
-  if (!usdRate) {
-    return null
-  }
-  const tokenAmount = new BigNumber(tokenInfo.balance ?? 0)
-
-  return tokenAmount.multipliedBy(tokenInfo.usdPrice).multipliedBy(usdRate)
-}
-
-export function* calculateTotalTokenBalance() {
-  const tokenBalances: TokenBalance[] = yield select(tokensListSelector)
-  let totalBalance = new BigNumber(0)
-  for (const token of tokenBalances) {
-    const balance: BigNumber | null = yield call(getTokenLocalAmount, token)
-    totalBalance = totalBalance.plus(balance ?? 0)
-  }
-
-  yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
+export function* watchFetchBalance() {
+  yield takeEvery(fetchTokenBalances.type, fetchTokenBalancesSaga)
 }
 
 export function* tokensSaga() {
-  yield takeLatest(setTokenBalances.type, calculateTotalTokenBalance)
-  yield spawn(importTokenInfo)
+  yield spawn(watchFetchBalance)
 }

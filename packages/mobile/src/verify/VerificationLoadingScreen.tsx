@@ -18,7 +18,6 @@ import { SafeAreaView, useSafeAreaFrame, useSafeAreaInsets } from 'react-native-
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import CancelButton from 'src/components/CancelButton'
 import Carousel, { CarouselItem } from 'src/components/Carousel'
-import { Namespaces } from 'src/i18n'
 import { cancelVerification } from 'src/identity/actions'
 import { VerificationStatus } from 'src/identity/types'
 import {
@@ -57,7 +56,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     mapStateToProps,
     shallowEqual
   )
-  const { t } = useTranslation(Namespaces.nuxVerification2)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
@@ -113,19 +112,19 @@ export default function VerificationLoadingScreen({ route }: Props) {
   const items: CarouselItem[] = [
     {
       icon: verificationEducation1,
-      text: t('loading.card1'),
+      text: t('verificationLoading.card1'),
     },
     {
       icon: verificationEducation2,
-      text: t('loading.card2'),
+      text: t('verificationLoading.card2'),
     },
     {
       icon: verificationEducation3,
-      text: t('loading.card3'),
+      text: t('verificationLoading.card3'),
     },
     {
       icon: verificationEducation4,
-      text: t('loading.card4'),
+      text: t('verificationLoading.card4'),
     },
   ]
 
@@ -224,8 +223,8 @@ export default function VerificationLoadingScreen({ route }: Props) {
           <Animated.View style={statusContainerStyle}>
             <AlternatingText
               style={styles.statusText}
-              primaryText={t('loading.confirming')}
-              secondaryText={t('loading.pleaseKeepAppOpen')}
+              primaryText={t('verificationLoading.confirming')}
+              secondaryText={t('verificationLoading.pleaseKeepAppOpen')}
             />
             {!route.params.withoutRevealing && (
               <VerificationCountdown startTime={countdownStartTime} onFinish={onFinishCountdown} />
@@ -236,7 +235,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
               <UpHandle />
             </TouchableOpacity>
             <Button
-              text={t('loading.learnMore')}
+              text={t('verificationLoading.learnMore')}
               type={BtnTypes.ONBOARDING_SECONDARY}
               size={BtnSizes.SMALL}
               onPress={onPressLearnMore}

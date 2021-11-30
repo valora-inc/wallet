@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
-import i18n from 'src/i18n'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -19,7 +18,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
@@ -42,6 +40,13 @@ export interface State {
     [lang: string]: string
   }
   cashInButtonExpEnabled: boolean
+  multiTokenShowHomeBalances: boolean
+  multiTokenUseSendFlow: boolean
+  multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
+  otaTranslationsLastUpdate: number
+  otaTranslationsAppVersion: string
+  otaTranslationsLanguage: string
 }
 
 const initialState = {
@@ -56,30 +61,36 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  shortVerificationCodesEnabled: FEATURE_FLAG_DEFAULTS.shortVerificationCodesEnabled,
   celoEducationUri: null,
-  celoEuroEnabled: FEATURE_FLAG_DEFAULTS.celoEuroEnabled,
+  celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
-  hideVerification: FEATURE_FLAG_DEFAULTS.hideVerification,
+  hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
-  walletConnectV1Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV1Enabled,
-  walletConnectV2Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV2Enabled,
-  rewardsPercent: FEATURE_FLAG_DEFAULTS.rewardsPercent,
-  rewardsStartDate: FEATURE_FLAG_DEFAULTS.rewardsStartDate,
-  rewardsMax: FEATURE_FLAG_DEFAULTS.rewardsMax,
-  rewardsMin: FEATURE_FLAG_DEFAULTS.rewardsMin,
-  rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
+  walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
+  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
+  rewardsPercent: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsPercent,
+  rewardsStartDate: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsStartDate,
+  rewardsMax: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsMax,
+  rewardsMin: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsMin,
+  rewardsABTestThreshold: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
-  logPhoneNumberTypeEnabled: false,
+  logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
-  pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
-  rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
-  cashInButtonExpEnabled: false,
+  pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
+  rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
+  cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
+  multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
+  multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
+  multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
+  allowOtaTranslations: REMOTE_CONFIG_VALUES_DEFAULTS.allowOtaTranslations,
+  otaTranslationsLastUpdate: 0,
+  otaTranslationsAppVersion: '0',
+  otaTranslationsLanguage: '',
 }
 
-export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
+export const currentLanguageSelector = (state: RootState) => state.app.language
 
 export const appReducer = (
   state: State | undefined = initialState,
@@ -171,25 +182,28 @@ export const appReducer = (
         ...state,
         minVersion: action.minVersion,
       }
-    case Actions.UPDATE_FEATURE_FLAGS:
+    case Actions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        hideVerification: action.flags.hideVerification,
-        showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
-        celoEducationUri: action.flags.celoEducationUri,
-        celoEuroEnabled: action.flags.celoEuroEnabled,
-        shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
-        walletConnectV1Enabled: action.flags.walletConnectV1Enabled,
-        walletConnectV2Enabled: action.flags.walletConnectV2Enabled,
-        rewardsPercent: action.flags.rewardsPercent,
-        rewardsStartDate: action.flags.rewardsStartDate,
-        rewardsMax: action.flags.rewardsMax,
-        rewardsMin: action.flags.rewardsMin,
-        rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
-        logPhoneNumberTypeEnabled: action.flags.logPhoneNumberTypeEnabled,
-        pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
-        rewardPillText: JSON.parse(action.flags.rewardPillText),
-        cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,
+        hideVerification: action.configValues.hideVerification,
+        showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
+        celoEducationUri: action.configValues.celoEducationUri,
+        celoEuroEnabled: action.configValues.celoEuroEnabled,
+        walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
+        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
+        rewardsPercent: action.configValues.rewardsPercent,
+        rewardsStartDate: action.configValues.rewardsStartDate,
+        rewardsMax: action.configValues.rewardsMax,
+        rewardsMin: action.configValues.rewardsMin,
+        rewardsABTestThreshold: action.configValues.rewardsABTestThreshold,
+        logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
+        pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
+        rewardPillText: JSON.parse(action.configValues.rewardPillText),
+        cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
+        multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
+        multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
+        multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
+        allowOtaTranslations: action.configValues.allowOtaTranslations,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -212,6 +226,13 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
+      }
+    case Actions.OTA_TRANSLATIONS_UPDATED:
+      return {
+        ...state,
+        otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
+        otaTranslationsAppVersion: action.otaTranslationsAppVersion,
+        otaTranslationsLanguage: action.otaTranslationsLanguage,
       }
     default:
       return state

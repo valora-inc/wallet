@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,7 +12,6 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import { Namespaces } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensWithBalanceSelector } from 'src/tokens/selectors'
@@ -29,6 +28,8 @@ interface Props {
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
 }
+
+const MIN_EMPTY_SPACE = 100
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
   return (
@@ -66,7 +67,7 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
   const [pickerHeight, setPickerHeight] = useState(0)
   const tokens = useSelector(tokensWithBalanceSelector)
 
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const onTokenPressed = (tokenAddress: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
@@ -102,6 +103,9 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
     setPickerHeight(height)
   }
 
+  const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
+  const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
+
   return (
     <View style={styles.container} testID="TokenBottomSheetContainer">
       <Animated.View style={[styles.background, animatedOpacity]}>
@@ -111,24 +115,21 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
           testID={'BackgroundTouchable'}
         />
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.contentContainer,
-          { paddingBottom: Math.max(safeAreaInsets.bottom, Spacing.Thick24) },
-          animatedPickerPosition,
-        ]}
+      <Animated.ScrollView
+        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
+        contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
         onLayout={onLayout}
       >
         <Text style={styles.title}>{t('selectToken')}</Text>
         {tokens.map((tokenInfo, index) => {
           return (
-            <>
+            <React.Fragment key={`token-${tokenInfo.address}`}>
               {index > 0 && <View style={styles.separator} />}
               <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-            </>
+            </React.Fragment>
           )
         })}
-      </Animated.View>
+      </Animated.ScrollView>
     </View>
   )
 }
@@ -199,6 +200,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: colors.gray2,
+  },
+  fullHeightScrollView: {
+    paddingBottom: 50,
   },
 })
 

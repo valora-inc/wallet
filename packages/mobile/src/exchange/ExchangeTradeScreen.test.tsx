@@ -58,7 +58,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -83,7 +83,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -93,20 +93,20 @@ describe(ExchangeTradeScreen, () => {
 
     fireEvent.changeText(getByTestId('ExchangeInput'), '50')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
-      token: 'global:celoDollars',
+      token: 'celoDollars',
     }) // Can't afford 50 gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
     jest.clearAllMocks()
-    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in MXN
-    expect(mockhideAlert).toBeCalled() // Can afford 50 MXN (2.50 cUSD) worth of gold
+    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
+    expect(mockhideAlert).toBeCalled() // Can afford 50 PHP (2.50 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '10000')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
-      token: 'global:celoDollars',
-    }) // Can't afford 10000 MXN (500 cUSD) worth of gold
+      token: 'celoDollars',
+    }) // Can't afford 10000 PHP (500 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
@@ -127,7 +127,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -137,20 +137,20 @@ describe(ExchangeTradeScreen, () => {
 
     fireEvent.changeText(getByTestId('ExchangeInput'), '10')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
-      token: 'global:celoDollars',
+      token: 'celoDollars',
     }) // Can't afford 10 gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
     jest.clearAllMocks()
-    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in MXN
-    expect(mockhideAlert).toBeCalled() // Can afford 10 MXN (0.5 cUSD) worth of gold
+    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
+    expect(mockhideAlert).toBeCalled() // Can afford 10 PHP (0.5 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '401')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
-      token: 'global:celoDollars',
-    }) // Can't afford 400 MXN (20.05 cUSD) worth of gold
+      token: 'celoDollars',
+    }) // Can't afford 400 PHP (20.05 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
@@ -183,7 +183,7 @@ describe(ExchangeTradeScreen, () => {
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.0001')
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
-    // This is the minimum amount when exchanging gold (see GOLD_TRANSACTION_MIN_AMOUNT)
+    // This is the minimum amount when exchanging gold (see CELO_TRANSACTION_MIN_AMOUNT)
     // 0.001 is the actual minimum but when exchanging 0.001 at 0.11 rate it gives ~0.009 cUSD
     // which is 0 when rounded to the 2 decimals we support for cUSD
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.002')

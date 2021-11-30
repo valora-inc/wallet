@@ -6,10 +6,11 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CommentTextInput from 'src/components/CommentTextInput'
@@ -22,13 +23,14 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { FeeType } from 'src/fees/actions'
 import { useEstimateGasFee } from 'src/fees/hooks'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
+import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
+  e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+} from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -37,8 +39,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName } from 'src/recipients/recipient'
+import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { sendPaymentOrInvite } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -60,12 +63,40 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
       }
     : noHeader
 
+function useRecipientToSendTo(paramRecipient: Recipient) {
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  return useMemo(() => {
+    if (!paramRecipient.address && paramRecipient.e164PhoneNumber) {
+      const recipientAddress = getAddressFromPhoneNumber(
+        paramRecipient.e164PhoneNumber,
+        e164NumberToAddress,
+        secureSendPhoneNumberMapping,
+        undefined
+      )
+
+      return {
+        ...paramRecipient,
+        // Setting the phone number explicitly so Typescript doesn't complain
+        e164PhoneNumber: paramRecipient.e164PhoneNumber,
+        address: recipientAddress ?? undefined,
+      }
+    }
+    return paramRecipient
+  }, [paramRecipient])
+}
+
 function SendConfirmation(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const {
     origin,
-    transactionData: { recipient, inputAmount, amountIsInLocalCurrency, tokenAddress },
+    transactionData: {
+      recipient: paramRecipient,
+      inputAmount,
+      amountIsInLocalCurrency,
+      tokenAddress,
+    },
   } = props.route.params
 
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
@@ -75,14 +106,36 @@ function SendConfirmation(props: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
-  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const isSending = useSelector(isSendingSelector)
+  const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
     tokenAddress
   )
+
+  const dispatch = useDispatch()
+
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const addressValidationType = getAddressValidationType(
+    paramRecipient,
+    secureSendPhoneNumberMapping
+  )
+  const validatedRecipientAddress = getSecureSendAddress(
+    paramRecipient,
+    secureSendPhoneNumberMapping
+  )
+  const recipient = useRecipientToSendTo(paramRecipient)
+
+  const onEditAddressClick = () => {
+    ValoraAnalytics.track(SendEvents.send_secure_edit)
+    navigate(Screens.ValidateRecipientIntro, {
+      transactionData: props.route.params.transactionData,
+      addressValidationType,
+      origin: props.route.params.origin,
+    })
+  }
 
   const isInvite = !recipient.address
   const { loading: feeLoading, error: feeError, result: feeInfo } = useEstimateGasFee(
@@ -153,16 +206,6 @@ function SendConfirmation(props: Props) {
     const trimmedComment = comment.trim()
     setComment(trimmedComment)
   }
-  const addressValidationType = getAddressValidationType(recipient, secureSendPhoneNumberMapping)
-  const validatedRecipientAddress = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
-  const onEditAddressClick = () => {
-    ValoraAnalytics.track(SendEvents.send_secure_edit)
-    navigate(Screens.ValidateRecipientIntro, {
-      transactionData: props.route.params.transactionData,
-      addressValidationType,
-      origin: props.route.params.origin,
-    })
-  }
 
   const onSendClick = () => {
     if (isInvite) {
@@ -191,20 +234,21 @@ function SendConfirmation(props: Props) {
       commentLength: comment.length,
     })
 
-    // TODO: Send
-    // dispatch(
-    //   sendPaymentOrInvite(
-    //     amount,
-    //     currency,
-    //     finalComment,
-    //     recipient,
-    //     recipientAddress,
-    //     feeInfo,
-    //     firebasePendingRequestUid,
-    //     fromModal
-    //   )
-    // )
+    dispatch(
+      sendPaymentOrInvite(
+        tokenAmount,
+        tokenAddress,
+        localAmount,
+        usdAmount,
+        comment,
+        recipient,
+        feeInfo,
+        fromModal
+      )
+    )
   }
+
+  const allowComment = !isInvite && tokenInfo?.isCoreToken
 
   return (
     <SafeAreaView
@@ -218,7 +262,7 @@ function SendConfirmation(props: Props) {
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
           action: onSendClick,
-          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
+          text: isInvite ? t('sendAndInvite') : t('send'),
           disabled: isSending || !!feeError,
         }}
         isSending={isSending}
@@ -252,12 +296,14 @@ function SendConfirmation(props: Props) {
             tokenAddress={tokenAddress}
             showLocalAmount={amountIsInLocalCurrency}
           />
-          <CommentTextInput
-            testID={'send'}
-            onCommentChange={setComment}
-            comment={comment}
-            onBlur={onBlur}
-          />
+          {allowComment && (
+            <CommentTextInput
+              testID={'send'}
+              onCommentChange={setComment}
+              comment={comment}
+              onBlur={onBlur}
+            />
+          )}
         </View>
         <InviteAndSendModal
           isVisible={inviteModalVisible}
@@ -269,7 +315,7 @@ function SendConfirmation(props: Props) {
         <Dialog
           title={t('encryption.warningModalHeader')}
           isVisible={encryptionDialogVisible}
-          actionText={t('global:dismiss')}
+          actionText={t('dismiss')}
           actionPress={onDismissEncryptionModal}
         >
           {t('encryption.warningModalBody')}

@@ -1,6 +1,6 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
-import { DAYS_TO_DELAY } from 'src/backup/utils'
+import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -34,6 +34,7 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
+  kycStatus: KycStatus | undefined
 }
 
 export enum PincodeType {
@@ -51,6 +52,14 @@ export enum DailyLimitRequestStatus {
   Approved = 'Approved',
   Incomplete = 'Incomplete',
   Denied = 'Denied',
+}
+
+export enum KycStatus {
+  Created = 'created',
+  Completed = 'completed',
+  Failed = 'failed',
+  Pending = 'pending',
+  Expired = 'expired',
 }
 
 export const initialState: State = {
@@ -82,6 +91,7 @@ export const initialState: State = {
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dailyLimitRequestStatus: undefined,
+  kycStatus: undefined,
 }
 
 export const reducer = (
@@ -247,6 +257,11 @@ export const reducer = (
       return {
         ...state,
         dailyLimitRequestStatus: action.dailyLimitRequestStatus,
+      }
+    case Actions.UPDATE_KYC_STATUS:
+      return {
+        ...state,
+        kycStatus: action.kycStatus,
       }
     case Web3Actions.SET_ACCOUNT: {
       return {

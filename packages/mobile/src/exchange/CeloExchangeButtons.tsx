@@ -8,9 +8,8 @@ import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
-import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { balancesSelector } from 'src/stableToken/selectors'
@@ -21,7 +20,7 @@ interface Props {
 }
 
 export default function CeloExchangeButtons({ navigation }: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   const balances = useSelector(balancesSelector)
   const exchangeRates = useSelector(exchangeRatesSelector)
@@ -29,9 +28,9 @@ export default function CeloExchangeButtons({ navigation }: Props) {
   const hasStable = STABLE_CURRENCIES.some((currency) =>
     balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
   )
-  const hasGold = balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+  const hasCelo = balances[Currency.Celo]?.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
 
-  function goToBuyGold() {
+  function goToBuyCelo() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_buy)
     navigation.navigate(Screens.ExchangeTradeScreen, {
       buyCelo: true,
@@ -45,7 +44,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
     })
   }
 
-  if (!exchangeRates || (!hasStable && !hasGold)) {
+  if (!exchangeRates || (!hasStable && !hasCelo)) {
     return <View style={styles.emptyContainer} />
   }
 
@@ -55,13 +54,13 @@ export default function CeloExchangeButtons({ navigation }: Props) {
         <Button
           text={t('buy')}
           size={BtnSizes.FULL}
-          onPress={goToBuyGold}
+          onPress={goToBuyCelo}
           style={styles.button}
           type={BtnTypes.TERTIARY}
           testID="BuyCelo"
         />
       )}
-      {hasGold && (
+      {hasCelo && (
         <Button
           size={BtnSizes.FULL}
           text={t('sell')}

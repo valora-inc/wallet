@@ -106,7 +106,7 @@ exports[`Support renders correctly 1`] = `
         }
         testID="SettingsTitle"
       >
-        global:help
+        help
       </Text>
       <View
         style={

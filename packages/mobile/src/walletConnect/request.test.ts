@@ -12,6 +12,14 @@ const personalSignRequest = {
   method: SupportedActions.personal_sign,
   params: ['Some message', '0xdeadbeef'],
 }
+const signTypedDataRequest = {
+  method: SupportedActions.eth_signTypedData,
+  params: ['0xdeadbeef', JSON.stringify({ message: 'Some typed data' })],
+}
+const signTypedDataV4Request = {
+  method: SupportedActions.eth_signTypedData_v4,
+  params: ['0xdeadbeef', JSON.stringify({ message: 'Some typed data' })],
+}
 
 describe(handleRequest, () => {
   it('unlocks the wallet address when a MTW address is set', async () => {
@@ -43,6 +51,30 @@ describe(handleRequest, () => {
       .withState(state)
       .call(unlockAccount, '0xwallet')
       .call([mockWallet, 'signPersonalMessage'], '0xwallet', 'Some message')
+      .run()
+  })
+
+  it('supports eth_signTypedData', async () => {
+    const state = createMockStore({
+      web3: { account: '0xWALLET', mtwAddress: undefined },
+    }).getState()
+    await expectSaga(handleRequest, signTypedDataRequest)
+      .provide([[call(getWallet), mockWallet]])
+      .withState(state)
+      .call(unlockAccount, '0xwallet')
+      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
+      .run()
+  })
+
+  it('supports eth_signTypedData_v4', async () => {
+    const state = createMockStore({
+      web3: { account: '0xWALLET', mtwAddress: undefined },
+    }).getState()
+    await expectSaga(handleRequest, signTypedDataV4Request)
+      .provide([[call(getWallet), mockWallet]])
+      .withState(state)
+      .call(unlockAccount, '0xwallet')
+      .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
       .run()
   })
 })

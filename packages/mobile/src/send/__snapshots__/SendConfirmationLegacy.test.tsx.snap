@@ -225,7 +225,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               testID="undefined/value"
             >
               
-              $
+              ₱
               1.33
             </Text>
             <TextInput
@@ -237,7 +237,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               numberOfLines={5}
               onBlur={[Function]}
               onChangeText={[Function]}
-              placeholder="addDescription, {}"
+              placeholder="addDescription"
               placeholderTextColor="#1AB775"
               rejectResponderTermination={true}
               returnKeyType="done"
@@ -407,7 +407,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"Jane Doe"}
                       </Text>
                       <Text
                         style={
@@ -470,7 +470,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:cancel
+                        cancel
                       </Text>
                     </View>
                     <View
@@ -708,7 +708,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:dismiss
+                        dismiss
                       </Text>
                     </View>
                   </View>
@@ -919,7 +919,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             1.33
           </Text>
         </Text>
@@ -1113,7 +1113,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:send"
+              accessibilityLabel="send"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -1124,7 +1124,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                 }
               }
             >
-              global:send
+              send
             </Text>
           </View>
         </View>

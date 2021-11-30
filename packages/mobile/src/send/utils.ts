@@ -7,6 +7,7 @@ import { showError } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { multiTokenUseSendFlowSelector } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION } from 'src/config'
 import { FeeType } from 'src/fees/actions'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -33,6 +34,8 @@ import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -183,26 +186,12 @@ export function showLimitReachedError(
   return showError(ErrorMessages.PAYMENT_LIMIT_REACHED, ALERT_BANNER_DURATION, translationParams)
 }
 
-export function* handleSendPaymentData(
+function* handleSendPaymentDataLegacy(
   data: UriData,
-  cachedRecipient?: Recipient,
+  recipient: Recipient,
   isOutgoingPaymentRequest?: boolean,
   isFromScan?: boolean
 ) {
-  const recipient: AddressRecipient = {
-    address: data.address.toLowerCase(),
-    name: data.displayName || cachedRecipient?.name,
-    e164PhoneNumber: data.e164PhoneNumber,
-    displayNumber: cachedRecipient?.displayNumber,
-    thumbnailPath: cachedRecipient?.thumbnailPath,
-    contactId: cachedRecipient?.contactId,
-  }
-  yield put(
-    updateValoraRecipientCache({
-      [data.address.toLowerCase()]: recipient,
-    })
-  )
-
   if (data.amount) {
     if (data.token === 'CELO') {
       navigate(Screens.WithdrawCeloReviewScreen, {
@@ -212,7 +201,7 @@ export function* handleSendPaymentData(
         isCashOut: false,
       })
     } else if (data.token === 'cUSD' || !data.token) {
-      const currency = data.currencyCode
+      const currency: LocalCurrencyCode = data.currencyCode
         ? (data.currencyCode as LocalCurrencyCode)
         : yield select(getLocalCurrencyCode)
       const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
@@ -247,6 +236,67 @@ export function* handleSendPaymentData(
         origin: SendOrigin.AppSendFlow,
       })
     }
+  }
+}
+
+export function* handleSendPaymentData(
+  data: UriData,
+  cachedRecipient?: Recipient,
+  isOutgoingPaymentRequest?: boolean,
+  isFromScan?: boolean
+) {
+  const recipient: AddressRecipient = {
+    address: data.address.toLowerCase(),
+    name: data.displayName || cachedRecipient?.name,
+    e164PhoneNumber: data.e164PhoneNumber,
+    displayNumber: cachedRecipient?.displayNumber,
+    thumbnailPath: cachedRecipient?.thumbnailPath,
+    contactId: cachedRecipient?.contactId,
+  }
+  yield put(
+    updateValoraRecipientCache({
+      [data.address.toLowerCase()]: recipient,
+    })
+  )
+
+  const useTokenSendFlow: boolean = yield select(multiTokenUseSendFlowSelector)
+  if (!useTokenSendFlow) {
+    yield call(handleSendPaymentDataLegacy, data, recipient, isOutgoingPaymentRequest, isFromScan)
+    return
+  }
+
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
+
+  if (data.amount && tokenInfo?.address) {
+    const currency: LocalCurrencyCode = data.currencyCode
+      ? (data.currencyCode as LocalCurrencyCode)
+      : yield select(getLocalCurrencyCode)
+    const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
+    const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
+    if (!dollarAmount) {
+      Logger.warn(TAG, '@handleSendPaymentData null amount')
+      return
+    }
+    const transactionData: TransactionDataInput = {
+      recipient,
+      inputAmount: new BigNumber(data.amount),
+      amountIsInLocalCurrency: false,
+      tokenAddress: tokenInfo.address,
+    }
+    navigate(Screens.SendConfirmation, {
+      transactionData,
+      isFromScan,
+      origin: SendOrigin.AppSendFlow,
+    })
+  } else {
+    navigate(Screens.SendAmount, {
+      recipient,
+      isFromScan,
+      isOutgoingPaymentRequest,
+      origin: SendOrigin.AppSendFlow,
+      forceTokenAddress: data.token ? tokenInfo?.address : undefined,
+    })
   }
 }
 

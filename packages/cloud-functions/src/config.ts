@@ -56,6 +56,10 @@ export const DB_DATA = {
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url
 export const FULL_NODE_URL = config.full_node?.url
 
+export const EXCHANGES = {
+  env: config.exchanges?.env ?? 'test',
+}
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
@@ -90,6 +94,8 @@ export enum DigitalAsset {
 
 export const FETCH_TIMEOUT_DURATION = 10000 // 10 seconds
 export const NOTIFICATIONS_TTL_MS = 3600 * 1000 * 24 * 7 // 1 week in milliseconds
+
+export const CIRCUIT_BREAKER_KEY_PATH = config.circuit_breaker?.key_path
 
 const en = require('../locales/en.json')
 const es = require('../locales/es.json')

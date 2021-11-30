@@ -1,56 +1,96 @@
 import i18next from 'i18next'
-import 'react-native'
+
+jest.mock('react-native-fs', () => {
+  return {
+    exists: jest.fn().mockResolvedValue(true),
+    readFile: jest.fn().mockResolvedValue('{"en-US":{"someKey":"Hello!"}}'),
+  }
+})
 
 let i18n: typeof i18next
 let enLoaded = false
 let esLoaded = false
 let ptLoaded = false
 
+const handleSetupTests = () => {
+  enLoaded = false
+  esLoaded = false
+  ptLoaded = false
+
+  jest.resetModules()
+
+  jest.mock('../locales/en-US/translation.json', () => {
+    enLoaded = true
+    return { someKey: 'Hi!' }
+  })
+
+  jest.mock('../locales/es-419/translation.json', () => {
+    esLoaded = true
+    return { someKey: '¡Hola!' }
+  })
+
+  jest.mock('../locales/pt-BR/translation.json', () => {
+    ptLoaded = true
+    return { someKey: 'Oi!' }
+  })
+
+  jest.unmock('src/i18n')
+}
+
 describe('i18n', () => {
-  beforeEach(() => {
-    enLoaded = false
-    esLoaded = false
-    ptLoaded = false
+  describe('load from bundled translations', () => {
+    beforeEach(async () => {
+      handleSetupTests()
 
-    jest.resetModules()
-
-    jest.mock('../locales/en-US', () => {
-      enLoaded = true
-      return { default: { global: { someKey: 'Hi!' } } }
+      const I18n = require('src/i18n')
+      i18n = I18n.default
+      await I18n.initI18n('en-US', false, '0')
     })
 
-    jest.mock('../locales/es-419', () => {
-      esLoaded = true
-      return { default: { global: { someKey: '¡Hola!' } } }
+    it('only loads the default language (en-US)', () => {
+      expect(i18n.t('someKey')).toEqual('Hi!')
+      expect(enLoaded).toBe(true)
+      expect(esLoaded).toBe(false)
+      expect(ptLoaded).toBe(false)
     })
 
-    jest.mock('../locales/pt-BR', () => {
-      ptLoaded = true
-      return { default: { global: { someKey: 'Oi!' } } }
-    })
+    it('only loads the selected language, but loads the default language when accessing a missing key', async () => {
+      await i18n.changeLanguage('es-419')
+      expect(i18n.t('someKey')).toEqual('¡Hola!')
+      expect(enLoaded).toBe(false)
+      expect(esLoaded).toBe(true)
+      expect(ptLoaded).toBe(false)
 
-    jest.unmock('src/i18n')
-    i18n = require('src/i18n').default
+      // This will cause the default (fallback) language to be loaded
+      expect(i18n.t('someMissingKey')).toEqual('someMissingKey')
+      expect(enLoaded).toBe(true)
+      expect(esLoaded).toBe(true)
+      expect(ptLoaded).toBe(false)
+    })
   })
 
-  it('only loads the default language (en-US)', () => {
-    expect(i18n.t('global:someKey')).toEqual('Hi!')
-    expect(enLoaded).toBe(true)
-    expect(esLoaded).toBe(false)
-    expect(ptLoaded).toBe(false)
-  })
+  describe('load from cached translations', () => {
+    beforeEach(async () => {
+      handleSetupTests()
 
-  it('only loads the selected language, but loads the default language when accessing a missing key', async () => {
-    await i18n.changeLanguage('es-419')
-    expect(i18n.t('global:someKey')).toEqual('¡Hola!')
-    expect(enLoaded).toBe(false)
-    expect(esLoaded).toBe(true)
-    expect(ptLoaded).toBe(false)
+      const I18n = require('src/i18n')
+      i18n = I18n.default
+      await I18n.initI18n('en-US', true, '0.0.1')
+    })
 
-    // This will cause the default (fallback) language to be loaded
-    expect(i18n.t('global:someMissingKey')).toEqual('someMissingKey')
-    expect(enLoaded).toBe(true)
-    expect(esLoaded).toBe(true)
-    expect(ptLoaded).toBe(false)
+    it('displays the cached translation for default language (en-US)', () => {
+      expect(i18n.t('someKey')).toEqual('Hello!')
+      expect(enLoaded).toBe(false)
+      expect(esLoaded).toBe(false)
+      expect(ptLoaded).toBe(false)
+    })
+
+    it('displays the bundled translation if cached translation is for a different language', async () => {
+      await i18n.changeLanguage('pt-BR')
+      expect(i18n.t('someKey')).toEqual('Oi!')
+      expect(enLoaded).toBe(false)
+      expect(esLoaded).toBe(false)
+      expect(ptLoaded).toBe(true)
+    })
   })
 })

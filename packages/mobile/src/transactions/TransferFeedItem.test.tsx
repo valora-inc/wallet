@@ -362,7 +362,7 @@ describe('transfer feed item renders correctly', () => {
     )
     expect(tree).toMatchSnapshot()
   })
-  it('for known received', () => {
+  it('for known received cUSD', () => {
     const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
@@ -372,6 +372,33 @@ describe('transfer feed item renders correctly', () => {
           type={TokenTransactionType.Received}
           hash={'0x'}
           amount={{ value: '100', currencyCode: 'cUSD', localAmount: null }}
+          address={mockAccount}
+          timestamp={1}
+          commentKey={null}
+          addressToE164Number={mockAddressToE164Number}
+          phoneRecipientCache={mockPhoneRecipientCache}
+          recipientInfo={mockRecipientInfo}
+          recentTxRecipientsCache={{}}
+          invitees={[]}
+          account={''}
+          defaultImage={null}
+          defaultName={null}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+  it('for known received cEUR', () => {
+    const tree = render(
+      <Provider store={mockStore}>
+        <TransferFeedItem
+          __typename="TokenTransfer"
+          status={TransactionStatus.Complete}
+          comment={''}
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '100', currencyCode: 'cEUR', localAmount: null }}
           address={mockAccount}
           timestamp={1}
           commentKey={null}
@@ -580,7 +607,7 @@ describe('transfer feed item renders correctly', () => {
       </Provider>
     )
     const amountComponent = getByTestId('FeedItemAmountDisplay/value')
-    expect(amountFromComponent(amountComponent)).toEqual('+$0.008')
+    expect(amountFromComponent(amountComponent)).toEqual('+₱0.008')
   })
   it('for received with a value lower than 0.001', () => {
     const { getByTestId } = render(
@@ -608,6 +635,6 @@ describe('transfer feed item renders correctly', () => {
       </Provider>
     )
     const amountComponent = getByTestId('FeedItemAmountDisplay/value')
-    expect(amountFromComponent(amountComponent)).toEqual('+<$0.001')
+    expect(amountFromComponent(amountComponent)).toEqual('+<₱0.001')
   })
 })

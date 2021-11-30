@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
-import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { RootState } from 'src/redux/reducers'
 import {
   isBalanceSufficientForSigRetrievalSelector,
@@ -15,7 +15,7 @@ export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
 }
 
-export const getAppState = (state: RootState) => {
+export const appStateSelector = (state: RootState) => {
   return state.app.appState
 }
 
@@ -59,9 +59,6 @@ export const walletConnectEnabledSelector = (state?: RootState) => ({
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
-export const shortVerificationCodesEnabledSelector = (state: RootState) =>
-  state.app.shortVerificationCodesEnabled
-
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
 export const ranVerificationMigrationSelector = (state: RootState) =>
@@ -100,3 +97,17 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
+
+export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
+  state.app.multiTokenShowHomeBalances
+export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
+  state.app.multiTokenUseUpdatedFeed
+
+export const allowOtaTranslationsSelector = (state: RootState) => state.app.allowOtaTranslations
+export const otaTranslationsLastUpdateSelector = (state: RootState) =>
+  state.app.otaTranslationsLastUpdate
+export const otaTranslationsAppVersionSelector = (state: RootState) =>
+  state.app.otaTranslationsAppVersion
+export const otaTranslationsLanguageSelector = (state: RootState) =>
+  state.app.otaTranslationsLanguage

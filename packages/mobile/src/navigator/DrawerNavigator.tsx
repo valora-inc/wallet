@@ -32,6 +32,7 @@ import Support from 'src/account/Support'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
+import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -39,7 +40,7 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { Gold } from 'src/icons/navigator/Gold'
@@ -140,6 +141,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
+  const showBalances = !useSelector(multiTokenShowHomeBalancesSelector)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -162,11 +164,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
           />
         )}
         <View style={styles.border} />
-        <BalancesDisplay />
+        {showBalances && <BalancesDisplay />}
       </View>
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
-        <Text style={fontStyles.label}>{i18n.t('dappkit:address')}</Text>
+        <Text style={fontStyles.label}>{i18n.t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
         <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
       </View>
@@ -175,7 +177,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 }
 
 export default function DrawerNavigator() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dispatch = useDispatch()
 

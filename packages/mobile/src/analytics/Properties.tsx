@@ -77,6 +77,7 @@ interface AppEventsProperties {
   [AppEvents.fetch_balance_error]: {
     dollarBalance?: string
     goldBalance?: string
+    error?: string
   }
   [AppEvents.redux_keychain_mismatch]: {
     account: string
@@ -125,6 +126,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
+  [HomeEvents.view_token_balances]: { totalBalance: string }
 }
 
 interface SettingsEventsProperties {
@@ -194,6 +196,8 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.backup_quiz_complete]: undefined
   [OnboardingEvents.backup_quiz_incorrect]: undefined
+
+  [OnboardingEvents.terms_and_conditions_accepted]: undefined
 
   [OnboardingEvents.celo_education_start]: undefined
   [OnboardingEvents.celo_education_scroll]: {
@@ -517,16 +521,19 @@ interface InviteEventsProperties {
     error: string
   }
   [InviteEvents.invite_start]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
+    usdAmount: string
   }
   [InviteEvents.invite_complete]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
+    usdAmount: string
   }
   [InviteEvents.invite_error]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
+    usdAmount: string
     error: string
   }
   [InviteEvents.invite_method_sms]: undefined
@@ -648,7 +655,8 @@ interface SendEventsProperties {
     txId: string
     recipientAddress: string
     amount: string
-    currency: string
+    usdAmount: string | undefined
+    tokenAddress: string
   }
   [SendEvents.send_tx_error]: {
     error: string

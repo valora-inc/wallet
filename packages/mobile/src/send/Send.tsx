@@ -12,10 +12,8 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
-import { features } from 'src/flags'
-import { Namespaces } from 'src/i18n'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
 import { noHeader } from 'src/navigator/Headers'
@@ -47,7 +45,7 @@ function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceCurrency = route.params?.forceCurrency
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector((state) => state.app.numberVerified)
@@ -65,6 +63,7 @@ function Send({ route }: Props) {
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
+  const multiTokenUseSendFlow = useSelector(multiTokenUseSendFlowSelector)
 
   const dispatch = useDispatch()
 
@@ -126,7 +125,8 @@ function Send({ route }: Props) {
         }
       )
 
-      if (features.USE_TOKEN_SEND_FLOW) {
+      // TODO: Add payment request support in the new flow.
+      if (multiTokenUseSendFlow && !isOutgoingPaymentRequest) {
         navigate(Screens.SendAmount, {
           recipient,
           isOutgoingPaymentRequest,

@@ -377,7 +377,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
                     ]
                   }
                 >
-                  global:cancel
+                  cancel
                 </Text>
               </View>
             </View>
@@ -530,7 +530,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
                 }
               }
             >
-              global:next
+              next
             </Text>
           </View>
         </View>
@@ -933,7 +933,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
                     ]
                   }
                 >
-                  global:cancel
+                  cancel
                 </Text>
               </View>
             </View>
@@ -1086,7 +1086,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
                 }
               }
             >
-              global:next
+              next
             </Text>
           </View>
         </View>

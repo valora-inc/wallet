@@ -117,7 +117,7 @@ exports[`Account renders correctly 1`] = `
         }
         testID="SettingsTitle"
       >
-        global:settings
+        settings
       </Text>
       <View
         style={
@@ -374,7 +374,7 @@ exports[`Account renders correctly 1`] = `
                       }
                     }
                   >
-                    global:unknown
+                    unknown
                   </Text>
                   <svg
                     height={20}
@@ -481,7 +481,7 @@ exports[`Account renders correctly 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -1424,7 +1424,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -1662,7 +1662,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:goBack
+                    goBack
                   </Text>
                 </View>
                 <View
@@ -1907,7 +1907,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -1944,7 +1944,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:continue
+                    continue
                   </Text>
                 </View>
               </View>
@@ -2149,7 +2149,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -2391,7 +2391,7 @@ exports[`Account renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -2558,7 +2558,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
         }
         testID="SettingsTitle"
       >
-        global:settings
+        settings
       </Text>
       <View
         style={
@@ -2815,7 +2815,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       }
                     }
                   >
-                    global:unknown
+                    unknown
                   </Text>
                   <svg
                     height={20}
@@ -2922,7 +2922,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -4186,7 +4186,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -4424,7 +4424,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:goBack
+                    goBack
                   </Text>
                 </View>
                 <View
@@ -4669,7 +4669,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -4706,7 +4706,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:continue
+                    continue
                   </Text>
                 </View>
               </View>
@@ -4911,7 +4911,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -5153,7 +5153,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -5320,7 +5320,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         }
         testID="SettingsTitle"
       >
-        global:settings
+        settings
       </Text>
       <View
         style={
@@ -5497,7 +5497,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       }
                     }
                   >
-                    global:unknown
+                    unknown
                   </Text>
                   <svg
                     height={20}
@@ -5604,7 +5604,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -6547,7 +6547,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -6785,7 +6785,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:goBack
+                    goBack
                   </Text>
                 </View>
                 <View
@@ -7030,7 +7030,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -7067,7 +7067,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:continue
+                    continue
                   </Text>
                 </View>
               </View>
@@ -7272,7 +7272,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -7514,7 +7514,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -7681,7 +7681,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         }
         testID="SettingsTitle"
       >
-        global:settings
+        settings
       </Text>
       <View
         style={
@@ -7858,7 +7858,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       }
                     }
                   >
-                    global:unknown
+                    unknown
                   </Text>
                   <svg
                     height={20}
@@ -7965,7 +7965,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -8908,7 +8908,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -9146,7 +9146,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:goBack
+                    goBack
                   </Text>
                 </View>
                 <View
@@ -9391,7 +9391,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -9428,7 +9428,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:continue
+                    continue
                   </Text>
                 </View>
               </View>
@@ -9633,7 +9633,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View
@@ -9875,7 +9875,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
                 <View

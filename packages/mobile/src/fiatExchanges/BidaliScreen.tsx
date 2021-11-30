@@ -162,9 +162,7 @@ BidaliScreen.navigationOptions = () => {
   return {
     ...emptyHeader,
     headerTitle: 'Bidali',
-    headerLeft: () => (
-      <TopBarTextButton title={i18n.t('global:done')} onPress={navigateToFiatExchange} />
-    ),
+    headerLeft: () => <TopBarTextButton title={i18n.t('done')} onPress={navigateToFiatExchange} />,
     headerRight: () => (
       <ActivityIndicator
         style={styles.headerActivityIndicator}

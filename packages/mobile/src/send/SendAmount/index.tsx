@@ -17,7 +17,6 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
@@ -33,13 +32,13 @@ import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
 import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import {
   useAmountAsUsd,
   useLocalToTokenAmount,
   useTokenInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
+import { fetchTokenBalances } from 'src/tokens/reducer'
 import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
@@ -79,7 +78,7 @@ export function useInputAmounts(
 }
 
 function SendAmount(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const [amount, setAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
@@ -108,7 +107,7 @@ function SendAmount(props: Props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchStableBalances())
+    dispatch(fetchTokenBalances())
     if (recipient.address) {
       return
     }
@@ -186,7 +185,7 @@ function SendAmount(props: Props) {
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}
-        text={t('global:review')}
+        text={t('review')}
         showLoading={
           recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
         }

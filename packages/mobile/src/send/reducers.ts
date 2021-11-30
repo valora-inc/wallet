@@ -1,5 +1,5 @@
-import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
-import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
+import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
@@ -31,16 +31,16 @@ const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
-  inviteRewardsEnabled: FEATURE_FLAG_DEFAULTS.inviteRewardsEnabled,
-  inviteRewardCusd: FEATURE_FLAG_DEFAULTS.inviteRewardCusd,
-  inviteRewardWeeklyLimit: FEATURE_FLAG_DEFAULTS.inviteRewardWeeklyLimit,
+  inviteRewardsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsEnabled,
+  inviteRewardCusd: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardCusd,
+  inviteRewardWeeklyLimit: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardWeeklyLimit,
   lastUsedCurrency: Currency.Dollar,
   showSendToAddressWarning: true,
 }
 
 export const sendReducer = (
   state: State = initialState,
-  action: ActionTypes | RehydrateAction | UpdateFeatureFlagsAction
+  action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
 ) => {
   switch (action.type) {
     case REHYDRATE: {
@@ -53,6 +53,7 @@ export const sendReducer = (
       }
     }
     case Actions.SEND_PAYMENT_OR_INVITE:
+    case Actions.SEND_PAYMENT_OR_INVITE_LEGACY:
       return {
         ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
@@ -74,12 +75,12 @@ export const sendReducer = (
         ...state,
         isSending: false,
       }
-    case AppActions.UPDATE_FEATURE_FLAGS:
+    case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
       return {
         ...state,
-        inviteRewardsEnabled: action.flags.inviteRewardsEnabled,
-        inviteRewardCusd: action.flags.inviteRewardCusd,
-        inviteRewardWeeklyLimit: action.flags.inviteRewardWeeklyLimit,
+        inviteRewardsEnabled: action.configValues.inviteRewardsEnabled,
+        inviteRewardCusd: action.configValues.inviteRewardCusd,
+        inviteRewardWeeklyLimit: action.configValues.inviteRewardWeeklyLimit,
       }
     case Actions.UPDATE_LAST_USED_CURRENCY:
       return {

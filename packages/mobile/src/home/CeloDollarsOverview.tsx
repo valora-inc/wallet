@@ -6,7 +6,7 @@ import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import useBalanceAutoRefresh from 'src/home/useBalanceAutoRefresh'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import useSelector from 'src/redux/useSelector'
@@ -33,13 +33,13 @@ function CeloDollarsOverview({ t }: Props) {
       )}
       {!isUsdLocalCurrency && dollarBalanceAmount && (
         <Text style={styles.dollarBalance} testID="GoldBalance">
-          <Trans i18nKey="dollarBalance" ns={Namespaces.walletFlow5}>
+          <Trans i18nKey="dollarBalance">
             <CurrencyDisplay
               amount={dollarBalanceAmount}
               showLocalAmount={false}
               hideSymbol={true}
             />{' '}
-            Celo Dollars
+            {t('celoDollars')}
           </Trans>
         </Text>
       )}
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.walletFlow5)(CeloDollarsOverview)
+export default withTranslation<Props>()(CeloDollarsOverview)

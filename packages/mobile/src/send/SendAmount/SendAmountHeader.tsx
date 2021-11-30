@@ -48,11 +48,11 @@ function SendAmountHeader({
     let title
     if (!canChangeToken) {
       titleText = isOutgoingPaymentRequest
-        ? i18n.t('paymentRequestFlow:request')
-        : i18n.t('sendFlow7:sendToken', { token: tokenInfo?.symbol })
+        ? i18n.t('request')
+        : i18n.t('sendToken', { token: tokenInfo?.symbol })
       title = titleText
     } else {
-      titleText = i18n.t('sendFlow7:send')
+      titleText = i18n.t('send')
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>

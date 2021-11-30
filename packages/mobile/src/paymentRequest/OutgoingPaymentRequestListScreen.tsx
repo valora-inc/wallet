@@ -2,8 +2,9 @@ import React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { e164NumberToAddressSelector, E164NumberToAddressType } from 'src/identity/reducer'
+import i18n, { withTranslation } from 'src/i18n'
+import { E164NumberToAddressType } from 'src/identity/reducer'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import {
   NotificationList,
   titleWithBalanceNavigationOptions,
@@ -69,10 +70,10 @@ const OutgoingPaymentRequestListScreen = (props: Props) => {
 }
 
 OutgoingPaymentRequestListScreen.navigationOptions = titleWithBalanceNavigationOptions(
-  i18n.t('walletFlow5:outgoingPaymentRequests')
+  i18n.t('outgoingPaymentRequests')
 )
 
 export default connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps, {
   cancelPaymentRequest,
   updatePaymentRequestNotified,
-})(withTranslation<Props>(Namespaces.paymentRequestFlow)(OutgoingPaymentRequestListScreen))
+})(withTranslation<Props>()(OutgoingPaymentRequestListScreen))

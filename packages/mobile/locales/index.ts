@@ -12,7 +12,9 @@ const locales: Locales = {
   'en-US': {
     name: 'English',
     get strings() {
-      return require('./en-US').default
+      return {
+        translation: require('./en-US/translation.json'),
+      }
     },
     get dateFns() {
       return require('date-fns/locale/en-US')
@@ -21,7 +23,9 @@ const locales: Locales = {
   'es-419': {
     name: 'Español',
     get strings() {
-      return require('./es-419').default
+      return {
+        translation: require('./es-419/translation.json'),
+      }
     },
     get dateFns() {
       return require('date-fns/locale/es')
@@ -30,7 +34,9 @@ const locales: Locales = {
   'pt-BR': {
     name: 'Português',
     get strings() {
-      return require('./pt-BR').default
+      return {
+        translation: require('./pt-BR/translation.json'),
+      }
     },
     get dateFns() {
       return require('date-fns/locale/pt-BR')
@@ -39,7 +45,9 @@ const locales: Locales = {
   de: {
     name: 'Deutsch',
     get strings() {
-      return require('./de').default
+      return {
+        translation: require('./de/translation.json'),
+      }
     },
     get dateFns() {
       return require('date-fns/locale/de')

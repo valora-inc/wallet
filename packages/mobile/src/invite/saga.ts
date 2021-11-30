@@ -1,8 +1,7 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { Share } from 'react-native'
-import { generateSecureRandom } from 'react-native-securerandom'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -13,14 +12,12 @@ import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, FeeInfo } from 'src/fees/saga'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { InviteDetails, storeInviteeData } from 'src/invite/actions'
-import { createInviteCode } from 'src/invite/utils'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { getWeb3 } from 'src/web3/contracts'
-import Web3 from 'web3'
 
 const TAG = 'invite/saga'
 export const REDEEM_INVITE_TIMEOUT = 1.5 * 60 * 1000 // 1.5 minutes
@@ -48,59 +45,40 @@ export async function getInviteFee(
 export function* sendInvite(
   e164Number: string,
   amount: BigNumber,
-  currency: Currency,
+  usdAmount: BigNumber,
+  tokenAddress: string,
   feeInfo?: FeeInfo
 ) {
   try {
     ValoraAnalytics.track(InviteEvents.invite_start, {
-      escrowIncluded: true,
       amount: amount.toString(),
+      tokenAddress,
+      usdAmount: usdAmount.toString(),
     })
 
-    const web3: Web3 = yield call(getWeb3)
-    const randomness: Uint8Array = yield call(generateSecureRandom, 64)
-    const temporaryWalletAccount = web3.eth.accounts.create(
-      Buffer.from(randomness).toString('ascii')
-    )
-    const temporaryAddress = temporaryWalletAccount.address
-    const inviteCode = createInviteCode(temporaryWalletAccount.privateKey)
-
-    const link = DYNAMIC_DOWNLOAD_LINK
-
-    const messageProp = amount
-      ? 'sendFlow7:inviteWithEscrowedPayment'
-      : 'sendFlow7:inviteWithoutPayment'
-    const message = i18n.t(messageProp, {
-      amount: amount.toFixed(2),
-      currency:
-        currency === Currency.Dollar ? i18n.t('global:celoDollars') : i18n.t('global:celoEuros'),
-      link,
-    })
-
-    const inviteDetails: InviteDetails = {
-      timestamp: Date.now(),
-      e164Number,
-      tempWalletAddress: temporaryAddress.toLowerCase(),
-      tempWalletPrivateKey: temporaryWalletAccount.privateKey,
-      tempWalletRedeemed: false, // no logic in place to toggle this yet
-      inviteCode,
-      inviteLink: link,
+    const tokens: TokenBalance[] = yield select(tokensListSelector)
+    const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+    if (!tokenInfo) {
+      throw new Error(`Token with address ${tokenAddress} not found`)
     }
-
-    // Store the Temp Address locally so we know which transactions were invites
-    yield put(storeInviteeData(inviteDetails))
-
-    yield call(initiateEscrowTransfer, e164Number, amount, currency, undefined, feeInfo)
+    const message = i18n.t('inviteWithEscrowedPayment', {
+      amount: amount.toFixed(2),
+      token: tokenInfo.symbol,
+      link: DYNAMIC_DOWNLOAD_LINK,
+    })
+    yield call(initiateEscrowTransfer, e164Number, amount, tokenAddress, feeInfo)
     yield call(Share.share, { message })
     ValoraAnalytics.track(InviteEvents.invite_complete, {
-      escrowIncluded: true,
-      amount: amount?.toString(),
+      amount: amount.toString(),
+      tokenAddress,
+      usdAmount: usdAmount.toString(),
     })
   } catch (e) {
     ValoraAnalytics.track(InviteEvents.invite_error, {
-      escrowIncluded: true,
       error: e.message,
-      amount: amount?.toString(),
+      amount: amount.toString(),
+      tokenAddress,
+      usdAmount: usdAmount.toString(),
     })
     Logger.error(TAG, 'Send invite error: ', e)
     throw e
@@ -110,23 +88,13 @@ export function* sendInvite(
 export function* initiateEscrowTransfer(
   e164Number: string,
   amount: BigNumber,
-  currency: Currency,
-  temporaryAddress?: string,
+  tokenAddress: string,
   feeInfo?: FeeInfo
 ) {
   const context = newTransactionContext(TAG, 'Escrow funds')
   try {
     const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
-    yield put(
-      transferEscrowedPayment(
-        phoneHashDetails,
-        amount,
-        currency,
-        context,
-        temporaryAddress,
-        feeInfo
-      )
-    )
+    yield put(transferEscrowedPayment(phoneHashDetails, amount, tokenAddress, context, feeInfo))
     yield call(waitForTransactionWithId, context.id)
     Logger.debug(TAG + '@sendInviteSaga', 'Escrowed money to new wallet')
   } catch (e) {

@@ -161,9 +161,8 @@ describe('SendAmount', () => {
           dismissAfter: null,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('needMoreFundsToSend', {
-            ns: 'global',
             amountNeeded: '106.9852',
-            currencySymbol: '$',
+            currencySymbol: '₱',
           }),
           title: null,
           type: 'ALERT/SHOW',
@@ -206,8 +205,7 @@ describe('SendAmount', () => {
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('paymentLimitReached', {
-            ns: 'global',
-            currencySymbol: '$',
+            currencySymbol: '₱',
             dailyRemaining: '1330',
             dailyLimit: '1330',
             dailyRemainingcUSD: '1000.00',

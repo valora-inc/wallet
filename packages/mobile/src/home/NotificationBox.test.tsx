@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
-import { DAYS_TO_BACKUP } from 'src/backup/utils'
+import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import NotificationBox from 'src/home/NotificationBox'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
@@ -14,7 +14,6 @@ const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 
 const testNotification = {
   ctaUri: 'https://celo.org',
-  darkMode: true,
   priority: 20,
   content: {
     en: {
@@ -98,7 +97,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('backupKeyFlow6:backupKeyNotification')).toBeTruthy()
+    expect(getByText('backupKeyNotification')).toBeTruthy()
   })
 
   it('renders educations when not complete yet', () => {
@@ -111,9 +110,9 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('exchangeFlow9:whatIsGold')).toBeTruthy()
+    expect(getByText('whatIsGold')).toBeTruthy()
     // Functionality disabled for now
-    // expect(getByText('inviteFlow11:inviteAnyone')).toBeTruthy()
+    // expect(getByText('inviteAnyone')).toBeTruthy()
   })
 
   it('renders incoming payment request when they exist', () => {
@@ -135,7 +134,7 @@ describe('NotificationBox', () => {
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
     expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('$266,000.00')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
@@ -197,7 +196,7 @@ describe('NotificationBox', () => {
       'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
     )
     const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('$266,000.00')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
@@ -218,7 +217,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('nuxVerification2:notification.body')).toBeTruthy()
+    expect(getByText('notification.body')).toBeTruthy()
   })
 
   it('does not render verification reminder when insufficient balance', () => {
@@ -230,7 +229,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(queryByText('nuxVerification2:notification.body')).toBeFalsy()
+    expect(queryByText('notification.body')).toBeFalsy()
   })
 
   it('renders all remote notifications that were not dismissed', () => {

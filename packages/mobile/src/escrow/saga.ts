@@ -1,9 +1,14 @@
 import { Result } from '@celo/base'
-import { CeloTransactionObject, CeloTxReceipt, Sign } from '@celo/connect'
+import {
+  CeloTransactionObject,
+  CeloTxReceipt,
+  Contract,
+  Sign,
+  toTransactionObject,
+} from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
-import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import BigNumber from 'bignumber.js'
@@ -27,22 +32,24 @@ import {
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
-import { WEI_DECIMALS } from 'src/geth/consts'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
-import { identifierToE164NumberSelector } from 'src/identity/reducer'
+import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
+import { fetchTokenBalances, TokenBalance } from 'src/tokens/reducer'
 import {
   getCurrencyAddress,
+  getERC20TokenContract,
   getStableCurrencyFromAddress,
-  getTokenContract,
   getTokenContractFromAddress,
+  tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -76,16 +83,16 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
   Logger.debug(TAG + '@transferToEscrow', 'Begin transfer to escrow')
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, currency, feeInfo, context } = action
+    const { phoneHashDetails, amount, tokenAddress, feeInfo, context } = action
     const { phoneHash, pepper } = phoneHashDetails
-    const [contractKit, walletAddress]: [ContractKit, string] = yield all([
+    const [kit, walletAddress]: [ContractKit, string] = yield all([
       call(getContractKit),
       call(getConnectedUnlockedAccount),
     ])
 
-    const [stableTokenWrapper, escrowWrapper]: [StableTokenWrapper, EscrowWrapper] = yield all([
-      call(getTokenContract, currency),
-      call([contractKit.contracts, contractKit.contracts.getEscrow]),
+    const [tokenContract, escrowWrapper]: [Contract, EscrowWrapper] = yield all([
+      call(getERC20TokenContract, tokenAddress),
+      call([kit.contracts, kit.contracts.getEscrow]),
     ])
 
     const escrowPaymentIds: string[] = yield call(
@@ -103,10 +110,20 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       throw Error('Could not generate a unique paymentId for escrow. Should never happen')
     }
 
+    const tokens: TokenBalance[] = yield select(tokensListSelector)
+    const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+    if (!tokenInfo) {
+      throw Error(`Couldnt find token info for address ${tokenAddress}. Should never happen`)
+    }
     // Approve a transfer of funds to the Escrow contract.
+    const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
+
     Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
-    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toFixed(WEI_DECIMALS))
-    const approvalTx = stableTokenWrapper.approve(escrowWrapper.address, convertedAmount)
+
+    const approvalTx = toTransactionObject(
+      kit.connection,
+      tokenContract.methods.approve(escrowWrapper.address, convertedAmount)
+    )
 
     const approvalReceipt: CeloTxReceipt = yield call(
       sendTransaction,
@@ -121,15 +138,10 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
 
     // Tranfser the funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
-    yield call(
-      registerStandbyTransaction,
-      context,
-      amount.toFixed(WEI_DECIMALS),
-      escrowWrapper.address
-    )
+    yield call(registerStandbyTransaction, context, amount.toString(), escrowWrapper.address)
     const transferTx = escrowWrapper.transfer(
       phoneHash,
-      stableTokenWrapper.address,
+      tokenAddress,
       convertedAmount,
       ESCROW_PAYMENT_EXPIRY_SECONDS,
       paymentId,
@@ -159,7 +171,11 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
   }
 }
 
-function* registerStandbyTransaction(context: TransactionContext, value: string, address: string) {
+export function* registerStandbyTransaction(
+  context: TransactionContext,
+  value: string,
+  address: string
+) {
   yield put(
     addStandbyTransaction({
       context,
@@ -312,7 +328,8 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     }
 
     yield put(fetchStableBalances())
-    Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
+    yield put(fetchTokenBalances())
+    Logger.showMessage(i18n.t('transferDollarsToAccount'))
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
     Logger.error(TAG + '@withdrawFromEscrow', 'Error withdrawing payment from escrow', e)

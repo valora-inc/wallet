@@ -762,7 +762,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
             }
             testID="TotalLineItem/Subtotal/value"
           >
-            $
+            ₱
             300.00
           </Text>
         </Text>
@@ -862,7 +862,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -1003,7 +1003,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         }
       >
-        receiveFlow8:receivedAmountFromCelo
+        receivedAmountFromCelo
       </Text>
     </RNCSafeAreaView>
   </View>
@@ -1405,7 +1405,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -1924,7 +1924,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -2443,7 +2443,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -2992,7 +2992,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
             }
             testID="undefined/value"
           >
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -3136,7 +3136,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   testID="undefined/totalFee/value"
                 >
                   
-                  $
+                  ₱
                   0
                 </Text>
               </Text>
@@ -3216,7 +3216,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
             }
             testID="TotalLineItem/Total/value"
           >
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -3764,7 +3764,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
             }
             testID="undefined/value"
           >
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -3908,7 +3908,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   testID="undefined/totalFee/value"
                 >
                   
-                  $
+                  ₱
                   0
                 </Text>
               </Text>
@@ -3988,7 +3988,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
             }
             testID="TotalLineItem/Total/value"
           >
-            $
+            ₱
             133.00
           </Text>
         </Text>
@@ -4210,7 +4210,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
             }
             testID="TotalLineItem/Total/value"
           >
-            $
+            ₱
             0.39
           </Text>
         </Text>
@@ -4350,7 +4350,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         }
       >
-        receiveFlow8:verificationMessage
+        verificationMessage
       </Text>
     </RNCSafeAreaView>
   </View>

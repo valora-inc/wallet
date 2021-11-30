@@ -42,7 +42,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           ]
         }
       >
-        exchangeFlow9:withdrawCeloAmount
+        withdrawCeloAmount
       </Text>
     </View>
     <Text
@@ -425,7 +425,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         testID="TotalLineItem/Subtotal/value"
       >
         
-        $
+        ₱
         15.00
       </Text>
     </Text>

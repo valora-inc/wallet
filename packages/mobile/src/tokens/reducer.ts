@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
-import { RootState } from 'src/redux/reducers'
 
 interface BaseToken {
   address: string
@@ -10,6 +9,9 @@ interface BaseToken {
   imageUrl: string
   name: string
   symbol: string
+  // This field is for tokens that are part of the core contracts that allow paying for fees and
+  // making transfers with a comment.
+  isCoreToken?: boolean
 }
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.
@@ -33,17 +35,20 @@ export interface TokenBalances {
 
 export interface State {
   tokenBalances: StoredTokenBalances
-  totalBalance: string
+  loading: boolean
+  error: boolean
 }
 
 export const initialState = {
   tokenBalances: {},
-  totalBalance: '-',
+  error: false,
+  loading: false,
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
 export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
-export const setTotalTokenBalance = createAction<string>('TOKENS/SET_TOTAL_TOKEN_BALANCE')
+export const fetchTokenBalances = createAction('TOKENS/FETCH_TOKEN_BALANCES')
+export const tokenBalanceFetchError = createAction('TOKENS/TOKEN_BALANCES_FETCH_ERROR')
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -58,12 +63,17 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setTokenBalances, (state, action) => ({
       ...state,
       tokenBalances: action.payload,
+      loading: false,
+      error: false,
     }))
-    .addCase(setTotalTokenBalance, (state, action) => ({
+    .addCase(fetchTokenBalances, (state, action) => ({
       ...state,
-      totalBalance: action.payload,
+      loading: true,
+      error: false,
+    }))
+    .addCase(tokenBalanceFetchError, (state, action) => ({
+      ...state,
+      loading: false,
+      error: true,
     }))
 })
-
-export const tokenBalancesSelector = (state: RootState) => state.tokens.tokenBalances
-export const totalTokenBalanceSelector = (state: RootState) => state.tokens.totalBalance

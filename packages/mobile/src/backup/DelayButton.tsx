@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import { setBackupDelayed } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import useTypedSelector from 'src/redux/useSelector'
@@ -21,7 +20,7 @@ export default function DelayButton() {
     navigateHome()
   }, [dispatch])
 
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
 
   if (!shouldShowDelayButton) {
     return null

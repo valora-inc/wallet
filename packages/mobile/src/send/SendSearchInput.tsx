@@ -5,7 +5,7 @@ import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 
 const SearchInput = withTextSearchPasteAware(TextInput)
 
@@ -16,16 +16,16 @@ interface SendSearchInputProps {
 
 // Input field for Send screen
 export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   return (
     <View style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
-        placeholder={t('global:namePhoneAddress')}
+        placeholder={t('namePhoneAddress')}
         value={input}
         onChangeText={onChangeText}
-        leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
+        leftIcon={<Text style={styles.leftIcon}>{i18n.t('to')}</Text>}
       />
     </View>
   )

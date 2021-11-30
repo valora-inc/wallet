@@ -117,7 +117,7 @@ function* acceptSession(session: AcceptSession) {
     connector.updateSession(sessionData)
     yield put(storeSession(connector.session))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield put(showMessage(i18n.t('walletConnect:connectionSuccess', { dappName: peerMeta.name })))
+    yield put(showMessage(i18n.t('connectionSuccess', { dappName: peerMeta.name })))
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -211,9 +211,7 @@ function* acceptRequest(r: AcceptRequest) {
     const result: string = yield call(handleRequest, { method, params })
     connector.approveRequest({ id, jsonrpc, result })
     yield put(
-      showMessage(
-        i18n.t('walletConnect:connectionSuccess', { dappName: connector?.session?.peerMeta?.name })
-      )
+      showMessage(i18n.t('connectionSuccess', { dappName: connector?.session?.peerMeta?.name }))
     )
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
   } catch (e) {
@@ -314,7 +312,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       ...connectorOpts,
       clientMeta: {
         name: APP_NAME,
-        description: i18n.t('global:appDescription'),
+        description: i18n.t('appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },

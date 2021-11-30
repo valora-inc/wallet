@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Text } from 'react-native'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   isVisible: boolean
@@ -11,7 +10,7 @@ interface Props {
 }
 
 export default function VerificationLearnMoreDialog({ isVisible, onPressDismiss }: Props) {
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
   return (
     <Dialog
       title={t('verificationLearnMoreDialog.title')}
@@ -19,7 +18,7 @@ export default function VerificationLearnMoreDialog({ isVisible, onPressDismiss 
       actionText={t('verificationLearnMoreDialog.dismiss')}
       actionPress={onPressDismiss}
     >
-      <Trans i18nKey="verificationLearnMoreDialog.body" ns={Namespaces.onboarding}>
+      <Trans i18nKey="verificationLearnMoreDialog.body">
         <Text style={fontStyles.regular600} />
         <Text style={fontStyles.regular600} />
       </Trans>

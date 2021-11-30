@@ -1,8 +1,13 @@
+import BigNumber from 'bignumber.js'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenSelector,
   tokensByAddressSelector,
+  tokensByUsdBalanceSelector,
   tokensListSelector,
+  totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 const state: any = {
   tokens: {
@@ -31,6 +36,15 @@ const state: any = {
       },
     },
   },
+  localCurrency: {
+    preferredCurrencyCode: LocalCurrencyCode.EUR,
+    fetchedCurrencyCode: LocalCurrencyCode.EUR,
+    exchangeRates: {
+      [Currency.Dollar]: '0.86',
+      [Currency.Euro]: null,
+      [Currency.Celo]: null,
+    },
+  },
 }
 
 describe(tokensByAddressSelector, () => {
@@ -55,10 +69,45 @@ describe(tokensListSelector, () => {
   })
 })
 
+describe('tokensByUsdBalanceSelector', () => {
+  it('returns the tokens sorted by USD balance in descending order', () => {
+    const tokens = tokensByUsdBalanceSelector(state)
+    expect(tokens).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "address": "0x1",
+          "balance": "10",
+          "usdPrice": "10",
+        },
+        Object {
+          "address": "0xeur",
+          "balance": "50",
+          "symbol": "cEUR",
+          "usdPrice": "0.5",
+        },
+        Object {
+          "address": "0xusd",
+          "balance": "0",
+          "symbol": "cUSD",
+          "usdPrice": "1",
+        },
+      ]
+    `)
+  })
+})
+
 describe(defaultTokenSelector, () => {
   describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
       expect(defaultTokenSelector(state)).toEqual('0x1')
+    })
+  })
+})
+
+describe(totalTokenBalanceSelector, () => {
+  describe('when fetching the total token balance', () => {
+    it('returns the right amount', () => {
+      expect(totalTokenBalanceSelector(state)).toEqual(new BigNumber(107.5))
     })
   })
 })

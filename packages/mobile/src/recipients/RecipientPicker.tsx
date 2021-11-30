@@ -18,7 +18,7 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -154,12 +154,14 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     const { onSelectRecipient, t } = this.props
     const recipient: MobileRecipient = {
       displayNumber,
-      name: t('sendToMobileNumber'),
       e164PhoneNumber,
     }
     return (
       <>
-        <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+        <RecipientItem
+          recipient={{ ...recipient, name: t('sendToMobileNumber') }}
+          onSelectRecipient={() => onSelectRecipient(recipient)}
+        />
         {this.renderItemSeparator()}
       </>
     )
@@ -263,7 +265,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect(
-  mapStateToProps,
-  {}
-)(withTranslation<RecipientProps>(Namespaces.sendFlow7)(RecipientPicker))
+export default connect(mapStateToProps, {})(withTranslation<RecipientProps>()(RecipientPicker))

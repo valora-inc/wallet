@@ -22,11 +22,11 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay, { getFullCurrencyName } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
-import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeTradeScreenHeader from 'src/exchange/ExchangeScreenHeader'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
@@ -240,7 +240,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const amountIsInvalid =
       !this.inputAmountIsValid(tokenAmount) ||
       tokenAmount.isLessThan(
-        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : GOLD_TRANSACTION_MIN_AMOUNT
+        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : CELO_TRANSACTION_MIN_AMOUNT
       )
 
     const exchangeRate = getRateForMakerToken(
@@ -293,11 +293,11 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   }
 
   getInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.localCurrencyCode : this.props.t('global:gold')
+    return this.isLocalCurrencyInput() ? this.props.localCurrencyCode : this.props.t('gold')
   }
 
   getOppositeInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.t('global:gold') : this.props.localCurrencyCode
+    return this.isLocalCurrencyInput() ? this.props.t('gold') : this.props.localCurrencyCode
   }
 
   getOppositeInputToken = () => {
@@ -386,7 +386,6 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
               <Trans
                 i18nKey="inputSubtotal"
                 tOptions={{ context: this.isLocalCurrencyInput() ? 'gold' : null }}
-                ns={Namespaces.exchangeFlow9}
               >
                 Subtotal @{' '}
                 <CurrencyDisplay
@@ -410,7 +409,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
         </TouchableOpacity>
         <Button
           onPress={this.goToReview}
-          text={t(`global:review`)}
+          text={t(`review`)}
           accessibilityLabel={t('continue')}
           disabled={this.isExchangeInvalid()}
           type={BtnTypes.SECONDARY}
@@ -421,7 +420,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
         <Dialog
           title={t('rateInfoTitle')}
           isVisible={exchangeRateInfoDialogVisible}
-          actionText={t('global:dismiss')}
+          actionText={t('dismiss')}
           actionPress={this.toggleExchangeRateInfoDialog}
         >
           {t('rateInfoBody')}
@@ -437,7 +436,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateT
   showError,
   hideAlert,
   updateLastUsedCurrency,
-})(withTranslation<Props>(Namespaces.exchangeFlow9)(ExchangeTradeScreen))
+})(withTranslation<Props>()(ExchangeTradeScreen))
 
 const styles = StyleSheet.create({
   container: {

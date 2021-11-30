@@ -1,5 +1,6 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
+import { Environment as PersonaEnvironment } from 'react-native-persona'
 import {
   BIDALI_URL,
   DEFAULT_SYNC_MODE,
@@ -39,6 +40,8 @@ interface NetworkConfig {
   fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
   walletConnectEndpoint: string
+  personaEnvironment: PersonaEnvironment
+  inhouseLiquditiyUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -103,6 +106,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
+    personaEnvironment: PersonaEnvironment.SANDBOX,
+    inhouseLiquditiyUrl: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -126,6 +131,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
+    personaEnvironment: PersonaEnvironment.PRODUCTION,
+    inhouseLiquditiyUrl: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
   },
 }
 

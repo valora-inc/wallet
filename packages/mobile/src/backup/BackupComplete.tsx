@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, {}, {}, RootState>(
   mapStateToProps,
   {}
-)(withTranslation<Props>(Namespaces.backupKeyFlow6)(BackupComplete))
+)(withTranslation<Props>()(BackupComplete))

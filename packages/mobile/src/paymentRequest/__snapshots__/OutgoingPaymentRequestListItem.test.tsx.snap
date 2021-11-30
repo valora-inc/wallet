@@ -97,7 +97,7 @@ Array [
               testID="undefined/value"
             >
               
-              $
+              ₱
               31.92
             </Text>
           </Text>
@@ -195,7 +195,7 @@ Array [
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/1/CallToActions/global:remind/Button"
+          testID="OutgoingPaymentRequestNotification/1/CallToActions/remind/Button"
         >
           <Text
             style={
@@ -216,7 +216,7 @@ Array [
               ]
             }
           >
-            global:remind
+            remind
           </Text>
         </View>
         <View
@@ -236,7 +236,7 @@ Array [
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/1/CallToActions/global:cancel/Button"
+          testID="OutgoingPaymentRequestNotification/1/CallToActions/cancel/Button"
         >
           <Text
             style={
@@ -257,7 +257,7 @@ Array [
               ]
             }
           >
-            global:cancel
+            cancel
           </Text>
         </View>
       </View>

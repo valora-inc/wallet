@@ -18,7 +18,9 @@ send payments to their contacts.
 
 ## Integrate with Valora
 
-See [deeplinks.md](./packages/mobile/docs/deeplinks.md) for integrating with Valora using deep links.
+Integrate with Valora using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
+
+See also [deeplinks.md](./packages/mobile/docs/deeplinks.md) for integrating with Valora using deep links.
 
 ## Build Valora Locally
 

@@ -25,11 +25,10 @@ import {
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
 import {
   AddressToE164NumberType,
-  e164NumberToAddressSelector,
   E164NumberToAddressType,
-  e164NumberToSaltSelector,
   E164NumberToSaltType,
 } from 'src/identity/reducer'
+import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
@@ -127,7 +126,7 @@ function _decryptComment(
     // for old comments and/or mismatch between DEK types btwn sender + receiver
     // To cover this case, the comment is hidden instead of showing garbage
     Logger.warn(TAG + 'decryptComment', 'Comment appears to be ciphertext, hiding comment')
-    return { comment: i18n.t('global:commentUnavailable') }
+    return { comment: i18n.t('commentUnavailable') }
   }
 }
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import WebView from 'src/components/WebView'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 
 type Props = {} & WithTranslation
@@ -18,7 +18,7 @@ const LICENSE_SOURCE = Platform.select({
 class Licenses extends React.Component<Props> {
   static navigationOptions = () => ({
     ...headerWithBackButton,
-    headerTitle: i18n.t('accountScreen10:licenses'),
+    headerTitle: i18n.t('licenses'),
   })
 
   render() {
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.accountScreen10)(Licenses)
+export default withTranslation<Props>()(Licenses)

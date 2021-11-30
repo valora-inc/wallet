@@ -1,19 +1,16 @@
 import { hexToBuffer } from '@celo/utils/lib/address'
-import {
-  extractAttestationCodeFromMessage,
-  extractSecurityCodeWithPrefix,
-} from '@celo/utils/lib/attestations'
+import { extractSecurityCodeWithPrefix } from '@celo/utils/lib/attestations'
 import React, { useEffect } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import { setAttestationInputStatus } from 'src/identity/actions'
+import { ATTESTATION_CODE_PLACEHOLDER } from 'src/identity/reducer'
 import {
   acceptedAttestationCodesSelector,
-  ATTESTATION_CODE_PLACEHOLDER,
   attestationCodesSelector,
   attestationInputStatusSelector,
-} from 'src/identity/reducer'
+} from 'src/identity/selectors'
 import { AttestationCode } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
 import { indexReadyForInput } from 'src/verify/utils'
@@ -26,7 +23,6 @@ interface Props {
   inputPlaceholderWithClipboardContent: string
   onInputChange: (value: string, processCodeIfValid?: boolean) => void
   style?: StyleProp<ViewStyle>
-  shortVerificationCodesEnabled: boolean
   testID?: string
 }
 
@@ -48,7 +44,6 @@ function VerificationCodeInput({
   inputPlaceholderWithClipboardContent,
   onInputChange,
   style,
-  shortVerificationCodesEnabled,
   testID,
 }: Props) {
   const attestationCodes = useSelector(attestationCodesSelector)
@@ -60,10 +55,7 @@ function VerificationCodeInput({
 
   // Set initial status
   useEffect(() => {
-    const initialValue = getRecodedAttestationValue(
-      attestationCodes[index],
-      shortVerificationCodesEnabled
-    )
+    const initialValue = getRecodedAttestationValue(attestationCodes[index])
     const isAccepted =
       attestationCodes[index] &&
       isAttestationAccepted(acceptedAttestationCodes, attestationCodes[index])
@@ -118,10 +110,7 @@ function VerificationCodeInput({
         status
       )
     ) {
-      const code = getRecodedAttestationValue(
-        attestationCodes[index],
-        shortVerificationCodesEnabled
-      )
+      const code = getRecodedAttestationValue(attestationCodes[index])
       onInputChange(code, false)
     }
   }, [attestationCodes])
@@ -141,23 +130,19 @@ function VerificationCodeInput({
       inputPlaceholder={inputPlaceholder}
       inputPlaceholderWithClipboardContent={inputPlaceholderWithClipboardContent}
       onInputChange={onInputChange}
-      shouldShowClipboard={shouldShowClipboard(attestationCodes, shortVerificationCodesEnabled)}
+      shouldShowClipboard={shouldShowClipboard(attestationCodes)}
       style={style}
-      shortVerificationCodesEnabled={shortVerificationCodesEnabled}
       testID={testID}
     />
   )
 }
 
-function getRecodedAttestationValue(
-  attestationCode: AttestationCode,
-  shortVerificationCodesEnabled: boolean
-) {
+function getRecodedAttestationValue(attestationCode: AttestationCode) {
   try {
     if (!attestationCode?.code || attestationCode.code === ATTESTATION_CODE_PLACEHOLDER) {
       return ''
     }
-    if (shortVerificationCodesEnabled && attestationCode.shortCode) {
+    if (attestationCode.shortCode) {
       return attestationCode.shortCode
     }
     return hexToBuffer(attestationCode.code).toString('base64')
@@ -167,20 +152,10 @@ function getRecodedAttestationValue(
   }
 }
 
-function shouldShowClipboard(
-  attestationCodes: AttestationCode[],
-  shortVerificationCodesEnabled: boolean
-) {
+function shouldShowClipboard(attestationCodes: AttestationCode[]) {
   return (value: string) => {
-    const extractedCode = shortVerificationCodesEnabled
-      ? extractSecurityCodeWithPrefix(value)
-      : extractAttestationCodeFromMessage(value)
-    return (
-      !!extractedCode &&
-      !attestationCodes.find(
-        (c) => (shortVerificationCodesEnabled ? c.shortCode : c.code) === extractedCode
-      )
-    )
+    const extractedCode = extractSecurityCodeWithPrefix(value)
+    return !!extractedCode && !attestationCodes.find((c) => c.shortCode === extractedCode)
   }
 }
 

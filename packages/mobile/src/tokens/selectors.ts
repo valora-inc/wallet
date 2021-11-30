@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
@@ -34,6 +35,13 @@ export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tok
   )
 })
 
+// Tokens sorted by usd balance (descending)
+export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) => {
+  return tokensList.sort((a, b) =>
+    b.balance.multipliedBy(b.usdPrice).comparedTo(a.balance.multipliedBy(a.usdPrice))
+  )
+})
+
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
   const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
@@ -60,3 +68,23 @@ export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) 
 
   return maxTokenAddress
 })
+
+export const totalTokenBalanceSelector = createSelector(
+  [tokensWithBalanceSelector, localCurrencyExchangeRatesSelector],
+  (tokenBalances, exchangeRate) => {
+    const usdRate = exchangeRate[Currency.Dollar]
+    if (!usdRate) {
+      return null
+    }
+    let totalBalance = new BigNumber(0)
+
+    for (const token of tokenBalances) {
+      const tokenAmount = new BigNumber(token.balance)
+        .multipliedBy(token.usdPrice)
+        .multipliedBy(usdRate)
+      totalBalance = totalBalance.plus(tokenAmount)
+    }
+
+    return totalBalance
+  }
+)
