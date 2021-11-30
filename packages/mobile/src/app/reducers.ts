@@ -3,12 +3,10 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { RootState } from 'src/redux/reducers'
 
 export interface State {
   loggedIn: boolean
   numberVerified: boolean
-  language: string | null
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -43,17 +41,12 @@ export interface State {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
-  allowOtaTranslations: boolean
-  otaTranslationsLastUpdate: number
-  otaTranslationsAppVersion: string
-  otaTranslationsLanguage: string
 }
 
 const initialState = {
   loading: false,
   loggedIn: false,
   numberVerified: false,
-  language: null,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -84,13 +77,7 @@ const initialState = {
   multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
-  allowOtaTranslations: REMOTE_CONFIG_VALUES_DEFAULTS.allowOtaTranslations,
-  otaTranslationsLastUpdate: 0,
-  otaTranslationsAppVersion: '0',
-  otaTranslationsLanguage: '',
 }
-
-export const currentLanguageSelector = (state: RootState) => state.app.language
 
 export const appReducer = (
   state: State | undefined = initialState,
@@ -140,17 +127,11 @@ export const appReducer = (
         ...state,
         numberVerified: action.numberVerified,
       }
-    case Actions.SET_LANGUAGE:
-      return {
-        ...state,
-        language: action.language,
-      }
     case Actions.RESET_APP_OPENED_STATE:
       return {
         ...state,
         loggedIn: false,
         numberVerified: false,
-        language: null,
       }
     case Actions.SET_ANALYTICS_ENABLED:
       return {
@@ -203,7 +184,6 @@ export const appReducer = (
         multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
-        allowOtaTranslations: action.configValues.allowOtaTranslations,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -226,13 +206,6 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
-      }
-    case Actions.OTA_TRANSLATIONS_UPDATED:
-      return {
-        ...state,
-        otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
-        otaTranslationsAppVersion: action.otaTranslationsAppVersion,
-        otaTranslationsLanguage: action.otaTranslationsLanguage,
       }
     default:
       return state

@@ -8,8 +8,8 @@ import { AppEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { currentLanguageSelector } from 'src/app/reducers'
 import { logPhoneNumberTypeEnabledSelector } from 'src/app/selectors'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   cancelVerification,
   completeAttestationCode,
