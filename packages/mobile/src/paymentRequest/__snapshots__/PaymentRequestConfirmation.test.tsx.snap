@@ -259,7 +259,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             testID="TotalLineItem/Total"
           >
             
-            $
+            ₱
             1.33
           </Text>
         </Text>
@@ -321,7 +321,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                @ 
               <Text>
                 
-                $
+                ₱
                 1.33
               </Text>
             </Text>
@@ -349,8 +349,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             testID="TotalLineItem/Subtotal"
           >
             
-            ₱
-            1.33
+            1.00
+             cUSD
           </Text>
         </Text>
       </View>
