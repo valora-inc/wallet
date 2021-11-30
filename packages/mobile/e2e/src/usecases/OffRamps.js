@@ -51,19 +51,48 @@ export default offRamps = () => {
       })
     })
 
-    describe.skip('When Gift Cards and Mobile Top Up Selected', () => {
+    describe('When Gift Cards and Mobile Top Up Selected', () => {
       beforeEach(async () => {
         await element(by.id('receiveWithBidali')).tap()
         await element(by.text('Next')).tap()
       })
 
+      // Webview testing is only available in Android - https://github.com/wix/Detox/releases/tag/18.7.0
       jest.retryTimes(2)
-      it('Then Bidali Should Display', async () => {
+      it(':android: Then should be able to purchase Amazon gift card with Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
-        // TODO: Include Check of Screenshot in Nightly Tests
-        // await sleep(15000)
-        // const imagePath = await device.takeScreenshot('Bidali')
-        // await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
+
+        await sleep(5 * 1000)
+        // Search from Amazon gift card
+        await web.element(by.web.cssSelector('#search-field-portal')).typeText('Amazon')
+
+        // Tap with CSS selector
+        await sleep(1 * 1000)
+        await web.element(by.web.cssSelector('div[class^=card]')).tap()
+
+        // Select Value - $5
+        await sleep(1 * 1000)
+        await web
+          .element(by.web.cssSelector("div[class^='select__indicator select__dropdown-indicator']"))
+          .tap()
+        await sleep(1 * 1000)
+        await web.element(by.web.cssSelector('div[class^=select__option]:first-of-type')).tap()
+
+        // Tap Purchase
+        await sleep(1 * 1000)
+        await web.element(by.web.cssSelector('span[class^=brand__Button]')).tap()
+
+        // Enter Email - We are not sending to this email so any valid format should work
+        await sleep(1 * 1000)
+        await web.element(by.web.cssSelector('#email')).typeText('test.email@valoraapp.com')
+
+        // Tap Submit
+        await sleep(1 * 1000)
+        await web.element(by.web.cssSelector('span[class*=big-button]')).tap()
+
+        // Confirm Send Screen is Present
+        await sleep(1 * 1000)
+        await expect(element(by.id('ConfirmButton'))).toBeVisible()
       })
     })
 
