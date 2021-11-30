@@ -912,7 +912,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="TotalLineItem/Total"
           >
             
-            $
+            ₱
             1.33
           </Text>
         </Text>
@@ -974,7 +974,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                @ 
               <Text>
                 
-                $
+                ₱
                 1.33
               </Text>
             </Text>

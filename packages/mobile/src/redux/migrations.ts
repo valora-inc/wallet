@@ -329,4 +329,18 @@ export const migrations = {
   },
   20: (state: any) => state,
   21: (state: any) => state,
+  22: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      language: undefined,
+    },
+    i18n: {
+      language: state.app.language,
+      allowOtaTranslations: false,
+      otaTranslationsLastUpdate: 0,
+      otaTranslationsAppVersion: '0',
+      otaTranslationsLanguage: '',
+    },
+  }),
 }

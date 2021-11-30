@@ -3,12 +3,10 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { RootState } from 'src/redux/reducers'
 
 export interface State {
   loggedIn: boolean
   numberVerified: boolean
-  language: string | null
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
@@ -49,7 +47,6 @@ const initialState = {
   loading: false,
   loggedIn: false,
   numberVerified: false,
-  language: null,
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
@@ -81,8 +78,6 @@ const initialState = {
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
 }
-
-export const currentLanguageSelector = (state: RootState) => state.app.language
 
 export const appReducer = (
   state: State | undefined = initialState,
@@ -132,17 +127,11 @@ export const appReducer = (
         ...state,
         numberVerified: action.numberVerified,
       }
-    case Actions.SET_LANGUAGE:
-      return {
-        ...state,
-        language: action.language,
-      }
     case Actions.RESET_APP_OPENED_STATE:
       return {
         ...state,
         loggedIn: false,
         numberVerified: false,
-        language: null,
       }
     case Actions.SET_ANALYTICS_ENABLED:
       return {

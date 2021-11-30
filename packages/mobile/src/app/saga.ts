@@ -162,6 +162,7 @@ export interface RemoteConfigValues {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

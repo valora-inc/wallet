@@ -150,7 +150,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               }
             >
               
-              $
+              ₱
               1.33
             </Text>
             <TextInput
@@ -349,8 +349,8 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             testID="TotalLineItem/Subtotal"
           >
             
-            1.00
-             cUSD
+            ₱
+            1.33
           </Text>
         </Text>
       </View>

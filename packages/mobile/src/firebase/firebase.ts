@@ -9,11 +9,11 @@ import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
-import { currentLanguageSelector } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
@@ -281,6 +281,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     multiTokenShowHomeBalances: flags.multiTokenShowHomeBalances.asBoolean(),
     multiTokenUseSendFlow: flags.multiTokenUseSendFlow.asBoolean(),
     multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
+    allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
   }
 }
 
@@ -380,7 +381,7 @@ export async function readOnceFromFirebase(path: string) {
     .then((snapshot) => snapshot.val())
 }
 
-export async function setUserLanguage(address: string, language: string) {
+export async function setUserLanguage(address: string, language: string | null) {
   try {
     Logger.info(TAG, `Setting language selection for user ${address}`)
     const regRef = firebase.database().ref('registrations')

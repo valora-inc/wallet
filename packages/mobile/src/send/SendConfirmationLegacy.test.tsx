@@ -110,10 +110,10 @@ describe('SendConfirmationLegacy', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(amountFromComponent(feeComponent)).toEqual('$0.0133')
+    expect(amountFromComponent(feeComponent)).toEqual('₱0.0133')
 
     const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('$1.34')
+    expect(amountFromComponent(totalComponent)).toEqual('₱1.34')
   })
 
   it('renders correctly for send payment confirmation with CELO fees', async () => {
@@ -132,7 +132,7 @@ describe('SendConfirmationLegacy', () => {
     // NOTE: CELO fees are currently not combined into the total.
     // TODO: This should equal more than $1.33, depending on the CELO fee value.
     const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('$1.33')
+    expect(amountFromComponent(totalComponent)).toEqual('₱1.33')
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {

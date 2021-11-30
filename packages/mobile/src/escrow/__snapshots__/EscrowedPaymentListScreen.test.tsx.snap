@@ -141,7 +141,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       testID="EscrowedPaymentListItem/amount/value"
                     >
                       
-                      $
+                      ₱
                       9.31
                     </Text>
                   </Text>
@@ -403,7 +403,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       testID="EscrowedPaymentListItem/amount/value"
                     >
                       
-                      $
+                      ₱
                       9.31
                     </Text>
                   </Text>
@@ -665,7 +665,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       testID="EscrowedPaymentListItem/amount/value"
                     >
                       
-                      $
+                      ₱
                       9.31
                     </Text>
                   </Text>
