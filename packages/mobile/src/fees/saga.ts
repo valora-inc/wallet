@@ -40,7 +40,7 @@ export interface FeeInfo {
 // Use default values for fee estimation
 const PLACEHOLDER_ADDRESS = '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
 const PLACEHOLDER_COMMENT = 'Coffee or Tea?'.repeat(5)
-const PLACEHOLDER_AMOUNT = new BigNumber(1)
+const PLACEHOLDER_AMOUNT = new BigNumber(0.00000001)
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
 export function* estimateFeeSaga({

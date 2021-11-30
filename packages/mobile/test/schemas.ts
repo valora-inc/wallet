@@ -731,27 +731,6 @@ export const v22Schema = {
     otaTranslationsAppVersion: '0',
     otaTranslationsLanguage: '',
   },
-  fees: {
-    estimates: {
-      [mockCusdAddress]: {
-        ['send']: {
-          usdFee: '0.02',
-          lastUpdated: 500,
-          loading: false,
-          error: false,
-        },
-        ['invite']: {
-          usdFee: '0.04',
-          lastUpdated: 500,
-          loading: false,
-          error: false,
-        },
-        ['exchange']: undefined,
-        ['reclaim-escrow']: undefined,
-        ['register-dek']: undefined,
-      },
-    },
-  },
 }
 
 export const v23Schema = {
