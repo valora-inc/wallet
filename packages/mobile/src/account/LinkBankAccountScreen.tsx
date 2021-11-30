@@ -11,7 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { KycStatus } from 'src/account/reducer'
 import { useTranslation } from 'react-i18next'
-
+import PersonaButton from 'src/account/Persona'
 interface Props {
   kycStatus: KycStatus | undefined
 }
@@ -35,7 +35,7 @@ function StepOne({ kycStatus }: Props) {
 
   switch (kycStatus) {
     case KycStatus.Created:
-      /* TODO: Write In-progress state view once we have designs */
+      /* TODO: Ask Nitya on 12/1 about UI for Created Flow. I'll do it in separate PR */
       return null
     case KycStatus.Completed:
       return (
@@ -55,15 +55,9 @@ function StepOne({ kycStatus }: Props) {
           </View>
           <Text style={styles.action}>{t('linkBankAccountScreen.failed.title')}</Text>
           <Text style={styles.description}>{t('linkBankAccountScreen.failed.description')}</Text>
-          <Button
-            text={t('linkBankAccountScreen.tryAgain')}
-            onPress={() => {
-              /* TODO: Retry Persona Flow */
-            }}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-            style={styles.statusButton}
-          />
+          <View style={styles.button}>
+            <PersonaButton kycStatus={kycStatus} text={t('linkBankAccountScreen.tryAgain')} />
+          </View>
           <TouchableOpacity
             testID="SupportContactLink"
             onPress={() => {
@@ -95,7 +89,7 @@ function StepOne({ kycStatus }: Props) {
         </View>
       )
     case KycStatus.Expired:
-      /* TODO: Write Expired state view once we have designs */
+      /* TODO: Ask Nitya on 12/1 about UI for Expired Flow. I'll do it in separate PR */
       return null
     default:
       return (
@@ -103,15 +97,9 @@ function StepOne({ kycStatus }: Props) {
           <Text style={styles.label}>{t('linkBankAccountScreen.begin.label')}</Text>
           <Text style={styles.action}>{t('linkBankAccountScreen.begin.title')}</Text>
           <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
-          <Button
-            text={t('linkBankAccountScreen.begin.cta')}
-            onPress={() => {
-              /* TODO: Start Persona Flow */
-            }}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-            style={styles.button}
-          />
+          <View style={styles.button}>
+            <PersonaButton kycStatus={kycStatus} />
+          </View>
         </View>
       )
   }
@@ -133,7 +121,7 @@ function StepTwo({ disabled }: { disabled: boolean }) {
       <Button
         text={t('linkBankAccountScreen.stepTwo.cta')}
         onPress={() => {
-          /* TODO: Start Plaid Flow */
+          /* TODO: Start Plaid Flow during M2 */
         }}
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}

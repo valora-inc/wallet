@@ -5,7 +5,7 @@ exports[`Persona renders correctly 1`] = `
   style={
     Array [
       Object {
-        "flexDirection": "column",
+        "flexDirection": "row",
       },
       undefined,
     ]
@@ -43,10 +43,10 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#97DFC1",
-          "flexGrow": 1,
+          "backgroundColor": "#F1F0EB",
           "height": 48,
           "justifyContent": "center",
+          "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
           "paddingVertical": 5,
@@ -58,7 +58,7 @@ exports[`Persona renders correctly 1`] = `
         maxFontSizeMultiplier={1}
         style={
           Object {
-            "color": "#FFFFFF",
+            "color": "#9CA4A9",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
             "lineHeight": 22,

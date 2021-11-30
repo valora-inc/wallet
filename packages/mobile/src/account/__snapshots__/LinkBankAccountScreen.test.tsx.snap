@@ -1,149 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  1`] = `
-<RNCSafeAreaView
-  style={
-    Object {
-      "flex": 1,
-      "marginHorizontal": 24,
-    }
-  }
->
-  <RCTScrollView
-    contentContainerStyle={
-      Object {
-        "alignItems": "center",
-      }
-    }
-    showsVerticalScrollIndicator={false}
-  >
-    <View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "paddingVertical": 48,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 18,
-              "lineHeight": 22,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.label
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 22,
-              "lineHeight": 28,
-              "marginTop": 12,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.title
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
-              "marginTop": 12,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.description
-        </Text>
-        <View
-          style={
-            Array [
-              Object {
-                "flexDirection": "row",
-              },
-              Object {
-                "marginTop": 48,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              Array [
-                Object {
-                  "overflow": "hidden",
-                },
-                Object {
-                  "borderRadius": 100,
-                },
-              ]
-            }
-          >
-            <View
-              accessible={true}
-              focusable={false}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#F1F0EB",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
-              }
-            >
-              <Text
-                maxFontSizeMultiplier={1}
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                linkBankAccountScreen.stepTwo.cta
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-  </RCTScrollView>
-</RNCSafeAreaView>
-`;
-
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  2`] = `
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of completed 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -359,7 +216,293 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  3`] = `
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of created 1`] = `
+<RNCSafeAreaView
+  style={
+    Object {
+      "flex": 1,
+      "marginHorizontal": 24,
+    }
+  }
+>
+  <RCTScrollView
+    contentContainerStyle={
+      Object {
+        "alignItems": "center",
+      }
+    }
+    showsVerticalScrollIndicator={false}
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "paddingVertical": 48,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Jost-Medium",
+              "fontSize": 18,
+              "lineHeight": 22,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.label
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Jost-Medium",
+              "fontSize": 22,
+              "lineHeight": 28,
+              "marginTop": 12,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.title
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 12,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.description
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              Object {
+                "marginTop": 48,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "borderRadius": 100,
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#F1F0EB",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
+              }
+            >
+              <Text
+                maxFontSizeMultiplier={1}
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                linkBankAccountScreen.stepTwo.cta
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of expired 1`] = `
+<RNCSafeAreaView
+  style={
+    Object {
+      "flex": 1,
+      "marginHorizontal": 24,
+    }
+  }
+>
+  <RCTScrollView
+    contentContainerStyle={
+      Object {
+        "alignItems": "center",
+      }
+    }
+    showsVerticalScrollIndicator={false}
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "paddingVertical": 48,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Jost-Medium",
+              "fontSize": 18,
+              "lineHeight": 22,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.label
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Jost-Medium",
+              "fontSize": 22,
+              "lineHeight": 28,
+              "marginTop": 12,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.title
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "marginTop": 12,
+              "textAlign": "center",
+            }
+          }
+        >
+          linkBankAccountScreen.stepTwo.description
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+              },
+              Object {
+                "marginTop": 48,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "borderRadius": 100,
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#F1F0EB",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "minWidth": 120,
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
+              }
+            >
+              <Text
+                maxFontSizeMultiplier={1}
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                linkBankAccountScreen.stepTwo.cta
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;
+
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of failed 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -465,71 +608,78 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
         </Text>
         <View
           style={
-            Array [
-              Object {
-                "flexDirection": "row",
-              },
-              Object {
-                "marginTop": 24,
-              },
-            ]
+            Object {
+              "marginTop": 48,
+            }
           }
         >
           <View
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "flexDirection": "row",
                 },
-                Object {
-                  "borderRadius": 100,
-                },
+                undefined,
               ]
             }
           >
             <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#F1F0EB",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Object {
+                    "borderRadius": 100,
+                  },
+                ]
               }
             >
-              <Text
-                maxFontSizeMultiplier={1}
-                style={
+              <View
+                accessible={true}
+                focusable={false}
+                nativeBackgroundAndroid={
                   Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 22,
+                    "attribute": "selectableItemBackground",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
                   }
                 }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#F1F0EB",
+                    "height": 48,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  }
+                }
+                testID="PersonaButton"
               >
-                linkBankAccountScreen.tryAgain
-              </Text>
+                <Text
+                  maxFontSizeMultiplier={1}
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-SemiBold",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    }
+                  }
+                >
+                  linkBankAccountScreen.tryAgain
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -693,7 +843,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  4`] = `
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of pending 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -986,150 +1136,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  5`] = `
-<RNCSafeAreaView
-  style={
-    Object {
-      "flex": 1,
-      "marginHorizontal": 24,
-    }
-  }
->
-  <RCTScrollView
-    contentContainerStyle={
-      Object {
-        "alignItems": "center",
-      }
-    }
-    showsVerticalScrollIndicator={false}
-  >
-    <View>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "paddingVertical": 48,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 18,
-              "lineHeight": 22,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.label
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Jost-Medium",
-              "fontSize": 22,
-              "lineHeight": 28,
-              "marginTop": 12,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.title
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
-              "marginTop": 12,
-              "textAlign": "center",
-            }
-          }
-        >
-          linkBankAccountScreen.stepTwo.description
-        </Text>
-        <View
-          style={
-            Array [
-              Object {
-                "flexDirection": "row",
-              },
-              Object {
-                "marginTop": 48,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              Array [
-                Object {
-                  "overflow": "hidden",
-                },
-                Object {
-                  "borderRadius": 100,
-                },
-              ]
-            }
-          >
-            <View
-              accessible={true}
-              focusable={false}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#F1F0EB",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
-              }
-            >
-              <Text
-                maxFontSizeMultiplier={1}
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                linkBankAccountScreen.stepTwo.cta
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-  </RCTScrollView>
-</RNCSafeAreaView>
-`;
-
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of  6`] = `
+exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of undefined 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -1200,71 +1207,78 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
         </Text>
         <View
           style={
-            Array [
-              Object {
-                "flexDirection": "row",
-              },
-              Object {
-                "marginTop": 48,
-              },
-            ]
+            Object {
+              "marginTop": 48,
+            }
           }
         >
           <View
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "flexDirection": "row",
                 },
-                Object {
-                  "borderRadius": 100,
-                },
+                undefined,
               ]
             }
           >
             <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#F1F0EB",
-                  "height": 48,
-                  "justifyContent": "center",
-                  "minWidth": 120,
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
+                Array [
+                  Object {
+                    "overflow": "hidden",
+                  },
+                  Object {
+                    "borderRadius": 100,
+                  },
+                ]
               }
             >
-              <Text
-                maxFontSizeMultiplier={1}
-                style={
+              <View
+                accessible={true}
+                focusable={false}
+                nativeBackgroundAndroid={
                   Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 22,
+                    "attribute": "selectableItemBackground",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
                   }
                 }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#F1F0EB",
+                    "height": 48,
+                    "justifyContent": "center",
+                    "minWidth": 120,
+                    "opacity": undefined,
+                    "paddingHorizontal": 24,
+                    "paddingVertical": 5,
+                  }
+                }
+                testID="PersonaButton"
               >
-                linkBankAccountScreen.begin.cta
-              </Text>
+                <Text
+                  maxFontSizeMultiplier={1}
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-SemiBold",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    }
+                  }
+                >
+                  raiseLimitBegin
+                </Text>
+              </View>
             </View>
           </View>
         </View>
