@@ -62,7 +62,7 @@ export default offRamps = () => {
       it(':android: Then should be able to purchase Amazon gift card with Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
 
-        await sleep(5 * 1000)
+        await sleep(10 * 1000)
         // Search from Amazon gift card
         await web.element(by.web.cssSelector('#search-field-portal')).typeText('Amazon')
 
@@ -79,19 +79,22 @@ export default offRamps = () => {
         await web.element(by.web.cssSelector('div[class^=select__option]:first-of-type')).tap()
 
         // Tap Purchase
-        await sleep(1 * 1000)
+        await sleep(2 * 1000)
         await web.element(by.web.cssSelector('span[class^=brand__Button]')).tap()
 
         // Enter Email - We are not sending to this email so any valid format should work
         await sleep(1 * 1000)
-        await web.element(by.web.cssSelector('#email')).typeText('test.email@valoraapp.com')
+        await web.element(by.web.cssSelector('#email')).typeText('test.email')
+        // Trigger the DOM Update
+        await sleep(0.5 * 1000)
+        await web.element(by.web.cssSelector('#email')).typeText('@valoraapp.com')
 
         // Tap Submit
-        await sleep(1 * 1000)
+        await sleep(2 * 1000)
         await web.element(by.web.cssSelector('span[class*=big-button]')).tap()
 
         // Confirm Send Screen is Present
-        await sleep(1 * 1000)
+        await sleep(2 * 1000)
         await expect(element(by.id('ConfirmButton'))).toBeVisible()
       })
     })
