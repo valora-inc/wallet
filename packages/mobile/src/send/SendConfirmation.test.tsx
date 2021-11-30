@@ -28,13 +28,14 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
+  mockFeeInfo,
+  mockGasPrice,
   mockInvitableRecipient,
   mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
 
-const mockGasPrice = new BigNumber(50000000000)
 const mockDekFeeGas = new BigNumber(100000)
 
 jest.mock('src/web3/gas')
@@ -94,6 +95,29 @@ describe('SendConfirmation', () => {
           },
         },
       },
+      fees: {
+        estimates: {
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              usdFee: '0.02',
+              lastUpdated: 500,
+              loading: false,
+              error: false,
+              feeInfo: mockFeeInfo,
+            },
+            [FeeType.INVITE]: {
+              usdFee: '0.04',
+              lastUpdated: 500,
+              loading: false,
+              error: false,
+              feeInfo: mockFeeInfo,
+            },
+            [FeeType.EXCHANGE]: undefined,
+            [FeeType.RECLAIM_ESCROW]: undefined,
+            [FeeType.REGISTER_DEK]: undefined,
+          },
+        },
+      },
       ...storeOverrides,
     })
 
@@ -123,11 +147,11 @@ describe('SendConfirmation', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(getElementText(feeComponent)).toEqual('$0.0266')
+    expect(getElementText(feeComponent)).toEqual('₱0.0266')
 
     // Subtotal is $1.33, which is added the fee amount.
     const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('$1.36')
+    expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
   it('shows --- for fee when fee estimate fails', async () => {
@@ -319,7 +343,7 @@ describe('SendConfirmation', () => {
           inputAmount,
           '',
           recipient,
-          undefined,
+          mockFeeInfo,
           false
         ),
       ])
@@ -365,7 +389,7 @@ describe('SendConfirmation', () => {
           inputAmount,
           '',
           { address: mockAccount2, e164PhoneNumber: mockE164Number },
-          undefined,
+          mockFeeInfo,
           false
         ),
       ])

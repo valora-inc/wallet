@@ -225,7 +225,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               testID="undefined/value"
             >
               
-              $
+              ₱
               1.33
             </Text>
             <TextInput
@@ -407,7 +407,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"Jane Doe"}
                       </Text>
                       <Text
                         style={
@@ -919,7 +919,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             testID="TotalLineItem/Total/value"
           >
             
-            $
+            ₱
             1.33
           </Text>
         </Text>

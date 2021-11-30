@@ -390,7 +390,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
                       </Text>
                       <Text
                         style={
@@ -850,7 +850,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   testID="feeDrawer/SendConfirmation/totalFee/value"
                 >
                   
-                  $
+                  ₱
                   0.0266
                 </Text>
               </Text>
@@ -923,7 +923,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="TotalLineItem/Total"
           >
             
-            $
+            ₱
             1.36
           </Text>
         </Text>
@@ -985,7 +985,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                @ 
               <Text>
                 
-                $
+                ₱
                 1.33
               </Text>
             </Text>

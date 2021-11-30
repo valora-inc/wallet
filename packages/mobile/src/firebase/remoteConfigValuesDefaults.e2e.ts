@@ -1,7 +1,7 @@
-import { RemoteFeatureFlags } from 'src/app/saga'
+import { RemoteConfigValues } from 'src/app/saga'
 
-export const FEATURE_FLAG_DEFAULTS: Omit<
-  RemoteFeatureFlags,
+export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
+  RemoteConfigValues,
   'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers'
 > & { komenciAllowedDeployers: string } = {
   hideVerification: false,
@@ -11,7 +11,6 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   // same here
   // celoEducationUri: null,
   celoEuroEnabled: true,
-  shortVerificationCodesEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
@@ -32,4 +31,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   multiTokenShowHomeBalances: false,
   multiTokenUseSendFlow: false,
   multiTokenUseUpdatedFeed: false,
+  allowOtaTranslations: false,
 }

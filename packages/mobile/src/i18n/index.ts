@@ -1,36 +1,48 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
-import i18n from 'i18next'
+import i18n, { Resource } from 'i18next'
 import {
   initReactI18next,
   WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
+import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
+import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-function getAvailableResources() {
-  const resources = {}
-  for (const [key, value] of Object.entries(locales)) {
-    Object.defineProperty(resources, key, {
-      get: () => value!.strings,
+async function getAvailableResources(cachedTranslations: Resource) {
+  const resources: Resource = {}
+  for (const [language, value] of Object.entries(locales)) {
+    Object.defineProperty(resources, language, {
+      get: () => ({
+        translation: cachedTranslations[language] || value!.strings.translation,
+      }),
       enumerable: true,
     })
   }
   return resources
 }
 
-const availableResources = getAvailableResources()
+export async function initI18n(
+  language: string,
+  allowOtaTranslations: boolean,
+  otaTranslationsAppVersion: string
+) {
+  let cachedTranslations: Resource = {}
+  if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
+    cachedTranslations = await getOtaTranslations()
+  }
+  const resources = await getAvailableResources(cachedTranslations)
 
-export function initI18n(language: string) {
   return i18n.use(initReactI18next).init({
     fallbackLng: {
       default: [DEFAULT_APP_LANGUAGE],
       'es-US': ['es-LA'],
     },
     lng: language,
-    resources: availableResources,
+    resources,
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales
     // and prints out all strings when initializing
     debug: false,

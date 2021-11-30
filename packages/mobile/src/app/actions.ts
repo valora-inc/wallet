@@ -1,9 +1,5 @@
-import { RemoteFeatureFlags } from 'src/app/saga'
-import i18n from 'src/i18n'
+import { RemoteConfigValues } from 'src/app/saga'
 import { Screens } from 'src/navigator/Screens'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'app/actions'
 
 // https://facebook.github.io/react-native/docs/appstate
 export enum AppState {
@@ -16,7 +12,6 @@ export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
-  SET_LANGUAGE = 'APP/SET_LANGUAGE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
@@ -27,7 +22,7 @@ export enum Actions {
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
   MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
-  UPDATE_FEATURE_FLAGS = 'APP/UPDATE_FEATURE_FLAGS',
+  UPDATE_REMOTE_CONFIG_VALUES = 'APP/UPDATE_REMOTE_CONFIG_VALUES',
   TOGGLE_INVITE_MODAL = 'APP/TOGGLE_INVITE_MODAL',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
@@ -49,11 +44,6 @@ interface SetLoggedIn {
 interface SetNumberVerifiedAction {
   type: Actions.SET_NUMBER_VERIFIED
   numberVerified: boolean
-}
-
-export interface SetLanguage {
-  type: Actions.SET_LANGUAGE
-  language: string
 }
 
 export interface OpenDeepLink {
@@ -119,9 +109,9 @@ interface MinAppVersionDeterminedAction {
   minVersion: string | null
 }
 
-export interface UpdateFeatureFlagsAction {
-  type: Actions.UPDATE_FEATURE_FLAGS
-  flags: RemoteFeatureFlags
+export interface UpdateConfigValuesAction {
+  type: Actions.UPDATE_REMOTE_CONFIG_VALUES
+  configValues: RemoteConfigValues
 }
 
 export interface VerificationMigrationRanAction {
@@ -142,7 +132,6 @@ export type ActionTypes =
   | SetLoggedIn
   | SetNumberVerifiedAction
   | ResetAppOpenedState
-  | SetLanguage
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
@@ -151,7 +140,7 @@ export type ActionTypes =
   | SetSessionId
   | OpenUrlAction
   | MinAppVersionDeterminedAction
-  | UpdateFeatureFlagsAction
+  | UpdateConfigValuesAction
   | InviteModalAction
   | ActiveScreenChangedAction
   | AppMounted
@@ -173,17 +162,6 @@ export const setNumberVerified = (numberVerified: boolean) => ({
   type: Actions.SET_NUMBER_VERIFIED,
   numberVerified,
 })
-
-export const setLanguage = (language: string) => {
-  i18n
-    .changeLanguage(language)
-    .catch((reason: any) => Logger.error(TAG, 'Failed to change i18n language', reason))
-
-  return {
-    type: Actions.SET_LANGUAGE,
-    language,
-  }
-}
 
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {
   return {
@@ -246,9 +224,11 @@ export const minAppVersionDetermined = (
   minVersion,
 })
 
-export const updateFeatureFlags = (flags: RemoteFeatureFlags): UpdateFeatureFlagsAction => ({
-  type: Actions.UPDATE_FEATURE_FLAGS,
-  flags,
+export const updateRemoteConfigValues = (
+  configValues: RemoteConfigValues
+): UpdateConfigValuesAction => ({
+  type: Actions.UPDATE_REMOTE_CONFIG_VALUES,
+  configValues,
 })
 
 export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalAction => ({

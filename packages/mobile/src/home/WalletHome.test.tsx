@@ -31,6 +31,19 @@ const zeroBalances = {
   },
 }
 
+// When fetch balance api fails #1527
+const undefinedBalances = {
+  stableToken: {
+    balances: {
+      [Currency.Dollar]: undefined,
+      [Currency.Euro]: undefined,
+    },
+  },
+  goldToken: {
+    balance: undefined,
+  },
+}
+
 jest.mock('src/exchange/CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList')
 
@@ -143,9 +156,20 @@ describe('WalletHome', () => {
     expect(getByTestId('cashInBtn')).toBeTruthy()
   })
 
-  it('doesnt render cash in bottom sheet when experiment flag is turned on but balances are not zero', async () => {
+  it('Does not render cash in bottom sheet when experiment flag is turned on but balances are not zero', async () => {
     const { queryByTestId } = renderScreen({
       ...balances,
+      app: {
+        cashInButtonExpEnabled: true,
+      },
+    })
+
+    expect(queryByTestId('cashInBtn')).toBeFalsy()
+  })
+
+  it('Does not render cash in bottom sheet when experiment flag is turned on but balances are undefined', async () => {
+    const { queryByTestId } = renderScreen({
+      ...undefinedBalances,
       app: {
         cashInButtonExpEnabled: true,
       },
