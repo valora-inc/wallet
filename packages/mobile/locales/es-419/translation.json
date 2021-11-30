@@ -160,8 +160,8 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "customerIncentivesTitle": "Aumenta tus recompensas",
-  "customerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡empieza a agregar fondos!",
+  "consumerIncentivesTitle": "Aumenta tus recompensas",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡empieza a agregar fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envía y gasta como siempre, obtendrás recompensas en el saldo restante."
