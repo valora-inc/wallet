@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "requirePinOnAppOpen": "Require Pin on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -94,7 +94,7 @@
   "raiseLimitBegin": "Begin Identity Verification",
   "raiseLimitResume": "Resume Identity Verification",
   "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
+  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{}}",
   "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
   "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
@@ -160,8 +160,8 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "customerIncentivesTitle": "Boost your Rewards",
-  "customerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Boost your Rewards",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
     "header": "Weekly payout",
     "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign Tx",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -661,12 +661,12 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
-    "step2": "With Valora, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step1": "{{appName}} is a new way to send and receive value worldwide",
+    "step2": "Send funds across borders",
+    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
   },
   "welcome": {
-    "title": "Step into the future of crypto with Valora.",
+    "title": "Share money with those you value",
     "createAccount": "Create new account",
     "restoreAccount": "Restore my account"
   },
