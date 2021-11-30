@@ -58,7 +58,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -83,7 +83,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -98,15 +98,15 @@ describe(ExchangeTradeScreen, () => {
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
     jest.clearAllMocks()
-    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in MXN
-    expect(mockhideAlert).toBeCalled() // Can afford 50 MXN (2.50 cUSD) worth of gold
+    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
+    expect(mockhideAlert).toBeCalled() // Can afford 50 PHP (2.50 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '10000')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
       token: 'celoDollars',
-    }) // Can't afford 10000 MXN (500 cUSD) worth of gold
+    }) // Can't afford 10000 PHP (500 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
@@ -127,7 +127,7 @@ describe(ExchangeTradeScreen, () => {
           updateLastUsedCurrency={jest.fn()}
           balances={balances}
           exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.MXN}
+          localCurrencyCode={LocalCurrencyCode.PHP}
           localCurrencyExchangeRates={localCurrencyExchangeRates}
           defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
@@ -142,15 +142,15 @@ describe(ExchangeTradeScreen, () => {
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
     jest.clearAllMocks()
-    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in MXN
-    expect(mockhideAlert).toBeCalled() // Can afford 10 MXN (0.5 cUSD) worth of gold
+    fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
+    expect(mockhideAlert).toBeCalled() // Can afford 10 PHP (0.5 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '401')
     expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
       token: 'celoDollars',
-    }) // Can't afford 400 MXN (20.05 cUSD) worth of gold
+    }) // Can't afford 400 PHP (20.05 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
