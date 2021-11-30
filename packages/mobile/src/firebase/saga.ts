@@ -13,7 +13,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { Actions as AppActions, SetLanguage } from 'src/app/actions'
+import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
@@ -26,6 +26,7 @@ import {
   setUserLanguage,
   watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
+import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
@@ -81,18 +82,18 @@ function* initializeFirebase() {
   }
 }
 
-export function* syncLanguageSelection({ language }: SetLanguage) {
+export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)
   try {
-    yield call(setUserLanguage, address, language)
+    yield call(setUserLanguage, address, action.payload)
   } catch (error) {
     Logger.error(TAG, 'Syncing language selection to Firebase failed', error)
   }
 }
 
 export function* watchLanguage() {
-  yield takeEvery(AppActions.SET_LANGUAGE, syncLanguageSelection)
+  yield takeEvery(setLanguage.type, syncLanguageSelection)
 }
 
 function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {

@@ -160,8 +160,8 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "customerIncentivesTitle": "Erhöhe deine Belohnungen",
-  "customerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
+  "consumerIncentivesTitle": "Erhöhe deine Belohnungen",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
     "header": "Wöchentliche Auszahlung",
     "text": "Sende und gib aus wie gewohnt und erhalte Belohnungen auf den verbleibenden Saldo."
