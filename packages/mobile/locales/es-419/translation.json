@@ -160,8 +160,8 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "customerIncentivesTitle": "Aumenta tus recompensas",
-  "customerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡empieza a agregar fondos!",
+  "consumerIncentivesTitle": "Aumenta tus recompensas",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales en tu saldo de {{currency}}. Disponible por tiempo limitado, ¡así que empieza a agregar fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envía y gasta como siempre, obtendrás recompensas en el saldo restante."
@@ -661,12 +661,12 @@
     "cta": "Comprar búsquedas (2)"
   },
   "onboardingEducation": {
-    "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una billetera cripto.",
-    "step2": "Con Valora, accede y multiplica tus criptomonedas en pocos pasos.",
-    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
+    "step1": "{{appName}} es una nueva forma de enviar y recibir valor en todo el mundo",
+    "step2": "Envía fondos sin fronteras",
+    "step3": "Conveniente, confiable y seguro. Tu teléfono es tu billetera"
   },
   "welcome": {
-    "title": "Entra de lleno al futuro de las criptomonedas con Valora.",
+    "title": "Comparte dinero con quienes valoras",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente"
   },
