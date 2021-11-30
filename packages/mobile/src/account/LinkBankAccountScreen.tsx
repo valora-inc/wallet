@@ -2,7 +2,6 @@ import * as React from 'react'
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { headerWithCloseButton } from 'src/navigator/Headers'
 import fontStyles from '@celo/react-components/styles/fonts'
 import colors from '@celo/react-components/styles/colors'
 import VerificationComplete from 'src/icons/VerificationComplete'
@@ -10,14 +9,8 @@ import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-
-enum KycStatus {
-  Created = 'created',
-  Completed = 'completed',
-  Failed = 'failed',
-  Pending = 'pending',
-  Expired = 'expired',
-}
+import { KycStatus } from 'src/account/reducer'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   kycStatus: KycStatus | undefined
@@ -30,7 +23,7 @@ function LinkBankAccountScreen({ kycStatus }: Props) {
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
-        <StepOne kycStatus={KycStatus.Pending} />
+        <StepOne kycStatus={kycStatus} />
         <StepTwo disabled={!kycStatus || kycStatus !== KycStatus.Completed} />
       </ScrollView>
     </SafeAreaView>
@@ -38,8 +31,11 @@ function LinkBankAccountScreen({ kycStatus }: Props) {
 }
 
 function StepOne({ kycStatus }: Props) {
+  const { t } = useTranslation()
+
   switch (kycStatus) {
     case KycStatus.Created:
+      /* TODO: Write In-progress state view once we have designs */
       return null
     case KycStatus.Completed:
       return (
@@ -47,11 +43,8 @@ function StepOne({ kycStatus }: Props) {
           <View style={styles.iconContainer}>
             <VerificationComplete />
           </View>
-          <Text style={styles.action}>Verification Complete</Text>
-          <Text style={styles.description}>
-            We successfully verified your identity. We'll let you know when you can finish linking
-            your bank account.
-          </Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.completed.description')}</Text>
         </View>
       )
     case KycStatus.Failed:
@@ -60,13 +53,10 @@ function StepOne({ kycStatus }: Props) {
           <View style={styles.iconContainer}>
             <VerificationDenied />
           </View>
-          <Text style={styles.action}>Verification denied</Text>
-          <Text style={styles.description}>
-            We were unable to verify your identity. Please contact support to continue linking your
-            bank account.
-          </Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.failed.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.failed.description')}</Text>
           <Button
-            text="Try Again"
+            text={t('linkBankAccountScreen.tryAgain')}
             onPress={() => {
               /* TODO: Retry Persona Flow */
             }}
@@ -75,11 +65,12 @@ function StepOne({ kycStatus }: Props) {
             style={styles.statusButton}
           />
           <TouchableOpacity
+            testID="SupportContactLink"
             onPress={() => {
               navigate(Screens.SupportContact)
             }}
           >
-            <Text style={styles.contactSupport}>{'Contact Support'}</Text>
+            <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
           </TouchableOpacity>
         </View>
       )
@@ -89,13 +80,11 @@ function StepOne({ kycStatus }: Props) {
           <View style={styles.iconContainer}>
             <VerificationPending />
           </View>
-          <Text style={styles.action}>Review in progress</Text>
-          <Text style={styles.description}>
-            Your information has been recieved and is being reviewed. This will take up to [number
-            of days] days.
-          </Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.pending.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
           <Button
-            text="Contact Support"
+            text={t('contactSupport')}
+            testID="SupportContactLink"
             onPress={() => {
               navigate(Screens.SupportContact)
             }}
@@ -111,13 +100,11 @@ function StepOne({ kycStatus }: Props) {
     default:
       return (
         <View style={styles.stepOne}>
-          <Text style={styles.label}>Step 1</Text>
-          <Text style={styles.action}>Verify your Identity</Text>
-          <Text style={styles.description}>
-            Adding crypto with a bank account is easy. This step will take about 5 minutes.
-          </Text>
+          <Text style={styles.label}>{t('linkBankAccountScreen.begin.label')}</Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.begin.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
           <Button
-            text="Begin"
+            text={t('linkBankAccountScreen.begin.cta')}
             onPress={() => {
               /* TODO: Start Persona Flow */
             }}
@@ -131,17 +118,20 @@ function StepOne({ kycStatus }: Props) {
 }
 
 function StepTwo({ disabled }: { disabled: boolean }) {
+  const { t } = useTranslation()
   return (
     <View style={styles.stepTwo}>
-      <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>Step 2</Text>
+      <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>
+        {t('linkBankAccountScreen.stepTwo.label')}
+      </Text>
       <Text style={{ ...styles.action, ...(disabled && styles.greyedOut) }}>
-        Link a bank account
+        {t('linkBankAccountScreen.stepTwo.title')}
       </Text>
       <Text style={{ ...styles.description, ...(disabled && styles.greyedOut) }}>
-        You're almost done! You can connect your bank acount to Valora now via Plaid.
+        {t('linkBankAccountScreen.stepTwo.description')}
       </Text>
       <Button
-        text="Coming Soon!"
+        text={t('linkBankAccountScreen.stepTwo.cta')}
         onPress={() => {
           /* TODO: Start Plaid Flow */
         }}
@@ -152,11 +142,6 @@ function StepTwo({ disabled }: { disabled: boolean }) {
       />
     </View>
   )
-}
-
-LinkBankAccountScreen.navigationOptions = {
-  headerWithCloseButton,
-  headerTitle: 'Link Bank Account',
 }
 
 const styles = StyleSheet.create({

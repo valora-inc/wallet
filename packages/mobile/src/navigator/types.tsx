@@ -241,7 +241,6 @@ export type StackParamList = {
     origin: SendOrigin
     forceCurrency?: Currency
   }
-  [Screens.LinkBankAccountScreen]: undefined
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams

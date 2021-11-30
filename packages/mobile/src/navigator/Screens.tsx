@@ -29,7 +29,6 @@ export enum Screens {
   Language = 'Language',
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',
-  LinkBankAccountScreen = 'LinkBankAccountScreen',
   Main = 'Main',
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',
