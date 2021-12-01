@@ -1076,31 +1076,31 @@
   },
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
   "linkBankAccountScreen": {
-    "tryAgain": "Try Again",
+    "tryAgain": "Tente novamente",
     "completed": {
-      "title": "Verification Complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Verificação Completa",
+      "description": "Nós verificamos sua identidade com sucesso. Nós o informaremos quando você puder terminar de vincular sua conta bancária."
     },
     "failed": {
-      "title": "Verification Denied",
-      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "title": "Verificação Negada",
+      "description": "Nós não conseguimos verificar a sua identidade. Por favor, entre em contato com o suporte para continuar ligando sua conta bancária.",
+      "contactSupportPrefill": "Minha verificação de identidade foi negada"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "title": "Revisão em andamento",
+      "description": "Suas informações foram recebidas e estão sendo revisadas. Isto vai levar até [número de dias] dias."
     },
     "begin": {
-      "label": "Step 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "label": "Passo 1",
+      "title": "Verifique a sua Identidade",
+      "description": "Adicionar criptografia com uma conta bancária é fácil. Este passo levará cerca de 5 minutos.",
+      "cta": "Comece em"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "label": "Passo 2",
+      "title": "Vincule uma conta bancária",
+      "description": "Você está quase terminando! Você pode conectar sua conta bancária à Valora agora através do Plaid.",
+      "cta": "Em breve!"
     }
   }
 }
