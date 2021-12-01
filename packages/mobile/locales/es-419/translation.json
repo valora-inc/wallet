@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
-    "body": "Gana {{amount}} {{currency}} cuando envíes fondos a un amigo y este se una. <0>Más información</0>"
+    "body": "Gana {{amount}} {{currency}} por enviar cripto a un amigo para que se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -666,7 +666,7 @@
     "step3": "Conveniente, confiable y segura. Tu teléfono es tu billetera"
   },
   "welcome": {
-    "title": "Comparte dinero con quienes valoras",
+    "title": "Comparte cripto con quienes más quieres",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Solicitar pago",
   "max": "MAX",
   "inviteSendTo": "Invitar y enviar a",
-  "keepMoneySafe": "Mantendremos este dinero seguro hasta que tu amigo cree una cuenta de {{appName}}.",
+  "keepMoneySafe": "Mantendremos los fondos seguros hasta que tu amigo cree una cuenta de {{appName}}.",
   "searchFriends": "Ingresa un número de teléfono si no encuentras a la persona que buscas.",
   "inviteVerifyPayment": "Invitar y confirmar el pago",
   "noResultsFor": "Sin resultados para",
@@ -829,7 +829,7 @@
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
-  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
+  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Esperá unos momentos",
   "welcomeToCeloPayments": "Te damos la bienvenida a {{appName}}",
   "letsGetStartedByFirstTransaction": "Empezemos enviando tu primera transacción",
-  "sendMoney": "Enviar dinero",
+  "sendMoney": "Enviar cripto",
   "verificationFee": "Tarifa de confirmación",
   "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
