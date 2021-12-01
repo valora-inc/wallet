@@ -829,8 +829,8 @@
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
-  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send money worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
-  "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send money worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
+  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
+  "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Esperá unos momentos",
   "welcomeToCeloPayments": "Te damos la bienvenida a {{appName}}",
   "letsGetStartedByFirstTransaction": "Empezemos enviando tu primera transacción",
-  "sendMoney": "Send Money",
+  "sendMoney": "Enviar dinero",
   "verificationFee": "Tarifa de confirmación",
   "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
@@ -1076,31 +1076,31 @@
   },
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
-    "tryAgain": "Try Again",
+    "tryAgain": "Inténtalo de nuevo",
     "completed": {
-      "title": "Verification Complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Verificación completa",
+      "description": "Hemos verificado con éxito tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
-      "title": "Verification Denied",
-      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "title": "Verificación denegada",
+      "description": "No hemos podido verificar tu identidad. Ponte en contacto con el servicio de asistencia para seguir vinculando tu cuenta bancaria.",
+      "contactSupportPrefill": "Mi verificación de identidad fue denegada"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "title": "Revisión en curso",
+      "description": "Hemos recibido tu información y la estamos revisando. Esto llevará hasta [número de días] días."
     },
     "begin": {
-      "label": "Step 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "label": "Paso 1",
+      "title": "Verifica tu identidad",
+      "description": "Añadir cripto con una cuenta bancaria es fácil. Este paso te llevará unos 5 minutos.",
+      "cta": "Comienza"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "label": "Paso 2",
+      "title": "Vincular una cuenta bancaria",
+      "description": "¡Ya casi has terminado! Ya puedes conectar tu cuenta bancaria con Valora a través de Plaid.",
+      "cta": "¡Muy pronto!"
     }
   }
 }
