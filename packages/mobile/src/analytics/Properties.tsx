@@ -85,6 +85,9 @@ interface AppEventsProperties {
   [AppEvents.redux_store_recovery_success]: {
     account: string
   }
+  [AppEvents.redux_no_matching_keychain_account]: {
+    walletAddress: string
+  }
   [AppEvents.push_notification_opened]: {
     id?: string
     state: NotificationReceiveState

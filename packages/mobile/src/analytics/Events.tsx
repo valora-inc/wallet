@@ -9,8 +9,9 @@ export enum AppEvents {
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
-  redux_keychain_mismatch = 'redux_keychain_mismatch',
+  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in geth
   redux_store_recovery_success = 'redux_store_recovery_success',
+  redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
   push_notification_opened = 'push_notification_opened',
   android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
 
