@@ -343,4 +343,5 @@ export const migrations = {
       otaTranslationsLanguage: '',
     },
   }),
+  23: (state: any) => state,
 }

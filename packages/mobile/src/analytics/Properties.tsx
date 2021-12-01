@@ -741,7 +741,13 @@ interface FeeEventsProperties {
   }
   [FeeEvents.estimate_fee_failed]: {
     feeType: string
+    tokenAddress: string
     error: string
+  }
+  [FeeEvents.estimate_fee_success]: {
+    feeType: string
+    tokenAddress: string
+    usdFee: string
   }
   [FeeEvents.fetch_tobin_tax_failed]: {
     error: string

@@ -1,79 +1,230 @@
+import { toTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call, select } from 'redux-saga/effects'
-import { GAS_PRICE_INFLATION_FACTOR } from 'src/config'
-import { getEscrowTxGas, getReclaimEscrowGas } from 'src/escrow/saga'
-import { feeEstimated, FeeType } from 'src/fees/actions'
-import { estimateFeeSaga } from 'src/fees/saga'
-import { getSendTxGas } from 'src/send/saga'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { getConnectedAccount } from 'src/web3/saga'
-import { mockAccount } from 'test/values'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { call } from 'redux-saga/effects'
+import { createReclaimTransaction } from 'src/escrow/saga'
+import { feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { calculateFee, estimateFeeSaga } from 'src/fees/saga'
+import { buildSendTx } from 'src/send/saga'
+import { getCurrencyAddress, getERC20TokenContract } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
+import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import { estimateGas } from 'src/web3/utils'
+import { createMockStore } from 'test/utils'
+import { mockContract, mockCusdAddress } from 'test/values'
 
 const GAS_AMOUNT = 500000
+
+jest.mock('@celo/connect')
+
+const mockTxo = jest.fn()
 
 describe(estimateFeeSaga, () => {
   beforeAll(() => {
     jest.useRealTimers()
+    ;(toTransactionObject as jest.Mock).mockImplementation(() => mockTxo)
+    Date.now = jest.fn(() => 1482363367071)
   })
 
-  it('updates the default invite fee', async () => {
-    await expectSaga(estimateFeeSaga, { feeType: FeeType.INVITE })
+  function estimation(usdFee: string): FeeEstimateState {
+    return {
+      loading: false,
+      error: false,
+      usdFee,
+      lastUpdated: Date.now(),
+      // @ts-ignore
+      feeInfo: {
+        fee: new BigNumber(usdFee).times(1e18),
+        currency: Currency.Dollar,
+      },
+    }
+  }
+
+  it('estimates the invite fee', async () => {
+    const contractKit = await getContractKitAsync()
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.INVITE, tokenAddress: mockCusdAddress },
+    })
+      .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedAccount), mockAccount],
-        [matchers.call.fn(getEscrowTxGas), new BigNumber(GAS_AMOUNT)],
-        [matchers.call.fn(getEscrowTxGas), new BigNumber(GAS_AMOUNT)],
-        [select(cUsdBalanceSelector), '1'],
+        [call(getContractKit), contractKit],
+        [call(getERC20TokenContract, mockCusdAddress), mockContract],
+        [call(getCurrencyAddress, Currency.Dollar), mockCusdAddress],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(1050000), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
       ])
       .put(
-        feeEstimated(
-          FeeType.INVITE,
-          new BigNumber(10000).times(GAS_AMOUNT).times(GAS_PRICE_INFLATION_FACTOR).toString()
-        )
+        feeEstimated({
+          feeType: FeeType.INVITE,
+          tokenAddress: mockCusdAddress,
+          estimation: estimation(new BigNumber(0.01).toString()),
+        })
       )
       .run()
   })
 
-  it('updates the default send fee', async () => {
-    await expectSaga(estimateFeeSaga, { feeType: FeeType.SEND })
+  it('estimates the send fee', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
+    })
+      .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedAccount), mockAccount],
-        [matchers.call.fn(getSendTxGas), new BigNumber(GAS_AMOUNT)],
-        [select(cUsdBalanceSelector), '1'],
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
       ])
       .put(
-        feeEstimated(
-          FeeType.SEND,
-          new BigNumber(10000).times(GAS_PRICE_INFLATION_FACTOR).times(GAS_AMOUNT).toString()
-        )
+        feeEstimated({
+          feeType: FeeType.SEND,
+          tokenAddress: mockCusdAddress,
+          estimation: estimation(new BigNumber(0.01).toString()),
+        })
       )
       .run()
   })
 
-  it('updates the default escrow reclaim fee', async () => {
-    await expectSaga(estimateFeeSaga, { feeType: FeeType.SEND })
+  it('estimates the escrow reclaim fee', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: {
+        feeType: FeeType.RECLAIM_ESCROW,
+        tokenAddress: mockCusdAddress,
+        paymentID: 'paymentID',
+      },
+    })
+      .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedAccount), mockAccount],
-        [matchers.call.fn(getReclaimEscrowGas), new BigNumber(GAS_AMOUNT)],
-        [select(cUsdBalanceSelector), '1'],
+        [call(createReclaimTransaction, 'paymentID'), mockTxo],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
       ])
       .put(
-        feeEstimated(
-          FeeType.SEND,
-          new BigNumber(10000).times(GAS_PRICE_INFLATION_FACTOR).times(GAS_AMOUNT).toString()
-        )
+        feeEstimated({
+          feeType: FeeType.RECLAIM_ESCROW,
+          tokenAddress: mockCusdAddress,
+          estimation: estimation(new BigNumber(0.01).toString()),
+        })
       )
       .run()
   })
 
-  it("doesn't calculates fee if the balance is zero", async () => {
-    await expectSaga(estimateFeeSaga, { feeType: FeeType.SEND })
+  it('estimates the dek register fee', async () => {
+    const kit = await getContractKitAsync()
+    const mockAccountsWrapper = { setAccount: jest.fn(() => ({ txo: mockTxo })) }
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.REGISTER_DEK, tokenAddress: mockCusdAddress },
+    })
+      .withState(createMockStore({}).getState())
       .provide([
-        [select(cUsdBalanceSelector), '0'],
-        [matchers.call.fn(getSendTxGas), new BigNumber(GAS_AMOUNT)],
+        [call(getContractKit), kit],
+        [call([kit.contracts, kit.contracts.getAccounts]), mockAccountsWrapper],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
       ])
-      .put(feeEstimated(FeeType.SEND, '0'))
+      .put(
+        feeEstimated({
+          feeType: FeeType.REGISTER_DEK,
+          tokenAddress: mockCusdAddress,
+          estimation: estimation(new BigNumber(0.01).toString()),
+        })
+      )
+      .run()
+  })
+
+  it('marks as error if no paymentID is sent for escrow reclaim fee', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.RECLAIM_ESCROW, tokenAddress: mockCusdAddress },
+    })
+      .withState(createMockStore({}).getState())
+      .provide([
+        [call(createReclaimTransaction, 'paymentID'), mockTxo],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.RECLAIM_ESCROW,
+          tokenAddress: mockCusdAddress,
+          estimation: {
+            loading: false,
+            error: true,
+            usdFee: null,
+            lastUpdated: Date.now(),
+          },
+        })
+      )
+      .run()
+  })
+
+  it('marks as error if an error is thrown', async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
+    })
+      .withState(createMockStore({}).getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          throwError(new Error('fake error')),
+        ],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.SEND,
+          tokenAddress: mockCusdAddress,
+          estimation: {
+            loading: false,
+            error: true,
+            usdFee: null,
+            lastUpdated: Date.now(),
+          },
+        })
+      )
+      .run()
+  })
+
+  it("marks as error if token info isn't found", async () => {
+    await expectSaga(estimateFeeSaga, {
+      payload: { feeType: FeeType.SEND, tokenAddress: 'randomAddress' },
+    })
+      .withState(createMockStore({}).getState())
+      .provide([
+        [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
+        [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
+        [
+          call(calculateFee, new BigNumber(GAS_AMOUNT), Currency.Dollar),
+          { fee: new BigNumber(1e16), currency: Currency.Dollar },
+        ],
+      ])
+      .put(
+        feeEstimated({
+          feeType: FeeType.SEND,
+          tokenAddress: 'randomAddress',
+          estimation: {
+            loading: false,
+            error: true,
+            usdFee: null,
+            lastUpdated: Date.now(),
+          },
+        })
+      )
       .run()
   })
 })

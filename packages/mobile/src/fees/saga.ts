@@ -1,18 +1,32 @@
+import { CeloTransactionObject, CeloTxObject, Contract, toTransactionObject } from '@celo/connect'
+import { ContractKit } from '@celo/contractkit'
+import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import BigNumber from 'bignumber.js'
-import { call, CallEffect, put, select, takeLatest } from 'redux-saga/effects'
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { FeeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getEscrowTxGas, getReclaimEscrowGas } from 'src/escrow/saga'
-import { Actions, EstimateFeeAction, feeEstimated, FeeType } from 'src/fees/actions'
-import { getSendTxGas } from 'src/send/saga'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { BasicTokenTransfer } from 'src/tokens/saga'
-import { Currency } from 'src/utils/currencies'
+import { createReclaimTransaction, STATIC_ESCROW_TRANSFER_GAS_ESTIMATE } from 'src/escrow/saga'
+import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
+import { buildSendTx } from 'src/send/saga'
+import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
+import {
+  getCurrencyAddress,
+  getERC20TokenContract,
+  tokenAmountInSmallestUnit,
+} from 'src/tokens/saga'
+import {
+  tokensByAddressSelector,
+  tokensByCurrencySelector,
+  tokensListSelector,
+} from 'src/tokens/selectors'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
-import { getConnectedAccount } from 'src/web3/saga'
+import { getWalletAddress } from 'src/web3/saga'
+import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'fees/saga'
 
@@ -23,88 +37,183 @@ export interface FeeInfo {
   currency: Currency
 }
 
-// TODO(victor): This fee caching mechansim is only being used by the balance check on the send
-// amount entry screen. In an effort to standardize and improve fee estimation, we should either
-// update and use this mechanism everywhere or remove it in favor of another solution.
-// Cache of the gas estimates for common tx types
-// Prevents us from having to recreate txs and estimate their gas each time
-const feeGasCache = new Map<FeeType, BigNumber>()
+// Use default values for fee estimation
+const PLACEHOLDER_ADDRESS = '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
+const PLACEHOLDER_COMMENT = 'Coffee or Tea?'.repeat(5)
+const PLACEHOLDER_AMOUNT = new BigNumber(0.00000001)
+const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
-// Just use default values here since it doesn't matter for fee estimation
-const placeHolderAddress = `0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10`
-const placeholderSendTx: BasicTokenTransfer = {
-  recipientAddress: placeHolderAddress,
-  amount: 1e-18, // 1 wei
-  comment: 'Coffee or Tea?',
-}
+export function* estimateFeeSaga({
+  payload: { tokenAddress, feeType, paymentID },
+}: ReturnType<typeof estimateFee>) {
+  Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType} ${tokenAddress} `)
 
-export function* estimateFeeSaga({ feeType }: EstimateFeeAction) {
-  Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType}`)
+  const tokenBalances: TokenBalances = yield select(tokensByAddressSelector)
+  const tokenInfo = tokenBalances[tokenAddress]
 
-  const balance = yield select(cUsdBalanceSelector)
-
-  if (!balance) {
+  if (!tokenInfo?.balance) {
     Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string')
-    yield put(feeEstimated(feeType, '0'))
+    yield put(
+      feeEstimated({
+        feeType,
+        tokenAddress,
+        estimation: {
+          usdFee: null,
+          lastUpdated: Date.now(),
+          error: true,
+          loading: false,
+        },
+      })
+    )
     return
   }
 
-  if (balance === '0') {
-    Logger.warn(`${TAG}/estimateFeeSaga`, "Can't estimate fee with zero balance")
-    yield put(feeEstimated(feeType, '0'))
-    return
-  }
-
-  Logger.debug(`${TAG}/estimateFeeSaga`, `balance is ${balance}`)
+  Logger.debug(`${TAG}/estimateFeeSaga`, `balance is ${tokenInfo.balance}`)
 
   try {
-    const account = yield call(getConnectedAccount)
-
-    let feeInWei: BigNumber | null = null
+    let feeInfo: FeeInfo | null = null
 
     switch (feeType) {
       case FeeType.INVITE:
-        feeInWei = yield call(getOrSetFee, FeeType.INVITE, call(getEscrowTxGas))
+        feeInfo = yield call(estimateInviteFee, tokenAddress)
         break
       case FeeType.SEND:
-        feeInWei = yield call(
-          getOrSetFee,
-          FeeType.SEND,
-          call(getSendTxGas, account, Currency.Dollar, placeholderSendTx)
-        )
+        feeInfo = yield call(estimateSendFee, tokenAddress)
         break
       case FeeType.EXCHANGE:
         // TODO
         break
       case FeeType.RECLAIM_ESCROW:
-        feeInWei = yield call(
-          getOrSetFee,
-          FeeType.RECLAIM_ESCROW,
-          call(getReclaimEscrowGas, account, placeHolderAddress)
-        )
+        feeInfo = yield call(estimateReclaimEscrowFee, paymentID)
+        break
+      case FeeType.REGISTER_DEK:
+        feeInfo = yield call(estimateRegisterDekFee)
         break
     }
 
-    if (feeInWei) {
-      Logger.debug(`${TAG}/estimateFeeSaga`, `New fee is: ${feeInWei}`)
-      yield put(feeEstimated(feeType, feeInWei.toString()))
+    if (feeInfo) {
+      const usdFee: BigNumber = yield call(mapFeeInfoToUsdFee, feeInfo)
+      Logger.debug(`${TAG}/estimateFeeSaga`, `New fee is: ${usdFee.toString()}`)
+      yield put(
+        feeEstimated({
+          feeType,
+          tokenAddress,
+          estimation: {
+            usdFee: usdFee.toString(),
+            feeInfo,
+            lastUpdated: Date.now(),
+            error: false,
+            loading: false,
+          },
+        })
+      )
+      ValoraAnalytics.track(FeeEvents.estimate_fee_success, {
+        feeType,
+        tokenAddress,
+        usdFee: usdFee.toString(),
+      })
     }
   } catch (error) {
     Logger.error(`${TAG}/estimateFeeSaga`, 'Error estimating fee', error)
-    ValoraAnalytics.track(FeeEvents.estimate_fee_failed, { error: error.message, feeType })
+    ValoraAnalytics.track(FeeEvents.estimate_fee_failed, {
+      error: error.message,
+      feeType,
+      tokenAddress,
+    })
     yield put(showErrorOrFallback(error, ErrorMessages.CALCULATE_FEE_FAILED))
+    yield put(
+      feeEstimated({
+        feeType,
+        tokenAddress,
+        estimation: {
+          usdFee: null,
+          lastUpdated: Date.now(),
+          error: true,
+          loading: false,
+        },
+      })
+    )
   }
 }
 
-function* getOrSetFee(feeType: FeeType, gasGetter: CallEffect) {
-  if (!feeGasCache.get(feeType)) {
-    const gas: BigNumber = yield gasGetter
-    feeGasCache.set(feeType, gas)
+export function* estimateSendFee(tokenAddress: string) {
+  const tx: CeloTransactionObject<any> = yield call(
+    buildSendTx,
+    tokenAddress,
+    PLACEHOLDER_AMOUNT,
+    PLACEHOLDER_ADDRESS,
+    PLACEHOLDER_COMMENT
+  )
+
+  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
+  return feeInfo
+}
+
+export function* estimateInviteFee(tokenAddress: string) {
+  const kit: ContractKit = yield call(getContractKit)
+  const tokenContract: Contract = yield call(getERC20TokenContract, tokenAddress)
+
+  const amount: string = yield call(tokenAmountInSmallestUnit, PLACEHOLDER_AMOUNT, tokenAddress)
+  const tx = toTransactionObject(
+    kit.connection,
+    tokenContract.methods.approve(PLACEHOLDER_ADDRESS, amount)
+  )
+
+  // We must add a static amount here for the transfer because we can't estimate it without sending the approve tx first.
+  // If the approve tx hasn't gone through yet estimation fails because of a lack of allowance.
+  const feeInfo: FeeInfo = yield call(
+    calculateFeeForTx,
+    tx.txo,
+    new BigNumber(STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
+  )
+  return feeInfo
+}
+
+function* estimateReclaimEscrowFee(paymentID?: string) {
+  if (!paymentID) {
+    throw new Error('paymentID must be set for estimating escrow reclaim fee')
   }
-  // Note: This code path only supports cUSD fees. It is not the most widely used version of fee
-  // estimation, and should be refactored or removed.
-  const feeInfo: FeeInfo = yield call(calculateFee, feeGasCache.get(feeType)!, Currency.Dollar)
-  return feeInfo.fee
+  const txo: CeloTxObject<any> = yield call(createReclaimTransaction, paymentID)
+  const feeInfo: FeeInfo = yield call(calculateFeeForTx, txo)
+  return feeInfo
+}
+
+function* estimateRegisterDekFee() {
+  const userAddress: string = yield call(getWalletAddress)
+  const kit: ContractKit = yield call(getContractKit)
+  const accounts: AccountsWrapper = yield call([kit.contracts, kit.contracts.getAccounts])
+  const tx = accounts.setAccount('', PLACEHOLDER_DEK, userAddress)
+  const feeInfo: FeeInfo = yield call(calculateFeeForTx, tx.txo)
+  return feeInfo
+}
+
+function* calculateFeeForTx(txo: CeloTxObject<any>, extraGasNeeded?: BigNumber) {
+  const userAddress: string = yield call(getWalletAddress)
+
+  const feeCurrency: Currency = yield call(fetchFeeCurrencySaga)
+  const feeCurrencyAddress: string = yield call(getCurrencyAddress, feeCurrency)
+  const gasNeeded: BigNumber = yield call(estimateGas, txo, {
+    from: userAddress,
+    feeCurrency: feeCurrency === Currency.Celo ? undefined : feeCurrencyAddress,
+  })
+
+  const feeInfo: FeeInfo = yield call(
+    calculateFee,
+    gasNeeded.plus(extraGasNeeded ?? 0),
+    feeCurrency
+  )
+  return feeInfo
+}
+
+function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
+  const tokensInfo: { [currency in Currency]: TokenBalance | undefined } = yield select(
+    tokensByCurrencySelector
+  )
+  const tokenInfo = tokensInfo[feeInfo.currency]
+  if (!tokenInfo) {
+    throw new Error(`No token info found for ${feeInfo.currency}`)
+  }
+  return feeInfo.fee.times(tokenInfo.usdPrice).div(1e18)
 }
 
 export async function calculateFee(gas: BigNumber, currency: Currency): Promise<FeeInfo> {
@@ -114,6 +223,22 @@ export async function calculateFee(gas: BigNumber, currency: Currency): Promise<
   return { gas, currency, gasPrice, fee: feeInWei }
 }
 
+function* fetchFeeCurrencySaga() {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  return fetchFeeCurrency(tokens)
+}
+
+export function fetchFeeCurrency(tokens: TokenBalance[]) {
+  for (const currency of Object.keys(CURRENCIES) as Currency[]) {
+    const balance = tokens.find((token) => token.symbol === CURRENCIES[currency].cashTag)?.balance
+    if (balance?.isGreaterThan(0)) {
+      return currency
+    }
+  }
+  Logger.error(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
+  return Currency.Dollar
+}
+
 export function* feesSaga() {
-  yield takeLatest(Actions.ESTIMATE_FEE, estimateFeeSaga)
+  yield takeLatest(estimateFee.type, estimateFeeSaga)
 }

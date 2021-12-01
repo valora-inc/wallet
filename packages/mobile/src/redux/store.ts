@@ -19,10 +19,10 @@ let lastEventTime = Date.now()
 
 const persistConfig: any = {
   key: 'root',
-  version: 22, // default is -1, increment as we make migrations
+  version: 23, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'imports'],
+  blacklist: ['geth', 'networkInfo', 'alert', 'imports'],
   stateReconciler: autoMergeLevel2,
   migrate: createMigrate(migrations),
   serialize: (data: any) => {

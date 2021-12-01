@@ -47,6 +47,7 @@ import {
   mockCusdAddress,
   mockE164Number,
   mockE164NumberInvite,
+  mockFeeInfo,
   mockInvitableRecipient,
   mockName,
   mockQrCodeData,
@@ -324,6 +325,7 @@ describe(sendPaymentOrInviteSaga, () => {
     comment: '',
     recipient: mockQRCodeRecipient,
     fromModal: false,
+    feeInfo: mockFeeInfo,
   }
 
   it('sends a payment successfully', async () => {
@@ -357,7 +359,7 @@ describe(sendPaymentOrInviteSaga, () => {
       amount,
       amount,
       mockCusdAddress,
-      undefined
+      mockFeeInfo
     )
   })
 
