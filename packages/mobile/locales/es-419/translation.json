@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Invitar por WhatsApp",
   "inviteWithSMS": "Invitar por SMS",
   "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del nuevo usuario",
-  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
+  "whyReceiveFees": "Te enviaron cripto para confirmar tu cuenta.",
   "inviteSent": "Invitación enviada",
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
