@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Mit WhatsApp einladen",
   "inviteWithSMS": "Per SMS einladen",
   "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
-  "whyReceiveFees": "Dir wurde etwas Geld zur Bestätigung deines Kontos geschickt",
+  "whyReceiveFees": "Dir wurde etwas Krypto zur Bestätigung deines Kontos geschickt",
   "inviteSent": "Einladung gesendet",
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
-    "body": "Verdiene {{amount}} {{currency}}, wenn du Geld an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
+    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
