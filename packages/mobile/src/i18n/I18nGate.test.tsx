@@ -5,9 +5,9 @@ import 'react-native'
 import { Text } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
-import * as AppActions from 'src/app/actions'
-import I18nGate from 'src/app/I18nGate'
 import * as I18n from 'src/i18n'
+import I18nGate from 'src/i18n/I18nGate'
+import * as I18nActions from 'src/i18n/slice'
 import { navigateToError } from 'src/navigator/NavigationService'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
@@ -22,11 +22,11 @@ jest.mock('src/navigator/NavigationService', () => ({
 }))
 
 const mockedI18n = I18n as jest.Mocked<typeof I18n>
-const setLanguageSpy = jest.spyOn(AppActions, 'setLanguage')
+const setLanguageSpy = jest.spyOn(I18nActions, 'setLanguage')
 
 const renderI18nGate = (language: string | null) =>
   render(
-    <Provider store={createMockStore({ app: { language } })}>
+    <Provider store={createMockStore({ i18n: { language } })}>
       <I18nGate loading={<Text>Loading component</Text>}>
         <Text>App</Text>
       </I18nGate>
@@ -69,8 +69,6 @@ describe('I18nGate', () => {
 
     renderI18nGate(null)
     await act(() => initI18nPromise)
-    // flush promises as we are calling i18n.changeLanguage inside the setLanguage action
-    await act(flushMicrotasksQueue)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('de', false, '0')

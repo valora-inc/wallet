@@ -644,6 +644,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
@@ -2741,6 +2742,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
@@ -4824,6 +4826,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
