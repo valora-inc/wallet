@@ -145,7 +145,7 @@ describe('SendAmountLegacy', () => {
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('needMoreFundsToSend', {
             amountNeeded: '106.9852',
-            currencySymbol: '$',
+            currencySymbol: '₱',
           }),
           title: null,
           type: 'ALERT/SHOW',
@@ -208,7 +208,7 @@ describe('SendAmountLegacy', () => {
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('paymentLimitReached', {
-            currencySymbol: '$',
+            currencySymbol: '₱',
             dailyRemaining: '1330',
             dailyLimit: '1330',
             dailyRemainingcUSD: '1000.00',

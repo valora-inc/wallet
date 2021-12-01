@@ -4,7 +4,7 @@ import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, delay, select } from 'redux-saga/effects'
-import { currentLanguageSelector } from 'src/app/reducers'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateToError } from 'src/navigator/NavigationService'
 import {
   completeWeb3Sync,

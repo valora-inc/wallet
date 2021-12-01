@@ -8,7 +8,7 @@ import {
 } from 'react-i18next'
 import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
-import { getOtaTranslations } from 'src/utils/otaTranslations'
+import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 

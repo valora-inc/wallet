@@ -183,7 +183,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         ]
       }
     >
-      $
+      ₱
     </Text>
     <Text
       numberOfLines={1}
@@ -282,7 +282,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         testID="undefined/value"
       >
         
-        $
+        ₱
         13.30
       </Text>
     </Text>
@@ -604,7 +604,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         testID="undefined/value"
       >
         -
-        $
+        ₱
         0.0133
       </Text>
     </Text>
@@ -694,7 +694,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         testID="TotalLineItem/Total/value"
       >
         
-        $
+        ₱
         13.28
       </Text>
     </Text>

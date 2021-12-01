@@ -107,7 +107,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
           testID="FeedItemAmountDisplay/value"
         >
           -
-          $
+          ₱
           1.33
         </Text>
       </View>
