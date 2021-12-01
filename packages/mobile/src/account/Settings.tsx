@@ -85,6 +85,7 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
+  enableLinkBankAccount: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -110,6 +111,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
+    enableLinkBankAccount: state.app.enableLinkBankAccount,
   }
 }
 
@@ -139,7 +141,6 @@ export class Account extends React.Component<Props, State> {
       this.props.setSessionId(sessionId)
     }
   }
-
   goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
     this.props.navigation.navigate(Screens.Profile)
@@ -150,6 +151,10 @@ export class Account extends React.Component<Props, State> {
     this.props.navigation.navigate(Screens.VerificationEducationScreen, {
       hideOnboardingStep: true,
     })
+  }
+
+  goToLinkBankAccount = () => {
+    this.props.navigation.navigate(Screens.LinkBankAccountScreen)
   }
 
   goToLanguageSetting = () => {
@@ -365,10 +370,11 @@ export class Account extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, i18n, numberVerified, verificationPossible } = this.props
+    const { t, i18n, numberVerified, verificationPossible, enableLinkBankAccount } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
+    console.log('lisa enableLinkBankAccount', enableLinkBankAccount)
     return (
       <SafeAreaView style={styles.container}>
         <DrawerTopBar />
@@ -386,6 +392,14 @@ export class Account extends React.Component<Props, State> {
             />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
+            )}
+            {enableLinkBankAccount && (
+              <SettingsItemTextValue
+                title={t('linkBankAccountSettingsTitle')}
+                onPress={this.goToLinkBankAccount}
+                value={t('getAccess')}
+                isValueActionable={true}
+              />
             )}
             <SettingsItemTextValue
               title={t('languageSettings')}

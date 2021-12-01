@@ -103,3 +103,5 @@ export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
 export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
 export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
   state.app.multiTokenUseUpdatedFeed
+
+export const enableLinkBankAccountSelector = (state: RootState) => state.app.enableLinkBankAccount

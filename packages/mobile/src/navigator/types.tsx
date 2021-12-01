@@ -285,6 +285,7 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
+  [Screens.LinkBankAccountScreen]: undefined
   [Screens.VerificationInputScreen]:
     | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
     | undefined

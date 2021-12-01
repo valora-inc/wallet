@@ -1102,5 +1102,7 @@
       "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
       "cta": "Coming Soon!"
     }
-  }
+  },
+  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "getAccess": "Get Access"
 }

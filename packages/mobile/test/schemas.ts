@@ -730,6 +730,7 @@ export const v22Schema = {
     otaTranslationsLastUpdate: 0,
     otaTranslationsAppVersion: '0',
     otaTranslationsLanguage: '',
+    enableLinkBankAccount: false,
   },
 }
 
