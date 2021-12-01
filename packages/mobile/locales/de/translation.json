@@ -1088,19 +1088,19 @@
     },
     "pending": {
       "title": "Überprüfung in Arbeit",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "description": "Wir haben deine Informationen erhalten und prüfen sie. Dies wird bis zu [Anzahl der Tage] Tage dauern."
     },
     "begin": {
       "label": "Schritt 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "title": "Überprüfe deine Identität",
+      "description": "Das Hinzufügen von Kryptowährungen mit einem Bankkonto ist einfach. Dieser Schritt dauert etwa 5 Minuten.",
+      "cta": "Beginne"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "label": "Schritt 2",
+      "title": "Ein Bankkonto verknüpfen",
+      "description": "Du bist fast fertig! Du kannst dein Bankkonto jetzt über Plaid mit Valora verbinden.",
+      "cta": "Demnächst!"
     }
   }
 }
