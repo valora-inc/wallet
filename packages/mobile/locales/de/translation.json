@@ -1074,5 +1074,33 @@
     "body": "Dein Gesamtsaldo ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtsaldo ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtsaldo angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
-  "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut"
+  "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
+  "linkBankAccountScreen": {
+    "tryAgain": "Nochmal versuchen",
+    "completed": {
+      "title": "Überprüfung abgeschlossen",
+      "description": "Wir haben deine Identität erfolgreich überprüft. Wir werden dich benachrichtigen, wenn du die Verknüpfung deines Bankkontos abschließen kannst."
+    },
+    "failed": {
+      "title": "Verifizierung verweigert",
+      "description": "Wir konnten deine Identität nicht verifizieren. Bitte kontaktiere den Support, um die Verknüpfung deines Bankkontos fortzusetzen.",
+      "contactSupportPrefill": "Meine Identitätsprüfung wurde verweigert"
+    },
+    "pending": {
+      "title": "Überprüfung in Arbeit",
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+    },
+    "begin": {
+      "label": "Schritt 1",
+      "title": "Verify your Identity",
+      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "cta": "Begin"
+    },
+    "stepTwo": {
+      "label": "Step 2",
+      "title": "Link a bank account",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "cta": "Coming Soon!"
+    }
+  }
 }
