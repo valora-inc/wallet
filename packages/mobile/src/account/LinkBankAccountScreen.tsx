@@ -164,9 +164,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular600,
     marginTop: 26,
   },
-  statusButton: {
-    marginTop: 24,
-  },
 })
 
 export default LinkBankAccountScreen
