@@ -62,7 +62,7 @@ export default offRamps = () => {
       it(':android: Then should be able to purchase Amazon gift card with Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
 
-        await sleep(10 * 1000)
+        await sleep(15 * 1000)
         // Search from Amazon gift card
         await web.element(by.web.cssSelector('#search-field-portal')).typeText('Amazon')
 
