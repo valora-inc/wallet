@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -56,11 +57,13 @@ const storeData = {
 
   fees: {
     estimates: {
-      send: {
-        feeInWei: '1',
-      },
-      invite: {
-        feeInWei: '1',
+      [mockCusdAddress]: {
+        [FeeType.SEND]: {
+          usdFee: '1',
+        },
+        [FeeType.INVITE]: {
+          usdFee: '1',
+        },
       },
     },
   },
@@ -161,7 +164,7 @@ describe('SendAmount', () => {
           dismissAfter: null,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('needMoreFundsToSend', {
-            amountNeeded: '106.9852',
+            amountNeeded: '108.3152',
             currencySymbol: '₱',
           }),
           title: null,
