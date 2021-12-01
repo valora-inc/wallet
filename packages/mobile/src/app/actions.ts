@@ -1,9 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'app/actions'
 
 // https://facebook.github.io/react-native/docs/appstate
 export enum AppState {
@@ -16,7 +12,6 @@ export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
-  SET_LANGUAGE = 'APP/SET_LANGUAGE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
@@ -34,7 +29,6 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
-  OTA_TRANSLATIONS_UPDATED = 'APP/OTA_TRANSLATIONS_UPDATED',
 }
 
 export interface SetAppState {
@@ -50,11 +44,6 @@ interface SetLoggedIn {
 interface SetNumberVerifiedAction {
   type: Actions.SET_NUMBER_VERIFIED
   numberVerified: boolean
-}
-
-export interface SetLanguage {
-  type: Actions.SET_LANGUAGE
-  language: string
 }
 
 export interface OpenDeepLink {
@@ -138,19 +127,11 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
-export interface OtaTranslationsUpdatedAction {
-  type: Actions.OTA_TRANSLATIONS_UPDATED
-  otaTranslationsLastUpdate: number
-  otaTranslationsAppVersion: string
-  otaTranslationsLanguage: string
-}
-
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
   | SetNumberVerifiedAction
   | ResetAppOpenedState
-  | SetLanguage
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
@@ -166,7 +147,6 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
-  | OtaTranslationsUpdatedAction
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -182,17 +162,6 @@ export const setNumberVerified = (numberVerified: boolean) => ({
   type: Actions.SET_NUMBER_VERIFIED,
   numberVerified,
 })
-
-export const setLanguage = (language: string) => {
-  i18n
-    .changeLanguage(language)
-    .catch((reason: any) => Logger.error(TAG, 'Failed to change i18n language', reason))
-
-  return {
-    type: Actions.SET_LANGUAGE,
-    language,
-  }
-}
 
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {
   return {
@@ -289,15 +258,4 @@ export const androidMobileServicesAvailabilityChecked = (
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
   googleIsAvailable,
   huaweiIsAvailable,
-})
-
-export const otaTranslationsUpdated = (
-  otaTranslationsLastUpdate: number,
-  otaTranslationsAppVersion: string,
-  otaTranslationsLanguage: string
-): OtaTranslationsUpdatedAction => ({
-  type: Actions.OTA_TRANSLATIONS_UPDATED,
-  otaTranslationsLastUpdate,
-  otaTranslationsAppVersion,
-  otaTranslationsLanguage,
 })

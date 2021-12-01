@@ -160,8 +160,8 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "customerIncentivesTitle": "Boost your Rewards",
-  "customerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Boost your Rewards",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
     "header": "Weekly payout",
     "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."

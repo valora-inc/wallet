@@ -1,6 +1,6 @@
 import * as RNFS from 'react-native-fs'
 import { OTA_TRANSLATIONS_FILEPATH } from 'src/config'
-import { getOtaTranslations, saveOtaTranslations } from 'src/utils/otaTranslations'
+import { getOtaTranslations, saveOtaTranslations } from 'src/i18n/otaTranslations'
 
 const translation = { de: { someKey: 'someValue' } }
 const stringTranslation = '{"de":{"someKey":"someValue"}}'
