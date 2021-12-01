@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Invitar por WhatsApp",
   "inviteWithSMS": "Invitar por SMS",
   "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del nuevo usuario",
-  "whyReceiveFees": "Te enviaron cripto para confirmar tu cuenta.",
+  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
   "inviteSent": "Invitación enviada",
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
-    "body": "Gana {{amount}} {{currency}} por enviar cripto a un amigo para que se una. <0>Más información</0>"
+    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -666,7 +666,7 @@
     "step3": "Conveniente, confiable y segura. Tu teléfono es tu billetera"
   },
   "welcome": {
-    "title": "Comparte cripto con quienes más quieres",
+    "title": "Comparte dinero con quienes valoras",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Solicitar pago",
   "max": "MAX",
   "inviteSendTo": "Invitar y enviar a",
-  "keepMoneySafe": "Mantendremos los fondos seguros hasta que tu amigo cree una cuenta de {{appName}}.",
+  "keepMoneySafe": "Mantendremos este dinero seguro hasta que tu amigo cree una cuenta de {{appName}}.",
   "searchFriends": "Ingresa un número de teléfono si no encuentras a la persona que buscas.",
   "inviteVerifyPayment": "Invitar y confirmar el pago",
   "noResultsFor": "Sin resultados para",
@@ -829,8 +829,8 @@
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
-  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
-  "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
+  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send money worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
+  "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send money worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Esperá unos momentos",
   "welcomeToCeloPayments": "Te damos la bienvenida a {{appName}}",
   "letsGetStartedByFirstTransaction": "Empezemos enviando tu primera transacción",
-  "sendMoney": "Enviar cripto",
+  "sendMoney": "Send Money",
   "verificationFee": "Tarifa de confirmación",
   "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
@@ -1074,5 +1074,33 @@
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   },
-  "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde."
+  "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
+  "linkBankAccountScreen": {
+    "tryAgain": "Try Again",
+    "completed": {
+      "title": "Verification Complete",
+      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+    },
+    "failed": {
+      "title": "Verification Denied",
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "contactSupportPrefill": "My identity verification was denied"
+    },
+    "pending": {
+      "title": "Review in progress",
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+    },
+    "begin": {
+      "label": "Step 1",
+      "title": "Verify your Identity",
+      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "cta": "Begin"
+    },
+    "stepTwo": {
+      "label": "Step 2",
+      "title": "Link a bank account",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "cta": "Coming Soon!"
+    }
+  }
 }
