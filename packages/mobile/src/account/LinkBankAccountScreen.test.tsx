@@ -34,15 +34,8 @@ describe('LinkBankAccountScreen', () => {
       </Provider>
     )
     fireEvent.press(tree.getByTestId('SupportContactLink'))
-    expect(navigate).toBeCalledWith(Screens.SupportContact)
-  })
-  it('redirects correctly to SupportContact when button is clicked in kycStatus pending state', async () => {
-    const tree = render(
-      <Provider store={store}>
-        <LinkBankAccountScreen kycStatus={KycStatus.Pending} />
-      </Provider>
-    )
-    fireEvent.press(tree.getByTestId('SupportContactLink'))
-    expect(navigate).toBeCalledWith(Screens.SupportContact)
+    expect(navigate).toBeCalledWith(Screens.SupportContact, {
+      prefilledText: 'linkBankAccountScreen.failed.contactSupportPrefill',
+    })
   })
 })

@@ -1083,7 +1083,8 @@
     },
     "failed": {
       "title": "Verification Denied",
-      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account."
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "contactSupportPrefill": "My identity verification was denied"
     },
     "pending": {
       "title": "Review in progress",

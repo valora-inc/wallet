@@ -34,9 +34,6 @@ function StepOne({ kycStatus }: Props) {
   const { t } = useTranslation()
 
   switch (kycStatus) {
-    case KycStatus.Created:
-      /* TODO: Ask Nitya on 12/1 about UI for Created Flow. I'll do it in separate PR */
-      return null
     case KycStatus.Completed:
       return (
         <View style={styles.stepOne}>
@@ -61,7 +58,9 @@ function StepOne({ kycStatus }: Props) {
           <TouchableOpacity
             testID="SupportContactLink"
             onPress={() => {
-              navigate(Screens.SupportContact)
+              navigate(Screens.SupportContact, {
+                prefilledText: t('linkBankAccountScreen.failed.contactSupportPrefill'),
+              })
             }}
           >
             <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
@@ -76,29 +75,17 @@ function StepOne({ kycStatus }: Props) {
           </View>
           <Text style={styles.action}>{t('linkBankAccountScreen.pending.title')}</Text>
           <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
-          <Button
-            text={t('contactSupport')}
-            testID="SupportContactLink"
-            onPress={() => {
-              navigate(Screens.SupportContact)
-            }}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-            style={styles.statusButton}
-          />
         </View>
       )
-    case KycStatus.Expired:
-      /* TODO: Ask Nitya on 12/1 about UI for Expired Flow. I'll do it in separate PR */
-      return null
     default:
+      /* For the Created and Expired state also show the default Begin Verification view */
       return (
         <View style={styles.stepOne}>
           <Text style={styles.label}>{t('linkBankAccountScreen.begin.label')}</Text>
           <Text style={styles.action}>{t('linkBankAccountScreen.begin.title')}</Text>
           <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
           <View style={styles.button}>
-            <PersonaButton kycStatus={kycStatus} />
+            <PersonaButton kycStatus={kycStatus} text={t('linkBankAccountScreen.begin.cta')} />
           </View>
         </View>
       )
