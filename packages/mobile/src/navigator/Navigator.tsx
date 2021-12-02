@@ -15,7 +15,6 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
-import { currentLanguageSelector } from 'src/app/reducers'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import WebViewScreen, { webViewScreenNavOptions } from 'src/app/WebViewScreen'
 import BackupComplete from 'src/backup/BackupComplete'
@@ -48,6 +47,7 @@ import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import i18n from 'src/i18n'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
 import Language from 'src/language/Language'
@@ -624,6 +624,11 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationModal}
       component={SendConfirmation}
       options={sendConfirmationScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationLegacyModal}
+      component={SendConfirmationLegacy}
+      options={sendConfirmationLegacyScreenNavOptions}
     />
   </>
 )

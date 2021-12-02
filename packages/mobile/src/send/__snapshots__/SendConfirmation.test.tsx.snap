@@ -390,7 +390,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title
+                        inviteAndSendDialog.title, {"name":"feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
                       </Text>
                       <Text
                         style={
@@ -825,24 +825,35 @@ exports[`SendConfirmation renders correctly 1`] = `
                   
                 </Text>
               </View>
-              <View
+              <Text
                 style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "scale": 0.7,
-                      },
-                    ],
-                  }
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    },
+                    undefined,
+                  ]
                 }
               >
-                <ActivityIndicator
-                  animating={true}
-                  color="#42D689"
-                  hidesWhenStopped={true}
-                  size="small"
-                />
-              </View>
+                <Text
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="feeDrawer/SendConfirmation/totalFee/value"
+                >
+                  
+                  ₱
+                  0.0266
+                </Text>
+              </Text>
             </View>
           </View>
         </View>
@@ -912,8 +923,8 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="TotalLineItem/Total"
           >
             
-            $
-            1.33
+            ₱
+            1.36
           </Text>
         </Text>
       </View>
@@ -974,7 +985,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                @ 
               <Text>
                 
-                $
+                ₱
                 1.33
               </Text>
             </Text>

@@ -177,7 +177,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             testID="LocalcUSDBalance"
           >
             
-            $
+            ₱
             13.30
           </Text>
           <Text
@@ -300,7 +300,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             testID="LocalcEURBalance"
           >
             
-            $
+            ₱
             31.92
           </Text>
           <Text

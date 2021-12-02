@@ -5,7 +5,9 @@ import { eventChannel } from 'redux-saga'
 import {
   call,
   cancelled,
+  delay,
   put,
+  race,
   select,
   spawn,
   take,
@@ -24,7 +26,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  updateFeatureFlags,
+  updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
   getLastTimeBackgrounded,
@@ -33,8 +35,9 @@ import {
   huaweiMobileServicesAvailableSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
+import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -135,10 +138,9 @@ export function* checkAndroidMobileServicesSaga() {
   yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
-export interface RemoteFeatureFlags {
+export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
@@ -160,6 +162,7 @@ export interface RemoteFeatureFlags {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -175,11 +178,14 @@ export function* appRemoteFeatureFlagSaga() {
     const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
     if (isAppActive && isRefreshTime) {
-      const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
-      if (flags) {
-        yield put(updateFeatureFlags(flags))
+      const { configValues }: { configValues: RemoteConfigValues | undefined } = yield race({
+        configValues: call(fetchRemoteConfigValues),
+        timeout: delay(FETCH_TIMEOUT_DURATION),
+      })
+      if (configValues) {
+        yield put(updateRemoteConfigValues(configValues))
+        lastLoadTime = Date.now()
       }
-      lastLoadTime = Date.now()
     }
 
     const action: SetAppState = yield take(Actions.SET_APP_STATE)

@@ -1,11 +1,15 @@
 import locales from 'locales'
 import { useAsync } from 'react-async-hook'
 import { findBestAvailableLanguage } from 'react-native-localize'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLanguage } from 'src/app/actions'
-import { currentLanguageSelector } from 'src/app/reducers'
+import { useSelector } from 'react-redux'
 import { DEFAULT_APP_LANGUAGE } from 'src/config'
 import { initI18n } from 'src/i18n'
+import {
+  allowOtaTranslationsSelector,
+  currentLanguageSelector,
+  otaTranslationsAppVersionSelector,
+} from 'src/i18n/selectors'
+import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 
@@ -15,15 +19,21 @@ interface Props {
 }
 
 const I18nGate = ({ loading, children }: Props) => {
-  const dispatch = useDispatch()
+  const changelanguage = useChangeLanguage()
+  const allowOtaTranslations = useSelector(allowOtaTranslationsSelector)
+  const otaTranslationsAppVersion = useSelector(otaTranslationsAppVersionSelector)
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
   const i18nInitResult = useAsync(
     async () => {
-      await initI18n(language || bestLanguage || DEFAULT_APP_LANGUAGE)
+      await initI18n(
+        language || bestLanguage || DEFAULT_APP_LANGUAGE,
+        allowOtaTranslations,
+        otaTranslationsAppVersion
+      )
       if (!language && bestLanguage) {
-        dispatch(setLanguage(bestLanguage))
+        await changelanguage(bestLanguage)
       }
     },
     [],

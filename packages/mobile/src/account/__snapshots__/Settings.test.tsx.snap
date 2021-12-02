@@ -481,7 +481,7 @@ exports[`Account renders correctly 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -2922,7 +2922,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -5604,7 +5604,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
@@ -7965,7 +7965,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       }
                     }
                   >
-                    MXN
+                    PHP
                   </Text>
                   <svg
                     height={20}
