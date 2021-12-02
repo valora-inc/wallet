@@ -1103,5 +1103,7 @@
       "description": "¡Ya casi has terminado! Ya puedes conectar tu cuenta bancaria con Valora a través de Plaid.",
       "cta": "¡Muy pronto!"
     }
-  }
+  },
+  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsValue": "Get Access"
 }
