@@ -468,3 +468,11 @@ export const mockContract = {
     transfer: jest.fn(),
   },
 }
+
+export const mockGasPrice = new BigNumber(50000000000)
+export const mockFeeInfo = {
+  fee: new BigNumber(10000000000000000),
+  gas: new BigNumber(20000),
+  gasPrice: mockGasPrice,
+  currency: Currency.Celo,
+}

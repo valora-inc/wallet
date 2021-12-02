@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import * as Sentry from '@sentry/react-native'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { getStoredState, persistReducer, persistStore } from 'redux-persist'
+import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
@@ -9,22 +9,30 @@ import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import createMigrate from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
-import rootReducer from 'src/redux/reducers'
+import rootReducer, { RootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
+import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const timeBetweenStoreSizeEvents = ONE_DAY_IN_MILLIS
 let lastEventTime = Date.now()
 
-const persistConfig: any = {
+const persistConfig: PersistConfig<RootState> = {
   key: 'root',
-  version: 22, // default is -1, increment as we make migrations
+  version: 23, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'imports'],
+  blacklist: ['geth', 'networkInfo', 'alert', 'imports'],
   stateReconciler: autoMergeLevel2,
-  migrate: createMigrate(migrations),
+  migrate: async (...args) => {
+    const migrate = createMigrate(migrations)
+    const state: any = await migrate(...args)
+
+    // Do this check here once migrations have occurred, to ensure we have a RootState
+    return resetStateOnInvalidStoredAccount(state) as any
+  },
+  // @ts-ignore the types are currently wrong
   serialize: (data: any) => {
     // We're using this to send the size of the store to analytics while using the default implementation of JSON.stringify.
     const stringifiedData = JSON.stringify(data)
@@ -43,15 +51,14 @@ const persistConfig: any = {
     // in case the library changes.
     return JSON.parse(data)
   },
+  // @ts-ignore
   timeout: null,
 }
-
-// For testing only!
-export const _persistConfig = persistConfig
 
 // We used to use AsyncStorage to save the state, but moved to file system storage because of problems with Android
 // maximum size limits. To keep backwards compatibility, we first try to read from the file system but if nothing is found
 // it means it's an old version so we read the state from AsyncStorage.
+// @ts-ignore
 persistConfig.getStoredState = async (config: any) => {
   Logger.info('redux/store', 'persistConfig.getStoredState')
   try {
@@ -72,10 +79,13 @@ persistConfig.getStoredState = async (config: any) => {
 
     return null
   } catch (error) {
-    Sentry.captureException(error)
     Logger.error('redux/store', 'Failed to retrieve redux state.', error)
+    Sentry.captureException(error)
   }
 }
+
+// For testing only!
+export const _persistConfig = persistConfig
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
