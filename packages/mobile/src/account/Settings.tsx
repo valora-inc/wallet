@@ -23,7 +23,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
-import { PincodeType } from 'src/account/reducer'
+import { KycStatus, PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -86,6 +86,7 @@ interface StateProps {
   connectedApplications: number
   walletConnectEnabled: boolean
   enableLinkBankAccount: boolean
+  kycStatus: KycStatus | undefined
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -112,6 +113,7 @@ const mapStateToProps = (state: RootState): StateProps => {
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
     enableLinkBankAccount: state.app.enableLinkBankAccount,
+    kycStatus: state.account.kycStatus,
   }
 }
 
@@ -154,7 +156,9 @@ export class Account extends React.Component<Props, State> {
   }
 
   goToLinkBankAccount = () => {
-    this.props.navigation.navigate(Screens.LinkBankAccountScreen)
+    this.props.navigation.navigate(Screens.LinkBankAccountScreen, {
+      kycStatus: this.props.kycStatus,
+    })
   }
 
   goToLanguageSetting = () => {
@@ -374,7 +378,7 @@ export class Account extends React.Component<Props, State> {
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
-    console.log('lisa enableLinkBankAccount', enableLinkBankAccount)
+
     return (
       <SafeAreaView style={styles.container}>
         <DrawerTopBar />
