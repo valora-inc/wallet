@@ -1074,6 +1074,7 @@
     "body": "Dein Gesamtsaldo ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtsaldo ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtsaldo angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
+  "supportEmailSubject": "{{appName}} Unterstützung für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "linkBankAccountScreen": {
     "tryAgain": "Nochmal versuchen",
