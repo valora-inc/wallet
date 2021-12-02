@@ -1103,5 +1103,7 @@
       "description": "Du bist fast fertig! Du kannst dein Bankkonto jetzt über Plaid mit Valora verbinden.",
       "cta": "Demnächst!"
     }
-  }
+  },
+  "linkBankAccountSettingsTitle": "Bankkonten verknüpfen",
+  "linkBankAccountSettingsValue": "Zugang erhalten"
 }
