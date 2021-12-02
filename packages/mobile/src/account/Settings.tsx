@@ -403,6 +403,7 @@ export class Account extends React.Component<Props, State> {
                 onPress={this.goToLinkBankAccount}
                 value={t('getAccess')}
                 isValueActionable={true}
+                testID="linkBankAccountSettings"
               />
             )}
             <SettingsItemTextValue

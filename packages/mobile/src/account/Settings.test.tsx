@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { KycStatus } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -124,5 +125,34 @@ describe('Account', () => {
     fireEvent.press(tree.getByTestId('ChangePIN'))
     await flushMicrotasksQueue()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('navigate to LinkBankAccount screen with kycStatus', async () => {
+    const tree = render(
+      <Provider
+        store={createMockStore({
+          account: {
+            e164PhoneNumber: mockE164Number,
+            kycStatus: KycStatus.Completed,
+          },
+          identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
+          goldToken: { balance: '0.00' },
+          verify: {
+            komenciAvailable: KomenciAvailable.Yes,
+            komenci: { errorTimestamps: [] },
+            status: {},
+          },
+          app: {
+            enableLinkBankAccount: true,
+          },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
+    expect(navigate).toHaveBeenCalled()
   })
 })
