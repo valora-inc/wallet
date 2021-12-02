@@ -11,7 +11,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 interface Props {
   tokenAmount: BigNumber
   tokenAddress: string
-  feeToAddInUsd: BigNumber | undefined
+  feeToAddInUsd?: BigNumber | undefined
 }
 
 export default function TokenTotalLineItem({ tokenAmount, tokenAddress, feeToAddInUsd }: Props) {
