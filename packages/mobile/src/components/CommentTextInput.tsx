@@ -1,9 +1,9 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, TextInput } from 'react-native'
 import { MAX_COMMENT_LENGTH } from 'src/config'
-import i18n from 'src/i18n'
 
 interface Props {
   testID?: string
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default function CommentTextInput({ testID, onCommentChange, comment, onBlur }: Props) {
+  const { t } = useTranslation()
+
   return (
     <TextInput
       testID={`commentInput/${testID}`}
@@ -23,7 +25,7 @@ export default function CommentTextInput({ testID, onCommentChange, comment, onB
       maxLength={MAX_COMMENT_LENGTH}
       onChangeText={onCommentChange}
       value={comment}
-      placeholder={i18n.t('addDescription')}
+      placeholder={t('addDescription')}
       placeholderTextColor={colors.greenUI}
       returnKeyType={'done'}
       onBlur={onBlur}
