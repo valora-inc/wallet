@@ -1074,7 +1074,7 @@
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   },
-  "supportEmailSubject": "{{appName}} support for {{user}}",
+  "supportEmailSubject": "{{appName}} soporte para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Inténtalo de nuevo",
