@@ -107,7 +107,8 @@ function useTransactionCallbacks({
   )
 
   const feeType = getFeeType(recipientVerificationStatus)
-  const estimateFeeDollars = useSelector(getFeeEstimateDollars(feeType)) ?? new BigNumber(0)
+  const estimateFeeDollars =
+    useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
 
   const minimumAmount = roundUp(usdAmount.plus(estimateFeeDollars))
 

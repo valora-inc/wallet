@@ -181,10 +181,10 @@ export class PincodeSet extends React.Component<Props, State> {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
-          Logger.showMessage(i18n.t('pinChanged'))
+          Logger.showMessage(this.props.t('pinChanged'))
         } else {
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
-          Logger.showMessage(i18n.t('pinChangeFailed'))
+          Logger.showMessage(this.props.t('pinChangeFailed'))
         }
       } else {
         setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
@@ -206,7 +206,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   render() {
-    const { route } = this.props
+    const { route, t } = this.props
     const isVerifying = route.params?.isVerifying
     const changingPin = this.isChangingPin()
 
@@ -217,7 +217,7 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={i18n.t('pincodeSet.verify')}
+            title={t('pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
@@ -225,7 +225,7 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           <Pincode
-            title={changingPin ? i18n.t('pincodeSet.createNew') : ' '}
+            title={changingPin ? t('pincodeSet.createNew') : ' '}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}

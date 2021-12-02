@@ -13,7 +13,6 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
-import { estimateFee, FeeType } from 'src/fees/actions'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
 import { noHeader } from 'src/navigator/Headers'
@@ -66,12 +65,6 @@ function Send({ route }: Props) {
   const multiTokenUseSendFlow = useSelector(multiTokenUseSendFlowSelector)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    // Trigger a fee estimation so it'll likely be finished and cached
-    // when SendAmount screen is shown
-    dispatch(estimateFee(FeeType.SEND))
-  }, [])
 
   const recentRecipientsFilter = useMemo(() => filterRecipientFactory(recentRecipients, false), [
     recentRecipients,
