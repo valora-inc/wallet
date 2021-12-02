@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "requirePinOnAppOpen": "Require Pin on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign Tx",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -1074,6 +1074,7 @@
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
+  "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
