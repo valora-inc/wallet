@@ -26,7 +26,7 @@ export interface Props {
 const Persona = ({ kycStatus, text }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
-  console.log('lisa persona called')
+
   const accountMTWAddress = useSelector(mtwAddressSelector)
 
   const dispatch = useDispatch()

@@ -32,7 +32,7 @@ function LinkBankAccountScreen({ kycStatus }: Props) {
 
 function StepOne({ kycStatus }: Props) {
   const { t } = useTranslation()
-  console.log('lisa kycStatus', kycStatus)
+
   switch (kycStatus) {
     case KycStatus.Completed:
       return (
