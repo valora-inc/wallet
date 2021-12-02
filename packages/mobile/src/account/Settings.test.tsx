@@ -144,7 +144,7 @@ describe('Account', () => {
             status: {},
           },
           app: {
-            enableLinkBankAccount: true,
+            linkBankAccountEnabled: true,
           },
         })}
       >

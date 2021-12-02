@@ -163,7 +163,7 @@ export interface RemoteConfigValues {
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
-  enableLinkBankAccount: boolean
+  linkBankAccountEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -85,7 +85,7 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
-  enableLinkBankAccount: boolean
+  linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
 }
 
@@ -112,7 +112,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
-    enableLinkBankAccount: state.app.enableLinkBankAccount,
+    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
   }
 }
@@ -374,7 +374,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, i18n, numberVerified, verificationPossible, enableLinkBankAccount } = this.props
+    const { t, i18n, numberVerified, verificationPossible, linkBankAccountEnabled } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
@@ -397,11 +397,11 @@ export class Account extends React.Component<Props, State> {
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
-            {enableLinkBankAccount && (
+            {linkBankAccountEnabled && (
               <SettingsItemTextValue
                 title={t('linkBankAccountSettingsTitle')}
                 onPress={this.goToLinkBankAccount}
-                value={t('getAccess')}
+                value={t('linkBankAccountSettingsValue')}
                 isValueActionable={true}
                 testID="linkBankAccountSettings"
               />

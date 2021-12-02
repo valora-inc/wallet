@@ -104,4 +104,4 @@ export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.mul
 export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
   state.app.multiTokenUseUpdatedFeed
 
-export const enableLinkBankAccountSelector = (state: RootState) => state.app.enableLinkBankAccount
+export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
