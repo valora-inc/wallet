@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "requirePinOnAppOpen": "Require Pin on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign Tx",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
