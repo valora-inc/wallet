@@ -40,6 +40,7 @@ import { updateLastUsedCurrency } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import { useBalance } from 'src/stableToken/hooks'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 
@@ -67,6 +68,7 @@ function useTransactionCallbacks({
   const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[
     transferCurrency
   ]
+  const tokensByCurrency = useSelector(tokensByCurrencySelector)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const stableBalance = useBalance(transferCurrency)
   const amountInStableCurrency = useLocalAmountToCurrency(localAmount, transferCurrency)
@@ -118,7 +120,9 @@ function useTransactionCallbacks({
   )
 
   const feeType = getFeeType(recipientVerificationStatus)
-  const estimateFeeDollars = useSelector(getFeeEstimateDollars(feeType)) ?? new BigNumber(0)
+  const tokenAddress = tokensByCurrency[transferCurrency]?.address ?? ''
+  const estimateFeeDollars =
+    useSelector(getFeeEstimateDollars(feeType, tokenAddress)) ?? new BigNumber(0)
   const estimateFeeInStableCurrency = useConvertBetweenCurrencies(
     estimateFeeDollars,
     Currency.Dollar,

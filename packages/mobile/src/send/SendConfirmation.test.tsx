@@ -3,9 +3,8 @@ import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import i18n from 'src/i18n'
+import { FeeType } from 'src/fees/reducer'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -29,13 +28,14 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
+  mockFeeInfo,
+  mockGasPrice,
   mockInvitableRecipient,
   mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
 
-const mockGasPrice = new BigNumber(50000000000)
 const mockDekFeeGas = new BigNumber(100000)
 
 jest.mock('src/web3/gas')
@@ -95,6 +95,29 @@ describe('SendConfirmation', () => {
           },
         },
       },
+      fees: {
+        estimates: {
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              usdFee: '0.02',
+              lastUpdated: 500,
+              loading: false,
+              error: false,
+              feeInfo: mockFeeInfo,
+            },
+            [FeeType.INVITE]: {
+              usdFee: '0.04',
+              lastUpdated: 500,
+              loading: false,
+              error: false,
+              feeInfo: mockFeeInfo,
+            },
+            [FeeType.EXCHANGE]: undefined,
+            [FeeType.RECLAIM_ESCROW]: undefined,
+            [FeeType.REGISTER_DEK]: undefined,
+          },
+        },
+      },
       ...storeOverrides,
     })
 
@@ -124,42 +147,47 @@ describe('SendConfirmation', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(getElementText(feeComponent)).toEqual('₱0.0466')
+    expect(getElementText(feeComponent)).toEqual('₱0.0266')
 
-    // NOTE: CELO fees are currently not combined into the total.
-    // TODO: This should equal more than $1.33, depending on the CELO fee value.
+    // Subtotal is $1.33, which is added the fee amount.
     const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('₱1.33')
+    expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
-    mockGetGasPrice.mockImplementation(() => {
-      throw new Error('Error while getting gas price')
+  it('shows --- for fee when fee estimate fails', async () => {
+    const { queryByTestId, getByText } = renderScreen({
+      fees: {
+        estimates: {
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              error: true,
+            },
+          },
+        },
+      },
     })
-
-    const { store, queryByTestId, getByText } = renderScreen()
-
-    store.clearActions()
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
 
     const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
     expect(feeComponent).toBeFalsy()
     expect(getByText('---')).toBeTruthy()
+  })
 
-    expect(store.getActions()).toEqual([
-      {
-        action: null,
-        alertType: 'error',
-        buttonMessage: null,
-        dismissAfter: 5000,
-        displayMethod: ErrorDisplayType.BANNER,
-        message: i18n.t('calculateFeeFailed'),
-        title: null,
-        type: 'ALERT/SHOW',
-        underlyingError: 'calculateFeeFailed',
+  it('shows loading for fee while fee estimate loads', async () => {
+    const { queryByTestId, getByTestId } = renderScreen({
+      fees: {
+        estimates: {
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              loading: true,
+            },
+          },
+        },
       },
-    ])
+    })
+
+    const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(feeComponent).toBeFalsy()
+    expect(getByTestId('LineItemLoading')).toBeTruthy()
   })
 
   it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
@@ -189,8 +217,10 @@ describe('SendConfirmation', () => {
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
-          send: {
-            feeInWei: '1',
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              usdFee: '1',
+            },
           },
         },
       },
@@ -297,7 +327,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches an action when the confirm button is pressed', async () => {
-    const { store, getByTestId } = renderScreen({})
+    const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
     expect(store.getActions().length).toEqual(0)
 
@@ -313,7 +343,7 @@ describe('SendConfirmation', () => {
           inputAmount,
           '',
           recipient,
-          undefined,
+          mockFeeInfo,
           false
         ),
       ])
@@ -334,6 +364,7 @@ describe('SendConfirmation', () => {
             },
           },
         },
+        web3: { isDekRegistered: true },
       },
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
@@ -358,7 +389,7 @@ describe('SendConfirmation', () => {
           inputAmount,
           '',
           { address: mockAccount2, e164PhoneNumber: mockE164Number },
-          undefined,
+          mockFeeInfo,
           false
         ),
       ])
