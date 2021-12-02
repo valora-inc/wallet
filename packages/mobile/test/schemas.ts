@@ -730,7 +730,6 @@ export const v22Schema = {
     otaTranslationsLastUpdate: 0,
     otaTranslationsAppVersion: '0',
     otaTranslationsLanguage: '',
-    enableLinkBankAccount: false,
   },
 }
 
@@ -739,6 +738,10 @@ export const v23Schema = {
   _persist: {
     ...v22Schema._persist,
     version: 23,
+  },
+  app: {
+    ...v22Schema.app,
+    enableLinkBankAccount: false,
   },
   fees: {
     estimates: {
