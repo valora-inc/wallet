@@ -40,7 +40,6 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
-import i18n from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { Gold } from 'src/icons/navigator/Gold'
@@ -136,6 +135,7 @@ function CustomDrawerItemList({
 }
 
 function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+  const { t } = useTranslation()
   const displayName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
@@ -168,7 +168,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       </View>
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
-        <Text style={fontStyles.label}>{i18n.t('address')}</Text>
+        <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
         <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
       </View>

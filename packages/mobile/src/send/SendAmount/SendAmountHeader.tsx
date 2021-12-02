@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import i18n from 'src/i18n'
 import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
@@ -24,6 +24,7 @@ function SendAmountHeader({
   onChangeToken,
   disallowCurrencyChange,
 }: Props) {
+  const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
   const tokensWithBalance = useSelector(tokensWithBalanceSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
@@ -48,11 +49,11 @@ function SendAmountHeader({
     let title
     if (!canChangeToken) {
       titleText = isOutgoingPaymentRequest
-        ? i18n.t('request')
-        : i18n.t('sendToken', { token: tokenInfo?.symbol })
+        ? t('request')
+        : t('sendToken', { token: tokenInfo?.symbol })
       title = titleText
     } else {
-      titleText = i18n.t('send')
+      titleText = t('send')
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>

@@ -32,7 +32,6 @@ import CalculateFee, {
 import { FeeType } from 'src/fees/reducer'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
-import i18n from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
@@ -288,7 +287,7 @@ function SendConfirmationLegacy(props: Props) {
     if (type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill) {
       primaryBtnInfo = {
         action: sendOrInvite,
-        text: i18n.t('pay'),
+        text: t('pay'),
         disabled: isPrimaryButtonDisabled,
       }
     } else {
