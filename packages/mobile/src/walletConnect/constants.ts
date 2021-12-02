@@ -1,4 +1,4 @@
-import i18n from 'src/i18n'
+import { TFunction } from 'i18next'
 
 export enum SupportedActions {
   eth_accounts = 'eth_accounts',
@@ -13,47 +13,47 @@ export enum SupportedActions {
 }
 
 const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('description.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('description.signTransaction'),
-  [SupportedActions.eth_sendTransaction]: i18n.t('description.sendTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('description.sign'),
-  [SupportedActions.eth_signTypedData_v4]: i18n.t('description.sign'),
-  [SupportedActions.eth_sign]: i18n.t('description.sign'),
-  [SupportedActions.personal_sign]: i18n.t('description.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('description.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('description.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: 'description.accounts',
+  [SupportedActions.eth_signTransaction]: 'description.signTransaction',
+  [SupportedActions.eth_sendTransaction]: 'description.sendTransaction',
+  [SupportedActions.eth_signTypedData]: 'description.sign',
+  [SupportedActions.eth_signTypedData_v4]: 'description.sign',
+  [SupportedActions.eth_sign]: 'description.sign',
+  [SupportedActions.personal_sign]: 'description.sign',
+  [SupportedActions.personal_decrypt]: 'description.decrypt',
+  [SupportedActions.computeSharedSecret]: 'description.computeSharedSecret',
 }
 
 const actionTranslations: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('action.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('action.signTransaction'),
-  [SupportedActions.eth_sendTransaction]: i18n.t('action.sendTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('action.sign'),
-  [SupportedActions.eth_signTypedData_v4]: i18n.t('action.sign'),
-  [SupportedActions.eth_sign]: i18n.t('action.sign'),
-  [SupportedActions.personal_sign]: i18n.t('action.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('action.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('action.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: 'action.accounts',
+  [SupportedActions.eth_signTransaction]: 'action.signTransaction',
+  [SupportedActions.eth_sendTransaction]: 'action.sendTransaction',
+  [SupportedActions.eth_signTypedData]: 'action.sign',
+  [SupportedActions.eth_signTypedData_v4]: 'action.sign',
+  [SupportedActions.eth_sign]: 'action.sign',
+  [SupportedActions.personal_sign]: 'action.sign',
+  [SupportedActions.personal_decrypt]: 'action.decrypt',
+  [SupportedActions.computeSharedSecret]: 'action.computeSharedSecret',
 }
 
 export function isSupportedAction(action: string) {
   return action in actionTranslations
 }
 
-export function getTranslationDescriptionFromAction(action: SupportedActions) {
+export function getTranslationDescriptionFromAction(t: TFunction, action: SupportedActions) {
   const translationId = actionDescriptionTranslations[action]
   if (!translationId) {
     return ''
   }
 
-  return translationId
+  return t(translationId)
 }
 
-export function getTranslationFromAction(action: SupportedActions) {
+export function getTranslationFromAction(t: TFunction, action: SupportedActions) {
   const translationId = actionTranslations[action]
   if (!translationId) {
     return ''
   }
 
-  return translationId
+  return t(translationId)
 }
