@@ -12,48 +12,48 @@ export enum SupportedActions {
   computeSharedSecret = 'personal_computeSharedSecret',
 }
 
-const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: 'description.accounts',
-  [SupportedActions.eth_signTransaction]: 'description.signTransaction',
-  [SupportedActions.eth_sendTransaction]: 'description.sendTransaction',
-  [SupportedActions.eth_signTypedData]: 'description.sign',
-  [SupportedActions.eth_signTypedData_v4]: 'description.sign',
-  [SupportedActions.eth_sign]: 'description.sign',
-  [SupportedActions.personal_sign]: 'description.sign',
-  [SupportedActions.personal_decrypt]: 'description.decrypt',
-  [SupportedActions.computeSharedSecret]: 'description.computeSharedSecret',
-}
-
-const actionTranslations: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: 'action.accounts',
-  [SupportedActions.eth_signTransaction]: 'action.signTransaction',
-  [SupportedActions.eth_sendTransaction]: 'action.sendTransaction',
-  [SupportedActions.eth_signTypedData]: 'action.sign',
-  [SupportedActions.eth_signTypedData_v4]: 'action.sign',
-  [SupportedActions.eth_sign]: 'action.sign',
-  [SupportedActions.personal_sign]: 'action.sign',
-  [SupportedActions.personal_decrypt]: 'action.decrypt',
-  [SupportedActions.computeSharedSecret]: 'action.computeSharedSecret',
-}
-
 export function isSupportedAction(action: string) {
-  return action in actionTranslations
+  return Object.values(SupportedActions).includes(action as SupportedActions)
 }
 
 export function getTranslationDescriptionFromAction(t: TFunction, action: SupportedActions) {
+  const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
+    [SupportedActions.eth_accounts]: t('description.accounts'),
+    [SupportedActions.eth_signTransaction]: t('description.signTransaction'),
+    [SupportedActions.eth_sendTransaction]: t('description.sendTransaction'),
+    [SupportedActions.eth_signTypedData]: t('description.sign'),
+    [SupportedActions.eth_signTypedData_v4]: t('description.sign'),
+    [SupportedActions.eth_sign]: t('description.sign'),
+    [SupportedActions.personal_sign]: t('description.sign'),
+    [SupportedActions.personal_decrypt]: t('description.decrypt'),
+    [SupportedActions.computeSharedSecret]: t('description.computeSharedSecret'),
+  }
+
   const translationId = actionDescriptionTranslations[action]
   if (!translationId) {
     return ''
   }
 
-  return t(translationId)
+  return translationId
 }
 
 export function getTranslationFromAction(t: TFunction, action: SupportedActions) {
+  const actionTranslations: { [x in SupportedActions]: string } = {
+    [SupportedActions.eth_accounts]: t('action.accounts'),
+    [SupportedActions.eth_signTransaction]: t('action.signTransaction'),
+    [SupportedActions.eth_sendTransaction]: t('action.sendTransaction'),
+    [SupportedActions.eth_signTypedData]: t('action.sign'),
+    [SupportedActions.eth_signTypedData_v4]: t('action.sign'),
+    [SupportedActions.eth_sign]: t('action.sign'),
+    [SupportedActions.personal_sign]: t('action.sign'),
+    [SupportedActions.personal_decrypt]: t('action.decrypt'),
+    [SupportedActions.computeSharedSecret]: t('action.computeSharedSecret'),
+  }
+
   const translationId = actionTranslations[action]
   if (!translationId) {
     return ''
   }
 
-  return t(translationId)
+  return translationId
 }
