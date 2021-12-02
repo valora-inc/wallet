@@ -67,8 +67,10 @@ function deduplicateArray<T>(array: T[]) {
 }
 
 function ActionList({ actions }: { actions: string[] }) {
+  const { t } = useTranslation()
+
   const descriptions = deduplicateArray(
-    actions.map((a) => getTranslationDescriptionFromAction(a as SupportedActions))
+    actions.map((a) => getTranslationDescriptionFromAction(t, a as SupportedActions))
   )
 
   return (
