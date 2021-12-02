@@ -40,13 +40,13 @@ const Persona = ({ kycStatus, text }: Props) => {
       return
     }
 
-    // if (!accountMTWAddress) {
-    //   // accountMTWAddress can be null if user's phone number is not verified.
-    //   // Current plan for initial PFP release is to monitor drop off rate for users who haven't verified their phone numbers yet
-    //   // Discussion -> https://valora-app.slack.com/archives/C025V1D6F3J/p1637606953112000
-    //   Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
-    //   return
-    // }
+    if (!accountMTWAddress) {
+      // accountMTWAddress can be null if user's phone number is not verified.
+      // Current plan for initial PFP release is to monitor drop off rate for users who haven't verified their phone numbers yet
+      // Discussion -> https://valora-app.slack.com/archives/C025V1D6F3J/p1637606953112000
+      Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
+      return
+    }
 
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
@@ -91,10 +91,10 @@ const Persona = ({ kycStatus, text }: Props) => {
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      // if (!accountMTWAddress) {
-      //   Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
-      //   return
-      // }
+      if (!accountMTWAddress) {
+        Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
+        return
+      }
       const privateKey = await getPrivateKey()
       const signature = signMessage(
         `post /account/create ${JSON.stringify({ accountMTWAddress })}`,
@@ -120,7 +120,7 @@ const Persona = ({ kycStatus, text }: Props) => {
       type={BtnTypes.SECONDARY}
       size={BtnSizes.MEDIUM}
       testID="PersonaButton"
-      // disabled={!templateId}
+      disabled={!personaAccountCreated || !templateId}
     />
   )
 }
