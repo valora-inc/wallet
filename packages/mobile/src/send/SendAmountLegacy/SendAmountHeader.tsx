@@ -2,13 +2,13 @@ import Touchable from '@celo/react-components/components/Touchable'
 import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
 import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
@@ -28,6 +28,7 @@ function SendAmountHeader({
   onChangeCurrency,
   disallowCurrencyChange,
 }: Props) {
+  const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
   const balances = useSelector(balancesSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
@@ -52,10 +53,10 @@ function SendAmountHeader({
     let titleText
     let title
     if (currenciesWithBalance < 2 || isOutgoingPaymentRequest) {
-      titleText = isOutgoingPaymentRequest ? i18n.t('request') : i18n.t('send')
+      titleText = isOutgoingPaymentRequest ? t('request') : t('send')
       title = titleText
     } else {
-      titleText = i18n.t('sendToken', { token: currency })
+      titleText = t('sendToken', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
