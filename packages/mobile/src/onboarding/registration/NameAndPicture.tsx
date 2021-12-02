@@ -15,7 +15,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import DevSkipButton from 'src/components/DevSkipButton'
-import i18n from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -44,8 +43,8 @@ function NameAndPicture({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={i18n.t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
-          subTitle={i18n.t(choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps', {
+          title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
+          subTitle={t(choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps', {
             step: '1',
           })}
         />

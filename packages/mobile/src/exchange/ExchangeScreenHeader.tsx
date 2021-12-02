@@ -2,13 +2,13 @@ import Touchable from '@celo/react-components/components/Touchable'
 import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
 import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
@@ -22,6 +22,7 @@ interface Props {
 }
 
 function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency }: Props) {
+  const { t } = useTranslation()
   const [showingTokenPicker, setShowTokenPicker] = useState(false)
 
   const onCurrencySelected = (currency: Currency) => {
@@ -44,9 +45,9 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
     let title
     const tokenPickerEnabled = currenciesWithBalance >= 2 || !isCeloPurchase
     if (!tokenPickerEnabled) {
-      title = i18n.t('buyGold')
+      title = t('buyGold')
     } else {
-      titleText = i18n.t('tokenBalance', { token: currency })
+      titleText = t('tokenBalance', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerSubTitle}>{titleText}</Text>
