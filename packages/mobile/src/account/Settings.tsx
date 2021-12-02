@@ -156,7 +156,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   goToLinkBankAccount = () => {
-    this.props.navigation.navigate(Screens.LinkBankAccountScreen, {
+    navigate(Screens.LinkBankAccountScreen, {
       kycStatus: this.props.kycStatus,
     })
   }
