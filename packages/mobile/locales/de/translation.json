@@ -1078,6 +1078,9 @@
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "linkBankAccountScreen": {
     "tryAgain": "Nochmal versuchen",
+    "verifying": {
+      "title": "Verifying your Identity"
+    },
     "completed": {
       "title": "Überprüfung abgeschlossen",
       "description": "Wir haben deine Identität erfolgreich überprüft. Wir werden dich benachrichtigen, wenn du die Verknüpfung deines Bankkontos abschließen kannst."
