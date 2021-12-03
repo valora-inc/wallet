@@ -1079,7 +1079,7 @@
   "linkBankAccountScreen": {
     "tryAgain": "Tente novamente",
     "verifying": {
-      "title": "Verifying your Identity"
+      "title": "Verificando sua Identidade"
     },
     "completed": {
       "title": "Verificação Completa",
