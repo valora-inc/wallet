@@ -49,7 +49,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
-    !!onPress && onPress()
+    onPress?.()
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
@@ -60,11 +60,11 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
         )
       })
       .onCancelled(() => {
-        !!onCancelled && onCancelled()
+        onCancelled?.()
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
-        !!onCancelled && onCancelled()
+        onCancelled?.()
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()

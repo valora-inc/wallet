@@ -1,4 +1,5 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
@@ -16,7 +17,6 @@ import LoadingSpinner from 'src/icons/LoadingSpinner'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { kycStatusSelector } from 'src/account/selectors'
-
 interface StepOneProps {
   kycStatus: KycStatus | undefined
 }
@@ -72,16 +72,18 @@ function StepOne({ kycStatus }: StepOneProps) {
               onCancelled={() => setIsKycVerifying(false)}
             />
           </View>
-          <TouchableOpacity
-            testID="SupportContactLink"
-            onPress={() => {
-              navigate(Screens.SupportContact, {
-                prefilledText: t('linkBankAccountScreen.failed.contactSupportPrefill'),
-              })
-            }}
-          >
-            <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
-          </TouchableOpacity>
+          <View style={styles.contactSupportButton}>
+            <BorderlessButton
+              testID="SupportContactLink"
+              onPress={() => {
+                navigate(Screens.SupportContact, {
+                  prefilledText: t('linkBankAccountScreen.failed.contactSupportPrefill'),
+                })
+              }}
+            >
+              <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
+            </BorderlessButton>
+          </View>
         </View>
       )
     case KycStatus.Pending:
@@ -103,9 +105,6 @@ function StepOne({ kycStatus }: StepOneProps) {
               <LoadingSpinner width={30} />
             </View>
             <Text style={styles.action}>{t('linkBankAccountScreen.verifying.title')}</Text>
-            <Text style={styles.description}>
-              {t('linkBankAccountScreen.verifying.description')}
-            </Text>
           </View>
         )
       }
@@ -197,6 +196,8 @@ const styles = StyleSheet.create({
   },
   contactSupport: {
     ...fontStyles.regular600,
+  },
+  contactSupportButton: {
     marginTop: 26,
   },
   loadingSpinnerContainer: {

@@ -1079,8 +1079,7 @@
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
-      "title": "Verifying your Identity",
-      "description": "Please keep the app open!"      
+      "title": "Verifying your Identity"
     },
     "completed": {
       "title": "Verification Complete",

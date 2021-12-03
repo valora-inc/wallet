@@ -942,38 +942,46 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
           </View>
         </View>
         <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              undefined,
-              Object {
-                "opacity": 1,
-              },
-            ]
+            Object {
+              "marginTop": 26,
+            }
           }
-          testID="SupportContactLink"
         >
-          <Text
-            style={
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
               Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "marginTop": 26,
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
               }
             }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="SupportContactLink"
           >
-            contactSupport
-          </Text>
+            <Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                contactSupport
+              </Text>
+            </Text>
+          </View>
         </View>
       </View>
       <View
