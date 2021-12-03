@@ -13,7 +13,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
-import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
 
