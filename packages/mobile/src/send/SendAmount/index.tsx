@@ -163,6 +163,10 @@ function SendAmount(props: Props) {
       // Wait until the recipient status is fetched.
       return
     }
+    if (isOutgoingPaymentRequest) {
+      // Don't calculate fees on outgoing payment requests
+      return
+    }
     const feeType =
       recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
         ? FeeType.SEND
