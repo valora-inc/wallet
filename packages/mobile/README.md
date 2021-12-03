@@ -1,40 +1,42 @@
 # Mobile (Valora)
 
-  - [Overview](#overview)
-  - [Architecture](#architecture)
-  - [Setup](#setup)
-    - [iOS](#ios)
-      - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
-      - [Install Xcode](#install-xcode)
-      - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
-    - [Android](#android)
-      - [Install Java](#install-java)
-      - [Install Android Dev Tools](#install-android-dev-tools)
-      - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
-  - [Running the mobile wallet](#running-the-mobile-wallet)
-    - [iOS](#ios-1)
-    - [Android](#android-1)
-    - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
-  - [Debugging & App Profiling](#debugging--app-profiling)
-    - [Debugging](#debugging)
-      - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
-    - [App Profiling](#app-profiling)
-  - [Testing](#testing)
-    - [Snapshot testing](#snapshot-testing)
-    - [React component unit testing](#react-component-unit-testing)
-    - [Saga testing](#saga-testing)
-    - [End-to-End testing](#end-to-end-testing)
-  - [Building APKs / Bundles](#building-apks--bundles)
-    - [Creating a fake keystore](#creating-a-fake-keystore)
-    - [Building an APK or Bundle](#building-an-apk-or-bundle)
-  - [Other](#other)
-    - [Localization (l10n) / translation process](#localization-l10n--translation-process)
-    - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
-    - [Generating GraphQL Types](#generating-graphql-types)
-    - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
-    - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
-    - [Troubleshooting](#troubleshooting)
-      - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Setup](#setup)
+  - [iOS](#ios)
+    - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
+    - [Install Xcode](#install-xcode)
+    - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
+  - [Android](#android)
+    - [Install Java](#install-java)
+    - [Install Android Dev Tools](#install-android-dev-tools)
+    - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
+- [Running the mobile wallet](#running-the-mobile-wallet)
+  - [iOS](#ios-1)
+  - [Android](#android-1)
+  - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
+- [Debugging & App Profiling](#debugging--app-profiling)
+  - [Debugging](#debugging)
+    - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
+  - [App Profiling](#app-profiling)
+- [Testing](#testing)
+  - [Snapshot testing](#snapshot-testing)
+  - [React component unit testing](#react-component-unit-testing)
+  - [Saga testing](#saga-testing)
+  - [End-to-End testing](#end-to-end-testing)
+- [Building APKs / Bundles](#building-apks--bundles)
+  - [Creating a fake keystore](#creating-a-fake-keystore)
+  - [Building an APK or Bundle](#building-an-apk-or-bundle)
+- [Other](#other)
+  - [Localization (l10n) / translation process](#localization-l10n--translation-process)
+  - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
+  - [Generating GraphQL Types](#generating-graphql-types)
+  - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
+  - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
+  - [Attaching to the geth instance](#attaching-to-the-geth-instance)
+  - [Helpful hints for development](#helpful-hints-for-development)
+  - [Troubleshooting](#troubleshooting)
+    - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
 
 ## Overview
 
@@ -282,7 +284,8 @@ The below steps should help you successfully run the mobile wallet on either a U
 6. From the `packages/mobile` directory run `yarn run dev:android`.
 
 ### Running on Mainnet
-By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`. 
+
+By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`.
 
 ### Running in forno (data saver) mode
 
@@ -353,7 +356,7 @@ react components. It allows for deep rendering and interaction with the rendered
 tree to assert proper reactions to user interaction and input. See an example at
 [`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs].
 
-To run a single component test file: `yarn test Send.test.tsx` 
+To run a single component test file: `yarn test Send.test.tsx`
 
 ### Saga testing
 
@@ -478,6 +481,13 @@ To attach:
 
 1. Start geth's HTTP RPC server by setting the config variable `GETH_START_HTTP_RPC_SERVER` to true. This is meant for development purposes only and can be a serious vulnerability if used in production.
 2. Using a geth binary on your computer, run `geth attach http://<DEVICE_IP_ADDRESS>:8545`
+
+### Helpful hints for development
+
+We try to minimise the differences between running Valora in different modes and environments, however there are a few helpful things to know when developing the app.
+
+- Valora uses Crowdin Over-The-Air (OTA) content delivery to enable dynamic translation updates. The OTA translations are cached and used on subsequent app loads instead of the strings in the translation files of the app bundle. This means that during development, the app will not respond to manual changes of the translation.json files.
+- In development mode, analytics are disabled.
 
 ### Troubleshooting
 
