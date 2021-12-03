@@ -13,6 +13,7 @@
     <item name="personaTitleTextAppearance">@style/RN.Persona.Text.Title</item>
     <item name="personaBodyTextAppearance">@style/RN.Persona.Text.Body</item>
     <item name="editTextStyle">@style/RN.Persona.EditText</item>
+    <item name="spinnerStyle">@style/RN.Persona.Spinner</item>
     <item name="spinnerDropDownItemStyle">@style/RN.Persona.DropDownItem.Spinner</item>
     <item name="buttonStyle">@style/RN.Persona.Button</item>
     <item name="colorControlActivated">#1AB775</item>
