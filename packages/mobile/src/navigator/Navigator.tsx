@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -440,6 +441,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
       component={SelectLocalCurrency}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.LinkBankAccountScreen}
+      component={LinkBankAccountScreen}
       options={headerWithBackButton}
     />
     <Navigator.Screen

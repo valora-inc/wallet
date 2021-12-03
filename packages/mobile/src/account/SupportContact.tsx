@@ -15,6 +15,7 @@ import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { sessionIdSelector } from 'src/app/selectors'
+import { APP_NAME } from 'src/brandingConfig'
 import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -57,10 +58,9 @@ function SupportContact({ route }: Props) {
       sessionId,
       network: DEFAULT_TESTNET,
     }
-    const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : 'unknown'
-    const emailSubject = 'Celo support for ' + (userId || 'unknownUser')
+    const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
     const email: Email = {
-      subject: emailSubject,
+      subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
       recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
