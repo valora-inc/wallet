@@ -1078,6 +1078,9 @@
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Tente novamente",
+    "verifying": {
+      "title": "Verifying your Identity"
+    },
     "completed": {
       "title": "Verificação Completa",
       "description": "Nós verificamos sua identidade com sucesso. Nós o informaremos quando você puder terminar de vincular sua conta bancária."
