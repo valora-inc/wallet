@@ -23,7 +23,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
-import { PincodeType } from 'src/account/reducer'
+import { KycStatus, PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -85,6 +85,8 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
+  linkBankAccountEnabled: boolean
+  kycStatus: KycStatus | undefined
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -110,6 +112,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
+    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
+    kycStatus: state.account.kycStatus,
   }
 }
 
@@ -139,7 +143,6 @@ export class Account extends React.Component<Props, State> {
       this.props.setSessionId(sessionId)
     }
   }
-
   goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
     this.props.navigation.navigate(Screens.Profile)
@@ -149,6 +152,12 @@ export class Account extends React.Component<Props, State> {
     ValoraAnalytics.track(SettingsEvents.settings_verify_number)
     this.props.navigation.navigate(Screens.VerificationEducationScreen, {
       hideOnboardingStep: true,
+    })
+  }
+
+  goToLinkBankAccount = () => {
+    navigate(Screens.LinkBankAccountScreen, {
+      kycStatus: this.props.kycStatus,
     })
   }
 
@@ -365,10 +374,11 @@ export class Account extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, i18n, numberVerified, verificationPossible } = this.props
+    const { t, i18n, numberVerified, verificationPossible, linkBankAccountEnabled } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
+
     return (
       <SafeAreaView style={styles.container}>
         <DrawerTopBar />
@@ -386,6 +396,15 @@ export class Account extends React.Component<Props, State> {
             />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
+            )}
+            {linkBankAccountEnabled && (
+              <SettingsItemTextValue
+                title={t('linkBankAccountSettingsTitle')}
+                onPress={this.goToLinkBankAccount}
+                value={t('linkBankAccountSettingsValue')}
+                isValueActionable={true}
+                testID="linkBankAccountSettings"
+              />
             )}
             <SettingsItemTextValue
               title={t('languageSettings')}
