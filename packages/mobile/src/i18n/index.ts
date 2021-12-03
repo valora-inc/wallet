@@ -1,6 +1,7 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
 import i18n, { Resource } from 'i18next'
+import _ from 'lodash'
 import {
   initReactI18next,
   WithTranslation,
@@ -17,7 +18,7 @@ async function getAvailableResources(cachedTranslations: Resource) {
   for (const [language, value] of Object.entries(locales)) {
     Object.defineProperty(resources, language, {
       get: () => ({
-        translation: cachedTranslations[language] || value!.strings.translation,
+        translation: _.merge(value!.strings.translation, cachedTranslations[language]),
       }),
       enumerable: true,
     })
