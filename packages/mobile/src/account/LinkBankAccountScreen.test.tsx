@@ -10,17 +10,18 @@ import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 
 describe('LinkBankAccountScreen', () => {
-  const store = createMockStore({
-    web3: { mtwAddress: mockAccount },
-  })
   describe('renders correctly for each possible kycStatus', () => {
     const kycValues: (KycStatus | undefined)[] = Object.values(KycStatus)
     kycValues.push(undefined)
     kycValues.forEach((kycValue) => {
       it(`renders correctly for a KycStatus of ${kycValue}`, () => {
+        const store = createMockStore({
+          web3: { mtwAddress: mockAccount },
+          account: { kycStatus: kycValue },
+        })
         const { toJSON } = render(
           <Provider store={store}>
-            <LinkBankAccountScreen kycStatus={kycValue} />
+            <LinkBankAccountScreen />
           </Provider>
         )
         expect(toJSON()).toMatchSnapshot()
@@ -28,9 +29,13 @@ describe('LinkBankAccountScreen', () => {
     })
   })
   it('redirects correctly to SupportContact when button is clicked in kycStatus failed state', async () => {
+    const store = createMockStore({
+      web3: { mtwAddress: mockAccount },
+      account: { kycStatus: KycStatus.Failed },
+    })
     const tree = render(
       <Provider store={store}>
-        <LinkBankAccountScreen kycStatus={KycStatus.Failed} />
+        <LinkBankAccountScreen />
       </Provider>
     )
     fireEvent.press(tree.getByTestId('SupportContactLink'))

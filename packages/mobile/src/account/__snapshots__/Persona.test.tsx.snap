@@ -43,7 +43,7 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#F1F0EB",
+          "backgroundColor": "#97DFC1",
           "height": 48,
           "justifyContent": "center",
           "minWidth": 120,
@@ -58,7 +58,7 @@ exports[`Persona renders correctly 1`] = `
         maxFontSizeMultiplier={1}
         style={
           Object {
-            "color": "#9CA4A9",
+            "color": "#FFFFFF",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 16,
             "lineHeight": 22,

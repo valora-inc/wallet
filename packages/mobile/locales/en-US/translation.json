@@ -1078,6 +1078,10 @@
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
+    "verifying": {
+      "title": "Verifying your Identity",
+      "description": "Please keep the app open!"      
+    },
     "completed": {
       "title": "Verification Complete",
       "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."

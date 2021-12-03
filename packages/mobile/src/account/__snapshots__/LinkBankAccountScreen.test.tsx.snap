@@ -334,7 +334,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -349,7 +349,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -606,7 +606,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -621,7 +621,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -814,13 +814,13 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               cx="30"
               cy="30"
               r="11.25"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-width="1.5"
               style={Object {}}
             />
             <path
               d="M34.5 25.5L25.5 34.5"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="1.5"
@@ -828,7 +828,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             />
             <path
               d="M34.5 34.5L25.5 25.5"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="1.5"
@@ -913,7 +913,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -928,7 +928,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1441,7 +1441,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -1456,7 +1456,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,

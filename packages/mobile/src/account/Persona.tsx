@@ -13,6 +13,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
+import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScreen'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
 
@@ -21,9 +22,11 @@ const TAG = 'PERSONA'
 export interface Props {
   kycStatus: KycStatus | undefined
   text?: string | undefined
+  onPress?: () => any
+  onCancelled?: () => any
 }
 
-const Persona = ({ kycStatus, text }: Props) => {
+const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -47,7 +50,7 @@ const Persona = ({ kycStatus, text }: Props) => {
       Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
-
+    !!onPress && onPress()
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
@@ -56,12 +59,13 @@ const Persona = ({ kycStatus, text }: Props) => {
           TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
         )
-        // TODO [Lisa]: Add event handling for KYC approval when Persona component is integrated
       })
       .onCancelled(() => {
+        !!onCancelled && onCancelled()
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
+        !!onCancelled && onCancelled()
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
@@ -117,7 +121,7 @@ const Persona = ({ kycStatus, text }: Props) => {
     <Button
       onPress={launchPersonaInquiry}
       text={text || t('raiseLimitBegin')}
-      type={BtnTypes.SECONDARY}
+      type={BtnTypes.PRIMARY}
       size={BtnSizes.MEDIUM}
       testID="PersonaButton"
       disabled={!personaAccountCreated || !templateId}
