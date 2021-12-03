@@ -25,6 +25,7 @@ import { Actions as GethActions } from 'src/geth/actions'
 import { gethSaga } from 'src/geth/saga'
 import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
+import { i18nSaga } from 'src/i18n/saga'
 import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
@@ -109,6 +110,7 @@ export function* rootSaga() {
     yield spawn(appRemoteFeatureFlagSaga)
     yield spawn(loggerSaga)
     yield spawn(appSaga)
+    yield spawn(i18nSaga)
     yield spawn(sentrySaga)
     yield spawn(networkInfoSaga)
     yield spawn(gethSaga)

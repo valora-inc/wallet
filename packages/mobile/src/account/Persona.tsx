@@ -21,9 +21,10 @@ const TAG = 'PERSONA'
 
 export interface Props {
   kycStatus: KycStatus | undefined
+  text?: string | undefined
 }
 
-const Persona = ({ kycStatus }: Props) => {
+const Persona = ({ kycStatus, text }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -117,9 +118,9 @@ const Persona = ({ kycStatus }: Props) => {
   return (
     <Button
       onPress={launchPersonaInquiry}
-      text={t('raiseLimitBegin')}
-      type={BtnTypes.PRIMARY}
-      size={BtnSizes.FULL}
+      text={text || t('raiseLimitBegin')}
+      type={BtnTypes.SECONDARY}
+      size={BtnSizes.MEDIUM}
       testID="PersonaButton"
       disabled={!personaAccountCreated || !templateId}
     />

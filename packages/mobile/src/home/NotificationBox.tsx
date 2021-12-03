@@ -91,12 +91,12 @@ function useSimpleActions() {
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
     actions.push({
-      text: t('backupKeyFlow6:backupKeyNotification'),
+      text: t('backupKeyNotification'),
       icon: backupKey,
       priority: BACKUP_PRIORITY,
       callToActions: [
         {
-          text: t('backupKeyFlow6:introPrimaryAction'),
+          text: t('introPrimaryAction'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.backup_prompt,

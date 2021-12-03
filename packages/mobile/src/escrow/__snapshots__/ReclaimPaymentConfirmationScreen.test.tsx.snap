@@ -238,7 +238,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -337,7 +337,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -644,6 +644,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
@@ -738,7 +739,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -1281,7 +1282,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -1380,7 +1381,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -1792,7 +1793,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.28
                 </Text>
               </Text>
@@ -2335,7 +2336,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -2434,7 +2435,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -2741,6 +2742,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
@@ -2835,7 +2837,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -3378,7 +3380,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -3477,7 +3479,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -3875,7 +3877,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -4418,7 +4420,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -4517,7 +4519,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -4824,6 +4826,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ],
                   }
                 }
+                testID="LineItemLoading"
               >
                 <ActivityIndicator
                   animating={true}
@@ -4918,7 +4921,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -5461,7 +5464,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   ]
                 }
               >
-                $
+                ₱
               </Text>
               <Text
                 numberOfLines={1}
@@ -5560,7 +5563,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   13.30
                 </Text>
               </Text>
@@ -5882,7 +5885,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   testID="undefined/value"
                 >
                   -
-                  $
+                  ₱
                   0.0133
                 </Text>
               </Text>
@@ -5972,7 +5975,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   testID="TotalLineItem/Total/value"
                 >
                   
-                  $
+                  ₱
                   13.28
                 </Text>
               </Text>

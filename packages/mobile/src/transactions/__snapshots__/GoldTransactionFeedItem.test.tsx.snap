@@ -248,7 +248,7 @@ exports[`GoldTransactionFeedItem renders correctly when local amount is null 1`]
           testID="GoldTransactionFeedItemAmount/value"
         >
           -
-          $
+          ₱
           1.33
         </Text>
       </View>

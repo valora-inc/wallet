@@ -160,8 +160,8 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "customerIncentivesTitle": "Boost your Rewards",
-  "customerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Boost your Rewards",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
     "header": "Weekly payout",
     "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
@@ -1074,5 +1074,36 @@
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
-  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later"
+  "supportEmailSubject": "{{appName}} support for {{user}}",
+  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
+  "linkBankAccountScreen": {
+    "tryAgain": "Try Again",
+    "completed": {
+      "title": "Verification Complete",
+      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+    },
+    "failed": {
+      "title": "Verification Denied",
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "contactSupportPrefill": "My identity verification was denied"
+    },
+    "pending": {
+      "title": "Review in progress",
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+    },
+    "begin": {
+      "label": "Step 1",
+      "title": "Verify your Identity",
+      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "cta": "Begin"
+    },
+    "stepTwo": {
+      "label": "Step 2",
+      "title": "Link a bank account",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "cta": "Coming Soon!"
+    }
+  },
+  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsValue": "Get Access"
 }

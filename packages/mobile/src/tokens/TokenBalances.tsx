@@ -4,10 +4,10 @@ import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import TokenDisplay from 'src/components/TokenDisplay'
-import i18n from 'src/i18n'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -17,6 +17,7 @@ import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
+  const { t } = useTranslation()
   const tokens = useSelector(tokensWithBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
@@ -24,7 +25,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const header = () => {
     return (
       <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{i18n.t('balances')}</Text>
+        <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
         <Text style={styles.subtext}>
           {localCurrencySymbol}
           {totalBalance?.toFormat(2)}

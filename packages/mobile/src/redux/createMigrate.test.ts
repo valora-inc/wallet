@@ -23,7 +23,7 @@ describe(createMigrate, () => {
     }
 
     const migrate = createMigrate(migrations)
-    const migratedSchema = await migrate(vNeg1Stub, _persistConfig.version)
+    const migratedSchema = await migrate(vNeg1Stub, _persistConfig.version!)
     expect(typeof migratedSchema).toBe('object')
   })
 
