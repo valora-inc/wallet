@@ -41,6 +41,7 @@ export interface State {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  linkBankAccountEnabled: boolean
 }
 
 const initialState = {
@@ -77,6 +78,7 @@ const initialState = {
   multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
+  linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
 }
 
 export const appReducer = (
@@ -184,6 +186,7 @@ export const appReducer = (
         multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
+        linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

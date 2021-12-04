@@ -1,5 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
+import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -285,6 +286,7 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
+  [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
   [Screens.VerificationInputScreen]:
     | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
     | undefined
