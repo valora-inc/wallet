@@ -334,7 +334,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -349,7 +349,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -606,7 +606,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -621,7 +621,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -814,13 +814,13 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               cx="30"
               cy="30"
               r="11.25"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-width="1.5"
               style={Object {}}
             />
             <path
               d="M34.5 25.5L25.5 34.5"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="1.5"
@@ -828,7 +828,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             />
             <path
               d="M34.5 34.5L25.5 25.5"
-              stroke="#EA6042"
+              stroke="#2E3338"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="1.5"
@@ -913,7 +913,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -928,7 +928,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -942,38 +942,46 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
           </View>
         </View>
         <View
-          accessible={true}
-          focusable={true}
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
-            Array [
-              undefined,
-              Object {
-                "opacity": 1,
-              },
-            ]
+            Object {
+              "marginTop": 26,
+            }
           }
-          testID="SupportContactLink"
         >
-          <Text
-            style={
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
               Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-SemiBold",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "marginTop": 26,
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
               }
             }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="SupportContactLink"
           >
-            contactSupport
-          </Text>
+            <Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                contactSupport
+              </Text>
+            </Text>
+          </View>
         </View>
       </View>
       <View
@@ -1441,7 +1449,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                 style={
                   Object {
                     "alignItems": "center",
-                    "backgroundColor": "#F1F0EB",
+                    "backgroundColor": "#97DFC1",
                     "height": 48,
                     "justifyContent": "center",
                     "minWidth": 120,
@@ -1456,7 +1464,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   maxFontSizeMultiplier={1}
                   style={
                     Object {
-                      "color": "#9CA4A9",
+                      "color": "#FFFFFF",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
