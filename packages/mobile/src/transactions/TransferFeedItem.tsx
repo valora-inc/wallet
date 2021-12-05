@@ -8,7 +8,6 @@ import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
-import { InviteDetails } from 'src/invite/actions'
 import { getRecipientFromAddress, NumberToRecipient, RecipientInfo } from 'src/recipients/recipient'
 import { inviteRewardsSendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
@@ -26,7 +25,6 @@ type Props = TransferItemFragment & {
   addressToE164Number: AddressToE164NumberType
   phoneRecipientCache: NumberToRecipient
   recentTxRecipientsCache: NumberToRecipient
-  invitees: InviteDetails[]
   commentKey: string | null
   recipientInfo: RecipientInfo
 }
@@ -82,7 +80,6 @@ export function TransferFeedItem(props: Props) {
     addressToE164Number,
     phoneRecipientCache,
     recentTxRecipientsCache,
-    invitees,
     recipientInfo,
     defaultName,
     defaultImage,
@@ -98,7 +95,6 @@ export function TransferFeedItem(props: Props) {
     comment,
     commentKey,
     timestamp,
-    invitees,
     recipientInfo,
     addressToDisplayName[address]?.isCeloRewardSender ?? false,
     rewardsSenders.includes(address),

@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionFeed renders correctly when there is a response 1`] = `
+<RCTScrollView
+  data={
+    Array [
+      Object {
+        "data": Array [
+          Object {
+            "__typename": "TokenTransferV2",
+            "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
+            "amount": Object {
+              "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+              "value": "0.1",
+            },
+            "block": "8648978",
+            "fees": Array [],
+            "metadata": Object {},
+            "timestamp": 1638600563000,
+            "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
+            "type": "RECEIVED",
+          },
+          Object {
+            "__typename": "TokenTransferV2",
+            "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
+            "amount": Object {
+              "tokenAddress": "0xrandomAddress",
+              "value": "0.1",
+            },
+            "block": "8648978",
+            "fees": Array [],
+            "metadata": Object {},
+            "timestamp": 1638600563000,
+            "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
+            "type": "RECEIVED",
+          },
+        ],
+        "title": "feedSectionHeaderRecent",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  keyboardShouldPersistTaps="always"
+  maxToRenderPerBatch={10}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  testID="TransactionList"
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+>
+  <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#FFFFFF",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 8,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Medium",
+              "fontSize": 13,
+              "lineHeight": 16,
+            }
+          }
+        >
+          feedSectionHeaderRecent
+        </Text>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(192, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(192, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+                testID="TransferFeedItem/title"
+              >
+                feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "flexWrap": "wrap",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "marginLeft": "auto",
+                      "paddingLeft": 10,
+                      "textAlign": "right",
+                      "width": "40%",
+                    },
+                    Object {
+                      "color": "#1AB775",
+                    },
+                  ]
+                }
+                testID="TransferFeedItem/amount"
+              >
+                +
+                ₱
+                0.13
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "paddingTop": 2,
+                  }
+                }
+                testID="TransferFeedItem/subtitle"
+              >
+                feedItemReceivedInfo, {"context":"noComment"}
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "flexWrap": "wrap",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginLeft": "auto",
+                    "paddingLeft": 10,
+                    "paddingTop": 2,
+                    "textAlign": "right",
+                    "width": "40%",
+                  }
+                }
+                testID="TransferFeedItem/tokenAmount"
+              >
+                
+                0.10
+                 cUSD
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+  </View>
+</RCTScrollView>
+`;

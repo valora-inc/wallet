@@ -5,12 +5,11 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
 import i18n from 'src/i18n'
-import { storeInviteeData } from 'src/invite/actions'
 import { initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
 import { transactionConfirmed } from 'src/transactions/actions'
 import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockE164Number, mockInviteDetails } from 'test/values'
+import { mockAccount, mockCusdAddress, mockE164Number } from 'test/values'
 
 const mockReceipt: CeloTxReceipt = {
   status: true,
@@ -72,7 +71,6 @@ describe(sendInvite, () => {
         [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND, mockCusdAddress), undefined],
       ])
       .withState(state)
-      .dispatch(storeInviteeData(mockInviteDetails))
       .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .run()
 

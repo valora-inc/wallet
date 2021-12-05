@@ -8,7 +8,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
+import {
+  appStateSelector,
+  multiTokenShowHomeBalancesSelector,
+  multiTokenUseUpdatedFeedSelector,
+} from 'src/app/selectors'
 import {
   ALERT_BANNER_DURATION,
   CELO_TRANSACTION_MIN_AMOUNT,
@@ -28,6 +32,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import { balancesSelector } from 'src/stableToken/selectors'
+import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -43,6 +48,7 @@ function WalletHome() {
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector((state) => state.app.numberVerified)
   const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
+  const useUpdatedFeed = useSelector(multiTokenUseUpdatedFeedSelector)
   const balances = useSelector(balancesSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
 
@@ -131,7 +137,12 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
+    renderItem: () =>
+      useUpdatedFeed ? (
+        <TransactionFeed key={'TransactionList'} />
+      ) : (
+        <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />
+      ),
   })
 
   return (

@@ -10,7 +10,7 @@ import { FeedType } from 'src/transactions/TransactionFeed'
 interface OwnProps {
   kind: FeedType
   loading: boolean
-  error: ApolloError | undefined
+  error: ApolloError | Error | undefined
 }
 
 type Props = OwnProps & WithTranslation
@@ -21,7 +21,7 @@ export class NoActivity extends React.PureComponent<Props> {
 
     if (error) {
       return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="NoActivity/error">
           <Text style={styles.text}>{t('errorLoadingActivity.0')}</Text>
           <Text style={styles.text}>{t('errorLoadingActivity.1')}</Text>
         </View>
@@ -34,7 +34,12 @@ export class NoActivity extends React.PureComponent<Props> {
     return (
       <View style={styles.container}>
         {loading && (
-          <ActivityIndicator style={styles.icon} size="large" color={colors.greenBrand} />
+          <ActivityIndicator
+            style={styles.icon}
+            size="large"
+            color={colors.greenBrand}
+            testID="NoActivity/loading"
+          />
         )}
         <Text style={styles.text}>{statusText} </Text>
       </View>

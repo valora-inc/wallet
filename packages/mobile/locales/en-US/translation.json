@@ -312,6 +312,7 @@
   "celoDeposit": "CELO Purchase",
   "cUsdDeposit": "cUSD Purchase",
   "cEurDeposit": "cEUR Purchase",
+  "tokenDeposit": "{{token}} Purchase",
   "providerUnavailable": "Not currently available",
   "pricePer": "Price per {{coin}}",
   "feeDiscount": "Fee Discount",

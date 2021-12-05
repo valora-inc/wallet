@@ -29,7 +29,6 @@ import { i18nSaga } from 'src/i18n/saga'
 import { identitySaga } from 'src/identity/saga'
 import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
-import { Actions as InviteActions } from 'src/invite/actions'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
@@ -57,11 +56,11 @@ const loggerBlocklist = [
   GethActions.SET_CHAIN_HEAD,
   GethActions.SET_GETH_CONNECTED,
   ImportActions.IMPORT_BACKUP_PHRASE,
-  InviteActions.STORE_INVITEE_DATA,
   setPhoneRecipientCache.toString(),
   updateValoraRecipientCache.toString(),
   TransactionActions.NEW_TRANSACTIONS_IN_FEED,
   TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
+  TransactionActions.UPDATE_TRANSACTIONS,
   Web3Actions.SET_DATA_ENCRYPTION_KEY,
 ]
 

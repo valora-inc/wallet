@@ -1,4 +1,5 @@
 import { Address } from '@celo/base'
+import BigNumber from 'bignumber.js'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
@@ -67,3 +68,66 @@ type TransferTransactionType =
   | TokenTransactionType.InviteSent
   | TokenTransactionType.InviteReceived
   | TokenTransactionType.NetworkFee
+
+export type TokenTransaction = TokenTransfer | TokenExchange
+
+export interface TokenAmount {
+  value: BigNumber.Value
+  tokenAddress: string
+  localAmount?: LocalAmount
+}
+
+export interface LocalAmount {
+  value: BigNumber.Value
+  currencyCode: string
+  exchangeRate: string
+}
+
+export enum TokenTransactionTypeV2 {
+  Exchange = 'EXCHANGE',
+  Received = 'RECEIVED',
+  Sent = 'SENT',
+  InviteSent = 'INVITE_SENT',
+  InviteReceived = 'INVITE_RECEIVED',
+  PaymentRequest = 'PAY_REQUEST',
+}
+export interface TokenTransfer {
+  __typename: 'TokenTransferV2'
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  address: string
+  amount: TokenAmount
+  metadata: TokenTransferMetadata
+  fees: Fee[]
+}
+
+export interface TokenTransferMetadata {
+  title?: string
+  subtitle?: string
+  image?: string
+  comment?: string
+}
+
+export interface TokenExchange {
+  __typename: 'TokenExchangeV2'
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: number
+  inAmount: TokenAmount
+  outAmount: TokenAmount
+  metadata: TokenExchangeMetadata
+  fees: [Fee]
+}
+
+interface TokenExchangeMetadata {
+  title?: string
+  subtitle?: string
+}
+
+export interface Fee {
+  type: string
+  amount: TokenAmount
+}

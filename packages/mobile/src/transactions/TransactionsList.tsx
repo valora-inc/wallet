@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Query, QueryResult } from 'react-apollo'
 import { connect } from 'react-redux'
 import { MoneyAmount, TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
-import { SENTINEL_INVITE_COMMENT } from 'src/invite/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   getLocalCurrencyCode,
@@ -217,21 +216,6 @@ function mapStandbyTransactionToFeedItem(
   }
 }
 
-// TODO(jeanregisser): maybe move this to blockchain-api? and directly set the tx type to InviteSent for standbyTx
-function mapInvite(tx: FeedItem): FeedItem {
-  if (tx.__typename !== 'TokenTransfer' || tx.comment !== SENTINEL_INVITE_COMMENT) {
-    return tx
-  }
-
-  if (tx.type === TokenTransactionType.Sent) {
-    return { ...tx, type: TokenTransactionType.InviteSent }
-  } else if (tx.type === TokenTransactionType.Received) {
-    return { ...tx, type: TokenTransactionType.InviteReceived }
-  }
-
-  return tx
-}
-
 export class TransactionsList extends React.PureComponent<Props> {
   onTxsFetched = (data: UserTransactionsQuery | undefined) => {
     Logger.debug(TAG, 'onTxsFetched handler triggered')
@@ -282,7 +266,7 @@ export class TransactionsList extends React.PureComponent<Props> {
           mapStandbyTransactionToFeedItem(feedType, localCurrencyCode, localCurrencyExchangeRates)
         )
 
-      const feedData = [...standbyTxs, ...transactions].map(mapInvite)
+      const feedData = [...standbyTxs, ...transactions]
 
       return <TransactionFeed kind={feedType} loading={loading} error={error} data={feedData} />
     }

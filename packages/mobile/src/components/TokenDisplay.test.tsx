@@ -164,6 +164,21 @@ describe('TokenDisplay', () => {
       )
       expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
     })
+
+    it('hides the sign', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay
+            showLocalAmount={true}
+            hideSign={true}
+            amount={-10}
+            tokenAddress={'0xusd'}
+            testID="test"
+          />
+        </Provider>
+      )
+      expect(amountFromComponent(getByTestId('test'))).toEqual('R$1.00')
+    })
   })
 })
 

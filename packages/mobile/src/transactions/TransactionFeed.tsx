@@ -5,7 +5,6 @@ import React, { useMemo } from 'react'
 import { FlatList, SectionList, SectionListData } from 'react-native'
 import { useSelector } from 'react-redux'
 import { TransactionFeedFragment } from 'src/apollo/types'
-import { inviteesSelector } from 'src/invite/reducer'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
@@ -45,7 +44,6 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
   const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
   const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
 
-  const invitees = useSelector(inviteesSelector)
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
 
   const renderItem = ({ item: tx }: { item: FeedItem; index: number }) => {
@@ -59,7 +57,6 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
               addressToE164Number={addressToE164Number}
               phoneRecipientCache={phoneRecipientCache}
               recentTxRecipientsCache={recentTxRecipientsCache}
-              invitees={invitees}
               commentKey={commentKey}
               recipientInfo={recipientInfo}
               {...tx}

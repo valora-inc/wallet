@@ -1,5 +1,6 @@
 import { TFunction } from 'i18next'
 import * as _ from 'lodash'
+import { useTranslation } from 'react-i18next'
 import {
   ExchangeItemFragment,
   TokenTransactionType,
@@ -7,10 +8,10 @@ import {
   UserTransactionsQuery,
 } from 'src/apollo/types'
 import { CELO_LOGO_URL, DEFAULT_TESTNET } from 'src/config'
-import { ProviderFeedInfo } from 'src/fiatExchanges/reducer'
+import { ProviderFeedInfo, txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
-import { InviteDetails } from 'src/invite/actions'
+import { addressToDisplayNameSelector, addressToE164NumberSelector } from 'src/identity/selectors'
 import {
   getDisplayName,
   getRecipientFromAddress,
@@ -19,37 +20,29 @@ import {
   recipientHasNumber,
   RecipientInfo,
 } from 'src/recipients/recipient'
-import { KnownFeedTransactionsType } from 'src/transactions/reducer'
+import {
+  inviteRewardsSendersSelector,
+  phoneRecipientCacheSelector,
+  recipientInfoSelector,
+  rewardsSendersSelector,
+} from 'src/recipients/reducer'
+import useSelector from 'src/redux/useSelector'
+import { useTokenInfo } from 'src/tokens/hooks'
+import {
+  KnownFeedTransactionsType,
+  recentTxRecipientsCacheSelector,
+} from 'src/transactions/reducer'
+import { TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 import { isPresent } from 'src/utils/typescript'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 export function getDecryptedTransferFeedComment(
   comment: string | null,
   commentKey: string | null,
-  type: TokenTransactionType
+  type: TokenTransactionType | TokenTransactionTypeV2
 ) {
   const { comment: decryptedComment } = decryptComment(comment, commentKey, isTokenTxTypeSent(type))
   return decryptedComment
-}
-
-// Hacky way to get escrow recipients until blockchain API
-// returns correct address (currently returns Escrow SC address)
-function getEscrowSentRecipientPhoneNumber(invitees: InviteDetails[], txTimestamp: number) {
-  const possiblePhoneNumbers = new Set()
-  invitees.forEach((inviteDetails) => {
-    const inviteTimestamp = inviteDetails.timestamp
-    // Invites are logged before invite tx is confirmed so considering a match
-    // to be when escrow tx timestamp is within 30 secs of invite timestamp
-    if (Math.abs(txTimestamp - inviteTimestamp) < 1000 * 30) {
-      possiblePhoneNumbers.add(inviteDetails.e164Number)
-    }
-  })
-
-  // Set to null if there isn't a conclusive match
-  if (possiblePhoneNumbers.size !== 1) {
-    return null
-  }
-
-  return possiblePhoneNumbers.values().next().value
 }
 
 function getRecipient(
@@ -58,7 +51,6 @@ function getRecipient(
   recipientCache: NumberToRecipient,
   recentTxRecipientsCache: NumberToRecipient,
   txTimestamp: number,
-  invitees: InviteDetails[],
   address: string,
   recipientInfo: RecipientInfo,
   providerInfo: ProviderFeedInfo | undefined,
@@ -69,7 +61,7 @@ function getRecipient(
   let recipient: Recipient
 
   if (type === TokenTransactionType.EscrowSent) {
-    phoneNumber = getEscrowSentRecipientPhoneNumber(invitees, txTimestamp)
+    // TODO: Fetch the data from the invite somehow
   }
 
   if (phoneNumber) {
@@ -104,7 +96,6 @@ export function getTransferFeedParams(
   rawComment: string | null,
   commentKey: string | null,
   timestamp: number,
-  invitees: InviteDetails[],
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
   isRewardSender: boolean,
@@ -121,7 +112,6 @@ export function getTransferFeedParams(
     phoneRecipientCache,
     recentTxRecipientsCache,
     timestamp,
-    invitees,
     address,
     recipientInfo,
     providerInfo,
@@ -238,6 +228,136 @@ export function getTransferFeedParams(
   return { title, info, recipient }
 }
 
+// Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
+export function useTransactionRecipient(transfer: TokenTransfer) {
+  const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
+  const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
+  const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
+  const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
+  const addressToE164Number = useSelector(addressToE164NumberSelector)
+  let phoneNumber = addressToE164Number[transfer.address]
+  let recipient: Recipient
+
+  if (transfer.type === TokenTransactionTypeV2.InviteSent) {
+    // TODO: Fetch the correct recipient in this case.
+  }
+
+  if (phoneNumber) {
+    recipient = phoneRecipientCache[phoneNumber] ?? recentTxRecipientsCache[phoneNumber]
+    if (recipient) {
+      return { ...recipient, address: transfer.address }
+    } else {
+      recipient = { e164PhoneNumber: phoneNumber, address: transfer.address }
+      return recipient
+    }
+  }
+
+  recipient = getRecipientFromAddress(
+    transfer.address,
+    recipientInfo,
+    transfer.metadata.title,
+    transfer.metadata.image
+  )
+
+  const providerInfo = txHashToFeedInfo[transfer.transactionHash]
+  if (providerInfo) {
+    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
+  }
+  return recipient
+}
+
+// Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
+export function useTransferFeedDetails(transfer: TokenTransfer) {
+  const { t } = useTranslation()
+  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const rewardsSenders = useSelector(rewardsSendersSelector)
+  const inviteRewardSenders = useSelector(inviteRewardsSendersSelector)
+  const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
+  const commentKey = useSelector(dataEncryptionKeySelector)
+  const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
+
+  const {
+    type,
+    address,
+    metadata: { comment: rawComment, subtitle: defaultSubtitle },
+  } = transfer
+
+  const recipient = useTransactionRecipient(transfer)
+
+  const nameOrNumber = recipient.name ?? recipient.e164PhoneNumber
+  const displayName = getDisplayName(recipient, t)
+  const comment =
+    getDecryptedTransferFeedComment(rawComment ?? null, commentKey, type) ?? defaultSubtitle
+
+  let title, subtitle
+
+  switch (type) {
+    case TokenTransactionTypeV2.Sent: {
+      title = t('feedItemSentTitle', { displayName })
+      subtitle = t('feedItemSentInfo', { context: !comment ? 'noComment' : null, comment })
+      break
+    }
+    case TokenTransactionTypeV2.Received: {
+      // This is for the original CELO rewards program.
+      const isCeloRewardSender = addressToDisplayName[address]?.isCeloRewardSender ?? false
+      // This is for Supercharge rewards only.
+      const isRewardSender = rewardsSenders.includes(address)
+      // This is for invite rewards.
+      const isInviteRewardSender = inviteRewardSenders.includes(address)
+      const providerInfo = txHashToFeedInfo[transfer.transactionHash]
+
+      if (isCeloRewardSender) {
+        title = t('feedItemCeloRewardReceivedTitle')
+        subtitle = t('feedItemRewardReceivedInfo')
+      } else if (isRewardSender) {
+        title = t('feedItemRewardReceivedTitle')
+        subtitle = t('feedItemRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (isInviteRewardSender) {
+        title = t('feedItemInviteRewardReceivedTitle')
+        subtitle = t('feedItemInviteRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (providerInfo) {
+        title = t('feedItemReceivedTitle', { displayName })
+        subtitle = t('tokenDeposit', { token: tokenInfo?.symbol ?? '' })
+      } else {
+        title = t('feedItemReceivedTitle', { displayName })
+        subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      }
+      break
+    }
+    case TokenTransactionTypeV2.InviteSent: {
+      title = t('feedItemEscrowSentTitle', {
+        context: !nameOrNumber ? 'noReceiverDetails' : null,
+        nameOrNumber,
+      })
+      subtitle = t('feedItemEscrowSentInfo', { context: !comment ? 'noComment' : null, comment })
+      break
+    }
+    case TokenTransactionTypeV2.InviteReceived: {
+      title = t('feedItemEscrowReceivedTitle', {
+        context: !nameOrNumber ? 'noSenderDetails' : null,
+        nameOrNumber,
+      })
+      subtitle = t('feedItemEscrowReceivedInfo', {
+        context: !comment ? 'noComment' : null,
+        comment,
+      })
+      break
+    }
+    default: {
+      title = t('feedItemGenericTitle', {
+        context: !nameOrNumber ? 'noRecipientDetails' : null,
+        nameOrNumber,
+      })
+      // Fallback to just using the type
+      subtitle = comment || _.capitalize(t(_.camelCase(type)))
+      break
+    }
+  }
+  return { title, subtitle, recipient }
+}
+
 export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
   return data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
 }
@@ -250,7 +370,7 @@ export function getNewTxsFromUserTxQuery(
   return txFragments.filter((tx) => !knownFeedTxs[tx.hash])
 }
 
-export function isTokenTxTypeSent(type: TokenTransactionType) {
+export function isTokenTxTypeSent(type: TokenTransactionType | TokenTransactionTypeV2) {
   return type === TokenTransactionType.Sent || type === TokenTransactionType.EscrowSent
 }
 

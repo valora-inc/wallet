@@ -762,6 +762,18 @@ export const v23Schema = {
   },
 }
 
+export const v24Schema = {
+  ...v23Schema,
+  _persist: {
+    ...v23Schema._persist,
+    version: 24,
+  },
+  transactions: {
+    ...v23Schema.transactions,
+    transactions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v23Schema as Partial<RootState>
+  return v24Schema as Partial<RootState>
 }

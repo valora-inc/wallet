@@ -344,4 +344,5 @@ export const migrations = {
     },
   }),
   23: (state: any) => state,
+  24: (state: any) => state,
 }

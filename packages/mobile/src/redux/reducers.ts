@@ -14,7 +14,6 @@ import { homeReducer as home, State as HomeState } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
 import { reducer as identity, State as IdentityState } from 'src/identity/reducer'
 import { reducer as imports, State as ImportState } from 'src/import/reducer'
-import { inviteReducer as invite, State as InviteState } from 'src/invite/reducer'
 import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
 import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
 import { reducer as paymentRequest, State as PaymentRequestState } from 'src/paymentRequest/reducer'
@@ -42,7 +41,6 @@ const appReducer = combineReducers({
   identity,
   verify,
   account,
-  invite,
   geth,
   escrow,
   fees,
@@ -90,7 +88,6 @@ export interface RootState {
   identity: IdentityState
   verify: VerifyState
   account: AccountState
-  invite: InviteState
   geth: GethState
   escrow: EscrowState
   fees: FeesState
