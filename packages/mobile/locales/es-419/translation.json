@@ -1097,13 +1097,13 @@
     "begin": {
       "label": "Paso 1",
       "title": "Verifica tu identidad",
-      "description": "Añadir cripto con una cuenta bancaria es fácil. Este paso te llevará unos 5 minutos.",
-      "cta": "Comienza"
+      "description": "Agregar fondos con una cuenta bancaria es fácil. Este paso te llevará unos 5 minutos.",
+      "cta": "Comenzar"
     },
     "stepTwo": {
       "label": "Paso 2",
       "title": "Vincular una cuenta bancaria",
-      "description": "¡Ya casi has terminado! Ya puedes conectar tu cuenta bancaria con Valora a través de Plaid.",
+      "description": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
       "cta": "¡Muy pronto!"
     }
   },
