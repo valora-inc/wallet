@@ -1,4 +1,4 @@
-import { ensureLeading0x, eqAddress, Err, Ok, Result } from '@celo/base'
+import { ensureLeading0x, Err, Ok, Result } from '@celo/base'
 import { Address, ContractKit } from '@celo/contractkit'
 import {
   FetchError,
@@ -8,7 +8,7 @@ import {
 } from '@celo/identity/lib/offchain-data-wrapper'
 import { buildEIP712TypedData, resolvePath, signBuffer } from '@celo/identity/lib/offchain/utils'
 import { publicKeyToAddress, toChecksumAddress } from '@celo/utils/lib/address'
-import { recoverEIP712TypedDataSigner } from '@celo/utils/lib/signatureUtils'
+import { verifyEIP712TypedDataSigner } from '@celo/utils/lib/signatureUtils'
 import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 // Use targetted import otherwise the RN FormData gets used which doesn't support Buffer related functionality
 import FormData from 'form-data/lib/form_data'
@@ -185,11 +185,10 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
 
     const toParse = type ? JSON.parse(body.toString()) : body
     const typedData = await buildEIP712TypedData(this, dataPath, toParse, type)
-    const guessedSigner = recoverEIP712TypedDataSigner(typedData, signature)
 
     const accounts = await this.kit.contracts.getAccounts()
     const claimedSigner = publicKeyToAddress(await accounts.getDataEncryptionKey(account))
-    if (eqAddress(guessedSigner, claimedSigner)) {
+    if (verifyEIP712TypedDataSigner(typedData, signature, claimedSigner)) {
       return Ok(body)
     }
     return Err(new InvalidSignature())

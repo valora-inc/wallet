@@ -1,49 +1,20 @@
 import BigNumber from 'bignumber.js'
-import { createSelector } from 'reselect'
-import { FeeType } from 'src/fees/actions'
+import { FeeType } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { divideByWei } from 'src/utils/formatting'
-
-const getInviteFeeEstimateInWei = (state: RootState) => state.fees.estimates.invite.feeInWei
-const getSendFeeEstimateInWei = (state: RootState) => state.fees.estimates.send.feeInWei
-const getExchangeFeeEstimateInWei = (state: RootState) => state.fees.estimates.exchange.feeInWei
-const getReclaimEscrowFeeEstimateInWei = (state: RootState) =>
-  state.fees.estimates.reclaimEscrow.feeInWei
 
 export function getFeeInTokens(feeInWei: BigNumber.Value | null | undefined) {
   return feeInWei ? divideByWei(feeInWei) : undefined
 }
 
-function feeEstimateDollarsSelectorFactory(feeSelector: (state: RootState) => string | null) {
-  return createSelector(feeSelector, (feeInWei) => getFeeInTokens(feeInWei))
-}
+export const feeEstimatesSelector = (state: RootState) => state.fees.estimates
 
-export const getInviteFeeEstimateDollars = feeEstimateDollarsSelectorFactory(
-  getInviteFeeEstimateInWei
-)
-export const getSendFeeEstimateDollars = feeEstimateDollarsSelectorFactory(getSendFeeEstimateInWei)
-export const getExchangeFeeEstimateDollars = feeEstimateDollarsSelectorFactory(
-  getExchangeFeeEstimateInWei
-)
-export const getReclaimEscrowFeeEstimateDollars = feeEstimateDollarsSelectorFactory(
-  getReclaimEscrowFeeEstimateInWei
-)
-
-export function getFeeEstimateDollars(feeType: FeeType | null) {
+export function getFeeEstimateDollars(feeType: FeeType | null, tokenAddress: string) {
   return (state: RootState) => {
-    if (feeType === null) {
-      return undefined
+    if (!feeType) {
+      return null
     }
-
-    switch (feeType) {
-      case FeeType.INVITE:
-        return getInviteFeeEstimateDollars(state)
-      case FeeType.SEND:
-        return getSendFeeEstimateDollars(state)
-      case FeeType.EXCHANGE:
-        return getExchangeFeeEstimateDollars(state)
-      case FeeType.RECLAIM_ESCROW:
-        return getReclaimEscrowFeeEstimateDollars(state)
-    }
+    const fee = state.fees.estimates[tokenAddress]?.[feeType]?.usdFee
+    return fee ? new BigNumber(fee) : null
   }
 }

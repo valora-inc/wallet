@@ -242,7 +242,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 }
               }
             >
-              switchTo, {"tokenName":"MXN"}
+              switchTo, {"tokenName":"PHP"}
             </Text>
           </View>
         </View>
@@ -326,7 +326,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               testID="undefined/value"
             >
               
-              $
+              ₱
               12.09
             </Text>
           </Text>
@@ -361,7 +361,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             testID="undefined/value"
           >
             
-            $
+            ₱
             0.00
           </Text>
         </Text>

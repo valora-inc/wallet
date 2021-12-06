@@ -5,9 +5,9 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActionSheetIOS, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'src/components/Modal'
-import i18n from 'src/i18n'
 
 interface Props {
   isVisible: boolean
@@ -28,7 +28,8 @@ function OptionsChooser({
   onOptionChosen,
   onCancel,
 }: Props) {
-  const fullOptions = includeCancelButton ? [...options, i18n.t('cancel')] : options
+  const { t } = useTranslation()
+  const fullOptions = includeCancelButton ? [...options, t('cancel')] : options
   const cancelButtonIndex = includeCancelButton ? fullOptions.length - 1 : undefined
   const destructiveButtonIndex = isLastOptionDestructive
     ? (cancelButtonIndex || options.length) - 1

@@ -6,10 +6,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { setLanguage } from 'src/app/actions'
+import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -28,12 +27,12 @@ function keyExtractor(item: Language) {
 }
 
 function LanguageScreen({ route }: Props) {
-  const dispatch = useDispatch()
+  const changeLanguage = useChangeLanguage()
   const { t, i18n } = useTranslation()
   const nextScreen = route.params?.nextScreen
 
   const onSelect = (language: string, code: string) => {
-    dispatch(setLanguage(code))
+    void changeLanguage(code)
     // Wait for next frame before navigating
     // so the user can see the changed selection briefly
     requestAnimationFrame(() => {

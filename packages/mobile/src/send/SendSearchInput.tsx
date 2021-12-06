@@ -5,7 +5,6 @@ import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import i18n from 'src/i18n'
 
 const SearchInput = withTextSearchPasteAware(TextInput)
 
@@ -25,7 +24,7 @@ export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
         placeholder={t('namePhoneAddress')}
         value={input}
         onChangeText={onChangeText}
-        leftIcon={<Text style={styles.leftIcon}>{i18n.t('to')}</Text>}
+        leftIcon={<Text style={styles.leftIcon}>{t('to')}</Text>}
       />
     </View>
   )

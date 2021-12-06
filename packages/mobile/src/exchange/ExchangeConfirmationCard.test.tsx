@@ -27,10 +27,8 @@ it('renders correctly', () => {
   expect(getElementText(tree.getByTestId('CeloAmount/value'))).toEqual('20.000')
   expect(getElementText(tree.getByTestId('CeloExchangeRate/value'))).toEqual('€0.55')
 
-  // The values here are a bit confusing because the local currency is MXN and has the same $ symbol
-  // TODO: fixme ;)
-  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('$2.64')
-  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75')
+  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('₱2.64') // 1.99 cUSD * 1.33 (PHP)
+  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75') // 1 / 1.33 (PHP)
   expect(getElementText(tree.getByTestId('TotalLineItem/Subtotal/value'))).toEqual('$1.99')
 })
 
@@ -48,10 +46,8 @@ it('renders correctly with giant numbers', () => {
   expect(getElementText(tree.getByTestId('CeloAmount/value'))).toEqual('18,000,000,000.000')
   expect(getElementText(tree.getByTestId('CeloExchangeRate/value'))).toEqual('€0.55')
 
-  // The values here are a bit confusing because the local currency is MXN and has the same $ symbol
-  // TODO: fixme ;)
-  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('$31,920,000.00')
-  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75')
+  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('₱31,920,000.00') // 24000000.00 cUSD * 1.33 (PHP)
+  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75') // 1 / 1.33 (PHP)
   expect(getElementText(tree.getByTestId('TotalLineItem/Subtotal/value'))).toEqual('$24,000,000.00')
 })
 
@@ -70,10 +66,8 @@ it('renders correctly when local amount is null', () => {
   expect(getElementText(tree.getByTestId('CeloAmount/value'))).toEqual('20.000')
   expect(getElementText(tree.getByTestId('CeloExchangeRate/value'))).toEqual('-')
 
-  // The values here are a bit confusing because the local currency is MXN and has the same $ symbol
-  // TODO: fixme ;)
-  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('$2.64')
-  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75')
+  expect(getElementText(tree.getByTestId('TotalLineItem/Total/value'))).toEqual('₱2.64') // 1.99 cUSD * 1.33 (PHP)
+  expect(getElementText(tree.getByTestId('TotalLineItem/ExchangeRate/value'))).toEqual('$0.75') // 1 / 1.33 (PHP)
   expect(getElementText(tree.getByTestId('TotalLineItem/Subtotal/value'))).toEqual('$1.99')
 })
 

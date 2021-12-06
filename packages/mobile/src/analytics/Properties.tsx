@@ -85,6 +85,9 @@ interface AppEventsProperties {
   [AppEvents.redux_store_recovery_success]: {
     account: string
   }
+  [AppEvents.redux_no_matching_keychain_account]: {
+    walletAddress: string
+  }
   [AppEvents.push_notification_opened]: {
     id?: string
     state: NotificationReceiveState
@@ -741,7 +744,13 @@ interface FeeEventsProperties {
   }
   [FeeEvents.estimate_fee_failed]: {
     feeType: string
+    tokenAddress: string
     error: string
+  }
+  [FeeEvents.estimate_fee_success]: {
+    feeType: string
+    tokenAddress: string
+    usdFee: string
   }
   [FeeEvents.fetch_tobin_tax_failed]: {
     error: string

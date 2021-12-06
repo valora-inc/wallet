@@ -16,8 +16,6 @@ files=(
   "packages/mobile/ios/sentry.properties:celo-mobile-alfajores"
   "packages/mobile/secrets.json:celo-mobile-alfajores"
   "packages/mobile/e2e/.env:celo-mobile-alfajores"
-  "packages/notification-service/config/config.mainnet.env:celo-mobile-mainnet"
-  "packages/notification-service/config/config.alfajores.env:celo-mobile-alfajores"
   "packages/cloud-functions/config/rampProduction.pem:celo-mobile-mainnet"
   "packages/cloud-functions/config/rampStaging.pem:celo-mobile-alfajores"
   "packages/cloud-functions/.env.mainnet:celo-mobile-mainnet"

@@ -33,7 +33,7 @@ export default function LineItemRow({
       {!!amount && <Text style={textStyle}>{amount}</Text>}
       {hasError && <Text style={textStyle}>---</Text>}
       {isLoading && (
-        <View style={styles.loadingContainer}>
+        <View style={styles.loadingContainer} testID="LineItemLoading">
           <ActivityIndicator size="small" color={colors.greenBrand} />
         </View>
       )}

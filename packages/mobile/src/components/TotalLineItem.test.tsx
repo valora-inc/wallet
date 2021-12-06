@@ -42,7 +42,7 @@ describe('TotalLineItem', () => {
     it('renders correctly', () => {
       const wrapper = renderComponent({
         currencyInfo: {
-          localCurrencyCode: LocalCurrencyCode.MXN,
+          localCurrencyCode: LocalCurrencyCode.PHP,
           localExchangeRate: '0.01',
         },
       })
@@ -59,7 +59,7 @@ describe('TotalLineItem', () => {
     it('renders the exchange rate', () => {
       const { queryByTestId } = renderComponent({
         currencyInfo: {
-          localCurrencyCode: LocalCurrencyCode.MXN,
+          localCurrencyCode: LocalCurrencyCode.PHP,
           localExchangeRate: '0.01',
         },
       })
@@ -73,7 +73,7 @@ describe('TotalLineItem', () => {
           ...defaultAmount,
           localAmount: {
             value: 10,
-            currencyCode: LocalCurrencyCode.MXN,
+            currencyCode: LocalCurrencyCode.PHP,
             exchangeRate: 1.5,
           },
         },
@@ -142,13 +142,14 @@ describe('TotalLineItem', () => {
           currencyCode: Currency.Euro,
           localAmount: {
             value: 15.185175,
-            currencyCode: LocalCurrencyCode.MXN,
+            currencyCode: LocalCurrencyCode.PHP,
             exchangeRate: 1.5,
           },
         },
       })
-      expect(getByText('$15.18').props.testID).toEqual('TotalLineItem/Total/value')
+      expect(getByText('₱15.18').props.testID).toEqual('TotalLineItem/Total/value')
       expect(getByText('€10.12').props.testID).toEqual('TotalLineItem/Subtotal/value')
+      // FIXME: why is the rate showing with a $ sign?
       expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate/value')
     })
   })

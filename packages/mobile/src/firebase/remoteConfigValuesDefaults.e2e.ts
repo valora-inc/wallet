@@ -31,4 +31,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   multiTokenShowHomeBalances: false,
   multiTokenUseSendFlow: false,
   multiTokenUseUpdatedFeed: false,
+  allowOtaTranslations: false,
+  linkBankAccountEnabled: false,
 }

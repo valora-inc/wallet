@@ -81,6 +81,6 @@ describe('HomeTokenBalance', () => {
     )
 
     expect(tree).toMatchSnapshot()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.00')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
   })
 })

@@ -154,7 +154,7 @@ exports[`renders correctly when ready 1`] = `
       testID="undefined/value"
     >
       
-      $
+      ₱
       550.00
     </Text>
   </Text>

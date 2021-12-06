@@ -134,7 +134,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                   testID="undefined/value"
                 >
                   
-                  $
+                  ₱
                   12.09
                 </Text>
               </Text>
@@ -164,7 +164,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 testID="undefined/value"
               >
                 
-                $
+                ₱
                 120.90
               </Text>
             </Text>
@@ -309,7 +309,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       testID="feeDrawer/ExchangeReview/totalFee/value"
                     >
                       
-                      $
+                      ₱
                       0
                     </Text>
                   </Text>
@@ -402,7 +402,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 testID="TotalLineItem/Total/value"
               >
                 
-                $
+                ₱
                 120.90
               </Text>
             </Text>

@@ -187,7 +187,7 @@ const mockQueryData: UserTransactionsQuery = {
 const variables = {
   address: '0x0000000000000000000000000000000000007e57',
   tokens: Object.keys(CURRENCIES),
-  localCurrencyCode: 'MXN',
+  localCurrencyCode: 'PHP',
 }
 
 const mocks = [
@@ -232,7 +232,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(-133),
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
   })
@@ -244,7 +244,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(-26.6),
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
   })
@@ -253,7 +253,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(26.6),
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
   })
@@ -262,7 +262,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cGLD',
     localAmount: {
       value: '26.600000000000000000133',
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '0.8866666666666666666711',
     },
   }
@@ -276,7 +276,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(26.6),
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
   })
@@ -285,7 +285,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cGLD',
     localAmount: {
       value: '26.600000000000000000133',
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '0.8866666666666666666711',
     },
   }
@@ -296,7 +296,7 @@ it('renders the received data along with the standby transactions', async () => 
     currencyCode: 'cUSD',
     localAmount: {
       value: new BigNumber(26.6),
-      currencyCode: 'MXN',
+      currencyCode: 'PHP',
       exchangeRate: '1.33',
     },
   })

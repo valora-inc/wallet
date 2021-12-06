@@ -74,14 +74,14 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     // Initial render should not contain a fee.
     expect(toJSON()).toMatchSnapshot()
     expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText(/-\s*\$\s*0\.0133/s)).toBeNull()
+    expect(queryByText(/-\s*₱\s*0\.0133/s)).toBeNull()
 
-    // Wait for fee to be calculated and displayed as "$0.013"
+    // Wait for fee to be calculated and displayed as "₱0.013"
     // NOTE: Use regex here because the text may be split by a newline.
-    await waitFor(() => getByText(/-\s*\$\s*0\.0133/s))
+    await waitFor(() => getByText(/-\s*₱\s*0\.0133/s))
     expect(toJSON()).toMatchSnapshot()
     // Query for the total amount, which should deduct the fee.
-    expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
+    expect(queryByText(/₱\s*13\.28/s)).not.toBeNull()
   })
 
   it('renders correctly in with fee in CELO', async () => {
@@ -103,7 +103,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     await waitFor(() => getByText(/-\s*0\.01/s))
     expect(toJSON()).toMatchSnapshot()
     // Query for the total amount, which should deduct the fee.
-    expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
+    expect(queryByText(/₱\s*13\.28/s)).not.toBeNull()
   })
 
   it('renders correctly when fee calculation fails', async () => {
@@ -120,7 +120,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     // Initial render
     expect(toJSON()).toMatchSnapshot()
     expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText('$0.001')).toBeNull()
+    expect(queryByText('₱0.001')).toBeNull()
     expect(queryAllByText('$10.00')).toHaveLength(1)
 
     // Wait for fee error

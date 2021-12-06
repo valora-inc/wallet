@@ -155,7 +155,7 @@ function getPasswordHash(password: string) {
   return sha256(Buffer.from(password, 'hex')).toString('hex')
 }
 
-function passwordHashStorageKey(account: string) {
+export function passwordHashStorageKey(account: string) {
   if (!isValidAddress(account)) {
     throw new Error('Expecting valid address for computing storage key')
   }

@@ -5,18 +5,16 @@ import { useDispatch } from 'react-redux'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getEscrowTxGas } from 'src/escrow/saga'
-import { FeeType } from 'src/fees/actions'
-import { calculateFee, FeeInfo } from 'src/fees/saga'
+import { FeeType } from 'src/fees/reducer'
+import { calculateFee, FeeInfo, fetchFeeCurrency } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
 import useSelector from 'src/redux/useSelector'
 import { STATIC_SEND_TOKEN_GAS_ESTIMATE } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { walletAddressSelector } from 'src/web3/selectors'
-
-const TAG = 'src/fees/hooks'
 
 async function getSendGasFeeEstimate(
   address: string,
@@ -90,15 +88,7 @@ export function useEstimateGasFee(
   return result
 }
 
-function useFeeCurrency(): Currency {
+export function useFeeCurrency(): Currency {
   const tokens = useSelector(tokensListSelector)
-
-  for (const currency of Object.keys(CURRENCIES) as Currency[]) {
-    const balance = tokens.find((token) => token.symbol === CURRENCIES[currency].cashTag)?.balance
-    if (balance?.isGreaterThan(0)) {
-      return currency
-    }
-  }
-  Logger.error(TAG, '@useFeeCurrency no currency has enough balance to pay for fee.')
-  return Currency.Dollar
+  return fetchFeeCurrency(tokens)
 }

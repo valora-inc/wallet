@@ -16,6 +16,7 @@ import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -23,7 +24,7 @@ jest.mock('src/utils/time', () => ({
 
 jest.mock('src/dappkit/dappkit')
 
-const MockedAnalytics = ValoraAnalytics as any
+const MockedAnalytics = mocked(ValoraAnalytics)
 
 describe('App saga', () => {
   beforeEach(() => {

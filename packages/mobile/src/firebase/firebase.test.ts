@@ -2,9 +2,8 @@ import firebase from '@react-native-firebase/app'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { currentLanguageSelector } from 'src/app/reducers'
 import { initializeCloudMessaging, registerTokenToDb, setUserLanguage } from 'src/firebase/firebase'
-
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { mockAccount2 } from 'test/values'
 
 const hasPermissionMock = jest.fn(() => null)

@@ -39,11 +39,11 @@ import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { currentLanguageSelector } from 'src/app/reducers'
 import { logPhoneNumberTypeEnabledSelector } from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { isE2EEnv, SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import { waitForNextBlock } from 'src/geth/saga'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import {
   Actions,
   CancelVerificationAction,

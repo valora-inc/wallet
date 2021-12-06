@@ -26,8 +26,8 @@ describe('EscrowedPaymentReminderNotification', () => {
     )
     expect(tree).toMatchSnapshot()
     const component = tree.getByTestId('EscrowedPaymentListItem/amount/value')
-    // Local currency exchange rate for cUSD is 1.3
-    expect(amountFromComponent(component)).toEqual('$13.30')
+    // Local currency exchange rate for cUSD is 1.33
+    expect(amountFromComponent(component)).toEqual('₱13.30')
   })
 
   it('renders correctly with cEUR', () => {
@@ -45,7 +45,7 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     const component = getByTestId('EscrowedPaymentListItem/amount/value')
     // Local currency exchange rate for cEUR is 2
-    expect(amountFromComponent(component)).toEqual('$20.00')
+    expect(amountFromComponent(component)).toEqual('₱20.00')
   })
 
   it('opens the share dialog', async () => {

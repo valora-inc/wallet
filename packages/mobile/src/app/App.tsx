@@ -13,9 +13,9 @@ import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
-import I18nGate from 'src/app/I18nGate'
 import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
+import I18nGate from 'src/i18n/I18nGate'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { persistor, store } from 'src/redux/store'
@@ -90,7 +90,7 @@ export class App extends React.Component<Props> {
       deviceWidth: width,
       reactLoadDuration,
       appLoadDuration,
-      language: i18n.language || store.getState().app.language,
+      language: i18n.language || store.getState().i18n.language,
     })
   }
 

@@ -32,14 +32,14 @@ describe(watchFetchCurrentRate, () => {
   it('fetches the local currency rate and dispatches the success action', async () => {
     await expectSaga(watchFetchCurrentRate)
       .provide([
-        [select(getLocalCurrencyCode), LocalCurrencyCode.MXN],
-        [call(fetchExchangeRate, Currency.Dollar, LocalCurrencyCode.MXN), '1.33'],
-        [call(fetchExchangeRate, Currency.Euro, LocalCurrencyCode.MXN), '2.12'],
-        [call(fetchExchangeRate, Currency.Celo, LocalCurrencyCode.MXN), '3.543'],
+        [select(getLocalCurrencyCode), LocalCurrencyCode.PHP],
+        [call(fetchExchangeRate, Currency.Dollar, LocalCurrencyCode.PHP), '1.33'],
+        [call(fetchExchangeRate, Currency.Euro, LocalCurrencyCode.PHP), '2.12'],
+        [call(fetchExchangeRate, Currency.Celo, LocalCurrencyCode.PHP), '3.543'],
       ])
       .put(
         fetchCurrentRateSuccess(
-          LocalCurrencyCode.MXN,
+          LocalCurrencyCode.PHP,
           { [Currency.Dollar]: '1.33', [Currency.Euro]: '2.12', [Currency.Celo]: '3.543' },
           now
         )
@@ -51,7 +51,7 @@ describe(watchFetchCurrentRate, () => {
   it('fetches the local currency rate and dispatches the failure action when it fails', async () => {
     await expectSaga(watchFetchCurrentRate)
       .provide([
-        [select(getLocalCurrencyCode), LocalCurrencyCode.MXN],
+        [select(getLocalCurrencyCode), LocalCurrencyCode.PHP],
         [matchers.call.fn(fetchExchangeRate), throwError(new Error('test error'))],
       ])
       .put(fetchCurrentRateFailure())
@@ -72,7 +72,7 @@ describe(watchSelectPreferredCurrency, () => {
   it('fetches the local currency rate when the preferred currency changes', async () => {
     await expectSaga(watchSelectPreferredCurrency)
       .put(fetchCurrentRate())
-      .dispatch(selectPreferredCurrency(LocalCurrencyCode.MXN))
+      .dispatch(selectPreferredCurrency(LocalCurrencyCode.PHP))
       .run()
   })
 })

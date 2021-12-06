@@ -97,7 +97,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('backupKeyFlow6:backupKeyNotification')).toBeTruthy()
+    expect(getByText('backupKeyNotification')).toBeTruthy()
   })
 
   it('renders educations when not complete yet', () => {
@@ -134,7 +134,7 @@ describe('NotificationBox', () => {
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
     expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('$266,000.00')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
@@ -196,7 +196,7 @@ describe('NotificationBox', () => {
       'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
     )
     const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
-    expect(getElementText(amountElement)).toBe('$266,000.00')
+    expect(getElementText(amountElement)).toBe('₱266,000.00')
     const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
     expect(getElementText(detailsElement)).toBe('Dinner for me and the gals, PIZZAA!')
   })
