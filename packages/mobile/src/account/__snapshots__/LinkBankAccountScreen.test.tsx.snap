@@ -37,26 +37,25 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
         >
           <svg
             fill="none"
-            height="60"
+            height={60}
             style={Object {}}
-            viewBox="0 0 60 60"
-            width="60"
+            width={60}
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              cx="30"
-              cy="30"
+              cx={30}
+              cy={30}
               fill="#F9F6F0"
-              r="30"
+              r={30}
               style={Object {}}
             />
             <path
-              d="M25.1707 29.7302C24.6542 29.2217 23.8232 29.2282 23.3146 29.7448C22.8061 30.2614 22.8127 31.0924 23.3293 31.6009L25.1707 29.7302ZM27.9167 34.2749L26.9959 35.2103C27.4994 35.7058 28.3047 35.714 28.8181 35.2288L27.9167 34.2749ZM37.1515 27.3538C37.6783 26.856 37.7018 26.0253 37.2039 25.4984C36.7061 24.9716 35.8754 24.9481 35.3485 25.446L37.1515 27.3538ZM23.3293 31.6009L26.9959 35.2103L28.8374 33.3395L25.1707 29.7302L23.3293 31.6009ZM28.8181 35.2288L37.1515 27.3538L35.3485 25.446L27.0152 33.321L28.8181 35.2288Z"
-              fill="#42D689"
+              d="M24.776 30.131a.75.75 0 0 0-1.052 1.069l1.052-1.069Zm3.14 4.144-.526.534a.75.75 0 0 0 1.042.011l-.515-.545Zm8.85-7.33a.75.75 0 1 0-1.031-1.09l1.03 1.09ZM23.723 31.2l3.666 3.61 1.053-1.07-3.667-3.609-1.052 1.069Zm4.708 3.62 8.333-7.875-1.03-1.09L27.4 33.73l1.03 1.09Z"
+              fill="#1AB775"
               style={Object {}}
             />
             <path
-              d="M30 40.5C24.201 40.5 19.5 35.799 19.5 30H16.5C16.5 37.4558 22.5442 43.5 30 43.5V40.5ZM40.5 30C40.5 35.799 35.799 40.5 30 40.5V43.5C37.4558 43.5 43.5 37.4558 43.5 30H40.5ZM30 19.5C35.799 19.5 40.5 24.201 40.5 30H43.5C43.5 22.5442 37.4558 16.5 30 16.5V19.5ZM30 16.5C22.5442 16.5 16.5 22.5442 16.5 30H19.5C19.5 24.201 24.201 19.5 30 19.5V16.5Z"
+              d="M30 40.5c-5.799 0-10.5-4.701-10.5-10.5h-3c0 7.456 6.044 13.5 13.5 13.5v-3ZM40.5 30c0 5.799-4.701 10.5-10.5 10.5v3c7.456 0 13.5-6.044 13.5-13.5h-3ZM30 19.5c5.799 0 10.5 4.701 10.5 10.5h3c0-7.456-6.044-13.5-13.5-13.5v3Zm0-3c-7.456 0-13.5 6.044-13.5 13.5h3c0-5.799 4.701-10.5 10.5-10.5v-3Z"
               fill="#1AB775"
               style={Object {}}
             />
@@ -797,41 +796,32 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
         >
           <svg
             fill="none"
-            height="60"
+            height={60}
             style={Object {}}
-            viewBox="0 0 60 60"
-            width="60"
+            width={60}
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              cx="30"
-              cy="30"
+              cx={30}
+              cy={30}
               fill="#F9F6F0"
-              r="30"
+              r={30}
               style={Object {}}
             />
             <circle
-              cx="30"
-              cy="30"
-              r="11.25"
-              stroke="#2E3338"
-              stroke-width="1.5"
+              cx={30}
+              cy={30}
+              r={11.25}
+              stroke="#EA6042"
+              strokeWidth={1.5}
               style={Object {}}
             />
             <path
-              d="M34.5 25.5L25.5 34.5"
-              stroke="#2E3338"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              style={Object {}}
-            />
-            <path
-              d="M34.5 34.5L25.5 25.5"
-              stroke="#2E3338"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
+              d="m34.5 25.5-9 9M34.5 34.5l-9-9"
+              stroke="#EA6042"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
               style={Object {}}
             />
           </svg>
@@ -1146,33 +1136,32 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
         >
           <svg
             fill="none"
-            height="60"
+            height={60}
             style={Object {}}
-            viewBox="0 0 60 60"
-            width="60"
+            width={60}
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
-              cx="30"
-              cy="30"
+              cx={30}
+              cy={30}
               fill="#F9F6F0"
-              r="30"
+              r={30}
               style={Object {}}
             />
             <path
-              d="M30 22.5V30H36"
-              stroke="#FFA500"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
+              d="M30 22.5V30h6"
+              stroke="orange"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
               style={Object {}}
             />
             <circle
-              cx="30"
-              cy="30"
-              r="11.25"
-              stroke="#FFA500"
-              stroke-width="1.5"
+              cx={30}
+              cy={30}
+              r={11.25}
+              stroke="orange"
+              strokeWidth={1.5}
               style={Object {}}
             />
           </svg>
