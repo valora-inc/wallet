@@ -1079,15 +1079,15 @@
   "linkBankAccountScreen": {
     "tryAgain": "Reintentar",
     "verifying": {
-      "title": "Verificar tu identidad"
+      "title": "Verificando identidad"
     },
     "completed": {
       "title": "Verificación completa",
-      "description": "Hemos verificado con éxito tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "description": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
-      "description": "No hemos podido verificar tu identidad. Ponte en contacto con el servicio de asistencia para seguir vinculando tu cuenta bancaria.",
+      "description": "No hemos podido verificar tu identidad. Ponte en contacto con el equipo de soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Mi verificación de identidad fue denegada"
     },
     "pending": {
