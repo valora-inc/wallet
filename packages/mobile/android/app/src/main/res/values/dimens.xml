@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <!-- Default inner padding within buttons -->
+  <dimen name="abc_button_padding_vertical_material">4dp</dimen>
+  <dimen name="abc_button_padding_horizontal_material">8dp</dimen>
+</resources>
