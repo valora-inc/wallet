@@ -1077,7 +1077,7 @@
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
-    "tryAgain": "Inténtalo de nuevo",
+    "tryAgain": "Reintentar",
     "verifying": {
       "title": "Verificar tu identidad"
     },
