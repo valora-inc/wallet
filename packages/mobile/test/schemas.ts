@@ -739,6 +739,10 @@ export const v23Schema = {
     ...v22Schema._persist,
     version: 23,
   },
+  app: {
+    ...v22Schema.app,
+    linkBankAccountEnabled: false,
+  },
   fees: {
     estimates: {
       [mockCusdAddress]: {

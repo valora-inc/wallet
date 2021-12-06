@@ -21,7 +21,7 @@ const handleSetupTests = () => {
 
   jest.mock('../../locales/en-US/translation.json', () => {
     enLoaded = true
-    return { someKey: 'Hi!' }
+    return { someKey: 'Hi!', someExtraKey: 'someExtraValue' }
   })
 
   jest.mock('../../locales/es-419/translation.json', () => {
@@ -80,7 +80,7 @@ describe('i18n', () => {
 
     it('displays the cached translation for default language (en-US)', () => {
       expect(i18n.t('someKey')).toEqual('Hello!')
-      expect(enLoaded).toBe(false)
+      expect(enLoaded).toBe(true)
       expect(esLoaded).toBe(false)
       expect(ptLoaded).toBe(false)
     })
@@ -91,6 +91,12 @@ describe('i18n', () => {
       expect(enLoaded).toBe(false)
       expect(esLoaded).toBe(false)
       expect(ptLoaded).toBe(true)
+    })
+
+    it('displays bundled translation values if they are missing from cached translations', () => {
+      // Note that this is a valid scenario for development
+      expect(i18n.t('someKey')).toEqual('Hello!')
+      expect(i18n.t('someExtraKey')).toEqual('someExtraValue')
     })
   })
 })

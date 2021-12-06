@@ -1079,6 +1079,9 @@
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
+    "verifying": {
+      "title": "Verifying your Identity"
+    },
     "completed": {
       "title": "Verification Complete",
       "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
@@ -1104,5 +1107,7 @@
       "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
       "cta": "Coming Soon!"
     }
-  }
+  },
+  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsValue": "Get Access"
 }
