@@ -112,7 +112,6 @@ export interface PersistedRootState {
   web3: Web3State
   identity: IdentityState
   account: AccountState
-  invite: InviteState
   escrow: EscrowState
   localCurrency: LocalCurrencyState
   recipients: RecipientsState

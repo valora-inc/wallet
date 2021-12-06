@@ -1,10 +1,11 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
 import { toChecksumAddress } from '@celo/utils/lib/address'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { SectionList, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import config from 'src/geth/networkConfig'
+import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
@@ -37,26 +38,33 @@ function useQueryTransactionFeed() {
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
-  useEffect(() => {
-    const timer = setInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
-    return () => clearInterval(timer)
-  }, [])
+  useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
   // TODO: Extract this to a more generic function/hook so that it can be reused
-  const { loading, error, result } = useAsync(async () => {
-    const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+  const { loading, error, result } = useAsync(
+    async () => {
+      const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          query: TRANSACTIONS_QUERY,
+          variables: { address, localCurrencyCode },
+        }),
+      })
+      return response.json()
+    },
+    [counter],
+    {
+      onSuccess: (result) => {
+        if (result?.data?.tokenTransactionsV2.transactions.length) {
+          dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
+        }
       },
-      body: JSON.stringify({
-        query: TRANSACTIONS_QUERY,
-        variables: { address, localCurrencyCode },
-      }),
-    })
-    return response.json()
-  }, [counter])
+    }
+  )
 
   if (result?.errors) {
     Logger.warn(
@@ -64,12 +72,6 @@ function useQueryTransactionFeed() {
       `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
     )
   }
-
-  useEffect(() => {
-    if (result?.data?.tokenTransactionsV2.transactions.length) {
-      dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
-    }
-  }, [result?.data])
 
   return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
 }

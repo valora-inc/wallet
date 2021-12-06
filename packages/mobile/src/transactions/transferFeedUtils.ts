@@ -57,7 +57,7 @@ function getRecipient(
   defaultName?: string,
   defaultImage?: string
 ): Recipient {
-  let phoneNumber = e164PhoneNumber
+  const phoneNumber = e164PhoneNumber
   let recipient: Recipient
 
   if (type === TokenTransactionType.EscrowSent) {
@@ -235,7 +235,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const addressToE164Number = useSelector(addressToE164NumberSelector)
-  let phoneNumber = addressToE164Number[transfer.address]
+  const phoneNumber = addressToE164Number[transfer.address]
   let recipient: Recipient
 
   if (transfer.type === TokenTransactionTypeV2.InviteSent) {

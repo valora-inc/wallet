@@ -55,7 +55,7 @@ describe('TransferFeedItem', () => {
             type,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,
-            block: 2345,
+            block: '2345',
             address: MOCK_ADDRESS,
             amount,
             metadata,

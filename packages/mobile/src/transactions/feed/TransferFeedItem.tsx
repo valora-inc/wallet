@@ -20,7 +20,7 @@ interface Props {
 }
 
 function TransferFeedItem({ transfer }: Props) {
-  const { type, amount } = transfer
+  const { amount } = transfer
 
   const openTransferDetails = () => {
     // TODO: Allow opening detail screen.
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     marginLeft: 'auto',
     paddingLeft: 10,
-    width: '40%',
+    minWidth: '40%',
     textAlign: 'right',
     flexWrap: 'wrap',
   },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingLeft: 10,
     marginLeft: 'auto',
-    width: '40%',
+    minWidth: '40%',
     textAlign: 'right',
     flexWrap: 'wrap',
   },

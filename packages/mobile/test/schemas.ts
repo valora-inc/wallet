@@ -772,6 +772,7 @@ export const v24Schema = {
     ...v23Schema.transactions,
     transactions: [],
   },
+  invite: undefined,
 }
 
 export function getLatestSchema(): Partial<RootState> {
