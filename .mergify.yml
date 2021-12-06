@@ -12,7 +12,6 @@ pull_request_rules:
     actions:
       merge:
         method: squash 
-        strict: true
         commit_message: title+body
       delete_head_branch:
         force: False
