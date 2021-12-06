@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
   "whySendFees": "Essa taxa cobre os custos de confirmação do número de celular do usuário",
-  "whyReceiveFees": "Você recebeu dinheiro para confirmar sua conta",
+  "whyReceiveFees": "You were sent some crypto to confirm your account",
   "inviteSent": "Convite enviado",
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Compartilhe a Valora com um amigo e ganhe {{amount}} {{currency}}!",
-    "body": "Ganhe {{amount}}{{currency}} se você enviar dinheiro para um amigo e ele se inscrever. <0>Saiba mais</0>"
+    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -663,10 +663,10 @@
   "onboardingEducation": {
     "step1": "A {{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
     "step2": "Envie fundos internacionalmente",
-    "step3": "Conveniente, confiável e seguro. Seu celular é a sua carteira."
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
-    "title": "Compartilhe dinheiro com quem você valoriza",
+    "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Solicitar pagamento",
   "max": "MAX",
   "inviteSendTo": "Convidar e enviar para",
-  "keepMoneySafe": "Manteremos esse dinheiro seguro até que seu amigo crie uma conta na {{appName}}",
+  "keepMoneySafe": "We'll keep these funds safe until your friend creates a {{appName}} account",
   "searchFriends": "Tente inserir um número de celular se você não conseguir encontrar quem está procurando",
   "inviteVerifyPayment": "Convidar e confirmar pagamento",
   "noResultsFor": "Sem resultados para",
@@ -829,7 +829,7 @@
   "requestFromMobileNumber": "Solicitar a número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
-  "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
+  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Aguarde",
   "welcomeToCeloPayments": "Bem-vindo à {{appName}}",
   "letsGetStartedByFirstTransaction": "Vamos começar enviando sua primeira transação",
-  "sendMoney": "Enviar dinheiro",
+  "sendMoney": "Send Crypto",
   "verificationFee": "Taxa de confirmação",
   "networkFee": "Taxa de rede",
   "networkFeeExplanation": {
