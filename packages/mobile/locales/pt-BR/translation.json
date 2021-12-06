@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
   "whySendFees": "Essa taxa cobre os custos de confirmação do número de celular do usuário",
-  "whyReceiveFees": "You were sent some crypto to confirm your account",
+  "whyReceiveFees": "Você recebeu cripto para confirmar sua conta",
   "inviteSent": "Convite enviado",
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Compartilhe a Valora com um amigo e ganhe {{amount}} {{currency}}!",
-    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
+    "body": "Envie cripto a um amigo e, se ele se inscrever, você ganha {{amount}} {{currency}}. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -663,10 +663,10 @@
   "onboardingEducation": {
     "step1": "A {{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
     "step2": "Envie fundos internacionalmente",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
   "welcome": {
-    "title": "Step into the future of crypto with {{appName}}",
+    "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
     "restoreAccount": "Restaurar conta existente"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Solicitar pagamento",
   "max": "MAX",
   "inviteSendTo": "Convidar e enviar para",
-  "keepMoneySafe": "We'll keep these funds safe until your friend creates a {{appName}} account",
+  "keepMoneySafe": "Manteremos esses fundos seguros até que seu amigo crie uma conta na {{appName}}.",
   "searchFriends": "Tente inserir um número de celular se você não conseguir encontrar quem está procurando",
   "inviteVerifyPayment": "Convidar e confirmar pagamento",
   "noResultsFor": "Sem resultados para",
@@ -829,8 +829,8 @@
   "requestFromMobileNumber": "Solicitar a número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
-  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
-  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
+  "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
+  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Aguarde",
   "welcomeToCeloPayments": "Bem-vindo à {{appName}}",
   "letsGetStartedByFirstTransaction": "Vamos começar enviando sua primeira transação",
-  "sendMoney": "Send Crypto",
+  "sendMoney": "Enviar cripto",
   "verificationFee": "Taxa de confirmação",
   "networkFee": "Taxa de rede",
   "networkFeeExplanation": {
@@ -1074,36 +1074,36 @@
     "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns tokens não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
     "dismiss": "Ignorar"
   },
-  "supportEmailSubject": "{{appName}} suporte para {{user}}",
+  "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
   "linkBankAccountScreen": {
-    "tryAgain": "Tente novamente",
+    "tryAgain": "Repetir",
     "verifying": {
-      "title": "Verificando sua Identidade"
+      "title": "Verificando identidade"
     },
     "completed": {
-      "title": "Verificação Completa",
-      "description": "Nós verificamos sua identidade com sucesso. Nós o informaremos quando você puder terminar de vincular sua conta bancária."
+      "title": "Verificação completa",
+      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
-      "title": "Verificação Negada",
-      "description": "Nós não conseguimos verificar a sua identidade. Por favor, entre em contato com o suporte para continuar ligando sua conta bancária.",
+      "title": "Verificação negada",
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
       "contactSupportPrefill": "Minha verificação de identidade foi negada"
     },
     "pending": {
       "title": "Revisão em andamento",
-      "description": "Suas informações foram recebidas e estão sendo revisadas. Isto vai levar até [número de dias] dias."
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
     },
     "begin": {
       "label": "Passo 1",
-      "title": "Verifique a sua Identidade",
-      "description": "Adicionar criptografia com uma conta bancária é fácil. Este passo levará cerca de 5 minutos.",
-      "cta": "Comece em"
+      "title": "Verifique a sua identidade",
+      "description": "Adicionar cripto com uma conta bancária é fácil. Este passo levará cerca de 5 minutos.",
+      "cta": "Começar"
     },
     "stepTwo": {
       "label": "Passo 2",
       "title": "Vincule uma conta bancária",
-      "description": "Você está quase terminando! Você pode conectar sua conta bancária à Valora agora através do Plaid.",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
       "cta": "Em breve!"
     }
   },
