@@ -11,8 +11,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 filter='paths | join(".") | [(input_filename | gsub(".*/|\\.json$";"")), .] | join("/")'
 
-# TODO: add pt-BR check
-en_keys=$(jq -r "$filter" ../locales/en-US/*.json | sort)
+en_keys=$(jq -r "$filter" ../base/base/*.json | sort)
+de_keys=$(jq -r "$filter" ../base/de/*.json | sort)
 es_keys=$(jq -r "$filter" ../locales/es-419/*.json | sort)
 pt_keys=$(jq -r "$filter" ../locales/pt-BR/*.json | sort)
 
