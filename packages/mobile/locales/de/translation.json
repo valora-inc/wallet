@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Mit WhatsApp einladen",
   "inviteWithSMS": "Per SMS einladen",
   "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
-  "whyReceiveFees": "You were sent some crypto to confirm your account",
+  "whyReceiveFees": "Dir wurde Krypto zur Bestätigung deines Kontos geschickt.",
   "inviteSent": "Einladung gesendet",
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
-    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
+    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -663,10 +663,10 @@
   "onboardingEducation": {
     "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
     "step2": "Sende Krypto in der ganzen Welt",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
   "welcome": {
-    "title": "Step into the future of crypto with {{appName}}",
+    "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
   "inviteSendTo": "Laden & senden an",
-  "keepMoneySafe": "We'll keep these funds safe until your friend creates a {{appName}} account",
+  "keepMoneySafe": "Wir werden dieses Krypto sicher halten, bis dein Freund ein {{appName}}-Konto erstellt",
   "searchFriends": "Versuche eine Telefonnummer einzugeben, wenn du nicht finden kannst, nach wem du suchst",
   "inviteVerifyPayment": "Einladen & Zahlung bestätigen",
   "noResultsFor": "Keine Ergebnisse für",
@@ -829,7 +829,7 @@
   "requestFromMobileNumber": "Anfrage von Telefonnummer",
   "sendToAddress": "An Adresse senden",
   "walletAddress": "Wallet-Adresse",
-  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
+  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Bitte warten",
   "welcomeToCeloPayments": "Willkommen bei {{appName}}",
   "letsGetStartedByFirstTransaction": "Beginnen wir mit dem Senden deiner ersten Transaktion",
-  "sendMoney": "Send Crypto",
+  "sendMoney": "Krypto senden",
   "verificationFee": "Bestätigungsgebühr",
   "networkFee": "Netzwerkgebühr",
   "networkFeeExplanation": {
@@ -1074,39 +1074,39 @@
     "body": "Dein Gesamtsaldo ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtsaldo ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtsaldo angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
-  "supportEmailSubject": "{{appName}} Unterstützung für {{user}}",
+  "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "linkBankAccountScreen": {
-    "tryAgain": "Nochmal versuchen",
+    "tryAgain": "Wiederholen",
     "verifying": {
-      "title": "Überprüfe deine Identität"
+      "title": "Verifying your Identity"
     },
     "completed": {
-      "title": "Überprüfung abgeschlossen",
-      "description": "Wir haben deine Identität erfolgreich überprüft. Wir werden dich benachrichtigen, wenn du die Verknüpfung deines Bankkontos abschließen kannst."
+      "title": "Verification Complete",
+      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
-      "title": "Verifizierung verweigert",
-      "description": "Wir konnten deine Identität nicht verifizieren. Bitte kontaktiere den Support, um die Verknüpfung deines Bankkontos fortzusetzen.",
-      "contactSupportPrefill": "Meine Identitätsprüfung wurde verweigert"
+      "title": "Verification Denied",
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "contactSupportPrefill": "My identity verification was denied"
     },
     "pending": {
-      "title": "Überprüfung in Arbeit",
-      "description": "Wir haben deine Informationen erhalten und prüfen sie. Dies wird bis zu [Anzahl der Tage] Tage dauern."
+      "title": "Review in progress",
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
     },
     "begin": {
       "label": "Schritt 1",
-      "title": "Überprüfe deine Identität",
-      "description": "Das Hinzufügen von Kryptowährungen mit einem Bankkonto ist einfach. Dieser Schritt dauert etwa 5 Minuten.",
-      "cta": "Beginne"
+      "title": "Verify your Identity",
+      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "cta": "Starten"
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "title": "Ein Bankkonto verknüpfen",
-      "description": "Du bist fast fertig! Du kannst dein Bankkonto jetzt über Plaid mit Valora verbinden.",
-      "cta": "Demnächst!"
+      "title": "Link a bank account",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "cta": "Demnächst verfügbar"
     }
   },
-  "linkBankAccountSettingsTitle": "Bankkonten verknüpfen",
-  "linkBankAccountSettingsValue": "Zugang erhalten"
+  "linkBankAccountSettingsTitle": "Bankkonten",
+  "linkBankAccountSettingsValue": "Zugriff"
 }
