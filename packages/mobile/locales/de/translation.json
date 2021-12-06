@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Mit WhatsApp einladen",
   "inviteWithSMS": "Per SMS einladen",
   "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
-  "whyReceiveFees": "Dir wurde etwas Krypto zur Bestätigung deines Kontos geschickt",
+  "whyReceiveFees": "You were sent some crypto to confirm your account",
   "inviteSent": "Einladung gesendet",
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
-    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
+    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -663,10 +663,10 @@
   "onboardingEducation": {
     "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
     "step2": "Sende Krypto in der ganzen Welt",
-    "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
-    "title": "Teile Krypto mit denen, die es wert sind",
+    "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
   "inviteSendTo": "Laden & senden an",
-  "keepMoneySafe": "Wir werden dieses Krypto sicher halten, bis dein Freund ein {{appName}}-Konto erstellt",
+  "keepMoneySafe": "We'll keep these funds safe until your friend creates a {{appName}} account",
   "searchFriends": "Versuche eine Telefonnummer einzugeben, wenn du nicht finden kannst, nach wem du suchst",
   "inviteVerifyPayment": "Einladen & Zahlung bestätigen",
   "noResultsFor": "Keine Ergebnisse für",
@@ -829,7 +829,7 @@
   "requestFromMobileNumber": "Anfrage von Telefonnummer",
   "sendToAddress": "An Adresse senden",
   "walletAddress": "Wallet-Adresse",
-  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
+  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Bitte warten",
   "welcomeToCeloPayments": "Willkommen bei {{appName}}",
   "letsGetStartedByFirstTransaction": "Beginnen wir mit dem Senden deiner ersten Transaktion",
-  "sendMoney": "Krypto senden",
+  "sendMoney": "Send Crypto",
   "verificationFee": "Bestätigungsgebühr",
   "networkFee": "Netzwerkgebühr",
   "networkFeeExplanation": {
