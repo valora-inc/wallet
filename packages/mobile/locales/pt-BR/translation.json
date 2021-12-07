@@ -1083,16 +1083,16 @@
     },
     "completed": {
       "title": "Verificação completa",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária."
     },
     "failed": {
       "title": "Verificação negada",
-      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "description": "Não foi possível verificar sua identidade. Entre em contato com a equipe de Suporte para continuar a vincular sua conta bancária.",
       "contactSupportPrefill": "Minha verificação de identidade foi negada"
     },
     "pending": {
       "title": "Revisão em andamento",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "description": "Sua informação já foi recebida e está sob análise. Ela levará até [number of days] dias para ser concluída."
     },
     "begin": {
       "label": "Passo 1",
@@ -1103,7 +1103,7 @@
     "stepTwo": {
       "label": "Passo 2",
       "title": "Vincule uma conta bancária",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "description": "Falta pouco! Você já pode vincular sua conta bancária à Valora pelo Plaid.",
       "cta": "Em breve!"
     }
   },
