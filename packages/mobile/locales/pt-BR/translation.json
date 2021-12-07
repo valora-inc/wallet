@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Revisão em andamento",
-      "description": "Sua informação já foi recebida e está sob análise. Ela levará até [número de dias] dias para ser concluída."
+      "description": "Sua informação já foi recebida e está sob análise. Ela levará até [number of days] dias para ser concluída."
     },
     "begin": {
       "label": "Passo 1",
