@@ -39,6 +39,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             fill="none"
             height={60}
             style={Object {}}
+            testID="VerificationCompleteIcon"
             width={60}
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -798,6 +799,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             fill="none"
             height={60}
             style={Object {}}
+            testID="VerificationDeniedIcon"
             width={60}
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -1138,6 +1140,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             fill="none"
             height={60}
             style={Object {}}
+            testID="VerificationPendingIcon"
             width={60}
             xmlns="http://www.w3.org/2000/svg"
           >

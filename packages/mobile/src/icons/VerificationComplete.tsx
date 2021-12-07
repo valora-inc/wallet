@@ -3,7 +3,13 @@ import Svg, { Path, Circle } from 'svgs'
 
 function VerificationComplete() {
   return (
-    <Svg width={60} height={60} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg
+      testID="VerificationCompleteIcon"
+      width={60}
+      height={60}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <Circle cx={30} cy={30} r={30} fill="#F9F6F0" />
       <Path
         d="M24.776 30.131a.75.75 0 0 0-1.052 1.069l1.052-1.069Zm3.14 4.144-.526.534a.75.75 0 0 0 1.042.011l-.515-.545Zm8.85-7.33a.75.75 0 1 0-1.031-1.09l1.03 1.09ZM23.723 31.2l3.666 3.61 1.053-1.07-3.667-3.609-1.052 1.069Zm4.708 3.62 8.333-7.875-1.03-1.09L27.4 33.73l1.03 1.09Z"

@@ -3,7 +3,13 @@ import Svg, { Path, Circle } from 'svgs'
 
 function VerificationDenied() {
   return (
-    <Svg width={60} height={60} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg
+      testID="VerificationDeniedIcon"
+      width={60}
+      height={60}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <Circle cx={30} cy={30} r={30} fill="#F9F6F0" />
       <Circle cx={30} cy={30} r={11.25} stroke="#EA6042" strokeWidth={1.5} />
       <Path
