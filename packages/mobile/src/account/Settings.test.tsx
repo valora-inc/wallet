@@ -127,6 +127,24 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  it('navigate to connect phone number screen if phone number is not verified', async () => {
+    const tree = render(
+      <Provider
+        store={createMockStore({
+          app: {
+            linkBankAccountEnabled: true,
+            numberVerified: false,
+          },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
+  })
+
   it('navigate to LinkBankAccount screen with kycStatus', async () => {
     const tree = render(
       <Provider
@@ -144,6 +162,7 @@ describe('Account', () => {
             status: {},
           },
           app: {
+            numberVerified: true,
             linkBankAccountEnabled: true,
           },
         })}
@@ -153,6 +172,8 @@ describe('Account', () => {
     )
 
     fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
-    expect(navigate).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+      kycStatus: KycStatus.Completed,
+    })
   })
 })

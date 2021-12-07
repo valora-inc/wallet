@@ -161,6 +161,10 @@ export class Account extends React.Component<Props, State> {
     })
   }
 
+  goToNumberNotConnectScreen = () => {
+    navigate(Screens.ConnectPhoneNumberScreen)
+  }
+
   goToLanguageSetting = () => {
     this.props.navigation.navigate(Screens.Language, { nextScreen: this.props.route.name })
   }
@@ -400,7 +404,9 @@ export class Account extends React.Component<Props, State> {
             {linkBankAccountEnabled && (
               <SettingsItemTextValue
                 title={t('linkBankAccountSettingsTitle')}
-                onPress={this.goToLinkBankAccount}
+                onPress={
+                  numberVerified ? this.goToLinkBankAccount : this.goToNumberNotConnectScreen
+                }
                 value={t('linkBankAccountSettingsValue')}
                 isValueActionable={true}
                 testID="linkBankAccountSettings"
