@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
@@ -127,13 +127,12 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('navigate to connect phone number screen if phone number is not verified', async () => {
+  it('navigate to connect phone number screen if mtwAddress is not present', async () => {
     const tree = render(
       <Provider
         store={createMockStore({
           app: {
             linkBankAccountEnabled: true,
-            numberVerified: false,
           },
         })}
       >
@@ -162,8 +161,10 @@ describe('Account', () => {
             status: {},
           },
           app: {
-            numberVerified: true,
             linkBankAccountEnabled: true,
+          },
+          web3: {
+            mtwAddress: mockAccount,
           },
         })}
       >

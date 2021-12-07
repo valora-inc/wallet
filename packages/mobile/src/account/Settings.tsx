@@ -87,6 +87,7 @@ interface StateProps {
   walletConnectEnabled: boolean
   linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
+  mtwAddress: string | null
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -114,6 +115,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1 || v2,
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
+    mtwAddress: state.web3.mtwAddress,
   }
 }
 
@@ -378,7 +380,14 @@ export class Account extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, i18n, numberVerified, verificationPossible, linkBankAccountEnabled } = this.props
+    const {
+      t,
+      i18n,
+      numberVerified,
+      verificationPossible,
+      linkBankAccountEnabled,
+      mtwAddress,
+    } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
@@ -404,9 +413,7 @@ export class Account extends React.Component<Props, State> {
             {linkBankAccountEnabled && (
               <SettingsItemTextValue
                 title={t('linkBankAccountSettingsTitle')}
-                onPress={
-                  numberVerified ? this.goToLinkBankAccount : this.goToNumberNotConnectScreen
-                }
+                onPress={mtwAddress ? this.goToLinkBankAccount : this.goToNumberNotConnectScreen}
                 value={t('linkBankAccountSettingsValue')}
                 isValueActionable={true}
                 testID="linkBankAccountSettings"
