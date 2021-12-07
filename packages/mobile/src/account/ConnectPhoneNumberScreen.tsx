@@ -10,7 +10,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
 function onPressConnectButton() {
-  console.log('connect button pressed lisa')
   navigate(Screens.VerificationEducationScreen, {
     hideOnboardingStep: true,
   })
