@@ -7,6 +7,7 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { RemoteConfigValues } from 'src/app/saga'
@@ -155,6 +156,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
     yield call(registerTokenToDb, app, address, fcmToken)
+    yield call(setAppVersion, address)
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
@@ -391,6 +393,20 @@ export async function setUserLanguage(address: string, language: string | null) 
     Logger.info(TAG, 'User Language synced successfully', language)
   } catch (error) {
     Logger.error(TAG, 'Failed to sync user language selection', error)
+    throw error
+  }
+}
+
+export async function setAppVersion(address: string) {
+  try {
+    Logger.info(TAG, 'Registering Firebase client app version')
+    const appVersion = DeviceInfo.getVersion()
+    const regRef = firebase.database().ref('registrations')
+    await regRef.child(address).update({ appVersion })
+
+    Logger.info(TAG, 'Firebase app version registered successfully', appVersion)
+  } catch (error) {
+    Logger.error(TAG, 'Failed to register Firebase app version', error)
     throw error
   }
 }
