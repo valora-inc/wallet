@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Revisión en curso",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "description": "Recibimos tu información y se está revisando. Esto puede tomar hasta [number of days] días."
     },
     "begin": {
       "label": "Paso 1",
