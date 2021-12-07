@@ -26,6 +26,9 @@
         "language": {
           ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
         },
+        "appVersion": {
+          ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
+        },
         "dailyLimitCusd": {
           ".write": false,
           ".validate": "newData.isNumber() && newData.val() >= 500"
