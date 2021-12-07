@@ -19,7 +19,7 @@ const handleSetupTests = () => {
 
   jest.resetModules()
 
-  jest.mock('../../locales/en-US/translation.json', () => {
+  jest.mock('../../locales/base/translation.json', () => {
     enLoaded = true
     return { someKey: 'Hi!', someExtraKey: 'someExtraValue' }
   })

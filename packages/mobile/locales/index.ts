@@ -13,7 +13,7 @@ const locales: Locales = {
     name: 'English',
     get strings() {
       return {
-        translation: require('./en-US/translation.json'),
+        translation: require('./base/translation.json'),
       }
     },
     get dateFns() {
