@@ -11,10 +11,16 @@ import { useTokenInfo } from 'src/tokens/hooks'
 interface Props {
   tokenAmount: BigNumber
   tokenAddress: string
-  feeToAddInUsd: BigNumber | undefined
+  feeToAddInUsd?: BigNumber | undefined
+  hideSign?: boolean
 }
 
-export default function TokenTotalLineItem({ tokenAmount, tokenAddress, feeToAddInUsd }: Props) {
+export default function TokenTotalLineItem({
+  tokenAmount,
+  tokenAddress,
+  feeToAddInUsd,
+  hideSign,
+}: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenAddress)
   const feeInToken = tokenInfo ? feeToAddInUsd?.dividedBy(tokenInfo.usdPrice) : undefined
@@ -28,6 +34,7 @@ export default function TokenTotalLineItem({ tokenAmount, tokenAddress, feeToAdd
           <TokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenAddress={tokenAddress}
+            hideSign={hideSign}
             testID="TotalLineItem/Total"
           />
         }
@@ -49,6 +56,7 @@ export default function TokenTotalLineItem({ tokenAmount, tokenAddress, feeToAdd
             amount={tokenAmount}
             tokenAddress={tokenAddress}
             showLocalAmount={false}
+            hideSign={hideSign}
             testID="TotalLineItem/Subtotal"
           />
         }

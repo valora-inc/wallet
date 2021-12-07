@@ -138,7 +138,7 @@ function WalletHome() {
   sections.push({
     data: [{}],
     renderItem: () =>
-      useUpdatedFeed ? (
+      !useUpdatedFeed ? (
         <TransactionFeed key={'TransactionList'} />
       ) : (
         <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />
