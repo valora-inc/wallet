@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Invite with WhatsApp",
   "inviteWithSMS": "Invite with SMS",
   "whySendFees": "This fee covers costs for the new user to connect their phone number",
-  "whyReceiveFees": "You were sent some money to confirm your account",
+  "whyReceiveFees": "You were sent some crypto to confirm your account",
   "inviteSent": "Invite Sent",
   "redeemFailed": "Failure redeeming code ",
   "redeemInviteTimeout": "Redeem Invite Timed out",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
-    "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
+    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -661,12 +661,12 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
-    "step2": "Send funds across borders",
-    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
+    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
+    "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
+    "step3": "All you need is a mobile phone to send, spend, and explore."
   },
   "welcome": {
-    "title": "Share money with those you value",
+    "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
     "restoreAccount": "Restore my account"
   },
@@ -816,7 +816,7 @@
   "requestPayment": "Request Payment",
   "max": "MAX",
   "inviteSendTo": "Invite & send to",
-  "keepMoneySafe": "We'll keep this money safe until your friend creates a {{appName}} account",
+  "keepMoneySafe": "We'll keep these funds safe until your friend creates a {{appName}} account",
   "searchFriends": "Try entering a phone number if you are unable to find who you're looking for",
   "inviteVerifyPayment": "Invite & Confirm Payment",
   "noResultsFor": "No results for",
@@ -829,8 +829,8 @@
   "requestFromMobileNumber": "Request From Phone Number",
   "sendToAddress": "Send to Address",
   "walletAddress": "Wallet Address",
-  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send money worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
-  "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send money worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
+  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
+  "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Please hold on",
   "welcomeToCeloPayments": "Welcome to {{appName}}",
   "letsGetStartedByFirstTransaction": "Let’s get started by sending your first transaction",
-  "sendMoney": "Send Money",
+  "sendMoney": "Send Crypto",
   "verificationFee": "Confirmation Fee",
   "networkFee": "Network Fee",
   "networkFeeExplanation": {
@@ -1074,5 +1074,39 @@
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
-  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later"
+  "supportEmailSubject": "{{appName}} support for {{user}}",
+  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
+  "linkBankAccountScreen": {
+    "tryAgain": "Try Again",
+    "verifying": {
+      "title": "Verifying your Identity"
+    },
+    "completed": {
+      "title": "Verification Complete",
+      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+    },
+    "failed": {
+      "title": "Verification Denied",
+      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
+      "contactSupportPrefill": "My identity verification was denied"
+    },
+    "pending": {
+      "title": "Review in progress",
+      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+    },
+    "begin": {
+      "label": "Step 1",
+      "title": "Verify your Identity",
+      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "cta": "Begin"
+    },
+    "stepTwo": {
+      "label": "Step 2",
+      "title": "Link a bank account",
+      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "cta": "Coming Soon!"
+    }
+  },
+  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsValue": "Get Access"
 }

@@ -140,7 +140,7 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
         <View style={styles.sectionDivider}>
           <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
           <Text style={styles.bodyText}>
-            {getTranslationFromAction(method as SupportedActions)}
+            {getTranslationFromAction(t, method as SupportedActions)}
           </Text>
 
           {moreInfoString && (

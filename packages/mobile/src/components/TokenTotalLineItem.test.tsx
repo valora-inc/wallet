@@ -20,11 +20,13 @@ describe('TokenTotalLineItem', () => {
     tokenAddress = defaultTokenAddress,
     localCurrencyCode = LocalCurrencyCode.BRL,
     localCurrencyExchangeRate = '1.5',
+    feeToAddInUsd = undefined,
   }: {
     amount?: BigNumber
     tokenAddress?: string
     localCurrencyCode?: LocalCurrencyCode
     localCurrencyExchangeRate?: string
+    feeToAddInUsd?: BigNumber
   }) {
     return render(
       <Provider
@@ -50,7 +52,11 @@ describe('TokenTotalLineItem', () => {
           },
         })}
       >
-        <TokenTotalLineItem tokenAmount={amount} tokenAddress={tokenAddress} />
+        <TokenTotalLineItem
+          tokenAmount={amount}
+          tokenAddress={tokenAddress}
+          feeToAddInUsd={feeToAddInUsd}
+        />
       </Provider>
     )
   }
@@ -87,6 +93,17 @@ describe('TokenTotalLineItem', () => {
         'WBTC @ R$65,000.00'
       )
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('0.00012 WBTC')
+    })
+  })
+
+  describe('When pasing the fee to add in USD', () => {
+    it('adds the fee to the total', () => {
+      const { getByTestId } = renderComponent({
+        feeToAddInUsd: new BigNumber(0.12),
+      })
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.18')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
 })

@@ -733,6 +733,39 @@ export const v22Schema = {
   },
 }
 
+export const v23Schema = {
+  ...v22Schema,
+  _persist: {
+    ...v22Schema._persist,
+    version: 23,
+  },
+  app: {
+    ...v22Schema.app,
+    linkBankAccountEnabled: false,
+  },
+  fees: {
+    estimates: {
+      [mockCusdAddress]: {
+        ['send']: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['invite']: {
+          usdFee: '0.04',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['exchange']: undefined,
+        ['reclaim-escrow']: undefined,
+        ['register-dek']: undefined,
+      },
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v22Schema as Partial<RootState>
+  return v23Schema as Partial<RootState>
 }

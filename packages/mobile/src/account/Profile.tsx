@@ -47,7 +47,7 @@ function Profile({ navigation, route }: Props) {
 
     navigation.setOptions({
       headerRight: () => (
-        <TopBarTextButton title={i18n.t('save')} testID="SaveButton" onPress={onSave} />
+        <TopBarTextButton title={t('save')} testID="SaveButton" onPress={onSave} />
       ),
     })
   }, [navigation, newName, newPictureUri, picturePath])

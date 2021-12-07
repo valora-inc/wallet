@@ -58,7 +58,7 @@ export interface SendPaymentOrInviteAction {
   usdAmount: BigNumber
   comment: string
   recipient: Recipient
-  feeInfo?: FeeInfo
+  feeInfo: FeeInfo
   fromModal: boolean
 }
 
@@ -139,7 +139,7 @@ export const sendPaymentOrInvite = (
   usdAmount: BigNumber,
   comment: string,
   recipient: Recipient,
-  feeInfo: FeeInfo | undefined,
+  feeInfo: FeeInfo,
   fromModal: boolean
 ): SendPaymentOrInviteAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE,

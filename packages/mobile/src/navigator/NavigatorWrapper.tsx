@@ -2,6 +2,7 @@ import colors from '@celo/react-components/styles/colors'
 import AsyncStorage from '@react-native-community/async-storage'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Share, StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +15,6 @@ import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
-import i18n from 'src/i18n'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
@@ -53,6 +53,7 @@ const AppTheme = {
 }
 
 export const NavigatorWrapper = () => {
+  const { t } = useTranslation()
   const [isReady, setIsReady] = React.useState(RESTORE_STATE ? false : true)
   const [initialState, setInitialState] = React.useState()
   const appLocked = useTypedSelector(getAppLocked)
@@ -155,7 +156,7 @@ export const NavigatorWrapper = () => {
   }
 
   const onInvite = async () => {
-    const message = i18n.t('inviteWithoutPayment', {
+    const message = t('inviteWithoutPayment', {
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     ValoraAnalytics.track(InviteEvents.invite_from_menu)

@@ -1,51 +1,72 @@
-import { combineReducers } from 'redux'
-import { Actions, ActionTypes, FeeType } from 'src/fees/actions'
+import { createAction, createReducer } from '@reduxjs/toolkit'
+import { FeeInfo } from 'src/fees/saga'
 
-interface FeeEstimateState {
-  feeInWei: string | null
-  lastUpdated: number | null
+export enum FeeType {
+  INVITE = 'invite',
+  SEND = 'send',
+  EXCHANGE = 'exchange',
+  RECLAIM_ESCROW = 'reclaim-escrow',
+  REGISTER_DEK = 'register-dek',
 }
 
-const feeEstimateInitialState = {
-  feeInWei: null,
-  lastUpdated: null,
-}
-
-function createEstimateReducer(feeType: FeeType) {
-  return function estimateReducer(
-    state: FeeEstimateState = feeEstimateInitialState,
-    action: ActionTypes
-  ): FeeEstimateState {
-    if (action.feeType !== feeType) {
-      return state
-    }
-
-    switch (action.type) {
-      case Actions.FEE_ESTIMATED:
-        return {
-          ...state,
-          feeInWei: action.feeInWei,
-        }
-      default:
-        return state
-    }
-  }
+export interface FeeEstimateState {
+  usdFee: string | null
+  lastUpdated: number
+  loading: boolean
+  error: boolean
+  feeInfo?: FeeInfo
 }
 
 export interface State {
   estimates: {
-    invite: FeeEstimateState
-    send: FeeEstimateState
-    exchange: FeeEstimateState
-    reclaimEscrow: FeeEstimateState
+    [tokenAddress: string]: {
+      [feeType in FeeType]: FeeEstimateState | undefined
+    }
   }
 }
 
-const estimatesReducer = combineReducers({
-  invite: createEstimateReducer(FeeType.INVITE),
-  send: createEstimateReducer(FeeType.SEND),
-  exchange: createEstimateReducer(FeeType.EXCHANGE),
-  reclaimEscrow: createEstimateReducer(FeeType.RECLAIM_ESCROW),
-})
+export const initialState: State = {
+  estimates: {},
+}
 
-export const reducer = combineReducers({ estimates: estimatesReducer })
+export interface EstimateFeeAction {
+  feeType: FeeType
+  tokenAddress: string
+  paymentID?: string // Must be set if feeType === RECLAIM_ESCROW
+}
+
+export const estimateFee = createAction<EstimateFeeAction>('FEES/ESTIMATE_FEE')
+export const feeEstimated = createAction<{
+  tokenAddress: string
+  feeType: FeeType
+  estimation: FeeEstimateState
+}>('FEES/FEE_ESTIMATED')
+
+export const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(estimateFee, (state, action) => ({
+      ...state,
+      estimates: {
+        ...state.estimates,
+        [action.payload.tokenAddress]: {
+          ...(state.estimates[action.payload.tokenAddress] ?? {}),
+          [action.payload.feeType]: {
+            loading: true,
+            error: false,
+            feeInWei: null,
+            lastUpdated: null,
+          },
+        },
+      },
+    }))
+    .addCase(feeEstimated, (state, action) => ({
+      ...state,
+      estimates: {
+        ...state.estimates,
+        [action.payload.tokenAddress]: {
+          ...(state.estimates[action.payload.tokenAddress] ?? {}),
+          [action.payload.feeType]: action.payload.estimation,
+        },
+      },
+    }))
+})

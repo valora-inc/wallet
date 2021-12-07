@@ -20,9 +20,12 @@ const TAG = 'PERSONA'
 
 export interface Props {
   kycStatus: KycStatus | undefined
+  text?: string | undefined
+  onPress?: () => any
+  onCancelled?: () => any
 }
 
-const Persona = ({ kycStatus }: Props) => {
+const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -46,7 +49,7 @@ const Persona = ({ kycStatus }: Props) => {
       Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
-
+    onPress?.()
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
@@ -55,12 +58,13 @@ const Persona = ({ kycStatus }: Props) => {
           TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
         )
-        // TODO [Lisa]: Add event handling for KYC approval when Persona component is integrated
       })
       .onCancelled(() => {
+        onCancelled?.()
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
+        onCancelled?.()
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
@@ -115,9 +119,9 @@ const Persona = ({ kycStatus }: Props) => {
   return (
     <Button
       onPress={launchPersonaInquiry}
-      text={t('raiseLimitBegin')}
+      text={text || t('raiseLimitBegin')}
       type={BtnTypes.PRIMARY}
-      size={BtnSizes.FULL}
+      size={BtnSizes.MEDIUM}
       testID="PersonaButton"
       disabled={!personaAccountCreated || !templateId}
     />
