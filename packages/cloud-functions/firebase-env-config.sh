@@ -44,3 +44,4 @@ db.user=$(grep DB_USERNAME "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.password=$(grep DB_PASSWORD "$ENV_FILENAME" | cut -d '=' -f 2-) \
 circuit_breaker.key_path=$(grep CIRCUIT_BREAKER_KEY_PATH "$ENV_FILENAME" | cut -d '=' -f 2-) \
 exchanges.env=$(grep EXCHANGE_RATE_ENV "$ENV_FILENAME" | cut -d '=' -f 2-) \
+ubeswap.token_list=$(grep UBESWAP_TOKEN_LIST "$ENV_FILENAME" | cut -d '=' -f 2-) \
