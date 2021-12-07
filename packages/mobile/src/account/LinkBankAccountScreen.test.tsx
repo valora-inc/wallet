@@ -53,19 +53,23 @@ describe('LinkBankAccountScreen', () => {
       })
     })
   })
-  it('redirects correctly to SupportContact when button is clicked in kycStatus failed state', async () => {
-    const store = createMockStore({
-      web3: { mtwAddress: mockAccount },
-      account: { kycStatus: KycStatus.Failed },
-    })
-    const tree = render(
-      <Provider store={store}>
-        <LinkBankAccountScreen />
-      </Provider>
-    )
-    fireEvent.press(tree.getByTestId('SupportContactLink'))
-    expect(navigate).toBeCalledWith(Screens.SupportContact, {
-      prefilledText: 'linkBankAccountScreen.failed.contactSupportPrefill',
+  describe('redirects correctly to SupportContact when button is clicked', async () => {
+    ;[KycStatus.Failed, KycStatus.Declined].forEach((kycValue) => {
+      it(`redirects for a KycStatus of ${kycValue}`, () => {
+        const store = createMockStore({
+          web3: { mtwAddress: mockAccount },
+          account: { kycStatus: kycValue },
+        })
+        const tree = render(
+          <Provider store={store}>
+            <LinkBankAccountScreen />
+          </Provider>
+        )
+        fireEvent.press(tree.getByTestId('SupportContactLink'))
+        expect(navigate).toBeCalledWith(Screens.SupportContact, {
+          prefilledText: 'linkBankAccountScreen.failed.contactSupportPrefill',
+        })
+      })
     })
   })
   it('switches to the spinner state when the persona button is clicked', async () => {

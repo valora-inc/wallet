@@ -46,7 +46,7 @@ function StepOne({ kycStatus }: StepOneProps) {
   }
 
   switch (kycStatus) {
-    case KycStatus.Completed:
+    case KycStatus.Approved:
       return (
         <View style={styles.stepOne}>
           <View style={styles.iconContainer}>
@@ -56,6 +56,7 @@ function StepOne({ kycStatus }: StepOneProps) {
           <Text style={styles.description}>{t('linkBankAccountScreen.completed.description')}</Text>
         </View>
       )
+    case KycStatus.Declined:
     case KycStatus.Failed:
       return (
         <View style={styles.stepOne}>
@@ -86,7 +87,8 @@ function StepOne({ kycStatus }: StepOneProps) {
           </View>
         </View>
       )
-    case KycStatus.Pending:
+    case KycStatus.NeedsReview:
+    case KycStatus.Completed:
       return (
         <View style={styles.stepOne}>
           <View style={styles.iconContainer}>
@@ -96,6 +98,10 @@ function StepOne({ kycStatus }: StepOneProps) {
           <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
         </View>
       )
+    case KycStatus.NotCreated:
+    case KycStatus.Created:
+    case KycStatus.Pending:
+    case KycStatus.Expired:
     default:
       /* Show a spinner while Persona is in progress and we are waiting for IHL to update kycStatus */
       if (isKycVerifying) {
