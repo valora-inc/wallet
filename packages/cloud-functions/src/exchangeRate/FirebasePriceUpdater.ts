@@ -1,12 +1,11 @@
-import {
-  createNewManager,
-  ExchangeRateManager,
-  getConfigForEnv,
-  PriceByAddress,
-} from '@valora/exchanges'
+import { ContractKit } from '@celo/contractkit'
+import { configs, createNewManager, ExchangeRateManager, PriceByAddress } from '@valora/exchanges'
+import axios from 'axios'
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
-import { EXCHANGES } from '../config'
+import erc20Abi from '../abis/ERC20.json'
+import { EXCHANGES, UBESWAP } from '../config'
+import { getContractKit } from '../contractKit'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
 
@@ -16,6 +15,10 @@ const MAX_CONCURRENCY = 30
 
 const RETRIES_LIMIT = 5
 
+interface ImageUrls {
+  [address: string]: string
+}
+
 export default class FirebasePriceUpdater {
   manager: ExchangeRateManager
 
@@ -23,41 +26,95 @@ export default class FirebasePriceUpdater {
     this.manager = manager
   }
 
-  async refreshAllPrices(): Promise<PriceByAddress> {
+  async updateTokensInfo() {
+    const fetchTime = Date.now()
     const prices = await this.manager.calculatecUSDPrices()
-    await this.updatePrices(prices)
-    return prices
-  }
 
-  private async updatePrices(prices: PriceByAddress) {
     const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
 
-    const fetchTime = Date.now()
+    const imagesUrls = await this.getImagesUrlInfo()
 
-    await asyncPool(
-      MAX_CONCURRENCY,
-      Object.entries(tokensInfoRaw),
-      async ([key, token]: [string, any]) => {
-        const address = token?.address?.toLowerCase()
-        if (address && prices[address]) {
-          await updateFirebase(`${FIREBASE_NODE_KEY}/${key}`, {
-            usdPrice: prices[address].toString(),
-            priceFetchedAt: fetchTime,
-          })
-        }
+    // This is needed in case the key is not exactly as the token address in lower case
+    const presentTokenKeysByAddress = Object.entries(tokensInfoRaw).reduce(
+      (acc: any, [key, token]: [string, any]) => ({
+        ...acc,
+        [token.address?.toLowerCase()]: key,
+      }),
+      {}
+    )
+
+    const kit = await getContractKit()
+
+    await asyncPool(MAX_CONCURRENCY, Object.keys(prices), async (tokenAddress) => {
+      try {
+        await this.updateToken(
+          tokenAddress,
+          prices,
+          fetchTime,
+          imagesUrls,
+          presentTokenKeysByAddress,
+          kit
+        )
+      } catch (e) {
+        console.warn(`Couldn't update token: ${tokenAddress}`, (e as Error)?.message)
       }
+    })
+  }
+
+  private async updateToken(
+    tokenAddress: string,
+    prices: PriceByAddress,
+    fetchTime: number,
+    imageUrls: ImageUrls,
+    presentTokenKeysByAddress: { [address: string]: string },
+    kit: ContractKit
+  ) {
+    const updateInfo: any = {
+      usdPrice: prices[tokenAddress].toString(),
+      priceFetchedAt: fetchTime,
+      address: tokenAddress,
+    }
+
+    let key = presentTokenKeysByAddress[tokenAddress]
+    if (!key) {
+      key = tokenAddress
+
+      // @ts-ignore
+      const tokenContract = new kit.web3.eth.Contract(erc20Abi, tokenAddress)
+      updateInfo.symbol = await tokenContract.methods.symbol().call()
+      updateInfo.name = await tokenContract.methods.name().call()
+      updateInfo.decimals = await tokenContract.methods.decimals().call()
+    }
+
+    if (imageUrls[tokenAddress]) {
+      updateInfo.imageUrl = imageUrls[tokenAddress]
+    }
+
+    await updateFirebase(`${FIREBASE_NODE_KEY}/${key}`, updateInfo)
+  }
+
+  // This will change on #1500
+  private async getImagesUrlInfo(): Promise<ImageUrls> {
+    const rawTokens = await axios.get(UBESWAP.token_list)
+    return rawTokens.data.tokens.reduce(
+      (acc: any, token: any) => ({ ...acc, [token.address.toLowerCase()]: token.logoURI }),
+      {}
     )
   }
 }
 
-export async function updatePrices() {
-  const updater = new FirebasePriceUpdater(createNewManager(getConfigForEnv(EXCHANGES.env)))
-  return await updater.refreshAllPrices()
+async function updateTokensInfoEntryPoint() {
+  const config = configs[EXCHANGES.env]
+  if (!config) {
+    throw Error("Couldn't obtain exchanges library config")
+  }
+  const updater = new FirebasePriceUpdater(createNewManager(config))
+  return await updater.updateTokensInfo()
 }
 
 async function updatePricesWithRetry() {
   try {
-    await updatePrices()
+    await updateTokensInfoEntryPoint()
   } catch (err) {
     console.error('There was an error while refreshing token prices:', (err as Error).message)
     callCloudFunction('updateFirebasePricesByRequest', 0).catch((e) => console.error(e?.message))
@@ -71,7 +128,8 @@ export const updateFirebasePricesScheduled = functions.pubsub
 export const updateFirebasePricesByRequest = functions.https.onRequest(async (req, res) => {
   const retries = req.body.retry ?? 0
   try {
-    res.status(200).send(await updatePrices())
+    await updateTokensInfoEntryPoint()
+    res.status(200).send()
   } catch (e) {
     const msg = (e as Error)?.message
     if (retries < RETRIES_LIMIT) {

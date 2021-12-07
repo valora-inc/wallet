@@ -411,20 +411,22 @@ Where `YOUR_BUILD_VARIANT` can be any of the app's build variants, such as debug
 
 We are using [Crowdin](https://clabs.crowdin.com/) to manage the translation of all user facing strings in the app.
 
-During development, developers should only update the main language files in English (en-US).
+During development, developers should only update the language files in the base locale. These are the source files for Crowdin.
 
 The `main` branch of this repository is automatically synced with our Crowdin project. Source files in Crowdin are updated automatically and ready translations are pushed as a pull request.
 
 Translation process overview:
 
-1. Developers update the English strings in the branch they are working on.
-1. When the corresponding PR is merged into `main`, Crowdin integration automatically picks up changes to the English strings.
+1. Developers update the base strings in English (in `packages/mobile/locales/base`) in the branch they are working on.
+1. When the corresponding PR is merged into `main`, Crowdin integration automatically picks up changes to the base strings.
 1. Crowdin then auto translates the new strings and opens a PR with them from the `l10n/main` branch
 1. We can then manually check and edit the translated strings in the Crowdin UI. The changes will be reflected in the PR after 10 mins.
 1. When we are happy with the changes, we can merge the PR and delete the related `l10n/main` branch to avoid possible future conflicts. Once new translations are made in Crowdin, a new `l10n/main` branch will be automatically created again.
 
 When making a release, we should make sure there are no outstanding translation changes not yet merged into `main`.
 i.e. no Crowdin PR open and the translation status for all supported languages is at 100% and approved on Crowdin.
+
+Note that Crowdin Over-The-Air (OTA) content delivery is used to push live translation updates to the app. As only target languages are included in the Crowdin OTA distribution, English is set up as a target language as well as the source. This is a necessary implementation detail to prevent bi-directional sync between Crowdin and Github. The translated English strings (in `packages/mobile/locales/en`) are only to receive the OTA translations, and it is not necessary to consume or edit them otherwise within the app.
 
 ### Configuring the SMS Retriever
 
