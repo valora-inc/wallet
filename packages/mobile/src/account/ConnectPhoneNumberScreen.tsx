@@ -4,8 +4,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-// todo: change the image here
-import { celoEducation1 } from 'src/images/Images'
+import { getVerified } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
@@ -22,7 +21,7 @@ export default function ConnectPhoneNumberScreen() {
     <SafeAreaView>
       <View style={styles.container}>
         <View>
-          <Image source={celoEducation1} style={styles.bodyImage} resizeMode="contain" />
+          <Image source={getVerified} style={styles.bodyImage} resizeMode="contain" />
 
           <Text style={styles.heading}>{t('connectPhoneNumber.title')}</Text>
           <Text style={styles.bodyText}>{t('connectPhoneNumber.body')}</Text>
