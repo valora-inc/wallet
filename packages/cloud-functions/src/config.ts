@@ -57,7 +57,11 @@ export const BLOCKCHAIN_API_URL = config.blockchain_api?.url
 export const FULL_NODE_URL = config.full_node?.url
 
 export const EXCHANGES = {
-  env: config.exchanges?.env ?? 'test',
+  env: config.exchanges?.env,
+}
+
+export const UBESWAP = {
+  token_list: config.ubeswap?.token_list,
 }
 
 export const VALORA_LOGO_URL =
