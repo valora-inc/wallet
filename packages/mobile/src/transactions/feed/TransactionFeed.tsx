@@ -1,5 +1,4 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
-import { toChecksumAddress } from '@celo/utils/lib/address'
 import React, { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { SectionList, View } from 'react-native'
@@ -101,13 +100,7 @@ function TransactionFeed() {
         // TODO
         return <View key={tx.transactionHash} />
       case 'TokenTransferV2':
-        // TODO: We should standarize this. The tokens in Firebase are usually
-        // (not always for some reason) in the checksum format (with some capital
-        // letters) but they come in all lowercase from blockchain-api.
-        if (
-          !tokensInfo[toChecksumAddress(tx.amount.tokenAddress)] &&
-          !tokensInfo[tx.amount.tokenAddress]
-        ) {
+        if (!tokensInfo[tx.amount.tokenAddress]) {
           Logger.warn(TAG, `No token info found for address ${tx.amount.tokenAddress}`)
           return null
         }
