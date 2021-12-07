@@ -7,7 +7,7 @@ const fileName = process.argv[2]
 const googleApiToken = process.argv[3]
 console.info(`Translating file: ${fileName}`)
 
-const json = fs.readFileSync(`../locales/en-US/${fileName}`)
+const json = fs.readFileSync(`../locales/base/${fileName}`)
 const strings = JSON.parse(json)
 console.info(`Found ${Object.keys(strings).length} strings`)
 
