@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native'
 import * as Keychain from 'react-native-keychain'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { deleteNodeData } from 'src/geth/geth'
@@ -22,6 +23,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
 
     expect(result === state).toEqual(true)
     expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
   it('returns the same state when given an invalid state', async () => {
@@ -30,6 +32,16 @@ describe('resetStateOnInvalidStoredAccount', () => {
 
     expect(result === invalidState).toEqual(true)
     expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1)
+  })
+
+  it('returns the same state when given an undefined state', async () => {
+    const result = await resetStateOnInvalidStoredAccount(undefined)
+
+    expect(result === undefined).toEqual(true)
+    expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    // This is normal flow, we don't epect an exception
+    expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
   it("returns the same state when there's an account and a matching password hash in the keychain", async () => {
@@ -46,6 +58,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
 
     expect(result === state).toEqual(true)
     expect(deleteNodeData).toHaveBeenCalledTimes(0)
+    expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
   it("returns an undefined state when there's an account and no matching password hash in the keychain", async () => {
@@ -56,6 +69,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
 
     expect(result === undefined).toEqual(true)
     expect(deleteNodeData).toHaveBeenCalledTimes(1)
+    expect(Sentry.captureException).toHaveBeenCalledTimes(0)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('redux_no_matching_keychain_account', {
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })
