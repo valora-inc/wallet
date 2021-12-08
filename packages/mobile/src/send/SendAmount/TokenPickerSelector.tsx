@@ -16,8 +16,10 @@ function TockerPickerSelector({ tokenAddress, onChangeToken }: Props) {
   return (
     <Touchable style={styles.touchable} onPress={onChangeToken} testID="onChangeToken">
       <View style={styles.container}>
-        <Text style={styles.token}>{tokenInfo?.symbol}</Text>
-        <DownArrowIcon color={colors.greenUI} />
+        <Text allowFontScaling={false} style={styles.token}>
+          {tokenInfo?.symbol}
+        </Text>
+        <DownArrowIcon height={16} color={colors.greenUI} />
       </View>
     </Touchable>
   )

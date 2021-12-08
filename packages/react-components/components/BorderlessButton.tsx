@@ -11,7 +11,9 @@ export default function BorderlessButton(props: Props) {
   const { style, children, ...passThroughProps } = props
   return (
     <Touchable {...passThroughProps} borderless={true}>
-      <Text style={style}>{children}</Text>
+      <Text allowFontScaling={false} style={style}>
+        {children}
+      </Text>
     </Touchable>
   )
 }

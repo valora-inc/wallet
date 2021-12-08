@@ -45,14 +45,21 @@ function SendAmountValue({
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
           <BorderlessButton onPress={onPressMax}>
-            <Text style={[{ justifyContent: 'center' }, styles.button]}>{t('max')}</Text>
+            <Text allowFontScaling={false} style={styles.button}>
+              {t('max')}
+            </Text>
           </BorderlessButton>
         )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.mainSymbol}
+                >
                   {localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
@@ -60,6 +67,7 @@ function SendAmountValue({
             <View style={styles.amountContainer}>
               <Text
                 textBreakStrategy="simple"
+                allowFontScaling={false}
                 adjustsFontSizeToFit={true}
                 numberOfLines={1}
                 minimumFontScale={0.4}
@@ -72,7 +80,12 @@ function SendAmountValue({
             </View>
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.mainSymbol}
+                >
                   {tokenInfo?.symbol}
                 </Text>
               </View>
@@ -81,7 +94,12 @@ function SendAmountValue({
           <View style={styles.valueContainer}>
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.secondarySymbol}
+                >
                   ~{localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
@@ -93,7 +111,12 @@ function SendAmountValue({
             </View>
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.secondarySymbol}
+                >
                   {tokenInfo?.symbol}
                 </Text>
               </View>
