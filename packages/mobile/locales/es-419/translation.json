@@ -1111,7 +1111,7 @@
   "linkBankAccountSettingsValue": "Acceder",
   "connectPhoneNumber": {
     "title": "Conecta tu número de teléfono para continuar",
-    "body": "Es necesario conectar tu número de teléfono para verificar tu identidad y vincular tu cuenta bancaria.",
+    "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
     "buttonText": "Conectar"
   }
 }
