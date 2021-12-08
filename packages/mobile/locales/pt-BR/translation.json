@@ -1110,8 +1110,8 @@
   "linkBankAccountSettingsTitle": "Contas bancárias",
   "linkBankAccountSettingsValue": "Acessar",
   "connectPhoneNumber": {
-    "title": "Conecte o número de telefone para continuar",
-    "body": "Seu número de telefone precisa estar conectado para verificar sua identidade e vincular sua conta bancária.",
+    "title": "Conecte o número de celular para continuar",
+    "body": "Seu número de celular deve estar conectado para verificar sua identidade e vincular sua conta bancária.",
     "buttonText": "Conectar"
   }
 }
