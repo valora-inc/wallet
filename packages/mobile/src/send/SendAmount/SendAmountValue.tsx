@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     fontSize: 64,
     lineHeight: undefined,
-    fontFamily: 'arial',
+    fontFamily: 'Jost-Medium',
     fontWeight: 'normal',
     width: '100%',
     paddingHorizontal: 2,
