@@ -924,7 +924,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             
             ₱
-            1.36
+            1.35
           </Text>
         </Text>
       </View>
