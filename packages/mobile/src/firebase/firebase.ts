@@ -367,7 +367,10 @@ export async function readOnceFromFirebase(path: string) {
     .then((snapshot) => snapshot.val())
 }
 
-export async function setRegistrationProperties(address: string, properties: { language?: string | null, fcmToken?: string, appVersion?: string}) {
+export async function setRegistrationProperties(
+  address: string,
+  properties: { language?: string | null; fcmToken?: string; appVersion?: string }
+) {
   try {
     Logger.info(TAG, 'Setting properties for Firebase Registrations')
     const regRef = firebase.database().ref('registrations')
