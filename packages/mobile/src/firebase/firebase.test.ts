@@ -2,12 +2,7 @@ import firebase from '@react-native-firebase/app'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import {
-  initializeCloudMessaging,
-  registerTokenToDb,
-  setAppVersion,
-  setUserLanguage,
-} from 'src/firebase/firebase'
+import { initializeCloudMessaging, setRegistrationProperties } from 'src/firebase/firebase'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { mockAccount2 } from 'test/values'
 
@@ -75,10 +70,15 @@ describe(initializeCloudMessaging, () => {
       .provide([
         [call([app.messaging(), 'hasPermission']), true],
         [call([app.messaging(), 'getToken']), mockFcmToken],
-        [call(registerTokenToDb, app, address, mockFcmToken), null],
+        [
+          call(setRegistrationProperties, address, {
+            fcmToken: mockFcmToken,
+            appVersion: '0.0.1',
+            language: mockLanguage,
+          }),
+          null,
+        ],
         [select(currentLanguageSelector), mockLanguage],
-        [call(setUserLanguage, address, mockLanguage), null],
-        [call(setAppVersion, address), null],
         {
           spawn(effect, next) {
             // mock all spawns
@@ -86,9 +86,11 @@ describe(initializeCloudMessaging, () => {
           },
         },
       ])
-      .call(registerTokenToDb, app, address, mockFcmToken)
-      .call(setUserLanguage, address, mockLanguage)
-      .call(setAppVersion, address)
+      .call(setRegistrationProperties, address, {
+        fcmToken: mockFcmToken,
+        appVersion: '0.0.1',
+        language: mockLanguage,
+      })
       .run()
   })
 })

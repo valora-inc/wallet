@@ -155,44 +155,27 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
-    yield call(registerTokenToDb, app, address, fcmToken)
-    yield call(setAppVersion, address)
+    const appVersion = DeviceInfo.getVersion()
+    // First time setting the fcmToken also set the language selection
+    const language = yield select(currentLanguageSelector)
+
+    yield call(setRegistrationProperties, address, { fcmToken, appVersion, language })
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
     }
-    // First time setting the fcmToken also set the language selection
-    const language = yield select(currentLanguageSelector)
-    yield call(setUserLanguage, address, language)
   }
 
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
-  app.messaging().onTokenRefresh(async (token) => {
+  app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
-    await registerTokenToDb(app, address, token)
+    await setRegistrationProperties(address, { fcmToken })
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
-      CleverTap.setPushToken(token, CleverTap.FCM)
+      CleverTap.setPushToken(fcmToken, CleverTap.FCM)
     }
   })
-}
-
-export const registerTokenToDb = async (
-  app: ReactNativeFirebase.Module,
-  address: string,
-  fcmToken: string
-) => {
-  try {
-    Logger.info(TAG, 'Registering Firebase client FCM token')
-    const regRef = app.database().ref('registrations')
-    // TODO(Rossy) add support for multiple tokens per address
-    await regRef.child(address).update({ fcmToken })
-    Logger.info(TAG, 'Firebase FCM token registered successfully', fcmToken)
-  } catch (error) {
-    Logger.error(TAG, 'Failed to register Firebase FCM token', error)
-    throw error
-  }
 }
 
 const VALUE_CHANGE_HOOK = 'value'
@@ -384,29 +367,20 @@ export async function readOnceFromFirebase(path: string) {
     .then((snapshot) => snapshot.val())
 }
 
-export async function setUserLanguage(address: string, language: string | null) {
+export async function setRegistrationProperties(address: string, properties: Record<string, any>) {
   try {
-    Logger.info(TAG, `Setting language selection for user ${address}`)
+    Logger.info(TAG, 'Setting properties for Firebase Registrations')
     const regRef = firebase.database().ref('registrations')
-    await regRef.child(address).update({ language })
+    await regRef.child(address).update(properties)
 
-    Logger.info(TAG, 'User Language synced successfully', language)
+    Logger.info(
+      TAG,
+      `Firebase registrations for user ${address} updated successfully with properties ${JSON.stringify(
+        properties
+      )}`
+    )
   } catch (error) {
-    Logger.error(TAG, 'Failed to sync user language selection', error)
-    throw error
-  }
-}
-
-export async function setAppVersion(address: string) {
-  try {
-    Logger.info(TAG, 'Registering Firebase client app version')
-    const appVersion = DeviceInfo.getVersion()
-    const regRef = firebase.database().ref('registrations')
-    await regRef.child(address).update({ appVersion })
-
-    Logger.info(TAG, 'Firebase app version registered successfully', appVersion)
-  } catch (error) {
-    Logger.error(TAG, 'Failed to register Firebase app version', error)
+    Logger.error(TAG, 'Failed to update Firebase registrations', error)
     throw error
   }
 }
