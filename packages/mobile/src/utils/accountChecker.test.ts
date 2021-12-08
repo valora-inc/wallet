@@ -40,7 +40,7 @@ describe('resetStateOnInvalidStoredAccount', () => {
 
     expect(result === undefined).toEqual(true)
     expect(deleteNodeData).toHaveBeenCalledTimes(0)
-    // This is normal flow, we don't epect an exception
+    // This is normal flow, we don't expect an exception
     expect(Sentry.captureException).toHaveBeenCalledTimes(0)
   })
 
