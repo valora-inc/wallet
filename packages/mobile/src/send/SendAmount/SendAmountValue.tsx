@@ -44,10 +44,8 @@ function SendAmountValue({
     <>
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
-          <BorderlessButton onPress={onPressMax}>
-            <Text allowFontScaling={false} style={styles.button}>
-              {t('max')}
-            </Text>
+          <BorderlessButton notScaleFont={true} onPress={onPressMax}>
+            <Text style={styles.button}>{t('max')}</Text>
           </BorderlessButton>
         )}
         <View style={styles.valuesContainer}>

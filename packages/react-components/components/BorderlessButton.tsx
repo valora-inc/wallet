@@ -4,14 +4,15 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 
 export type Props = Omit<TouchableProps, 'style'> & {
   style?: StyleProp<TextStyle>
+  notScaleFont?: Boolean
 }
 
 // unstyled Touchable Text, good for making other Text Buttons such as TopBarButton
 export default function BorderlessButton(props: Props) {
-  const { style, children, ...passThroughProps } = props
+  const { style, children, notScaleFont, ...passThroughProps } = props
   return (
     <Touchable {...passThroughProps} borderless={true}>
-      <Text allowFontScaling={false} style={style}>
+      <Text allowFontScaling={!Boolean(notScaleFont)} style={style}>
         {children}
       </Text>
     </Touchable>
