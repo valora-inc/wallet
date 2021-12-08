@@ -1108,5 +1108,10 @@
     }
   },
   "linkBankAccountSettingsTitle": "Bankkonten",
-  "linkBankAccountSettingsValue": "Zugriff"
+  "linkBankAccountSettingsValue": "Zugriff",
+  "connectPhoneNumber": {
+    "title": "Rufnummer verbinden, um fortzufahren",
+    "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu überprüfen und dein Bankkonto zu verknüpfen.",
+    "buttonText": "Verbinden"
+  }
 }
