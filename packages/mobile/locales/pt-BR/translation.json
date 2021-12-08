@@ -1082,17 +1082,17 @@
       "title": "Verificando identidade"
     },
     "completed": {
-      "title": "Verification complete",
+      "title": "Verificação completa",
       "description": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária."
     },
     "failed": {
-      "title": "Verification denied",
-      "description": "We were unable to verify your identity. Please try again or contact support to continue.",
+      "title": "Verificação negada",
+      "description": "Nós não conseguimos verificar a sua identidade. Por favor, tente novamente ou contate o suporte para continuar.",
       "contactSupportPrefill": "Minha verificação de identidade foi negada"
     },
     "pending": {
       "title": "Revisão em andamento",
-      "description": "Your information has been recieved and is being reviewed."
+      "description": "Suas informações foram recebidas e estão sendo revisadas."
     },
     "begin": {
       "label": "Passo 1",
