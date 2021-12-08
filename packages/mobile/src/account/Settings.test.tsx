@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
@@ -127,6 +127,23 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  it('navigate to connect phone number screen if mtwAddress is not present', async () => {
+    const tree = render(
+      <Provider
+        store={createMockStore({
+          app: {
+            linkBankAccountEnabled: true,
+          },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
+  })
+
   it('navigate to LinkBankAccount screen with kycStatus', async () => {
     const tree = render(
       <Provider
@@ -146,6 +163,9 @@ describe('Account', () => {
           app: {
             linkBankAccountEnabled: true,
           },
+          web3: {
+            mtwAddress: mockAccount,
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -153,6 +173,8 @@ describe('Account', () => {
     )
 
     fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
-    expect(navigate).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+      kycStatus: KycStatus.Completed,
+    })
   })
 })
