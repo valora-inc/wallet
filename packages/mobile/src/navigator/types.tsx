@@ -287,6 +287,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
+  [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
     | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
     | undefined
