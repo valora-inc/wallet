@@ -45,7 +45,7 @@ function SendAmountValue({
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
           <BorderlessButton onPress={onPressMax}>
-            <Text style={styles.button}>{t('max')}</Text>
+            <Text style={[{ justifyContent: 'center' }, styles.button]}>{t('max')}</Text>
           </BorderlessButton>
         )}
         <View style={styles.valuesContainer}>
@@ -82,13 +82,13 @@ function SendAmountValue({
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
                 <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
-                  {localCurrencySymbol || localCurrencyCode}
+                  ~{localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
             )}
             <View style={styles.amountContainer}>
               <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
-                ~{formatValueToDisplay(secondaryAmount)}
+                {formatValueToDisplay(secondaryAmount)}
               </Text>
             </View>
             {usingLocalAmount && (

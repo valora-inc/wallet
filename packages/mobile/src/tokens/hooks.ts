@@ -1,3 +1,4 @@
+import { toChecksumAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -7,7 +8,8 @@ import { Currency } from 'src/utils/currencies'
 
 export function useTokenInfo(tokenAddress: string) {
   const tokens = useSelector(tokensByAddressSelector)
-  return tokens[tokenAddress]
+  // Handle if values from firebase are stored in uppercase
+  return tokens[tokenAddress] ?? tokens[toChecksumAddress(tokenAddress)]
 }
 
 export function useTokenInfoBySymbol(symbol: string) {
