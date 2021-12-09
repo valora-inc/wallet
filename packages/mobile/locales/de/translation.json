@@ -1082,17 +1082,17 @@
       "title": "Verifizieren deiner Identität"
     },
     "completed": {
-      "title": "Überprüfung abgeschlossen",
+      "title": "Verifizierung abgeschlossen",
       "description": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
     },
     "failed": {
-      "title": "Überprüfung verweigert",
-      "description": "Wir konnten deine Identität nicht verifizieren. Bitte versuche es erneut oder kontaktiere den Support, um fortzufahren.",
+      "title": "Verifizierung verweigert",
+      "description": "Wir konnten deine Identität nicht verifizieren. Bitte versuche es erneut oder kontaktiere das Support-Team, um fortzufahren.",
       "contactSupportPrefill": "Identitätsüberprüfung wurde abgelehnt"
     },
     "pending": {
       "title": "Überprüfung läuft",
-      "description": "Wir haben deine Informationen erhalten und prüfen sie gerade."
+      "description": "Wir haben deine Informationen erhalten und überprüfen sie gerade."
     },
     "begin": {
       "label": "Schritt 1",
