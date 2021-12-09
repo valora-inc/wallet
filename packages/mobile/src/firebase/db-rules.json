@@ -1,5 +1,7 @@
 {
   "rules": {
+    ".read": "auth.token.admin === true",
+    ".write": "auth.token.admin === true",
     "users": {
       "$uid": {
         ".read": "$uid === auth.uid",
@@ -24,6 +26,9 @@
           ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
         },
         "language": {
+          ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
+        },
+        "appVersion": {
           ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
         },
         "dailyLimitCusd": {
@@ -66,9 +71,27 @@
       ".read": true,
       ".write": false
     },
+    "inviteRewardAddresses": {
+      ".read": true,
+      ".write": false
+    },
     "localCicoProviders": {
       ".read": true,
       ".write": false
+    },
+    "tokensInfo": {
+      ".read": true,
+      ".write": false
+    },
+    "persona": {
+      ".write": false,
+      ".read": true
+    },
+    "inHouseLiquidity": {
+      "$address": {
+        ".write": "auth.uid === 'ihl-service-worker'",
+        ".read": "(auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()) || auth.uid === 'ihl-service-worker'"
+      }
     },
     "lostAccounts": {
       ".read": true,
