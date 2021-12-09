@@ -1087,7 +1087,7 @@
     },
     "failed": {
       "title": "Verifizierung verweigert",
-      "description": "Wir konnten deine Identität nicht verifizieren. Bitte versuche es erneut oder kontaktiere das Support-Team, um fortzufahren.",
+      "description": "Wir konnten deine Identität nicht verifizieren. Bitte versuche es erneut oder kontaktiere das Support-Team.",
       "contactSupportPrefill": "Identitätsüberprüfung wurde abgelehnt"
     },
     "pending": {
