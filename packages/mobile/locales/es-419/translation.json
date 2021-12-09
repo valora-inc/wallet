@@ -1087,12 +1087,12 @@
     },
     "failed": {
       "title": "Verificación denegada",
-      "description": "No hemos podido verificar tu identidad. Vuelve a intentarlo o ponte en contacto con el servicio de asistencia para continuar.",
+      "description": "No hemos podido verificar tu identidad. Vuelve a intentarlo o contacta al soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Mi verificación de identidad fue denegada"
     },
     "pending": {
       "title": "Revisión en curso",
-      "description": "Hemos recibido tu información y la estamos revisando."
+      "description": "Your information has been recieved and is being reviewed."
     },
     "begin": {
       "label": "Paso 1",
