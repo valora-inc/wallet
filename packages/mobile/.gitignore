@@ -98,3 +98,5 @@ src/icons/DefaultAvatar.tsx
 src/images/*
 !src/images/Images.ts
 !src/images/link-arrow.png
+!src/images/celo-notification.png
+!src/images/Tokens.png

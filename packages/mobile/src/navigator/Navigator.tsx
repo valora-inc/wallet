@@ -113,7 +113,7 @@ import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
-
+import ValoraTokenEducation from 'src/ValoraTokenEducation'
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
@@ -392,6 +392,11 @@ const consumerIncentivesScreens = (Navigator: typeof Stack) => (
       name={Screens.ConsumerIncentivesHomeScreen}
       component={ConsumerIncentivesHomeScreen}
       options={ConsumerIncentivesHomeScreen.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ValoraTokenEducation}
+      component={ValoraTokenEducation}
+      options={ValoraTokenEducation.navOptions}
     />
   </>
 )

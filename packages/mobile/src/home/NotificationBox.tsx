@@ -23,7 +23,7 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, getVerified, learnCelo } from 'src/images/Images'
+import { backupKey, getVerified, learnCelo, valoraTokenNotification } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -116,7 +116,19 @@ function useSimpleActions() {
       ],
     })
   }
-
+  actions.push({
+    text: 'Connect your phone number to claim your Valora tokens!',
+    icon: valoraTokenNotification,
+    priority: 10000,
+    callToActions: [
+      {
+        text: 'Learn More',
+        onPress: () => {
+          navigate(Screens.ValoraTokenEducation)
+        },
+      },
+    ],
+  })
   if (!dismissedGetVerified && !numberVerified && verificationPossible) {
     actions.push({
       text: t('notification.body'),
