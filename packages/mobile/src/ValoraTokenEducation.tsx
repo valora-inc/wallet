@@ -1,4 +1,6 @@
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
+import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+
 import Touchable from '@celo/react-components/components/Touchable'
 import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
@@ -28,6 +30,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
   const { t } = useTranslation()
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const insets = useSafeAreaInsets()
+  const { gotten } = props.route.params
 
   const { rewardsPercent, rewardsMax: maxBalance, rewardsMin: minBalance } = useSelector(
     (state) => state.app
@@ -66,10 +69,15 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         <Image style={styles.image} source={celoNotification} />
         <Text style={styles.title}>{'What are Valora Tokens'}</Text>
         <Text style={styles.description}>
-          {
-            "Valora tokens are a token minted by Valora. They're an opportunity to explore the world of DeFi -- including lending pools, staking, yield farming -- with no risk."
-          }
+          {!gotten
+            ? "Valora tokens are a token minted by Valora. They're an opportunity to explore the world of DeFi -- including lending pools, staking, yield farming -- with no risk."
+            : "Valora tokens (PUP, KITTY, and BORING) are tokens minted by Valora. They’re an opportunity to explore the world of DeFi -- including lending pools, staking, yield farming -- with no risk. \n\n Don't like the Valora Token you received? Swap it for something else!"}
         </Text>
+        <View style={styles.contactSupportButton}>
+          <BorderlessButton testID="SupportContactLink">
+            <Text style={styles.contactSupport}>{'Learn How'}</Text>
+          </BorderlessButton>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -101,5 +109,12 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
     marginTop: 12,
+  },
+  contactSupport: {
+    ...fontStyles.regular600,
+    color: '#1AB775',
+  },
+  contactSupportButton: {
+    marginTop: 26,
   },
 })

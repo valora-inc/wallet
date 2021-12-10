@@ -23,7 +23,13 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, getVerified, learnCelo, valoraTokenNotification } from 'src/images/Images'
+import {
+  backupKey,
+  getVerified,
+  learnCelo,
+  valoraTokenNotification,
+  gotValoraTokens,
+} from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -124,7 +130,20 @@ function useSimpleActions() {
       {
         text: 'Learn More',
         onPress: () => {
-          navigate(Screens.ValoraTokenEducation)
+          navigate(Screens.ValoraTokenEducation, { gotten: false })
+        },
+      },
+    ],
+  })
+  actions.push({
+    text: "Congrats! You've recieved your first Valora Tokens!!",
+    icon: gotValoraTokens,
+    priority: 90000,
+    callToActions: [
+      {
+        text: 'Learn More',
+        onPress: () => {
+          navigate(Screens.ValoraTokenEducation, { gotten: true })
         },
       },
     ],
