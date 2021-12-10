@@ -261,7 +261,7 @@
   "tapToCopyCeloDollarsAddress": "Tippe, um deine {{appName}} cUSD-Adresse zu kopieren",
   "disclaimerFiat": "{{currency}}-Werte sind Geschätzt.",
   "dollarsNotYetEnabledNote": "Celo Dollar sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollar zu erhalten, erwerbe CELO und tausche diese gegen Celo Dollar im CELO Tab.",
-  "selectDigitalCurrency": "Eine digitale Währung auswählen",
+  "selectDigitalCurrency": "Eine Digitalvermögen auswählen",
   "selectPaymentMethod": "Zahlen mit:",
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
