@@ -436,7 +436,10 @@ const providerAvailability = {
     TT: true,
     UG: true,
     UM: true,
-    US: true,
+    US: {
+      NY: true,
+      TX: true,
+    },
     VU: true,
     VE: true,
     VN: true,
