@@ -46,9 +46,9 @@ export function* checkAccountExistenceSaga() {
 // Note: this function is meant to be used before the redux state has been rehydrated.
 // With the way the app init is currently done, this was the less disruptive place.
 // I tried adding this to checkAccountExistenceSaga above, but it was causing issues because of sagas initializing in parallel.
-export async function resetStateOnInvalidStoredAccount(state: RootState) {
+export async function resetStateOnInvalidStoredAccount(state: RootState | undefined) {
   try {
-    const walletAddress = walletAddressSelector(state)
+    const walletAddress = state && walletAddressSelector(state)
     Logger.info(TAG, `Stored wallet address: ${walletAddress}`)
     if (walletAddress) {
       let passwordHash
