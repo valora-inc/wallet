@@ -1107,6 +1107,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationLearnMoreDialog"
     transparent={true}
     visible={false}
   >
@@ -1166,6 +1167,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -1283,6 +1285,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="VerificationLearnMoreDialog/PrimaryAction"
             >
               <Text
                 style={
@@ -2155,6 +2158,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationLearnMoreDialog"
     transparent={true}
     visible={false}
   >
@@ -2214,6 +2218,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -2331,6 +2336,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="VerificationLearnMoreDialog/PrimaryAction"
             >
               <Text
                 style={
@@ -3203,6 +3209,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       ]
     }
     swipeThreshold={100}
+    testID="VerificationLearnMoreDialog"
     transparent={true}
     visible={false}
   >
@@ -3262,6 +3269,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
+      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -3379,6 +3387,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="VerificationLearnMoreDialog/PrimaryAction"
             >
               <Text
                 style={
@@ -4251,6 +4260,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       ]
     }
     swipeThreshold={100}
+    testID="VerificationLearnMoreDialog"
     transparent={true}
     visible={false}
   >
@@ -4310,6 +4320,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
+      testID="VerificationLearnMoreDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -4427,6 +4438,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
+              testID="VerificationLearnMoreDialog/PrimaryAction"
             >
               <Text
                 style={

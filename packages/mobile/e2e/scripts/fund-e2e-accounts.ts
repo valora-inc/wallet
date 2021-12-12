@@ -12,6 +12,20 @@ const valoraTestFaucetSecret = process.env.TEST_FAUCET_SECRET
 const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
 const kit = ContractKit.newKitFromWeb3(web3)
 
+// Throw error if balance is low
+const balanceError = async (address = valoraE2ETestWallet, minBalance = 10) => {
+  try {
+    let balanceObject = await getBalance(address)
+    for (const balance in balanceObject) {
+      if (balanceObject[balance] < minBalance) {
+        throw new Error(`Balance of ${address} is below ${minBalance}`)
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // Default e2e address to lookup
 const getBalance = async (address = valoraE2ETestWallet) => {
   try {
@@ -85,4 +99,5 @@ const getBalance = async (address = valoraE2ETestWallet) => {
   console.table(await getBalance())
   console.log('Valora Test Facuet')
   console.table(await getBalance(valoraTestFaucet))
+  await balanceError()
 })()
