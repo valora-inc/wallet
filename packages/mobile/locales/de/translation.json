@@ -261,7 +261,7 @@
   "tapToCopyCeloDollarsAddress": "Tippe, um deine {{appName}} cUSD-Adresse zu kopieren",
   "disclaimerFiat": "{{currency}}-Werte sind Geschätzt.",
   "dollarsNotYetEnabledNote": "Celo Dollar sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollar zu erhalten, erwerbe CELO und tausche diese gegen Celo Dollar im CELO Tab.",
-  "selectDigitalCurrency": "Eine digitale Währung auswählen",
+  "selectDigitalCurrency": "Eine Digitalvermögen auswählen",
   "selectPaymentMethod": "Zahlen mit:",
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
@@ -1074,39 +1074,44 @@
     "body": "Dein Gesamtsaldo ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtsaldo ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtsaldo angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
-  "supportEmailSubject": "{{appName}} support for {{user}}",
+  "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "linkBankAccountScreen": {
     "tryAgain": "Wiederholen",
     "verifying": {
-      "title": "Verifying your Identity"
+      "title": "Verifizieren deiner Identität"
     },
     "completed": {
-      "title": "Verification Complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Verifizierung abgeschlossen",
+      "description": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
     },
     "failed": {
-      "title": "Verification Denied",
-      "description": "We were unable to verify your identity. Please contact support to continue linking your bank account.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "title": "Verifizierung verweigert",
+      "description": "Wir konnten deine Identität nicht verifizieren. Bitte versuche es erneut oder kontaktiere das Support-Team.",
+      "contactSupportPrefill": "Identitätsüberprüfung wurde abgelehnt"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "title": "Überprüfung läuft",
+      "description": "Wir haben deine Informationen erhalten und überprüfen sie gerade."
     },
     "begin": {
       "label": "Schritt 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
+      "title": "Verifiziere deine Identität",
+      "description": "Das Hinzufügen von Krypto mit einem Bankkonto ist einfach. Dieser Schritt dauert etwa 5 Minuten.",
       "cta": "Starten"
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "title": "Verknüpfen Bankkontos",
+      "description": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
       "cta": "Demnächst verfügbar"
     }
   },
   "linkBankAccountSettingsTitle": "Bankkonten",
-  "linkBankAccountSettingsValue": "Zugriff"
+  "linkBankAccountSettingsValue": "Zugriff",
+  "connectPhoneNumber": {
+    "title": "Verbinde deine Telefonnummer",
+    "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
+    "buttonText": "Verbinden"
+  }
 }
