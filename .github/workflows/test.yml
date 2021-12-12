@@ -8,6 +8,12 @@ on:
   # ..and any pull request.
   pull_request:
 
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   general:
     name: General
@@ -40,7 +46,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-    
+
   mobile:
     name: Mobile
     runs-on: ubuntu-latest
