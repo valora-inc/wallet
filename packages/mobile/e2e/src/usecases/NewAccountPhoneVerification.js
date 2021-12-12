@@ -64,7 +64,7 @@ export default NewAccountPhoneVerification = () => {
 
   // Check that Twilio SID, Auth Token and Verification Phone Number are defined
   if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && VERIFICATION_PHONE_NUMBER) {
-    // Conditionally skipping jest tests with an async request is currently possible
+    // Conditionally skipping jest tests with an async request is currently not possible
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489
     // Either fix or move to nightly tests when present
@@ -167,6 +167,7 @@ export default NewAccountPhoneVerification = () => {
     })
   }
 
+  // TODO(tomm): use translations file instead of hardcoded strings
   // Assert correct content is visible on the phone verification screen
   jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
@@ -182,28 +183,35 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Do I need to confirm?')).tap()
 
     // Assert modal content is visible
-    await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
-    await expect(
-      element(
-        by.text(
-          'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
-        )
-      )
-    ).toBeVisible()
+    await waitFor(element(by.id('VerificationLearnMoreDialog')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    // TODO(tomm): use translations file to grab expected text
+    // await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
+    // await expect(
+    //   element(
+    //     by.text(
+    //       'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
+    //     )
+    //   )
+    // ).toBeVisible()
 
     // Assert able to dismiss modal and skip
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
-    // Assert modal contents of 'Are you Sure?' modal are visible
-    await expect(element(by.text('Are you sure?'))).toBeVisible()
-    await expect(
-      element(
-        by.text(
-          'Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
-        )
-      )
-    ).toBeVisible()
+    // Assert VerificationSkipDialog modal visible
+    await waitFor(element(by.id('VerificationSkipDialog')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    // await expect(element(by.text('Are you sure?'))).toBeVisible()
+    // await expect(
+    //   element(
+    //     by.text(
+    //       'Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
+    //     )
+    //   )
+    // ).toBeVisible()
 
     // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
