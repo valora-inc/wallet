@@ -28,6 +28,7 @@ describe('In House Liquidity Calls', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
   })
+
   describe('createPersonaAccount', () => {
     it('calls the /persona/account/create endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })

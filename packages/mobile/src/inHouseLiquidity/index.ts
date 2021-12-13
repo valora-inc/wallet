@@ -3,10 +3,10 @@ import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { generateKeys } from '@celo/utils/lib/account'
 
-export const createPersonaAccount = async (accountMTWAddress: string) => {
+export const createPersonaAccount = async (accountMTWAddress: string): Promise<Response> => {
   const message = `post /account/create ${JSON.stringify({ accountMTWAddress })}`
   const authorization = await getAuthHeader(message, accountMTWAddress)
-  return await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
+  return fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
