@@ -14,15 +14,11 @@ const kit = ContractKit.newKitFromWeb3(web3)
 
 // Throw error if balance is low
 const balanceError = async (address = valoraE2ETestWallet, minBalance = 10) => {
-  try {
-    let balanceObject = await getBalance(address)
-    for (const balance in balanceObject) {
-      if (balanceObject[balance] < minBalance) {
-        throw new Error(`Balance of ${address} is below ${minBalance}`)
-      }
+  let balanceObject = await getBalance(address)
+  for (const balance in balanceObject) {
+    if (balanceObject[balance] < minBalance) {
+      throw new Error(`Balance of ${address} is below ${minBalance}`)
     }
-  } catch (err) {
-    console.log(err)
   }
 }
 
