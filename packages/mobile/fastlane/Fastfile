@@ -50,9 +50,23 @@ platform :android do
     fastlane_supply(env, 'internal')
   end
 
+  desc 'Ship Alfajores Nightly to Playstore Internal'
+  lane :alfajoresnightly do
+    env = 'alfajoresnightly'
+    build(environment: env)
+    fastlane_supply(env, 'internal')
+  end
+
   desc 'Ship Mainnet to Playstore Internal'
   lane :mainnet do
     env = 'mainnet'
+    build(environment: env)
+    fastlane_supply(env, 'internal')
+  end
+
+  desc 'Ship Mainnet Nightly to Playstore Internal'
+  lane :mainnetnightly do
+    env = 'mainnetnightly'
     build(environment: env)
     fastlane_supply(env, 'internal')
   end
@@ -110,9 +124,23 @@ platform :ios do
     prepare_testflight_and_upload
   end
 
+  desc 'Ship Alfajores Nightly to TestFlight'
+  lane :alfajoresnightly do
+    env = 'alfajoresnightly'
+    build(environment: env)
+    prepare_testflight_and_upload
+  end
+
   desc 'Ship Mainnet to TestFlight'
   lane :mainnet do
     env = 'mainnet'
+    build(environment: env)
+    prepare_testflight_and_upload
+  end
+
+  desc 'Ship Mainnet Nightly to TestFlight'
+  lane :mainnetnightly do
+    env = 'mainnetnightly'
     build(environment: env)
     prepare_testflight_and_upload
   end
