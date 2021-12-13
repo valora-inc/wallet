@@ -12,9 +12,13 @@ export default function BorderlessButton(props: Props) {
   const { style, children, notScaleFont, ...passThroughProps } = props
   return (
     <Touchable {...passThroughProps} borderless={true}>
-      <Text allowFontScaling={!notScaleFont} style={style}>
-        {children}
-      </Text>
+      {Boolean(notScaleFont) ? (
+        <Text allowFontScaling={false} style={style}>
+          {children}
+        </Text>
+      ) : (
+        <Text style={style}>{children}</Text>
+      )}
     </Touchable>
   )
 }
