@@ -261,7 +261,7 @@
   "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
   "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares directamente en Valora, desde la pestaña CELO.",
-  "selectDigitalCurrency": "Selecciona una moneda digital",
+  "selectDigitalCurrency": "Selecciona un activo digital",
   "selectPaymentMethod": "Paga con:",
   "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
@@ -1087,12 +1087,12 @@
     },
     "failed": {
       "title": "Verificación denegada",
-      "description": "No hemos podido verificar tu identidad. Ponte en contacto con el equipo de soporte técnico para obtener ayuda.",
+      "description": "No hemos podido verificar tu identidad. Vuelve a intentarlo o contacta al soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Mi verificación de identidad fue denegada"
     },
     "pending": {
       "title": "Revisión en curso",
-      "description": "Your information has been recieved and is being reviewed. This will take up to [number of days] days."
+      "description": "Recibimos tu información y se está revisando."
     },
     "begin": {
       "label": "Paso 1",
@@ -1108,5 +1108,10 @@
     }
   },
   "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
-  "linkBankAccountSettingsValue": "Acceder"
+  "linkBankAccountSettingsValue": "Acceder",
+  "connectPhoneNumber": {
+    "title": "Conecta tu número de teléfono para continuar",
+    "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
+    "buttonText": "Conectar"
+  }
 }
