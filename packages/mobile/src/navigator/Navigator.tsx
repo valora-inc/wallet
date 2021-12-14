@@ -61,7 +61,6 @@ import {
   headerWithBackButton,
   headerWithBackButtonEvent,
   headerWithBackEditButtons,
-  headerWithCloseButton,
   headerWithCloseButtonEvent,
   noHeader,
   noHeaderGestureDisabled,
