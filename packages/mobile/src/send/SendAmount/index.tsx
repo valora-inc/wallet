@@ -218,7 +218,6 @@ function SendAmount(props: Props) {
           tokenAmount={tokenAmount}
           usingLocalAmount={usingLocalAmount}
           tokenAddress={transferTokenAddress}
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
         />
