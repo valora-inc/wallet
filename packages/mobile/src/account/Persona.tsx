@@ -11,7 +11,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
-import { createPersonaAccount } from 'src/inHouseLiquidity'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
 

@@ -16,7 +16,7 @@ jest.mock('src/firebase/firebase', () => ({
 }))
 
 const mockResponse = new Response(null, { status: 201 })
-jest.mock('src/inHouseLiquidity', () => ({
+jest.mock('src/in-house-liquidity', () => ({
   createPersonaAccount: jest.fn(() => mockResponse),
 }))
 

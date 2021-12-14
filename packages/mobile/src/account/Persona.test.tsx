@@ -7,7 +7,7 @@ import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { createPersonaAccount } from 'src/inHouseLiquidity'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -16,7 +16,7 @@ jest.mock('src/firebase/firebase', () => ({
 }))
 
 const mockResponse = new Response(null, { status: 201 })
-jest.mock('src/inHouseLiquidity', () => ({
+jest.mock('src/in-house-liquidity', () => ({
   createPersonaAccount: jest.fn(() => mockResponse),
 }))
 

@@ -1,7 +1,8 @@
-import { createPersonaAccount } from 'src/inHouseLiquidity'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { mockMnemonic, mockAccount } from 'test/values'
 import networkConfig from 'src/geth/networkConfig'
+import { signMessage } from '@celo/utils/lib/signatureUtils'
 
 jest.mock('src/backup/utils', () => ({
   ...(jest.requireActual('src/backup/utils') as any),
@@ -33,15 +34,24 @@ describe('In House Liquidity Calls', () => {
     it('calls the /persona/account/create endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createPersonaAccount(mockAccount)
+      const expectedBody = JSON.stringify({ accountMTWAddress: mockAccount })
 
+      // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
         `${networkConfig.inhouseLiquditiyUrl}/persona/account/create`,
         {
-          body: JSON.stringify({ accountMTWAddress: mockAccount }),
+          body: expectedBody,
           headers: expectedHeaders,
           method: 'POST',
         }
       )
+      // Has the correct Signature
+      expect(signMessage).toHaveBeenCalledWith(
+        `post /account/create 14 ${expectedBody}`,
+        expect.anything(),
+        mockAccount
+      )
+      // Returns the response object
       expect(response).toBeInstanceOf(Response)
     })
   })
