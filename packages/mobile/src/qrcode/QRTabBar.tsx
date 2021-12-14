@@ -1,5 +1,4 @@
 import SegmentedControl from '@celo/react-components/components/SegmentedControl'
-import Share from '@celo/react-components/icons/Share'
 import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
@@ -76,7 +75,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
       >
-        <TopBarIconButton icon={<Share />} onPress={onPressShare} />
+        {/* <TopBarIconButton icon={<Share />} onPress={onPressShare} /> */}
       </Animated.View>
     </SafeAreaView>
   )

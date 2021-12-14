@@ -1,9 +1,10 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
+import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import BackChevron from '@celo/react-components/icons/BackChevron'
 import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import progressDots from '@celo/react-components/styles/progressDots'
+import { Spacing } from '@celo/react-components/styles/styles'
 import * as React from 'react'
 import {
   Image,
@@ -21,7 +22,8 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 
 export enum EmbeddedNavBar {
@@ -103,6 +105,15 @@ export default class Education extends React.Component<Props, State> {
       }
       this.swiper?.current?.scrollBy(-1, true)
     }
+  }
+
+  onPressCreateAccount = () => {
+    // todo:need to dispatch chooseCreateAccount()
+    navigate(Screens.NameAndPicture)
+  }
+
+  onPressRestoreAccount = () => {
+    navigate(Screens.NameAndPicture)
   }
 
   setStep = (step: number) => {
@@ -202,12 +213,30 @@ export default class Education extends React.Component<Props, State> {
               )
             })}
           </Swiper>
+        </View>
+
+        {/* <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}> */}
+        <View style={styles.buttonContainer}>
           <Button
-            testID="Education/progressButton"
-            onPress={this.nextStep}
-            text={isLastStep ? finalButtonText : buttonText}
-            type={isLastStep ? finalButtonType : buttonType}
+            onPress={this.onPressCreateAccount}
+            text={'Create new account'}
+            size={BtnSizes.FULL}
+            type={BtnTypes.ONBOARDING}
+            style={styles.createAccountButton}
+            testID={'CreateAccountButton'}
           />
+          <Button
+            onPress={this.onPressRestoreAccount}
+            text={'Restore my account'}
+            size={BtnSizes.FULL}
+            type={BtnTypes.ONBOARDING_SECONDARY}
+            testID={'RestoreAccountButton'}
+          />
+          <Text style={styles.footer}>
+            {
+              'By creating new account or importing existing account, you agree to our Terms and Conditions'
+            }
+          </Text>
         </View>
       </SafeAreaView>
     )
@@ -217,6 +246,11 @@ export default class Education extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+  },
+  buttonContainer: {
+    flex: 0,
+    marginHorizontal: 24,
+    marginBottom: 8,
   },
   contentContainer: {
     alignItems: 'center',
@@ -228,7 +262,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 24,
+    paddingBottom: 6,
   },
   heading: {
     marginTop: 24,
@@ -265,4 +299,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
   },
+  createAccountButton: {
+    marginBottom: Spacing.Smallest8,
+  },
+  footer: {
+    ...fontStyles.small,
+    fontSize: 12,
+    color: colors.gray4,
+    paddingTop: 16,
+    paddingRight: 16,
+  },
+  footerLink: {
+    ...fontStyles.small,
+    fontSize: 12,
+    color: colors.gray4,
+  },
 })
+
+// export default connect<StateProps, DispatchProps, OwnProps, RootState>(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(withTranslation<Props>()(Education))

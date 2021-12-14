@@ -89,6 +89,30 @@ function useSimpleActions() {
   const dispatch = useDispatch()
 
   const actions: SimpleMessagingCardProps[] = []
+  // if newly onboarded
+  actions.push({
+    text: 'Welcome to Valora! Add funds to start using your wallet.',
+    icon: learnCelo,
+    priority: 2000,
+    callToActions: [
+      {
+        text: 'Add Fund',
+        onPress: () => {
+          navigate(Screens.FiatExchangeOptions, {
+            isCashIn: true,
+          })
+        },
+      },
+      {
+        text: t('dismiss'),
+        isSecondary: true,
+        onPress: () => {
+          // dispatch(dismissGoldEducation())
+        },
+      },
+    ],
+  })
+
   if (!backupCompleted) {
     actions.push({
       text: t('backupKeyNotification'),

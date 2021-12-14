@@ -344,6 +344,7 @@
   "downloadRewards": "Download Celo Rewards",
   "wallet": "Wallet",
   "send": "Send",
+  "sendTest": "sendTest",
   "search": "Search",
   "namePhoneAddress": "Name, phone, or address",
   "payments": "Payments",
@@ -678,7 +679,7 @@
   },
   "createAccount": "Create Account",
   "restoreAccount": "Restore My Account",
-  "createAccountSteps": "Step {{step}} of 3",
+  "createAccountSteps": "Step {{step}} of 2",
   "restoreAccountSteps": "Step {{step}} of 4",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
@@ -1113,5 +1114,9 @@
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
+  },
+  "OnboardingHome": {
+    "AddFunds": "Add funds to Valora",
+    "AddFundsDetails": "Earn yield on your balance and unlock the power of decentralized finance",
   }
 }

@@ -2,10 +2,11 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import FormInput from '@celo/react-components/components/FormInput'
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture, setPromptForno } from 'src/account/actions'
@@ -19,7 +20,6 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -104,13 +104,13 @@ function NameAndPicture({ navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        <PictureInput
+        {/* <PictureInput
           picture={picture}
           onPhotoChosen={onPhotoChosen}
           backgroundColor={colors.onboardingBrownLight}
-        />
+        /> */}
+        <Text style={styles.header}>Welcome, what is your name?</Text>
         <FormInput
-          label={t('fullName')}
           style={styles.name}
           onChangeText={setNameInput}
           value={nameInput}
@@ -149,7 +149,10 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   name: {
-    marginTop: 24,
+    marginTop: 8,
     marginBottom: 32,
+  },
+  header: {
+    ...fontStyles.h2,
   },
 })

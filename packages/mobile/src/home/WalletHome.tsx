@@ -17,10 +17,9 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
-import CashInBottomSheet from 'src/home/CashInBottomSheet'
+import AddFundOnboardingContainer from 'src/home/AddFundOnboardingContainer'
 import HomeTokenBalance from 'src/home/HomeTokenBalance'
 import NotificationBox from 'src/home/NotificationBox'
-import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -107,6 +106,8 @@ function WalletHome() {
     return cashInButtonExpEnabled && isAccountBalanceZero
   }
 
+  const shouldShowOnboarding = true
+
   const keyExtractor = (_item: any, index: number) => {
     return index.toString()
   }
@@ -129,10 +130,19 @@ function WalletHome() {
     })
   }
 
-  sections.push({
-    data: [{}],
-    renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
-  })
+  if (!shouldShowOnboarding) {
+    sections.push({
+      data: [{}],
+      renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
+    })
+  }
+
+  if (shouldShowOnboarding) {
+    sections.push({
+      data: [{}],
+      renderItem: () => <AddFundOnboardingContainer />,
+    })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -147,8 +157,8 @@ function WalletHome() {
         sections={sections}
         keyExtractor={keyExtractor}
       />
-      <SendOrRequestBar />
-      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
+      {/* <SendOrRequestBar /> */}
+      {/* {shouldShowCashInBottomSheet() && <CashInBottomSheet />} */}
     </SafeAreaView>
   )
 }

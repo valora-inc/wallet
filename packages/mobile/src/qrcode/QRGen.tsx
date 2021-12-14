@@ -84,8 +84,8 @@ interface QRProps {
 function QRCode({
   value,
   size = 100,
-  color = 'black',
-  backgroundColor = 'white',
+  color = 'rgba(26, 183, 117)',
+  backgroundColor = '#F1F0EB',
   svgRef,
   ecl = 'M',
   onError,
