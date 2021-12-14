@@ -1,6 +1,10 @@
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
+import { quickOnboarding } from './utils/utils'
 
 describe('Deep link without account send', () => {
+  beforeAll(async () => {
+    await quickOnboarding()
+  })
   // The behavior for this case is not really specified yet
   // we kind of know what we want to happen but the code is not there yet
   // added this test case as a reminder to fix that

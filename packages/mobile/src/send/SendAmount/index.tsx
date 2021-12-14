@@ -100,13 +100,30 @@ function SendAmount(props: Props) {
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
 
   const maxInLocalCurrency =
-    useTokenToLocalAmount(tokenInfo.balance, transferTokenAddress)?.toString() ?? ''
+    useTokenToLocalAmount(tokenInfo.balance, transferTokenAddress)?.toFixed(
+      2,
+      BigNumber.ROUND_DOWN
+    ) ?? ''
   const onPressMax = () => {
     // TODO: Take into account fee amount if only one fee token has a balance.
-    setAmount(usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toString())
+    // With usingLocalAmount max is expressed as 'xx.xx'
+    // With tokens max is expressed with up to 8 significant digits
+    setAmount(
+      usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toPrecision(8, BigNumber.ROUND_DOWN)
+    )
   }
-  const onSwapInput = () => setUsingLocalAmount(!usingLocalAmount)
-
+  // This swap preserves numbers like 10.1 without adding trailing zeros
+  // Sample swaps: 10.00 --> 10 | 10.01 --> 10.01 | 10.10 --> 10.1
+  const onSwapInput = () => {
+    setAmount(
+      usingLocalAmount
+        ? amount
+        : +amount === 0
+        ? ''
+        : `${Math.floor((+amount + Number.EPSILON) * 100) / 100}`
+    )
+    setUsingLocalAmount(!usingLocalAmount)
+  }
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -201,12 +218,13 @@ function SendAmount(props: Props) {
           tokenAmount={tokenAmount}
           usingLocalAmount={usingLocalAmount}
           tokenAddress={transferTokenAddress}
+          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
         />
         <AmountKeypad
           amount={amount}
-          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : tokenInfo?.decimals ?? 0}
+          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : 8 ?? 0}
           onAmountChange={setAmount}
         />
       </View>
