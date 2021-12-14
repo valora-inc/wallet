@@ -443,12 +443,12 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.LinkBankAccountScreen}
       component={LinkBankAccountScreen}
-      options={headerWithBackButtonEvent(CICOEvents.link_bank_account_cancel)}
+      options={headerWithBackButtonEvent({ eventName: CICOEvents.link_bank_account_cancel })}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}
       component={ConnectPhoneNumberScreen}
-      options={headerWithCloseButtonEvent(CICOEvents.connect_phone_cancel)}
+      options={headerWithCloseButtonEvent({ eventName: CICOEvents.connect_phone_cancel })}
     />
     <Navigator.Screen
       name={Screens.WalletConnectSessions}

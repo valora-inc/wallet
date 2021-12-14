@@ -104,10 +104,17 @@ export const headerWithBackButton: StackNavigationOptions = {
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
 }
 
-export function headerWithBackButtonEvent(eventName: AnalyticsEventType): StackNavigationOptions {
+export function headerWithBackButtonEvent({
+  eventName,
+  testID,
+}: {
+  eventName: AnalyticsEventType
+  testID?: string
+}): StackNavigationOptions {
   return {
     ...headerWithBackButton,
-    headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton eventName={eventName} /> : null),
+    headerLeft: ({ canGoBack }) =>
+      canGoBack ? <BackButton eventName={eventName} testID={testID} /> : null,
   }
 }
 
@@ -134,11 +141,22 @@ export const headerWithCloseButton: StackNavigationOptions = {
   headerLeftContainerStyle: { paddingLeft: 20 },
 }
 
-export function headerWithCloseButtonEvent(eventName: AnalyticsEventType): StackNavigationOptions {
+export function headerWithCloseButtonEvent({
+  eventName,
+  testID,
+}: {
+  eventName: AnalyticsEventType
+  testID?: string
+}): StackNavigationOptions {
   return {
     ...headerWithCloseButton,
     headerLeft: () => (
-      <TopBarIconButton icon={<Times />} onPress={navigateBack} eventName={eventName} />
+      <TopBarIconButton
+        icon={<Times />}
+        onPress={navigateBack}
+        eventName={eventName}
+        testID={testID}
+      />
     ),
   }
 }
