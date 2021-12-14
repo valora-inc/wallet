@@ -18,16 +18,19 @@ jest.mock('@celo/utils/lib/signatureUtils', () => {
   }
 })
 
-const expectedHeaders = {
-  'Content-Type': 'application/json',
-  authorization: 'Valora 0x0000000000000000000000000000000000007E57:fake serialized signature',
-}
-
 describe('In House Liquidity Calls', () => {
   const mockFetch = fetch as FetchMock
 
+  const date = new Date('2021-05-14T11:01:58.135Z')
+
+  const expectedHeaders = {
+    'Content-Type': 'application/json',
+    Authorization: 'Valora 0x0000000000000000000000000000000000007E57:fake serialized signature',
+    Date: date.toUTCString(),
+  }
   beforeEach(() => {
     mockFetch.resetMocks()
+    jest.spyOn(global, 'Date').mockImplementationOnce(() => date as any)
   })
 
   describe('createPersonaAccount', () => {
@@ -47,7 +50,7 @@ describe('In House Liquidity Calls', () => {
       )
       // Has the correct Signature
       expect(signMessage).toHaveBeenCalledWith(
-        `post /account/create 14 ${expectedBody}`,
+        `post persona/account/create ${date.toUTCString()} ${expectedBody}`,
         expect.anything(),
         mockAccount
       )

@@ -5,8 +5,8 @@ import { generateKeys } from '@celo/utils/lib/account'
 
 export const createPersonaAccount = async (accountMTWAddress: string): Promise<Response> => {
   const body = { accountMTWAddress }
-  const authorization = await getAuthHeader(
-    'post /account/create',
+  const headers = await getAuthAndDateHeaders(
+    'post persona/account/create',
     accountMTWAddress,
     JSON.stringify(body)
   )
@@ -14,7 +14,7 @@ export const createPersonaAccount = async (accountMTWAddress: string): Promise<R
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      authorization,
+      ...headers,
     },
     body: JSON.stringify(body),
   })
@@ -40,13 +40,18 @@ const getSerializedSignature = async (
   const signature = signMessage(message, privateKey, accountMTWAddress)
   return serializeSignature(signature)
 }
-const getAuthHeader = async (
+
+const getAuthAndDateHeaders = async (
   endpoint: string,
   accountMTWAddress: string,
   body: string = ''
-): Promise<string> => {
-  const dateHeader = new Date().getUTCDate()
-  const message = `${endpoint} ${dateHeader} ${body}`
+): Promise<{ Date: string; Authorization: string }> => {
+  const date = new Date().toUTCString()
+  const message = `${endpoint} ${date} ${body}`
   const serializedSignature = await getSerializedSignature(message, accountMTWAddress)
-  return `Valora ${accountMTWAddress}:${serializedSignature}`
+  const authorization = `Valora ${accountMTWAddress}:${serializedSignature}`
+  return {
+    Date: date,
+    Authorization: authorization,
+  }
 }
