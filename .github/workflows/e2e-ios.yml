@@ -59,6 +59,7 @@ jobs:
           echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
           echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Fund E2E accounts
+        continue-on-error: false
         run: |
           cd packages/mobile/e2e/scripts
           node ./fund-e2e-accounts.ts
