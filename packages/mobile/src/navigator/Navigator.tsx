@@ -13,7 +13,7 @@ import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import { CeloExchangeEvents } from 'src/analytics/Events'
+import { CeloExchangeEvents, CICOEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
@@ -59,8 +59,10 @@ import {
   emptyHeader,
   HeaderTitleWithBalance,
   headerWithBackButton,
+  headerWithBackButtonEvent,
   headerWithBackEditButtons,
   headerWithCloseButton,
+  headerWithCloseButtonEvent,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -442,12 +444,12 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.LinkBankAccountScreen}
       component={LinkBankAccountScreen}
-      options={headerWithBackButton}
+      options={headerWithBackButtonEvent(CICOEvents.link_bank_account_cancel)}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}
       component={ConnectPhoneNumberScreen}
-      options={headerWithCloseButton}
+      options={headerWithCloseButtonEvent(CICOEvents.connect_phone_cancel)}
     />
     <Navigator.Screen
       name={Screens.WalletConnectSessions}

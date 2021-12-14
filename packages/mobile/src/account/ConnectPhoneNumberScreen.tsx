@@ -7,8 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { getVerified } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
 
 function onPressConnectButton() {
+  ValoraAnalytics.track(CICOEvents.connect_phone_start)
   navigate(Screens.VerificationEducationScreen, {
     hideOnboardingStep: true,
   })

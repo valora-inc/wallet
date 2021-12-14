@@ -17,6 +17,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
+import { AnalyticsEventType } from 'src/analytics/Events'
 
 export const noHeader: StackNavigationOptions = {
   headerShown: false,
@@ -103,6 +104,13 @@ export const headerWithBackButton: StackNavigationOptions = {
   headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton /> : null),
 }
 
+export function headerWithBackButtonEvent(eventName: AnalyticsEventType): StackNavigationOptions {
+  return {
+    ...headerWithBackButton,
+    headerLeft: ({ canGoBack }) => (canGoBack ? <BackButton eventName={eventName} /> : null),
+  }
+}
+
 export const headerWithCancelButton: StackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <CancelButton />,
@@ -124,6 +132,15 @@ export const headerWithCloseButton: StackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <TopBarIconButton icon={<Times />} onPress={navigateBack} />,
   headerLeftContainerStyle: { paddingLeft: 20 },
+}
+
+export function headerWithCloseButtonEvent(eventName: AnalyticsEventType): StackNavigationOptions {
+  return {
+    ...headerWithCloseButton,
+    headerLeft: () => (
+      <TopBarIconButton icon={<Times />} onPress={navigateBack} eventName={eventName} />
+    ),
+  }
 }
 
 interface Props {

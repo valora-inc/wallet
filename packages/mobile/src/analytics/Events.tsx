@@ -37,6 +37,8 @@ export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
+  settings_link_bank_account = 'settings_link_bank_account',
+  settings_number_not_connected = 'settings_number_not_connected',
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   forno_toggle = 'forno_toggle',
@@ -489,6 +491,15 @@ export enum DappKitEvents {
   dappkit_request_accept_error = 'dappkit_request_accept_error', // when the dapp request fails
 }
 
+export enum CICOEvents {
+  link_bank_account_cancel = 'link_bank_account_cancel', // when a user who has verified their # presses the X button after entering "Link Bank Account"
+
+  persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
+
+  connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
+  connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -511,3 +522,4 @@ export type AnalyticsEventType =
   | RewardsEvents
   | WalletConnectEvents
   | DappKitEvents
+  | CICOEvents
