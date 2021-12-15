@@ -16,6 +16,8 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { mtwAddressSelector } from 'src/web3/selectors'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
 
 const TAG = 'PERSONA'
 
@@ -56,6 +58,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       .environment(networkConfig.personaEnvironment)
       .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
+        ValoraAnalytics.track(CICOEvents.persona_kyc_success)
         Logger.info(
           TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
@@ -63,10 +66,12 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       })
       .onCancelled(() => {
         onCancelled?.()
+        ValoraAnalytics.track(CICOEvents.persona_kyc_cancel)
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
         onCancelled?.()
+        ValoraAnalytics.track(CICOEvents.persona_kyc_error)
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
