@@ -9,6 +9,10 @@ import { Screens } from 'src/navigator/Screens'
 import { Provider } from 'react-redux'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockMnemonic } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -90,5 +94,6 @@ describe('LinkBankAccountScreen', () => {
 
     fireEvent.press(getByTestId('PersonaButton'))
     await waitFor(() => getByText('linkBankAccountScreen.verifying.title'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
   })
 })

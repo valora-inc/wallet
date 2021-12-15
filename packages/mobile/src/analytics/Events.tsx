@@ -37,8 +37,8 @@ export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
-  settings_link_bank_account = 'settings_link_bank_account',
-  settings_number_not_connected = 'settings_number_not_connected',
+  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed and user has phone # linked
+  settings_number_not_connected = 'settings_number_not_connected', // when "Link Bank Account" is pressed and user does not have phone # linked
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   forno_toggle = 'forno_toggle',

@@ -29,7 +29,11 @@ export default function ConnectPhoneNumberScreen() {
           <Text style={styles.heading}>{t('connectPhoneNumber.title')}</Text>
           <Text style={styles.bodyText}>{t('connectPhoneNumber.body')}</Text>
         </View>
-        <TextButton style={styles.connectButton} onPress={onPressConnectButton}>
+        <TextButton
+          style={styles.connectButton}
+          onPress={onPressConnectButton}
+          testID="ConnectPhoneNumberLink"
+        >
           {t('connectPhoneNumber.buttonText')}
         </TextButton>
       </View>
