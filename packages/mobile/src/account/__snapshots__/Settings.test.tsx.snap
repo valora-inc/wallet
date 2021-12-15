@@ -373,6 +373,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -480,6 +481,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -2814,6 +2816,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -2921,6 +2924,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -5496,6 +5500,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -5603,6 +5608,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -7857,6 +7863,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -7964,6 +7971,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>

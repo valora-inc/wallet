@@ -49,7 +49,7 @@ export function SettingsItemTextValue({
         <View style={styles.right}>
           {value && (
             <Text
-              testID={`${testID}/value`}
+              testID={testID ? `${testID}/value` : `${title}/value`}
               style={isValueActionable ? styles.valueActionable : styles.value}
             >
               {value}
