@@ -21,6 +21,7 @@ import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import useTypedSelector from 'src/redux/useSelector'
+import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
 import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 
@@ -165,6 +166,7 @@ export const NavigatorWrapper = () => {
 
   const onReady = () => {
     navigatorIsReadyRef.current = true
+    sentryRoutingInstrumentation.registerNavigationContainer(navigationRef)
   }
 
   return (

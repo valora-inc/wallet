@@ -44,6 +44,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { initializeSentry } from 'src/sentry/Sentry'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -71,6 +72,8 @@ export function* appInit() {
     navigate(Screens.SetClock)
     return
   }
+
+  yield call(initializeSentry)
 }
 
 export function* appVersionSaga() {
@@ -164,6 +167,7 @@ export interface RemoteConfigValues {
   multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
+  sentryTracesSampleRate: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
