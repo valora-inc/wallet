@@ -4,7 +4,8 @@ import { getStoredMnemonic } from 'src/backup/utils'
 import { generateKeys } from '@celo/utils/lib/account'
 
 export const createPersonaAccount = async (accountMTWAddress: string): Promise<Response> => {
-  const body = { accountMTWAddress }
+  const body = { accountAddress: accountMTWAddress }
+  console.log(body)
   return signAndFetch('/persona/account/create', accountMTWAddress, {
     method: 'POST',
     headers: {
