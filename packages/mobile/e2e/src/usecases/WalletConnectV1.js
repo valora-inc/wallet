@@ -306,7 +306,7 @@ export default WalletConnect = () => {
     let signature = await result
   })
 
-  it('Then should be able to disconnect a session', async () => {
+  it('Then is able to disconnect a session', async () => {
     // Tap Hamburger
     await element(by.id('Hamburger')).tap()
 
