@@ -44,6 +44,36 @@ export default WalletConnect = () => {
       value: '0x1', // Optional
       data: '0x', // Required
     }
+
+    // Moved to beforeAll as if this step fails all following steps will fail
+    // Launching in Android requires use of launchApp
+    if (device.getPlatform() === 'android') {
+      await device.terminateApp()
+      await sleep(5 * 1000)
+      await launchApp({ url: uri, newInstance: true })
+      await sleep(10 * 1000)
+    } else {
+      await sleep(2 * 1000)
+      await device.openURL({ url: uri })
+    }
+    await dismissBanners()
+
+    // A sleep for ci
+    await sleep(3 * 1000)
+
+    // Verify WC page
+    await waitFor(element(by.text('WalletConnectV1 E2E would like to connect to Valora')))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+
+    // Allow and verify UI behavior
+    await element(by.text('Allow')).tap()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
+    await waitFor(element(by.id('SendOrRequestBar')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
   })
 
   beforeEach(async () => {
@@ -67,34 +97,6 @@ export default WalletConnect = () => {
 
   afterAll(async () => {
     await walletConnector.transportClose()
-  })
-
-  it('Then is able to establish a session', async () => {
-    // Launching in Android requires use of launchApp
-    if (device.getPlatform() === 'android') {
-      await device.terminateApp()
-      await sleep(5 * 1000)
-      await launchApp({ url: uri, newInstance: true })
-      await sleep(10 * 1000)
-    } else {
-      await sleep(2 * 1000)
-      await device.openURL({ url: uri })
-    }
-    await dismissBanners()
-
-    // Verify WC page
-    await waitFor(element(by.text('WalletConnectV1 E2E would like to connect to Valora')))
-      .toBeVisible()
-      .withTimeout(30 * 1000)
-
-    // Allow and verify UI behavior
-    await element(by.text('Allow')).tap()
-    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
-    await waitFor(element(by.id('SendOrRequestBar')))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
   })
 
   it('Then is able to send a transaction (eth_sendTransaction)', async () => {
