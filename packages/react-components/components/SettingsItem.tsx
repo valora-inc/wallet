@@ -48,7 +48,12 @@ export function SettingsItemTextValue({
         <Title value={title} />
         <View style={styles.right}>
           {value && (
-            <Text style={isValueActionable ? styles.valueActionable : styles.value}>{value}</Text>
+            <Text
+              testID={`${testID}/value`}
+              style={isValueActionable ? styles.valueActionable : styles.value}
+            >
+              {value}
+            </Text>
           )}
           {(value || showChevron) && (
             <ForwardChevron color={isValueActionable ? colors.greenUI : undefined} />
