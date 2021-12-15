@@ -4,8 +4,10 @@ import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
+import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -58,6 +60,7 @@ import {
   HeaderTitleWithBalance,
   headerWithBackButton,
   headerWithBackEditButtons,
+  headerWithCloseButton,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -435,6 +438,16 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SelectLocalCurrency}
       component={SelectLocalCurrency}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.LinkBankAccountScreen}
+      component={LinkBankAccountScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.ConnectPhoneNumberScreen}
+      component={ConnectPhoneNumberScreen}
+      options={headerWithCloseButton}
     />
     <Navigator.Screen
       name={Screens.WalletConnectSessions}

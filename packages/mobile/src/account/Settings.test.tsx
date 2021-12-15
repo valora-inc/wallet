@@ -2,13 +2,14 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { KycStatus } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper } from 'test/values'
+import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
@@ -124,5 +125,56 @@ describe('Account', () => {
     fireEvent.press(tree.getByTestId('ChangePIN'))
     await flushMicrotasksQueue()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('navigate to connect phone number screen if mtwAddress is not present', async () => {
+    const tree = render(
+      <Provider
+        store={createMockStore({
+          app: {
+            linkBankAccountEnabled: true,
+          },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
+  })
+
+  it('navigate to LinkBankAccount screen with kycStatus', async () => {
+    const tree = render(
+      <Provider
+        store={createMockStore({
+          account: {
+            e164PhoneNumber: mockE164Number,
+            kycStatus: KycStatus.Completed,
+          },
+          identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
+          goldToken: { balance: '0.00' },
+          verify: {
+            komenciAvailable: KomenciAvailable.Yes,
+            komenci: { errorTimestamps: [] },
+            status: {},
+          },
+          app: {
+            linkBankAccountEnabled: true,
+          },
+          web3: {
+            mtwAddress: mockAccount,
+          },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
+    expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+      kycStatus: KycStatus.Completed,
+    })
   })
 })

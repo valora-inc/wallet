@@ -95,3 +95,4 @@ packages/moonpay-auth/*
 packages/komencikit/*
 packages/indexer/*
 packages/blockchain-api/*
+packages/notification-service/*

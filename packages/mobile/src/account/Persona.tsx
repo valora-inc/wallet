@@ -1,3 +1,4 @@
+import pjson from '@celo/mobile/package.json'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { generateKeys } from '@celo/utils/lib/account'
 import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
@@ -21,9 +22,11 @@ const TAG = 'PERSONA'
 export interface Props {
   kycStatus: KycStatus | undefined
   text?: string | undefined
+  onPress?: () => any
+  onCancelled?: () => any
 }
 
-const Persona = ({ kycStatus, text }: Props) => {
+const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -47,21 +50,23 @@ const Persona = ({ kycStatus, text }: Props) => {
       Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
-
+    onPress?.()
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
+      .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         Logger.info(
           TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
         )
-        // TODO [Lisa]: Add event handling for KYC approval when Persona component is integrated
       })
       .onCancelled(() => {
+        onCancelled?.()
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
+        onCancelled?.()
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
@@ -117,7 +122,7 @@ const Persona = ({ kycStatus, text }: Props) => {
     <Button
       onPress={launchPersonaInquiry}
       text={text || t('raiseLimitBegin')}
-      type={BtnTypes.SECONDARY}
+      type={BtnTypes.PRIMARY}
       size={BtnSizes.MEDIUM}
       testID="PersonaButton"
       disabled={!personaAccountCreated || !templateId}

@@ -31,6 +31,7 @@ type BaseProps = {
 type SettingsItemTextValueProps = {
   value?: string
   showChevron?: boolean
+  isValueActionable?: boolean
 } & BaseProps
 
 export function SettingsItemTextValue({
@@ -39,19 +40,19 @@ export function SettingsItemTextValue({
   value,
   showChevron,
   onPress,
+  isValueActionable,
 }: SettingsItemTextValueProps) {
   return (
     <Wrapper testID={testID} onPress={onPress}>
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>
-          {value && Boolean(testID) && (
-            <Text testID={`${testID}/value`} style={styles.value}>
-              {value}
-            </Text>
+          {value && (
+            <Text style={isValueActionable ? styles.valueActionable : styles.value}>{value}</Text>
           )}
-          {value && !testID && <Text style={styles.value}>{value}</Text>}
-          {(value || showChevron) && <ForwardChevron />}
+          {(value || showChevron) && (
+            <ForwardChevron color={isValueActionable ? colors.greenUI : undefined} />
+          )}
         </View>
       </View>
     </Wrapper>
@@ -170,6 +171,11 @@ const styles = StyleSheet.create({
   value: {
     ...fontStyles.regular,
     color: colors.gray4,
+    marginRight: 8,
+  },
+  valueActionable: {
+    ...fontStyles.regular,
+    color: colors.greenUI,
     marginRight: 8,
   },
   details: {
