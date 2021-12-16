@@ -2098,6 +2098,26 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
+<<<<<<< HEAD
+=======
+"@celo/identity@~1.2.0":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-1.2.5.tgz#6c2c3c9737b160b292e11dc1f894a2bf1752c406"
+  integrity sha512-UX8OEUl98KA8RCDZYX/O/fk4ZkkXEDVsOdhsQL1ZWqexZoMlSEYHNWFK7g1bEm4VhkgTE3YuPTlRSuM9UqxoKg==
+  dependencies:
+    "@celo/base" "1.2.5"
+    "@celo/contractkit" "1.2.5"
+    "@celo/utils" "1.2.5"
+    "@types/debug" "^4.1.5"
+    bignumber.js "^9.0.0"
+    blind-threshold-bls "https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a"
+    cross-fetch "3.0.4"
+    debug "^4.1.1"
+    elliptic "^6.5.4"
+    fp-ts "2.1.1"
+    io-ts "2.0.1"
+
+>>>>>>> c0c86764d (undo bump)
 "@celo/network-utils@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@celo/network-utils/-/network-utils-1.2.0.tgz#cb81f8544d9f7722f779c17ff1bf0a7213446aeb"
@@ -2729,6 +2749,41 @@
     retry-request "^4.2.2"
     teeny-request "^7.0.0"
 
+<<<<<<< HEAD
+=======
+"@google-cloud/common@^3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.8.1.tgz#1313c55bb66df88f69bf7c828135fae25fbd2036"
+  integrity sha512-FOs3NFU6bDt5mXE7IFpwIeqzLwRZNu9lJYl+bHVNkwmxX/w4VyDZAiGjQHhpV1Ek+muNKlX8HPchxaIxNTuOhw==
+  dependencies:
+    "@google-cloud/projectify" "^2.0.0"
+    "@google-cloud/promisify" "^2.0.0"
+    arrify "^2.0.1"
+    duplexify "^4.1.1"
+    ent "^2.2.0"
+    extend "^3.0.2"
+    google-auth-library "^7.9.2"
+    retry-request "^4.2.2"
+    teeny-request "^7.0.0"
+
+"@google-cloud/firestore@^4.5.0":
+  version "4.9.6"
+  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-4.9.6.tgz#03d45015e79b97d227962b1e890424255a323b1a"
+  integrity sha512-GYFOInoirAQaVKEgZqVv/XH232faG/cfW80IWOz9RCZJHeITRj71O/TpVG/zrJoge+cu3bes+VJgBkxa2HR9Dg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    functional-red-black-tree "^1.0.1"
+    google-gax "^2.9.2"
+    protobufjs "^6.8.6"
+
+"@google-cloud/kms@^2.10.0":
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/kms/-/kms-2.10.0.tgz#2aecda0b7f485db6a4cf5849aea0ba2a2c7b2587"
+  integrity sha512-qS8Vr9GEwzr3zs3tlLsW3HOcchAaG4G26W0ebhNXpYfLFkI9HYZpcwR+WIyPB53XH8slmWUmuZEhzQCskwel/Q==
+  dependencies:
+    google-gax "^2.24.1"
+
+>>>>>>> c0c86764d (undo bump)
 "@google-cloud/paginator@^3.0.0":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@google-cloud/paginator/-/paginator-3.0.6.tgz#02a59dccd348d515069779a4f77a4a4fd15594da"
@@ -2751,6 +2806,34 @@
   version "5.16.1"
   resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.16.1.tgz#6a9a2c160282676d2725d3426e97417753426354"
   integrity sha512-C2li/2PUfLSGEetebLL70uQRwqm6PS+kBtFEjr5AnAn/Qv0UnD8V+rI9Y4RmwxWFvhlPAgg+ZRqa4bkK4eUxlA==
+<<<<<<< HEAD
+=======
+  dependencies:
+    "@google-cloud/common" "^3.8.1"
+    "@google-cloud/paginator" "^3.0.0"
+    "@google-cloud/promisify" "^2.0.0"
+    arrify "^2.0.0"
+    async-retry "^1.3.1"
+    compressible "^2.0.12"
+    date-and-time "^2.0.0"
+    duplexify "^4.0.0"
+    extend "^3.0.2"
+    gcs-resumable-upload "^3.6.0"
+    get-stream "^6.0.0"
+    hash-stream-validation "^0.2.2"
+    mime "^3.0.0"
+    mime-types "^2.0.8"
+    p-limit "^3.0.1"
+    pumpify "^2.0.0"
+    snakeize "^0.1.0"
+    stream-events "^1.0.1"
+    xdg-basedir "^4.0.0"
+
+"@google-cloud/storage@^5.3.0":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@google-cloud/storage/-/storage-5.8.1.tgz#00e627723614bcf97e6e29f9a59ec39339171847"
+  integrity sha512-qP8gCJ2myyMN3JMJN12d82Oo8VBSDO8vO4/x56dtQZX9+WISqcagurntnJVyFX885tIOtS97bsyv8qR1xv6HMg==
+>>>>>>> c0c86764d (undo bump)
   dependencies:
     "@google-cloud/common" "^3.8.1"
     "@google-cloud/paginator" "^3.0.0"
@@ -6551,6 +6634,13 @@ async-retry@^1.3.1, async-retry@^1.3.3:
   dependencies:
     retry "0.13.1"
 
+async-retry@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/async-retry/-/async-retry-1.3.3.tgz#0e7f36c04d8478e7a58bdbed80cedf977785f280"
+  integrity sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==
+  dependencies:
+    retry "0.13.1"
+
 async@^2.4.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
@@ -8547,6 +8637,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-and-time@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-2.0.1.tgz#bc8b72704980e8a0979bb186118d30d02059ef04"
+  integrity sha512-O7Xe5dLaqvY/aF/MFWArsAM1J4j7w1CSZlPCX9uHgmb+6SbkPd8Q4YOvfvH/cZGvFlJFfHOZKxQtmMUOoZhc/w==
 
 date-and-time@^2.0.0:
   version "2.0.1"
@@ -10749,6 +10844,20 @@ gcs-resumable-upload@^3.6.0:
     pumpify "^2.0.0"
     stream-events "^1.0.4"
 
+gcs-resumable-upload@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/gcs-resumable-upload/-/gcs-resumable-upload-3.6.0.tgz#6a2fdf3ba1bc00d956d119427b5fc963d1fcdb79"
+  integrity sha512-IyaNs4tx3Mp2UKn0CltRUiW/ZXYFlBNuK/V+ixs80chzVD+BJq3+8bfiganATFfCoMluAjokF9EswNJdVuOs8A==
+  dependencies:
+    abort-controller "^3.0.0"
+    async-retry "^1.3.3"
+    configstore "^5.0.0"
+    extend "^3.0.2"
+    gaxios "^4.0.0"
+    google-auth-library "^7.0.0"
+    pumpify "^2.0.0"
+    stream-events "^1.0.4"
+
 genfun@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/genfun/-/genfun-5.0.0.tgz#9dd9710a06900a5c4a5bf57aca5da4e52fe76537"
@@ -11085,6 +11194,60 @@ google-auth-library@^7.0.0, google-auth-library@^7.9.2:
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
+<<<<<<< HEAD
+=======
+google-auth-library@^7.9.2:
+  version "7.11.0"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.11.0.tgz#b63699c65037310a424128a854ba7e736704cbdb"
+  integrity sha512-3S5jn2quRumvh9F/Ubf7GFrIq71HZ5a6vqosgdIu105kkk0WtSqc2jGCRqtWWOLRS8SX3AHACMOEDxhyWAQIcg==
+  dependencies:
+    arrify "^2.0.0"
+    base64-js "^1.3.0"
+    ecdsa-sig-formatter "^1.0.11"
+    fast-text-encoding "^1.0.0"
+    gaxios "^4.0.0"
+    gcp-metadata "^4.2.0"
+    gtoken "^5.0.4"
+    jws "^4.0.0"
+    lru-cache "^6.0.0"
+
+google-gax@^2.24.1:
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-2.28.0.tgz#30ec17bac62f6002cfe10a0237155554b262156a"
+  integrity sha512-kuqc8a4+CTCMBcF3tlOL7Sa74JWkTzcZxatAQTCVK35WToXkHnJ0qncFOJuegUv3EbV9IQY4j/+NZdFLv+lbTA==
+  dependencies:
+    "@grpc/grpc-js" "~1.4.0"
+    "@grpc/proto-loader" "^0.6.1"
+    "@types/long" "^4.0.0"
+    abort-controller "^3.0.0"
+    duplexify "^4.0.0"
+    fast-text-encoding "^1.0.3"
+    google-auth-library "^7.6.1"
+    is-stream-ended "^0.1.4"
+    node-fetch "^2.6.1"
+    object-hash "^2.1.1"
+    proto3-json-serializer "^0.1.1"
+    protobufjs "6.11.2"
+    retry-request "^4.0.0"
+
+google-gax@^2.9.2:
+  version "2.10.3"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-2.10.3.tgz#53278bb5cc4b654876ade774a249f0241fdb15cc"
+  integrity sha512-jESs/ME9WgMzfGQKJDu9ea2mEKjznKByRL+5xb8mKfHlbUfS/LxNLNCg/35RgXwVXcNSCqkEY90z8wHxvgdd/Q==
+  dependencies:
+    "@grpc/grpc-js" "~1.2.0"
+    "@grpc/proto-loader" "^0.5.1"
+    "@types/long" "^4.0.0"
+    abort-controller "^3.0.0"
+    duplexify "^4.0.0"
+    fast-text-encoding "^1.0.3"
+    google-auth-library "^7.0.2"
+    is-stream-ended "^0.1.4"
+    node-fetch "^2.6.1"
+    protobufjs "^6.10.2"
+    retry-request "^4.0.0"
+
+>>>>>>> c0c86764d (undo bump)
 google-libphonenumber@^3.2.15:
   version "3.2.15"
   resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.15.tgz#3a01dc554dbf83c754f249c16df3605e5d154bb9"
@@ -14774,6 +14937,11 @@ mime@^3.0.0:
   resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
   integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
+mime@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
+  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
+
 mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
@@ -18193,6 +18361,26 @@ retry-request@^4.2.2:
   dependencies:
     debug "^4.1.1"
     extend "^3.0.2"
+
+<<<<<<< HEAD
+retry@0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.13.1.tgz#185b1587acf67919d63b357349e03537b2484658"
+  integrity sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==
+=======
+retry-request@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/retry-request/-/retry-request-4.2.2.tgz#b7d82210b6d2651ed249ba3497f07ea602f1a903"
+  integrity sha512-xA93uxUD/rogV7BV59agW/JHPGXeREMWiZc9jhcwY4YdZ7QOtC7qbomYg0n4wyk2lJhggjvKvhNX8wln/Aldhg==
+  dependencies:
+    debug "^4.1.1"
+    extend "^3.0.2"
+
+retry@0.12.0, retry@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.12.0.tgz#1b42a6266a21f07421d1b0b54b7dc167b01c013b"
+  integrity sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=
+>>>>>>> c0c86764d (undo bump)
 
 retry@0.13.1:
   version "0.13.1"
