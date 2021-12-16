@@ -17,6 +17,7 @@ const TAG = 'sentry/Sentry'
 
 // Set this to true, if you want to test Sentry on dev builds
 export const SENTRY_ENABLED = !__DEV__ || false
+// To test performance metrics on Sentry, set tracesSampleRate to 1
 export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 export function* initializeSentry() {

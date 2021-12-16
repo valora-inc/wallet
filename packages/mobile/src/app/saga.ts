@@ -67,13 +67,13 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
+  yield call(initializeSentry)
+
   const inSync = yield call(clockInSync)
   if (!inSync) {
     navigate(Screens.SetClock)
     return
   }
-
-  yield call(initializeSentry)
 }
 
 export function* appVersionSaga() {
