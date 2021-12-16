@@ -5,7 +5,6 @@ import { generateKeys } from '@celo/utils/lib/account'
 
 export const createPersonaAccount = async (accountMTWAddress: string): Promise<Response> => {
   const body = { accountAddress: accountMTWAddress }
-  console.log(body)
   return signAndFetch('/persona/account/create', accountMTWAddress, {
     method: 'POST',
     headers: {
@@ -35,7 +34,16 @@ const getSerializedSignature = async (
   return serializeSignature(signature)
 }
 
-const signAndFetch = async (
+/**
+ * A fetch wrapper that adds in the signature needed for IHL authorization
+ *
+ *
+ * @param {path} string like /persona/get/foo
+ * @param {accountMTWAddress} accountAddress
+ * @param {options} RequestInit all the normal fetch options
+ * @returns {Response} response object from the fetch call
+ */
+export const signAndFetch = async (
   path: string,
   accountMTWAddress: string,
   options: RequestInit
@@ -54,16 +62,26 @@ const signAndFetch = async (
     },
   })
 }
-
-const getAuthAndDateHeaders = async (
+/**
+ * Gets the auth and date headers that IHL expects as a signature on mosts requests
+ *
+ * The behavior is slightly different between GET requests and other types of requests
+ *
+ * @param {httpVerb} string GET, POST
+ * @param {requestPath} string like /persona/get/foo
+ * @param {accountMTWAddress} accountAddress
+ * @param {requestBody} string optional request body
+ * @returns {{Date, Authorization}} date and authorization headers
+ */
+export const getAuthAndDateHeaders = async (
   httpVerb: string = '',
   requestPath: string,
   accountMTWAddress: string,
-  requestBody: BodyInit | null
+  requestBody?: BodyInit | null
 ): Promise<{ Date: string; Authorization: string }> => {
   const date = new Date().toUTCString()
   const message =
-    httpVerb === 'get'
+    httpVerb.toLowerCase() === 'get'
       ? `${httpVerb.toLowerCase()} ${requestPath} ${date}`
       : `${httpVerb.toLowerCase()} ${requestPath} ${date} ${requestBody}`
   const { privateKey, address: walletAddress } = await getKeys(accountMTWAddress)
