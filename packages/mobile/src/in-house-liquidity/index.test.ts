@@ -1,9 +1,9 @@
 import { createPersonaAccount, getAuthAndDateHeaders, signAndFetch } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
-import * as odisUtils from '@celo/identity/lib/odis/query'
+import * as dataEncryptionKey from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/geth/networkConfig'
 
-const signWithDEK = jest.spyOn(odisUtils, 'signWithDEK')
+const signWithDEK = jest.spyOn(dataEncryptionKey, 'signWithDEK')
 
 const MOCK_USER = {
   walletAddress: '0x2Ec2c5D904ed2964F791aDA2185B9c2241C371c0',
@@ -26,11 +26,6 @@ describe('In House Liquidity Calls', () => {
 
   const date = new Date('2021-05-14T11:01:58.135Z')
   const expectedDateString = date.toUTCString()
-
-  const expectedSigner: odisUtils.EncryptionKeySigner = {
-    authenticationMethod: odisUtils.AuthenticationMethod.ENCRYPTION_KEY,
-    rawKey: MOCK_USER.dataEncryptionKey,
-  }
 
   beforeEach(() => {
     mockFetch.resetMocks()
@@ -56,7 +51,7 @@ describe('In House Liquidity Calls', () => {
       // Calls signMessage with the expected parameters
       expect(signWithDEK).toHaveBeenCalledWith(
         `get /account/foo ${expectedDateString}`,
-        expectedSigner
+        MOCK_USER.dataEncryptionKey
       )
     })
     it('creates the correct headers for a POST request', async () => {
@@ -78,7 +73,7 @@ describe('In House Liquidity Calls', () => {
         `post /account/foo/create ${expectedDateString} ${JSON.stringify({
           accountAddress: MOCK_USER.accountMTWAddress,
         })}`,
-        expectedSigner
+        MOCK_USER.dataEncryptionKey
       )
     })
   })
@@ -117,7 +112,7 @@ describe('In House Liquidity Calls', () => {
       // Calls signMessage witht the expected parameters
       expect(signWithDEK).toHaveBeenCalledWith(
         `post /persona/account/create ${expectedDateString} ${JSON.stringify(body)}`,
-        expectedSigner
+        MOCK_USER.dataEncryptionKey
       )
 
       // Returns the response object

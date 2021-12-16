@@ -1,10 +1,7 @@
 import networkConfig from 'src/geth/networkConfig'
 import { getContractKitAsync } from 'src/web3/contracts'
-import {
-  signWithDEK,
-  EncryptionKeySigner,
-  AuthenticationMethod,
-} from '@celo/identity/lib/odis/query'
+import { signWithDEK } from 'src/web3/dataEncryptionKey'
+
 export const createPersonaAccount = async (
   accountMTWAddress: string,
   walletAddress: string
@@ -26,11 +23,7 @@ const getSerializedSignature = async (
   const contractKit = await getContractKitAsync()
   const accountWrapper = await contractKit.contracts.getAccounts()
   const dataEncryptionKey = await accountWrapper.getDataEncryptionKey(accountMTWAddress)
-  const signer: EncryptionKeySigner = {
-    authenticationMethod: AuthenticationMethod.ENCRYPTION_KEY,
-    rawKey: dataEncryptionKey,
-  }
-  return signWithDEK(message, signer)
+  return signWithDEK(message, dataEncryptionKey)
 }
 
 /**
