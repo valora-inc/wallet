@@ -67,7 +67,6 @@ export function useInputAmounts(
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
   const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)!
   const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)!
-  console.log('Q', inputAmount, parsedAmount.toString(), tokenToLocal.toString())
 
   const localAmount = convertToMaxSupportedPrecision(usingLocalAmount ? parsedAmount : tokenToLocal)
   const tokenAmount = convertToMaxSupportedPrecision(usingLocalAmount ? localToToken : parsedAmount)

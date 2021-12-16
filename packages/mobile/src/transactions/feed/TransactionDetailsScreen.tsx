@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +20,8 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
+import RewardReceivedContent from './detailContent/RewardReceivedContent'
+import TransferReceivedContent from './detailContent/TransferReceivedContent'
 
 type Props = StackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
@@ -71,6 +71,9 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
     })
   }, [transaction])
 
+  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const rewardsSenders = useSelector(rewardsSendersSelector)
+
   let content
 
   switch (transaction.type) {
@@ -79,12 +82,20 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       content = null
       break
     case TokenTransactionTypeV2.Sent:
+    case TokenTransactionTypeV2.InviteSent:
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.Received:
-    case TokenTransactionTypeV2.InviteSent:
     case TokenTransactionTypeV2.InviteReceived:
-      content = null
+      const transfer = transaction as TokenTransfer
+      const isRewardSender =
+        rewardsSenders.includes(transfer.address) ||
+        addressToDisplayName[transfer.address]?.isCeloRewardSender
+      content = isRewardSender ? (
+        <RewardReceivedContent transfer={transfer} />
+      ) : (
+        <TransferReceivedContent transfer={transfer} />
+      )
       break
   }
 
@@ -102,11 +113,6 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     padding: 16,
-  },
-  learnMore: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    textDecorationLine: 'underline',
   },
 })
 
