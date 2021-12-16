@@ -13,7 +13,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
-import { mtwAddressSelector } from 'src/web3/selectors'
+import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -29,6 +29,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
+  const walletAddress = useSelector(walletAddressSelector)
 
   const dispatch = useDispatch()
 
@@ -78,7 +79,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
         return
       }
 
-      const IHLResponse = await createPersonaAccount(accountMTWAddress)
+      const IHLResponse = await createPersonaAccount(accountMTWAddress, walletAddress as string)
 
       if (IHLResponse.status === 201 || IHLResponse.status === 409) {
         setPersonaAccountCreated(true)
