@@ -17,7 +17,9 @@ const balanceError = async (address = valoraE2ETestWallet, minBalance = 10) => {
   let balanceObject = await getBalance(address)
   for (const balance in balanceObject) {
     if (balanceObject[balance] < minBalance) {
-      throw new Error(`Balance of ${address} is below ${minBalance}`)
+      throw new Error(
+        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet 🙏`
+      )
     }
   }
 }
