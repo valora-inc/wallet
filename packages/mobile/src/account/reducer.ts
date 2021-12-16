@@ -60,6 +60,10 @@ export enum KycStatus {
   Failed = 'failed',
   Pending = 'pending',
   Expired = 'expired',
+  Approved = 'approved',
+  Declined = 'declined',
+  NeedsReview = 'needs-review',
+  NotCreated = 'not-created',
 }
 
 export const initialState: State = {

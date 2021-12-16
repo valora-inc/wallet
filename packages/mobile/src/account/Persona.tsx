@@ -1,3 +1,4 @@
+import pjson from '@celo/mobile/package.json'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { generateKeys } from '@celo/utils/lib/account'
 import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
@@ -53,6 +54,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
+      .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         Logger.info(
           TAG,

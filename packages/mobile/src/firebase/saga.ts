@@ -23,7 +23,7 @@ import {
   checkInitialNotification,
   initializeAuth,
   initializeCloudMessaging,
-  setUserLanguage,
+  setRegistrationProperties,
   watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
 import { setLanguage } from 'src/i18n/slice'
@@ -86,7 +86,7 @@ export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)
   try {
-    yield call(setUserLanguage, address, action.payload)
+    yield call(setRegistrationProperties, address, { language: action.payload })
   } catch (error) {
     Logger.error(TAG, 'Syncing language selection to Firebase failed', error)
   }

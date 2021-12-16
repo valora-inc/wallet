@@ -13,6 +13,7 @@ export default function VerificationLearnMoreDialog({ isVisible, onPressDismiss 
   const { t } = useTranslation()
   return (
     <Dialog
+      testID="VerificationLearnMoreDialog"
       title={t('verificationLearnMoreDialog.title')}
       isVisible={isVisible}
       actionText={t('verificationLearnMoreDialog.dismiss')}

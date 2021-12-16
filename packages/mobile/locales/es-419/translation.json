@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Aumenta tus recompensas",
-  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡empieza a agregar fondos!",
+  "consumerIncentivesSummary": "¡Llegó Supercharge! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡agrega fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envía y gasta como siempre, obtendrás recompensas en el saldo restante."
@@ -201,7 +201,7 @@
   "exchange": "Intercambio",
   "buy": "Comprar",
   "sell": "Vender",
-  "withdrawCelo": "Transferir CELO",
+  "withdrawCelo": "Retirar CELO",
   "buyGold": "Comprar CELO",
   "sellGold": "Vender CELO",
   "exchangeAmount": "Monto ({{tokenName}})",
@@ -238,7 +238,7 @@
   "celoAmountLabel": "Monto (CELO)",
   "maxSymbol": "Max",
   "withdrawCeloReview": "Revisar",
-  "withdrawCeloTo": "Transferir a",
+  "withdrawCeloTo": "Retirar a",
   "withdrawCeloAmount": "Monto (CELO)",
   "withdrawScanQrTitle": "Escanear",
   "tokenBalance": "Saldo en {{token}}",
@@ -261,7 +261,7 @@
   "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
   "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares directamente en Valora, desde la pestaña CELO.",
-  "selectDigitalCurrency": "Selecciona una moneda digital",
+  "selectDigitalCurrency": "Selecciona un activo digital",
   "selectPaymentMethod": "Paga con:",
   "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
@@ -410,7 +410,7 @@
   "sendPaymentFailed": "Error en el envío del pago",
   "paymentRequestFailed": "No se pudo enviar la solicitud de pago",
   "escrowTransferFailed": "No se pudo completar la transferencia de garantía",
-  "escrowWithdrawalFailed": "No se pudo transferir el saldo de garantía",
+  "escrowWithdrawalFailed": "No se pudo retirar el saldo de garantía",
   "reclaimingEscrowedPaymentFailed": "No se pudo recuperar el pago",
   "connectingToCelo": "Conectando…",
   "poorConnection": {
@@ -508,7 +508,7 @@
   "restore": "Restaurar",
   "commentUnavailable": "Comentario no disponible",
   "accountClearFailed": "Hubo un error al borrar tu Frase de recuperación. Podrías tener que reinstalar la app para poder usar todas las funcionalidades.",
-  "withdraw": "Transferir",
+  "withdraw": "Retirar",
   "countryNotAvailable": "{{appName}} no está disponible en tu país.",
   "fetchFailed": "Error de conexión con el servidor",
   "pictureLoadFailed": "Hubo un error al cargar la imagen.",
@@ -541,7 +541,7 @@
   "inviteWithWhatsapp": "Invitar por WhatsApp",
   "inviteWithSMS": "Invitar por SMS",
   "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del nuevo usuario",
-  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
+  "whyReceiveFees": "Te enviaron cripto para confirmar tu cuenta.",
   "inviteSent": "Invitación enviada",
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
@@ -564,7 +564,7 @@
   },
   "inviteRewardsBanner": {
     "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
-    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y se una. <0>Más información</0>"
+    "body": "Gana {{amount}} {{currency}} por enviar cripto a un amigo para que se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -663,10 +663,10 @@
   "onboardingEducation": {
     "step1": "{{appName}} es una nueva forma de enviar y recibir valor en todo el mundo",
     "step2": "Envía fondos sin fronteras",
-    "step3": "Conveniente, confiable y seguro. Tu teléfono es tu billetera"
+    "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
   "welcome": {
-    "title": "Comparte dinero con quienes valoras",
+    "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
     "restoreAccount": "Restaurar cuenta existente"
   },
@@ -805,7 +805,7 @@
   "celoDollarAmount_plural": "<0></0> Celo Dólares",
   "addDescription": "Agregar descripción",
   "sentTo": "Enviado a",
-  "withdrawnTo": "Transferido a",
+  "withdrawnTo": "Retirado a",
   "receivedFrom": "Recibido de",
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
@@ -816,7 +816,7 @@
   "requestPayment": "Solicitar pago",
   "max": "MAX",
   "inviteSendTo": "Invitar y enviar a",
-  "keepMoneySafe": "Mantendremos este dinero seguro hasta que tu amigo cree una cuenta de {{appName}}.",
+  "keepMoneySafe": "Mantendremos los fondos seguros hasta que tu amigo cree una cuenta de {{appName}}.",
   "searchFriends": "Ingresa un número de teléfono si no encuentras a la persona que buscas.",
   "inviteVerifyPayment": "Invitar y confirmar el pago",
   "noResultsFor": "Sin resultados para",
@@ -829,7 +829,7 @@
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
-  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
+  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
@@ -971,7 +971,7 @@
   "pleaseHoldOn": "Esperá unos momentos",
   "welcomeToCeloPayments": "Te damos la bienvenida a {{appName}}",
   "letsGetStartedByFirstTransaction": "Empezemos enviando tu primera transacción",
-  "sendMoney": "Enviar dinero",
+  "sendMoney": "Enviar cripto",
   "verificationFee": "Tarifa de confirmación",
   "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
@@ -1046,7 +1046,7 @@
   "feedItemGenericTitle_noRecipientDetails": "Desconocido",
   "feedItemGoldSold": "Vendidos",
   "feedItemGoldPurchased": "Comprados",
-  "feedItemGoldWithdrawal": "Transferencia a {{displayName}}",
+  "feedItemGoldWithdrawal": "Retiro a {{displayName}}",
   "feedItemGoldReceived": "Recibido de {{displayName}}",
   "transactionHeaderVerificationFee": "Confirmación",
   "transactionHeaderNetworkFee": "Red",
@@ -1054,7 +1054,7 @@
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Pago enviado",
-  "transactionHeaderWithdrewCelo": "Transferencia de CELO",
+  "transactionHeaderWithdrewCelo": "Retiro de CELO",
   "transactionHeaderEscrowSent": "Pago de garantía enviado",
   "transactionHeaderReceived": "Pago recibido",
   "transactionHeaderCeloDeposit": "Depósito recibido",
@@ -1073,5 +1073,45 @@
     "title": "¿Qué es el saldo total?",
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
+  },
+  "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
+  "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
+  "linkBankAccountScreen": {
+    "tryAgain": "Reintentar",
+    "verifying": {
+      "title": "Verificando identidad"
+    },
+    "completed": {
+      "title": "Verificación completa",
+      "description": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+    },
+    "failed": {
+      "title": "Verificación denegada",
+      "description": "No hemos podido verificar tu identidad. Vuelve a intentarlo o contacta al soporte técnico para obtener ayuda.",
+      "contactSupportPrefill": "Mi verificación de identidad fue denegada"
+    },
+    "pending": {
+      "title": "Revisión en curso",
+      "description": "Recibimos tu información y se está revisando."
+    },
+    "begin": {
+      "label": "Paso 1",
+      "title": "Verifica tu identidad",
+      "description": "Agregar fondos con una cuenta bancaria es fácil. Este paso te llevará unos 5 minutos.",
+      "cta": "Comenzar"
+    },
+    "stepTwo": {
+      "label": "Paso 2",
+      "title": "Vincular una cuenta bancaria",
+      "description": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
+      "cta": "¡Muy pronto!"
+    }
+  },
+  "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
+  "linkBankAccountSettingsValue": "Acceder",
+  "connectPhoneNumber": {
+    "title": "Conecta tu número de teléfono para continuar",
+    "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
+    "buttonText": "Conectar"
   }
 }

@@ -17,6 +17,7 @@ interface Props {
   tokenAmount: BigNumber
   usingLocalAmount: boolean
   tokenAddress: string
+  isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
 }
@@ -26,6 +27,7 @@ function SendAmountValue({
   tokenAmount,
   usingLocalAmount,
   tokenAddress,
+  isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
 }: Props) {
@@ -41,26 +43,47 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        <BorderlessButton style={styles.maxButtonContainer} onPress={onPressMax}>
-          <Text style={styles.maxButton}>{t('max')}</Text>
-        </BorderlessButton>
+        {isOutgoingPaymentRequest ? null : (
+          <BorderlessButton notScaleFont={true} onPress={onPressMax}>
+            <Text style={styles.button}>{t('max')}</Text>
+          </BorderlessButton>
+        )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.mainSymbol}
+                >
                   {localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
             )}
             <View style={styles.amountContainer}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainAmount}>
+              <Text
+                textBreakStrategy="simple"
+                allowFontScaling={false}
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                minimumFontScale={0.4}
+                selectable={true}
+                ellipsizeMode="tail"
+                style={styles.mainAmount}
+              >
                 {inputAmount ? inputAmount : 0}
               </Text>
             </View>
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.mainSymbol}
+                >
                   {tokenInfo?.symbol}
                 </Text>
               </View>
@@ -69,26 +92,36 @@ function SendAmountValue({
           <View style={styles.valueContainer}>
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
-                  {localCurrencySymbol || localCurrencyCode}
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.secondarySymbol}
+                >
+                  ~{localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
             )}
             <View style={styles.amountContainer}>
               <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
-                ~{formatValueToDisplay(secondaryAmount)}
+                {formatValueToDisplay(secondaryAmount)}
               </Text>
             </View>
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
-                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
+                <Text
+                  allowFontScaling={false}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={styles.secondarySymbol}
+                >
                   {tokenInfo?.symbol}
                 </Text>
               </View>
             )}
           </View>
         </View>
-        <Touchable style={styles.swapInput} onPress={onSwapInput} borderless={true}>
+        <Touchable onPress={onSwapInput} borderless={true}>
           <SwapInput />
         </Touchable>
       </View>
@@ -116,29 +149,27 @@ const styles = StyleSheet.create({
   symbolContainer: {
     justifyContent: 'center',
   },
-  maxButtonContainer: {
-    padding: 8,
-  },
-  maxButton: {
+  button: {
     color: colors.gray4,
-  },
-  swapInput: {
-    padding: 8,
   },
   mainSymbol: {
     ...fontStyles.regular,
     fontSize: 24,
     lineHeight: 64,
-    marginHorizontal: 2,
   },
   secondarySymbol: {
     ...fontStyles.small,
     marginHorizontal: 2,
   },
+  // font family, font weight and width are fixes for truncated text on Android https://github.com/facebook/react-native/issues/15114
   mainAmount: {
     ...fontStyles.regular,
     fontSize: 64,
     lineHeight: undefined,
+    fontFamily: 'Jost-Medium',
+    fontWeight: 'normal',
+    width: '100%',
+    paddingHorizontal: 2,
   },
   secondaryAmount: {
     ...fontStyles.small,

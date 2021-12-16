@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { toChecksumAddress } from 'ethereumjs-util'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalances } from 'src/tokens/reducer'
@@ -8,7 +7,7 @@ import { Currency } from 'src/utils/currencies'
 
 export function useTokenInfo(tokenAddress: string) {
   const tokens = useSelector(tokensByAddressSelector)
-  return tokens[tokenAddress] ?? tokens[toChecksumAddress(tokenAddress)]
+  return tokens[tokenAddress]
 }
 
 export function useTokenInfoBySymbol(symbol: string) {
