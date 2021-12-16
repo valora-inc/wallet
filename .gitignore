@@ -96,3 +96,4 @@ packages/komencikit/*
 packages/indexer/*
 packages/blockchain-api/*
 packages/notification-service/*
+packages/cloud-functions/*
