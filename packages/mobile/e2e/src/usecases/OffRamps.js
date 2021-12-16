@@ -37,9 +37,9 @@ export default offRamps = () => {
         // Got To Exchanges
         await element(by.id('FiatExchangeNextButton')).tap()
         // Check Page Elements
-        await expect(element(by.id('noProviders'))).toHaveText(
-          'There are no providers available for cUSD in your region.'
-        )
+        await waitFor(element(by.id('noProviders')))
+          .toBeVisible()
+          .withTimeout(10 * 1000)
         await expect(element(by.id('ContactSupport'))).toBeVisible()
 
         // Check Screenshot

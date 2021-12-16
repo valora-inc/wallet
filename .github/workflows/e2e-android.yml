@@ -9,14 +9,20 @@ on:
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'     
+        description: 'Log level'
         required: true
         default: 'warning'
       tags:
         description: 'End-to-end Tests'
   # Cron job to run e2e tests @ 8:30 pm daily on the latest commit on the default branch - main
   schedule:
-    - cron: "30 20 * * *"
+    - cron: '30 20 * * *'
+
+# Cancel any in progress run of the workflow for a given PR
+# This avoids building outdated code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
   android:
@@ -40,16 +46,16 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           VERIFICATION_PHONE_NUMBER: ${{ secrets.VERIFICATION_PHONE_NUMBER }}
-        run : |
+        run: |
           cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
           echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
           echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
           echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Fund E2E accounts
-        run : |
+        run: |
           cd packages/mobile/e2e/scripts
-          node ./fund-e2e-accounts.ts
+          node --unhandled-rejections=strict ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
@@ -65,7 +71,7 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
-          check_name: Android e2e Test Report 
+          check_name: Android e2e Test Report
           report_paths: 'packages/mobile/e2e/test-results/junit.xml'
       # Upload Artifacts
       - name: 'Upload Android E2E Artifacts'
