@@ -4,6 +4,16 @@ import { mockMnemonic } from 'test/values'
 import * as signatureUtils from '@celo/utils/lib/signatureUtils'
 import networkConfig from 'src/geth/networkConfig'
 
+jest.mock('@celo/utils/lib/account', () => {
+  return {
+    generateKeys: jest.fn(() => ({
+      address: MOCK_USER.walletAddress,
+      privateKey: MOCK_USER.privateKey,
+      publicKey: MOCK_USER.publicKey,
+    })),
+  }
+})
+
 jest.mock('src/backup/utils', () => ({
   ...(jest.requireActual('src/backup/utils') as any),
   getStoredMnemonic: jest.fn(() => mockMnemonic),
@@ -17,16 +27,6 @@ const MOCK_USER = {
   privateKey: '7241c1f13452c1990acc737228dd8d4873ccaf14287c8ee0a59cdb3e07d7526d',
   publicKey: '02a54b261ef5f8c8f97b8fe8d867d00dab35b5f7b39441691b05382b6d47bf709b',
 }
-
-jest.mock('@celo/utils/lib/account', () => {
-  return {
-    generateKeys: jest.fn(() => ({
-      address: MOCK_USER.walletAddress,
-      privateKey: MOCK_USER.privateKey,
-      publicKey: MOCK_USER.publicKey,
-    })),
-  }
-})
 
 describe('In House Liquidity Calls', () => {
   const mockFetch = fetch as FetchMock
@@ -48,10 +48,13 @@ describe('In House Liquidity Calls', () => {
         MOCK_USER.accountMTWAddress
       )
 
+      // Creates the correct Headers
       expect(headers).toMatchObject({
         Date: expectedDateString,
         Authorization: `Valora ${MOCK_USER.walletAddress}:0x1c8689cf5de841119091ef4f0c49170c4130909b402dfba1af7bcab4f047a5f23735d0fe8ab631804cd51a098bf335cd2a8243d94630435e6d854fc96998f8a313`,
       })
+
+      // Calls signMessage with the expected parameters
       expect(signMessage).toHaveBeenCalledWith(
         `get /account/foo ${expectedDateString}`,
         `0x${MOCK_USER.privateKey}`,
@@ -65,11 +68,13 @@ describe('In House Liquidity Calls', () => {
         MOCK_USER.accountMTWAddress,
         JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress })
       )
-
+      // Creates the correct Headers
       expect(headers).toMatchObject({
         Date: expectedDateString,
         Authorization: `Valora ${MOCK_USER.walletAddress}:0x1c64a765496054c906c5fa36c85a972c715e11e03d0c90920b07574b600ac9fce52c94000db0f1c4613028cde3bbc988639ca3acc0701b16e591e864d804b4651a`,
       })
+
+      // Calls signMessage with the expected parameters
       expect(signMessage).toHaveBeenCalledWith(
         `post /account/foo/create ${expectedDateString} ${JSON.stringify({
           accountAddress: MOCK_USER.accountMTWAddress,
@@ -91,6 +96,8 @@ describe('In House Liquidity Calls', () => {
         },
         body: JSON.stringify(body),
       })
+
+      // Calls fetch correctly
       expect(mockFetch).toHaveBeenCalledWith(
         `${networkConfig.inhouseLiquditiyUrl}/persona/account/create`,
         {
@@ -103,11 +110,15 @@ describe('In House Liquidity Calls', () => {
           method: 'POST',
         }
       )
+
+      // Calls signMessage witht the expected parameters
       expect(signMessage).toHaveBeenCalledWith(
         `post /persona/account/create ${expectedDateString} ${JSON.stringify(body)}`,
         `0x${MOCK_USER.privateKey}`,
         MOCK_USER.walletAddress
       )
+
+      // Returns the response object
       expect(response).toBeInstanceOf(Response)
     })
   })
