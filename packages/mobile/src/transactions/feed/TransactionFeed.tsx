@@ -61,16 +61,15 @@ function useQueryTransactionFeed() {
         if (result?.data?.tokenTransactionsV2.transactions.length) {
           dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
         }
+        if (result?.errors) {
+          Logger.warn(
+            TAG,
+            `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
+          )
+        }
       },
     }
   )
-
-  if (result?.errors) {
-    Logger.warn(
-      TAG,
-      `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
-    )
-  }
 
   return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
 }
