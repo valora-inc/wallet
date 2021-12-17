@@ -33,7 +33,10 @@ import {
   createTokenTransferTransaction,
   getTokenContract,
 } from 'src/tokens/saga'
-import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
+import {
+  addStandbyTransactionLegacy,
+  removeStandbyTransactionLegacy,
+} from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -373,7 +376,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       }
     )
     if (context?.id) {
-      yield put(removeStandbyTransaction(context.id))
+      yield put(removeStandbyTransactionLegacy(context.id))
     }
 
     yield put(showErrorOrFallback(error, ErrorMessages.EXCHANGE_FAILED))

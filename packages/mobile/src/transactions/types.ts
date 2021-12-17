@@ -32,22 +32,22 @@ export type StandbyTransactionLegacy = ExchangeStandbyLegacy | TransferStandbyLe
 
 export interface ExchangeStandby {
   context: TransactionContext
-  type: TokenTransactionType.Exchange
+  type: TokenTransactionTypeV2.Exchange
   status: TransactionStatus
   inValue: string
-  inCurrency: Currency
+  inTokenAddress: string
   outValue: string
-  outCurrency: Currency
+  outTokenAddress: string
   timestamp: number
   hash?: string
 }
 
 export interface TransferStandby {
   context: TransactionContext
-  type: TransferTransactionType
+  type: TokenTransferTypeV2
   status: TransactionStatus
   value: string
-  currency: Currency
+  tokenAddress: string
   comment: string
   timestamp: number
   address: Address
@@ -108,6 +108,13 @@ export interface LocalAmount {
   currencyCode: string
   exchangeRate: string
 }
+
+type TokenTransferTypeV2 =
+  | TokenTransactionTypeV2.Sent
+  | TokenTransactionTypeV2.Received
+  | TokenTransactionTypeV2.InviteSent
+  | TokenTransactionTypeV2.InviteReceived
+  | TokenTransactionTypeV2.PaymentRequest
 
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',

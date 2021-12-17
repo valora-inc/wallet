@@ -38,6 +38,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -267,19 +268,18 @@ function* sendPayment(
       JSON.stringify(feeInfo)
     )
 
-    // TODO: Add temporary tx to feed.
-    // yield put(
-    //   addStandbyTransaction({
-    //     context,
-    //     type: TokenTransactionType.Sent,
-    //     comment,
-    //     status: TransactionStatus.Pending,
-    //     value: amount.toString(),
-    //     tokenAddress,
-    //     timestamp: Math.floor(Date.now() / 1000),
-    //     address: recipientAddress,
-    //   })
-    // )
+    yield put(
+      addStandbyTransaction({
+        context,
+        type: TokenTransactionType.Sent,
+        comment,
+        status: TransactionStatus.Pending,
+        value: amount.toString(),
+        tokenAddress,
+        timestamp: Math.floor(Date.now() / 1000),
+        address: recipientAddress,
+      })
+    )
 
     const tx: CeloTransactionObject<boolean> = yield call(
       buildSendTx,

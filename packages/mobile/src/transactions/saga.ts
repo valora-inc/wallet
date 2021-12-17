@@ -23,7 +23,7 @@ import {
   Actions,
   addHashToStandbyTransaction,
   NewTransactionsInFeedAction,
-  removeStandbyTransaction,
+  removeStandbyTransactionLegacy,
   transactionConfirmed,
   TransactionConfirmedAction,
   transactionFailed,
@@ -60,7 +60,7 @@ function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedActi
       standbyTx.status !== TransactionStatus.Failed &&
       newFeedTxHashes.has(standbyTx.hash)
     ) {
-      yield put(removeStandbyTransaction(standbyTx.context.id))
+      yield put(removeStandbyTransactionLegacy(standbyTx.context.id))
     }
   }
 }
@@ -125,7 +125,7 @@ export function* sendAndMonitorTransaction<T>(
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield put(removeStandbyTransaction(context.id))
+    yield put(removeStandbyTransactionLegacy(context.id))
     yield put(transactionFailed(context.id))
     yield put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
