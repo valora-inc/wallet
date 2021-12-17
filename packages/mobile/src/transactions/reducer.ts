@@ -7,14 +7,14 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import { StandbyTransactionLegacy, TokenTransaction } from 'src/transactions/types'
 
 export interface State {
   // Tracks transactions that have been initiated by the user
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
-  standbyTransactions: StandbyTransaction[]
+  standbyTransactionsLegacy: StandbyTransactionLegacy[]
   // Tracks which set of transactions retrieved in the
   // feed have already been processed by the
   // tx feed query watcher. Necessary so we don't re-process
@@ -31,7 +31,7 @@ export interface KnownFeedTransactionsType {
 }
 
 const initialState = {
-  standbyTransactions: [],
+  standbyTransactionsLegacy: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
   transactions: [],
@@ -47,31 +47,31 @@ export const reducer = (
       return {
         ...state,
         ...getRehydratePayload(action, 'transactions'),
-        standbyTransactions: [],
+        standbyTransactionsLegacy: [],
       }
     }
-    case Actions.ADD_STANDBY_TRANSACTION:
+    case Actions.ADD_STANDBY_TRANSACTION_LEGACY:
       return {
         ...state,
-        standbyTransactions: [action.transaction, ...(state.standbyTransactions || [])],
+        standbyTransactionsLegacy: [action.transaction, ...(state.standbyTransactionsLegacy || [])],
       }
-    case Actions.REMOVE_STANDBY_TRANSACTION:
+    case Actions.REMOVE_STANDBY_TRANSACTION_LEGACY:
     case ExchangeActions.WITHDRAW_CELO_FAILED:
       return {
         ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx
+        standbyTransactionsLegacy: state.standbyTransactionsLegacy.filter(
+          (tx: StandbyTransactionLegacy) => tx.context.id !== action.idx
         ),
       }
-    case Actions.RESET_STANDBY_TRANSACTIONS:
+    case Actions.RESET_STANDBY_TRANSACTIONS_LEGACY:
       return {
         ...state,
-        standbyTransactions: [],
+        standbyTransactionsLegacy: [],
       }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactions: state.standbyTransactions.map((tx) => {
+        standbyTransactionsLegacy: state.standbyTransactionsLegacy.map((tx) => {
           if (tx.context.id !== action.idx) {
             return tx
           }
@@ -107,8 +107,8 @@ export const reducer = (
   }
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+export const standbyTransactionsLegacySelector = (state: RootState) =>
+  state.transactions.standbyTransactionsLegacy
 
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions

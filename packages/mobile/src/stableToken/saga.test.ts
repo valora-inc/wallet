@@ -6,7 +6,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { fetchStableBalances, setBalance, transferStableToken } from 'src/stableToken/actions'
 import { stableTokenTransfer, watchFetchStableBalances } from 'src/stableToken/saga'
-import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getContractKitAsync } from 'src/web3/contracts'
@@ -81,7 +81,7 @@ describe('stableToken saga', () => {
       .withState(state)
       .dispatch(TRANSFER_ACTION)
       .put(
-        addStandbyTransaction({
+        addStandbyTransactionLegacy({
           context: { id: TX_ID },
           type: TokenTransactionType.Sent,
           comment: COMMENT,
@@ -101,7 +101,7 @@ describe('stableToken saga', () => {
       .withState(state)
       .dispatch(TRANSFER_ACTION)
       .put(
-        addStandbyTransaction({
+        addStandbyTransactionLegacy({
           context: { id: TX_ID },
           type: TokenTransactionType.Sent,
           comment: COMMENT,

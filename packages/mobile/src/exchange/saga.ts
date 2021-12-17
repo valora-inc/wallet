@@ -33,7 +33,7 @@ import {
   createTokenTransferTransaction,
   getTokenContract,
 } from 'src/tokens/saga'
-import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -389,7 +389,7 @@ function* createStandbyTx(
   const takerAmount = getTakerAmount(makerAmount, exchangeRate)
   const context = newTransactionContext(TAG, `Exchange ${makerToken}`)
   yield put(
-    addStandbyTransaction({
+    addStandbyTransactionLegacy({
       context,
       type: TokenTransactionType.Exchange,
       status: TransactionStatus.Pending,
@@ -419,7 +419,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 
     context = newTransactionContext(TAG, 'Withdraw CELO')
     yield put(
-      addStandbyTransaction({
+      addStandbyTransactionLegacy({
         context,
         type: TokenTransactionType.Sent,
         comment: '',

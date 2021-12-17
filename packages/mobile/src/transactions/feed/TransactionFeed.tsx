@@ -81,6 +81,9 @@ function TransactionFeed() {
   const { loading, error, transactions } = useQueryTransactionFeed()
   const tokenTransactions: TokenTransaction[] = transactions ?? cachedTransactions
 
+  // get stand by transactions
+  // map standby transactions to TokenTransaction
+
   const sections = useMemo(() => {
     if (tokenTransactions.length === 0) {
       return []
