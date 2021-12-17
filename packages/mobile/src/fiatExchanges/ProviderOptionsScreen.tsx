@@ -188,7 +188,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       if (provider.quote && userLocation?.ipAddress && isSimplexQuote(providerQuote)) {
         navigate(Screens.Simplex, {
           simplexQuote: providerQuote,
-          userIpAddress: userLocation.ipAddress, // todo figure out if this is how Simplex infers user location (and if so, if we can provide it some other way)
+          userIpAddress: userLocation.ipAddress,
         })
       }
       return
