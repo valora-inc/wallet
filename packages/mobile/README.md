@@ -373,7 +373,7 @@ If you want to run a single e2e test: `yarn test:e2e:ios -f Exchange.spec.js -t 
 
 ## Building APKs / Bundles
 
-You can create your own custom build of the app via the command line or in Android Studio. For an exact set of commands, refer to the lanes in `fastlane/FastFile`. For convinience, the basic are described below:
+You can create your own custom build of the app via the command line or in Android Studio. For an exact set of commands, refer to the lanes in `fastlane/FastFile`. For convenience, the basic are described below:
 
 ### Creating a fake keystore
 
@@ -497,7 +497,7 @@ We try to minimise the differences between running Valora in different modes and
 
 If you're having an error with installing packages, or `secrets.json` not existing:
 
-try to run `yarn postinstall` in the monorepo root folder after running `yarn install`.
+try to run `yarn postinstall` in the wallet root folder after running `yarn install`.
 
 A successful `yarn postinstall` looks like:
 
@@ -505,15 +505,15 @@ A successful `yarn postinstall` looks like:
 $ yarn postinstall
 yarn run v1.22.10
 $ yarn run lerna run postinstall && patch-package && yarn keys:decrypt
-$ /Users/michewong/development/celo-monorepo/node_modules/.bin/lerna run postinstall
+$ /Users/michewong/development/wallet/node_modules/.bin/lerna run postinstall
 lerna notice cli v3.16.0
 lerna info versioning independent
 lerna info Executing command in 1 package: "yarn run postinstall"
 lerna info run Ran npm script 'postinstall' in '@celo/mobile' in 1.5s:
 $ ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh
 .
-~/development/celo-monorepo/packages/mobile/branding/valora ~/development/celo-monorepo/packages/mobile
-~/development/celo-monorepo/packages/mobile
+~/development/wallet/packages/mobile/branding/valora ~/development/wallet/packages/mobile
+~/development/wallet/packages/mobile
 Using branding/valora
 building file list ... done
 ios/
