@@ -164,4 +164,4 @@ export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 export const DEFAULT_APP_LANGUAGE = 'en-US'
 
-export const DEFAULT_TRACES_SAMPLE_RATE = 0.2
+export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2

@@ -1,5 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { DEFAULT_TRACES_SAMPLE_RATE } from 'src/config'
+import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -38,5 +38,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   multiTokenUseUpdatedFeed: false,
   allowOtaTranslations: false,
   linkBankAccountEnabled: false,
-  sentryTracesSampleRate: DEFAULT_TRACES_SAMPLE_RATE,
+  sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 }

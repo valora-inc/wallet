@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEFAULT_TRACES_SAMPLE_RATE } from 'src/config'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
@@ -348,7 +348,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      sentryTracesSampleRate: DEFAULT_TRACES_SAMPLE_RATE,
+      sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
     },
   }),
 }
