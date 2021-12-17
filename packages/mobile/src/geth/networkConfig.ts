@@ -89,6 +89,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nodeDir: `.${Testnets.alfajores}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
+    // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,

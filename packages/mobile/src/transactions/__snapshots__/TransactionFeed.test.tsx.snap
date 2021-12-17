@@ -11,6 +11,7 @@ exports[`renders for error 1`] = `
       "paddingHorizontal": 16,
     }
   }
+  testID="NoActivity/error"
 >
   <Text
     style={
@@ -291,6 +292,7 @@ exports[`renders for loading 1`] = `
         "width": 108,
       }
     }
+    testID="NoActivity/loading"
   />
   <Text
     style={
