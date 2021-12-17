@@ -353,6 +353,7 @@ export enum FiatExchangeEvents {
   external_exchange_link = 'external_exchange_link',
   spend_merchant_link = 'spend_merchant_link',
 
+  cico_no_provider_options = 'cico_no_provider_options',
   cico_option_chosen = 'cico_option_chosen',
   provider_chosen = 'provider_chosen',
   cash_in_success = 'cash_in_success',

@@ -130,6 +130,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         digitalAssetAmount: route.params.amount.crypto,
         txType: isCashIn ? 'buy' : 'sell',
       })
+      if (!providers?.length) {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_no_provider_options, {
+          isCashIn,
+          paymentMethod,
+          currency: route.params.selectedCrypto,
+          fiatAmount: route.params.amount.fiat,
+          country: userLocation.countryCodeAlpha2,
+          region: userLocation.region,
+        })
+      }
       return providers
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))

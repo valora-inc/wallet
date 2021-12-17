@@ -878,6 +878,14 @@ interface FiatExchangeEventsProperties {
     name: string
     link: string
   }
+  [FiatExchangeEvents.cico_no_provider_options]: {
+    isCashIn: boolean
+    paymentMethod: PaymentMethod
+    currency: Currency
+    fiatAmount: number
+    country: string | null
+    region: string | null
+  }
   [FiatExchangeEvents.cico_option_chosen]: {
     isCashIn: boolean
     paymentMethod: PaymentMethod
