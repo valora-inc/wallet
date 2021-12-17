@@ -4,6 +4,32 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
+export interface ExchangeStandbyLegacy {
+  context: TransactionContext
+  type: TokenTransactionType.Exchange
+  status: TransactionStatus
+  inValue: string
+  inCurrency: Currency
+  outValue: string
+  outCurrency: Currency
+  timestamp: number
+  hash?: string
+}
+
+export interface TransferStandbyLegacy {
+  context: TransactionContext
+  type: TransferTransactionType
+  status: TransactionStatus
+  value: string
+  currency: Currency
+  comment: string
+  timestamp: number
+  address: Address
+  hash?: string
+}
+
+export type StandbyTransactionLegacy = ExchangeStandbyLegacy | TransferStandbyLegacy
+
 export interface ExchangeStandby {
   context: TransactionContext
   type: TokenTransactionType.Exchange

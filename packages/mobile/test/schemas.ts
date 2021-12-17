@@ -62,7 +62,7 @@ export const vNeg1Schema = {
     exchangeRate: '1',
   },
   transactions: {
-    standbyTransactions: [],
+    standbyTransactionsLegacy: [],
   },
   web3: {
     syncProgress: {

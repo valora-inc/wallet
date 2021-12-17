@@ -50,7 +50,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { addStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransactionLegacy } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -177,7 +177,7 @@ export function* registerStandbyTransaction(
   address: string
 ) {
   yield put(
-    addStandbyTransaction({
+    addStandbyTransactionLegacy({
       context,
       type: TokenTransactionType.EscrowSent,
       status: TransactionStatus.Pending,

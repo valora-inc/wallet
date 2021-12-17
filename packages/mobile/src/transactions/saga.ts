@@ -34,11 +34,15 @@ import { TxPromises } from 'src/transactions/contract-utils'
 import {
   knownFeedTransactionsSelector,
   KnownFeedTransactionsType,
-  standbyTransactionsSelector,
+  standbyTransactionsLegacySelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
+import {
+  StandbyTransactionLegacy,
+  TransactionContext,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -48,7 +52,7 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+  const standbyTxs: StandbyTransactionLegacy[] = yield select(standbyTransactionsLegacySelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
   for (const standbyTx of standbyTxs) {
     if (

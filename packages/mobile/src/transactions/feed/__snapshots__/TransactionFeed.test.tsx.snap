@@ -35,7 +35,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             "type": "RECEIVED",
           },
         ],
-        "title": "feedSectionHeaderRecent",
+        "title": "December",
       },
     ]
   }
@@ -91,7 +91,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             }
           }
         >
-          feedSectionHeaderRecent
+          December
         </Text>
       </View>
     </View>
