@@ -19,11 +19,21 @@ import { Screens } from 'src/navigator/Screens'
 import { kycStatusSelector } from 'src/account/selectors'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
+import { useNavigation } from '@react-navigation/native'
+
 interface StepOneProps {
   kycStatus: KycStatus | undefined
 }
 
 function LinkBankAccountScreen() {
+  // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
+  const navigation = useNavigation()
+  React.useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      ValoraAnalytics.track(CICOEvents.link_bank_account_cancel)
+    })
+  })
+
   const kycStatus = useSelector(kycStatusSelector)
   return (
     <SafeAreaView style={styles.body}>

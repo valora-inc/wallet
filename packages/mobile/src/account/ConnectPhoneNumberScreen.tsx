@@ -9,6 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
+import { useNavigation } from '@react-navigation/native'
 
 function onPressConnectButton() {
   ValoraAnalytics.track(CICOEvents.connect_phone_start)
@@ -19,6 +20,14 @@ function onPressConnectButton() {
 
 export default function ConnectPhoneNumberScreen() {
   const { t } = useTranslation()
+
+  // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
+  const navigation = useNavigation()
+  React.useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      ValoraAnalytics.track(CICOEvents.link_bank_account_cancel)
+    })
+  })
 
   return (
     <SafeAreaView>
