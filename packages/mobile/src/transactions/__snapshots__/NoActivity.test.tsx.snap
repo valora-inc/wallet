@@ -80,6 +80,7 @@ exports[`renders loading 1`] = `
         "width": 108,
       }
     }
+    testID="NoActivity/loading"
   />
   <Text
     style={
