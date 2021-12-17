@@ -878,10 +878,12 @@ interface FiatExchangeEventsProperties {
     name: string
     link: string
   }
-  [FiatExchangeEvents.cico_no_provider_options]: {
+  [FiatExchangeEvents.cico_num_provider_options]: {
     isCashIn: boolean
+    numProviderOptions: number
     paymentMethod: PaymentMethod
-    currency: Currency
+    cryptoCurrency: Currency
+    fiatCurrency: LocalCurrencyCode
     fiatAmount: number
     country: string | null
     region: string | null

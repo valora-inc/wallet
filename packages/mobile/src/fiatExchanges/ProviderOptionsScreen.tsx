@@ -130,16 +130,20 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         digitalAssetAmount: route.params.amount.crypto,
         txType: isCashIn ? 'buy' : 'sell',
       })
-      if (!providers?.length) {
-        ValoraAnalytics.track(FiatExchangeEvents.cico_no_provider_options, {
-          isCashIn,
-          paymentMethod,
-          currency: route.params.selectedCrypto,
-          fiatAmount: route.params.amount.fiat,
-          country: userLocation.countryCodeAlpha2,
-          region: userLocation.region,
-        })
-      }
+      const numProviderOptions =
+        providers?.filter(
+          (provider) => !!provider && (isCashIn ? provider.cashIn : provider.cashOut)
+        )?.length ?? 0
+      ValoraAnalytics.track(FiatExchangeEvents.cico_num_provider_options, {
+        isCashIn,
+        numProviderOptions,
+        paymentMethod,
+        cryptoCurrency: route.params.selectedCrypto,
+        fiatCurrency: localCurrency,
+        fiatAmount: route.params.amount.fiat,
+        country: userLocation.countryCodeAlpha2,
+        region: userLocation.region,
+      })
       return providers
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
@@ -184,7 +188,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       if (provider.quote && userLocation?.ipAddress && isSimplexQuote(providerQuote)) {
         navigate(Screens.Simplex, {
           simplexQuote: providerQuote,
-          userIpAddress: userLocation.ipAddress,
+          userIpAddress: userLocation.ipAddress, // todo figure out if this is how Simplex infers user location (and if so, if we can provide it some other way)
         })
       }
       return
