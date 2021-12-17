@@ -2,7 +2,6 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
-import { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { Currency } from 'src/utils/currencies'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
@@ -13,15 +12,15 @@ import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 // [Previous months] - "June" -> Captures transactions by month.
 // [Months over a year ago] — "July 2019" -> Same as above, but with year appended.
 // Sections are hidden if they have no items.
-export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
+export function groupFeedItemsInSections<T extends { timestamp: number }>(items: T[]) {
   const sectionsMap: {
     [key: string]: {
-      data: FeedItem[]
+      data: T[]
       daysSinceTransaction: number
     }
   } = {}
 
-  feedItems.reduce((sections, item) => {
+  items.reduce((sections, item) => {
     const daysSinceTransaction = timeDeltaInDays(Date.now(), item.timestamp)
     const key =
       daysSinceTransaction <= 7
