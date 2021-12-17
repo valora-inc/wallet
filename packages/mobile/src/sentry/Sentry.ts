@@ -31,10 +31,7 @@ export function* initializeSentry() {
     networkConfig.blockchainApiUrl,
     networkConfig.odisUrl,
     networkConfig.komenciUrl,
-    networkConfig.providerFetchUrl,
-    networkConfig.simplexApiUrl,
-    networkConfig.fetchUserLocationDataUrl,
-    networkConfig.komenciLoadCheckEndpoint,
+    networkConfig.cloudFunctionsUrl,
     networkConfig.walletConnectEndpoint,
     networkConfig.inhouseLiquditiyUrl,
   ]
