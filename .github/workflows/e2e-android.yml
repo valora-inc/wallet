@@ -66,6 +66,7 @@ jobs:
           export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
           cd packages/mobile
           yarn run test:e2e:android -w 1
+        timeout-minutes: 90
       # Publish Test Results
       - name: Publish Android JUnit Report
         if: always()
