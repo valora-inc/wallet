@@ -67,6 +67,7 @@ jobs:
           cd packages/mobile
           yarn run detox build-framework-cache
           yarn run test:e2e:ios -w 2
+        timeout-minutes: 90
       # Publish Test Results
       - name: Publish iOS JUnit Report
         if: always()
