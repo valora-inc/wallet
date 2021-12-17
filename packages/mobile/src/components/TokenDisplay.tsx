@@ -17,6 +17,7 @@ interface Props {
   tokenAddress: string
   showSymbol?: boolean
   showLocalAmount?: boolean
+  hideSign?: boolean
   showExplicitPositiveSign?: boolean
   currencyInfo?: CurrencyInfo
   style?: StyleProp<TextStyle>
@@ -65,6 +66,7 @@ function TokenDisplay({
   showLocalAmount = true,
   showSymbol = true,
   showExplicitPositiveSign = false,
+  hideSign = false,
   currencyInfo,
   style,
   testID,
@@ -91,7 +93,7 @@ function TokenDisplay({
 
   const amountToShow = showLocalAmount ? amountInLocalCurrency : new BigNumber(amount)
 
-  const sign = amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
+  const sign = hideSign ? '' : amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
 
   return (
     <Text style={style} testID={testID}>

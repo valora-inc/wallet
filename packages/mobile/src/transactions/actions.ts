@@ -7,7 +7,7 @@ import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
-import { StandbyTransaction } from 'src/transactions/types'
+import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
@@ -19,6 +19,7 @@ export enum Actions {
   NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
+  UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
 }
 
 export interface AddStandbyTransactionAction {
@@ -62,6 +63,11 @@ export interface UpdatedRecentTxRecipientsCacheAction {
   recentTxRecipientsCache: NumberToRecipient
 }
 
+export interface UpdateTransactionsAction {
+  type: Actions.UPDATE_TRANSACTIONS
+  transactions: TokenTransaction[]
+}
+
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
@@ -69,6 +75,7 @@ export type ActionTypes =
   | AddHashToStandbyTransactionAction
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
+  | UpdateTransactionsAction
 
 export const addStandbyTransaction = (
   transaction: StandbyTransaction
@@ -120,6 +127,11 @@ export const newTransactionsInFeed = (
   transactions: TransactionFeedFragment[]
 ): NewTransactionsInFeedAction => ({
   type: Actions.NEW_TRANSACTIONS_IN_FEED,
+  transactions,
+})
+
+export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({
+  type: Actions.UPDATE_TRANSACTIONS,
   transactions,
 })
 
