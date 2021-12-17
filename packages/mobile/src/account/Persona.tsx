@@ -79,7 +79,10 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
         return
       }
 
-      const IHLResponse = await createPersonaAccount(accountMTWAddress, walletAddress as string)
+      const IHLResponse = await createPersonaAccount({
+        accountMTWAddress,
+        walletAddress: walletAddress as string,
+      })
 
       if (IHLResponse.status === 201 || IHLResponse.status === 409) {
         setPersonaAccountCreated(true)

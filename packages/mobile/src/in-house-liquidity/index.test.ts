@@ -29,18 +29,18 @@ describe('In House Liquidity Calls', () => {
 
   beforeEach(() => {
     mockFetch.resetMocks()
-    jest.spyOn(global, 'Date').mockImplementationOnce(() => date as any)
     jest.clearAllMocks()
   })
 
   describe('getAuthAndDateHeaders', () => {
     it('creates the correct headers for a GET request', async () => {
-      const headers = await getAuthAndDateHeaders(
-        'GET',
-        '/account/foo',
-        MOCK_USER.accountMTWAddress,
-        MOCK_USER.walletAddress
-      )
+      const headers = await getAuthAndDateHeaders({
+        httpVerb: 'GET',
+        date,
+        requestPath: '/account/foo',
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+      })
 
       // Creates the correct Headers
       expect(headers).toMatchObject({
@@ -49,19 +49,20 @@ describe('In House Liquidity Calls', () => {
       })
 
       // Calls signMessage with the expected parameters
-      expect(signWithDEK).toHaveBeenCalledWith(
-        `get /account/foo ${expectedDateString}`,
-        MOCK_USER.dataEncryptionKey
-      )
+      expect(signWithDEK).toHaveBeenCalledWith({
+        message: `get /account/foo ${expectedDateString}`,
+        dataEncryptionKey: MOCK_USER.dataEncryptionKey,
+      })
     })
     it('creates the correct headers for a POST request', async () => {
-      const headers = await getAuthAndDateHeaders(
-        'POST',
-        '/account/foo/create',
-        MOCK_USER.accountMTWAddress,
-        MOCK_USER.walletAddress,
-        JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress })
-      )
+      const headers = await getAuthAndDateHeaders({
+        httpVerb: 'POST',
+        requestPath: '/account/foo/create',
+        date,
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+        requestBody: JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress }),
+      })
       // Creates the correct Headers
       expect(headers).toMatchObject({
         Date: expectedDateString,
@@ -69,50 +70,44 @@ describe('In House Liquidity Calls', () => {
       })
 
       // Calls signMessage with the expected parameters
-      expect(signWithDEK).toHaveBeenCalledWith(
-        `post /account/foo/create ${expectedDateString} ${JSON.stringify({
+      expect(signWithDEK).toHaveBeenCalledWith({
+        message: `post /account/foo/create ${expectedDateString} ${JSON.stringify({
           accountAddress: MOCK_USER.accountMTWAddress,
         })}`,
-        MOCK_USER.dataEncryptionKey
-      )
+        dataEncryptionKey: MOCK_USER.dataEncryptionKey,
+      })
     })
   })
   describe('signAndFetch', () => {
-    it('calls fetch and attaches the correct signature', async () => {
+    it('calls fetch with the correct params', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const body = { accountAddress: MOCK_USER.accountMTWAddress }
 
-      const response = await signAndFetch(
-        '/persona/account/create',
-        MOCK_USER.accountMTWAddress,
-        MOCK_USER.walletAddress,
-        {
+      const response = await signAndFetch({
+        path: '/persona/account/create',
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+        requestOptions: {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(body),
-        }
-      )
+        },
+      })
 
       // Calls fetch correctly
       expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inhouseLiquditiyUrl}/persona/account/create`,
+        `${networkConfig.inHouseLiquidityURL}/persona/account/create`,
         {
           body: JSON.stringify(body),
           headers: {
-            Date: expectedDateString,
+            Date: expect.anything(),
             Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
             'Content-Type': 'application/json',
           },
           method: 'POST',
         }
-      )
-
-      // Calls signMessage witht the expected parameters
-      expect(signWithDEK).toHaveBeenCalledWith(
-        `post /persona/account/create ${expectedDateString} ${JSON.stringify(body)}`,
-        MOCK_USER.dataEncryptionKey
       )
 
       // Returns the response object
@@ -123,19 +118,19 @@ describe('In House Liquidity Calls', () => {
   describe('createPersonaAccount', () => {
     it('calls the /persona/account/create endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const response = await createPersonaAccount(
-        MOCK_USER.accountMTWAddress,
-        MOCK_USER.walletAddress
-      )
+      const response = await createPersonaAccount({
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+      })
       const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress })
 
       // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.inhouseLiquditiyUrl}/persona/account/create`,
+        `${networkConfig.inHouseLiquidityURL}/persona/account/create`,
         {
           body: expectedBody,
           headers: {
-            Date: expectedDateString,
+            Date: expect.anything(),
             Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
             'Content-Type': 'application/json',
           },
