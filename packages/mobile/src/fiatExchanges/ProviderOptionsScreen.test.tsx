@@ -1,3 +1,9 @@
+const mockTrack = jest.fn()
+jest.mock('../analytics/ValoraAnalytics.ts', () => {
+  return jest.fn().mockImplementation(() => ({
+    track: mockTrack,
+  }))
+})
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
@@ -413,5 +419,19 @@ describe('ProviderOptionsScreen', () => {
 
     const freeElement = tree.queryByText('free')
     expect(freeElement).toBeTruthy()
+  })
+
+  it(`Logs analytics event for how many providers are available`, async () => {
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Dollar)} />
+      </Provider>
+    )
+
+    await waitFor(() => tree.getByText('Simplex'))
+
+    expect(mockTrack).toHaveBeenCalled() // fixme this hasn't been called, maybe because we haven't waited long enough...
   })
 })
