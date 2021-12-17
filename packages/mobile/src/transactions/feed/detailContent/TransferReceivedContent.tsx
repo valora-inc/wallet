@@ -1,10 +1,13 @@
 import HorizontalLine from '@celo/react-components/components/HorizontalLine'
+import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
@@ -15,6 +18,7 @@ import { TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
 import { Currency } from 'src/utils/currencies'
 
+// Note that this is tested from TransactionDetailsScreen.test.tsx
 function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { amount, metadata, address } = transfer
 
@@ -23,25 +27,30 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
 
   const tokensByCurrency = useSelector(tokensByCurrencySelector)
   const celoAddress = tokensByCurrency[Currency.Celo]?.address
+  const celoEducationUri = useSelector((state) => state.app.celoEducationUri)
 
-  const isCeloWithdrawal = amount.tokenAddress === celoAddress
+  const isCeloTx = amount.tokenAddress === celoAddress
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
+
+  const openLearnMore = () => {
+    navigate(Screens.WebViewScreen, { uri: celoEducationUri! })
+  }
 
   return (
     <>
       <UserSection
-        type={isCeloWithdrawal ? 'withdrawn' : 'sent'}
+        type="received"
         recipient={recipient}
-        avatar={<TransferAvatars type="sent" recipient={recipient} />}
+        avatar={<TransferAvatars type="received" recipient={recipient} />}
+        testID="TransferReceived"
       />
       <CommentSection comment={metadata.comment} />
+      {isCeloTx && celoEducationUri && (
+        <TouchableOpacity onPress={openLearnMore} testID={'celoTxReceived/learnMore'}>
+          <Text style={styles.learnMore}>{t('learnMore')}</Text>
+        </TouchableOpacity>
+      )}
       <HorizontalLine />
-      <LineItemRow
-        title={t(isCeloWithdrawal ? 'amountCeloWithdrawn' : 'amountSent')}
-        amount={
-          <TokenDisplay amount={amount.value} tokenAddress={amount.tokenAddress} hideSign={true} />
-        }
-      />
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
         tokenAddress={amount.tokenAddress}
@@ -51,5 +60,13 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  learnMore: {
+    ...fontStyles.small,
+    color: colors.gray4,
+    textDecorationLine: 'underline',
+  },
+})
 
 export default TransferReceivedContent

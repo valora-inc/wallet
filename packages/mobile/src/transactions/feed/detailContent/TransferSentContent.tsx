@@ -16,6 +16,7 @@ import { FeeType, TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
 import { Currency } from 'src/utils/currencies'
 
+// Note that this is tested from TransactionDetailsScreen.test.tsx
 function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const { amount, metadata, address, fees } = transfer
 
@@ -45,13 +46,19 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         type={isCeloWithdrawal ? 'withdrawn' : 'sent'}
         recipient={recipient}
         avatar={<TransferAvatars type="sent" recipient={recipient} />}
+        testID="TransferSent"
       />
       <CommentSection comment={metadata.comment} />
       <HorizontalLine />
       <LineItemRow
         title={t(isCeloWithdrawal ? 'amountCeloWithdrawn' : 'amountSent')}
         amount={
-          <TokenDisplay amount={amount.value} tokenAddress={amount.tokenAddress} hideSign={true} />
+          <TokenDisplay
+            amount={amount.value}
+            tokenAddress={amount.tokenAddress}
+            hideSign={true}
+            testID="SentAmount"
+          />
         }
       />
       <FeeDrawer

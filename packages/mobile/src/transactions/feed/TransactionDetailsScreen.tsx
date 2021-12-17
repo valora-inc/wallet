@@ -34,7 +34,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Exchange:
-      // TODO: Change this to show actual exchanges.
+      // TODO: Change this to show any exchanges, not just CELO sell/purchase.
       const isCeloSell = (transaction as TokenExchange).inAmount.tokenAddress === celoAddress
       return isCeloSell ? i18n.t('soldGold') : i18n.t('purchasedGold')
     case TokenTransactionTypeV2.Sent:

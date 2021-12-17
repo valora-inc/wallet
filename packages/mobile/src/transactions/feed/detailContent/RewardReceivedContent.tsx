@@ -9,22 +9,24 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import { CELO_LOGO_URL } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
-import useSelector from 'src/redux/useSelector'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import { TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
 
+// Note that this is tested from TransactionDetailsScreen.test.tsx
 function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
   const { amount, metadata, address } = transfer
 
   const { t } = useTranslation()
-  const info = useSelector(recipientInfoSelector)
-  const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
+  const recipient = {
+    address,
+    name: metadata.title ?? t('feedItemRewardReceivedTitle'),
+    thumbnailPath: metadata.image ?? CELO_LOGO_URL,
+  }
 
   const openLearnMore = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
@@ -40,6 +42,7 @@ function RewardReceivedContent({ transfer }: { transfer: TokenTransfer }) {
         expandable={false}
         recipient={recipient}
         avatar={<TransferAvatars type="received" recipient={recipient} />}
+        testID="RewardReceived"
       />
       <TouchableOpacity onPress={openLearnMore} testID={'celoRewards/learnMore'}>
         <Text style={styles.learnMore}>{t('learnMore')}</Text>
