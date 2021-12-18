@@ -124,6 +124,8 @@ export enum TokenTransactionTypeV2 {
   InviteReceived = 'INVITE_RECEIVED',
   PaymentRequest = 'PAY_REQUEST',
 }
+
+// Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
   __typename: 'TokenTransferV2'
   type: TokenTransactionTypeV2
@@ -143,16 +145,17 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
+// Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
   __typename: 'TokenExchangeV2'
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
-  block: number
+  block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
   metadata: TokenExchangeMetadata
-  fees: [Fee]
+  fees: [Fee?]
 }
 
 interface TokenExchangeMetadata {

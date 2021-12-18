@@ -191,7 +191,7 @@ function* addProfile(address: string) {
       },
     }
     yield put(updateValoraRecipientCache(newProfile))
-    Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+    Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
   }
 }
 

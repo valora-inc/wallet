@@ -8,7 +8,7 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import {
-  StandbyTransactionLegacy as StandbyTransaction,
+  StandbyTransaction,
   StandbyTransactionLegacy,
   TokenTransaction,
 } from 'src/transactions/types'
@@ -46,7 +46,7 @@ export interface ResetStandbyTransactionsAction {
 
 export interface AddStandbyTransactionLegacyAction {
   type: Actions.ADD_STANDBY_TRANSACTION_LEGACY
-  transaction: StandbyTransactionLegacy
+  transactionLegacy: StandbyTransactionLegacy
 }
 
 export interface RemoveStandbyTransactionLegacyAction {
@@ -91,6 +91,9 @@ export interface UpdateTransactionsAction {
 }
 
 export type ActionTypes =
+  | AddStandbyTransactionAction
+  | RemoveStandbyTransactionAction
+  | ResetStandbyTransactionsAction
   | AddStandbyTransactionLegacyAction
   | RemoveStandbyTransactionLegacyAction
   | ResetStandbyTransactionsLegacyAction
@@ -103,7 +106,7 @@ export const addStandbyTransactionLegacy = (
   transaction: StandbyTransactionLegacy
 ): AddStandbyTransactionLegacyAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION_LEGACY,
-  transaction: transaction,
+  transactionLegacy: transaction,
 })
 
 export const addStandbyTransaction = (
@@ -130,10 +133,6 @@ export const updateRecentTxRecipientsCache = (
 ): UpdatedRecentTxRecipientsCacheAction => ({
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
   recentTxRecipientsCache,
-})
-
-export const resetStandbyTransactionsLegacy = (): ResetStandbyTransactionsLegacyAction => ({
-  type: Actions.RESET_STANDBY_TRANSACTIONS_LEGACY,
 })
 
 export const resetStandbyTransactions = (): ResetStandbyTransactionsAction => ({

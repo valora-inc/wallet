@@ -40,7 +40,11 @@ import {
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { newTransactionContext } from 'src/transactions/types'
+import {
+  newTransactionContext,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
@@ -271,7 +275,7 @@ function* sendPayment(
     yield put(
       addStandbyTransaction({
         context,
-        type: TokenTransactionType.Sent,
+        type: TokenTransactionTypeV2.Sent,
         comment,
         status: TransactionStatus.Pending,
         value: amount.toString(),
