@@ -2,6 +2,56 @@ import networkConfig from 'src/geth/networkConfig'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { signWithDEK } from 'src/web3/dataEncryptionKey'
 
+interface CreateLinkTokenParams {
+  accountMTWAddress: string
+  walletAddress: string
+  isAndroid: boolean
+  language: string
+  accessToken?: string
+  phoneNumber: string
+}
+
+/**
+ * Create a new Plaid Link Token by calling IHL
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
+ * @param {params.isAndroid} isAndroid
+ * @param {params.language} language the users current language
+ * @param {params.accessToken} accessToken optional access token used for editing existing items
+ * @param {params.phoneNumber} phoneNumber users verified phone number
+ * @returns {Response} response object from the fetch call
+ */
+export const createLinkToken = async ({
+  accountMTWAddress,
+  walletAddress,
+  isAndroid,
+  language,
+  accessToken,
+  phoneNumber,
+}: CreateLinkTokenParams): Promise<Response> => {
+  const body = {
+    accountAddress: accountMTWAddress,
+    isAndroid,
+    language,
+    accessToken,
+    phoneNumber,
+  }
+  return signAndFetch({
+    path: '/plaid/link-token/create',
+    accountMTWAddress,
+    walletAddress,
+    requestOptions: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
 export const createPersonaAccount = async ({
   accountMTWAddress,
   walletAddress,
