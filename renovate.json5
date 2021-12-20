@@ -11,6 +11,13 @@
   // overwrite values of an also-matching rule declared earlier.
   packageRules: [
     {
+      // For now require manual approval from within the Dependency Dashboard issue
+      // for all packages before opening the renovate PR.
+      // We can relax this as we catch up on package updates.
+      matchPackagePatterns: ['*'],
+      dependencyDashboardApproval: true,
+    },
+    {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
