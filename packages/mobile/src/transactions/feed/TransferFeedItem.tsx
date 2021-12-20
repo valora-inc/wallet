@@ -10,6 +10,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
 
@@ -23,14 +25,7 @@ function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
 
   const openTransferDetails = () => {
-    // TODO: Allow opening detail screen.
-    // navigateToPaymentTransferReview(type, timestamp, {
-    //   comment: getDecryptedTransferFeedComment(comment ?? null, commentKey, type),
-    //   amount,
-    //   recipient,
-    //   type,
-    //   // fee TODO: add fee here.
-    // })
+    navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
