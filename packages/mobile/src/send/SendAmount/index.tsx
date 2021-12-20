@@ -17,7 +17,7 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { useFeeCurrency, useFeeTokenAddress } from 'src/fees/hooks'
+import { useFeeTokenAddress } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
@@ -88,6 +88,8 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
   if (!value || value.isNaN()) {
     return ''
   }
+  // The first toFormat limits the number of desired decimals and the second
+  // removes trailing zeros.
   return parseInputAmount(value.toFormat(decimals), decimalSeparator).toFormat()
 }
 
@@ -138,7 +140,6 @@ function SendAmount(props: Props) {
     recipientVerificationStatus
   )
   const maxBalance = tokenInfo.balance.minus(feeEstimate)
-
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
 
   const onPressMax = () => {
@@ -149,13 +150,11 @@ function SendAmount(props: Props) {
       )
     )
   }
-  // This swap preserves numbers like 10.1 without adding trailing zeros
-  // Sample swaps: 10.00 --> 10 | 10.01 --> 10.01 | 10.10 --> 10.1
   const onSwapInput = () => {
     setAmount(
       formatWithMaxDecimals(
         parseInputAmount(amount, decimalSeparator),
-        // Note that the decimals are reversed because we are changing the currency used here.
+        // Note that the decimal variables are reversed because we are changing the currency used here.
         usingLocalAmount ? TOKEN_MAX_DECIMALS : LOCAL_CURRENCY_MAX_DECIMALS
       )
     )

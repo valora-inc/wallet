@@ -22,7 +22,7 @@ import {
   tokensByCurrencySelector,
   tokensListSelector,
 } from 'src/tokens/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
