@@ -149,6 +149,7 @@ describe('getCurrentUserTraits', () => {
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
       deviceId: 'unknown',
+      deviceLanguage: 'en-US',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
       language: 'es-419',
