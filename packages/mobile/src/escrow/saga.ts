@@ -50,11 +50,12 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { addStandbyTransactionLegacy } from 'src/transactions/actions'
+import { addStandbyTransaction, addStandbyTransactionLegacy } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
   newTransactionContext,
+  TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -139,6 +140,13 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
     // Tranfser the funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
     yield call(registerStandbyTransactionLegacy, context, amount.toString(), escrowWrapper.address)
+    yield call(
+      registerStandbyTransaction,
+      context,
+      amount.toString(),
+      tokenAddress,
+      escrowWrapper.address
+    )
     const transferTx = escrowWrapper.transfer(
       phoneHash,
       tokenAddress,
@@ -183,6 +191,26 @@ export function* registerStandbyTransactionLegacy(
       status: TransactionStatus.Pending,
       value,
       currency: Currency.Dollar,
+      timestamp: Math.floor(Date.now() / 1000),
+      address,
+      comment: '',
+    })
+  )
+}
+
+export function* registerStandbyTransaction(
+  context: TransactionContext,
+  value: string,
+  tokenAddress: string,
+  address: string
+) {
+  yield put(
+    addStandbyTransaction({
+      context,
+      type: TokenTransactionTypeV2.InviteSent,
+      status: TransactionStatus.Pending,
+      value,
+      tokenAddress,
       timestamp: Math.floor(Date.now() / 1000),
       address,
       comment: '',

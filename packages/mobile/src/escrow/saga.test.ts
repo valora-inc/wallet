@@ -14,6 +14,7 @@ import {
 } from 'src/escrow/actions'
 import {
   reclaimFromEscrow,
+  registerStandbyTransaction,
   registerStandbyTransactionLegacy,
   transferToEscrow,
 } from 'src/escrow/saga'
@@ -68,6 +69,13 @@ describe(transferToEscrow, () => {
         registerStandbyTransactionLegacy,
         escrowTransferAction.context,
         '10',
+        escrowContract.address
+      )
+      .call(
+        registerStandbyTransaction,
+        escrowTransferAction.context,
+        '10',
+        mockCusdAddress,
         escrowContract.address
       )
       .run()

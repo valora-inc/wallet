@@ -27,10 +27,7 @@ import {
   tokenBalanceFetchError,
 } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
-import {
-  addStandbyTransactionLegacy,
-  removeStandbyTransactionLegacy,
-} from 'src/transactions/actions'
+import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -248,7 +245,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
         )
       } catch (error) {
         Logger.error(tag, 'Error transfering token', error)
-        yield put(removeStandbyTransactionLegacy(context.id))
+        yield put(removeStandbyTransaction(context.id))
         yield put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
       }
     }

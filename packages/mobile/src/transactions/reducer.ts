@@ -71,34 +71,35 @@ export const reducer = (
         ],
       }
     case Actions.REMOVE_STANDBY_TRANSACTION:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx
-        ),
-      }
-    case Actions.REMOVE_STANDBY_TRANSACTION_LEGACY:
     case ExchangeActions.WITHDRAW_CELO_FAILED:
       return {
         ...state,
         standbyTransactionsLegacy: state.standbyTransactionsLegacy.filter(
           (tx: StandbyTransactionLegacy) => tx.context.id !== action.idx
         ),
+        standbyTransactions: state.standbyTransactions.filter(
+          (tx: StandbyTransaction) => tx.context.id !== action.idx
+        ),
       }
     case Actions.RESET_STANDBY_TRANSACTIONS:
       return {
         ...state,
         standbyTransactions: [],
-      }
-    case Actions.RESET_STANDBY_TRANSACTIONS_LEGACY:
-      return {
-        ...state,
         standbyTransactionsLegacy: [],
       }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
         standbyTransactionsLegacy: state.standbyTransactionsLegacy.map((tx) => {
+          if (tx.context.id !== action.idx) {
+            return tx
+          }
+          return {
+            ...tx,
+            hash: action.hash,
+          }
+        }),
+        standbyTransactions: state.standbyTransactions.map((tx) => {
           if (tx.context.id !== action.idx) {
             return tx
           }
