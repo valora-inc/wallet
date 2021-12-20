@@ -4,9 +4,27 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
-import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  StandbyTransaction,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
+
+const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
+  {
+    context: { id: 'test' },
+    type: TokenTransactionTypeV2.Sent,
+    status: TransactionStatus.Pending,
+    value: '0.5',
+    tokenAddress: mockCusdAddress,
+    comment: '',
+    timestamp: 1542300000,
+    address: '0xd68360cce1f1ff696d898f58f03e0f1252f2ea33',
+  },
+]
 
 const MOCK_RESPONSE: { data: { tokenTransactionsV2: { transactions: TokenTransaction[] } } } = {
   data: {
@@ -122,5 +140,22 @@ describe('TransactionFeed', () => {
     expect(queryByTestId('NoActivity/loading')).toBeNull()
     expect(queryByTestId('NoActivity/error')).toBeNull()
     expect(getByTestId('TransactionList')).not.toBeNull()
+  })
+
+  it('renders correctly when there are confirmed transactions and stand by transactions', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE))
+
+    const tree = renderScreen({
+      transactions: {
+        standbyTransactions: MOCK_STANDBY_TRANSACTIONS,
+      },
+    })
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+
+    expect(tree).toMatchSnapshot()
   })
 })
