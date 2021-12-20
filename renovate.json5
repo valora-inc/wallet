@@ -6,17 +6,14 @@
   stabilityDays: 3,
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
   prConcurrentLimit: 5,
+  // For now require manual approval from within the Dependency Dashboard issue
+  // for all packages before opening the renovate PR.
+  // We can relax this (using specific packageRules) as we catch up with package updates.
+  dependencyDashboardApproval: true,
   // The order of objects in the packageRules array does matter,
   // in the sense that rules declared later (towards the end of the array)
   // overwrite values of an also-matching rule declared earlier.
   packageRules: [
-    {
-      // For now require manual approval from within the Dependency Dashboard issue
-      // for all packages before opening the renovate PR.
-      // We can relax this as we catch up on package updates.
-      matchPackagePatterns: ['*'],
-      dependencyDashboardApproval: true,
-    },
     {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
