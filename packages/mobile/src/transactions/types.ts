@@ -154,7 +154,7 @@ export interface TokenExchange {
   inAmount: TokenAmount
   outAmount: TokenAmount
   metadata: TokenExchangeMetadata
-  fees: [Fee?]
+  fees: Fee[]
 }
 
 interface TokenExchangeMetadata {
