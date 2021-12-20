@@ -1,0 +1,5 @@
+{
+  extends: ['config:base'],
+  // Bump version ranges instead of pinning since we use lock files
+  rangeStrategy: 'bump',
+}
