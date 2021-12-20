@@ -114,7 +114,7 @@ type TokenTransferTypeV2 =
   | TokenTransactionTypeV2.Received
   | TokenTransactionTypeV2.InviteSent
   | TokenTransactionTypeV2.InviteReceived
-  | TokenTransactionTypeV2.PaymentRequest
+  | TokenTransactionTypeV2.PayRequest
 
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
@@ -122,6 +122,7 @@ export enum TokenTransactionTypeV2 {
   Sent = 'SENT',
   InviteSent = 'INVITE_SENT',
   InviteReceived = 'INVITE_RECEIVED',
+  PayRequest = 'PAY_REQUEST',
 }
 
 // Can we optional the fields `transactionHash` and `block`?
