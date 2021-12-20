@@ -6,7 +6,17 @@
   stabilityDays: 3,
   // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
   prConcurrentLimit: 5,
+  // The order of objects in the packageRules array does matter,
+  // in the sense that rules declared later (towards the end of the array)
+  // overwrite values of an also-matching rule declared earlier.
   packageRules: [
+    {
+      // Group devDependencies updates
+      matchDepTypes: ['devDependencies'],
+      groupName: 'devDependencies',
+      // But exclude some specific packages from this group
+      excludePackageNames: ['typescript'],
+    },
     {
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
@@ -33,13 +43,6 @@
       // Group updates for prettier packages
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
-    },
-    {
-      // Group devDependencies updates
-      matchDepTypes: ['devDependencies'],
-      groupName: 'devDependencies',
-      // But exclude some specific packages from this group
-      excludePackageNames: ['typescript'],
     },
   ],
 }
