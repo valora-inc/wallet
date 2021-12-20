@@ -1,6 +1,7 @@
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
+import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { numberVerifiedSelector } from 'src/app/selectors'
@@ -58,6 +59,7 @@ export const getCurrentUserTraits = createSelector(
         : undefined,
       countryCodeAlpha2,
       language,
+      deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
       totalBalanceUsd: totalBalanceUsd?.toNumber(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
