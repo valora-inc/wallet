@@ -29,5 +29,17 @@
       matchPackagePatterns: ['^@segment/'],
       groupName: 'segment',
     },
+    {
+      // Group updates for prettier packages
+      matchPackagePatterns: ['^prettier'],
+      groupName: 'prettier',
+    },
+    {
+      // Group devDependencies updates
+      matchDepTypes: ['devDependencies'],
+      groupName: 'devDependencies',
+      // But exclude some specific packages from this group
+      excludePackageNames: ['typescript'],
+    },
   ],
 }
