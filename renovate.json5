@@ -7,8 +7,10 @@
   packageRules: [
     {
       // Group updates for @celo packages
-      matchPackagePatterns: ['^@celo'],
+      matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
+      // Exclude @celo/client from this group, as we want to update it separately
+      excludePackageNames: ['@celo/client'],
     },
   ],
 }
