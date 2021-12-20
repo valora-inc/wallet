@@ -51,7 +51,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       <CommentSection comment={metadata.comment} />
       <HorizontalLine />
       <LineItemRow
-        title={t(isCeloWithdrawal ? 'amountCeloWithdrawn' : 'amountSent')}
+        title={isCeloWithdrawal ? t('amountCeloWithdrawn') : t('amountSent')}
         amount={
           <TokenDisplay
             amount={amount.value}

@@ -36,10 +36,10 @@ function useHeaderTitle(transaction: TokenTransaction) {
     case TokenTransactionTypeV2.Exchange:
       // TODO: Change this to show any exchanges, not just CELO sell/purchase.
       const isCeloSell = (transaction as TokenExchange).inAmount.tokenAddress === celoAddress
-      return isCeloSell ? i18n.t('soldGold') : i18n.t('purchasedGold')
+      return isCeloSell ? t('soldGold') : t('purchasedGold')
     case TokenTransactionTypeV2.Sent:
       const isCeloSend = (transaction as TokenTransfer).amount.tokenAddress === celoAddress
-      return t(isCeloSend ? 'transactionHeaderWithdrewCelo' : 'transactionHeaderSent')
+      return isCeloSend ? t('transactionHeaderWithdrewCelo') : t('transactionHeaderSent')
     case TokenTransactionTypeV2.Received:
       const transfer = transaction as TokenTransfer
       const isCeloReception = transfer.amount.tokenAddress === celoAddress
@@ -49,9 +49,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
       ) {
         return t('transactionHeaderCeloReward')
       } else {
-        return isCeloReception
-          ? i18n.t('transactionHeaderCeloDeposit')
-          : i18n.t('transactionHeaderReceived')
+        return isCeloReception ? t('transactionHeaderCeloDeposit') : t('transactionHeaderReceived')
       }
     case TokenTransactionTypeV2.InviteSent:
       return t('transactionHeaderEscrowSent')
