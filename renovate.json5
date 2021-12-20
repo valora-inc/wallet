@@ -12,5 +12,20 @@
       // Exclude @celo/client from this group, as we want to update it separately
       excludePackageNames: ['@celo/client'],
     },
+    {
+      // Group updates for @testing-library packages
+      matchPackagePatterns: ['^@testing-library/'],
+      groupName: 'testing-library',
+    },
+    {
+      // Group updates for @react-native-firebase packages
+      matchPackagePatterns: ['^@react-native-firebase/'],
+      groupName: 'react-native-firebase',
+    },
+    {
+      // Group updates for @segment packages
+      matchPackagePatterns: ['^@segment/'],
+      groupName: 'segment',
+    },
   ],
 }
