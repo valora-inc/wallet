@@ -29,10 +29,7 @@ export function* initializeSentry() {
   const tracingOrigins = [
     DEFAULT_FORNO_URL,
     networkConfig.blockchainApiUrl,
-    networkConfig.odisUrl,
-    networkConfig.komenciUrl,
     networkConfig.cloudFunctionsUrl,
-    networkConfig.walletConnectEndpoint,
     networkConfig.inhouseLiquditiyUrl,
   ]
 
