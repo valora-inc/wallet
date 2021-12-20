@@ -346,7 +346,6 @@ describe(sendPaymentOrInviteSaga, () => {
   }
 
   it('sends a payment successfully', async () => {
-    console.log('STARTSSS')
     await expectSaga(sendPaymentOrInviteSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
