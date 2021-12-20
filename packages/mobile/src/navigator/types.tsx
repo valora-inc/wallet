@@ -15,6 +15,7 @@ import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/Sen
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { PendingAction, PendingSession } from 'src/walletConnect/types'
 
@@ -259,6 +260,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
+  [Screens.TransactionDetailsScreen]: {
+    transaction: TokenTransaction
+  }
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
     confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps

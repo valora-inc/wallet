@@ -101,6 +101,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
+import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -519,6 +520,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.TransactionReview}
       component={TransactionReview}
       options={TransactionReview.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.TransactionDetailsScreen}
+      component={TransactionDetailsScreen}
+      options={headerWithBackButton}
     />
   </>
 )
