@@ -4,4 +4,11 @@
   rangeStrategy: 'bump',
   // Set a status check pending for 3 days from release timestamp to guard against unpublishing
   stabilityDays: 3,
+  packageRules: [
+    {
+      // Group updates for @celo packages
+      matchPackagePatterns: ['^@celo'],
+      groupName: 'celo',
+    },
+  ],
 }
