@@ -1,6 +1,6 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
-import i18n, { Resource } from 'i18next'
+import i18n, { Resource, ResourceLanguage } from 'i18next'
 import _ from 'lodash'
 import {
   initReactI18next,
@@ -13,13 +13,34 @@ import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-async function getAvailableResources(cachedTranslations: Resource) {
+// used to prevent translations for all languages from being loaded upfront
+const translationResource: Resource = {}
+
+const mergeTranslationResources = (
+  res1: ResourceLanguage,
+  res2: ResourceLanguage,
+  language: string
+) => {
+  if (!translationResource[language]) {
+    translationResource[language] = _.merge(res1, res2)
+  }
+
+  return translationResource[language]
+}
+
+function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
     Object.defineProperty(resources, language, {
-      get: () => ({
-        translation: _.merge(value!.strings.translation, cachedTranslations[language]),
-      }),
+      get: () => {
+        return {
+          translation: mergeTranslationResources(
+            value!.strings.translation,
+            cachedTranslations[language],
+            language
+          ),
+        }
+      },
       enumerable: true,
     })
   }
@@ -35,7 +56,7 @@ export async function initI18n(
   if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
     cachedTranslations = await getOtaTranslations()
   }
-  const resources = await getAvailableResources(cachedTranslations)
+  const resources = getAvailableResources(cachedTranslations)
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
