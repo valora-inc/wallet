@@ -90,7 +90,6 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       })
 
       if (IHLResponse.status === 201 || IHLResponse.status === 409) {
-        debugger
         setPersonaAccountCreated(true)
       } else {
         dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
