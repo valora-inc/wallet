@@ -16,7 +16,6 @@ const CROWDIN_PR_USER = 'valora-bot-crowdin'
  * @param {Object} obj - An object.
  * @param {GitHub} obj.github
  * @param {Context} obj.context
- * @param {string} obj.core
  */
 module.exports = async ({ github, context }) => {
   const { owner, repo } = context.repo
@@ -40,7 +39,7 @@ module.exports = async ({ github, context }) => {
     repo,
     pull_number: pr.number,
     event: 'APPROVE',
-    body: `Approved from the ${context} workflow.`,
+    body: `Approved from the ${context.workflow} workflow.`,
   })
 
   console.log('Adding automerge label')
