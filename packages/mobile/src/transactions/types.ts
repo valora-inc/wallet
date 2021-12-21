@@ -89,7 +89,6 @@ export enum TokenTransactionTypeV2 {
   Sent = 'SENT',
   InviteSent = 'INVITE_SENT',
   InviteReceived = 'INVITE_RECEIVED',
-  PaymentRequest = 'PAY_REQUEST',
 }
 export interface TokenTransfer {
   __typename: 'TokenTransferV2'
@@ -125,6 +124,12 @@ export interface TokenExchange {
 interface TokenExchangeMetadata {
   title?: string
   subtitle?: string
+}
+
+export enum FeeType {
+  SecurityFee = 'SECURITY_FEE',
+  GatewayFee = 'GATEWAY_FEE',
+  EncryptionFee = 'ONE_TIME_ENCRYPTION_FEE',
 }
 
 export interface Fee {

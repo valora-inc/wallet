@@ -16,6 +16,7 @@ interface Props {
   recipient: Recipient
   avatar: React.ReactNode
   expandable?: boolean
+  testID?: string
 }
 
 export default function UserSection({
@@ -24,6 +25,7 @@ export default function UserSection({
   recipient,
   avatar,
   expandable = true,
+  testID = '',
 }: Props) {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(expandable && addressHasChanged)
@@ -53,11 +55,15 @@ export default function UserSection({
           <Touchable onPress={toggleExpanded} disabled={!expandable}>
             <>
               <Expandable isExpandable={expandable && !displayNumber} isExpanded={expanded}>
-                <Text style={styles.username}>{displayName}</Text>
+                <Text style={styles.username} testID={`${testID}/name`}>
+                  {displayName}
+                </Text>
               </Expandable>
               {displayNumber && (
                 <Expandable isExpandable={expandable && !!displayNumber} isExpanded={expanded}>
-                  <Text style={styles.phoneNumber}>{displayNumber}</Text>
+                  <Text style={styles.phoneNumber} testID={`${testID}/number`}>
+                    {displayNumber}
+                  </Text>
                 </Expandable>
               )}
             </>

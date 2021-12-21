@@ -85,6 +85,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -110,6 +111,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
@@ -1095,6 +1097,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -1120,6 +1123,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
@@ -1624,6 +1628,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -1649,6 +1654,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
@@ -2143,6 +2149,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -2168,6 +2175,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
@@ -2662,6 +2670,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -2687,6 +2696,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
@@ -3434,6 +3444,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                       "lineHeight": 22,
                     }
                   }
+                  testID="/name"
                 >
                   John Doe
                 </Text>
@@ -3459,6 +3470,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                       "lineHeight": 18,
                     }
                   }
+                  testID="/number"
                 >
                   +1 415-555-0000
                 </Text>
