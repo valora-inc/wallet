@@ -13,40 +13,22 @@ import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-// used to prevent translations for all languages from being loaded upfront
-const translationResource: Resource = {}
-
-const mergeTranslationResources = (
-  res1: ResourceLanguage,
-  res2: ResourceLanguage,
-  language: string
-) => {
-  if (!translationResource[language]) {
-    translationResource[language] = _.merge(res1, res2)
-  }
-
-  return translationResource[language]
-}
-
 function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
+    let translation: ResourceLanguage
     Object.defineProperty(resources, language, {
       get: () => {
-        return {
-          translation: mergeTranslationResources(
-            value!.strings.translation,
-            cachedTranslations[language],
-            language
-          ),
+        if (!translation) {
+          translation = _.merge(value!.strings.translation, cachedTranslations[language])
         }
+        return { translation }
       },
       enumerable: true,
     })
   }
   return resources
 }
-
 export async function initI18n(
   language: string,
   allowOtaTranslations: boolean,
