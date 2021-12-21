@@ -1,6 +1,7 @@
 # End-to-End tests
 
-[![e2e test status](https://storage.googleapis.com/celo-e2e-data/e2e-banner.svg)](https://console.cloud.google.com/storage/browser/celo-e2e-data?project=celo-testnet)
+![Android E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml/badge.svg)
+![iOS E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml/badge.svg)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
 
@@ -180,30 +181,9 @@ The mocks are only used when the environment variable `CELO_TEST_CONFIG` is set 
 
 ## The e2e banner
 
-In the readme files (in the root, mobile, and this one), there are banners for the e2e tests. The test status is saved in a [google cloud storage bucket](https://console.cloud.google.com/storage/browser/celo-e2e-data?project=celo-testnet).
-There is also a log file for the last test run.
+In the readme files (in the root, mobile, and this one), there are banners for the e2e tests. The test status is saved in GitHub Actions [Android](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml) & [iOS](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml).
 
-Too see all the versions of the log file:
-
-```bash
-gsutil ls -al  gs://celo-e2e-data/last_run_log
-```
-
-Too display a specific version of the log file:
-
-```bash
-gsutil cat  gs://celo-e2e-data/last_run_log#<version_number>
-gsutil cat  gs://celo-e2e-data/last_run_log   #specify no version number to get the latest
-```
-
-If you need to have a more detailed look, there is a collection of log files and even screenshots for the failing tests saved in `detailed_logs.tar.gz`. Download with:
-
-```bash
-  gsutil cp gs://celo-e2e-data/detailed_logs.tar.gz .
-  tar -xvf detailed_logs.tar.gz
-```
-
-These files are uploaded by by the [a script](../scripts/ci-e2e.sh), that is executed regularly. Don't use this script to run the tests locally.
+There are reports for ci e2e runs and an additional artifacts for failing runs. These reports can be accessed from Actions > Android E2E or iOS E2E > select a run.
 
 ## Troubleshooting
 

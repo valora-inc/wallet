@@ -149,6 +149,7 @@ describe('getCurrentUserTraits', () => {
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
       deviceId: 'unknown',
+      deviceLanguage: 'en-US',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
       language: 'es-419',
@@ -157,7 +158,7 @@ describe('getCurrentUserTraits', () => {
       phoneCountryCallingCode: '+33',
       phoneCountryCodeAlpha2: 'FR',
       tokenCount: 14,
-      totalBalanceUsd: 7553.97743764685,
+      totalBalanceUsd: 5679.682283945,
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })
   })

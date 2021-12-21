@@ -1,6 +1,6 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
-import i18n, { Resource } from 'i18next'
+import i18n, { Resource, ResourceLanguage } from 'i18next'
 import _ from 'lodash'
 import {
   initReactI18next,
@@ -13,19 +13,22 @@ import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-async function getAvailableResources(cachedTranslations: Resource) {
+function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
+    let translation: ResourceLanguage
     Object.defineProperty(resources, language, {
-      get: () => ({
-        translation: _.merge(value!.strings.translation, cachedTranslations[language]),
-      }),
+      get: () => {
+        if (!translation) {
+          translation = _.merge(value!.strings.translation, cachedTranslations[language])
+        }
+        return { translation }
+      },
       enumerable: true,
     })
   }
   return resources
 }
-
 export async function initI18n(
   language: string,
   allowOtaTranslations: boolean,
@@ -35,7 +38,7 @@ export async function initI18n(
   if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
     cachedTranslations = await getOtaTranslations()
   }
-  const resources = await getAvailableResources(cachedTranslations)
+  const resources = getAvailableResources(cachedTranslations)
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {
