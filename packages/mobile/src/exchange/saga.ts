@@ -31,13 +31,19 @@ import { sendPaymentOrInviteSuccess } from 'src/send/actions'
 import {
   convertToContractDecimals,
   createTokenTransferTransaction,
+  getCurrencyAddress,
   getTokenContract,
 } from 'src/tokens/saga'
-import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
+import {
+  addStandbyTransaction,
+  addStandbyTransactionLegacy,
+  removeStandbyTransaction,
+} from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
   newTransactionContext,
+  TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -400,6 +406,23 @@ function* createStandbyTx(
       timestamp: Math.floor(Date.now() / 1000),
     })
   )
+
+  const makerTokenAddress: string = yield call(getCurrencyAddress, makerToken)
+  const takerTokenAddress: string = yield call(getCurrencyAddress, takerToken)
+
+  yield put(
+    addStandbyTransaction({
+      context: context,
+      type: TokenTransactionTypeV2.Exchange,
+      status: TransactionStatus.Pending,
+      inValue: makerAmount.toString(),
+      inTokenAddress: makerTokenAddress,
+      outValue: takerAmount.toString(),
+      outTokenAddress: takerTokenAddress,
+      timestamp: Math.floor(Date.now() / 1000),
+    })
+  )
+
   return context
 }
 
@@ -426,6 +449,20 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
         status: TransactionStatus.Pending,
         value: amount.toString(),
         currency: Currency.Celo,
+        timestamp: Math.floor(Date.now() / 1000),
+        address: recipientAddress,
+      })
+    )
+
+    const celoTokenAddress: string = yield call(getCurrencyAddress, Currency.Celo)
+    yield put(
+      addStandbyTransaction({
+        context,
+        type: TokenTransactionTypeV2.Sent,
+        comment: '',
+        status: TransactionStatus.Pending,
+        value: amount.toString(),
+        tokenAddress: celoTokenAddress,
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
       })
