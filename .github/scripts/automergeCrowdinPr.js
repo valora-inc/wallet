@@ -11,6 +11,7 @@
 
 const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
+const AUTOMERGE_LABEL = 'automerge'
 
 /**
  * @param {Object} obj - An object.
@@ -21,33 +22,49 @@ module.exports = async ({ github, context }) => {
   const { owner, repo } = context.repo
 
   console.log('Looking for Crowdin PR')
-  const res = await github.rest.pulls.list({
+  const listPrs = await github.rest.pulls.list({
     owner,
     repo,
     state: 'open',
     head: `${context.repo.owner}:${CROWDIN_BRANCH}`,
   })
-  const pr = res.data.filter((pr) => pr.user?.login === CROWDIN_PR_USER)[0]
+  const pr = listPrs.data.filter((pr) => pr.user?.login === CROWDIN_PR_USER)[0]
   if (!pr) {
     console.log('No Crowdin PR found')
     return
   }
 
-  console.log(`Approving Crowdin PR: ${pr.number}`)
-  await github.rest.pulls.createReview({
+  console.log(`Fetching reviews for ${pr.number}`)
+  const listReviews = await github.rest.pulls.listReviews({
     owner,
     repo,
     pull_number: pr.number,
-    event: 'APPROVE',
-    body: `Approved from the ${context.workflow} workflow.`,
   })
+  const isApproved = listReviews.data.some((review) => review.state === 'APPROVED')
+  if (!isApproved) {
+    console.log(`Approving Crowdin PR: ${pr.number}`)
+    await github.rest.pulls.createReview({
+      owner,
+      repo,
+      pull_number: pr.number,
+      event: 'APPROVE',
+      body: `Approved from the '${context.workflow}' workflow.`,
+    })
+  } else {
+    console.log(`Already approved`)
+  }
 
-  console.log('Adding automerge label')
-  await github.rest.issues.addLabels({
-    owner,
-    repo,
-    issue_number: pr.number,
-    labels: ['automerge'],
-  })
+  const hasAutomergeLabel = pr.labels.some((label) => label.name === AUTOMERGE_LABEL)
+  if (!hasAutomergeLabel) {
+    console.log(`Adding ${AUTOMERGE_LABEL} label`)
+    await github.rest.issues.addLabels({
+      owner,
+      repo,
+      issue_number: pr.number,
+      labels: [AUTOMERGE_LABEL],
+    })
+  } else {
+    console.log(`Already labelled with ${AUTOMERGE_LABEL}`)
+  }
   console.log('Done')
 }
