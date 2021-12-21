@@ -56,7 +56,7 @@ export const mockE164NumberHashWithPepper =
   '0xf6429456331dedf8bd32b5e3a578e5bc589a28d012724dcd3e0a4b1be67bb454'
 
 export const mockE164Number2 = '+12095559790'
-export const mockDisplayNumber2 = '(209) 555-9790'
+export const mockDisplayNumber2 = '+1 209-555-9790'
 export const mockComment = 'Rent request for June, it is already late!!!'
 export const mockCountryCode = '+1'
 

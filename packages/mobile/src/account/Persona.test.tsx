@@ -1,5 +1,4 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
 import Inquiry from 'react-native-persona'
@@ -7,7 +6,8 @@ import { Provider } from 'react-redux'
 import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockMnemonic } from 'test/values'
+import { mockAccount } from 'test/values'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -15,22 +15,12 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
-jest.mock('src/backup/utils', () => ({
-  ...(jest.requireActual('src/backup/utils') as any),
-  getStoredMnemonic: jest.fn(() => mockMnemonic),
+const mockResponse = new Response(null, { status: 201 })
+jest.mock('src/in-house-liquidity', () => ({
+  createPersonaAccount: jest.fn(() => mockResponse),
 }))
 
-jest.mock('@celo/utils/lib/signatureUtils', () => {
-  const mockSignMessage = jest.fn(() => 'fake signature')
-  const mockSerializeSignature = jest.fn(() => 'fake serialized signature')
-  return {
-    serializeSignature: mockSerializeSignature,
-    signMessage: mockSignMessage,
-  }
-})
-
 describe('Persona', () => {
-  const mockFetch = fetch as FetchMock
   const store = createMockStore({
     web3: { mtwAddress: mockAccount },
   })
@@ -38,7 +28,6 @@ describe('Persona', () => {
   beforeEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()
-    mockFetch.resetMocks()
   })
 
   it('renders correctly', () => {
@@ -55,7 +44,6 @@ describe('Persona', () => {
   })
 
   it('calls IHL to create a persona account if launching the first time', async () => {
-    mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
     const personaProps: Props = {
       kycStatus: undefined,
     }
@@ -68,11 +56,10 @@ describe('Persona', () => {
     expect(getByTestId('PersonaButton')).toBeDisabled()
 
     await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
-    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })
 
   it('launches persona on button press', async () => {
-    mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
     }
