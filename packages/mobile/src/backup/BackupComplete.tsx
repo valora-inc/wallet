@@ -1,7 +1,7 @@
 import Checkmark from '@celo/react-components/icons/Checkmark'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -25,16 +25,18 @@ function BackupComplete({ route }: Props) {
   const backupCompleted = useSelector((state) => state.account.backupCompleted)
   const { t } = useTranslation()
 
-  setTimeout(() => {
-    if (navigatedFromSettings) {
-      navigate(Screens.Settings, { promptConfirmRemovalModal: true })
-    } else if (backupCompleted) {
-      ValoraAnalytics.track(OnboardingEvents.backup_complete)
-      navigate(Screens.BackupIntroduction)
-    } else {
-      throw new Error('Backup complete screen should not be reachable without completing backup')
-    }
-  }, 2000)
+  useEffect(() => {
+    setTimeout(() => {
+      if (navigatedFromSettings) {
+        navigate(Screens.Settings, { promptConfirmRemovalModal: true })
+      } else if (backupCompleted) {
+        ValoraAnalytics.track(OnboardingEvents.backup_complete)
+        navigate(Screens.BackupIntroduction)
+      } else {
+        throw new Error('Backup complete screen should not be reachable without completing backup')
+      }
+    }, 2000)
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
