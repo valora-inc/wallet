@@ -75,6 +75,8 @@ export default NewAccountOnboarding = () => {
     await element(by.id('QuizSubmit')).tap()
 
     // Backup complete screen is served
-    await expect(element(by.id('BackupComplete'))).toBeVisible()
+    await waitFor(element(by.id('BackupComplete')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
   })
 }
