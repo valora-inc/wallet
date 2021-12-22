@@ -90,7 +90,10 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
   }
   // The first toFormat limits the number of desired decimals and the second
   // removes trailing zeros.
-  return parseInputAmount(value.toFormat(decimals), decimalSeparator).toFormat()
+  return parseInputAmount(
+    value.toFormat(decimals, BigNumber.ROUND_DOWN),
+    decimalSeparator
+  ).toFormat()
 }
 
 // The value in |inputTokenAddress| that needs to be reduced from the user balance to send
