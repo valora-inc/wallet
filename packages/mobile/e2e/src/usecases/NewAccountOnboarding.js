@@ -80,7 +80,7 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
 
     // Navigated to recovery phrase display
-    await waitFor(element(by.id('AccountKeyWords')))
+    await waitFor(element(by.id('RecoveryPhraseContainer')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

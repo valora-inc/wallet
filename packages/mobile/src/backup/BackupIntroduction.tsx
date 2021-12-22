@@ -96,7 +96,7 @@ function AccountKeyPostSetup() {
 
   return (
     <ScrollView>
-      <View style={styles.postSetupContainer}>
+      <View testID="RecoveryPhraseContainer" style={styles.postSetupContainer}>
         <Text style={styles.postSetupTitle}>{t('postSetupTitle')}</Text>
         <BackupPhraseContainer
           value={accountKey}
