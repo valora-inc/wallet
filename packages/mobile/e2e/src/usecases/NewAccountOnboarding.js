@@ -78,5 +78,10 @@ export default NewAccountOnboarding = () => {
     await waitFor(element(by.id('BackupComplete')))
       .toBeVisible()
       .withTimeout(10 * 1000)
+
+    // Navigated to recovery phrase display
+    await waitFor(element(by.id('AccountKeyWords')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
   })
 }
