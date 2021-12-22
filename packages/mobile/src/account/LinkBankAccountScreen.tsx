@@ -37,6 +37,7 @@ function LinkBankAccountScreen() {
   }, [])
 
   const kycStatus = useSelector(kycStatusSelector)
+
   return (
     <SafeAreaView style={styles.body}>
       <ScrollView
@@ -61,6 +62,7 @@ function StepOne({ kycStatus }: StepOneProps) {
   }
 
   switch (kycStatus) {
+    // Inquiry status https://docs.withpersona.com/docs/models-lifecycle
     case KycStatus.Approved:
       return (
         <View style={styles.stepOne}>
@@ -152,13 +154,20 @@ function StepOne({ kycStatus }: StepOneProps) {
         </View>
       )
     case KycStatus.Pending:
+      /* User usually enters pending state when they drop off their verification in the middle, we ask them to start from beginning */
       return (
         <View style={styles.stepOne}>
-          <View style={styles.iconContainer}>
-            <VerificationPending />
+          <Text style={styles.label}>{t('linkBankAccountScreen.begin.label')}</Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.begin.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
+          <View style={styles.button}>
+            <PersonaButton
+              kycStatus={kycStatus}
+              text={t('linkBankAccountScreen.begin.cta')}
+              onPress={onPressPersona}
+              onCancelled={() => setIsKycVerifying(false)}
+            />
           </View>
-          <Text style={styles.action}>{t('linkBankAccountScreen.pending.title')}</Text>
-          <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
         </View>
       )
     default:
