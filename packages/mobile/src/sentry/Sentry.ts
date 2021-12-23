@@ -30,7 +30,7 @@ export function* initializeSentry() {
     DEFAULT_FORNO_URL,
     networkConfig.blockchainApiUrl,
     networkConfig.cloudFunctionsUrl,
-    networkConfig.inhouseLiquditiyUrl,
+    networkConfig.inHouseLiquidityURL,
   ]
 
   Sentry.init({

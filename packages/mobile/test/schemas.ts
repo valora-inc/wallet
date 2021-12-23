@@ -783,6 +783,18 @@ export const v24Schema = {
   invite: undefined,
 }
 
+export const v25Schema = {
+  ...v24Schema,
+  _persist: {
+    ...v24Schema._persist,
+    version: 25,
+  },
+  app: {
+    ...v24Schema.app,
+    sentryTracesSampleRate: 0.2,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
   return v24Schema as Partial<RootState>
 }

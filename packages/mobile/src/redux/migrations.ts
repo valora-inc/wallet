@@ -346,10 +346,13 @@ export const migrations = {
   23: (state: any) => state,
   24: (state: any) => ({
     ...state,
+    invite: undefined,
+  }),
+  25: (state: any) => ({
+    ...state,
     app: {
       ...state.app,
       sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
     },
-    invite: undefined,
   }),
 }
