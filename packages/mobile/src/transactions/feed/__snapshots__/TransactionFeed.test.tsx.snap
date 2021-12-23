@@ -11,11 +11,27 @@ exports[`TransactionFeed renders correctly when there are confirmed transactions
             "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
             "amount": Object {
               "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+              "value": "0.5",
+            },
+            "block": "",
+            "fees": Array [],
+            "metadata": Object {},
+            "status": "Pending",
+            "timestamp": 1542300000,
+            "transactionHash": "",
+            "type": "SENT",
+          },
+          Object {
+            "__typename": "TokenTransferV2",
+            "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
+            "amount": Object {
+              "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
               "value": "0.1",
             },
             "block": "8648978",
             "fees": Array [],
             "metadata": Object {},
+            "status": "Complete",
             "timestamp": 1542306118,
             "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
             "type": "RECEIVED",
@@ -30,23 +46,10 @@ exports[`TransactionFeed renders correctly when there are confirmed transactions
             "block": "8648978",
             "fees": Array [],
             "metadata": Object {},
+            "status": "Complete",
             "timestamp": 1542306118,
             "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
             "type": "RECEIVED",
-          },
-          Object {
-            "__typename": "TokenTransferV2",
-            "address": "0xd68360cce1f1ff696d898f58f03e0f1252f2ea33",
-            "amount": Object {
-              "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
-              "value": "0.5",
-            },
-            "block": "",
-            "fees": Array [],
-            "metadata": Object {},
-            "timestamp": 1542300000,
-            "transactionHash": "",
-            "type": "SENT",
           },
         ],
         "title": "November 2018",
@@ -107,6 +110,189 @@ exports[`TransactionFeed renders correctly when there are confirmed transactions
         >
           November 2018
         </Text>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(192, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(192, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+                testID="TransferFeedItem/title"
+              >
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "flexWrap": "wrap",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "marginLeft": "auto",
+                      "minWidth": "40%",
+                      "paddingLeft": 10,
+                      "textAlign": "right",
+                    },
+                    Object {
+                      "color": "#1AB775",
+                    },
+                  ]
+                }
+                testID="TransferFeedItem/amount"
+              >
+                +
+                ₱
+                0.67
+              </Text>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "paddingTop": 2,
+                  }
+                }
+                testID="TransferFeedItem/subtitle"
+              >
+                confirmingTransaction
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "flexWrap": "wrap",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginLeft": "auto",
+                    "minWidth": "40%",
+                    "paddingLeft": 10,
+                    "paddingTop": 2,
+                    "textAlign": "right",
+                  }
+                }
+                testID="TransferFeedItem/tokenAmount"
+              >
+                
+                0.50
+                 cUSD
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
     <View
@@ -299,189 +485,6 @@ exports[`TransactionFeed renders correctly when there are confirmed transactions
     <View
       onLayout={[Function]}
       style={null}
-    >
-      <View
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackground",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-      >
-        <View
-          style={
-            Object {
-              "flex": 1,
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
-            }
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "column",
-              }
-            }
-          >
-            <View
-              style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "hsl(192, 53%, 93%)",
-                      "borderRadius": 20,
-                      "height": 40,
-                      "width": 40,
-                    },
-                  ]
-                }
-              >
-                <svg
-                  fill="hsl(192, 53%, 93%)"
-                  height="40"
-                  style={Object {}}
-                  viewBox="0 0 40 40"
-                  width="40"
-                />
-              </View>
-            </View>
-          </View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "marginLeft": 16,
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#2E3338",
-                    "flexShrink": 1,
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-                testID="TransferFeedItem/title"
-              >
-                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}
-              </Text>
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "flexWrap": "wrap",
-                      "fontFamily": "Inter-Medium",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                      "marginLeft": "auto",
-                      "minWidth": "40%",
-                      "paddingLeft": 10,
-                      "textAlign": "right",
-                    },
-                    Object {
-                      "color": "#1AB775",
-                    },
-                  ]
-                }
-                testID="TransferFeedItem/amount"
-              >
-                +
-                ₱
-                0.67
-              </Text>
-            </View>
-            <View
-              style={
-                Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                    "paddingTop": 2,
-                  }
-                }
-                testID="TransferFeedItem/subtitle"
-              >
-                feedItemSentInfo, {"context":"noComment"}
-              </Text>
-              <Text
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "flexWrap": "wrap",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                    "marginLeft": "auto",
-                    "minWidth": "40%",
-                    "paddingLeft": 10,
-                    "paddingTop": 2,
-                    "textAlign": "right",
-                  }
-                }
-                testID="TransferFeedItem/tokenAmount"
-              >
-                
-                0.50
-                 cUSD
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      onLayout={[Function]}
-      style={null}
     />
     <View
       style={
@@ -510,6 +513,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             "block": "8648978",
             "fees": Array [],
             "metadata": Object {},
+            "status": "Complete",
             "timestamp": 1542306118,
             "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
             "type": "RECEIVED",
@@ -524,6 +528,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             "block": "8648978",
             "fees": Array [],
             "metadata": Object {},
+            "status": "Complete",
             "timestamp": 1542306118,
             "transactionHash": "0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b",
             "type": "RECEIVED",

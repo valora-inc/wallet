@@ -4,6 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,28 +13,36 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
-import { TokenTransfer } from 'src/transactions/types'
+import { TokenTransfer, TransactionStatus } from 'src/transactions/types'
 
 const AVATAR_SIZE = 40
 
+export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
+
 interface Props {
-  transfer: TokenTransfer
+  transfer: FeedTokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
+  const { t } = useTranslation()
 
   const openTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  let { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const isPending = transfer.status === TransactionStatus.Pending
+
+  // I feel this should be inside useTransferFeedDetails() instead of here. What do you think?
+  subtitle = isPending ? t('confirmingTransaction') : subtitle
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
-    <Touchable disabled={false} onPress={openTransferDetails}>
+    <Touchable disabled={isPending} onPress={openTransferDetails}>
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           {<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}

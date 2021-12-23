@@ -355,6 +355,7 @@ export function useTransferFeedDetails(transfer: TokenTransfer) {
       break
     }
   }
+
   return { title, subtitle, recipient }
 }
 
