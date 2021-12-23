@@ -15,10 +15,11 @@ export const tokensByAddressSelector = createSelector(
       if (!storedState || storedState.balance === null) {
         continue
       }
+      const usdPrice = new BigNumber(storedState.usdPrice)
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: new BigNumber(storedState.usdPrice),
+        usdPrice: usdPrice.isNaN() ? new BigNumber(0) : usdPrice,
       }
     }
     return tokenBalances
