@@ -36,11 +36,11 @@ function TransferFeedItem({ transfer }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  let { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
   const isStandbyTransaction = transfer.status === TransactionStatus.Pending
 
   // I feel this should be inside useTransferFeedDetails() instead of here. What do you think?
-  subtitle = isStandbyTransaction ? t(STAND_BY_TRANSACTION_SUBTITLE_KEY) : subtitle
+  const subtitleModified = isStandbyTransaction ? t(STAND_BY_TRANSACTION_SUBTITLE_KEY) : subtitle
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
@@ -72,7 +72,7 @@ function TransferFeedItem({ transfer }: Props) {
           </View>
           <View style={styles.titleContainer}>
             <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
-              {subtitle}
+              {subtitleModified}
             </Text>
             <TokenDisplay
               amount={amount.value}

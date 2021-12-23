@@ -359,7 +359,7 @@ describe(sendPaymentOrInviteSaga, () => {
           type: TokenTransactionTypeV2.Sent,
           comment: sendAction.comment,
           status: TransactionStatus.Pending,
-          value: amount.toString(),
+          value: amount.negated().toString(),
           tokenAddress: mockCusdAddress,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockQRCodeRecipient.address,
