@@ -4,6 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
+import { STAND_BY_TRANSACTION_SUBTITLE_KEY } from 'src/transactions/feed/TransferFeedItem'
 import {
   StandbyTransaction,
   TokenTransaction,
@@ -156,6 +157,11 @@ describe('TransactionFeed', () => {
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('NoActivity/error')).toBeNull()
 
-    expect(tree).toMatchSnapshot()
+    const subtitles = tree.queryAllByTestId('TransferFeedItem/subtitle')
+
+    const pendingSubtitles = subtitles.filter((node) =>
+      node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
+    )
+    expect(pendingSubtitles.length).toBe(1)
   })
 })

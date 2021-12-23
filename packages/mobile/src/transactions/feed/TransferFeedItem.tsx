@@ -19,6 +19,8 @@ import { TokenTransfer, TransactionStatus } from 'src/transactions/types'
 
 const AVATAR_SIZE = 40
 
+export const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
+
 export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
 interface Props {
@@ -35,14 +37,14 @@ function TransferFeedItem({ transfer }: Props) {
   }
 
   let { title, subtitle, recipient } = useTransferFeedDetails(transfer)
-  const isPending = transfer.status === TransactionStatus.Pending
+  const isStandbyTransaction = transfer.status === TransactionStatus.Pending
 
   // I feel this should be inside useTransferFeedDetails() instead of here. What do you think?
-  subtitle = isPending ? t('confirmingTransaction') : subtitle
+  subtitle = isStandbyTransaction ? t(STAND_BY_TRANSACTION_SUBTITLE_KEY) : subtitle
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
-    <Touchable disabled={isPending} onPress={openTransferDetails}>
+    <Touchable disabled={isStandbyTransaction} onPress={openTransferDetails}>
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           {<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}
