@@ -17,11 +17,25 @@ import LoadingSpinner from 'src/icons/LoadingSpinner'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { kycStatusSelector } from 'src/account/selectors'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+import { useNavigation } from '@react-navigation/native'
+
 interface StepOneProps {
   kycStatus: KycStatus | undefined
 }
 
 function LinkBankAccountScreen() {
+  // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
+  const navigation = useNavigation()
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      ValoraAnalytics.track(CICOEvents.link_bank_account_cancel)
+    })
+    // Unsubscribe will be called on unmount
+    return unsubscribe
+  }, [])
+
   const kycStatus = useSelector(kycStatusSelector)
   return (
     <SafeAreaView style={styles.body}>
@@ -41,6 +55,7 @@ function StepOne({ kycStatus }: StepOneProps) {
   const [isKycVerifying, setIsKycVerifying] = useState(false)
 
   const onPressPersona = () => {
+    ValoraAnalytics.track(CICOEvents.persona_kyc_start)
     // Add a bit of a delay so that Persona can popup before switching to the loading view
     setTimeout(() => setIsKycVerifying(true), 500)
   }
