@@ -29,10 +29,12 @@ function LinkBankAccountScreen() {
   // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
   const navigation = useNavigation()
   React.useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
       ValoraAnalytics.track(CICOEvents.link_bank_account_cancel)
     })
-  })
+    // Unsubscribe will be called on unmount
+    return unsubscribe
+  }, [])
 
   const kycStatus = useSelector(kycStatusSelector)
   return (
