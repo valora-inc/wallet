@@ -1,7 +1,13 @@
-import { createPersonaAccount, getAuthAndDateHeaders, signAndFetch } from 'src/in-house-liquidity'
+import {
+  createPersonaAccount,
+  getAuthAndDateHeaders,
+  signAndFetch,
+  createLinkToken,
+} from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as dataEncryptionKey from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/geth/networkConfig'
+import { mockE164Number } from 'test/values'
 
 const signWithDEK = jest.spyOn(dataEncryptionKey, 'signWithDEK')
 
@@ -127,6 +133,41 @@ describe('In House Liquidity Calls', () => {
       // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
         `${networkConfig.inHouseLiquidityURL}/persona/account/create`,
+        {
+          body: expectedBody,
+          headers: {
+            Date: expect.anything(),
+            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        }
+      )
+      // Returns the response object
+      expect(response).toBeInstanceOf(Response)
+    })
+  })
+
+  describe('createLinkToken', () => {
+    it('calls the /plaid/link-token/create endpoint', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
+      const response = await createLinkToken({
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+        isAndroid: false,
+        language: 'en',
+        phoneNumber: mockE164Number,
+      })
+      const expectedBody = JSON.stringify({
+        accountAddress: MOCK_USER.accountMTWAddress,
+        isAndroid: false,
+        language: 'en',
+        phoneNumber: mockE164Number,
+      })
+
+      // Calls Fetch Correctly
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.inHouseLiquidityURL}/plaid/link-token/create`,
         {
           body: expectedBody,
           headers: {
