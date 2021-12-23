@@ -796,5 +796,5 @@ export const v25Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v24Schema as Partial<RootState>
+  return v25Schema as Partial<RootState>
 }
