@@ -1,6 +1,7 @@
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
+import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { numberVerifiedSelector } from 'src/app/selectors'
@@ -8,11 +9,7 @@ import { backupCompletedSelector } from 'src/backup/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import {
-  tokensByCurrencySelector,
-  tokensByUsdBalanceSelector,
-  totalTokenBalanceSelector,
-} from 'src/tokens/selectors'
+import { tokensByCurrencySelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
@@ -23,7 +20,6 @@ export const getCurrentUserTraits = createSelector(
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
-    totalTokenBalanceSelector,
     tokensByUsdBalanceSelector,
     tokensByCurrencySelector,
     getLocalCurrencyCode,
@@ -36,7 +32,6 @@ export const getCurrentUserTraits = createSelector(
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
-    totalBalanceUsd,
     tokensByUsdBalance,
     tokensByCurrency,
     localCurrencyCode,
@@ -46,6 +41,14 @@ export const getCurrentUserTraits = createSelector(
     const currencyAddresses = new Set(
       Object.values(tokensByCurrency).map((token) => token?.address)
     )
+
+    let totalBalanceUsd = new BigNumber(0)
+    for (const token of tokensByUsdBalance) {
+      const tokenBalanceUsd = token.balance.multipliedBy(token.usdPrice)
+      if (!tokenBalanceUsd.isNaN()) {
+        totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
+      }
+    }
 
     // Don't rename these unless you have a really good reason!
     // They are used in users analytics profiles + super properties
@@ -58,6 +61,7 @@ export const getCurrentUserTraits = createSelector(
         : undefined,
       countryCodeAlpha2,
       language,
+      deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
       totalBalanceUsd: totalBalanceUsd?.toNumber(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance

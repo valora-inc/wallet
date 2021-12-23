@@ -350,5 +350,6 @@ export const migrations = {
       ...state.app,
       sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
     },
+    invite: undefined,
   }),
 }

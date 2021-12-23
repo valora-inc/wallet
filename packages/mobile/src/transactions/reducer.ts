@@ -7,7 +7,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction } from 'src/transactions/types'
+import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 
 export interface State {
   // Tracks transactions that have been initiated by the user
@@ -21,6 +21,7 @@ export interface State {
   // txs more than once.
   knownFeedTransactions: KnownFeedTransactionsType
   recentTxRecipientsCache: NumberToRecipient
+  transactions: TokenTransaction[]
 }
 
 export interface KnownFeedTransactionsType {
@@ -33,6 +34,7 @@ const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
+  transactions: [],
 }
 
 export const reducer = (
@@ -95,6 +97,11 @@ export const reducer = (
         ...state,
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
+    case Actions.UPDATE_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: action.transactions,
+      }
     default:
       return state
   }
@@ -108,3 +115,5 @@ export const knownFeedTransactionsSelector = (state: RootState) =>
 
 export const recentTxRecipientsCacheSelector = (state: RootState) =>
   state.transactions.recentTxRecipientsCache
+
+export const transactionsSelector = (state: RootState) => state.transactions.transactions
