@@ -20,10 +20,6 @@ files=(
   "packages/mobile/ios/sentry.properties:celo-mobile-alfajores"
   "packages/mobile/secrets.json:celo-mobile-alfajores"
   "packages/mobile/e2e/.env:celo-mobile-alfajores"
-  "packages/cloud-functions/config/rampProduction.pem:celo-mobile-mainnet"
-  "packages/cloud-functions/config/rampStaging.pem:celo-mobile-alfajores"
-  "packages/cloud-functions/.env.mainnet:celo-mobile-mainnet"
-  "packages/cloud-functions/.env.alfajores:celo-mobile-alfajores"
 )
 
 if [[ -z "$1" ]]; then
