@@ -1,25 +1,25 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
+import { kycStatusSelector } from 'src/account/selectors'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import LoadingSpinner from 'src/icons/LoadingSpinner'
 import VerificationComplete from 'src/icons/VerificationComplete'
 import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
-import LoadingSpinner from 'src/icons/LoadingSpinner'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { kycStatusSelector } from 'src/account/selectors'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CICOEvents } from 'src/analytics/Events'
-import { useNavigation } from '@react-navigation/native'
 
 interface StepOneProps {
   kycStatus: KycStatus | undefined
@@ -37,6 +37,7 @@ function LinkBankAccountScreen() {
   }, [])
 
   const kycStatus = useSelector(kycStatusSelector)
+
   return (
     <SafeAreaView style={styles.body}>
       <ScrollView
@@ -61,6 +62,7 @@ function StepOne({ kycStatus }: StepOneProps) {
   }
 
   switch (kycStatus) {
+    // Inquiry status https://docs.withpersona.com/docs/models-lifecycle
     case KycStatus.Approved:
       return (
         <View style={styles.stepOne}>
@@ -72,6 +74,35 @@ function StepOne({ kycStatus }: StepOneProps) {
         </View>
       )
     case KycStatus.Declined:
+      return (
+        <View style={styles.stepOne}>
+          <View style={styles.iconContainer}>
+            <VerificationDenied />
+          </View>
+          <Text style={styles.action}>{t('linkBankAccountScreen.failed.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.failed.description')}</Text>
+          <View style={styles.button}>
+            <PersonaButton
+              kycStatus={kycStatus}
+              text={t('linkBankAccountScreen.tryAgain')}
+              onPress={onPressPersona}
+              onCancelled={() => setIsKycVerifying(false)}
+            />
+          </View>
+          <View style={styles.contactSupportButton}>
+            <BorderlessButton
+              testID="SupportContactLink"
+              onPress={() => {
+                navigate(Screens.SupportContact, {
+                  prefilledText: t('linkBankAccountScreen.failed.contactSupportPrefill'),
+                })
+              }}
+            >
+              <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
+            </BorderlessButton>
+          </View>
+        </View>
+      )
     case KycStatus.Failed:
       return (
         <View style={styles.stepOne}>
@@ -103,7 +134,6 @@ function StepOne({ kycStatus }: StepOneProps) {
         </View>
       )
     case KycStatus.NeedsReview:
-    case KycStatus.Completed:
       return (
         <View style={styles.stepOne}>
           <View style={styles.iconContainer}>
@@ -113,10 +143,33 @@ function StepOne({ kycStatus }: StepOneProps) {
           <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
         </View>
       )
-    case KycStatus.NotCreated:
-    case KycStatus.Created:
+    case KycStatus.Completed:
+      return (
+        <View style={styles.stepOne}>
+          <View style={styles.iconContainer}>
+            <VerificationComplete />
+          </View>
+          <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.completed.description')}</Text>
+        </View>
+      )
     case KycStatus.Pending:
-    case KycStatus.Expired:
+      /* User usually enters pending state when they drop off their verification in the middle, we ask them to start from beginning */
+      return (
+        <View style={styles.stepOne}>
+          <Text style={styles.label}>{t('linkBankAccountScreen.begin.label')}</Text>
+          <Text style={styles.action}>{t('linkBankAccountScreen.begin.title')}</Text>
+          <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
+          <View style={styles.button}>
+            <PersonaButton
+              kycStatus={kycStatus}
+              text={t('linkBankAccountScreen.begin.cta')}
+              onPress={onPressPersona}
+              onCancelled={() => setIsKycVerifying(false)}
+            />
+          </View>
+        </View>
+      )
     default:
       /* Show a spinner while Persona is in progress and we are waiting for IHL to update kycStatus */
       if (isKycVerifying) {
