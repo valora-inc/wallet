@@ -15,6 +15,12 @@ By default, the e2e scripts will assume the VM name of `Pixel_API_29_AOSP_x86_64
 
 Next, to improve reliability of the tests, configure the VM as described in the [Setting Up an Android Development & Testing Environment](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md).
 
+A local setup of [Test Butler](https://github.com/linkedin/test-butler) is needed to stabilize the Android emulator. Setup Test Butler by running the following from the wallet root directory.
+
+```sh
+curl -f -o ./packages/mobile/e2e/test-butler-app.apk https://repo1.maven.org/maven2/com/linkedin/testbutler/test-butler-app/2.2.1/test-butler-app-2.2.1.apk
+```
+
 ### iOS
 
 Ensure you have Xcode installed.

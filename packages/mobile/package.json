@@ -247,6 +247,7 @@
       "android.debug": {
         "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-x86_64-debug.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/debug/app-apptest-debug-androidTest.apk",
+        "utilBinaryPaths": ["e2e/test-butler-app-2.2.1.apk"],
         "build": "cd android && ./gradlew assembleApptestDebug assembleApptestDebugAndroidTest -DtestBuildType=debug -PisDetoxBuild=true && cd ..",
         "type": "android.apk",
         "__comment": "Pixel_API_29_AOSP_x86_64 is currently hardcoded but it should be the result from $ANDROID_SDK_ROOT/emulator/emulator -list-avds | grep 'x86' | head -n 1`",
@@ -255,6 +256,7 @@
       "android.release": {
         "binaryPath": "android/app/build/outputs/apk/apptest/release/app-apptest-x86_64-release.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/release/app-apptest-release-androidTest.apk",
+        "utilBinaryPaths": ["e2e/test-butler-app-2.2.1.apk"],
         "build": "cd android && ./gradlew assembleApptestRelease assembleApptestReleaseAndroidTest -DtestBuildType=release -PisDetoxBuild=true && cd ..",
         "type": "android.apk",
         "__comment": "Pixel_API_29_AOSP_x86_64 is currently hardcoded but it should be the result from $ANDROID_SDK_ROOT/emulator/emulator -list-avds | grep 'x86' | head -n 1`",
