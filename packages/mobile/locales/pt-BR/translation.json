@@ -602,7 +602,7 @@
   "emptyVerificationCode": "Nenhum código de conexão na área de transferência",
   "invalidVerificationCode": "Código de confirmação inválido",
   "repeatVerificationCode": "Código de conexão repetido",
-  "revealAttestationFailure": "Erro ao solicitar mensagem de SMS",
+  "revealAttestationFailure": "Ocorreu um erro ao solicitar mensagem de SMS",
   "verificationFailure": "Falha na confirmação",
   "cantVerifyRevokedAccount": "Essa conta já foi revogada uma vez. Por favor, crie uma nova conta e tente novamente.",
   "verificationTimeout": "A confirmação expirou",
