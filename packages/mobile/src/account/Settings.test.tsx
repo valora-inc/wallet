@@ -10,8 +10,12 @@ import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SettingsEvents } from 'src/analytics/Events'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 describe('Account', () => {
   beforeEach(() => {
@@ -142,6 +146,7 @@ describe('Account', () => {
 
     fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
     expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_number_not_connected)
   })
 
   it('navigate to LinkBankAccount screen with kycStatus', async () => {
@@ -176,5 +181,6 @@ describe('Account', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
       kycStatus: KycStatus.Completed,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
   })
 })

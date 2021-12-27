@@ -24,6 +24,7 @@ import {
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
+  CICOEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -155,6 +156,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_entered]: undefined
   [SettingsEvents.change_pin_new_pin_confirmed]: undefined
   [SettingsEvents.change_pin_new_pin_error]: undefined
+  [SettingsEvents.settings_link_bank_account]: undefined
+  [SettingsEvents.settings_number_not_connected]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -1114,6 +1117,16 @@ interface DappKitProperties {
   }
 }
 
+interface CICOEventsProperties {
+  [CICOEvents.link_bank_account_cancel]: undefined
+  [CICOEvents.persona_kyc_start]: undefined
+  [CICOEvents.persona_kyc_success]: undefined
+  [CICOEvents.persona_kyc_cancel]: undefined
+  [CICOEvents.persona_kyc_error]: undefined
+  [CICOEvents.connect_phone_start]: undefined
+  [CICOEvents.connect_phone_cancel]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1136,4 +1149,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NavigationProperties &
   RewardsProperties &
   WalletConnectProperties &
-  DappKitProperties
+  DappKitProperties &
+  CICOEventsProperties
