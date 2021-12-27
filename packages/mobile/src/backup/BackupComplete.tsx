@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { backupCompletedSelector } from 'src/backup/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -22,11 +23,11 @@ type Props = StackScreenProps<StackParamList, Screens.BackupComplete>
 
 function BackupComplete({ route }: Props) {
   const navigatedFromSettings = route.params?.navigatedFromSettings ?? false
-  const backupCompleted = useSelector((state) => state.account.backupCompleted)
+  const backupCompleted = useSelector(backupCompletedSelector)
   const { t } = useTranslation()
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (navigatedFromSettings) {
         navigate(Screens.Settings, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
@@ -36,6 +37,7 @@ function BackupComplete({ route }: Props) {
         throw new Error('Backup complete screen should not be reachable without completing backup')
       }
     }, 2000)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
