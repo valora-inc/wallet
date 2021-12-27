@@ -7,8 +7,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { getVerified } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+import { useNavigation } from '@react-navigation/native'
 
 function onPressConnectButton() {
+  ValoraAnalytics.track(CICOEvents.connect_phone_start)
   navigate(Screens.VerificationEducationScreen, {
     hideOnboardingStep: true,
   })
@@ -16,6 +20,16 @@ function onPressConnectButton() {
 
 export default function ConnectPhoneNumberScreen() {
   const { t } = useTranslation()
+
+  // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
+  const navigation = useNavigation()
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      ValoraAnalytics.track(CICOEvents.link_bank_account_cancel)
+    })
+    // Unsubscribe will be called on unmount
+    return unsubscribe
+  }, [])
 
   return (
     <SafeAreaView>
@@ -26,7 +40,11 @@ export default function ConnectPhoneNumberScreen() {
           <Text style={styles.heading}>{t('connectPhoneNumber.title')}</Text>
           <Text style={styles.bodyText}>{t('connectPhoneNumber.body')}</Text>
         </View>
-        <TextButton style={styles.connectButton} onPress={onPressConnectButton}>
+        <TextButton
+          style={styles.connectButton}
+          onPress={onPressConnectButton}
+          testID="ConnectPhoneNumberLink"
+        >
           {t('connectPhoneNumber.buttonText')}
         </TextButton>
       </View>
