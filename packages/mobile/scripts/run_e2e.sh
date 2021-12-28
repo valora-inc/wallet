@@ -112,7 +112,8 @@ runTest() {
     --retries $RETRIES \
     --headless \
     "${test_match}" \
-    --reuse
+    --reuse \
+    --cleanup
   TEST_STATUS=$?
 }
 
