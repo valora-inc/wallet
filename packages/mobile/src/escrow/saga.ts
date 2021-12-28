@@ -143,7 +143,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
     yield call(
       registerStandbyTransaction,
       context,
-      amount.toString(),
+      amount.negated().toString(),
       tokenAddress,
       escrowWrapper.address
     )

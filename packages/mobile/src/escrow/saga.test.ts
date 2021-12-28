@@ -74,7 +74,7 @@ describe(transferToEscrow, () => {
       .call(
         registerStandbyTransaction,
         escrowTransferAction.context,
-        '10',
+        '-10',
         mockCusdAddress,
         escrowContract.address
       )
