@@ -14,6 +14,7 @@ First install the emulator as described in the [mobile readme](../README.md#opti
 By default, the e2e scripts will assume the VM name of `Pixel_API_29_AOSP_x86_64` recommended in the instructions but you can rename the VM as you like.
 
 Next, to improve reliability of the tests, configure the VM as described in the [Setting Up an Android Development & Testing Environment](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md).
+
 ### iOS
 
 Ensure you have Xcode installed.
