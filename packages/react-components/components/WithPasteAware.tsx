@@ -3,7 +3,7 @@
 import { deviceIsIos14OrNewer } from '@celo/react-components/components/utils/IosVersionUtils'
 import Clipboard from '@react-native-community/clipboard'
 import * as React from 'react'
-import { AppState, ViewProps } from 'react-native'
+import { AppState, NativeEventSubscription, ViewProps } from 'react-native'
 
 interface PasteAwareProps {
   value: string
@@ -35,10 +35,11 @@ export function withPasteAware<P extends ViewProps>(
 
     _interval?: number
     _isMounted = false
+    _appStateListener: NativeEventSubscription | null = null
 
     async componentDidMount() {
       this._isMounted = true
-      AppState.addEventListener('change', this.checkClipboardContents)
+      this._appStateListener = AppState.addEventListener('change', this.checkClipboardContents)
       // TODO: make it work for iOS 14
       // https://9to5mac.com/2020/06/24/ios-14-clipboard-notifications/
       this._interval = window.setInterval(async () => {
@@ -49,7 +50,7 @@ export function withPasteAware<P extends ViewProps>(
 
     componentWillUnmount() {
       this._isMounted = false
-      AppState.removeEventListener('change', this.checkClipboardContents)
+      this._appStateListener?.remove()
       clearInterval(this._interval)
     }
 
