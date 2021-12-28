@@ -37,6 +37,8 @@ export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
+  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed and user has phone # linked
+  settings_number_not_connected = 'settings_number_not_connected', // when "Link Bank Account" is pressed and user does not have phone # linked
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   forno_toggle = 'forno_toggle',
@@ -489,6 +491,18 @@ export enum DappKitEvents {
   dappkit_request_accept_error = 'dappkit_request_accept_error', // when the dapp request fails
 }
 
+export enum CICOEvents {
+  link_bank_account_cancel = 'link_bank_account_cancel', // when a user who has verified their # presses the X button after entering "Link Bank Account"
+
+  persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
+  persona_kyc_success = 'persona_kyc_success', // when the onSuccess callback is called for a Persona inquiry
+  persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
+  persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
+
+  connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
+  connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -511,3 +525,4 @@ export type AnalyticsEventType =
   | RewardsEvents
   | WalletConnectEvents
   | DappKitEvents
+  | CICOEvents
