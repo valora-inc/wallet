@@ -278,7 +278,7 @@ function* sendPayment(
         type: TokenTransactionTypeV2.Sent,
         comment,
         status: TransactionStatus.Pending,
-        value: amount.toString(),
+        value: amount.negated().toString(),
         tokenAddress,
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,

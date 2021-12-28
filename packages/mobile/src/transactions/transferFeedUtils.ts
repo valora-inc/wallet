@@ -28,11 +28,12 @@ import {
 } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   KnownFeedTransactionsType,
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
-import { TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TokenTransfer, TransactionStatus } from 'src/transactions/types'
 import { isPresent } from 'src/utils/typescript'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -267,7 +268,7 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransferFeedDetails(transfer: TokenTransfer) {
+export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const { t } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
@@ -355,6 +356,11 @@ export function useTransferFeedDetails(transfer: TokenTransfer) {
       break
     }
   }
+
+  if (transfer.status === TransactionStatus.Pending) {
+    subtitle = t('confirmingTransaction')
+  }
+
   return { title, subtitle, recipient }
 }
 

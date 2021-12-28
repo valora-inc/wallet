@@ -13,6 +13,8 @@ import {
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
+const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
+
 const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   {
     context: { id: 'test' },
@@ -156,6 +158,11 @@ describe('TransactionFeed', () => {
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('NoActivity/error')).toBeNull()
 
-    expect(tree).toMatchSnapshot()
+    const subtitles = tree.queryAllByTestId('TransferFeedItem/subtitle')
+
+    const pendingSubtitles = subtitles.filter((node) =>
+      node.children.some((ch) => ch === STAND_BY_TRANSACTION_SUBTITLE_KEY)
+    )
+    expect(pendingSubtitles.length).toBe(1)
   })
 })

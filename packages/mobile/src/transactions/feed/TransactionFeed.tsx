@@ -19,6 +19,7 @@ import {
   StandbyTransaction,
   TokenTransaction,
   TokenTransactionTypeV2,
+  TransactionStatus,
   TransferStandby,
 } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
@@ -35,6 +36,12 @@ interface TransactionFeed {
     transactions: TokenTransaction[]
   }
 }
+
+export type FeedTokenProperties = {
+  status: TransactionStatus // for standby transactions
+}
+
+export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function useQueryTransactionFeed() {
   const address = useSelector(walletAddressSelector)
@@ -80,13 +87,14 @@ function useQueryTransactionFeed() {
   return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
 }
 
-function mapStandbyTransactionToTokenTransaction(tx: StandbyTransaction): TokenTransaction {
+function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
   switch (tx.type) {
     case TokenTransactionTypeV2.Exchange:
       const exchangeTx = tx as ExchangeStandby
       return {
         __typename: 'TokenExchangeV2',
         type: tx.type,
+        status: TransactionStatus.Pending,
         transactionHash: tx.hash || '',
         timestamp: tx.timestamp,
         block: '',
@@ -106,6 +114,7 @@ function mapStandbyTransactionToTokenTransaction(tx: StandbyTransaction): TokenT
       return {
         __typename: 'TokenTransferV2',
         type: tx.type,
+        status: TransactionStatus.Pending,
         transactionHash: tx.hash || '',
         timestamp: tx.timestamp,
         block: '',
@@ -126,12 +135,16 @@ function TransactionFeed() {
 
   const { loading, error, transactions } = useQueryTransactionFeed()
   const confirmedTokenTransactions: TokenTransaction[] = transactions ?? cachedTransactions
+  const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
+    ...tx,
+    status: TransactionStatus.Complete,
+  }))
 
-  const standbyTransactions = useSelector(standbyTransactionsSelector).map((tx) =>
-    mapStandbyTransactionToTokenTransaction(tx)
+  const standbyFeedTransactions = useSelector(standbyTransactionsSelector).map((tx) =>
+    mapStandbyTransactionToFeedTokenTransaction(tx)
   )
 
-  const tokenTransactions = [...confirmedTokenTransactions, ...standbyTransactions]
+  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
 
   const sections = useMemo(() => {
     if (tokenTransactions.length === 0) {
@@ -145,7 +158,7 @@ function TransactionFeed() {
     return <NoActivity kind={FeedType.HOME} loading={loading} error={error} />
   }
 
-  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
+  function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV2':
         // TODO
