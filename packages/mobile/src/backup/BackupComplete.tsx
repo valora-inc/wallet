@@ -1,44 +1,33 @@
 import Checkmark from '@celo/react-components/icons/Checkmark'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { withTranslation } from 'src/i18n'
+import { backupCompletedSelector } from 'src/backup/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RootState } from 'src/redux/reducers'
-
-interface StateProps {
-  backupCompleted: boolean
-}
-
-type Props = StateProps & WithTranslation & StackScreenProps<StackParamList, Screens.BackupComplete>
-
-const mapStateToProps = (state: RootState): StateProps => {
-  return {
-    backupCompleted: state.account.backupCompleted,
-  }
-}
+import useSelector from 'src/redux/useSelector'
 
 /**
  * Component shown to the user upon completion of the Recovery Phrase setup flow. Informs the user that
  * they've successfully completed the backup process and automatically returns them to where they
  * came from.
  */
-class BackupComplete extends React.Component<Props> {
-  static navigationOptions = { header: null }
 
-  componentDidMount() {
-    // Show success check for a while before leaving screen
-    const { backupCompleted } = this.props
-    setTimeout(() => {
-      const navigatedFromSettings = this.props.route.params?.navigatedFromSettings ?? false
+type Props = StackScreenProps<StackParamList, Screens.BackupComplete>
+
+function BackupComplete({ route }: Props) {
+  const navigatedFromSettings = route.params?.navigatedFromSettings ?? false
+  const backupCompleted = useSelector(backupCompletedSelector)
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       if (navigatedFromSettings) {
         navigate(Screens.Settings, { promptConfirmRemovalModal: true })
       } else if (backupCompleted) {
@@ -48,19 +37,17 @@ class BackupComplete extends React.Component<Props> {
         throw new Error('Backup complete screen should not be reachable without completing backup')
       }
     }, 2000)
-  }
+    return () => clearTimeout(timer)
+  }, [])
 
-  render() {
-    const { t, backupCompleted } = this.props
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.innerContainer}>
-          {backupCompleted && <Checkmark height={32} />}
-          {backupCompleted && <Text style={styles.h1}>{t('backupComplete.2')}</Text>}
-        </View>
-      </SafeAreaView>
-    )
-  }
+  return (
+    <SafeAreaView style={styles.container}>
+      <View testID="BackupComplete" style={styles.innerContainer}>
+        {backupCompleted && <Checkmark height={32} />}
+        {backupCompleted && <Text style={styles.h1}>{t('backupComplete.2')}</Text>}
+      </View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -79,7 +66,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<StateProps, {}, {}, RootState>(
-  mapStateToProps,
-  {}
-)(withTranslation<Props>()(BackupComplete))
+export default BackupComplete
