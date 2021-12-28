@@ -259,7 +259,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         }
       >
         <TextInput
-          allowFontScaling={true}
           isPasteIconVisible={false}
           leftIcon={
             <Text
@@ -277,7 +276,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           onFocus={[Function]}
           onPressPaste={[Function]}
           placeholder="namePhoneAddress"
-          rejectResponderTermination={true}
           shouldShowClipboard={[Function]}
           style={
             Array [
@@ -297,7 +295,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             ]
           }
           testID="SearchInput"
-          underlineColorAndroid="transparent"
           value=""
         />
       </View>
@@ -878,17 +875,14 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           },
         ]
       }
-      disableVirtualization={false}
       getItem={[Function]}
       getItemCount={[Function]}
-      horizontal={false}
       initialNumToRender={30}
       keyExtractor={[Function]}
       keyboardShouldPersistTaps="always"
-      maxToRenderPerBatch={10}
       onContentSizeChange={[Function]}
-      onEndReachedThreshold={2}
       onLayout={[Function]}
+      onMomentumScrollBegin={[Function]}
       onMomentumScrollEnd={[Function]}
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
@@ -896,8 +890,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
       renderItem={[Function]}
       scrollEventThrottle={50}
       stickyHeaderIndices={Array []}
-      updateCellsBatchingPeriod={50}
-      windowSize={21}
     >
       <View>
         <View

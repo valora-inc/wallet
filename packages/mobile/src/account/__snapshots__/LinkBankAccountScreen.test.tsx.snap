@@ -165,6 +165,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -381,6 +386,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -531,6 +541,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -653,6 +668,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -830,6 +850,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -994,6 +1019,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1144,6 +1174,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -1266,6 +1301,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1443,6 +1483,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -1607,6 +1652,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1829,6 +1879,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1979,6 +2034,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -2101,6 +2161,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -2251,6 +2316,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -2373,6 +2443,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -2523,6 +2598,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
               }
             >
               <View
+                accessibilityState={
+                  Object {
+                    "disabled": true,
+                  }
+                }
                 accessible={true}
                 focusable={false}
                 nativeBackgroundAndroid={
@@ -2645,6 +2725,11 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={

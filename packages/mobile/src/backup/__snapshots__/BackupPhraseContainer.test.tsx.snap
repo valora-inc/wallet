@@ -53,7 +53,6 @@ exports[`renders correctly for input backup phrase 1`] = `
     }
   >
     <TextInput
-      allowFontScaling={true}
       autoCapitalize="none"
       autoCorrect={false}
       enablesReturnKeyAutomatically={true}
@@ -61,7 +60,6 @@ exports[`renders correctly for input backup phrase 1`] = `
       onChangeText={[Function]}
       placeholder="backupPhrasePlaceholder"
       placeholderTextColor="#9CA4A9"
-      rejectResponderTermination={true}
       shouldShowClipboard={[Function]}
       style={
         Array [
