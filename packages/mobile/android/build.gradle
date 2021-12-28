@@ -6,6 +6,7 @@ buildscript {
         minSdkVersion = 21
         compileSdkVersion = 30
         targetSdkVersion = 30
+        ndkVersion = "20.1.5948944"
         supportLibVersion = "30.0.0"
         kotlinVersion = "1.5.10"
         // Change this to change the geth version
@@ -13,10 +14,10 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath 'com.google.gms:google-services:4.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
@@ -28,6 +29,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
@@ -44,7 +46,11 @@ allprojects {
             dirs celoClientDirectory
         }
         google()
-        jcenter()
+        jcenter() {
+            content {
+                includeGroup("com.google.android.exoplayer")
+            }
+        }
         maven { url 'https://www.jitpack.io' }
         maven {
             url 'https://sdk.withpersona.com/android/releases'

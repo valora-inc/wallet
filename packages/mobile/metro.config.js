@@ -1,6 +1,6 @@
 const path = require('path')
 const nodeLibs = require('node-libs-react-native')
-const blacklist = require('metro-config/src/defaults/blacklist')
+const exclusionList = require('metro-config/src/defaults/exclusionList')
 const escapeStringRegexp = require('escape-string-regexp')
 const isE2E = process.env.CELO_TEST_CONFIG === 'e2e'
 
@@ -19,7 +19,7 @@ const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 module.exports = {
   resolver: {
     assetExts: [...defaultAssetExts, 'txt'],
-    blacklistRE: blacklist(
+    blacklistRE: exclusionList(
       isE2E ? blist : blist.concat([RegExp(`${escapedRoot}\/packages\/mobile\/e2e\/mocks/.*`)])
     ),
     extraNodeModules: {
