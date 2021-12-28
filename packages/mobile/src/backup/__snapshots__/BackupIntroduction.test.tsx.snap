@@ -103,6 +103,7 @@ exports[`BackupIntroduction renders correctly when backup completed 1`] = `
             "paddingTop": 24,
           }
         }
+        testID="RecoveryPhraseContainer"
       >
         <Text
           style={
