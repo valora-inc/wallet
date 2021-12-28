@@ -4,7 +4,6 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -15,11 +14,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
-import { TokenTransfer, TransactionStatus } from 'src/transactions/types'
+import { TokenTransfer } from 'src/transactions/types'
 
 const AVATAR_SIZE = 40
-
-export const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
 export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
@@ -29,7 +26,6 @@ interface Props {
 
 function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
-  const { t } = useTranslation()
 
   const openTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
@@ -37,14 +33,11 @@ function TransferFeedItem({ transfer }: Props) {
   }
 
   const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
-  const isStandbyTransaction = transfer.status === TransactionStatus.Pending
 
-  // I feel this should be inside useTransferFeedDetails() instead of here. What do you think?
-  const subtitleModified = isStandbyTransaction ? t(STAND_BY_TRANSACTION_SUBTITLE_KEY) : subtitle
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
-    <Touchable disabled={isStandbyTransaction} onPress={openTransferDetails}>
+    <Touchable disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
         <View style={styles.iconContainer}>
           {<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}
@@ -72,7 +65,7 @@ function TransferFeedItem({ transfer }: Props) {
           </View>
           <View style={styles.titleContainer}>
             <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
-              {subtitleModified}
+              {subtitle}
             </Text>
             <TokenDisplay
               amount={amount.value}

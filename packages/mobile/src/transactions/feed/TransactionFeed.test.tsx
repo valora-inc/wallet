@@ -4,7 +4,6 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
-import { STAND_BY_TRANSACTION_SUBTITLE_KEY } from 'src/transactions/feed/TransferFeedItem'
 import {
   StandbyTransaction,
   TokenTransaction,
@@ -13,6 +12,8 @@ import {
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
+
+const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
 const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   {
