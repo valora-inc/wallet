@@ -63,6 +63,7 @@ export const vNeg1Schema = {
   },
   transactions: {
     standbyTransactions: [],
+    standbyTransactionsLegacy: [],
   },
   web3: {
     syncProgress: {

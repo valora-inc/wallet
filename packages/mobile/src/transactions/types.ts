@@ -4,7 +4,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface ExchangeStandby {
+export interface ExchangeStandbyLegacy {
   context: TransactionContext
   type: TokenTransactionType.Exchange
   status: TransactionStatus
@@ -16,12 +16,38 @@ export interface ExchangeStandby {
   hash?: string
 }
 
-export interface TransferStandby {
+export interface TransferStandbyLegacy {
   context: TransactionContext
   type: TransferTransactionType
   status: TransactionStatus
   value: string
   currency: Currency
+  comment: string
+  timestamp: number
+  address: Address
+  hash?: string
+}
+
+export type StandbyTransactionLegacy = ExchangeStandbyLegacy | TransferStandbyLegacy
+
+export interface ExchangeStandby {
+  context: TransactionContext
+  type: TokenTransactionTypeV2.Exchange
+  status: TransactionStatus
+  inValue: string
+  inTokenAddress: string
+  outValue: string
+  outTokenAddress: string
+  timestamp: number
+  hash?: string
+}
+
+export interface TransferStandby {
+  context: TransactionContext
+  type: TokenTransferTypeV2
+  status: TransactionStatus
+  value: string
+  tokenAddress: string
   comment: string
   timestamp: number
   address: Address
@@ -83,6 +109,12 @@ export interface LocalAmount {
   exchangeRate: string
 }
 
+type TokenTransferTypeV2 =
+  | TokenTransactionTypeV2.Sent
+  | TokenTransactionTypeV2.Received
+  | TokenTransactionTypeV2.InviteSent
+  | TokenTransactionTypeV2.InviteReceived
+
 export enum TokenTransactionTypeV2 {
   Exchange = 'EXCHANGE',
   Received = 'RECEIVED',
@@ -90,6 +122,8 @@ export enum TokenTransactionTypeV2 {
   InviteSent = 'INVITE_SENT',
   InviteReceived = 'INVITE_RECEIVED',
 }
+
+// Can we optional the fields `transactionHash` and `block`?
 export interface TokenTransfer {
   __typename: 'TokenTransferV2'
   type: TokenTransactionTypeV2
@@ -109,16 +143,17 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
+// Can we optional the fields `transactionHash` and `block`?
 export interface TokenExchange {
   __typename: 'TokenExchangeV2'
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
-  block: number
+  block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
   metadata: TokenExchangeMetadata
-  fees: [Fee]
+  fees: Fee[]
 }
 
 interface TokenExchangeMetadata {
