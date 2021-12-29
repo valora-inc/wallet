@@ -11,6 +11,7 @@ import {
   StandbyTransaction,
   StandbyTransactionLegacy,
   TokenTransaction,
+  TransactionStatus,
 } from 'src/transactions/types'
 
 export interface State {
@@ -87,22 +88,48 @@ export const reducer = (
         standbyTransactions: [],
         standbyTransactionsLegacy: [],
       }
+    case Actions.TRANSACTION_CONFIRMED:
+      const status = action.receipt.status
+
+      if (!status) {
+        return {
+          ...state,
+        }
+      }
+
+      return {
+        ...state,
+        standbyTransactionsLegacy: mapForContextId(
+          state.standbyTransactionsLegacy,
+          action.txId,
+          (tx) => {
+            return {
+              ...tx,
+              status: TransactionStatus.Complete,
+            }
+          }
+        ),
+        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
+          return {
+            ...tx,
+            status: TransactionStatus.Complete,
+          }
+        }),
+      }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactionsLegacy: state.standbyTransactionsLegacy.map((tx) => {
-          if (tx.context.id !== action.idx) {
-            return tx
+        standbyTransactionsLegacy: mapForContextId(
+          state.standbyTransactionsLegacy,
+          action.idx,
+          (tx) => {
+            return {
+              ...tx,
+              hash: action.hash,
+            }
           }
-          return {
-            ...tx,
-            hash: action.hash,
-          }
-        }),
-        standbyTransactions: state.standbyTransactions.map((tx) => {
-          if (tx.context.id !== action.idx) {
-            return tx
-          }
+        ),
+        standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
           return {
             ...tx,
             hash: action.hash,
@@ -133,6 +160,19 @@ export const reducer = (
     default:
       return state
   }
+}
+
+function mapForContextId(
+  txs: { context: { id: string } }[],
+  contextId: string,
+  mapping: (tx: any) => any
+) {
+  return txs.map((tx) => {
+    if (tx.context.id !== contextId) {
+      return tx
+    }
+    return mapping(tx)
+  })
 }
 
 export const standbyTransactionsSelector = (state: RootState) =>
