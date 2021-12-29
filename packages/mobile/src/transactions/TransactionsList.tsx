@@ -19,10 +19,10 @@ import TransactionFeed, {
 } from 'src/transactions/TransactionFeed'
 import { getNewTxsFromUserTxQuery, getTxsFromUserTxQuery } from 'src/transactions/transferFeedUtils'
 import {
-  ExchangeStandby,
-  StandbyTransaction,
+  ExchangeStandbyLegacy,
+  StandbyTransactionLegacy,
   TransactionStatus,
-  TransferStandby,
+  TransferStandbyLegacy,
 } from 'src/transactions/types'
 import { CURRENCIES, Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -38,7 +38,7 @@ interface OwnProps {
 
 interface StateProps {
   address?: string | null
-  standbyTransactions: StandbyTransaction[]
+  standbyTransactions: StandbyTransactionLegacy[]
   localCurrencyCode: LocalCurrencyCode
   localCurrencyExchangeRates: Record<Currency, string | null>
   knownFeedTransactions: KnownFeedTransactionsType
@@ -66,7 +66,7 @@ export const TRANSACTIONS_QUERY = gql`
 
 const mapStateToProps = (state: RootState): StateProps => ({
   address: currentAccountSelector(state),
-  standbyTransactions: state.transactions.standbyTransactions,
+  standbyTransactions: state.transactions.standbyTransactionsLegacy,
   localCurrencyCode: getLocalCurrencyCode(state),
   localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
   knownFeedTransactions: knownFeedTransactionsSelector(state),
@@ -92,7 +92,7 @@ function resolveAmount(
 }
 
 function mapExchangeStandbyToFeedItem(
-  standbyTx: ExchangeStandby,
+  standbyTx: ExchangeStandbyLegacy,
   feedType: FeedType,
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyToStableExchangeRate: string | null | undefined
@@ -158,7 +158,7 @@ function mapExchangeStandbyToFeedItem(
 }
 
 function mapTransferStandbyToFeedItem(
-  standbyTx: TransferStandby,
+  standbyTx: TransferStandbyLegacy,
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
@@ -194,7 +194,7 @@ function mapStandbyTransactionToFeedItem(
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRates: Record<Currency, string | null>
 ) {
-  return (standbyTx: StandbyTransaction): FeedItem => {
+  return (standbyTx: StandbyTransactionLegacy): FeedItem => {
     if (standbyTx.type === TokenTransactionType.Exchange) {
       return mapExchangeStandbyToFeedItem(
         standbyTx,
@@ -255,9 +255,9 @@ export class TransactionsList extends React.PureComponent<Props> {
         .filter((tx) => {
           const isForQueriedCurrency =
             feedType === FeedType.HOME ||
-            tokens.includes((tx as TransferStandby).currency) ||
-            tokens.includes((tx as ExchangeStandby).inCurrency) ||
-            tokens.includes((tx as ExchangeStandby).outCurrency)
+            tokens.includes((tx as TransferStandbyLegacy).currency) ||
+            tokens.includes((tx as ExchangeStandbyLegacy).inCurrency) ||
+            tokens.includes((tx as ExchangeStandbyLegacy).outCurrency)
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
           return isForQueriedCurrency && notInQueryTxs
