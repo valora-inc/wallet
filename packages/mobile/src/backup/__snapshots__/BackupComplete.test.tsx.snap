@@ -16,6 +16,7 @@ exports[`BackupComplete renders correctly 1`] = `
         "justifyContent": "center",
       }
     }
+    testID="BackupComplete"
   >
     <svg
       fill="none"
