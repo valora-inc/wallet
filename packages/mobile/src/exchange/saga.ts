@@ -33,7 +33,10 @@ import {
   createTokenTransferTransaction,
   getTokenContract,
 } from 'src/tokens/saga'
-import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import {
+  addStandbyTransactionLegacy,
+  removeStandbyTransactionLegacy,
+} from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
@@ -373,7 +376,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       }
     )
     if (context?.id) {
-      yield put(removeStandbyTransaction(context.id))
+      yield put(removeStandbyTransactionLegacy(context.id))
     }
 
     yield put(showErrorOrFallback(error, ErrorMessages.EXCHANGE_FAILED))
@@ -389,7 +392,7 @@ function* createStandbyTx(
   const takerAmount = getTakerAmount(makerAmount, exchangeRate)
   const context = newTransactionContext(TAG, `Exchange ${makerToken}`)
   yield put(
-    addStandbyTransaction({
+    addStandbyTransactionLegacy({
       context,
       type: TokenTransactionType.Exchange,
       status: TransactionStatus.Pending,
@@ -419,7 +422,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 
     context = newTransactionContext(TAG, 'Withdraw CELO')
     yield put(
-      addStandbyTransaction({
+      addStandbyTransactionLegacy({
         context,
         type: TokenTransactionType.Sent,
         comment: '',

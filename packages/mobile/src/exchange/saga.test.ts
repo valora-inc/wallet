@@ -74,7 +74,7 @@ describe(exchangeGoldAndStableTokens, () => {
       ])
       .put.like({
         action: {
-          transaction: {
+          transactionLegacy: {
             type: TokenTransactionType.Exchange,
             inCurrency: Currency.Celo,
             inValue: SELL_AMOUNT.toString(),
