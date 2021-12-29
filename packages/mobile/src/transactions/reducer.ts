@@ -70,6 +70,7 @@ export const reducer = (
           ...(state.standbyTransactionsLegacy || []),
         ],
       }
+    case ExchangeActions.WITHDRAW_CELO_FAILED:
     case Actions.REMOVE_STANDBY_TRANSACTION:
       return {
         ...state,
@@ -80,23 +81,10 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.REMOVE_STANDBY_TRANSACTION_LEGACY:
-    case ExchangeActions.WITHDRAW_CELO_FAILED:
-      return {
-        ...state,
-        standbyTransactionsLegacy: state.standbyTransactionsLegacy.filter(
-          (tx: StandbyTransactionLegacy) => tx.context.id !== action.idx
-        ),
-      }
     case Actions.RESET_STANDBY_TRANSACTIONS:
       return {
         ...state,
         standbyTransactions: [],
-        standbyTransactionsLegacy: [],
-      }
-    case Actions.RESET_STANDBY_TRANSACTIONS_LEGACY:
-      return {
-        ...state,
         standbyTransactionsLegacy: [],
       }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:

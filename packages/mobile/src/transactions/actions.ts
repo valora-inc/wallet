@@ -103,13 +103,6 @@ export const addStandbyTransaction = (
   transaction,
 })
 
-export const removeStandbyTransactionLegacy = (
-  idx: string
-): RemoveStandbyTransactionLegacyAction => ({
-  type: Actions.REMOVE_STANDBY_TRANSACTION_LEGACY,
-  idx,
-})
-
 export const removeStandbyTransaction = (idx: string): RemoveStandbyTransactionAction => ({
   type: Actions.REMOVE_STANDBY_TRANSACTION,
   idx,

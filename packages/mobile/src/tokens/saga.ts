@@ -245,7 +245,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
         )
       } catch (error) {
         Logger.error(tag, 'Error transfering token', error)
-        yield put(removeStandbyTransactionLegacy(context.id))
+        yield put(removeStandbyTransaction(context.id))
         yield put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
       }
     }
