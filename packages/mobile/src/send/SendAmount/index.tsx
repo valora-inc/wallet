@@ -85,7 +85,7 @@ export function useInputAmounts(
 }
 
 function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
-  if (!value || value.isNaN()) {
+  if (!value || value.isNaN() || value.isZero()) {
     return ''
   }
   // The first toFormat limits the number of desired decimals and the second
