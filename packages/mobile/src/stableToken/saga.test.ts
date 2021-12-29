@@ -122,7 +122,7 @@ describe('stableToken saga', () => {
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(TRANSFER_ACTION)
-      .put(removeStandbyTransaction(TX_ID))
+      .put(removeStandbyTransactionLegacy(TX_ID))
       .run()
   })
 })

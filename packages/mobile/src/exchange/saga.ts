@@ -379,7 +379,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       }
     )
     if (context?.id) {
-      yield put(removeStandbyTransaction(context.id))
+      yield put(removeStandbyTransactionLegacy(context.id))
     }
 
     yield put(showErrorOrFallback(error, ErrorMessages.EXCHANGE_FAILED))
