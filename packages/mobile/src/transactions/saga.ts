@@ -23,22 +23,25 @@ import {
   Actions,
   addHashToStandbyTransaction,
   NewTransactionsInFeedAction,
-  removeStandbyTransactionLegacy,
+  removeStandbyTransaction,
   transactionConfirmed,
   TransactionConfirmedAction,
   transactionFailed,
   TransactionFailedAction,
   updateRecentTxRecipientsCache,
+  UpdateTransactionsAction,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
 import {
   knownFeedTransactionsSelector,
   KnownFeedTransactionsType,
   standbyTransactionsLegacySelector,
+  standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import {
+  StandbyTransaction,
   StandbyTransactionLegacy,
   TransactionContext,
   TransactionStatus,
@@ -51,7 +54,7 @@ const TAG = 'transactions/saga'
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedAction) {
+function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFeedAction) {
   const standbyTxs: StandbyTransactionLegacy[] = yield select(standbyTransactionsLegacySelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
   for (const standbyTx of standbyTxs) {
@@ -60,7 +63,22 @@ function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedActi
       standbyTx.status !== TransactionStatus.Failed &&
       newFeedTxHashes.has(standbyTx.hash)
     ) {
-      yield put(removeStandbyTransactionLegacy(standbyTx.context.id))
+      yield put(removeStandbyTransaction(standbyTx.context.id))
+    }
+  }
+}
+
+// Remove standby txs from redux state when the real ones show up in the feed
+function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
+  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
+  for (const standbyTx of standbyTxs) {
+    if (
+      standbyTx.hash &&
+      standbyTx.status !== TransactionStatus.Failed &&
+      newFeedTxHashes.has(standbyTx.hash)
+    ) {
+      yield put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
 }
@@ -125,7 +143,7 @@ export function* sendAndMonitorTransaction<T>(
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield put(removeStandbyTransactionLegacy(context.id))
+    yield put(removeStandbyTransaction(context.id))
     yield put(transactionFailed(context.id))
     yield put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
@@ -212,7 +230,8 @@ function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactions)
+  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
