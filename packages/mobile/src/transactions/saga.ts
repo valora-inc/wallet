@@ -23,7 +23,7 @@ import {
   Actions,
   addHashToStandbyTransaction,
   NewTransactionsInFeedAction,
-  removeStandbyTransaction,
+  removeStandbyTransactionLegacy,
   transactionConfirmed,
   TransactionConfirmedAction,
   transactionFailed,
@@ -34,11 +34,15 @@ import { TxPromises } from 'src/transactions/contract-utils'
 import {
   knownFeedTransactionsSelector,
   KnownFeedTransactionsType,
-  standbyTransactionsSelector,
+  standbyTransactionsLegacySelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
+import {
+  StandbyTransactionLegacy,
+  TransactionContext,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -48,7 +52,7 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+  const standbyTxs: StandbyTransactionLegacy[] = yield select(standbyTransactionsLegacySelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
   for (const standbyTx of standbyTxs) {
     if (
@@ -56,7 +60,7 @@ function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedActi
       standbyTx.status !== TransactionStatus.Failed &&
       newFeedTxHashes.has(standbyTx.hash)
     ) {
-      yield put(removeStandbyTransaction(standbyTx.context.id))
+      yield put(removeStandbyTransactionLegacy(standbyTx.context.id))
     }
   }
 }
@@ -121,7 +125,7 @@ export function* sendAndMonitorTransaction<T>(
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield put(removeStandbyTransaction(context.id))
+    yield put(removeStandbyTransactionLegacy(context.id))
     yield put(transactionFailed(context.id))
     yield put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
@@ -187,7 +191,7 @@ function* addProfile(address: string) {
       },
     }
     yield put(updateValoraRecipientCache(newProfile))
-    Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+    Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
   }
 }
 

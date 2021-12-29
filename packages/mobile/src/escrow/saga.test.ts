@@ -12,7 +12,11 @@ import {
   EscrowTransferPaymentAction,
   fetchSentEscrowPayments,
 } from 'src/escrow/actions'
-import { reclaimFromEscrow, registerStandbyTransaction, transferToEscrow } from 'src/escrow/saga'
+import {
+  reclaimFromEscrow,
+  registerStandbyTransactionLegacy,
+  transferToEscrow,
+} from 'src/escrow/saga'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -60,7 +64,12 @@ describe(transferToEscrow, () => {
         [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])
       .put(fetchSentEscrowPayments())
-      .call(registerStandbyTransaction, escrowTransferAction.context, '10', escrowContract.address)
+      .call(
+        registerStandbyTransactionLegacy,
+        escrowTransferAction.context,
+        '10',
+        escrowContract.address
+      )
       .run()
     expect(mockContract.methods.approve).toHaveBeenCalledWith(
       escrowContract.address,

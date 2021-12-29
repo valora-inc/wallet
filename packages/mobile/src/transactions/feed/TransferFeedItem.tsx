@@ -12,13 +12,16 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
 
 const AVATAR_SIZE = 40
 
+export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
+
 interface Props {
-  transfer: TokenTransfer
+  transfer: FeedTokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
@@ -30,6 +33,7 @@ function TransferFeedItem({ transfer }: Props) {
   }
 
   const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
   return (
