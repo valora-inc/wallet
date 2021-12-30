@@ -11,10 +11,12 @@ import { WEI_DECIMALS } from 'src/geth/consts'
 import useSelector from 'src/redux/useSelector'
 import { STATIC_SEND_TOKEN_GAS_ESTIMATE } from 'src/send/saga'
 import { tokensByCurrencySelector, tokensListSelector } from 'src/tokens/selectors'
+import { Fee } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { FeeType as TransactionFeeType } from 'src/transactions/types'
 
 async function getSendGasFeeEstimate(
   address: string,
@@ -97,4 +99,26 @@ export function useFeeTokenAddress(): string | undefined {
   const feeCurrency = useFeeCurrency()
   const tokensByCurrency = useSelector(tokensByCurrencySelector)
   return tokensByCurrency[feeCurrency]?.address
+}
+
+export function usePaidFees(fees: Fee[]) {
+  const tokensByCurrency = useSelector(tokensByCurrencySelector)
+
+  const securityFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.SecurityFee)
+  const dekFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.EncryptionFee)
+  const feeCurrencyInfo = Object.entries(tokensByCurrency).find(
+    ([_, tokenInfo]) => tokenInfo?.address === securityFeeAmount?.amount.tokenAddress
+  )
+
+  const securityFee = securityFeeAmount ? new BigNumber(securityFeeAmount.amount.value) : undefined
+  const dekFee = dekFeeAmount ? new BigNumber(dekFeeAmount.amount.value) : undefined
+  const totalFeeOrZero = new BigNumber(0).plus(securityFee ?? 0).plus(dekFee ?? 0)
+  const totalFee = totalFeeOrZero.isZero() ? undefined : totalFeeOrZero
+
+  return {
+    feeCurrencyInfo,
+    securityFee,
+    dekFee,
+    totalFee,
+  }
 }
