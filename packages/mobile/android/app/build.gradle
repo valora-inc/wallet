@@ -269,6 +269,7 @@ android {
 
 dependencies {
     androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
 
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
