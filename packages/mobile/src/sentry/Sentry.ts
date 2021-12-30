@@ -1,32 +1,51 @@
 import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
-import { SENTRY_CLIENT_URL } from 'src/config'
+import { sentryTracesSampleRateSelector } from 'src/app/selectors'
+import { DEFAULT_FORNO_URL, SENTRY_CLIENT_URL } from 'src/config'
+import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'sentry/Sentry'
 
 // Set this to true, if you want to test Sentry on dev builds
+// Set tracesSampleRate: 1 to capture all events for testing performance metrics in Sentry
 export const SENTRY_ENABLED = !__DEV__ || false
+export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
-if (SENTRY_ENABLED) {
-  installSentry()
-} else {
-  Logger.info(TAG, 'Sentry not enabled')
-}
+export function* initializeSentry() {
+  if (!SENTRY_ENABLED) {
+    Logger.info(TAG, 'Sentry not enabled')
+    return
+  }
 
-// This should be called as early in the lifecycle of the app as possible.
-function installSentry() {
   if (!SENTRY_CLIENT_URL) {
     Logger.info(TAG, 'installSentry', 'Sentry URL not found, skiping instalation')
     return
   }
+
+  const tracesSampleRate = yield select(sentryTracesSampleRateSelector)
+  const tracingOrigins = [
+    DEFAULT_FORNO_URL,
+    networkConfig.blockchainApiUrl,
+    networkConfig.cloudFunctionsUrl,
+    networkConfig.inHouseLiquidityURL,
+  ]
+
   Sentry.init({
     dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
     enableAutoSessionTracking: true,
+    integrations: [
+      new Sentry.ReactNativeTracing({
+        routingInstrumentation: sentryRoutingInstrumentation,
+        tracingOrigins,
+      }),
+    ],
+    tracesSampleRate,
   })
+
   Logger.info(TAG, 'installSentry', 'Sentry installation complete')
 }
 
