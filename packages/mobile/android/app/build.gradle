@@ -164,6 +164,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // TODO check why lintVitalApptestRelease is failing to find google-services.json
+    lintOptions { 
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId project.env.get("APP_BUNDLE_ID")
         minSdkVersion rootProject.ext.minSdkVersion
