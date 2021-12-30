@@ -42,7 +42,7 @@ export const paymentConfirmationScreenNavOptions = () => ({
 function PaymentRequestConfirmation({ route }: Props) {
   const [comment, setComment] = useState('')
   const { transactionData, addressJustValidated } = route.params
-  const requesteeAddress = useSelector(walletAddressSelector)
+  const requesterAddress = useSelector(walletAddressSelector)
   const requesterE164Number = useSelector(e164NumberSelector)
 
   const recipient = useRecipientToSendTo(transactionData.recipient)
@@ -72,7 +72,7 @@ function PaymentRequestConfirmation({ route }: Props) {
       throw new Error("Can't request without valid recipient")
     }
 
-    if (!requesteeAddress) {
+    if (!requesterAddress) {
       throw new Error("Can't request without a valid account")
     }
 
@@ -84,14 +84,16 @@ function PaymentRequestConfirmation({ route }: Props) {
       amount: usdAmount.toString(),
       comment: comment || undefined,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
-      requesterAddress: requesteeAddress,
+      requesterAddress: requesterAddress,
       requesterE164Number: requesterE164Number ?? undefined,
       requesteeAddress: recipient.address.toLowerCase(),
       status: PaymentRequestStatus.REQUESTED,
       notified: false,
     }
 
-    ValoraAnalytics.track(RequestEvents.request_confirm_request, { requesteeAddress })
+    ValoraAnalytics.track(RequestEvents.request_confirm_request, {
+      requesteeAddress: paymentInfo.requesteeAddress,
+    })
     dispatch(writePaymentRequest(paymentInfo))
     Logger.showMessage(t('requestSent'))
   }

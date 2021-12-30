@@ -147,8 +147,7 @@ export function* handleBarcode(
           origin: SendOrigin.AppSendFlow,
         })
       }
-    }
-    if (!isLegacy) {
+    } else {
       if (isOutgoingPaymentRequest) {
         navigate(Screens.PaymentRequestConfirmation, {
           transactionData: secureSendTxData as TransactionDataInput,
