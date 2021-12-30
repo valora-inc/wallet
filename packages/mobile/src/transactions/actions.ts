@@ -24,10 +24,8 @@ export enum Actions {
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
-  // Remove legacy actions once the multitoken support feature is fully released
+  // Remove legacy action once the multitoken support feature is fully released
   ADD_STANDBY_TRANSACTION_LEGACY = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION_LEGACY',
-  REMOVE_STANDBY_TRANSACTION_LEGACY = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION_LEGACY',
-  RESET_STANDBY_TRANSACTIONS_LEGACY = 'TRANSACTIONS/RESET_STANDBY_TRANSACTIONS_LEGACY',
 }
 
 export interface AddStandbyTransactionAction {
@@ -47,15 +45,6 @@ export interface ResetStandbyTransactionsAction {
 export interface AddStandbyTransactionLegacyAction {
   type: Actions.ADD_STANDBY_TRANSACTION_LEGACY
   transactionLegacy: StandbyTransactionLegacy
-}
-
-export interface RemoveStandbyTransactionLegacyAction {
-  type: Actions.REMOVE_STANDBY_TRANSACTION_LEGACY
-  idx: string
-}
-
-export interface ResetStandbyTransactionsLegacyAction {
-  type: Actions.RESET_STANDBY_TRANSACTIONS_LEGACY
 }
 
 export interface AddHashToStandbyTransactionAction {
@@ -95,8 +84,6 @@ export type ActionTypes =
   | RemoveStandbyTransactionAction
   | ResetStandbyTransactionsAction
   | AddStandbyTransactionLegacyAction
-  | RemoveStandbyTransactionLegacyAction
-  | ResetStandbyTransactionsLegacyAction
   | AddHashToStandbyTransactionAction
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
@@ -114,13 +101,6 @@ export const addStandbyTransaction = (
 ): AddStandbyTransactionAction => ({
   type: Actions.ADD_STANDBY_TRANSACTION,
   transaction,
-})
-
-export const removeStandbyTransactionLegacy = (
-  idx: string
-): RemoveStandbyTransactionLegacyAction => ({
-  type: Actions.REMOVE_STANDBY_TRANSACTION_LEGACY,
-  idx,
 })
 
 export const removeStandbyTransaction = (idx: string): RemoveStandbyTransactionAction => ({
