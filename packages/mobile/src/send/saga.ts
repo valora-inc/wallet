@@ -300,7 +300,7 @@ function* sendPayment(
       context,
       undefined,
       feeInfo.currency,
-      feeInfo.gas?.toNumber(),
+      feeInfo.gas ? Number(feeInfo.gas) : undefined,
       feeInfo.gasPrice
     )
 
