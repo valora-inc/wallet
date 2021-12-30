@@ -18,8 +18,6 @@ import { TokenExchange } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue, getMoneyDisplayValue } from 'src/utils/formatting'
 
-const AVATAR_SIZE = 40
-
 interface Props {
   exchange: TokenExchange
 }

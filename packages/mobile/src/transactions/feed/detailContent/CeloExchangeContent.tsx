@@ -3,17 +3,12 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { MoneyAmount } from 'src/apollo/types'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import { StyleSheet, Text, View } from 'react-native'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
-import TotalLineItem from 'src/components/TotalLineItem'
 import { usePaidFees } from 'src/fees/hooks'
-import { FailedToFetchGenesisBlockError } from 'src/geth/geth'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { TokenExchange } from 'src/transactions/types'
@@ -24,6 +19,7 @@ export interface Props {
   exchange: TokenExchange
 }
 
+// Note that this is tested from TransactionDetailsScreen.test.tsx
 export default function CeloExchangeContent({ exchange }: Props) {
   const { t } = useTranslation()
 
@@ -60,17 +56,14 @@ export default function CeloExchangeContent({ exchange }: Props) {
         </View>
         <HorizontalLine />
         <LineItemRow
-          title={
-            <Trans i18nKey="subtotalAmount">
-              Subtotal @{' '}
-              <TokenDisplay
-                amount={exchangeRate}
-                tokenAddress={celoAddress}
-                testID="CeloExchangeRate"
-              />
-            </Trans>
+          title={<Trans i18nKey="subtotalAmount">Subtotal @{` ${exchangeRate}`}</Trans>}
+          amount={
+            <TokenDisplay
+              amount={stableAmount.value}
+              tokenAddress={stableTokenAddress}
+              testID="FiatAmount"
+            />
           }
-          amount={<TokenDisplay amount={stableAmount.value} tokenAddress={stableTokenAddress} />}
         />
         <FeeDrawer
           testID={'feeDrawer/CeloExchangeContent'}
