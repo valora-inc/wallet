@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
@@ -124,4 +125,4 @@ export class App extends React.Component<Props> {
   }
 }
 
-export default App
+export default Sentry.wrap(App)
