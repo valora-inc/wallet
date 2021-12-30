@@ -170,7 +170,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
-        <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
+        <Text style={styles.smallLabel}>{`${t('version')} ${appVersion}`}</Text>
       </View>
     </DrawerContentScrollView>
   )
