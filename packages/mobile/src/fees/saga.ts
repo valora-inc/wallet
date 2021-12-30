@@ -7,6 +7,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { FeeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { createReclaimTransaction, STATIC_ESCROW_TRANSFER_GAS_ESTIMATE } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeType } from 'src/fees/reducer'
 import { buildSendTx } from 'src/send/saga'
@@ -21,7 +22,7 @@ import {
   tokensByCurrencySelector,
   tokensListSelector,
 } from 'src/tokens/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { getGasPrice } from 'src/web3/gas'
@@ -229,10 +230,14 @@ function* fetchFeeCurrencySaga() {
 }
 
 export function fetchFeeCurrency(tokens: TokenBalance[]) {
-  for (const currency of Object.keys(CURRENCIES) as Currency[]) {
-    const balance = tokens.find((token) => token.symbol === CURRENCIES[currency].cashTag)?.balance
-    if (balance?.isGreaterThan(0)) {
-      return currency
+  for (const token of tokens) {
+    if (!token.isCoreToken) {
+      continue
+    }
+    if (token.symbol === 'CELO' && token.balance.gte(CELO_TRANSACTION_MIN_AMOUNT)) {
+      return Currency.Celo
+    } else if (token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT)) {
+      return token.symbol as Currency
     }
   }
   Logger.error(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')

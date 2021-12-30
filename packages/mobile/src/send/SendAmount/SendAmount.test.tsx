@@ -12,11 +12,12 @@ import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendAmount from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -45,12 +46,14 @@ const storeData = {
         symbol: 'cUSD',
         usdPrice: '1',
         balance: BALANCE_VALID,
+        isCoreToken: true,
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
         symbol: 'cEUR',
         usdPrice: '1.2',
         balance: '10',
+        isCoreToken: true,
       },
     },
   },
@@ -172,6 +175,28 @@ describe('SendAmount', () => {
           underlyingError: 'needMoreFundsToSend',
         },
       ])
+    })
+
+    it('max button sets the max accounting for fees', () => {
+      const store = createMockStore({
+        ...storeData,
+        localCurrency: {
+          preferredCurrencyCode: LocalCurrencyCode.USD,
+          fetchedCurrencyCode: LocalCurrencyCode.USD,
+          exchangeRates: { [Currency.Dollar]: '1' },
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      const maxButton = getByTestId('MaxButton')
+      fireEvent.press(maxButton)
+
+      // The value expected here is |BALANCE_VALID| - the send fee (1 cUSD)
+      expect(getElementText(getByTestId('InputAmount'))).toEqual('22.85')
     })
 
     it('shows an error when tapping the send button with an amount over the limit', () => {
