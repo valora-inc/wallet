@@ -134,6 +134,5 @@ it('navigates to payment request confirmation when validation successful for req
 
   expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
     transactionData: mockTransactionData,
-    addressJustValidated: true,
   })
 })

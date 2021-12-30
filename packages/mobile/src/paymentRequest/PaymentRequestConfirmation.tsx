@@ -3,7 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { firebase } from '@react-native-firebase/database'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -41,7 +41,7 @@ export const paymentConfirmationScreenNavOptions = () => ({
 
 function PaymentRequestConfirmation({ route }: Props) {
   const [comment, setComment] = useState('')
-  const { transactionData, addressJustValidated } = route.params
+  const { transactionData } = route.params
   const requesterAddress = useSelector(walletAddressSelector)
   const requesterE164Number = useSelector(e164NumberSelector)
 
@@ -53,12 +53,6 @@ function PaymentRequestConfirmation({ route }: Props) {
   )
 
   const { t } = useTranslation()
-
-  useEffect(() => {
-    if (addressJustValidated) {
-      Logger.showMessage(t('addressConfirmed'))
-    }
-  }, [])
 
   const dispatch = useDispatch()
 

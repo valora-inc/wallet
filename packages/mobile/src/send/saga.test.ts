@@ -258,7 +258,6 @@ describe(watchQrCodeDetections, () => {
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 

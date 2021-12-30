@@ -151,7 +151,6 @@ export function* handleBarcode(
       if (isOutgoingPaymentRequest) {
         navigate(Screens.PaymentRequestConfirmation, {
           transactionData: secureSendTxData as TransactionDataInput,
-          addressJustValidated: true,
         })
       } else {
         navigate(Screens.SendConfirmation, {

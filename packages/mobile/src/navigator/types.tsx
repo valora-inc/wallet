@@ -171,7 +171,6 @@ export type StackParamList = {
   }
   [Screens.PaymentRequestConfirmation]: {
     transactionData: TransactionDataInput
-    addressJustValidated?: boolean
   }
   [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy

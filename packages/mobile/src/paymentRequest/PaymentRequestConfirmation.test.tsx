@@ -17,7 +17,6 @@ const store = createMockStore({
 
 const mockScreenProps = getMockStackScreenProps(Screens.PaymentRequestConfirmation, {
   transactionData: mockTransactionData,
-  addressJustValidated: true,
 })
 
 describe('PaymentRequestConfirmation', () => {
