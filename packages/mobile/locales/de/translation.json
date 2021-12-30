@@ -661,8 +661,8 @@
     "cta": "Kaufe Lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
-    "step2": "Sende Krypto in der ganzen Welt",
+    "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
+    "step2": "Mit {{appName}} ist es ein einfach, auf deine Krypto zuzugreifen und sie zu vermehren.",
     "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
   "welcome": {
