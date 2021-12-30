@@ -6,7 +6,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
-import { useTranslation, WithTranslation } from 'react-i18next'
+import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
@@ -20,7 +20,7 @@ import CodeRow, { CodeRowStatus } from 'src/components/CodeRow'
 import ErrorMessageInline from 'src/components/ErrorMessageInline'
 import Modal from 'src/components/Modal'
 import { SingleDigitInput } from 'src/components/SingleDigitInput'
-import { withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import HamburgerCard from 'src/icons/HamburgerCard'
 import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
@@ -98,7 +98,6 @@ function navigateToConfirmationScreen(
   origin: SendOrigin
 ) {
   const isLegacy = isLegacyTransactionData(transactionData)
-  const { t } = useTranslation()
   if (isLegacy) {
     if (isOutgoingPaymentRequest) {
       navigate(Screens.PaymentRequestConfirmationLegacy, {
@@ -114,7 +113,7 @@ function navigateToConfirmationScreen(
     }
   } else {
     if (isOutgoingPaymentRequest) {
-      Logger.showMessage(t('addressConfirmed'))
+      Logger.showMessage(i18n.t('addressConfirmed'))
       navigate(Screens.PaymentRequestConfirmation, {
         transactionData: transactionData as TransactionDataInput,
       })
