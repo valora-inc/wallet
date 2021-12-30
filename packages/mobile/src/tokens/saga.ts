@@ -27,7 +27,7 @@ import {
   tokenBalanceFetchError,
 } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -208,7 +208,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
       )
 
       yield put(
-        addStandbyTransaction({
+        addStandbyTransactionLegacy({
           context,
           type: TokenTransactionType.Sent,
           comment,

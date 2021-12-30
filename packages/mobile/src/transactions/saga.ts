@@ -29,16 +29,23 @@ import {
   transactionFailed,
   TransactionFailedAction,
   updateRecentTxRecipientsCache,
+  UpdateTransactionsAction,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
 import {
   knownFeedTransactionsSelector,
   KnownFeedTransactionsType,
+  standbyTransactionsLegacySelector,
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
+import {
+  StandbyTransaction,
+  StandbyTransactionLegacy,
+  TransactionContext,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -47,9 +54,24 @@ const TAG = 'transactions/saga'
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedAction) {
-  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+function* cleanupStandbyTransactionsLegacy({ transactions }: NewTransactionsInFeedAction) {
+  const standbyTxs: StandbyTransactionLegacy[] = yield select(standbyTransactionsLegacySelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.hash))
+  for (const standbyTx of standbyTxs) {
+    if (
+      standbyTx.hash &&
+      standbyTx.status !== TransactionStatus.Failed &&
+      newFeedTxHashes.has(standbyTx.hash)
+    ) {
+      yield put(removeStandbyTransaction(standbyTx.context.id))
+    }
+  }
+}
+
+// Remove standby txs from redux state when the real ones show up in the feed
+function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
+  const standbyTxs: StandbyTransaction[] = yield select(standbyTransactionsSelector)
+  const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
     if (
       standbyTx.hash &&
@@ -187,7 +209,7 @@ function* addProfile(address: string) {
       },
     }
     yield put(updateValoraRecipientCache(newProfile))
-    Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+    Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
   }
 }
 
@@ -208,7 +230,8 @@ function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactions)
+  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }

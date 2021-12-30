@@ -14,8 +14,10 @@ import {
 } from 'src/exchange/actions'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { doFetchTobinTax, exchangeGoldAndStableTokens, withdrawCelo } from 'src/exchange/saga'
+import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import {
   getConnectedAccount,
@@ -23,7 +25,7 @@ import {
   unlockAccount,
   UnlockResult,
 } from 'src/web3/saga'
-import { makeExchangeRates } from 'test/values'
+import { makeExchangeRates, mockCeloAddress, mockCusdAddress } from 'test/values'
 
 const SELL_AMOUNT = 50 // in dollars/gold (not wei)
 const account = '0x22c8a9178841ba95a944afd1a1faae517d3f5daa'
@@ -71,14 +73,27 @@ describe(exchangeGoldAndStableTokens, () => {
         [select(exchangeRatesSelector), makeExchangeRates('2', '0.5')],
         [matchers.call.fn(sendTransaction), true],
         [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
+        [call(getCurrencyAddress, Currency.Dollar), mockCusdAddress],
+        [call(getCurrencyAddress, Currency.Celo), mockCeloAddress],
       ])
       .put.like({
         action: {
-          transaction: {
+          transactionLegacy: {
             type: TokenTransactionType.Exchange,
             inCurrency: Currency.Celo,
             inValue: SELL_AMOUNT.toString(),
             outCurrency: Currency.Dollar,
+            outValue: (SELL_AMOUNT / 2).toString(),
+          },
+        },
+      })
+      .put.like({
+        action: {
+          transaction: {
+            type: TokenTransactionTypeV2.Exchange,
+            inTokenAddress: mockCeloAddress,
+            inValue: SELL_AMOUNT.toString(),
+            outTokenAddress: mockCusdAddress,
             outValue: (SELL_AMOUNT / 2).toString(),
           },
         },
