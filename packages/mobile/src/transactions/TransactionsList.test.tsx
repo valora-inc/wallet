@@ -11,7 +11,7 @@ import {
 } from 'src/apollo/types'
 import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
-import { StandbyTransaction, TransactionStatus } from 'src/transactions/types'
+import { StandbyTransactionLegacy, TransactionStatus } from 'src/transactions/types'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
@@ -23,7 +23,7 @@ const newFragmentMatcher = new IntrospectionFragmentMatcher({
 
 const mockCache = new InMemoryCache({ fragmentMatcher: newFragmentMatcher })
 
-const standbyTransactions: StandbyTransaction[] = [
+const standbyTransactions: StandbyTransactionLegacy[] = [
   {
     context: { id: 'a-standby-tx-id' },
     type: TokenTransactionType.Sent,
@@ -56,7 +56,7 @@ const standbyTransactions: StandbyTransaction[] = [
   },
 ]
 
-const failedStandbyTransactions: StandbyTransaction[] = [
+const failedStandbyTransactions: StandbyTransactionLegacy[] = [
   {
     context: { id: '0x00000000000000000001' },
     type: TokenTransactionType.Exchange,
@@ -69,7 +69,7 @@ const failedStandbyTransactions: StandbyTransaction[] = [
   },
 ]
 
-const pendingStandbyTransactions: StandbyTransaction[] = [
+const pendingStandbyTransactions: StandbyTransactionLegacy[] = [
   {
     context: { id: 'a-standby-tx-id' },
     hash: '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353',
@@ -210,7 +210,7 @@ beforeEach(() => {
 
 it('renders the received data along with the standby transactions', async () => {
   const store = createMockStore({
-    transactions: { standbyTransactions },
+    transactions: { standbyTransactionsLegacy: standbyTransactions },
   })
 
   const { UNSAFE_getByType, toJSON } = render(
@@ -306,7 +306,7 @@ it('renders the received data along with the standby transactions', async () => 
 
 it('ignores pending standby transactions that are completed in the response', async () => {
   const store = createMockStore({
-    transactions: { standbyTransactions: pendingStandbyTransactions },
+    transactions: { standbyTransactionsLegacy: pendingStandbyTransactions },
   })
 
   expect(store.getActions()).toEqual([])
@@ -326,7 +326,7 @@ it('ignores pending standby transactions that are completed in the response', as
 
 it('ignores failed standby transactions', async () => {
   const store = createMockStore({
-    transactions: { standbyTransactions: failedStandbyTransactions },
+    transactions: { standbyTransactionsLegacy: failedStandbyTransactions },
   })
 
   const { UNSAFE_getByType, toJSON } = render(
