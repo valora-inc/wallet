@@ -29,6 +29,7 @@ interface NetworkConfig {
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
+  cloudFunctionsUrl: string
   allowedMtwImplementations: string[]
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
@@ -46,6 +47,8 @@ interface NetworkConfig {
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
+const CLOUD_FUNCTIONS_STAGING = 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net'
+const CLOUD_FUNCTIONS_MAINNET = 'https://us-central1-celo-mobile-mainnet.cloudfunctions.net'
 
 const ALLOWED_MTW_IMPLEMENTATIONS_MAINNET: Address[] = [
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7',
@@ -65,20 +68,14 @@ const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 
-const PROVIDER_FETCH_URL_ALFAJORES =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchProviders'
-const PROVIDER_FETCH_URL_MAINNET =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchProviders'
+const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
+const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 
-const SIMPLEX_API_URL_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
-const SIMPLEX_API_URL_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_API_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/processSimplexRequest`
+const SIMPLEX_API_URL_PROD = `${CLOUD_FUNCTIONS_MAINNET}/processSimplexRequest`
 
-const FETCH_USER_LOCATION_DATA_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchUserLocationData'
-const FETCH_USER_LOCATION_DATA_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchUserLocationData'
+const FETCH_USER_LOCATION_DATA_STAGING = `${CLOUD_FUNCTIONS_STAGING}/fetchUserLocationData`
+const FETCH_USER_LOCATION_DATA_PROD = `${CLOUD_FUNCTIONS_MAINNET}/fetchUserLocationData`
 
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
@@ -96,6 +93,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
+    cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
@@ -121,6 +119,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
+    cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
