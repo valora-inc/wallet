@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { DEFAULT_FORNO_URL, SENTRY_CLIENT_URL } from 'src/config'
+import { DEFAULT_FORNO_URL, isE2EEnv, SENTRY_CLIENT_URL } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -33,16 +33,19 @@ export function* initializeSentry() {
     networkConfig.inHouseLiquidityURL,
   ]
 
+  // Disable sentry on e2e tests https://github.com/getsentry/sentry-react-native/issues/1921
   Sentry.init({
     dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
     enableAutoSessionTracking: true,
-    integrations: [
-      new Sentry.ReactNativeTracing({
-        routingInstrumentation: sentryRoutingInstrumentation,
-        tracingOrigins,
-      }),
-    ],
+    integrations: isE2EEnv
+      ? undefined
+      : [
+          new Sentry.ReactNativeTracing({
+            routingInstrumentation: sentryRoutingInstrumentation,
+            tracingOrigins,
+          }),
+        ],
     tracesSampleRate,
   })
 
