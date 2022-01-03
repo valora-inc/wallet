@@ -11,7 +11,8 @@ const TAG = 'sentry/Sentry'
 
 // Set this to true, if you want to test Sentry on dev builds
 // Set tracesSampleRate: 1 to capture all events for testing performance metrics in Sentry
-export const SENTRY_ENABLED = !__DEV__ || false
+// Set SENTRY_ENABLED to false during e2e tests
+export const SENTRY_ENABLED = (!isE2EEnv && !__DEV__) || false
 export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 export function* initializeSentry() {
@@ -21,7 +22,7 @@ export function* initializeSentry() {
   }
 
   if (!SENTRY_CLIENT_URL) {
-    Logger.info(TAG, 'installSentry', 'Sentry URL not found, skiping instalation')
+    Logger.info(TAG, 'installSentry', 'Sentry URL not found, skipping installation')
     return
   }
 
@@ -33,19 +34,16 @@ export function* initializeSentry() {
     networkConfig.inHouseLiquidityURL,
   ]
 
-  // Disable sentry on e2e tests https://github.com/getsentry/sentry-react-native/issues/1921
   Sentry.init({
     dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
     enableAutoSessionTracking: true,
-    integrations: isE2EEnv
-      ? undefined
-      : [
-          new Sentry.ReactNativeTracing({
-            routingInstrumentation: sentryRoutingInstrumentation,
-            tracingOrigins,
-          }),
-        ],
+    integrations: [
+      new Sentry.ReactNativeTracing({
+        routingInstrumentation: sentryRoutingInstrumentation,
+        tracingOrigins,
+      }),
+    ],
     tracesSampleRate,
   })
 
