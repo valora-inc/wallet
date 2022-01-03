@@ -144,8 +144,6 @@ function TransactionFeed() {
     mapStandbyTransactionToFeedTokenTransaction(tx)
   )
 
-  Logger.debug(TAG, `Standby transactions: ${JSON.stringify(standbyFeedTransactions)}`)
-
   const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
 
   const sections = useMemo(() => {
