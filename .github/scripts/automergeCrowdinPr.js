@@ -49,7 +49,7 @@ module.exports = async ({ github, context }) => {
       repo,
       pull_number: pr.number,
       event: 'APPROVE',
-      body: `Approved from the '${context.workflow}' workflow.`,
+      body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
     })
   } else {
     console.log(`Already approved`)
