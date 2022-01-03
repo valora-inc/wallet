@@ -28,7 +28,8 @@ module.exports = async ({ github, context }) => {
     state: 'open',
     head: `${context.repo.owner}:${CROWDIN_BRANCH}`,
   })
-  const pr = listPrs.data.filter((pr) => pr.user?.login === CROWDIN_PR_USER)[0]
+  // As of writing this, github-script uses node 12 which doesn't support optional chaining (pr.user?.login)
+  const pr = listPrs.data.filter((pr) => pr.user && pr.user.login === CROWDIN_PR_USER)[0]
   if (!pr) {
     console.log('No Crowdin PR found')
     return
