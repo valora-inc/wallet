@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { DEFAULT_FORNO_URL, SENTRY_CLIENT_URL } from 'src/config'
+import { DEFAULT_FORNO_URL, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -11,7 +11,6 @@ const TAG = 'sentry/Sentry'
 
 // Set this to true, if you want to test Sentry on dev builds
 // Set tracesSampleRate: 1 to capture all events for testing performance metrics in Sentry
-export const SENTRY_ENABLED = !__DEV__ || false
 export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 export function* initializeSentry() {
@@ -21,7 +20,7 @@ export function* initializeSentry() {
   }
 
   if (!SENTRY_CLIENT_URL) {
-    Logger.info(TAG, 'installSentry', 'Sentry URL not found, skiping instalation')
+    Logger.info(TAG, 'installSentry', 'Sentry URL not found, skipping installation')
     return
   }
 
