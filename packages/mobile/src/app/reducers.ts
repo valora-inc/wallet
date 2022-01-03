@@ -42,6 +42,7 @@ export interface State {
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
+  sentryTracesSampleRate: number
 }
 
 const initialState = {
@@ -79,6 +80,7 @@ const initialState = {
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
+  sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
 }
 
 export const appReducer = (
@@ -187,6 +189,7 @@ export const appReducer = (
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
+        sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
