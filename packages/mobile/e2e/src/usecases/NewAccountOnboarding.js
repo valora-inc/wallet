@@ -49,7 +49,6 @@ export default NewAccountOnboarding = () => {
   })
 
   // Ideally this wouldn't be dependent on the previous test
-  // Skip setup on android for now
   it('Setup Recovery Phrase', async () => {
     await element(by.id('Hamburger')).tap()
     await element(by.id('DrawerItem/Recovery Phrase')).tap()
@@ -74,5 +73,15 @@ export default NewAccountOnboarding = () => {
       await element(by.id(`backupQuiz/${word}`)).tap()
     }
     await element(by.id('QuizSubmit')).tap()
+
+    // Backup complete screen is served
+    await waitFor(element(by.id('BackupComplete')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+
+    // Navigated to recovery phrase display
+    await waitFor(element(by.id('RecoveryPhraseContainer')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
   })
 }

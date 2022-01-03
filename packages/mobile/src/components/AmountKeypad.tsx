@@ -17,7 +17,7 @@ function AmountKeypad({ amount, maxDecimals, onAmountChange }: Props) {
       return null
     }
     return decimalPos + maxDecimals + 1
-  }, [amount, decimalSeparator])
+  }, [amount, maxDecimals, decimalSeparator])
 
   const onDigitPress = useCallback(
     (digit) => {
@@ -26,11 +26,15 @@ function AmountKeypad({ amount, maxDecimals, onAmountChange }: Props) {
       }
       onAmountChange(amount + digit.toString())
     },
-    [amount, onAmountChange]
+    [amount, maxLength, onAmountChange]
   )
 
   const onBackspacePress = useCallback(() => {
     onAmountChange(amount.substr(0, amount.length - 1))
+  }, [amount, onAmountChange])
+
+  const onBackspaceLongPress = useCallback(() => {
+    onAmountChange('')
   }, [amount, onAmountChange])
 
   const onDecimalPress = useCallback(() => {
@@ -50,6 +54,7 @@ function AmountKeypad({ amount, maxDecimals, onAmountChange }: Props) {
     <NumberKeypad
       onDigitPress={onDigitPress}
       onBackspacePress={onBackspacePress}
+      onBackspaceLongPress={onBackspaceLongPress}
       decimalSeparator={decimalSeparator}
       onDecimalPress={onDecimalPress}
     />

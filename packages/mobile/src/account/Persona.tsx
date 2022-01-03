@@ -1,6 +1,5 @@
+import pjson from '@celo/mobile/package.json'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import { generateKeys } from '@celo/utils/lib/account'
-import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -10,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getStoredMnemonic } from 'src/backup/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
+import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
-import { mtwAddressSelector } from 'src/web3/selectors'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -30,6 +31,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
+  const walletAddress = useSelector(walletAddressSelector)
 
   const dispatch = useDispatch()
 
@@ -53,7 +55,9 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
     Inquiry.fromTemplate(templateId)
       .referenceId(accountMTWAddress)
       .environment(networkConfig.personaEnvironment)
+      .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
+        ValoraAnalytics.track(CICOEvents.persona_kyc_success)
         Logger.info(
           TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
@@ -61,36 +65,17 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       })
       .onCancelled(() => {
         onCancelled?.()
+        ValoraAnalytics.track(CICOEvents.persona_kyc_cancel)
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
         onCancelled?.()
+        ValoraAnalytics.track(CICOEvents.persona_kyc_error)
         Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
       .start()
   }, [templateId])
-
-  const getPrivateKey = async (): Promise<string> => {
-    const mnemonic = await getStoredMnemonic(accountMTWAddress)
-
-    if (!mnemonic) {
-      throw new Error('Unable to fetch mnemonic from the store')
-    }
-    const keys = await generateKeys(mnemonic)
-    return keys?.privateKey
-  }
-
-  const createAccountWithIHL = async (serializedSignature: string): Promise<Response> => {
-    return await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora ${accountMTWAddress}:${serializedSignature}`,
-      },
-      body: JSON.stringify({ accountMTWAddress }),
-    })
-  }
 
   useAsync(async () => {
     if (!personaAccountCreated) {
@@ -98,15 +83,11 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
         Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
         return
       }
-      const privateKey = await getPrivateKey()
-      const signature = signMessage(
-        `post /account/create ${JSON.stringify({ accountMTWAddress })}`,
-        privateKey,
-        accountMTWAddress
-      )
-      const serializedSignature = serializeSignature(signature)
 
-      const IHLResponse = await createAccountWithIHL(serializedSignature)
+      const IHLResponse = await createPersonaAccount({
+        accountMTWAddress,
+        walletAddress: walletAddress as string,
+      })
 
       if (IHLResponse.status === 201 || IHLResponse.status === 409) {
         setPersonaAccountCreated(true)

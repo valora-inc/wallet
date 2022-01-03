@@ -1,4 +1,0 @@
-{
-  "paymentRequestedTitle": "Pagamento solicitado",
-  "paymentRequestedBody": "Foi solicitado um pagamento de {{amount}} {{currency}}"
-}

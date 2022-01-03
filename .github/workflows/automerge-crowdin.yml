@@ -1,0 +1,22 @@
+name: Automerge Crowdin
+
+on:
+  workflow_dispatch:
+  # At 02:00 (UTC) daily
+  # https://crontab.guru/#0_2_*_*_*
+  # 1 hour before the nightly build
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  automerge-crowdin-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            const script = require('.github/scripts/automergeCrowdinPr.js')
+            await script({github, context, core})

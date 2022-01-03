@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -49,6 +49,7 @@
     "@celo/utils": "~1.2.4",
     "@celo/wallet-rpc": "~1.2.0",
     "@crowdin/ota-client": "^0.4.0",
+    "@google-cloud/storage": "^5.16.1",
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
     "@pedrouid/environment": "^1.0.1",
@@ -73,7 +74,7 @@
     "@segment/analytics-react-native-adjust": "^1.5.0",
     "@segment/analytics-react-native-clevertap": "^1.5.0",
     "@segment/analytics-react-native-firebase": "^1.5.0",
-    "@sentry/react-native": "^2.1.0",
+    "@sentry/react-native": "^3.2.8",
     "@ungap/url-search-params": "^0.1.2",
     "Base64": "^1.0.1",
     "apollo-boost": "^0.4.9",
@@ -205,6 +206,7 @@
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@valora/eslint-config-typescript": "^0.0.1",
     "babel-core": "7.0.0-bridge.0",
+    "detox": "^19.4.1",
     "detox-recorder": "^1.0.151",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^7.27.0",
@@ -280,7 +282,8 @@
         "type": "android.emulator",
         "device": {
           "avdName": "Pixel_API_29_AOSP_x86_64"
-        }
+        },
+        "utilBinaryPaths": ["./e2e/test-butler-app.apk"]
       }
     },
     "configurations": {
@@ -300,6 +303,69 @@
         "device": "emulator",
         "app": "android.release"
       }
+    }
+  },
+  "persona": {
+    "androidTheme": {
+      "backgroundColor": null,
+      "primaryColor": "#1AB775",
+      "darkPrimaryColor": "#1AB775",
+      "accentColor": "#1AB775",
+      "titleTextAlignment": "left-align",
+      "titleTextColor": "#2E3338",
+      "titleTextFont": "Inter-Regular",
+      "titleTextSize": "26",
+      "bodyTextColor": "#2E3338",
+      "bodyTextFont": "Inter-Regular",
+      "bodyTextSize": "16",
+      "footnoteTextColor": "#2E3338",
+      "footnoteTextFont": "Inter-Regular",
+      "textFieldTextColor": "#2E3338",
+      "textFieldTextFont": "Inter-Regular",
+      "pickerTextColor": null,
+      "pickerTextFont": null,
+      "buttonBackgroundColor": "#1AB775",
+      "buttonDisabledBackgroundColor": "#97DFC1",
+      "buttonTouchedBackgroundColor": "#97DFC1",
+      "buttonTextColor": "#FFFFFF",
+      "buttonDisabledTextColor": "#FFFFFF",
+      "buttonCornerRadius": "30",
+      "buttonFont": null,
+      "progressColor": "#1AB775"
+    },
+    "iosTheme": {
+      "backgroundColor": null,
+      "primaryColor": "#1AB775",
+      "darkPrimaryColor": "#1AB775",
+      "accentColor": "#1AB775",
+      "overlayBackgroundColor": null,
+      "titleTextColor": "#2E3338",
+      "titleTextFont": "Inter-Regular",
+      "titleTextSize": "26",
+      "bodyTextColor": "#2E3338",
+      "bodyTextFont": "Inter-Regular",
+      "bodyTextSize": "26",
+      "footnoteTextColor": "#2E3338",
+      "footnoteTextFont": "Inter-Regular",
+      "formLabelTextColor": null,
+      "formLabelTextFont": null,
+      "textFieldTextColor": null,
+      "textFieldBackgroundColor": null,
+      "textFieldBorderColor": null,
+      "pickerTextColor": "#2E3338",
+      "pickerTextFont": "Inter-Regular",
+      "buttonBackgroundColor": "#1AB775",
+      "buttonDisabledBackgroundColor": "#97DFC1",
+      "buttonTouchedBackgroundColor": "#97DFC1",
+      "buttonTextColor": "#FFFFFF",
+      "buttonDisabledTextColor": "#FFFFFF",
+      "buttonTextAlignment": null,
+      "buttonCornerRadius": "30",
+      "buttonFont": "Inter-Regular",
+      "selectedCellBackgroundColor": null,
+      "closeButtonTintColor": null,
+      "cancelButtonBackgroundColor": null,
+      "progressColor": "#1AB775"
     }
   }
 }

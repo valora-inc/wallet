@@ -52,6 +52,7 @@ jobs:
       - run: yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
+      - run: yarn tsc -p .github/scripts
   yarn-lock:
     name: 'yarn.lock Up-to-date'
     runs-on: ubuntu-latest
