@@ -8,6 +8,7 @@ import { TimerContext as TimerContextES } from 'victory-core/es'
 // This is done here instead of in the env file
 // so we can use any existing env file without having to modify it to run the e2e test
 Config.IS_E2E = 'true'
+Config.SENTRY_ENABLED = 'false'
 
 // Disable VictoryCharts timer during E2E tests as it uses `requestAnimationFrame`
 // continuously and prevents Detox from detecting an 'idle' state

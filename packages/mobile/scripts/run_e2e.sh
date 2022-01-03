@@ -27,6 +27,7 @@ FILE_TO_RUN=""
 TEST_MATCH=""
 WORKERS=1
 RETRIES=0
+extra_param=""
 while getopts 'p:f:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
@@ -96,6 +97,9 @@ preloadBundle() {
 }
 
 runTest() {
+  if [[ $DEV_MODE == true ]]; then
+    extra_param="--reuse"
+  fi
   test_match=""
   if [[ $TEST_MATCH ]]; then
     test_match="-t='$TEST_MATCH'"
@@ -112,7 +116,7 @@ runTest() {
     --retries $RETRIES \
     --headless \
     "${test_match}" \
-    --reuse
+    "${extra_param}" 
   TEST_STATUS=$?
 }
 
