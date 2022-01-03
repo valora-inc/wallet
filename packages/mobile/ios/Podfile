@@ -82,8 +82,13 @@ post_install do |installer|
     end
   end
 
+  projects = installer.aggregate_targets
+    .map{ |t| t.user_project }
+    .uniq{ |p| p.path }
+    .push(installer.pods_project)
+
   # This block is needed for preserving the EXCLUDED_ARCHS setting on M1 machines
-  installer.aggregate_targets.user_project do |project|
+  projects.each do |project|
     project.build_configurations.each do |config|
       # Needed for now as Xcode 12 now tries to build/link both arm64 and x86_64 slices for the simulator
       # but some of our prebuilt deps don't support this
