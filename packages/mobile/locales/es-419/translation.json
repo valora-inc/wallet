@@ -216,7 +216,7 @@
   "newBalance": "Saldo nuevo",
   "reviewExchange": "Revisar cambio",
   "fee": "Tarifas",
-  "securityFee": "Tarifa de seguridad",
+  "securityFee": "Tarifa de red",
   "exchangeFee": "Tarifa de cambio",
   "edit": "Editar",
   "notEnoughDollars": "No tienes suficientes Celo Dólares para hacer el cambio",
@@ -661,8 +661,8 @@
     "cta": "Comprar búsquedas (2)"
   },
   "onboardingEducation": {
-    "step1": "{{appName}} es una nueva forma de enviar y recibir valor en todo el mundo",
-    "step2": "Envía fondos sin fronteras",
+    "step1": "Cripto tan fácil como enviar mensajes. Convierte tu teléfono en una billetera cripto.",
+    "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
   "welcome": {
@@ -810,7 +810,7 @@
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
-  "feeEducation": "Se te cobrará una pequeña tarifa de seguridad y mantenimiento para enviar pagos y hacer cambios.",
+  "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "inviteMoneyEscrow": "Invitaremos a este contacto y mantendremos seguros tus fondos hasta que confirme su cuenta.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
