@@ -44,6 +44,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { initializeSentry } from 'src/sentry/Sentry'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -66,6 +67,8 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
+  yield call(initializeSentry)
+
   const inSync = yield call(clockInSync)
   if (!inSync) {
     navigate(Screens.SetClock)
@@ -164,6 +167,8 @@ export interface RemoteConfigValues {
   multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
+  sentryTracesSampleRate: number
+  sentryEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

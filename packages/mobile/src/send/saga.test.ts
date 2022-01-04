@@ -29,7 +29,9 @@ import {
   watchQrCodeDetections,
 } from 'src/send/saga'
 import { getERC20TokenContract } from 'src/tokens/saga'
+import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import {
   getConnectedAccount,
@@ -64,6 +66,21 @@ jest.mock('src/utils/time', () => ({
 jest.mock('src/invite/saga', () => ({
   sendInvite: jest.fn(),
 }))
+
+const mockNewTransactionContext = jest.fn()
+
+jest.mock('src/transactions/types', () => {
+  const originalModule = jest.requireActual('src/transactions/types')
+
+  return {
+    ...originalModule,
+    newTransactionContext: (tag: string, description: string) =>
+      mockNewTransactionContext(tag, description),
+  }
+})
+
+const mockContext = { id: 'mock' }
+mockNewTransactionContext.mockReturnValue(mockContext)
 
 const mockE164NumberToAddress: E164NumberToAddressType = {
   [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
@@ -215,10 +232,9 @@ describe(watchQrCodeDetections, () => {
       .dispatch(qrAction)
       .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 
@@ -242,7 +258,6 @@ describe(watchQrCodeDetections, () => {
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 
@@ -336,6 +351,18 @@ describe(sendPaymentOrInviteSaga, () => {
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
       ])
+      .put(
+        addStandbyTransaction({
+          context: mockContext,
+          type: TokenTransactionTypeV2.Sent,
+          comment: sendAction.comment,
+          status: TransactionStatus.Pending,
+          value: amount.negated().toString(),
+          tokenAddress: mockCusdAddress,
+          timestamp: Math.floor(Date.now() / 1000),
+          address: mockQRCodeRecipient.address,
+        })
+      )
       .call.fn(sendAndMonitorTransaction)
       .run()
 

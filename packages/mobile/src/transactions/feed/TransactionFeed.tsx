@@ -12,9 +12,16 @@ import { updateTransactions } from 'src/transactions/actions'
 import { TRANSACTIONS_QUERY } from 'src/transactions/feed/query'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
-import { transactionsSelector } from 'src/transactions/reducer'
+import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { FeedType } from 'src/transactions/TransactionFeed'
-import { TokenTransaction } from 'src/transactions/types'
+import {
+  ExchangeStandby,
+  StandbyTransaction,
+  TokenTransaction,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+  TransferStandby,
+} from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -29,6 +36,12 @@ interface TransactionFeed {
     transactions: TokenTransaction[]
   }
 }
+
+export type FeedTokenProperties = {
+  status: TransactionStatus // for standby transactions
+}
+
+export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
 function useQueryTransactionFeed() {
   const address = useSelector(walletAddressSelector)
@@ -74,12 +87,64 @@ function useQueryTransactionFeed() {
   return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
 }
 
+function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
+  switch (tx.type) {
+    case TokenTransactionTypeV2.Exchange:
+      const exchangeTx = tx as ExchangeStandby
+      return {
+        __typename: 'TokenExchangeV2',
+        type: tx.type,
+        status: tx.status,
+        transactionHash: tx.hash || '',
+        timestamp: tx.timestamp,
+        block: '',
+        inAmount: {
+          value: exchangeTx.inValue,
+          tokenAddress: exchangeTx.inTokenAddress,
+        },
+        outAmount: {
+          value: exchangeTx.outValue,
+          tokenAddress: exchangeTx.outTokenAddress,
+        },
+        metadata: {},
+        fees: [],
+      }
+    default:
+      const transferTx = tx as TransferStandby
+      return {
+        __typename: 'TokenTransferV2',
+        type: tx.type,
+        status: tx.status,
+        transactionHash: tx.hash || '',
+        timestamp: tx.timestamp,
+        block: '',
+        address: transferTx.address,
+        amount: {
+          value: transferTx.value,
+          tokenAddress: transferTx.tokenAddress,
+        },
+        metadata: {},
+        fees: [],
+      }
+  }
+}
+
 function TransactionFeed() {
   const tokensInfo = useSelector(tokensByAddressSelector)
   const cachedTransactions = useSelector(transactionsSelector)
 
   const { loading, error, transactions } = useQueryTransactionFeed()
-  const tokenTransactions: TokenTransaction[] = transactions ?? cachedTransactions
+  const confirmedTokenTransactions: TokenTransaction[] = transactions ?? cachedTransactions
+  const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
+    ...tx,
+    status: TransactionStatus.Complete,
+  }))
+
+  const standbyFeedTransactions = useSelector(standbyTransactionsSelector).map((tx) =>
+    mapStandbyTransactionToFeedTokenTransaction(tx)
+  )
+
+  const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
 
   const sections = useMemo(() => {
     if (tokenTransactions.length === 0) {
@@ -93,7 +158,7 @@ function TransactionFeed() {
     return <NoActivity kind={FeedType.HOME} loading={loading} error={error} />
   }
 
-  function renderItem({ item: tx }: { item: TokenTransaction; index: number }) {
+  function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV2':
         // TODO

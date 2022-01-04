@@ -136,6 +136,13 @@ export const mockInvitableRecipient2: ContactRecipient = {
 }
 
 export const mockTransactionData = {
+  inputAmount: new BigNumber(1),
+  amountIsInLocalCurrency: false,
+  tokenAddress: mockCusdAddress,
+  recipient: mockInvitableRecipient2,
+}
+
+export const mockTransactionDataLegacy = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
   currency: Currency.Dollar,

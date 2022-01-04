@@ -15,10 +15,11 @@ export const tokensByAddressSelector = createSelector(
       if (!storedState || storedState.balance === null) {
         continue
       }
+      const usdPrice = new BigNumber(storedState.usdPrice)
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: new BigNumber(storedState.usdPrice),
+        usdPrice: usdPrice.isNaN() ? new BigNumber(0) : usdPrice,
       }
     }
     return tokenBalances
@@ -33,6 +34,10 @@ export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tok
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   )
+})
+
+export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
 // Tokens sorted by usd balance (descending)

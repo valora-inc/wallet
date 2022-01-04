@@ -33,4 +33,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   multiTokenUseUpdatedFeed: false,
   allowOtaTranslations: false,
   linkBankAccountEnabled: false,
+  sentryTracesSampleRate: 0.2,
+  sentryEnabled: false,
 }

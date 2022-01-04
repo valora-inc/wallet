@@ -63,6 +63,7 @@ export const vNeg1Schema = {
   },
   transactions: {
     standbyTransactions: [],
+    standbyTransactionsLegacy: [],
   },
   web3: {
     syncProgress: {
@@ -772,6 +773,10 @@ export const v24Schema = {
     ...v23Schema._persist,
     version: 24,
   },
+  app: {
+    ...v23Schema.app,
+    sentryTracesSampleRate: 0.2,
+  },
   transactions: {
     ...v23Schema.transactions,
     transactions: [],
@@ -779,6 +784,18 @@ export const v24Schema = {
   invite: undefined,
 }
 
+export const v25Schema = {
+  ...v24Schema,
+  _persist: {
+    ...v24Schema._persist,
+    version: 25,
+  },
+  app: {
+    ...v24Schema.app,
+    sentryTracesSampleRate: 0.2,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v24Schema as Partial<RootState>
+  return v25Schema as Partial<RootState>
 }

@@ -17,6 +17,7 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
+import { useFeeTokenAddress } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
@@ -39,6 +40,7 @@ import {
   useLocalToTokenAmount,
   useTokenInfo,
   useTokenToLocalAmount,
+  useUsdToTokenAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
 import { defaultTokenSelector } from 'src/tokens/selectors'
@@ -46,6 +48,8 @@ import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
+const LOCAL_CURRENCY_MAX_DECIMALS = 2
+const TOKEN_MAX_DECIMALS = 8
 
 export interface TransactionDataInput {
   recipient: Recipient
@@ -80,6 +84,40 @@ export function useInputAmounts(
   }
 }
 
+function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
+  if (!value || value.isNaN() || value.isZero()) {
+    return ''
+  }
+  // The first toFormat limits the number of desired decimals and the second
+  // removes trailing zeros.
+  return parseInputAmount(
+    value.toFormat(decimals, BigNumber.ROUND_DOWN),
+    decimalSeparator
+  ).toFormat()
+}
+
+// The value in |inputTokenAddress| that needs to be reduced from the user balance to send
+// when the MAX button is pressed.
+function useFeeToReduceFromMaxButtonInToken(
+  inputTokenAddress: string,
+  recipientVerificationStatus: RecipientVerificationStatus
+) {
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeTokenAddress = useFeeTokenAddress()
+
+  const feeType =
+    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
+      ? FeeType.SEND
+      : FeeType.INVITE
+  const usdFeeEstimate = feeEstimates[inputTokenAddress]?.[feeType]?.usdFee
+  const feeEstimate = useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), inputTokenAddress)
+
+  if (inputTokenAddress !== feeTokenAddress) {
+    return new BigNumber(0)
+  }
+  return feeEstimate ?? new BigNumber(0)
+}
+
 function SendAmount(props: Props) {
   const { t } = useTranslation()
 
@@ -98,29 +136,30 @@ function SendAmount(props: Props) {
   )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
+  const feeEstimates = useSelector(feeEstimatesSelector)
 
-  const maxInLocalCurrency =
-    useTokenToLocalAmount(tokenInfo.balance, transferTokenAddress)?.toFixed(
-      2,
-      BigNumber.ROUND_DOWN
-    ) ?? ''
+  const feeEstimate = useFeeToReduceFromMaxButtonInToken(
+    transferTokenAddress,
+    recipientVerificationStatus
+  )
+  const maxBalance = tokenInfo.balance.minus(feeEstimate)
+  const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
+
   const onPressMax = () => {
-    // TODO: Take into account fee amount if only one fee token has a balance.
-    // With usingLocalAmount max is expressed as 'xx.xx'
-    // With tokens max is expressed with up to 8 significant digits
     setAmount(
-      usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toPrecision(8, BigNumber.ROUND_DOWN)
+      formatWithMaxDecimals(
+        usingLocalAmount ? maxInLocalCurrency : maxBalance,
+        usingLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
+      )
     )
   }
-  // This swap preserves numbers like 10.1 without adding trailing zeros
-  // Sample swaps: 10.00 --> 10 | 10.01 --> 10.01 | 10.10 --> 10.1
   const onSwapInput = () => {
     setAmount(
-      usingLocalAmount
-        ? amount
-        : +amount === 0
-        ? ''
-        : `${Math.floor((+amount + Number.EPSILON) * 100) / 100}`
+      formatWithMaxDecimals(
+        parseInputAmount(amount, decimalSeparator),
+        // Note that the decimal variables are reversed because we are changing the currency used here.
+        usingLocalAmount ? TOKEN_MAX_DECIMALS : LOCAL_CURRENCY_MAX_DECIMALS
+      )
     )
     setUsingLocalAmount(!usingLocalAmount)
   }
@@ -174,10 +213,13 @@ function SendAmount(props: Props) {
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
 
-  const feeEstimates = useSelector(feeEstimatesSelector)
   useEffect(() => {
     if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
       // Wait until the recipient status is fetched.
+      return
+    }
+    if (isOutgoingPaymentRequest) {
+      // Don't calculate fees on outgoing payment requests
       return
     }
     const feeType =
@@ -209,17 +251,17 @@ function SendAmount(props: Props) {
       <DisconnectBanner />
       <View style={styles.contentContainer}>
         <SendAmountValue
+          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={usingLocalAmount}
           tokenAddress={transferTokenAddress}
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
         />
         <AmountKeypad
           amount={amount}
-          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : 8 ?? 0}
+          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
           onAmountChange={setAmount}
         />
       </View>

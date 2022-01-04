@@ -164,7 +164,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.23.0"
+        versionName "1.24.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -269,6 +269,7 @@ android {
 
 dependencies {
     androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
 
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'

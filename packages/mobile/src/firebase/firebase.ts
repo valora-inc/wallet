@@ -268,6 +268,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
+    sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
+    sentryEnabled: flags.sentryEnabled.asBoolean(),
   }
 }
 
