@@ -36,6 +36,10 @@ export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tok
   )
 })
 
+export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+})
+
 // Tokens sorted by usd balance (descending)
 export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) => {
   return tokensList.sort((a, b) =>

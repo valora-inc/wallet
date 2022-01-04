@@ -168,11 +168,17 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   renderSendToAddress = () => {
-    const { searchQuery, recipientInfo, onSelectRecipient, showSendToAddressWarning } = this.props
+    const {
+      searchQuery,
+      recipientInfo,
+      onSelectRecipient,
+      showSendToAddressWarning,
+      isOutgoingPaymentRequest,
+    } = this.props
     const searchedAddress = searchQuery.toLowerCase()
     const recipient = getRecipientFromAddress(searchedAddress, recipientInfo)
 
-    if (recipientHasNumber(recipient)) {
+    if (recipientHasNumber(recipient) || isOutgoingPaymentRequest) {
       return (
         <>
           <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
