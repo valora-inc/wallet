@@ -88,6 +88,7 @@ export type ActionTypes =
   | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
+  | TransactionConfirmedAction
 
 export const addStandbyTransactionLegacy = (
   transaction: StandbyTransactionLegacy

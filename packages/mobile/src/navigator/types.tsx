@@ -167,9 +167,12 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInput | TransactionDataInputLegacy
   }
   [Screens.PaymentRequestConfirmation]: {
+    transactionData: TransactionDataInput
+  }
+  [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
   }
@@ -228,13 +231,6 @@ export type StackParamList = {
     isFromScan?: boolean
     origin: SendOrigin
     forceTokenAddress?: string
-  }
-  [Screens.SendAmountLegacy]: {
-    recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
-    isFromScan?: boolean
-    origin: SendOrigin
-    forceCurrency?: Currency
   }
   [Screens.SendAmountLegacy]: {
     recipient: Recipient

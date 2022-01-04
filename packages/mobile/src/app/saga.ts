@@ -168,6 +168,7 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  sentryEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
