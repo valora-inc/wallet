@@ -34,8 +34,6 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
-      - name: Clear dependencies cache
-        run: yarn cache clean
       - name: Install package dependencies
         run: yarn
       - name: Build mobile dependencies
