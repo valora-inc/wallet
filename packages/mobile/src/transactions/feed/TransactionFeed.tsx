@@ -95,7 +95,7 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
       return {
         __typename: 'TokenExchangeV2',
         type: tx.type,
-        status: TransactionStatus.Pending,
+        status: tx.status,
         transactionHash: tx.hash || '',
         timestamp: tx.timestamp,
         block: '',
@@ -115,7 +115,7 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
       return {
         __typename: 'TokenTransferV2',
         type: tx.type,
-        status: TransactionStatus.Pending,
+        status: tx.status,
         transactionHash: tx.hash || '',
         timestamp: tx.timestamp,
         block: '',

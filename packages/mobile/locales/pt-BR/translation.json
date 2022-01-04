@@ -216,7 +216,7 @@
   "newBalance": "Novo saldo",
   "reviewExchange": "Revisar câmbio",
   "fee": "Taxa",
-  "securityFee": "Taxa de Segurança",
+  "securityFee": "Taxa de rede",
   "exchangeFee": "Taxa de câmbio",
   "edit": "Editar",
   "notEnoughDollars": "Celo Dólares insuficientes para fazer o câmbio",
@@ -584,7 +584,7 @@
   "importIt": "Restaurar Carteira",
   "important": "Importante",
   "confirmPin": {
-    "title": "Inserir PIN"
+    "title": "Insira o PIN"
   },
   "goToSystemSecuritySettingsActionLabel": "Ir para segurança",
   "enableSystemScreenLockFailedMessage": "Falha ao ativar o bloqueio de tela",
@@ -602,7 +602,7 @@
   "emptyVerificationCode": "Nenhum código de conexão na área de transferência",
   "invalidVerificationCode": "Código de confirmação inválido",
   "repeatVerificationCode": "Código de conexão repetido",
-  "revealAttestationFailure": "Erro ao solicitar mensagem de SMS",
+  "revealAttestationFailure": "Ocorreu um erro ao solicitar mensagem de SMS",
   "verificationFailure": "Falha na confirmação",
   "cantVerifyRevokedAccount": "Essa conta já foi revogada uma vez. Por favor, crie uma nova conta e tente novamente.",
   "verificationTimeout": "A confirmação expirou",
@@ -661,8 +661,8 @@
     "cta": "Comprar buscas (2)"
   },
   "onboardingEducation": {
-    "step1": "A {{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
-    "step2": "Envie fundos internacionalmente",
+    "step1": "A cripto tão fácil quanto enviar mensagens. Seu celular é a sua carteira.",
+    "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
     "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
   "welcome": {
@@ -810,7 +810,7 @@
   "commentLabel": "Mensagem",
   "amountSent": "Quantia enviada",
   "amountCeloWithdrawn": "Quantia (CELO)",
-  "feeEducation": "O envio de pagamentos e a realização de câmbios incluem uma pequena taxa de segurança e manutenção do serviço.",
+  "feeEducation": "O blockchain da Celo coleta uma taxa de transação para manter o suporte e o bom funcionamento da sua rede.",
   "inviteMoneyEscrow": "Convidaremos este contato e manteremos seus fundos seguros até que ele confirme a conta.",
   "reviewPayment": "Revisar pagamento",
   "requestPayment": "Solicitar pagamento",
