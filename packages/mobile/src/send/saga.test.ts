@@ -232,10 +232,9 @@ describe(watchQrCodeDetections, () => {
       .dispatch(qrAction)
       .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 
@@ -259,7 +258,6 @@ describe(watchQrCodeDetections, () => {
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 
