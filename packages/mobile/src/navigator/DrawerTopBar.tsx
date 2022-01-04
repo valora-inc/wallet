@@ -39,7 +39,7 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
 
   return (
     <Animated.View testID={testID} style={viewStyle}>
-      <TouchableOpacity style={styles.hamburger} onPress={hamburgerOnPress} hitSlop={iconHitslop}>
+      <TouchableOpacity style={styles.hamburger} onPress={onPressHamburger} hitSlop={iconHitslop}>
         <Hamburger />
       </TouchableOpacity>
       {middleElement}
