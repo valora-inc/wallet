@@ -400,7 +400,7 @@
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to confirm",
-  "canNotRequestFromUnverified": "Can not request from unconfirmed users",
+  "canNotRequestFromUnverified": "Cannot request from unconfirmed users",
   "restartApp": "Restart App",
   "quitApp": "Quit",
   "loading": "Loading…",
