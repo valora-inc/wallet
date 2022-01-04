@@ -31,7 +31,7 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
     [scrollPosition]
   )
 
-  const hamburgerOnPress = () => {
+  const onPressHamburger = () => {
     ValoraAnalytics.track(HomeEvents.hamburger_tapped)
     // @ts-ignore Only used in a drawer
     return navigation.toggleDrawer()
