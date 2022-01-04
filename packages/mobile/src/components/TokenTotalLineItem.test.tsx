@@ -21,12 +21,14 @@ describe('TokenTotalLineItem', () => {
     localCurrencyCode = LocalCurrencyCode.BRL,
     localCurrencyExchangeRate = '1.5',
     feeToAddInUsd = undefined,
+    hideSign = undefined,
   }: {
     amount?: BigNumber
     tokenAddress?: string
     localCurrencyCode?: LocalCurrencyCode
     localCurrencyExchangeRate?: string
     feeToAddInUsd?: BigNumber
+    hideSign?: boolean
   }) {
     return render(
       <Provider
@@ -56,6 +58,7 @@ describe('TokenTotalLineItem', () => {
           tokenAmount={amount}
           tokenAddress={tokenAddress}
           feeToAddInUsd={feeToAddInUsd}
+          hideSign={hideSign}
         />
       </Provider>
     )
@@ -102,6 +105,18 @@ describe('TokenTotalLineItem', () => {
         feeToAddInUsd: new BigNumber(0.12),
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.18')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
+    })
+  })
+
+  describe('When sending hideSign as true', () => {
+    it('doesnt show the sign', () => {
+      const { getByTestId } = renderComponent({
+        amount: defaultAmount.times(-1),
+        hideSign: true,
+      })
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.00')
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })

@@ -83,10 +83,9 @@ describe('ValidateRecipientAccount', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
-      addressJustValidated: true,
     })
   })
 })
@@ -135,6 +134,5 @@ it('navigates to payment request confirmation when validation successful for req
 
   expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
     transactionData: mockTransactionData,
-    addressJustValidated: true,
   })
 })

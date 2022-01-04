@@ -7,7 +7,12 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
-import { StandbyTransaction, TokenTransaction } from 'src/transactions/types'
+import {
+  StandbyTransaction,
+  StandbyTransactionLegacy,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 export interface State {
   // Tracks transactions that have been initiated by the user
@@ -15,6 +20,7 @@ export interface State {
   // included in the tx feed. Necessary so it shows up in the
   // feed instantly.
   standbyTransactions: StandbyTransaction[]
+  standbyTransactionsLegacy: StandbyTransactionLegacy[]
   // Tracks which set of transactions retrieved in the
   // feed have already been processed by the
   // tx feed query watcher. Necessary so we don't re-process
@@ -32,6 +38,7 @@ export interface KnownFeedTransactionsType {
 
 const initialState = {
   standbyTransactions: [],
+  standbyTransactionsLegacy: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
   transactions: [],
@@ -48,6 +55,7 @@ export const reducer = (
         ...state,
         ...getRehydratePayload(action, 'transactions'),
         standbyTransactions: [],
+        standbyTransactionsLegacy: [],
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
@@ -55,10 +63,21 @@ export const reducer = (
         ...state,
         standbyTransactions: [action.transaction, ...(state.standbyTransactions || [])],
       }
-    case Actions.REMOVE_STANDBY_TRANSACTION:
-    case ExchangeActions.WITHDRAW_CELO_FAILED:
+    case Actions.ADD_STANDBY_TRANSACTION_LEGACY:
       return {
         ...state,
+        standbyTransactionsLegacy: [
+          action.transactionLegacy,
+          ...(state.standbyTransactionsLegacy || []),
+        ],
+      }
+    case ExchangeActions.WITHDRAW_CELO_FAILED:
+    case Actions.REMOVE_STANDBY_TRANSACTION:
+      return {
+        ...state,
+        standbyTransactionsLegacy: state.standbyTransactionsLegacy.filter(
+          (tx: StandbyTransactionLegacy) => tx.context.id !== action.idx
+        ),
         standbyTransactions: state.standbyTransactions.filter(
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
@@ -67,14 +86,50 @@ export const reducer = (
       return {
         ...state,
         standbyTransactions: [],
+        standbyTransactionsLegacy: [],
+      }
+    case Actions.TRANSACTION_CONFIRMED:
+      const status = action.receipt.status
+
+      if (!status) {
+        return {
+          ...state,
+        }
+      }
+
+      return {
+        ...state,
+        standbyTransactionsLegacy: mapForContextId(
+          state.standbyTransactionsLegacy,
+          action.txId,
+          (tx) => {
+            return {
+              ...tx,
+              status: TransactionStatus.Complete,
+            }
+          }
+        ),
+        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
+          return {
+            ...tx,
+            status: TransactionStatus.Complete,
+          }
+        }),
       }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactions: state.standbyTransactions.map((tx) => {
-          if (tx.context.id !== action.idx) {
-            return tx
+        standbyTransactionsLegacy: mapForContextId(
+          state.standbyTransactionsLegacy,
+          action.idx,
+          (tx) => {
+            return {
+              ...tx,
+              hash: action.hash,
+            }
           }
+        ),
+        standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
           return {
             ...tx,
             hash: action.hash,
@@ -107,8 +162,24 @@ export const reducer = (
   }
 }
 
+function mapForContextId(
+  txs: { context: { id: string } }[],
+  contextId: string,
+  mapping: (tx: any) => any
+) {
+  return txs.map((tx) => {
+    if (tx.context.id !== contextId) {
+      return tx
+    }
+    return mapping(tx)
+  })
+}
+
 export const standbyTransactionsSelector = (state: RootState) =>
   state.transactions.standbyTransactions
+
+export const standbyTransactionsLegacySelector = (state: RootState) =>
+  state.transactions.standbyTransactionsLegacy
 
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions

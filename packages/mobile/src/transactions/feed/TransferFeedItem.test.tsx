@@ -11,6 +11,7 @@ import {
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
+  TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCusdAddress, mockName } from 'test/values'
@@ -53,6 +54,7 @@ describe('TransferFeedItem', () => {
           transfer={{
             __typename: 'TokenTransferV2',
             type,
+            status: TransactionStatus.Complete,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,
             block: '2345',

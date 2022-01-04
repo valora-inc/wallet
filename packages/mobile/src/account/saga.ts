@@ -28,7 +28,7 @@ import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
+import { getAccountAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'account/saga'
 
@@ -115,7 +115,9 @@ export function* watchDailyLimit() {
 }
 
 export function* watchKycStatus() {
-  const account = yield call(getWalletAddress)
+  // getAccountAddress returns MTW address if there is one and the EOA if there isn't
+  // If a EOA address is returned, it won't be able to find an entry from Firebase thus nothing will be updated
+  const account = yield call(getAccountAddress)
   const channel = yield call(kycStatusChannel, account)
   if (!channel) {
     return

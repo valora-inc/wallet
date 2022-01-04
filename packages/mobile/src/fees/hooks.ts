@@ -10,7 +10,7 @@ import { calculateFee, FeeInfo, fetchFeeCurrency } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
 import useSelector from 'src/redux/useSelector'
 import { STATIC_SEND_TOKEN_GAS_ESTIMATE } from 'src/send/saga'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensByCurrencySelector, tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
@@ -91,4 +91,10 @@ export function useEstimateGasFee(
 export function useFeeCurrency(): Currency {
   const tokens = useSelector(tokensListSelector)
   return fetchFeeCurrency(tokens)
+}
+
+export function useFeeTokenAddress(): string | undefined {
+  const feeCurrency = useFeeCurrency()
+  const tokensByCurrency = useSelector(tokensByCurrencySelector)
+  return tokensByCurrency[feeCurrency]?.address
 }

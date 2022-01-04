@@ -79,6 +79,7 @@ import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPayment
 import PaymentRequestConfirmation, {
   paymentConfirmationScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestConfirmation'
+import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
 import PaymentRequestUnavailable, {
   paymentRequestUnavailableScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestUnavailable'
@@ -101,6 +102,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
+import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -294,6 +296,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PaymentRequestConfirmation}
       component={PaymentRequestConfirmation}
+      options={paymentConfirmationScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.PaymentRequestConfirmationLegacy}
+      component={PaymentRequestConfirmationLegacy}
       options={paymentConfirmationScreenNavOptions}
     />
     <Navigator.Screen
@@ -519,6 +526,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       name={Screens.TransactionReview}
       component={TransactionReview}
       options={TransactionReview.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.TransactionDetailsScreen}
+      component={TransactionDetailsScreen}
+      options={headerWithBackButton}
     />
   </>
 )

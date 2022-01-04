@@ -1,4 +1,3 @@
-import { FetchMock } from 'jest-fetch-mock/types'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
@@ -8,7 +7,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Provider } from 'react-redux'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockMnemonic } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+import { mockAccount } from 'test/values'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
@@ -16,19 +19,10 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
-jest.mock('src/backup/utils', () => ({
-  ...(jest.requireActual('src/backup/utils') as any),
-  getStoredMnemonic: jest.fn(() => mockMnemonic),
+const mockResponse = new Response(null, { status: 201 })
+jest.mock('src/in-house-liquidity', () => ({
+  createPersonaAccount: jest.fn(() => mockResponse),
 }))
-
-jest.mock('@celo/utils/lib/signatureUtils', () => {
-  const mockSignMessage = jest.fn(() => 'fake signature')
-  const mockSerializeSignature = jest.fn(() => 'fake serialized signature')
-  return {
-    serializeSignature: mockSerializeSignature,
-    signMessage: mockSignMessage,
-  }
-})
 
 describe('LinkBankAccountScreen', () => {
   beforeEach(() => {
@@ -78,8 +72,6 @@ describe('LinkBankAccountScreen', () => {
       web3: { mtwAddress: mockAccount },
       account: { kycStatus: undefined },
     })
-    const mockFetch = fetch as FetchMock
-    mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
 
     const { getByText, getByTestId } = render(
       <Provider store={store}>
@@ -90,5 +82,6 @@ describe('LinkBankAccountScreen', () => {
 
     fireEvent.press(getByTestId('PersonaButton'))
     await waitFor(() => getByText('linkBankAccountScreen.verifying.title'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
   })
 })

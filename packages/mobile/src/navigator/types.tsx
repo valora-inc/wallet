@@ -15,6 +15,7 @@ import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/Sen
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { PendingAction, PendingSession } from 'src/walletConnect/types'
 
@@ -166,9 +167,12 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInput | TransactionDataInputLegacy
   }
   [Screens.PaymentRequestConfirmation]: {
+    transactionData: TransactionDataInput
+  }
+  [Screens.PaymentRequestConfirmationLegacy]: {
     transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
   }
@@ -235,13 +239,6 @@ export type StackParamList = {
     origin: SendOrigin
     forceCurrency?: Currency
   }
-  [Screens.SendAmountLegacy]: {
-    recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
-    isFromScan?: boolean
-    origin: SendOrigin
-    forceCurrency?: Currency
-  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
@@ -259,6 +256,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
+  [Screens.TransactionDetailsScreen]: {
+    transaction: TokenTransaction
+  }
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
     confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps

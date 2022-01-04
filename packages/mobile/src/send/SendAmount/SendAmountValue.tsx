@@ -44,7 +44,12 @@ function SendAmountValue({
     <>
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
-          <BorderlessButton notScaleFont={true} onPress={onPressMax}>
+          <BorderlessButton
+            notScaleFont={true}
+            onPress={onPressMax}
+            style={styles.pressableButton}
+            testID="MaxButton"
+          >
             <Text style={styles.button}>{t('max')}</Text>
           </BorderlessButton>
         )}
@@ -72,6 +77,7 @@ function SendAmountValue({
                 selectable={true}
                 ellipsizeMode="tail"
                 style={styles.mainAmount}
+                testID="InputAmount"
               >
                 {inputAmount ? inputAmount : 0}
               </Text>
@@ -98,7 +104,7 @@ function SendAmountValue({
                   numberOfLines={1}
                   style={styles.secondarySymbol}
                 >
-                  ~{localCurrencySymbol || localCurrencyCode}
+                  {localCurrencySymbol || localCurrencyCode}
                 </Text>
               </View>
             )}
@@ -121,7 +127,7 @@ function SendAmountValue({
             )}
           </View>
         </View>
-        <Touchable onPress={onSwapInput} borderless={true}>
+        <Touchable onPress={onSwapInput} borderless={true} style={styles.pressableButton}>
           <SwapInput />
         </Touchable>
       </View>
@@ -174,6 +180,9 @@ const styles = StyleSheet.create({
   secondaryAmount: {
     ...fontStyles.small,
     lineHeight: undefined,
+  },
+  pressableButton: {
+    padding: 8,
   },
 })
 
