@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Überprüfung läuft",
-      "description": "Wir haben deine Informationen erhalten und überprüfen sie gerade."
+      "description": "Wir haben deine Informationen erhalten und prüfen sie gerade."
     },
     "begin": {
       "label": "Schritt 1",
