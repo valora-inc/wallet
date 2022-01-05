@@ -58,7 +58,7 @@
   "selectCurrency": "Selecionar moeda",
   "continue": "Continuar",
   "yourName": "Seu nome",
-  "version": "Versão:",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Endereço copiado para a área de transferência",
   "support": "Suporte",
   "contact": "Contato",
