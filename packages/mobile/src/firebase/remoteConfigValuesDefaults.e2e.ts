@@ -15,7 +15,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
-  walletConnectV2Enabled: true,
+  walletConnectV2Enabled: false,
   rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   rewardsPercent: 5,
   rewardsStartDate: 1622505600000,
