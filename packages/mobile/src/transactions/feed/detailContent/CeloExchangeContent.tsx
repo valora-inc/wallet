@@ -10,15 +10,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { usePaidFees } from 'src/fees/hooks'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import useSelector from 'src/redux/useSelector'
-import {
-  convertBetweenTokens,
-  useConvertBetweenTokens,
-  useTokenInfoBySymbol,
-} from 'src/tokens/hooks'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { useConvertBetweenTokens, useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { TokenExchange } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 
 export interface Props {
