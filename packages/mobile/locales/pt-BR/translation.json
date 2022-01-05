@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
+  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Repetir",
     "verifying": {
