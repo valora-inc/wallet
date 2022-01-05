@@ -24,6 +24,7 @@ export enum HomeEvents {
   home_send = 'home_send',
   home_request = 'home_request',
   home_qr = 'home_qr',
+  hamburger_tapped = 'hamburger_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   notification_scroll = 'notification_scroll',
