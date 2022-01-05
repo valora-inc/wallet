@@ -316,9 +316,6 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
-    // Disconnect session
-    await device.reloadReactNative()
-    await dismissBanners()
     // A sleep for ci
     await sleep(3 * 1000)
     // Tap Hamburger
