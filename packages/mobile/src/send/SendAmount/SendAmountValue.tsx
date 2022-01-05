@@ -1,4 +1,3 @@
-import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
@@ -44,14 +43,16 @@ function SendAmountValue({
     <>
       <View style={styles.container}>
         {isOutgoingPaymentRequest ? null : (
-          <BorderlessButton
-            notScaleFont={true}
+          <Touchable
+            borderless={true}
             onPress={onPressMax}
             style={styles.pressableButton}
             testID="MaxButton"
           >
-            <Text style={styles.button}>{t('max')}</Text>
-          </BorderlessButton>
+            <Text adjustsFontSizeToFit={true} style={styles.button}>
+              {t('max')}
+            </Text>
+          </Touchable>
         )}
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
   },
   valuesContainer: {
     flex: 1,
+    paddingHorizontal: 24,
   },
   valueContainer: {
     flexDirection: 'row',
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
   },
   button: {
     color: colors.gray4,
+    fontSize: 12,
   },
   mainSymbol: {
     ...fontStyles.regular,
@@ -175,14 +178,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Jost-Medium',
     fontWeight: 'normal',
     width: '100%',
-    paddingHorizontal: 2,
+    paddingRight: 2,
   },
   secondaryAmount: {
     ...fontStyles.small,
     lineHeight: undefined,
   },
   pressableButton: {
-    padding: 8,
+    marginTop: -22,
+    backgroundColor: colors.gray1,
+    borderColor: colors.gray2,
+    borderRadius: 100,
+    borderWidth: 1,
+    height: 48,
+    width: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

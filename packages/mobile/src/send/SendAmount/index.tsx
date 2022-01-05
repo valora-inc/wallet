@@ -272,7 +272,7 @@ function SendAmount(props: Props) {
         showLoading={
           recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
         }
-        type={BtnTypes.SECONDARY}
+        type={BtnTypes.PRIMARY}
         onPress={onReviewButtonPressed}
         disabled={!isAmountValid || reviewButtonPressed}
         testID="Review"
