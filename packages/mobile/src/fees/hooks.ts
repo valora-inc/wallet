@@ -116,7 +116,8 @@ export function usePaidFees(fees: Fee[]) {
   const totalFee = totalFeeOrZero.isZero() ? undefined : totalFeeOrZero
 
   return {
-    feeCurrencyInfo,
+    feeTokenAddress: securityFeeAmount?.amount.tokenAddress,
+    feeCurrency: feeCurrencyInfo ? (feeCurrencyInfo[0] as Currency) : undefined,
     securityFee,
     dekFee,
     totalFee,

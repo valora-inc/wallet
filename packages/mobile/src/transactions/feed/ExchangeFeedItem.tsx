@@ -29,7 +29,7 @@ function ExchangeFeedItem({ exchange }: Props) {
   const celoAddress = useTokenInfoBySymbol('CELO')?.address
 
   const soldCELO = inAmount.tokenAddress === celoAddress
-  const celoAmount = soldCELO ? inAmount : outAmount
+  const [celoAmount, stableAmount] = soldCELO ? [inAmount, outAmount] : [outAmount, inAmount]
   const colorStyle = soldCELO ? { color: colors.greenUI } : {}
 
   const openTransferDetails = () => {
@@ -49,13 +49,13 @@ function ExchangeFeedItem({ exchange }: Props) {
               {t(soldCELO ? 'feedItemSoldCeloTitle' : 'feedItemBoughtCeloTitle')}
             </Text>
             <TokenDisplay
-              amount={new BigNumber(celoAmount.value).times(soldCELO ? 1 : -1)}
-              tokenAddress={celoAmount.tokenAddress}
+              amount={new BigNumber(stableAmount.value).times(soldCELO ? 1 : -1)}
+              tokenAddress={stableAmount.tokenAddress}
               currencyInfo={
-                celoAmount.localAmount
+                stableAmount.localAmount
                   ? {
-                      localCurrencyCode: celoAmount.localAmount.currencyCode as LocalCurrencyCode,
-                      localExchangeRate: celoAmount.localAmount.exchangeRate,
+                      localCurrencyCode: stableAmount.localAmount.currencyCode as LocalCurrencyCode,
+                      localExchangeRate: stableAmount.localAmount.exchangeRate,
                     }
                   : undefined
               }

@@ -78,13 +78,10 @@ function TokenDisplay({
   let error = false
 
   if (!tokenInfo) {
-    Logger.error(TAG, `No token info found for token address ${tokenAddress}`)
+    Logger.warn(TAG, `No token info found for token address ${tokenAddress}`)
     error = true
   } else if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
-    Logger.error(
-      TAG,
-      `No token usd price or exchange rate found to display for ${tokenInfo.symbol}`
-    )
+    Logger.warn(TAG, `No token usd price or exchange rate found to display for ${tokenInfo.symbol}`)
     error = true
   }
 

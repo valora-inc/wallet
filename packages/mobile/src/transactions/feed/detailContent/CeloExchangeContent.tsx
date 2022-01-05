@@ -10,7 +10,13 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { usePaidFees } from 'src/fees/hooks'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import useSelector from 'src/redux/useSelector'
+import {
+  convertBetweenTokens,
+  useConvertBetweenTokens,
+  useTokenInfoBySymbol,
+} from 'src/tokens/hooks'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { TokenExchange } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
@@ -27,10 +33,14 @@ export default function CeloExchangeContent({ exchange }: Props) {
   const celoAddress = useTokenInfoBySymbol('CELO')?.address ?? ''
   const soldCELO = inAmount.tokenAddress === celoAddress
 
-  const stableTokenAddress = soldCELO ? outAmount.tokenAddress : inAmount.tokenAddress
   const [celoAmount, stableAmount] = soldCELO ? [inAmount, outAmount] : [outAmount, inAmount]
 
-  const { securityFee, dekFee, totalFee, feeCurrencyInfo } = usePaidFees(fees)
+  const { securityFee, dekFee, totalFee, feeTokenAddress, feeCurrency } = usePaidFees(fees)
+  const feeInStableToken = useConvertBetweenTokens(
+    totalFee,
+    feeTokenAddress,
+    stableAmount.tokenAddress
+  )
 
   const exchangeRate = celoAmount.localAmount
     ? getLocalCurrencyDisplayValue(
@@ -60,22 +70,22 @@ export default function CeloExchangeContent({ exchange }: Props) {
           amount={
             <TokenDisplay
               amount={stableAmount.value}
-              tokenAddress={stableTokenAddress}
+              tokenAddress={stableAmount.tokenAddress}
               testID="FiatAmount"
             />
           }
         />
         <FeeDrawer
           testID={'feeDrawer/CeloExchangeContent'}
-          currency={feeCurrencyInfo ? (feeCurrencyInfo[0] as Currency) : undefined}
+          currency={feeCurrency}
           securityFee={securityFee}
           dekFee={dekFee}
           totalFee={totalFee}
         />
         <HorizontalLine />
         <TokenTotalLineItem
-          tokenAmount={new BigNumber(stableAmount.value).plus(totalFee ?? 0)}
-          tokenAddress={stableTokenAddress}
+          tokenAmount={new BigNumber(stableAmount.value).plus(feeInStableToken ?? 0)}
+          tokenAddress={stableAmount.tokenAddress}
           feeToAddInUsd={undefined}
           hideSign={true}
         />

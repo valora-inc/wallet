@@ -214,6 +214,50 @@ describe('TransactionDetailsScreen', () => {
     const fiatAmount = getByTestId('FiatAmount')
     expect(getElementText(fiatAmount)).toEqual('₱13.30')
 
+    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
+    expect(getElementText(totalFee)).toEqual('₱0.133')
+
+    // Includes the fee
+    const total = getByTestId('TotalLineItem/Total')
+    expect(getElementText(total)).toEqual('₱13.43')
+
+    const subtotal = getByTestId('TotalLineItem/Subtotal')
+    expect(getElementText(subtotal)).toEqual('10.10 cUSD')
+  })
+
+  it('renders correctly for selling CELO', async () => {
+    const { getByTestId } = renderScreen({
+      transaction: tokenExchange({
+        inAmount: {
+          value: 3,
+          tokenAddress: mockCeloAddress,
+        },
+        outAmount: {
+          value: 10,
+          tokenAddress: mockCusdAddress,
+        },
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: 0.1,
+              tokenAddress: mockCusdAddress,
+            },
+          },
+        ],
+      }),
+      storeOverrides: {},
+    })
+
+    const celoAmount = getByTestId('CeloAmount')
+    expect(getElementText(celoAmount)).toEqual('3.00')
+
+    const fiatAmount = getByTestId('FiatAmount')
+    expect(getElementText(fiatAmount)).toEqual('₱13.30')
+
+    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
+    expect(getElementText(totalFee)).toEqual('₱0.133')
+
     // Includes the fee
     const total = getByTestId('TotalLineItem/Total')
     expect(getElementText(total)).toEqual('₱13.43')

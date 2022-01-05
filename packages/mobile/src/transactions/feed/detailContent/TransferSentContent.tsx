@@ -30,7 +30,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const isCeloWithdrawal = amount.tokenAddress === celoAddress
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
 
-  const { securityFee, dekFee, totalFee, feeCurrencyInfo } = usePaidFees(fees)
+  const { securityFee, dekFee, totalFee, feeCurrency } = usePaidFees(fees)
 
   return (
     <>
@@ -54,7 +54,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         }
       />
       <FeeDrawer
-        currency={feeCurrencyInfo ? (feeCurrencyInfo[0] as Currency) : undefined}
+        currency={feeCurrency}
         securityFee={securityFee}
         dekFee={dekFee}
         totalFee={totalFee}
