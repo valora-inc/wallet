@@ -46,7 +46,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const onPayButtonPressed = () => {
     setPayButtonPressed(true)
     if (e164PhoneNumber) {
-      // Need to check latest mapping to prevent user from accepting fradulent requests
+      // Need to check latest mapping to prevent user from accepting fraudulent requests
       dispatch(fetchAddressesAndValidate(e164PhoneNumber, requesterAddress))
     } else {
       navigateToNextScreen()

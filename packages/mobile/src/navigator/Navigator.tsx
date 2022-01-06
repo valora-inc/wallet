@@ -79,6 +79,7 @@ import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPayment
 import PaymentRequestConfirmation, {
   paymentConfirmationScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestConfirmation'
+import PaymentRequestConfirmationLegacy from 'src/paymentRequest/PaymentRequestConfirmationLegacy'
 import PaymentRequestUnavailable, {
   paymentRequestUnavailableScreenNavOptions,
 } from 'src/paymentRequest/PaymentRequestUnavailable'
@@ -295,6 +296,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PaymentRequestConfirmation}
       component={PaymentRequestConfirmation}
+      options={paymentConfirmationScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.PaymentRequestConfirmationLegacy}
+      component={PaymentRequestConfirmationLegacy}
       options={paymentConfirmationScreenNavOptions}
     />
     <Navigator.Screen

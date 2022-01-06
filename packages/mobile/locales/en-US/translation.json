@@ -312,7 +312,6 @@
   "celoDeposit": "CELO Purchase",
   "cUsdDeposit": "cUSD Purchase",
   "cEurDeposit": "cEUR Purchase",
-  "tokenDeposit": "{{token}} Purchase",
   "providerUnavailable": "Not currently available",
   "pricePer": "Price per {{coin}}",
   "feeDiscount": "Fee Discount",
@@ -401,7 +400,7 @@
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to confirm",
-  "canNotRequestFromUnverified": "Can not request from unconfirmed users",
+  "canNotRequestFromUnverified": "Cannot request from unconfirmed users",
   "restartApp": "Restart App",
   "quitApp": "Quit",
   "loading": "Loading…",
@@ -1093,7 +1092,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed."
+      "description": "Your information has been received and is being reviewed."
     },
     "begin": {
       "label": "Step 1",

@@ -26,6 +26,7 @@ import {
   mockE164NumberInvite,
   mockTestTokenAddress,
   mockTransactionData,
+  mockTransactionDataLegacy,
 } from 'test/values'
 
 expect.extend({ toBeDisabled })
@@ -83,8 +84,8 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 }
 
 const mockTransactionData2 = {
-  type: mockTransactionData.type,
-  recipient: mockTransactionData.recipient,
+  type: mockTransactionDataLegacy.type,
+  recipient: mockTransactionDataLegacy.recipient,
   amount: new BigNumber('3.706766917293233083'),
   tokenAddress: mockCusdAddress,
   reason: '',

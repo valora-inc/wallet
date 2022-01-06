@@ -223,6 +223,10 @@ function SendAmount(props: Props) {
       // Wait until the recipient status is fetched.
       return
     }
+    if (isOutgoingPaymentRequest) {
+      // Don't calculate fees on outgoing payment requests
+      return
+    }
     const feeType =
       recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
         ? FeeType.SEND
@@ -252,11 +256,11 @@ function SendAmount(props: Props) {
       <DisconnectBanner />
       <View style={styles.contentContainer}>
         <SendAmountValue
+          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
           usingLocalAmount={showInputInLocalAmount}
           tokenAddress={transferTokenAddress}
-          isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
           tokenHasUsdPrice={tokenHasUsdPrice}

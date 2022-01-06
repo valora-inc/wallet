@@ -54,6 +54,10 @@ export const tokensByUsdBalanceSelector = createSelector(
   }
 )
 
+export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+})
+
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
   const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)

@@ -24,7 +24,7 @@ exports[`Support renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
