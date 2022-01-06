@@ -6,7 +6,10 @@ import { RootState } from 'src/redux/reducers'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   Fee,
+  FeeType,
   TokenAmount,
+  TokenExchange,
+  TokenExchangeMetadata,
   TokenTransaction,
   TokenTransactionTypeV2,
   TokenTransfer,
@@ -18,7 +21,13 @@ import {
   getMockStackScreenProps,
   RecursivePartial,
 } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockDisplayNumber2, mockE164Number2 } from 'test/values'
+import {
+  mockAccount,
+  mockCeloAddress,
+  mockCusdAddress,
+  mockDisplayNumber2,
+  mockE164Number2,
+} from 'test/values'
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -86,6 +95,36 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
+  function tokenExchange({
+    inAmount = {
+      value: 10,
+      tokenAddress: mockCusdAddress,
+    },
+    outAmount = {
+      value: 3,
+      tokenAddress: mockCeloAddress,
+    },
+    metadata = {},
+    fees = [],
+  }: {
+    inAmount?: TokenAmount
+    outAmount?: TokenAmount
+    metadata?: TokenExchangeMetadata
+    fees?: Fee[]
+  }): TokenExchange {
+    return {
+      __typename: 'TokenExchangeV2',
+      type: TokenTransactionTypeV2.Exchange,
+      transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
+      timestamp: 1542306118,
+      block: '8648978',
+      inAmount,
+      outAmount,
+      metadata,
+      fees,
+    }
+  }
+
   it('renders correctly for sends', async () => {
     const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
@@ -143,5 +182,87 @@ describe('TransactionDetailsScreen', () => {
 
     const totalComponent = getByTestId('TotalLineItem/Total')
     expect(getElementText(totalComponent)).toEqual('₱13.30')
+  })
+
+  it('renders correctly for CELO purchases', async () => {
+    const { getByTestId } = renderScreen({
+      transaction: tokenExchange({
+        inAmount: {
+          value: 10,
+          tokenAddress: mockCusdAddress,
+        },
+        outAmount: {
+          value: 3,
+          tokenAddress: mockCeloAddress,
+        },
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: 0.1,
+              tokenAddress: mockCusdAddress,
+            },
+          },
+        ],
+      }),
+      storeOverrides: {},
+    })
+
+    const celoAmount = getByTestId('CeloAmount')
+    expect(getElementText(celoAmount)).toEqual('3.00')
+
+    const fiatAmount = getByTestId('FiatAmount')
+    expect(getElementText(fiatAmount)).toEqual('₱13.30')
+
+    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
+    expect(getElementText(totalFee)).toEqual('₱0.133')
+
+    // Includes the fee
+    const total = getByTestId('TotalLineItem/Total')
+    expect(getElementText(total)).toEqual('₱13.43')
+
+    const subtotal = getByTestId('TotalLineItem/Subtotal')
+    expect(getElementText(subtotal)).toEqual('10.10 cUSD')
+  })
+
+  it('renders correctly for selling CELO', async () => {
+    const { getByTestId } = renderScreen({
+      transaction: tokenExchange({
+        inAmount: {
+          value: 3,
+          tokenAddress: mockCeloAddress,
+        },
+        outAmount: {
+          value: 10,
+          tokenAddress: mockCusdAddress,
+        },
+        fees: [
+          {
+            type: FeeType.SecurityFee,
+            amount: {
+              value: 0.1,
+              tokenAddress: mockCusdAddress,
+            },
+          },
+        ],
+      }),
+      storeOverrides: {},
+    })
+
+    const celoAmount = getByTestId('CeloAmount')
+    expect(getElementText(celoAmount)).toEqual('3.00')
+
+    const fiatAmount = getByTestId('FiatAmount')
+    expect(getElementText(fiatAmount)).toEqual('₱13.30')
+
+    const totalFee = getByTestId('feeDrawer/CeloExchangeContent/totalFee/value')
+    expect(getElementText(totalFee)).toEqual('₱0.133')
+
+    // Includes the fee
+    const total = getByTestId('TotalLineItem/Total')
+    expect(getElementText(total)).toEqual('₱13.43')
+
+    const subtotal = getByTestId('TotalLineItem/Subtotal')
+    expect(getElementText(subtotal)).toEqual('10.10 cUSD')
   })
 })
