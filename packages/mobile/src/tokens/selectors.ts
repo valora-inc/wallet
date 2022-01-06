@@ -34,7 +34,7 @@ type TokenBalanceWithUsdPrice = TokenBalance & {
   usdPrice: BigNumber
 }
 
-export const tokensWithUsdBalanceSelector = createSelector(tokensListSelector, (tokens) => {
+export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   ) as TokenBalanceWithUsdPrice[]
@@ -46,7 +46,7 @@ export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector,
 
 // Tokens sorted by usd balance (descending)
 export const tokensByUsdBalanceSelector = createSelector(
-  tokensWithUsdBalanceSelector,
+  tokensWithUsdValueSelector,
   (tokensList) => {
     return tokensList.sort((a, b) =>
       b.balance.multipliedBy(b.usdPrice).comparedTo(a.balance.multipliedBy(a.usdPrice))
@@ -71,11 +71,11 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
 })
 
 // Returns the token with the highest usd balance to use as default.
-export const defaultTokenSelector = createSelector(tokensWithTokenBalanceSelector, (tokens) => {
+export const defaultTokenSelector = createSelector(tokensWithUsdValueSelector, (tokens) => {
   let maxTokenAddress: string = ''
   let maxBalance: BigNumber = new BigNumber(-1)
   for (const token of tokens) {
-    const usdBalance = token.balance.multipliedBy(token.usdPrice ?? 0)
+    const usdBalance = token.balance.multipliedBy(token.usdPrice)
     if (usdBalance.gt(maxBalance)) {
       maxTokenAddress = token.address
       maxBalance = usdBalance
@@ -86,7 +86,7 @@ export const defaultTokenSelector = createSelector(tokensWithTokenBalanceSelecto
 })
 
 export const totalTokenBalanceSelector = createSelector(
-  [tokensWithUsdBalanceSelector, localCurrencyExchangeRatesSelector],
+  [tokensWithUsdValueSelector, localCurrencyExchangeRatesSelector],
   (tokenBalances, exchangeRate) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate) {

@@ -212,7 +212,7 @@ function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
   )
   const tokenInfo = tokensInfo[feeInfo.currency]
   if (!tokenInfo?.usdPrice) {
-    throw new Error(`No token info found for ${feeInfo.currency}`)
+    throw new Error(`Missing tokenInfo or tokenInfo.usdPrice for ${feeInfo.currency}`)
   }
   return feeInfo.fee.times(tokenInfo.usdPrice).div(1e18)
 }

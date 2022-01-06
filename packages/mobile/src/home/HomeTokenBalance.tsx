@@ -17,12 +17,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
   tokensWithTokenBalanceSelector,
-  tokensWithUsdBalanceSelector,
+  tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 
 function TokenBalance() {
-  const tokenBalances = useSelector(tokensWithUsdBalanceSelector)
+  const tokenBalances = useSelector(tokensWithUsdValueSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
   if (tokenBalances.length === 0) {

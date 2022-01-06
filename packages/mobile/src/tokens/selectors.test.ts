@@ -5,7 +5,7 @@ import {
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
-  tokensWithUsdBalanceSelector,
+  tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
@@ -98,9 +98,9 @@ describe('tokensByUsdBalanceSelector', () => {
   })
 })
 
-describe('tokensWithUsdBalanceSelector', () => {
+describe('tokensWithUsdValueSelector', () => {
   it('returns only the tokens that have a USD balance', () => {
-    const tokens = tokensWithUsdBalanceSelector(state)
+    const tokens = tokensWithUsdValueSelector(state)
     expect(tokens).toMatchInlineSnapshot(`
       Array [
         Object {
