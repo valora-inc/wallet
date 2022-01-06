@@ -278,7 +278,9 @@ android {
 
 
 dependencies {
-    androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation('com.wix:detox:+') {
+        exclude group: 'com.google.android.material'
+    }
     androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
 
     implementation 'androidx.multidex:multidex:2.0.1'
