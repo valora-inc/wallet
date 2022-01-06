@@ -14,7 +14,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -65,7 +65,7 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
 function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
-  const tokens = useSelector(tokensWithBalanceSelector)
+  const tokens = useSelector(tokensWithTokenBalanceSelector)
 
   const { t } = useTranslation()
 

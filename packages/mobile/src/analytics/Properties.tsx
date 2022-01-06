@@ -529,17 +529,17 @@ interface InviteEventsProperties {
   [InviteEvents.invite_start]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
   }
   [InviteEvents.invite_complete]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
   }
   [InviteEvents.invite_error]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
     error: string
   }
   [InviteEvents.invite_method_sms]: undefined
@@ -622,8 +622,8 @@ interface SendEventsProperties {
         isScan: boolean
         isInvite: boolean
         localCurrency: LocalCurrencyCode
-        usdAmount: string
-        localCurrencyAmount: string
+        usdAmount: string | null
+        localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
         tokenAddress: string

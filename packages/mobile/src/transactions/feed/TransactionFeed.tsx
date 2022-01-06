@@ -71,7 +71,7 @@ function useQueryTransactionFeed() {
     [counter],
     {
       onSuccess: (result) => {
-        if (result?.data?.tokenTransactionsV2.transactions.length) {
+        if (result?.data?.tokenTransactionsV2?.transactions.length) {
           dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
         }
         if (result?.errors) {
@@ -84,7 +84,7 @@ function useQueryTransactionFeed() {
     }
   )
 
-  return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
+  return { loading, error, transactions: result?.data?.tokenTransactionsV2?.transactions }
 }
 
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {

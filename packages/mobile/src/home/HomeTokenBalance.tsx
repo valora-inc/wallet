@@ -15,10 +15,14 @@ import ProgressArrow from 'src/icons/ProgressArrow'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  tokensWithTokenBalanceSelector,
+  tokensWithUsdBalanceSelector,
+  totalTokenBalanceSelector,
+} from 'src/tokens/selectors'
 
 function TokenBalance() {
-  const tokenBalances = useSelector(tokensWithBalanceSelector)
+  const tokenBalances = useSelector(tokensWithUsdBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
   if (tokenBalances.length === 0) {
@@ -57,7 +61,7 @@ function TokenBalance() {
 function HomeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector) ?? '-'
-  const tokenBalances = useSelector(tokensWithBalanceSelector)
+  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
   const onViewBalances = () => {
     ValoraAnalytics.track(HomeEvents.view_token_balances, { totalBalance: totalBalance.toString() })
@@ -86,7 +90,7 @@ function HomeTokenBalance() {
           {t('whatTotalValue.body')}
         </Dialog>
         {tokenBalances.length > 1 && (
-          <TouchableOpacity style={styles.row} onPress={onViewBalances}>
+          <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />
           </TouchableOpacity>

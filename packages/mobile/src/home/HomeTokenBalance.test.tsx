@@ -40,6 +40,11 @@ describe('HomeTokenBalance', () => {
             symbol: 'cEUR',
             balance: '7',
           },
+          '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
+            symbol: 'TT',
+            balance: '10',
+          },
         },
       },
     })
@@ -51,6 +56,7 @@ describe('HomeTokenBalance', () => {
     )
 
     expect(tree).toMatchSnapshot()
+    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.62')
   })
 
@@ -64,7 +70,38 @@ describe('HomeTokenBalance', () => {
     )
 
     expect(tree).toMatchSnapshot()
+    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
+  })
+
+  it('renders correctly with one balance and another token without usdPrice with balance', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+            usdPrice: '1.16',
+            address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+            symbol: 'cEUR',
+            balance: '7',
+          },
+          '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+            address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
+            symbol: 'TT',
+            balance: '10',
+          },
+        },
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.12')
   })
 
   it('renders correctly with no balance', async () => {
@@ -81,6 +118,7 @@ describe('HomeTokenBalance', () => {
     )
 
     expect(tree).toMatchSnapshot()
+    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
   })
 })

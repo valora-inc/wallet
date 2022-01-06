@@ -20,6 +20,7 @@ interface Props {
   isOutgoingPaymentRequest: boolean
   onPressMax: () => void
   onSwapInput: () => void
+  tokenHasUsdPrice: boolean
 }
 
 function SendAmountValue({
@@ -30,6 +31,7 @@ function SendAmountValue({
   isOutgoingPaymentRequest,
   onPressMax,
   onSwapInput,
+  tokenHasUsdPrice,
 }: Props) {
   const { t } = useTranslation()
 
@@ -47,7 +49,7 @@ function SendAmountValue({
           <BorderlessButton
             notScaleFont={true}
             onPress={onPressMax}
-            style={styles.pressableButton}
+            containerStyle={styles.pressableButton}
             testID="MaxButton"
           >
             <Text style={styles.button}>{t('max')}</Text>
@@ -95,41 +97,52 @@ function SendAmountValue({
               </View>
             )}
           </View>
-          <View style={styles.valueContainer}>
-            {!usingLocalAmount && (
-              <View style={styles.symbolContainer}>
-                <Text
-                  allowFontScaling={false}
-                  adjustsFontSizeToFit={true}
-                  numberOfLines={1}
-                  style={styles.secondarySymbol}
-                >
-                  {localCurrencySymbol || localCurrencyCode}
+          {tokenHasUsdPrice && (
+            <View style={styles.valueContainer}>
+              {!usingLocalAmount && (
+                <View style={styles.symbolContainer}>
+                  <Text
+                    allowFontScaling={false}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={1}
+                    style={styles.secondarySymbol}
+                  >
+                    {localCurrencySymbol || localCurrencyCode}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.amountContainer}>
+                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
+                  {formatValueToDisplay(secondaryAmount)}
                 </Text>
               </View>
-            )}
-            <View style={styles.amountContainer}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
-                {formatValueToDisplay(secondaryAmount)}
-              </Text>
+              {usingLocalAmount && (
+                <View style={styles.symbolContainer}>
+                  <Text
+                    allowFontScaling={false}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={1}
+                    style={styles.secondarySymbol}
+                  >
+                    {tokenInfo?.symbol}
+                  </Text>
+                </View>
+              )}
             </View>
-            {usingLocalAmount && (
-              <View style={styles.symbolContainer}>
-                <Text
-                  allowFontScaling={false}
-                  adjustsFontSizeToFit={true}
-                  numberOfLines={1}
-                  style={styles.secondarySymbol}
-                >
-                  {tokenInfo?.symbol}
-                </Text>
-              </View>
-            )}
-          </View>
+          )}
         </View>
-        <Touchable onPress={onSwapInput} borderless={true} style={styles.pressableButton}>
-          <SwapInput />
-        </Touchable>
+        {tokenHasUsdPrice ? (
+          <Touchable
+            onPress={onSwapInput}
+            borderless={true}
+            style={styles.pressableButton}
+            testID="SwapInput"
+          >
+            <SwapInput />
+          </Touchable>
+        ) : (
+          <View style={styles.pressableButton} />
+        )}
       </View>
     </>
   )
@@ -143,6 +156,7 @@ const styles = StyleSheet.create({
   },
   valuesContainer: {
     flex: 1,
+    marginHorizontal: 16,
   },
   valueContainer: {
     flexDirection: 'row',
@@ -150,7 +164,7 @@ const styles = StyleSheet.create({
   },
   amountContainer: {
     justifyContent: 'center',
-    maxWidth: '75%',
+    maxWidth: '85%',
   },
   symbolContainer: {
     justifyContent: 'center',
@@ -182,7 +196,12 @@ const styles = StyleSheet.create({
     lineHeight: undefined,
   },
   pressableButton: {
-    padding: 8,
+    width: 48,
+    height: 48,
+    margin: 8,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

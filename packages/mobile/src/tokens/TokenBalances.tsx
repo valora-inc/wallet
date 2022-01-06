@@ -13,12 +13,12 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
-  const tokens = useSelector(tokensWithBalanceSelector)
+  const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
 
@@ -59,18 +59,30 @@ function TokenBalancesScreen({ navigation }: Props) {
             showSymbol={false}
             testID={`tokenBalance:${token.symbol}`}
           />
-          <TokenDisplay
-            amount={new BigNumber(token.balance!)}
-            tokenAddress={token.address}
-            style={styles.subtext}
-            testID={`tokenLocalBalance:${token.symbol}`}
-          />
+          {token.usdPrice?.gt(0) && (
+            <TokenDisplay
+              amount={new BigNumber(token.balance!)}
+              tokenAddress={token.address}
+              style={styles.subtext}
+              testID={`tokenLocalBalance:${token.symbol}`}
+            />
+          )}
         </View>
       </View>
     )
   }
 
-  return <ScrollView style={styles.scrollContainer}>{tokens.map(getTokenDisplay)}</ScrollView>
+  const sortByUsdBalance = (token1: TokenBalance, token2: TokenBalance) => {
+    const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
+    const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+    return token2UsdBalance.minus(token1UsdBalance).toNumber()
+  }
+
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+    </ScrollView>
+  )
 }
 
 TokenBalancesScreen.navigationOptions = {

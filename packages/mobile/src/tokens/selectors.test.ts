@@ -5,6 +5,7 @@ import {
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
+  tokensWithUsdBalanceSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
@@ -34,6 +35,11 @@ const state: any = {
         usdPrice: '100',
         balance: null,
       },
+      ['0x4']: {
+        address: '0x4',
+        symbol: 'TT',
+        balance: '50',
+      },
     },
   },
   localCurrency: {
@@ -51,9 +57,10 @@ describe(tokensByAddressSelector, () => {
   describe('when fetching tokens by address', () => {
     it('returns the right tokens', () => {
       const tokensByAddress = tokensByAddressSelector(state)
-      expect(Object.keys(tokensByAddress).length).toEqual(3)
+      expect(Object.keys(tokensByAddress).length).toEqual(4)
       expect(tokensByAddress['0xusd']?.symbol).toEqual('cUSD')
       expect(tokensByAddress['0xeur']?.symbol).toEqual('cEUR')
+      expect(tokensByAddress['0x4']?.symbol).toEqual('TT')
     })
   })
 })
@@ -62,9 +69,10 @@ describe(tokensListSelector, () => {
   describe('when fetching tokens as a list', () => {
     it('returns the right tokens', () => {
       const tokens = tokensListSelector(state)
-      expect(tokens.length).toEqual(3)
+      expect(tokens.length).toEqual(4)
       expect(tokens.find((t) => t.address === '0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.address === '0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.address === '0x4')?.symbol).toEqual('TT')
     })
   })
 })
@@ -85,11 +93,26 @@ describe('tokensByUsdBalanceSelector', () => {
           "symbol": "cEUR",
           "usdPrice": "0.5",
         },
+      ]
+    `)
+  })
+})
+
+describe('tokensWithUsdBalanceSelector', () => {
+  it('returns only the tokens that have a USD balance', () => {
+    const tokens = tokensWithUsdBalanceSelector(state)
+    expect(tokens).toMatchInlineSnapshot(`
+      Array [
         Object {
-          "address": "0xusd",
-          "balance": "0",
-          "symbol": "cUSD",
-          "usdPrice": "1",
+          "address": "0x1",
+          "balance": "10",
+          "usdPrice": "10",
+        },
+        Object {
+          "address": "0xeur",
+          "balance": "50",
+          "symbol": "cEUR",
+          "usdPrice": "0.5",
         },
       ]
     `)

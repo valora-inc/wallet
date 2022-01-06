@@ -24,6 +24,7 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164NumberInvite,
+  mockTestTokenAddress,
   mockTransactionData,
 } from 'test/values'
 
@@ -54,6 +55,11 @@ const storeData = {
         usdPrice: '1.2',
         balance: '10',
         isCoreToken: true,
+      },
+      [mockTestTokenAddress]: {
+        address: mockTestTokenAddress,
+        symbol: 'TT',
+        balance: '50',
       },
     },
   },
@@ -289,10 +295,7 @@ describe('SendAmount', () => {
     })
 
     it("allows choosing the currency when there's balance for more than one token", () => {
-      const store = createMockStore({
-        ...storeData,
-        stableToken: { balances: { [Currency.Dollar]: '10.56', [Currency.Euro]: '10.12' } },
-      })
+      const store = createMockStore(storeData)
       const { queryByTestId } = render(
         <Provider store={store}>
           <SendAmount {...mockScreenProps()} />
@@ -351,6 +354,34 @@ describe('SendAmount', () => {
         },
       })
     })
+
+    it("Doesn't allow inputting in local currency if token has no usd price", () => {
+      const store = createMockStore(storeData)
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps(false, mockTestTokenAddress)} />
+        </Provider>
+      )
+      enterAmount(wrapper, AMOUNT_VALID)
+
+      expect(wrapper.getByTestId('MaxButton')).toBeTruthy()
+      expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
+
+      const reviewButton = wrapper.getByTestId('Review')
+      expect(reviewButton).toBeEnabled()
+      fireEvent.press(wrapper.getByTestId('Review'))
+
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+        transactionData: {
+          inputAmount: new BigNumber(AMOUNT_VALID),
+          amountIsInLocalCurrency: false,
+          recipient: mockTransactionData.recipient,
+          tokenAddress: mockTestTokenAddress,
+        },
+      })
+    })
   })
 
   describe('Navigation', () => {
@@ -397,9 +428,6 @@ describe('SendAmount', () => {
           },
         },
         ...storeData,
-        send: {
-          lastUsedCurrency: Currency.Euro,
-        },
       })
 
       const tree = render(
