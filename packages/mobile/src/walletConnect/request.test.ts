@@ -3,7 +3,7 @@ import { call } from 'redux-saga/effects'
 import { Currency } from 'src/utils/currencies'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
-import { getContractKitAsync, getWallet } from 'src/web3/contracts'
+import { getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockWallet } from 'test/values'
@@ -27,6 +27,7 @@ const signTypedDataV4Request = {
 
 const state = createMockStore({
   web3: { account: '0xWALLET', mtwAddress: undefined },
+  goldToken: { balance: '5' },
 }).getState()
 
 describe(handleRequest, () => {
@@ -90,7 +91,7 @@ describe(handleRequest, () => {
           .call([mockWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
-            feeCurrency: 1000,
+            feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1000000,
             gasPrice: 3,
             chainId: 44787,
@@ -111,7 +112,7 @@ describe(handleRequest, () => {
           .call([mockWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
-            feeCurrency: 1000,
+            feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1000000,
             gasPrice: 3,
             chainId: 44787,
@@ -121,39 +122,27 @@ describe(handleRequest, () => {
       })
 
       it('ensures chainId, feeCurrency, gas, gasPrice and nonce are kept when provided', async () => {
+        const txParams = {
+          from: '0xTEST',
+          data: '0xABC',
+          chainId: 45000,
+          feeCurrency: '0xSomeCurrency',
+          gas: 1,
+          gasPrice: 2,
+          nonce: 3,
+        }
         await expectSaga(handleRequest, {
           method: SupportedActions.eth_signTransaction,
-          params: [
-            {
-              from: '0xTEST',
-              data: '0xABC',
-              chainId: 45000,
-              feeCurrency: 2000,
-              gas: 1,
-              gasPrice: 2,
-              nonce: 3,
-            },
-          ],
+          params: [txParams],
         })
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], {
-            from: '0xTEST',
-            data: '0xABC',
-            feeCurrency: 2000,
-            gas: 1,
-            gasPrice: 2,
-            chainId: 45000,
-            nonce: 3,
-          })
+          .call([mockWallet, 'signTransaction'], txParams)
           .run()
       })
 
       it('ensures feeCurrency is set to a token which has a balance, when not provided', async () => {
-        const kit = await getContractKitAsync()
-        kit.registry.addressFor = jest.fn((contract) => Promise.resolve(`0x${contract}`))
-
         const state = createMockStore({
           web3: { account: '0xWALLET', mtwAddress: undefined },
           goldToken: { balance: '0' },

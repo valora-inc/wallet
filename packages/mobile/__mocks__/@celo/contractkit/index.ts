@@ -88,7 +88,7 @@ const kit = {
     getEscrow: jest.fn(async () => Escrow),
   },
   registry: {
-    addressFor: async (address: string) => 1000,
+    addressFor: jest.fn((contract) => Promise.resolve(`0x${contract}`)),
   },
   connection,
 }
