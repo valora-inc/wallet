@@ -58,7 +58,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
       console.log('==normalized tx==', tx)
 
-      return (yield call(wallet.signTransaction.bind(wallet), tx)) as EncodedTransaction
+      return (yield call([wallet, 'signTransaction'], tx)) as EncodedTransaction
     }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:

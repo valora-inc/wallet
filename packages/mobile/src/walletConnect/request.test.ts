@@ -80,4 +80,79 @@ describe(handleRequest, () => {
       .call([mockWallet, 'signTypedData'], '0xwallet', { message: 'Some typed data' })
       .run()
   })
+
+  describe('eth_signTransaction', () => {
+    it('normalizes the input transaction', async () => {
+      const state = createMockStore({
+        web3: { account: '0xWALLET', mtwAddress: undefined },
+      }).getState()
+
+      // This check ensures chainId, feeCurrency, gas, gasPrice and nonce are added if not set
+      await expectSaga(handleRequest, {
+        method: SupportedActions.eth_signTransaction,
+        params: [{ from: '0xTEST', data: '0xABC' }],
+      })
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signTransaction'], {
+          from: '0xTEST',
+          data: '0xABC',
+          feeCurrency: 1000,
+          gas: 1000000,
+          gasPrice: 3,
+          chainId: 44787,
+          nonce: 7,
+        })
+        .run()
+
+      // This check ensures gas and gasPrice are updated when feeCurrency is not set
+      await expectSaga(handleRequest, {
+        method: SupportedActions.eth_signTransaction,
+        params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
+      })
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signTransaction'], {
+          from: '0xTEST',
+          data: '0xABC',
+          feeCurrency: 1000,
+          gas: 1000000,
+          gasPrice: 3,
+          chainId: 44787,
+          nonce: 3,
+        })
+        .run()
+
+      // This check ensures chainId, feeCurrency, gas, gasPrice and nonce are kept when provided
+      await expectSaga(handleRequest, {
+        method: SupportedActions.eth_signTransaction,
+        params: [
+          {
+            from: '0xTEST',
+            data: '0xABC',
+            chainId: 45000,
+            feeCurrency: 2000,
+            gas: 1,
+            gasPrice: 2,
+            nonce: 3,
+          },
+        ],
+      })
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signTransaction'], {
+          from: '0xTEST',
+          data: '0xABC',
+          feeCurrency: 2000,
+          gas: 1,
+          gasPrice: 2,
+          chainId: 45000,
+          nonce: 3,
+        })
+        .run()
+    })
+  })
 })
