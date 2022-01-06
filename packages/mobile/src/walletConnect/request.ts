@@ -32,7 +32,6 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
   switch (method) {
     case SupportedActions.eth_signTransaction: {
-      console.log('==input tx==', params[0])
       // IMPORTANT: We need to normalize the transaction parameters
       // WalletConnect v1 utils currently strips away important fields like `chainId`, `feeCurrency`, `gatewayFee` and `gatewayFeeRecipient`
       // See https://github.com/WalletConnect/walletconnect-monorepo/blame/c6b26481c34848dbc9c49bb0d024bda907ec4599/packages/helpers/utils/src/ethereum.ts#L66-L86
@@ -58,8 +57,6 @@ export function* handleRequest({ method, params }: { method: string; params: any
         rawTx.gasPrice = undefined
       }
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
-
-      console.log('==normalized tx==', tx)
 
       return (yield call([wallet, 'signTransaction'], tx)) as EncodedTransaction
     }
