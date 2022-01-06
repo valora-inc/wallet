@@ -17585,7 +17585,7 @@ react-native-sms@^1.11.0:
   resolved "https://registry.yarnpkg.com/react-native-sms/-/react-native-sms-1.11.0.tgz#02e191ef35fae163d7fae1f78f42f202c33f8c9e"
   integrity sha512-G5q61qGknNyftN1cFkXfH46UkQWMf3fy/M1fxK/QJzLDJAgCSeBqge62FgJClw1FqzYGSjZeoZvkgpWGDCd3wQ==
 
-react-native-splash-screen@^3.0.0:
+react-native-splash-screen@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz#3af71ed17afe50fee69590a45aec399d071ead02"
   integrity sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA==
