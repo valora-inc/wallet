@@ -5,6 +5,7 @@ import { SectionList } from 'react-native'
 import { useDispatch } from 'react-redux'
 import config from 'src/geth/networkConfig'
 import useInterval from 'src/hooks/useInterval'
+import * as Sentry from '@sentry/react-native'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
@@ -72,10 +73,11 @@ function useQueryTransactionFeed() {
     [counter],
     {
       onSuccess: (result) => {
-        if (result?.data?.tokenTransactionsV2.transactions.length) {
+        if (result?.data?.tokenTransactionsV2?.transactions.length) {
           dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
         }
         if (result?.errors) {
+          Sentry.captureException(result.errors)
           Logger.warn(
             TAG,
             `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
@@ -85,7 +87,7 @@ function useQueryTransactionFeed() {
     }
   )
 
-  return { loading, error, transactions: result?.data?.tokenTransactionsV2.transactions }
+  return { loading, error, transactions: result?.data?.tokenTransactionsV2?.transactions }
 }
 
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
