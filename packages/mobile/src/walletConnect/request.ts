@@ -33,9 +33,11 @@ export function* handleRequest({ method, params }: { method: string; params: any
   switch (method) {
     case SupportedActions.eth_signTransaction: {
       console.log('==input tx==', params[0])
-      // IMPORTANT: We need to normalize the transaction parameters for now
+      // IMPORTANT: We need to normalize the transaction parameters
       // WalletConnect v1 utils currently strips away important fields like `chainId`, `feeCurrency`, `gatewayFee` and `gatewayFeeRecipient`
       // See https://github.com/WalletConnect/walletconnect-monorepo/blame/c6b26481c34848dbc9c49bb0d024bda907ec4599/packages/helpers/utils/src/ethereum.ts#L66-L86
+      // Also the dapp developer may have omitted some of the needed fields,
+      // so it's nice to be flexible and still allow the transaction to be signed (and sent) successfully
 
       const kit: ContractKit = yield call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
@@ -43,14 +45,15 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // For now if `feeCurrency` is not set, we don't know whether it was stripped by WalletConnect v1 utils or intentionally left out
       // to use CELO to pay for fees
       if (!rawTx.feeCurrency) {
-        // This will use CELO to pay for fees if the user has a balance, otherwise it will fallback to the first currency with a balance
+        // This will use CELO to pay for fees if the user has a balance,
+        // otherwise it will fallback to the first currency with a balance
         const feeCurrency: Currency = yield call(chooseFeeCurrency, Currency.Celo)
         // Pass undefined to use CELO to pay for gas.
         const feeCurrencyAddress: string | undefined =
           feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
         rawTx.feeCurrency = feeCurrencyAddress
-        // TODO: do we really need to reset gas here? or could we keep it?
+        // Note: we're resetting gas and gasPrice here because if the feeCurrency has changed, we need to recalculate them
         rawTx.gas = undefined
         rawTx.gasPrice = undefined
       }
