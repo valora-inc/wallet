@@ -1,5 +1,4 @@
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { useNavigation } from '@react-navigation/native'
@@ -10,6 +9,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
+import PlaidLinkButton from 'src/account/PlaidLinkButton'
 import { KycStatus } from 'src/account/reducer'
 import { kycStatusSelector } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
@@ -213,16 +213,7 @@ function StepTwo({ disabled }: { disabled: boolean }) {
       <Text style={{ ...styles.description, ...(disabled && styles.greyedOut) }}>
         {t('linkBankAccountScreen.stepTwo.description')}
       </Text>
-      <Button
-        text={t('linkBankAccountScreen.stepTwo.cta')}
-        onPress={() => {
-          /* TODO: Start Plaid Flow during M2 */
-        }}
-        type={BtnTypes.SECONDARY}
-        size={BtnSizes.MEDIUM}
-        style={styles.button}
-        disabled={disabled}
-      />
+      <PlaidLinkButton disabled={disabled} />
     </View>
   )
 }

@@ -400,7 +400,7 @@
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to confirm",
-  "canNotRequestFromUnverified": "Can not request from unconfirmed users",
+  "canNotRequestFromUnverified": "Cannot request from unconfirmed users",
   "restartApp": "Restart App",
   "quitApp": "Quit",
   "loading": "Loading…",
@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed."
+      "description": "Tes informations ont été reçues et sont en cours d'examen."
     },
     "begin": {
       "label": "Step 1",

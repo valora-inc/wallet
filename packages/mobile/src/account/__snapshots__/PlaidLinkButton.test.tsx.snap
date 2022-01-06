@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlaidLinkButton renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flexDirection": "row",
+      },
+      Object {
+        "marginTop": 48,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "borderRadius": 100,
+        },
+      ]
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#F1F0EB",
+          "height": 48,
+          "justifyContent": "center",
+          "minWidth": 120,
+          "opacity": undefined,
+          "paddingHorizontal": 24,
+          "paddingVertical": 5,
+        }
+      }
+      testID="PlaidLinkButton"
+    >
+      <Text
+        maxFontSizeMultiplier={1}
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 22,
+          }
+        }
+      >
+        linkBankAccountScreen.stepTwo.cta
+      </Text>
+    </View>
+  </View>
+</View>
+`;

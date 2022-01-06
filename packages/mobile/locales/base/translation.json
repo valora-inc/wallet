@@ -58,7 +58,7 @@
   "selectCurrency": "Select Currency",
   "continue": "Continue",
   "yourName": "Your Name",
-  "version": "Version:",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -400,7 +400,7 @@
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to confirm",
-  "canNotRequestFromUnverified": "Can not request from unconfirmed users",
+  "canNotRequestFromUnverified": "Cannot request from unconfirmed users",
   "restartApp": "Restart App",
   "quitApp": "Quit",
   "loading": "Loading…",
@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
+  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
@@ -1092,7 +1093,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Your information has been recieved and is being reviewed."
+      "description": "Your information has been received and is being reviewed."
     },
     "begin": {
       "label": "Step 1",
