@@ -14,6 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
@@ -70,12 +71,6 @@ function TokenBalancesScreen({ navigation }: Props) {
         </View>
       </View>
     )
-  }
-
-  const sortByUsdBalance = (token1: TokenBalance, token2: TokenBalance) => {
-    const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
-    const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-    return token2UsdBalance.minus(token1UsdBalance).toNumber()
   }
 
   return (

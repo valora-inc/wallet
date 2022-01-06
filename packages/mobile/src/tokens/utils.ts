@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { Balances } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
+import { TokenBalance } from './reducer'
 
 export function getHigherBalanceCurrency(
   currencies: Currency[],
@@ -18,4 +19,10 @@ export function getHigherBalanceCurrency(
     }
   }
   return maxCurrency
+}
+
+export const sortByUsdBalance = (token1: TokenBalance, token2: TokenBalance) => {
+  const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
+  return token2UsdBalance.minus(token1UsdBalance).toNumber()
 }

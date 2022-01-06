@@ -15,6 +15,7 @@ import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -74,7 +75,7 @@ function TokenBottomSheet({
 
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const coreTokens = useSelector(coreTokensSelector)
-  const tokenList = isOutgoingPaymentRequest ? coreTokens : tokens
+  const tokenList = (isOutgoingPaymentRequest ? coreTokens : tokens).sort(sortByUsdBalance)
 
   const { t } = useTranslation()
 
