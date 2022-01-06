@@ -139,7 +139,7 @@ export default WalletConnect = () => {
   // TODO: Enable when Valora implantation defect is fixed - gas can be optional is resolved
   // https://github.com/valora-inc/wallet/issues/1559
   jest.retryTimes(2)
-  it.skip('Then is able to sign a transaction', async () => {
+  it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
     await waitFor(element(by.text('Sign a Celo TX')))
@@ -150,13 +150,6 @@ export default WalletConnect = () => {
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(10 * 1000)
-
-    // Wait for signature
-    let signature = await result
-
-    // Verify the signature - what is the default message
-    const valid = verifySignature('0x', signature, fromAddress)
-    jestExpect(valid).toStrictEqual(true)
   })
 
   jest.retryTimes(2)
