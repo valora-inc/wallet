@@ -432,14 +432,14 @@ PODS:
     - glog
   - react-native-blind-threshold-bls (1.0.0):
     - React
-  - react-native-camera (3.23.1):
-    - React
-    - react-native-camera/RCT (= 3.23.1)
-    - react-native-camera/RN (= 3.23.1)
-  - react-native-camera/RCT (3.23.1):
-    - React
-  - react-native-camera/RN (3.23.1):
-    - React
+  - react-native-camera (4.2.1):
+    - React-Core
+    - react-native-camera/RCT (= 4.2.1)
+    - react-native-camera/RN (= 4.2.1)
+  - react-native-camera/RCT (4.2.1):
+    - React-Core
+  - react-native-camera/RN (4.2.1):
+    - React-Core
   - react-native-config (1.3.3):
     - react-native-config/App (= 1.3.3)
   - react-native-config/App (1.3.3):
@@ -618,8 +618,8 @@ PODS:
     - TOCropViewController
   - RNInAppBrowser (3.5.1):
     - React-Core
-  - RNKeychain (6.0.0):
-    - React
+  - RNKeychain (8.0.0):
+    - React-Core
   - RNLocalize (1.4.0):
     - React
   - RNPermissions (3.0.3):
@@ -1096,7 +1096,7 @@ SPEC CHECKSUMS:
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
   react-native-blind-threshold-bls: 86068a0a8890b04b5492a4a8787b53dbde1aea8d
-  react-native-camera: 1b52abea404d04e040edb3e74b7c5523c01a3089
+  react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-fast-crypto: b6dea8324fb1b095dd4f29a80356b43acb3ee2e9
@@ -1147,7 +1147,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNInAppBrowser: 48b95ba7a4eaff5cc223bca338d3e319561dbd1b
-  RNKeychain: bf2d7e9a0ae7a073c07770dd2aa6d11c67581733
+  RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: b6df30cc25ae736d37874f9bce13351db2f56796
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
