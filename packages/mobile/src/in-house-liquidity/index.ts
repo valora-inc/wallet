@@ -2,6 +2,63 @@ import networkConfig from 'src/geth/networkConfig'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { signWithDEK } from 'src/web3/dataEncryptionKey'
 
+interface CreateFinclusiveBankAccountParams {
+  accountMTWAddress: string
+  walletAddress: string
+  plaidAccessToken: string
+}
+
+export const createFinclusiveBankAccount = async ({
+  accountMTWAddress,
+  walletAddress,
+  plaidAccessToken,
+}: CreateFinclusiveBankAccountParams) => {
+  const body = {
+    accountAddress: accountMTWAddress,
+    plaidAccessToken,
+  }
+  return signAndFetch({
+    path: '/account/bank-account',
+    accountMTWAddress,
+    walletAddress,
+    requestOptions: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
+interface ExchangePlaidAccessTokenParams {
+  accountMTWAddress: string
+  walletAddress: string
+  publicToken: string
+}
+
+export const exchangePlaidAccessToken = async ({
+  accountMTWAddress,
+  walletAddress,
+  publicToken,
+}: ExchangePlaidAccessTokenParams) => {
+  const body = {
+    publicToken,
+  }
+  return signAndFetch({
+    path: '/plaid/access-token/exchange',
+    accountMTWAddress,
+    walletAddress,
+    requestOptions: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
 interface CreateLinkTokenParams {
   accountMTWAddress: string
   walletAddress: string

@@ -113,7 +113,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
-    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
+    linkBankAccountEnabled: true,
     kycStatus: state.account.kycStatus,
     mtwAddress: state.web3.mtwAddress,
   }
