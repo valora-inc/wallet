@@ -58,7 +58,7 @@
   "selectCurrency": "Währung auswählen",
   "continue": "Weiter",
   "yourName": "Dein Name",
-  "version": "Version:",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Adresse in die Zwischenablage kopiert",
   "support": "Support",
   "contact": "Kontakt",
@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
+  "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Bitte versuche es später noch einmal",
   "linkBankAccountScreen": {
     "tryAgain": "Wiederholen",
     "verifying": {
