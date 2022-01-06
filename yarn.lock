@@ -4646,11 +4646,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz#e42b1bef12d2415411519fd528e64b593b1363dc"
   integrity sha512-W/J0fNYVO01tioHjvYWQ9m6RgndVtbElzYozBq1ZPrHO/iCzlqoySHl4gO/fpCl9QEFjvJfjPgtPMTMlsoq5DQ==
 
-"@react-native-community/masked-view@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.11.tgz#2f4c6e10bee0786abff4604e39a37ded6f3980ce"
-  integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
-
 "@react-native-community/netinfo@^7.1.7":
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-7.1.7.tgz#10e96922c90a0ff9755dcfbfc92a9d83ec45cd87"
@@ -4693,6 +4688,11 @@
   version "11.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-11.5.0.tgz#951c5ec2ebea3f07ee4249bba7d903ad7bf679a0"
   integrity sha512-IQ0ZIjYijWsGF0rDOjO6e7GozJOLHuBOfwlUPDKh3YP2p9GQ5t6XQTkSRgO40mZ88ZB7+So39oYOIYJuGleOcA==
+
+"@react-native-masked-view/masked-view@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.6.tgz#b26c52d5db3ad0926b13deea79c69620966a9221"
+  integrity sha512-303CxmetUmgiX9NSUxatZkNh9qTYYdiM8xkGf9I3Uj20U3eGY3M78ljeNQ4UVCJA+FNGS5nC1dtS9GjIqvB4dg==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -17341,10 +17341,9 @@ react-native-email-link@^1.9.1:
   resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.9.2.tgz#cbacf7eec9ab8c80f01b0daf50e14edeb466d9cf"
   integrity sha512-w9VbKWcbqO138QcuiUyNUGoLcwZPhUY/jl+y3oiyuCzBwZGvoFeo138TOxoI8FecpHd+IMtsVn9QZVIB8PFXpQ==
 
-react-native-exit-app@^1.1.0:
+"react-native-exit-app@https://github.com/wumke/react-native-exit-app#5a022a7":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz#5ec082152974240e2d6a93f1608efb49a4385f21"
-  integrity sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA==
+  resolved "https://github.com/wumke/react-native-exit-app#5a022a756c5983bdd2102cdd1f2269586bcfacfa"
 
 react-native-fast-crypto@^2.0.0:
   version "2.0.0"
