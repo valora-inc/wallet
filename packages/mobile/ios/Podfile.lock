@@ -565,8 +565,8 @@ PODS:
     - React-Core
     - RNAnalytics
     - Segment-Firebase (~> 2.7.7)
-  - RNCAsyncStorage (1.9.0):
-    - React
+  - RNCAsyncStorage (1.15.14):
+    - React-Core
   - RNCClipboard (1.2.3):
     - React-Core
   - RNCMaskedView (0.1.11):
@@ -780,7 +780,7 @@ DEPENDENCIES:
   - "RNAnalyticsIntegration-Adjust (from `../../../node_modules/@segment/analytics-react-native-adjust`)"
   - "RNAnalyticsIntegration-CleverTap (from `../../../node_modules/@segment/analytics-react-native-clevertap`)"
   - "RNAnalyticsIntegration-Firebase (from `../../../node_modules/@segment/analytics-react-native-firebase`)"
-  - "RNCAsyncStorage (from `../../../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../../../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
@@ -978,7 +978,7 @@ EXTERNAL SOURCES:
   RNAnalyticsIntegration-Firebase:
     :path: "../../../node_modules/@segment/analytics-react-native-firebase"
   RNCAsyncStorage:
-    :path: "../../../node_modules/@react-native-community/async-storage"
+    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
@@ -1131,7 +1131,7 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-Adjust: fcd3a1e9e653ea81528cfd21d947d8fa2d865d2a
   RNAnalyticsIntegration-CleverTap: abd41dd03f6ee6d7b13c555d6bcde60965fb7366
   RNAnalyticsIntegration-Firebase: 3d3d80be74a53031fc9524d5c5adef2907c28d8f
-  RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
+  RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9

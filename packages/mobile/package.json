@@ -53,7 +53,7 @@
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
     "@pedrouid/environment": "^1.0.1",
-    "@react-native-community/async-storage": "^1.9.0",
+    "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^7.1.7",
@@ -283,7 +283,9 @@
         "device": {
           "avdName": "Pixel_API_29_AOSP_x86_64"
         },
-        "utilBinaryPaths": ["./e2e/test-butler-app.apk"]
+        "utilBinaryPaths": [
+          "./e2e/test-butler-app.apk"
+        ]
       }
     },
     "configurations": {
