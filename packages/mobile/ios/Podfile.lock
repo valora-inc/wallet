@@ -455,7 +455,7 @@ PODS:
     - CeloBlockchain
     - React-Core
   - react-native-keep-awake (4.0.0):
-    - React
+    - React-Core
   - react-native-mail (6.0.0):
     - React-Core
   - react-native-netinfo (7.1.7):
@@ -569,12 +569,12 @@ PODS:
     - React-Core
   - RNCClipboard (1.2.3):
     - React-Core
-  - RNCMaskedView (0.1.11):
-    - React
+  - RNCMaskedView (0.2.6):
+    - React-Core
   - RNDeviceInfo (8.3.1):
     - React-Core
   - RNExitApp (1.1.0):
-    - React
+    - React-Core
   - RNFBApp (11.5.0):
     - Firebase/CoreOnly (= 7.11.0)
     - React-Core
@@ -782,7 +782,7 @@ DEPENDENCIES:
   - "RNAnalyticsIntegration-Firebase (from `../../../node_modules/@segment/analytics-react-native-firebase`)"
   - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-community/clipboard`)"
-  - "RNCMaskedView (from `../../../node_modules/@react-native-community/masked-view`)"
+  - "RNCMaskedView (from `../../../node_modules/@react-native-masked-view/masked-view`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - RNExitApp (from `../../../node_modules/react-native-exit-app`)
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
@@ -982,7 +982,7 @@ EXTERNAL SOURCES:
   RNCClipboard:
     :path: "../../../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
-    :path: "../../../node_modules/@react-native-community/masked-view"
+    :path: "../../../node_modules/@react-native-masked-view/masked-view"
   RNDeviceInfo:
     :path: "../../../node_modules/react-native-device-info"
   RNExitApp:
@@ -1102,7 +1102,7 @@ SPEC CHECKSUMS:
   react-native-fast-crypto: b6dea8324fb1b095dd4f29a80356b43acb3ee2e9
   react-native-flipper: da8e630768f0a35153837df953d9781fa7f860ba
   react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
-  react-native-keep-awake: afad8a51dfef9fe9655a6344771be32c8596d774
+  react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
   react-native-netinfo: 27f287f2d191693f3b9d01a4273137fcf91c3b5d
   react-native-plaid-link-sdk: b2aa9109ba80872525bebf152a8efe70709966d6
@@ -1133,9 +1133,9 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-Firebase: 3d3d80be74a53031fc9524d5c5adef2907c28d8f
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
-  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
+  RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
-  RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
+  RNExitApp: 3ae738c65a8494df166dee74575f2504d0737a28
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
   RNFBAuth: 3236f64982a98f4b6cd33405261a7b2d4892f8b1
   RNFBDatabase: 90e7e25aaf38d8b9e8bc5cf79302fdf6b2c077ef
