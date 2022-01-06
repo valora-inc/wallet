@@ -68,7 +68,13 @@ const Escrow = {
 
 const web3 = new Web3()
 
-const connection = { web3: web3 }
+const connection = {
+  web3: web3,
+  chainId: jest.fn(() => Promise.resolve(44787)),
+  nonce: jest.fn().mockResolvedValue(7),
+  estimateGas: jest.fn().mockResolvedValue(1000000),
+  gasPrice: jest.fn().mockResolvedValue(3),
+}
 
 const kit = {
   contracts: {

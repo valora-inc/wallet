@@ -7,7 +7,10 @@ import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockWallet } from 'test/values'
 
-const signTransactionRequest = { method: SupportedActions.eth_signTransaction, params: [] }
+const signTransactionRequest = {
+  method: SupportedActions.eth_signTransaction,
+  params: [{ from: '0xTEST' }],
+}
 const personalSignRequest = {
   method: SupportedActions.personal_sign,
   params: ['Some message', '0xdeadbeef'],

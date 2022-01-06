@@ -5,8 +5,10 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { call } from 'redux-saga/effects'
-import { sendTransaction } from 'src/transactions/send'
+import { getCurrencyAddress } from 'src/tokens/saga'
+import { chooseFeeCurrency, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
@@ -29,14 +31,41 @@ export function* handleRequest({ method, params }: { method: string; params: any
   yield call(unlockAccount, account)
 
   switch (method) {
-    case SupportedActions.eth_signTransaction:
-      return (yield call(wallet.signTransaction.bind(wallet), params[0])) as EncodedTransaction
+    case SupportedActions.eth_signTransaction: {
+      console.log('==input tx==', params[0])
+      // IMPORTANT: We need to normalize the transaction parameters for now
+      // WalletConnect v1 utils currently strips away important fields like `chainId`, `feeCurrency`, `gatewayFee` and `gatewayFeeRecipient`
+      // See https://github.com/WalletConnect/walletconnect-monorepo/blame/c6b26481c34848dbc9c49bb0d024bda907ec4599/packages/helpers/utils/src/ethereum.ts#L66-L86
+
+      const kit: ContractKit = yield call(getContractKit)
+      const normalizer = new TxParamsNormalizer(kit.connection)
+      const rawTx = { ...params[0] }
+      // For now if `feeCurrency` is not set, we don't know whether it was stripped by WalletConnect v1 utils or intentionally left out
+      // to use CELO to pay for fees
+      if (!rawTx.feeCurrency) {
+        // This will use CELO to pay for fees if the user has a balance, otherwise it will fallback to the first currency with a balance
+        const feeCurrency: Currency = yield call(chooseFeeCurrency, Currency.Celo)
+        // Pass undefined to use CELO to pay for gas.
+        const feeCurrencyAddress: string | undefined =
+          feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
+
+        rawTx.feeCurrency = feeCurrencyAddress
+        // TODO: do we really need to reset gas here? or could we keep it?
+        rawTx.gas = undefined
+        rawTx.gasPrice = undefined
+      }
+      const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
+
+      console.log('==normalized tx==', tx)
+
+      return (yield call(wallet.signTransaction.bind(wallet), tx)) as EncodedTransaction
+    }
     case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
       return (yield call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
     case SupportedActions.personal_decrypt:
       return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
-    case SupportedActions.eth_sendTransaction:
+    case SupportedActions.eth_sendTransaction: {
       const kit: ContractKit = yield call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params[0])
@@ -84,6 +113,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
         newTransactionContext(TAG, 'WalletConnect/eth_sendTransaction')
       )
       return receipt.transactionHash
+    }
     case SupportedActions.personal_sign:
       return (yield call([wallet, 'signPersonalMessage'], account, params[0])) as string
     case SupportedActions.eth_sign:
