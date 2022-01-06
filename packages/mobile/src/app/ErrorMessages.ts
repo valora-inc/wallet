@@ -87,4 +87,5 @@ export enum ErrorMessages {
   RAISE_LIMIT_EMAIL_NOT_SENT = 'raiseLimitEmailNotSent',
   WC2_UNSUPPORTED = 'v2Unsupported',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
+  PLAID_CREATE_LINK_TOKEN_FAIL = 'plaidCreateLinkTokenFail',
 }
