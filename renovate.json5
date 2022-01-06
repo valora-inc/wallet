@@ -1,0 +1,52 @@
+{
+  extends: ['config:base'],
+  // Bump version ranges instead of pinning since we use lock files
+  rangeStrategy: 'bump',
+  // Set a status check pending for 3 days from release timestamp to guard against unpublishing
+  stabilityDays: 3,
+  // Limit number of concurrent renovate branches/PRs, to avoid spamming the repo
+  prConcurrentLimit: 5,
+  // For now require manual approval from within the Dependency Dashboard issue
+  // for all packages before opening the renovate PR.
+  // We can relax this (using specific packageRules) as we catch up with package updates.
+  dependencyDashboardApproval: true,
+  // The order of objects in the packageRules array does matter,
+  // in the sense that rules declared later (towards the end of the array)
+  // overwrite values of an also-matching rule declared earlier.
+  packageRules: [
+    {
+      // Group devDependencies updates
+      matchDepTypes: ['devDependencies'],
+      groupName: 'devDependencies',
+      // But exclude some specific packages from this group
+      excludePackageNames: ['typescript'],
+    },
+    {
+      // Group updates for @celo packages
+      matchPackagePatterns: ['^@celo/'],
+      groupName: 'celo',
+      // Exclude @celo/client from this group, as we want to update it separately
+      excludePackageNames: ['@celo/client'],
+    },
+    {
+      // Group updates for @testing-library packages
+      matchPackagePatterns: ['^@testing-library/'],
+      groupName: 'testing-library',
+    },
+    {
+      // Group updates for @react-native-firebase packages
+      matchPackagePatterns: ['^@react-native-firebase/'],
+      groupName: 'react-native-firebase',
+    },
+    {
+      // Group updates for @segment packages
+      matchPackagePatterns: ['^@segment/'],
+      groupName: 'segment',
+    },
+    {
+      // Group updates for prettier packages
+      matchPackagePatterns: ['^prettier'],
+      groupName: 'prettier',
+    },
+  ],
+}

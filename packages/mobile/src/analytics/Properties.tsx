@@ -113,6 +113,7 @@ interface HomeEventsProperties {
   [HomeEvents.home_send]: undefined
   [HomeEvents.home_request]: undefined
   [HomeEvents.home_qr]: undefined
+  [HomeEvents.hamburger_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
   }

@@ -198,6 +198,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -419,6 +420,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -701,6 +703,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -1052,6 +1055,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -1334,6 +1338,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -1685,6 +1690,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -1912,6 +1918,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -2194,6 +2201,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -2476,6 +2484,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}
@@ -2758,6 +2767,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
                   "paddingVertical": 5,
                 }
               }
+              testID="PlaidLinkButton"
             >
               <Text
                 maxFontSizeMultiplier={1}

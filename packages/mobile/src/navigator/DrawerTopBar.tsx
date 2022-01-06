@@ -5,6 +5,8 @@ import * as React from 'react'
 import { processColor, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { cond, greaterThan } from 'react-native-reanimated'
 import Hamburger from 'src/icons/Hamburger'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 interface Props {
   middleElement?: React.ReactNode
@@ -29,14 +31,15 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
     [scrollPosition]
   )
 
+  const onPressHamburger = () => {
+    ValoraAnalytics.track(HomeEvents.hamburger_tapped)
+    // @ts-ignore Only used in a drawer
+    return navigation.toggleDrawer()
+  }
+
   return (
     <Animated.View testID={testID} style={viewStyle}>
-      <TouchableOpacity
-        style={styles.hamburger}
-        // @ts-ignore Only used in a drawer
-        onPress={navigation.toggleDrawer}
-        hitSlop={iconHitslop}
-      >
+      <TouchableOpacity style={styles.hamburger} onPress={onPressHamburger} hitSlop={iconHitslop}>
         <Hamburger />
       </TouchableOpacity>
       {middleElement}

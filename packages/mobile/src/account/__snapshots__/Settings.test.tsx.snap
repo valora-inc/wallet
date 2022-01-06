@@ -24,7 +24,7 @@ exports[`Account renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
@@ -2485,7 +2485,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
@@ -5267,7 +5267,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
@@ -7648,7 +7648,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,

@@ -30,7 +30,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
@@ -494,7 +494,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       hitSlop={
         Object {
           "bottom": 10,
