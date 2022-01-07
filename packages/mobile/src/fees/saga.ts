@@ -21,7 +21,6 @@ import {
   tokensByAddressSelector,
   tokensByCurrencySelector,
   tokensByUsdBalanceSelector,
-  tokensListSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'

@@ -10,17 +10,12 @@ import { calculateFee, FeeInfo, fetchFeeCurrency } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
 import useSelector from 'src/redux/useSelector'
 import { STATIC_SEND_TOKEN_GAS_ESTIMATE } from 'src/send/saga'
-import {
-  tokensByCurrencySelector,
-  tokensByUsdBalanceSelector,
-  tokensListSelector,
-} from 'src/tokens/selectors'
-import { Fee } from 'src/transactions/types'
+import { tokensByCurrencySelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import { Fee, FeeType as TransactionFeeType } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { FeeType as TransactionFeeType } from 'src/transactions/types'
 
 async function getSendGasFeeEstimate(
   address: string,
