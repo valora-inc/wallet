@@ -22,28 +22,28 @@ import {
 } from 'src/tokens/selectors'
 
 function TokenBalance() {
-  const tokenBalances = useSelector(tokensWithUsdValueSelector)
+  const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  if (tokenBalances.length === 0) {
+  if (tokensWithUsdValue.length === 0) {
     return (
       <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {new BigNumber(0).toFormat(2)}
       </Text>
     )
-  } else if (tokenBalances.length === 1) {
-    const tokenBalance = tokenBalances[0].balance
+  } else if (tokensWithUsdValue.length === 1) {
+    const tokenBalance = tokensWithUsdValue[0].balance
     return (
       <View style={styles.oneBalance}>
-        <Image source={{ uri: tokenBalances[0].imageUrl }} style={styles.tokenImg} />
+        <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={styles.balance} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
             {totalBalance?.toFormat(2)}
           </Text>
           <Text style={styles.tokenBalance}>
-            {formatValueToDisplay(tokenBalance)} {tokenBalances[0].symbol}
+            {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
           </Text>
         </View>
       </View>
