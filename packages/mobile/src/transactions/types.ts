@@ -156,7 +156,7 @@ export interface TokenExchange {
   fees: Fee[]
 }
 
-interface TokenExchangeMetadata {
+export interface TokenExchangeMetadata {
   title?: string
   subtitle?: string
 }
