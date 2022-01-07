@@ -38,7 +38,7 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
-  lastSuccessfulFetch: number
+  lastSuccessfulFetch?: number
 }
 
 export const initialState = {
