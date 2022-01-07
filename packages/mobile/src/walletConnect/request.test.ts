@@ -112,7 +112,35 @@ describe(handleRequest, () => {
           .run()
       })
 
-      it('ensures gas is padded and gasPrice recalculated when feeCurrency is not set (or was stripped)', async () => {
+      it('ensures gas is padded and gasPrice recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is non-CELO', async () => {
+        // This is because WalletConnect v1 utils strips away feeCurrency
+
+        const state = createMockStore({
+          web3: { account: '0xWALLET', mtwAddress: undefined },
+          goldToken: { balance: '0' },
+          stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '0' } },
+        }).getState()
+
+        await expectSaga(handleRequest, {
+          method: SupportedActions.eth_signTransaction,
+          params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
+        })
+          .provide([[call(getWallet), mockWallet]])
+          .withState(state)
+          .call(unlockAccount, '0xwallet')
+          .call([mockWallet, 'signTransaction'], {
+            from: '0xTEST',
+            data: '0xABC',
+            feeCurrency: '0xStableToken',
+            gas: '50001', // 1 + STATIC_GAS_PADDING
+            gasPrice: 3,
+            chainId: 44787,
+            nonce: 3,
+          })
+          .run()
+      })
+
+      it('ensures gas is NOT padded and gasPrice recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
         // This is because WalletConnect v1 utils strips away feeCurrency
         await expectSaga(handleRequest, {
           method: SupportedActions.eth_signTransaction,
@@ -125,7 +153,7 @@ describe(handleRequest, () => {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
-            gas: '50001', // 1 + STATIC_GAS_PADDING
+            gas: 1,
             gasPrice: 3,
             chainId: 44787,
             nonce: 3,

@@ -69,7 +69,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           // Why aren't we just estimating again?
           // It may result in errors for the dApp. E.g. If a dApp developer is doing a two step approve and exchange and requesting both signatures
           // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
-          if (rawTx.gas) {
+          if (rawTx.gas && feeCurrency !== Currency.Celo) {
             rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
           }
           // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
