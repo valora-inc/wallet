@@ -13,13 +13,34 @@ import { Currency } from 'src/utils/currencies'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
-import { mockContract, mockCusdAddress } from 'test/values'
+import { mockCeurAddress, mockContract, mockCusdAddress } from 'test/values'
 
 const GAS_AMOUNT = 500000
 
 jest.mock('@celo/connect')
 
 const mockTxo = jest.fn()
+
+const store = createMockStore({
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        usdPrice: '1',
+        balance: '100',
+        isCoreToken: true,
+      },
+      [mockCeurAddress]: {
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        usdPrice: '1.2',
+        balance: '20',
+        isCoreToken: true,
+      },
+    },
+  },
+})
 
 describe(estimateFeeSaga, () => {
   beforeAll(() => {
@@ -47,7 +68,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.INVITE, tokenAddress: mockCusdAddress },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [call(getContractKit), contractKit],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
@@ -72,7 +93,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
@@ -99,7 +120,7 @@ describe(estimateFeeSaga, () => {
         paymentID: 'paymentID',
       },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
@@ -124,7 +145,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.REGISTER_DEK, tokenAddress: mockCusdAddress },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [call(getContractKit), kit],
         [call([kit.contracts, kit.contracts.getAccounts]), mockAccountsWrapper],
@@ -148,7 +169,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.RECLAIM_ESCROW, tokenAddress: mockCusdAddress },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [call(createReclaimTransaction, 'paymentID'), mockTxo],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
@@ -176,7 +197,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.SEND, tokenAddress: mockCusdAddress },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
@@ -204,7 +225,7 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, {
       payload: { feeType: FeeType.SEND, tokenAddress: 'randomAddress' },
     })
-      .withState(createMockStore({}).getState())
+      .withState(store.getState())
       .provide([
         [matchers.call.fn(buildSendTx), jest.fn(() => ({ txo: mockTxo }))],
         [matchers.call.fn(estimateGas), new BigNumber(GAS_AMOUNT)],
