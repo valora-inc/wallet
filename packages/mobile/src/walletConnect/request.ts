@@ -4,6 +4,7 @@ import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
+import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { chooseFeeCurrency, sendTransaction } from 'src/transactions/send'
@@ -15,6 +16,10 @@ import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
+
+// Additional gas added when setting the fee currency
+// See details where used.
+const STATIC_GAS_PADDING = 50_000
 
 export interface WalletResponseError {
   isError: true
@@ -52,8 +57,15 @@ export function* handleRequest({ method, params }: { method: string; params: any
           feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
         rawTx.feeCurrency = feeCurrencyAddress
-        // Note: we're resetting gas and gasPrice here because if the feeCurrency has changed, we need to recalculate them
-        rawTx.gas = undefined
+        // If gas was set, we add some padding to it since we don't know if feeCurrency changed
+        // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
+        // Why aren't we just estimating again?
+        // It may result in errors for the dApp. E.g. If a dApp developer is doing a two step approve and exchange and requesting both signatures
+        // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
+        if (rawTx.gas) {
+          rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
+        }
+        // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
         rawTx.gasPrice = undefined
       }
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
