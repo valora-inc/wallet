@@ -24,13 +24,12 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164NumberInvite,
+  mockTestTokenAddress,
   mockTransactionData,
   mockTransactionDataLegacy,
 } from 'test/values'
 
 expect.extend({ toBeDisabled })
-
-jest.mock('src/components/useShowOrHideAnimation')
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
@@ -48,6 +47,7 @@ const storeData = {
         usdPrice: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
@@ -55,6 +55,12 @@ const storeData = {
         usdPrice: '1.2',
         balance: '10',
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockTestTokenAddress]: {
+        address: mockTestTokenAddress,
+        symbol: 'TT',
+        balance: '50',
       },
     },
   },
@@ -210,6 +216,7 @@ describe('SendAmount', () => {
               symbol: 'cUSD',
               usdPrice: '1',
               balance: LARGE_BALANCE,
+              priceFetchedAt: Date.now(),
             },
           },
         },
@@ -270,12 +277,14 @@ describe('SendAmount', () => {
               symbol: 'cUSD',
               usdPrice: '1',
               balance: '0',
+              priceFetchedAt: Date.now(),
             },
             [mockCeurAddress]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
               usdPrice: '1.2',
               balance: '10.12',
+              priceFetchedAt: Date.now(),
             },
           },
         },
@@ -290,10 +299,7 @@ describe('SendAmount', () => {
     })
 
     it("allows choosing the currency when there's balance for more than one token", () => {
-      const store = createMockStore({
-        ...storeData,
-        stableToken: { balances: { [Currency.Dollar]: '10.56', [Currency.Euro]: '10.12' } },
-      })
+      const store = createMockStore(storeData)
       const { queryByTestId } = render(
         <Provider store={store}>
           <SendAmount {...mockScreenProps()} />
@@ -352,6 +358,63 @@ describe('SendAmount', () => {
         },
       })
     })
+
+    it("Doesn't allow inputting in local currency if token has no usd price", () => {
+      const store = createMockStore(storeData)
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps(false, mockTestTokenAddress)} />
+        </Provider>
+      )
+      enterAmount(wrapper, AMOUNT_VALID)
+
+      expect(wrapper.getByTestId('MaxButton')).toBeTruthy()
+      expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
+
+      const reviewButton = wrapper.getByTestId('Review')
+      expect(reviewButton).toBeEnabled()
+      fireEvent.press(wrapper.getByTestId('Review'))
+
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+        transactionData: {
+          inputAmount: new BigNumber(AMOUNT_VALID),
+          amountIsInLocalCurrency: false,
+          recipient: mockTransactionData.recipient,
+          tokenAddress: mockTestTokenAddress,
+        },
+      })
+    })
+
+    it('when inputting using local currency and switching to a token without usd price, it switches to token input', async () => {
+      const store = createMockStore(storeData)
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      enterAmount(wrapper, '10')
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
+      // Note that the space between the amount and the symbol is set with CSS styles.
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
+      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
+
+      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('TTTouchable'))
+
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('10TT')
+      expect(wrapper.queryByTestId('SecondaryAmountContainer')).toBeNull()
+      expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
+
+      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('cEURTouchable'))
+
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('6.27cEUR')
+      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
+    })
   })
 
   describe('Navigation', () => {
@@ -398,9 +461,6 @@ describe('SendAmount', () => {
           },
         },
         ...storeData,
-        send: {
-          lastUsedCurrency: Currency.Euro,
-        },
       })
 
       const tree = render(

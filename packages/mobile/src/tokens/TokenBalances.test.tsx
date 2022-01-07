@@ -4,11 +4,18 @@ import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import { amountFromComponent, createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockTokenBalances } from 'test/values'
+import { mockTestTokenAddress, mockTokenBalances } from 'test/values'
 
 const defaultStore = {
   tokens: {
-    tokenBalances: mockTokenBalances,
+    tokenBalances: {
+      ...mockTokenBalances,
+      [mockTestTokenAddress]: {
+        address: mockTestTokenAddress,
+        symbol: 'TT',
+        balance: '50',
+      },
+    },
   },
 }
 
@@ -27,5 +34,8 @@ describe('TokenBalancesScreen', () => {
     expect(tree).toMatchSnapshot()
     expect(amountFromComponent(tree.getByTestId('tokenBalance:POOF'))).toBe('5.00')
     expect(amountFromComponent(tree.getByTestId('tokenLocalBalance:POOF'))).toBe('₱0.67')
+
+    expect(amountFromComponent(tree.getByTestId('tokenBalance:TT'))).toBe('50.00')
+    expect(tree.queryByTestId('tokenLocalBalance:TT')).toBeFalsy()
   })
 })

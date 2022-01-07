@@ -14,7 +14,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
-import { coreTokensSelector, tokensWithBalanceSelector } from 'src/tokens/selectors'
+import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -72,9 +73,9 @@ function TokenBottomSheet({
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
 
-  const tokens = useSelector(tokensWithBalanceSelector)
+  const tokens = useSelector(tokensWithTokenBalanceSelector)
   const coreTokens = useSelector(coreTokensSelector)
-  const tokenList = isOutgoingPaymentRequest ? coreTokens : tokens
+  const tokenList = (isOutgoingPaymentRequest ? coreTokens : tokens).sort(sortByUsdBalance)
 
   const { t } = useTranslation()
 

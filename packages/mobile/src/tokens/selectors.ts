@@ -1,10 +1,15 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import {
+  STABLE_TRANSACTION_MIN_AMOUNT,
+  TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
+  TOKEN_MIN_AMOUNT,
+} from 'src/config'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalances } from 'src/tokens/reducer'
+import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
+import { sortByUsdBalance } from './utils'
 
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
 export const tokensByAddressSelector = createSelector(
@@ -16,10 +21,12 @@ export const tokensByAddressSelector = createSelector(
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
+      const tokenUsdPriceIsStale =
+        (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: usdPrice.isNaN() ? new BigNumber(0) : usdPrice,
+        usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
       }
     }
     return tokenBalances
@@ -30,21 +37,27 @@ export const tokensListSelector = createSelector(tokensByAddressSelector, (token
   return Object.values(tokens).map((token) => token!)
 })
 
-export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tokens) => {
+type TokenBalanceWithUsdPrice = TokenBalance & {
+  usdPrice: BigNumber
+}
+
+export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
-    tokenInfo.balance.multipliedBy(tokenInfo.usdPrice).gt(STABLE_TRANSACTION_MIN_AMOUNT)
-  )
+    tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  ) as TokenBalanceWithUsdPrice[]
 })
 
-export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 })
 
 // Tokens sorted by usd balance (descending)
-export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) => {
-  return tokensList.sort((a, b) =>
-    b.balance.multipliedBy(b.usdPrice).comparedTo(a.balance.multipliedBy(a.usdPrice))
-  )
+export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) =>
+  tokensList.sort(sortByUsdBalance)
+)
+
+export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
@@ -60,11 +73,11 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
 })
 
 // Returns the token with the highest usd balance to use as default.
-export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) => {
+export const defaultTokenSelector = createSelector(tokensWithTokenBalanceSelector, (tokens) => {
   let maxTokenAddress: string = ''
   let maxBalance: BigNumber = new BigNumber(-1)
   for (const token of tokens) {
-    const usdBalance = token.balance.multipliedBy(token.usdPrice)
+    const usdBalance = token.balance.multipliedBy(token.usdPrice ?? 0)
     if (usdBalance.gt(maxBalance)) {
       maxTokenAddress = token.address
       maxBalance = usdBalance
@@ -75,7 +88,7 @@ export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) 
 })
 
 export const totalTokenBalanceSelector = createSelector(
-  [tokensWithBalanceSelector, localCurrencyExchangeRatesSelector],
+  [tokensWithUsdValueSelector, localCurrencyExchangeRatesSelector],
   (tokenBalances, exchangeRate) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate) {

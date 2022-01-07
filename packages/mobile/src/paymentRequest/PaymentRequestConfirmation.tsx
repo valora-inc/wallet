@@ -74,6 +74,11 @@ function PaymentRequestConfirmation({ route }: Props) {
       throw new Error('Error passing through the requestee address')
     }
 
+    if (!usdAmount) {
+      // Should not happen
+      throw new Error('Trying to request from a token without a usd price')
+    }
+
     const paymentInfo = {
       amount: usdAmount.toString(),
       comment: comment || undefined,

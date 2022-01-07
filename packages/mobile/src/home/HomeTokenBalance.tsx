@@ -15,31 +15,35 @@ import ProgressArrow from 'src/icons/ProgressArrow'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  tokensWithTokenBalanceSelector,
+  tokensWithUsdValueSelector,
+  totalTokenBalanceSelector,
+} from 'src/tokens/selectors'
 
 function TokenBalance() {
-  const tokenBalances = useSelector(tokensWithBalanceSelector)
+  const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  if (tokenBalances.length === 0) {
+  if (tokensWithUsdValue.length === 0) {
     return (
       <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {new BigNumber(0).toFormat(2)}
       </Text>
     )
-  } else if (tokenBalances.length === 1) {
-    const tokenBalance = tokenBalances[0].balance
+  } else if (tokensWithUsdValue.length === 1) {
+    const tokenBalance = tokensWithUsdValue[0].balance
     return (
       <View style={styles.oneBalance}>
-        <Image source={{ uri: tokenBalances[0].imageUrl }} style={styles.tokenImg} />
+        <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={styles.balance} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
             {totalBalance?.toFormat(2)}
           </Text>
           <Text style={styles.tokenBalance}>
-            {formatValueToDisplay(tokenBalance)} {tokenBalances[0].symbol}
+            {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
           </Text>
         </View>
       </View>
@@ -57,7 +61,7 @@ function TokenBalance() {
 function HomeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector) ?? '-'
-  const tokenBalances = useSelector(tokensWithBalanceSelector)
+  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
   const onViewBalances = () => {
     ValoraAnalytics.track(HomeEvents.view_token_balances, { totalBalance: totalBalance.toString() })
@@ -86,7 +90,7 @@ function HomeTokenBalance() {
           {t('whatTotalValue.body')}
         </Dialog>
         {tokenBalances.length > 1 && (
-          <TouchableOpacity style={styles.row} onPress={onViewBalances}>
+          <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
             <ProgressArrow style={styles.arrow} color={Colors.greenUI} />
           </TouchableOpacity>
