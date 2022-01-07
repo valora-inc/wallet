@@ -1076,7 +1076,7 @@
   },
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
-  "plaidCreateLinkTokenFail": "No se puede vincular la cuenta bancaria. Vuelve a intentarlo más tarde",
+  "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Reintentar",
     "verifying": {
