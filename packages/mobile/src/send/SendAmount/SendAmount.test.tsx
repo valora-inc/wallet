@@ -1,6 +1,6 @@
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
-import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
+import { fireEvent, render, RenderAPI, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -17,7 +17,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendAmount from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
+import {
+  createMockStore,
+  flushMicrotasksQueue,
+  getElementText,
+  getMockStackScreenProps,
+} from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -30,8 +35,6 @@ import {
 } from 'test/values'
 
 expect.extend({ toBeDisabled })
-
-jest.mock('src/components/useShowOrHideAnimation')
 
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
@@ -382,6 +385,35 @@ describe('SendAmount', () => {
           tokenAddress: mockTestTokenAddress,
         },
       })
+    })
+
+    it('when inputting using local currency and switching to a token without usd price, it switches to token input', async () => {
+      const store = createMockStore(storeData)
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      enterAmount(wrapper, '10')
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
+      // Note that the space between the amount and the symbol is set with CSS styles.
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
+      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
+
+      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('TTTouchable'))
+
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('10TT')
+      expect(wrapper.queryByTestId('SecondaryAmountContainer')).toBeNull()
+      expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
+
+      fireEvent.press(wrapper.getByTestId('onChangeToken'))
+      fireEvent.press(wrapper.getByTestId('cEURTouchable'))
+
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('6.27cEUR')
+      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
     })
   })
 

@@ -56,7 +56,7 @@ function SendAmountValue({
           </BorderlessButton>
         )}
         <View style={styles.valuesContainer}>
-          <View style={styles.valueContainer}>
+          <View style={styles.valueContainer} testID="InputAmountContainer">
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
                 <Text
@@ -98,7 +98,7 @@ function SendAmountValue({
             )}
           </View>
           {tokenHasUsdPrice && (
-            <View style={styles.valueContainer}>
+            <View style={styles.valueContainer} testID="SecondaryAmountContainer">
               {!usingLocalAmount && (
                 <View style={styles.symbolContainer}>
                   <Text

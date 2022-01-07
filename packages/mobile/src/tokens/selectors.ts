@@ -5,6 +5,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
 export const tokensByAddressSelector = createSelector(
@@ -16,10 +17,11 @@ export const tokensByAddressSelector = createSelector(
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
+      const tokenUsdPriceIsStale = storedState.priceFetchedAt < Date.now() - ONE_DAY_IN_MILLIS
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: usdPrice.isNaN() ? null : usdPrice,
+        usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
       }
     }
     return tokenBalances

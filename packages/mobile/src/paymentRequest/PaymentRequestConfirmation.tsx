@@ -76,7 +76,7 @@ function PaymentRequestConfirmation({ route }: Props) {
 
     if (!usdAmount) {
       // Should not happen
-      throw new Error('Tryign to request from a token without a usd price')
+      throw new Error('Trying to request from a token without a usd price')
     }
 
     const paymentInfo = {
