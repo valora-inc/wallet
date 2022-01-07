@@ -687,6 +687,7 @@ export const v19Schema = {
     },
     loading: false,
     error: false,
+    lastSuccessfulFetch: Date.now(),
   },
 }
 

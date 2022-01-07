@@ -11,6 +11,10 @@ import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
 import { sortByUsdBalance } from './utils'
 
+export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
+export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
+export const lastTokenFetchSelector = (state: RootState) => state.tokens.lastSuccessfulFetch ?? 0
+
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
 export const tokensByAddressSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
@@ -88,21 +92,34 @@ export const defaultTokenSelector = createSelector(tokensWithTokenBalanceSelecto
 })
 
 export const totalTokenBalanceSelector = createSelector(
-  [tokensWithUsdValueSelector, localCurrencyExchangeRatesSelector],
-  (tokenBalances, exchangeRate) => {
+  [tokensWithUsdValueSelector, localCurrencyExchangeRatesSelector, tokenFetchErrorSelector],
+  (tokensWithUsdValue, exchangeRate, tokenFetchError) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate) {
       return null
     }
     let totalBalance = new BigNumber(0)
 
-    for (const token of tokenBalances) {
+    for (const token of tokensWithUsdValue) {
       const tokenAmount = new BigNumber(token.balance)
         .multipliedBy(token.usdPrice)
         .multipliedBy(usdRate)
       totalBalance = totalBalance.plus(tokenAmount)
     }
 
+    if (totalBalance.isZero() && tokenFetchError) {
+      return null
+    }
+
     return totalBalance
+  }
+)
+
+export const tokensInfoUnavailableSelector = createSelector(
+  totalTokenBalanceSelector,
+  (totalBalance) => {
+    // The total balance is null if there was an error fetching the tokens
+    // info and there are no cached values
+    return totalBalance === null
   }
 )

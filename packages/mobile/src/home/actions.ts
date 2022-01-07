@@ -24,6 +24,10 @@ export interface DismissNotificationAction {
   id: string
 }
 
+export interface RefreshBalancesBalancesAction {
+  type: Actions.REFRESH_BALANCES
+}
+
 export type ActionTypes = SetLoadingAction | UpdateNotificationsAction | DismissNotificationAction
 
 export const setLoading = (loading: boolean): SetLoadingAction => ({
@@ -43,7 +47,7 @@ export const dismissNotification = (id: string): DismissNotificationAction => ({
   id,
 })
 
-export const refreshAllBalances = () => ({
+export const refreshAllBalances = (): RefreshBalancesBalancesAction => ({
   type: Actions.REFRESH_BALANCES,
 })
 

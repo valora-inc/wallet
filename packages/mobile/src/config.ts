@@ -8,7 +8,7 @@ import { GethSyncMode } from 'src/geth/consts'
 import { Currency } from 'src/utils/currencies'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
-import { ONE_DAY_IN_MILLIS } from './utils/time'
+import { ONE_HOUR_IN_MILLIS } from './utils/time'
 
 export * from 'src/brandingConfig'
 
@@ -63,7 +63,7 @@ export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 // higher than this is incorrect (currently set to 10M)
 export const WALLET_BALANCE_UPPER_BOUND = new BigNumber('1e10')
 
-export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = ONE_DAY_IN_MILLIS
+export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = 12 * ONE_HOUR_IN_MILLIS
 
 export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
