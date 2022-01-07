@@ -5,7 +5,7 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { retryAsync } from '@celo/utils/lib/async'
 import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
-import { call, delay, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'

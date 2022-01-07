@@ -2,7 +2,6 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 interface BaseToken {
   address: string

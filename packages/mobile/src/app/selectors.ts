@@ -101,8 +101,7 @@ export const rewardPillTextSelector = (state: RootState) => state.app.rewardPill
 export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
   state.app.multiTokenShowHomeBalances
 export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
-export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
-  state.app.multiTokenUseUpdatedFeed
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) => true // state.app.multiTokenUseUpdatedFeed
 
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 

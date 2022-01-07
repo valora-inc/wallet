@@ -6,9 +6,6 @@ import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCur
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { useTokenInfo } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'TokenDisplay'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
