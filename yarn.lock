@@ -17206,9 +17206,10 @@ react-native-camera@^3.23.1:
   dependencies:
     prop-types "^15.6.2"
 
-"react-native-config@https://github.com/luggit/react-native-config#2f68b94":
-  version "1.3.3"
-  resolved "https://github.com/luggit/react-native-config#2f68b94065a0e1e1ddba8e860a696c6e8bc5912d"
+"react-native-config@https://github.com/luggit/react-native-config#2a915d3":
+  version "1.4.5"
+  uid "2a915d37ba196313f6f8541dcdf621934c63057a"
+  resolved "https://github.com/luggit/react-native-config#2a915d37ba196313f6f8541dcdf621934c63057a"
 
 "react-native-contacts@https://github.com/celo-org/react-native-contacts#e473717":
   version "5.0.0"
