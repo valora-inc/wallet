@@ -1,6 +1,6 @@
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
-import { fireEvent, render, RenderAPI, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
@@ -17,12 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendAmount from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
-import {
-  createMockStore,
-  flushMicrotasksQueue,
-  getElementText,
-  getMockStackScreenProps,
-} from 'test/utils'
+import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,

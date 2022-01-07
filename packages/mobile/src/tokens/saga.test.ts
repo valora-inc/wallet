@@ -28,6 +28,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Poof Governance Token',
     decimals: 18,
     balance: null,
+    priceFetchedAt: 1588200517518,
   },
   [cUsdAddress]: {
     usdPrice: '1.001',
@@ -38,6 +39,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: null,
+    priceFetchedAt: 1588200517518,
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
     usdPrice: '1.16',
@@ -48,6 +50,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Euro',
     decimals: 18,
     balance: null,
+    priceFetchedAt: 1588200517518,
   },
 }
 
