@@ -853,6 +853,7 @@ export const v25Schema = {
         priceFetchedAt: Date.now(),
       },
     },
+    lastSuccessfulFetch: Date.now(),
   },
 }
 

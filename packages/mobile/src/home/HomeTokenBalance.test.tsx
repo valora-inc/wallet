@@ -33,17 +33,20 @@ describe('HomeTokenBalance', () => {
             address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
             symbol: 'POOF',
             balance: '5',
+            priceFetchedAt: Date.now(),
           },
           '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
             usdPrice: '1.16',
             address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
             symbol: 'cEUR',
             balance: '7',
+            priceFetchedAt: Date.now(),
           },
           '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
             address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
             symbol: 'TT',
             balance: '10',
+            priceFetchedAt: Date.now(),
           },
         },
       },
@@ -84,6 +87,7 @@ describe('HomeTokenBalance', () => {
             address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
             symbol: 'cEUR',
             balance: '7',
+            priceFetchedAt: Date.now(),
           },
           '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
             address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
