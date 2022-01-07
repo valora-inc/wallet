@@ -171,5 +171,18 @@ describe(totalTokenBalanceSelector, () => {
     it('returns the right amount', () => {
       expect(totalTokenBalanceSelector(state)).toEqual(new BigNumber(107.5))
     })
+
+    it('returns null if there was an error fetching and theres no cached info', () => {
+      expect(
+        totalTokenBalanceSelector({
+          ...state,
+          tokens: {
+            tokenBalances: {},
+            error: true,
+            loading: false,
+          },
+        } as any)
+      ).toBeNull()
+    })
   })
 })
