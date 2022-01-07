@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Currency } from 'src/utils/currencies'
-import { amountFromComponent, createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { getElementText, createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mockEscrowedPayment } from 'test/values'
 
 const store = createMockStore()
@@ -27,7 +27,7 @@ describe('EscrowedPaymentReminderNotification', () => {
     expect(tree).toMatchSnapshot()
     const component = tree.getByTestId('EscrowedPaymentListItem/amount/value')
     // Local currency exchange rate for cUSD is 1.33
-    expect(amountFromComponent(component)).toEqual('₱13.30')
+    expect(getElementText(component)).toEqual('₱13.30')
   })
 
   it('renders correctly with cEUR', () => {
@@ -45,7 +45,7 @@ describe('EscrowedPaymentReminderNotification', () => {
 
     const component = getByTestId('EscrowedPaymentListItem/amount/value')
     // Local currency exchange rate for cEUR is 2
-    expect(amountFromComponent(component)).toEqual('₱20.00')
+    expect(getElementText(component)).toEqual('₱20.00')
   })
 
   it('opens the share dialog', async () => {
