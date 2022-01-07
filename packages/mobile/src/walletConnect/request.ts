@@ -43,32 +43,40 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Also the dapp developer may have omitted some of the needed fields,
       // so it's nice to be flexible and still allow the transaction to be signed (and sent) successfully
 
-      const kit: ContractKit = yield call(getContractKit)
-      const normalizer = new TxParamsNormalizer(kit.connection)
       const rawTx = { ...params[0] }
-      // For now if `feeCurrency` is not set, we don't know whether it was stripped by WalletConnect v1 utils or intentionally left out
-      // to use CELO to pay for fees
-      if (!rawTx.feeCurrency) {
-        // This will use CELO to pay for fees if the user has a balance,
-        // otherwise it will fallback to the first currency with a balance
-        const feeCurrency: Currency = yield call(chooseFeeCurrency, Currency.Celo)
-        // Pass undefined to use CELO to pay for gas.
-        const feeCurrencyAddress: string | undefined =
-          feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
+      let tx
+      // Provide an escape hatch for dapp developers who don't want any normalization
+      if (rawTx.__skip_normalization) {
+        // Remove this custom field which may cause issues down the line
+        delete rawTx.__skip_normalization
+        tx = rawTx
+      } else {
+        const kit: ContractKit = yield call(getContractKit)
+        const normalizer = new TxParamsNormalizer(kit.connection)
+        // For now if `feeCurrency` is not set, we don't know whether it was stripped by WalletConnect v1 utils or intentionally left out
+        // to use CELO to pay for fees
+        if (!rawTx.feeCurrency) {
+          // This will use CELO to pay for fees if the user has a balance,
+          // otherwise it will fallback to the first currency with a balance
+          const feeCurrency: Currency = yield call(chooseFeeCurrency, Currency.Celo)
+          // Pass undefined to use CELO to pay for gas.
+          const feeCurrencyAddress: string | undefined =
+            feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
-        rawTx.feeCurrency = feeCurrencyAddress
-        // If gas was set, we add some padding to it since we don't know if feeCurrency changed
-        // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
-        // Why aren't we just estimating again?
-        // It may result in errors for the dApp. E.g. If a dApp developer is doing a two step approve and exchange and requesting both signatures
-        // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
-        if (rawTx.gas) {
-          rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
+          rawTx.feeCurrency = feeCurrencyAddress
+          // If gas was set, we add some padding to it since we don't know if feeCurrency changed
+          // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
+          // Why aren't we just estimating again?
+          // It may result in errors for the dApp. E.g. If a dApp developer is doing a two step approve and exchange and requesting both signatures
+          // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
+          if (rawTx.gas) {
+            rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
+          }
+          // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
+          rawTx.gasPrice = undefined
         }
-        // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
-        rawTx.gasPrice = undefined
+        tx = yield call(normalizer.populate.bind(normalizer), rawTx)
       }
-      const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
 
       return (yield call([wallet, 'signTransaction'], tx)) as EncodedTransaction
     }

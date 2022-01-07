@@ -100,7 +100,19 @@ describe(handleRequest, () => {
           .run()
       })
 
-      it('ensures gas is padded and gasPrice recalculated when feeCurrency is not set (or stripped)', async () => {
+      it('ensures normalization is skipped when __skip_normalization is set', async () => {
+        await expectSaga(handleRequest, {
+          method: SupportedActions.eth_signTransaction,
+          params: [{ from: '0xTEST', data: '0xABC', __skip_normalization: true }],
+        })
+          .provide([[call(getWallet), mockWallet]])
+          .withState(state)
+          .call(unlockAccount, '0xwallet')
+          .call([mockWallet, 'signTransaction'], { from: '0xTEST', data: '0xABC' })
+          .run()
+      })
+
+      it('ensures gas is padded and gasPrice recalculated when feeCurrency is not set (or was stripped)', async () => {
         // This is because WalletConnect v1 utils strips away feeCurrency
         await expectSaga(handleRequest, {
           method: SupportedActions.eth_signTransaction,
