@@ -110,6 +110,26 @@ describe('tokensByUsdBalanceSelector', () => {
           "symbol": "cEUR",
           "usdPrice": "0.5",
         },
+        Object {
+          "address": "0xusd",
+          "balance": "0",
+          "priceFetchedAt": 1588200517518,
+          "symbol": "cUSD",
+          "usdPrice": "1",
+        },
+        Object {
+          "address": "0x4",
+          "balance": "50",
+          "priceFetchedAt": 1588200517518,
+          "symbol": "TT",
+          "usdPrice": null,
+        },
+        Object {
+          "address": "0x5",
+          "balance": "50",
+          "priceFetchedAt": 1588027717518,
+          "usdPrice": null,
+        },
       ]
     `)
   })
