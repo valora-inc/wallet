@@ -23,7 +23,6 @@ import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
-import { useFeeCurrency } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -35,7 +34,6 @@ import {
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
-import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -49,6 +47,7 @@ import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = StackScreenProps<
@@ -141,8 +140,6 @@ function SendConfirmation(props: Props) {
 
   const isInvite = !recipient.address
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeCurrency = useFeeCurrency()
-  const localToFeeExchangeRate = useCurrencyToLocalAmount(new BigNumber(1), feeCurrency)
   const feeEstimate = feeEstimates[tokenAddress]?.[isInvite ? FeeType.INVITE : FeeType.SEND]
 
   useEffect(() => {
@@ -154,33 +151,27 @@ function SendConfirmation(props: Props) {
   const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
   const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
-  const totalFee = securityFee?.plus(dekFee ?? 0)
+  const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
 
   const FeeContainer = () => {
-    const currencyInfo = {
-      localCurrencyCode,
-      localExchangeRate: localToFeeExchangeRate?.toString() ?? '',
-    }
-
     return (
       <View style={styles.feeContainer}>
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={feeCurrency}
+          currency={Currency.Dollar}
           securityFee={securityFee}
           showDekfee={!isDekRegistered}
           dekFee={dekFee}
           feeLoading={feeEstimate?.loading || storedDekFee?.loading}
           feeHasError={feeEstimate?.error || storedDekFee?.error}
-          totalFee={totalFee}
-          currencyInfo={currencyInfo}
+          totalFee={totalFeeInUsd}
           showLocalAmount={true}
         />
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenAddress={tokenAddress}
-          feeToAddInUsd={totalFee}
+          feeToAddInUsd={totalFeeInUsd}
         />
       </View>
     )

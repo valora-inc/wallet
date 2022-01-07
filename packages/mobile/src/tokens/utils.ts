@@ -21,8 +21,8 @@ export function getHigherBalanceCurrency(
   return maxCurrency
 }
 
-export const sortByUsdBalance = (token1: TokenBalance, token2: TokenBalance) => {
+export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
   const token1UsdBalance = token1.balance.multipliedBy(token1.usdPrice ?? 0)
   const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
-  return token2UsdBalance.minus(token1UsdBalance).toNumber()
+  return token2UsdBalance.comparedTo(token1UsdBalance)
 }

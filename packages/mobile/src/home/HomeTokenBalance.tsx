@@ -11,7 +11,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { TIME_UNTIL_TOKENS_ARE_STALE } from 'src/config'
+import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -79,7 +79,8 @@ function useErrorMessageWithRefresh() {
   const dispatch = useDispatch()
 
   const shouldShowError =
-    (tokensInfoUnavailable || lastSuccessfulFetch < Date.now() - TIME_UNTIL_TOKENS_ARE_STALE) &&
+    (tokensInfoUnavailable ||
+      lastSuccessfulFetch < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE) &&
     !tokenFetchLoading
 
   useEffect(() => {
