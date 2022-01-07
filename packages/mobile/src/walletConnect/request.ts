@@ -67,7 +67,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           // If gas was set, we add some padding to it since we don't know if feeCurrency changed
           // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
           // Why aren't we just estimating again?
-          // It may result in errors for the dApp. E.g. If a dApp developer is doing a two step approve and exchange and requesting both signatures
+          // It may result in errors for the dapp. E.g. If a dapp developer is doing a two step approve and exchange and requesting both signatures
           // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
           if (rawTx.gas && feeCurrency !== Currency.Celo) {
             rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
