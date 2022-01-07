@@ -58,7 +58,7 @@
   "selectCurrency": "Selecionar moeda",
   "continue": "Continuar",
   "yourName": "Seu nome",
-  "version": "Versão:",
+  "version": "Versão {{appVersion}}",
   "addressCopied": "Endereço copiado para a área de transferência",
   "support": "Suporte",
   "contact": "Contato",
@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
+  "plaidCreateLinkTokenFail": "Incapaz de vincular conta bancária. Por favor, tente novamente mais tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Repetir",
     "verifying": {
