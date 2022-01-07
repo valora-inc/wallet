@@ -30,6 +30,7 @@ const store = createMockStore({
         usdPrice: '1',
         balance: '100',
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
@@ -37,6 +38,7 @@ const store = createMockStore({
         usdPrice: '1.2',
         balance: '20',
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
     },
   },

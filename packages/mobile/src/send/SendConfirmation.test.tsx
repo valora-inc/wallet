@@ -99,6 +99,7 @@ describe('SendConfirmation', () => {
             balance: '200',
             usdPrice: '1',
             isCoreToken: true,
+            priceFetchedAt: Date.now(),
           },
           [mockCeurAddress]: {
             address: mockCeurAddress,
@@ -106,12 +107,14 @@ describe('SendConfirmation', () => {
             balance: '100',
             usdPrice: '1.2',
             isCoreToken: true,
+            priceFetchedAt: Date.now(),
           },
           [mockTestTokenAddress]: {
             address: mockTestTokenAddress,
             symbol: 'TT',
             balance: '10',
             usdPrice: '0.1234',
+            priceFetchedAt: Date.now(),
           },
         },
       },
@@ -168,6 +171,7 @@ describe('SendConfirmation', () => {
             balance: '2',
             usdPrice: '1',
             isCoreToken: true,
+            priceFetchedAt: Date.now(),
           },
           [mockCeurAddress]: {
             address: mockCeurAddress,
@@ -175,6 +179,7 @@ describe('SendConfirmation', () => {
             balance: '100',
             usdPrice: '1.2',
             isCoreToken: true,
+            priceFetchedAt: Date.now(),
           },
         },
       },

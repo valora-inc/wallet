@@ -47,6 +47,7 @@ const storeData = {
         usdPrice: '1',
         balance: BALANCE_VALID,
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
@@ -54,6 +55,7 @@ const storeData = {
         usdPrice: '1.2',
         balance: '10',
         isCoreToken: true,
+        priceFetchedAt: Date.now(),
       },
       [mockTestTokenAddress]: {
         address: mockTestTokenAddress,
@@ -214,6 +216,7 @@ describe('SendAmount', () => {
               symbol: 'cUSD',
               usdPrice: '1',
               balance: LARGE_BALANCE,
+              priceFetchedAt: Date.now(),
             },
           },
         },
@@ -274,12 +277,14 @@ describe('SendAmount', () => {
               symbol: 'cUSD',
               usdPrice: '1',
               balance: '0',
+              priceFetchedAt: Date.now(),
             },
             [mockCeurAddress]: {
               address: mockCeurAddress,
               symbol: 'cEUR',
               usdPrice: '1.2',
               balance: '10.12',
+              priceFetchedAt: Date.now(),
             },
           },
         },
