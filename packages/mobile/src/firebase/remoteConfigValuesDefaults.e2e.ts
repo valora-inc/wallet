@@ -2,7 +2,7 @@ import { RemoteConfigValues } from 'src/app/saga'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers'
+  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUri'
 > & { komenciAllowedDeployers: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
