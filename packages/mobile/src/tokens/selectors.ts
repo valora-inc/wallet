@@ -22,7 +22,7 @@ export const tokensByAddressSelector = createSelector(
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
       const tokenUsdPriceIsStale =
-        storedState.priceFetchedAt < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+        (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
