@@ -5,7 +5,6 @@ import { ApolloProvider } from 'react-apollo'
 import { Dimensions, Linking, StatusBar, YellowBox } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppEvents } from 'src/analytics/Events'
@@ -21,8 +20,6 @@ import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import { persistor, store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-
-enableScreens()
 
 Logger.debug('App/init', 'Current Language: ' + i18n.language)
 
