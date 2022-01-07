@@ -1116,8 +1116,8 @@
     "buttonText": "Conectar"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
-    "message": "Your balances may not be up to date.",
-    "button": "Refresh"
+    "title": "Estás desconectado.",
+    "message": "Es posible que tus saldos no estén actualizados.",
+    "button": "Refresca"
   }
 }
