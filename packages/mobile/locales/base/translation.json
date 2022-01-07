@@ -663,7 +663,7 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore."
   },
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
