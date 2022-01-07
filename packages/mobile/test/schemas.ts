@@ -644,7 +644,7 @@ export const v19Schema = {
         usdPrice: '1',
         balance: '10',
         isCoreToken: true,
-        priceFetchedAt: 1588200517518,
+        priceFetchedAt: Date.now(),
       },
       [mockCeurAddress]: {
         name: 'Celo Euros',
@@ -655,7 +655,7 @@ export const v19Schema = {
         usdPrice: '1.2',
         balance: '20',
         isCoreToken: true,
-        priceFetchedAt: 1588200517518,
+        priceFetchedAt: Date.now(),
       },
       [mockCeloAddress]: {
         name: 'Celo',
@@ -666,7 +666,7 @@ export const v19Schema = {
         usdPrice: '5',
         balance: '0',
         isCoreToken: true,
-        priceFetchedAt: 1588200517518,
+        priceFetchedAt: Date.now(),
       },
       [mockTestTokenAddress]: {
         name: 'Test Token',
@@ -676,7 +676,7 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '0.1234',
         balance: '0',
-        priceFetchedAt: 1588200517518,
+        priceFetchedAt: Date.now(),
       },
       '0x17700282592D6917F6A73D0bF8AcCf4D578c131e': {
         name: 'Moola',
@@ -686,7 +686,7 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '4',
         balance: '0',
-        priceFetchedAt: 1588200517518,
+        priceFetchedAt: Date.now(),
       },
     },
     loading: false,

@@ -446,7 +446,7 @@ export const mockTokenBalances = {
     name: 'Poof Governance Token',
     decimals: 18,
     balance: '5',
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: Date.now(),
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
     usdPrice: '1.16',
@@ -457,7 +457,7 @@ export const mockTokenBalances = {
     name: 'Celo Euro',
     decimals: 18,
     balance: '0',
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: Date.now(),
   },
   '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
     usdPrice: '1.001',
@@ -468,7 +468,7 @@ export const mockTokenBalances = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: '0',
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: Date.now(),
   },
 }
 

@@ -17,6 +17,7 @@ import { mockAccount, mockTokenBalances } from 'test/values'
 
 const poofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'
 const cUsdAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
+const cEurAddress = '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'
 
 const firebaseTokenInfo: StoredTokenBalances = {
   [poofAddress]: {
@@ -28,7 +29,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Poof Governance Token',
     decimals: 18,
     balance: null,
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: mockTokenBalances[poofAddress].priceFetchedAt,
   },
   [cUsdAddress]: {
     usdPrice: '1.001',
@@ -39,18 +40,18 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: null,
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: mockTokenBalances[cUsdAddress].priceFetchedAt,
   },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+  [cEurAddress]: {
     usdPrice: '1.16',
-    address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+    address: cEurAddress,
     symbol: 'cEUR',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
     name: 'Celo Euro',
     decimals: 18,
     balance: null,
-    priceFetchedAt: 1588200517518,
+    priceFetchedAt: mockTokenBalances[cEurAddress].priceFetchedAt,
   },
 }
 
