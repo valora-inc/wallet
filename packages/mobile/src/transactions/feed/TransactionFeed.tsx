@@ -1,16 +1,18 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
 import React, { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import { SectionList, View } from 'react-native'
+import { SectionList } from 'react-native'
 import { useDispatch } from 'react-redux'
 import config from 'src/geth/networkConfig'
 import useInterval from 'src/hooks/useInterval'
+import * as Sentry from '@sentry/react-native'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { updateTransactions } from 'src/transactions/actions'
 import { TRANSACTIONS_QUERY } from 'src/transactions/feed/query'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
+import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { FeedType } from 'src/transactions/TransactionFeed'
@@ -75,6 +77,7 @@ function useQueryTransactionFeed() {
           dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
         }
         if (result?.errors) {
+          Sentry.captureException(result.errors)
           Logger.warn(
             TAG,
             `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
@@ -161,8 +164,7 @@ function TransactionFeed() {
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV2':
-        // TODO
-        return <View key={tx.transactionHash} />
+        return <ExchangeFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV2':
         if (!tokensInfo[tx.amount.tokenAddress]) {
           Logger.warn(TAG, `No token info found for address ${tx.amount.tokenAddress}`)

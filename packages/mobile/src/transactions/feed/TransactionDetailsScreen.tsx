@@ -20,6 +20,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
+import CeloExchangeContent from './detailContent/CeloExchangeContent'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
 
@@ -76,8 +77,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Exchange:
-      // TODO:
-      content = null
+      content = <CeloExchangeContent exchange={transaction as TokenExchange} />
       break
     case TokenTransactionTypeV2.Sent:
     case TokenTransactionTypeV2.InviteSent:
