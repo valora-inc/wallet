@@ -166,10 +166,6 @@ function TransactionFeed() {
       case 'TokenExchangeV2':
         return <ExchangeFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV2':
-        if (!tokensInfo[tx.amount.tokenAddress]) {
-          Logger.warn(TAG, `No token info found for address ${tx.amount.tokenAddress}`)
-          return null
-        }
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     }
   }

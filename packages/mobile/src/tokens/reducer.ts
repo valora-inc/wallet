@@ -2,6 +2,7 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 interface BaseToken {
   address: string
@@ -38,12 +39,14 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
+  lastSuccessfulFetch: number
 }
 
 export const initialState = {
   tokenBalances: {},
   error: false,
   loading: false,
+  lastSuccessfulFetch: 0,
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
@@ -66,6 +69,7 @@ export const reducer = createReducer(initialState, (builder) => {
       tokenBalances: action.payload,
       loading: false,
       error: false,
+      lastSuccessfulFetch: Date.now(),
     }))
     .addCase(fetchTokenBalances, (state, action) => ({
       ...state,

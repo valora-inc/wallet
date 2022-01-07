@@ -78,10 +78,8 @@ function TokenDisplay({
   let error = false
 
   if (!tokenInfo) {
-    Logger.warn(TAG, `No token info found for token address ${tokenAddress}`)
     error = true
   } else if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
-    Logger.warn(TAG, `No token usd price or exchange rate found to display for ${tokenInfo.symbol}`)
     error = true
   }
 
@@ -94,10 +92,16 @@ function TokenDisplay({
 
   return (
     <Text style={style} testID={testID}>
-      {sign}
-      {showLocalAmount && fiatSymbol}
-      {error ? '-' : formatValueToDisplay(amountToShow.absoluteValue())}
-      {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol}`}
+      {error ? (
+        '-'
+      ) : (
+        <>
+          {sign}
+          {showLocalAmount && fiatSymbol}
+          {formatValueToDisplay(amountToShow.absoluteValue())}
+          {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol ?? ''}`}
+        </>
+      )}
     </Text>
   )
 }
