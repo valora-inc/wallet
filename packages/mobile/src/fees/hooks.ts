@@ -10,7 +10,11 @@ import { calculateFee, FeeInfo, fetchFeeCurrency } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
 import useSelector from 'src/redux/useSelector'
 import { STATIC_SEND_TOKEN_GAS_ESTIMATE } from 'src/send/saga'
-import { tokensByCurrencySelector, tokensListSelector } from 'src/tokens/selectors'
+import {
+  tokensByCurrencySelector,
+  tokensByUsdBalanceSelector,
+  tokensListSelector,
+} from 'src/tokens/selectors'
 import { Fee } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -91,7 +95,7 @@ export function useEstimateGasFee(
 }
 
 export function useFeeCurrency(): Currency {
-  const tokens = useSelector(tokensListSelector)
+  const tokens = useSelector(tokensByUsdBalanceSelector)
   return fetchFeeCurrency(tokens)
 }
 

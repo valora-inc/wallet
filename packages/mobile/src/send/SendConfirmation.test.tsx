@@ -60,6 +60,26 @@ type ScreenProps = StackScreenProps<
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >
 
+const mockFeeEstimates = {
+  [FeeType.SEND]: {
+    usdFee: '0.02',
+    lastUpdated: 500,
+    loading: false,
+    error: false,
+    feeInfo: mockFeeInfo,
+  },
+  [FeeType.INVITE]: {
+    usdFee: '0.04',
+    lastUpdated: 500,
+    loading: false,
+    error: false,
+    feeInfo: mockFeeInfo,
+  },
+  [FeeType.EXCHANGE]: undefined,
+  [FeeType.RECLAIM_ESCROW]: undefined,
+  [FeeType.REGISTER_DEK]: undefined,
+}
+
 describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -97,25 +117,8 @@ describe('SendConfirmation', () => {
       },
       fees: {
         estimates: {
-          [mockCusdAddress]: {
-            [FeeType.SEND]: {
-              usdFee: '0.02',
-              lastUpdated: 500,
-              loading: false,
-              error: false,
-              feeInfo: mockFeeInfo,
-            },
-            [FeeType.INVITE]: {
-              usdFee: '0.04',
-              lastUpdated: 500,
-              loading: false,
-              error: false,
-              feeInfo: mockFeeInfo,
-            },
-            [FeeType.EXCHANGE]: undefined,
-            [FeeType.RECLAIM_ESCROW]: undefined,
-            [FeeType.REGISTER_DEK]: undefined,
-          },
+          [mockCusdAddress]: mockFeeEstimates,
+          [mockCeurAddress]: mockFeeEstimates,
         },
       },
       ...storeOverrides,
@@ -138,8 +141,44 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with CELO fees', async () => {
+  it('renders correctly for send payment confirmation with cUSD fees', async () => {
     const { getByText, getByTestId } = renderScreen()
+
+    fireEvent.press(getByText('feeEstimate'))
+
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(getElementText(feeComponent)).toEqual('₱0.0266')
+
+    // Subtotal is $1.33, which is added the fee amount.
+    const totalComponent = getByTestId('TotalLineItem/Total')
+    expect(getElementText(totalComponent)).toEqual('₱1.36')
+  })
+
+  it('renders correctly for send payment confirmation with cEUR fees', async () => {
+    // Note: Higher balance is picked to pay for fees.
+    const { getByText, getByTestId } = renderScreen({
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            address: mockCusdAddress,
+            symbol: 'cUSD',
+            balance: '2',
+            usdPrice: '1',
+            isCoreToken: true,
+          },
+          [mockCeurAddress]: {
+            address: mockCeurAddress,
+            symbol: 'cEUR',
+            balance: '100',
+            usdPrice: '1.2',
+            isCoreToken: true,
+          },
+        },
+      },
+    })
 
     fireEvent.press(getByText('feeEstimate'))
 
