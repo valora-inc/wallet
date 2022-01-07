@@ -188,7 +188,7 @@ describe('SendConfirmation', () => {
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
     expect(getElementText(feeComponent)).toEqual('₱0.0266')
 
-    // Subtotal is $1.33, which is added the fee amount.
+    // Subtotal is $1.33, which is added to the fee amount.
     const totalComponent = getByTestId('TotalLineItem/Total')
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
