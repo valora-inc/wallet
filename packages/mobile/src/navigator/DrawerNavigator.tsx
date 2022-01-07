@@ -36,6 +36,7 @@ import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
@@ -179,6 +180,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
+  // const isDappsExplorerEnabled = useSelector((state) => state.app.dappsExplorerEnabled)
+  const isDappsExplorerEnabled = true
   const dispatch = useDispatch()
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
@@ -215,6 +218,14 @@ export default function DrawerNavigator() {
             drawerIcon: Gold,
             ...TransitionPresets.ModalTransition,
           }}
+        />
+      )}
+      {isDappsExplorerEnabled && (
+        <Drawer.Screen
+          name={Screens.DAppsExplorerScreen}
+          component={DAppsExplorerScreen}
+          // TODO: Change Icon
+          options={{ title: t('dappsExplorer'), drawerIcon: Gold }}
         />
       )}
       <Drawer.Screen

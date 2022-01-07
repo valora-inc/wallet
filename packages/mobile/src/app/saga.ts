@@ -170,6 +170,7 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   sentryEnabled: boolean
+  dappsExplorerEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

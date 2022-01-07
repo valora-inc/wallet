@@ -44,6 +44,7 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  dappsExplorerEnabled: boolean
 }
 
 const initialState = {
@@ -83,6 +84,7 @@ const initialState = {
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
+  dappsExplorerEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsExplorerEnabled,
 }
 
 export const appReducer = (

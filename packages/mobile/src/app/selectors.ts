@@ -107,3 +107,5 @@ export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
+
+export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUri

@@ -87,6 +87,7 @@ export type StackParamList = {
   [Screens.DappKitTxDataScreen]: {
     dappKitData: TxToSignParam['txData']
   }
+  [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: undefined
   [Screens.ErrorScreen]: {
