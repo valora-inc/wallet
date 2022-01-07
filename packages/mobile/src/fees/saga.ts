@@ -20,7 +20,7 @@ import {
 import {
   tokensByAddressSelector,
   tokensByCurrencySelector,
-  tokensListSelector,
+  tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -225,7 +225,7 @@ export async function calculateFee(gas: BigNumber, currency: Currency): Promise<
 }
 
 function* fetchFeeCurrencySaga() {
-  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokens: TokenBalance[] = yield select(tokensByUsdBalanceSelector)
   return fetchFeeCurrency(tokens)
 }
 
