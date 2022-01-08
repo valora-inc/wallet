@@ -5,6 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { OpenUrlAction } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
+import { RefreshBalancesBalancesAction } from 'src/home/actions'
 import i18n from 'src/i18n'
 
 export enum Actions {
@@ -20,7 +21,7 @@ export enum AlertTypes {
 // Possible actions to dispatch when tapping the alert (or its button)
 // Could be any redux action, but limiting for now
 // As we don't yet have a type encompassing all redux actions
-type AlertAction = OpenUrlAction
+type AlertAction = OpenUrlAction | RefreshBalancesBalancesAction
 
 export interface ShowAlertAction {
   type: Actions.SHOW

@@ -44,11 +44,13 @@ describe('TokenTotalLineItem', () => {
                 symbol: 'cUSD',
                 usdPrice: '1',
                 balance: '10',
+                priceFetchedAt: Date.now(),
               },
               [mockBtcAddress]: {
                 symbol: 'WBTC',
                 usdPrice: '65000',
                 balance: '0.5',
+                priceFetchedAt: Date.now(),
               },
             },
           },

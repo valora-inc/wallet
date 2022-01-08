@@ -45,7 +45,7 @@ export async function getInviteFee(
 export function* sendInvite(
   e164Number: string,
   amount: BigNumber,
-  usdAmount: BigNumber,
+  usdAmount: BigNumber | null,
   tokenAddress: string,
   feeInfo?: FeeInfo
 ) {
@@ -53,7 +53,7 @@ export function* sendInvite(
     ValoraAnalytics.track(InviteEvents.invite_start, {
       amount: amount.toString(),
       tokenAddress,
-      usdAmount: usdAmount.toString(),
+      usdAmount: usdAmount?.toString(),
     })
 
     const tokens: TokenBalance[] = yield select(tokensListSelector)
@@ -71,14 +71,14 @@ export function* sendInvite(
     ValoraAnalytics.track(InviteEvents.invite_complete, {
       amount: amount.toString(),
       tokenAddress,
-      usdAmount: usdAmount.toString(),
+      usdAmount: usdAmount?.toString(),
     })
   } catch (e) {
     ValoraAnalytics.track(InviteEvents.invite_error, {
       error: e.message,
       amount: amount.toString(),
       tokenAddress,
-      usdAmount: usdAmount.toString(),
+      usdAmount: usdAmount?.toString(),
     })
     Logger.error(TAG, 'Send invite error: ', e)
     throw e

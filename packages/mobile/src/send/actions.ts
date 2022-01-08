@@ -54,8 +54,8 @@ export interface SendPaymentOrInviteAction {
   type: Actions.SEND_PAYMENT_OR_INVITE
   amount: BigNumber
   tokenAddress: string
-  amountInLocalCurrency: BigNumber
-  usdAmount: BigNumber
+  amountInLocalCurrency: BigNumber | null
+  usdAmount: BigNumber | null
   comment: string
   recipient: Recipient
   feeInfo: FeeInfo
@@ -135,8 +135,8 @@ export const sendPaymentOrInviteLegacy = (
 export const sendPaymentOrInvite = (
   amount: BigNumber,
   tokenAddress: string,
-  amountInLocalCurrency: BigNumber,
-  usdAmount: BigNumber,
+  amountInLocalCurrency: BigNumber | null,
+  usdAmount: BigNumber | null,
   comment: string,
   recipient: Recipient,
   feeInfo: FeeInfo,

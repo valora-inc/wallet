@@ -13,12 +13,13 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
   const { t } = useTranslation()
-  const tokens = useSelector(tokensWithBalanceSelector)
+  const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
 
@@ -59,18 +60,24 @@ function TokenBalancesScreen({ navigation }: Props) {
             showSymbol={false}
             testID={`tokenBalance:${token.symbol}`}
           />
-          <TokenDisplay
-            amount={new BigNumber(token.balance!)}
-            tokenAddress={token.address}
-            style={styles.subtext}
-            testID={`tokenLocalBalance:${token.symbol}`}
-          />
+          {token.usdPrice?.gt(0) && (
+            <TokenDisplay
+              amount={new BigNumber(token.balance!)}
+              tokenAddress={token.address}
+              style={styles.subtext}
+              testID={`tokenLocalBalance:${token.symbol}`}
+            />
+          )}
         </View>
       </View>
     )
   }
 
-  return <ScrollView style={styles.scrollContainer}>{tokens.map(getTokenDisplay)}</ScrollView>
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+    </ScrollView>
+  )
 }
 
 TokenBalancesScreen.navigationOptions = {

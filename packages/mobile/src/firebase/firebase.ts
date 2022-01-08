@@ -11,7 +11,7 @@ import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { RemoteConfigValues } from 'src/app/saga'
-import { FIREBASE_ENABLED } from 'src/config'
+import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -363,11 +363,18 @@ export function simpleReadChannel(key: string) {
 }
 
 export async function readOnceFromFirebase(path: string) {
-  return firebase
+  const timeout = new Promise<void>((_, reject) =>
+    setTimeout(
+      () => reject(Error(`Reading from Firebase @ ${path} timed out.`)),
+      FETCH_TIMEOUT_DURATION
+    )
+  )
+  const fetchFromFirebase = firebase
     .database()
     .ref(path)
     .once('value')
     .then((snapshot) => snapshot.val())
+  return Promise.race([timeout, fetchFromFirebase])
 }
 
 export async function setRegistrationProperties(
