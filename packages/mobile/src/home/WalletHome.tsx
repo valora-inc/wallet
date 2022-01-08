@@ -159,7 +159,7 @@ function WalletHome() {
         keyExtractor={keyExtractor}
       />
       <SendOrRequestBar />
-      {<CashInBottomSheet />}
+      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
     </SafeAreaView>
   )
 }
