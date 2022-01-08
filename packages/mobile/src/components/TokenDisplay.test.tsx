@@ -7,7 +7,7 @@ import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
-import { amountFromComponent, createMockStore, RecursivePartial } from 'test/utils'
+import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -24,18 +24,21 @@ describe('TokenDisplay', () => {
             symbol: 'cUSD',
             balance: '50',
             usdPrice: '1',
+            priceFetchedAt: Date.now(),
           },
           ['0xeur']: {
             address: '0xeur',
             symbol: 'cEUR',
             balance: '50',
             usdPrice: '1.2',
+            priceFetchedAt: Date.now(),
           },
           ['0xcelo']: {
             address: '0xcelo',
             symbol: 'CELO',
             balance: '10',
             usdPrice: '5',
+            priceFetchedAt: Date.now(),
           },
         },
       },
@@ -50,7 +53,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay showLocalAmount={false} amount={10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toBe('10.00 cUSD')
+      expect(getElementText(getByTestId('test'))).toBe('10.00 cUSD')
     })
 
     it('shows local amount when showLocalAmount is true', () => {
@@ -59,7 +62,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$1.00')
+      expect(getElementText(getByTestId('test'))).toEqual('R$1.00')
     })
 
     it('shows local amount when showLocalAmount is true and token is not cUSD', () => {
@@ -68,7 +71,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xcelo'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$5.00')
+      expect(getElementText(getByTestId('test'))).toEqual('R$5.00')
     })
 
     it('shows more decimals up to the ', () => {
@@ -82,7 +85,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('0.0000018 cUSD')
+      expect(getElementText(getByTestId('test'))).toEqual('0.0000018 cUSD')
     })
 
     it('hides the symbol when showSymbol is false', () => {
@@ -97,7 +100,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toBe('10.00')
+      expect(getElementText(getByTestId('test'))).toBe('10.00')
     })
 
     it('hides the fiat symbol when showSymbol is false', () => {
@@ -112,7 +115,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('10.00')
+      expect(getElementText(getByTestId('test'))).toEqual('10.00')
     })
 
     it('overrides local exchange rate with currency info', () => {
@@ -129,7 +132,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('₱25.00')
+      expect(getElementText(getByTestId('test'))).toEqual('₱25.00')
     })
 
     it('shows explicit plus sign', () => {
@@ -144,7 +147,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('+R$1.00')
+      expect(getElementText(getByTestId('test'))).toEqual('+R$1.00')
     })
 
     it('shows negative values', () => {
@@ -153,7 +156,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay showLocalAmount={true} amount={-10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('-R$1.00')
+      expect(getElementText(getByTestId('test'))).toEqual('-R$1.00')
     })
 
     it('shows a dash when the token doesnt exist', () => {
@@ -162,7 +165,7 @@ describe('TokenDisplay', () => {
           <TokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
+      expect(getElementText(getByTestId('test'))).toEqual('-')
     })
 
     it('hides the sign', () => {
@@ -177,7 +180,7 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$1.00')
+      expect(getElementText(getByTestId('test'))).toEqual('R$1.00')
     })
   })
 })

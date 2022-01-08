@@ -18,6 +18,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '1',
             balance: '10',
+            priceFetchedAt: Date.now(),
           },
           '0xceur': {
             name: 'Celo Euros',
@@ -27,6 +28,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '1.2',
             balance: '20',
+            priceFetchedAt: Date.now(),
           },
           '0xcelo': {
             name: 'Celo',
@@ -36,6 +38,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '0',
+            priceFetchedAt: Date.now(),
           },
           '0xa': {
             name: 'a',
@@ -45,6 +48,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '1',
+            priceFetchedAt: Date.now(),
           },
           '0xb': {
             name: 'b',
@@ -54,6 +58,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '3',
+            priceFetchedAt: Date.now(),
           },
           '0xc': {
             name: 'c',
@@ -63,6 +68,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '2',
+            priceFetchedAt: Date.now(),
           },
           '0xd': {
             name: 'd',
@@ -72,6 +78,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '0.01',
+            priceFetchedAt: Date.now(),
           },
           '0xe': {
             name: 'e',
@@ -81,6 +88,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '7',
+            priceFetchedAt: Date.now(),
           },
           '0xf': {
             name: 'f',
@@ -90,6 +98,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '6',
+            priceFetchedAt: Date.now(),
           },
           '0xg': {
             name: 'g',
@@ -99,6 +108,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '10',
+            priceFetchedAt: Date.now(),
           },
           '0xh': {
             name: 'h',
@@ -108,6 +118,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '9.123456789',
+            priceFetchedAt: Date.now(),
           },
           '0xi': {
             name: 'i',
@@ -117,6 +128,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '1000',
+            priceFetchedAt: Date.now(),
           },
           '0xj': {
             name: 'j',
@@ -126,6 +138,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '11.003',
+            priceFetchedAt: Date.now(),
           },
           '0xk': {
             name: 'k',
@@ -135,6 +148,7 @@ describe('getCurrentUserTraits', () => {
             imageUrl: '',
             usdPrice: '5',
             balance: '80',
+            priceFetchedAt: Date.now(),
           },
         },
       },

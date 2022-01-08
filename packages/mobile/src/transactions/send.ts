@@ -109,7 +109,7 @@ const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
 // Otherwise use any that has enough balance.
 // TODO: Make fee currency choosing transparent for the user.
 // TODO: Check for balance should be more than fee instead of zero.
-function* chooseFeeCurrency(preferredFeeCurrency: Currency) {
+export function* chooseFeeCurrency(preferredFeeCurrency: Currency) {
   const balances: Balances = yield select(balancesSelector)
   if (balances[preferredFeeCurrency]?.isGreaterThan(0)) {
     return preferredFeeCurrency
