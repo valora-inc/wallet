@@ -169,10 +169,6 @@ export function getElementText(instance: ReactTestInstance | string): string {
     .join('')
 }
 
-export function amountFromComponent(component: ReactTestInstance) {
-  return component.props.children.filter((child: any) => typeof child === 'string').join('')
-}
-
 // Implementation of deprecated flushMicrotasksQueue function from @testing-library/react-native
 // https://callstack.github.io/react-native-testing-library/docs/migration-v2/#deprecated-flushmicrotasksqueue
 export function flushMicrotasksQueue() {

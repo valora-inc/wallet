@@ -9,6 +9,7 @@ interface BaseToken {
   imageUrl: string
   name: string
   symbol: string
+  priceFetchedAt?: number
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
   isCoreToken?: boolean
@@ -22,7 +23,7 @@ export interface StoredTokenBalance extends BaseToken {
 
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
-  usdPrice: BigNumber
+  usdPrice: BigNumber | null
 }
 
 export interface StoredTokenBalances {
@@ -37,12 +38,14 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
+  lastSuccessfulFetch?: number
 }
 
 export const initialState = {
   tokenBalances: {},
   error: false,
   loading: false,
+  lastSuccessfulFetch: 0,
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
@@ -65,6 +68,7 @@ export const reducer = createReducer(initialState, (builder) => {
       tokenBalances: action.payload,
       loading: false,
       error: false,
+      lastSuccessfulFetch: Date.now(),
     }))
     .addCase(fetchTokenBalances, (state, action) => ({
       ...state,

@@ -241,8 +241,8 @@ export function* buildSendTx(
 function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
-  amountInLocalCurrency: BigNumber,
-  usdAmount: BigNumber,
+  amountInLocalCurrency: BigNumber | null,
+  usdAmount: BigNumber | null,
   tokenAddress: string,
   comment: string,
   feeInfo: FeeInfo
@@ -308,7 +308,7 @@ function* sendPayment(
       txId: context.id,
       recipientAddress,
       amount: amount.toString(),
-      usdAmount: usdAmount.toString(),
+      usdAmount: usdAmount?.toString(),
       tokenAddress,
     })
     yield call(giveProfileAccess, recipientAddress)
@@ -348,7 +348,7 @@ export function* sendPaymentOrInviteSagaLegacy({
         sendInvite,
         recipient.e164PhoneNumber,
         amount,
-        amount.multipliedBy(tokenInfo.usdPrice),
+        tokenInfo.usdPrice ? amount.multipliedBy(tokenInfo.usdPrice) : null,
         tokenInfo.address,
         feeInfo
       )

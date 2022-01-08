@@ -687,6 +687,7 @@ export const v19Schema = {
     },
     loading: false,
     error: false,
+    lastSuccessfulFetch: Date.now(),
   },
 }
 
@@ -794,6 +795,65 @@ export const v25Schema = {
   app: {
     ...v24Schema.app,
     sentryTracesSampleRate: 0.2,
+  },
+  tokens: {
+    ...v24Schema.tokens,
+    tokenBalances: {
+      [mockCusdAddress]: {
+        name: 'Celo Dollars',
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1',
+        balance: '10',
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeurAddress]: {
+        name: 'Celo Euros',
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1.2',
+        balance: '20',
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeloAddress]: {
+        name: 'Celo',
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '5',
+        balance: '0',
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockTestTokenAddress]: {
+        name: 'Test Token',
+        address: mockTestTokenAddress,
+        symbol: 'TT',
+        decimals: 10,
+        imageUrl: '',
+        usdPrice: '0.1234',
+        balance: '0',
+        priceFetchedAt: Date.now(),
+      },
+      '0x17700282592D6917F6A73D0bF8AcCf4D578c131e': {
+        name: 'Moola',
+        address: '0x17700282592D6917F6A73D0bF8AcCf4D578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '4',
+        balance: '0',
+        priceFetchedAt: Date.now(),
+      },
+    },
+    lastSuccessfulFetch: Date.now(),
   },
 }
 

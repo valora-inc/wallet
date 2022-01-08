@@ -23,7 +23,7 @@ export default function TokenTotalLineItem({
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenAddress)
-  const feeInToken = tokenInfo ? feeToAddInUsd?.dividedBy(tokenInfo.usdPrice) : undefined
+  const feeInToken = tokenInfo?.usdPrice ? feeToAddInUsd?.dividedBy(tokenInfo.usdPrice) : undefined
 
   return (
     <>
