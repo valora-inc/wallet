@@ -21,7 +21,7 @@ import Logger from 'src/utils/Logger'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import { useAsync } from 'react-async-hook'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const TAG = 'CashInBottomSheet'
@@ -41,15 +41,6 @@ function CashInBottomSheet() {
 
   const onDismissBottomSheet = () => {
     setModalVisible(false)
-  }
-
-  const goToAddFunds = () => {
-    onDismissBottomSheet()
-
-    navigate(Screens.FiatExchangeOptions, {
-      isCashIn: true,
-    })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_selected)
   }
 
   const asyncProviders = useAsync(async () => {
@@ -75,18 +66,19 @@ function CashInBottomSheet() {
       setModalVisible(true)
       return providers
     } catch (error) {
+      Logger.error(TAG, 'Failed to fetch CICO providers')
       setModalVisible(true)
-      console.debug('FAILED', error)
     }
   }, [])
 
   const rampProvider = asyncProviders.result?.find((provider) => provider.name === 'Ramp')
-  const rampAvailable =
+  const rampAvailable = !!(
     rampProvider &&
     rampProvider?.cashIn &&
     !rampProvider.restricted &&
     rampProvider.url &&
     !rampProvider.unavailable
+  )
 
   const goToRamp = () => {
     onDismissBottomSheet()
@@ -94,7 +86,18 @@ function CashInBottomSheet() {
     rampAvailable && rampProvider?.url && navigateToURI(rampProvider.url)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp)
   }
-  console.debug(rampProvider, rampAvailable)
+
+  const goToAddFunds = () => {
+    onDismissBottomSheet()
+
+    navigate(Screens.FiatExchangeOptions, {
+      isCashIn: true,
+    })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_selected, {
+      rampAvailable,
+    })
+  }
+
   return (
     <Modal
       animationIn="slideInUp"
@@ -115,11 +118,13 @@ function CashInBottomSheet() {
           <Times />
         </Touchable>
         {rampAvailable && rampCashInButtonExpEnabled ? (
-          <View>
-            <Text style={styles.title}>{'Add [cUSD] to start using Valora'}</Text>
-            <Text style={styles.subtitle}>
-              {'Add funds with zero fees through one of our trusted external providers.'}
+          <>
+            <Text style={styles.title}>
+              {t('cashInBottomSheet.titleRamp', {
+                currency: localCurrency === LocalCurrencyCode.EUR ? Currency.Euro : Currency.Dollar,
+              })}
             </Text>
+            <Text style={styles.subtitle}>{t('cashInBottomSheet.subtitleRamp')}</Text>
             <Button
               text={t('cashInBottomSheet.addFunds')}
               size={BtnSizes.FULL}
@@ -127,7 +132,7 @@ function CashInBottomSheet() {
               style={styles.addFundBtn}
               testID={'cashInBtn'}
             />
-          </View>
+          </>
         ) : (
           <View>
             <Text style={styles.title}>{t('cashInBottomSheet.title')}</Text>
@@ -173,6 +178,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
     color: colors.gray5,
+    paddingHorizontal: 36,
   },
   addFundBtn: {
     marginHorizontal: 16,
