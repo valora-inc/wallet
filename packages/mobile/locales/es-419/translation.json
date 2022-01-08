@@ -1114,5 +1114,10 @@
     "title": "Conecta tu número de teléfono para continuar",
     "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
     "buttonText": "Conectar"
+  },
+  "outOfSyncBanner": {
+    "title": "Estás desconectado.",
+    "message": "Es posible que tus saldos no estén actualizados.",
+    "button": "Refresca"
   }
 }
