@@ -1,5 +1,5 @@
-import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME, DEFAULT_PIN } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
+import { DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -92,15 +92,6 @@ export async function inputNumberKeypad(amount) {
 export async function isTextPresent(text) {
   try {
     await expect(element(by.text(text))).toExist()
-    return true
-  } catch {
-    return false
-  }
-}
-
-export async function isElementExistent(elementId) {
-  try {
-    await expect(element(by.id(elementId))).toExist()
     return true
   } catch {
     return false

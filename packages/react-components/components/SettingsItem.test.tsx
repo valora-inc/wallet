@@ -18,7 +18,7 @@ describe('SettingsItemTextValue', () => {
   })
 
   it('renders correctly', () => {
-    const wrapper = render(<SettingsItemTextValue title={title} value={value} />)
+    const wrapper = render(<SettingsItemTextValue testID={testID} title={title} value={value} />)
     expect(wrapper.toJSON()).toMatchSnapshot()
   })
 
@@ -62,7 +62,12 @@ describe('SettingsItemInput', () => {
   const onValueChange = jest.fn()
   it('renders correctly', () => {
     const wrapper = render(
-      <SettingsItemInput onValueChange={onValueChange} title={title} value={value} />
+      <SettingsItemInput
+        testID={testID}
+        onValueChange={onValueChange}
+        title={title}
+        value={value}
+      />
     )
     expect(wrapper.toJSON()).toMatchSnapshot()
   })
