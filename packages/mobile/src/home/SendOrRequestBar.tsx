@@ -10,8 +10,13 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
+import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 export default function SendOrRequestBar() {
+  const sendableTokens = useSelector(tokensWithTokenBalanceSelector)
+  const buttonsDisabled = sendableTokens.length === 0
+
   const onPressSend = () => {
     ValoraAnalytics.track(HomeEvents.home_send)
     navigate(Screens.Send)
@@ -36,6 +41,7 @@ export default function SendOrRequestBar() {
         size={BtnSizes.MEDIUM}
         text={t('send')}
         onPress={onPressSend}
+        disabled={buttonsDisabled}
         testID="SendOrRequestBar/SendButton"
       />
       <Button
@@ -43,9 +49,10 @@ export default function SendOrRequestBar() {
         size={BtnSizes.MEDIUM}
         text={t('request')}
         onPress={onPressRequest}
+        disabled={buttonsDisabled}
         testID="SendOrRequestBar/RequestButton"
       />
-      <Touchable borderless={true} onPress={onPressQrCode}>
+      <Touchable borderless={true} onPress={onPressQrCode} disabled={buttonsDisabled}>
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
     </View>

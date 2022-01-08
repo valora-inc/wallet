@@ -32,9 +32,9 @@ import { roundUp } from 'src/utils/formatting'
 
 interface Props {
   recipient: Recipient
-  localAmount: BigNumber
+  localAmount: BigNumber | null
   tokenAmount: BigNumber
-  usdAmount: BigNumber
+  usdAmount: BigNumber | null
   inputIsInLocalCurrency: boolean
   transferTokenAddress: string
   origin: SendOrigin
@@ -63,7 +63,7 @@ function useTransactionCallbacks({
   const getTransactionData = useCallback(
     (type: TokenTransactionType): TransactionDataInput => ({
       recipient,
-      inputAmount: inputIsInLocalCurrency ? localAmount : tokenAmount,
+      inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
       tokenAddress: transferTokenAddress,
     }),
@@ -77,11 +77,11 @@ function useTransactionCallbacks({
       isInvite: recipientVerificationStatus !== RecipientVerificationStatus.VERIFIED,
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
-      localCurrencyAmount: localAmount.toString(),
+      localCurrencyAmount: localAmount?.toString() ?? null,
       underlyingTokenAddress: transferTokenAddress,
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
-      amountInUsd: usdAmount.toString(),
+      amountInUsd: usdAmount?.toString() ?? null,
     }
   }, [
     origin,
@@ -110,7 +110,7 @@ function useTransactionCallbacks({
   const estimateFeeDollars =
     useSelector(getFeeEstimateDollars(feeType, transferTokenAddress)) ?? new BigNumber(0)
 
-  const minimumAmount = roundUp(usdAmount.plus(estimateFeeDollars))
+  const minimumAmount = roundUp(usdAmount?.plus(estimateFeeDollars) ?? estimateFeeDollars)
 
   const onSend = useCallback(() => {
     // This should never happen, doing this check to satisfy Typescript.
@@ -119,7 +119,7 @@ function useTransactionCallbacks({
       return null
     }
 
-    const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
+    const isAmountValid = localAmount?.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT) ?? true
     const isTokenBalanceSufficient = isAmountValid && tokenAmount.lte(tokenInfo.balance)
 
     if (!isTokenBalanceSufficient) {
@@ -136,7 +136,7 @@ function useTransactionCallbacks({
       return
     }
 
-    if (isTransferLimitReached) {
+    if (isTransferLimitReached && usdAmount) {
       showLimitReachedBanner()
       return
     }

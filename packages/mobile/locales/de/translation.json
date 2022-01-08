@@ -1114,5 +1114,10 @@
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
     "buttonText": "Verbinden"
+  },
+  "outOfSyncBanner": {
+    "title": "Du bist offline.",
+    "message": "Dein Kontostand ist möglicherweise nicht auf dem neuesten Stand.",
+    "button": "Auffrischen"
   }
 }

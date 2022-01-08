@@ -8,6 +8,7 @@ import { GethSyncMode } from 'src/geth/consts'
 import { Currency } from 'src/utils/currencies'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
+import { ONE_HOUR_IN_MILLIS } from './utils/time'
 
 export * from 'src/brandingConfig'
 
@@ -47,6 +48,7 @@ export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
 export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
+export const TOKEN_MIN_AMOUNT = 0.00000001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
@@ -60,6 +62,8 @@ export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 // We can safely assume that any balance query returning a number
 // higher than this is incorrect (currently set to 10M)
 export const WALLET_BALANCE_UPPER_BOUND = new BigNumber('1e10')
+
+export const TIME_UNTIL_TOKEN_INFO_BECOMES_STALE = 12 * ONE_HOUR_IN_MILLIS
 
 export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'

@@ -44,6 +44,7 @@ export function* refreshBalances() {
   Logger.debug(TAG, 'Fetching all balances')
   yield call(getConnectedAccount)
   yield put(fetchTokenBalances())
+  yield put(fetchCurrentRate())
   yield put(fetchStableBalances())
   yield put(fetchGoldBalance())
   yield put(fetchSentEscrowPayments())
