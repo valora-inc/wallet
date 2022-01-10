@@ -4,7 +4,6 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { LocalAmount } from 'src/transactions/types'
 
