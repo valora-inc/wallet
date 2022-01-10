@@ -14,7 +14,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'
+import { mockCeloAddress, mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'
@@ -416,6 +416,28 @@ describe('TransferFeedItem', () => {
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
       expectedAmount: '+10.00 TT',
       expectedTokenAmount: null,
+    })
+  })
+
+  it('renders the localAmount correctly when set', async () => {
+    const { getByTestId, queryByTestId } = renderScreen({
+      amount: {
+        tokenAddress: mockCeloAddress,
+        value: 10,
+        localAmount: {
+          currencyCode: 'EUR',
+          exchangeRate: '0.4',
+          value: '4',
+        },
+      },
+    })
+    verifyDisplay({
+      getByTestId,
+      queryByTestId,
+      expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedAmount: '+€4.00',
+      expectedTokenAmount: '10.00 CELO',
     })
   })
 })

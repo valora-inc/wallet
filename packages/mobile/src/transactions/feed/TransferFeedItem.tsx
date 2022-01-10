@@ -53,14 +53,7 @@ function TransferFeedItem({ transfer }: Props) {
             <TokenDisplay
               amount={amount.value}
               tokenAddress={amount.tokenAddress}
-              currencyInfo={
-                amount.localAmount
-                  ? {
-                      localCurrencyCode: amount.localAmount.currencyCode as LocalCurrencyCode,
-                      localExchangeRate: amount.localAmount.exchangeRate,
-                    }
-                  : undefined
-              }
+              localAmount={amount.localAmount}
               showExplicitPositiveSign={true}
               showLocalAmount={!showTokenAmount}
               style={[styles.amount, colorStyle]}

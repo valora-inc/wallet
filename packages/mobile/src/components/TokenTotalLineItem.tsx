@@ -5,12 +5,15 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { LocalAmount } from 'src/transactions/types'
 
 interface Props {
   tokenAmount: BigNumber
   tokenAddress: string
+  localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
 }
@@ -18,6 +21,7 @@ interface Props {
 export default function TokenTotalLineItem({
   tokenAmount,
   tokenAddress,
+  localAmount,
   feeToAddInUsd,
   hideSign,
 }: Props) {
@@ -34,6 +38,7 @@ export default function TokenTotalLineItem({
           <TokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenAddress={tokenAddress}
+            localAmount={localAmount}
             hideSign={hideSign}
             testID="TotalLineItem/Total"
           />
@@ -44,11 +49,17 @@ export default function TokenTotalLineItem({
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
             {tokenInfo?.symbol}
             {' @ '}
-            <TokenDisplay
-              amount={new BigNumber(1)}
-              tokenAddress={tokenAddress}
-              showLocalAmount={true}
-            />
+            {localAmount?.exchangeRate ? (
+              `${
+                LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
+              }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
+            ) : (
+              <TokenDisplay
+                amount={new BigNumber(1)}
+                tokenAddress={tokenAddress}
+                showLocalAmount={true}
+              />
+            )}
           </Text>
         }
         amount={

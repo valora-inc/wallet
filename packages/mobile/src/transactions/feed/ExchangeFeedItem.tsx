@@ -51,14 +51,7 @@ function ExchangeFeedItem({ exchange }: Props) {
             <TokenDisplay
               amount={new BigNumber(stableAmount.value).times(soldCELO ? 1 : -1)}
               tokenAddress={stableAmount.tokenAddress}
-              currencyInfo={
-                stableAmount.localAmount
-                  ? {
-                      localCurrencyCode: stableAmount.localAmount.currencyCode as LocalCurrencyCode,
-                      localExchangeRate: stableAmount.localAmount.exchangeRate,
-                    }
-                  : undefined
-              }
+              localAmount={stableAmount.localAmount}
               showExplicitPositiveSign={true}
               style={[styles.amount, colorStyle]}
               testID={'ExchangeFeedItem/amount'}
