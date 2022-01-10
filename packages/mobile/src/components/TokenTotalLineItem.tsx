@@ -2,7 +2,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -47,19 +47,19 @@ export default function TokenTotalLineItem({
       <LineItemRow
         title={
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
-            {tokenInfo?.symbol}
-            {' @ '}
-            {localAmount?.exchangeRate ? (
-              `${
-                LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
-              }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
-            ) : (
-              <TokenDisplay
-                amount={new BigNumber(1)}
-                tokenAddress={tokenAddress}
-                showLocalAmount={true}
-              />
-            )}
+            <Trans i18nKey={'tokenExchanteRate'} tOptions={{ symbol: tokenInfo?.symbol }}>
+              {localAmount?.exchangeRate ? (
+                `${
+                  LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
+                }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
+              ) : (
+                <TokenDisplay
+                  amount={new BigNumber(1)}
+                  tokenAddress={tokenAddress}
+                  showLocalAmount={true}
+                />
+              )}
+            </Trans>
           </Text>
         }
         amount={

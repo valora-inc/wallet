@@ -74,7 +74,7 @@ describe('TokenTotalLineItem', () => {
     it('shows the right amounts', () => {
       const { getByTestId } = renderComponent({})
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.00')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('R$1.50')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
@@ -85,7 +85,7 @@ describe('TokenTotalLineItem', () => {
         localCurrencyExchangeRate: '1.333333333333333333',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$13.33')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.33')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('R$1.33')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
@@ -98,9 +98,7 @@ describe('TokenTotalLineItem', () => {
         localCurrencyExchangeRate: '1',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$8.02')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
-        'WBTC @ R$65,000.00'
-      )
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('R$65,000.00')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('0.00012 WBTC')
     })
   })
@@ -111,7 +109,7 @@ describe('TokenTotalLineItem', () => {
         feeToAddInUsd: new BigNumber(0.12),
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.18')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('R$1.50')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
@@ -123,7 +121,7 @@ describe('TokenTotalLineItem', () => {
         hideSign: true,
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$15.00')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ R$1.50')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('R$1.50')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
@@ -140,7 +138,7 @@ describe('TokenTotalLineItem', () => {
         hideSign: true,
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('€5.00')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('cUSD @ €0.50')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('€0.50')
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
     })
   })
