@@ -243,7 +243,7 @@
   "withdrawScanQrTitle": "Scannen",
   "tokenBalance": "{{token}} Guthaben",
   "addFunds": "Guthaben hinzufügen",
-  "addFundsSubtitle": "Dein Valora-Konto finanzieren",
+  "addFundsSubtitle": "Dein Valora-Konto aufladen",
   "exchanges": "Kryptobörsen",
   "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deiner Region",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
@@ -270,13 +270,13 @@
   "receiveOnAddress": "Celo-Adresse",
   "receiveWithBidali": "Geschenkkarten und Handy-Aufladen",
   "fundingEducationDialog": {
-    "title": "Deine {{appName}} finanzieren",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollar (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm dein {{appName}} Wallet zu finanzieren, kaufe cUSD von einem der Drittanbieter in deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>",
+    "title": "Deine {{appName}} aufladen",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben und verwendet Celo Dollar (cUSD) un Celo Euro (cEUR), zwei stabile digitale Währungen, die dem Wert des US-Dollar und des Euro folgen.\n\nUm dein {{appName}} Guthaben hinzufügen, kaufe cUSD oder cEUR mit einem Drittanbieter an deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Abheben von {{appName}}",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollar (cUSD) und Celo Euro (cEUR), einer stabilen digitalen Währung, die den US-Dollar und Euro verfolgt.\n\nUm dein {{appName}} Guthaben abzuheben, verkaufe cUSD oder cEUR mit einem der Drittanbieter in deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben und verwendet Celo Dollar (cUSD) un Celo Euro (cEUR), zwei stabile digitale Währungen, die dem Wert des US-Dollar und des Euro folgen.\n\nUm dein {{appName}} Guthaben abzuheben, verkaufe cUSD oder cEUR mit einem Drittanbieter an deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -304,7 +304,7 @@
   },
   "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
-  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto aufladest</0>",
+  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto auflädst</0>.",
   "youCanTransferIn": "Du kannst {{digitalAsset}} von jeder Börse überweisen, die {{digitalAsset}} unterstützt. Du benötigst deine Konto-Adresse.",
   "youCanTransferOut": "Du kannst {{digitalAsset}} an jede Börse überweisen, die {{digitalAsset}}unterstützt. Du benötigst deine Konto-Adresse.",
   "useBalanceWithMerchants": "Verwende dein Guthaben bei unterstützenden Händlern",
