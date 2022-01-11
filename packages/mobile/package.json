@@ -119,7 +119,7 @@
     "react-native-email-link": "^1.12.2",
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-crypto": "^2.0.0",
-    "react-native-flag-secure-android": "git://github.com/kristiansorens/react-native-flag-secure-android#e234251",
+    "react-native-flag-secure-android": "https://github.com/kristiansorens/react-native-flag-secure-android#e234251",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-geth": "https://github.com/celo-org/react-native-geth#a5ef0a1",
