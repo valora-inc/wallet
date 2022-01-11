@@ -112,7 +112,7 @@
   "backupSetupBody": "Um dein Guthaben zu schützen, musst du deine Wiederherstellungsphrase einrichten, bevor du mit {{appName}} fortfahren kannst.",
   "delayBackup": "Warte eine Stunde",
   "postSetupTitle": "Deine Wiederherstellungsphrase",
-  "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre es an einem sicheren Ort und teile es nicht.",
+  "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar, Celo Euro und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre es an einem sicheren Ort und teile es nicht.",
   "postSetupCTA": "Erfahre mehr über deine Wiederherstellungsphrase",
   "failedFetchMnemonic": "Fehler beim Abrufen der Wiederherstellungsphrase",
   "backupAndRecovery": "Sicherung und Wiederherstellung",
@@ -225,7 +225,7 @@
   "loadingExchangeRate": "Umtauschkurs wird geladen...",
   "errorRefreshingRate": "Umtauschkurs konnte nicht aktualisiert werden",
   "exchangeRateChange": "Umtauschkurs hat sich geändert, erneut versuchen",
-  "feeExchangeEducation": "Beim Austausch zwischen CELO und cUSD wird eine geringe Gebühr dafür verwendet, den Wert des Celo Dollar stabil zu halten und an den US-Dollar gebunden zu sein. \n\nBesuche die FAQ um mehr zu erfahren.",
+  "feeExchangeEducation": "Beim Austausch zwischen CELO und cUSD oder cEUR wird eine geringe Gebühr dafür verwendet, den Wert des Celo Dollar und Celo Euro stabil zu halten. \n\nBesuche die FAQ um mehr zu erfahren.",
   "goldPrice": "CELO-Preis",
   "yourGoldBalance": "Dein CELO-Guthaben",
   "goldAmount": "CELO-Betrag",
@@ -528,7 +528,7 @@
     },
     {
       "title": "CELO Preisveränderungen",
-      "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von CELO. Im Gegensatz zu CELO verändert sich der Wert der Celo Dollar nicht."
+      "text": "Wenn mehr Menschen Celo Dollar und Celo Euro verwenden, steigt der Wert von CELO. Im Gegensatz zu CELO verändert sich der Wert der Stablecoins Celo Dollar und Celo Euro nicht."
     },
     {
       "title": "Gestalte das Celo-Netzwerk",
