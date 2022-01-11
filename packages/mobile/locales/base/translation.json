@@ -1115,5 +1115,7 @@
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
-  }
+  },
+  "dappExplorerTitle": "dAPP Explorer",
+  "dappScreenDescription": "Discover ways to use your crypto."
 }

@@ -98,11 +98,9 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
 
-export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
-  state.app.multiTokenShowHomeBalances
-export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
-export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
-  state.app.multiTokenUseUpdatedFeed
+export const multiTokenShowHomeBalancesSelector = (state: RootState) => true
+export const multiTokenUseSendFlowSelector = (state: RootState) => true
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) => true
 
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 

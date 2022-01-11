@@ -6,8 +6,13 @@ import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { useAsync } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
+import BackButton from 'src/components/BackButton'
+import CustomHeader from 'src/components/header/CustomHeader'
+import { background } from 'src/images/Images'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -33,6 +38,7 @@ interface DappItem {
 
 type Props = StackScreenProps<StackParamList, Screens.DAppsExplorerScreen>
 export function DAppsExplorerScreen({ navigation }: Props) {
+  const { t } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const [categoriesWithItems, setcategoriesWithItems] = useState<CategoryWithItems[]>([])
 
@@ -102,9 +108,21 @@ export function DAppsExplorerScreen({ navigation }: Props) {
   }
 
   return (
-    <ScrollView style={styles.scrollContainer}>
-      {categoriesWithItems.map(renderCategoryWithItems)}
-    </ScrollView>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <CustomHeader
+        left={<BackButton />}
+        title={t('dappExplorerTitle')}
+        // TODO: Add question mark with modal right={}
+      />
+      <ScrollView style={styles.scrollContainer}>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>{t('dappScreenDescription')}</Text>
+          {/* TODO: Change image */}
+          <Image source={background} style={styles.descriptionImage} />
+        </View>
+        <>{categoriesWithItems.map(renderCategoryWithItems)}</>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -128,7 +146,7 @@ function renderItem(item: DappItem) {
   Logger.debug(TAG, `Render item ${JSON.stringify(item)}`)
 
   return (
-    <Card style={styles.itemCard} rounded={true} shadow={Shadow.Soft}>
+    <Card style={styles.itemCard} rounded={true} shadow={Shadow.Soft} key={`item-${item.id}`}>
       <Image source={{ uri: item.iconUrl }} style={styles.dappIcon} />
       <View style={styles.itemTextContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
@@ -137,10 +155,12 @@ function renderItem(item: DappItem) {
       <Image source={require('src/images/link-arrow.png')} style={styles.linkArrow} />
     </Card>
   )
-  // return (<Text style={styles.text} key={`item-${item.id}`}>{item.name}</Text>)
 }
 
 const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+  },
   scrollContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -160,6 +180,11 @@ const styles = StyleSheet.create({
   itemTextContainer: {
     flex: 1,
   },
+  descriptionContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+  },
   loadingIcon: {
     marginVertical: 20,
     height: 108,
@@ -176,6 +201,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
+  },
+  descriptionText: {
+    ...fontStyles.h1,
+    flex: 1,
   },
   categoryText: {
     ...fontStyles.regular,
@@ -201,6 +230,11 @@ const styles = StyleSheet.create({
   linkArrow: {
     height: 20,
     width: 20,
+    marginLeft: 16,
+  },
+  descriptionImage: {
+    height: 122,
+    width: 98,
     marginLeft: 16,
   },
 })
