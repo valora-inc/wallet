@@ -1118,7 +1118,7 @@
   },
   "outOfSyncBanner": {
     "title": "Estás desconectado.",
-    "message": "Es posible que tus saldos no estén actualizados.",
-    "button": "Refresca"
+    "message": "Es posible que tu saldo no esté actualizado.",
+    "button": "Actualizar"
   }
 }
