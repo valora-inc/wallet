@@ -743,9 +743,9 @@
     "codePlaceholder3": "Copy the third message",
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
+    "resendMessages_all": "Resend all messages",
     "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages",
-    "resendMessages_all": "Resend all messages"
+    "resendMessages_plural": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -802,8 +802,6 @@
   "characterLimitExceeded": "{{max}} Character Limit Exceeded",
   "payRequest": "Pay Request",
   "sendTo": "Send to",
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars",
   "addDescription": "Add description",
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
@@ -1077,7 +1075,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessaye plus tard.",
+  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
@@ -1094,7 +1092,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Tes informations ont été reçues et sont en cours d'examen."
+      "description": "Your information has been received and is being reviewed."
     },
     "begin": {
       "label": "Step 1",
@@ -1117,8 +1115,10 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "Tu es hors ligne.",
-    "message": "Tes soldes ne sont peut-être pas à jour.",
-    "button": "Rafraîchir"
-  }
+    "title": "You're offline.",
+    "message": "Your balances may not be up to date.",
+    "button": "Refresh"
+  },
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
