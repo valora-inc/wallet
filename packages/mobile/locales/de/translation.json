@@ -397,6 +397,7 @@
   "totalInEuros": "Celo Euro @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
+  "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Huch!",
   "somethingWrong": "Etwas ist schief gelaufen.",
   "verifyFailed": "Bestätigung fehlgeschlagen",
@@ -742,9 +743,9 @@
     "codePlaceholder3": "Kopiere die dritte Nachricht",
     "codePlaceholder3_ios": "Code eingeben/einfügen",
     "codePlaceholderWithCodeInClipboard": "Großartig! Füge es hier ein",
+    "resendMessages_all": "Alle Nachrichten erneut senden",
     "resendMessages": "Letzte Nachricht erneut senden",
-    "resendMessages_plural": "Sende {{count}} Nachrichten erneut",
-    "resendMessages_all": "Alle Nachrichten erneut senden"
+    "resendMessages_plural": "Sende {{count}} Nachrichten erneut"
   },
   "verificationInputHelpDialog": {
     "title": "Hilfe",
@@ -801,8 +802,6 @@
   "characterLimitExceeded": "{{max}} Zeichenlimit überschritten",
   "payRequest": "Zahlungsanfrage",
   "sendTo": "Senden an",
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars",
   "addDescription": "Beschreibung hinzufügen",
   "sentTo": "Senden an",
   "withdrawnTo": "Abgehoben nach",
@@ -1119,5 +1118,7 @@
     "title": "Du bist offline.",
     "message": "Dein Kontostand ist möglicherweise nicht auf dem neuesten Stand.",
     "button": "Auffrischen"
-  }
+  },
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
