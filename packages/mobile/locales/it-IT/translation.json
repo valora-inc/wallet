@@ -1,20 +1,20 @@
 {
   "invite": "Invite",
   "celoRewards": "Celo Rewards",
-  "languageSettings": "Lingua",
+  "languageSettings": "Language",
   "localCurrencySetting": "Currency",
-  "licenses": "Licenze",
+  "licenses": "Licenses",
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
-  "securityAndData": "Sicurezza e dati",
-  "changePin": "Cambia PIN",
+  "securityAndData": "Security and Data",
+  "changePin": "Change PIN",
   "pinChanged": "PIN changed",
-  "pinChangeFailed": "Cambiare il PIN non è riuscito",
-  "requirePinOnAppOpen": "Richiedi il PIN all'apertura dell'app",
+  "pinChangeFailed": "Changing the PIN failed",
+  "requirePinOnAppOpen": "Require PIN on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
-  "shareAnalytics": "Condividi le analisi",
+  "shareAnalytics": "Share Analytics",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
@@ -58,7 +58,7 @@
   "selectCurrency": "Select Currency",
   "continue": "Continue",
   "yourName": "Your Name",
-  "version": "Version {{appVersion}}",
+  "version": "Versione {{appVersion}}",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -744,8 +744,8 @@
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "resendMessages": "Reinvia l'ultimo messaggio",
+    "resendMessages_plural": "Reinvia {{count}} messaggi"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -757,8 +757,8 @@
       "title": "Missing some or all messages?",
       "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L'opzione skip sottostante sarà disponibile in {{count}} secondo.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L'opzione di salto sottostante sarà disponibile in {{count}} secondi."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
@@ -1075,7 +1075,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
+  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Per favore riprova più tardi",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Your information has been received and is being reviewed."
+      "description": "Le tue informazioni sono state ricevute e vengono esaminate."
     },
     "begin": {
       "label": "Step 1",
@@ -1115,10 +1115,10 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
-    "message": "Your balances may not be up to date.",
-    "button": "Refresh"
+    "title": "Sei offline.",
+    "message": "I tuoi saldi potrebbero non essere aggiornati.",
+    "button": "Aggiorna"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars"
+  "celoDollarAmount_plural": "<0></0> Celo Dollari"
 }
