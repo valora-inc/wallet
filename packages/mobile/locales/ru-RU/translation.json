@@ -882,13 +882,13 @@
     "body2": "You must scan their QR code or confirm their Account Address before transacting."
   },
   "confirmAccountNumber": {
-    "title": "Подтвердите адрес счета",
-    "bodyPartial": "Пожалуйста, попроси {{displayName}} последние четыре цифры адреса их счета. Безопаснее всего сделать это лично или по телефону.",
-    "bodyPartialNoDisplayName": "Попроси своего собеседника назвать последние четыре цифры адреса его счета. Безопаснее всего сделать это лично или по телефону.",
-    "body1Full": "Пожалуйста, спроси у {{displayName}} их Адрес счета.",
-    "body1FullNoDisplayName": "Пожалуйста, спроси у своего собеседника адрес его аккаунта.",
-    "body2Full": "Мы настоятельно рекомендуем спрашивать лично или по телефону, через WhatsApp или Messenger, или по электронной почте. В целях безопасности, пожалуйста, не используй текстовые сообщения (SMS).",
-    "help": "Помощь в определении адреса счета",
+    "title": "Confirm Account Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
+    "body1Full": "Please ask {{displayName}} for their Account Address.",
+    "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
+    "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
+    "help": "Help locating an Account Address",
     "submit": "Submit"
   },
   "accountInputHeaderPartial": "Last 4 Digits",
