@@ -51,7 +51,7 @@ function SendAmountValue({
             style={styles.pressableButton}
             testID="MaxButton"
           >
-            <Text adjustsFontSizeToFit={true} style={styles.button}>
+            <Text adjustsFontSizeToFit={true} maxFontSizeMultiplier={1.618} style={styles.button}>
               {t('max')}
             </Text>
           </Touchable>
