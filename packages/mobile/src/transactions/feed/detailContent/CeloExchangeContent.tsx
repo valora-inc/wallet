@@ -29,6 +29,10 @@ export default function CeloExchangeContent({ exchange }: Props) {
   const [celoAmount, stableAmount] = soldCELO ? [inAmount, outAmount] : [outAmount, inAmount]
 
   const { securityFee, dekFee, totalFee, feeTokenAddress, feeCurrency } = usePaidFees(fees)
+  const totalFromFeesInLocal = fees.reduce(
+    (sum, fee) => sum.plus(fee.amount?.localAmount?.value ?? 0),
+    new BigNumber(0)
+  )
   const feeInStableToken = useConvertBetweenTokens(
     totalFee,
     feeTokenAddress,
@@ -64,6 +68,7 @@ export default function CeloExchangeContent({ exchange }: Props) {
             <TokenDisplay
               amount={stableAmount.value}
               tokenAddress={stableAmount.tokenAddress}
+              localAmount={stableAmount.localAmount}
               testID="FiatAmount"
             />
           }
@@ -79,6 +84,17 @@ export default function CeloExchangeContent({ exchange }: Props) {
         <TokenTotalLineItem
           tokenAmount={new BigNumber(stableAmount.value).plus(feeInStableToken ?? 0)}
           tokenAddress={stableAmount.tokenAddress}
+          localAmount={
+            stableAmount.localAmount
+              ? {
+                  ...stableAmount.localAmount,
+                  value: new BigNumber(stableAmount.localAmount.value)
+                    .absoluteValue()
+                    .plus(totalFromFeesInLocal)
+                    .toString(),
+                }
+              : undefined
+          }
           feeToAddInUsd={undefined}
           hideSign={true}
         />

@@ -69,18 +69,20 @@ export function useInputAmounts(
   tokenAddress: string
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)!
-  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)!
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)
 
-  const localAmount = convertToMaxSupportedPrecision(usingLocalAmount ? parsedAmount : tokenToLocal)
-  const tokenAmount = convertToMaxSupportedPrecision(usingLocalAmount ? localToToken : parsedAmount)
+  const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
+  const tokenAmountRaw = usingLocalAmount ? localToToken : parsedAmount
+  const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
+  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
   const usdAmount = useAmountAsUsd(tokenAmount, tokenAddress)
 
   return {
     localAmount,
     tokenAmount,
-    usdAmount: convertToMaxSupportedPrecision(usdAmount!),
+    usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
 }
 
@@ -128,10 +130,13 @@ function SendAmount(props: Props) {
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
+  const tokenHasUsdPrice = !!tokenInfo.usdPrice
+
+  const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
     amount,
-    usingLocalAmount,
+    showInputInLocalAmount,
     transferTokenAddress
   )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
@@ -148,8 +153,8 @@ function SendAmount(props: Props) {
   const onPressMax = () => {
     setAmount(
       formatWithMaxDecimals(
-        usingLocalAmount ? maxInLocalCurrency : maxBalance,
-        usingLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
+        showInputInLocalAmount ? maxInLocalCurrency : maxBalance,
+        showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
       )
     )
   }
@@ -183,7 +188,7 @@ function SendAmount(props: Props) {
     localAmount,
     tokenAmount,
     usdAmount,
-    inputIsInLocalCurrency: usingLocalAmount,
+    inputIsInLocalCurrency: showInputInLocalAmount,
     transferTokenAddress,
     origin,
     isFromScan: !!props.route.params?.isFromScan,
@@ -198,7 +203,7 @@ function SendAmount(props: Props) {
         return
       } else if (
         recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-        localAmount.isGreaterThan(maxEscrowInLocalAmount)
+        localAmount?.isGreaterThan(maxEscrowInLocalAmount)
       ) {
         dispatch(
           showError(ErrorMessages.MAX_ESCROW_TRANSFER_EXCEEDED, ALERT_BANNER_DURATION, {
@@ -238,7 +243,7 @@ function SendAmount(props: Props) {
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
-  const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
+  const isAmountValid = localAmount?.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT) ?? true
 
   return (
     <SafeAreaView style={styles.container}>
@@ -254,14 +259,15 @@ function SendAmount(props: Props) {
           isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
           inputAmount={amount}
           tokenAmount={tokenAmount}
-          usingLocalAmount={usingLocalAmount}
+          usingLocalAmount={showInputInLocalAmount}
           tokenAddress={transferTokenAddress}
           onPressMax={onPressMax}
           onSwapInput={onSwapInput}
+          tokenHasUsdPrice={tokenHasUsdPrice}
         />
         <AmountKeypad
           amount={amount}
-          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
+          maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
           onAmountChange={setAmount}
         />
       </View>

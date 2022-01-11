@@ -14,7 +14,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
-import { mockCusdAddress, mockName } from 'test/values'
+import { mockCeloAddress, mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
 const MOCK_ADDRESS = '0xFdd8bD58115FfBf04e47411c1d228eCC45E93075'
@@ -80,16 +80,18 @@ describe('TransferFeedItem', () => {
 
   function verifyDisplay({
     getByTestId,
+    queryByTestId,
     expectedTitleSections,
     expectedSubtitleSections,
     expectedAmount,
     expectedTokenAmount,
   }: {
     getByTestId: (testId: string) => ReactTestInstance
+    queryByTestId?: (testId: string) => ReactTestInstance | null
     expectedTitleSections: string[]
     expectedSubtitleSections: string[]
     expectedAmount: string
-    expectedTokenAmount: string
+    expectedTokenAmount: string | null
   }) {
     const title = getElementText(getByTestId('TransferFeedItem/title'))
     for (const titleSection of expectedTitleSections) {
@@ -104,8 +106,12 @@ describe('TransferFeedItem', () => {
     const amountDisplay = getByTestId('TransferFeedItem/amount')
     expect(getElementText(amountDisplay)).toEqual(expectedAmount)
 
-    const tokenDisplay = getByTestId('TransferFeedItem/tokenAmount')
-    expect(getElementText(tokenDisplay)).toEqual(expectedTokenAmount)
+    if (expectedTokenAmount) {
+      const tokenDisplay = getByTestId('TransferFeedItem/tokenAmount')
+      expect(getElementText(tokenDisplay)).toEqual(expectedTokenAmount)
+    } else {
+      expect(queryByTestId!('TransferFeedItem/tokenAmount')).toBeNull()
+    }
   }
 
   it('renders correctly for outgoing transfers to unknown address', async () => {
@@ -382,6 +388,56 @@ describe('TransferFeedItem', () => {
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
       expectedAmount: '+₱15.00',
       expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+
+  it('renders correctly for tokens without usd price', async () => {
+    const { getByTestId, queryByTestId } = renderScreen({
+      amount: {
+        tokenAddress: mockTestTokenAddress,
+        value: 10,
+      },
+      storeOverrides: {
+        tokens: {
+          tokenBalances: {
+            [mockTestTokenAddress]: {
+              address: mockTestTokenAddress,
+              symbol: 'TT',
+              balance: '50',
+            },
+          },
+        },
+      },
+    })
+    verifyDisplay({
+      getByTestId,
+      queryByTestId,
+      expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedAmount: '+10.00 TT',
+      expectedTokenAmount: null,
+    })
+  })
+
+  it('renders the localAmount correctly when set', async () => {
+    const { getByTestId, queryByTestId } = renderScreen({
+      amount: {
+        tokenAddress: mockCeloAddress,
+        value: 10,
+        localAmount: {
+          currencyCode: 'EUR',
+          exchangeRate: '0.4',
+          value: '4',
+        },
+      },
+    })
+    verifyDisplay({
+      getByTestId,
+      queryByTestId,
+      expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedAmount: '+€4.00',
+      expectedTokenAmount: '10.00 CELO',
     })
   })
 })
