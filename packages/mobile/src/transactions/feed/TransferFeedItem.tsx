@@ -9,7 +9,6 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -53,14 +52,7 @@ function TransferFeedItem({ transfer }: Props) {
             <TokenDisplay
               amount={amount.value}
               tokenAddress={amount.tokenAddress}
-              currencyInfo={
-                amount.localAmount
-                  ? {
-                      localCurrencyCode: amount.localAmount.currencyCode as LocalCurrencyCode,
-                      localExchangeRate: amount.localAmount.exchangeRate,
-                    }
-                  : undefined
-              }
+              localAmount={amount.localAmount}
               showExplicitPositiveSign={true}
               showLocalAmount={!showTokenAmount}
               style={[styles.amount, colorStyle]}

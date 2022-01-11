@@ -126,4 +126,34 @@ describe('ExchangeFeedItem', () => {
       expectedTokenAmount: '2.00 CELO',
     })
   })
+
+  it('renders the localAmount correctly when set', async () => {
+    const { getByTestId } = renderScreen({
+      inAmount: {
+        tokenAddress: mockCeloAddress,
+        value: 2,
+        localAmount: {
+          currencyCode: 'EUR',
+          exchangeRate: '2.5',
+          value: '3',
+        },
+      },
+      outAmount: {
+        tokenAddress: mockCusdAddress,
+        value: 10,
+        localAmount: {
+          currencyCode: 'EUR',
+          exchangeRate: '0.3',
+          value: '3',
+        },
+      },
+    })
+    verifyDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemSoldCeloTitle'],
+      expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],
+      expectedAmount: '+€3.00',
+      expectedTokenAmount: '2.00 CELO',
+    })
+  })
 })

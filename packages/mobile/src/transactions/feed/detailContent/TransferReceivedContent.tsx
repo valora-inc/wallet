@@ -54,6 +54,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
         tokenAddress={amount.tokenAddress}
+        localAmount={amount.localAmount}
         feeToAddInUsd={undefined}
         hideSign={true}
       />
