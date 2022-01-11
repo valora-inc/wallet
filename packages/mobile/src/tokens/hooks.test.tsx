@@ -32,11 +32,13 @@ const store = (dollarExchange: string | null = '2') =>
           symbol: 'T1',
           balance: '0',
           usdPrice: '5',
+          priceFetchedAt: Date.now(),
         },
         [tokenAddressWithoutBalance]: {
           symbol: 'T2',
           usdPrice: '5',
           balance: null,
+          priceFetchedAt: Date.now(),
         },
       },
     },

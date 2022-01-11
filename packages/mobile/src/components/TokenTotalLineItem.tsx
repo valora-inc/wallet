@@ -2,15 +2,18 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { LocalAmount } from 'src/transactions/types'
 
 interface Props {
   tokenAmount: BigNumber
   tokenAddress: string
+  localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
 }
@@ -18,12 +21,13 @@ interface Props {
 export default function TokenTotalLineItem({
   tokenAmount,
   tokenAddress,
+  localAmount,
   feeToAddInUsd,
   hideSign,
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenAddress)
-  const feeInToken = tokenInfo ? feeToAddInUsd?.dividedBy(tokenInfo.usdPrice) : undefined
+  const feeInToken = tokenInfo?.usdPrice ? feeToAddInUsd?.dividedBy(tokenInfo.usdPrice) : undefined
 
   return (
     <>
@@ -34,6 +38,7 @@ export default function TokenTotalLineItem({
           <TokenDisplay
             amount={tokenAmount.plus(feeInToken ?? 0)}
             tokenAddress={tokenAddress}
+            localAmount={localAmount}
             hideSign={hideSign}
             testID="TotalLineItem/Total"
           />
@@ -42,13 +47,19 @@ export default function TokenTotalLineItem({
       <LineItemRow
         title={
           <Text style={styles.exchangeRate} testID="TotalLineItem/ExchangeRate">
-            {tokenInfo?.symbol}
-            {' @ '}
-            <TokenDisplay
-              amount={new BigNumber(1)}
-              tokenAddress={tokenAddress}
-              showLocalAmount={true}
-            />
+            <Trans i18nKey={'tokenExchanteRate'} tOptions={{ symbol: tokenInfo?.symbol }}>
+              {localAmount?.exchangeRate ? (
+                `${
+                  LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
+                }${formatValueToDisplay(new BigNumber(localAmount.exchangeRate))}`
+              ) : (
+                <TokenDisplay
+                  amount={new BigNumber(1)}
+                  tokenAddress={tokenAddress}
+                  showLocalAmount={true}
+                />
+              )}
+            </Trans>
           </Text>
         }
         amount={

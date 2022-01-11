@@ -17,7 +17,7 @@ import { getSendFee } from 'src/send/saga'
 import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import {
-  amountFromComponent,
+  getElementText,
   createMockStore,
   flushMicrotasksQueue,
   getMockStackScreenProps,
@@ -112,10 +112,10 @@ describe('SendConfirmationLegacy', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(amountFromComponent(feeComponent)).toEqual('₱0.0133')
+    expect(getElementText(feeComponent)).toEqual('₱0.0133')
 
     const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('₱1.34')
+    expect(getElementText(totalComponent)).toEqual('₱1.34')
   })
 
   it('renders correctly for send payment confirmation with CELO fees', async () => {
@@ -129,12 +129,12 @@ describe('SendConfirmationLegacy', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(amountFromComponent(feeComponent)).toEqual('0.01')
+    expect(getElementText(feeComponent)).toEqual('0.01')
 
     // NOTE: CELO fees are currently not combined into the total.
     // TODO: This should equal more than $1.33, depending on the CELO fee value.
     const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('₱1.33')
+    expect(getElementText(totalComponent)).toEqual('₱1.33')
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
