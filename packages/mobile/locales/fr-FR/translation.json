@@ -1114,5 +1114,10 @@
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
+  },
+  "outOfSyncBanner": {
+    "title": "Tu es hors ligne.",
+    "message": "Tes soldes ne sont peut-être pas à jour.",
+    "button": "Rafraîchir"
   }
 }

@@ -981,8 +981,6 @@ exports[`SendConfirmation renders correctly 1`] = `
               }
               testID="TotalLineItem/ExchangeRate"
             >
-              cUSD
-               @ 
               <Text>
                 
                 ₱

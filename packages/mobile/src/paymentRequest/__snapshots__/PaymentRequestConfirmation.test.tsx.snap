@@ -317,8 +317,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               }
               testID="TotalLineItem/ExchangeRate"
             >
-              cUSD
-               @ 
               <Text>
                 
                 ₱

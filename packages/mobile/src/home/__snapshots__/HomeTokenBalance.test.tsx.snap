@@ -308,6 +308,7 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
           },
         ]
       }
+      testID="ViewBalances"
     >
       <Text
         style={

@@ -52,6 +52,7 @@ export function* fetchLocalCurrencyRateSaga() {
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
+    // TODO: Remove EUR and CELO rates, everything is based off dollar now.
     const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
       call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
       call(fetchExchangeRate, Currency.Euro, localCurrencyCode),

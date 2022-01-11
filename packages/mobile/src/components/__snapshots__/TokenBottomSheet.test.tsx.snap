@@ -101,129 +101,6 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
-      testID="cUSDTouchable"
-    >
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "paddingVertical": 16,
-          }
-        }
-      >
-        <Image
-          source={
-            Object {
-              "uri": undefined,
-            }
-          }
-          style={
-            Object {
-              "borderRadius": 20,
-              "height": 40,
-              "marginRight": 10,
-              "width": 40,
-            }
-          }
-        />
-        <View
-          style={
-            Object {
-              "alignItems": "flex-start",
-            }
-          }
-        >
-          <Text
-            style={
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              }
-            }
-          >
-            cUSD
-          </Text>
-          <Text
-            style={
-              Object {
-                "color": "#9CA4A9",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 14,
-                "lineHeight": 18,
-              }
-            }
-          />
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "flex-end",
-              "flex": 1,
-            }
-          }
-        >
-          <Text
-            style={
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              }
-            }
-            testID="LocalcUSDBalance"
-          >
-            
-            ₱
-            13.30
-          </Text>
-          <Text
-            style={
-              Object {
-                "color": "#9CA4A9",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 14,
-                "lineHeight": 18,
-              }
-            }
-            testID="cUSDBalance"
-          >
-            
-            10.00
-             cUSD
-          </Text>
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        Object {
-          "backgroundColor": "#EDEEEF",
-          "height": 1,
-          "width": "100%",
-        }
-      }
-    />
-    <View
-      accessible={true}
-      focusable={true}
-      nativeBackgroundAndroid={
-        Object {
-          "attribute": "selectableItemBackground",
-          "rippleRadius": undefined,
-          "type": "ThemeAttrAndroid",
-        }
-      }
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       testID="cEURTouchable"
     >
       <View
@@ -317,6 +194,129 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             
             20.00
              cEUR
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#EDEEEF",
+          "height": 1,
+          "width": "100%",
+        }
+      }
+    />
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      testID="cUSDTouchable"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingVertical": 16,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "uri": undefined,
+            }
+          }
+          style={
+            Object {
+              "borderRadius": 20,
+              "height": 40,
+              "marginRight": 10,
+              "width": 40,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            cUSD
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+            testID="LocalcUSDBalance"
+          >
+            
+            ₱
+            13.30
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+            testID="cUSDBalance"
+          >
+            
+            10.00
+             cUSD
           </Text>
         </View>
       </View>

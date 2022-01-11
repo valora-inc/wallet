@@ -1,14 +1,11 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleProp, Text, TextStyle } from 'react-native'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { useTokenInfo } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'TokenDisplay'
+import { LocalAmount } from 'src/transactions/types'
 
 const DEFAULT_DISPLAY_DECIMALS = 2
 
@@ -19,26 +16,9 @@ interface Props {
   showLocalAmount?: boolean
   hideSign?: boolean
   showExplicitPositiveSign?: boolean
-  currencyInfo?: CurrencyInfo
+  localAmount?: LocalAmount
   style?: StyleProp<TextStyle>
   testID?: string
-}
-
-function useFiatExchangeRates(currencyInfo?: CurrencyInfo) {
-  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
-  if (currencyInfo) {
-    return {
-      fiatExchangeRate: currencyInfo.localExchangeRate,
-      fiatSymbol: LocalCurrencySymbol[currencyInfo.localCurrencyCode],
-    }
-  } else {
-    return {
-      fiatExchangeRate: localCurrencyExchangeRate,
-      fiatSymbol: localCurrencySymbol,
-    }
-  }
 }
 
 function calculateDecimalsToShow(value: BigNumber) {
@@ -67,26 +47,26 @@ function TokenDisplay({
   showSymbol = true,
   showExplicitPositiveSign = false,
   hideSign = false,
-  currencyInfo,
+  localAmount,
   style,
   testID,
 }: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
 
-  const { fiatExchangeRate, fiatSymbol } = useFiatExchangeRates(currencyInfo)
+  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  let error = false
-
-  if (!tokenInfo) {
-    Logger.warn(TAG, `No token info found for token address ${tokenAddress}`)
-    error = true
-  } else if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
-    Logger.warn(TAG, `No token usd price or exchange rate found to display for ${tokenInfo.symbol}`)
-    error = true
-  }
+  const showError = showLocalAmount
+    ? !localAmount && (!tokenInfo?.usdPrice || !localCurrencyExchangeRate)
+    : !tokenInfo?.symbol
 
   const amountInUsd = tokenInfo?.usdPrice?.multipliedBy(amount)
-  const amountInLocalCurrency = new BigNumber(fiatExchangeRate ?? 0).multipliedBy(amountInUsd ?? 0)
+  const amountInLocalCurrency = localAmount
+    ? new BigNumber(localAmount.value)
+    : new BigNumber(localCurrencyExchangeRate ?? 0).multipliedBy(amountInUsd ?? 0)
+  const fiatSymbol = localAmount
+    ? LocalCurrencySymbol[localAmount.currencyCode as LocalCurrencyCode]
+    : localCurrencySymbol
 
   const amountToShow = showLocalAmount ? amountInLocalCurrency : new BigNumber(amount)
 
@@ -94,10 +74,16 @@ function TokenDisplay({
 
   return (
     <Text style={style} testID={testID}>
-      {sign}
-      {showLocalAmount && fiatSymbol}
-      {error ? '-' : formatValueToDisplay(amountToShow.absoluteValue())}
-      {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol}`}
+      {showError ? (
+        '-'
+      ) : (
+        <>
+          {sign}
+          {showLocalAmount && fiatSymbol}
+          {formatValueToDisplay(amountToShow.absoluteValue())}
+          {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol ?? ''}`}
+        </>
+      )}
     </Text>
   )
 }
