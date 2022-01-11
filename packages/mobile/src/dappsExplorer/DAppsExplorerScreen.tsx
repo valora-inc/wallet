@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: variables.contentPadding,
   },
   centerContainer: {
     alignItems: 'center',
@@ -175,7 +174,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex: 1,
-    marginTop: 32,
+    marginVertical: 16,
+    paddingHorizontal: variables.contentPadding,
   },
   itemTextContainer: {
     flex: 1,
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
+    paddingHorizontal: variables.contentPadding,
   },
   loadingIcon: {
     marginVertical: 20,
