@@ -15,6 +15,7 @@ export enum Screens {
   DappKitTxDataScreen = 'DappKitTxDataScreen',
   Debug = 'Debug',
   DrawerNavigator = 'DrawerNavigator',
+  EnableBiometry = 'EnableBiometry',
   ErrorScreen = 'ErrorScreen',
   EscrowedPaymentListScreen = 'EscrowedPaymentListScreen',
   ExchangeHomeScreen = 'ExchangeHomeScreen',

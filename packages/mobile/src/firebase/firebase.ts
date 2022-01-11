@@ -271,6 +271,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryEnabled: flags.sentryEnabled.asBoolean(),
+    biometryEnabled: flags.biometryEnabled.asBoolean(),
   }
 }
 

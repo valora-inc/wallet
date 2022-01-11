@@ -1,3 +1,4 @@
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
 import { Screens } from 'src/navigator/Screens'
 
@@ -12,6 +13,7 @@ export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
+  SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
@@ -44,6 +46,11 @@ interface SetLoggedIn {
 interface SetNumberVerifiedAction {
   type: Actions.SET_NUMBER_VERIFIED
   numberVerified: boolean
+}
+
+interface SetSupportedBiometryType {
+  type: Actions.SET_SUPPORTED_BIOMETRY_TYPE
+  supportedBiometryType: BIOMETRY_TYPE
 }
 
 export interface OpenDeepLink {
@@ -131,6 +138,7 @@ export type ActionTypes =
   | SetAppState
   | SetLoggedIn
   | SetNumberVerifiedAction
+  | SetSupportedBiometryType
   | ResetAppOpenedState
   | OpenDeepLink
   | SetAnalyticsEnabled
@@ -161,6 +169,11 @@ export const setLoggedIn = (loggedIn: boolean) => ({
 export const setNumberVerified = (numberVerified: boolean) => ({
   type: Actions.SET_NUMBER_VERIFIED,
   numberVerified,
+})
+
+export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE) => ({
+  type: Actions.SET_SUPPORTED_BIOMETRY_TYPE,
+  supportedBiometryType,
 })
 
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {

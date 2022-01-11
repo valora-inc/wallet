@@ -1,6 +1,7 @@
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import * as Keychain from 'react-native-keychain'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -26,6 +27,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
+  setSupportedBiometryType,
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
@@ -68,6 +70,10 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
   yield call(initializeSentry)
+
+  // TODO catch case where there was a supported biometry type and it changes - is this a valid scenario?
+  const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
+  yield put(setSupportedBiometryType(supportedBiometryType))
 
   const inSync = yield call(clockInSync)
   if (!inSync) {
@@ -170,6 +176,7 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   sentryEnabled: boolean
+  biometryEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

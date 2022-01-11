@@ -21,7 +21,11 @@ import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
+import {
+  biometryEnabledSelector,
+  hideVerificationSelector,
+  numberVerifiedSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -88,6 +92,15 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
+  const biometryEnabled = useSelector(biometryEnabledSelector)
+
+  const handleProceedToNextStep = () => {
+    if (biometryEnabled) {
+      navigate(Screens.EnableBiometry)
+    } else {
+      navigateHome()
+    }
+  }
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -102,8 +115,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
+    navigation.setParams({ showSkipDialog: false })
     dispatch(setHasSeenVerificationNux(true))
-    navigateHome()
+    handleProceedToNextStep()
   }
 
   const onPressContinue = () => {
@@ -111,7 +125,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (partOfOnboarding) {
       navigate(Screens.OnboardingSuccessScreen)
     } else {
-      navigateHome()
+      handleProceedToNextStep()
     }
   }
 
@@ -121,7 +135,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
 
     dispatch(setHasSeenVerificationNux(true))
-    navigateHome()
+    handleProceedToNextStep()
   }
 
   const onPressLearnMore = () => {

@@ -1,4 +1,5 @@
 import { Platform } from 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
@@ -44,6 +45,8 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  supportedBiometryType: BIOMETRY_TYPE | null
+  biometryEnabled: boolean
 }
 
 const initialState = {
@@ -83,6 +86,8 @@ const initialState = {
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
+  supportedBiometryType: null,
+  biometryEnabled: false,
 }
 
 export const appReducer = (
@@ -193,6 +198,7 @@ export const appReducer = (
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
+        biometryEnabled: action.configValues.biometryEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -215,6 +221,11 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
+      }
+    case Actions.SET_SUPPORTED_BIOMETRY_TYPE:
+      return {
+        ...state,
+        supportedBiometryType: action.supportedBiometryType,
       }
     default:
       return state

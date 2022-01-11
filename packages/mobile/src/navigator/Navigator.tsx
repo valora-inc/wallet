@@ -69,6 +69,7 @@ import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
+import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
 import SelectCountry from 'src/onboarding/registration/SelectCountry'
@@ -246,6 +247,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.ImportWallet}
       component={ImportWallet}
       options={ImportWallet.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.EnableBiometry}
+      component={EnableBiometry}
+      options={EnableBiometry.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.OnboardingSuccessScreen}

@@ -107,3 +107,8 @@ export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
+
+export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
+
+export const biometryEnabledSelector = (state: RootState) =>
+  state.app.biometryEnabled && !!state.app.supportedBiometryType

@@ -857,6 +857,19 @@ export const v25Schema = {
   },
 }
 
+export const v26Schema = {
+  ...v25Schema,
+  _persist: {
+    ...v25Schema._persist,
+    version: 26,
+  },
+  app: {
+    ...v25Schema.app,
+    biometryEnabled: false,
+    supportedBiometryType: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v25Schema as Partial<RootState>
+  return v26Schema as Partial<RootState>
 }

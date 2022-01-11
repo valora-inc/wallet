@@ -153,6 +153,7 @@ export type StackParamList = {
     | undefined
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
+  [Screens.EnableBiometry]: undefined
   [Screens.Language]:
     | {
         nextScreen: keyof StackParamList
