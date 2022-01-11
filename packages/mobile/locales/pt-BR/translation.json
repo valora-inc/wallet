@@ -1119,6 +1119,6 @@
   "outOfSyncBanner": {
     "title": "Você está offline.",
     "message": "Seus saldos podem não estar em dia.",
-    "button": "Atualização"
+    "button": "Atualizar"
   }
 }
