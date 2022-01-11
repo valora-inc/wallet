@@ -44,7 +44,7 @@ export const getCurrentUserTraits = createSelector(
 
     let totalBalanceUsd = new BigNumber(0)
     for (const token of tokensByUsdBalance) {
-      const tokenBalanceUsd = token.balance.multipliedBy(token.usdPrice)
+      const tokenBalanceUsd = token.balance.multipliedBy(token.usdPrice ?? 0)
       if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
       }

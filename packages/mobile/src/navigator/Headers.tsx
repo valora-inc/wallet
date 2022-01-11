@@ -169,7 +169,12 @@ export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps)
 
   const subTitle = tokenInfo ? (
     <Trans i18nKey="balanceAvailable">
-      <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={tokenInfo.balance} />
+      <TokenDisplay
+        style={styles.headerSubTitle}
+        tokenAddress={token}
+        amount={tokenInfo.balance}
+        showLocalAmount={!!tokenInfo?.usdPrice}
+      />
     </Trans>
   ) : (
     '-'

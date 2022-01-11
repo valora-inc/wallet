@@ -68,7 +68,13 @@ const Escrow = {
 
 const web3 = new Web3()
 
-const connection = { web3: web3 }
+const connection = {
+  web3: web3,
+  chainId: jest.fn(() => Promise.resolve(44787)),
+  nonce: jest.fn().mockResolvedValue(7),
+  estimateGas: jest.fn().mockResolvedValue(1000000),
+  gasPrice: jest.fn().mockResolvedValue(3),
+}
 
 const kit = {
   contracts: {
@@ -82,7 +88,7 @@ const kit = {
     getEscrow: jest.fn(async () => Escrow),
   },
   registry: {
-    addressFor: async (address: string) => 1000,
+    addressFor: jest.fn((contract) => Promise.resolve(`0x${contract}`)),
   },
   connection,
 }
@@ -109,5 +115,6 @@ export enum CeloContract {
   Reserve = 'Reserve',
   SortedOracles = 'SortedOracles',
   StableToken = 'StableToken',
+  StableTokenEUR = 'StableTokenEUR',
   Validators = 'Validators',
 }

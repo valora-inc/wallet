@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { TokenBalances } from 'src/tokens/reducer'
 import { tokensByAddressSelector, tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
@@ -59,15 +58,16 @@ export function useUsdToTokenAmount(amount: BigNumber, tokenAddress: string) {
   return amount.div(tokenInfo.usdPrice)
 }
 
-export function convertBetweenTokens(
-  tokenBalances: TokenBalances,
-  amount: BigNumber,
-  tokenAddress: string,
+export function useConvertBetweenTokens(
+  amount: BigNumber | undefined,
+  tokenAddress: string = '',
   newTokenAddress: string
 ) {
-  const tokenUsdPrice = tokenBalances[tokenAddress]?.usdPrice
+  const tokenBalances = useSelector(tokensByAddressSelector)
+
+  const tokenUsdPrice = tokenBalances[tokenAddress ?? '']?.usdPrice
   const newTokenUsdPrice = tokenBalances[newTokenAddress]?.usdPrice
-  if (!tokenUsdPrice || !newTokenUsdPrice) {
+  if (!amount || !tokenUsdPrice || !newTokenUsdPrice) {
     return null
   }
   return amount.multipliedBy(tokenUsdPrice).dividedBy(newTokenUsdPrice)

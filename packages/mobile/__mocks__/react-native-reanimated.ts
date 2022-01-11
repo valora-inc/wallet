@@ -6,7 +6,7 @@ Reanimated.default.call = () => {}
 
 module.exports = {
   ...Reanimated,
-  useSharedValue: jest.fn(),
+  useSharedValue: jest.fn(() => ({ value: 0 })),
   useAnimatedStyle: jest.fn(),
   withTiming: jest.fn(),
 }

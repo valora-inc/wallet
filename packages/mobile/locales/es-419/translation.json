@@ -58,7 +58,7 @@
   "selectCurrency": "Selecciona una moneda",
   "continue": "Continuar",
   "yourName": "Tu nombre",
-  "version": "Versión:",
+  "version": "Versión {{appVersion}}",
   "addressCopied": "Dirección copiada al portapapeles",
   "support": "Soporte",
   "contact": "Contacto",
@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
+  "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Reintentar",
     "verifying": {
@@ -1113,5 +1114,10 @@
     "title": "Conecta tu número de teléfono para continuar",
     "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
     "buttonText": "Conectar"
+  },
+  "outOfSyncBanner": {
+    "title": "Estás desconectado.",
+    "message": "Es posible que tus saldos no estén actualizados.",
+    "button": "Refresca"
   }
 }

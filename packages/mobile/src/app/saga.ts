@@ -144,6 +144,7 @@ export function* checkAndroidMobileServicesSaga() {
 export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
+  dappListApiUri: string | null
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean

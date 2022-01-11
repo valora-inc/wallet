@@ -58,7 +58,7 @@
   "selectCurrency": "Select Currency",
   "continue": "Continue",
   "yourName": "Your Name",
-  "version": "Version:",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -663,7 +663,7 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore."
   },
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
@@ -1076,6 +1076,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
+  "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessaye plus tard.",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
@@ -1113,5 +1114,10 @@
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
+  },
+  "outOfSyncBanner": {
+    "title": "Tu es hors ligne.",
+    "message": "Tes soldes ne sont peut-être pas à jour.",
+    "button": "Rafraîchir"
   }
 }
