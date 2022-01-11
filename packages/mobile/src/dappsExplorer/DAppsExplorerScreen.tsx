@@ -7,7 +7,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
@@ -16,6 +24,7 @@ import { background } from 'src/images/Images'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
@@ -146,15 +155,23 @@ function renderItem(item: DappItem) {
   Logger.debug(TAG, `Render item ${JSON.stringify(item)}`)
 
   return (
-    <Card style={styles.itemCard} rounded={true} shadow={Shadow.Soft} key={`item-${item.id}`}>
-      <Image source={{ uri: item.iconUrl }} style={styles.dappIcon} />
-      <View style={styles.itemTextContainer}>
-        <Text style={styles.titleText}>{item.name}</Text>
-        <Text style={styles.subtitleText}>{item.description}</Text>
-      </View>
-      <Image source={require('src/images/link-arrow.png')} style={styles.linkArrow} />
+    <Card style={styles.card} rounded={true} shadow={Shadow.Soft} key={`item-${item.id}`}>
+      <TouchableOpacity style={styles.pressableCard} onPress={goToExternalLink(item.dappUrl)}>
+        <Image source={{ uri: item.iconUrl }} style={styles.dappIcon} />
+        <View style={styles.itemTextContainer}>
+          <Text style={styles.titleText}>{item.name}</Text>
+          <Text style={styles.subtitleText}>{item.description}</Text>
+        </View>
+        <Image source={require('src/images/link-arrow.png')} style={styles.linkArrow} />
+      </TouchableOpacity>
     </Card>
   )
+}
+
+function goToExternalLink(url: string) {
+  return () => {
+    navigateToURI(url)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -197,9 +214,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginRight: 16,
   },
-  itemCard: {
-    marginTop: 16,
+  pressableCard: {
     flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  card: {
+    marginTop: 16,
     flex: 1,
     alignItems: 'center',
   },
