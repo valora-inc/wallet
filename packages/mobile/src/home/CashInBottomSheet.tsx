@@ -43,43 +43,47 @@ function CashInBottomSheet() {
     setModalVisible(false)
   }
 
-  const asyncRampInfo = useAsync(async () => {
-    if (!account) {
-      Logger.error(TAG, 'No account set')
-      setModalVisible(true)
-      return
-    }
-    // Use cEUR if that is their local currency, otherwise default to cUSD
-    const currencyToBuy =
-      localCurrency === LocalCurrencyCode.EUR ? CiCoCurrency.CEUR : CiCoCurrency.CUSD
-
-    try {
-      const providers = await fetchProviders({
-        userLocation,
-        walletAddress: account,
-        fiatCurrency: localCurrency,
-        digitalAsset: currencyToBuy,
-        fiatAmount: 20,
-        digitalAssetAmount: 20,
-        txType: 'buy',
-      })
-      setModalVisible(true)
-      const rampProvider = providers?.find((provider) => provider.name === 'Ramp')
-      const rampAvailable = !!(
-        rampProvider &&
-        rampProvider?.cashIn &&
-        !rampProvider.restricted &&
-        !rampProvider.unavailable
-      )
-      return {
-        rampAvailable,
-        rampURL: rampProvider?.url,
+  const asyncRampInfo = useAsync(
+    async () => {
+      if (!account) {
+        Logger.error(TAG, 'No account set')
+        return
       }
-    } catch (error) {
-      Logger.error(TAG, 'Failed to fetch CICO providers')
-      setModalVisible(true)
+      // Use cEUR if that is their local currency, otherwise default to cUSD
+      const currencyToBuy =
+        localCurrency === LocalCurrencyCode.EUR ? CiCoCurrency.CEUR : CiCoCurrency.CUSD
+
+      try {
+        const providers = await fetchProviders({
+          userLocation,
+          walletAddress: account,
+          fiatCurrency: localCurrency,
+          digitalAsset: currencyToBuy,
+          fiatAmount: 20,
+          digitalAssetAmount: 20,
+          txType: 'buy',
+        })
+        const rampProvider = providers?.find((provider) => provider.name === 'Ramp')
+        const rampAvailable = !!(
+          rampProvider &&
+          rampProvider?.cashIn &&
+          !rampProvider.restricted &&
+          !rampProvider.unavailable
+        )
+        return {
+          rampAvailable,
+          rampURL: rampProvider?.url,
+        }
+      } catch (error) {
+        Logger.error(TAG, 'Failed to fetch CICO providers')
+      }
+    },
+    [],
+    {
+      onSuccess: () => setModalVisible(true),
+      onError: () => setModalVisible(true),
     }
-  }, [])
+  )
 
   const { result: { rampAvailable = false, rampURL = '' } = {} } = asyncRampInfo
 
