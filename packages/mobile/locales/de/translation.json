@@ -1118,7 +1118,7 @@
   },
   "outOfSyncBanner": {
     "title": "Du bist offline.",
-    "message": "Dein Kontostand ist möglicherweise nicht aktuell.",
-    "button": "Auffrischen"
+    "message": "Dein Saldo ist möglicherweise nicht aktuell.",
+    "button": "Aktualisieren"
   }
 }
