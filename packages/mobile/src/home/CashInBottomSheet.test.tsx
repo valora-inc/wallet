@@ -25,56 +25,19 @@ const mockRampProvider = {
 }
 
 const mockRampProviderUnavailable = {
-  name: 'Ramp',
-  restricted: false,
-  paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-  url: 'www.fakewebsite.com',
-  logo:
-    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-  quote: [
-    { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
-  ],
-  cashIn: true,
-  cashOut: false,
+  ...mockRampProvider,
   unavailable: true,
 }
 
 const mockRampProviderRestricted = {
-  name: 'Ramp',
+  ...mockRampProvider,
   restricted: true,
-  paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-  url: 'www.fakewebsite.com',
-  logo:
-    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-  quote: [
-    { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
-  ],
-  cashIn: true,
-  cashOut: false,
-  unavailable: false,
 }
 
 const mockRampProviderNoCashIn = {
-  name: 'Ramp',
-  restricted: false,
-  paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-  url: 'www.fakewebsite.com',
-  logo:
-    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-  quote: [
-    { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
-  ],
+  ...mockRampProvider,
   cashIn: false,
-  cashOut: false,
-  unavailable: false,
 }
-
-// jest.mock('src/fiatExchanges/utils', () => ({
-//   ...(jest.requireActual('src/fiatExchanges/utils') as any),
-//   fetchProviders: jest.fn(() => [
-//     mockRampProvider
-//   ]),
-// }))
 
 describe('CashInBottomSheet', () => {
   const mockFetch = fetch as FetchMock
@@ -124,7 +87,7 @@ describe('CashInBottomSheet', () => {
     const { getByTestId } = render(
       <Provider
         store={createMockStore({
-          app: { rampCashInButtonExpEnabled: false },
+          app: { rampCashInButtonExpEnabled: true },
         })}
       >
         <CashInBottomSheet />
@@ -137,7 +100,7 @@ describe('CashInBottomSheet', () => {
     const { getByTestId } = render(
       <Provider
         store={createMockStore({
-          app: { rampCashInButtonExpEnabled: false },
+          app: { rampCashInButtonExpEnabled: true },
         })}
       >
         <CashInBottomSheet />
@@ -150,7 +113,7 @@ describe('CashInBottomSheet', () => {
     const { getByTestId } = render(
       <Provider
         store={createMockStore({
-          app: { rampCashInButtonExpEnabled: false },
+          app: { rampCashInButtonExpEnabled: true },
         })}
       >
         <CashInBottomSheet />

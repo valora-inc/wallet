@@ -70,6 +70,11 @@ function CashInBottomSheet() {
           !rampProvider.restricted &&
           !rampProvider.unavailable
         )
+        if (rampAvailable) {
+          // This event can be used as an activation event to limit the experiment
+          // analysis to users that have ramp available to them
+          ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available)
+        }
         return {
           rampAvailable,
           rampURL: rampProvider?.url,
@@ -91,7 +96,7 @@ function CashInBottomSheet() {
     onDismissBottomSheet()
 
     navigateToURI(rampURL)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected)
   }
 
   const goToAddFunds = () => {
