@@ -164,7 +164,7 @@
   "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
     "header": "Wöchentliche Auszahlung",
-    "text": "Sende und gib aus wie gewohnt und erhalte Rewards auf den verbleibenden Guthaben."
+    "text": "Sende und gib aus wie gewohnt. Erhalte Rewards auf den verbleibenden Guthaben."
   },
   "noMinCommitment": {
     "header": "Automatische Rewards",
@@ -173,9 +173,9 @@
   },
   "saveMoreEarnMore": {
     "header": "Erhöhe dein Guthaben",
-    "text": "Mache eine Anzahlung von {{maxBalance}} {{currency}} um deine {{percent}}% Rewards im Jahr auszuschöpfen."
+    "text": "Mit einem Guthaben von {{maxBalance}} {{currency}} bekommst du maximale Rewards."
   },
-  "conclusion": "Das ist so einfach. Lade deine Krypto noch heute auf!",
+  "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
