@@ -43,7 +43,7 @@ function CashInBottomSheet() {
     setModalVisible(false)
   }
 
-  const asyncProviders = useAsync(async () => {
+  const asyncRampInfo = useAsync(async () => {
     if (!account) {
       Logger.error(TAG, 'No account set')
       setModalVisible(true)
@@ -64,26 +64,29 @@ function CashInBottomSheet() {
         txType: 'buy',
       })
       setModalVisible(true)
-      return providers
+      const rampProvider = providers?.find((provider) => provider.name === 'Ramp')
+      const rampAvailable = !!(
+        rampProvider &&
+        rampProvider?.cashIn &&
+        !rampProvider.restricted &&
+        !rampProvider.unavailable
+      )
+      return {
+        rampAvailable,
+        rampURL: rampProvider?.url,
+      }
     } catch (error) {
       Logger.error(TAG, 'Failed to fetch CICO providers')
       setModalVisible(true)
     }
   }, [])
 
-  const rampProvider = asyncProviders.result?.find((provider) => provider.name === 'Ramp')
-  const rampAvailable = !!(
-    rampProvider &&
-    rampProvider?.cashIn &&
-    !rampProvider.restricted &&
-    rampProvider.url &&
-    !rampProvider.unavailable
-  )
+  const { result: { rampAvailable = false, rampURL = '' } = {} } = asyncRampInfo
 
   const goToRamp = () => {
     onDismissBottomSheet()
 
-    rampAvailable && rampProvider?.url && navigateToURI(rampProvider.url)
+    navigateToURI(rampURL)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp)
   }
 
@@ -130,7 +133,7 @@ function CashInBottomSheet() {
               size={BtnSizes.FULL}
               onPress={goToRamp}
               style={styles.addFundBtn}
-              testID={'cashInBtn'}
+              testID={'cashInBtnRamp'}
             />
           </>
         ) : (
