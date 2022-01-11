@@ -4,7 +4,6 @@ import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
-import { mockUniqueId } from '../../__mocks__/react-native-device-info'
 
 jest.mock('@segment/analytics-react-native', () => ({
   __esModule: true,
@@ -22,7 +21,7 @@ jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 
-const mockDeviceId = mockUniqueId
+const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
 const expectedSessionId = 'b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 
 Date.now = jest.fn(() => 1482363367071)
