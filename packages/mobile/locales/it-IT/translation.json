@@ -58,7 +58,7 @@
   "selectCurrency": "Select Currency",
   "continue": "Continue",
   "yourName": "Your Name",
-  "version": "Versione {{appVersion}}",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -744,8 +744,8 @@
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages_all": "Resend all messages",
-    "resendMessages": "Reinvia l'ultimo messaggio",
-    "resendMessages_plural": "Reinvia {{count}} messaggi"
+    "resendMessages": "Resend last message",
+    "resendMessages_plural": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -757,8 +757,8 @@
       "title": "Missing some or all messages?",
       "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L'opzione skip sottostante sarà disponibile in {{count}} secondo.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L'opzione di salto sottostante sarà disponibile in {{count}} secondi."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
@@ -1075,7 +1075,7 @@
   },
   "supportEmailSubject": "{{appName}} supporto per {{user}}",
   "personaAccountEndpointFail": "La verifica dell'identità non è attualmente disponibile. Per favore riprova più tardi",
-  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Per favore riprova più tardi",
+  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Prova di nuovo",
     "verifying": {
@@ -1092,7 +1092,7 @@
     },
     "pending": {
       "title": "Revisione in corso",
-      "description": "Le tue informazioni sono state ricevute e vengono esaminate."
+      "description": "Your information has been received and is being reviewed."
     },
     "begin": {
       "label": "Passo 1",
@@ -1115,10 +1115,10 @@
     "buttonText": "Connetti"
   },
   "outOfSyncBanner": {
-    "title": "Sei offline.",
-    "message": "I tuoi saldi potrebbero non essere aggiornati.",
-    "button": "Aggiorna"
+    "title": "You're offline.",
+    "message": "Your balances may not be up to date.",
+    "button": "Refresh"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollari"
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
