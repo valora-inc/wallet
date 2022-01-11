@@ -276,7 +276,7 @@
   },
   "cashOutEducationDialog": {
     "title": "Abheben von {{appName}}",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollar (cUSD) und Celo Euro (cEUR), einer stabilen digitalen Währung, die den US-Dollar und Euro verfolgt.\n\nUm dein {{appName}} Saldo abzuheben, verkaufe cUSD oder cEUR mit einem der Drittanbieter in deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollar (cUSD) und Celo Euro (cEUR), einer stabilen digitalen Währung, die den US-Dollar und Euro verfolgt.\n\nUm dein {{appName}} Guthaben abzuheben, verkaufe cUSD oder cEUR mit einem der Drittanbieter in deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -1015,7 +1015,7 @@
   "feedItemNetworkFeeTitle": "Celo",
   "feedItemNetworkFeeInfo": "Netzwerkgebühr",
   "feedItemVerificationRewardTitle": "Celo",
-  "feedItemVerificationRewardInfo": "Bestätigungsbelohnung",
+  "feedItemVerificationRewardInfo": "Bestätigungsrewards",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1031,7 +1031,7 @@
   "feedItemRewardReceivedTitle": "Celo-Netzwerk",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
   "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
-  "feedItemInviteRewardReceivedInfo": "Belohnung erhalten",
+  "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
   "feedItemReceivedInfo_noComment": "Zahlung erhalten",
@@ -1059,7 +1059,7 @@
   "transactionHeaderEscrowSent": "Escrow-Zahlung gesendet",
   "transactionHeaderReceived": "Zahlung erhalten",
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
-  "transactionHeaderCeloReward": "Belohnung erhalten",
+  "transactionHeaderCeloReward": "Rewards erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
@@ -1118,7 +1118,7 @@
   },
   "outOfSyncBanner": {
     "title": "Du bist offline.",
-    "message": "Dein Saldo ist möglicherweise nicht aktuell.",
+    "message": "Dein Guthaben ist möglicherweise nicht aktuell.",
     "button": "Aktualisieren"
   }
 }
