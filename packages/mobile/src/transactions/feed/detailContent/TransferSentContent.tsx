@@ -31,6 +31,10 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
   const recipient = getRecipientFromAddress(address, info, metadata.title, metadata.image)
 
   const { securityFee, dekFee, totalFee, feeCurrency } = usePaidFees(fees)
+  const totalFromFeesInLocal = fees.reduce(
+    (sum, fee) => sum.plus(fee.amount?.localAmount?.value ?? 0),
+    new BigNumber(0)
+  )
 
   return (
     <>
@@ -48,6 +52,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
           <TokenDisplay
             amount={amount.value}
             tokenAddress={amount.tokenAddress}
+            localAmount={amount.localAmount}
             hideSign={true}
             testID="SentAmount"
           />
@@ -63,6 +68,17 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
       <TokenTotalLineItem
         tokenAmount={new BigNumber(amount.value)}
         tokenAddress={amount.tokenAddress}
+        localAmount={
+          amount.localAmount
+            ? {
+                ...amount.localAmount,
+                value: new BigNumber(amount.localAmount.value)
+                  .absoluteValue()
+                  .plus(totalFromFeesInLocal)
+                  .toString(),
+              }
+            : undefined
+        }
         feeToAddInUsd={undefined}
         hideSign={true}
       />

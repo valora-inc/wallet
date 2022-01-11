@@ -118,21 +118,22 @@ describe('TokenDisplay', () => {
       expect(getElementText(getByTestId('test'))).toEqual('10.00')
     })
 
-    it('overrides local exchange rate with currency info', () => {
+    it('uses the localAmount if set', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
           <TokenDisplay
             amount={10}
             tokenAddress={'0xcelo'}
-            currencyInfo={{
-              localCurrencyCode: LocalCurrencyCode.PHP,
-              localExchangeRate: '0.5',
+            localAmount={{
+              currencyCode: LocalCurrencyCode.PHP,
+              exchangeRate: '0.5',
+              value: '5',
             }}
             testID="test"
           />
         </Provider>
       )
-      expect(getElementText(getByTestId('test'))).toEqual('₱25.00')
+      expect(getElementText(getByTestId('test'))).toEqual('₱5.00')
     })
 
     it('shows explicit plus sign', () => {
@@ -166,6 +167,24 @@ describe('TokenDisplay', () => {
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-')
+    })
+
+    it('doesnt show error when the token doesnt exist if theres a localAmount', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay
+            amount={10}
+            tokenAddress={'0xdoesntexist'}
+            localAmount={{
+              currencyCode: LocalCurrencyCode.PHP,
+              exchangeRate: '0.5',
+              value: '5',
+            }}
+            testID="test"
+          />
+        </Provider>
+      )
+      expect(getElementText(getByTestId('test'))).toEqual('₱5.00')
     })
 
     it('hides the sign', () => {
