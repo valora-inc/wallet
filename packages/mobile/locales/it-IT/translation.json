@@ -1,20 +1,20 @@
 {
   "invite": "Invite",
   "celoRewards": "Celo Rewards",
-  "languageSettings": "Language",
+  "languageSettings": "Lingua",
   "localCurrencySetting": "Currency",
-  "licenses": "Licenses",
+  "licenses": "Licenze",
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
-  "securityAndData": "Security and Data",
-  "changePin": "Change PIN",
+  "securityAndData": "Sicurezza e dati",
+  "changePin": "Cambia PIN",
   "pinChanged": "PIN changed",
-  "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "pinChangeFailed": "Cambiare il PIN non è riuscito",
+  "requirePinOnAppOpen": "Richiedi il PIN all'apertura dell'app",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
-  "shareAnalytics": "Share Analytics",
+  "shareAnalytics": "Condividi le analisi",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
@@ -58,7 +58,7 @@
   "selectCurrency": "Select Currency",
   "continue": "Continue",
   "yourName": "Your Name",
-  "version": "Versione {{appVersion}}",
+  "version": "Version {{appVersion}}",
   "addressCopied": "Address copied to clipboard",
   "support": "Support",
   "contact": "Contact",
@@ -743,9 +743,9 @@
     "codePlaceholder3": "Copy the third message",
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
+    "resendMessages_all": "Resend all messages",
     "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages",
-    "resendMessages_all": "Resend all messages"
+    "resendMessages_plural": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -802,8 +802,6 @@
   "characterLimitExceeded": "{{max}} Character Limit Exceeded",
   "payRequest": "Pay Request",
   "sendTo": "Send to",
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars",
   "addDescription": "Add description",
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
@@ -1077,7 +1075,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Per favore riprova più tardi",
+  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
@@ -1094,7 +1092,7 @@
     },
     "pending": {
       "title": "Review in progress",
-      "description": "Le tue informazioni sono state ricevute e vengono esaminate."
+      "description": "Your information has been received and is being reviewed."
     },
     "begin": {
       "label": "Step 1",
@@ -1117,8 +1115,10 @@
     "buttonText": "Connect"
   },
   "outOfSyncBanner": {
-    "title": "Sei offline.",
-    "message": "I tuoi saldi potrebbero non essere aggiornati.",
-    "button": "Aggiorna"
-  }
+    "title": "You're offline.",
+    "message": "Your balances may not be up to date.",
+    "button": "Refresh"
+  },
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
