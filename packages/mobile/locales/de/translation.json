@@ -248,7 +248,7 @@
   "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deiner Region",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
   "cashOut": "Guthaben abheben",
-  "cashOutSubtitle": "Gib für Geschenkgutscheine und andere Käufe aus oder sende Krypto an einen Kryptobörse",
+  "cashOutSubtitle": "Verwende Dein Guthaben für Geschenkgutscheine und Einkäufe oder sende es an Kryptobörsen",
   "cashOutComingSoon": "Guthaben abheben (demnächst verfügbar)",
   "spend": "Ausgeben",
   "spendSubtitle": "Verwende dein Guthaben bei unterstützenden Händlern",
@@ -524,7 +524,7 @@
   "goldEducationSteps": [
     {
       "title": "Was ist CELO?",
-      "text": "CELO ist eine digitale Währung, die den Celo Dollar (cUSD) stabil hält."
+      "text": "CELO ist eine digitale Währung, die Celo Dollar (cUSD) und Celo Euro (cEUR) stabil hält."
     },
     {
       "title": "CELO Preisveränderungen",
