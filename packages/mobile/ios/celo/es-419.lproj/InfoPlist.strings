@@ -1,7 +1,7 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
-"NSCameraUsageDescription" = "Conectar tu cámara te permite escanear códigos para hacer pagos.";
-"NSContactsUsageDescription" = "Conectar tu lista de contactos hace que enviar y solicitar pagos a tus amigos sea aún más fácil.";
-"NSPhotoLibraryAddUsageDescription" = "Conectar tu galería de fotos te permite guardar tu código en tus fotos.";
-"NSPhotoLibraryUsageDescription" = "También es necesario para poder elegir una foto de perfil.";
-"NSUserTrackingUsageDescription" = "Utilizamos el identificador de publicidad para detectar las instalaciones ligadas a campañas publicitarias.";
+"NSCameraUsageDescription" = "Connecting your camera allows you to scan codes for payments.";
+"NSContactsUsageDescription" = "Adding your contacts makes it easy to send and request payments with your friends.";
+"NSPhotoLibraryAddUsageDescription" = "Connecting your photo library allows you to save your code to your photos.";
+"NSPhotoLibraryUsageDescription" = "This is required for you to choose a profile picture.";
+"NSUserTrackingUsageDescription" = "We use the advertising identifier to accurately attribute app installs from ad campaigns.";
