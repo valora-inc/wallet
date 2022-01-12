@@ -2,7 +2,6 @@ import { trimLeading0x } from '@celo/utils/lib/address'
 import { sanitizeMessageBase64 } from '@celo/utils/lib/attestations'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
-import { TokenBalance } from 'src/tokens/reducer'
 import url from 'url'
 
 export type ExtractedInviteCodeAndPrivateKey = null | {
