@@ -5,7 +5,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
@@ -24,12 +24,12 @@ import {
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import i18n from 'src/i18n'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { isAppConnected } from 'src/redux/selectors'
@@ -59,6 +59,7 @@ function ImportWallet({ navigation, route }: Props) {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const registrationStep = useRegistrationStep(3)
 
   async function autocompleteSavedMnemonic() {
     if (!accountToRecoverFromStoreWipe) {
@@ -70,6 +71,21 @@ function ImportWallet({ navigation, route }: Props) {
       onPressRestore()
     }
   }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TopBarTextButtonOnboarding
+          title={t('cancel')}
+          // Note: redux state reset is handled by UseBackToWelcomeScreen
+          onPress={() => navigate(Screens.Welcome)}
+        />
+      ),
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle title={t('importIt')} subTitle={registrationStep} />
+      ),
+    })
+  }, [navigation, registrationStep])
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
@@ -219,22 +235,7 @@ function ImportWallet({ navigation, route }: Props) {
   )
 }
 
-ImportWallet.navigationOptions = {
-  ...nuxNavigationOptions,
-  headerLeft: () => (
-    <TopBarTextButtonOnboarding
-      title={i18n.t('cancel')}
-      // Note: redux state reset is handled by UseBackToWelcomeScreen
-      onPress={() => navigate(Screens.Welcome)}
-    />
-  ),
-  headerTitle: () => (
-    <HeaderTitleWithSubtitle
-      title={i18n.t('importIt')}
-      subTitle={i18n.t('restoreAccountSteps', { step: '3' })}
-    />
-  ),
-}
+ImportWallet.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
