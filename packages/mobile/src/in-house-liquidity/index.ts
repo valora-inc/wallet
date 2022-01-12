@@ -13,6 +13,8 @@ interface CreateLinkTokenParams {
   phoneNumber: string
 }
 
+const keyEncoder = new KeyEncoder('secp256k1')
+
 /**
  * Create a new Plaid Link Token by calling IHL
  *
@@ -122,7 +124,6 @@ export const getAuthHeader = async ({
   accountMTWAddress: string
   dekPrivate: string
 }): Promise<string> => {
-  const keyEncoder = new KeyEncoder('secp256k1')
   const dekPrivatePem = keyEncoder.encodePrivate(trimLeading0x(dekPrivate), 'raw', 'pem')
   const dekPublicHex = compressedPubKey(hexToBuffer(dekPrivate))
   const dekPublicPem = keyEncoder.encodePublic(trimLeading0x(dekPublicHex), 'raw', 'pem')
