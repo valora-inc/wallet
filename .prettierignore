@@ -11,7 +11,9 @@ packages/**/dist
 packages/**/lib
 
 packages/mobile/android/app/build
+# Ignore Images.xcassets as Xcode reformats them anyway when saving
 packages/mobile/branding/celo/ios/celo/Images.xcassets
+packages/mobile/ios/celo/Images.xcassets
 packages/mobile/ios/Pods
 packages/mobile/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
 packages/mobile/src/verify/backgroundAnim.json
