@@ -16,6 +16,7 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { default as useSelector } from 'src/redux/useSelector'
 import Svg, { Path } from 'svgs'
 
@@ -39,16 +40,12 @@ export default function EnableBiometry({ navigation, route }: Props) {
   const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
+  const registrationStep = useRegistrationStep(choseToRestoreAccount ? 6 : 5)
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={t('enableBiometry.title')}
-          subTitle={t(choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps', {
-            step: choseToRestoreAccount ? '6' : '5',
-          })}
-        />
+        <HeaderTitleWithSubtitle title={t('enableBiometry.title')} subTitle={registrationStep} />
       ),
       headerRight: () => (
         <TopBarTextButton
