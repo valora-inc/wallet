@@ -109,6 +109,7 @@ runTest() {
     "${FILE_TO_RUN}" \
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
+    --record-videos=failing \
     --record-logs=failing \
     --loglevel info \
     --debug-synchronization 10000 \
