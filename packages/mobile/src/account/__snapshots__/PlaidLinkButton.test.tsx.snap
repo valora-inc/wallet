@@ -26,6 +26,11 @@ exports[`PlaidLinkButton renders correctly 1`] = `
     }
   >
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={

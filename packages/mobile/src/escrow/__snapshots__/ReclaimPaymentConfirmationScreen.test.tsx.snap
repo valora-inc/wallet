@@ -647,9 +647,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 testID="LineItemLoading"
               >
                 <ActivityIndicator
-                  animating={true}
                   color="#42D689"
-                  hidesWhenStopped={true}
                   size="small"
                 />
               </View>
@@ -787,6 +785,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -905,6 +908,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -977,6 +985,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -1841,6 +1854,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -1959,6 +1977,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -2031,6 +2054,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -2745,9 +2773,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 testID="LineItemLoading"
               >
                 <ActivityIndicator
-                  animating={true}
                   color="#42D689"
-                  hidesWhenStopped={true}
                   size="small"
                 />
               </View>
@@ -2885,6 +2911,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -3003,6 +3034,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -3075,6 +3111,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -3925,6 +3966,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -4043,6 +4089,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -4115,6 +4166,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -4829,9 +4885,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 testID="LineItemLoading"
               >
                 <ActivityIndicator
-                  animating={true}
                   color="#42D689"
-                  hidesWhenStopped={true}
                   size="small"
                 />
               </View>
@@ -4969,6 +5023,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -5087,6 +5146,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -5159,6 +5223,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -6023,6 +6092,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   }
                 >
                   <View
+                    accessibilityState={
+                      Object {
+                        "disabled": true,
+                      }
+                    }
                     accessible={true}
                     focusable={false}
                     nativeBackgroundAndroid={
@@ -6141,6 +6215,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -6213,6 +6292,11 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={

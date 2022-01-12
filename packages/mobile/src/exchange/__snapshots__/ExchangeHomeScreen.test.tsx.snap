@@ -261,9 +261,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#EEB93C"
-          hidesWhenStopped={true}
           size="large"
         />
       </View>
@@ -458,6 +456,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           activity
         </Text>
       </View>
+      <TransactionsList
+        feedType="exchange"
+      />
     </RNCSafeAreaView>
   </RCTScrollView>
 </RNCSafeAreaView>
@@ -724,9 +725,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#EEB93C"
-          hidesWhenStopped={true}
           size="large"
         />
       </View>
@@ -1098,6 +1097,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           activity
         </Text>
       </View>
+      <TransactionsList
+        feedType="exchange"
+      />
     </RNCSafeAreaView>
   </RCTScrollView>
 </RNCSafeAreaView>
