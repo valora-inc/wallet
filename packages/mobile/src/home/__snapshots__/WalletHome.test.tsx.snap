@@ -626,6 +626,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
@@ -703,6 +708,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
@@ -750,6 +760,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
       </View>
     </View>
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={

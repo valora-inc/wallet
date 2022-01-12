@@ -100,7 +100,6 @@ exports[`SettingsItemInput renders correctly 1`] = `
             ]
           }
           testID="testID"
-          underlineColorAndroid="transparent"
           value="value"
         />
       </View>
