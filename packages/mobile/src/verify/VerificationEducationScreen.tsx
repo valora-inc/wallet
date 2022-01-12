@@ -150,7 +150,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         )
 
     navigation.setOptions({
-      ...nuxNavigationOptions,
       headerTitle: title,
       headerRight: () =>
         !route.params?.hideOnboardingStep && (
@@ -410,6 +409,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     </View>
   )
 }
+
+VerificationEducationScreen.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {

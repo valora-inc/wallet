@@ -74,7 +74,6 @@ function ImportWallet({ navigation, route }: Props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      ...nuxNavigationOptions,
       headerLeft: () => (
         <TopBarTextButtonOnboarding
           title={t('cancel')}
@@ -86,7 +85,7 @@ function ImportWallet({ navigation, route }: Props) {
         <HeaderTitleWithSubtitle title={t('importIt')} subTitle={registrationStep} />
       ),
     })
-  }, [navigation, registrationStep, route.params])
+  }, [navigation, registrationStep])
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
@@ -235,6 +234,8 @@ function ImportWallet({ navigation, route }: Props) {
     </HeaderHeightContext.Consumer>
   )
 }
+
+ImportWallet.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
