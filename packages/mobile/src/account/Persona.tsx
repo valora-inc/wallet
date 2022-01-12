@@ -85,7 +85,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       }
 
       if (!dekPrivate) {
-        Logger.error(TAG, 'Cannot render Persona because DEK is null')
+        Logger.error(TAG, 'Cannot render Persona because dekPrivate is null')
         return
       }
 
