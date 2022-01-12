@@ -111,7 +111,7 @@ runTest() {
     --take-screenshots=failing \
     --record-videos=failing \
     --record-logs=failing \
-    --loglevel info \
+    --loglevel trace \
     --debug-synchronization 10000 \
     --workers $WORKERS \
     --retries $RETRIES \
