@@ -90,7 +90,7 @@ const initialState = {
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   supportedBiometryType: null,
-  biometryEnabled: false,
+  biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   useBiometry: false,
 }
 
@@ -208,7 +208,7 @@ export const appReducer = (
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
-        biometryEnabled: action.configValues.biometryEnabled,
+        biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
