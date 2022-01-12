@@ -679,8 +679,8 @@
   },
   "createAccount": "Criar conta",
   "restoreAccount": "Restaurar conta existente",
-  "createAccountSteps": "Step {{step}} of {{totalSteps}}",
-  "restoreAccountSteps": "Step {{step}} of {{totalSteps}}",
+  "createAccountSteps": "Passo {{step}} de {{totalSteps}}",
+  "restoreAccountSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
@@ -1064,8 +1064,8 @@
     "title": "Adicione fundos para começar a usar Valora!",
     "subtitle": "Atualmente sua conta está vazia",
     "addFunds": "Adicionar Fundos",
-    "titleRamp": "Add {{currency}} to start using Valora",
-    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
+    "titleRamp": "Adicione {{currency}} para começar a usar Valora",
+    "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
   },
   "balances": "Saldo",
   "totalValue": "Saldo total",
