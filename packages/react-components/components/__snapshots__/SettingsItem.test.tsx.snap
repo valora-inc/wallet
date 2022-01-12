@@ -68,12 +68,10 @@ exports[`SettingsItemInput renders correctly 1`] = `
         }
       >
         <TextInput
-          allowFontScaling={true}
           multiline={true}
           onBlur={[Function]}
           onChangeText={[MockFunction]}
           onFocus={[Function]}
-          rejectResponderTermination={true}
           style={
             Array [
               Object {
@@ -102,7 +100,6 @@ exports[`SettingsItemInput renders correctly 1`] = `
             ]
           }
           testID="testID"
-          underlineColorAndroid="transparent"
           value="value"
         />
       </View>

@@ -95,6 +95,11 @@ exports[`renders correctly when disconnected 1`] = `
     }
   >
     <View
+      accessibilityState={
+        Object {
+          "disabled": true,
+        }
+      }
       accessible={true}
       focusable={false}
       nativeBackgroundAndroid={

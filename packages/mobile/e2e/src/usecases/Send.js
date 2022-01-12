@@ -2,7 +2,7 @@ import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
-const faker = require('faker')
+const faker = require('@faker-js/faker')
 
 const AMOUNT_TO_SEND = '0.1'
 const AMOUNT_TO_REQUEST = '0.1'

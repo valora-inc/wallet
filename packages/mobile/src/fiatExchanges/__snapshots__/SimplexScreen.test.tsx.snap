@@ -889,6 +889,11 @@ exports[`SimplexScreen renders correctly 1`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={
@@ -919,9 +924,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <ActivityIndicator
-            animating={true}
             color="#FFFFFF"
-            hidesWhenStopped={true}
             size="small"
           />
         </View>
@@ -1820,6 +1823,11 @@ exports[`SimplexScreen renders correctly 2`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={

@@ -26,7 +26,7 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
         // TODO: fix type
         processColor(colors.gray2) as any,
         processColor('transparent') as any
-      ),
+      ) as any,
     }),
     [scrollPosition]
   )

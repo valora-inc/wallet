@@ -285,12 +285,11 @@ export function* watchOpenUrl() {
 
 function createAppStateChannel() {
   return eventChannel((emit: any) => {
-    AppState.addEventListener('change', emit)
+    const appStateListener = AppState.addEventListener('change', emit)
 
-    const removeEventListener = () => {
-      AppState.removeEventListener('change', emit)
+    return () => {
+      appStateListener.remove()
     }
-    return removeEventListener
   })
 }
 

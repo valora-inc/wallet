@@ -446,6 +446,11 @@ exports[`renders correctly 1`] = `
                 }
               >
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
                   focusable={false}
                   nativeBackgroundAndroid={
@@ -979,6 +984,11 @@ exports[`renders correctly when local amount is null 1`] = `
                 }
               >
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
                   focusable={false}
                   nativeBackgroundAndroid={
@@ -1919,6 +1929,11 @@ exports[`renders correctly with giant numbers 1`] = `
                 }
               >
                 <View
+                  accessibilityState={
+                    Object {
+                      "disabled": true,
+                    }
+                  }
                   accessible={true}
                   focusable={false}
                   nativeBackgroundAndroid={
