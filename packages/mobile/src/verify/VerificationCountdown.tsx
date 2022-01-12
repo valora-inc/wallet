@@ -43,7 +43,8 @@ export default function VerificationCountdown({ onFinish, startTime }: Props) {
     })
 
     return {
-      transform: [{ rotate }],
+      // TODO fix type
+      transform: [{ rotate }] as any,
     }
   }, [])
 

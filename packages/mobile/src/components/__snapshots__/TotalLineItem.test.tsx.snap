@@ -123,6 +123,11 @@ Array [
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={

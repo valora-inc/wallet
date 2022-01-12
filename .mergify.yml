@@ -34,6 +34,6 @@ pull_request_rules:
         # Updates with latest from main, then merges once CI passes
         name: default
         method: squash
-        commit_message_template: "{{ title }} ({{ number }})\n\n{{ body }}"
+        commit_message_template: "{{ title }} (#{{ number }})\n\n{{ body }}"
       delete_head_branch:
         force: False

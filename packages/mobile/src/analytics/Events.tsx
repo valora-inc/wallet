@@ -275,7 +275,10 @@ export enum SendEvents {
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
+  token_dropdown_opened = 'token_dropdown_opened',
   token_selected = 'token_selected', // A token was selected in TokenBottomSheet.
+  max_pressed = 'max_pressed',
+  swap_input_pressed = 'swap_input_pressed',
 
   // related to the alert that is shown when sending to an unknown address
   check_account_alert_shown = 'check_account_alert_shown',
@@ -364,6 +367,9 @@ export enum FiatExchangeEvents {
   // Add fund flow entered through home screen cash in bottom sheet
   cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
   cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
+  cico_add_funds_bottom_sheet_ramp_selected = 'cico_add_funds_bottom_sheet_ramp_selected',
+  cico_add_funds_bottom_sheet_ramp_available = 'cico_add_funds_bottom_sheet_ramp_available',
+
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',

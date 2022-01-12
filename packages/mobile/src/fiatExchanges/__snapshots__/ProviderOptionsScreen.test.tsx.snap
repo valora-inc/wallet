@@ -215,9 +215,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 1`] = 
   }
 >
   <ActivityIndicator
-    animating={true}
     color="#42D689"
-    hidesWhenStopped={true}
     size="large"
   />
 </View>
@@ -927,8 +925,10 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -951,8 +951,10 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}

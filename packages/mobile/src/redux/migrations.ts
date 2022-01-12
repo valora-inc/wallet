@@ -355,4 +355,11 @@ export const migrations = {
       sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
     },
   }),
+  26: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      rampCashInButtonExpEnabled: false,
+    },
+  }),
 }

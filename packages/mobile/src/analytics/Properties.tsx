@@ -668,9 +668,19 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
+  [SendEvents.token_dropdown_opened]: {
+    currentTokenAddress: string
+  }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
     tokenAddress: string
+  }
+  [SendEvents.max_pressed]: {
+    tokenAddress: string
+  }
+  [SendEvents.swap_input_pressed]: {
+    tokenAddress: string
+    swapToLocalAmount: boolean
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -895,8 +905,12 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: {
+    rampAvailable: boolean
+  }
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined

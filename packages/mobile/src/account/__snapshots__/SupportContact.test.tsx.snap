@@ -72,7 +72,6 @@ exports[`Contact renders correctly 1`] = `
         }
       >
         <TextInput
-          allowFontScaling={true}
           multiline={true}
           numberOfLines={10}
           onBlur={[Function]}
@@ -80,7 +79,6 @@ exports[`Contact renders correctly 1`] = `
           onFocus={[Function]}
           placeholder="contactMessagePlaceholder"
           placeholderTextColor="#9CA4A9"
-          rejectResponderTermination={true}
           style={
             Array [
               Object {
@@ -190,6 +188,11 @@ exports[`Contact renders correctly 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={

@@ -9,7 +9,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { makeExchangeRates } from 'test/values'
 
 // Mock this for now, as we get apollo issues
-jest.mock('src/transactions/TransactionsList')
+jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
