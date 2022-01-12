@@ -3,6 +3,8 @@ import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
 import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {
@@ -13,8 +15,15 @@ interface Props {
 function TokenPickerSelector({ tokenAddress, onChangeToken }: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
 
+  const onButtonPressed = () => {
+    onChangeToken()
+    ValoraAnalytics.track(SendEvents.token_dropdown_opened, {
+      currentTokenAddress: tokenAddress,
+    })
+  }
+
   return (
-    <Touchable style={styles.touchable} onPress={onChangeToken} testID="onChangeToken">
+    <Touchable style={styles.touchable} onPress={onButtonPressed} testID="onChangeToken">
       <View style={styles.container}>
         <Text allowFontScaling={false} style={styles.token}>
           {tokenInfo?.symbol}
