@@ -60,8 +60,12 @@ export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (to
   tokensList.sort(sortByUsdBalance)
 )
 
-export const coreTokensSelector = createSelector(tokensListSelector, (tokens) => {
+export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+})
+
+export const inviteTokensSelector = createSelector(coreTokensSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
 
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
