@@ -397,6 +397,7 @@
   "totalInEuros": "Celo Euros @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
+  "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "¡Uy!",
   "somethingWrong": "Algo salió mal.",
   "verifyFailed": "Error de confirmación",
@@ -678,8 +679,8 @@
   },
   "createAccount": "Crear Cuenta",
   "restoreAccount": "Restaurar cuenta existente",
-  "createAccountSteps": "Paso {{step}} de 3",
-  "restoreAccountSteps": "Paso {{step}} de 4",
+  "createAccountSteps": "Step {{step}} of {{totalSteps}}",
+  "restoreAccountSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
     "create": "Crea un PIN",
@@ -742,9 +743,9 @@
     "codePlaceholder3": "Copia el tercer mensaje",
     "codePlaceholder3_ios": "Toca o copia el tercer mensaje",
     "codePlaceholderWithCodeInClipboard": "¡Excelente! Pégalo aquí",
+    "resendMessages_all": "Reenviar todos los mensajes",
     "resendMessages": "Reenviar el último mensaje",
-    "resendMessages_plural": "Reenviar {{count}} mensajes",
-    "resendMessages_all": "Reenviar todos los mensajes"
+    "resendMessages_plural": "Reenviar {{count}} mensajes"
   },
   "verificationInputHelpDialog": {
     "title": "Ayuda",
@@ -801,8 +802,6 @@
   "characterLimitExceeded": "Límite de {{max}} caracteres superado",
   "payRequest": "Pagar la solicitud",
   "sendTo": "Enviar a",
-  "celoDollarAmount": "<0></0> Celo Dólar",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares",
   "addDescription": "Agregar descripción",
   "sentTo": "Enviado a",
   "withdrawnTo": "Retirado a",
@@ -1064,7 +1063,9 @@
   "cashInBottomSheet": {
     "title": "¡Agrega fondos para empezar a usar Valora!",
     "subtitle": "Actualmente tu cuenta está vacía",
-    "addFunds": "Agregar fondos"
+    "addFunds": "Agregar fondos",
+    "titleRamp": "Add {{currency}} to start using Valora",
+    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Saldo",
   "totalValue": "Saldo total",
@@ -1119,5 +1120,7 @@
     "title": "Estás desconectado.",
     "message": "Es posible que tus saldos no estén actualizados.",
     "button": "Refresca"
-  }
+  },
+  "celoDollarAmount": "<0></0> Celo Dólar",
+  "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
