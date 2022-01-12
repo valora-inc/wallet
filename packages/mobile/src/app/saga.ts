@@ -169,6 +169,7 @@ export interface RemoteConfigValues {
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
   cashInButtonExpEnabled: boolean
+  rampCashInButtonExpEnabled: boolean
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean

@@ -40,6 +40,7 @@ export interface State {
     [lang: string]: string
   }
   cashInButtonExpEnabled: boolean
+  rampCashInButtonExpEnabled: boolean
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
@@ -81,6 +82,7 @@ const initialState = {
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
+  rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
@@ -193,6 +195,7 @@ export const appReducer = (
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
         cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
+        rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,

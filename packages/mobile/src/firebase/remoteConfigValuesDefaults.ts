@@ -33,6 +33,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
     de: 'Belohnungen',
   }),
   cashInButtonExpEnabled: false,
+  rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   multiTokenShowHomeBalances: true,
   multiTokenUseSendFlow: false,
