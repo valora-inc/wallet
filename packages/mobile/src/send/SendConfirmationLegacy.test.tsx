@@ -284,14 +284,13 @@ describe('SendConfirmationLegacy', () => {
     expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
-  it('renders correct modal for invitations', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
+  it('renders correct modal for invitations', () => {
+    mockedGetSendFee.mockResolvedValue(TEST_FEE_INFO_CUSD)
 
     const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-    // Fire event press not working here so instead we call the onClick directly
-    getByTestId('ConfirmButton').props.onClick()
+    fireEvent.press(getByTestId('ConfirmButton'))
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

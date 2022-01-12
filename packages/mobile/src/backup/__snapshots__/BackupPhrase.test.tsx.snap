@@ -250,6 +250,11 @@ exports[`renders correctly with backup not completed 1`] = `
       }
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": true,
+          }
+        }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={

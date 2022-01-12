@@ -35,6 +35,11 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
     }
   >
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={
@@ -178,7 +183,6 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
         }
       >
         <TextInput
-          allowFontScaling={true}
           countryCallingCode="+33"
           editable={true}
           keyboardType="phone-pad"
@@ -187,7 +191,6 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           onFocus={[Function]}
           placeholder="00 00 00 00 00"
           placeholderTextColor="#B4B9BD"
-          rejectResponderTermination={true}
           style={
             Array [
               Object {

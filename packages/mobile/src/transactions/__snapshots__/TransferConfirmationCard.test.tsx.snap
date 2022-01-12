@@ -47,6 +47,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               withdrawnTo
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -689,6 +694,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -912,6 +922,11 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1059,6 +1074,11 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               receivedFrom
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1457,6 +1477,11 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1590,6 +1615,11 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               receivedFrom
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -1978,6 +2008,11 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -2111,6 +2146,11 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               receivedFrom
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -2499,6 +2539,11 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -2632,6 +2677,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               sentTo
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -3274,6 +3324,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -3406,6 +3461,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               sentTo
             </Text>
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -4048,6 +4108,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -4270,6 +4335,11 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
