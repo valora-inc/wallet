@@ -27,6 +27,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   pincodeUseExpandedBlocklist: true,
   rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
   cashInButtonExpEnabled: false,
+  rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   multiTokenShowHomeBalances: false,
   multiTokenUseSendFlow: false,
