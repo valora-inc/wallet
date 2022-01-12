@@ -1,7 +1,6 @@
 import { Countries } from '@celo/utils/lib/countries'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
-import { biometryEnabledSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -48,14 +47,3 @@ export const backupCompletedSelector = (state: RootState) => state.account.backu
 
 export const choseToRestoreAccountSelector = (state: RootState) =>
   state.account.choseToRestoreAccount
-
-export const totalRegistrationStepsSelector = createSelector(
-  choseToRestoreAccountSelector,
-  biometryEnabledSelector,
-  (chooseRestoreAccount, biometryEnabled) => {
-    if (biometryEnabled) {
-      chooseRestoreAccount ? 5 : 4
-    }
-    return chooseRestoreAccount ? 4 : 3
-  }
-)

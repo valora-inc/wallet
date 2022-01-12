@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { e164NumberSelector } from 'src/account/selectors'
+import { choseToRestoreAccountSelector, e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { RootState } from 'src/redux/reducers'
@@ -114,3 +114,13 @@ export const biometryEnabledSelector = (state: RootState) =>
   state.app.biometryEnabled && !!state.app.supportedBiometryType
 
 export const useBiometrySelector = (state: RootState) => state.app.useBiometry
+
+export const totalRegistrationStepsSelector = createSelector(
+  [choseToRestoreAccountSelector, biometryEnabledSelector],
+  (chooseRestoreAccount, biometryEnabled) => {
+    if (biometryEnabled) {
+      chooseRestoreAccount ? 5 : 4
+    }
+    return chooseRestoreAccount ? 4 : 3
+  }
+)
