@@ -48,6 +48,7 @@ export interface State {
   sentryTracesSampleRate: number
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
+  useBiometry: boolean
 }
 
 const initialState = {
@@ -90,6 +91,7 @@ const initialState = {
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   supportedBiometryType: null,
   biometryEnabled: false,
+  useBiometry: false,
 }
 
 export const appReducer = (
@@ -155,6 +157,11 @@ export const appReducer = (
       return {
         ...state,
         requirePinOnAppOpen: action.enabled,
+      }
+    case Actions.SET_USE_BIOMETRY:
+      return {
+        ...state,
+        useBiometry: action.enabled,
       }
     case Actions.LOCK:
       return {

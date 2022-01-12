@@ -867,6 +867,7 @@ export const v26Schema = {
     ...v25Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
+    useBiometry: false,
     rampCashInButtonExpEnabled: false,
   },
 }

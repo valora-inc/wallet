@@ -19,6 +19,7 @@ export enum Actions {
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
   SET_LOCK_WITH_PIN_ENABLED = 'APP/SET_LOCK_WITH_PIN_ENABLED',
+  SET_USE_BIOMETRY = 'APP/USE_BIOMETRY',
   LOCK = 'APP/LOCK',
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
@@ -70,6 +71,11 @@ interface SetAnalyticsEnabled {
 
 interface SetRequirePinOnAppOpen {
   type: Actions.SET_LOCK_WITH_PIN_ENABLED
+  enabled: boolean
+}
+
+interface SetUseBiometry {
+  type: Actions.SET_USE_BIOMETRY
   enabled: boolean
 }
 
@@ -143,6 +149,7 @@ export type ActionTypes =
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
+  | SetUseBiometry
   | Lock
   | Unlock
   | SetSessionId
@@ -195,6 +202,11 @@ export const setAnalyticsEnabled = (enabled: boolean): SetAnalyticsEnabled => ({
 
 export const setRequirePinOnAppOpen = (enabled: boolean): SetRequirePinOnAppOpen => ({
   type: Actions.SET_LOCK_WITH_PIN_ENABLED,
+  enabled,
+})
+
+export const setUseBiometry = (enabled: boolean): SetUseBiometry => ({
+  type: Actions.SET_USE_BIOMETRY,
   enabled,
 })
 

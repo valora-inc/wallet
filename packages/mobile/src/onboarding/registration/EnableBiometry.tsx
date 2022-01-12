@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { setUseBiometry } from 'src/app/actions'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -37,6 +39,7 @@ const biometryButtonLabelMap: { [key in Keychain.BIOMETRY_TYPE]: string } = {
 
 export default function EnableBiometry({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
@@ -63,6 +66,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
   }, [navigation])
 
   const onPressUseBiometry = async () => {
+    dispatch(setUseBiometry(true))
     // do some stuff to use biometry
   }
 
