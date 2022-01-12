@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
+import { totalRegistrationStepsSelector } from 'src/account/selectors'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -35,6 +36,7 @@ interface StateProps {
   hideVerification: boolean
   useExpandedBlocklist: boolean
   account: string
+  totalRegistrationSteps: number
 }
 
 interface DispatchProps {
@@ -57,6 +59,7 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
+    totalRegistrationSteps: totalRegistrationStepsSelector(state),
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
@@ -85,7 +88,7 @@ export class PincodeSet extends React.Component<Props, State> {
                   route.params?.choseToRestoreAccount
                     ? 'restoreAccountSteps'
                     : 'createAccountSteps',
-                  { step: '2' }
+                  { step: '2', totalSteps: route.params?.totalRegistrationSteps }
                 )
           }
         />
@@ -114,7 +117,10 @@ export class PincodeSet extends React.Component<Props, State> {
     }
 
     // Setting choseToRestoreAccount on route param for navigationOptions
-    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
+    this.props.navigation.setParams({
+      choseToRestoreAccount: this.props.choseToRestoreAccount,
+      totalRegistrationSteps: this.props.totalRegistrationSteps,
+    })
   }
 
   isChangingPin() {

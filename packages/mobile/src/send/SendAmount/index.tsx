@@ -10,6 +10,8 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
 import {
@@ -157,6 +159,7 @@ function SendAmount(props: Props) {
         showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
       )
     )
+    ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
     setAmount(
@@ -167,6 +170,10 @@ function SendAmount(props: Props) {
       )
     )
     setUsingLocalAmount(!usingLocalAmount)
+    ValoraAnalytics.track(SendEvents.swap_input_pressed, {
+      tokenAddress: transferTokenAddress,
+      swapToLocalAmount: !usingLocalAmount,
+    })
   }
   const dispatch = useDispatch()
 
