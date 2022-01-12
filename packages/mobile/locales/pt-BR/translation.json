@@ -397,6 +397,7 @@
   "totalInEuros": "Celo Euros @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
+  "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Opa!",
   "somethingWrong": "Algo deu errado.",
   "verifyFailed": "Falha ao confirmar",
@@ -678,8 +679,8 @@
   },
   "createAccount": "Criar conta",
   "restoreAccount": "Restaurar conta existente",
-  "createAccountSteps": "Etapa {{step}} de 3",
-  "restoreAccountSteps": "Etapa {{step}} de 4",
+  "createAccountSteps": "Step {{step}} of {{totalSteps}}",
+  "restoreAccountSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
@@ -742,9 +743,9 @@
     "codePlaceholder3": "Copiar a terceira mensagem",
     "codePlaceholder3_ios": "Toque ou copie a terceira mensagem",
     "codePlaceholderWithCodeInClipboard": "Ótimo! Cole aqui",
+    "resendMessages_all": "Reenviar todas as mensagens",
     "resendMessages": "Reenviar última mensagem",
-    "resendMessages_plural": "Reenviar {{count}} mensagens",
-    "resendMessages_all": "Reenviar todas as mensagens"
+    "resendMessages_plural": "Reenviar {{count}} mensagens"
   },
   "verificationInputHelpDialog": {
     "title": "Ajuda",
@@ -801,8 +802,6 @@
   "characterLimitExceeded": "Limite de caracteres de {{max}} excedido",
   "payRequest": "Solicitação de pagamento",
   "sendTo": "Enviar para",
-  "celoDollarAmount": "<0></0> Celo Dólar ",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares ",
   "addDescription": "Adicionar descrição",
   "sentTo": "Enviar para",
   "withdrawnTo": "Transferido para",
@@ -1064,7 +1063,9 @@
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
     "subtitle": "Atualmente sua conta está vazia",
-    "addFunds": "Adicionar Fundos"
+    "addFunds": "Adicionar Fundos",
+    "titleRamp": "Add {{currency}} to start using Valora",
+    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Saldo",
   "totalValue": "Saldo total",
@@ -1119,5 +1120,7 @@
     "title": "Você está offline.",
     "message": "Seus saldos podem não estar em dia.",
     "button": "Atualização"
-  }
+  },
+  "celoDollarAmount": "<0></0> Celo Dólar ",
+  "celoDollarAmount_plural": "<0></0> Celo Dólares "
 }
