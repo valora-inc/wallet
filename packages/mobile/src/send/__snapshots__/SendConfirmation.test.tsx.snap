@@ -212,7 +212,6 @@ exports[`SendConfirmation renders correctly 1`] = `
                cUSD
             </Text>
             <TextInput
-              allowFontScaling={true}
               autoFocus={false}
               blurOnSubmit={true}
               maxLength={70}
@@ -222,7 +221,6 @@ exports[`SendConfirmation renders correctly 1`] = `
               onChangeText={[Function]}
               placeholder="addDescription"
               placeholderTextColor="#1AB775"
-              rejectResponderTermination={true}
               returnKeyType="done"
               style={
                 Object {
@@ -237,7 +235,6 @@ exports[`SendConfirmation renders correctly 1`] = `
                 }
               }
               testID="commentInput/send"
-              underlineColorAndroid="transparent"
               value=""
             />
           </View>
@@ -267,8 +264,10 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             <View
               accessible={true}
+              collapsable={false}
               focusable={true}
               forwardedRef={[Function]}
+              nativeID="animatedComponent"
               onClick={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -291,8 +290,10 @@ exports[`SendConfirmation renders correctly 1`] = `
               }
             />
             <View
+              collapsable={false}
               forwardedRef={[Function]}
               hideModalContentWhileAnimating={false}
+              nativeID="animatedComponent"
               onModalHide={[Function]}
               onModalWillHide={[Function]}
               onModalWillShow={[Function]}
@@ -523,8 +524,10 @@ exports[`SendConfirmation renders correctly 1`] = `
           >
             <View
               accessible={true}
+              collapsable={false}
               focusable={true}
               forwardedRef={[Function]}
+              nativeID="animatedComponent"
               onClick={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
@@ -547,8 +550,10 @@ exports[`SendConfirmation renders correctly 1`] = `
               }
             />
             <View
+              collapsable={false}
               forwardedRef={[Function]}
               hideModalContentWhileAnimating={false}
+              nativeID="animatedComponent"
               onModalHide={[Function]}
               onModalWillHide={[Function]}
               onModalWillShow={[Function]}
@@ -1050,6 +1055,11 @@ exports[`SendConfirmation renders correctly 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={

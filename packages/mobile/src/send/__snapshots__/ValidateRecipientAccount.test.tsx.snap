@@ -97,12 +97,10 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               }
             >
               <TextInput
-                allowFontScaling={true}
                 onBlur={[Function]}
                 onChangeText={[Function]}
                 onFocus={[Function]}
                 placeholder="0xf1b1d5a6e7728g309c4a025k122d71ad75a61976"
-                rejectResponderTermination={true}
                 shouldShowClipboard={[Function]}
                 style={
                   Array [
@@ -119,7 +117,6 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                     undefined,
                   ]
                 }
-                underlineColorAndroid="transparent"
                 value=""
               />
             </View>
@@ -290,8 +287,10 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -314,8 +313,10 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -723,13 +724,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 >
                   <TextInput
-                    allowFontScaling={true}
                     maxLength={1}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="k"
-                    rejectResponderTermination={true}
                     style={
                       Array [
                         Object {
@@ -746,7 +745,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       ]
                     }
                     testID="SingleDigitInput/digit0"
-                    underlineColorAndroid="transparent"
                     value=""
                   />
                 </View>
@@ -781,13 +779,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 >
                   <TextInput
-                    allowFontScaling={true}
                     maxLength={1}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="0"
-                    rejectResponderTermination={true}
                     style={
                       Array [
                         Object {
@@ -804,7 +800,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       ]
                     }
                     testID="SingleDigitInput/digit1"
-                    underlineColorAndroid="transparent"
                     value=""
                   />
                 </View>
@@ -839,13 +834,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 >
                   <TextInput
-                    allowFontScaling={true}
                     maxLength={1}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="F"
-                    rejectResponderTermination={true}
                     style={
                       Array [
                         Object {
@@ -862,7 +855,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       ]
                     }
                     testID="SingleDigitInput/digit2"
-                    underlineColorAndroid="transparent"
                     value=""
                   />
                 </View>
@@ -897,13 +889,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 >
                   <TextInput
-                    allowFontScaling={true}
                     maxLength={1}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
                     placeholder="4"
-                    rejectResponderTermination={true}
                     style={
                       Array [
                         Object {
@@ -920,7 +910,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       ]
                     }
                     testID="SingleDigitInput/digit3"
-                    underlineColorAndroid="transparent"
                     value=""
                   />
                 </View>
@@ -1093,8 +1082,10 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -1117,8 +1108,10 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}

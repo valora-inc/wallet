@@ -10,5 +10,5 @@
     "noEmit": true,
     "strict": true
   },
-  "include": ["*.js"],
+  "include": ["*.js"]
 }

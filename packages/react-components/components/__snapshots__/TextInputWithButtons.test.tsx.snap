@@ -15,9 +15,7 @@ exports[`TextInputWithButtons renders correctly 1`] = `
   }
 >
   <TextInput
-    allowFontScaling={true}
     onChangeText={[MockFunction]}
-    rejectResponderTermination={true}
     style={
       Array [
         Object {
@@ -32,7 +30,6 @@ exports[`TextInputWithButtons renders correctly 1`] = `
         undefined,
       ]
     }
-    underlineColorAndroid="transparent"
     value="TestValue"
   />
   <View

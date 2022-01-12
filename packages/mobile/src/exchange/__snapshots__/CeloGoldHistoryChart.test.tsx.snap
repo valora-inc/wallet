@@ -382,9 +382,7 @@ exports[`renders without history 1`] = `
   }
 >
   <ActivityIndicator
-    animating={true}
     color="#EEB93C"
-    hidesWhenStopped={true}
     size="large"
   />
 </View>

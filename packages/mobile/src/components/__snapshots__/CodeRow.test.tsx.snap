@@ -53,12 +53,10 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
   }
 >
   <TextInput
-    allowFontScaling={true}
     onBlur={[Function]}
     onChangeText={[MockFunction]}
     onFocus={[Function]}
     placeholder="placeholder"
-    rejectResponderTermination={true}
     shouldShowClipboard={[MockFunction]}
     style={
       Array [
@@ -75,7 +73,6 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
         undefined,
       ]
     }
-    underlineColorAndroid="transparent"
     value="test"
   />
 </View>
@@ -110,9 +107,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 3`] = `
     test...
   </Text>
   <ActivityIndicator
-    animating={true}
     color="#42D689"
-    hidesWhenStopped={true}
     size="small"
     style={
       Object {
