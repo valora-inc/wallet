@@ -71,7 +71,6 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 export function* appInit() {
   yield call(initializeSentry)
 
-  // TODO catch case where there was a supported biometry type and it changes - is this a valid scenario?
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
 
