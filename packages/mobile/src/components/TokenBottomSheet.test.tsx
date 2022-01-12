@@ -53,7 +53,7 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderPicker(visible: boolean, isInvite?: boolean = false) {
+  function renderPicker(visible: boolean, isInvite: boolean = false) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
