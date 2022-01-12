@@ -16,6 +16,7 @@ import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
+import { totalRegistrationStepsSelector } from 'src/account/selectors'
 import { hideAlert, showError, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -57,6 +58,7 @@ interface StateProps {
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   choseToRestoreAccount: boolean | undefined
+  totalRegistrationSteps: number
 }
 
 interface DispatchProps {
@@ -99,6 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     underlyingError: errorSelector(state),
     lastRevealAttempt,
     choseToRestoreAccount: state.account.choseToRestoreAccount,
+    totalRegistrationSteps: totalRegistrationStepsSelector(state),
   }
 }
 
@@ -125,7 +128,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
         title={i18n.t('verificationInput.title')}
         subTitle={i18n.t(
           route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
-          { step: route.params?.choseToRestoreAccount ? '4' : '3' }
+          {
+            step: route.params?.choseToRestoreAccount ? '4' : '3',
+            totalSteps: route.params?.totalRegistrationSteps,
+          }
         )}
       />
     ),
@@ -156,7 +162,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
     }, 1000)
 
     // Setting choseToRestoreAccount on route param for navigationOptions
-    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
+    this.props.navigation.setParams({
+      choseToRestoreAccount: this.props.choseToRestoreAccount,
+      totalRegistrationSteps: this.props.totalRegistrationSteps,
+    })
   }
 
   componentDidUpdate(prevProps: Props) {

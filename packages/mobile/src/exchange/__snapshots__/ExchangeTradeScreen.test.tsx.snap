@@ -38,6 +38,11 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
       }
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={
@@ -247,14 +252,12 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           </View>
         </View>
         <TextInput
-          allowFontScaling={true}
           autoCapitalize="words"
           autoFocus={true}
           keyboardType="decimal-pad"
           onChangeText={[Function]}
           placeholder="0"
           placeholderTextColor="#B4B9BD"
-          rejectResponderTermination={true}
           style={
             Object {
               "color": "#9C6E00",
@@ -268,7 +271,6 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             }
           }
           testID="ExchangeInput"
-          underlineColorAndroid="transparent"
           value=""
         />
       </View>
@@ -479,6 +481,11 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
       }
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": true,
+          }
+        }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={

@@ -254,9 +254,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
     </View>
   </Modal>
   <ActivityIndicator
-    animating={true}
     color="#42D689"
-    hidesWhenStopped={true}
     size="large"
   />
 </View>
@@ -349,6 +347,11 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -457,7 +460,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               }
             >
               <TextInput
-                allowFontScaling={true}
                 countryCallingCode="+1"
                 editable={true}
                 keyboardType="phone-pad"
@@ -466,7 +468,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 onFocus={[Function]}
                 placeholder="(000) 000-0000"
                 placeholderTextColor="#B4B9BD"
-                rejectResponderTermination={true}
                 style={
                   Array [
                     Object {
@@ -525,6 +526,11 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -1400,6 +1406,11 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -1508,7 +1519,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               }
             >
               <TextInput
-                allowFontScaling={true}
                 countryCallingCode="+1"
                 editable={true}
                 keyboardType="phone-pad"
@@ -1517,7 +1527,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 onFocus={[Function]}
                 placeholder="(000) 000-0000"
                 placeholderTextColor="#B4B9BD"
-                rejectResponderTermination={true}
                 style={
                   Array [
                     Object {
@@ -1576,6 +1585,11 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -2451,6 +2465,11 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -2559,7 +2578,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               }
             >
               <TextInput
-                allowFontScaling={true}
                 countryCallingCode="+1"
                 editable={true}
                 keyboardType="phone-pad"
@@ -2568,7 +2586,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 onFocus={[Function]}
                 placeholder="(000) 000-0000"
                 placeholderTextColor="#B4B9BD"
-                rejectResponderTermination={true}
                 style={
                   Array [
                     Object {
@@ -2627,6 +2644,11 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -3502,6 +3524,11 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={
@@ -3610,7 +3637,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               }
             >
               <TextInput
-                allowFontScaling={true}
                 countryCallingCode="+1"
                 editable={true}
                 keyboardType="phone-pad"
@@ -3619,7 +3645,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 onFocus={[Function]}
                 placeholder="(000) 000-0000"
                 placeholderTextColor="#B4B9BD"
-                rejectResponderTermination={true}
                 style={
                   Array [
                     Object {

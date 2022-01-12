@@ -20,6 +20,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -35,6 +36,7 @@ function NameAndPicture({ navigation }: Props) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
+  const registrationStep = useRegistrationStep(1)
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
@@ -44,13 +46,11 @@ function NameAndPicture({ navigation }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
-          subTitle={t(choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps', {
-            step: '1',
-          })}
+          subTitle={registrationStep}
         />
       ),
     })
-  }, [navigation, choseToRestoreAccount])
+  }, [navigation, choseToRestoreAccount, registrationStep])
 
   const goToNextScreen = () => {
     if (recoveringFromStoreWipe) {

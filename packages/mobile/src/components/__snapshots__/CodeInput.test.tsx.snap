@@ -162,7 +162,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
           }
         >
           <TextInput
-            allowFontScaling={true}
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType="visible-password"
@@ -170,7 +169,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
             onChangeText={[MockFunction]}
             onFocus={[Function]}
             placeholder="placeholder"
-            rejectResponderTermination={true}
             style={
               Array [
                 Object {
@@ -188,7 +186,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
                 },
               ]
             }
-            underlineColorAndroid="transparent"
             value="test"
           />
         </View>
@@ -283,9 +280,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#1AB775"
-          hidesWhenStopped={true}
           size="small"
         />
       </View>
@@ -379,9 +374,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#1AB775"
-          hidesWhenStopped={true}
           size="small"
         />
       </View>
@@ -738,7 +731,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
           }
         >
           <TextInput
-            allowFontScaling={true}
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType="number-pad"
@@ -746,7 +738,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             onChangeText={[MockFunction]}
             onFocus={[Function]}
             placeholder="placeholder"
-            rejectResponderTermination={true}
             style={
               Array [
                 Object {
@@ -770,7 +761,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
               ]
             }
             textContentType="username"
-            underlineColorAndroid="transparent"
             value="test"
           />
         </View>
@@ -874,9 +864,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#1AB775"
-          hidesWhenStopped={true}
           size="small"
         />
       </View>
@@ -979,9 +967,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#1AB775"
-          hidesWhenStopped={true}
           size="small"
         />
       </View>
