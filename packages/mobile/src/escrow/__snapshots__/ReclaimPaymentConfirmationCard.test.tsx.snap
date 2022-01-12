@@ -402,8 +402,10 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -426,8 +428,10 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -742,6 +746,11 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": true,
+            }
+          }
           accessible={true}
           focusable={false}
           nativeBackgroundAndroid={

@@ -80,8 +80,10 @@ Array [
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -104,8 +106,10 @@ Array [
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -339,8 +343,10 @@ Array [
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -363,8 +369,10 @@ Array [
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}

@@ -229,7 +229,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               1.33
             </Text>
             <TextInput
-              allowFontScaling={true}
               autoFocus={false}
               blurOnSubmit={true}
               maxLength={70}
@@ -239,7 +238,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               onChangeText={[Function]}
               placeholder="addDescription"
               placeholderTextColor="#1AB775"
-              rejectResponderTermination={true}
               returnKeyType="done"
               style={
                 Object {
@@ -254,7 +252,6 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                 }
               }
               testID="commentInput/send"
-              underlineColorAndroid="transparent"
               value=""
             />
           </View>
@@ -967,6 +964,11 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
@@ -1082,6 +1084,11 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={

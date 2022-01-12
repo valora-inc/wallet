@@ -35,9 +35,11 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
   >
     <View
       autoPlay={true}
+      collapsable={false}
       enableMergePathsAndroidForKitKatAndAbove={false}
       forwardedRef={[Function]}
       loop={true}
+      nativeID="animatedComponent"
       onAnimationFinish={[Function]}
       progress={0}
       resizeMode="cover"
@@ -929,9 +931,11 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
   >
     <View
       autoPlay={true}
+      collapsable={false}
       enableMergePathsAndroidForKitKatAndAbove={false}
       forwardedRef={[Function]}
       loop={true}
+      nativeID="animatedComponent"
       onAnimationFinish={[Function]}
       progress={0}
       resizeMode="cover"

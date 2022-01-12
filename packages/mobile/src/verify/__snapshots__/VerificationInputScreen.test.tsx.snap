@@ -154,7 +154,6 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                     }
                   >
                     <TextInput
-                      allowFontScaling={true}
                       autoCapitalize="none"
                       autoCorrect={false}
                       keyboardType="number-pad"
@@ -162,7 +161,6 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                       onChangeText={[Function]}
                       onFocus={[Function]}
                       placeholder="verificationInput.codePlaceholder1, {}"
-                      rejectResponderTermination={true}
                       style={
                         Array [
                           Object {
@@ -187,7 +185,6 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                       }
                       testID="VerificationCode0"
                       textContentType="username"
-                      underlineColorAndroid="transparent"
                       value=""
                     />
                   </View>
@@ -602,6 +599,11 @@ exports[`VerificationInputScreen renders correctly 1`] = `
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
               focusable={false}
               nativeBackgroundAndroid={
