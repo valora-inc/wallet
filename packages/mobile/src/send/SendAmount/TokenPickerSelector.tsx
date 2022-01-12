@@ -10,7 +10,7 @@ interface Props {
   onChangeToken: () => void
 }
 
-function TockerPickerSelector({ tokenAddress, onChangeToken }: Props) {
+function TokenPickerSelector({ tokenAddress, onChangeToken }: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
 
   return (
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default TockerPickerSelector
+export default TokenPickerSelector
