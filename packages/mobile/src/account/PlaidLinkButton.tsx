@@ -40,7 +40,7 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
       return
     }
     if (!dekPrivate) {
-      Logger.error(TAG, "Can't render Plaid because DEK is null")
+      Logger.error(TAG, "Can't render Plaid because dekPrivate is null")
       return
     }
     const IHLResponse = await createLinkToken({
