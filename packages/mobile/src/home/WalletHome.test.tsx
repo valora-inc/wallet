@@ -44,8 +44,8 @@ const undefinedBalances = {
   },
 }
 
-jest.mock('src/exchange/CeloGoldOverview')
-jest.mock('src/transactions/TransactionsList')
+jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
+jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 
 describe('WalletHome', () => {
   beforeAll(() => {

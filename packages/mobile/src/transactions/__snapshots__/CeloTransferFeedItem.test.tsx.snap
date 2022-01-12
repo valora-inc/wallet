@@ -2,6 +2,11 @@
 
 exports[`CeloTransferFeedItem renders correctly 1`] = `
 <View
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
   focusable={true}
   nativeBackgroundAndroid={
@@ -97,6 +102,11 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
 
 exports[`CeloTransferFeedItem renders correctly when there's a default name 1`] = `
 <View
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
   focusable={true}
   nativeBackgroundAndroid={
@@ -192,6 +202,11 @@ exports[`CeloTransferFeedItem renders correctly when there's a default name 1`] 
 
 exports[`CeloTransferFeedItem renders correctly when there's a known address 1`] = `
 <View
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
   focusable={true}
   nativeBackgroundAndroid={

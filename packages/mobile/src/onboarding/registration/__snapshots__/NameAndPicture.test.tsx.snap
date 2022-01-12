@@ -152,8 +152,10 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -176,8 +178,10 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -424,7 +428,6 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
             }
           >
             <TextInput
-              allowFontScaling={true}
               enablesReturnKeyAutomatically={true}
               multiline={true}
               onBlur={[Function]}
@@ -432,7 +435,6 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
               onFocus={[Function]}
               placeholder="fullNamePlaceholder"
               placeholderTextColor="#B4B9BD"
-              rejectResponderTermination={true}
               style={
                 Array [
                   Object {
@@ -489,6 +491,11 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={
@@ -708,8 +715,10 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -732,8 +741,10 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -980,7 +991,6 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
             }
           >
             <TextInput
-              allowFontScaling={true}
               enablesReturnKeyAutomatically={true}
               multiline={true}
               onBlur={[Function]}
@@ -988,7 +998,6 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
               onFocus={[Function]}
               placeholder="fullNamePlaceholder"
               placeholderTextColor="#B4B9BD"
-              rejectResponderTermination={true}
               style={
                 Array [
                   Object {
@@ -1045,6 +1054,11 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": true,
+              }
+            }
             accessible={true}
             focusable={false}
             nativeBackgroundAndroid={

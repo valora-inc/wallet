@@ -133,16 +133,12 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         },
       ]
     }
-    disableVirtualization={false}
     getItem={[Function]}
     getItemCount={[Function]}
-    horizontal={false}
-    initialNumToRender={10}
     keyExtractor={[Function]}
-    maxToRenderPerBatch={10}
     onContentSizeChange={[Function]}
-    onEndReachedThreshold={2}
     onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
     onMomentumScrollEnd={[Function]}
     onRefresh={[Function]}
     onScroll={[Function]}
@@ -169,8 +165,6 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         "position": "relative",
       }
     }
-    updateCellsBatchingPeriod={50}
-    windowSize={21}
   >
     <RCTRefreshControl />
     <View>
@@ -582,7 +576,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
       <View
         onLayout={[Function]}
         style={null}
-      />
+      >
+        <TransactionsList
+          feedType="home"
+        />
+      </View>
       <View
         onLayout={[Function]}
         style={null}
@@ -628,6 +626,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
@@ -705,6 +708,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
         }
       >
         <View
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
           accessible={true}
           focusable={true}
           nativeBackgroundAndroid={
@@ -752,6 +760,11 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
       </View>
     </View>
     <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
       accessible={true}
       focusable={true}
       nativeBackgroundAndroid={

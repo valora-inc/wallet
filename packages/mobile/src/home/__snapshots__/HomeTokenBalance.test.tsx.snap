@@ -112,8 +112,10 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
         forwardedRef={[Function]}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -136,8 +138,10 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
         }
       />
       <View
+        collapsable={false}
         forwardedRef={[Function]}
         hideModalContentWhileAnimating={false}
+        nativeID="animatedComponent"
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
@@ -432,8 +436,10 @@ exports[`HomeTokenBalance renders correctly with no balance 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
         forwardedRef={[Function]}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -456,8 +462,10 @@ exports[`HomeTokenBalance renders correctly with no balance 1`] = `
         }
       />
       <View
+        collapsable={false}
         forwardedRef={[Function]}
         hideModalContentWhileAnimating={false}
+        nativeID="animatedComponent"
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
@@ -738,8 +746,10 @@ exports[`HomeTokenBalance renders correctly with one balance 1`] = `
     >
       <View
         accessible={true}
+        collapsable={false}
         focusable={true}
         forwardedRef={[Function]}
+        nativeID="animatedComponent"
         onClick={[Function]}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -762,8 +772,10 @@ exports[`HomeTokenBalance renders correctly with one balance 1`] = `
         }
       />
       <View
+        collapsable={false}
         forwardedRef={[Function]}
         hideModalContentWhileAnimating={false}
+        nativeID="animatedComponent"
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
