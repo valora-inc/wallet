@@ -7,6 +7,7 @@ import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
+import * as stableToken from 'src/abis/StableToken.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -89,8 +90,9 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
+    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
-  return contracts.find((contract) => contract.address === tokenAddress)
+  return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
 }
 
 // TODO: To avoid making three requests each time this function is called, we should store the token
@@ -270,6 +272,12 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
+export async function getStableTokenContract(tokenAddress: string) {
+  const kit = await getContractKitAsync(false)
+  //@ts-ignore
+  return new kit.web3.eth.Contract(stableToken.abi, tokenAddress)
+}
+
 interface FetchedTokenBalance {
   tokenAddress: string
   balance: string
@@ -349,6 +357,12 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 
   const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
   return amount.multipliedBy(decimalFactor).toFixed(0)
+}
+
+export function* getTokenInfo(tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  return tokenInfo
 }
 
 export function* watchFetchBalance() {

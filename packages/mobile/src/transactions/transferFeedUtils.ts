@@ -290,8 +290,6 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const comment =
     getDecryptedTransferFeedComment(rawComment ?? null, commentKey, type) ?? defaultSubtitle
 
-  console.log('QWE', rawComment, comment)
-
   let title, subtitle
 
   switch (type) {
