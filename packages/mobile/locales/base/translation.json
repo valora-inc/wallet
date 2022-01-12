@@ -688,8 +688,8 @@
   },
   "createAccount": "Create Account",
   "restoreAccount": "Restore My Account",
-  "createAccountSteps": "Step {{step}} of 3",
-  "restoreAccountSteps": "Step {{step}} of 4",
+  "createAccountSteps": "Step {{step}} of {{totalSteps}}",
+  "restoreAccountSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
     "create": "Create a PIN",

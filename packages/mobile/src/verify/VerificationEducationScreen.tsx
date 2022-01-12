@@ -7,7 +7,7 @@ import { Spacing } from '@celo/react-components/styles/styles'
 import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -16,7 +16,7 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { choseToRestoreAccountSelector, defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -36,6 +36,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
@@ -91,8 +92,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
-  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const biometryEnabled = useSelector(biometryEnabledSelector)
+  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const registrationStep = useRegistrationStep(route.params?.choseToRestoreAccount ? 4 : 3)
 
   const handleProceedToNextStep = () => {
     if (biometryEnabled) {
@@ -150,6 +152,31 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     dispatch(stop())
     ValoraAnalytics.track(VerificationEvents.verification_recaptcha_canceled)
   }
+
+  useLayoutEffect(() => {
+    const title = route.params?.hideOnboardingStep
+      ? t('verificationEducation.title')
+      : () => (
+          <HeaderTitleWithSubtitle
+            title={t('verificationEducation.title')}
+            subTitle={registrationStep}
+          />
+        )
+
+    navigation.setOptions({
+      headerTitle: title,
+      headerRight: () =>
+        !route.params?.hideOnboardingStep && (
+          <TopBarTextButton
+            title={t('skip')}
+            testID="VerificationEducationSkipHeader"
+            onPress={() => navigation.setParams({ showSkipDialog: true })}
+            titleStyle={{ color: colors.goldDark }}
+          />
+        ),
+      headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
+    })
+  }, [navigation, registrationStep, route.params])
 
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2
@@ -397,33 +424,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   )
 }
 
-VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenProps) => {
-  const title = route.params?.hideOnboardingStep
-    ? i18n.t('verificationEducation.title')
-    : () => (
-        <HeaderTitleWithSubtitle
-          title={i18n.t('verificationEducation.title')}
-          subTitle={i18n.t(
-            route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
-            { step: route.params?.choseToRestoreAccount ? '4' : '3' }
-          )}
-        />
-      )
-  return {
-    ...nuxNavigationOptions,
-    headerTitle: title,
-    headerRight: () =>
-      !route.params?.hideOnboardingStep && (
-        <TopBarTextButton
-          title={i18n.t('skip')}
-          testID="VerificationEducationSkipHeader"
-          onPress={() => navigation.setParams({ showSkipDialog: true })}
-          titleStyle={{ color: colors.goldDark }}
-        />
-      ),
-    headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
-  }
-}
+VerificationEducationScreen.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {

@@ -189,6 +189,7 @@ export type StackParamList = {
         changePin?: boolean
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
+        totalRegistrationSteps?: number
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -290,7 +291,7 @@ export type StackParamList = {
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
   [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
-    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
+    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean; totalRegistrationSteps?: number }
     | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
