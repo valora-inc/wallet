@@ -159,7 +159,6 @@ export async function quickOnboarding() {
     await sleep(3000)
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
-
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
       // and leaving the restore button disabled
@@ -168,7 +167,6 @@ export async function quickOnboarding() {
       // Press back button to close the keyboard
       await device.pressBack()
     }
-
     await element(by.id('ImportWalletButton')).tap()
 
     // Dismiss banners if present

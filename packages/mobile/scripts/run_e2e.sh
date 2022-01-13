@@ -109,7 +109,6 @@ runTest() {
     "${FILE_TO_RUN}" \
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
-    --record-videos=failing \
     --record-logs=failing \
     --loglevel info \
     --debug-synchronization 10000 \
@@ -178,11 +177,10 @@ if [ $PLATFORM = "android" ]; then
       &
 
     echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-    sleep 60
-    # until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
-    # do
-    #   sleep 3
-    # done
+    until [ `adb shell dumpsys wifi | grep "Wi-Fi is enabled" | wc -l` -gt 0 ]
+    do
+      sleep 3
+    done
   fi
 
   # Run Detox Tests

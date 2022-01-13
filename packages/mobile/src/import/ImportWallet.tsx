@@ -114,6 +114,7 @@ function ImportWallet({ navigation, route }: Props) {
     dispatch(hideAlert())
 
     const updatedPhrase = formatBackupPhraseOnEdit(input)
+
     const currentWordCount = countMnemonicWords(backupPhrase)
     const updatedWordCount = countMnemonicWords(updatedPhrase)
     if (updatedWordCount !== currentWordCount) {
