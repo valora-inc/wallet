@@ -110,11 +110,12 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   const formatAndSetBackupPhrase = (input: string) => {
+    Logger.debug('========TESTING formatAndSetBackupPhrase', input)
     // Hide the alert banner if one is displayed.
     dispatch(hideAlert())
 
     const updatedPhrase = formatBackupPhraseOnEdit(input)
-
+    Logger.debug('========TESTING formatAndSetBackupPhrase updatedPhrase', updatedPhrase)
     const currentWordCount = countMnemonicWords(backupPhrase)
     const updatedWordCount = countMnemonicWords(updatedPhrase)
     if (updatedWordCount !== currentWordCount) {
@@ -125,6 +126,8 @@ function ImportWallet({ navigation, route }: Props) {
     }
 
     setBackupPhrase(updatedPhrase)
+
+    Logger.debug('========TESTING finish formatAndSetBackupPhrase')
   }
 
   const onToggleKeyboard = (visible: boolean) => {
