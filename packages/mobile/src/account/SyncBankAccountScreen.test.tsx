@@ -1,7 +1,6 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { openLink } from 'react-native-plaid-link-sdk'
 import { Provider } from 'react-redux'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'

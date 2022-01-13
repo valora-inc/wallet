@@ -44,7 +44,6 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
       phoneNumber,
     })
     if (!linkTokenResponse.ok) {
-      console.debug(linkTokenResponse)
       dispatch(showError(ErrorMessages.PLAID_CREATE_LINK_TOKEN_FAIL))
       return
     }
