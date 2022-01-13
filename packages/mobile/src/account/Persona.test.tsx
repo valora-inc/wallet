@@ -63,7 +63,6 @@ describe('Persona', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
     }
-
     const { getByTestId } = render(
       <Provider store={store}>
         <Persona {...personaProps} />

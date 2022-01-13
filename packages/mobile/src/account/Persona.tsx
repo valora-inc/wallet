@@ -24,9 +24,10 @@ export interface Props {
   text?: string | undefined
   onPress?: () => any
   onCancelled?: () => any
+  onSuccess?: () => any
 }
 
-const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
+const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -57,6 +58,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       .environment(networkConfig.personaEnvironment)
       .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
+        onSuccess?.()
         ValoraAnalytics.track(CICOEvents.persona_kyc_success)
         Logger.info(
           TAG,
