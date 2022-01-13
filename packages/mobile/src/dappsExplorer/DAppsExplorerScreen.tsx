@@ -20,8 +20,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { background } from 'src/images/Images'
+import DappsExplorerLogo from 'src/icons/DappsExplorerLogo'
+import Help from 'src/icons/navigator/Help'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { navigateToURI } from 'src/utils/linking'
@@ -103,33 +105,40 @@ export function DAppsExplorerScreen({ navigation }: Props) {
     }
   )
 
-  if (loading) {
-    return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator
-          style={styles.loadingIcon}
-          size="large"
-          color={colors.greenBrand}
-          testID="DAppExplorerScreen/loading"
-        />
-      </View>
-    )
-  }
-
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader
         left={<BackButton />}
-        title={t('dappExplorerTitle')}
-        // TODO: Add question mark with modal right={}
+        title={t('dappsExplorerTitle')}
+        right={
+          <TopBarIconButton
+            icon={<Help />}
+            onPress={showHelpModal}
+            style={styles.helpIconContainer}
+          />
+        }
       />
+
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{t('dappScreenDescription')}</Text>
-          {/* TODO: Change image */}
-          <Image source={background} style={styles.descriptionImage} />
+          <Text style={styles.descriptionText}>{t('dappsScreenDescription')}</Text>
+          <View style={styles.descriptionImage}>
+            <DappsExplorerLogo />
+          </View>
         </View>
-        <>{categoriesWithItems.map(renderCategoryWithItems)}</>
+        <>
+          {loading && (
+            <View style={styles.centerContainer}>
+              <ActivityIndicator
+                style={styles.loadingIcon}
+                size="large"
+                color={colors.greenBrand}
+                testID="DAppExplorerScreen/loading"
+              />
+            </View>
+          )}
+          {!loading && categoriesWithItems.map(renderCategoryWithItems)}
+        </>
       </ScrollView>
     </SafeAreaView>
   )
@@ -168,6 +177,10 @@ function renderItem(item: DappItem) {
   )
 }
 
+function showHelpModal() {
+  Logger.info('SHOW MODAL')
+}
+
 function goToExternalLink(url: string) {
   return () => {
     navigateToURI(url)
@@ -202,6 +215,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: variables.contentPadding,
+  },
+  helpIconContainer: {
+    padding: variables.contentPadding,
   },
   loadingIcon: {
     marginVertical: 20,
@@ -255,9 +271,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   descriptionImage: {
-    height: 122,
-    width: 98,
-    marginLeft: 16,
+    height: 106,
+    width: 94,
+    marginHorizontal: 8,
   },
 })
 

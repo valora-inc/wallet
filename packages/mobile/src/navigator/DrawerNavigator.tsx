@@ -43,6 +43,7 @@ import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
+import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
@@ -224,8 +225,7 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
-          // TODO: Change Icon
-          options={{ title: t('dappsExplorer'), drawerIcon: Gold }}
+          options={{ title: t('dappsExplorerTitle'), drawerIcon: DappsExplorer }}
         />
       )}
       <Drawer.Screen
