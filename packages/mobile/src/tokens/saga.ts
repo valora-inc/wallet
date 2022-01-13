@@ -90,7 +90,6 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
-    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
   return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
 }

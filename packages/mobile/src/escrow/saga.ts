@@ -46,7 +46,6 @@ import {
   getCurrencyAddress,
   getERC20TokenContract,
   getStableCurrencyFromAddress,
-  getTokenContractFromAddress,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
@@ -235,14 +234,17 @@ async function formEscrowWithdrawAndTransferTx(
 
   const { r, s, v }: Sign = contractKit.connection.web3.eth.accounts.sign(msgHash!, privateKey)
 
-  const tokenContract = await getTokenContractFromAddress(tokenAddress)
+  const tokenContract = await getERC20TokenContract(tokenAddress)
   if (!tokenContract) {
     throw Error(`${TAG} Escrow invite used unknown token address ${tokenAddress}`)
   }
 
   Logger.debug(TAG + '@withdrawFromEscrowViaKomenci', `Signed message hash signature`)
   const withdrawTx = escrowWrapper.withdraw(paymentId, v, r, s)
-  const transferTx = tokenContract.transfer(walletAddress, value.toString())
+  const transferTx = toTransactionObject(
+    contractKit.connection,
+    tokenContract.methods.transfer(walletAddress, value.toString())
+  )
   return { withdrawTx, transferTx }
 }
 

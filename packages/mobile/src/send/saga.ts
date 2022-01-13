@@ -1,6 +1,5 @@
 import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
-import { CeloTokenWrapper } from '@celo/contractkit/lib/wrappers/CeloTokenWrapper'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
@@ -35,7 +34,6 @@ import {
   getCurrencyAddress,
   getERC20TokenContract,
   getStableTokenContract,
-  getTokenContractFromAddress,
   getTokenInfo,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
