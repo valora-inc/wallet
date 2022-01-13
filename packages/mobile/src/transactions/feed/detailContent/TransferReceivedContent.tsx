@@ -44,7 +44,7 @@ function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {
         avatar={<TransferAvatars type="received" recipient={recipient} />}
         testID="TransferReceived"
       />
-      <CommentSection comment={metadata.comment} />
+      <CommentSection comment={metadata.comment} isSend={false} />
       {isCeloTx && celoEducationUri && (
         <TouchableOpacity onPress={openLearnMore} testID={'celoTxReceived/learnMore'}>
           <Text style={styles.learnMore}>{t('learnMore')}</Text>

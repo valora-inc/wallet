@@ -245,7 +245,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = !isInvite && tokenInfo?.isCoreToken
+  const allowComment = !isInvite && tokenInfo?.isCoreToken && tokenInfo.symbol !== 'CELO'
 
   return (
     <SafeAreaView

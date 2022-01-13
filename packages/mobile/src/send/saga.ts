@@ -1,6 +1,5 @@
 import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
-import { CeloTokenWrapper } from '@celo/contractkit/lib/wrappers/CeloTokenWrapper'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
@@ -34,7 +33,8 @@ import {
   createTokenTransferTransaction,
   getCurrencyAddress,
   getERC20TokenContract,
-  getTokenContractFromAddress,
+  getStableTokenContract,
+  getTokenInfo,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
@@ -223,19 +223,22 @@ export function* buildSendTx(
   comment: string
 ) {
   const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
-  const coreContract: CeloTokenWrapper<any> | undefined = yield call(
-    getTokenContractFromAddress,
-    tokenAddress
-  )
+  const coreContract: Contract = yield call(getStableTokenContract, tokenAddress)
+
+  const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
   const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
 
   const kit: ContractKit = yield call(getContractKit)
-  return coreContract
-    ? coreContract.transferWithComment(recipientAddress, convertedAmount, utf8.encode(comment))
-    : toTransactionObject(
-        kit.connection,
-        contract.methods.transfer(recipientAddress, convertedAmount)
-      )
+  return toTransactionObject(
+    kit.connection,
+    tokenInfo?.isCoreToken && tokenInfo.symbol !== 'CELO'
+      ? coreContract.methods.transferWithComment(
+          recipientAddress,
+          convertedAmount,
+          utf8.encode(comment)
+        )
+      : contract.methods.transfer(recipientAddress, convertedAmount)
+  )
 }
 
 function* sendPayment(
