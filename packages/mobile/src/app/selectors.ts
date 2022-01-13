@@ -119,7 +119,7 @@ export const totalRegistrationStepsSelector = createSelector(
   [choseToRestoreAccountSelector, biometryEnabledSelector],
   (chooseRestoreAccount, biometryEnabled) => {
     if (biometryEnabled) {
-      chooseRestoreAccount ? 5 : 4
+      return chooseRestoreAccount ? 5 : 4
     }
     return chooseRestoreAccount ? 4 : 3
   }

@@ -40,7 +40,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
   const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const registrationStep = useRegistrationStep(choseToRestoreAccount ? 6 : 5)
+  const registrationStep = useRegistrationStep(choseToRestoreAccount ? 5 : 4)
 
   useLayoutEffect(() => {
     navigation.setOptions({
