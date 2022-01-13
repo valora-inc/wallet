@@ -476,6 +476,7 @@ export const mockContract = {
   methods: {
     approve: jest.fn(),
     transfer: jest.fn(),
+    transferWithComment: jest.fn(),
   },
 }
 
