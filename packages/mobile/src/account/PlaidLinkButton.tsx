@@ -1,11 +1,7 @@
 import * as React from 'react'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import { openLink, LinkSuccessMetadata } from 'react-native-plaid-link-sdk'
-import {
-  createLinkToken,
-  exchangePlaidAccessToken,
-  createFinclusiveBankAccount,
-} from 'src/in-house-liquidity'
+import { openLink } from 'react-native-plaid-link-sdk'
+import { createLinkToken } from 'src/in-house-liquidity'
 import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -48,16 +44,16 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
       phoneNumber,
     })
     if (!linkTokenResponse.ok) {
+      console.debug(linkTokenResponse)
       dispatch(showError(ErrorMessages.PLAID_CREATE_LINK_TOKEN_FAIL))
       return
     }
     const { linkToken } = await linkTokenResponse.json()
     return openLink({
       tokenConfig: { token: linkToken },
-      onSuccess: async ({ publicToken, metadata }) => {
+      onSuccess: async ({ publicToken }) => {
         navigate(Screens.SyncBankAccountScreen, {
           publicToken,
-          metadata,
         })
       },
       onExit: () => {

@@ -1119,5 +1119,6 @@
     "title": "You're offline.",
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
-  }
+  },
+  "syncingBankAccount": "Syncing Bank Account"
 }

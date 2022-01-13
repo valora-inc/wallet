@@ -1,6 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
-import { LinkSuccessMetadata } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -260,7 +259,6 @@ export type StackParamList = {
   [Screens.Sync]: undefined
   [Screens.SyncBankAccountScreen]: {
     publicToken: string
-    metadata: LinkSuccessMetadata
   }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction

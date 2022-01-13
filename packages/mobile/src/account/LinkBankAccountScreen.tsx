@@ -213,7 +213,7 @@ function StepTwo({ disabled }: { disabled: boolean }) {
       <Text style={{ ...styles.description, ...(disabled && styles.greyedOut) }}>
         {t('linkBankAccountScreen.stepTwo.description')}
       </Text>
-      <PlaidLinkButton disabled={false} />
+      <PlaidLinkButton disabled={disabled} />
     </View>
   )
 }

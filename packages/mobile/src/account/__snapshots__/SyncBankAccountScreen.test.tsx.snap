@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncBankAccountScreen calls createFinclusiveBankAccount and exchangePlaidAccessToken 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <ActivityIndicator
+    color="#42D689"
+    size="small"
+  />
+  <Text
+    style={
+      Object {
+        "color": "#9CA4A9",
+        "fontFamily": "Inter-SemiBold",
+        "fontSize": 13,
+        "lineHeight": 16,
+        "marginTop": 20,
+      }
+    }
+  >
+    syncingBankAccount
+  </Text>
+</View>
+`;
+
+exports[`SyncBankAccountScreen calls createFinclusiveBankAccount and exchangePlaidAccessToken 2`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <ActivityIndicator
+    color="#42D689"
+    size="small"
+  />
+  <Text
+    style={
+      Object {
+        "color": "#9CA4A9",
+        "fontFamily": "Inter-SemiBold",
+        "fontSize": 13,
+        "lineHeight": 16,
+        "marginTop": 20,
+      }
+    }
+  >
+    syncingBankAccount
+  </Text>
+</View>
+`;
+
+exports[`SyncBankAccountScreen renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <ActivityIndicator
+    color="#42D689"
+    size="small"
+  />
+  <Text
+    style={
+      Object {
+        "color": "#9CA4A9",
+        "fontFamily": "Inter-SemiBold",
+        "fontSize": 13,
+        "lineHeight": 16,
+        "marginTop": 20,
+      }
+    }
+  >
+    syncingBankAccount
+  </Text>
+</View>
+`;
