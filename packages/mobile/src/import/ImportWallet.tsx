@@ -132,17 +132,25 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   const onPressRestore = () => {
+    Logger.debug('======TESTING onPressRestore')
     const useEmptyWallet = !!route.params?.showZeroBalanceModal
     Keyboard.dismiss()
+    Logger.debug('======TESTING keyboard dismissed')
     dispatch(hideAlert())
+
+    Logger.debug('======TESTING hide alert')
 
     const formattedPhrase = formatBackupPhraseOnSubmit(backupPhrase)
     setBackupPhrase(formattedPhrase)
+
+    Logger.debug('======TESTING backup phrase')
 
     navigation.setParams({ showZeroBalanceModal: false })
 
     ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, { useEmptyWallet })
     dispatch(importBackupPhrase(formattedPhrase, useEmptyWallet))
+
+    Logger.debug('======TESTING onPressRestore end')
   }
 
   const shouldShowClipboard = (clipboardContent: string): boolean => {
@@ -161,6 +169,13 @@ function ImportWallet({ navigation, route }: Props) {
   if (isImportingWallet) {
     codeStatus = CodeInputStatus.Processing
   }
+
+  Logger.debug(
+    '======TESTING button is disabled',
+    isImportingWallet,
+    !isValidBackupPhrase(backupPhrase),
+    !appConnected
+  )
 
   return (
     <HeaderHeightContext.Consumer>

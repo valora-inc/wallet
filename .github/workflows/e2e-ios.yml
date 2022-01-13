@@ -6,7 +6,6 @@ on:
   pull_request:
     branches:
       - main
-      - kathy/upgrade-RN-65
   workflow_dispatch:
     inputs:
       logLevel:

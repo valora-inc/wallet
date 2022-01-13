@@ -31,7 +31,7 @@ export default ExchangeCelo = () => {
   })
 
   jest.retryTimes(2)
-  it('Then Buy CELO', async () => {
+  it.only('Then Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
       .toBeVisible()
