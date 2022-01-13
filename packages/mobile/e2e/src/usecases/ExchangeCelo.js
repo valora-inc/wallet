@@ -30,8 +30,8 @@ export default ExchangeCelo = () => {
     await celoEducation()
   })
 
-  jest.retryTimes(0)
-  it.only('Then Buy CELO', async () => {
+  jest.retryTimes(2)
+  it('Then Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
       .toBeVisible()
