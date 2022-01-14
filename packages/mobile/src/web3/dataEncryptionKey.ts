@@ -50,24 +50,8 @@ import {
   mtwAddressSelector,
 } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
-import { ec as EC } from 'elliptic'
-
-const ec = new EC('secp256k1')
-
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
-
-// Based on https://github.com/celo-org/celo-monorepo/blob/f4dd249e9cef6a541b909c3dc7ae01888b088de2/packages/sdk/identity/src/odis/query.ts#L111
-export function signWithDEK({
-  message,
-  dataEncryptionKey,
-}: {
-  message: string
-  dataEncryptionKey: string
-}) {
-  const key = ec.keyFromPrivate(hexToBuffer(dataEncryptionKey))
-  return JSON.stringify(key.sign(message).toDER())
-}
 
 export function* fetchDataEncryptionKeyWrapper({ address }: FetchDataEncryptionKeyAction) {
   yield call(doFetchDataEncryptionKey, address)
