@@ -7,6 +7,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
+import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -53,7 +54,9 @@ const SyncBankAccountScreen = ({ route }: Props) => {
 }
 
 SyncBankAccountScreen.navigationOptions = () => {
-  return {}
+  return {
+    ...noHeader,
+  }
 }
 
 const styles = StyleSheet.create({

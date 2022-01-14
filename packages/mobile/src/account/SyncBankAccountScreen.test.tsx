@@ -8,7 +8,7 @@ import { mockAccount, mockAccount2 } from 'test/values'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
 import { Screens } from 'src/navigator/Screens'
 
-const mockPlublicToken = 'foo'
+const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
 const mockPlaidAccessTokenResponse = new Response(
   JSON.stringify({ accessToken: mockAccessToken }),
@@ -16,7 +16,7 @@ const mockPlaidAccessTokenResponse = new Response(
 )
 const mockFinclusiveBankAccountReponse = new Response(JSON.stringify({}), { status: 200 })
 const mockProps = getMockStackScreenProps(Screens.SyncBankAccountScreen, {
-  publicToken: mockPlublicToken,
+  publicToken: mockPublicToken,
 })
 
 jest.mock('src/in-house-liquidity', () => ({
@@ -47,7 +47,7 @@ describe('SyncBankAccountScreen', () => {
     await waitFor(() => {
       expect(exchangePlaidAccessToken).toHaveBeenCalledWith({
         accountMTWAddress: mockAccount,
-        publicToken: mockPlublicToken,
+        publicToken: mockPublicToken,
         walletAddress: mockAccount2.toLocaleLowerCase(),
       })
       expect(createFinclusiveBankAccount).toHaveBeenCalledWith({
