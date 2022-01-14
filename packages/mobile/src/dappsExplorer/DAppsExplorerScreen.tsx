@@ -65,7 +65,7 @@ export function DAppsExplorerScreen() {
     )
   }
 
-  const { loading, error, result } = useAsync(
+  const { loading } = useAsync(
     async () => {
       const response = await fetch(dappsListUrl, {
         method: 'GET',
@@ -170,7 +170,7 @@ export function DAppsExplorerScreen() {
       <Dialog
         title={t('dappsScreenHelpDialog.title')}
         isVisible={isHelpDialogVisible}
-        secondaryActionText="Dismiss"
+        secondaryActionText={t('dappsScreenHelpDialog.dismiss')}
         secondaryActionPress={() => setHelpDialogVisible(false)}
       >
         {t('dappsScreenHelpDialog.message')}

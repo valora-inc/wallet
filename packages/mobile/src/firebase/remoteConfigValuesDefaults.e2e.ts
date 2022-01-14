@@ -36,4 +36,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryEnabled: false,
+  dappsExplorerEnabled: false,
 }

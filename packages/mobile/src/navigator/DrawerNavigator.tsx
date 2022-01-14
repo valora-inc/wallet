@@ -182,7 +182,7 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const isDappsExplorerEnabled = useSelector((state) => state.app.dappsExplorerEnabled)
-  // const isDappsExplorerEnabled = true
+
   const dispatch = useDispatch()
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (

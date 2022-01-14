@@ -866,6 +866,7 @@ export const v26Schema = {
   app: {
     ...v25Schema.app,
     rampCashInButtonExpEnabled: false,
+    dappsExplorerEnabled: false,
   },
 }
 
