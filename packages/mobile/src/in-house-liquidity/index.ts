@@ -8,6 +8,15 @@ interface CreateFinclusiveBankAccountParams {
   plaidAccessToken: string
 }
 
+/**
+ * Create a fiat bank account with finclusive
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
+ * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
+ * @returns {Response} response object from the fetch call
+ */
 export const createFinclusiveBankAccount = async ({
   accountMTWAddress,
   walletAddress,
@@ -37,6 +46,15 @@ interface ExchangePlaidAccessTokenParams {
   publicToken: string
 }
 
+/**
+ * Exchange a plaid plublic token for a long-term plaid access token
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
+ * @param {params.publicToken} publicToken plaid public token
+ * @returns {Response} response object from the fetch call
+ */
 export const exchangePlaidAccessToken = async ({
   accountMTWAddress,
   walletAddress,
