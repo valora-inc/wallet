@@ -208,14 +208,18 @@ function renderCategoryWithItems(
 ) {
   Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithItems)}`)
 
-  const textStyle = {
-    ...styles.categoryText,
-    color: categoryWithItems.fontColor,
-    backgroundColor: categoryWithItems.backgroundColor,
-  }
   return (
     <View style={styles.categoryContainer} key={`category-${categoryWithItems.id}`}>
-      <Text style={textStyle}> {categoryWithItems.name} </Text>
+      <View
+        style={{
+          ...styles.categoryTextContainer,
+          backgroundColor: categoryWithItems.backgroundColor,
+        }}
+      >
+        <Text style={{ ...styles.categoryText, color: categoryWithItems.fontColor }}>
+          {categoryWithItems.name}
+        </Text>
+      </View>
       <>{categoryWithItems.items.map((item) => renderItem(item, onItemPress))}</>
     </View>
   )
@@ -335,7 +339,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetButton: {
-    marginTop: 16,
+    marginVertical: 16,
+  },
+  categoryTextContainer: {
+    borderRadius: 100,
   },
 })
 
