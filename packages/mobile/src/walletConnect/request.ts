@@ -30,6 +30,17 @@ export interface WalletResponseSuccess {
   result: string
 }
 
+// This is meant to be called before normalizer.populate
+// There's a bug in TxParamsNormalizer that sets the chainId as a number if not present
+// but then if no gas is set, the estimateGas call will fail with espresso hardfork nodes
+// with the error: `Gas estimation failed: Could not decode transaction failure reason or Error: invalid argument 0: json: cannot unmarshal non-string into Go struct field TransactionArgs.chainId of type *hexutil.Big`
+// So here we make sure the chainId is set as a hex string so estimateGas works
+// TODO: consider removing this when TxParamsNormalizer is fixed
+function applyChainIdWorkaround(tx: any, chainId: number) {
+  tx.chainId = `0x${new BigNumber(tx.chainId || chainId).toString(16)}`
+  return tx
+}
+
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
@@ -75,6 +86,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
           rawTx.gasPrice = undefined
         }
+        applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
         tx = yield call(normalizer.populate.bind(normalizer), rawTx)
       }
 
@@ -86,9 +98,11 @@ export function* handleRequest({ method, params }: { method: string; params: any
     case SupportedActions.personal_decrypt:
       return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
     case SupportedActions.eth_sendTransaction: {
+      const rawTx = { ...params[0] }
       const kit: ContractKit = yield call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
-      const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params[0])
+      applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
+      const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), rawTx)
 
       // This is a hack to turn the CeloTx into a CeloTxObject
       // so we can use our standard `sendTransaction` helper which takes care of setting the right `feeCurrency`, `gas` and `gasPrice`.
