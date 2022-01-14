@@ -1122,5 +1122,10 @@
   "dappsScreenHelpDialog": {
     "title": "What are dApps?",
     "message": "Decentralized apps (dapps) are built by Celo community members to provide financial services & other ways to use digital assets.\n\nValora selects a few dapps that are trusted by our team."
+  },
+  "dappsScreenBottomSheet": {
+    "title": "{{dappName}} will open in an external browser",
+    "message": "You are about to open an application not operated by Valora.\n\nValora is not responsible for loss of funds or quality of service of this application.",
+    "button": "Go to {{dappName}}"
   }
 }
