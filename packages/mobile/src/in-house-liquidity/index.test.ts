@@ -3,6 +3,8 @@ import {
   getAuthAndDateHeaders,
   signAndFetch,
   createLinkToken,
+  createFinclusiveBankAccount,
+  exchangePlaidAccessToken,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as dataEncryptionKey from 'src/web3/dataEncryptionKey'
@@ -168,6 +170,65 @@ describe('In House Liquidity Calls', () => {
       // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
         `${networkConfig.inHouseLiquidityURL}/plaid/link-token/create`,
+        {
+          body: expectedBody,
+          headers: {
+            Date: expect.anything(),
+            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        }
+      )
+      // Returns the response object
+      expect(response).toBeInstanceOf(Response)
+    })
+  })
+  describe('createFinclusiveBankAccount', () => {
+    it('calls the /account/bank-account endpoint', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
+      const response = await createFinclusiveBankAccount({
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+        plaidAccessToken: 'foo',
+      })
+      const expectedBody = JSON.stringify({
+        accountAddress: MOCK_USER.accountMTWAddress,
+        plaidAccessToken: 'foo',
+      })
+
+      // Calls Fetch Correctly
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.inHouseLiquidityURL}/account/bank-account`,
+        {
+          body: expectedBody,
+          headers: {
+            Date: expect.anything(),
+            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        }
+      )
+      // Returns the response object
+      expect(response).toBeInstanceOf(Response)
+    })
+  })
+  describe('exchangePlaidAccessToken', () => {
+    it('calls the /account/bank-account endpoint', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
+      const response = await exchangePlaidAccessToken({
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        walletAddress: MOCK_USER.walletAddress,
+        publicToken: 'foo',
+      })
+      const expectedBody = JSON.stringify({
+        publicToken: 'foo',
+      })
+
+      // Calls Fetch Correctly
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.inHouseLiquidityURL}/plaid/access-token/exchange`,
         {
           body: expectedBody,
           headers: {
