@@ -134,6 +134,7 @@ function StepOne({ kycStatus }: StepOneProps) {
         </View>
       )
     case KycStatus.NeedsReview:
+    case KycStatus.Completed:
       return (
         <View style={styles.stepOne}>
           <View style={styles.iconContainer}>
@@ -141,16 +142,6 @@ function StepOne({ kycStatus }: StepOneProps) {
           </View>
           <Text style={styles.action}>{t('linkBankAccountScreen.pending.title')}</Text>
           <Text style={styles.description}>{t('linkBankAccountScreen.pending.description')}</Text>
-        </View>
-      )
-    case KycStatus.Completed:
-      return (
-        <View style={styles.stepOne}>
-          <View style={styles.iconContainer}>
-            <VerificationComplete />
-          </View>
-          <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
-          <Text style={styles.description}>{t('linkBankAccountScreen.completed.description')}</Text>
         </View>
       )
     case KycStatus.Pending:
