@@ -68,8 +68,8 @@ export default NewAccountPhoneVerification = () => {
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489
     // Either fix or move to nightly tests when present
-    // jest.retryTimes(1)
-    it.skip('Then should be able to verify phone number', async () => {
+    jest.retryTimes(1)
+    it('Then should be able to verify phone number', async () => {
       // Get Date at start
       let date = new Date()
       // Start verification
@@ -109,8 +109,8 @@ export default NewAccountPhoneVerification = () => {
     })
 
     // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
-    // jest.retryTimes(1)
-    it.skip('Then should be able to resend last 2 messages', async () => {
+    jest.retryTimes(1)
+    it('Then should be able to resend last 2 messages', async () => {
       // Get Date at start
       let date = new Date()
       // Start verification
