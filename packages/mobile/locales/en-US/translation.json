@@ -164,16 +164,16 @@
   "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
     "header": "Connect your phone number",
-    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
+    "text": "Link your Valora account to your phone number."
   },
   "noMinCommitment": {
-    "header": "Automatic rewards",
-    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
+    "header": "Add a minimum balance",
+    "earningText": "Cash in {{minBalance}} or more {{currency}} for free with Ramp.",
     "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
-    "header": "Boost your balance",
-    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
+    "header": "Keep it safe",
+    "text": "Set up your Recovery Phrase from the Menu."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "cashIn": "Add {{currency}}",
