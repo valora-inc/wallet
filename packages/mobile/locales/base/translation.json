@@ -397,6 +397,7 @@
   "totalInEuros": "Celo Euros @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
+  "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to confirm",
@@ -663,7 +664,7 @@
   "onboardingEducation": {
     "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend, and explore."
+    "step3": "All you need is a mobile phone to send, spend and explore."
   },
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
@@ -678,8 +679,8 @@
   },
   "createAccount": "Create Account",
   "restoreAccount": "Restore My Account",
-  "createAccountSteps": "Step {{step}} of 3",
-  "restoreAccountSteps": "Step {{step}} of 4",
+  "createAccountSteps": "Step {{step}} of {{totalSteps}}",
+  "restoreAccountSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
     "create": "Create a PIN",
@@ -1064,7 +1065,9 @@
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
     "subtitle": "Your account is currently empty",
-    "addFunds": "Add Funds"
+    "addFunds": "Add Funds",
+    "titleRamp": "Add {{currency}} to start using Valora",
+    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Balances",
   "totalValue": "Total Balance",
@@ -1114,6 +1117,11 @@
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
+  },
+  "outOfSyncBanner": {
+    "title": "You're offline.",
+    "message": "Your balances may not be up to date.",
+    "button": "Refresh"
   },
   "dappsScreen": {
     "title": "dAPPs",

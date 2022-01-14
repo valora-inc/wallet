@@ -23,7 +23,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
   swipeDirection="down"
   swipeThreshold={100}
   transparent={true}
-  visible={true}
+  visible={false}
 >
   <View
     accessible={true}
@@ -83,7 +83,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
         "top": 0,
         "transform": Array [
           Object {
-            "translateY": 1334,
+            "translateY": 0,
           },
         ],
       }
@@ -144,6 +144,7 @@ exports[`CashInBottomSheet renders correctly 1`] = `
         <svg
           height={16}
           style={Object {}}
+          testID="Times"
           viewBox="0 0 16 16"
           width={16}
           xmlns="http://www.w3.org/2000/svg"
@@ -166,103 +167,106 @@ exports[`CashInBottomSheet renders correctly 1`] = `
           />
         </svg>
       </View>
-      <Text
-        style={
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 22,
-            "lineHeight": 28,
-            "marginBottom": 16,
-            "paddingHorizontal": 36,
-            "textAlign": "center",
-          }
-        }
-      >
-        cashInBottomSheet.title
-      </Text>
-      <Text
-        style={
-          Object {
-            "color": "#81868B",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 22,
-            "textAlign": "center",
-          }
-        }
-      >
-        cashInBottomSheet.subtitle
-      </Text>
-      <View
-        style={
-          Array [
+      <View>
+        <Text
+          style={
             Object {
-              "flexDirection": "column",
-            },
+              "color": "#2E3338",
+              "fontFamily": "Jost-Medium",
+              "fontSize": 22,
+              "lineHeight": 28,
+              "marginBottom": 16,
+              "paddingHorizontal": 36,
+              "textAlign": "center",
+            }
+          }
+        >
+          cashInBottomSheet.title
+        </Text>
+        <Text
+          style={
             Object {
-              "marginHorizontal": 16,
-              "marginVertical": 28,
-            },
-          ]
-        }
-      >
+              "color": "#81868B",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "paddingHorizontal": 36,
+              "textAlign": "center",
+            }
+          }
+        >
+          cashInBottomSheet.subtitle
+        </Text>
         <View
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "flexDirection": "column",
               },
               Object {
-                "borderRadius": 100,
+                "marginHorizontal": 16,
+                "marginVertical": 28,
               },
             ]
           }
         >
           <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackground",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
-              Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "flexGrow": 1,
-                "height": 48,
-                "justifyContent": "center",
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
-              }
-            }
-            testID="cashInBtn"
-          >
-            <Text
-              maxFontSizeMultiplier={1}
-              style={
+              Array [
                 Object {
-                  "color": "#FFFFFF",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 22,
+                  "overflow": "hidden",
+                },
+                Object {
+                  "borderRadius": 100,
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
                 }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#1AB775",
+                  "flexGrow": 1,
+                  "height": 48,
+                  "justifyContent": "center",
+                  "opacity": undefined,
+                  "paddingHorizontal": 24,
+                  "paddingVertical": 5,
+                }
+              }
+              testID="cashInBtn"
             >
-              cashInBottomSheet.addFunds
-            </Text>
+              <Text
+                maxFontSizeMultiplier={1}
+                style={
+                  Object {
+                    "color": "#FFFFFF",
+                    "fontFamily": "Inter-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                cashInBottomSheet.addFunds
+              </Text>
+            </View>
           </View>
         </View>
       </View>

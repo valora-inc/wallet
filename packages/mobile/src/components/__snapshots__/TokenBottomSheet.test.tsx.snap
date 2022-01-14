@@ -101,6 +101,129 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      testID="cEURTouchable"
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingVertical": 16,
+          }
+        }
+      >
+        <Image
+          source={
+            Object {
+              "uri": undefined,
+            }
+          }
+          style={
+            Object {
+              "borderRadius": 20,
+              "height": 40,
+              "marginRight": 10,
+              "width": 40,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            cEUR
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+            testID="LocalcEURBalance"
+          >
+            
+            ₱
+            31.92
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+            testID="cEURBalance"
+          >
+            
+            20.00
+             cEUR
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#EDEEEF",
+          "height": 1,
+          "width": "100%",
+        }
+      }
+    />
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       testID="cUSDTouchable"
     >
       <View
@@ -224,7 +347,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
-      testID="cEURTouchable"
+      testID="TTTouchable"
     >
       <View
         style={
@@ -267,7 +390,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
               }
             }
           >
-            cEUR
+            TT
           </Text>
           <Text
             style={
@@ -297,11 +420,9 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 "lineHeight": 22,
               }
             }
-            testID="LocalcEURBalance"
+            testID="LocalTTBalance"
           >
-            
-            ₱
-            31.92
+            -
           </Text>
           <Text
             style={
@@ -312,11 +433,11 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 "lineHeight": 18,
               }
             }
-            testID="cEURBalance"
+            testID="TTBalance"
           >
             
-            20.00
-             cEUR
+            10.00
+             TT
           </Text>
         </View>
       </View>

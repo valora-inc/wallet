@@ -1,18 +1,39 @@
+queue_rules:
+  - name: default
+    # With `speculative_check: 1` and `batch_size: 3`, if there are 3 PRs in the queue,
+    # Mergify will test #1 + #2 + #3 (combined). If it passes, Mergify assumes #1 and #1 + #2 works too
+    # and merges all of those pull requests at the same time.
+    # Note: it's possible but unlikely that one composing pull requests would fail if tested individually
+    # but we're willing to make this trade-off
+    # See https://blog.mergify.com/a-merge-queue-on-steroids/ for more details
+    speculative_checks: 1
+    batch_size: 3
+    conditions:
+      # List of all the tests that should pass.
+      # Keep this in sync with the github branch protection settings
+      - check-success=Lint
+      - check-success=Vulnerabilities
+      - check-success=General
+      - check-success=Mobile
+      - check-success=iOS
+      - check-success=Android
+
 pull_request_rules:
   - name: Automatically merge on CI success and code review
     conditions:
-      # Add this label when you are ready to automerge the pull request.       
-      - "label=automerge"
+      # Add this label when you are ready to automerge the pull request.
+      - 'label=automerge'
       # Exclude drafts
-      - "-draft"
+      - '-draft'
       # At least one approval required
-      - "#approved-reviews-by>=1"
+      - '#approved-reviews-by>=1'
       # Only enable this when the pull request is being merged into main
-      - "base=main"
+      - 'base=main'
     actions:
-      merge:
-        method: squash 
-        strict: true
-        commit_message: title+body
+      queue:
+        # Updates with latest from main, then merges once CI passes
+        name: default
+        method: squash
+        commit_message_template: "{{ title }} (#{{ number }})\n\n{{ body }}"
       delete_head_branch:
         force: False

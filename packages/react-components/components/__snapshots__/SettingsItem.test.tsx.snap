@@ -68,12 +68,10 @@ exports[`SettingsItemInput renders correctly 1`] = `
         }
       >
         <TextInput
-          allowFontScaling={true}
           multiline={true}
           onBlur={[Function]}
           onChangeText={[MockFunction]}
           onFocus={[Function]}
-          rejectResponderTermination={true}
           style={
             Array [
               Object {
@@ -101,7 +99,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
               ],
             ]
           }
-          underlineColorAndroid="transparent"
+          testID="testID"
           value="value"
         />
       </View>
@@ -243,6 +241,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
               "marginRight": 8,
             }
           }
+          testID="testID/value"
         >
           value
         </Text>

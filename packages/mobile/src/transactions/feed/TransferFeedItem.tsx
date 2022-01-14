@@ -9,9 +9,9 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
@@ -32,6 +32,8 @@ function TransferFeedItem({ transfer }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
+  const tokenInfo = useTokenInfo(amount.tokenAddress)
+  const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
   const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
@@ -50,15 +52,9 @@ function TransferFeedItem({ transfer }: Props) {
             <TokenDisplay
               amount={amount.value}
               tokenAddress={amount.tokenAddress}
-              currencyInfo={
-                amount.localAmount
-                  ? {
-                      localCurrencyCode: amount.localAmount.currencyCode as LocalCurrencyCode,
-                      localExchangeRate: amount.localAmount.exchangeRate,
-                    }
-                  : undefined
-              }
+              localAmount={amount.localAmount}
               showExplicitPositiveSign={true}
+              showLocalAmount={!showTokenAmount}
               style={[styles.amount, colorStyle]}
               testID={'TransferFeedItem/amount'}
             />
@@ -67,15 +63,17 @@ function TransferFeedItem({ transfer }: Props) {
             <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
               {subtitle}
             </Text>
-            <TokenDisplay
-              amount={amount.value}
-              tokenAddress={amount.tokenAddress}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={true}
-              style={styles.tokenAmount}
-              testID={'TransferFeedItem/tokenAmount'}
-            />
+            {!showTokenAmount && (
+              <TokenDisplay
+                amount={amount.value}
+                tokenAddress={amount.tokenAddress}
+                showLocalAmount={false}
+                showSymbol={true}
+                hideSign={true}
+                style={styles.tokenAmount}
+                testID={'TransferFeedItem/tokenAmount'}
+              />
+            )}
           </View>
         </View>
       </View>

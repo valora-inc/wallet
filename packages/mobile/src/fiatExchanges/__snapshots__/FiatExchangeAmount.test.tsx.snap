@@ -40,8 +40,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -64,8 +66,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -230,8 +234,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -254,8 +260,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -359,6 +367,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -473,14 +486,12 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           </Text>
         </View>
         <TextInput
-          allowFontScaling={true}
           autoFocus={true}
           keyboardType="decimal-pad"
           multiline={true}
           onChangeText={[Function]}
           placeholder="€0"
           placeholderTextColor="#B4B9BD"
-          rejectResponderTermination={true}
           style={
             Array [
               Object {
@@ -499,7 +510,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             ]
           }
           testID="FiatExchangeInput"
-          underlineColorAndroid="transparent"
         />
       </View>
       <View
@@ -634,6 +644,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": true,
+          }
+        }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={
@@ -740,8 +755,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -764,8 +781,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -930,8 +949,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -954,8 +975,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -1059,6 +1082,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": false,
+                }
+              }
               accessible={true}
               focusable={true}
               nativeBackgroundAndroid={
@@ -1173,14 +1201,12 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           </Text>
         </View>
         <TextInput
-          allowFontScaling={true}
           autoFocus={true}
           keyboardType="decimal-pad"
           multiline={true}
           onChangeText={[Function]}
           placeholder="$0"
           placeholderTextColor="#B4B9BD"
-          rejectResponderTermination={true}
           style={
             Array [
               Object {
@@ -1199,7 +1225,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             ]
           }
           testID="FiatExchangeInput"
-          underlineColorAndroid="transparent"
         />
       </View>
       <View
@@ -1334,6 +1359,11 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": true,
+          }
+        }
         accessible={true}
         focusable={false}
         nativeBackgroundAndroid={

@@ -154,7 +154,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               1.33
             </Text>
             <TextInput
-              allowFontScaling={true}
               autoFocus={false}
               blurOnSubmit={true}
               maxLength={70}
@@ -164,7 +163,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               onChangeText={[Function]}
               placeholder="addDescription"
               placeholderTextColor="#1AB775"
-              rejectResponderTermination={true}
               returnKeyType="done"
               style={
                 Object {
@@ -179,7 +177,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 }
               }
               testID="commentInput/request"
-              underlineColorAndroid="transparent"
               value=""
             />
           </View>
@@ -317,8 +314,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               }
               testID="TotalLineItem/ExchangeRate"
             >
-              cUSD
-               @ 
               <Text>
                 
                 ₱
@@ -388,6 +383,11 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <View
+            accessibilityState={
+              Object {
+                "disabled": false,
+              }
+            }
             accessible={true}
             focusable={true}
             nativeBackgroundAndroid={

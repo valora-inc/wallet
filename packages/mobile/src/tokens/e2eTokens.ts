@@ -15,6 +15,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'cUSD',
       usdPrice: '1',
       balance: null,
+      priceFetchedAt: Date.now(),
     },
     [cEUR]: {
       address: cEUR,
@@ -24,6 +25,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'cEUR',
       usdPrice: '1.18',
       balance: null,
+      priceFetchedAt: Date.now(),
     },
     [CELO]: {
       address: CELO,
@@ -33,6 +35,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'CELO',
       usdPrice: '6.5',
       balance: null,
+      priceFetchedAt: Date.now(),
     },
   }
 }

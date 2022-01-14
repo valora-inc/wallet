@@ -131,7 +131,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
-  [HomeEvents.view_token_balances]: { totalBalance: string }
+  [HomeEvents.view_token_balances]: { totalBalance?: string }
 }
 
 interface SettingsEventsProperties {
@@ -530,17 +530,17 @@ interface InviteEventsProperties {
   [InviteEvents.invite_start]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
   }
   [InviteEvents.invite_complete]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
   }
   [InviteEvents.invite_error]: {
     amount: string
     tokenAddress: string
-    usdAmount: string
+    usdAmount?: string
     error: string
   }
   [InviteEvents.invite_method_sms]: undefined
@@ -623,8 +623,8 @@ interface SendEventsProperties {
         isScan: boolean
         isInvite: boolean
         localCurrency: LocalCurrencyCode
-        usdAmount: string
-        localCurrencyAmount: string
+        usdAmount: string | null
+        localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
         tokenAddress: string
@@ -668,9 +668,19 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
+  [SendEvents.token_dropdown_opened]: {
+    currentTokenAddress: string
+  }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
     tokenAddress: string
+  }
+  [SendEvents.max_pressed]: {
+    tokenAddress: string
+  }
+  [SendEvents.swap_input_pressed]: {
+    tokenAddress: string
+    swapToLocalAmount: boolean
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -895,8 +905,12 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
-  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: {
+    rampAvailable: boolean
+  }
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined

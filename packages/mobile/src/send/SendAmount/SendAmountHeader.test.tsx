@@ -5,8 +5,6 @@ import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
-jest.mock('src/components/useShowOrHideAnimation')
-
 const mockOnChangeToken = jest.fn()
 
 function renderComponent({
@@ -48,6 +46,7 @@ function renderComponent({
       <SendAmountHeader
         tokenAddress={tokenAddress}
         isOutgoingPaymentRequest={false}
+        isInvite={false}
         onChangeToken={mockOnChangeToken}
         disallowCurrencyChange={disallowCurrencyChange}
       />
@@ -82,9 +81,7 @@ describe('SendAmountHeader', () => {
     fireEvent.press(tokenPicker)
     expect(findByTestId('TokenBottomSheetContainer')).toBeTruthy()
 
-    // This lines need a mock for useShowOrHideAnimation to work.
-    // This is already tested in the TokenBottomSheet test file though.
-    // fireEvent.press(getByTestId('cUSDTouchable'))
-    // expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)
+    fireEvent.press(getByTestId('cUSDTouchable'))
+    expect(mockOnChangeToken).toHaveBeenLastCalledWith(mockCusdAddress)
   })
 })

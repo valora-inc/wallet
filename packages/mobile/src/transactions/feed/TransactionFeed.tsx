@@ -1,18 +1,17 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
+import * as Sentry from '@sentry/react-native'
 import React, { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { SectionList } from 'react-native'
 import { useDispatch } from 'react-redux'
 import config from 'src/geth/networkConfig'
 import useInterval from 'src/hooks/useInterval'
-import * as Sentry from '@sentry/react-native'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { updateTransactions } from 'src/transactions/actions'
+import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
 import { TRANSACTIONS_QUERY } from 'src/transactions/feed/query'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
-import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
 import { FeedType } from 'src/transactions/TransactionFeed'
@@ -133,7 +132,6 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
 }
 
 function TransactionFeed() {
-  const tokensInfo = useSelector(tokensByAddressSelector)
   const cachedTransactions = useSelector(transactionsSelector)
 
   const { loading, error, transactions } = useQueryTransactionFeed()
@@ -166,10 +164,6 @@ function TransactionFeed() {
       case 'TokenExchangeV2':
         return <ExchangeFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV2':
-        if (!tokensInfo[tx.amount.tokenAddress]) {
-          Logger.warn(TAG, `No token info found for address ${tx.amount.tokenAddress}`)
-          return null
-        }
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     }
   }

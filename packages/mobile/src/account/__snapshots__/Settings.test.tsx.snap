@@ -373,6 +373,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -480,6 +481,7 @@ exports[`Account renders correctly 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -1255,8 +1257,10 @@ exports[`Account renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -1279,8 +1283,10 @@ exports[`Account renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -1493,8 +1499,10 @@ exports[`Account renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -1517,8 +1525,10 @@ exports[`Account renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -1732,8 +1742,10 @@ exports[`Account renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -1756,8 +1768,10 @@ exports[`Account renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -1978,8 +1992,10 @@ exports[`Account renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -2002,8 +2018,10 @@ exports[`Account renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -2220,8 +2238,10 @@ exports[`Account renders correctly 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -2244,8 +2264,10 @@ exports[`Account renders correctly 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -2814,6 +2836,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -2921,6 +2944,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -4017,8 +4041,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -4041,8 +4067,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -4255,8 +4283,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -4279,8 +4309,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -4494,8 +4526,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -4518,8 +4552,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -4740,8 +4776,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -4764,8 +4802,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -4982,8 +5022,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -5006,8 +5048,10 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -5496,6 +5540,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -5603,6 +5648,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -6378,8 +6424,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -6402,8 +6450,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -6616,8 +6666,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -6640,8 +6692,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -6855,8 +6909,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -6879,8 +6935,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -7101,8 +7159,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -7125,8 +7185,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -7343,8 +7405,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -7367,8 +7431,10 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -7857,6 +7923,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="languageSettings/value"
                   >
                     unknown
                   </Text>
@@ -7964,6 +8031,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                         "marginRight": 8,
                       }
                     }
+                    testID="localCurrencySetting/value"
                   >
                     PHP
                   </Text>
@@ -8739,8 +8807,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -8763,8 +8833,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -8977,8 +9049,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -9001,8 +9075,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -9216,8 +9292,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -9240,8 +9318,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -9462,8 +9542,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -9486,8 +9568,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
@@ -9704,8 +9788,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       >
         <View
           accessible={true}
+          collapsable={false}
           focusable={true}
           forwardedRef={[Function]}
+          nativeID="animatedComponent"
           onClick={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
@@ -9728,8 +9814,10 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         />
         <View
+          collapsable={false}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
+          nativeID="animatedComponent"
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
