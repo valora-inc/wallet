@@ -94,7 +94,7 @@ describe(handleRequest, () => {
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1000000,
             gasPrice: 3,
-            chainId: 44787,
+            chainId: '0xaef3', // 44787 as a hex string
             nonce: 7,
           })
           .run()
@@ -134,7 +134,7 @@ describe(handleRequest, () => {
             feeCurrency: '0xStableToken',
             gas: '50001', // 1 + STATIC_GAS_PADDING
             gasPrice: 3,
-            chainId: 44787,
+            chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })
           .run()
@@ -155,7 +155,7 @@ describe(handleRequest, () => {
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1,
             gasPrice: 3,
-            chainId: 44787,
+            chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })
           .run()
@@ -178,7 +178,15 @@ describe(handleRequest, () => {
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
-          .call([mockWallet, 'signTransaction'], txParams)
+          .call([mockWallet, 'signTransaction'], {
+            from: '0xTEST',
+            data: '0xABC',
+            chainId: '0xafc8', // 45000 as a hex string
+            feeCurrency: '0xSomeCurrency',
+            gas: 1,
+            gasPrice: 2,
+            nonce: 3,
+          })
           .run()
       })
 
@@ -202,7 +210,7 @@ describe(handleRequest, () => {
             feeCurrency: '0xStableTokenEUR',
             gas: 1000000,
             gasPrice: 3,
-            chainId: 44787,
+            chainId: '0xaef3', // 44787 as a hex string
             nonce: 7,
           })
           .run()
