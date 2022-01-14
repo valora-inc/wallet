@@ -225,7 +225,7 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
-          options={{ title: t('dappsExplorerTitle'), drawerIcon: DappsExplorer }}
+          options={{ title: t('dappsScreen.title'), drawerIcon: DappsExplorer }}
         />
       )}
       <Drawer.Screen

@@ -1115,6 +1115,12 @@
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
     "buttonText": "Connect"
   },
-  "dappsExplorerTitle": "dAPPs",
-  "dappsScreenDescription": "Discover ways to use your crypto."
+  "dappsScreen": {
+    "title": "dAPPs",
+    "message": "Discover ways to use your crypto."
+  },
+  "dappsScreenHelpDialog": {
+    "title": "What are dApps?",
+    "message": "Decentralized apps (dapps) are built by Celo community members to provide financial services & other ways to use digital assets.\n\nValora selects a few dapps that are trusted by our team."
+  }
 }

@@ -19,6 +19,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
+import BottomSheet from 'src/components/BottomSheet'
+import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import DappsExplorerLogo from 'src/icons/DappsExplorerLogo'
 import Help from 'src/icons/navigator/Help'
@@ -26,7 +28,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
@@ -52,6 +53,9 @@ export function DAppsExplorerScreen({ navigation }: Props) {
   const { t } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const [categoriesWithItems, setcategoriesWithItems] = useState<CategoryWithItems[]>([])
+  const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
+  const [navigationUrl, setNavigationUrl] = useState('')
 
   if (!dappsListUrl) {
     return (
@@ -105,23 +109,55 @@ export function DAppsExplorerScreen({ navigation }: Props) {
     }
   )
 
+  const onItemPress = (url: string) => {
+    setNavigationUrl(url)
+    setBottomSheetVisible(true)
+  }
+
+  const onBottomSheetClose = () => {
+    setBottomSheetVisible(false)
+  }
+
+  const onHelpPress = () => {
+    setHelpDialogVisible(true)
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader
         left={<BackButton />}
-        title={t('dappsExplorerTitle')}
+        title={t('dappsScreen.title')}
         right={
           <TopBarIconButton
             icon={<Help />}
-            onPress={showHelpModal}
+            onPress={onHelpPress}
             style={styles.helpIconContainer}
           />
         }
       />
+      <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onBottomSheetClose}>
+        <>
+          <Text>X</Text>
+          <Text>Title</Text>
+          <Text>Message 1</Text>
+          <Text>Message 2</Text>
+          <Text>Dont show again Message</Text>
+          <Text>Go to {navigationUrl}</Text>
+        </>
+      </BottomSheet>
+
+      <Dialog
+        title={t('dappsScreenHelpDialog.title')}
+        isVisible={isHelpDialogVisible}
+        secondaryActionText="Dismiss"
+        secondaryActionPress={() => setHelpDialogVisible(false)}
+      >
+        {t('dappsScreenHelpDialog.message')}
+      </Dialog>
 
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{t('dappsScreenDescription')}</Text>
+          <Text style={styles.descriptionText}>{t('dappsScreen.message')}</Text>
           <View style={styles.descriptionImage}>
             <DappsExplorerLogo />
           </View>
@@ -137,14 +173,18 @@ export function DAppsExplorerScreen({ navigation }: Props) {
               />
             </View>
           )}
-          {!loading && categoriesWithItems.map(renderCategoryWithItems)}
+          {!loading &&
+            categoriesWithItems.map((category) => renderCategoryWithItems(category, onItemPress))}
         </>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-function renderCategoryWithItems(categoryWithItems: CategoryWithItems) {
+function renderCategoryWithItems(
+  categoryWithItems: CategoryWithItems,
+  onItemPress: (url: string) => void
+) {
   Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithItems)}`)
 
   const textStyle = {
@@ -155,17 +195,21 @@ function renderCategoryWithItems(categoryWithItems: CategoryWithItems) {
   return (
     <View style={styles.categoryContainer} key={`category-${categoryWithItems.id}`}>
       <Text style={textStyle}> {categoryWithItems.name} </Text>
-      <>{categoryWithItems.items.map(renderItem)}</>
+      <>{categoryWithItems.items.map((item) => renderItem(item, onItemPress))}</>
     </View>
   )
 }
 
-function renderItem(item: DappItem) {
+function renderItem(item: DappItem, onItemPress: (url: string) => void) {
   Logger.debug(TAG, `Render item ${JSON.stringify(item)}`)
+
+  const onPress = () => {
+    return onItemPress(item.dappUrl)
+  }
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft} key={`item-${item.id}`}>
-      <TouchableOpacity style={styles.pressableCard} onPress={goToExternalLink(item.dappUrl)}>
+      <TouchableOpacity style={styles.pressableCard} onPress={onPress}>
         <Image source={{ uri: item.iconUrl }} style={styles.dappIcon} />
         <View style={styles.itemTextContainer}>
           <Text style={styles.titleText}>{item.name}</Text>
@@ -179,12 +223,6 @@ function renderItem(item: DappItem) {
 
 function showHelpModal() {
   Logger.info('SHOW MODAL')
-}
-
-function goToExternalLink(url: string) {
-  return () => {
-    navigateToURI(url)
-  }
 }
 
 const styles = StyleSheet.create({
@@ -215,6 +253,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: variables.contentPadding,
+  },
+  helpDialogMessageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    margin: 16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,
