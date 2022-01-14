@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of approved 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of approved 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -222,7 +222,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of completed 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of completed 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -444,7 +444,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of created 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of created 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -727,7 +727,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of declined 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of declined 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -1079,7 +1079,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of expired 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of expired 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -1362,7 +1362,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of failed 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of failed 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -1714,7 +1714,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of needs-review 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of needs-review 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -1942,7 +1942,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of not-created 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of not-created 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -2225,7 +2225,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of pending 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of pending 1`] = `
 <RNCSafeAreaView
   style={
     Object {
@@ -2508,7 +2508,7 @@ exports[`LinkBankAccountScreen renders correctly for each possible kycStatus ren
 </RNCSafeAreaView>
 `;
 
-exports[`LinkBankAccountScreen renders correctly for each possible kycStatus renders correctly for a KycStatus of undefined 1`] = `
+exports[`LinkBankAccountScreen: integration tests (using real Persona component, for instance) renders correctly for each possible kycStatus renders correctly for a KycStatus of undefined 1`] = `
 <RNCSafeAreaView
   style={
     Object {
