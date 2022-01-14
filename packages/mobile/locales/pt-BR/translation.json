@@ -164,16 +164,16 @@
   "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Quer começar a adicionar fundos? Então corra, porque é por tempo limitado!",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
-    "text": "Envie e gaste como de costume. Você receberá recompensas sobre o saldo restante."
+    "text": "Vincule sua conta da Valora á seu número de celular."
   },
   "noMinCommitment": {
-    "header": "Recompensas automáticas",
-    "earningText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} para começar a ganhar recompensas.",
+    "header": "Adicione fundos",
+    "earningText": "Adicione {{minBalance}} {{currency}} ou mais gratuitamente com o Ramp.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Aumente seu saldo",
-    "text": "Deposite {{maxBalance}} {{currency}} para receber recompensas anuais de {{percent}}%."
+    "header": "Mantê-los seguros",
+    "text": "Crie sua Frase de Recuperação no Menu."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
