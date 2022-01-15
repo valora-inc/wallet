@@ -26,3 +26,7 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
   const token2UsdBalance = token2.balance.multipliedBy(token2.usdPrice ?? 0)
   return token2UsdBalance.comparedTo(token1UsdBalance)
 }
+
+export function isStablecoin(token: TokenBalance | undefined) {
+  return token?.isCoreToken && token.symbol !== 'CELO'
+}

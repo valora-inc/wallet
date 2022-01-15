@@ -1,3 +1,4 @@
+import { toTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -28,7 +29,7 @@ import {
   sendPaymentOrInviteSagaLegacy,
   watchQrCodeDetections,
 } from 'src/send/saga'
-import { getERC20TokenContract } from 'src/tokens/saga'
+import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
@@ -66,6 +67,8 @@ jest.mock('src/utils/time', () => ({
 jest.mock('src/invite/saga', () => ({
   sendInvite: jest.fn(),
 }))
+
+jest.mock('@celo/connect')
 
 const mockNewTransactionContext = jest.fn()
 
@@ -343,6 +346,10 @@ describe(sendPaymentOrInviteSaga, () => {
     feeInfo: mockFeeInfo,
   }
 
+  beforeAll(() => {
+    ;(toTransactionObject as jest.Mock).mockImplementation(() => jest.fn())
+  })
+
   it('sends a payment successfully', async () => {
     await expectSaga(sendPaymentOrInviteSaga, sendAction)
       .withState(createMockStore({}).getState())
@@ -350,6 +357,7 @@ describe(sendPaymentOrInviteSaga, () => {
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
+        [call(getStableTokenContract, mockCusdAddress), mockContract],
       ])
       .put(
         addStandbyTransaction({
@@ -366,9 +374,10 @@ describe(sendPaymentOrInviteSaga, () => {
       .call.fn(sendAndMonitorTransaction)
       .run()
 
-    expect(mockContract.methods.transfer).toHaveBeenCalledWith(
+    expect(mockContract.methods.transferWithComment).toHaveBeenCalledWith(
       mockQRCodeRecipient.address,
-      amount.times(1e18).toFixed(0)
+      amount.times(1e18).toFixed(0),
+      expect.any(String)
     )
   })
 
@@ -411,6 +420,7 @@ describe(sendPaymentOrInviteSaga, () => {
         [select(currentAccountSelector), account],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
+        [call(getStableTokenContract, mockCusdAddress), mockContract],
       ])
       .call.fn(giveProfileAccess)
       .run()
