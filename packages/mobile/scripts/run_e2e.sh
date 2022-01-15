@@ -177,7 +177,7 @@ if [ $PLATFORM = "android" ]; then
       &
 
     echo "Waiting for device to boot"
-    `adb wait-for-device shell while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done`
+    adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
   fi
 
   # Run Detox Tests
