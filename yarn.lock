@@ -9353,10 +9353,10 @@ detox-recorder@^1.0.151:
   resolved "https://registry.yarnpkg.com/detox-recorder/-/detox-recorder-1.0.151.tgz#5d59775dc01ea58595c749aade0420c5ba73dd43"
   integrity sha512-a4ZPo7AR5XJJiLy8Xqml8YXxrIz6R7RKfiGmG9u5MBxG2I+w+yGJTj7ZhYDfoi5StpUD+dKHTCdvycZTOQ84Cw==
 
-detox@^19.4.1:
-  version "19.4.1"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-19.4.1.tgz#9981ef124dfc1a11a8da425daafc161ebfb60980"
-  integrity sha512-zEIM28HP79FkW0nc7FzVVw8l2+Di0mi7JHo8oQKbXhq8gx4QwcLdi697u8cUnmIiKlfgyECSbv279poFlub+DQ==
+detox@^19.4.2:
+  version "19.4.2"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-19.4.2.tgz#2ee3f83a607181b72cf518ca517a2ca28224b1c2"
+  integrity sha512-6nC094kcsf/Gnkk9ybkbI1wMB+28yBiNfAqnfhtYdUU/5AEkMzragxjiose55xC7LuXgkalaseLJEdkUodh3Ig==
   dependencies:
     ajv "^8.6.3"
     bunyan "^1.8.12"
