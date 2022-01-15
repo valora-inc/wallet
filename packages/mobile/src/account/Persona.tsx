@@ -15,7 +15,7 @@ import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
-import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
+import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -32,7 +32,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) =>
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
-  const walletAddress = useSelector(walletAddressSelector)
+  const dekPrivate = useSelector(dataEncryptionKeySelector)
 
   const dispatch = useDispatch()
 
@@ -86,9 +86,14 @@ const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) =>
         return
       }
 
+      if (!dekPrivate) {
+        Logger.error(TAG, 'Cannot render Persona because dekPrivate is null')
+        return
+      }
+
       const IHLResponse = await createPersonaAccount({
         accountMTWAddress,
-        walletAddress: walletAddress as string,
+        dekPrivate,
       })
 
       if (IHLResponse.status === 201 || IHLResponse.status === 409) {
