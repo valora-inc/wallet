@@ -176,9 +176,9 @@ if [ $PLATFORM = "android" ]; then
       ${CI:+-gpu swiftshader_indirect -no-window} \
       &
 
-    echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-    until [ `adb shell dumpsys wifi | grep "Wi-Fi is enabled" | wc -l` -gt 0 ]
-    do
+    echo "Waiting for device to boot"
+    while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]
+    do 
       sleep 3
     done
   fi
