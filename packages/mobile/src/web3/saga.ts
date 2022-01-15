@@ -30,6 +30,7 @@ import {
   SetAccountAction,
   setFornoMode,
   SetIsFornoAction,
+  SetMtwAddressAction,
   updateWeb3SyncProgress,
   Web3SyncProgress,
 } from 'src/web3/actions'
@@ -37,6 +38,7 @@ import { destroyContractKit, getWallet, getWeb3, initContractKit } from 'src/web
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import { currentAccountSelector, fornoSelector, mtwAddressSelector } from 'src/web3/selectors'
 import { blockIsFresh, getLatestBlock } from 'src/web3/utils'
+import { RootState } from '../redux/reducers'
 
 const TAG = 'web3/saga'
 
@@ -246,20 +248,51 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
   }
 }
 
-// Wait for account to exist and then return it
-export function* getWalletAddress() {
+/**
+ * Get an address associated with the user account.
+ *
+ * Waits for the address to exist, then returns it.
+ *
+ * Used to help make getWalletAddress and getMTWAddress more DRY (since they are almost exactly the same).
+ *
+ * @param addressSelector
+ * @param action
+ */
+function* getAddress<T extends { address: string | null }>({
+  addressSelector,
+  action,
+}: {
+  addressSelector: (state: RootState) => string | null
+  action: Actions
+}) {
   while (true) {
-    const account = yield select(currentAccountSelector)
+    const account = yield select(addressSelector)
     if (account) {
       return account
     }
 
-    const action: SetAccountAction = yield take(Actions.SET_ACCOUNT)
-    if (action.address) {
+    const actionEffect: T = yield take(action)
+    if (actionEffect.address) {
       // account exists
-      return action.address
+      return actionEffect.address
     }
   }
+}
+
+// Wait for account to exist and then return it
+export function* getWalletAddress() {
+  return yield getAddress<SetAccountAction>({
+    addressSelector: currentAccountSelector,
+    action: Actions.SET_ACCOUNT,
+  })
+}
+
+// wait for MTW to exist and then return it
+export function* getMTWAddress() {
+  return yield getAddress<SetMtwAddressAction>({
+    addressSelector: mtwAddressSelector,
+    action: Actions.SET_MTW_ADDRESS,
+  })
 }
 
 // deprecated, please use |getWalletAddress| instead.
