@@ -8,17 +8,17 @@
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération",
   "legal": "Mentions légales",
   "securityAndData": "Sécurité et données",
-  "changePin": "Change PIN",
+  "changePin": "Modifier le code PIN",
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
   "requirePinOnAppOpen": "Exiger le code PIN à l'ouverture de l'appli",
-  "connectedApplications": "Connected Apps",
+  "connectedApplications": "Applis connectées",
   "analytics": "Analyses",
   "shareAnalytics": "Partager les analyses",
-  "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
-  "dataSaver": "Data Saver",
-  "enableDataSaver": "Enable Data Saver",
-  "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
+  "shareAnalytics_detail": "Nous collectons des données anonymisées sur la façon dont vous utilisez {{appName}} pour permettre d'améliorer cette appli pour tous les utilisateurs.",
+  "dataSaver": "Économiseur de données",
+  "enableDataSaver": "Activer l'Économiseur de données",
+  "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
   "restartModalSwitchOff": {
     "header": "Redémarrer pour désactiver l'Économiseur de données",
     "body": "Pour activer et désactiver l'Économiseur de données, vous devrez redémarrer l'appli et revenir sur cet écran.",
@@ -126,45 +126,45 @@
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
   "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre phrase de récupération ?",
   "importBackupFailed": "L'importation du portefeuille a échoué",
-  "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
+  "backupQuizFailed": "La phrase de récupération que vous avez saisie est incorrecte. Veuillez réessayer.",
   "invalidBackupPhrase": "La phrase de récupération n'est pas valide",
   "invalidWordsInBackupPhrase": "Certains mots dans la phrase de récupération ne sont pas valides : {{ invalidWords }}",
   "backupComplete": {
     "header": "Sauvegarde terminée",
-    "0": "Success!",
+    "0": "Terminé avec succès !",
     "1": "Vous pouvez maintenant configurer des sauvegardes.",
     "2": "Tout est prêt !"
   },
   "cancelDialog": {
     "title": "Terminer la configuration de votre phrase de récupération",
-    "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
+    "body": "Votre phrase de récupération est extrêmement importante. Sans cette phrase, vous pouvez perdre définitivement l'accès à votre portefeuille.\nVous ne pourrez plus faire aucune transaction tant que vous n'aurez pas terminé la configuration de votre phrase de récupération.",
     "action": "Terminer maintenant",
     "secondary": "Configurer plus tard"
   },
-  "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
+  "backupPhrasePlaceholder": "cheval léopard chien singe requin tigre lémurien baleine calamar loup écureuil souris lion éléphant chat crevette ours pingouin chevreuil tortue renard zèbre chèvre girafe",
   "guide": [
     {
       "title": "Votre phrase de récupération est un type spécial de mot de passe",
       "text": "Votre phrase de récupération est la seule et unique façon d'accéder à votre compte."
     },
     {
-      "title": "Without your Recovery Phrase, you can lose access forever",
-      "text": "If you lose your phone, you must have your Recovery Phrase to get your account back. Nobody, not even {{appName}}, will be able to recover your funds without it."
+      "title": "Sans votre phrase de récupération, vous perdez définitivement l'accès à vos fonds",
+      "text": "Si vous perdez votre téléphone, vous devez disposer de votre phrase de récupération pour accéder à votre compte. Personne, même pas {{appName}}, ne pourra récupérer vos fonds sans cette phrase."
     },
     {
-      "title": "Write it down",
+      "title": "Notez-la",
       "text": "Notez votre phrase de récupération et conservez-la dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone."
     },
     {
       "title": "Gardez votre phrase confidentielle",
-      "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
+      "text": "Quiconque possède votre phrase pourra accéder à votre compte et à tous les fonds qui s'y trouvent. Ne la partagez avec personne."
     }
   ],
   "consumerIncentivesTitle": "Augmentez vos récompenses",
   "consumerIncentivesSummary": "La fonction Supercharge est disponible ! Obtenez {{percent}}% de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus et encaissez dès maintenant !",
   "earnWeekly": {
     "header": "Paiement hebdomadaire",
-    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
+    "text": "Virez et dépensez comme d'habitude, vous serez récompensé sur le solde restant."
   },
   "noMinCommitment": {
     "header": "Récompenses automatiques",
@@ -178,7 +178,7 @@
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
   "allow": "Autoriser",
   "address": "Adresse du compte",
   "phoneNumber": "Numéro de téléphone",
@@ -248,15 +248,15 @@
   "noExchanges": "Il n'y a pas d'échanges disponibles pour {{digitalAsset}} dans votre pays.",
   "buySellOnExchanges": "Acheter/Vendre sur les échanges",
   "cashOut": "Retirer des fonds",
-  "cashOutSubtitle": "Spend on gift cards and other purchases or send funds to a crypto exchange",
-  "cashOutComingSoon": "Cash Out (Coming Soon)",
+  "cashOutSubtitle": "Achetez des cartes-cadeaux et d'autres articles ou virez des fonds vers un échange de cryptomonnaies",
+  "cashOutComingSoon": "Encaisser (bientôt disponible)",
   "spend": "Dépenser",
   "spendSubtitle": "Utilisez votre solde auprès des vendeurs prenant en charge ces monnaies",
   "amountCelo": "Montant (CELO)",
   "onlyCeloDollars": "cUSD seulement",
   "onlyCelo": "CELO uniquement",
   "celoDollar": "Dollar Celo",
-  "celoEuro": "Celo Euro",
+  "celoEuro": "Euro Celo",
   "celoDollars": "Dollars Celo",
   "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse CUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
@@ -267,36 +267,36 @@
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
   "selectCashOutMethod": "Recevoir des fonds en :",
-  "receiveOnAddress": "Celo address",
-  "receiveWithBidali": "Gift Cards and Mobile Top Up",
+  "receiveOnAddress": "Adresse Celo",
+  "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
-    "title": "Funding your {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
-    "dismiss": "OK"
+    "title": "Créditer votre {{appName}}",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "dismiss": "Ok"
   },
   "cashOutEducationDialog": {
-    "title": "Withdraw from {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
-    "dismiss": "OK"
+    "title": "Retirer de {{appName}}",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "dismiss": "Ok"
   },
   "explanationModal": {
-    "title": "About Providers",
-    "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
+    "title": "À propos des prestataires",
+    "body": "Les prestataires vous permettent d'ajouter des fonds à votre compte ou d'en retirer. Ils déterminent leurs propres tarifs et restrictions en fonction de différents facteurs. Veuillez consulter le site Web du prestataire pour obtenir de l'aide."
   },
   "invalidAmountDialog": {
-    "minAmount": "Our providers do not support totals smaller than {{usdLimit}}{{localLimit}}. Please enter a larger amount.",
-    "maxAmount": "Our providers do not support totals larger than {{usdLimit}}{{localLimit}}. Please enter a smaller amount.",
-    "dismiss": "OK"
+    "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant plus élevé.",
+    "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant moins élevé.",
+    "dismiss": "Ok"
   },
   "dailyLimitDialog": {
-    "body": "You are about to purchase more than your daily send limit of {{limit}}. Please contact <0>{{contactEmail}}</0> if you want to raise your daily send limit.",
+    "body": "Vous êtes sur le point d'acheter plus que votre limite quotidienne de virement de {{limit}}. Veuillez contacter <0>{{contactEmail}}</0> si vous souhaitez augmenter votre limite de virement quotidienne.",
     "contact": "Contact",
-    "continue": "I Understand"
+    "continue": "Je comprends"
   },
   "providerFeesDialog": {
-    "title": "Provider Fees",
-    "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
-    "body2": "{{providerName}}'s website"
+    "title": "Frais du prestataire",
+    "body1": "Les frais du prestataire sont fixés par chaque prestataire individuellement et incluent des frais de change et des frais de liquidité, entre autres. Pour en savoir plus, veuillez consulter ",
+    "body2": "Le site web de {{providerName}}"
   },
   "providerFeeDiscountDialog": {
     "title": "Fee Discount",
@@ -352,7 +352,7 @@
   "notEnoughStableError": "Not enough {{token}} to make exchange",
   "notEnoughGoldError": "Not enough CELO to make exchange",
   "exchangeFailed": "Exchange failed, please retry",
-  "transactionFailed": "Transaction failed, please retry",
+  "transactionFailed": "La transaction a échoué, veuillez réessayer",
   "refreshFailedUnexpectedly": "Failed to refresh, please check your connectivity",
   "paste": "Paste",
   "choose": "Choose",
