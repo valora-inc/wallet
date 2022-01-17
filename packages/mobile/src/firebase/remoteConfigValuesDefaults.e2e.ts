@@ -1,4 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
+import { SuperchargeButton } from 'src/app/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -36,4 +37,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryEnabled: false,
+  superchargeButton: SuperchargeButton.PillRewards,
 }
