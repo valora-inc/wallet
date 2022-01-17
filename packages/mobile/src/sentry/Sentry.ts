@@ -14,7 +14,6 @@ const TAG = 'sentry/Sentry'
 export const sentryRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation()
 
 export function* initializeSentry() {
-  console.log('SENTRY_ENABLED', SENTRY_ENABLED, SENTRY_CLIENT_URL)
   if (!SENTRY_ENABLED) {
     Logger.info(TAG, 'Sentry not enabled')
     return

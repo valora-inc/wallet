@@ -34,7 +34,6 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
-    console.info('Sending error to sentry', message)
     Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
     console.info(`${tag} :: ${message} :: ${errorMsg}`)
     if (__DEV__) {
