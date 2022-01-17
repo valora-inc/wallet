@@ -866,10 +866,21 @@ export const v26Schema = {
   app: {
     ...v25Schema.app,
     rampCashInButtonExpEnabled: false,
+  },
+}
+
+export const v27Schema = {
+  ...v26Schema,
+  _persist: {
+    ...v26Schema._persist,
+    version: 27,
+  },
+  app: {
+    ...v26Schema.app,
     dappsExplorerEnabled: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v26Schema as Partial<RootState>
+  return v27Schema as Partial<RootState>
 }

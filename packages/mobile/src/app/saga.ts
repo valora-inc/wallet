@@ -145,6 +145,7 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   dappListApiUri: string | null
+  dappsExplorerEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
@@ -171,7 +172,6 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   sentryEnabled: boolean
-  dappsExplorerEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

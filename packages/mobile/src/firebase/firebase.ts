@@ -248,6 +248,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUri: flags.dappListApiUri?.asString() ?? null,
+    dappsExplorerEnabled: flags.dappsExplorerEnabled.asBoolean(),
     inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
     inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
     inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
@@ -272,7 +273,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryEnabled: flags.sentryEnabled.asBoolean(),
-    dappsExplorerEnabled: flags.dappsExplorerEnabled.asBoolean(),
   }
 }
 

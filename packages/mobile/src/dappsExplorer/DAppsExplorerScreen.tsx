@@ -23,6 +23,7 @@ import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import DappsExplorerLogo from 'src/icons/DappsExplorerLogo'
+import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -51,22 +52,16 @@ interface DappItem {
 export function DAppsExplorerScreen() {
   const { t } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const [categoriesWithItems, setcategoriesWithItems] = useState<CategoryWithItems[]>([])
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<DappItem>()
 
-  if (!dappsListUrl) {
-    return (
-      <View style={styles.centerContainer} testID="DAppExplorerScreen/error">
-        <Text style={fontStyles.large}> Configuration error. </Text>
-        <Text style={fontStyles.large}> dappsListUrl is not set. </Text>
-      </View>
-    )
-  }
-
-  const { loading } = useAsync(
+  const { loading, error, result } = useAsync(
     async () => {
+      if (!dappsListUrl) {
+        throw new Error('Dapps list url is not defined')
+      }
+
       const response = await fetch(dappsListUrl, {
         method: 'GET',
         headers: {
@@ -74,36 +69,41 @@ export function DAppsExplorerScreen() {
           Accept: 'application/json',
         },
       })
-      return response.json()
+
+      const result = await response.json()
+      try {
+        const categoriesById: { [id: string]: CategoryWithItems } = {}
+        result.categories.forEach((cat: any) => {
+          categoriesById[cat.id] = {
+            id: cat.id,
+            name: cat.name,
+            fontColor: cat.fontColor,
+            backgroundColor: cat.backgroundColor,
+            items: [],
+          }
+        })
+        result.applications.forEach((app: any) => {
+          categoriesById[app.categoryId].items.push({
+            id: app.id,
+            name: app.name,
+            iconUrl: app.logoUrl,
+            description: app.description,
+            dappUrl: app.url,
+          })
+        })
+        return Object.values(categoriesById)
+      } catch (error) {
+        Logger.error(TAG, 'onError', error as Error)
+        throw Error(`There was an error while parsing response: ${(error as Error)?.message}`)
+      }
     },
     [],
     {
       onSuccess: (result) => {
         Logger.debug(TAG, `fetch onSuccess: ${JSON.stringify(result)}`)
-        try {
-          const categoriesById: { [id: string]: CategoryWithItems } = {}
-          result.categories.forEach((cat: any) => {
-            categoriesById[cat.id] = {
-              id: cat.id,
-              name: cat.name,
-              fontColor: cat.fontColor,
-              backgroundColor: cat.backgroundColor,
-              items: [],
-            }
-          })
-          result.applications.forEach((app: any) => {
-            categoriesById[app.categoryId].items.push({
-              id: app.id,
-              name: app.name,
-              iconUrl: app.logoUrl,
-              description: app.description,
-              dappUrl: app.url,
-            })
-          })
-          setcategoriesWithItems(Object.values(categoriesById))
-        } catch (e) {
-          Logger.error(TAG, "Couldn't parse response", e as Error)
-        }
+      },
+      onError: (error) => {
+        Logger.error(TAG, 'fetch onError', error as Error)
       },
     }
   )
@@ -131,6 +131,8 @@ export function DAppsExplorerScreen() {
     setBottomSheetVisible(false)
   }
 
+  console.log(`DIEGO ${JSON.stringify(result)}`)
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader
@@ -156,8 +158,6 @@ export function DAppsExplorerScreen() {
             <Text style={{ ...fontStyles.regular, textAlign: 'center', flex: 1 }}>
               {t('dappsScreenBottomSheet.message')}
             </Text>
-
-            {/* <Text>Dont show again Message</Text> */}
             <Button
               style={styles.bottomSheetButton}
               onPress={onNavigationButtonPress}
@@ -195,7 +195,15 @@ export function DAppsExplorerScreen() {
             </View>
           )}
           {!loading &&
-            categoriesWithItems.map((category) => renderCategoryWithItems(category, onItemPress))}
+            result &&
+            result.map((category: CategoryWithItems) =>
+              renderCategoryWithItems(category, onItemPress)
+            )}
+          {!loading && error && (
+            <View style={{ ...styles.centerContainer, marginTop: 96 }}>
+              <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
+            </View>
+          )}
         </>
       </ScrollView>
     </SafeAreaView>
@@ -240,7 +248,7 @@ function renderItem(item: DappItem, onItemPress: (dapp: DappItem) => void) {
           <Text style={styles.itemTitleText}>{item.name}</Text>
           <Text style={styles.itemSubtitleText}>{item.description}</Text>
         </View>
-        <Image source={require('src/images/link-arrow.png')} style={styles.linkArrow} />
+        <LinkArrow style={styles.linkArrow} />
       </TouchableOpacity>
     </Card>
   )
@@ -274,13 +282,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: variables.contentPadding,
-  },
-  helpDialogMessageContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    margin: 16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,

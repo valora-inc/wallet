@@ -362,4 +362,11 @@ export const migrations = {
       rampCashInButtonExpEnabled: false,
     },
   }),
+  27: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      dappsExplorerEnabled: false,
+    },
+  }),
 }

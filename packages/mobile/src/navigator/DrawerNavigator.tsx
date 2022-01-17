@@ -32,7 +32,7 @@ import Support from 'src/account/Support'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
-import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
+import { dappsListApiUrlSelector, multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -181,7 +181,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
-  const isDappsExplorerEnabled = useSelector((state) => state.app.dappsExplorerEnabled)
+  const isDappsExplorerEnabled = true
+  const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
   const dispatch = useDispatch()
 
@@ -221,7 +222,7 @@ export default function DrawerNavigator() {
           }}
         />
       )}
-      {isDappsExplorerEnabled && (
+      {isDappsExplorerEnabled && dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}

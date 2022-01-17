@@ -12,6 +12,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   // same here
   // celoEducationUri: null,
   // dappListApiUri: null,
+  dappsExplorerEnabled: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 5,
@@ -42,5 +43,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryEnabled: SENTRY_ENABLED,
-  dappsExplorerEnabled: false,
 }

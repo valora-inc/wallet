@@ -1,5 +1,4 @@
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useState } from 'react'
 import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native'
@@ -98,40 +97,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
-  },
-  title: {
-    ...fontStyles.h2,
-    marginBottom: Spacing.Smallest8,
-  },
-  tokenOptionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-  },
-  tokenImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  tokenNameContainer: {
-    alignItems: 'flex-start',
-  },
-  tokenBalanceContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  localBalance: {
-    ...fontStyles.regular,
-  },
-  currencyBalance: {
-    ...fontStyles.small,
-    color: colors.gray4,
-  },
-  separator: {
-    width: '100%',
-    height: 1,
-    backgroundColor: colors.gray2,
   },
   fullHeightScrollView: {
     paddingBottom: 50,
