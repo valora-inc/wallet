@@ -672,7 +672,9 @@
     "cta": {
       "useFaceId": "Turn on Face ID",
       "useTouchId": "Turn on Touch ID",
-      "useFingerprint": "Turn on fingerprint"
+      "useFingerprint": "Scan fingerprint",
+      "useFace": "Turn on Face recognition",
+      "useIris": "Turn on Iris recognition"
     }
   },
   "welcome": {
