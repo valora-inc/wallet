@@ -4,12 +4,12 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "75...100" # Range in which checks are green
+  range: '75...100' # Range in which checks are green
   status:
     project:
       default:
-        target: 75%    # the required coverage value
-        threshold: 5%  # the leniency in hitting the target
+        target: 75% # the required coverage value
+        threshold: 5% # the leniency in hitting the target
         base: auto
 
 parsers:
@@ -21,6 +21,6 @@ parsers:
       macro: no
 
 comment:
-  layout: "reach,diff,flags,files,footer"
+  layout: 'reach,diff,flags,files,footer'
   behavior: default
   require_changes: no

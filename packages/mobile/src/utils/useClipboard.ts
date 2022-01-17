@@ -39,7 +39,7 @@ export function useClipboard(): [boolean, string, () => Promise<string>] {
 
     const interval = setInterval(checkClipboardContent, CLIPBOARD_CHECK_INTERVAL)
 
-    AppState.addEventListener('change', checkClipboardContent)
+    const appStateListener = AppState.addEventListener('change', checkClipboardContent)
 
     checkClipboardContent().catch(() => {
       // Ignored
@@ -47,7 +47,7 @@ export function useClipboard(): [boolean, string, () => Promise<string>] {
 
     return () => {
       isMounted = false
-      AppState.removeEventListener('change', checkClipboardContent)
+      appStateListener.remove()
       clearInterval(interval)
     }
   }, [])

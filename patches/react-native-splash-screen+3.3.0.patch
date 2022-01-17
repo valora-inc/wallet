@@ -1,15 +1,16 @@
-patch-package
+diff --git a/node_modules/react-native-splash-screen/android/src/main/java/org/devio/rn/splashscreen/SplashScreen.java b/node_modules/react-native-splash-screen/android/src/main/java/org/devio/rn/splashscreen/SplashScreen.java
+index f316efe..1469122 100644
 --- a/node_modules/react-native-splash-screen/android/src/main/java/org/devio/rn/splashscreen/SplashScreen.java
 +++ b/node_modules/react-native-splash-screen/android/src/main/java/org/devio/rn/splashscreen/SplashScreen.java
-@@ -3,6 +3,7 @@ package org.devio.rn.splashscreen;
- import android.app.Activity;
+@@ -4,6 +4,7 @@ import android.app.Activity;
  import android.app.Dialog;
  import android.os.Build;
+ import android.view.WindowManager;
 +import android.view.View;
  
  import java.lang.ref.WeakReference;
  
-@@ -29,6 +30,14 @@ public class SplashScreen {
+@@ -30,6 +31,14 @@ public class SplashScreen {
              public void run() {
                  if (!activity.isFinishing()) {
                      mSplashDialog = new Dialog(activity, themeResId);
@@ -23,4 +24,4 @@ patch-package
 +                      );
                      mSplashDialog.setContentView(R.layout.launch_screen);
                      mSplashDialog.setCancelable(false);
- 
+                     if (fullScreen) {

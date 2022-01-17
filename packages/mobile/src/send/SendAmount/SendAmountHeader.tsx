@@ -9,11 +9,12 @@ import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigat
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 interface Props {
   tokenAddress: string
   isOutgoingPaymentRequest: boolean
+  isInvite: boolean
   onChangeToken: (token: string) => void
   disallowCurrencyChange: boolean
 }
@@ -21,13 +22,16 @@ interface Props {
 function SendAmountHeader({
   tokenAddress,
   isOutgoingPaymentRequest,
+  isInvite,
   onChangeToken,
   disallowCurrencyChange,
 }: Props) {
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
+  const inviteTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
+  const tokenList = isInvite ? inviteTokens : tokensWithBalance
 
   const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)
@@ -42,7 +46,7 @@ function SendAmountHeader({
     : SendEvents.send_amount_back
 
   const canChangeToken =
-    (tokensWithBalance.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
+    (tokenList.length >= 2 || isOutgoingPaymentRequest) && !disallowCurrencyChange
 
   const title = useMemo(() => {
     let titleText
@@ -81,6 +85,7 @@ function SendAmountHeader({
       />
       <TokenBottomSheet
         isOutgoingPaymentRequest={isOutgoingPaymentRequest}
+        isInvite={isInvite}
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}

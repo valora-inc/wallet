@@ -149,6 +149,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+/**
+ * Architectures to build native code for in debug.
+ */
+def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
+
 def appVersionCode = Integer.valueOf(System.env.CIRCLE_BUILD_NUM ?: VERSION_CODE)
 
 android {
@@ -209,6 +214,11 @@ android {
             // minifyEnabled true
             // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", "devsupport.pro"
             signingConfig signingConfigs.debug
+            if (nativeArchitectures) {
+                ndk {
+                    abiFilters nativeArchitectures.split(',')
+                }
+            }
         }
 
         release {
@@ -268,7 +278,9 @@ android {
 
 
 dependencies {
-    androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation('com.wix:detox:+') {
+        exclude group: 'com.google.android.material'
+    }
     androidTestImplementation('com.linkedin.testbutler:test-butler-library:2.2.1')
 
     implementation 'androidx.multidex:multidex:2.0.1'

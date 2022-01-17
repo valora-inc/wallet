@@ -26,17 +26,13 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       },
     ]
   }
-  disableVirtualization={false}
   getItem={[Function]}
   getItemCount={[Function]}
-  horizontal={false}
-  initialNumToRender={10}
   keyExtractor={[Function]}
   keyboardShouldPersistTaps="always"
-  maxToRenderPerBatch={10}
   onContentSizeChange={[Function]}
-  onEndReachedThreshold={2}
   onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
   onMomentumScrollEnd={[Function]}
   onScroll={[Function]}
   onScrollBeginDrag={[Function]}
@@ -45,8 +41,6 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
   testID="TransactionList"
-  updateCellsBatchingPeriod={50}
-  windowSize={21}
 >
   <View>
     <View
@@ -87,6 +81,11 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
       style={null}
     >
       <View
+        accessibilityState={
+          Object {
+            "disabled": false,
+          }
+        }
         accessible={true}
         focusable={true}
         nativeBackgroundAndroid={

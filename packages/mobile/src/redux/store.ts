@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Sentry from '@sentry/react-native'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
@@ -20,7 +20,7 @@ let lastEventTime = Date.now()
 
 const persistConfig: PersistConfig<RootState> = {
   key: 'root',
-  version: 25, // default is -1, increment as we make migrations
+  version: 26, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'imports'],

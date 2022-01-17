@@ -14,7 +14,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.plaid.PlaidPackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.sentry.react.RNSentryPackage;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +37,6 @@ public class MainApplication
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
-      packages.add(new PlaidPackage());
       return packages;
     }
 

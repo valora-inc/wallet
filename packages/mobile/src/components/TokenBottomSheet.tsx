@@ -14,7 +14,11 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
-import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  coreTokensSelector,
+  stablecoinsSelector,
+  tokensWithTokenBalanceSelector,
+} from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
@@ -29,6 +33,7 @@ interface Props {
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
   isOutgoingPaymentRequest?: boolean
+  isInvite?: boolean
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -69,13 +74,17 @@ function TokenBottomSheet({
   onTokenSelected,
   onClose,
   isOutgoingPaymentRequest,
+  isInvite = false,
 }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
 
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const coreTokens = useSelector(coreTokensSelector)
-  const tokenList = (isOutgoingPaymentRequest ? coreTokens : tokens).sort(sortByUsdBalance)
+  const inviteTokens = useSelector(stablecoinsSelector)
+  const tokenList = (isInvite ? inviteTokens : isOutgoingPaymentRequest ? coreTokens : tokens).sort(
+    sortByUsdBalance
+  )
 
   const { t } = useTranslation()
 

@@ -5,7 +5,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import format from 'date-fns/esm/format'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { AppState, Image, Platform, StyleSheet, Text, View } from 'react-native'
+import {
+  AppState,
+  Image,
+  NativeEventSubscription,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
 import { withTranslation } from 'src/i18n'
 import { clockIcon } from 'src/images/Images'
@@ -28,14 +36,16 @@ export class SetClock extends React.Component<Props, State> {
     correctTime: Date.now(),
   }
 
+  appStateListener: NativeEventSubscription | null = null
+
   componentDidMount = async () => {
     const correctTime = await getRemoteTime()
     this.setState({ correctTime })
-    AppState.addEventListener('change', this.navigateHomeIfSynced)
+    this.appStateListener = AppState.addEventListener('change', this.navigateHomeIfSynced)
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.navigateHomeIfSynced)
+    this.appStateListener?.remove()
   }
 
   navigateHomeIfSynced = () => {
