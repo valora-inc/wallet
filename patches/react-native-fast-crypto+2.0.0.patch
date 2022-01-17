@@ -18,3 +18,15 @@ index dd999fa..79db185 100644
  }
  
  repositories {
+diff --git a/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec b/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
+index 0745247..ce5333d 100644
+--- a/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
++++ b/node_modules/react-native-fast-crypto/react-native-fast-crypto.podspec
+@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
+     "ios/Libraries/libnativecrypto.a",
+     "ios/Libraries/libsecp256k1.a"
+ 
+-  s.dependency "React"
++  s.dependency "React-Core"
+   s.dependency "OpenSSL-Universal"
+ end

@@ -44,7 +44,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
         avatar={<TransferAvatars type="sent" recipient={recipient} />}
         testID="TransferSent"
       />
-      <CommentSection comment={metadata.comment} />
+      <CommentSection comment={metadata.comment} isSend={true} />
       <HorizontalLine />
       <LineItemRow
         title={isCeloWithdrawal ? t('amountCeloWithdrawn') : t('amountSent')}

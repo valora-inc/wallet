@@ -47,6 +47,7 @@ import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { isStablecoin } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -245,7 +246,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  const allowComment = !isInvite && tokenInfo?.isCoreToken
+  const allowComment = !isInvite && isStablecoin(tokenInfo)
 
   return (
     <SafeAreaView

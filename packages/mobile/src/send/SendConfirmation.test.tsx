@@ -25,6 +25,7 @@ import {
   mockAccount2,
   mockAccount2Invite,
   mockAccountInvite,
+  mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
@@ -106,6 +107,14 @@ describe('SendConfirmation', () => {
             symbol: 'cEUR',
             balance: '100',
             usdPrice: '1.2',
+            isCoreToken: true,
+            priceFetchedAt: Date.now(),
+          },
+          [mockCeloAddress]: {
+            address: mockCeloAddress,
+            symbol: 'CELO',
+            balance: '20',
+            usdPrice: '5',
             isCoreToken: true,
             priceFetchedAt: Date.now(),
           },
@@ -274,6 +283,21 @@ describe('SendConfirmation', () => {
     const comment = 'A comment!'
     fireEvent.changeText(input, comment)
     expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+  })
+
+  it('doesnt show the comment for CELO', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockCeloAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
   it('doesnt show the comment for non core tokens', () => {
