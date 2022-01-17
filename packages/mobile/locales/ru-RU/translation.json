@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require Pin on App Open",
+  "requirePinOnAppOpen": "Require PIN on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
@@ -163,17 +163,17 @@
   "consumerIncentivesTitle": "Boost your Rewards",
   "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
-    "header": "Connect your phone number",
-    "text": "Link your Valora account to your phone number."
+    "header": "Weekly payout",
+    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Cash in {{minBalance}} or more {{currency}} for free with Ramp.",
+    "header": "Automatic rewards",
+    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
     "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
-    "header": "Keep it safe",
-    "text": "Set up your Recovery Phrase from the Menu."
+    "header": "Boost your balance",
+    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "cashIn": "Add {{currency}}",
@@ -185,7 +185,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign Tx",
+    "signTX": "Sign TX",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -744,8 +744,10 @@
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "resendMessages_0": "Resend last message",
+    "resendMessages_1": "Resend {{count}} messages",
+    "resendMessages_2": "Resend {{count}} messages",
+    "resendMessages_3": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -757,8 +759,10 @@
       "title": "Missing some or all messages?",
       "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
+      "content_countdown_0": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
+      "content_countdown_1": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds.",
+      "content_countdown_2": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds.",
+      "content_countdown_3": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
@@ -1121,6 +1125,8 @@
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
   },
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars"
+  "celoDollarAmount_0": "<0></0> Celo Dollar",
+  "celoDollarAmount_1": "<0></0> Celo Dollars",
+  "celoDollarAmount_2": "<0></0> Celo Dollars",
+  "celoDollarAmount_3": "<0></0> Celo Dollars"
 }
