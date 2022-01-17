@@ -1,6 +1,7 @@
 import colors from '@celo/react-components/styles/colors'
 import AsyncStorage from '@react-native-community/async-storage'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
+import * as Sentry from '@sentry/react-native'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Share, StyleSheet, View } from 'react-native'
@@ -150,6 +151,11 @@ export const NavigatorWrapper = () => {
         currentScreen: currentRouteName,
       })
       dispatch(activeScreenChanged(currentRouteName))
+      Sentry.addBreadcrumb({
+        category: 'navigation',
+        message: `Navigated to ${currentRouteName}`,
+        level: Sentry.Severity.Info,
+      })
     }
 
     // Save the current route name for later comparision

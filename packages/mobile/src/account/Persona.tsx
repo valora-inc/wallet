@@ -8,13 +8,13 @@ import Inquiry, { InquiryAttributes } from 'react-native-persona'
 import { useDispatch, useSelector } from 'react-redux'
 import { KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CICOEvents } from 'src/analytics/Events'
 import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
@@ -48,7 +48,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
       // accountMTWAddress can be null if user's phone number is not verified.
       // Current plan for initial PFP release is to monitor drop off rate for users who haven't verified their phone numbers yet
       // Discussion -> https://valora-app.slack.com/archives/C025V1D6F3J/p1637606953112000
-      Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
+      Logger.warn(TAG, "Can't render Persona because accountMTWAddress is null")
       return
     }
     onPress?.()
@@ -80,7 +80,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress }: Props) => {
   useAsync(async () => {
     if (!personaAccountCreated) {
       if (!accountMTWAddress) {
-        Logger.error(TAG, "Can't render Persona because accountMTWAddress is null")
+        Logger.warn(TAG, "Can't render Persona because accountMTWAddress is null")
         return
       }
 

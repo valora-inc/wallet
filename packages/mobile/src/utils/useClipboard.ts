@@ -33,7 +33,7 @@ export function useClipboard(): [boolean, string, () => Promise<string>] {
 
         setClipboardContent(newClipboardContent)
       } catch (error) {
-        Logger.error('Error checking clipboard contents', error)
+        Logger.warn('Error checking clipboard contents', error)
       }
     }
 

@@ -132,7 +132,7 @@ export async function ensurePincode(): Promise<boolean> {
     await requestPincodeInput(true, false)
     return true
   } catch (error) {
-    Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error, true)
+    Logger.warn(`${TAG}@ensurePincode`, `PIN entering error or cancelled`, error, true)
     return false
   }
 }
@@ -198,6 +198,6 @@ export function navigateHome(options?: NavigateHomeOptions) {
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {
-  Logger.error(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
+  Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })
 }

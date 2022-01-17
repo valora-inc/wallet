@@ -1,17 +1,16 @@
-import * as React from 'react'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import { openLink } from 'react-native-plaid-link-sdk'
-import { createLinkToken } from 'src/in-house-liquidity'
-import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
-import { currentLanguageSelector } from 'src/i18n/selectors'
-import { e164NumberSelector } from 'src/account/selectors'
-import Logger from 'src/utils/Logger'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { useDispatch, useSelector } from 'react-redux'
 import { Platform, StyleSheet } from 'react-native'
+import { openLink } from 'react-native-plaid-link-sdk'
+import { useDispatch, useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { currentLanguageSelector } from 'src/i18n/selectors'
+import { createLinkToken } from 'src/in-house-liquidity'
+import Logger from 'src/utils/Logger'
+import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PLAID'
 
@@ -27,7 +26,7 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
 
   const onPress = async () => {
     if (!accountMTWAddress) {
-      Logger.error(TAG, "Can't render Plaid because accountMTWAddress is null")
+      Logger.warn(TAG, "Can't render Plaid because accountMTWAddress is null")
       return
     }
     if (!walletAddress) {
