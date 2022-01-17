@@ -443,11 +443,11 @@
   "unknown": "Sconosciuto",
   "emptyList": "Elenco vuoto",
   "timeframes": {
-    "30d": "30 days"
+    "30d": "30 giorni"
   },
-  "message": "Message",
-  "addressLookupFailure": "Failed to look up phone number address",
-  "saltFetchFailure": "Failed to retrieve phone number secret",
+  "message": "Messaggio",
+  "addressLookupFailure": "Impossibile cercare indirizzo del numero telefonico.",
+  "saltFetchFailure": "Impossibile recuperare segreto del numero telefonico.",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
   "odisInsufficientBalance": "Please confirm your number before sending cUSD to a contact",
