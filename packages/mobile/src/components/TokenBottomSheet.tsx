@@ -16,7 +16,7 @@ import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import {
   coreTokensSelector,
-  inviteTokensSelector,
+  stablecoinsSelector,
   tokensWithTokenBalanceSelector,
 } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
@@ -81,7 +81,7 @@ function TokenBottomSheet({
 
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const coreTokens = useSelector(coreTokensSelector)
-  const inviteTokens = useSelector(inviteTokensSelector)
+  const inviteTokens = useSelector(stablecoinsSelector)
   const tokenList = (isInvite ? inviteTokens : isOutgoingPaymentRequest ? coreTokens : tokens).sort(
     sortByUsdBalance
   )
