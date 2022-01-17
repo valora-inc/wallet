@@ -120,62 +120,62 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua frase di recupero",
   "backupKeyNotification": "La tua frase di recupero è l’elemento più importante del tuo conto.",
-  "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
-  "copied": "Phrase copied to clipboard",
-  "moreInfo": "More Info",
-  "savedConfirmation": "Yes, I have written down my Phrase.",
-  "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Recovery Phrase?",
-  "importBackupFailed": "Importing Wallet Failed",
-  "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Recovery Phrase is not valid",
-  "invalidWordsInBackupPhrase": "Some words in the Recovery Phrase are not valid: {{ invalidWords }}",
+  "backupKeySummary": "Trova un luogo privato e annota la tua frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
+  "copied": "La frase di recupero è stata copiata negli Appunti.",
+  "moreInfo": "Maggiori informazioni",
+  "savedConfirmation": "Sì, ho annotato la mia frase di recupero.",
+  "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua frase di recupero?",
+  "importBackupFailed": "Importazione del wallet non riuscita.",
+  "backupQuizFailed": "La frase di recupero inserita non è corretta. Riprova.",
+  "invalidBackupPhrase": "La frase di recupero non è valida.",
+  "invalidWordsInBackupPhrase": "Alcune parole della frase di recupero non sono valide: {{ invalidWords }}.",
   "backupComplete": {
-    "header": "Backup Complete",
-    "0": "Success!",
-    "1": "Next, you can set up Safeguards.",
-    "2": "You’re all set!"
+    "header": "Backup completato.",
+    "0": "Operazione eseguita correttamente.",
+    "1": "Ora puoi configurare Safeguards.",
+    "2": "Configurazione completata."
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
-    "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
-    "action": "Complete Now",
-    "secondary": "Set Up Later"
+    "title": "Completa l’impostazione della frase di recupero",
+    "body": "La tua frase di recupero è importantissima. Senza di essa puoi perdere per sempre l’accesso al tuo wallet. \nNon potrai inviare alcuna transazione finché non completi l’impostazione della frase di recupero.",
+    "action": "Completa ora",
+    "secondary": "Imposta più tardi"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "Your Recovery Phrase is a special kind of password",
-      "text": "Your Recovery Phrase is the one and only way to access your account."
+      "title": "La tua frase di recupero è un tipo speciale di password.",
+      "text": "La tua frase di recupero è l’unico modo per accedere al tuo conto."
     },
     {
-      "title": "Without your Recovery Phrase, you can lose access forever",
-      "text": "If you lose your phone, you must have your Recovery Phrase to get your account back. Nobody, not even {{appName}}, will be able to recover your funds without it."
+      "title": "Senza la tua frase di recupero, puoi perdere per sempre l’accesso.",
+      "text": "Se smarrisci il tuo telefono, devi avere la tua frase di recupero per ottenere nuovamente l’accesso al tuo conto. Nessuno, neanche {{appName}}, potrà recuperare i tuoi fondi senza di essa."
     },
     {
-      "title": "Write it down",
-      "text": "Write down your Recovery Phrase and store it in a safe place. Do not save it in your phone."
+      "title": "Annotala",
+      "text": "Annota la tua frase di recupero e conservala in un luogo sicuro. Non memorizzarla nel tuo telefono."
     },
     {
-      "title": "Keep your Phrase private",
-      "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
+      "title": "Mantieni al sicuro la tua frase di recupero.",
+      "text": "Chiunque conosca la tua frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
     }
   ],
-  "consumerIncentivesTitle": "Boost your Rewards",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Incrementa le tue ricompense",
+  "consumerIncentivesSummary": "I bonus sono ora disponibili. Ottieni ricompense annue del {{percent}}% sul tuo saldo in {{currency}}. L’offerta è valida per un periodo limitato, quindi approfittane.",
   "earnWeekly": {
-    "header": "Weekly payout",
-    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
+    "header": "Pagamento settimanale",
+    "text": "Invia e spendi come al solito, otterrai una ricompensa sul saldo rimanente."
   },
   "noMinCommitment": {
-    "header": "Automatic rewards",
-    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
-    "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
+    "header": "Ricompense automatiche",
+    "earningText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} per iniziare a ottenere ricompense.",
+    "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
-    "header": "Boost your balance",
-    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
+    "header": "Incrementa il tuo saldo",
+    "text": "Deposita {{maxBalance}} {{currency}} per portare al massimo le tue ricompense annue del {{percent}}%."
   },
-  "conclusion": "It’s that simple. Supercharge your crypto today!",
+  "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
