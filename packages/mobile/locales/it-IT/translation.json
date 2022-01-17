@@ -448,7 +448,7 @@
   "message": "Messaggio",
   "addressLookupFailure": "Impossibile cercare indirizzo del numero telefonico.",
   "saltFetchFailure": "Impossibile recuperare segreto del numero telefonico.",
-  "saltQuotaExceededError": "Your phone number lookup quota is used up",
+  "saltQuotaExceededError": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
   "odisInsufficientBalance": "Please confirm your number before sending cUSD to a contact",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
