@@ -3,7 +3,7 @@ import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE, SENTRY_ENABLED } from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUri'
+  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUrl'
 > & { komenciAllowedDeployers: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
@@ -11,7 +11,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   // showRaiseDailyLimitTarget: undefined,
   // same here
   // celoEducationUri: null,
-  // dappListApiUri: null,
+  // dappListApiUrl: null,
   dappsExplorerEnabled: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,

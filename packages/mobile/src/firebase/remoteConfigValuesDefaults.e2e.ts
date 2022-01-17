@@ -36,7 +36,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryEnabled: false,
-  dappListApiUri:
+  dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
   dappsExplorerEnabled: true,
 }
