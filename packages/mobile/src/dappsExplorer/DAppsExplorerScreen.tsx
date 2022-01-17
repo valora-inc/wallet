@@ -17,6 +17,8 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
+import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
@@ -27,8 +29,6 @@ import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import useSelector from 'src/redux/useSelector'
-import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
@@ -65,6 +65,7 @@ export function DAppsExplorerScreen() {
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
+  const dispatch = useDispatch()
 
   const { loading, error, result } = useAsync(
     async () => {
@@ -137,7 +138,7 @@ export function DAppsExplorerScreen() {
       Logger.warn(TAG, 'Internal error. There was no dapp selected')
       return
     }
-    navigateToURI(dappSelected.dappUrl)
+    dispatch(openUrl(dappSelected.dappUrl, true, true))
     setBottomSheetVisible(false)
   }
 
