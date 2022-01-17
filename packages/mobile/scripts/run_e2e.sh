@@ -176,8 +176,11 @@ if [ $PLATFORM = "android" ]; then
       ${CI:+-gpu swiftshader_indirect -no-window} \
       &
 
-    echo "Waiting for device to boot"
-    adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+    echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
+    until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
+    do
+      sleep 3
+    done
   fi
 
   # Run Detox Tests
