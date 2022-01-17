@@ -30,7 +30,7 @@
     "switchToDataSaver": "Passa a Risparmio dati"
   },
   "accountKeyModal": {
-    "header": "Senza la tua frase di recupero perderai per sempre l’accesso a tuoi fondi.",
+    "header": "Senza la tua frase di recupero perderai per sempre l’accesso a tuoi fondi",
     "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua frase di recupero.",
     "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua frase di recupero."
   },
@@ -97,7 +97,7 @@
   "raiseLimitEmailBody": "Desidero richiedere un aumento del limite quotidiano di {{dailyLimit}} di {{appName}} per l’indirizzo {{address}}.",
   "raiseLimitEmailSuccess": "La tua richiesta è stata inviata. Fra poco riceverai una risposta per e-mail.",
   "raiseLimitEmailNotSent": "La tua richiesta non è stata inviata. Riprova.",
-  "storeRecoveryTitle": "Devi configurare nuovamente il tuo conto.",
+  "storeRecoveryTitle": "Devi configurare nuovamente il tuo conto",
   "storeRecoveryBody": "Si è verificato un errore. È in corso un intervento per risolvere il problema. Nel frattempo, dovrai eseguire nuovo la procedura di configurazione.",
   "storeRecoveryButton": "Ripristina conto",
   "havingTrouble": "Problemi?",
@@ -260,22 +260,22 @@
   "celoDollars": "Dollari Celo",
   "tapToCopyCeloDollarsAddress": "Tocca per copiare il tuo indirizzo CUSD {{appName}}",
   "disclaimerFiat": "I valori {{currency}} sono stime.",
-  "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
-  "selectDigitalCurrency": "Select a digital asset",
-  "selectPaymentMethod": "Pay with:",
-  "payWithBank": "Bank account",
-  "payWithCard": "Debit card",
-  "payWithExchange": "Cryptocurrency exchange",
-  "selectCashOutMethod": "Receive funds in:",
-  "receiveOnAddress": "Celo address",
-  "receiveWithBidali": "Gift Cards and Mobile Top Up",
+  "dollarsNotYetEnabledNote": "I dollari Celo non sono ancora disponibili presso alcun provider. Per ottenere dollari Celo, acquista CELO e cambiali in dollari Celo nella scheda CELO.",
+  "selectDigitalCurrency": "Seleziona un asset digitale",
+  "selectPaymentMethod": "Paga con:",
+  "payWithBank": "Conto bancario",
+  "payWithCard": "Carta di debito",
+  "payWithExchange": "Exchange per criptovalute",
+  "selectCashOutMethod": "Ricevi fondi in:",
+  "receiveOnAddress": "Indirizzo Celo",
+  "receiveWithBidali": "Buoni regalo e ricariche per cellulare",
   "fundingEducationDialog": {
-    "title": "Funding your {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "title": "Aggiunta di fondi in {{appName}}",
+    "body": "{{appName}} è supportata dalla rete Celo. {{appName}} utilizza dollari Celo (cUSD), una valuta digitale stabile attualmente legata al dollaro statunitense.\n\nPer aggiungere fondi al tuo wallet {{appName}}, acquista cUSD da uno dei provider di terze parti disponibili nella tua posizione. Per ulteriori informazioni, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
-    "title": "Withdraw from {{appName}}",
+    "title": "Preleva da {{appName}}",
     "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
