@@ -89,7 +89,7 @@ export const GETH_USE_STATIC_NODES = stringToBoolean(Config.GETH_USE_STATIC_NODE
 export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
   Config.GETH_START_HTTP_RPC_SERVER || 'false'
 )
-export const SENTRY_ENABLED = true // stringToBoolean(Config.SENTRY_ENABLED || 'false')
+export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 
 // SECRETS
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
