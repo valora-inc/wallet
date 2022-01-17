@@ -5,7 +5,7 @@ import { openLink } from 'react-native-plaid-link-sdk'
 import { Provider } from 'react-redux'
 import PlaidLinkButton from 'src/account/PlaidLinkButton'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2 } from 'test/values'
+import { mockAccount, mockAccount2, mockPrivateDEK } from 'test/values'
 import { createLinkToken } from 'src/in-house-liquidity'
 
 jest.mock('react-native-plaid-link-sdk', () => ({
@@ -30,6 +30,7 @@ describe('PlaidLinkButton', () => {
     web3: {
       mtwAddress: mockAccount,
       account: mockAccount2,
+      dataEncryptionKey: mockPrivateDEK,
     },
     i18n: {
       language: 'en-US',
@@ -68,7 +69,7 @@ describe('PlaidLinkButton', () => {
         isAndroid: true,
         language: 'en',
         phoneNumber: MOCK_PHONE_NUMBER,
-        walletAddress: mockAccount2.toLocaleLowerCase(),
+        dekPrivate: mockPrivateDEK,
       })
     )
 
@@ -86,6 +87,7 @@ describe('PlaidLinkButton', () => {
       web3: {
         mtwAddress: 'bad-account',
         account: mockAccount2,
+        dataEncryptionKey: mockPrivateDEK,
       },
       i18n: {
         language: 'en-US',
