@@ -61,6 +61,8 @@ export default function EnableBiometry({ navigation, route }: Props) {
   const onPressUseBiometry = async () => {
     dispatch(setUseBiometry(true))
     // do some stuff to use biometry
+
+    navigateHome()
   }
 
   return (
