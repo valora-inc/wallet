@@ -10,6 +10,8 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
 import {
@@ -43,7 +45,7 @@ import {
   useUsdToTokenAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
-import { defaultTokenSelector } from 'src/tokens/selectors'
+import { defaultTokenSelector, stablecoinsSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
@@ -127,6 +129,7 @@ function SendAmount(props: Props) {
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
   const defaultToken = useSelector(defaultTokenSelector)
+  const inviteTokens = useSelector(stablecoinsSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
@@ -157,6 +160,7 @@ function SendAmount(props: Props) {
         showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
       )
     )
+    ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
     setAmount(
@@ -167,6 +171,10 @@ function SendAmount(props: Props) {
       )
     )
     setUsingLocalAmount(!usingLocalAmount)
+    ValoraAnalytics.track(SendEvents.swap_input_pressed, {
+      tokenAddress: transferTokenAddress,
+      swapToLocalAmount: !usingLocalAmount,
+    })
   }
   const dispatch = useDispatch()
 
@@ -197,6 +205,16 @@ function SendAmount(props: Props) {
   const maxEscrowInLocalAmount =
     useCurrencyToLocalAmount(MAX_ESCROW_VALUE, Currency.Dollar) ?? new BigNumber(0) // TODO: Improve error handling
   useEffect(() => {
+    if (
+      // It's an invite and we're not sending a core stablecoin.
+      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
+      !inviteTokens.map((token) => token.address).includes(transferTokenAddress)
+    ) {
+      setTransferToken(inviteTokens[0].address)
+      setAmount('')
+      return
+    }
+
     if (reviewButtonPressed) {
       if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
         // Wait until the recipient status is fetched.
@@ -250,6 +268,7 @@ function SendAmount(props: Props) {
       <SendAmountHeader
         tokenAddress={transferTokenAddress}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
+        isInvite={recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED}
         onChangeToken={setTransferToken}
         disallowCurrencyChange={Boolean(forceTokenAddress)}
       />

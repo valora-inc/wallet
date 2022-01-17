@@ -359,6 +359,26 @@ describe('SendAmount', () => {
       })
     })
 
+    it('only allows inviting with core tokens', () => {
+      const store = createMockStore({
+        identity: {
+          e164NumberToAddress: { [mockE164NumberInvite]: null },
+        },
+        ...storeData,
+      })
+      const { queryByTestId, getByTestId } = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('onChangeToken'))
+
+      expect(queryByTestId('TTTouchable')).toBeFalsy()
+      expect(queryByTestId('cUSDTouchable')).toBeTruthy()
+      expect(queryByTestId('cEURTouchable')).toBeTruthy()
+    })
+
     it("Doesn't allow inputting in local currency if token has no usd price", () => {
       const store = createMockStore(storeData)
       const wrapper = render(
