@@ -202,16 +202,17 @@ export function DAppsExplorerScreen() {
               />
             </View>
           )}
-          {!loading &&
-            result &&
-            result.map((category: CategoryWithDapps) => (
-              <CategoryWithDapps category={category} onDappPress={onDappPress} />
-            ))}
           {!loading && error && (
             <View style={{ ...styles.centerContainer, marginTop: 96 }}>
               <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
             </View>
           )}
+          {!loading &&
+            !error &&
+            result &&
+            result.map((category: CategoryWithDapps) => (
+              <CategoryWithDapps category={category} onDappPress={onDappPress} />
+            ))}
         </>
       </ScrollView>
     </SafeAreaView>
@@ -291,6 +292,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: variables.contentPadding,
+    marginHorizontal: 8,
+    marginTop: 16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,
