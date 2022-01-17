@@ -11,7 +11,7 @@
   "changePin": "Change PIN",
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
-  "requirePinOnAppOpen": "Require PIN on App Open",
+  "requirePinOnAppOpen": "Exiger le code PIN à l'ouverture de l'appli",
   "connectedApplications": "Connected Apps",
   "analytics": "Analyses",
   "shareAnalytics": "Partager les analyses",
@@ -20,28 +20,28 @@
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
   "restartModalSwitchOff": {
-    "header": "Restart To Switch Off Data Saver",
-    "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
+    "header": "Redémarrer pour désactiver l'Économiseur de données",
+    "body": "Pour activer et désactiver l'Économiseur de données, vous devrez redémarrer l'appli et revenir sur cet écran.",
     "restart": "Redémarrer pour basculer"
   },
   "promptFornoModal": {
     "header": "Basculer le mode de connexion ?",
     "body": "Nous avons remarqué que vous rencontrez quelques problèmes de connexion. Nous vous recommandons d'activer le mode Économiseur de données pour vous permettre de continuer à utiliser {{appName}} quand votre connexion n'est pas stable.",
-    "switchToDataSaver": "Switch To Data Saver"
+    "switchToDataSaver": "Activer l'Économiseur de données"
   },
   "accountKeyModal": {
-    "header": "Without your Recovery Phrase you will lose access to your funds forever",
+    "header": "Sans votre phrase de récupération, vous perdez définitivement l'accès à vos fonds",
     "body1": "Afin de réinitialiser Valora, vous devrez confirmer que vous avez bien noté votre phrase de récupération.",
-    "body2": "Nobody, not even Valora, can recover your account without your Phrase."
+    "body2": "Personne, même pas Valora, ne sera en mesure de récupérer votre compte sans votre phrase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to reset Valora?",
+    "header": "Êtes-vous sûr de vouloir réinitialiser Valora ?",
     "body": "Vous ne pourrez plus accéder à vos fonds ou à votre phrase de récupération depuis cet appareil. Il n'y a aucun moyen de récupérer votre phrase de récupération si vous ne l'avez pas notée quelque part.",
     "resetNow": "Réinitialiser maintenant"
   },
   "promptConfirmRevokeModal": {
     "header": "Êtes-vous sûr de vouloir révoquer votre compte Valora ?",
-    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
+    "body": "Une fois révoqué, ce compte ne pourra plus être confirmé à nouveau. Révoquez votre compte uniquement si vous êtes sûr de ne plus jamais en avoir besoin.",
     "revoke": "Révoquer"
   },
   "testFaqLink": "FAQ {{appName}}",
@@ -53,7 +53,7 @@
   "changeProfilePhoto": "Modifier la photo de profil",
   "name": "Nom",
   "editName": "Modifier le nom",
-  "submit": "Submit",
+  "submit": "Envoyer",
   "selectLanguage": "Sélectionner la langue",
   "selectCurrency": "Sélectionner une devise",
   "continue": "Continuer",
@@ -127,25 +127,25 @@
   "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre phrase de récupération ?",
   "importBackupFailed": "L'importation du portefeuille a échoué",
   "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Recovery Phrase is not valid",
-  "invalidWordsInBackupPhrase": "Some words in the Recovery Phrase are not valid: {{ invalidWords }}",
+  "invalidBackupPhrase": "La phrase de récupération n'est pas valide",
+  "invalidWordsInBackupPhrase": "Certains mots dans la phrase de récupération ne sont pas valides : {{ invalidWords }}",
   "backupComplete": {
-    "header": "Backup Complete",
+    "header": "Sauvegarde terminée",
     "0": "Success!",
-    "1": "Next, you can set up Safeguards.",
-    "2": "You’re all set!"
+    "1": "Vous pouvez maintenant configurer des sauvegardes.",
+    "2": "Tout est prêt !"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
+    "title": "Terminer la configuration de votre phrase de récupération",
     "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
-    "action": "Complete Now",
-    "secondary": "Set Up Later"
+    "action": "Terminer maintenant",
+    "secondary": "Configurer plus tard"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "Your Recovery Phrase is a special kind of password",
-      "text": "Your Recovery Phrase is the one and only way to access your account."
+      "title": "Votre phrase de récupération est un type spécial de mot de passe",
+      "text": "Votre phrase de récupération est la seule et unique façon d'accéder à votre compte."
     },
     {
       "title": "Without your Recovery Phrase, you can lose access forever",
@@ -153,31 +153,31 @@
     },
     {
       "title": "Write it down",
-      "text": "Write down your Recovery Phrase and store it in a safe place. Do not save it in your phone."
+      "text": "Notez votre phrase de récupération et conservez-la dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone."
     },
     {
-      "title": "Keep your Phrase private",
+      "title": "Gardez votre phrase confidentielle",
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Boost your Rewards",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Augmentez vos récompenses",
+  "consumerIncentivesSummary": "La fonction Supercharge est disponible ! Obtenez {{percent}}% de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus et encaissez dès maintenant !",
   "earnWeekly": {
-    "header": "Weekly payout",
+    "header": "Paiement hebdomadaire",
     "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
   },
   "noMinCommitment": {
-    "header": "Automatic rewards",
-    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
-    "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
+    "header": "Récompenses automatiques",
+    "earningText": "Il vous suffit juste d'avoir un solde d'au moins {{minBalance}} {{currency}} pour commencer à profiter des récompenses.",
+    "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
-    "header": "Boost your balance",
-    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
+    "header": "Boostez votre solde",
+    "text": "Déposez {{maxBalance}} {{currency}} pour optimiser vos {{percent}}% de récompenses annuelles."
   },
-  "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "cashIn": "Add {{currency}}",
-  "connectNumber": "Connect Number",
+  "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
+  "cashIn": "Ajouter {{currency}}",
+  "connectNumber": "Connecter le numéro",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
   "allow": "Allow",
   "address": "Account Address",
