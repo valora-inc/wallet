@@ -1,8 +1,8 @@
 import Button from '@celo/react-components/components/Button'
 import Card from '@celo/react-components/components/Card'
-import colors from '@celo/react-components/styles/colors'
+import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { Shadow } from '@celo/react-components/styles/styles'
+import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import React, { useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -51,12 +51,12 @@ interface Dapp {
 
 interface CategoryWithDappsProps {
   category: CategoryWithDapps
-  onDappPress: (dapp: Dapp) => void
+  onPressDapp: (dapp: Dapp) => void
 }
 
 interface DappProps {
   dapp: Dapp
-  onDappPress: (dapp: Dapp) => void
+  onPressDapp: (dapp: Dapp) => void
 }
 
 export function DAppsExplorerScreen() {
@@ -119,20 +119,20 @@ export function DAppsExplorerScreen() {
     }
   )
 
-  const onDappPress = (dapp: Dapp) => {
+  const onPressDapp = (dapp: Dapp) => {
     setDappSelected(dapp)
     setBottomSheetVisible(true)
   }
 
-  const onBottomSheetClose = () => {
+  const onCloseBottomSheet = () => {
     setBottomSheetVisible(false)
   }
 
-  const onHelpPress = () => {
+  const onPressHelp = () => {
     setHelpDialogVisible(true)
   }
 
-  const onNavigationButtonPress = () => {
+  const onPressNavigationButton = () => {
     if (!dappSelected) {
       // Should never happen
       Logger.warn(TAG, 'Internal error. There was no dapp selected')
@@ -150,15 +150,15 @@ export function DAppsExplorerScreen() {
         right={
           <TopBarIconButton
             icon={<Help />}
-            onPress={onHelpPress}
+            onPress={onPressHelp}
             style={styles.helpIconContainer}
           />
         }
       />
-      <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onBottomSheetClose}>
+      <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
         <View>
           <View style={styles.bottomSheetHeader}>
-            <TopBarIconButton icon={<QuitIcon />} onPress={onBottomSheetClose} />
+            <TopBarIconButton icon={<QuitIcon />} onPress={onCloseBottomSheet} />
           </View>
           <View style={styles.centerContainer}>
             <Text style={{ ...fontStyles.h2, textAlign: 'center', paddingVertical: 16 }}>
@@ -169,7 +169,7 @@ export function DAppsExplorerScreen() {
             </Text>
             <Button
               style={styles.bottomSheetButton}
-              onPress={onNavigationButtonPress}
+              onPress={onPressNavigationButton}
               text={t('dappsScreenBottomSheet.button', { dappName: dappSelected?.name })}
             />
           </View>
@@ -212,7 +212,7 @@ export function DAppsExplorerScreen() {
             !error &&
             result &&
             result.map((category: CategoryWithDapps) => (
-              <CategoryWithDapps category={category} onDappPress={onDappPress} />
+              <CategoryWithDapps category={category} onPressDapp={onPressDapp} />
             ))}
         </>
       </ScrollView>
@@ -220,7 +220,7 @@ export function DAppsExplorerScreen() {
   )
 }
 
-function CategoryWithDapps({ category: categoryWithApps, onDappPress }: CategoryWithDappsProps) {
+function CategoryWithDapps({ category: categoryWithApps, onPressDapp }: CategoryWithDappsProps) {
   Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithApps)}`)
 
   return (
@@ -237,18 +237,18 @@ function CategoryWithDapps({ category: categoryWithApps, onDappPress }: Category
       </View>
       <>
         {categoryWithApps.dapps.map((dapp) => (
-          <Dapp dapp={dapp} onDappPress={onDappPress} />
+          <Dapp dapp={dapp} onPressDapp={onPressDapp} />
         ))}
       </>
     </View>
   )
 }
 
-function Dapp({ dapp, onDappPress }: DappProps) {
+function Dapp({ dapp, onPressDapp }: DappProps) {
   Logger.debug(TAG, `Render item ${JSON.stringify(dapp)}`)
 
   const onPress = () => {
-    return onDappPress(dapp)
+    return onPressDapp(dapp)
   }
 
   return (
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex: 1,
-    marginVertical: 16,
+    marginVertical: Spacing.Regular16,
     paddingHorizontal: variables.contentPadding,
   },
   itemTextContainer: {
@@ -292,15 +292,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    paddingHorizontal: variables.contentPadding,
-    marginHorizontal: 8,
-    marginTop: 16,
+    paddingHorizontal: Spacing.Regular16,
+    marginHorizontal: Spacing.Smallest8,
+    marginTop: Spacing.Regular16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,
   },
   loadingIcon: {
-    marginVertical: 20,
+    marginVertical: Spacing.Thick24,
     height: 108,
     width: 108,
   },
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 8,
-    marginRight: 16,
+    marginRight: Spacing.Regular16,
   },
   pressableCard: {
     flexDirection: 'row',
@@ -316,10 +316,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    marginTop: 16,
+    marginTop: Spacing.Regular16,
     flex: 1,
     alignItems: 'center',
   },
+  // Padding values honor figma designs
   categoryText: {
     ...fontStyles.regular,
     fontSize: 12.5,
@@ -329,23 +330,21 @@ const styles = StyleSheet.create({
   },
   itemTitleText: {
     ...fontStyles.small,
-    fontWeight: '500',
-    color: '#2E3338',
+    color: Colors.dark,
   },
   itemSubtitleText: {
     ...fontStyles.small,
-    fontWeight: '400',
-    color: '#81868B',
+    color: Colors.gray5,
   },
   linkArrow: {
     height: 20,
     width: 20,
-    marginLeft: 16,
+    marginLeft: Spacing.Regular16,
   },
   descriptionImage: {
     height: 106,
     width: 94,
-    marginHorizontal: 8,
+    marginHorizontal: Spacing.Smallest8,
   },
   bottomSheetHeader: {
     flex: 1,
@@ -353,7 +352,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   bottomSheetButton: {
-    marginVertical: 16,
+    marginVertical: Spacing.Regular16,
   },
   categoryTextContainer: {
     borderRadius: 100,

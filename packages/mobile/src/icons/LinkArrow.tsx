@@ -1,8 +1,19 @@
 import * as React from 'react'
-import { Image } from 'react-native'
+import { Image, ImageStyle, StyleProp, StyleSheet } from 'react-native'
 
-const LinkArrow = ({ style = { width: 32, height: 32 } }) => {
-  return <Image source={require('src/images/link-arrow.png')} style={style} />
+interface Props {
+  style?: StyleProp<ImageStyle>
 }
+
+const LinkArrow = ({ style }: Props) => {
+  return <Image source={require('src/images/link-arrow.png')} style={[styles.default, style]} />
+}
+
+const styles = StyleSheet.create({
+  default: {
+    height: 32,
+    width: 32,
+  },
+})
 
 export default React.memo(LinkArrow)
