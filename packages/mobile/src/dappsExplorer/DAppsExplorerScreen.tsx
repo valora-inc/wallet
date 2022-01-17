@@ -33,15 +33,15 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
 
-interface CategoryWithItems {
+interface CategoryWithDapps {
   id: string
   name: string
   fontColor: string
   backgroundColor: string
-  items: DappItem[]
+  dapps: Dapp[]
 }
 
-interface DappItem {
+interface Dapp {
   id: string
   iconUrl: string
   name: string
@@ -49,12 +49,22 @@ interface DappItem {
   dappUrl: string
 }
 
+interface CategoryWithDappsProps {
+  category: CategoryWithDapps
+  onDappPress: (dapp: Dapp) => void
+}
+
+interface DappProps {
+  dapp: Dapp
+  onDappPress: (dapp: Dapp) => void
+}
+
 export function DAppsExplorerScreen() {
   const { t } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
-  const [dappSelected, setDappSelected] = useState<DappItem>()
+  const [dappSelected, setDappSelected] = useState<Dapp>()
 
   const { loading, error, result } = useAsync(
     async () => {
@@ -72,18 +82,18 @@ export function DAppsExplorerScreen() {
 
       const result = await response.json()
       try {
-        const categoriesById: { [id: string]: CategoryWithItems } = {}
+        const categoriesById: { [id: string]: CategoryWithDapps } = {}
         result.categories.forEach((cat: any) => {
           categoriesById[cat.id] = {
             id: cat.id,
             name: cat.name,
             fontColor: cat.fontColor,
             backgroundColor: cat.backgroundColor,
-            items: [],
+            dapps: [],
           }
         })
         result.applications.forEach((app: any) => {
-          categoriesById[app.categoryId].items.push({
+          categoriesById[app.categoryId].dapps.push({
             id: app.id,
             name: app.name,
             iconUrl: app.logoUrl,
@@ -108,7 +118,7 @@ export function DAppsExplorerScreen() {
     }
   )
 
-  const onItemPress = (dapp: DappItem) => {
+  const onDappPress = (dapp: Dapp) => {
     setDappSelected(dapp)
     setBottomSheetVisible(true)
   }
@@ -130,8 +140,6 @@ export function DAppsExplorerScreen() {
     navigateToURI(dappSelected.dappUrl)
     setBottomSheetVisible(false)
   }
-
-  console.log(`DIEGO ${JSON.stringify(result)}`)
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -196,9 +204,9 @@ export function DAppsExplorerScreen() {
           )}
           {!loading &&
             result &&
-            result.map((category: CategoryWithItems) =>
-              renderCategoryWithItems(category, onItemPress)
-            )}
+            result.map((category: CategoryWithDapps) => (
+              <CategoryWithDapps category={category} onDappPress={onDappPress} />
+            ))}
           {!loading && error && (
             <View style={{ ...styles.centerContainer, marginTop: 96 }}>
               <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
@@ -210,43 +218,44 @@ export function DAppsExplorerScreen() {
   )
 }
 
-function renderCategoryWithItems(
-  categoryWithItems: CategoryWithItems,
-  onItemPress: (dapp: DappItem) => void
-) {
-  Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithItems)}`)
+function CategoryWithDapps({ category: categoryWithApps, onDappPress }: CategoryWithDappsProps) {
+  Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithApps)}`)
 
   return (
-    <View style={styles.categoryContainer} key={`category-${categoryWithItems.id}`}>
+    <View style={styles.categoryContainer} key={`category-${categoryWithApps.id}`}>
       <View
         style={{
           ...styles.categoryTextContainer,
-          backgroundColor: categoryWithItems.backgroundColor,
+          backgroundColor: categoryWithApps.backgroundColor,
         }}
       >
-        <Text style={{ ...styles.categoryText, color: categoryWithItems.fontColor }}>
-          {categoryWithItems.name}
+        <Text style={{ ...styles.categoryText, color: categoryWithApps.fontColor }}>
+          {categoryWithApps.name}
         </Text>
       </View>
-      <>{categoryWithItems.items.map((item) => renderItem(item, onItemPress))}</>
+      <>
+        {categoryWithApps.dapps.map((dapp) => (
+          <Dapp dapp={dapp} onDappPress={onDappPress} />
+        ))}
+      </>
     </View>
   )
 }
 
-function renderItem(item: DappItem, onItemPress: (dapp: DappItem) => void) {
-  Logger.debug(TAG, `Render item ${JSON.stringify(item)}`)
+function Dapp({ dapp, onDappPress }: DappProps) {
+  Logger.debug(TAG, `Render item ${JSON.stringify(dapp)}`)
 
   const onPress = () => {
-    return onItemPress(item)
+    return onDappPress(dapp)
   }
 
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.Soft} key={`item-${item.id}`}>
+    <Card style={styles.card} rounded={true} shadow={Shadow.Soft} key={`item-${dapp.id}`}>
       <TouchableOpacity style={styles.pressableCard} onPress={onPress}>
-        <Image source={{ uri: item.iconUrl }} style={styles.dappIcon} />
+        <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
         <View style={styles.itemTextContainer}>
-          <Text style={styles.itemTitleText}>{item.name}</Text>
-          <Text style={styles.itemSubtitleText}>{item.description}</Text>
+          <Text style={styles.itemTitleText}>{dapp.name}</Text>
+          <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
         </View>
         <LinkArrow style={styles.linkArrow} />
       </TouchableOpacity>
