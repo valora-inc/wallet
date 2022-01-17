@@ -9,6 +9,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -67,7 +68,15 @@ export function DAppsExplorerScreen() {
   const [dappSelected, setDappSelected] = useState<Dapp>()
   const dispatch = useDispatch()
 
-  const { loading, error, result } = useAsync(
+  const {
+    loading,
+    error,
+    result,
+  }: {
+    loading: boolean
+    error: Error | undefined
+    result: CategoryWithDapps[] | undefined
+  } = useAsync(
     async () => {
       if (!dappsListUrl) {
         throw new Error('Dapps list url is not defined')
@@ -208,38 +217,47 @@ export function DAppsExplorerScreen() {
               <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
             </View>
           )}
-          {!loading &&
-            !error &&
-            result &&
-            result.map((category: CategoryWithDapps) => (
-              <CategoryWithDapps category={category} onPressDapp={onPressDapp} />
-            ))}
+          {!loading && !error && result && (
+            <FlatList
+              data={result}
+              renderItem={({ item: category }) => (
+                <CategoryWithDapps category={category} onPressDapp={onPressDapp} />
+              )}
+              keyExtractor={(item: CategoryWithDapps) => item.id}
+            />
+          )}
         </>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-function CategoryWithDapps({ category: categoryWithApps, onPressDapp }: CategoryWithDappsProps) {
-  Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithApps)}`)
+function CategoryWithDapps({ category: categoryWithDapps, onPressDapp }: CategoryWithDappsProps) {
+  Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithDapps)}`)
 
   return (
-    <View style={styles.categoryContainer} key={`category-${categoryWithApps.id}`}>
+    <View style={styles.categoryContainer}>
       <View
         style={{
           ...styles.categoryTextContainer,
-          backgroundColor: categoryWithApps.backgroundColor,
+          backgroundColor: categoryWithDapps.backgroundColor,
         }}
       >
-        <Text style={{ ...styles.categoryText, color: categoryWithApps.fontColor }}>
-          {categoryWithApps.name}
+        <Text style={{ ...styles.categoryText, color: categoryWithDapps.fontColor }}>
+          {categoryWithDapps.name}
         </Text>
       </View>
-      <>
-        {categoryWithApps.dapps.map((dapp) => (
+      <FlatList
+        style={{ flex: 1, width: '100%' }}
+        data={categoryWithDapps.dapps}
+        renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
+        keyExtractor={(item: Dapp) => `${item.name}${item.id}`}
+      />
+      {/* <>
+        {categoryWithDapps.dapps.map((dapp) => (
           <Dapp dapp={dapp} onPressDapp={onPressDapp} />
         ))}
-      </>
+      </> */}
     </View>
   )
 }
@@ -252,7 +270,7 @@ function Dapp({ dapp, onPressDapp }: DappProps) {
   }
 
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.Soft} key={`item-${dapp.id}`}>
+    <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
       <TouchableOpacity style={styles.pressableCard} onPress={onPress}>
         <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
         <View style={styles.itemTextContainer}>
@@ -284,6 +302,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: Spacing.Regular16,
     paddingHorizontal: variables.contentPadding,
+    flexDirection: 'column',
   },
   itemTextContainer: {
     flex: 1,
