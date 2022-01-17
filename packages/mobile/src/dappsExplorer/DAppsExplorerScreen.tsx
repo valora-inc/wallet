@@ -9,9 +9,10 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
-  FlatList,
   Image,
   ScrollView,
+  SectionList,
+  SectionListData,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -34,6 +35,8 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
 
+const SECTION_HEADER_MARGIN_TOP = 32
+
 interface CategoryWithDapps {
   id: string
   name: string
@@ -44,20 +47,21 @@ interface CategoryWithDapps {
 
 interface Dapp {
   id: string
+  categoryId: string
   iconUrl: string
   name: string
   description: string
   dappUrl: string
 }
 
-interface CategoryWithDappsProps {
-  category: CategoryWithDapps
-  onPressDapp: (dapp: Dapp) => void
-}
-
 interface DappProps {
   dapp: Dapp
   onPressDapp: (dapp: Dapp) => void
+}
+
+interface SectionData {
+  data: Dapp[]
+  category: CategoryWithDapps
 }
 
 export function DAppsExplorerScreen() {
@@ -105,12 +109,14 @@ export function DAppsExplorerScreen() {
         result.applications.forEach((app: any) => {
           categoriesById[app.categoryId].dapps.push({
             id: app.id,
+            categoryId: app.categoryId,
             name: app.name,
             iconUrl: app.logoUrl,
             description: app.description,
             dappUrl: app.url,
           })
         })
+
         return Object.values(categoriesById)
       } catch (error) {
         Logger.error(TAG, 'onError', error as Error)
@@ -218,12 +224,18 @@ export function DAppsExplorerScreen() {
             </View>
           )}
           {!loading && !error && result && (
-            <FlatList
-              data={result}
+            <SectionList
+              style={{ flex: 1, padding: 16 }}
+              sections={parseResultIntoSections(result)}
               renderItem={({ item: category }) => (
-                <CategoryWithDapps category={category} onPressDapp={onPressDapp} />
+                <Dapp dapp={category} onPressDapp={onPressDapp} />
               )}
-              keyExtractor={(item: CategoryWithDapps) => item.id}
+              keyExtractor={(item: Dapp) => `${item.categoryId}-${item.id}`}
+              renderSectionHeader={({
+                section,
+              }: {
+                section: SectionListData<any, SectionData>
+              }) => <CategoryHeader category={section.category} />}
             />
           )}
         </>
@@ -232,32 +244,26 @@ export function DAppsExplorerScreen() {
   )
 }
 
-function CategoryWithDapps({ category: categoryWithDapps, onPressDapp }: CategoryWithDappsProps) {
-  Logger.debug(TAG, `Render category ${JSON.stringify(categoryWithDapps)}`)
+function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): SectionData[] {
+  return categoriesWithDapps.map((category) => ({
+    data: category.dapps,
+    category: category,
+  }))
+}
+
+function CategoryHeader({ category }: { category: CategoryWithDapps }) {
+  Logger.debug(TAG, `Render category ${JSON.stringify(category)}`)
 
   return (
     <View style={styles.categoryContainer}>
       <View
         style={{
           ...styles.categoryTextContainer,
-          backgroundColor: categoryWithDapps.backgroundColor,
+          backgroundColor: category.backgroundColor,
         }}
       >
-        <Text style={{ ...styles.categoryText, color: categoryWithDapps.fontColor }}>
-          {categoryWithDapps.name}
-        </Text>
+        <Text style={{ ...styles.categoryText, color: category.fontColor }}>{category.name}</Text>
       </View>
-      <FlatList
-        style={{ flex: 1, width: '100%' }}
-        data={categoryWithDapps.dapps}
-        renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
-        keyExtractor={(item: Dapp) => `${item.name}${item.id}`}
-      />
-      {/* <>
-        {categoryWithDapps.dapps.map((dapp) => (
-          <Dapp dapp={dapp} onPressDapp={onPressDapp} />
-        ))}
-      </> */}
     </View>
   )
 }
@@ -300,9 +306,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex: 1,
-    marginVertical: Spacing.Regular16,
     paddingHorizontal: variables.contentPadding,
     flexDirection: 'column',
+    marginTop: SECTION_HEADER_MARGIN_TOP,
   },
   itemTextContainer: {
     flex: 1,
@@ -314,6 +320,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.Regular16,
     marginHorizontal: Spacing.Smallest8,
     marginTop: Spacing.Regular16,
+    // Trick because SectionList headers have a SECTION_HEADER_MARGIN_TOP margin top
+    marginBottom: -SECTION_HEADER_MARGIN_TOP + Spacing.Regular16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,
