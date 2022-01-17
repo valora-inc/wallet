@@ -9,34 +9,34 @@
   "legal": "Informazioni legali",
   "securityAndData": "Sicurezza e dati",
   "changePin": "Modifica il PIN",
-  "pinChanged": "PIN changed",
-  "pinChangeFailed": "Changing the PIN failed",
-  "requirePinOnAppOpen": "Require PIN on App Open",
-  "connectedApplications": "Connected Apps",
-  "analytics": "Analytics",
-  "shareAnalytics": "Share Analytics",
-  "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
-  "dataSaver": "Data Saver",
-  "enableDataSaver": "Enable Data Saver",
-  "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
+  "pinChanged": "Il PIN è stato modificato.",
+  "pinChangeFailed": "La modifica del PIN non è riuscita.",
+  "requirePinOnAppOpen": "Richiedi il PIN all’apertura dell’app",
+  "connectedApplications": "App connesse",
+  "analytics": "Statistiche",
+  "shareAnalytics": "Condividi statistiche",
+  "shareAnalytics_detail": "Raccogliamo dati anonimizzati sull'utilizzo di {{appName}} per migliorare l’app a beneficio di tutti.",
+  "dataSaver": "Risparmio dati",
+  "enableDataSaver": "Abilita Risparmio dati",
+  "dataSaverDetail": "La modalità Risparmio dati ti consente di comunicare con la rete Celo attraverso un nodo attendibile. Puoi sempre selezionare un’altra modalità dalle impostazioni dell’app.",
   "restartModalSwitchOff": {
-    "header": "Restart To Switch Off Data Saver",
-    "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
-    "restart": "Restart to Switch"
+    "header": "Riavvia per disabilitare Risparmio dati",
+    "body": "Per attivare e disattivare ripetutamente Risparmio dati, devi riavviare l’app e tornare a questa schermata.",
+    "restart": "Riavvia per attivare/disattivare"
   },
   "promptFornoModal": {
-    "header": "Switch Connection Mode?",
-    "body": "We’ve noticed you’re having some trouble connecting. We recommend enabling Data Saver mode to allow you to keep using {{appName}} with intermittent connection.",
-    "switchToDataSaver": "Switch To Data Saver"
+    "header": "Cambiare la modalità di connessione?",
+    "body": "Abbiamo notato che hai problemi di connessione. Consigliamo di abilitare la modalità Risparmio dati per continuare a usare {{appName}} con una connessione intermittente.",
+    "switchToDataSaver": "Passa a Risparmio dati"
   },
   "accountKeyModal": {
-    "header": "Without your Recovery Phrase you will lose access to your funds forever",
-    "body1": "In order to reset Valora, you will need to confirm you've written your Recovery Phrase.",
-    "body2": "Nobody, not even Valora, can recover your account without your Phrase."
+    "header": "Senza la tua frase di recupero perderai per sempre l’accesso a tuoi fondi.",
+    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua frase di recupero.",
+    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua frase di recupero."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to reset Valora?",
-    "body": "You will no longer be able to access your funds or your Recovery Phrase from this device. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "header": "Ripristinare Valora?",
+    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua frase di recupero da questo dispositivo. Se non l’hai scritta, non esiste alcun modo per recuperarla.",
     "resetNow": "Reset Now"
   },
   "promptConfirmRevokeModal": {
