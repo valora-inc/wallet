@@ -49,7 +49,6 @@ export default function SendOrRequestBar() {
         size={BtnSizes.MEDIUM}
         text={t('request')}
         onPress={onPressRequest}
-        disabled={buttonsDisabled}
         testID="SendOrRequestBar/RequestButton"
       />
       <Touchable borderless={true} onPress={onPressQrCode} disabled={buttonsDisabled}>

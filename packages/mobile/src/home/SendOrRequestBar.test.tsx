@@ -27,7 +27,7 @@ describe('SendOrRequestBar', () => {
     expect(getByTestId('SendOrRequestBar/RequestButton')).not.toBeDisabled()
   })
 
-  it('disables buttons when there are no tokens', () => {
+  it('send button disabled when there are no tokens', () => {
     const store = createMockStore({
       tokens: { tokenBalances: {} },
     })
@@ -37,6 +37,17 @@ describe('SendOrRequestBar', () => {
       </Provider>
     )
     expect(getByTestId('SendOrRequestBar/SendButton')).toBeDisabled()
-    expect(getByTestId('SendOrRequestBar/RequestButton')).toBeDisabled()
+  })
+
+  it('request button enabled when there are no tokens', () => {
+    const store = createMockStore({
+      tokens: { tokenBalances: {} },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendOrRequestBar />
+      </Provider>
+    )
+    expect(getByTestId('SendOrRequestBar/RequestButton')).not.toBeDisabled()
   })
 })
