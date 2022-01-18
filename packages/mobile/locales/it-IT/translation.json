@@ -532,43 +532,43 @@
     },
     {
       "title": "Dai forma alla rete Celo",
-      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+      "text": "Detenendo CELO, hai la possibilità di votare cambiamenti e caratteristiche che vorresti vedere nella rete Celo."
     },
     {
-      "title": "Please buy and sell responsibly",
-      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+      "title": "Acquista e vendi in modo responsabile",
+      "text": "{{appName}} ti consente di acquistare e vendere CELO. CELO presenta il rischio di perdite finanziarie, agisci con cautela."
     }
   ],
-  "inviteWithWhatsapp": "Invite with WhatsApp",
-  "inviteWithSMS": "Invite with SMS",
-  "whySendFees": "This fee covers costs for the new user to connect their phone number",
-  "whyReceiveFees": "You were sent some crypto to confirm your account",
-  "inviteSent": "Invite Sent",
-  "redeemFailed": "Failure redeeming code ",
-  "redeemInviteTimeout": "Redeem Invite Timed out",
-  "accountSetupFailed": "Failed to create your wallet",
-  "emptyInviteCode": "Invite code has no funds",
-  "transferDollarsToAccount": "Funds transferred to your account!",
-  "inviteAnyone": "Send easily to your friends by adding your contacts",
-  "inviteReceived": "Invite Received",
-  "escrowPaymentNotificationTitle": "Invited {{mobile}}",
+  "inviteWithWhatsapp": "Invita con WhatsApp",
+  "inviteWithSMS": "Invita con SMS",
+  "whySendFees": "Questa commissione copre il costo sostenuto dai nuovi utenti per collegare il proprio numero telefonico.",
+  "whyReceiveFees": "Ti è stato inviato un importo in criptovaluta per confermare il tuo conto.",
+  "inviteSent": "Invito inviato",
+  "redeemFailed": "Impossibile riscattare il codice.",
+  "redeemInviteTimeout": "Time-out dell’invito al riscatto.",
+  "accountSetupFailed": "Impossibile creare il wallet.",
+  "emptyInviteCode": "Il codice di invito non include fondi.",
+  "transferDollarsToAccount": "I fondi sono stati trasferiti sul tuo conto.",
+  "inviteAnyone": "Invia facilmente ai tuoi amici aggiungendo i tuoi contatti",
+  "inviteReceived": "Invito ricevuto",
+  "escrowPaymentNotificationTitle": "Invito inviato a {{mobile}}",
   "inviteDialog": {
-    "title": "Invite a Friend",
-    "body": "Connect and share value with your friends and family on Valora.",
-    "button": "Invite"
+    "title": "Invita un amico",
+    "body": "Collegati e condividi valore con amici e familiari su Valora.",
+    "button": "Invita"
   },
-  "sendAndInvite": "Send & Invite",
+  "sendAndInvite": "Invia e invita",
   "inviteAndSendDialog": {
-    "title": "We'll hold on to your payment to {{name}}",
-    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive your payment.",
-    "button": "Finish sending"
+    "title": "Rimarremo in attesa del tuo pagamento a {{name}}",
+    "body": "Condividi con {{name}} un messaggio di invito a far parte di Valora. Dopo avere accettato e collegato un numero telefonico, riceverà il tuo pagamento. ",
+    "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
-    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
-    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
+    "title": "Ricevi {{amount}} {{currency}} condividendo Valora con un amico.",
+    "body": "Guadagna {{amount}} {{currency}} quando invii criptovaluta a un amico che accetta l'invito. <0>Ulteriori informazioni</0>"
   },
-  "getReward": "Get ${{reward}}",
-  "welcomeCelo": "Welcome to {{appName}}",
+  "getReward": "Ricevi ${{reward}}",
+  "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
   "chooseCountryCode": "Country Code",
   "chooseCountry": "Country",
   "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
