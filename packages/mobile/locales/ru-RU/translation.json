@@ -21,16 +21,16 @@
   "dataSaverDetail": "Режим экономии данных позволяет общаться с сообществом Celo Network через доверенный узел. Вы всегда можете изменить этот режим в настройках приложения.",
   "restartModalSwitchOff": {
     "header": "Перезапустить для отключения экономии данных",
-    "body": "To switch Data Saver on and off repeatedly, you will need to restart the app and return to this screen.",
-    "restart": "Restart to Switch"
+    "body": "Для повторного включения и выключения режима экономии данных необходимо перезапустить приложение и вернуться к этому экрану.",
+    "restart": "Перезапустить для переключения"
   },
   "promptFornoModal": {
-    "header": "Switch Connection Mode?",
-    "body": "We’ve noticed you’re having some trouble connecting. We recommend enabling Data Saver mode to allow you to keep using {{appName}} with intermittent connection.",
-    "switchToDataSaver": "Switch To Data Saver"
+    "header": "Переключить режим подключения?",
+    "body": "Мы заметили, что у вас возникли проблемы с подключением. Мы рекомендуем включить режим экономии данных, чтобы использовать приложение {{appName}} с непостоянным подключением.",
+    "switchToDataSaver": "Переключиться в режим экономии данных"
   },
   "accountKeyModal": {
-    "header": "Without your Recovery Phrase you will lose access to your funds forever",
+    "header": "Без фразы восстановления вы навсегда потеряете доступ к своим средствам",
     "body1": "In order to reset Valora, you will need to confirm you've written your Recovery Phrase.",
     "body2": "Nobody, not even Valora, can recover your account without your Phrase."
   },
