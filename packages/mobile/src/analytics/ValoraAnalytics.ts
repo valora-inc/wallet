@@ -78,7 +78,9 @@ class ValoraAnalytics {
       try {
         const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
-        this.sessionId = sha256('0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now()))
+        this.sessionId = sha256(
+          Buffer.from('0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now()), 'hex')
+        )
           .toString('hex')
           .slice(2)
       } catch (error) {
