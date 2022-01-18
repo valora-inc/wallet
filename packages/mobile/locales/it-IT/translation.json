@@ -692,10 +692,10 @@
   },
   "inviteCode": {
     "title": "Codice di invito",
-    "body": "Did you receive a payment or invite? If so, please copy and paste the Invite Code below.",
-    "label": "Invite Code",
-    "codePlaceholder": "Enter invite code",
-    "noCode": "Don’t have an Invite Code",
+    "body": "Hai ricevuto un pagamento o un invito? In tal caso, copia e incolla di seguito il codice di invito.",
+    "label": "Codice di invito",
+    "codePlaceholder": "Immetti il codice di invito",
+    "noCode": "Non ho un codice di invito",
     "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
     "loadingHeader": "Creating account...",
     "loadingBody": "This can take up to 90 seconds"
