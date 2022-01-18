@@ -610,20 +610,20 @@
   "errorRequestCode": "Impossible de demander des codes.",
   "errorRedeemingCode": "Impossible d'échanger le code.",
   "pleaseRetry": "Réessayez de procéder à la confirmation.",
-  "retryVerification": "Retry Confirmation",
+  "retryVerification": "Retentez la confirmation",
   "education": {
-    "header": "Confirm Your Phone",
-    "body1": "Next, please confirm your phone number.",
-    "body2": "Connecting your phone makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone confirmation",
-    "start": "Start Confirmation",
-    "skip": "Skip For Now"
+    "header": "Confirmez votre téléphone",
+    "body1": "Ensuite, veuillez confirmer votre numéro de téléphone.",
+    "body2": "Relier votre numéro de téléphone facilite l'envoi et la réception de fonds avec des amis. Vous pouvez également sauter cette étape et y revenir plus tard.",
+    "learnMore": "En savoir plus sur la confirmation du téléphone",
+    "start": "Commencer la confirmation",
+    "skip": "Ignorer pour l'instant"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
+    "confirming": "Confirmer le numéro de téléphone…",
+    "pleaseKeepAppOpen": "Veuillez ne pas quitter cet écran, sinon vous devriez redémarrer",
+    "learnMore": "En savoir plus",
+    "card1": "Pour vous assurer que votre numéro de téléphone est bien le vôtre, nous allons vous envoyer trois messages.",
     "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
     "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
     "card4": "We require three confirmation messages to keep your account more secure."
@@ -694,68 +694,68 @@
     "title": "Invite Code",
     "body": "Did you receive a payment or invite? If so, please copy and paste the Invite Code below.",
     "label": "Invite Code",
-    "codePlaceholder": "Enter invite code",
-    "noCode": "Don’t have an Invite Code",
-    "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
-    "loadingHeader": "Creating account...",
-    "loadingBody": "This can take up to 90 seconds"
+    "codePlaceholder": "Saisissez le code d'invitation",
+    "noCode": "Vous n'avez pas de code d'invitation",
+    "nodeCodeInviteLink": "Vous n'avez pas de code d'invitation ? Demandez-en un sur <0>celo.org/developers/wallet</0> ou <1>continuez sans</1>",
+    "loadingHeader": "Création du compte...",
+    "loadingBody": "Cela peut prendre jusqu'à 90 secondes"
   },
   "verificationEducation": {
-    "title": "Phone Number",
-    "header": "Connect your phone number",
-    "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
-    "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
-    "start": "Start",
-    "resume": "Resume",
-    "doINeedToConfirm": "Do I need to confirm?",
-    "skipForNow": "Skip for now",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
-    "bodyAlreadyVerified": "Your number is already confirmed!"
+    "title": "Numéro de téléphone",
+    "header": "Connectez votre numéro de téléphone",
+    "body": "Pour vous assurer que ce numéro est bien le vôtre, nous allons vous envoyer trois messages qui vous coûteront environ 0,5 cUSD chacun.\n\nLa confirmation de votre numéro prend environ trois minutes.",
+    "feelessBody": "La connexion prend environ trois minutes. Pour confirmer votre numéro, vous recevrez trois messages.",
+    "start": "Commencer",
+    "resume": "Reprendre",
+    "doINeedToConfirm": "Dois-je confirmer ?",
+    "skipForNow": "Ignorer pour l'instant",
+    "bodyInsufficientBalance": "Votre solde actuel n'est pas assez élevé pour finaliser le processus de confirmation.\n\nVeuillez réessayer lorsque vous aurez ajouté des fonds à votre portefeuille.",
+    "bodyAlreadyVerified": "Votre numéro est déjà confirmé !"
   },
   "verificationSkipDialog": {
-    "title": "Are you sure?",
-    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
-    "cancel": "Go Back",
-    "confirm": "Skip for now"
+    "title": "Êtes-vous sûr ?",
+    "body": "La confirmation vous permet d'envoyer et de recevoir facilement des fonds vers votre numéro de téléphone.\n\nLes comptes non confirmés peuvent uniquement envoyer des paiements en utilisant des adresses Celo ou des codes QR.",
+    "cancel": "Retour en arrière",
+    "confirm": "Ignorer pour l'instant"
   },
-  "verificationPrematureRevealMessage": "Please wait one minute before resending",
+  "verificationPrematureRevealMessage": "Veuillez patienter une minute avant de renvoyer",
   "verificationLearnMoreDialog": {
-    "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
-    "dismiss": "Dismiss"
+    "title": "Numéros de téléphone et {{appName}}",
+    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
+    "dismiss": "Refuser"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "explanation": "Votre phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
+    "keyPlaceholder": "cheval léopard chien singe ..."
   },
   "verificationInput": {
-    "title": "Confirm",
-    "body": "We sent you three messages (SMS). Please copy and paste them below.",
-    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
-    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
-    "codeLabel1": "First Code",
-    "codeLabel2": "Second Code",
-    "codeLabel3": "Third Code",
-    "codePlaceholder1": "Copy the first message",
-    "codePlaceholder1_ios": "Tap or copy the first message",
-    "codePlaceholder2": "Copy the second message",
-    "codePlaceholder2_ios": "Tap or copy the second message",
-    "codePlaceholder3": "Copy the third message",
-    "codePlaceholder3_ios": "Tap or copy the third message",
-    "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
-    "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "title": "Valider",
+    "body": "Nous vous avons envoyé trois messages (SMS). Veuillez les copier et les coller ci-dessous.",
+    "body_ios": "Nous vous avons envoyé trois messages (SMS). Veuillez appuyer sur le lien présent dans chaque message pour remplir les codes ci-dessous ou les copier-coller manuellement.",
+    "body_short": "Nous avons envoyé trois codes au numéro {{phoneNumber}}, veuillez les saisir ci-dessous.",
+    "codeLabel1": "Premier code",
+    "codeLabel2": "Deuxième code",
+    "codeLabel3": "Troisième code",
+    "codePlaceholder1": "Copier le premier message",
+    "codePlaceholder1_ios": "Tapez ou copiez le premier message",
+    "codePlaceholder2": "Copier le deuxième message",
+    "codePlaceholder2_ios": "Tapez ou copiez le deuxième message",
+    "codePlaceholder3": "Copier le troisième message",
+    "codePlaceholder3_ios": "Tapez ou copiez le troisième message",
+    "codePlaceholderWithCodeInClipboard": "Super ! Collez-le ici",
+    "resendMessages_all": "Renvoyer tous les messages",
+    "resendMessages": "Renvoyer le dernier message",
+    "resendMessages_plural": "Renvoyer {{count}} messages"
   },
   "verificationInputHelpDialog": {
-    "title": "Help",
+    "title": "Aide",
     "bodySection1": {
-      "title": "Received all three messages?",
-      "content": "If your messages contain a link, simply tap the links to confirm.\n\nIf there are no links, please copy and paste the messages into the fields. You’re welcome to paste the entire message."
+      "title": "Avez-vous reçu les trois messages ?",
+      "content": "Si vos messages contiennent un lien, appuyez simplement sur les liens pour confirmer.\n\nS'il n'y a pas de liens, veuillez copier et coller les messages dans les champs. Vous pouvez coller l'ensemble du message."
     },
     "bodySection2": {
-      "title": "Missing some or all messages?",
-      "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
+      "title": "Vous avez manqué certains ou tous les messages ?",
+      "defaultContent": "Si vous rencontrez des difficultés à recevoir des messages, vous pouvez sauter cette étape pour le moment et réessayer plus tard. Parfois, les messages peuvent prendre quelques minutes à arriver.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
       "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
       "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
