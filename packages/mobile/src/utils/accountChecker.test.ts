@@ -47,7 +47,6 @@ describe('resetStateOnInvalidStoredAccount', () => {
   it("returns the same state when there's an account and a matching password hash in the keychain", async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue({
       password: 'some hash',
-      server: 'server',
       username: 'username',
       service: 'service',
       storage: 'storage',

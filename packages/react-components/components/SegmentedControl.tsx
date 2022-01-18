@@ -1,7 +1,7 @@
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import MaskedView from '@react-native-community/masked-view'
+import MaskedView from '@react-native-masked-view/masked-view'
 import React from 'react'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
