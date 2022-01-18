@@ -828,7 +828,7 @@
   "requestFromMobileNumber": "Richiedi dal numero telefonico",
   "sendToAddress": "Invia all’indirizzo",
   "walletAddress": "Indirizzo del wallet",
-  "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla da questo collegamento: {{link}}",
+  "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
@@ -837,58 +837,58 @@
   "enterQRCode": "Immetti codice QR",
   "writeStorageNeededForQrDownload": "Per scaricare il codice QR è richiesta l’autorizzazione di scrittura nella memoria.",
   "cameraScanInfo": "Inquadra il codice nella casella in alto",
-  "cameraNotAuthorizedTitle": "Enable Camera",
-  "cameraNotAuthorizedDescription": "Please enable the Camera in your phone’s Settings. You’ll need it to scan QR codes.",
-  "cameraSettings": "Settings",
-  "toSentOrRequestPayment": "to send or request payment",
-  "reminderSent": "Reminder Sent",
-  "reclaimPayment": "Reclaim Payment",
-  "totalRefunded": "Total Refunded",
-  "loadingVerificationStatus": "Checking recipient confirmation",
-  "askForContactsPermissionAction": "Get my Contacts",
-  "newAccountBalance": "New account balance: ",
-  "estimatingFee": "Estimating fee ",
-  "estimatedFee": "Estimated fee: ",
-  "selectBalance": "Select Balance",
-  "stableBalance": "{{token}} Balance",
-  "selectToken": "Select Token",
+  "cameraNotAuthorizedTitle": "Abilita fotocamera",
+  "cameraNotAuthorizedDescription": "Abilita la fotocamera dalle Impostazioni del tuo telefono. Dovrai usarla per leggere codici QR.",
+  "cameraSettings": "Impostazioni",
+  "toSentOrRequestPayment": "per inviare o richiedere un pagamento",
+  "reminderSent": "Promemoria inviato",
+  "reclaimPayment": "Recupera pagamento",
+  "totalRefunded": "Totale rimborsato",
+  "loadingVerificationStatus": "Verifica conferma destinatario in corso",
+  "askForContactsPermissionAction": "Acquisisci i miei contatti",
+  "newAccountBalance": "Nuovo saldo del conto: ",
+  "estimatingFee": "Stima commissione in corso",
+  "estimatedFee": "Commissione stimata: ",
+  "selectBalance": "Seleziona saldo",
+  "stableBalance": "Saldo {{token}}",
+  "selectToken": "Seleziona token",
   "verificationCta": {
-    "header": "Sending to a friend?",
-    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Start Confirmation"
+    "header": "Inviare a un amico?",
+    "body": "Conferma il tuo numero telefonico e sincronizza i tuoi contatti per inviare rapidamente ai tuoi amici.",
+    "cta": "Inizia conferma"
   },
   "importContactsCta": {
-    "header": "Import Contacts",
-    "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
-    "cta": "Settings"
+    "header": "Importa contatti",
+    "body": "Abilita i Contatti nelle Impostazioni del tuo telefono per cercare i tuoi amici per nome.",
+    "cta": "Impostazioni"
   },
   "contactSyncProgress": {
-    "header": "Syncing Contacts",
-    "progress": "{{current}} of {{total}}",
-    "importing": "Importing..."
+    "header": "Sincronizzazione dei contatti in corso",
+    "progress": "{{current}} di {{total}}",
+    "importing": "Importazione in corso..."
   },
   "confirmAccount": {
-    "header": "Please confirm {{displayName}}'s account",
-    "headerNoDisplayName": "Please confirm your contact's account",
-    "button": "Confirm Account Address"
+    "header": "Conferma il conto di {{displayName}}",
+    "headerNoDisplayName": "Conferma il conto del tuo contatto",
+    "button": "Conferma l’indirizzo del conto"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body2": "You must scan their QR code or confirm their Account Address before transacting."
+    "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
+    "body1NoDisplayName": "Al tuo contatto sono associati più conti. Il tuo contatto potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è compromesso.",
+    "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare l’indirizzo del suo conto."
   },
   "confirmAccountNumber": {
-    "title": "Confirm Account Address",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "body1Full": "Please ask {{displayName}} for their Account Address.",
-    "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
-    "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Help locating an Account Address",
-    "submit": "Submit"
+    "title": "Conferma l’indirizzo del conto",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
+    "body1Full": "Chiedi a {{displayName}} l’indirizzo del suo conto.",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto l’indirizzo del suo conto.",
+    "body2Full": "È consigliabile chiedere di persona o per telefono, tramite WhatsApp o Messenger, oppure per e-mail. Per sicurezza, non utilizzare messaggi di testo (SMS).",
+    "help": "Guida per individuare l’indirizzo di un conto",
+    "submit": "Invia"
   },
-  "accountInputHeaderPartial": "Last 4 Digits",
-  "accountInputHeaderFull": "Account Address",
+  "accountInputHeaderPartial": "Ultime 4 cifre",
+  "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
     "header": "Locating an Account Address",
     "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
