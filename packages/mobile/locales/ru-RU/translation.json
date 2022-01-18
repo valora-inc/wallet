@@ -1125,8 +1125,8 @@
     "message": "Ваши остатки средств, возможно, не обновлены.",
     "button": "Обновить"
   },
-  "celoDollarAmount_0": "<0></0> Celo Dollar",
-  "celoDollarAmount_1": "<0></0> Celo Dollars",
-  "celoDollarAmount_2": "<0></0> Celo Dollars",
-  "celoDollarAmount_3": "<0></0> Celo Dollars"
+  "celoDollarAmount_0": "<0></0> Доллар Celo",
+  "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Доллары Celo",
+  "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Доллары Celo",
+  "celoDollarAmount_3": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Доллары Celo"
 }
