@@ -36,7 +36,12 @@ import {
 } from 'src/web3/actions'
 import { destroyContractKit, getWallet, getWeb3, initContractKit } from 'src/web3/contracts'
 import { createAccountDek } from 'src/web3/dataEncryptionKey'
-import { currentAccountSelector, fornoSelector, mtwAddressSelector } from 'src/web3/selectors'
+import {
+  currentAccountSelector,
+  fornoSelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import { blockIsFresh, getLatestBlock } from 'src/web3/utils'
 import { RootState } from '../redux/reducers'
 
@@ -282,7 +287,7 @@ function* getAddress<T extends { address: string | null }>({
 // Wait for account to exist and then return it
 export function* getWalletAddress() {
   return yield getAddress<SetAccountAction>({
-    addressSelector: currentAccountSelector,
+    addressSelector: walletAddressSelector,
     action: Actions.SET_ACCOUNT,
   })
 }
