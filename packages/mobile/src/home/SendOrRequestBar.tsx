@@ -11,11 +11,13 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
-import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 export default function SendOrRequestBar() {
   const sendableTokens = useSelector(tokensWithTokenBalanceSelector)
-  const buttonsDisabled = sendableTokens.length === 0
+  const sendButtonsDisabled = sendableTokens.length === 0
+  const requestButtonDisabled = useSelector(tokensListSelector).length === 0
+  const qrScanDisabled = false // TODO: Move logic to when actually scanning
 
   const onPressSend = () => {
     ValoraAnalytics.track(HomeEvents.home_send)
@@ -41,7 +43,7 @@ export default function SendOrRequestBar() {
         size={BtnSizes.MEDIUM}
         text={t('send')}
         onPress={onPressSend}
-        disabled={buttonsDisabled}
+        disabled={sendButtonsDisabled}
         testID="SendOrRequestBar/SendButton"
       />
       <Button
@@ -49,9 +51,10 @@ export default function SendOrRequestBar() {
         size={BtnSizes.MEDIUM}
         text={t('request')}
         onPress={onPressRequest}
+        disabled={requestButtonDisabled}
         testID="SendOrRequestBar/RequestButton"
       />
-      <Touchable borderless={true} onPress={onPressQrCode} disabled={buttonsDisabled}>
+      <Touchable borderless={true} onPress={onPressQrCode} disabled={qrScanDisabled}>
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
     </View>
