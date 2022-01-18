@@ -27,7 +27,6 @@ platform :ios, '12.4'
 use_frameworks!
 
 target "celo" do
-  pod "react-native-geth", :path => "../../../node_modules/react-native-geth"
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
 
   # RNPermissions
@@ -35,7 +34,6 @@ target "celo" do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
-  pod 'RNSecureRandom', :path => '../../../node_modules/react-native-securerandom'
 
   pod 'Plaid', '~> 2.1.3'
 

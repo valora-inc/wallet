@@ -10,7 +10,11 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { createLinkToken } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
-import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
+import {
+  dataEncryptionKeySelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 
 const TAG = 'PLAID'
 
@@ -20,6 +24,7 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
   const walletAddress = useSelector(walletAddressSelector)
+  const dekPrivate = useSelector(dataEncryptionKeySelector)
   const locale = useSelector(currentLanguageSelector) || ''
   const phoneNumber = useSelector(e164NumberSelector) || ''
   const isAndroid = Platform.OS === 'android'
@@ -33,9 +38,13 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
       Logger.error(TAG, "Can't render Plaid because walletAddress is null")
       return
     }
+    if (!dekPrivate) {
+      Logger.error(TAG, "Can't render Plaid because dekPrivate is null")
+      return
+    }
     const IHLResponse = await createLinkToken({
       accountMTWAddress,
-      walletAddress,
+      dekPrivate,
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,
