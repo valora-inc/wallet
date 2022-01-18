@@ -105,58 +105,58 @@
   "contactSupport": "Обратитесь в службу поддержки",
   "tapToCopy": "Коснитесь, чтобы скопировать",
   "headerTitle": "Фраза восстановления",
-  "introTitle": "Your Recovery Phrase",
-  "introBody": "Your Recovery Phrase is the most important part of your account.\n\nPlease find a private place to set up your Phrase. It takes about five minutes.",
-  "introPrimaryAction": "Set Up Now",
-  "backupSetupTitle": "Set Up Your Recovery Phrase",
-  "backupSetupBody": "To protect your funds, you're required to set up your Recovery Phrase before you can continue using {{appName}}.",
-  "delayBackup": "Wait One Hour",
-  "postSetupTitle": "Your Recovery Phrase",
-  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your Celo Dollars and CELO. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
-  "postSetupCTA": "Learn about your Recovery Phrase",
-  "failedFetchMnemonic": "Failed to fetch your Recovery Phrase",
-  "backupAndRecovery": "Backup and Recovery",
-  "writeDownKey": "Please write down your Phrase",
-  "completeEducation": "I Understand",
-  "yourAccountKey": "Your Recovery Phrase",
-  "backupKeyNotification": "Your Recovery Phrase is the most important part of your account",
-  "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
-  "copied": "Phrase copied to clipboard",
-  "moreInfo": "More Info",
-  "savedConfirmation": "Yes, I have written down my Phrase.",
-  "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Recovery Phrase?",
-  "importBackupFailed": "Importing Wallet Failed",
-  "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Recovery Phrase is not valid",
-  "invalidWordsInBackupPhrase": "Some words in the Recovery Phrase are not valid: {{ invalidWords }}",
+  "introTitle": "Ваша фраза восстановления",
+  "introBody": "Ваша фраза восстановления является самой важной частью вашего аккаунта.\n\nНайдите недоступное для посторонних место для настройки своей фразы. Это займёт около пяти минут.",
+  "introPrimaryAction": "Настроить сейчас",
+  "backupSetupTitle": "Настроить фразу восстановления",
+  "backupSetupBody": "Для защиты ваших средств перед использованием приложения {{appName}} вам необходимо настроить свою фразу восстановления.",
+  "delayBackup": "Подождите один час",
+  "postSetupTitle": "Ваша фраза восстановления",
+  "postSetupBody": "Если вы потеряете фразу восстановления, то утратите доступ ко всем своим долларам Celo и CELO. Без вашей фразы никто не сможет восстановить ваш аккаунт даже с помощью приложения {{appName}}. Храните ее в безопасном месте и не сообщайте никому.",
+  "postSetupCTA": "Сведения о вашей фразе восстановления",
+  "failedFetchMnemonic": "Не удалось получить фразу восстановления",
+  "backupAndRecovery": "Резервное копирование и восстановление",
+  "writeDownKey": "Запишите свою фразу",
+  "completeEducation": "Я понимаю",
+  "yourAccountKey": "Ваша фраза восстановления",
+  "backupKeyNotification": "Ваша фраза восстановления является самой важной частью вашего аккаунта",
+  "backupKeySummary": "Найдите недоступное для посторонних место и запишите свою фразу восстановления. Храните ее в безопасном месте. Не сохраняйте ее на телефон.",
+  "copied": "Фраза скопирована в буфер обмена",
+  "moreInfo": "Дополнительная информация",
+  "savedConfirmation": "Да, моя фраза записана.",
+  "backupQuizWordCount": "Что представляет собой слово <0>{{ordinal}}</0> вашей фразы восстановления?",
+  "importBackupFailed": "Не удалось импортировать кошелек",
+  "backupQuizFailed": "Вы ввели неправильную фразу восстановления. Повторите попытку.",
+  "invalidBackupPhrase": "Недопустимая фраза восстановления",
+  "invalidWordsInBackupPhrase": "Некоторые слова во фразе восстановления недопустимы: {{ invalidWords }}",
   "backupComplete": {
-    "header": "Backup Complete",
-    "0": "Success!",
-    "1": "Next, you can set up Safeguards.",
-    "2": "You’re all set!"
+    "header": "Резервное копирование завершено",
+    "0": "Успешно!",
+    "1": "Далее необходимо настроить меры безопасности.",
+    "2": "Все готово!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
-    "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
-    "action": "Complete Now",
-    "secondary": "Set Up Later"
+    "title": "Завершить настройку фразы восстановления",
+    "body": "Ваша фраза восстановления крайне важна. Без нее вы можете навсегда потерять доступ к своему кошельку.\nДля вас будет заблокирована отправка любых транзакций до тех пор, пока вы не завершите настройку фразы восстановления.",
+    "action": "Завершить сейчас",
+    "secondary": "Настроить позже"
   },
-  "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
+  "backupPhrasePlaceholder": "лошадь леопард собака обезьяна акула тигр лемур кит кальмар волк белка мышь лев слон кошка креветка медведь пингвин олень черепаха лиса зебра коза жираф",
   "guide": [
     {
-      "title": "Your Recovery Phrase is a special kind of password",
-      "text": "Your Recovery Phrase is the one and only way to access your account."
+      "title": "Ваша фраза восстановления представляет собой особый вид пароля",
+      "text": "Ваша фраза восстановления является единственным способом получить доступ к вашему аккаунту."
     },
     {
-      "title": "Without your Recovery Phrase, you can lose access forever",
-      "text": "If you lose your phone, you must have your Recovery Phrase to get your account back. Nobody, not even {{appName}}, will be able to recover your funds without it."
+      "title": "Без фразы восстановления вы можете навсегда потерять доступ",
+      "text": "Если вы потеряете телефон, то должны иметь фразу восстановления, чтобы восстановить свой аккаунт. Без вашей фразы никто не сможет восстановить ваши средства даже с помощью приложения {{appName}}."
     },
     {
-      "title": "Write it down",
-      "text": "Write down your Recovery Phrase and store it in a safe place. Do not save it in your phone."
+      "title": "Запишите ее",
+      "text": "Запишите фразу восстановления и храните в безопасном месте. Не сохраняйте ее на телефон."
     },
     {
-      "title": "Keep your Phrase private",
+      "title": "Не разглашайте свою фразу",
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
