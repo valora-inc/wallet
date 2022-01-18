@@ -157,35 +157,35 @@
     },
     {
       "title": "Не разглашайте свою фразу",
-      "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
+      "text": "Любое лицо с помощью вашей фразы получит доступ к вашему аккаунту и всем его средствам. Не сообщайте ее другим людям."
     }
   ],
-  "consumerIncentivesTitle": "Boost your Rewards",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Увеличьте свои вознаграждения",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на свой остаток {{currency}}. Предложение действует в течение ограниченного времени, поэтому пополните прямо сейчас!",
   "earnWeekly": {
-    "header": "Weekly payout",
-    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
+    "header": "Еженедельная выплата",
+    "text": "Отправляйте и тратьте средства как обычно, и вы получите вознаграждение на остаток."
   },
   "noMinCommitment": {
-    "header": "Automatic rewards",
-    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
-    "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
+    "header": "Автоматические вознаграждения",
+    "earningText": "Вознаграждение доступно даже при остатке всего лишь {{minBalance}} {{currency}}.",
+    "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
-    "header": "Boost your balance",
-    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
+    "header": "Увеличьте остаток",
+    "text": "Внесите {{maxBalance}} {{currency}}, чтобы увеличить вознаграждения до {{percent}}% годовых."
   },
-  "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "cashIn": "Add {{currency}}",
-  "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
-  "allow": "Allow",
-  "address": "Account Address",
-  "phoneNumber": "Phone Number",
+  "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
+  "cashIn": "Внести {{currency}}",
+  "connectNumber": "Подключить номер",
+  "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
+  "allow": "Разрешить",
+  "address": "Адрес аккаунта",
+  "phoneNumber": "Номер телефона",
   "transaction": {
-    "operation": "Operation",
-    "data": "Data",
-    "signTX": "Sign TX",
+    "operation": "Операция",
+    "data": "Данные",
+    "signTX": "Подписать TX",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
