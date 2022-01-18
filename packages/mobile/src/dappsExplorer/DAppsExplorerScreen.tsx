@@ -30,6 +30,7 @@ import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'DAppExplorerScreen'
@@ -137,11 +138,6 @@ export function DAppsExplorerScreen() {
     }
   )
 
-  const onPressDapp = (dapp: Dapp) => {
-    setDappSelected(dapp)
-    setBottomSheetVisible(true)
-  }
-
   const onCloseBottomSheet = () => {
     setBottomSheetVisible(false)
   }
@@ -158,6 +154,15 @@ export function DAppsExplorerScreen() {
     }
     dispatch(openUrl(dappSelected.dappUrl, true, true))
     setBottomSheetVisible(false)
+  }
+
+  const onPressDapp = (dapp: Dapp) => {
+    if (!isDeepLink(dapp.dappUrl)) {
+      setDappSelected(dapp)
+      setBottomSheetVisible(true)
+    } else {
+      dispatch(openUrl(dapp.dappUrl, true, true))
+    }
   }
 
   return (
@@ -255,8 +260,6 @@ function DescriptionView({ message }: { message: string }) {
 }
 
 function CategoryHeader({ category }: { category: CategoryWithDapps }) {
-  Logger.debug(TAG, `Render category ${JSON.stringify(category)}`)
-
   return (
     <View style={styles.categoryContainer}>
       <View
@@ -272,11 +275,7 @@ function CategoryHeader({ category }: { category: CategoryWithDapps }) {
 }
 
 function Dapp({ dapp, onPressDapp }: DappProps) {
-  Logger.debug(TAG, `Render item ${JSON.stringify(dapp)}`)
-
-  const onPress = () => {
-    return onPressDapp(dapp)
-  }
+  const onPress = () => onPressDapp(dapp)
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>

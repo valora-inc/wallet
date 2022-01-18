@@ -45,7 +45,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { navigateToURI } from 'src/utils/linking'
+import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -268,7 +268,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, url)
   Logger.debug(TAG, 'Handling url', url)
-  if (url.startsWith('celo:') || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
+  if (isDeepLink(url) || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
     // Handle celo links directly, this avoids showing the "Open with App" sheet on Android
     yield call(handleDeepLink, openDeepLink(url, isSecureOrigin))
   } else if (/^https?:\/\//i.test(url) === true && !openExternal) {
