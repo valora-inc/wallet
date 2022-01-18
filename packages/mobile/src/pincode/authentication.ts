@@ -7,6 +7,7 @@
 
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import { sha256 } from 'ethereumjs-util'
+import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { call, select } from 'redux-saga/effects'
 import sleep from 'sleep-promise'
@@ -15,6 +16,7 @@ import { pincodeTypeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { useBiometrySelector } from 'src/app/selectors'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { UNLOCK_DURATION } from 'src/geth/consts'
 import i18n from 'src/i18n'
@@ -43,6 +45,7 @@ const TAG = 'pincode/authentication'
 enum STORAGE_KEYS {
   PEPPER = 'PEPPER',
   PASSWORD_HASH = 'PASSWORD_HASH',
+  PIN = 'PIN',
 }
 
 const PEPPER_LENGTH = 64
@@ -192,7 +195,8 @@ let lastError: any = null
 export async function getPassword(
   account: string,
   withVerification: boolean = true,
-  storeHash: boolean = false
+  storeHash: boolean = false,
+  useBiometrics: boolean = false
 ) {
   while (passwordLock) {
     await sleep(100)
@@ -211,7 +215,7 @@ export async function getPassword(
       return password
     }
 
-    const pin = await getPincode(withVerification)
+    const pin = await getPincode(withVerification, useBiometrics)
     password = await getPasswordForPin(pin)
 
     if (storeHash) {
@@ -247,17 +251,58 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
     throw new Error(`Unsupported Pincode Type ${pincodeType}`)
   }
 
-  return yield call(getPassword, account, withVerification, storeHash)
+  const useBiometry = yield select(useBiometrySelector)
+
+  return yield call(getPassword, account, withVerification, storeHash, useBiometry)
 }
 
 type PinCallback = (pin: string) => void
 
+export async function setPincodeWithBiometrics() {
+  let pin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
+  if (!pin) {
+    pin = await requestPincodeInput(true, true)
+  }
+
+  console.log('======HELLO', pin)
+  await storeItem({
+    key: STORAGE_KEYS.PIN,
+    value: pin,
+    options: {
+      accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+    },
+  })
+
+  console.log('======STORED ITEM', pin)
+
+  const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
+    accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
+    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+  })
+
+  console.log('======RETRIEVED ITEM', retrievedPin)
+
+  if (retrievedPin !== pin) {
+    // log some kind of error, we probs shouldn't continue
+  }
+}
+
 // Retrieve the pincode value
 // May trigger the pincode enter screen
-export async function getPincode(withVerification = true) {
+export async function getPincode(withVerification = true, useBiometrics = false) {
   const cachedPin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (cachedPin) {
     return cachedPin
+  }
+
+  if (useBiometrics) {
+    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
+    if (retrievedPin) {
+      return retrievedPin
+    }
   }
 
   const pin = await requestPincodeInput(withVerification, true)

@@ -7,14 +7,16 @@ const TAG = 'storage/keychain'
 interface SecureStorage {
   key: string
   value: string
+  options?: Keychain.Options
 }
 
-export async function storeItem({ key, value }: SecureStorage) {
+export async function storeItem({ key, value, options = {} }: SecureStorage) {
   try {
     const result = await Keychain.setGenericPassword('CELO', value, {
       service: key,
       accessible: Keychain.ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
       rules: Keychain.SECURITY_RULES.NONE,
+      ...options,
     })
     if (result === false) {
       throw new Error('Store result false')
@@ -26,10 +28,11 @@ export async function storeItem({ key, value }: SecureStorage) {
   }
 }
 
-export async function retrieveStoredItem(key: string) {
+export async function retrieveStoredItem(key: string, options: Keychain.Options = {}) {
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
+      ...options,
     })
     if (!item) {
       return null

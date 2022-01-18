@@ -17,6 +17,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
+import { setPincodeWithBiometrics } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import Svg, { Path } from 'svgs'
 
@@ -63,9 +64,9 @@ export default function EnableBiometry({ navigation, route }: Props) {
   }, [navigation])
 
   const onPressUseBiometry = async () => {
+    await setPincodeWithBiometrics()
+    // TODO handle error
     dispatch(setUseBiometry(true))
-    // do some stuff to use biometry
-
     navigateHome()
   }
 
