@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Add a minimum balance",
-    "earningText": "Cash in {{minBalance}} or more {{currency}} for free with Ramp.",
+    "earningText": "Cash in {{minBalance}} or more {{currency}}.",
     "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
