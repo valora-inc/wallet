@@ -45,7 +45,7 @@ import {
   useUsdToTokenAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
-import { defaultTokenSelector, inviteTokensSelector } from 'src/tokens/selectors'
+import { defaultTokenSelector, stablecoinsSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
@@ -129,7 +129,7 @@ function SendAmount(props: Props) {
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
   const defaultToken = useSelector(defaultTokenSelector)
-  const inviteTokens = useSelector(inviteTokensSelector)
+  const inviteTokens = useSelector(stablecoinsSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!

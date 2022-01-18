@@ -1,91 +1,60 @@
 import {
   createPersonaAccount,
-  getAuthAndDateHeaders,
+  getAuthHeader,
   signAndFetch,
   createLinkToken,
   createFinclusiveBankAccount,
   exchangePlaidAccessToken,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
-import * as dataEncryptionKey from 'src/web3/dataEncryptionKey'
 import networkConfig from 'src/geth/networkConfig'
 import { mockE164Number } from 'test/values'
-
-const signWithDEK = jest.spyOn(dataEncryptionKey, 'signWithDEK')
+import jwt from 'jsonwebtoken'
 
 const MOCK_USER = {
-  walletAddress: '0x2Ec2c5D904ed2964F791aDA2185B9c2241C371c0',
-  accountMTWAddress: '0x8b2f81f995c910aede52116406452468946d7d52',
-  dataEncryptionKey: '0x0287d1ab6da9ee77a6743ce30936f0bd28d7f197b466d47871e207c3417db91b3b',
+  accountMTWAddress: '0xc549560d398567d6ff75fde721b1488348df86dc',
+  dekPrivate: '0x5776c418c5f63c5d149a4605c9fa6e0a1bd684a17f1b7ec563515dd4a13a8a3c',
+  dekPublicHex: '0x034e229e9b6503e42ac456fce7ef5c28230eedf8dd6f65c2806af3291ba107d354',
+  dekPublicPem:
+    '-----BEGIN PUBLIC KEY-----\nMDYwEAYHKoZIzj0CAQYFK4EEAAoDIgADTiKem2UD5CrEVvzn71woIw7t+N1vZcKA\navMpG6EH01Q=\n-----END PUBLIC KEY-----',
 }
-
-jest.mock('src/web3/contracts', () => ({
-  getContractKitAsync: jest.fn(() => ({
-    contracts: {
-      getAccounts: jest.fn(() => ({
-        getDataEncryptionKey: jest.fn(() => MOCK_USER.dataEncryptionKey),
-      })),
-    },
-  })),
-}))
 
 describe('In House Liquidity Calls', () => {
   const mockFetch = fetch as FetchMock
 
-  const date = new Date('2021-05-14T11:01:58.135Z')
-  const expectedDateString = date.toUTCString()
+  beforeAll(() => {
+    jest.useFakeTimers()
+    jest.spyOn(Date, 'now').mockImplementation(() => 1641945400000)
+  })
 
+  afterAll(() => {
+    jest.useRealTimers()
+  })
   beforeEach(() => {
     mockFetch.resetMocks()
     jest.clearAllMocks()
   })
 
-  describe('getAuthAndDateHeaders', () => {
+  const expectedJWTHeader = `eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9` // encoded version of {"alg": "ES256", "typ": "JWT"}
+  const expectedJWTPayload = `eyJpc3MiOiItLS0tLUJFR0lOIFBVQkxJQyBLRVktLS0tLVxuTURZd0VBWUhLb1pJemowQ0FRWUZLNEVFQUFvRElnQURUaUtlbTJVRDVDckVWdnpuNzF3b0l3N3QrTjF2WmNLQVxuYXZNcEc2RUgwMVE9XG4tLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0iLCJzdWIiOiIweGM1NDk1NjBkMzk4NTY3ZDZmZjc1ZmRlNzIxYjE0ODgzNDhkZjg2ZGMiLCJpYXQiOjE2NDE5NDU0MDAsImV4cCI6MTY0MTk0NTcwMH0` // encoded version of {"iss": "-----BEGIN PUBLIC KEY-----\nMDYwEAYHKoZIzj0CAQYFK4EEAAoDIgADTiKem2UD5CrEVvzn71woIw7t+N1vZcKA\navMpG6EH01Q=\n-----END PUBLIC KEY-----", "sub": "0xc549560d398567d6ff75fde721b1488348df86dc", "iat": 1641945400, "exp": 1641945700}
+  const expectedAuthHeaderPrefix = `Bearer ${expectedJWTHeader}.${expectedJWTPayload}.`
+
+  describe('getAuthHeader', () => {
     it('creates the correct headers for a GET request', async () => {
-      const headers = await getAuthAndDateHeaders({
-        httpVerb: 'GET',
-        date,
-        requestPath: '/account/foo',
+      const authHeader = await getAuthHeader({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
       })
 
-      // Creates the correct Headers
-      expect(headers).toMatchObject({
-        Date: expectedDateString,
-        Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
-      })
+      // verify header and payload
+      expect(authHeader).toContain(expectedAuthHeaderPrefix)
 
-      // Calls signMessage with the expected parameters
-      expect(signWithDEK).toHaveBeenCalledWith({
-        message: `get /account/foo ${expectedDateString}`,
-        dataEncryptionKey: MOCK_USER.dataEncryptionKey,
-      })
-    })
-    it('creates the correct headers for a POST request', async () => {
-      const headers = await getAuthAndDateHeaders({
-        httpVerb: 'POST',
-        requestPath: '/account/foo/create',
-        date,
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
-        requestBody: JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress }),
-      })
-      // Creates the correct Headers
-      expect(headers).toMatchObject({
-        Date: expectedDateString,
-        Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
-      })
-
-      // Calls signMessage with the expected parameters
-      expect(signWithDEK).toHaveBeenCalledWith({
-        message: `post /account/foo/create ${expectedDateString} ${JSON.stringify({
-          accountAddress: MOCK_USER.accountMTWAddress,
-        })}`,
-        dataEncryptionKey: MOCK_USER.dataEncryptionKey,
-      })
+      // verify signature (non-deterministic, so a fixed value cannot be used)
+      const token = authHeader.split(' ')[1]
+      expect(jwt.verify(token, MOCK_USER.dekPublicPem, { algorithms: ['ES256'] })).toBeTruthy()
     })
   })
+
   describe('signAndFetch', () => {
     it('calls fetch with the correct params', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
@@ -94,7 +63,7 @@ describe('In House Liquidity Calls', () => {
       const response = await signAndFetch({
         path: '/persona/account/create',
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
         requestOptions: {
           method: 'POST',
           headers: {
@@ -110,8 +79,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: JSON.stringify(body),
           headers: {
-            Date: expect.anything(),
-            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -128,7 +96,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createPersonaAccount({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
       })
       const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress })
 
@@ -138,8 +106,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Date: expect.anything(),
-            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -155,7 +122,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createLinkToken({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
         isAndroid: false,
         language: 'en',
         phoneNumber: mockE164Number,
@@ -173,8 +140,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Date: expect.anything(),
-            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
             'Content-Type': 'application/json',
           },
           method: 'POST',

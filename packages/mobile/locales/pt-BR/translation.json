@@ -163,17 +163,17 @@
   "consumerIncentivesTitle": "Aumente suas recompensas",
   "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Quer começar a adicionar fundos? Então corra, porque é por tempo limitado!",
   "earnWeekly": {
-    "header": "Pagamento semanal",
-    "text": "Envie e gaste como de costume. Você receberá recompensas sobre o saldo restante."
+    "header": "Conecte seu número de celular",
+    "text": "Vincule sua conta da Valora á seu número de celular."
   },
   "noMinCommitment": {
-    "header": "Recompensas automáticas",
-    "earningText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} para começar a ganhar recompensas.",
+    "header": "Adicione fundos",
+    "earningText": "Adicione {{minBalance}} {{currency}} ou mais.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Aumente seu saldo",
-    "text": "Deposite {{maxBalance}} {{currency}} para receber recompensas anuais de {{percent}}%."
+    "header": "Mantê-los seguros",
+    "text": "Crie sua Frase de Recuperação no Menu."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
@@ -195,10 +195,10 @@
   "equalToAmount": "Igual a <1></1>",
   "whatIsGold": "A {{appName}} permite que você compre e venda CELO",
   "manageCelo": "Gerenciar Celo Dólares",
-  "exchangeRate": "Taxa de câmbio",
+  "exchangeRate": "Taxa de troca",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Histórico",
-  "exchange": "Câmbio",
+  "exchange": "Trocar",
   "buy": "Comprar",
   "sell": "Vender",
   "withdrawCelo": "Transferir CELO",
@@ -211,20 +211,20 @@
   "inputSubtotal_gold": "$t(celoGold) @ <2></2>",
   "buyGoldAmount": "Comprar <0></0> $t(gold)",
   "sellGoldAmount": "Vender <0></0> $t(gold)",
-  "includeExchangeFee": "*inclui taxa de câmbio",
+  "includeExchangeFee": "*inclui taxa de troca",
   "available": "Disponível",
   "newBalance": "Novo saldo",
-  "reviewExchange": "Revisar câmbio",
+  "reviewExchange": "Revisar troca",
   "fee": "Taxa",
   "securityFee": "Taxa de rede",
-  "exchangeFee": "Taxa de câmbio",
+  "exchangeFee": "Taxa de troca",
   "edit": "Editar",
-  "notEnoughDollars": "Celo Dólares insuficientes para fazer o câmbio",
-  "notEnoughGold": "CELO insuficientes para fazer o câmbio",
+  "notEnoughDollars": "Celo Dólares insuficientes para fazer a troca",
+  "notEnoughGold": "CELO insuficientes para fazer a troca",
   "pending": "Pendente",
-  "loadingExchangeRate": "Carregando taxa de câmbio...",
-  "errorRefreshingRate": "Não foi possível atualizar a taxa de câmbio",
-  "exchangeRateChange": "A taxa de câmbio mudou, tente novamente",
+  "loadingExchangeRate": "Carregando taxa de troca...",
+  "errorRefreshingRate": "Não foi possível atualizar a taxa de troca",
+  "exchangeRateChange": "A taxa de troca mudou, tente novamente",
   "feeExchangeEducation": "Ao trocar CELO e cUSD, uma pequena taxa adicional vai para a manutenção do valor estável do Celo Dólar.\n\nPara saber mais, acesse as Perguntas frequentes.",
   "goldPrice": "Preço do CELO",
   "yourGoldBalance": "Seu saldo em CELO",
@@ -295,7 +295,7 @@
   },
   "providerFeesDialog": {
     "title": "Taxas de Fornecedor",
-    "body1": "As taxas de fornecedor são definidas individualmente por cada fornecedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
+    "body1": "As taxas de fornecedor são definidas individualmente por cada fornecedor e incluem uma taxa de troca e uma de liquidez, entre outras. Para saber mais, visite ",
     "body2": "Site do {{providerName}}"
   },
   "providerFeeDiscountDialog": {
@@ -306,7 +306,7 @@
   "pleaseSelectProvider": "Por favor, selecione um fornecedor. Esses links são conectados a serviços de terceiros.",
   "otherFundingOptions": "Para conhecer mais maneiras de adicionar e sacar fundos, visite <0>Como faço para adicionar fundos à minha conta da Valora?</0>",
   "youCanTransferIn": "Você pode transferir {{digitalAsset}} de qualquer exchange que suporte {{digitalAsset}}. Você precisará do seu Endereço de Conta.",
-  "youCanTransferOut": "Você pode transferir {{digitalAsset}} para qualquer exchange que suporte {{digitalAsset}}. Uma vez que você tenha seu Endereço, você pode continuar para o próximo passo.",
+  "youCanTransferOut": "Você pode transferir {{digitalAsset}} para qualquer exchange que suporte {{digitalAsset}}. Uma vez que você tenha seu Endereço de Conta, você pode continuar para o próximo passo.",
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
@@ -349,9 +349,9 @@
   "payments": "Pagamentos",
   "activity": "Atividades",
   "earnRewards": "Ganhe recompensas",
-  "notEnoughStableError": "{{token}} insuficientes para fazer o câmbio",
-  "notEnoughGoldError": "CELO insuficientes para fazer o câmbio",
-  "exchangeFailed": "O câmbio falhou, tente novamente",
+  "notEnoughStableError": "{{token}} insuficientes para fazer a troca",
+  "notEnoughGoldError": "CELO insuficientes para fazer a troca",
+  "exchangeFailed": "A troca falhou, tente novamente",
   "transactionFailed": "A transação falhou, tente novamente",
   "refreshFailedUnexpectedly": "Falha ao atualizar, verifique sua conexão",
   "paste": "Colar",
@@ -362,7 +362,7 @@
   "sendCeloDollars": "Enviar Celo Dólares",
   "startEarning": "Comece a ganhar",
   "backToWallet": "Voltar para a conta",
-  "exchangeForGold": "Cambiar pelo CELO",
+  "exchangeForGold": "Tocar pelo CELO",
   "missingFullName": "O campo do nome não pode ficar em branco",
   "invalidPhone": "Número de celular inválido",
   "cantSelectInvalidPhone": "Não é possível selecionar o contato: número de celular inválido",
@@ -397,6 +397,7 @@
   "totalInEuros": "Celo Euros @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
+  "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Opa!",
   "somethingWrong": "Algo deu errado.",
   "verifyFailed": "Falha ao confirmar",
@@ -678,8 +679,8 @@
   },
   "createAccount": "Criar conta",
   "restoreAccount": "Restaurar conta existente",
-  "createAccountSteps": "Etapa {{step}} de 3",
-  "restoreAccountSteps": "Etapa {{step}} de 4",
+  "createAccountSteps": "Passo {{step}} de {{totalSteps}}",
+  "restoreAccountSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
@@ -742,9 +743,9 @@
     "codePlaceholder3": "Copiar a terceira mensagem",
     "codePlaceholder3_ios": "Toque ou copie a terceira mensagem",
     "codePlaceholderWithCodeInClipboard": "Ótimo! Cole aqui",
+    "resendMessages_all": "Reenviar todas as mensagens",
     "resendMessages": "Reenviar última mensagem",
-    "resendMessages_plural": "Reenviar {{count}} mensagens",
-    "resendMessages_all": "Reenviar todas as mensagens"
+    "resendMessages_plural": "Reenviar {{count}} mensagens"
   },
   "verificationInputHelpDialog": {
     "title": "Ajuda",
@@ -801,8 +802,6 @@
   "characterLimitExceeded": "Limite de caracteres de {{max}} excedido",
   "payRequest": "Solicitação de pagamento",
   "sendTo": "Enviar para",
-  "celoDollarAmount": "<0></0> Celo Dólar ",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares ",
   "addDescription": "Adicionar descrição",
   "sentTo": "Enviar para",
   "withdrawnTo": "Transferido para",
@@ -1064,7 +1063,9 @@
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
     "subtitle": "Atualmente sua conta está vazia",
-    "addFunds": "Adicionar Fundos"
+    "addFunds": "Adicionar Fundos",
+    "titleRamp": "Adicione {{currency}} para começar a usar Valora",
+    "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
   },
   "balances": "Saldo",
   "totalValue": "Saldo total",
@@ -1119,5 +1120,7 @@
     "title": "Você está offline.",
     "message": "Seus saldos podem não estar em dia.",
     "button": "Atualização"
-  }
+  },
+  "celoDollarAmount": "<0></0> Celo Dólar ",
+  "celoDollarAmount_plural": "<0></0> Celo Dólares "
 }

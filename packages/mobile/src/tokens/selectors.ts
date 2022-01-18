@@ -64,7 +64,7 @@ export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (to
   return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
-export const inviteTokensSelector = createSelector(coreTokensSelector, (tokens) => {
+export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
 

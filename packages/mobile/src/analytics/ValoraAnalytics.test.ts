@@ -21,6 +21,9 @@ jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 
+const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
+const expectedSessionId = 'b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+
 Date.now = jest.fn(() => 1482363367071)
 
 const mockedAnalytics = mocked(Analytics)
@@ -77,7 +80,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: undefined,
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -90,7 +93,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',
     })
@@ -111,7 +114,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: undefined,
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -124,7 +127,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',
     })
@@ -148,7 +151,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: 'Some Page',
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -161,7 +164,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       someProp: 'testValue',
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',
@@ -182,7 +185,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: 'Some Page2',
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -195,7 +198,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       someProp: 'testValue2',
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',
@@ -218,7 +221,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: undefined,
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -231,7 +234,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',
     })
@@ -252,7 +255,7 @@ describe('ValoraAnalytics', () => {
       sCountryCodeAlpha2: 'US',
       sCurrentScreenId: 'ScreenA',
       sCusdBalance: 10,
-      sDeviceId: 'unknown',
+      sDeviceId: mockDeviceId,
       sDeviceLanguage: 'en-US',
       sHasCompletedBackup: false,
       sHasVerifiedNumber: false,
@@ -265,7 +268,7 @@ describe('ValoraAnalytics', () => {
       sTokenCount: 5,
       sTotalBalanceUsd: 34,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
-      sessionId: '',
+      sessionId: expectedSessionId,
       someProp: 'someValue',
       timestamp: 1482363367071,
       userAddress: '0x0000000000000000000000000000000000007e57',

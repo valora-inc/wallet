@@ -1,6 +1,8 @@
 import networkConfig from 'src/geth/networkConfig'
-import { getContractKitAsync } from 'src/web3/contracts'
-import { signWithDEK } from 'src/web3/dataEncryptionKey'
+import jwt from 'jsonwebtoken'
+import KeyEncoder from 'key-encoder'
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
+import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
 interface CreateFinclusiveBankAccountParams {
   accountMTWAddress: string
@@ -79,19 +81,21 @@ export const exchangePlaidAccessToken = async ({
 
 interface CreateLinkTokenParams {
   accountMTWAddress: string
-  walletAddress: string
+  dekPrivate: string
   isAndroid: boolean
   language: string
   accessToken?: string
   phoneNumber: string
 }
 
+const keyEncoder = new KeyEncoder('secp256k1')
+
 /**
  * Create a new Plaid Link Token by calling IHL
  *
  *
  * @param {params.accountMTWAddress} accountAddress
- * @param {params.walletAddress} walletAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
  * @param {params.isAndroid} isAndroid
  * @param {params.language} language the users current language
  * @param {params.accessToken} accessToken optional access token used for editing existing items
@@ -100,7 +104,7 @@ interface CreateLinkTokenParams {
  */
 export const createLinkToken = async ({
   accountMTWAddress,
-  walletAddress,
+  dekPrivate,
   isAndroid,
   language,
   accessToken,
@@ -116,7 +120,7 @@ export const createLinkToken = async ({
   return signAndFetch({
     path: '/plaid/link-token/create',
     accountMTWAddress,
-    walletAddress,
+    dekPrivate,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -129,16 +133,16 @@ export const createLinkToken = async ({
 
 export const createPersonaAccount = async ({
   accountMTWAddress,
-  walletAddress,
+  dekPrivate,
 }: {
   accountMTWAddress: string
-  walletAddress: string
+  dekPrivate: string
 }): Promise<Response> => {
   const body = { accountAddress: accountMTWAddress }
   return signAndFetch({
     path: '/persona/account/create',
     accountMTWAddress,
-    walletAddress,
+    dekPrivate,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -149,23 +153,10 @@ export const createPersonaAccount = async ({
   })
 }
 
-const getSerializedSignature = async ({
-  message,
-  accountMTWAddress,
-}: {
-  message: string
-  accountMTWAddress: string
-}): Promise<string> => {
-  const contractKit = await getContractKitAsync()
-  const accountWrapper = await contractKit.contracts.getAccounts()
-  const dataEncryptionKey = await accountWrapper.getDataEncryptionKey(accountMTWAddress)
-  return signWithDEK({ message, dataEncryptionKey })
-}
-
 interface SignAndFetchParams {
   path: string
   accountMTWAddress: string
-  walletAddress: string
+  dekPrivate: string
   requestOptions: RequestInit
 }
 
@@ -174,73 +165,47 @@ interface SignAndFetchParams {
  *
  *
  * @param {params.path} string like /persona/get/foo
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.walletAddress} walletAddress
- * @param {params.requestOptions} RequestInit all the normal fetch options
+ * @param {params.accountMTWAddress} accountMTWAddress
+ * @param {params.requestOptions} requestOptions all the normal fetch options
  * @returns {Response} response object from the fetch call
  */
 export const signAndFetch = async ({
   path,
   accountMTWAddress,
-  walletAddress,
+  dekPrivate,
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
-  const date = new Date()
-  const authAndDateHeaders = await getAuthAndDateHeaders({
-    httpVerb: requestOptions.method,
-    requestPath: path,
-    date,
-    accountMTWAddress,
-    walletAddress,
-    requestBody: requestOptions.body,
-  })
+  const authHeader = await getAuthHeader({ accountMTWAddress, dekPrivate })
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {
       ...requestOptions.headers,
-      ...authAndDateHeaders,
+      Authorization: authHeader,
     },
   })
 }
 
-interface GetAuthAndDateHeadersParams {
-  httpVerb: string | undefined
-  requestPath: string
-  date: Date
-  accountMTWAddress: string
-  walletAddress: string
-  requestBody?: BodyInit | null
-}
 /**
- * Gets the auth and date headers that IHL expects as a signature on most requests
+ * Gets the auth header that IHL expects as a signature on most requests
  *
- * The behavior is slightly different between GET requests and other types of requests
- *
- * @param {params.httpVerb} string GET, POST
- * @param {params.requestPath} string like /persona/get/foo
- * @param {params.date} Date date object
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.walletAddress} walletAddress
- * @param {params.requestBody} string optional request body
- * @returns {{Date, Authorization}} date and authorization headers
+ * @param {params.accountMTWAddress} accountMTWAddress
+ * @param {params.dekPrivate} dekPrivate : private data encryption key
+ * @returns authorization header
  */
-export const getAuthAndDateHeaders = async ({
-  httpVerb = '',
-  requestPath,
-  date,
+export const getAuthHeader = async ({
   accountMTWAddress,
-  walletAddress,
-  requestBody,
-}: GetAuthAndDateHeadersParams): Promise<{ Date: string; Authorization: string }> => {
-  const dateString = date.toUTCString()
-  const message =
-    httpVerb.toLowerCase() === 'get'
-      ? `${httpVerb.toLowerCase()} ${requestPath} ${dateString}`
-      : `${httpVerb.toLowerCase()} ${requestPath} ${dateString} ${requestBody}`
-  const serializedSignature = await getSerializedSignature({ message, accountMTWAddress })
-  const authorization = `Valora ${walletAddress}:${serializedSignature}`
-  return {
-    Date: dateString,
-    Authorization: authorization,
-  }
+  dekPrivate,
+}: {
+  accountMTWAddress: string
+  dekPrivate: string
+}): Promise<string> => {
+  const dekPrivatePem = keyEncoder.encodePrivate(trimLeading0x(dekPrivate), 'raw', 'pem')
+  const dekPublicHex = compressedPubKey(hexToBuffer(dekPrivate))
+  const dekPublicPem = keyEncoder.encodePublic(trimLeading0x(dekPublicHex), 'raw', 'pem')
+  const token = jwt.sign({ iss: dekPublicPem, sub: accountMTWAddress }, dekPrivatePem, {
+    algorithm: 'ES256',
+    expiresIn: '5m',
+  })
+
+  return `Bearer ${token}`
 }
