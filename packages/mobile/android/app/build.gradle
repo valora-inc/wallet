@@ -228,6 +228,7 @@ android {
               // Detox-specific additions to pro-guard
               // See https://wix.github.io/Detox/docs/introduction/android/#7-proguard-minification-obfuscation
               proguardFile "../../../../node_modules/detox/android/detox/proguard-rules-app.pro"
+              proguardFile "detox.pro"
             }
             signingConfig signingConfigs.release
         }
