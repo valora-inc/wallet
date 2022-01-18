@@ -614,43 +614,43 @@
   "education": {
     "header": "Conferma numero telefonico",
     "body1": "Successivamente, conferma il tuo numero telefonico.",
-    "body2": "Connecting your phone makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone confirmation",
-    "start": "Start Confirmation",
-    "skip": "Skip For Now"
+    "body2": "Collegando il tuo numero telefonico puoi inviare e ricevere più facilmente con gli amici. Puoi anche saltare questo passaggio e tornare qui più tardi.",
+    "learnMore": "Ulteriori informazioni sulla conferma del numero telefonico",
+    "start": "Inizia conferma",
+    "skip": "Salta per il momento"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "confirming": "Conferma del numero telefonico in corso…",
+    "pleaseKeepAppOpen": "Non uscire da questa schermata o dovrai ricominciare.",
+    "learnMore": "Ulteriori informazioni",
+    "card1": "Per verificare che questo numero telefonico sia proprio il tuo, ti stiamo inviando tre messaggi.",
+    "card2": "Dopo aver confermato il tuo numero telefonico, potrai utilizzarlo per inviare e ricevere facilmente fondi.",
+    "card3": "La conferma ti consente inoltre di vedere quali dei tuoi amici sono su {{appName}}.",
+    "card4": "Richiediamo tre messaggi di conferma per mantenere il tuo conto più sicuro."
   },
   "skipModal": {
-    "header": "Skip Confirmation?",
-    "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "header": "Saltare la conferma?",
+    "body1": "La conferma consente ad altri di inviare valore al tuo numero telefonico.",
+    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando indirizzi di conti o codici QR."
   },
   "failModal": {
-    "header": "Confirmation Error",
-    "body1": "An issue has occurred while confirming your phone number.",
-    "body2": "You can skip confirmation for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the confirmation process.",
-    "body2InsufficientBalance": "Please try again when you have added funds to your wallet.",
-    "body1SaltQuotaExceeded": "Your phone number lookup quota is used up",
-    "body2SaltQuotaExceeded": "Please try again when you have purchased more lookups",
-    "enterCodesBody": "If you already received three codes via SMS, you can still enter them.",
-    "enterCodesButton": "Enter Codes"
+    "header": "Errore durante la conferma.",
+    "body1": "Si è verificato un problema durante la conferma del tuo numero telefonico.",
+    "body2": "Puoi saltare la conferma per il momento e riprovare più tardi.",
+    "body1InsufficientBalance": "Il tuo saldo attuale non è sufficiente per completare la procedura di conferma.",
+    "body2InsufficientBalance": "Riprova dopo aver aggiunto fondi al tuo wallet.",
+    "body1SaltQuotaExceeded": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
+    "body2SaltQuotaExceeded": "Riprova dopo aver acquistato più ricerche.",
+    "enterCodesBody": "Se hai già ricevuto tre codici tramite SMS, puoi ancora immetterli.",
+    "enterCodesButton": "Immetti codici"
   },
   "retryWithFornoModal": {
-    "header": "Retry Confirmation with Data Saver?",
-    "body1": "An issue has occurred while confirming your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
-    "retryButton": "Retry with Data Saver"
+    "header": "Riprovare la conferma con Risparmio dati?",
+    "body1": "Si è verificato un problema durante la conferma del tuo numero telefonico. È consigliabile riprovare con la modalità Risparmio dati abilitata.",
+    "body2": "La modalità Risparmio dati ti consente di comunicare con la rete Celo in modo più regolare utilizzando una connessione attendibile.",
+    "retryButton": "Riprova con Risparmio dati"
   },
-  "congratsVerified": "Congratulations you are now confirmed!",
+  "congratsVerified": "Congratulazioni, la conferma è completata!",
   "notification": {
     "body": "Receive payments directly to your phone number",
     "cta": "Connect Now"
