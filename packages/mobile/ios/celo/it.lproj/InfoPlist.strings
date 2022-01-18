@@ -1,7 +1,7 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
 "NSCameraUsageDescription" = "Collegando la fotocamera puoi leggere i codici necessari per pagamenti.";
-"NSContactsUsageDescription" = "Aggiungendo i tuoi contatti puoi inviare e richiedere più facilmente pagamenti ai tuoi amici.";
+"NSContactsUsageDescription" = "Aggiungendo i tuoi contatti puoi inviare e richiedere facilmente pagamenti ai tuoi amici.";
 "NSPhotoLibraryAddUsageDescription" = "Collegando la tua raccolta di foto puoi salvare il codice nelle tue foto.";
 "NSPhotoLibraryUsageDescription" = "This is required for you to choose a profile picture.";
 "NSUserTrackingUsageDescription" = "We use the advertising identifier to accurately attribute app installs from ad campaigns.";
