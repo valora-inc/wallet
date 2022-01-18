@@ -376,7 +376,7 @@
   "incorrectPin": "Неверный PIN-код",
   "pinInputCanceled": "Необходимо ввести PIN-код. Повторите попытку.",
   "setPinFailed": "Не удалось установить PIN-код",
-  "optIn": "Opt In",
+  "optIn": "Согласиться",
   "invalidInvite": "Invalid Invitation Code",
   "inviteFriends": "Invite Friends",
   "account": "Account",
