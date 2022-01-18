@@ -34,7 +34,7 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
 } from 'src/app/selectors'
-import { SuperchargeButton } from 'src/app/types'
+import { SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -172,7 +172,7 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   sentryEnabled: boolean
-  superchargeButton: SuperchargeButton
+  superchargeButtonType: SuperchargeButtonType
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -11,7 +11,7 @@ import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButton } from 'src/app/types'
+import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -273,7 +273,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryEnabled: flags.sentryEnabled.asBoolean(),
-    superchargeButton: flags.superchargeButton.asString() as SuperchargeButton,
+    superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
   }
 }
 

@@ -35,9 +35,9 @@ import { toggleInviteModal } from 'src/app/actions'
 import {
   multiTokenShowHomeBalancesSelector,
   rewardsEnabledSelector,
-  superchargeButtonSelector,
+  superchargeButtonTypeSelector,
 } from 'src/app/selectors'
-import { SuperchargeButton } from 'src/app/types'
+import { SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -188,7 +188,7 @@ export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
-  const superchargeButton = useSelector(superchargeButtonSelector)
+  const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
   const dispatch = useDispatch()
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
@@ -227,14 +227,14 @@ export default function DrawerNavigator() {
           }}
         />
       )}
-      {rewardsEnabled && superchargeButton === SuperchargeButton.MenuRewards && (
+      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
           options={{ title: t('rewards'), drawerIcon: MenuRings }}
         />
       )}
-      {rewardsEnabled && superchargeButton === SuperchargeButton.MenuSupercharge && (
+      {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}

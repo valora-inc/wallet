@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { rewardsEnabledSelector, superchargeButtonSelector } from 'src/app/selectors'
-import { SuperchargeButton } from 'src/app/types'
+import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
+import { SuperchargeButtonType } from 'src/app/types'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import Rings from 'src/icons/Rings'
 import Supercharge from 'src/icons/Supercharge'
@@ -25,19 +25,21 @@ function RewardsPill() {
   }
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
-  const superchargeButton = useSelector(superchargeButtonSelector)
+  const superchargeButton = useSelector(superchargeButtonTypeSelector)
 
   if (
     !rewardsEnabled ||
-    ![SuperchargeButton.PillRewards, SuperchargeButton.PillSupercharge].includes(superchargeButton)
+    ![SuperchargeButtonType.PillRewards, SuperchargeButtonType.PillSupercharge].includes(
+      superchargeButton
+    )
   ) {
     return null
   }
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
-      {superchargeButton === SuperchargeButton.PillRewards ? <Rings /> : <Supercharge />}
+      {superchargeButton === SuperchargeButtonType.PillRewards ? <Rings /> : <Supercharge />}
       <Text style={styles.earnRewardsText}>
-        {superchargeButton === SuperchargeButton.PillRewards ? t('rewards') : t('supercharge')}
+        {superchargeButton === SuperchargeButtonType.PillRewards ? t('rewards') : t('supercharge')}
       </Text>
     </TouchableOpacity>
   )
