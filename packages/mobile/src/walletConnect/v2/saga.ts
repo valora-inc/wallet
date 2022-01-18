@@ -1,5 +1,5 @@
 import { appendPath } from '@celo/base'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'

@@ -15,6 +15,10 @@ packages/mobile/android/app/build
 packages/mobile/branding/celo/ios/celo/Images.xcassets
 packages/mobile/ios/celo/Images.xcassets
 packages/mobile/ios/Pods
+# Ignore Crowdin generated files (often they are written with no final newline)
+packages/mobile/locales/*/*.json
+# Except for the base lang which is maintained by hand
+!packages/mobile/locales/base/*.json
 packages/mobile/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
 packages/mobile/src/verify/backgroundAnim.json
 packages/mobile/vendor

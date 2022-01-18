@@ -323,6 +323,7 @@ export default WalletConnect = () => {
     await element(by.text('Connected Apps')).tap()
     await element(by.text('Tap to Disconnect')).tap()
     await element(by.text('Disconnect')).tap()
+    await element(by.id('BackChevron')).tap()
     await expect(element(by.id('ConnectedApplications/value'))).toHaveText('0')
   })
 }

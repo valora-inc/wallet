@@ -9,7 +9,7 @@ import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigat
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { inviteTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 interface Props {
   tokenAddress: string
@@ -29,7 +29,7 @@ function SendAmountHeader({
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
-  const inviteTokens = useSelector(inviteTokensSelector)
+  const inviteTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
   const tokenList = isInvite ? inviteTokens : tokensWithBalance
 

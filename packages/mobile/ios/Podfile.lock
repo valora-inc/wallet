@@ -9,7 +9,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - clevertap-react-native (0.5.2):
     - CleverTap-iOS-SDK (= 3.9.3)
-    - React
+    - React-Core
   - CocoaAsyncSocket (7.6.5)
   - CTNotificationService (0.1.3)
   - DoubleConversion (1.1.6)
@@ -215,10 +215,10 @@ PODS:
   - GTMSessionFetcher/Core (1.7.0)
   - leveldb-library (1.22.1)
   - libevent (2.1.12)
-  - lottie-ios (3.1.8)
-  - lottie-react-native (3.3.2):
-    - lottie-ios (~> 3.1.3)
-    - React
+  - lottie-ios (3.2.3)
+  - lottie-react-native (5.0.1):
+    - lottie-ios (~> 3.2.3)
+    - React-Core
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -431,35 +431,35 @@ PODS:
   - React-logger (0.66.4):
     - glog
   - react-native-blind-threshold-bls (1.0.0):
-    - React
-  - react-native-camera (3.23.1):
-    - React
-    - react-native-camera/RCT (= 3.23.1)
-    - react-native-camera/RN (= 3.23.1)
-  - react-native-camera/RCT (3.23.1):
-    - React
-  - react-native-camera/RN (3.23.1):
-    - React
+    - React-Core
+  - react-native-camera (4.2.1):
+    - React-Core
+    - react-native-camera/RCT (= 4.2.1)
+    - react-native-camera/RN (= 4.2.1)
+  - react-native-camera/RCT (4.2.1):
+    - React-Core
+  - react-native-camera/RN (4.2.1):
+    - React-Core
   - react-native-config (1.3.3):
     - react-native-config/App (= 1.3.3)
   - react-native-config/App (1.3.3):
     - React-Core
   - react-native-contacts (5.0.0):
-    - React
+    - React-Core
   - react-native-fast-crypto (2.0.0):
     - OpenSSL-Universal
-    - React
-  - react-native-flipper (0.70.0):
-    - React
+    - React-Core
+  - react-native-flipper (0.127.0):
+    - React-Core
   - react-native-geth (1.0.0):
     - CeloBlockchain
-    - React
+    - React-Core
   - react-native-keep-awake (4.0.0):
-    - React
+    - React-Core
   - react-native-mail (6.0.0):
     - React-Core
   - react-native-netinfo (5.8.0):
-    - React
+    - React-Core
   - react-native-plaid-link-sdk (7.0.7):
     - Plaid (~> 2.1.3)
     - React-Core
@@ -469,17 +469,17 @@ PODS:
     - React-Core
   - react-native-shake (3.5.0):
     - React-Core
-  - react-native-simple-toast (1.1.2):
-    - React
+  - react-native-simple-toast (1.1.3):
+    - React-Core
     - Toast (~> 4.0.0)
   - react-native-sms (1.11.0):
-    - React
-  - react-native-splash-screen (3.2.0):
-    - React
+    - React-Core
+  - react-native-splash-screen (3.3.0):
+    - React-Core
   - react-native-tcp (3.3.0):
-    - React
+    - React-Core
   - react-native-udp (2.6.1):
-    - React
+    - React-Core
   - react-native-webview (11.6.5):
     - React-Core
   - React-perflogger (0.66.4)
@@ -565,16 +565,16 @@ PODS:
     - React-Core
     - RNAnalytics
     - Segment-Firebase (~> 2.7.7)
-  - RNCAsyncStorage (1.9.0):
-    - React
+  - RNCAsyncStorage (1.15.14):
+    - React-Core
   - RNCClipboard (1.2.3):
     - React-Core
-  - RNCMaskedView (0.1.10):
-    - React
+  - RNCMaskedView (0.2.6):
+    - React-Core
   - RNDeviceInfo (8.3.1):
     - React-Core
   - RNExitApp (1.1.0):
-    - React
+    - React-Core
   - RNFBApp (11.5.0):
     - Firebase/CoreOnly (= 7.11.0)
     - React-Core
@@ -604,7 +604,7 @@ PODS:
     - React-Core
     - RNFBApp
   - RNFS (2.16.6):
-    - React
+    - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
   - RNImageCropPicker (0.35.2):
@@ -618,10 +618,10 @@ PODS:
     - TOCropViewController
   - RNInAppBrowser (3.5.1):
     - React-Core
-  - RNKeychain (6.0.0):
-    - React
-  - RNLocalize (1.4.0):
-    - React
+  - RNKeychain (8.0.0):
+    - React-Core
+  - RNLocalize (2.1.7):
+    - React-Core
   - RNPermissions (3.0.3):
     - React-Core
   - RNPersonaInquiry (1.2.0):
@@ -655,17 +655,18 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (2.7.0):
-    - React
+  - RNScreens (3.10.1):
+    - React-Core
+    - React-RCTImage
   - RNSecureRandom (1.0.0):
-    - React
+    - React-Core
   - RNSentry (3.2.8):
     - React-Core
     - Sentry (= 7.5.4)
-  - RNShare (3.3.0):
-    - React
+  - RNShare (7.3.2):
+    - React-Core
   - RNSVG (12.1.1):
-    - React
+    - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -780,9 +781,9 @@ DEPENDENCIES:
   - "RNAnalyticsIntegration-Adjust (from `../../../node_modules/@segment/analytics-react-native-adjust`)"
   - "RNAnalyticsIntegration-CleverTap (from `../../../node_modules/@segment/analytics-react-native-clevertap`)"
   - "RNAnalyticsIntegration-Firebase (from `../../../node_modules/@segment/analytics-react-native-firebase`)"
-  - "RNCAsyncStorage (from `../../../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../../../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-community/clipboard`)"
-  - "RNCMaskedView (from `../../../node_modules/@react-native-community/masked-view`)"
+  - "RNCMaskedView (from `../../../node_modules/@react-native-masked-view/masked-view`)"
   - RNDeviceInfo (from `../../../node_modules/react-native-device-info`)
   - RNExitApp (from `../../../node_modules/react-native-exit-app`)
   - "RNFBApp (from `../../../node_modules/@react-native-firebase/app`)"
@@ -978,11 +979,11 @@ EXTERNAL SOURCES:
   RNAnalyticsIntegration-Firebase:
     :path: "../../../node_modules/@segment/analytics-react-native-firebase"
   RNCAsyncStorage:
-    :path: "../../../node_modules/@react-native-community/async-storage"
+    :path: "../../../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../../../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
-    :path: "../../../node_modules/@react-native-community/masked-view"
+    :path: "../../../node_modules/@react-native-masked-view/masked-view"
   RNDeviceInfo:
     :path: "../../../node_modules/react-native-device-info"
   RNExitApp:
@@ -1038,7 +1039,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
-  clevertap-react-native: efbeea50527a7998603be8b249eab81ca0678072
+  clevertap-react-native: f28f984e24a77559d82bb05786a8c1a7f58c2ce8
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CTNotificationService: 910b253821ef6c08158bf8c7dedc421a4df4cd4c
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
@@ -1074,8 +1075,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
+  lottie-react-native: a029a86e1689c86a07169c520ae770e84348cd20
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   Permission-AppTrackingTransparency: 7e4612104f43441744dc472d5b258daee5b71f7b
@@ -1095,25 +1096,25 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
-  react-native-blind-threshold-bls: 86068a0a8890b04b5492a4a8787b53dbde1aea8d
-  react-native-camera: 1b52abea404d04e040edb3e74b7c5523c01a3089
+  react-native-blind-threshold-bls: 96b94b001aca9386ab033b26741614046044e80d
+  react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
-  react-native-contacts: d1a60e38dadb67dbbe481480338988e00966a30d
-  react-native-fast-crypto: b6dea8324fb1b095dd4f29a80356b43acb3ee2e9
-  react-native-flipper: da8e630768f0a35153837df953d9781fa7f860ba
-  react-native-geth: 51d17abd8bac4b80c4e12adb446242ba1407a0c3
-  react-native-keep-awake: afad8a51dfef9fe9655a6344771be32c8596d774
+  react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
+  react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
+  react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
+  react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
+  react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
-  react-native-netinfo: b9650ab1b8b4362b3c455b1274e4bc48223cc957
+  react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
   react-native-plaid-link-sdk: b2aa9109ba80872525bebf152a8efe70709966d6
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
-  react-native-simple-toast: 58b71ef003f01d2c0bf5dcd2fdccc75861dabade
-  react-native-sms: 31fbb9d6ebb565ad32e409eaf9dc70329936a129
-  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-tcp: e1a8c3ac010774cd71811989805ff3eaebb62f17
-  react-native-udp: 54a1aa9bf5c0824f930b1ba6dbfb3fd3e733bba9
+  react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
+  react-native-sms: 9e317eb8712d2f73a0da36953f15239fa535b0c0
+  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
+  react-native-tcp: 97bb57dd886806263ab6a734a208e29de040e5d5
+  react-native-udp: f2c3b982aaef764b3c9bb333938f78136906a515
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
@@ -1131,11 +1132,11 @@ SPEC CHECKSUMS:
   RNAnalyticsIntegration-Adjust: fcd3a1e9e653ea81528cfd21d947d8fa2d865d2a
   RNAnalyticsIntegration-CleverTap: abd41dd03f6ee6d7b13c555d6bcde60965fb7366
   RNAnalyticsIntegration-Firebase: 3d3d80be74a53031fc9524d5c5adef2907c28d8f
-  RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
+  RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
-  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
-  RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
+  RNExitApp: 3ae738c65a8494df166dee74575f2504d0737a28
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
   RNFBAuth: 3236f64982a98f4b6cd33405261a7b2d4892f8b1
   RNFBDatabase: 90e7e25aaf38d8b9e8bc5cf79302fdf6b2c077ef
@@ -1143,20 +1144,20 @@ SPEC CHECKSUMS:
   RNFBMessaging: b05aa2a76ed2b9fd50f05f036c96b26189a1fce2
   RNFBRemoteConfig: e8d462f46e1759a5921d0e4b76d0ab89aef9baee
   RNFBStorage: 48f869205eb5537749cdd4f53689a526728421f8
-  RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
+  RNFS: 7161a36db9bbdaab96d91fff660820f94e29ca58
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNInAppBrowser: 48b95ba7a4eaff5cc223bca338d3e319561dbd1b
-  RNKeychain: bf2d7e9a0ae7a073c07770dd2aa6d11c67581733
-  RNLocalize: b6df30cc25ae736d37874f9bce13351db2f56796
+  RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
+  RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
   RNReanimated: da3860204e5660c0dd66739936732197d359d753
-  RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
-  RNSecureRandom: 0dcee021fdb3d50cd5cee5db0ebf583c42f5af0e
+  RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
+  RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
   RNSentry: fe878ca3982d7871e502ccbb90072fe764c8d07d
-  RNShare: fea1801315aa8875d6db73a4010b14afcd568765
-  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
+  RNSVG: 0ff39850623301a540e69b0ccd9aabb2061812e3
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Segment-Adjust: 7646c502b087a153d89a42059dd53e6d1d143737
   Segment-CleverTap: a0e74aee844bcf859cbbf30dfe3d2ae25d67d9cc
@@ -1167,6 +1168,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 08046332a2f461bd72a336468c9bf6893f84f386
+PODFILE CHECKSUM: 09b32ac0c4263c2c67c50c1cd77d120b3c6e2fad
 
 COCOAPODS: 1.10.1
