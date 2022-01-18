@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
   Image,
-  ScrollView,
   SectionList,
   SectionListData,
   StyleSheet,
@@ -119,7 +118,11 @@ export function DAppsExplorerScreen() {
 
         return Object.values(categoriesById)
       } catch (error) {
-        Logger.error(TAG, 'onError', error as Error)
+        Logger.error(
+          TAG,
+          `There was an error while parsing response: ${JSON.stringify(result)}`,
+          error as Error
+        )
         throw Error(`There was an error while parsing response: ${(error as Error)?.message}`)
       }
     },
@@ -199,47 +202,36 @@ export function DAppsExplorerScreen() {
       >
         {t('dappsScreenHelpDialog.message')}
       </Dialog>
-
-      <ScrollView style={styles.scrollContainer}>
-        <View style={styles.descriptionContainer}>
-          <Text style={{ ...fontStyles.h1, flex: 1 }}>{t('dappsScreen.message')}</Text>
-          <View style={styles.descriptionImage}>
-            <DappsExplorerLogo />
-          </View>
-        </View>
-        <>
-          {loading && (
-            <View style={styles.centerContainer}>
-              <ActivityIndicator
-                style={styles.loadingIcon}
-                size="large"
-                color={colors.greenBrand}
-                testID="DAppExplorerScreen/loading"
-              />
-            </View>
-          )}
-          {!loading && error && (
-            <View style={{ ...styles.centerContainer, marginTop: 96 }}>
-              <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
-            </View>
-          )}
-          {!loading && !error && result && (
-            <SectionList
-              style={{ flex: 1, padding: 16 }}
-              sections={parseResultIntoSections(result)}
-              renderItem={({ item: category }) => (
-                <Dapp dapp={category} onPressDapp={onPressDapp} />
-              )}
-              keyExtractor={(item: Dapp) => `${item.categoryId}-${item.id}`}
-              renderSectionHeader={({
-                section,
-              }: {
-                section: SectionListData<any, SectionData>
-              }) => <CategoryHeader category={section.category} />}
+      <>
+        {loading && (
+          <View style={styles.centerContainer}>
+            <ActivityIndicator
+              style={styles.loadingIcon}
+              size="large"
+              color={colors.greenBrand}
+              testID="DAppExplorerScreen/loading"
             />
-          )}
-        </>
-      </ScrollView>
+          </View>
+        )}
+        {!loading && error && (
+          <View style={styles.centerContainer}>
+            <Text style={fontStyles.regular}>{t('dappsScreen.errorMessage')}</Text>
+          </View>
+        )}
+        {!loading && !error && result && (
+          <SectionList
+            ListHeaderComponent={<DescriptionView message={t('dappsScreen.message')} />}
+            style={styles.sectionList}
+            sections={parseResultIntoSections(result)}
+            renderItem={({ item: category }) => <Dapp dapp={category} onPressDapp={onPressDapp} />}
+            keyExtractor={(item: Dapp) => `${item.categoryId}-${item.id}`}
+            stickySectionHeadersEnabled={false}
+            renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
+              <CategoryHeader category={section.category} />
+            )}
+          />
+        )}
+      </>
     </SafeAreaView>
   )
 }
@@ -249,6 +241,17 @@ function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): Sect
     data: category.dapps,
     category: category,
   }))
+}
+
+function DescriptionView({ message }: { message: string }) {
+  return (
+    <View style={styles.descriptionContainer}>
+      <Text style={{ ...fontStyles.h1, flex: 1 }}>{message}</Text>
+      <View style={styles.descriptionImage}>
+        <DappsExplorerLogo />
+      </View>
+    </View>
+  )
 }
 
 function CategoryHeader({ category }: { category: CategoryWithDapps }) {
@@ -293,10 +296,6 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
   },
-  scrollContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
   centerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -306,7 +305,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flex: 1,
-    paddingHorizontal: variables.contentPadding,
     flexDirection: 'column',
     marginTop: SECTION_HEADER_MARGIN_TOP,
   },
@@ -317,11 +315,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    paddingHorizontal: Spacing.Regular16,
     marginHorizontal: Spacing.Smallest8,
-    marginTop: Spacing.Regular16,
-    // Trick because SectionList headers have a SECTION_HEADER_MARGIN_TOP margin top
-    marginBottom: -SECTION_HEADER_MARGIN_TOP + Spacing.Regular16,
   },
   helpIconContainer: {
     padding: variables.contentPadding,
@@ -347,6 +341,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  categoryTextContainer: {
+    borderRadius: 100,
+  },
   // Padding values honor figma designs
   categoryText: {
     ...fontStyles.regular,
@@ -371,7 +368,7 @@ const styles = StyleSheet.create({
   descriptionImage: {
     height: 106,
     width: 94,
-    marginHorizontal: Spacing.Smallest8,
+    marginLeft: Spacing.Smallest8,
   },
   bottomSheetHeader: {
     flex: 1,
@@ -381,8 +378,9 @@ const styles = StyleSheet.create({
   bottomSheetButton: {
     marginVertical: Spacing.Regular16,
   },
-  categoryTextContainer: {
-    borderRadius: 100,
+  sectionList: {
+    flex: 1,
+    padding: Spacing.Regular16,
   },
 })
 
