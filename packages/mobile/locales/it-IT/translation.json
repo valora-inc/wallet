@@ -721,56 +721,56 @@
   "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
-    "dismiss": "Dismiss"
+    "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
+    "dismiss": "Ignora"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
-    "title": "Confirm",
-    "body": "We sent you three messages (SMS). Please copy and paste them below.",
-    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
-    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
-    "codeLabel1": "First Code",
-    "codeLabel2": "Second Code",
-    "codeLabel3": "Third Code",
-    "codePlaceholder1": "Copy the first message",
-    "codePlaceholder1_ios": "Tap or copy the first message",
-    "codePlaceholder2": "Copy the second message",
-    "codePlaceholder2_ios": "Tap or copy the second message",
-    "codePlaceholder3": "Copy the third message",
-    "codePlaceholder3_ios": "Tap or copy the third message",
-    "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
-    "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "title": "Conferma",
+    "body": "Ti abbiamo inviato tre messaggi (SMS). Copiali e incollali di seguito.",
+    "body_ios": "Ti abbiamo inviato tre messaggi (SMS). Tocca il collegamento in ciascun messaggio per inserire i codici di seguito o copiali e incollali manualmente.",
+    "body_short": "Abbiamo inviato tre codici a {{phoneNumber}}, inseriscili di seguito.",
+    "codeLabel1": "Primo codice",
+    "codeLabel2": "Secondo codice",
+    "codeLabel3": "Terzo codice",
+    "codePlaceholder1": "Copia il primo messaggio",
+    "codePlaceholder1_ios": "Tocca o copia il primo messaggio",
+    "codePlaceholder2": "Copia il secondo messaggio",
+    "codePlaceholder2_ios": "Tocca o copia il secondo messaggio",
+    "codePlaceholder3": "Copia il terzo messaggio",
+    "codePlaceholder3_ios": "Tocca o copia il terzo messaggio",
+    "codePlaceholderWithCodeInClipboard": "Ottimo. Incollalo qui.",
+    "resendMessages_all": "Invia di nuovo tutti i messaggi",
+    "resendMessages": "Invia nuovamente l’ultimo messaggio",
+    "resendMessages_plural": "Invia nuovamente {{count}} messaggi"
   },
   "verificationInputHelpDialog": {
-    "title": "Help",
+    "title": "Guida",
     "bodySection1": {
-      "title": "Received all three messages?",
-      "content": "If your messages contain a link, simply tap the links to confirm.\n\nIf there are no links, please copy and paste the messages into the fields. You’re welcome to paste the entire message."
+      "title": "Hai ricevuto tutti e tre i messaggi?",
+      "content": "Se i tuoi messaggi contengono un collegamento, toccalo per confermare.\n\nSe non sono presenti collegamenti, copia e incolla i messaggi nei campi. Puoi incollare l’intero messaggio."
     },
     "bodySection2": {
-      "title": "Missing some or all messages?",
-      "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
+      "title": "Mancano uno o più messaggi?",
+      "defaultContent": "Se hai problemi di ricezione dei messaggi, per ora puoi saltare questo passaggio e riprovare più tardi. A volte l'arrivo dei messaggi può richiedere alcuni minuti.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L’opzione per saltare il passaggio di seguito sarà disponibile tra {{count}} secondo.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) L’opzione per saltare il passaggio qui sotto sarà disponibile tra {{count}} secondi."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
-    "skip": "Skip for now",
-    "back": "Go Back"
+    "skip": "Salta per il momento",
+    "back": "Indietro"
   },
   "emptyAccount": {
-    "description": "This account doesn’t have any funds. Would you still like to use it?",
-    "useAccount": "Use Account",
-    "title": "Balance <0></0>"
+    "description": "Questo conto non contiene fondi. Desideri utilizzarlo comunque?",
+    "useAccount": "Usa conto",
+    "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "You're all set!"
+    "message": "Configurazione completata."
   },
   "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora! Payments sent to your phone number will be safely held until you redeem them by confirming your phone number.",
   "requests": "Requests",
