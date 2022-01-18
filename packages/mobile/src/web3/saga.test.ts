@@ -10,6 +10,7 @@ import {
   completeWeb3Sync,
   setAccount,
   setDataEncryptionKey,
+  setMtwAddress,
   updateWeb3SyncProgress,
 } from 'src/web3/actions'
 import { getWeb3Async } from 'src/web3/contracts'
@@ -28,7 +29,7 @@ import {
 } from 'src/web3/selectors'
 import { BLOCK_AGE_LIMIT } from 'src/web3/utils'
 import { createMockStore, sleep } from 'test/utils'
-import { mockAccount, mockAccount2 } from 'test/values'
+import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
 
 const LAST_BLOCK_NUMBER = 200
 
@@ -110,8 +111,19 @@ describe('Address getters', () => {
       .run()
   })
 
-  it('getWalletAddress + walletAddressSelector: integration test', async () => {
+  it('getWalletAddress + walletAddressSelector: integration test, case where wallet address already set', async () => {
     await expectSaga(getWalletAddress).withState(state).returns(mockAccount.toLowerCase()).run()
+  })
+
+  it('getMTWAddress + walletAddressSelector: integration test, case where wallet address is set with dispatched action', async () => {
+    const state = createMockStore({
+      web3: { account: null },
+    }).getState()
+    await expectSaga(getWalletAddress)
+      .withState(state)
+      .dispatch(setAccount(mockAccount3))
+      .returns(mockAccount3.toLowerCase())
+      .run()
   })
 
   it('getMTWAddress: unit test', async () => {
@@ -123,8 +135,18 @@ describe('Address getters', () => {
       .run()
   })
 
-  it('getMTWAddress + mtwAddressSelector: integration test', async () => {
+  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW already set', async () => {
     await expectSaga(getMTWAddress).withState(state).returns(mockAccount2).run()
+  })
+  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW is set with dispatched action', async () => {
+    const state = createMockStore({
+      web3: { account: mockAccount, mtwAddress: null },
+    }).getState()
+    await expectSaga(getMTWAddress)
+      .withState(state)
+      .dispatch(setMtwAddress(mockAccount3))
+      .returns(mockAccount3.toLowerCase())
+      .run()
   })
 })
 
