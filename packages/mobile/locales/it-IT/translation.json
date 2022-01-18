@@ -709,18 +709,18 @@
     "resume": "Riprendi",
     "doINeedToConfirm": "Devo confermare?",
     "skipForNow": "Salta per il momento",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
-    "bodyAlreadyVerified": "Your number is already confirmed!"
+    "bodyInsufficientBalance": "Il tuo saldo attuale non è sufficiente per completare la procedura di conferma.\n\nRiprova dopo aver aggiunto fondi al tuo wallet.",
+    "bodyAlreadyVerified": "Il tuo numero è già confermato."
   },
   "verificationSkipDialog": {
-    "title": "Are you sure?",
-    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
-    "cancel": "Go Back",
-    "confirm": "Skip for now"
+    "title": "Sei sicuro?",
+    "body": "La conferma ti consente di inviare e ricevere facilmente fondi tramite il tuo numero telefonico.\n\nUn conto non confermato può inviare pagamenti solo tramite indirizzi Celo o codici QR.",
+    "cancel": "Indietro",
+    "confirm": "Salta per il momento"
   },
-  "verificationPrematureRevealMessage": "Please wait one minute before resending",
+  "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
-    "title": "Phone Numbers and {{appName}}",
+    "title": "Numeri telefonici e {{appName}}",
     "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
