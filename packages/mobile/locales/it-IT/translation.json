@@ -131,7 +131,7 @@
   "invalidWordsInBackupPhrase": "Alcune parole della frase di recupero non sono valide: {{ invalidWords }}.",
   "backupComplete": {
     "header": "Backup completato.",
-    "0": "Operazione eseguita correttamente.",
+    "0": "Operazione completata.",
     "1": "Ora puoi configurare Safeguards.",
     "2": "Configurazione completata."
   },
@@ -446,8 +446,8 @@
     "30d": "30 giorni"
   },
   "message": "Messaggio",
-  "addressLookupFailure": "Impossibile cercare indirizzo del numero telefonico.",
-  "saltFetchFailure": "Impossibile recuperare segreto del numero telefonico.",
+  "addressLookupFailure": "Impossibile cercare l'indirizzo del numero telefonico.",
+  "saltFetchFailure": "Impossibile recuperare il segreto del numero telefonico.",
   "saltQuotaExceededError": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
   "maxActionableAttestationsExceededError": "Impossibile inviare nuovamente i messaggi.",
   "odisInsufficientBalance": "Conferma il tuo numero prima di inviare cUSD a un contatto.",
@@ -593,7 +593,7 @@
   "pinLostForeverMessage": "Hai rimosso il blocco per lo schermo, il PIN è andato perso.",
   "importContactsPermission": {
     "title": "Importa contatti",
-    "0": "Il collegamento della tua rubrica facilita l’invio e la richiesta di pagamenti con i tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
+    "0": "Collegando la tua rubrica puoi inviare e richiedere facilmente pagamenti ai tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
     "1": "Non preoccuparti: il collegamento non comporta l’invio di inviti ai tuoi contatti.",
     "enable": "Abilita l’accesso ai contatti",
     "loading": "Ricerca di amici su {{appName}} in corso..."
@@ -982,7 +982,7 @@
   "paymentFailed": "Impossibile eseguire il pagamento.",
   "loadingActivity": "Loading your activity feed",
   "errorLoadingActivity": {
-    "0": "Unable to load your feed",
+    "0": "Impossibile caricare il feed.",
     "1": "Please try again later"
   },
   "noTransactionActivity": "Your activity will appear here",
@@ -1077,7 +1077,7 @@
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
+  "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {
