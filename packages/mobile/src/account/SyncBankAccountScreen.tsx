@@ -11,20 +11,27 @@ import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { mtwAddressSelector, walletAddressSelector } from 'src/web3/selectors'
+import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'SYNC_BANK_ACCOUNT'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
 const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
   const accountMTWAddress = useSelector(mtwAddressSelector) || ''
-  const walletAddress = useSelector(walletAddressSelector) || ''
+  const dekPrivate = useSelector(dataEncryptionKeySelector)
   const { publicToken } = route.params
 
   useAsync(async () => {
+    if (!dekPrivate) {
+      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
+      return
+    }
     const accessTokenResponse = await exchangePlaidAccessToken({
       accountMTWAddress,
-      walletAddress,
+      dekPrivate,
       publicToken,
     })
     if (!accessTokenResponse.ok) {
@@ -35,7 +42,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
 
     const finclusiveBankAccountResponse = await createFinclusiveBankAccount({
       accountMTWAddress,
-      walletAddress,
+      dekPrivate,
       plaidAccessToken: accessToken,
     })
     if (!finclusiveBankAccountResponse.ok) {

@@ -6,7 +6,7 @@ import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
 interface CreateFinclusiveBankAccountParams {
   accountMTWAddress: string
-  walletAddress: string
+  dekPrivate: string
   plaidAccessToken: string
 }
 
@@ -15,13 +15,13 @@ interface CreateFinclusiveBankAccountParams {
  *
  *
  * @param {params.accountMTWAddress} accountAddress
- * @param {params.walletAddress} walletAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
  * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
  * @returns {Response} response object from the fetch call
  */
 export const createFinclusiveBankAccount = async ({
   accountMTWAddress,
-  walletAddress,
+  dekPrivate,
   plaidAccessToken,
 }: CreateFinclusiveBankAccountParams) => {
   const body = {
@@ -31,7 +31,7 @@ export const createFinclusiveBankAccount = async ({
   return signAndFetch({
     path: '/account/bank-account',
     accountMTWAddress,
-    walletAddress,
+    dekPrivate,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -44,7 +44,7 @@ export const createFinclusiveBankAccount = async ({
 
 interface ExchangePlaidAccessTokenParams {
   accountMTWAddress: string
-  walletAddress: string
+  dekPrivate: string
   publicToken: string
 }
 
@@ -53,13 +53,13 @@ interface ExchangePlaidAccessTokenParams {
  *
  *
  * @param {params.accountMTWAddress} accountAddress
- * @param {params.walletAddress} walletAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
  * @param {params.publicToken} publicToken plaid public token
  * @returns {Response} response object from the fetch call
  */
 export const exchangePlaidAccessToken = async ({
   accountMTWAddress,
-  walletAddress,
+  dekPrivate,
   publicToken,
 }: ExchangePlaidAccessTokenParams) => {
   const body = {
@@ -68,7 +68,7 @@ export const exchangePlaidAccessToken = async ({
   return signAndFetch({
     path: '/plaid/access-token/exchange',
     accountMTWAddress,
-    walletAddress,
+    dekPrivate,
     requestOptions: {
       method: 'POST',
       headers: {

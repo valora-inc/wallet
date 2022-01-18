@@ -4,7 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockAccount2 } from 'test/values'
+import { mockAccount, mockPrivateDEK } from 'test/values'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
 import { Screens } from 'src/navigator/Screens'
 
@@ -28,7 +28,7 @@ describe('SyncBankAccountScreen', () => {
   const store = createMockStore({
     web3: {
       mtwAddress: mockAccount,
-      account: mockAccount2,
+      dataEncryptionKey: mockPrivateDEK,
     },
   })
 
@@ -48,12 +48,12 @@ describe('SyncBankAccountScreen', () => {
       expect(exchangePlaidAccessToken).toHaveBeenCalledWith({
         accountMTWAddress: mockAccount,
         publicToken: mockPublicToken,
-        walletAddress: mockAccount2.toLocaleLowerCase(),
+        dekPrivate: mockPrivateDEK,
       })
       expect(createFinclusiveBankAccount).toHaveBeenCalledWith({
         accountMTWAddress: mockAccount,
         plaidAccessToken: mockAccessToken,
-        walletAddress: mockAccount2.toLocaleLowerCase(),
+        dekPrivate: mockPrivateDEK,
       })
     })
   })

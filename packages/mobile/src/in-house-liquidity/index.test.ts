@@ -155,7 +155,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createFinclusiveBankAccount({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
         plaidAccessToken: 'foo',
       })
       const expectedBody = JSON.stringify({
@@ -169,8 +169,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Date: expect.anything(),
-            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -185,7 +184,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await exchangePlaidAccessToken({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
-        walletAddress: MOCK_USER.walletAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
         publicToken: 'foo',
       })
       const expectedBody = JSON.stringify({
@@ -198,8 +197,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Date: expect.anything(),
-            Authorization: expect.stringContaining(`Valora ${MOCK_USER.walletAddress}:`),
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
             'Content-Type': 'application/json',
           },
           method: 'POST',
