@@ -242,8 +242,8 @@
   "withdrawCeloAmount": "Сумма (CELO)",
   "withdrawScanQrTitle": "Сканировать",
   "tokenBalance": "Остаток {{token}}",
-  "addFunds": "Пополнить средства",
-  "addFundsSubtitle": "Пополнить аккаунт Valora",
+  "addFunds": "Внести средства",
+  "addFundsSubtitle": "Внести средства на аккаунт Valora",
   "exchanges": "Биржи",
   "noExchanges": "В вашем регионе отсутствуют доступные биржи для {{digitalAsset}}.",
   "buySellOnExchanges": "Покупка/продажа на биржах",
@@ -366,7 +366,7 @@
   "missingFullName": "Имя не может быть пустым",
   "invalidPhone": "Недопустимый номер телефона",
   "cantSelectInvalidPhone": "Не удается выбрать контакт: недопустимый номер телефона",
-  "needMoreFundsToSend": "Для выполнения этой транзакции у вас должно быть {{currencySymbol}}{{amountNeeded}}. Пополните средства или попробуйте отправить меньшую сумму.",
+  "needMoreFundsToSend": "Для выполнения этой транзакции у вас должно быть {{currencySymbol}}{{amountNeeded}}. Внесите средства или попробуйте отправить меньшую сумму.",
   "maxEscrowTransferExceeded": "Максимальная сумма для перевода неподтвержденным пользователям составляет {{symbol}}{{maxAmount}}",
   "invalidAmount": "Недопустимая сумма",
   "invalidCode": "Недопустимый код подтверждения",
@@ -638,7 +638,7 @@
     "body1": "При подтверждении номера телефона возникла проблема.",
     "body2": "Можно пропустить подтверждение и повторить попытку позднее.",
     "body1InsufficientBalance": "На вашем текущем счете недостаточно средств для завершения процесса подтверждения.",
-    "body2InsufficientBalance": "Когда добавите средства в кошелек, повторите попытку.",
+    "body2InsufficientBalance": "После внесения средств в кошелек, повторите попытку.",
     "body1SaltQuotaExceeded": "Квота поиска номера телефона исчерпана",
     "body2SaltQuotaExceeded": "После приобретения дополнительных попыток поиска повторите попытку",
     "enterCodesBody": "Если вы уже получили три кода с помощью SMS, их все еще можно ввести.",
@@ -709,7 +709,7 @@
     "resume": "Возобновить",
     "doINeedToConfirm": "Требуется подтверждение?",
     "skipForNow": "Пропустить",
-    "bodyInsufficientBalance": "На вашем текущем счету недостаточно средств для завершения процесса подтверждения.\n\nКогда добавите средства в кошелек, повторите попытку.",
+    "bodyInsufficientBalance": "На вашем текущем счету недостаточно средств для завершения процесса подтверждения.\n\nПосле внесения средств в кошелек, повторите попытку.",
     "bodyAlreadyVerified": "Ваш номер уже подтвержден!"
   },
   "verificationSkipDialog": {
@@ -1066,64 +1066,64 @@
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
-    "subtitle": "Ваш аккаунт в настоящее время пуст",
-    "addFunds": "Пополнить счет",
-    "titleRamp": "Add {{currency}} to start using Valora",
-    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
+    "subtitle": "На вашем аккаунте в настоящее время нет средств",
+    "addFunds": "Внести средства",
+    "titleRamp": "Внести {{currency}}, чтобы начать использовать Valora",
+    "subtitleRamp": "Внесите средства с нулевой комиссией через одного из доверенных внешних поставщиков."
   },
   "balances": "Остатки",
-  "totalValue": "Total Balance",
-  "viewBalances": "View Assets",
+  "totalValue": "Общий остаток",
+  "viewBalances": "Просмотр активов",
   "whatTotalValue": {
-    "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
-    "dismiss": "Dismiss"
+    "title": "Что означает общий баланс?",
+    "body": "Ваш общий баланс представляет собой приблизительную сумму всех ваших активов Valora. Общий баланс будет меняться по мере колебания цен. Он обновляется каждые 10 минут.\nНекоторые токены, возможно, не будут отображаться в общем балансе из-за отсутствия цены на момент расчета.",
+    "dismiss": "Закрыть"
   },
-  "supportEmailSubject": "{{appName}} support for {{user}}",
-  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
+  "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
+  "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
+  "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
   "linkBankAccountScreen": {
-    "tryAgain": "Try Again",
+    "tryAgain": "Повторить попытку",
     "verifying": {
-      "title": "Verifying your Identity"
+      "title": "Проверка вашей личности"
     },
     "completed": {
-      "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Проверка завершена",
+      "description": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета."
     },
     "failed": {
-      "title": "Verification denied",
-      "description": "We were unable to verify your identity. Please try again or contact support to continue.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "title": "Проверка отклонена",
+      "description": "Нам не удалось подтвердить вашу личность. Повторите попытку или обратитесь в службу поддержки, чтобы продолжить.",
+      "contactSupportPrefill": "Подтверждение личности отклонено"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been received and is being reviewed."
+      "title": "Проверка в процессе",
+      "description": "Ваша информация получена и в настоящее время проверяется."
     },
     "begin": {
-      "label": "Step 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "label": "Шаг 1",
+      "title": "Проверка вашей личности",
+      "description": "Простое пополнение криптовалюты с помощью банковского счета. Этот шаг займет около 5 минут.",
+      "cta": "Начать"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "label": "Шаг 2",
+      "title": "Привязать банковский счет",
+      "description": "Почти готово! Теперь вы можете подключить свой банковский счет к Valora через Plaid.",
+      "cta": "В ближайшее время!"
     }
   },
-  "linkBankAccountSettingsTitle": "Link Bank Accounts",
-  "linkBankAccountSettingsValue": "Get Access",
+  "linkBankAccountSettingsTitle": "Привязать банковские счета",
+  "linkBankAccountSettingsValue": "Получить доступ",
   "connectPhoneNumber": {
-    "title": "Connect phone number to continue",
-    "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
-    "buttonText": "Connect"
+    "title": "Подключите номер телефона, чтобы продолжить",
+    "body": "Для подтверждения личности и привязки вашего банковского счета необходимо подключить ваш номер телефона.",
+    "buttonText": "Подключить"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
-    "message": "Your balances may not be up to date.",
-    "button": "Refresh"
+    "title": "Вы в автономном режиме.",
+    "message": "Ваши остатки средств, возможно, не обновлены.",
+    "button": "Обновить"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
