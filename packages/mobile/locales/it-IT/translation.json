@@ -890,31 +890,31 @@
   "accountInputHeaderPartial": "Ultime 4 cifre",
   "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
-    "header": "Locating an Account Address",
-    "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
-    "body2": "The Account Address is near the bottom of the menu.",
-    "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
+    "header": "Individuazione dell’indirizzo di un conto",
+    "body1": "Gli indirizzi dei conti (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
+    "body2": "L’indirizzo del conto si trova vicino alla parte inferiore del menu.",
+    "body3": "Gli indirizzi dei conti iniziano con \"0x\" e sono composti da 42 caratteri."
   },
-  "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
-  "addressConfirmed": "Account Address confirmed",
-  "sending": "Sending",
-  "feeActual": "Fees",
-  "feeEstimate": "Estimated Fees",
+  "transferAddressChanged": "Questo contatto ha cambiato l’indirizzo del suo conto dopo la transazione. Questo pagamento è stato inviato a:",
+  "addressConfirmed": "Indirizzo del conto confermato",
+  "sending": "Invio in corso",
+  "feeActual": "Commissioni",
+  "feeEstimate": "Commissioni stimate",
   "encryption": {
-    "warningLabel": "This comment will not be encrypted",
-    "warningModalHeader": "About Encryption",
-    "warningModalBody": "Encryption ensures your comments are kept private. {{appName}} uses encryption on transaction comments when both the sender and receiver have this feature set up. Set up will normally occur automatically once a user sends their first transaction.",
-    "feeLabel": "One-Time Encryption Fee",
-    "feeModalHeader": "One-Time Encryption Fee",
-    "feeModalBody": "Encryption helps keep your sensitive data private. A small one-time fee is added to your first transaction to setup encryption. This ensures your comments will be sent securely and privately."
+    "warningLabel": "Questo commento non sarà crittografato",
+    "warningModalHeader": "Informazioni sulla crittografia",
+    "warningModalBody": "La crittografia assicura che i tuoi commenti rimangano privati. {{appName}} applica la crittografia ai commenti sulle transazioni quando sia il mittente che il destinatario hanno impostato questa funzione. L’impostazione in genere viene eseguita automaticamente dopo che un utente invia la sua prima transazione.",
+    "feeLabel": "Commissione una tantum per crittografia",
+    "feeModalHeader": "Commissione una tantum per crittografia",
+    "feeModalBody": "La crittografia contribuisce a mantenere privati i tuoi dati sensibili. Per impostare la crittografia, alla tua prima transazione viene aggiunta una piccola commissione una tantum. Questo assicura che i tuoi commenti saranno inviati in sicurezza e privatamente."
   },
   "sendToAddressWarning": {
-    "title": "Sending to an address",
-    "body": "Please make sure the address supports cUSD. Funds sent to invalid addresses may not be recoverable.\n\nYou might also consider sending a small test payment first.",
-    "toggle": "Ask every time"
+    "title": "Invio a un indirizzo in corso",
+    "body": "Assicurati che l’indirizzo supporti cUSD. Potrebbe essere impossibile recuperare fondi inviati a indirizzi non validi.\n\nPotresti anche considerare l’invio preliminare di un piccolo pagamento di prova.",
+    "toggle": "Chiedi ogni volta"
   },
-  "loadingFromScan": "Scanning",
-  "loadingFromDeeplink": "Connecting",
+  "loadingFromScan": "Scansione in corso",
+  "loadingFromDeeplink": "Connessione in corso",
   "action": {
     "asking": "This application is asking to perform the following action",
     "operation": "Operation",
