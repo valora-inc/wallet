@@ -10,7 +10,7 @@ import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { requestPincodeInput } from 'src/pincode/authentication'
+import { CANCELLED_PIN_INPUT, requestPincodeInput } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -132,7 +132,11 @@ export async function ensurePincode(): Promise<boolean> {
     await requestPincodeInput(true, false)
     return true
   } catch (error) {
-    Logger.warn(`${TAG}@ensurePincode`, `PIN entering error or cancelled`, error, true)
+    if (error === CANCELLED_PIN_INPUT) {
+      Logger.warn(`${TAG}@ensurePincode`, `PIN entering cancelled`, error)
+    } else {
+      Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error)
+    }
     return false
   }
 }

@@ -38,7 +38,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
         }),
       })
     } catch (error) {
-      Logger.warn(TAG, `Error sending reminder to ${recipient.e164PhoneNumber}`, error)
+      Logger.error(TAG, 'Error sending reminder', error)
     }
   }
 
