@@ -1040,86 +1040,86 @@
   "feedItemEscrowReceivedTitle": "{{nameOrNumber}}",
   "feedItemEscrowReceivedTitle_noSenderDetails": "Sconosciuto",
   "feedItemEscrowReceivedInfo": "{{comment}}",
-  "feedItemEscrowReceivedInfo_noComment": "Escrow Payment Received",
+  "feedItemEscrowReceivedInfo_noComment": "Pagamento per deposito in garanzia ricevuto",
   "feedItemGenericTitle": "{{nameOrNumber}}",
-  "feedItemGenericTitle_noRecipientDetails": "Unknown",
-  "feedItemGoldSold": "Sold",
-  "feedItemGoldPurchased": "Purchased",
-  "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
-  "feedItemGoldReceived": "Received from {{displayName}}",
-  "transactionHeaderVerificationFee": "Confirmation",
-  "transactionHeaderNetworkFee": "Network",
+  "feedItemGenericTitle_noRecipientDetails": "Sconosciuto",
+  "feedItemGoldSold": "Venduto",
+  "feedItemGoldPurchased": "Acquistato",
+  "feedItemGoldWithdrawal": "Prelievo verso {{displayName}}",
+  "feedItemGoldReceived": "Ricevuto da {{displayName}}",
+  "transactionHeaderVerificationFee": "Conferma",
+  "transactionHeaderNetworkFee": "Rete",
   "transactionHeaderFaucet": "Faucet",
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
-  "transactionHeaderSent": "Payment Sent",
-  "transactionHeaderWithdrewCelo": "CELO Withdrawal",
-  "transactionHeaderEscrowSent": "Escrow Payment Sent",
-  "transactionHeaderReceived": "Payment Received",
-  "transactionHeaderCeloDeposit": "Deposit Received",
-  "transactionHeaderCeloReward": "Reward Received",
-  "transactionHeaderEscrowReceived": "Escrow Payment Received",
-  "feedSectionHeaderRecent": "Recent",
+  "transactionHeaderSent": "Pagamento inviato",
+  "transactionHeaderWithdrewCelo": "Prelievo di CELO",
+  "transactionHeaderEscrowSent": "Pagamento per deposito in garanzia inviato",
+  "transactionHeaderReceived": "Pagamento ricevuto",
+  "transactionHeaderCeloDeposit": "Deposito ricevuto",
+  "transactionHeaderCeloReward": "Ricompensa ricevuta",
+  "transactionHeaderEscrowReceived": "Pagamento per deposito in garanzia ricevuto",
+  "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
-    "title": "Add funds to start using Valora!",
-    "subtitle": "Your account is currently empty",
-    "addFunds": "Add Funds",
-    "titleRamp": "Add {{currency}} to start using Valora",
-    "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
+    "title": "Aggiungi fondi per iniziare a usare Valora!",
+    "subtitle": "Il tuo conto è attualmente vuoto",
+    "addFunds": "Aggiungi fondi",
+    "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
+    "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
-  "balances": "Balances",
-  "totalValue": "Total Balance",
-  "viewBalances": "View Assets",
+  "balances": "Saldi",
+  "totalValue": "Saldo totale",
+  "viewBalances": "Visualizza asset",
   "whatTotalValue": {
-    "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
-    "dismiss": "Dismiss"
+    "title": "Cosa significa saldo totale?",
+    "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni token potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
+    "dismiss": "Ignora"
   },
-  "supportEmailSubject": "{{appName}} support for {{user}}",
-  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
+  "supportEmailSubject": "Supporto {{appName}} per {{user}}",
+  "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
   "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
   "linkBankAccountScreen": {
-    "tryAgain": "Try Again",
+    "tryAgain": "Riprova",
     "verifying": {
-      "title": "Verifying your Identity"
+      "title": "Verifica dell'identità in corso"
     },
     "completed": {
-      "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Verifica completata",
+      "description": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
     },
     "failed": {
-      "title": "Verification denied",
-      "description": "We were unable to verify your identity. Please try again or contact support to continue.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "title": "Verifica respinta",
+      "description": "Non siamo stati in grado di verificare la tua identità. Riprova o contatta il supporto tecnico per continuare.",
+      "contactSupportPrefill": "La verifica della mia identità è stata respinta"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been received and is being reviewed."
+      "title": "Revisione in corso",
+      "description": "I tuoi dati sono stati ricevuti e sono in fase di revisione."
     },
     "begin": {
-      "label": "Step 1",
-      "title": "Verify your Identity",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "label": "Passaggio 1",
+      "title": "Verifica della tua identità",
+      "description": "Aggiungere criptovalute con un conto bancario è facile. Questo passaggio richiede circa 5 minuti.",
+      "cta": "Inizia"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "label": "Passaggio 2",
+      "title": "Collega un conto bancario",
+      "description": "La procedura è quasi completata. Ora puoi collegare il tuo conto bancario a Valora tramite Plaid.",
+      "cta": "Presto disponibile."
     }
   },
-  "linkBankAccountSettingsTitle": "Link Bank Accounts",
-  "linkBankAccountSettingsValue": "Get Access",
+  "linkBankAccountSettingsTitle": "Collega conti bancari",
+  "linkBankAccountSettingsValue": "Accedi",
   "connectPhoneNumber": {
-    "title": "Connect phone number to continue",
-    "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
-    "buttonText": "Connect"
+    "title": "Connetti il numero telefonico per continuare",
+    "body": "È necessario connettere il tuo numero telefonico per verificare la tua identità e collegare il tuo conto bancario.",
+    "buttonText": "Connetti"
   },
   "outOfSyncBanner": {
-    "title": "You're offline.",
-    "message": "Your balances may not be up to date.",
-    "button": "Refresh"
+    "title": "Sei offline.",
+    "message": "I tuoi saldi potrebbero non essere aggiornati.",
+    "button": "Aggiorna"
   },
   "celoDollarAmount": "<0></0> dollaro Celo",
   "celoDollarAmount_plural": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; dollari Celo"
