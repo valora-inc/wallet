@@ -511,20 +511,20 @@
   "accountClearFailed": "Si è verificato un errore durante la rimozione della frase di recupero. Potrebbe essere necessario reinstallare l’app per ripristinare l’intera funzionalità.",
   "withdraw": "Preleva",
   "countryNotAvailable": "{{appName}} non è disponibile nel tuo Paese.",
-  "fetchFailed": "Server connection failed",
-  "pictureLoadFailed": "There was an error while loading your picture",
-  "simplexPurchaseFetchFailed": "Failed to retreive a quote from Simplex. Please try again later",
-  "providerFetchFailed": "Could not connect to service. Please contact support",
+  "fetchFailed": "Connessione al server non riuscita.",
+  "pictureLoadFailed": "Si è verificato un errore durante il caricamento della tua immagine.",
+  "simplexPurchaseFetchFailed": "Impossibile recuperare una quota da Simplex. Riprova più tardi.",
+  "providerFetchFailed": "Impossibile connettersi al servizio. Contatta il supporto tecnico.",
   "ok": "OK",
-  "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}",
-  "appDescription": "A mobile payments wallet that works worldwide",
-  "earn": "Earn",
-  "free": "Free",
-  "notNow": "Not Now",
+  "cashOutLimitExceeded": "Non puoi prelevare un importo superiore al tuo saldo di {{balance}} {{currency}}.",
+  "appDescription": "Un mobile wallet per i pagamenti che funziona in tutto il mondo",
+  "earn": "Guadagna",
+  "free": "Gratuito",
+  "notNow": "Non ora",
   "goldEducationSteps": [
     {
-      "title": "What is CELO?",
-      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+      "title": "Cos’è CELO?",
+      "text": "CELO è una valuta digitale che mantiene stabile il dollaro Celo (cUSD)."
     },
     {
       "title": "CELO’s price changes",
