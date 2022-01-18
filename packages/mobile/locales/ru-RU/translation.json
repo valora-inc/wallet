@@ -674,7 +674,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Импортировать контакты",
-      "body": "Valora запрашивает импорт ваших контактов. Нажимая следующую кнопку, я предоставляю доступ к номерам телефонов, именам и фотографиям моих контактов для связи с ними с помощью Valora"
+      "body": "Valora запрашивает импорт ваших контактов. Касаясь следующей кнопки, я предоставляю доступ к номерам телефонов, именам и фотографиям моих контактов для связи с ними с помощью Valora"
     }
   },
   "createAccount": "Создать аккаунт",
@@ -737,8 +737,8 @@
     "codeLabel2": "Второй код",
     "codeLabel3": "Третий код",
     "codePlaceholder1": "Скопируйте первое сообщение",
-    "codePlaceholder1_ios": "Tap or copy the first message",
-    "codePlaceholder2": "Copy the second message",
+    "codePlaceholder1_ios": "Выберите или скопируйте первое сообщение",
+    "codePlaceholder2": "Скопируйте второе сообщение",
     "codePlaceholder2_ios": "Tap or copy the second message",
     "codePlaceholder3": "Copy the third message",
     "codePlaceholder3_ios": "Tap or copy the third message",
