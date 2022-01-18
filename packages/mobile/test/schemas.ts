@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
@@ -866,6 +867,18 @@ export const v26Schema = {
   app: {
     ...v25Schema.app,
     rampCashInButtonExpEnabled: false,
+  },
+}
+
+export const v27Schema = {
+  ...v26Schema,
+  _persist: {
+    ...v26Schema._persist,
+    version: 27,
+  },
+  app: {
+    ...v26Schema.app,
+    superchargeButtonType: SuperchargeButtonType.PillRewards,
   },
 }
 
