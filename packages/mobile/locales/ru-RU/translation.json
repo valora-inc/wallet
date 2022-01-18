@@ -647,22 +647,22 @@
   "retryWithFornoModal": {
     "header": "Повторить попытку подтверждения в режиме экономии данных?",
     "body1": "Возникла проблема при подтверждении номера телефона. Рекомендуется повторить попытку, включив режим экономии данных.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
-    "retryButton": "Retry with Data Saver"
+    "body2": "Режим экономии данных обеспечивает бесперебойное взаимодействие с сообществом Celo Network с помощью доверенного соединения.",
+    "retryButton": "Повторить в режиме экономии данных"
   },
-  "congratsVerified": "Congratulations you are now confirmed!",
+  "congratsVerified": "Поздравляем! Подтверждение выполнено!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
-    "cta": "Connect Now"
+    "body": "Получать платежи непосредственно на номер телефона",
+    "cta": "Подключить сейчас"
   },
   "quotaLookup": {
-    "title": "Lookup quota exceeded",
-    "body1": "To keep your phone number safe and private, {{appName}} limits how many phone numbers users can lookup.",
-    "body2": "You can purchase more lookups for a small fee.",
-    "cta": "Purchase lookups (2)"
+    "title": "Превышена квота поиска",
+    "body1": "Чтобы обеспечить безопасность и конфиденциальность номера телефона, {{appName}} ограничивает количество пользователей, которые могут выполнять поиск телефонных номеров.",
+    "body2": "За умеренную плату можно приобрести дополнительные попытки поиска.",
+    "cta": "Приобрести попытки поиска (2)"
   },
   "onboardingEducation": {
-    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
+    "step1": "Если вы сможете отправлять текстовые сообщения, то получите возможности криптовалюты. С этого момента ваш телефон является вашим криптокошельком.",
     "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
     "step3": "All you need is a mobile phone to send, spend and explore."
   },
