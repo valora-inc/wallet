@@ -860,17 +860,17 @@
   "importContactsCta": {
     "header": "Importer des contacts",
     "body": "Veuillez activer les contacts dans les paramètres de votre téléphone pour trouver vos amis par nom.",
-    "cta": "Settings"
+    "cta": "Paramètres"
   },
   "contactSyncProgress": {
-    "header": "Syncing Contacts",
-    "progress": "{{current}} of {{total}}",
-    "importing": "Importing..."
+    "header": "Synchronisation des contacts en cours",
+    "progress": "{{current}} sur {{total}}",
+    "importing": "Importation en cours..."
   },
   "confirmAccount": {
-    "header": "Please confirm {{displayName}}'s account",
-    "headerNoDisplayName": "Please confirm your contact's account",
-    "button": "Confirm Account Address"
+    "header": "Veuillez confirmer le compte de {{displayName}}",
+    "headerNoDisplayName": "Veuillez confirmer le compte de votre contact",
+    "button": "Confirmer l'adresse du compte"
   },
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
