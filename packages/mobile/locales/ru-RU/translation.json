@@ -31,12 +31,12 @@
   },
   "accountKeyModal": {
     "header": "Без фразы восстановления вы навсегда потеряете доступ к своим средствам",
-    "body1": "In order to reset Valora, you will need to confirm you've written your Recovery Phrase.",
-    "body2": "Nobody, not even Valora, can recover your account without your Phrase."
+    "body1": "Перед тем как сбросить приложение Valora, вы обязательно должны записать фразу восстановления.",
+    "body2": "Без вашей фразы никто не сможет восстановить ваш аккаунт даже с помощью приложения Valora."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to reset Valora?",
-    "body": "You will no longer be able to access your funds or your Recovery Phrase from this device. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "header": "Вы действительно хотите сбросить приложение Valora?",
+    "body": "Вы больше не сможете получить доступ к своим средствам или фразе восстановления на этом устройстве. Поэтому если вы не записали фразу восстановления, то ее никак не удастся восстановить.",
     "resetNow": "Reset Now"
   },
   "promptConfirmRevokeModal": {
