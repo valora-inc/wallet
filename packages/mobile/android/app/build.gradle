@@ -125,7 +125,7 @@ def enableSeparateBuildPerCPUArchitecture = true
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = !isDetoxTestBuild
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -224,6 +224,12 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            if (isDetoxTestBuild) {
+              // Detox-specific additions to pro-guard
+              // See https://wix.github.io/Detox/docs/introduction/android/#7-proguard-minification-obfuscation
+              proguardFile "../../../../node_modules/detox/android/detox/proguard-rules-app.pro"
+              proguardFile "detox.pro"
+            }
             signingConfig signingConfigs.release
         }
     }
