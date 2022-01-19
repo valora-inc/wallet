@@ -270,7 +270,7 @@ export async function setPincodeWithBiometrics() {
       key: STORAGE_KEYS.PIN,
       value: pin,
       options: {
-        accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
         accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
         authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       },

@@ -76,10 +76,10 @@ export default function EnableBiometry({ navigation, route }: Props) {
     try {
       await setPincodeWithBiometrics()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
+      navigateHome()
     } catch (error) {
       Logger.warn(TAG, 'Error enabling biometrics', error)
     }
-    navigateHome()
   }
 
   return (
