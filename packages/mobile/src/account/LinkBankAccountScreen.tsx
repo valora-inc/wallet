@@ -51,7 +51,7 @@ function LinkBankAccountScreen() {
   )
 }
 
-function StepOne({ kycStatus }: StepOneProps) {
+export function StepOne({ kycStatus }: StepOneProps) {
   const { t } = useTranslation()
   const [isKycVerifying, setIsKycVerifying] = useState(false)
 
@@ -183,6 +183,7 @@ function StepOne({ kycStatus }: StepOneProps) {
               kycStatus={kycStatus}
               text={t('linkBankAccountScreen.begin.cta')}
               onPress={onPressPersona}
+              onSuccess={() => setIsKycVerifying(false)}
               onCancelled={() => setIsKycVerifying(false)}
             />
           </View>
