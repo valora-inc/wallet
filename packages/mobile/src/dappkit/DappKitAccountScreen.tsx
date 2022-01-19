@@ -52,7 +52,7 @@ class DappKitAccountAuthScreen extends React.Component<Props> {
   static navigationOptions = noHeader
 
   linkBack = () => {
-    const { account, route, phoneNumber } = this.props
+    const { account, route } = this.props
 
     const request = route.params.dappKitRequest
 
@@ -62,10 +62,6 @@ class DappKitAccountAuthScreen extends React.Component<Props> {
     }
     if (!account) {
       Logger.error(TAG, 'No account set up for this wallet')
-      return
-    }
-    if (!phoneNumber) {
-      Logger.error(TAG, 'No phone number set up for this wallet')
       return
     }
     navigateHome({ onAfterNavigate: () => this.props.approveAccountAuth(request) })

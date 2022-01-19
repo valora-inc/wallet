@@ -240,7 +240,7 @@ export function fetchFeeCurrency(tokens: TokenBalance[]) {
       return token.symbol as Currency
     }
   }
-  Logger.error(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
+  Logger.warn(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
   return Currency.Dollar
 }
 

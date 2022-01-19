@@ -163,17 +163,17 @@
   "consumerIncentivesTitle": "Erhöhe deine Rewards",
   "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
-    "header": "Wöchentliche Auszahlung",
-    "text": "Sende und gib aus wie gewohnt. Erhalte Rewards auf den verbleibenden Guthaben."
+    "header": "Verbinde deine Telefonnummer",
+    "text": "Verknüpfe dein Valora-Konto mit deiner Telefonnummer."
   },
   "noMinCommitment": {
-    "header": "Automatische Rewards",
-    "earningText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}}, um Rewards zu bekommen.",
+    "header": "Füge den Minimalguthaben hinzu",
+    "earningText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}}.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
-    "header": "Erhöhe dein Guthaben",
-    "text": "Mit einem Guthaben von {{maxBalance}} {{currency}} bekommst du maximale Rewards."
+    "header": "Deinen Guthaben sicher halten",
+    "text": "Wiederherstellungsphrase einrichten."
   },
   "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",

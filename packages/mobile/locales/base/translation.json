@@ -1137,5 +1137,7 @@
     "title": "{{dappName}} will open in an external browser",
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
-  }
+  },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge"
 }

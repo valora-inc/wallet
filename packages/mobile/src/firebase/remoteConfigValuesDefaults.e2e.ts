@@ -1,4 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
+import { SuperchargeButtonType } from 'src/app/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -39,4 +40,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
   dappsExplorerEnabled: true,
+  superchargeButtonType: SuperchargeButtonType.PillRewards,
 }

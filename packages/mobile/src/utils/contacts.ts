@@ -51,11 +51,13 @@ export async function getAllContacts(): Promise<MinimalContact[] | null> {
       if (error) {
         Logger.error(TAG, 'Error getting all contacts', error)
         reject(error)
+        return
       }
 
       if (!contacts) {
         Logger.error(TAG, 'Contacts is null')
         reject('Contacts is null')
+        return
       }
 
       resolve(contacts)

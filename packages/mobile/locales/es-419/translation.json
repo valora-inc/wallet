@@ -167,8 +167,8 @@
     "text": "Vincula tu cuenta de Valora a tu número de teléfono."
   },
   "noMinCommitment": {
-    "header": "Agrega el monto mínimo",
-    "earningText": "Agrega {{minBalance}} {{currency}} o más gratis con Ramp.",
+    "header": "Agrega fondos",
+    "earningText": "Agrega {{minBalance}} {{currency}} o más.",
     "connectText": "Solo debes tener un saldo de al menos {{minBalance}} {{currency}} y conectar tu número de teléfono para empezar a obtener recompensas."
   },
   "saveMoreEarnMore": {

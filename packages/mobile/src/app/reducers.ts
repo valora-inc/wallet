@@ -1,5 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { SuperchargeButtonType } from 'src/app/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -46,6 +47,7 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  superchargeButtonType: SuperchargeButtonType
 }
 
 const initialState = {
@@ -87,6 +89,7 @@ const initialState = {
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
+  superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
 }
 
 export const appReducer = (
@@ -199,6 +202,7 @@ export const appReducer = (
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
+        superchargeButtonType: action.configValues.superchargeButtonType,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

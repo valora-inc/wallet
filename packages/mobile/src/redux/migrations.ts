@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
@@ -367,6 +368,7 @@ export const migrations = {
     app: {
       ...state.app,
       dappsExplorerEnabled: false,
+      superchargeButtonType: SuperchargeButtonType.PillRewards,
     },
   }),
 }
