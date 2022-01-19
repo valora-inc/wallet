@@ -118,10 +118,14 @@ export const useBiometrySelector = (state: RootState) => state.app.useBiometry
 export const totalRegistrationStepsSelector = createSelector(
   [choseToRestoreAccountSelector, biometryEnabledSelector],
   (chooseRestoreAccount, biometryEnabled) => {
-    if (biometryEnabled) {
-      return chooseRestoreAccount ? 5 : 4
+    let steps = 3
+    if (chooseRestoreAccount) {
+      steps++
     }
-    return chooseRestoreAccount ? 4 : 3
+    if (biometryEnabled) {
+      steps++
+    }
+    return steps
   }
 )
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
