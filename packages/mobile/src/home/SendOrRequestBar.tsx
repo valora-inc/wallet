@@ -17,7 +17,6 @@ export default function SendOrRequestBar() {
   const sendableTokens = useSelector(tokensWithTokenBalanceSelector)
   const sendButtonsDisabled = sendableTokens.length === 0
   const requestButtonDisabled = useSelector(tokensListSelector).length === 0
-  const qrScanDisabled = false // TODO: Move logic to when actually scanning
 
   const onPressSend = () => {
     ValoraAnalytics.track(HomeEvents.home_send)
@@ -54,7 +53,7 @@ export default function SendOrRequestBar() {
         disabled={requestButtonDisabled}
         testID="SendOrRequestBar/RequestButton"
       />
-      <Touchable borderless={true} onPress={onPressQrCode} disabled={qrScanDisabled}>
+      <Touchable borderless={true} onPress={onPressQrCode}>
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
     </View>
