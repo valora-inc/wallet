@@ -1,5 +1,4 @@
 import { UnlockableWallet } from '@celo/wallet-base'
-import * as Sentry from '@sentry/react-native'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -68,7 +67,6 @@ export async function resetStateOnInvalidStoredAccount(state: RootState | undefi
     }
   } catch (error) {
     Logger.error(TAG, 'Failed to validate stored account', error)
-    Sentry.captureException(error)
   }
 
   return state
