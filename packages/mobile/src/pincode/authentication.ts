@@ -293,11 +293,11 @@ export async function getPincodeWithBiometrics() {
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
       return retrievedPin
     }
+    throw new Error('Failed to retrieve pin with biometrics, recieved null value')
   } catch (error) {
     Logger.warn(TAG, 'Failed to retrieve pin with biometrics', error)
+    throw error
   }
-
-  return null
 }
 
 // Retrieve the pincode value
@@ -310,9 +310,11 @@ export async function getPincode(withVerification = true) {
 
   const pincodeType = pincodeTypeSelector(store.getState())
   if (pincodeType === PincodeType.PhoneAuth) {
-    const retrievedPin = await getPincodeWithBiometrics()
-    if (retrievedPin) {
+    try {
+      const retrievedPin = await getPincodeWithBiometrics()
       return retrievedPin
+    } catch (error) {
+      Logger.warn(TAG, 'Failed to retrieve pin with biometrics', error)
     }
   }
 

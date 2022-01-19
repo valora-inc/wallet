@@ -130,10 +130,8 @@ export async function ensurePincode(): Promise<boolean> {
 
   if (pincodeType === PincodeType.PhoneAuth) {
     try {
-      const retrievedPin = await getPincodeWithBiometrics()
-      if (retrievedPin) {
-        return true
-      }
+      await getPincodeWithBiometrics()
+      return true
     } catch (error) {
       Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometrics error`, error)
     }
