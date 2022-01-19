@@ -1121,6 +1121,8 @@
     "message": "Seus saldos podem não estar em dia.",
     "button": "Atualização"
   },
-  "celoDollarAmount": "<0></0> Celo Dólar ",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares "
+  "rewards": "Recompensas",
+  "supercharge": "Supercharge",
+  "celoDollarAmount": "<0></0> Celo Dólar",
+  "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
