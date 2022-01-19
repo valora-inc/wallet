@@ -210,7 +210,7 @@ function* sendPaymentLegacy(
     })
     yield call(giveProfileAccess, recipientAddress)
   } catch (error) {
-    Logger.error(`${TAG}/sendPaymentLegacy`, 'Could not send payment', error.message)
+    Logger.debug(`${TAG}/sendPaymentLegacy`, 'Could not send payment', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
     throw error
   }
