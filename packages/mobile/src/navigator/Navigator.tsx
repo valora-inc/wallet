@@ -8,6 +8,7 @@ import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -456,6 +457,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.LinkBankAccountScreen}
       component={LinkBankAccountScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.SyncBankAccountScreen}
+      component={SyncBankAccountScreen}
+      options={SyncBankAccountScreen.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}

@@ -124,3 +124,4 @@ export const totalRegistrationStepsSelector = createSelector(
     return chooseRestoreAccount ? 4 : 3
   }
 )
+export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType

@@ -36,6 +36,7 @@ import {
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
 } from 'src/app/selectors'
+import { SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -177,6 +178,7 @@ export interface RemoteConfigValues {
   sentryTracesSampleRate: number
   sentryEnabled: boolean
   biometryEnabled: boolean
+  superchargeButtonType: SuperchargeButtonType
 }
 
 export function* appRemoteFeatureFlagSaga() {

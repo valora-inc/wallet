@@ -258,6 +258,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
+  [Screens.SyncBankAccountScreen]: {
+    publicToken: string
+  }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }

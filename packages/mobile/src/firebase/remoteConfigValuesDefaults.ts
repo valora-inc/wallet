@@ -1,4 +1,5 @@
 import { RemoteConfigValues } from 'src/app/saga'
+import { SuperchargeButtonType } from 'src/app/types'
 import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE, SENTRY_ENABLED } from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
@@ -43,4 +44,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryEnabled: SENTRY_ENABLED,
   biometryEnabled: false,
+  superchargeButtonType: SuperchargeButtonType.PillRewards,
 }
