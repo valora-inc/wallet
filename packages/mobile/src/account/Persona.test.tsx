@@ -107,7 +107,7 @@ describe('Persona', () => {
 
     expect(mockInquiryBuilder.onSuccess).toHaveBeenCalled()
     expect(personaProps.onSuccess).not.toHaveBeenCalled()
-    mockInquiryBuilder.onSuccess.mock.calls?.[0]?.[0]?.()
+    mockInquiryBuilder.onSuccess.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onSuccess callback
     expect(personaProps.onSuccess).toHaveBeenCalled()
   })
 })
