@@ -101,6 +101,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = celo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = celo/main.m; sourceTree = "<group>"; };
 		1931B4D04F9947C23D830F1D /* Pods-celoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celoTests.release.xcconfig"; path = "Target Support Files/Pods-celoTests/Pods-celoTests.release.xcconfig"; sourceTree = "<group>"; };
+		27A21C992796DA560008F219 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27A21C9A2796DA620008F219 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27A21C9D2796DA920008F219 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2B11FD0527A58E309137144D /* Pods_NotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* celo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "celo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* celo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "celo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -443,6 +446,9 @@
 				"es-419",
 				"pt-BR",
 				de,
+				fr,
+				it,
+				ru,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -937,6 +943,9 @@
 				0FC6C311256FEF2700C35F47 /* es-419 */,
 				0FC6C317256FEF4A00C35F47 /* pt-BR */,
 				C88C5BFD26FA424100B9C0CE /* de */,
+				27A21C992796DA560008F219 /* fr */,
+				27A21C9A2796DA620008F219 /* it */,
+				27A21C9D2796DA920008F219 /* ru */,
 			);
 			name = InfoPlist.strings;
 			path = celo;
