@@ -96,7 +96,7 @@ async function requestValidator(
       signer
     )
   } catch (error) {
-    Logger.error(
+    Logger.warn(
       TAG + '@getAttestationCodeFromSecurityCode',
       `get for issuer ${issuer} failed`,
       error

@@ -1,6 +1,5 @@
 // Adapted from https://github.com/rt2zz/redux-persist/blob/d7efde9115a0bd2d6a0309ac6fb1c018bf06dc30/src/createMigrate.js
 // so we can enable logging in production
-import * as Sentry from '@sentry/react-native'
 import type { MigrationManifest, PersistedState } from 'redux-persist'
 import { DEFAULT_VERSION } from 'redux-persist/es/constants'
 import Logger from 'src/utils/Logger'
@@ -40,7 +39,6 @@ export default function createMigrate(migrations: MigrationManifest) {
       }, state)
       return migratedState
     } catch (err) {
-      Sentry.captureException(err)
       Logger.error(TAG, 'Failed to migrate state', err)
       throw err
     }

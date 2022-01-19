@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as Sentry from '@sentry/react-native'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
@@ -20,7 +19,7 @@ let lastEventTime = Date.now()
 
 const persistConfig: PersistConfig<RootState> = {
   key: 'root',
-  version: 26, // default is -1, increment as we make migrations
+  version: 27, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'imports'],
@@ -80,7 +79,6 @@ persistConfig.getStoredState = async (config: any) => {
     return null
   } catch (error) {
     Logger.error('redux/store', 'Failed to retrieve redux state.', error)
-    Sentry.captureException(error)
   }
 }
 
