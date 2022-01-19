@@ -65,12 +65,14 @@ interface SectionData {
 }
 
 export function DAppsExplorerScreen() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
   const dispatch = useDispatch()
+
+  const shortLanguage = i18n.language.split('-')[0]
 
   const {
     loading,
@@ -86,7 +88,7 @@ export function DAppsExplorerScreen() {
         throw new Error('Dapps list url is not defined')
       }
 
-      const response = await fetch(dappsListUrl, {
+      const response = await fetch(`${dappsListUrl}?language=${shortLanguage}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +129,7 @@ export function DAppsExplorerScreen() {
         throw Error(`There was an error while parsing response: ${(error as Error)?.message}`)
       }
     },
-    [],
+    [shortLanguage],
     {
       onSuccess: (result) => {
         Logger.debug(TAG, `fetch onSuccess: ${JSON.stringify(result)}`)
