@@ -13,6 +13,7 @@ export enum Screens {
   DappKitAccountAuth = 'DappKitAccountAuth',
   DappKitSignTxScreen = 'DappKitSignTxScreen',
   DappKitTxDataScreen = 'DappKitTxDataScreen',
+  DAppsExplorerScreen = 'DAppsExplorerScreen',
   Debug = 'Debug',
   DrawerNavigator = 'DrawerNavigator',
   ErrorScreen = 'ErrorScreen',

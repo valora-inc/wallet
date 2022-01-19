@@ -108,4 +108,6 @@ export const linkBankAccountEnabledSelector = (state: RootState) => state.app.li
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
+export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
+
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
