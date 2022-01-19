@@ -15,6 +15,8 @@ export enum LocalCurrencyCode {
   BRL = 'BRL',
   CVE = 'CVE',
   AUD = 'AUD',
+  GBP = 'GBP',
+  RUB = 'RUB',
 }
 
 export enum LocalCurrencySymbol {
@@ -33,6 +35,8 @@ export enum LocalCurrencySymbol {
   BRL = 'R$',
   CVE = '$',
   AUD = 'A$',
+  GBP = '£',
+  RUB = '₽',
 }
 
 export const LOCAL_CURRENCY_CODES = Object.values(LocalCurrencyCode)
