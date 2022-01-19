@@ -20,6 +20,20 @@ jest.mock('src/in-house-liquidity', () => ({
   createPersonaAccount: jest.fn(() => mockResponse),
 }))
 
+const mockInquiryBuilder = {
+  fromTemplate: jest.fn().mockReturnThis(),
+  referenceId: jest.fn().mockReturnThis(),
+  environment: jest.fn().mockReturnThis(),
+  iosTheme: jest.fn().mockReturnThis(),
+  onSuccess: jest.fn().mockReturnThis(),
+  onCancelled: jest.fn().mockReturnThis(),
+  onError: jest.fn().mockReturnThis(),
+  build: jest.fn().mockReturnThis(),
+  start: jest.fn().mockReturnThis(),
+}
+//@ts-ignore Persona doesn't expose the types to cast this mock adequately :\
+jest.spyOn(Inquiry, 'fromTemplate').mockReturnValue(mockInquiryBuilder)
+
 describe('Persona', () => {
   const store = createMockStore({
     web3: { mtwAddress: mockAccount },
@@ -73,5 +87,27 @@ describe('Persona', () => {
 
     fireEvent.press(getByTestId('PersonaButton'))
     expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
+  })
+
+  it('calls onSuccess callback on inquiry success', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      onSuccess: jest.fn(),
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+
+    fireEvent.press(getByTestId('PersonaButton'))
+    expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
+
+    expect(mockInquiryBuilder.onSuccess).toHaveBeenCalled()
+    expect(personaProps.onSuccess).not.toHaveBeenCalled()
+    mockInquiryBuilder.onSuccess.mock.calls?.[0]?.[0]?.()
+    expect(personaProps.onSuccess).toHaveBeenCalled()
   })
 })
