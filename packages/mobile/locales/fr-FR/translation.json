@@ -1121,6 +1121,8 @@
     "message": "Vos soldes peuvent ne pas être à jour.",
     "button": "Actualiser"
   },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Dollars Celo",
   "celoDollarAmount_plural": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Dollars Celo "
 }
