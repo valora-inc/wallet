@@ -66,7 +66,6 @@ interface SectionData {
 
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
-        
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
