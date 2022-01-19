@@ -264,29 +264,29 @@ export async function setPincodeWithBiometrics() {
     pin = await requestPincodeInput(true, true)
   }
 
-  console.log('======HELLO', pin)
-  await storeItem({
-    key: STORAGE_KEYS.PIN,
-    value: pin,
-    options: {
-      accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
-      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
-    },
-  })
+  try {
+    // TODO does a stale key from a prev install/enable biometrics attempt prevent a
+    // new key from being written?
+    await removeStoredItem(STORAGE_KEYS.PIN)
 
-  console.log('======STORED ITEM', pin)
+    await storeItem({
+      key: STORAGE_KEYS.PIN,
+      value: pin,
+      options: {
+        accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
+        accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+      },
+    })
 
-  const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
-    accessControl: Keychain.ACCESS_CONTROL.USER_PRESENCE,
-    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-    authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
-  })
+    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
 
-  console.log('======RETRIEVED ITEM', retrievedPin)
-
-  if (retrievedPin !== pin) {
-    // log some kind of error, we probs shouldn't continue
+    if (retrievedPin !== pin) {
+      throw new Error('Retrieved incorrect pin with bimiometrics')
+    }
+  } catch (error) {
+    Logger.error(TAG, 'Unable to save pin with biometrics', error)
+    throw error
   }
 }
 

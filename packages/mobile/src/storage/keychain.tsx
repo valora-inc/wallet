@@ -28,11 +28,10 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
   }
 }
 
-export async function retrieveStoredItem(key: string, options: Keychain.Options = {}) {
+export async function retrieveStoredItem(key: string) {
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
-      ...options,
     })
     if (!item) {
       return null
