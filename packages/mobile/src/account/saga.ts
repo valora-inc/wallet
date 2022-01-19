@@ -123,10 +123,6 @@ export function* watchKycStatus() {
   }
 }
 
-export function* watchSetPincode() {
-  yield takeLeading(Actions.SET_PINCODE, setPincode)
-}
-
 export function* watchClearStoredAccount() {
   const action = yield take(Actions.CLEAR_STORED_ACCOUNT)
   yield call(clearStoredAccountSaga, action)
@@ -141,7 +137,6 @@ export function* watchSaveNameAndPicture() {
 }
 
 export function* accountSaga() {
-  yield spawn(watchSetPincode)
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
