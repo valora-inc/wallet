@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { SuperchargeButtonType } from 'src/app/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -49,6 +50,7 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
   useBiometry: boolean
+  superchargeButtonType: SuperchargeButtonType
 }
 
 const initialState = {
@@ -92,6 +94,7 @@ const initialState = {
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   useBiometry: false,
+  superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
 }
 
 export const appReducer = (
@@ -209,6 +212,7 @@ export const appReducer = (
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
+        superchargeButtonType: action.configValues.superchargeButtonType,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
