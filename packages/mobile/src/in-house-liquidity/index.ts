@@ -4,6 +4,81 @@ import KeyEncoder from 'key-encoder'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
+interface CreateFinclusiveBankAccountParams {
+  accountMTWAddress: string
+  dekPrivate: string
+  plaidAccessToken: string
+}
+
+/**
+ * Create a fiat bank account with finclusive
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
+ * @returns {Response} response object from the fetch call
+ */
+export const createFinclusiveBankAccount = async ({
+  accountMTWAddress,
+  dekPrivate,
+  plaidAccessToken,
+}: CreateFinclusiveBankAccountParams) => {
+  const body = {
+    accountAddress: accountMTWAddress,
+    plaidAccessToken,
+  }
+  return signAndFetch({
+    path: '/account/bank-account',
+    accountMTWAddress,
+    dekPrivate,
+    requestOptions: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
+interface ExchangePlaidAccessTokenParams {
+  accountMTWAddress: string
+  dekPrivate: string
+  publicToken: string
+}
+
+/**
+ * Exchange a plaid plublic token for a long-term plaid access token
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.publicToken} publicToken plaid public token
+ * @returns {Response} response object from the fetch call
+ */
+export const exchangePlaidAccessToken = async ({
+  accountMTWAddress,
+  dekPrivate,
+  publicToken,
+}: ExchangePlaidAccessTokenParams) => {
+  const body = {
+    publicToken,
+  }
+  return signAndFetch({
+    path: '/plaid/access-token/exchange',
+    accountMTWAddress,
+    dekPrivate,
+    requestOptions: {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
 interface CreateLinkTokenParams {
   accountMTWAddress: string
   dekPrivate: string
