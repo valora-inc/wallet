@@ -129,7 +129,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
         subTitle={i18n.t(
           route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
           {
-            step: route.params?.choseToRestoreAccount ? '4' : '3',
+            step: route.params?.totalRegistrationSteps,
             totalSteps: route.params?.totalRegistrationSteps,
           }
         )}

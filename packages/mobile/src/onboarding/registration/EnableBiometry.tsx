@@ -9,6 +9,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { setUseBiometry } from 'src/app/actions'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import {
@@ -18,11 +19,13 @@ import {
   default as TouchID,
 } from 'src/icons/biometrics/FaceID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep, {
+  REGISTRATION_STEP,
+} from 'src/onboarding/registration/useRegistrationStep'
 import { default as useSelector } from 'src/redux/useSelector'
 
 type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
@@ -46,10 +49,11 @@ const biometryButtonLabelMap: { [key in Keychain.BIOMETRY_TYPE]: string } = {
 export default function EnableBiometry({ navigation, route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
+
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const registrationStep = useRegistrationStep(choseToRestoreAccount ? 5 : 4)
+  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const registrationStep = useRegistrationStep(REGISTRATION_STEP.ENABLE_BIOMETRY)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -71,7 +75,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
     dispatch(setUseBiometry(true))
     // do some stuff to use biometry
 
-    navigateHome()
+    navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
   }
 
   return (

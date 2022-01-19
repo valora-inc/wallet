@@ -21,11 +21,7 @@ import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  biometryEnabledSelector,
-  hideVerificationSelector,
-  numberVerifiedSelector,
-} from 'src/app/selectors'
+import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -36,7 +32,9 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep, {
+  REGISTRATION_STEP,
+} from 'src/onboarding/registration/useRegistrationStep'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
@@ -92,17 +90,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
-  const biometryEnabled = useSelector(biometryEnabledSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep(route.params?.choseToRestoreAccount ? 4 : 3)
-
-  const handleProceedToNextStep = () => {
-    if (biometryEnabled) {
-      navigate(Screens.EnableBiometry)
-    } else {
-      navigateHome()
-    }
-  }
+  const registrationStep = useRegistrationStep(REGISTRATION_STEP.PHONE_VERIFICATION)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -117,9 +106,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
-    navigation.setParams({ showSkipDialog: false })
     dispatch(setHasSeenVerificationNux(true))
-    handleProceedToNextStep()
+    navigateHome()
   }
 
   const onPressContinue = () => {
@@ -127,7 +115,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (partOfOnboarding) {
       navigate(Screens.OnboardingSuccessScreen)
     } else {
-      handleProceedToNextStep()
+      navigateHome()
     }
   }
 
@@ -137,7 +125,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
 
     dispatch(setHasSeenVerificationNux(true))
-    handleProceedToNextStep()
+    navigateHome()
   }
 
   const onPressLearnMore = () => {

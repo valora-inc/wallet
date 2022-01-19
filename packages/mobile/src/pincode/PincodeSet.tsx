@@ -12,7 +12,7 @@ import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { totalRegistrationStepsSelector } from 'src/app/selectors'
+import { biometryEnabledSelector, totalRegistrationStepsSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -37,6 +37,7 @@ interface StateProps {
   useExpandedBlocklist: boolean
   account: string
   totalRegistrationSteps: number
+  biometryEnabled: boolean
 }
 
 interface DispatchProps {
@@ -63,6 +64,7 @@ function mapStateToProps(state: RootState): StateProps {
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
+    biometryEnabled: biometryEnabledSelector(state),
   }
 }
 
@@ -130,6 +132,8 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
+    } else if (this.props.biometryEnabled) {
+      navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
     } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {

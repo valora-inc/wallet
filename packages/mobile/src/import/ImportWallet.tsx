@@ -29,7 +29,9 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep, {
+  REGISTRATION_STEP,
+} from 'src/onboarding/registration/useRegistrationStep'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { isAppConnected } from 'src/redux/selectors'
@@ -59,7 +61,7 @@ function ImportWallet({ navigation, route }: Props) {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const registrationStep = useRegistrationStep(3)
+  const registrationStep = useRegistrationStep(REGISTRATION_STEP.IMPORT_WALLET)
 
   async function autocompleteSavedMnemonic() {
     if (!accountToRecoverFromStoreWipe) {
