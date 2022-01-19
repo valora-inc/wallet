@@ -8,6 +8,12 @@ const keychainMock = {
   SECURITY_RULES: {
     NONE: 'none',
   },
+  ACCESS_CONTROL: {
+    BIOMETRY_CURRENT_SET: 'BiometryCurrentSet',
+  },
+  AUTHENTICATION_TYPE: {
+    BIOMETRICS: 'AuthenticationWithBiometrics',
+  },
   setGenericPassword: jest.fn(),
   getGenericPassword: jest.fn(),
   resetGenericPassword: jest.fn(),

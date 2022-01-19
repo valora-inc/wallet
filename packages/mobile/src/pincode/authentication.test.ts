@@ -7,15 +7,25 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
   CANCELLED_PIN_INPUT,
   DEFAULT_CACHE_ACCOUNT,
-  PinBlocklist,
   getPasswordSaga,
   getPincode,
+  getPincodeWithBiometrics,
+  PinBlocklist,
+  setPincodeWithBiometrics,
 } from 'src/pincode/authentication'
 import { clearPasswordCaches, getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
+import { store } from 'src/redux/store'
+import { getMockStoreData } from 'test/utils'
 import { mockAccount } from 'test/values'
+import { mocked } from 'ts-jest/utils'
+
+jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 
 const mockPepper = { password: '0000000000000000000000000000000000000000000000000000000000000001' }
 const mockPin = '111555'
+const mockedKeychain = mocked(Keychain)
+const mockStore = mocked(store)
+mockStore.getState.mockImplementation(getMockStoreData)
 
 describe(getPasswordSaga, () => {
   const mockedNavigate = navigate as jest.Mock
@@ -46,6 +56,7 @@ describe(getPincode, () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockedNavigate.mockReset()
+    clearPasswordCaches()
   })
 
   it('returns PIN from cache', async () => {
@@ -54,7 +65,6 @@ describe(getPincode, () => {
     expect(pin).toBe(mockPin)
   })
   it('returns pin and stores it in cache', async () => {
-    clearPasswordCaches()
     mockedNavigate.mockImplementationOnce((_, params) => {
       expect(params.withVerification).toBe(true)
       params.onSuccess(mockPin)
@@ -65,8 +75,23 @@ describe(getPincode, () => {
     expect(navigateBack).toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(pin)
   })
+  it('returns pin with biometrics if enabled', async () => {
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ account: { pincodeType: PincodeType.PhoneAuth } })
+    )
+    const getPasswordSpy = jest.fn().mockResolvedValue({
+      password: mockPin,
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
+    mockedKeychain.getGenericPassword.mockImplementationOnce(getPasswordSpy)
+    await getPincode()
+
+    expect(getPasswordSpy).toHaveBeenCalledTimes(1)
+    expect(getPasswordSpy).toHaveBeenCalledWith({ service: 'PIN' })
+  })
   it('throws an error if user cancels the Pin input', async () => {
-    clearPasswordCaches()
     mockedNavigate.mockImplementationOnce((_, params) => {
       params.onCancel()
     })
@@ -79,6 +104,80 @@ describe(getPincode, () => {
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
+  })
+})
+
+describe(getPincodeWithBiometrics, () => {
+  it('returns the correct pin and populates the cache', async () => {
+    clearPasswordCaches()
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: mockPin,
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
+    const retrievedPin = await getPincodeWithBiometrics()
+
+    expect(retrievedPin).toEqual(mockPin)
+    expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
+  })
+
+  it('throws an error if a null pin was retrieved', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue(false)
+
+    try {
+      await getPincodeWithBiometrics()
+    } catch (error) {
+      expect(error).toEqual(expect.any(Error))
+    }
+  })
+})
+
+describe(setPincodeWithBiometrics, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    setCachedPin(DEFAULT_CACHE_ACCOUNT, mockPin)
+  })
+
+  it('should set the keychain item with correct options and retrieve the correct pin', async () => {
+    const setPasswordSpy = jest.fn().mockResolvedValue({
+      service: 'PIN',
+      storage: 'storage',
+    })
+    mockedKeychain.setGenericPassword.mockImplementationOnce(setPasswordSpy)
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: mockPin,
+      username: 'username',
+      service: 'PIN',
+      storage: 'storage',
+    })
+
+    await setPincodeWithBiometrics()
+
+    expect(setPasswordSpy).toHaveBeenCalledTimes(1)
+    expect(setPasswordSpy).toHaveBeenCalledWith(
+      'CELO',
+      mockPin,
+      expect.objectContaining({
+        service: 'PIN',
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+      })
+    )
+  })
+  it('should throw an error if the retrieved pin is incorrect', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some random password',
+      username: 'username',
+      service: 'PIN',
+      storage: 'storage',
+    })
+
+    try {
+      await setPincodeWithBiometrics()
+    } catch (error) {
+      expect(error).toEqual(expect.any(Error))
+    }
   })
 })
 
