@@ -1121,6 +1121,8 @@
     "message": "I tuoi saldi potrebbero non essere aggiornati.",
     "button": "Aggiorna"
   },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> dollaro Celo",
   "celoDollarAmount_plural": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; dollari Celo"
 }
