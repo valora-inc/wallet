@@ -262,10 +262,9 @@ export async function setPincodeWithBiometrics() {
   }
 
   try {
-    // TODO does a stale key from a prev install/enable biometrics attempt prevent a
-    // new key from being written?
-    await removeStoredItem(STORAGE_KEYS.PIN)
-
+    // storeItem can be called multiple times with the same key, so stale keys
+    // from previous app installs/failed save attempts will be overwritten
+    // safely here
     await storeItem({
       key: STORAGE_KEYS.PIN,
       value: pin,
