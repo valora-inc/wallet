@@ -1,6 +1,6 @@
-import ReactNativeLogger from '@celo/react-components/services/ReactNativeLogger'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
+import ReactNativeLogger from 'src/services/ReactNativeLogger'
 
 class Logger extends ReactNativeLogger {
   getGethLogFilePath = () => {

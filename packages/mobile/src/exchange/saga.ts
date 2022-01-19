@@ -79,7 +79,7 @@ export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxActio
       const tobinTaxFraction = yield call(reserve.getOrComputeTobinTax().txo.call)
 
       if (!tobinTaxFraction) {
-        Logger.error(TAG, 'Unable to fetch tobin tax')
+        Logger.debug(TAG, 'Unable to fetch tobin tax')
         throw new Error('Unable to fetch tobin tax')
       }
 
@@ -174,7 +174,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
 
       if (!stableSellExchangeRate || !celoSellExchangeRate) {
         const errorMessage = `Invalid exchange rates between ${stableCurrency} and CELO`
-        Logger.error(TAG, errorMessage)
+        Logger.debug(TAG, errorMessage)
         throw new Error(errorMessage)
       }
 
@@ -233,7 +233,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
         error: 'Cannot do exchange with rate of 0',
       })
-      Logger.error(TAG, 'Cannot do exchange with rate of 0. Stopping.')
+      Logger.debug(TAG, 'Cannot do exchange with rate of 0. Stopping.')
       throw new Error('Invalid exchange rate')
     }
 
@@ -268,7 +268,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
         : convertedMakerAmount.isGreaterThan(DOLLAR_AMOUNT_FOR_ESTIMATE)
 
     if (exceedsExpectedSize) {
-      Logger.error(
+      Logger.warn(
         TAG,
         `Displayed exchange rate was estimated with a smaller makerAmount than actual ${convertedMakerAmount}`
       )
