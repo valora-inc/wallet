@@ -180,16 +180,16 @@ export function DAppsExplorerScreen() {
       />
       <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
         <View>
-          <View style={styles.bottomSheetHeader}>
-            <TopBarIconButton icon={<QuitIcon />} onPress={onCloseBottomSheet} />
-          </View>
+          <TopBarIconButton
+            icon={<QuitIcon />}
+            style={{ alignSelf: 'flex-end' }}
+            onPress={onCloseBottomSheet}
+          />
           <View style={styles.centerContainer}>
-            <Text style={{ ...fontStyles.h2, textAlign: 'center', paddingVertical: 16 }}>
+            <Text style={styles.bottomSheetTitleText}>
               {t('dappsScreenBottomSheet.title', { dappName: dappSelected?.name })}
             </Text>
-            <Text style={{ ...fontStyles.regular, textAlign: 'center', flex: 1 }}>
-              {t('dappsScreenBottomSheet.message')}
-            </Text>
+            <Text style={styles.bottomSheetMessageText}>{t('dappsScreenBottomSheet.message')}</Text>
             <Button
               style={styles.bottomSheetButton}
               onPress={onPressNavigationButton}
@@ -251,7 +251,7 @@ function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): Sect
 function DescriptionView({ message }: { message: string }) {
   return (
     <View style={styles.descriptionContainer}>
-      <Text style={{ ...fontStyles.h1, flex: 1 }}>{message}</Text>
+      <Text style={styles.descriptionText}>{message}</Text>
       <View style={styles.descriptionImage}>
         <DappsExplorerLogo />
       </View>
@@ -351,6 +351,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     paddingVertical: 4,
   },
+  bottomSheetTitleText: {
+    ...fontStyles.h2,
+    textAlign: 'center',
+    paddingVertical: Spacing.Regular16,
+  },
+  bottomSheetMessageText: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    flex: 1,
+  },
   itemTitleText: {
     ...fontStyles.small,
     color: Colors.dark,
@@ -358,6 +368,10 @@ const styles = StyleSheet.create({
   itemSubtitleText: {
     ...fontStyles.small,
     color: Colors.gray5,
+  },
+  descriptionText: {
+    ...fontStyles.h1,
+    flex: 1,
   },
   linkArrow: {
     height: 20,
@@ -369,10 +383,8 @@ const styles = StyleSheet.create({
     width: 94,
     marginLeft: Spacing.Smallest8,
   },
-  bottomSheetHeader: {
-    flex: 1,
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-start',
+  bottomSheetCloseButton: {
+    alignSelf: 'flex-end',
   },
   bottomSheetButton: {
     marginVertical: Spacing.Regular16,
