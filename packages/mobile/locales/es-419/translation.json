@@ -1121,6 +1121,8 @@
     "message": "Es posible que tus saldos no estén actualizados.",
     "button": "Refresca"
   },
+  "rewards": "Recompensas",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
