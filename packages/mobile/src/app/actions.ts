@@ -74,11 +74,6 @@ interface SetRequirePinOnAppOpen {
   enabled: boolean
 }
 
-interface SetUseBiometry {
-  type: Actions.SET_USE_BIOMETRY
-  enabled: boolean
-}
-
 interface InviteModalAction {
   type: Actions.TOGGLE_INVITE_MODAL
   inviteModalVisible: boolean
@@ -149,7 +144,6 @@ export type ActionTypes =
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
-  | SetUseBiometry
   | Lock
   | Unlock
   | SetSessionId
@@ -202,11 +196,6 @@ export const setAnalyticsEnabled = (enabled: boolean): SetAnalyticsEnabled => ({
 
 export const setRequirePinOnAppOpen = (enabled: boolean): SetRequirePinOnAppOpen => ({
   type: Actions.SET_LOCK_WITH_PIN_ENABLED,
-  enabled,
-})
-
-export const setUseBiometry = (enabled: boolean): SetUseBiometry => ({
-  type: Actions.SET_USE_BIOMETRY,
   enabled,
 })
 

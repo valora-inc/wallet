@@ -40,6 +40,7 @@ export interface State {
 export enum PincodeType {
   Unset = 'Unset',
   CustomPin = 'CustomPin',
+  PhoneAuth = 'PhoneAuth',
 }
 
 export interface UserContactDetails {

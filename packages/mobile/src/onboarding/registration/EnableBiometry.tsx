@@ -9,7 +9,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { setUseBiometry } from 'src/app/actions'
+import { setPincodeSuccess } from 'src/account/actions'
+import { PincodeType } from 'src/account/reducer'
 import { supportedBiometryTypeSelector } from 'src/app/selectors'
 import {
   default as Face,
@@ -74,7 +75,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
   const onPressUseBiometry = async () => {
     try {
       await setPincodeWithBiometrics()
-      dispatch(setUseBiometry(true))
+      dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
     } catch (error) {
       Logger.warn(TAG, 'Error enabling biometrics', error)
     }

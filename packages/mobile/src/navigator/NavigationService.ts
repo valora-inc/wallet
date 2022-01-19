@@ -10,7 +10,7 @@ import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { requestPincodeInput } from 'src/pincode/authentication'
+import { getPincodeWithBiometrics, requestPincodeInput } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -123,9 +123,20 @@ export async function ensurePincode(): Promise<boolean> {
     return false
   }
 
-  if (pincodeType !== PincodeType.CustomPin) {
+  if (pincodeType !== PincodeType.CustomPin && pincodeType !== PincodeType.PhoneAuth) {
     Logger.error(TAG + '@ensurePincode', `Unsupported Pincode Type ${pincodeType}`)
     return false
+  }
+
+  if (pincodeType === PincodeType.PhoneAuth) {
+    try {
+      const retrievedPin = await getPincodeWithBiometrics()
+      if (retrievedPin) {
+        return true
+      }
+    } catch (error) {
+      Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometrics error`, error)
+    }
   }
 
   try {

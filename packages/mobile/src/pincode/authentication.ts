@@ -16,7 +16,6 @@ import { pincodeTypeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { useBiometrySelector } from 'src/app/selectors'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { UNLOCK_DURATION } from 'src/geth/consts'
 import i18n from 'src/i18n'
@@ -33,6 +32,7 @@ import {
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
+import { store } from 'src/redux/store'
 import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
@@ -195,8 +195,7 @@ let lastError: any = null
 export async function getPassword(
   account: string,
   withVerification: boolean = true,
-  storeHash: boolean = false,
-  useBiometrics: boolean = false
+  storeHash: boolean = false
 ) {
   while (passwordLock) {
     await sleep(100)
@@ -215,7 +214,7 @@ export async function getPassword(
       return password
     }
 
-    const pin = await getPincode(withVerification, useBiometrics)
+    const pin = await getPincode(withVerification)
     password = await getPasswordForPin(pin)
 
     if (storeHash) {
@@ -247,13 +246,11 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
     throw Error('Pin has never been set')
   }
 
-  if (pincodeType !== PincodeType.CustomPin) {
+  if (pincodeType !== PincodeType.CustomPin && pincodeType !== PincodeType.PhoneAuth) {
     throw new Error(`Unsupported Pincode Type ${pincodeType}`)
   }
 
-  const useBiometry = yield select(useBiometrySelector)
-
-  return yield call(getPassword, account, withVerification, storeHash, useBiometry)
+  return yield call(getPassword, account, withVerification, storeHash)
 }
 
 type PinCallback = (pin: string) => void
@@ -282,24 +279,39 @@ export async function setPincodeWithBiometrics() {
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
 
     if (retrievedPin !== pin) {
-      throw new Error('Retrieved incorrect pin with bimiometrics')
+      throw new Error('Retrieved incorrect pin with biometrics after saving')
     }
   } catch (error) {
-    Logger.error(TAG, 'Unable to save pin with biometrics', error)
+    Logger.error(TAG, 'Failed to save pin with biometrics', error)
     throw error
   }
 }
 
+export async function getPincodeWithBiometrics() {
+  try {
+    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
+    if (retrievedPin) {
+      setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
+      return retrievedPin
+    }
+  } catch (error) {
+    Logger.warn(TAG, 'Failed to retrieve pin with biometrics', error)
+  }
+
+  return null
+}
+
 // Retrieve the pincode value
 // May trigger the pincode enter screen
-export async function getPincode(withVerification = true, useBiometrics = false) {
+export async function getPincode(withVerification = true) {
   const cachedPin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (cachedPin) {
     return cachedPin
   }
 
-  if (useBiometrics) {
-    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
+  const pincodeType = pincodeTypeSelector(store.getState())
+  if (pincodeType === PincodeType.PhoneAuth) {
+    const retrievedPin = await getPincodeWithBiometrics()
     if (retrievedPin) {
       return retrievedPin
     }
