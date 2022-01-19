@@ -367,8 +367,15 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      dappsExplorerEnabled: false,
       superchargeButtonType: SuperchargeButtonType.PillRewards,
+    },
+  }),
+  28: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      dappListApiUrl: null,
+      dappsExplorerEnabled: false,
     },
   }),
 }

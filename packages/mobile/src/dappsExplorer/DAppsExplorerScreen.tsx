@@ -149,7 +149,7 @@ export function DAppsExplorerScreen() {
   const onPressNavigationButton = () => {
     if (!dappSelected) {
       // Should never happen
-      Logger.warn(TAG, 'Internal error. There was no dapp selected')
+      Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
     dispatch(openUrl(dappSelected.dappUrl, true, true))
@@ -182,7 +182,7 @@ export function DAppsExplorerScreen() {
         <View>
           <TopBarIconButton
             icon={<QuitIcon />}
-            style={{ alignSelf: 'flex-end' }}
+            style={styles.bottomSheetCloseButton}
             onPress={onCloseBottomSheet}
           />
           <View style={styles.centerContainer}>
@@ -262,13 +262,8 @@ function DescriptionView({ message }: { message: string }) {
 function CategoryHeader({ category }: { category: CategoryWithDapps }) {
   return (
     <View style={styles.categoryContainer}>
-      <View
-        style={{
-          ...styles.categoryTextContainer,
-          backgroundColor: category.backgroundColor,
-        }}
-      >
-        <Text style={{ ...styles.categoryText, color: category.fontColor }}>{category.name}</Text>
+      <View style={[styles.categoryTextContainer, { backgroundColor: category.backgroundColor }]}>
+        <Text style={[styles.categoryText, { color: category.fontColor }]}>{category.name}</Text>
       </View>
     </View>
   )

@@ -877,12 +877,24 @@ export const v27Schema = {
   },
   app: {
     ...v26Schema.app,
-    dappListApiUrl: null,
-    dappsExplorerEnabled: false,
+
     superchargeButtonType: SuperchargeButtonType.PillRewards,
   },
 }
 
+export const v28Schema = {
+  ...v27Schema,
+  _persist: {
+    ...v27Schema._persist,
+    version: 28,
+  },
+  app: {
+    ...v27Schema.app,
+    dappListApiUrl: null,
+    dappsExplorerEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v27Schema as Partial<RootState>
+  return v28Schema as Partial<RootState>
 }
