@@ -1121,6 +1121,8 @@
     "message": "Dein Guthaben ist möglicherweise nicht aktuell.",
     "button": "Aktualisieren"
   },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
