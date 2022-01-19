@@ -6,9 +6,6 @@ import {
   ClearStoredAccountAction,
   initializeAccountFailure,
   initializeAccountSuccess,
-  SetPincodeAction,
-  setPincodeFailure,
-  setPincodeSuccess,
   updateCusdDailyLimit,
   updateKycStatus,
 } from 'src/account/actions'
@@ -33,20 +30,6 @@ import { getAccountAddress, getOrCreateAccount, getWalletAddress } from 'src/web
 const TAG = 'account/saga'
 
 export const SENTINEL_MIGRATE_COMMENT = '__CELO_MIGRATE_TX__'
-
-export function* setPincode({ pincodeType }: SetPincodeAction) {
-  try {
-    // TODO hooks into biometrics will likely go here
-    // But for now this saga does not to much, most cut during the auth refactor
-    yield put(setPincodeSuccess(pincodeType))
-    Logger.info(TAG + '@setPincode', 'Pincode set successfully')
-  } catch (error) {
-    Logger.error(TAG + '@setPincode', 'Failed to set pincode', error)
-    ValoraAnalytics.track(OnboardingEvents.pin_failed_to_set, { error: error.message, pincodeType })
-    yield put(showError(ErrorMessages.SET_PIN_FAILED))
-    yield put(setPincodeFailure())
-  }
-}
 
 function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccountAction) {
   try {

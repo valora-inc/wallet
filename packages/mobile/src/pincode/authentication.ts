@@ -170,6 +170,18 @@ function storePasswordHash(hash: string, account: string) {
   return storeItem({ key: passwordHashStorageKey(account), value: hash })
 }
 
+function storePinWithBiometrics(pin: string) {
+  return storeItem({
+    key: STORAGE_KEYS.PIN,
+    value: pin,
+    options: {
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+    },
+  })
+}
+
 async function retrievePasswordHash(account: string) {
   if (!getCachedPasswordHash(account)) {
     let hash: string | null = null
@@ -265,15 +277,7 @@ export async function setPincodeWithBiometrics() {
     // storeItem can be called multiple times with the same key, so stale keys
     // from previous app installs/failed save attempts will be overwritten
     // safely here
-    await storeItem({
-      key: STORAGE_KEYS.PIN,
-      value: pin,
-      options: {
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-        accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
-      },
-    })
+    await storePinWithBiometrics(pin)
 
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
 
@@ -377,8 +381,12 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
     if (updated) {
       clearPasswordCaches()
       setCachedPin(DEFAULT_CACHE_ACCOUNT, newPin)
-      const hash = await getPasswordHash(newPassword)
+      const hash = getPasswordHash(newPassword)
       await storePasswordHash(hash, account)
+      const pincodeType = pincodeTypeSelector(store.getState())
+      if (pincodeType === PincodeType.PhoneAuth) {
+        await storePinWithBiometrics(newPin)
+      }
       const phrase = await getStoredMnemonic(account, oldPassword)
       if (phrase) {
         await storeMnemonic(phrase, account, newPassword)

@@ -8,7 +8,7 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { initializeAccount, setPincode } from 'src/account/actions'
+import { initializeAccount, setPincode, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -42,6 +42,7 @@ interface StateProps {
 interface DispatchProps {
   setPincode: typeof setPincode
   initializeAccount: typeof initializeAccount
+  setPincodeSuccess: typeof setPincodeSuccess
 }
 
 interface State {
@@ -69,6 +70,7 @@ function mapStateToProps(state: RootState): StateProps {
 const mapDispatchToProps = {
   setPincode,
   initializeAccount,
+  setPincodeSuccess,
 }
 
 export class PincodeSet extends React.Component<Props, State> {
@@ -182,7 +184,6 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin2 = async (pin2: string) => {
     const { pin1 } = this.state
     if (this.isPin1Valid(pin1) && this.isPin2Valid(pin2)) {
-      this.props.setPincode(PincodeType.CustomPin)
       if (this.isChangingPin()) {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
@@ -193,6 +194,7 @@ export class PincodeSet extends React.Component<Props, State> {
           Logger.showMessage(this.props.t('pinChangeFailed'))
         }
       } else {
+        this.props.setPincodeSuccess(PincodeType.CustomPin)
         setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
         ValoraAnalytics.track(OnboardingEvents.pin_set)
       }
