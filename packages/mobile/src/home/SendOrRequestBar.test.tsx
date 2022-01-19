@@ -41,7 +41,7 @@ describe('SendOrRequestBar', () => {
 
   it('request button enabled when there are no tokens', () => {
     const store = createMockStore({
-      tokens: { tokenBalances: {} },
+      tokens: {},
     })
     const { getByTestId } = render(
       <Provider store={store}>
