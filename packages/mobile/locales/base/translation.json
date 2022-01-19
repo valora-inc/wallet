@@ -160,20 +160,20 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Boost your Rewards",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
-    "text": "Link your {{appName}} account to your phone number."
+    "text": "Tap Connect Number if you haven't connected it yet."
   },
   "noMinCommitment": {
     "header": "Add a minimum balance",
-    "earningText": "Cash in {{minBalance}} {{currency}} or more.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
     "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
-    "header": "Keep it safe",
-    "text": "Set up your Recovery Phrase."
+    "header": "Set up your Recovery Phrase",
+    "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "cashIn": "Add {{currency}}",
