@@ -651,7 +651,7 @@ export function attestationCodeReceiver(
 ) {
   return function* (action: ReceiveAttestationMessageAction) {
     if (!action || !action.message) {
-      Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
+      Logger.warn(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
       ValoraAnalytics.track(VerificationEvents.verification_code_received, {
         context: 'Empty code',
         feeless: isFeelessVerification,

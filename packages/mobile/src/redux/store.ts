@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as Sentry from '@sentry/react-native'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
@@ -80,7 +79,6 @@ persistConfig.getStoredState = async (config: any) => {
     return null
   } catch (error) {
     Logger.error('redux/store', 'Failed to retrieve redux state.', error)
-    Sentry.captureException(error)
   }
 }
 

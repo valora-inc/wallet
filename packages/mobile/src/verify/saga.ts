@@ -338,13 +338,13 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
       yield put(fetchPhoneNumberDetails())
     }
   } catch (error) {
-    Logger.error(TAG, '@startSaga', error)
     if (error.message === ErrorMessages.PIN_INPUT_CANCELED) {
       // This navigateBack has no effect if part of onboarding and returns to home or
       // settings page if the user pressed on the back button when prompted for the PIN.
       navigateBack()
       return
     } else {
+      Logger.error(TAG, '@startSaga', error)
       yield put(fail(`startSaga - ${error}`))
     }
   }
