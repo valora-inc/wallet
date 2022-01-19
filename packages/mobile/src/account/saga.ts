@@ -102,7 +102,7 @@ export function* watchDailyLimit() {
       if (_.isNumber(dailyLimit)) {
         yield put(updateCusdDailyLimit(dailyLimit))
       } else {
-        Logger.error(`${TAG}@watchDailyLimit`, 'Daily limit must be a number', dailyLimit)
+        Logger.warn(`${TAG}@watchDailyLimit`, 'Daily limit must be a number', dailyLimit)
       }
     }
   } catch (error) {
@@ -127,7 +127,7 @@ export function* watchKycStatus() {
       if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
         yield put(updateKycStatus(kycStatus))
       } else {
-        Logger.error(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
+        Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }
     }
   } catch (error) {

@@ -10,7 +10,7 @@ import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { requestPincodeInput } from 'src/pincode/authentication'
+import { CANCELLED_PIN_INPUT, requestPincodeInput } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -132,7 +132,11 @@ export async function ensurePincode(): Promise<boolean> {
     await requestPincodeInput(true, false)
     return true
   } catch (error) {
-    Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error, true)
+    if (error === CANCELLED_PIN_INPUT) {
+      Logger.warn(`${TAG}@ensurePincode`, `PIN entering cancelled`, error)
+    } else {
+      Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error)
+    }
     return false
   }
 }
@@ -198,6 +202,6 @@ export function navigateHome(options?: NavigateHomeOptions) {
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {
-  Logger.error(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
+  Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })
 }
