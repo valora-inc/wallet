@@ -431,12 +431,6 @@ export class Account extends React.Component<Props, State> {
               value={this.props.preferredCurrencyCode}
               onPress={this.goToLocalCurrencySetting}
             />
-            <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
-            <SettingsItemTextValue
-              title={t('changePin')}
-              onPress={this.goToChangePin}
-              testID="ChangePIN"
-            />
             {this.props.walletConnectEnabled && (
               <SettingsItemTextValue
                 title={t('connectedApplications')}
@@ -445,12 +439,19 @@ export class Account extends React.Component<Props, State> {
                 testID="ConnectedApplications"
               />
             )}
+            <SectionHead text={t('security')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
               testID="requirePinOnAppOpenToggle"
             />
+            <SectionHead text={t('data')} style={styles.sectionTitle} />
             <SettingsItemSwitch
               title={t('enableDataSaver')}
               value={this.props.fornoEnabled}
