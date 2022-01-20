@@ -35,14 +35,6 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.IRIS]: <Face />,
 }
 
-const biometryButtonLabelMap: { [key in Keychain.BIOMETRY_TYPE]: string } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: 'enableBiometry.cta.useFaceId',
-  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: 'enableBiometry.cta.useTouchId',
-  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: 'enableBiometry.cta.useFingerprint',
-  [Keychain.BIOMETRY_TYPE.FACE]: 'enableBiometry.cta.useFace',
-  [Keychain.BIOMETRY_TYPE.IRIS]: 'enableBiometry.cta.useIris',
-}
-
 export default function EnableBiometry({ navigation, route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -79,19 +71,25 @@ export default function EnableBiometry({ navigation, route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={styles.contentContainer}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        <Text style={styles.description}>{t('enableBiometry.description')}</Text>
+        <Text style={styles.description}>
+          {t('enableBiometry.description', {
+            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+          })}
+        </Text>
         <Button
           onPress={onPressUseBiometry}
-          text={t(biometryButtonLabelMap[supportedBiometryType!])}
+          text={t('enableBiometry.cta', {
+            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+          })}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
           testID="EnableBiometryButton"
         />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
 
@@ -99,13 +97,13 @@ EnableBiometry.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.onboardingBackground,
-  },
-  contentContainer: {
     paddingTop: 186,
     paddingHorizontal: 40,
     alignItems: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: colors.onboardingBackground,
   },
   imageContainer: {
     marginBottom: Spacing.Thick24,
