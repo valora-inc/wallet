@@ -14,11 +14,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
-import {
-  coreTokensSelector,
-  stablecoinsSelector,
-  tokensWithTokenBalanceSelector,
-} from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
@@ -80,9 +76,8 @@ function TokenBottomSheet({
   const [pickerHeight, setPickerHeight] = useState(0)
 
   const tokens = useSelector(tokensWithTokenBalanceSelector)
-  const coreTokens = useSelector(coreTokensSelector)
-  const inviteTokens = useSelector(stablecoinsSelector)
-  const tokenList = (isInvite ? inviteTokens : isOutgoingPaymentRequest ? coreTokens : tokens).sort(
+  const stableTokens = useSelector(stablecoinsSelector)
+  const tokenList = (isInvite || isOutgoingPaymentRequest ? stableTokens : tokens).sort(
     sortByUsdBalance
   )
 
