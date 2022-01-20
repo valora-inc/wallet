@@ -160,20 +160,20 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "consumerIncentivesTitle": "Erhöhe deine Rewards",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit, also starte deine Einzahlung!",
+  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
-    "text": "Verknüpfe dein Valora-Konto mit deiner Telefonnummer."
+    "text": "Tap Connect Number if you haven't connected it yet."
   },
   "noMinCommitment": {
-    "header": "Füge den Minimalguthaben hinzu",
-    "earningText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}}.",
+    "header": "Add a minimum balance",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
-    "header": "Deinen Guthaben sicher halten",
-    "text": "Wiederherstellungsphrase einrichten."
+    "header": "Set up your Recovery Phrase",
+    "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
