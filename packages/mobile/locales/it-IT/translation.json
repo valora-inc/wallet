@@ -450,7 +450,7 @@
   "saltFetchFailure": "Impossibile recuperare il segreto del numero telefonico.",
   "saltQuotaExceededError": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
   "maxActionableAttestationsExceededError": "Impossibile inviare nuovamente i messaggi.",
-  "odisInsufficientBalance": "Conferma il tuo numero prima di inviare cUSD a un contatto.",
+  "odisInsufficientBalance": "Please confirm your number",
   "matchmakingQuotaExceededError": "Il matchmaking può essere eseguito solo una volta.",
   "paymentLimitReached": "Il limite quotidiano è pari a {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}}).\nRimangono {{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}).",
   "requestLimitError": "Impossibile richiedere un importo superiore al limite quotidiano di {{limit}} cUSD.",
