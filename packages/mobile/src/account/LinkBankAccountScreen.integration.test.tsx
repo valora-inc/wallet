@@ -24,7 +24,7 @@ jest.mock('src/in-house-liquidity', () => ({
   createPersonaAccount: jest.fn(() => mockResponse),
 }))
 
-describe('LinkBankAccountScreen', () => {
+describe('LinkBankAccountScreen: integration tests (using real Persona component, for instance)', () => {
   beforeEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()

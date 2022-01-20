@@ -83,7 +83,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     })
 
     if (!response.ok) {
-      Logger.error(
+      Logger.warn(
         TAG + '@authorizeURLs',
         'Error authorizing urls ' + response.headers.get('location')
       )

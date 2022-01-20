@@ -352,7 +352,6 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
-    dappListApiUri: null,
     bitfyUrl: null,
     flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
@@ -878,10 +877,24 @@ export const v27Schema = {
   },
   app: {
     ...v26Schema.app,
+
     superchargeButtonType: SuperchargeButtonType.PillRewards,
   },
 }
 
+export const v28Schema = {
+  ...v27Schema,
+  _persist: {
+    ...v27Schema._persist,
+    version: 28,
+  },
+  app: {
+    ...v27Schema.app,
+    dappListApiUrl: null,
+    dappsExplorerEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v27Schema as Partial<RootState>
+  return v28Schema as Partial<RootState>
 }

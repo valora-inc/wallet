@@ -37,11 +37,11 @@ export function* fetchPhoneHashPrivate(e164Number: string) {
     return details
   } catch (error) {
     if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
-      Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'Salt quota exceeded')
+      Logger.warn(`${TAG}@fetchPhoneHashPrivate`, 'Salt quota exceeded')
 
       const isBalanceSufficientForQuota = yield select(isBalanceSufficientForSigRetrievalSelector)
       if (!isBalanceSufficientForQuota) {
-        Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'ODIS insufficient balance', error)
+        Logger.debug(`${TAG}@fetchPhoneHashPrivate`, 'ODIS insufficient balance', error)
         throw new Error(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
       }
 

@@ -6,6 +6,7 @@ import {
   validateMnemonic,
 } from '@celo/utils/lib/account'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
+import { Task } from '@redux-saga/types'
 import * as bip39 from 'react-native-bip39'
 import {
   call,
@@ -19,7 +20,6 @@ import {
   spawn,
   takeLeading,
 } from 'redux-saga/effects'
-import { Task } from '@redux-saga/types'
 import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -103,7 +103,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // If the input phrase was invalid, and the correct phrase could not be found automatically,
     // report an error to the user.
     if (mnemonic === undefined) {
-      Logger.error(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
+      Logger.warn(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
       if (invalidWords !== undefined && invalidWords.length > 0) {
         yield put(
           showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {

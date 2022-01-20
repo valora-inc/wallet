@@ -17,8 +17,8 @@ interface Props {
   image?: ImageSourcePropType
   title?: string | React.ReactNode
   children: React.ReactNode
-  actionText: string
-  actionPress: () => void
+  actionText?: string
+  actionPress?: () => void
   secondaryActionText?: string
   secondaryActionDisabled?: boolean
   secondaryActionPress?: () => void
@@ -61,13 +61,17 @@ export default function Dialog({
         {showLoading ? (
           <ActivityIndicator style={styles.primary} size="small" color={colors.greenUI} />
         ) : (
-          <TextButton
-            style={styles.primary}
-            onPress={actionPress}
-            testID={testID && `${testID}/PrimaryAction`}
-          >
-            {actionText}
-          </TextButton>
+          <>
+            {actionText && (
+              <TextButton
+                style={styles.primary}
+                onPress={actionPress}
+                testID={testID && `${testID}/PrimaryAction`}
+              >
+                {actionText}
+              </TextButton>
+            )}
+          </>
         )}
       </View>
     </Modal>

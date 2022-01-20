@@ -10,19 +10,26 @@ import {
   completeWeb3Sync,
   setAccount,
   setDataEncryptionKey,
+  setMtwAddress,
   updateWeb3SyncProgress,
 } from 'src/web3/actions'
 import { getWeb3Async } from 'src/web3/contracts'
 import {
   checkWeb3SyncProgress,
+  getMTWAddress,
   getOrCreateAccount,
+  getWalletAddress,
   SYNC_TIMEOUT,
   waitForWeb3Sync,
 } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import {
+  currentAccountSelector,
+  mtwAddressSelector,
+  walletAddressSelector,
+} from 'src/web3/selectors'
 import { BLOCK_AGE_LIMIT } from 'src/web3/utils'
 import { createMockStore, sleep } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
 
 const LAST_BLOCK_NUMBER = 200
 
@@ -35,7 +42,9 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigateToError: jest.fn().mockReturnValueOnce(undefined),
 }))
 
-const state = createMockStore({ web3: { account: mockAccount } }).getState()
+const state = createMockStore({
+  web3: { account: mockAccount, mtwAddress: mockAccount2 },
+}).getState()
 
 describe(getOrCreateAccount, () => {
   it('returns an existing account', async () => {
@@ -90,6 +99,55 @@ describe(getOrCreateAccount, () => {
       expect(isValidChecksumAddress(returnValue)).toBe(true)
     }
   )
+})
+
+describe('Address getters', () => {
+  it('getWalletAddress: unit test', async () => {
+    const EXPECTED_WALLET_ADDRESS = '0xabc'
+    await expectSaga(getWalletAddress)
+      .withState(state)
+      .provide([[select(walletAddressSelector), EXPECTED_WALLET_ADDRESS]])
+      .returns(EXPECTED_WALLET_ADDRESS)
+      .run()
+  })
+
+  it('getWalletAddress + walletAddressSelector: integration test, case where wallet address already set', async () => {
+    await expectSaga(getWalletAddress).withState(state).returns(mockAccount.toLowerCase()).run()
+  })
+
+  it('getMTWAddress + walletAddressSelector: integration test, case where wallet address is set with dispatched action', async () => {
+    const state = createMockStore({
+      web3: { account: null },
+    }).getState()
+    await expectSaga(getWalletAddress)
+      .withState(state)
+      .dispatch(setAccount(mockAccount3))
+      .returns(mockAccount3.toLowerCase())
+      .run()
+  })
+
+  it('getMTWAddress: unit test', async () => {
+    const EXPECTED_MTW_ADDRESS = '0x123'
+    await expectSaga(getMTWAddress)
+      .withState(state)
+      .provide([[select(mtwAddressSelector), EXPECTED_MTW_ADDRESS]])
+      .returns(EXPECTED_MTW_ADDRESS)
+      .run()
+  })
+
+  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW already set', async () => {
+    await expectSaga(getMTWAddress).withState(state).returns(mockAccount2).run()
+  })
+  it('getMTWAddress + mtwAddressSelector: integration test, case where MTW is set with dispatched action', async () => {
+    const state = createMockStore({
+      web3: { account: mockAccount, mtwAddress: null },
+    }).getState()
+    await expectSaga(getMTWAddress)
+      .withState(state)
+      .dispatch(setMtwAddress(mockAccount3))
+      .returns(mockAccount3.toLowerCase())
+      .run()
+  })
 })
 
 describe(waitForWeb3Sync, () => {
