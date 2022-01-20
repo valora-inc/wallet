@@ -68,6 +68,10 @@ export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
 
+export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
+  return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
+})
+
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
   const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)

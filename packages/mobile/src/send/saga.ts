@@ -7,7 +7,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { calculateFee, FeeInfo } from 'src/fees/saga'
+import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
@@ -104,7 +104,7 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas, currency)
+    return calculateFee(gas, await currencyToFeeCurrency(currency))
   } catch (error) {
     throw error
   }
@@ -301,8 +301,7 @@ function* sendPayment(
       tx,
       userAddress,
       context,
-      undefined,
-      feeInfo.currency,
+      feeInfo.feeCurrency,
       feeInfo.gas ? Number(feeInfo.gas) : undefined,
       feeInfo.gasPrice
     )

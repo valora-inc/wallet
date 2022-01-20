@@ -319,14 +319,12 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       )
     }
 
+    // TODO: Pay for fees in the makerToken
     yield call(
       sendTransaction,
       approveTx.txo,
       account,
-      newTransactionContext(TAG, `Approve exchange of ${makerToken}`),
-      undefined, // gas
-      undefined, // gasPrice
-      makerToken
+      newTransactionContext(TAG, `Approve exchange of ${makerToken}`)
     )
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
@@ -352,8 +350,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       tx,
       account,
       context,
-      undefined, // currency, undefined because it's an exchange and we need both.
-      makerToken,
+      undefined,
       undefined, // gas
       undefined, // gasPrice
       nonce + 1
@@ -478,7 +475,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       }
     )
 
-    yield call(sendAndMonitorTransaction, tx, account, context, Currency.Celo, Currency.Celo)
+    yield call(sendAndMonitorTransaction, tx, account, context)
 
     const dollarAmount = yield call(celoToDollarAmount, amount)
     yield put(sendPaymentOrInviteSuccess(dollarAmount))

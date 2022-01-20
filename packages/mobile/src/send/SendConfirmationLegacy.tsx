@@ -64,6 +64,7 @@ import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
+import { coreTokensSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
@@ -93,6 +94,7 @@ function SendConfirmationLegacy(props: Props) {
   const [comment, setComment] = useState('')
   const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
   const [showingTokenChooser, showTokenChooser] = useState(false)
+  const coreTokens = useSelector(coreTokensSelector)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -266,12 +268,11 @@ function SendConfirmationLegacy(props: Props) {
 
     // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
     // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
-    const amountWithFee =
-      asyncFee.result?.currency !== Currency.Celo ? amount.plus(fee ?? 0) : amount
+    const amountWithFee = asyncFee.result?.feeCurrency ? amount.plus(fee ?? 0) : amount
     const userHasEnough =
       !asyncFee.loading &&
       amountWithFee.isLessThanOrEqualTo(balance) &&
-      (asyncFee.result?.currency !== Currency.Celo ||
+      (!!asyncFee.result?.feeCurrency ||
         !fee ||
         fee?.isLessThanOrEqualTo(celoBalance ?? new BigNumber(0)))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
@@ -325,12 +326,19 @@ function SendConfirmationLegacy(props: Props) {
         showTokenChooser(true)
       }
 
+      const feeToken = coreTokens.find((token) => token.address === asyncFee.result?.feeCurrency)
+      const feeCurrency = !feeToken
+        ? Currency.Celo
+        : feeToken.symbol === 'cUSD'
+        ? Currency.Dollar
+        : Currency.Euro
+
       return (
         <View style={styles.feeContainer}>
           <FeeDrawer
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
-            currency={asyncFee.result?.currency}
+            currency={feeCurrency}
             securityFee={securityFee}
             showDekfee={!isDekRegistered}
             dekFee={dekFee}

@@ -19,7 +19,7 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { useFeeTokenAddress } from 'src/fees/hooks'
+import { useFeeCurrency } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
@@ -107,7 +107,7 @@ function useFeeToReduceFromMaxButtonInToken(
   recipientVerificationStatus: RecipientVerificationStatus
 ) {
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeTokenAddress = useFeeTokenAddress()
+  const feeTokenAddress = useFeeCurrency()
 
   const feeType =
     recipientVerificationStatus === RecipientVerificationStatus.VERIFIED

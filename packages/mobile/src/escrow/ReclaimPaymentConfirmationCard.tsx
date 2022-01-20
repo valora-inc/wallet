@@ -11,6 +11,8 @@ import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import { MobileRecipient } from 'src/recipients/recipient'
+import useSelector from 'src/redux/useSelector'
+import { coreTokensSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
@@ -38,10 +40,18 @@ export default function ReclaimPaymentConfirmationCard({
     currencyCode: currency,
   }
   const fee = getFeeInTokens(feeInfo?.fee)
+
+  const coreTokens = useSelector(coreTokensSelector)
+  const feeToken = coreTokens.find((token) => token.address === feeInfo?.feeCurrency)
+  const feeCurrency = !feeToken
+    ? Currency.Celo
+    : feeToken.symbol === 'cUSD'
+    ? Currency.Dollar
+    : Currency.Euro
   const securityFeeAmount = fee &&
     feeInfo && {
       value: fee.negated(),
-      currencyCode: feeInfo.currency,
+      currencyCode: feeCurrency,
     }
   const totalAmount = {
     value: amountProp.minus(fee ?? 0),

@@ -5,8 +5,8 @@ import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
+import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { Balances, balancesSelector } from 'src/stableToken/selectors'
-import { getCurrencyAddress } from 'src/tokens/saga'
 import {
   sendTransactionAsync,
   SendTransactionLogEvent,
@@ -134,7 +134,7 @@ export function* sendTransactionPromises(
   tx: CeloTxObject<any>,
   account: string,
   context: TransactionContext,
-  preferredFeeCurrency: Currency = Currency.Dollar,
+  feeCurrency: string | undefined,
   gas?: number,
   gasPrice?: BigNumber,
   nonce?: number
@@ -145,35 +145,13 @@ export function* sendTransactionPromises(
   )
 
   const fornoMode: boolean = yield select(fornoSelector)
-  const feeCurrency: Currency = yield call(chooseFeeCurrency, preferredFeeCurrency)
 
   if (gas || gasPrice) {
     Logger.debug(
       `${TAG}@sendTransactionPromises`,
-      `Using provided gas parameters: ${gas} gas @ ${gasPrice} ${preferredFeeCurrency}`
+      `Using provided gas parameters: ${gas} gas @ ${gasPrice} ${feeCurrency}`
     )
   }
-
-  if (preferredFeeCurrency && feeCurrency !== preferredFeeCurrency) {
-    Logger.warn(
-      `${TAG}@sendTransactionPromises`,
-      `Using fallback fee currency ${feeCurrency} instead of preferred ${preferredFeeCurrency}.`
-    )
-    // If the currency is changed, the gas value and price are invalidated.
-    // TODO: Move the fallback currency logic up the stackso this will never happen.
-    if (gas || gasPrice) {
-      Logger.warn(
-        `${TAG}@sendTransactionPromises`,
-        `Resetting gas parameters because fee currency was changed.`
-      )
-      gas = undefined
-      gasPrice = undefined
-    }
-  }
-
-  // Pass undefined to use CELO to pay for gas.
-  const feeCurrencyAddress: string | undefined =
-    feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
   Logger.debug(
     `${TAG}@sendTransactionPromises`,
@@ -196,7 +174,7 @@ export function* sendTransactionPromises(
     sendTransactionAsync,
     tx,
     account,
-    feeCurrencyAddress,
+    feeCurrency,
     getLogger(context, fornoMode),
     gas,
     gasPrice?.toString(),
@@ -213,8 +191,11 @@ export function* sendTransaction(
   context: TransactionContext,
   gas?: number,
   gasPrice?: BigNumber,
-  feeCurrency?: Currency
+  preferredFeeCurrency?: string | undefined
 ) {
+  const feeCurrency: string | undefined = preferredFeeCurrency
+    ? preferredFeeCurrency
+    : yield call(fetchFeeCurrencySaga)
   const sendTxMethod = function* (nonce?: number) {
     const { receipt } = yield call(
       sendTransactionPromises,
