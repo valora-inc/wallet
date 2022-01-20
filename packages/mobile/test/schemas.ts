@@ -865,8 +865,6 @@ export const v26Schema = {
   },
   app: {
     ...v25Schema.app,
-    biometryEnabled: false,
-    supportedBiometryType: null,
     rampCashInButtonExpEnabled: false,
   },
 }
@@ -897,6 +895,19 @@ export const v28Schema = {
   },
 }
 
+export const v29Schema = {
+  ...v28Schema,
+  _persist: {
+    ...v28Schema._persist,
+    version: 29,
+  },
+  app: {
+    ...v28Schema.app,
+    biometryEnabled: false,
+    supportedBiometryType: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v28Schema as Partial<RootState>
+  return v29Schema as Partial<RootState>
 }

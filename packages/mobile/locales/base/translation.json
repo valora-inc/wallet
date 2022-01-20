@@ -668,14 +668,15 @@
   },
   "enableBiometry": {
     "title": "Secure your wallet",
-    "description": "Face ID secures your wallet and makes it easier to use Valora",
-    "cta": {
-      "useFaceId": "Turn on Face ID",
-      "useTouchId": "Turn on Touch ID",
-      "useFingerprint": "Scan fingerprint",
-      "useFace": "Turn on Face recognition",
-      "useIris": "Turn on Iris recognition"
-    }
+    "description": "{{biometryOption}} secures your wallet and makes it easier to use {{appName}}",
+    "cta": "Turn on {{biometryOption}}"
+  },
+  "biometryOption": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Fingerprint recognition",
+    "Face": "Face recognition",
+    "Iris": "Iris recognition"
   },
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",

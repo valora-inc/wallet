@@ -378,4 +378,12 @@ export const migrations = {
       dappsExplorerEnabled: false,
     },
   }),
+  29: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      biometryEnabled: false,
+      supportedBiometryType: null,
+    },
+  }),
 }
