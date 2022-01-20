@@ -12,12 +12,10 @@ import { useDispatch } from 'react-redux'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { setUseBiometry } from 'src/app/actions'
 import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
-import {
-  default as Face,
-  default as FaceID,
-  default as Fingerprint,
-  default as TouchID,
-} from 'src/icons/biometrics/FaceID'
+import Face from 'src/icons/biometry/Face'
+import FaceID from 'src/icons/biometry/FaceID'
+import Fingerprint from 'src/icons/biometry/Fingerprint'
+import TouchID from 'src/icons/biometry/TouchID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
