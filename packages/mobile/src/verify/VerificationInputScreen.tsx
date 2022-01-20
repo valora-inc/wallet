@@ -58,7 +58,7 @@ interface StateProps {
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   choseToRestoreAccount: boolean | undefined
-  registrationSteps: { step: number; totalSteps: number }
+  registrationStep: { step: number; totalSteps: number }
 }
 
 interface DispatchProps {
@@ -101,7 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     underlyingError: errorSelector(state),
     lastRevealAttempt,
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    registrationSteps: registrationStepsSelector(state),
+    registrationStep: registrationStepsSelector(state),
   }
 }
 
@@ -129,8 +129,8 @@ class VerificationInputScreen extends React.Component<Props, State> {
         subTitle={i18n.t(
           route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
           {
-            step: route.params?.registrationSteps?.step,
-            totalSteps: route.params?.registrationSteps?.totalSteps,
+            step: route.params?.registrationStep?.step,
+            totalSteps: route.params?.registrationStep?.totalSteps,
           }
         )}
       />
@@ -164,14 +164,14 @@ class VerificationInputScreen extends React.Component<Props, State> {
     // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
       choseToRestoreAccount: this.props.choseToRestoreAccount,
-      registrationSteps: this.props.registrationSteps,
+      registrationStep: this.props.registrationStep,
     })
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.registrationSteps.step !== this.props.registrationSteps.step) {
+    if (prevProps.registrationStep.step !== this.props.registrationStep.step) {
       this.props.navigation.setParams({
-        registrationSteps: this.props.registrationSteps,
+        registrationStep: this.props.registrationStep,
       })
     }
     if (this.isVerificationComplete(prevProps)) {

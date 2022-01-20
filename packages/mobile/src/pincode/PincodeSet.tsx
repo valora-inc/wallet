@@ -36,7 +36,7 @@ interface StateProps {
   hideVerification: boolean
   useExpandedBlocklist: boolean
   account: string
-  registrationSteps: { step: number; totalSteps: number }
+  registrationStep: { step: number; totalSteps: number }
   biometryEnabled: boolean
 }
 
@@ -60,7 +60,7 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    registrationSteps: registrationStepsSelector(state),
+    registrationStep: registrationStepsSelector(state),
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
@@ -91,8 +91,8 @@ export class PincodeSet extends React.Component<Props, State> {
                     ? 'restoreAccountSteps'
                     : 'createAccountSteps',
                   {
-                    step: route.params?.registrationSteps?.step,
-                    totalSteps: route.params?.registrationSteps?.totalSteps,
+                    step: route.params?.registrationStep?.step,
+                    totalSteps: route.params?.registrationStep?.totalSteps,
                   }
                 )
           }
@@ -124,14 +124,14 @@ export class PincodeSet extends React.Component<Props, State> {
     // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
       choseToRestoreAccount: this.props.choseToRestoreAccount,
-      registrationSteps: this.props.registrationSteps,
+      registrationStep: this.props.registrationStep,
     })
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.registrationSteps.step !== this.props.registrationSteps.step) {
+    if (prevProps.registrationStep.step !== this.props.registrationStep.step) {
       this.props.navigation.setParams({
-        registrationSteps: this.props.registrationSteps,
+        registrationStep: this.props.registrationStep,
       })
     }
   }

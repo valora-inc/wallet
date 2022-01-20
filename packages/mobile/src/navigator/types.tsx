@@ -189,7 +189,7 @@ export type StackParamList = {
         changePin?: boolean
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
-        registrationSteps?: { step: number; totalSteps: number }
+        registrationStep?: { step: number; totalSteps: number }
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -297,7 +297,7 @@ export type StackParamList = {
     | {
         showHelpDialog?: boolean
         choseToRestoreAccount?: boolean
-        registrationSteps?: { step: number; totalSteps: number }
+        registrationStep?: { step: number; totalSteps: number }
       }
     | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
