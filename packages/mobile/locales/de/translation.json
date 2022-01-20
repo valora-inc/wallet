@@ -450,7 +450,7 @@
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
-  "odisInsufficientBalance": "Bitte bestätige deine Nummer bevor du cUSD an einen Kontakt sendest",
+  "odisInsufficientBalance": "Please confirm your number",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
   "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
