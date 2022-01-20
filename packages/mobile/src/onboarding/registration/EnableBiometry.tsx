@@ -57,7 +57,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={t('enableBiometry.title')}
-          subTitle={t('registrationStep', { step, totalSteps })}
+          subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
       headerRight: () => (

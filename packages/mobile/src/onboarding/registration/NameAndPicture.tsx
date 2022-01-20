@@ -46,7 +46,7 @@ function NameAndPicture({ navigation }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
-          subTitle={t('registrationStep', { step, totalSteps })}
+          subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
     })

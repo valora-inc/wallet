@@ -690,7 +690,7 @@
   },
   "createAccount": "Create Account",
   "restoreAccount": "Restore My Account",
-  "registrationStep": "Step {{step}} of {{totalSteps}}",
+  "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
     "create": "Create a PIN",

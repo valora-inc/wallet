@@ -148,7 +148,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       : () => (
           <HeaderTitleWithSubtitle
             title={t('verificationEducation.title')}
-            subTitle={t('registrationStep', { step, totalSteps })}
+            subTitle={t('registrationSteps', { step, totalSteps })}
           />
         )
 

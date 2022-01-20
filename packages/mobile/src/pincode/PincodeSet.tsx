@@ -86,15 +86,10 @@ export class PincodeSet extends React.Component<Props, State> {
           subTitle={
             changePin
               ? ' '
-              : i18n.t(
-                  route.params?.choseToRestoreAccount
-                    ? 'restoreAccountSteps'
-                    : 'createAccountSteps',
-                  {
-                    step: route.params?.registrationStep?.step,
-                    totalSteps: route.params?.registrationStep?.totalSteps,
-                  }
-                )
+              : i18n.t('registrationSteps', {
+                  step: route.params?.registrationStep?.step,
+                  totalSteps: route.params?.registrationStep?.totalSteps,
+                })
           }
         />
       ),
