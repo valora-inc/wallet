@@ -8,7 +8,7 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { initializeAccount, setPincode, setPincodeSuccess } from 'src/account/actions'
+import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -41,7 +41,6 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setPincode: typeof setPincode
   initializeAccount: typeof initializeAccount
   setPincodeSuccess: typeof setPincodeSuccess
 }
@@ -70,7 +69,6 @@ function mapStateToProps(state: RootState): StateProps {
 }
 
 const mapDispatchToProps = {
-  setPincode,
   initializeAccount,
   setPincodeSuccess,
 }
