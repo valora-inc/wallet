@@ -132,13 +132,13 @@ type CreateAccountScreens = Extract<
 
 type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
 
-let createAccountSteps: { [key in CreateAccountScreens]: number } = {
+const createAccountSteps: { [key in CreateAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
   [Screens.VerificationEducationScreen]: 3,
   [Screens.VerificationInputScreen]: 3,
 }
-let restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
+const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
   [Screens.ImportWallet]: 3,
