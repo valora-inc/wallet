@@ -677,6 +677,7 @@
       "useIris": "Turn on Iris recognition"
     }
   },
+  "useBiometryOption": "Use {{option}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
