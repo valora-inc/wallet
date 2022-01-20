@@ -20,9 +20,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
-import useRegistrationStep, {
-  REGISTRATION_STEP,
-} from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -38,7 +36,7 @@ function NameAndPicture({ navigation }: Props) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
-  const registrationStep = useRegistrationStep(REGISTRATION_STEP.NAME_AND_PICTURE)
+  const registrationStep = useRegistrationStep()
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()

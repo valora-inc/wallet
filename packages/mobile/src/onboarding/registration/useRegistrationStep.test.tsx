@@ -1,9 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks'
 import React from 'react'
 import { Provider } from 'react-redux'
-import useRegistrationStep, {
-  REGISTRATION_STEP,
-} from 'src/onboarding/registration/useRegistrationStep'
+import { Screens } from 'src/navigator/Screens'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { createMockStore } from 'test/utils'
 
 const renderHookWithProvider = (choseToRestoreAccount: boolean) => {
@@ -11,8 +10,11 @@ const renderHookWithProvider = (choseToRestoreAccount: boolean) => {
     account: {
       choseToRestoreAccount,
     },
+    app: {
+      activeScreen: Screens.NameAndPicture,
+    },
   })
-  return renderHook(() => useRegistrationStep(REGISTRATION_STEP.NAME_AND_PICTURE), {
+  return renderHook(() => useRegistrationStep(), {
     wrapper: (component) => (
       <Provider store={store}>{component?.children ? component.children : component}</Provider>
     ),

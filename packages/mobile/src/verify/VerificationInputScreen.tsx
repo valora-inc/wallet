@@ -19,7 +19,7 @@ import { connect, useDispatch } from 'react-redux'
 import { hideAlert, showError, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { totalRegistrationStepsSelector } from 'src/app/selectors'
+import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -58,7 +58,7 @@ interface StateProps {
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   choseToRestoreAccount: boolean | undefined
-  totalRegistrationSteps: number
+  registrationSteps: { step: number; totalSteps: number }
 }
 
 interface DispatchProps {
@@ -101,7 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     underlyingError: errorSelector(state),
     lastRevealAttempt,
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    totalRegistrationSteps: totalRegistrationStepsSelector(state),
+    registrationSteps: registrationStepsSelector(state),
   }
 }
 
@@ -129,8 +129,8 @@ class VerificationInputScreen extends React.Component<Props, State> {
         subTitle={i18n.t(
           route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
           {
-            step: route.params?.totalRegistrationSteps,
-            totalSteps: route.params?.totalRegistrationSteps,
+            step: route.params?.registrationSteps?.step,
+            totalSteps: route.params?.registrationSteps?.totalSteps,
           }
         )}
       />
@@ -164,11 +164,16 @@ class VerificationInputScreen extends React.Component<Props, State> {
     // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
       choseToRestoreAccount: this.props.choseToRestoreAccount,
-      totalRegistrationSteps: this.props.totalRegistrationSteps,
+      registrationSteps: this.props.registrationSteps,
     })
   }
 
   componentDidUpdate(prevProps: Props) {
+    if (prevProps.registrationSteps.step !== this.props.registrationSteps.step) {
+      this.props.navigation.setParams({
+        registrationSteps: this.props.registrationSteps,
+      })
+    }
     if (this.isVerificationComplete(prevProps)) {
       return this.finishVerification()
     }

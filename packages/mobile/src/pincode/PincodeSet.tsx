@@ -12,7 +12,7 @@ import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { biometryEnabledSelector, totalRegistrationStepsSelector } from 'src/app/selectors'
+import { biometryEnabledSelector, registrationStepsSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -36,7 +36,7 @@ interface StateProps {
   hideVerification: boolean
   useExpandedBlocklist: boolean
   account: string
-  totalRegistrationSteps: number
+  registrationSteps: { step: number; totalSteps: number }
   biometryEnabled: boolean
 }
 
@@ -60,7 +60,7 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    totalRegistrationSteps: totalRegistrationStepsSelector(state),
+    registrationSteps: registrationStepsSelector(state),
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
@@ -90,7 +90,10 @@ export class PincodeSet extends React.Component<Props, State> {
                   route.params?.choseToRestoreAccount
                     ? 'restoreAccountSteps'
                     : 'createAccountSteps',
-                  { step: '2', totalSteps: route.params?.totalRegistrationSteps }
+                  {
+                    step: route.params?.registrationSteps?.step,
+                    totalSteps: route.params?.registrationSteps?.totalSteps,
+                  }
                 )
           }
         />
@@ -121,8 +124,16 @@ export class PincodeSet extends React.Component<Props, State> {
     // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
       choseToRestoreAccount: this.props.choseToRestoreAccount,
-      totalRegistrationSteps: this.props.totalRegistrationSteps,
+      registrationSteps: this.props.registrationSteps,
     })
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.registrationSteps.step !== this.props.registrationSteps.step) {
+      this.props.navigation.setParams({
+        registrationSteps: this.props.registrationSteps,
+      })
+    }
   }
 
   isChangingPin() {

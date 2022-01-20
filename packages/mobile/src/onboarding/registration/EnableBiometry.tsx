@@ -23,9 +23,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep, {
-  REGISTRATION_STEP,
-} from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { default as useSelector } from 'src/redux/useSelector'
 
 type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
@@ -53,7 +51,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep(REGISTRATION_STEP.ENABLE_BIOMETRY)
+  const registrationStep = useRegistrationStep()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,7 +67,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
         />
       ),
     })
-  }, [navigation])
+  }, [navigation, registrationStep])
 
   const onPressUseBiometry = async () => {
     dispatch(setUseBiometry(true))

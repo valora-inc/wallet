@@ -32,9 +32,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep, {
-  REGISTRATION_STEP,
-} from 'src/onboarding/registration/useRegistrationStep'
+import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
@@ -91,7 +89,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep(REGISTRATION_STEP.PHONE_VERIFICATION)
+  const registrationStep = useRegistrationStep()
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
