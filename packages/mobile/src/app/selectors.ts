@@ -118,6 +118,8 @@ export const useBiometrySelector = (state: RootState) => state.app.useBiometry
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
+export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
+
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 type CreateAccountScreens = Extract<

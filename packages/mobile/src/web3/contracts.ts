@@ -90,12 +90,17 @@ export function* initContractKit() {
     } catch (error) {
       if (isProviderConnectionError(error)) {
         retries -= 1
-        Logger.error(
+        Logger.warn(
           `${TAG}@initContractKit`,
           `Error initializing kit, could not connect to IPC. Retries remaining: ${retries}`,
           error
         )
         if (retries <= 0) {
+          Logger.error(
+            `${TAG}@initContractKit`,
+            `Error initializing kit, could not connect to IPC.`,
+            error
+          )
           break
         }
 
