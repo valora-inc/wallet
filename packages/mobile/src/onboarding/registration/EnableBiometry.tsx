@@ -38,7 +38,7 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.IRIS]: <Face />,
 }
 
-export default function EnableBiometry({ navigation, route }: Props) {
+export default function EnableBiometry({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -72,7 +72,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
     } catch (error) {
-      Logger.warn(TAG, 'Error enabling biometrics', error)
+      Logger.error(TAG, 'Error enabling biometrics', error)
     }
   }
 

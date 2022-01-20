@@ -137,7 +137,7 @@ export async function ensurePincode(): Promise<boolean> {
       await getPincodeWithBiometrics()
       return true
     } catch (error) {
-      Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometrics error`, error)
+      Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometrics error`, error)
     }
   }
 
