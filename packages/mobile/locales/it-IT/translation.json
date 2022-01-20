@@ -160,20 +160,20 @@
       "text": "Chiunque conosca la tua frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
     }
   ],
-  "consumerIncentivesTitle": "Incrementa le tue ricompense",
-  "consumerIncentivesSummary": "I bonus sono ora disponibili. Ottieni ricompense annue del {{percent}}% sul tuo saldo in {{currency}}. L’offerta è valida per un periodo limitato, quindi approfittane.",
+  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
-    "header": "Pagamento settimanale",
-    "text": "Invia e spendi come al solito, otterrai una ricompensa sul saldo rimanente."
+    "header": "Collega il tuo numero telefonico",
+    "text": "Tap Connect Number if you haven't connected it yet."
   },
   "noMinCommitment": {
-    "header": "Ricompense automatiche",
-    "earningText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} per iniziare a ottenere ricompense.",
+    "header": "Add a minimum balance",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
-    "header": "Incrementa il tuo saldo",
-    "text": "Deposita {{maxBalance}} {{currency}} per portare al massimo le tue ricompense annue del {{percent}}%."
+    "header": "Set up your Recovery Phrase",
+    "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "cashIn": "Aggiungi {{currency}}",
