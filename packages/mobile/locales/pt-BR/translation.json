@@ -160,20 +160,20 @@
       "text": "Qualquer pessoa com sua frase terá acesso à sua conta e a todos os seus fundos. Não compartilhe com outras pessoas."
     }
   ],
-  "consumerIncentivesTitle": "Aumente suas recompensas",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Quer começar a adicionar fundos? Então corra, porque é por tempo limitado!",
+  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
-    "text": "Vincule sua conta da Valora á seu número de celular."
+    "text": "Tap Connect Number if you haven't connected it yet."
   },
   "noMinCommitment": {
-    "header": "Adicione fundos",
-    "earningText": "Adicione {{minBalance}} {{currency}} ou mais.",
+    "header": "Add a minimum balance",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Mantê-los seguros",
-    "text": "Crie sua Frase de Recuperação no Menu."
+    "header": "Set up your Recovery Phrase",
+    "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
