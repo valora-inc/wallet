@@ -14,6 +14,7 @@ plist_keys=(
   NSPhotoLibraryAddUsageDescription
   NSPhotoLibraryUsageDescription
   NSUserTrackingUsageDescription
+  NSFaceIDUsageDescription
 )
 
 info_plist_strings="ios/celo/Base.lproj/InfoPlist.strings"
