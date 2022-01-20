@@ -450,7 +450,7 @@
   "saltFetchFailure": "Impossible de récupérer le numéro de téléphone secret",
   "saltQuotaExceededError": "Le quota de recherches de votre numéro de téléphone est épuisé",
   "maxActionableAttestationsExceededError": "Impossible de renvoyer les messages",
-  "odisInsufficientBalance": "Veuillez confirmer votre numéro avant d'envoyer des cUSD à un contact",
+  "odisInsufficientBalance": "Please confirm your number",
   "matchmakingQuotaExceededError": "La recherche de groupe ne peut être effectuée qu'une seule fois",
   "paymentLimitReached": "La limite quotidienne est de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restants",
   "requestLimitError": "Impossible de demander plus que la limite quotidienne de {{limit}} cUSD.",
