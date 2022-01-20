@@ -1,8 +1,9 @@
 import { RemoteConfigValues } from 'src/app/saga'
+import { SuperchargeButtonType } from 'src/app/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUri'
+  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers'
 > & { komenciAllowedDeployers: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
@@ -36,4 +37,8 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryEnabled: false,
+  dappListApiUrl:
+    'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
+  dappsExplorerEnabled: true,
+  superchargeButtonType: SuperchargeButtonType.PillRewards,
 }

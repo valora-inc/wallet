@@ -1,21 +1,22 @@
-import * as React from 'react'
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, StyleSheet } from 'react-native'
 import { openLink } from 'react-native-plaid-link-sdk'
+import { useDispatch, useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { createLinkToken } from 'src/in-house-liquidity'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import {
   dataEncryptionKeySelector,
   mtwAddressSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
-import { currentLanguageSelector } from 'src/i18n/selectors'
-import { e164NumberSelector } from 'src/account/selectors'
-import Logger from 'src/utils/Logger'
-import { useTranslation } from 'react-i18next'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { Platform, StyleSheet } from 'react-native'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 
 const TAG = 'PLAID'
 
@@ -32,7 +33,7 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
 
   const onPress = async () => {
     if (!accountMTWAddress) {
-      Logger.error(TAG, "Can't render Plaid because accountMTWAddress is null")
+      Logger.warn(TAG, "Can't render Plaid because accountMTWAddress is null")
       return
     }
     if (!walletAddress) {
@@ -43,24 +44,24 @@ const PlaidLinkButton = ({ disabled }: { disabled: boolean }) => {
       Logger.error(TAG, "Can't render Plaid because dekPrivate is null")
       return
     }
-    const IHLResponse = await createLinkToken({
+    const linkTokenResponse = await createLinkToken({
       accountMTWAddress,
       dekPrivate,
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,
     })
-    if (!IHLResponse.ok) {
+    if (!linkTokenResponse.ok) {
       dispatch(showError(ErrorMessages.PLAID_CREATE_LINK_TOKEN_FAIL))
       return
     }
-    const { linkToken } = await IHLResponse.json()
+    const { linkToken } = await linkTokenResponse.json()
     return openLink({
       tokenConfig: { token: linkToken },
-      onSuccess: ({ publicToken, metadata }) => {
-        // TODO(wallet#1448): call the POST /plaid/access-token/exchange IHL endpoint.
-        // TODO(wallet#1448): create a counter-party with finclusive using the POST /account/counter-party endpoint
-        // TODO(wallet#1449): redirect to Bank Account List Page
+      onSuccess: async ({ publicToken }) => {
+        navigate(Screens.SyncBankAccountScreen, {
+          publicToken,
+        })
       },
       onExit: () => {
         // TODO(wallet#1447): handle errors from onExit

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 
@@ -33,6 +34,7 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
+    Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
     console.info(`${tag} :: ${message} :: ${errorMsg}`)
     if (__DEV__) {
       console.info(console.trace())

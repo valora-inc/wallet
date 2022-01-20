@@ -53,6 +53,39 @@ const locales: Locales = {
       return require('date-fns/locale/de')
     },
   },
+  'ru-RU': {
+    name: 'Pyccкий',
+    get strings() {
+      return {
+        translation: require('./ru-RU/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/ru')
+    },
+  },
+  'fr-FR': {
+    name: 'Français',
+    get strings() {
+      return {
+        translation: require('./fr-FR/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/fr')
+    },
+  },
+  'it-IT': {
+    name: 'Italiano',
+    get strings() {
+      return {
+        translation: require('./it-IT/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/it')
+    },
+  },
 }
 
 export default locales

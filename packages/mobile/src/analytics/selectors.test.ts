@@ -162,7 +162,7 @@ describe('getCurrentUserTraits', () => {
       ceurBalance: 20,
       countryCodeAlpha2: 'US',
       cusdBalance: 10,
-      deviceId: 'unknown',
+      deviceId: 'abc-def-123',
       deviceLanguage: 'en-US',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,

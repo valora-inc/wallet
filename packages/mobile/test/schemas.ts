@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
@@ -351,7 +352,6 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
-    dappListApiUri: null,
     bitfyUrl: null,
     flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
@@ -869,6 +869,32 @@ export const v26Schema = {
   },
 }
 
+export const v27Schema = {
+  ...v26Schema,
+  _persist: {
+    ...v26Schema._persist,
+    version: 27,
+  },
+  app: {
+    ...v26Schema.app,
+
+    superchargeButtonType: SuperchargeButtonType.PillRewards,
+  },
+}
+
+export const v28Schema = {
+  ...v27Schema,
+  _persist: {
+    ...v27Schema._persist,
+    version: 28,
+  },
+  app: {
+    ...v27Schema.app,
+    dappListApiUrl: null,
+    dappsExplorerEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v26Schema as Partial<RootState>
+  return v28Schema as Partial<RootState>
 }

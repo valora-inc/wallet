@@ -87,6 +87,7 @@ export type StackParamList = {
   [Screens.DappKitTxDataScreen]: {
     dappKitData: TxToSignParam['txData']
   }
+  [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: undefined
   [Screens.ErrorScreen]: {
@@ -257,6 +258,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
+  [Screens.SyncBankAccountScreen]: {
+    publicToken: string
+  }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
