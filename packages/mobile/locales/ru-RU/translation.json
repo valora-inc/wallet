@@ -450,7 +450,7 @@
   "saltFetchFailure": "Не удалось получить секрет номера телефона",
   "saltQuotaExceededError": "Квота поиска номера телефона исчерпана",
   "maxActionableAttestationsExceededError": "Сбой при повторной отправке сообщений",
-  "odisInsufficientBalance": "Подтвердите номер перед отправкой cUSD контакту",
+  "odisInsufficientBalance": "Please confirm your number",
   "matchmakingQuotaExceededError": "Подбор соответствий можно выполнить только один раз",
   "paymentLimitReached": "Ежедневный лимит составляет {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) осталось",
   "requestLimitError": "Не удастся запросить больше {{limit}} cUSD в рамках дневного лимита.",
