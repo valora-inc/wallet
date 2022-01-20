@@ -14,6 +14,7 @@ import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/a
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { registrationStepsSelector } from 'src/app/selectors'
 import {
   countMnemonicWords,
   formatBackupPhraseOnEdit,
@@ -29,7 +30,6 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { isAppConnected } from 'src/redux/selectors'
@@ -56,10 +56,10 @@ function ImportWallet({ navigation, route }: Props) {
   const appConnected = useSelector(isAppConnected)
   const isRecoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const registrationStep = useRegistrationStep()
 
   async function autocompleteSavedMnemonic() {
     if (!accountToRecoverFromStoreWipe) {
@@ -82,10 +82,13 @@ function ImportWallet({ navigation, route }: Props) {
         />
       ),
       headerTitle: () => (
-        <HeaderTitleWithSubtitle title={t('importIt')} subTitle={registrationStep} />
+        <HeaderTitleWithSubtitle
+          title={t('importIt')}
+          subTitle={t('registrationStep', { step, totalSteps })}
+        />
       ),
     })
-  }, [navigation, registrationStep])
+  }, [navigation, step, totalSteps])
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)

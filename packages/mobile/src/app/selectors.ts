@@ -144,8 +144,8 @@ let restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
   [Screens.VerificationInputScreen]: 4,
 }
 
-// The logic in this selector could be moved to the useRegistrationStep hook when all
-// registration screens are functional components
+// The logic in this selector should be moved to a hook when all registration
+// screens are function components
 export const registrationStepsSelector = createSelector(
   [choseToRestoreAccountSelector, biometryEnabledSelector, activeScreenSelector],
   (chooseRestoreAccount, biometryEnabled, activeScreen) => {

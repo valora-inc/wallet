@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { setUseBiometry } from 'src/app/actions'
-import { supportedBiometryTypeSelector } from 'src/app/selectors'
+import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import {
   default as Face,
   default as FaceID,
@@ -23,7 +23,6 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { default as useSelector } from 'src/redux/useSelector'
 
 type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
@@ -51,12 +50,15 @@ export default function EnableBiometry({ navigation, route }: Props) {
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep()
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <HeaderTitleWithSubtitle title={t('enableBiometry.title')} subTitle={registrationStep} />
+        <HeaderTitleWithSubtitle
+          title={t('enableBiometry.title')}
+          subTitle={t('registrationStep', { step, totalSteps })}
+        />
       ),
       headerRight: () => (
         <TopBarTextButton
@@ -67,7 +69,7 @@ export default function EnableBiometry({ navigation, route }: Props) {
         />
       ),
     })
-  }, [navigation, registrationStep])
+  }, [navigation, step, totalSteps])
 
   const onPressUseBiometry = async () => {
     dispatch(setUseBiometry(true))

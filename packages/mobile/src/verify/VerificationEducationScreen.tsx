@@ -21,7 +21,11 @@ import { showError } from 'src/alert/actions'
 import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
+import {
+  hideVerificationSelector,
+  numberVerifiedSelector,
+  registrationStepsSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -32,7 +36,6 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
@@ -89,7 +92,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep()
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -145,7 +148,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       : () => (
           <HeaderTitleWithSubtitle
             title={t('verificationEducation.title')}
-            subTitle={registrationStep}
+            subTitle={t('registrationStep', { step, totalSteps })}
           />
         )
 
@@ -162,7 +165,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         ),
       headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
     })
-  }, [navigation, registrationStep, route.params])
+  }, [navigation, step, totalSteps, route.params])
 
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2
