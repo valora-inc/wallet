@@ -1,5 +1,9 @@
 import { createSelector } from 'reselect'
-import { choseToRestoreAccountSelector, e164NumberSelector } from 'src/account/selectors'
+import {
+  choseToRestoreAccountSelector,
+  e164NumberSelector,
+  recoveringFromStoreWipeSelector,
+} from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -122,6 +126,13 @@ export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListA
 
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
+type StoreWipeRecoveryScreens = Extract<
+  Screens,
+  | Screens.NameAndPicture
+  | Screens.ImportWallet
+  | Screens.VerificationEducationScreen
+  | Screens.VerificationInputScreen
+>
 type CreateAccountScreens = Extract<
   Screens,
   | Screens.NameAndPicture
@@ -129,9 +140,14 @@ type CreateAccountScreens = Extract<
   | Screens.VerificationEducationScreen
   | Screens.VerificationInputScreen
 >
-
 type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
 
+const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.ImportWallet]: 2,
+  [Screens.VerificationEducationScreen]: 3,
+  [Screens.VerificationInputScreen]: 3,
+}
 const createAccountSteps: { [key in CreateAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
@@ -149,10 +165,19 @@ const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
 // The logic in this selector should be moved to a hook when all registration
 // screens are function components
 export const registrationStepsSelector = createSelector(
-  [choseToRestoreAccountSelector, biometryEnabledSelector, activeScreenSelector],
-  (chooseRestoreAccount, biometryEnabled, activeScreen) => {
+  [
+    choseToRestoreAccountSelector,
+    biometryEnabledSelector,
+    activeScreenSelector,
+    recoveringFromStoreWipeSelector,
+  ],
+  (chooseRestoreAccount, biometryEnabled, activeScreen, recoveringFromStoreWipe) => {
     let step = 0
     let totalSteps = 3
+
+    if (recoveringFromStoreWipe) {
+      return { step: storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens], totalSteps }
+    }
 
     if (chooseRestoreAccount) {
       totalSteps++
