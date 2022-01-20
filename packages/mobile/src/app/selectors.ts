@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { choseToRestoreAccountSelector, e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
+import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import {
   isBalanceSufficientForSigRetrievalSelector,
@@ -113,13 +114,61 @@ export const supportedBiometryTypeSelector = (state: RootState) => state.app.sup
 export const biometryEnabledSelector = (state: RootState) =>
   state.app.biometryEnabled && !!state.app.supportedBiometryType
 
-export const totalRegistrationStepsSelector = createSelector(
-  [choseToRestoreAccountSelector, biometryEnabledSelector],
-  (chooseRestoreAccount, biometryEnabled) => {
-    if (biometryEnabled) {
-      return chooseRestoreAccount ? 5 : 4
+export const activeScreenSelector = (state: RootState) => state.app.activeScreen
+
+export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
+
+export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
+
+type CreateAccountScreens = Extract<
+  Screens,
+  | Screens.NameAndPicture
+  | Screens.PincodeSet
+  | Screens.VerificationEducationScreen
+  | Screens.VerificationInputScreen
+>
+
+type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
+
+let createAccountSteps: { [key in CreateAccountScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.PincodeSet]: 2,
+  [Screens.VerificationEducationScreen]: 3,
+  [Screens.VerificationInputScreen]: 3,
+}
+let restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.PincodeSet]: 2,
+  [Screens.ImportWallet]: 3,
+  [Screens.VerificationEducationScreen]: 4,
+  [Screens.VerificationInputScreen]: 4,
+}
+
+// The logic in this selector should be moved to a hook when all registration
+// screens are function components
+export const registrationStepsSelector = createSelector(
+  [choseToRestoreAccountSelector, biometryEnabledSelector, activeScreenSelector],
+  (chooseRestoreAccount, biometryEnabled, activeScreen) => {
+    let step = 0
+    let totalSteps = 3
+
+    if (chooseRestoreAccount) {
+      totalSteps++
+      step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
+    } else {
+      step = createAccountSteps[activeScreen as CreateAccountScreens]
     }
-    return chooseRestoreAccount ? 4 : 3
+
+    // biometry screen inserted as third screen
+    if (biometryEnabled) {
+      totalSteps++
+      if (activeScreen === Screens.EnableBiometry) {
+        step = 3
+      } else if (step > 2) {
+        step++
+      }
+    }
+
+    return { step, totalSteps }
   }
 )
-export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType

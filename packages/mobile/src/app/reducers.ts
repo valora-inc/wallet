@@ -18,7 +18,8 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  dappListApiUri: string | null
+  dappListApiUrl: string | null
+  dappsExplorerEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
@@ -65,7 +66,8 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
-  dappListApiUri: null,
+  dappListApiUrl: null,
+  dappsExplorerEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsExplorerEnabled,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
@@ -186,7 +188,8 @@ export const appReducer = (
         showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
-        dappListApiUri: action.configValues.dappListApiUri,
+        dappListApiUrl: action.configValues.dappListApiUrl,
+        dappsExplorerEnabled: action.configValues.dappsExplorerEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         rewardsPercent: action.configValues.rewardsPercent,

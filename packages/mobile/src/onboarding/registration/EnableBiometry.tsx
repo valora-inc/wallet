@@ -11,7 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import { supportedBiometryTypeSelector } from 'src/app/selectors'
+import { choseToRestoreAccountSelector } from 'src/account/selectors'
+import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import {
   default as Face,
   default as FaceID,
@@ -19,11 +20,10 @@ import {
   default as TouchID,
 } from 'src/icons/biometrics/FaceID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { setPincodeWithBiometrics } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
@@ -51,15 +51,19 @@ const biometryButtonLabelMap: { [key in Keychain.BIOMETRY_TYPE]: string } = {
 export default function EnableBiometry({ navigation, route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
+
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const registrationStep = useRegistrationStep(choseToRestoreAccount ? 5 : 4)
+  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <HeaderTitleWithSubtitle title={t('enableBiometry.title')} subTitle={registrationStep} />
+        <HeaderTitleWithSubtitle
+          title={t('enableBiometry.title')}
+          subTitle={t('registrationSteps', { step, totalSteps })}
+        />
       ),
       headerRight: () => (
         <TopBarTextButton
@@ -70,13 +74,13 @@ export default function EnableBiometry({ navigation, route }: Props) {
         />
       ),
     })
-  }, [navigation])
+  }, [navigation, step, totalSteps])
 
   const onPressUseBiometry = async () => {
     try {
       await setPincodeWithBiometrics()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
-      navigateHome()
+      navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
     } catch (error) {
       Logger.warn(TAG, 'Error enabling biometrics', error)
     }

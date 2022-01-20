@@ -22,9 +22,9 @@ import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
-  biometryEnabledSelector,
   hideVerificationSelector,
   numberVerifiedSelector,
+  registrationStepsSelector,
 } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
@@ -36,7 +36,6 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
@@ -92,17 +91,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
-  const biometryEnabled = useSelector(biometryEnabledSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const registrationStep = useRegistrationStep(route.params?.choseToRestoreAccount ? 4 : 3)
-
-  const handleProceedToNextStep = () => {
-    if (biometryEnabled) {
-      navigate(Screens.EnableBiometry)
-    } else {
-      navigateHome()
-    }
-  }
+  const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -117,9 +107,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
-    navigation.setParams({ showSkipDialog: false })
     dispatch(setHasSeenVerificationNux(true))
-    handleProceedToNextStep()
+    navigateHome()
   }
 
   const onPressContinue = () => {
@@ -127,7 +116,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (partOfOnboarding) {
       navigate(Screens.OnboardingSuccessScreen)
     } else {
-      handleProceedToNextStep()
+      navigateHome()
     }
   }
 
@@ -137,7 +126,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
 
     dispatch(setHasSeenVerificationNux(true))
-    handleProceedToNextStep()
+    navigateHome()
   }
 
   const onPressLearnMore = () => {
@@ -159,7 +148,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       : () => (
           <HeaderTitleWithSubtitle
             title={t('verificationEducation.title')}
-            subTitle={registrationStep}
+            subTitle={t('registrationSteps', { step, totalSteps })}
           />
         )
 
@@ -176,7 +165,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         ),
       headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
     })
-  }, [navigation, registrationStep, route.params])
+  }, [navigation, step, totalSteps, route.params])
 
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2

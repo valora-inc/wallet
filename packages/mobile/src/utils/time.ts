@@ -282,7 +282,7 @@ export const getRemoteTime = async () => {
     const networkTime = await getNetworkTime('time.google.com', 123)
     return new Date(networkTime).getTime()
   } catch (error) {
-    Logger.error(TAG, 'failed first try', error)
+    Logger.warn(TAG, 'failed first try', error)
     try {
       const networkTime = await getNetworkTime('time.cloudflare.com', 123)
       return new Date(networkTime).getTime()

@@ -253,7 +253,7 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
   const pincodeType = yield select(pincodeTypeSelector)
 
   if (pincodeType === PincodeType.Unset) {
-    Logger.error(TAG + '@getPincode', 'Pin has never been set')
+    Logger.debug(TAG + '@getPincode', 'Pin has never been set')
     ValoraAnalytics.track(OnboardingEvents.pin_never_set)
     throw Error('Pin has never been set')
   }
@@ -396,7 +396,7 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
       return true
     }
   } catch (error) {
-    Logger.error(`${TAG}@updatePin`, error)
+    Logger.error(`${TAG}@updatePin`, 'Error updating pin', error)
     return false
   }
 }

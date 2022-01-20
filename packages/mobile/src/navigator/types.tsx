@@ -87,6 +87,7 @@ export type StackParamList = {
   [Screens.DappKitTxDataScreen]: {
     dappKitData: TxToSignParam['txData']
   }
+  [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: undefined
   [Screens.ErrorScreen]: {
@@ -189,7 +190,7 @@ export type StackParamList = {
         changePin?: boolean
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean
-        totalRegistrationSteps?: number
+        registrationStep?: { step: number; totalSteps: number }
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -294,7 +295,11 @@ export type StackParamList = {
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
   [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
-    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean; totalRegistrationSteps?: number }
+    | {
+        showHelpDialog?: boolean
+        choseToRestoreAccount?: boolean
+        registrationStep?: { step: number; totalSteps: number }
+      }
     | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined

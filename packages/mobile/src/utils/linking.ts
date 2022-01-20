@@ -13,6 +13,10 @@ export function navigateToWalletStorePage() {
   }
 }
 
+export function isDeepLink(url: string): boolean {
+  return url.startsWith('celo:')
+}
+
 export function navigateToURI(uri: string, backupUri?: string) {
   Logger.debug(TAG, 'Navigating to URI', uri)
 

@@ -12,7 +12,7 @@ import { initializeAccount, setPincode, setPincodeSuccess } from 'src/account/ac
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { totalRegistrationStepsSelector } from 'src/app/selectors'
+import { biometryEnabledSelector, registrationStepsSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -36,7 +36,8 @@ interface StateProps {
   hideVerification: boolean
   useExpandedBlocklist: boolean
   account: string
-  totalRegistrationSteps: number
+  registrationStep: { step: number; totalSteps: number }
+  biometryEnabled: boolean
 }
 
 interface DispatchProps {
@@ -60,10 +61,11 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
-    totalRegistrationSteps: totalRegistrationStepsSelector(state),
+    registrationStep: registrationStepsSelector(state),
     hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
+    biometryEnabled: biometryEnabledSelector(state),
   }
 }
 
@@ -86,12 +88,10 @@ export class PincodeSet extends React.Component<Props, State> {
           subTitle={
             changePin
               ? ' '
-              : i18n.t(
-                  route.params?.choseToRestoreAccount
-                    ? 'restoreAccountSteps'
-                    : 'createAccountSteps',
-                  { step: '2', totalSteps: route.params?.totalRegistrationSteps }
-                )
+              : i18n.t('registrationSteps', {
+                  step: route.params?.registrationStep?.step,
+                  totalSteps: route.params?.registrationStep?.totalSteps,
+                })
           }
         />
       ),
@@ -121,8 +121,16 @@ export class PincodeSet extends React.Component<Props, State> {
     // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
       choseToRestoreAccount: this.props.choseToRestoreAccount,
-      totalRegistrationSteps: this.props.totalRegistrationSteps,
+      registrationStep: this.props.registrationStep,
     })
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.registrationStep.step !== this.props.registrationStep.step) {
+      this.props.navigation.setParams({
+        registrationStep: this.props.registrationStep,
+      })
+    }
   }
 
   isChangingPin() {
@@ -132,6 +140,8 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
       navigate(Screens.Settings)
+    } else if (this.props.biometryEnabled) {
+      navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
     } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
