@@ -12,7 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
   CANCELLED_PIN_INPUT,
-  getPincodeWithBiometrics,
+  getPincodeWithBiometry,
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
@@ -134,10 +134,10 @@ export async function ensurePincode(): Promise<boolean> {
 
   if (pincodeType === PincodeType.PhoneAuth) {
     try {
-      await getPincodeWithBiometrics()
+      await getPincodeWithBiometry()
       return true
     } catch (error) {
-      Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometrics error`, error)
+      Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
     }
   }
 

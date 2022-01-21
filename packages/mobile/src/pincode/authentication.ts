@@ -170,7 +170,7 @@ function storePasswordHash(hash: string, account: string) {
   return storeItem({ key: passwordHashStorageKey(account), value: hash })
 }
 
-function storePinWithBiometrics(pin: string) {
+function storePinWithBiometry(pin: string) {
   return storeItem({
     key: STORAGE_KEYS.PIN,
     value: pin,
@@ -267,7 +267,7 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
 
 type PinCallback = (pin: string) => void
 
-export async function setPincodeWithBiometrics() {
+export async function setPincodeWithBiometry() {
   let pin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (!pin) {
     pin = await requestPincodeInput(true, true)
@@ -277,29 +277,29 @@ export async function setPincodeWithBiometrics() {
     // storeItem can be called multiple times with the same key, so stale keys
     // from previous app installs/failed save attempts will be overwritten
     // safely here
-    await storePinWithBiometrics(pin)
+    await storePinWithBiometry(pin)
 
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
 
     if (retrievedPin !== pin) {
-      throw new Error('Retrieved incorrect pin with biometrics after saving')
+      throw new Error('Retrieved incorrect pin with biometry after saving')
     }
   } catch (error) {
-    Logger.error(TAG, 'Failed to save pin with biometrics', error)
+    Logger.error(TAG, 'Failed to save pin with biometry', error)
     throw error
   }
 }
 
-export async function getPincodeWithBiometrics() {
+export async function getPincodeWithBiometry() {
   try {
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
     if (retrievedPin) {
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
       return retrievedPin
     }
-    throw new Error('Failed to retrieve pin with biometrics, recieved null value')
+    throw new Error('Failed to retrieve pin with biometry, recieved null value')
   } catch (error) {
-    Logger.warn(TAG, 'Failed to retrieve pin with biometrics', error)
+    Logger.warn(TAG, 'Failed to retrieve pin with biometry', error)
     throw error
   }
 }
@@ -315,10 +315,10 @@ export async function getPincode(withVerification = true) {
   const pincodeType = pincodeTypeSelector(store.getState())
   if (pincodeType === PincodeType.PhoneAuth) {
     try {
-      const retrievedPin = await getPincodeWithBiometrics()
+      const retrievedPin = await getPincodeWithBiometry()
       return retrievedPin
     } catch (error) {
-      Logger.error(TAG, 'Failed to retrieve pin with biometrics', error)
+      Logger.error(TAG, 'Failed to retrieve pin with biometry', error)
     }
   }
 
@@ -385,7 +385,7 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
       await storePasswordHash(hash, account)
       const pincodeType = pincodeTypeSelector(store.getState())
       if (pincodeType === PincodeType.PhoneAuth) {
-        await storePinWithBiometrics(newPin)
+        await storePinWithBiometry(newPin)
       }
       const phrase = await getStoredMnemonic(account, oldPassword)
       if (phrase) {

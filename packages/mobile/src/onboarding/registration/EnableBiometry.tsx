@@ -22,7 +22,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { setPincodeWithBiometrics } from 'src/pincode/authentication'
+import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 
@@ -68,11 +68,11 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const onPressUseBiometry = async () => {
     try {
-      await setPincodeWithBiometrics()
+      await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
     } catch (error) {
-      Logger.error(TAG, 'Error enabling biometrics', error)
+      Logger.error(TAG, 'Error enabling biometry', error)
     }
   }
 
