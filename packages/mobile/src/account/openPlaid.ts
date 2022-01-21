@@ -23,7 +23,7 @@ interface OpenPlaidParams {
  *
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
- * @param {params.language} locale the users current locale
+ * @param {params.locale} locale the users current locale
  * @param {params.phoneNumber} phoneNumber users verified phone number
  * @param {params.onSuccess} onSuccess function to be called when the user completes the plaid link flow
  * @param {params.phoneNumber} onExit function to be called when the user exits the plaid link flow unsuccessfully
@@ -32,8 +32,8 @@ interface OpenPlaidParams {
 export default async function openPlaid({
   accountMTWAddress,
   dekPrivate,
-  locale = '',
-  phoneNumber = '',
+  locale,
+  phoneNumber,
   onSuccess,
   onExit,
 }: OpenPlaidParams) {
