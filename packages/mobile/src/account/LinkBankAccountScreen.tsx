@@ -1,4 +1,5 @@
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { useNavigation } from '@react-navigation/native'
@@ -11,15 +12,18 @@ import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
 import PlaidLinkButton from 'src/account/PlaidLinkButton'
 import { KycStatus } from 'src/account/reducer'
-import { kycStatusSelector } from 'src/account/selectors'
+import { e164NumberSelector, kycStatusSelector, plaidParamsSelector } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import VerificationComplete from 'src/icons/VerificationComplete'
 import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import openPlaid from './openPlaid'
 
 interface StepOneProps {
   kycStatus: KycStatus | undefined
@@ -194,6 +198,7 @@ export function StepOne({ kycStatus }: StepOneProps) {
 
 function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
+  const plaidParams = useSelector(plaidParamsSelector)
   return (
     <View style={styles.stepTwo}>
       <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>
@@ -205,7 +210,27 @@ function StepTwo({ disabled }: { disabled: boolean }) {
       <Text style={{ ...styles.description, ...(disabled && styles.greyedOut) }}>
         {t('linkBankAccountScreen.stepTwo.description')}
       </Text>
-      <PlaidLinkButton disabled={disabled} />
+      <Button
+        style={styles.button}
+        onPress={() =>
+          openPlaid({
+            ...plaidParams,
+            onSuccess: ({ publicToken }) => {
+              navigate(Screens.SyncBankAccountScreen, {
+                publicToken,
+              })
+            },
+            onExit: () => {
+              // TODO(wallet#1447): handle errors from onExit
+            },
+          })
+        }
+        text={t('linkBankAccountScreen.stepTwo.cta')}
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.MEDIUM}
+        testID="PlaidLinkButton"
+        disabled={false}
+      />
     </View>
   )
 }
