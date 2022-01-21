@@ -173,7 +173,7 @@
   },
   "saveMoreEarnMore": {
     "header": "Crie sua Frase de Recuperação",
-    "text": "This will ensure your rewards are safe and in your control."
+    "text": "Isto irá garantir que suas recompensas estejam seguras em seu controle."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Falha ao recuperar segredo do número de celular",
   "saltQuotaExceededError": "Sua cota de busca de número de celular acabou",
   "maxActionableAttestationsExceededError": "Falha ao reenviar mensagens",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Confirme seu número de celular",
   "matchmakingQuotaExceededError": "A combinação pode ser feita apenas uma vez",
   "paymentLimitReached": "O limite diário é de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restantes",
   "requestLimitError": "Não é possível solicitar mais do que o limite diário de {{limit}} cUSD.",
@@ -1123,18 +1123,18 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "message": "Explore formas de usar suas cripto.",
+    "errorMessage": "Ocorreu um erro ao carregar os dapps"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "title": "O que são os dapps?",
+    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar as DeFi.\n\nConecte Valora a um dapp para começar.",
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
-    "button": "Go to {{dappName}}"
+    "title": "{{dappName}} abrirá em um navegador externo",
+    "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
+    "button": "Ir para {{dappName}}"
   },
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
