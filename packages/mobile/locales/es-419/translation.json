@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Agrega fondos",
-    "earningText": "Agrega entre {{minBalance}} {{currency}} y {{maxBalance}} {{currency}}.",
+    "earningText": "Agrega entre {{minBalance}} {{currency}} y 1000 {{currency}} para recibir recompensas.",
     "connectText": "Solo debes tener un saldo de al menos {{minBalance}} {{currency}} y conectar tu número de teléfono para empezar a obtener recompensas."
   },
   "saveMoreEarnMore": {
