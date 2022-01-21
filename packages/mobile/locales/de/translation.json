@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Zwischen {{minBalance}} {{currency}} und {{maxBalance}} {{currency}} hinzufügen.",
+    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
