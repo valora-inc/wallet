@@ -9,6 +9,7 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -456,6 +457,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SyncBankAccountScreen}
       component={SyncBankAccountScreen}
       options={SyncBankAccountScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.BankAccounts}
+      component={BankAccounts}
+      options={BankAccounts.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}

@@ -4,6 +4,35 @@ import KeyEncoder from 'key-encoder'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
+interface GetFinclusiveBankAccountParams {
+  accountMTWAddress: string
+  dekPrivate: string
+}
+
+/**
+ * get a fiat bank account from finclusive
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @returns {Response} response object from the fetch call
+ */
+export const getFinclusiveBankAccount = async ({
+  accountMTWAddress,
+  dekPrivate,
+}: GetFinclusiveBankAccountParams) => {
+  return signAndFetch({
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
+    accountMTWAddress,
+    dekPrivate,
+    requestOptions: {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  })
+}
 interface CreateFinclusiveBankAccountParams {
   accountMTWAddress: string
   dekPrivate: string
@@ -64,6 +93,7 @@ export const exchangePlaidAccessToken = async ({
 }: ExchangePlaidAccessTokenParams) => {
   const body = {
     publicToken,
+    accountAddress: accountMTWAddress,
   }
   return signAndFetch({
     path: '/plaid/access-token/exchange',

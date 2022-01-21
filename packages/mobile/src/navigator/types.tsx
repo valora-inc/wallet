@@ -75,6 +75,7 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
+  [Screens.BankAccounts]: undefined
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
