@@ -32,6 +32,7 @@ import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DAppExplorerScreen'
 
@@ -67,6 +68,7 @@ interface SectionData {
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const address = useSelector(walletAddressSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
@@ -115,7 +117,7 @@ export function DAppsExplorerScreen() {
             name: app.name,
             iconUrl: app.logoUrl,
             description: app.description,
-            dappUrl: app.url,
+            dappUrl: app.url.replace('{{address}}', address ?? ''),
           })
         })
 
