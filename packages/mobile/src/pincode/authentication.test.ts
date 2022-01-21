@@ -12,6 +12,7 @@ import {
   getPincodeWithBiometrics,
   PinBlocklist,
   setPincodeWithBiometrics,
+  updatePin,
 } from 'src/pincode/authentication'
 import { clearPasswordCaches, getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import { store } from 'src/redux/store'
@@ -257,6 +258,76 @@ describe(setPincodeWithBiometrics, () => {
     } catch (error) {
       expect(error).toEqual(expect.any(Error))
     }
+  })
+})
+
+describe(updatePin, () => {
+  const oldPin = '123123'
+  // expectedPasswordHash generated from mockPin
+  const expectedPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
+  // expectedAccountHash generated from normalizeAddress(mockAccount)
+  const expectedAccountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
+  // mockEncryptedMneumonic generated using mockMneumonic, mockAccount, old pin
+  const mockEncryptedMneumonic =
+    'U2FsdGVkX19p+azxZ2jqXIUhwbCpXi9hmfrdNMMVNYe+ptnyMGDadUzXrNJmgDyfUfmI+HXjKAcEs6XVJdeuoBFP3SH4quIeBzgjemMlq4yWFQ31TrN4TofrOuUjUuXEnnDol9Ad8gQmSK/6TmXZYXuRigwDigg9UGIKKl4SzHXgwJeWMKjnP3cOaWh9iJ8M43GfEWETJYFLCGgW6hyOeAREq6bOVP25GPcXCiE1yAM='
+
+  mockedKeychain.getGenericPassword.mockImplementation((options) => {
+    if (options?.service === 'PEPPER') {
+      return Promise.resolve(mockPepper)
+    }
+    if (options?.service === 'mnemonic') {
+      return Promise.resolve({
+        username: 'some username',
+        password: mockEncryptedMneumonic,
+        service: 'some service',
+        storage: 'some string',
+      })
+    }
+    return Promise.resolve(false)
+  })
+
+  it('should update the cached pin, stored password, and store mnemonic', async () => {
+    await updatePin(mockAccount, oldPin, mockPin)
+
+    expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expectedPasswordHash,
+      expect.objectContaining({ service: expectedAccountHash })
+    )
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expect.any(String), // TODO test that this can be decrypted correctly
+      expect.objectContaining({ service: 'mnemonic' })
+    )
+  })
+
+  it('should update the cached pin, stored password, store mnemonic, and stored pin if biometry is enabled', async () => {
+    mockStore.getState.mockImplementationOnce(() =>
+      getMockStoreData({ account: { pincodeType: PincodeType.PhoneAuth } })
+    )
+    await updatePin(mockAccount, oldPin, mockPin)
+
+    expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expectedPasswordHash,
+      expect.objectContaining({ service: expectedAccountHash })
+    )
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      expect.any(String), // TODO test that this can be decrypted correctly
+      expect.objectContaining({ service: 'mnemonic' })
+    )
+    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+      'CELO',
+      mockPin,
+      expect.objectContaining({
+        service: 'PIN',
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+        authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+      })
+    )
   })
 })
 
