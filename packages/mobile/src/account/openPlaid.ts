@@ -6,6 +6,7 @@ import { createLinkToken } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
+
 const TAG = 'PLAID'
 
 interface OpenPlaidParams {
