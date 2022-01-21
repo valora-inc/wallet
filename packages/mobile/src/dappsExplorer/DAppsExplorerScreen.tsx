@@ -67,6 +67,7 @@ interface SectionData {
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const accountAddress = useSelector(accountAddressSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
@@ -88,13 +89,16 @@ export function DAppsExplorerScreen() {
         throw new Error('Dapps list url is not defined')
       }
 
-      const response = await fetch(`${dappsListUrl}?language=${shortLanguage}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      })
+      const response = await fetch(
+        `${dappsListUrl}?language=${shortLanguage}&address=${accountAddress}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      )
 
       const result = await response.json()
       try {
