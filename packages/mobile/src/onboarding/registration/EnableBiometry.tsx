@@ -13,18 +13,16 @@ import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
-import {
-  default as Face,
-  default as FaceID,
-  default as Fingerprint,
-  default as TouchID,
-} from 'src/icons/biometrics/FaceID'
+import Face from 'src/icons/biometry/Face'
+import FaceID from 'src/icons/biometry/FaceID'
+import Fingerprint from 'src/icons/biometry/Fingerprint'
+import TouchID from 'src/icons/biometry/TouchID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { setPincodeWithBiometrics } from 'src/pincode/authentication'
+import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 
@@ -40,15 +38,7 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.IRIS]: <Face />,
 }
 
-const biometryButtonLabelMap: { [key in Keychain.BIOMETRY_TYPE]: string } = {
-  [Keychain.BIOMETRY_TYPE.FACE_ID]: 'enableBiometry.cta.useFaceId',
-  [Keychain.BIOMETRY_TYPE.TOUCH_ID]: 'enableBiometry.cta.useTouchId',
-  [Keychain.BIOMETRY_TYPE.FINGERPRINT]: 'enableBiometry.cta.useFingerprint',
-  [Keychain.BIOMETRY_TYPE.FACE]: 'enableBiometry.cta.useFace',
-  [Keychain.BIOMETRY_TYPE.IRIS]: 'enableBiometry.cta.useIris',
-}
-
-export default function EnableBiometry({ navigation, route }: Props) {
+export default function EnableBiometry({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -78,28 +68,34 @@ export default function EnableBiometry({ navigation, route }: Props) {
 
   const onPressUseBiometry = async () => {
     try {
-      await setPincodeWithBiometrics()
+      await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
     } catch (error) {
-      Logger.warn(TAG, 'Error enabling biometrics', error)
+      Logger.error(TAG, 'Error enabling biometry', error)
     }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={styles.contentContainer}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
-        <Text style={styles.description}>{t('enableBiometry.description')}</Text>
+        <Text style={styles.description}>
+          {t('enableBiometry.description', {
+            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+          })}
+        </Text>
         <Button
           onPress={onPressUseBiometry}
-          text={t(biometryButtonLabelMap[supportedBiometryType!])}
+          text={t('enableBiometry.cta', {
+            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+          })}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
           testID="EnableBiometryButton"
         />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
 
@@ -107,13 +103,13 @@ EnableBiometry.navigationOptions = nuxNavigationOptions
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.onboardingBackground,
-  },
-  contentContainer: {
     paddingTop: 186,
     paddingHorizontal: 40,
     alignItems: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: colors.onboardingBackground,
   },
   imageContainer: {
     marginBottom: Spacing.Thick24,
