@@ -160,14 +160,14 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Beginne Supercharge",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit. So funktioniert es:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
+    "header": "Mindestguthaben hinzufügen",
     "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
