@@ -2,17 +2,9 @@ import { Platform } from 'react-native'
 import { openLink, LinkSuccess, LinkExit } from 'react-native-plaid-link-sdk'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import { createLinkToken } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-import { e164NumberSelector } from 'src/verify/reducer'
-import {
-  dataEncryptionKeySelector,
-  mtwAddressSelector,
-  walletAddressSelector,
-} from 'src/web3/selectors'
-import { navigate } from 'src/navigator/NavigationService'
 
 const TAG = 'PLAID'
 
@@ -25,6 +17,18 @@ interface OpenPlaidParams {
   onExit: (params: LinkExit) => void
 }
 
+/**
+ * Retrieves a plaid link token, opens the plaid link UI
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.language} locale the users current locale
+ * @param {params.phoneNumber} phoneNumber users verified phone number
+ * @param {params.onSuccess} onSuccess function to be called when the user completes the plaid link flow
+ * @param {params.phoneNumber} onExit function to be called when the user exits the plaid link flow unsuccessfully
+ * @returns {Response} response object from the fetch call
+ */
 export default async function openPlaid({
   accountMTWAddress,
   dekPrivate,

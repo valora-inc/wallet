@@ -10,19 +10,16 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
-import PlaidLinkButton from 'src/account/PlaidLinkButton'
 import { KycStatus } from 'src/account/reducer'
-import { e164NumberSelector, kycStatusSelector, plaidParamsSelector } from 'src/account/selectors'
+import { kycStatusSelector, plaidParamsSelector } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import VerificationComplete from 'src/icons/VerificationComplete'
 import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import openPlaid from './openPlaid'
 
 interface StepOneProps {
@@ -229,7 +226,7 @@ function StepTwo({ disabled }: { disabled: boolean }) {
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
         testID="PlaidLinkButton"
-        disabled={false}
+        disabled={disabled}
       />
     </View>
   )
