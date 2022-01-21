@@ -11,8 +11,7 @@ import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import { MobileRecipient } from 'src/recipients/recipient'
-import useSelector from 'src/redux/useSelector'
-import { coreTokensSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
@@ -41,8 +40,8 @@ export default function ReclaimPaymentConfirmationCard({
   }
   const fee = getFeeInTokens(feeInfo?.fee)
 
-  const coreTokens = useSelector(coreTokensSelector)
-  const feeToken = coreTokens.find((token) => token.address === feeInfo?.feeCurrency)
+  // TODO: Add support for any stablecoin, not just dollar/euro.
+  const feeToken = useTokenInfo(feeInfo?.feeCurrency ?? '')
   const feeCurrency = !feeToken
     ? Currency.Celo
     : feeToken.symbol === 'cUSD'

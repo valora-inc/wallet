@@ -64,7 +64,7 @@ import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
-import { coreTokensSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
@@ -94,7 +94,6 @@ function SendConfirmationLegacy(props: Props) {
   const [comment, setComment] = useState('')
   const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
   const [showingTokenChooser, showTokenChooser] = useState(false)
-  const coreTokens = useSelector(coreTokensSelector)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -326,7 +325,7 @@ function SendConfirmationLegacy(props: Props) {
         showTokenChooser(true)
       }
 
-      const feeToken = coreTokens.find((token) => token.address === asyncFee.result?.feeCurrency)
+      const feeToken = useTokenInfo(asyncFee.result?.feeCurrency ?? '')
       const feeCurrency = !feeToken
         ? Currency.Celo
         : feeToken.symbol === 'cUSD'

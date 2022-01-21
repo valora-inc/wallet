@@ -25,6 +25,7 @@ import {
   withdrawCeloSuccess,
 } from 'src/exchange/actions'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
+import { currencyToFeeCurrency } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { sendPaymentOrInviteSuccess } from 'src/send/actions'
@@ -319,12 +320,15 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       )
     }
 
-    // TODO: Pay for fees in the makerToken
+    const feeCurrency: string | undefined = yield call(currencyToFeeCurrency, makerToken)
     yield call(
       sendTransaction,
       approveTx.txo,
       account,
-      newTransactionContext(TAG, `Approve exchange of ${makerToken}`)
+      newTransactionContext(TAG, `Approve exchange of ${makerToken}`),
+      undefined, // gas
+      undefined, // gasPrice
+      feeCurrency
     )
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
@@ -350,7 +354,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       tx,
       account,
       context,
-      undefined,
+      feeCurrency,
       undefined, // gas
       undefined, // gasPrice
       nonce + 1
