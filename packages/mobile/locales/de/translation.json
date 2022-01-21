@@ -168,12 +168,12 @@
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "earningText": "Zwischen {{minBalance}} {{currency}} und {{maxBalance}} {{currency}} hinzufügen.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Wiederherstellungsphrase einrichten",
+    "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
   "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Bitte bestätige deine Telefonnummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
   "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
@@ -1124,17 +1124,17 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
+    "title": "Was sind Dapps?",
     "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} will open in an external browser",
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
-    "button": "Go to {{dappName}}"
+    "button": "Gehe zu {{dappName}}"
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
