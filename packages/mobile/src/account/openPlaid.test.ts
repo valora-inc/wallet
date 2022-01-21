@@ -73,4 +73,30 @@ describe('openPlaid', () => {
 
     expect(openLink).not.toHaveBeenCalled()
   })
+  it('does nothing if the user has no accountMTWAddress', async () => {
+    await openPlaid({
+      accountMTWAddress: null,
+      locale: 'en-US',
+      phoneNumber: MOCK_PHONE_NUMBER,
+      dekPrivate: mockPrivateDEK,
+      onSuccess,
+      onExit,
+    })
+    expect(createLinkToken).not.toHaveBeenCalled()
+
+    expect(openLink).not.toHaveBeenCalled()
+  })
+  it('does nothing if the user has no dekPrivate key', async () => {
+    await openPlaid({
+      accountMTWAddress: mockAccount,
+      locale: 'en-US',
+      phoneNumber: MOCK_PHONE_NUMBER,
+      dekPrivate: null,
+      onSuccess,
+      onExit,
+    })
+    expect(createLinkToken).not.toHaveBeenCalled()
+
+    expect(openLink).not.toHaveBeenCalled()
+  })
 })

@@ -193,7 +193,7 @@ export function StepOne({ kycStatus }: StepOneProps) {
   }
 }
 
-function StepTwo({ disabled }: { disabled: boolean }) {
+export function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
   const plaidParams = useSelector(plaidParamsSelector)
   return (
