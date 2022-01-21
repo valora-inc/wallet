@@ -58,7 +58,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { removeStoredPin, setPincodeWithBiometrics } from 'src/pincode/authentication'
+import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
@@ -95,7 +95,7 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
-  biometricsEnabled: boolean
+  biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
   linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
@@ -125,7 +125,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
-    biometricsEnabled: biometryEnabledSelector(state),
+    biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
@@ -297,14 +297,14 @@ export class Account extends React.Component<Props, State> {
   handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
     try {
       if (turnBiometryOn) {
-        await setPincodeWithBiometrics()
+        await setPincodeWithBiometry()
         this.props.setPincodeSuccess(PincodeType.PhoneAuth)
       } else {
         await removeStoredPin()
         this.props.setPincodeSuccess(PincodeType.CustomPin)
       }
     } catch (error) {
-      Logger.error('SettingsItem@onPress', 'Toggle use biometrics error', error)
+      Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)
     }
   }
 
@@ -474,9 +474,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToChangePin}
               testID="ChangePIN"
             />
-            {this.props.biometricsEnabled && this.props.supportedBiometryType && (
+            {this.props.biometryEnabled && this.props.supportedBiometryType && (
               <SettingsItemSwitch
-                title={t('useBiometryOption', { option: this.props.supportedBiometryType })}
+                title={t('useBiometryOption', {
+                  option: t(`biometryOption.${this.props.supportedBiometryType}`),
+                })}
                 value={this.props.pincodeType === PincodeType.PhoneAuth}
                 onValueChange={this.handleUseBiometryToggle}
                 testID="useBiometryToggle"
