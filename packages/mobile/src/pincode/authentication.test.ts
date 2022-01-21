@@ -262,6 +262,25 @@ describe(setPincodeWithBiometry, () => {
 })
 
 describe(updatePin, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    clearPasswordCaches()
+    mockedKeychain.getGenericPassword.mockImplementation((options) => {
+      if (options?.service === 'PEPPER') {
+        return Promise.resolve(mockPepper)
+      }
+      if (options?.service === 'mnemonic') {
+        return Promise.resolve({
+          username: 'some username',
+          password: mockEncryptedMneumonic,
+          service: 'some service',
+          storage: 'some string',
+        })
+      }
+      return Promise.resolve(false)
+    })
+  })
+
   const oldPin = '123123'
   // expectedPasswordHash generated from mockPin
   const expectedPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
@@ -271,31 +290,18 @@ describe(updatePin, () => {
   const mockEncryptedMneumonic =
     'U2FsdGVkX19p+azxZ2jqXIUhwbCpXi9hmfrdNMMVNYe+ptnyMGDadUzXrNJmgDyfUfmI+HXjKAcEs6XVJdeuoBFP3SH4quIeBzgjemMlq4yWFQ31TrN4TofrOuUjUuXEnnDol9Ad8gQmSK/6TmXZYXuRigwDigg9UGIKKl4SzHXgwJeWMKjnP3cOaWh9iJ8M43GfEWETJYFLCGgW6hyOeAREq6bOVP25GPcXCiE1yAM='
 
-  mockedKeychain.getGenericPassword.mockImplementation((options) => {
-    if (options?.service === 'PEPPER') {
-      return Promise.resolve(mockPepper)
-    }
-    if (options?.service === 'mnemonic') {
-      return Promise.resolve({
-        username: 'some username',
-        password: mockEncryptedMneumonic,
-        service: 'some service',
-        storage: 'some string',
-      })
-    }
-    return Promise.resolve(false)
-  })
-
   it('should update the cached pin, stored password, and store mnemonic', async () => {
     await updatePin(mockAccount, oldPin, mockPin)
 
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
-    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+    expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
+      1,
       'CELO',
       expectedPasswordHash,
       expect.objectContaining({ service: expectedAccountHash })
     )
-    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+    expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
+      2,
       'CELO',
       expect.any(String), // TODO test that this can be decrypted correctly
       expect.objectContaining({ service: 'mnemonic' })
@@ -309,17 +315,20 @@ describe(updatePin, () => {
     await updatePin(mockAccount, oldPin, mockPin)
 
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
-    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+    expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
+      1,
       'CELO',
       expectedPasswordHash,
       expect.objectContaining({ service: expectedAccountHash })
     )
-    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+    expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
+      3,
       'CELO',
       expect.any(String), // TODO test that this can be decrypted correctly
       expect.objectContaining({ service: 'mnemonic' })
     )
-    expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
+    expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
+      2,
       'CELO',
       mockPin,
       expect.objectContaining({
