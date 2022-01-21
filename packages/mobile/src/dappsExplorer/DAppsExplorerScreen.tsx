@@ -21,6 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
+import { accountAddressSelector } from 'src/web3/selectors'
 import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
@@ -67,6 +68,7 @@ interface SectionData {
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
+  const accountAddress = useSelector(accountAddressSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
@@ -88,13 +90,16 @@ export function DAppsExplorerScreen() {
         throw new Error('Dapps list url is not defined')
       }
 
-      const response = await fetch(`${dappsListUrl}?language=${shortLanguage}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      })
+      const response = await fetch(
+        `${dappsListUrl}?language=${shortLanguage}&address=${accountAddress}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      )
 
       const result = await response.json()
       try {
