@@ -1132,7 +1132,7 @@
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
+    "title": "{{dappName}} wird in einem externen Browser öffnen",
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Gehe zu {{dappName}}"
   },
