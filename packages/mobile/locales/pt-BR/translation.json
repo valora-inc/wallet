@@ -160,19 +160,19 @@
       "text": "Qualquer pessoa com sua frase terá acesso à sua conta e a todos os seus fundos. Não compartilhe com outras pessoas."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Comece com o Supercharge",
+  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Corra, porque é por tempo limitado. Veja como funciona:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Toque em Conectar o número caso ainda não o tenha conectado."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "header": "Adicione fundos",
+    "earningText": "Adicione {{minBalance}}{{currency}} e até {{maxBalance}}{{currency}} para ganhar.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
+    "header": "Crie sua Frase de Recuperação",
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
