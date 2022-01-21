@@ -21,7 +21,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
-import { accountAddressSelector } from 'src/web3/selectors'
 import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
@@ -33,6 +32,7 @@ import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DAppExplorerScreen'
 
@@ -68,7 +68,7 @@ interface SectionData {
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
-  const accountAddress = useSelector(accountAddressSelector)
+  const address = useSelector(walletAddressSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
@@ -90,16 +90,13 @@ export function DAppsExplorerScreen() {
         throw new Error('Dapps list url is not defined')
       }
 
-      const response = await fetch(
-        `${dappsListUrl}?language=${shortLanguage}&address=${accountAddress}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        }
-      )
+      const response = await fetch(`${dappsListUrl}?language=${shortLanguage}&address=${address}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
 
       const result = await response.json()
       try {
@@ -120,7 +117,7 @@ export function DAppsExplorerScreen() {
             name: app.name,
             iconUrl: app.logoUrl,
             description: app.description,
-            dappUrl: app.url,
+            dappUrl: app.url.replace('{{address}}', address ?? ''),
           })
         })
 
