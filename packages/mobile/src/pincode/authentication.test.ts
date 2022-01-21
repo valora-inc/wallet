@@ -11,6 +11,7 @@ import {
   getPincode,
   getPincodeWithBiometry,
   PinBlocklist,
+  removeStoredPin,
   setPincodeWithBiometry,
   updatePin,
 } from 'src/pincode/authentication'
@@ -337,6 +338,25 @@ describe(updatePin, () => {
         authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       })
     )
+  })
+})
+
+describe(removeStoredPin, () => {
+  it('should remove the item from keychain', async () => {
+    mockedKeychain.resetGenericPassword.mockResolvedValue(true)
+    await removeStoredPin()
+
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledTimes(1)
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
+  })
+  it('should throw an error if item could not be removed from keychain', async () => {
+    mockedKeychain.resetGenericPassword.mockRejectedValue('some error')
+
+    try {
+      await removeStoredPin()
+    } catch (error) {
+      expect(error).toEqual('some error')
+    }
   })
 })
 
