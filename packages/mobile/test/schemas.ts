@@ -906,6 +906,10 @@ export const v29Schema = {
     biometryEnabled: false,
     supportedBiometryType: null,
   },
+  account: {
+    ...v28Schema.account,
+    isSettingPin: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
