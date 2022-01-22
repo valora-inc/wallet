@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { SectionList } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { SENTRY_ENABLED } from 'src/config'
 import config from 'src/geth/networkConfig'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -76,7 +77,9 @@ function useQueryTransactionFeed() {
           dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
         }
         if (result?.errors) {
-          Sentry.captureException(result.errors)
+          if (SENTRY_ENABLED) {
+            Sentry.captureException(result.errors)
+          }
           Logger.warn(
             TAG,
             `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`

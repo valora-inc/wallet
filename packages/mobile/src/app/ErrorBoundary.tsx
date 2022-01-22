@@ -5,6 +5,7 @@ import { WithTranslation } from 'react-i18next'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ErrorScreen from 'src/app/ErrorScreen'
+import { SENTRY_ENABLED } from 'src/config'
 import { withTranslation } from 'src/i18n'
 
 interface State {
@@ -25,7 +26,9 @@ class ErrorBoundary extends React.Component<Props, State> {
   componentDidCatch(error: Error, info: any) {
     this.setState({ childError: error })
     ValoraAnalytics.track(AppEvents.error_displayed, { error: error.message })
-    Sentry.captureException(error)
+    if (SENTRY_ENABLED) {
+      Sentry.captureException(error)
+    }
   }
 
   render() {
