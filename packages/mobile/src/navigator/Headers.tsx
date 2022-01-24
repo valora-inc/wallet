@@ -184,9 +184,11 @@ export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps)
 }
 
 export function HeaderTitleWithSubtitle({
+  testID,
   title,
   subTitle,
 }: {
+  testID?: string
   title: string | JSX.Element
   subTitle?: string | JSX.Element
 }) {
