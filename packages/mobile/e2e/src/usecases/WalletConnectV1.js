@@ -121,10 +121,10 @@ export default WalletConnect = () => {
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
 
     // Wait for transaction and get receipt
     let txHash = await result
@@ -168,10 +168,10 @@ export default WalletConnect = () => {
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
 
     // Wait for signature
     let signature = await result
@@ -196,10 +196,10 @@ export default WalletConnect = () => {
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
 
     // Wait for signature
     let signature = await result
