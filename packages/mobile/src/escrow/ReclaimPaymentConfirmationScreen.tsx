@@ -127,7 +127,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
     const feeCurrency = asyncFee.result?.feeCurrency
     const convertedAmount = divideByWei(payment.amount.valueOf())
     // TODO: Add support for any stablecoin, not just dollar.
-    const userHasEnough = fee?.isLessThanOrEqualTo(!!feeCurrency ? dollarBalance : celoBalance)
+    const userHasEnough = fee?.isLessThanOrEqualTo(feeCurrency ? dollarBalance : celoBalance)
 
     return (
       <SafeAreaView style={styles.container}>
