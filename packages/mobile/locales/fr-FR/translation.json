@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Ajouter un solde minimum",
-    "earningText": "Ajoutez {{minBalance}} {{currency}} pour commencer. Déposez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
