@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Добавьте минимальную сумму на баланс",
-    "earningText": "Добавьте {{minBalance}} {{currency}} для начала. Внесите до {{maxBalance}} {{currency}}, чтобы получить максимальное вознаграждение.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
