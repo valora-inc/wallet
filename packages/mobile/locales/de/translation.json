@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
