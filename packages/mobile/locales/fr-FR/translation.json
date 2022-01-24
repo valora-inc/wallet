@@ -1124,15 +1124,15 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explorez les moyens d'utiliser vos crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "errorMessage": "Une erreur s'est produite lors du chargement des dapps"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "title": "Que sont les dapps?",
+    "message": "Les Dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la DeFi.\n\nConnectez Valora à une dapp pour commencer.",
     "dismiss": "Refuser"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
+    "title": "{{dappName}} s'ouvrira dans un navigateur externe",
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Aller à {{dappName}}"
   },
