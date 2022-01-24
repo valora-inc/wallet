@@ -105,6 +105,7 @@
     "css-what": "5.0.1",
     "normalize-url": "6.0.1",
     "trim-newlines": "^4.0.2",
-    "glob-parent": "^5.1.2"
+    "glob-parent": "^5.1.2",
+    "node-fetch": "^2.6.7"
   }
 }
