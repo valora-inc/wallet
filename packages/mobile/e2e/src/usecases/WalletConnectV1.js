@@ -93,7 +93,6 @@ export default WalletConnect = () => {
 
     // Allow and verify UI behavior
     await element(by.text('Allow')).tap()
-    await sleep(2000)
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
@@ -120,7 +119,6 @@ export default WalletConnect = () => {
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
-    await sleep(2000)
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
@@ -168,7 +166,6 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
-    await sleep(2000)
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
@@ -197,7 +194,6 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
-    await sleep(2000)
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
