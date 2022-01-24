@@ -19,8 +19,6 @@ let uri, walletConnector, tx
 
 export default WalletConnect = () => {
   beforeAll(async () => {
-    // Add url to blacklist - prevents detox sync while success banner is served
-    await device.setURLBlacklist(['https://blockchain-api-dot-celo-mobile-alfajores.appspot/*.'])
     await device.reloadReactNative()
 
     // Create connector
@@ -70,8 +68,6 @@ export default WalletConnect = () => {
 
   afterAll(async () => {
     await walletConnector.transportClose()
-    // Clear url blacklist
-    await device.setURLBlacklist([])
   })
 
   jest.retryTimes(2)
@@ -98,12 +94,14 @@ export default WalletConnect = () => {
 
     // Allow and verify UI behavior
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
+    await device.enableSynchronization()
   })
 
   jest.retryTimes(2)
@@ -124,12 +122,14 @@ export default WalletConnect = () => {
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for transaction and get receipt
     let txHash = await result
@@ -152,9 +152,14 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
   })
 
   jest.retryTimes(2)
@@ -171,12 +176,14 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -199,12 +206,14 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -265,9 +274,14 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -305,12 +319,19 @@ export default WalletConnect = () => {
       .withTimeout(10 * 1000)
     await element(by.text('Allow')).tap()
     await enterPinUiIfNecessary()
+    await device.disableSynchronization()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
+
+    // TODO Validate signature
   })
 
   afterAll(async () => {
