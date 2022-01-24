@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Adicione fundos",
-    "earningText": "Adicione {{minBalance}}{{currency}} e até 1000 {{currency}} para ganhar.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
