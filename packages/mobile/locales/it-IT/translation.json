@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
-    "earningText": "Aggiungi {{minBalance}} {{currency}} per iniziare. Deposita fino a {{maxBalance}} {{currency}} per massimizzare le tue ricompense.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
