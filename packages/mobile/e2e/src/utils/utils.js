@@ -164,9 +164,13 @@ export async function quickOnboarding() {
       // and leaving the restore button disabled
       await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
     } else if (device.getPlatform() === 'android') {
-      // Tap header to close the keyboard
-      await element(by.id('Header/RestoreBackup')).tap()
+      // Press back button to close the keyboard
+      await device.pressBack()
     }
+
+    await waitFor(element(by.id('ImportWalletButton')))
+      .toBeVisible()
+      .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
     // Dismiss banners if present
