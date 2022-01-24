@@ -67,7 +67,7 @@ function PincodeLock() {
   const { error: getPinWithBiometryError } = useAsync(async () => {
     if (shouldGetPinWithBiometry) {
       const pin = await getPincodeWithBiometry()
-      onCompletePin(pin)
+      void onCompletePin(pin)
     }
   }, [])
 
