@@ -82,7 +82,11 @@ function ImportWallet({ navigation, route }: Props) {
         />
       ),
       headerTitle: () => (
-        <HeaderTitleWithSubtitle title={t('importIt')} subTitle={registrationStep} />
+        <HeaderTitleWithSubtitle
+          testID="Header/RestoreBackup"
+          title={t('importIt')}
+          subTitle={registrationStep}
+        />
       ),
     })
   }, [navigation, registrationStep])
