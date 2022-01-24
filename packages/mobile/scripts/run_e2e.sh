@@ -46,12 +46,6 @@ done
 [ -z "$PLATFORM" ] && echo "Need to set the PLATFORM via the -p flag" && exit 1;
 echo "Network delay: $NET_DELAY"
 
-# Android can't handle multiple instances
-if [ "$PLATFORM" == "android" ]; then
-  WORKERS=1
-fi
-
-
 # Start the packager and wait until ready
 startPackager() {
     if [ "$RELEASE" = true ]; then
@@ -115,6 +109,7 @@ runTest() {
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
+    --record-videos=failing \
     "${test_match}" \
     "${extra_param}" 
   TEST_STATUS=$?
@@ -162,24 +157,33 @@ if [ $PLATFORM = "android" ]; then
     
     NUM_DEVICES=`adb devices -l | wc -l`
     if [ $NUM_DEVICES -gt 2 ]; then
-      echo "Emulator already running or device attached. Please shutdown / remove first"
-      exit 1
+      echo "Emulator already running or device attached. Killing emulator"
+      adb kill-server
     fi
 
-    echo "Starting the emulator"
-    $ANDROID_SDK_ROOT/emulator/emulator \
-      -avd $VD_NAME \
-      -no-boot-anim \
-      -noaudio \
-      -no-snapshot \
-      -netdelay $NET_DELAY \
-      ${CI:+-gpu swiftshader_indirect -no-window} \
-      &
-
-    echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-    until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
+    for ((i=1; i<=$WORKERS; i=i+1))
     do
-      sleep 3
+      echo "Starting the emulator"
+      $ANDROID_SDK_ROOT/emulator/emulator \
+        -avd $VD_NAME \
+        -no-boot-anim \
+        -noaudio \
+        -no-snapshot \
+        -read-only \
+        -netdelay $NET_DELAY \
+        ${CI:+-gpu swiftshader_indirect -no-window} \
+        &
+    done
+
+    # Give a few second for emulators to launch
+    sleep 3
+    echo `adb devices`
+    for DEVICE in `adb devices| grep emulator| cut -f1`; do
+      echo "Waiting for ${DEVICE} to connect to Wifi, this is a good proxy the device is ready"
+      until [ `adb -s ${DEVICE} shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
+      do
+        sleep 3
+      done
     done
   fi
 

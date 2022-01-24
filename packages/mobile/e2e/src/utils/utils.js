@@ -167,6 +167,10 @@ export async function quickOnboarding() {
       // Press back button to close the keyboard
       await device.pressBack()
     }
+
+    await waitFor(element(by.id('ImportWalletButton')))
+      .toBeVisible()
+      .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
     // Dismiss banners if present
