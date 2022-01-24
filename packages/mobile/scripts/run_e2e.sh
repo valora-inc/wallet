@@ -156,8 +156,8 @@ if [ $PLATFORM = "android" ]; then
     
     NUM_DEVICES=`adb devices -l | wc -l`
     if [ $NUM_DEVICES -gt 2 ]; then
-      echo "Emulator already running or device attached. Please shutdown / remove first"
-      exit 1
+      echo "Emulator already running or device attached. Killing emulator"
+      adb kill-server
     fi
 
     for ((i=1; i<=$WORKERS; i=i+1))
