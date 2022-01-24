@@ -109,6 +109,7 @@ runTest() {
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
+    --record-videos=failing \
     "${test_match}" \
     "${extra_param}" 
   TEST_STATUS=$?
