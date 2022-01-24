@@ -37,7 +37,7 @@ const mockActionableAttestations: ActionableAttestation[] = [
   },
 ]
 
-const spyLoggerError = jest.spyOn(Logger, 'error')
+const spyLoggerWarn = jest.spyOn(Logger, 'warn')
 
 describe(getAttestationCodeForSecurityCode, () => {
   beforeEach(() => {
@@ -103,7 +103,7 @@ describe(getAttestationCodeForSecurityCode, () => {
     `)
 
     // check it logs an error for each individual call to getAttestationForSecurityCode that throws
-    expect(spyLoggerError).toHaveBeenCalledTimes(2)
+    expect(spyLoggerWarn).toHaveBeenCalledTimes(2)
   })
 
   it('throws an error when all getAttestationForSecurityCode fail', async () => {
@@ -132,7 +132,7 @@ describe(getAttestationCodeForSecurityCode, () => {
           `)
 
     // check it logs an error for each individual call to getAttestationForSecurityCode that throws
-    expect(spyLoggerError).toHaveBeenCalledTimes(3)
+    expect(spyLoggerWarn).toHaveBeenCalledTimes(3)
   })
 
   it('throws an error when no issuer matches the security code', async () => {

@@ -44,7 +44,9 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        {isOutgoingPaymentRequest ? null : (
+        {isOutgoingPaymentRequest ? (
+          <View style={styles.placeholder} />
+        ) : (
           <Touchable
             borderless={true}
             onPress={onPressMax}

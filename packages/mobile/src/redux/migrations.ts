@@ -370,4 +370,12 @@ export const migrations = {
       superchargeButtonType: SuperchargeButtonType.PillRewards,
     },
   }),
+  28: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      dappListApiUrl: null,
+      dappsExplorerEnabled: false,
+    },
+  }),
 }

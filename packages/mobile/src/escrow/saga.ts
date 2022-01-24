@@ -435,7 +435,7 @@ async function getEscrowedPayment(escrow: EscrowWrapper, paymentID: string) {
     const payment = await escrow.escrowedPayments(paymentID)
     return payment
   } catch (e) {
-    Logger.error(TAG + '@getEscrowedPayment', 'Error fetching escrowed payment', e)
+    Logger.warn(TAG + '@getEscrowedPayment', 'Error fetching escrowed payment', e)
     throw e
   }
 }

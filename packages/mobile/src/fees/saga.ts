@@ -251,7 +251,7 @@ export function fetchFeeCurrency(tokens: TokenBalance[]) {
       return token.address
     }
   }
-  Logger.error(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
+  Logger.warn(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
   // This will cause a failure to calculate fee error dialog in the top.
   return undefined
 }

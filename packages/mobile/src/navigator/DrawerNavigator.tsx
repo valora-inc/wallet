@@ -29,10 +29,11 @@ import GoldEducation from 'src/account/GoldEducation'
 import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
-import { HomeEvents } from 'src/analytics/Events'
+import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
 import {
+  dappsListApiUrlSelector,
   multiTokenShowHomeBalancesSelector,
   rewardsEnabledSelector,
   superchargeButtonTypeSelector,
@@ -41,19 +42,22 @@ import { SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
+import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
-import { MenuRings } from 'src/icons/navigator/MenuRings'
-import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
+import MenuRings from 'src/icons/navigator/MenuRings'
+import MenuSupercharge from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import BalancesDisplay from 'src/navigator/BalancesDisplay'
@@ -97,6 +101,11 @@ function CustomDrawerItemList({
     const focused = i === state.index
     const { title, drawerLabel, drawerIcon } = descriptors[route.key].options
     const navigateToItem = () => {
+      if (route.name === Screens.ConsumerIncentivesHomeScreen) {
+        ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+          origin: RewardsScreenOrigin.SideMenu,
+        })
+      }
       ValoraAnalytics.track(HomeEvents.drawer_navigation, {
         navigateTo: route.name,
       })
@@ -187,6 +196,9 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
+  const isDappsExplorerEnabled = useSelector((state) => state.app.dappsExplorerEnabled)
+  const dappsListUrl = useSelector(dappsListApiUrlSelector)
+
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
   const dispatch = useDispatch()
@@ -225,6 +237,13 @@ export default function DrawerNavigator() {
             drawerIcon: Gold,
             ...TransitionPresets.ModalTransition,
           }}
+        />
+      )}
+      {isDappsExplorerEnabled && dappsListUrl && (
+        <Drawer.Screen
+          name={Screens.DAppsExplorerScreen}
+          component={DAppsExplorerScreen}
+          options={{ title: t('dappsScreen.title'), drawerIcon: DappsExplorer }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (

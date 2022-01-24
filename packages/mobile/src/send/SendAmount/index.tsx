@@ -133,7 +133,7 @@ function SendAmount(props: Props) {
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)!
-  const tokenHasUsdPrice = !!tokenInfo.usdPrice
+  const tokenHasUsdPrice = !!tokenInfo?.usdPrice
 
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
@@ -150,7 +150,7 @@ function SendAmount(props: Props) {
     transferTokenAddress,
     recipientVerificationStatus
   )
-  const maxBalance = tokenInfo.balance.minus(feeEstimate)
+  const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
 
   const onPressMax = () => {

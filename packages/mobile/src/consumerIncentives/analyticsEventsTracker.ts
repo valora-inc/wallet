@@ -7,6 +7,7 @@ export enum RewardsScreenOrigin {
   NotificationBox = 'NotificationBox',
   PaymentDetail = 'PaymentDetail',
   PushNotification = 'PushNotification',
+  SideMenu = 'SideMenu',
 }
 
 export enum RewardsScreenCta {
