@@ -1,17 +1,30 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { StepOne } from 'src/account/LinkBankAccountScreen'
+import { StepOne, StepTwo } from 'src/account/LinkBankAccountScreen'
 import { KycStatus } from 'src/account/reducer'
 import PersonaButton from './Persona'
 import Button from '@celo/react-components/components/Button'
+import openPlaid from 'src/account/openPlaid'
+import { createMockStore } from 'test/utils'
+import { mockAccount, mockPrivateDEK } from 'test/values'
+import { Provider } from 'react-redux'
 
 let personaButtonSuccessCallback: (() => any) | undefined // using this to simulate Persona success at any arbitrary time
 const MockPersona = ({ onSuccess, onPress }: { onSuccess: () => any; onPress: () => any }) => {
   personaButtonSuccessCallback = onSuccess
   return <Button onPress={onPress} text="test persona button" testID="PersonaButton" />
 }
+
+const MOCK_PHONE_NUMBER = '+18487623478'
+
 jest.mock('./Persona', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn(),
+}))
+
+jest.mock('src/account/openPlaid', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
@@ -23,7 +36,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
     jest.clearAllMocks()
   })
 
-  describe('Tests with mock Persona button', () => {
+  describe('Tests with mock Persona button and openPlaid', () => {
     beforeAll(() => {
       //@ts-ignore . my IDE complains about this, though jest allows it
       PersonaButton.mockImplementation(MockPersona)
@@ -46,6 +59,37 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       expect(personaButtonSuccessCallback).toBeTruthy()
       personaButtonSuccessCallback?.()
       await waitFor(() => getByText('linkBankAccountScreen.completed.title')) // spinny wheel gone
+    })
+    it('Calls openPlaid when the plaid button is clicked', async () => {
+      const store = createMockStore({
+        web3: {
+          mtwAddress: mockAccount,
+          dataEncryptionKey: mockPrivateDEK,
+        },
+        i18n: {
+          language: 'en-US',
+        },
+        account: {
+          e164PhoneNumber: MOCK_PHONE_NUMBER,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <StepTwo disabled={false} />
+        </Provider>
+      )
+      await waitFor(() => expect(getByTestId('PlaidLinkButton')).not.toBeDisabled())
+
+      await fireEvent.press(getByTestId('PlaidLinkButton'))
+
+      expect(openPlaid).toHaveBeenCalledWith({
+        accountMTWAddress: mockAccount,
+        locale: 'en-US',
+        phoneNumber: MOCK_PHONE_NUMBER,
+        dekPrivate: mockPrivateDEK,
+        onSuccess: expect.any(Function),
+        onExit: expect.any(Function),
+      })
     })
   })
 })
