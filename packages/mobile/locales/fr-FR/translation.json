@@ -1133,7 +1133,7 @@
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} s'ouvrira dans un navigateur externe",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
+    "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
   "rewards": "Récompenses",
