@@ -65,8 +65,8 @@ export default RestoreAccountOnboarding = () => {
       // and leaving the restore button disabled
       await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
     } else if (device.getPlatform() === 'android') {
-      // Press back button to close the keyboard
-      await device.pressBack()
+      // Tap header to close the keyboard
+      await element(by.id('Header/RestoreBackup')).tap()
     }
 
     await element(by.id('ImportWalletButton')).tap()
