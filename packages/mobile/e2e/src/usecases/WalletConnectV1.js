@@ -19,7 +19,10 @@ let uri, walletConnector, tx
 
 export default WalletConnect = () => {
   beforeAll(async () => {
+    // Add url to blacklist - prevents detox sync while success banner is served
+    await device.setURLBlacklist(['https://blockchain-api-dot-celo-mobile-alfajores.appspot/*.'])
     await device.reloadReactNative()
+
     // Create connector
     walletConnector = new NodeWalletConnect(
       {
@@ -67,6 +70,8 @@ export default WalletConnect = () => {
 
   afterAll(async () => {
     await walletConnector.transportClose()
+    // Clear url blacklist
+    await device.setURLBlacklist([])
   })
 
   jest.retryTimes(2)
