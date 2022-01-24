@@ -160,20 +160,20 @@
       "text": "Quiconque possède votre phrase pourra accéder à votre compte et à tous les fonds qui s'y trouvent. Ne la partagez avec personne."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Démarrez avec Supercharge",
+  "consumerIncentivesSummary": "La fonction Supercharge est disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus pour en profiter dès maintenant ! Découvrez ici comment ça fonctionne :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "header": "Ajouter un solde minimum",
+    "earningText": "Ajoutez {{minBalance}} {{currency}} pour commencer. Déposez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Configurez votre phrase de récupération",
+    "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
   "cashIn": "Ajouter {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Impossible de récupérer le numéro de téléphone secret",
   "saltQuotaExceededError": "Le quota de recherches de votre numéro de téléphone est épuisé",
   "maxActionableAttestationsExceededError": "Impossible de renvoyer les messages",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Merci de confirmer votre numéro",
   "matchmakingQuotaExceededError": "La recherche de groupe ne peut être effectuée qu'une seule fois",
   "paymentLimitReached": "La limite quotidienne est de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restants",
   "requestLimitError": "Impossible de demander plus que la limite quotidienne de {{limit}} cUSD.",
