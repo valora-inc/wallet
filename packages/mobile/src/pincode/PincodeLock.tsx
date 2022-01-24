@@ -4,14 +4,20 @@
  */
 import colors from '@celo/react-components/styles/colors'
 import React, { useEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, StyleSheet } from 'react-native'
+import { BackHandler, Image, StyleSheet } from 'react-native'
 import RNExitApp from 'react-native-exit-app'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { PincodeType } from 'src/account/reducer'
+import { pincodeTypeSelector } from 'src/account/selectors'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { checkPin } from 'src/pincode/authentication'
+import { biometryEnabledSelector } from 'src/app/selectors'
+import Logo, { LogoTypes } from 'src/icons/Logo'
+import { background } from 'src/images/Images'
+import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -21,6 +27,10 @@ function PincodeLock() {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
+  const pincodeType = useSelector(pincodeTypeSelector)
+  const biometryEnabled = useSelector(biometryEnabledSelector)
+
+  const shouldGetPinWithBiometry = biometryEnabled && pincodeType === PincodeType.PhoneAuth
 
   const onWrongPin = () => {
     setPin('')
@@ -54,6 +64,22 @@ function PincodeLock() {
     }
   }, [])
 
+  const { error: getPinWithBiometryError } = useAsync(async () => {
+    if (shouldGetPinWithBiometry) {
+      const pin = await getPincodeWithBiometry()
+      onCompletePin(pin)
+    }
+  }, [])
+
+  if (shouldGetPinWithBiometry && !getPinWithBiometryError) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <Image testID="BackgroundImage" source={background} style={styles.backgroundImage} />
+        <Logo type={LogoTypes.LIGHT} height={70} />
+      </SafeAreaView>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Pincode
@@ -72,6 +98,17 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     flex: 1,
     backgroundColor: colors.light,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backgroundImage: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'stretch',
+    width: undefined,
+    height: undefined,
   },
 })
 
