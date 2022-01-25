@@ -155,11 +155,9 @@ if [ $PLATFORM = "android" ]; then
 
     startPackager
     
-    NUM_DEVICES=`adb devices -l | wc -l`
-    if [ $NUM_DEVICES -gt 2 ]; then
-      echo "Emulator already running or device attached. Killing emulator"
-      adb kill-server
-    fi
+
+    echo "Killing existing emulator(s)"
+    adb kill-server
 
     for ((i=1; i<=$WORKERS; i=i+1))
     do
