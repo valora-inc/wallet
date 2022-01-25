@@ -451,7 +451,7 @@ export class Account extends React.Component<Props, State> {
               onValueChange={this.handleRequirePinToggle}
               testID="requirePinOnAppOpenToggle"
             />
-            {/* For now disable the option to use the lightclient 
+            {/* For now disable the option to use the light client 
             <SettingsItemSwitch
               title={t('enableDataSaver')}
               value={this.props.fornoEnabled}

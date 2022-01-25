@@ -13,7 +13,7 @@ export interface State {
   // Has the data encryption key been registered in the Accounts contract
   isDekRegistered: boolean | undefined
   fornoMode: boolean
-  // In case we want to put back the lightclient in the future
+  // In case we want to put back the light client in the future
   hadFornoDisabled?: boolean
 }
 

@@ -382,7 +382,7 @@ export const migrations = {
     ...state,
     web3: {
       ...state.web3,
-      // Move everybody to forno, i.e. disables the lightclient
+      // Move everybody to forno, i.e. disables the light client
       fornoMode: true,
       hadFornoDisabled: state.web3.fornoMode === false,
     },
