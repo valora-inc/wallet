@@ -9,7 +9,6 @@ beforeAll(async () => {
     newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
-  await device.enableSynchronization() // Enable before all tests if disabled during a test and the test failed.
   // Uses demo mode to set a consistent top bar
   await setDemoMode()
 })
