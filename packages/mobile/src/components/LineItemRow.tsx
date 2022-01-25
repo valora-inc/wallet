@@ -11,6 +11,7 @@ interface LineItemProps {
   titleIcon?: React.ReactNode
   isLoading?: boolean
   hasError?: boolean
+  testID?: string
 }
 
 export default function LineItemRow({
@@ -21,6 +22,7 @@ export default function LineItemRow({
   titleIcon,
   isLoading,
   hasError,
+  testID,
 }: LineItemProps) {
   const textStyle = [styles.text, textStyleProp]
 
@@ -30,8 +32,16 @@ export default function LineItemRow({
         <Text style={textStyle}>{title}</Text>
         {titleIcon}
       </View>
-      {!!amount && <Text style={textStyle}>{amount}</Text>}
-      {hasError && <Text style={textStyle}>---</Text>}
+      {!!amount && (
+        <Text style={textStyle} testID={`LineItemRow/${testID}`}>
+          {amount}
+        </Text>
+      )}
+      {hasError && (
+        <Text style={textStyle} testID={`LineItemRow/${testID}`}>
+          ---
+        </Text>
+      )}
       {isLoading && (
         <View style={styles.loadingContainer} testID="LineItemLoading">
           <ActivityIndicator size="small" color={colors.greenBrand} />
