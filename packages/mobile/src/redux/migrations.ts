@@ -378,4 +378,13 @@ export const migrations = {
       dappsExplorerEnabled: false,
     },
   }),
+  29: (state: any) => ({
+    ...state,
+    web3: {
+      ...state.web3,
+      // Move everybody to forno, i.e. disables the lightclient
+      fornoMode: true,
+      hadFornoDisabled: state.web3.fornoMode === false,
+    },
+  }),
 }

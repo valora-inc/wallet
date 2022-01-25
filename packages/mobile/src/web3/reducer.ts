@@ -1,5 +1,4 @@
 import { Actions as AppActions, VerificationMigrationRanAction } from 'src/app/actions'
-import networkConfig from 'src/geth/networkConfig'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes, Web3SyncProgress } from 'src/web3/actions'
 
@@ -14,6 +13,8 @@ export interface State {
   // Has the data encryption key been registered in the Accounts contract
   isDekRegistered: boolean | undefined
   fornoMode: boolean
+  // In case we want to put back the lightclient in the future
+  hadFornoDisabled?: boolean
 }
 
 const initialState: State = {
@@ -28,7 +29,7 @@ const initialState: State = {
   accountInWeb3Keystore: null,
   dataEncryptionKey: null,
   isDekRegistered: false,
-  fornoMode: networkConfig.initiallyForno,
+  fornoMode: true, // networkConfig.initiallyForno,
 }
 
 export const reducer = (
@@ -67,11 +68,12 @@ export const reducer = (
         ...state,
         accountInWeb3Keystore: action.address,
       }
-    case Actions.SET_IS_FORNO:
-      return {
-        ...state,
-        fornoMode: action.fornoMode,
-      }
+    // Don't allow changing forno mode
+    // case Actions.SET_IS_FORNO:
+    //   return {
+    //     ...state,
+    //     fornoMode: action.fornoMode,
+    //   }
     case Actions.SET_DATA_ENCRYPTION_KEY:
       return {
         ...state,

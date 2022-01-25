@@ -24,7 +24,7 @@ describe(initGethSaga, () => {
   })
 
   it('initializes the bridge and starts the node', async () => {
-    const state = createMockStore({}).getState()
+    const state = createMockStore({ web3: { fornoMode: false } }).getState()
     await expectSaga(_waitForGethInit).withState(state).returns(GethInitOutcomes.SUCCESS).run()
     expect(state.geth.initialized).toEqual(InitializationState.INITIALIZED)
     expect(GethBridge.startNode).toHaveBeenCalledTimes(1)
@@ -60,7 +60,7 @@ describe(initGethSaga, () => {
       .mockRejectedValueOnce(new Error('no network'))
       .mockResolvedValueOnce(Promise.resolve('["enode://foo"]'))
 
-    const state = createMockStore({}).getState()
+    const state = createMockStore({ web3: { fornoMode: false } }).getState()
     await expectSaga(initGethSaga)
       .withState(state)
       .provide([[delay(GETH_RETRY_DELAY), true]])
