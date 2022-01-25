@@ -337,6 +337,12 @@ export default WalletConnect = () => {
   afterAll(async () => {
     // A sleep for ci
     await sleep(3 * 1000)
+
+    // Wait for hamburger to be visible
+    await waitFor(element(by.id('Hamburger')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
+
     // Tap Hamburger
     await element(by.id('Hamburger')).tap()
 
