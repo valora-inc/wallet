@@ -225,9 +225,10 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
       try {
         const account: string = yield call(getConnectedUnlockedAccount)
 
+        const currencyAddress: string = yield call(getCurrencyAddress, currency)
         const tx: CeloTransactionObject<boolean> = yield call(
           createTokenTransferTransaction,
-          currency,
+          currencyAddress,
           {
             recipientAddress,
             amount,

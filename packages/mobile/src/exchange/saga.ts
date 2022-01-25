@@ -35,6 +35,7 @@ import {
   getCurrencyAddress,
   getTokenContract,
 } from 'src/tokens/saga'
+import { celoAddressSelector } from 'src/tokens/selectors'
 import {
   addStandbyTransaction,
   addStandbyTransactionLegacy,
@@ -455,7 +456,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       })
     )
 
-    const celoTokenAddress: string = yield call(getCurrencyAddress, Currency.Celo)
+    const celoTokenAddress: string = yield select(celoAddressSelector)
     yield put(
       addStandbyTransaction({
         context,
@@ -471,7 +472,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 
     const tx: CeloTransactionObject<boolean> = yield call(
       createTokenTransferTransaction,
-      Currency.Celo,
+      celoTokenAddress,
       {
         recipientAddress,
         amount,
