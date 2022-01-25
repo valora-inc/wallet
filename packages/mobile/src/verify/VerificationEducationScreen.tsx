@@ -152,7 +152,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     navigation.setOptions({
       headerTitle: title,
       headerRight: () =>
-        !route.params?.hideOnboardingStep && (
+        !route.params?.hideOnboardingStep &&
+        account && (
           <TopBarTextButton
             title={t('skip')}
             testID="VerificationEducationSkipHeader"
@@ -162,7 +163,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         ),
       headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
     })
-  }, [navigation, registrationStep, route.params])
+  }, [navigation, registrationStep, route.params, account])
 
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2

@@ -28,7 +28,7 @@ import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress, getMTWAddress } from 'src/web3/saga'
+import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'account/saga'
 
@@ -86,6 +86,7 @@ function* initializeAccount() {
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
+    yield put(showError(ErrorMessages.ACCOUNT_SETUP_FAILED))
     yield put(initializeAccountFailure())
   }
 }

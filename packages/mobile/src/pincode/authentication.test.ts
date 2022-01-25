@@ -7,15 +7,35 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
   CANCELLED_PIN_INPUT,
   DEFAULT_CACHE_ACCOUNT,
-  PinBlocklist,
   getPasswordSaga,
   getPincode,
+  PinBlocklist,
+  retrieveOrGeneratePepper,
 } from 'src/pincode/authentication'
-import { clearPasswordCaches, getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
+import {
+  clearPasswordCaches,
+  getCachedPepper,
+  getCachedPin,
+  setCachedPepper,
+  setCachedPin,
+} from 'src/pincode/PasswordCache'
 import { mockAccount } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
-const mockPepper = { password: '0000000000000000000000000000000000000000000000000000000000000001' }
+jest.unmock('src/pincode/authentication')
+jest.mock('react-native-securerandom', () => ({
+  ...(jest.requireActual('react-native-securerandom') as any),
+  generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
+}))
+
+const mockPepper = {
+  username: 'some username',
+  password: '01010101010101010101010101010101',
+  service: 'some service',
+  storage: 'some string',
+}
 const mockPin = '111555'
+const mockedKeychain = mocked(Keychain)
 
 describe(getPasswordSaga, () => {
   const mockedNavigate = navigate as jest.Mock
@@ -35,8 +55,8 @@ describe(getPasswordSaga, () => {
       .returns(expectedPassword)
       .run()
 
-    // expect(navigate).toHaveBeenCalled()
-    // expect(navigateBack).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalled()
+    expect(navigateBack).toHaveBeenCalled()
   })
 })
 
@@ -79,6 +99,58 @@ describe(getPincode, () => {
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
+  })
+})
+
+describe(retrieveOrGeneratePepper, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    clearPasswordCaches()
+  })
+
+  it('should return the cached pepper', async () => {
+    setCachedPepper(DEFAULT_CACHE_ACCOUNT, mockPepper.password)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+  })
+
+  it('should return the stored pepper if it is not cached', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(mockPepper)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+  })
+
+  it('should store and cache the pepper if it has not been stored or cached', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
+    mockedKeychain.setGenericPassword.mockResolvedValueOnce({
+      service: 'PEPPER',
+      storage: 'some storage',
+    })
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(mockPepper)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+    expect(getCachedPepper(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPepper.password)
+  })
+
+  it('should throw an error if it fails to correctly read the stored pepper', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
+    mockedKeychain.setGenericPassword.mockResolvedValueOnce({
+      service: 'PEPPER',
+      storage: 'some storage',
+    })
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce({
+      ...mockPepper,
+      password: 'some random password',
+    })
+
+    try {
+      await retrieveOrGeneratePepper()
+    } catch (error) {
+      expect(error).toEqual(Error('keychainStorageError'))
+    }
   })
 })
 
