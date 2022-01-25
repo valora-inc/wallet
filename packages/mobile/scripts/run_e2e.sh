@@ -155,9 +155,6 @@ if [ $PLATFORM = "android" ]; then
 
     startPackager
 
-    echo "Shutdown active emulator(s)"
-    adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
-
     for ((i=1; i<=$WORKERS; i=i+1))
     do
       echo "Starting the emulator"
