@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
+    "earningText": "Aggiungi {{minBalance}} {{currency}} e fino a 1000 {{currency}} per iniziare.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
@@ -1067,7 +1067,7 @@
     "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
     "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
-  "balances": "Saldi",
+  "balances": "Assets",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
   "whatTotalValue": {
