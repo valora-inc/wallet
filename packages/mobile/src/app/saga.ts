@@ -146,7 +146,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  dappsExplorerEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
