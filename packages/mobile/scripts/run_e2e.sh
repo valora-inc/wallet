@@ -154,12 +154,11 @@ if [ $PLATFORM = "android" ]; then
     yarn detox build -c $CONFIG_NAME
 
     startPackager
-    
-    NUM_DEVICES=`adb devices -l | wc -l`
-    if [ $NUM_DEVICES -gt 2 ]; then
-      echo "Emulator already running or device attached. Killing emulator"
-      adb kill-server
-    fi
+
+    # Kill all emulators if present
+    killall -9 qemu-system-x86_64 || true
+
+    sleep 2
 
     for ((i=1; i<=$WORKERS; i=i+1))
     do
@@ -190,7 +189,6 @@ if [ $PLATFORM = "android" ]; then
   # Run Detox Tests
   runTest
 
-  # Close active emulators 
   if [ $DEV_MODE = false ]; then
     echo "Closing emulator (if active)"
     adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
