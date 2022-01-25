@@ -8,7 +8,7 @@ describe('Given Wallet Connect', () => {
   })
 
   // Testing to see if walletConnectV1 is the issue
-  describe.skip('When V1', WalletConnectV1)
+  describe('When V1', WalletConnectV1)
   // Skip WalletConnect V2 Until supported
   describe.skip('When V2', WalletConnectV2)
 })
