@@ -155,10 +155,7 @@ if [ $PLATFORM = "android" ]; then
 
     startPackager
 
-    echo "Killing server"
-    adb kill-server
-
-    echo "Killing emulator(s)"
+    echo "Shutdown active emulator(s)"
     adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
 
     for ((i=1; i<=$WORKERS; i=i+1))
@@ -177,7 +174,6 @@ if [ $PLATFORM = "android" ]; then
 
     # Give a few second for emulators to launch
     sleep 3
-    echo `adb devices`
     for DEVICE in `adb devices| grep emulator| cut -f1`; do
       echo "Waiting for ${DEVICE} to connect to Wifi, this is a good proxy the device is ready"
       until [ `adb -s ${DEVICE} shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
