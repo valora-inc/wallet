@@ -7,7 +7,8 @@ describe('Given Wallet Connect', () => {
     await quickOnboarding()
   })
 
-  describe('When V1', WalletConnectV1)
+  // Testing to see if walletConnectV1 is the issue
+  describe.skip('When V1', WalletConnectV1)
   // Skip WalletConnect V2 Until supported
   describe.skip('When V2', WalletConnectV2)
 })
