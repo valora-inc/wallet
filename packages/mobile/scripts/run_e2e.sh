@@ -155,8 +155,10 @@ if [ $PLATFORM = "android" ]; then
 
     startPackager
 
-    # Kill all emulators
-    killall -9 qemu-system-x86_64
+    # Kill all emulators if present
+    killall -9 qemu-system-x86_64 || true
+
+    sleep 2
 
     for ((i=1; i<=$WORKERS; i=i+1))
     do
