@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Ajouter un solde minimum",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
+    "earningText": "Ajoutez {{minBalance}} {{currency}} et jusqu'à 1000 {{currency}} pour commencer.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
@@ -1067,9 +1067,9 @@
     "titleRamp": "Ajoutez des {{currency}} pour commencer à utiliser Valora",
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
-  "balances": "Soldes",
+  "balances": "Actifs",
   "totalValue": "Solde total",
-  "viewBalances": "Voir les valeurs",
+  "viewBalances": "Voir les actifs",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains jetons ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
