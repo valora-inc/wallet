@@ -31,7 +31,7 @@ import {
   storeSentEscrowPayments,
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
-import { calculateFee } from 'src/fees/saga'
+import { calculateFee, currencyToFeeCurrency } from 'src/fees/saga'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
@@ -133,7 +133,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       newTransactionContext(TAG, 'Approve transfer to Escrow'),
       feeInfo?.gas.toNumber(),
       feeInfo?.gasPrice,
-      feeInfo?.currency
+      feeInfo?.feeCurrency
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
 
@@ -161,8 +161,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       transferTx,
       walletAddress,
       context,
-      undefined,
-      feeInfo?.currency,
+      feeInfo?.feeCurrency,
       feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
       feeInfo?.gasPrice
     )
@@ -387,7 +386,8 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
 
 export async function getReclaimEscrowFee(account: string, paymentID: string) {
   const gas = await getReclaimEscrowGas(account, paymentID)
-  return calculateFee(gas, Currency.Dollar)
+  // TODO: Add support for any allowed fee currency, not just dollar.
+  return calculateFee(gas, await currencyToFeeCurrency(Currency.Dollar))
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {

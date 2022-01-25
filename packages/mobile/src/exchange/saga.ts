@@ -25,6 +25,7 @@ import {
   withdrawCeloSuccess,
 } from 'src/exchange/actions'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
+import { currencyToFeeCurrency } from 'src/fees/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { sendPaymentOrInviteSuccess } from 'src/send/actions'
@@ -34,6 +35,7 @@ import {
   getCurrencyAddress,
   getTokenContract,
 } from 'src/tokens/saga'
+import { celoAddressSelector } from 'src/tokens/selectors'
 import {
   addStandbyTransaction,
   addStandbyTransactionLegacy,
@@ -319,6 +321,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       )
     }
 
+    const feeCurrency: string | undefined = yield call(currencyToFeeCurrency, makerToken)
     yield call(
       sendTransaction,
       approveTx.txo,
@@ -326,7 +329,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       newTransactionContext(TAG, `Approve exchange of ${makerToken}`),
       undefined, // gas
       undefined, // gasPrice
-      makerToken
+      feeCurrency
     )
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
@@ -352,8 +355,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       tx,
       account,
       context,
-      undefined, // currency, undefined because it's an exchange and we need both.
-      makerToken,
+      feeCurrency,
       undefined, // gas
       undefined, // gasPrice
       nonce + 1
@@ -454,7 +456,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       })
     )
 
-    const celoTokenAddress: string = yield call(getCurrencyAddress, Currency.Celo)
+    const celoTokenAddress: string = yield select(celoAddressSelector)
     yield put(
       addStandbyTransaction({
         context,
@@ -470,7 +472,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 
     const tx: CeloTransactionObject<boolean> = yield call(
       createTokenTransferTransaction,
-      Currency.Celo,
+      celoTokenAddress,
       {
         recipientAddress,
         amount,
@@ -478,7 +480,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       }
     )
 
-    yield call(sendAndMonitorTransaction, tx, account, context, Currency.Celo, Currency.Celo)
+    yield call(sendAndMonitorTransaction, tx, account, context)
 
     const dollarAmount = yield call(celoToDollarAmount, amount)
     yield put(sendPaymentOrInviteSuccess(dollarAmount))
