@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
+    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
@@ -1067,7 +1067,7 @@
     "titleRamp": "Füge {{currency}} hinzu, um loszulegen",
     "subtitleRamp": "Füge Guthaben mit Nullgebühren durch einen unserer vertrauenswürdigen externen Anbieter hinzu."
   },
-  "balances": "Guthaben",
+  "balances": "Vermögen",
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
   "whatTotalValue": {
