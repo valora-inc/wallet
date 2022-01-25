@@ -891,7 +891,6 @@ export const v28Schema = {
   app: {
     ...v27Schema.app,
     dappListApiUrl: null,
-    dappsExplorerEnabled: false,
   },
 }
 

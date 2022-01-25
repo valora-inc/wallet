@@ -196,7 +196,6 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 export default function DrawerNavigator() {
   const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
-  const isDappsExplorerEnabled = useSelector((state) => state.app.dappsExplorerEnabled)
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
@@ -239,7 +238,7 @@ export default function DrawerNavigator() {
           }}
         />
       )}
-      {isDappsExplorerEnabled && dappsListUrl && (
+      {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
