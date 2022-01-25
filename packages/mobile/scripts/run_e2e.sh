@@ -154,10 +154,12 @@ if [ $PLATFORM = "android" ]; then
     yarn detox build -c $CONFIG_NAME
 
     startPackager
-    
 
-    echo "Killing existing emulator(s)"
+    echo "Killing server"
     adb kill-server
+
+    echo "Killing emulator(s)"
+    adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
 
     for ((i=1; i<=$WORKERS; i=i+1))
     do
