@@ -172,7 +172,6 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
-  sentryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
 }
 

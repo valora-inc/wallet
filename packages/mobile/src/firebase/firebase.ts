@@ -273,7 +273,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
-    sentryEnabled: flags.sentryEnabled.asBoolean(),
     superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
   }
 }
