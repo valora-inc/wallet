@@ -40,7 +40,7 @@ export default function ReclaimPaymentConfirmationCard({
   }
   const fee = getFeeInTokens(feeInfo?.fee)
 
-  // TODO: Add support for any stablecoin, not just dollar/euro.
+  // TODO: Add support for any allowed fee currency, not just dollar/euro.
   const feeToken = useTokenInfo(feeInfo?.feeCurrency ?? '')
   const feeCurrency = !feeToken
     ? Currency.Celo
