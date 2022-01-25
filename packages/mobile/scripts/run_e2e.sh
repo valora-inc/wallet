@@ -189,6 +189,11 @@ if [ $PLATFORM = "android" ]; then
   # Run Detox Tests
   runTest
 
+  if [ $DEV_MODE = false ]; then
+    echo "Closing emulator (if active)"
+    adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+  fi
+
 elif [ $PLATFORM = "ios" ]; then
   echo "Using platform ios"
 
