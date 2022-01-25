@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Добавьте минимальную сумму на баланс",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
+    "earningText": "Добавьте {{minBalance}} {{currency}} для начала. Внесите до 1000 {{currency}}, чтобы получить максимальное вознаграждение.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
@@ -1071,7 +1071,7 @@
     "titleRamp": "Внести {{currency}}, чтобы начать использовать Valora",
     "subtitleRamp": "Внесите средства с нулевой комиссией через одного из доверенных внешних поставщиков."
   },
-  "balances": "Остатки",
+  "balances": "Активы",
   "totalValue": "Общий остаток",
   "viewBalances": "Просмотр активов",
   "whatTotalValue": {
