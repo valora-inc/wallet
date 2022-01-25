@@ -375,7 +375,6 @@ export const migrations = {
     app: {
       ...state.app,
       dappListApiUrl: null,
-      dappsExplorerEnabled: false,
     },
   }),
 }

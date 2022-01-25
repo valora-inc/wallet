@@ -13,7 +13,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   // same here
   // celoEducationUri: null,
   // dappListApiUrl: null,
-  dappsExplorerEnabled: false,
   celoEuroEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 5,
