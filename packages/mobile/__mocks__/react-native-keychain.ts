@@ -14,6 +14,13 @@ const keychainMock = {
   AUTHENTICATION_TYPE: {
     BIOMETRICS: 'AuthenticationWithBiometrics',
   },
+  BIOMETRY_TYPE: {
+    TOUCH_ID: 'TouchID',
+    FACE_ID: 'FaceID',
+    FINGERPRINT: 'Fingerprint',
+    FACE: 'Face',
+    IRIS: 'Iris',
+  },
   setGenericPassword: jest.fn(),
   getGenericPassword: jest.fn(),
   resetGenericPassword: jest.fn(),

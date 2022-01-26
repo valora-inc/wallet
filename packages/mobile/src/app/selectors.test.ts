@@ -1,7 +1,16 @@
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
+import {
+  createAccountSteps,
+  registrationStepsSelector,
+  restoreAccountSteps,
+  storeWipeRecoverySteps,
+  verificationPossibleSelector,
+} from 'src/app/selectors'
+import { Screens } from 'src/navigator/Screens'
+import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
-import { getMockStoreData } from 'test/utils'
+import { getMockStoreData, RecursivePartial } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
 describe(verificationPossibleSelector, () => {
@@ -87,5 +96,88 @@ describe(verificationPossibleSelector, () => {
         })
       )
     ).toBe(true)
+  })
+})
+
+describe('registrationStepsSelector', () => {
+  const registrationStepsSelectorWithMockStore = (
+    screen: Screens,
+    storeOverrides: RecursivePartial<RootState> = {}
+  ) =>
+    registrationStepsSelector(
+      getMockStoreData({
+        app: {
+          activeScreen: screen,
+          biometryEnabled: false,
+          supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+          ...storeOverrides.app,
+        },
+        account: {
+          choseToRestoreAccount: false,
+          recoveringFromStoreWipe: false,
+          ...storeOverrides.account,
+        },
+      })
+    )
+  it('should return the correct steps for create account screens', () => {
+    ;(Object.keys(createAccountSteps) as Array<keyof typeof createAccountSteps>).forEach(
+      (screen) => {
+        expect(registrationStepsSelectorWithMockStore(screen)).toEqual({
+          step: createAccountSteps[screen],
+          totalSteps: 3,
+        })
+      }
+    )
+  })
+  it('should return the correct steps for restore account screens', () => {
+    ;(Object.keys(restoreAccountSteps) as Array<keyof typeof restoreAccountSteps>).forEach(
+      (screen) => {
+        expect(
+          registrationStepsSelectorWithMockStore(screen, {
+            account: {
+              choseToRestoreAccount: true,
+            },
+          })
+        ).toEqual({ step: restoreAccountSteps[screen], totalSteps: 4 })
+      }
+    )
+  })
+  it('should return the correct steps for store wipe recovery screens', () => {
+    ;(Object.keys(storeWipeRecoverySteps) as Array<keyof typeof storeWipeRecoverySteps>).forEach(
+      (screen) => {
+        expect(
+          registrationStepsSelectorWithMockStore(screen, {
+            account: {
+              recoveringFromStoreWipe: true,
+            },
+          })
+        ).toEqual({ step: storeWipeRecoverySteps[screen], totalSteps: 3 })
+      }
+    )
+  })
+
+  it('should return the correct steps for create account screens with biometry enabled', () => {
+    const expectedCreateAccountSteps = {
+      [Screens.NameAndPicture]: 1,
+      [Screens.PincodeSet]: 2,
+      [Screens.EnableBiometry]: 3,
+      [Screens.VerificationEducationScreen]: 4,
+      [Screens.VerificationInputScreen]: 4,
+    }
+
+    ;(Object.keys(expectedCreateAccountSteps) as Array<
+      keyof typeof expectedCreateAccountSteps
+    >).forEach((screen) => {
+      expect(
+        registrationStepsSelectorWithMockStore(screen, {
+          app: {
+            biometryEnabled: true,
+          },
+        })
+      ).toEqual({
+        step: expectedCreateAccountSteps[screen],
+        totalSteps: 4,
+      })
+    })
   })
 })
