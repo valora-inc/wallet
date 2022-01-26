@@ -678,7 +678,7 @@
     "Face": "Face recognition",
     "Iris": "Iris recognition"
   },
-  "useBiometryOption": "Use {{option}}",
+  "useBiometryOption": "Use {{biometryOption}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
