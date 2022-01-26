@@ -18,8 +18,8 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import {
+  coreTokensSelector,
   tokensByAddressSelector,
-  tokensByCurrencySelector,
   tokensByUsdBalanceSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
@@ -35,7 +35,7 @@ export interface FeeInfo {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-  currency: Currency
+  feeCurrency: string | undefined
 }
 
 // Use default values for fee estimation
@@ -191,11 +191,10 @@ function* estimateRegisterDekFee() {
 function* calculateFeeForTx(txo: CeloTxObject<any>, extraGasNeeded?: BigNumber) {
   const userAddress: string = yield call(getWalletAddress)
 
-  const feeCurrency: Currency = yield call(fetchFeeCurrencySaga)
-  const feeCurrencyAddress: string = yield call(getCurrencyAddress, feeCurrency)
+  const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
   const gasNeeded: BigNumber = yield call(estimateGas, txo, {
     from: userAddress,
-    feeCurrency: feeCurrency === Currency.Celo ? undefined : feeCurrencyAddress,
+    feeCurrency,
   })
 
   const feeInfo: FeeInfo = yield call(
@@ -207,24 +206,35 @@ function* calculateFeeForTx(txo: CeloTxObject<any>, extraGasNeeded?: BigNumber) 
 }
 
 function* mapFeeInfoToUsdFee(feeInfo: FeeInfo) {
-  const tokensInfo: { [currency in Currency]: TokenBalance | undefined } = yield select(
-    tokensByCurrencySelector
+  const tokensInfo: TokenBalance[] = yield select(coreTokensSelector)
+  const tokenInfo = tokensInfo.find(
+    (token) =>
+      token.address === feeInfo.feeCurrency || (token.symbol === 'CELO' && !feeInfo.feeCurrency)
   )
-  const tokenInfo = tokensInfo[feeInfo.currency]
   if (!tokenInfo?.usdPrice) {
-    throw new Error(`Missing tokenInfo or tokenInfo.usdPrice for ${feeInfo.currency}`)
+    throw new Error(`Missing tokenInfo or tokenInfo.usdPrice for ${feeInfo.feeCurrency}`)
   }
   return feeInfo.fee.times(tokenInfo.usdPrice).div(1e18)
 }
 
-export async function calculateFee(gas: BigNumber, currency: Currency): Promise<FeeInfo> {
-  const gasPrice = await getGasPrice(currency)
+export async function calculateFee(
+  gas: BigNumber,
+  feeCurrency: string | undefined
+): Promise<FeeInfo> {
+  const gasPrice = await getGasPrice(feeCurrency)
   const feeInWei = gas.multipliedBy(gasPrice)
-  Logger.debug(`${TAG}/calculateFee`, `Calculated ${currency} fee is: ${feeInWei.toString()}`)
-  return { gas, currency, gasPrice, fee: feeInWei }
+  Logger.debug(`${TAG}/calculateFee`, `Calculated ${feeCurrency} fee is: ${feeInWei.toString()}`)
+  return { gas, feeCurrency, gasPrice, fee: feeInWei }
 }
 
-function* fetchFeeCurrencySaga() {
+export async function currencyToFeeCurrency(currency: Currency): Promise<string | undefined> {
+  if (currency === Currency.Celo) {
+    return undefined
+  }
+  return getCurrencyAddress(currency)
+}
+
+export function* fetchFeeCurrencySaga() {
   const tokens: TokenBalance[] = yield select(tokensByUsdBalanceSelector)
   return fetchFeeCurrency(tokens)
 }
@@ -235,13 +245,15 @@ export function fetchFeeCurrency(tokens: TokenBalance[]) {
       continue
     }
     if (token.symbol === 'CELO' && token.balance.gte(CELO_TRANSACTION_MIN_AMOUNT)) {
-      return Currency.Celo
+      // Paying for fee with CELO requires passing undefined.
+      return undefined
     } else if (token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT)) {
-      return token.symbol as Currency
+      return token.address
     }
   }
   Logger.warn(TAG, '@fetchFeeCurrency no currency has enough balance to pay for fee.')
-  return Currency.Dollar
+  // This will cause a failure to calculate fee error dialog in the top.
+  return undefined
 }
 
 export function* feesSaga() {
