@@ -9,4 +9,7 @@ module.exports = {
   getPasswordSaga: jest.fn(function* () {
     return '0000000000000000000000000000000000000000000000000000000000000001' + '111555'
   }),
+  setPincodeWithBiometry: jest
+    .fn()
+    .mockResolvedValue({ service: 'some service', storage: 'some storage' }),
 }
