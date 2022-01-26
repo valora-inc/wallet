@@ -17,9 +17,9 @@ import { getSendFee } from 'src/send/saga'
 import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import {
-  getElementText,
   createMockStore,
   flushMicrotasksQueue,
+  getElementText,
   getMockStackScreenProps,
   RecursivePartial,
 } from 'test/utils'
@@ -37,7 +37,7 @@ const TEST_FEE_INFO_CUSD = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Dollar,
+  feeCurrency: mockCusdAddress,
 }
 
 // A fee of 0.01 CELO.
@@ -45,7 +45,7 @@ const TEST_FEE_INFO_CELO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Celo,
+  feeCurrency: undefined,
 }
 
 jest.mock('src/components/useShowOrHideAnimation')

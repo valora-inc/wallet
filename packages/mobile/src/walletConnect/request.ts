@@ -6,10 +6,8 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
-import { getCurrencyAddress } from 'src/tokens/saga'
 import { chooseFeeCurrency, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
@@ -69,18 +67,15 @@ export function* handleRequest({ method, params }: { method: string; params: any
         if (!rawTx.feeCurrency) {
           // This will use CELO to pay for fees if the user has a balance,
           // otherwise it will fallback to the first currency with a balance
-          const feeCurrency: Currency = yield call(chooseFeeCurrency, Currency.Celo)
-          // Pass undefined to use CELO to pay for gas.
-          const feeCurrencyAddress: string | undefined =
-            feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
+          const feeCurrency: string | undefined = yield call(chooseFeeCurrency, undefined)
 
-          rawTx.feeCurrency = feeCurrencyAddress
+          rawTx.feeCurrency = feeCurrency
           // If gas was set, we add some padding to it since we don't know if feeCurrency changed
           // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
           // Why aren't we just estimating again?
           // It may result in errors for the dapp. E.g. If a dapp developer is doing a two step approve and exchange and requesting both signatures
           // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
-          if (rawTx.gas && feeCurrency !== Currency.Celo) {
+          if (rawTx.gas && feeCurrency) {
             rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
           }
           // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again

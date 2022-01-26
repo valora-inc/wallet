@@ -891,7 +891,6 @@ export const v28Schema = {
   app: {
     ...v27Schema.app,
     dappListApiUrl: null,
-    dappsExplorerEnabled: false,
   },
 }
 
@@ -901,8 +900,21 @@ export const v29Schema = {
     ...v28Schema._persist,
     version: 29,
   },
+  web3: {
+    ...v28Schema.web3,
+    fornoMode: true,
+    hadFornoDisabled: true,
+  },
+}
+
+export const v30Schema = {
+  ...v29Schema,
+  _persist: {
+    ...v29Schema._persist,
+    version: 30,
+  },
   app: {
-    ...v28Schema.app,
+    ...v29Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
   },
@@ -913,5 +925,5 @@ export const v29Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v29Schema as Partial<RootState>
+  return v30Schema as Partial<RootState>
 }

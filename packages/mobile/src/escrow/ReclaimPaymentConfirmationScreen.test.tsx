@@ -13,6 +13,7 @@ import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from '
 import {
   mockAccount,
   mockAccount2,
+  mockCusdAddress,
   mockE164Number,
   mockE164NumberHashWithPepper,
 } from 'test/values'
@@ -22,7 +23,7 @@ const TEST_FEE_INFO_CUSD = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Dollar,
+  feeCurrency: mockCusdAddress,
 }
 
 // A fee of 0.01 CELO.
@@ -30,7 +31,7 @@ const TEST_FEE_INFO_CELO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Celo,
+  feeCurrency: undefined,
 }
 
 jest.mock('src/escrow/saga')

@@ -160,20 +160,20 @@
       "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
     }
   ],
-  "consumerIncentivesTitle": "Boost your Rewards",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
-    "text": "Link your Valora account to your phone number."
+    "text": "Tap Connect Number if you haven't connected it yet."
   },
   "noMinCommitment": {
     "header": "Add a minimum balance",
-    "earningText": "Cash in {{minBalance}} or more {{currency}}.",
+    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
     "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
-    "header": "Keep it safe",
-    "text": "Set up your Recovery Phrase from the Menu."
+    "header": "Set up your Recovery Phrase",
+    "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "cashIn": "Add {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Failed to retrieve phone number secret",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
-  "odisInsufficientBalance": "Please confirm your number before sending cUSD to a contact",
+  "odisInsufficientBalance": "Please confirm your number",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
   "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
   "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
@@ -1067,7 +1067,7 @@
     "titleRamp": "Add {{currency}} to start using Valora",
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
-  "balances": "Balances",
+  "balances": "Assets",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
   "whatTotalValue": {
@@ -1121,7 +1121,23 @@
     "message": "Your balances may not be up to date.",
     "button": "Refresh"
   },
-  "syncingBankAccount": "Syncing Bank Account",
+  "dappsScreen": {
+    "title": "Dapps",
+    "message": "Explore ways to use your crypto.",
+    "errorMessage": "There was an error loading dapps"
+  },
+  "dappsScreenHelpDialog": {
+    "title": "What are dapps?",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "dismiss": "Dismiss"
+  },
+  "dappsScreenBottomSheet": {
+    "title": "{{dappName}} will open in an external browser",
+    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
+    "button": "Go to {{dappName}}"
+  },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
