@@ -476,8 +476,8 @@ export class Account extends React.Component<Props, State> {
             />
             {this.props.biometryEnabled && this.props.supportedBiometryType && (
               <SettingsItemSwitch
-                title={t('useBiometryOption', {
-                  biometryOption: t(`biometryOption.${this.props.supportedBiometryType}`),
+                title={t('useBiometryType', {
+                  biometryType: t(`biometryType.${this.props.supportedBiometryType}`),
                 })}
                 value={this.props.pincodeType === PincodeType.PhoneAuth}
                 onValueChange={this.handleUseBiometryToggle}
