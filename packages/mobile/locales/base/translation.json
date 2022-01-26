@@ -668,10 +668,10 @@
   },
   "enableBiometry": {
     "title": "Secure your wallet",
-    "description": "{{biometryOption}} secures your wallet and makes it easier to use {{appName}}",
-    "cta": "Turn on {{biometryOption}}"
+    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
+    "cta": "Turn on {{biometryType}}"
   },
-  "biometryOption": {
+  "biometryType": {
     "FaceID": "Face ID",
     "TouchID": "Touch ID",
     "Fingerprint": "Fingerprint recognition",

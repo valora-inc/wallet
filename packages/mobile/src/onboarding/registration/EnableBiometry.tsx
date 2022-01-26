@@ -74,13 +74,13 @@ export default function EnableBiometry({ navigation, route }: Props) {
         <View style={styles.imageContainer}>{biometryImageMap[supportedBiometryType!]}</View>
         <Text style={styles.description}>
           {t('enableBiometry.description', {
-            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+            biometryType: t(`biometryType.${supportedBiometryType}`),
           })}
         </Text>
         <Button
           onPress={onPressUseBiometry}
           text={t('enableBiometry.cta', {
-            biometryOption: t(`biometryOption.${supportedBiometryType}`),
+            biometryType: t(`biometryType.${supportedBiometryType}`),
           })}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
