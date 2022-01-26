@@ -3,7 +3,7 @@ import Svg, { Path } from 'react-native-svg'
 
 export function Face() {
   return (
-    <Svg width={64} height={64} fill="none">
+    <Svg testID="FaceBiometryIcon" width={64} height={64} fill="none">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
