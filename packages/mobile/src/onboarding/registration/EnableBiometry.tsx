@@ -17,7 +17,7 @@ import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import TouchID from 'src/icons/biometry/TouchID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -54,18 +54,22 @@ export default function EnableBiometry({ navigation, route }: Props) {
         <TopBarTextButton
           title={t('skip')}
           testID="EnableBiometrySkipHeader"
-          onPress={navigateHome}
+          onPress={handleNavigateToNextScreen}
           titleStyle={{ color: colors.goldDark }}
         />
       ),
     })
   }, [navigation, step, totalSteps])
 
+  const handleNavigateToNextScreen = () => {
+    navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
+  }
+
   const onPressUseBiometry = async () => {
     dispatch(setUseBiometry(true))
     // do some stuff to use biometry
 
-    navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
+    handleNavigateToNextScreen()
   }
 
   return (
