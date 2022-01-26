@@ -20,7 +20,7 @@ import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import TouchID from 'src/icons/biometry/TouchID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -74,7 +74,11 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const onPressSkip = () => {
     ValoraAnalytics.track(OnboardingEvents.biometric_verification_cancel)
-    navigateHome()
+    handleNavigateToNextScreen()
+  }
+
+  const handleNavigateToNextScreen = () => {
+    navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
   }
 
   const onPressUseBiometry = async () => {
@@ -83,7 +87,7 @@ export default function EnableBiometry({ navigation }: Props) {
       await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
       ValoraAnalytics.track(OnboardingEvents.biometric_verification_complete)
-      navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
+      handleNavigateToNextScreen()
     } catch (error) {
       Logger.error(TAG, 'Error enabling biometry', error)
       ValoraAnalytics.track(OnboardingEvents.biometric_verification_error)
