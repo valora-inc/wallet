@@ -785,7 +785,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                   }
                 }
               >
-                retryWithFornoModal.header
+                failModal.header
               </Text>
               <Text
                 style={
@@ -799,11 +799,11 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                   }
                 }
               >
-                retryWithFornoModal.body1
+                failModal.body1
                 
 
 
-                retryWithFornoModal.body2
+                failModal.body2
               </Text>
             </View>
           </RCTScrollView>
@@ -845,49 +845,12 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
                 }
               >
                 education.skip
-              </Text>
-            </View>
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                retryWithFornoModal.retryButton
               </Text>
             </View>
           </View>
@@ -1683,7 +1646,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                   }
                 }
               >
-                retryWithFornoModal.header
+                failModal.header
               </Text>
               <Text
                 style={
@@ -1697,11 +1660,11 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                   }
                 }
               >
-                retryWithFornoModal.body1
+                failModal.body1
                 
 
 
-                retryWithFornoModal.body2
+                failModal.body2
               </Text>
             </View>
           </RCTScrollView>
@@ -1743,49 +1706,12 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
                 }
               >
                 education.skip
-              </Text>
-            </View>
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackgroundBorderless",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#1AB775",
-                      "fontFamily": "Inter-SemiBold",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    Object {
-                      "paddingTop": 16,
-                    },
-                  ]
-                }
-              >
-                retryWithFornoModal.retryButton
               </Text>
             </View>
           </View>

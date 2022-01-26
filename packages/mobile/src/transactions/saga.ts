@@ -46,7 +46,6 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
-import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'transactions/saga'
@@ -100,8 +99,7 @@ export function* sendAndMonitorTransaction<T>(
   tx: CeloTransactionObject<T>,
   account: string,
   context: TransactionContext,
-  currency?: Currency,
-  feeCurrency?: Currency,
+  feeCurrency?: string | undefined,
   gas?: number,
   gasPrice?: BigNumber,
   nonce?: number
@@ -127,18 +125,8 @@ export function* sendAndMonitorTransaction<T>(
     const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
     yield put(transactionConfirmed(context.id, txReceipt))
 
-    // Determine which balances may be affected by the transaction and fetch updated balances.
-    const balancesAffected = new Set([
-      ...(currency ? [currency] : [Currency.Dollar, Currency.Celo]),
-      feeCurrency ?? Currency.Dollar,
-    ])
-    if (balancesAffected.has(Currency.Celo)) {
-      yield put(fetchGoldBalance())
-    }
-    if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
-      yield put(fetchStableBalances())
-    }
-    // TODO: Consider only fetching the balance of the used token.
+    yield put(fetchGoldBalance())
+    yield put(fetchStableBalances())
     yield put(fetchTokenBalances())
     return { receipt: txReceipt }
   } catch (error) {

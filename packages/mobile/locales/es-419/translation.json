@@ -160,20 +160,20 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Gana recompensas con Supercharge",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Aprovecha esta oportunidad por tiempo limitado. Así funciona:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Toca Conecta tu número si aún no lo haz hecho."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "header": "Agrega fondos",
+    "earningText": "Agrega entre {{minBalance}} {{currency}} y 1000 {{currency}} para recibir recompensas.",
     "connectText": "Solo debes tener un saldo de al menos {{minBalance}} {{currency}} y conectar tu número de teléfono para empezar a obtener recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Configura tu Frase de recuperación",
+    "text": "Esto garantizará que tus fondos estén seguros y siempre tengas acceso a ellos."
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
   "cashIn": "Agregar {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Error al recuperar el secreto del número de teléfono",
   "saltQuotaExceededError": "Llegaste al límite de búsqueda de número de teléfono",
   "maxActionableAttestationsExceededError": "Error al reenviar mensajes",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Confirma tu número de teléfono",
   "matchmakingQuotaExceededError": "Solo puedes conectar tus contactos una vez",
   "paymentLimitReached": "El límite diario es de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restantes",
   "requestLimitError": "No se puede solicitar más del límite diario de {{limit}} cUSD.",
@@ -1067,7 +1067,7 @@
     "titleRamp": "¡Agrega {{currency}} para empezar a usar Valora!",
     "subtitleRamp": "Agrega fondos sin comisión con alguno de nuestros proveedores externos."
   },
-  "balances": "Saldo",
+  "balances": "Activos",
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
   "whatTotalValue": {
@@ -1123,18 +1123,18 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "message": "Explora las distintas formas de usar tus cripto.",
+    "errorMessage": "Hubo un error al cargar las dapps"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "title": "¿Qué son las dapps?",
+    "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar el mundo DeFi.\n\nContecta Valora a una dapp para comenzar.",
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
-    "button": "Go to {{dappName}}"
+    "title": "{{dappName}} se abrirá en un navegador externo.",
+    "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
+    "button": "Ir a {{dappName}}"
   },
   "rewards": "Recompensas",
   "supercharge": "Supercharge",

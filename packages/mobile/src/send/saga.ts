@@ -7,7 +7,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { calculateFee, FeeInfo } from 'src/fees/saga'
+import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
@@ -72,10 +72,11 @@ export async function getSendTxGas(
 
   try {
     Logger.debug(`${TAG}/getSendTxGas`, 'Getting gas estimate for send tx')
-    const tx = await createTokenTransferTransaction(currency, params)
+    const currencyAddress = await getCurrencyAddress(currency)
+    const tx = await createTokenTransferTransaction(currencyAddress, params)
     const txParams = {
       from: account,
-      feeCurrency: currency === Currency.Celo ? undefined : await getCurrencyAddress(currency),
+      feeCurrency: currency === Currency.Celo ? undefined : currencyAddress,
     }
     const gas = await estimateGas(tx.txo, txParams)
     Logger.debug(`${TAG}/getSendTxGas`, `Estimated gas of ${gas.toString()}`)
@@ -104,7 +105,7 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas, currency)
+    return calculateFee(gas, await currencyToFeeCurrency(currency))
   } catch (error) {
     throw error
   }
@@ -301,8 +302,7 @@ function* sendPayment(
       tx,
       userAddress,
       context,
-      undefined,
-      feeInfo.currency,
+      feeInfo.feeCurrency,
       feeInfo.gas ? Number(feeInfo.gas) : undefined,
       feeInfo.gasPrice
     )
