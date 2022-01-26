@@ -6,7 +6,7 @@ import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmatio
 import {} from 'src/home/NotificationBox'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockRecipient } from 'test/values'
+import { mockCusdAddress, mockE164Number, mockRecipient } from 'test/values'
 
 const store = createMockStore()
 
@@ -14,7 +14,7 @@ const TEST_FEE_INFO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Dollar,
+  feeCurrency: mockCusdAddress,
 }
 
 describe('ReclaimPaymentConfirmationCard', () => {

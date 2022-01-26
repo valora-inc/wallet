@@ -485,5 +485,5 @@ export const mockFeeInfo = {
   fee: new BigNumber(10000000000000000),
   gas: new BigNumber(20000),
   gasPrice: mockGasPrice,
-  currency: Currency.Celo,
+  feeCurrency: undefined,
 }
