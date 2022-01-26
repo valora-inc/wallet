@@ -285,7 +285,7 @@ export async function setPincodeWithBiometry() {
       throw new Error('Retrieved incorrect pin with biometry after saving')
     }
   } catch (error) {
-    Logger.error(TAG, 'Failed to save pin with biometry', error)
+    Logger.warn(TAG, 'Failed to save pin with biometry', error)
     throw error
   }
 }
