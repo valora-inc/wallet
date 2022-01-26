@@ -318,6 +318,8 @@ export async function getPincode(withVerification = true) {
       const retrievedPin = await getPincodeWithBiometry()
       return retrievedPin
     } catch (error) {
+      // do not return here, the pincode input is the user's fallback if
+      // biometric auth fails
       Logger.error(TAG, 'Failed to retrieve pin with biometry', error)
     }
   }

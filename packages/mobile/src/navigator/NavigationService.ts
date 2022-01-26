@@ -138,6 +138,8 @@ export async function ensurePincode(): Promise<boolean> {
       return true
     } catch (error) {
       Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
+      // do not return here, the pincode input is the user's fallback if
+      // biometric auth fails
     }
   }
 
