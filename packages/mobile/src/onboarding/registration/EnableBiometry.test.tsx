@@ -5,6 +5,8 @@ import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
@@ -16,6 +18,7 @@ import { mocked } from 'ts-jest/utils'
 const mockScreenProps = getMockStackScreenProps(Screens.EnableBiometry)
 const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 
 const store = createMockStore({
   app: {
@@ -63,6 +66,13 @@ describe('EnableBiometry', () => {
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+
+    expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometric_verification_start)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometric_verification_approve)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(
+      3,
+      OnboardingEvents.biometric_verification_complete
+    )
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {
@@ -76,5 +86,6 @@ describe('EnableBiometry', () => {
     expect(store.getActions()).toEqual([])
     expect(navigate).not.toHaveBeenCalled()
     expect(loggerErrorSpy).toHaveBeenCalled()
+    expect(analyticsSpy).toHaveBeenCalledWith(OnboardingEvents.biometric_verification_error)
   })
 })
