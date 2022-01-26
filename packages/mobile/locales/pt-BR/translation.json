@@ -160,20 +160,20 @@
       "text": "Qualquer pessoa com sua frase terá acesso à sua conta e a todos os seus fundos. Não compartilhe com outras pessoas."
     }
   ],
-  "consumerIncentivesTitle": "Aumente suas recompensas",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Quer começar a adicionar fundos? Então corra, porque é por tempo limitado!",
+  "consumerIncentivesTitle": "Comece com o Supercharge",
+  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Corra, porque é por tempo limitado. Veja como funciona:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
-    "text": "Vincule sua conta da Valora á seu número de celular."
+    "text": "Toque em Conectar o número caso ainda não o tenha conectado."
   },
   "noMinCommitment": {
     "header": "Adicione fundos",
-    "earningText": "Adicione {{minBalance}} {{currency}} ou mais.",
+    "earningText": "Adicione {{minBalance}}{{currency}} e até 1000 {{currency}} para ganhar.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Mantê-los seguros",
-    "text": "Crie sua Frase de Recuperação no Menu."
+    "header": "Crie sua Frase de Recuperação",
+    "text": "Isto irá garantir que suas recompensas estejam seguras em seu controle."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Falha ao recuperar segredo do número de celular",
   "saltQuotaExceededError": "Sua cota de busca de número de celular acabou",
   "maxActionableAttestationsExceededError": "Falha ao reenviar mensagens",
-  "odisInsufficientBalance": "Por favor, confirme seu número antes de enviar cUSD para um contato",
+  "odisInsufficientBalance": "Confirme seu número de celular",
   "matchmakingQuotaExceededError": "A combinação pode ser feita apenas uma vez",
   "paymentLimitReached": "O limite diário é de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restantes",
   "requestLimitError": "Não é possível solicitar mais do que o limite diário de {{limit}} cUSD.",
@@ -1067,7 +1067,7 @@
     "titleRamp": "Adicione {{currency}} para começar a usar Valora",
     "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
   },
-  "balances": "Saldo",
+  "balances": "Ativos",
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
   "whatTotalValue": {
@@ -1121,6 +1121,23 @@
     "message": "Seus saldos podem não estar em dia.",
     "button": "Atualização"
   },
-  "celoDollarAmount": "<0></0> Celo Dólar ",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares "
+  "dappsScreen": {
+    "title": "Dapps",
+    "message": "Explore formas de usar suas cripto.",
+    "errorMessage": "Ocorreu um erro ao carregar os dapps"
+  },
+  "dappsScreenHelpDialog": {
+    "title": "O que são os dapps?",
+    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar as DeFi.\n\nConecte Valora a um dapp para começar.",
+    "dismiss": "Ignorar"
+  },
+  "dappsScreenBottomSheet": {
+    "title": "{{dappName}} abrirá em um navegador externo",
+    "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
+    "button": "Ir para {{dappName}}"
+  },
+  "rewards": "Recompensas",
+  "supercharge": "Supercharge",
+  "celoDollarAmount": "<0></0> Celo Dólar",
+  "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }

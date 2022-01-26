@@ -1,4 +1,4 @@
-import { CeloTransactionObject } from '@celo/connect'
+import { CeloTransactionObject, toTransactionObject } from '@celo/connect'
 import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
@@ -157,26 +157,27 @@ interface TokenTransferFactory {
   tag: string
 }
 
-// TODO(martinvol) this should go to the SDK
 export async function createTokenTransferTransaction(
-  currency: Currency,
+  tokenAddress: string,
   transferAction: BasicTokenTransfer
 ) {
   const { recipientAddress, amount, comment } = transferAction
-  const contract = await getTokenContract(currency)
+  const contract = await getStableTokenContract(tokenAddress)
 
-  const decimals = await contract.decimals()
+  const decimals = await contract.methods.decimals().call()
   const decimalBigNum = new BigNumber(decimals)
   const decimalFactor = new BigNumber(10).pow(decimalBigNum.toNumber())
   const convertedAmount = new BigNumber(amount).multipliedBy(decimalFactor).toFixed(0)
 
-  const tx = contract.transferWithComment(
-    recipientAddress,
-    convertedAmount.toString(),
-    utf8.encode(comment)
+  const kit = await getContractKitAsync()
+  return toTransactionObject(
+    kit.connection,
+    contract.methods.transferWithComment(
+      recipientAddress,
+      convertedAmount.toString(),
+      utf8.encode(comment)
+    )
   )
-
-  return tx
 }
 
 export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: string) {
@@ -224,9 +225,10 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
       try {
         const account: string = yield call(getConnectedUnlockedAccount)
 
+        const currencyAddress: string = yield call(getCurrencyAddress, currency)
         const tx: CeloTransactionObject<boolean> = yield call(
           createTokenTransferTransaction,
-          currency,
+          currencyAddress,
           {
             recipientAddress,
             amount,
@@ -239,8 +241,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
           tx,
           account,
           context,
-          currency,
-          feeInfo?.currency,
+          feeInfo?.feeCurrency,
           feeInfo?.gas?.toNumber(),
           feeInfo?.gasPrice
         )

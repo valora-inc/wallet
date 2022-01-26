@@ -151,7 +151,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  dappsExplorerEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
@@ -177,7 +176,6 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
-  sentryEnabled: boolean
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
 }

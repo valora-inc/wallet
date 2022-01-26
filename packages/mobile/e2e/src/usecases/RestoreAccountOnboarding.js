@@ -69,6 +69,9 @@ export default RestoreAccountOnboarding = () => {
       await device.pressBack()
     }
 
+    await waitFor(element(by.id('ImportWalletButton')))
+      .toBeVisible()
+      .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
     // Wait a little more as import can take some time

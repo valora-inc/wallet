@@ -891,7 +891,19 @@ export const v28Schema = {
   app: {
     ...v27Schema.app,
     dappListApiUrl: null,
-    dappsExplorerEnabled: false,
+  },
+}
+
+export const v29Schema = {
+  ...v28Schema,
+  _persist: {
+    ...v28Schema._persist,
+    version: 29,
+  },
+  web3: {
+    ...v28Schema.web3,
+    fornoMode: true,
+    hadFornoDisabled: true,
   },
 }
 

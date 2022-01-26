@@ -160,20 +160,20 @@
       "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
     }
   ],
-  "consumerIncentivesTitle": "Erhöhe deine Rewards",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit, also starte deine Einzahlung!",
+  "consumerIncentivesTitle": "Beginne Supercharge",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit. So funktioniert es:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
-    "text": "Verknüpfe dein Valora-Konto mit deiner Telefonnummer."
+    "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
   },
   "noMinCommitment": {
-    "header": "Füge den Minimalguthaben hinzu",
-    "earningText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}}.",
+    "header": "Mindestguthaben hinzufügen",
+    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
-    "header": "Deinen Guthaben sicher halten",
-    "text": "Wiederherstellungsphrase einrichten."
+    "header": "Wiederherstellungsphrase einrichten",
+    "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
   "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
-  "odisInsufficientBalance": "Bitte bestätige deine Nummer bevor du cUSD an einen Kontakt sendest",
+  "odisInsufficientBalance": "Bitte bestätige deine Telefonnummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
   "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
@@ -1067,7 +1067,7 @@
     "titleRamp": "Füge {{currency}} hinzu, um loszulegen",
     "subtitleRamp": "Füge Guthaben mit Nullgebühren durch einen unserer vertrauenswürdigen externen Anbieter hinzu."
   },
-  "balances": "Guthaben",
+  "balances": "Vermögen",
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
   "whatTotalValue": {
@@ -1121,6 +1121,23 @@
     "message": "Dein Guthaben ist möglicherweise nicht aktuell.",
     "button": "Aktualisieren"
   },
+  "dappsScreen": {
+    "title": "Dapps",
+    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
+    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten"
+  },
+  "dappsScreenHelpDialog": {
+    "title": "Was sind Dapps?",
+    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Rewards zu verdienen und DeFi zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
+    "dismiss": "Verwerfen"
+  },
+  "dappsScreenBottomSheet": {
+    "title": "{{dappName}} wird in einem externen Browser öffnen",
+    "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
+    "button": "Gehe zu {{dappName}}"
+  },
+  "rewards": "Rewards",
+  "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
