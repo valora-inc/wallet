@@ -1067,7 +1067,7 @@
     "titleRamp": "¡Agrega {{currency}} para empezar a usar Valora!",
     "subtitleRamp": "Agrega fondos sin comisión con alguno de nuestros proveedores externos."
   },
-  "balances": "Activos",
+  "balances": "Assets",
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
   "whatTotalValue": {
