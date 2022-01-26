@@ -476,8 +476,8 @@ export class Account extends React.Component<Props, State> {
             />
             {this.props.biometryEnabled && this.props.supportedBiometryType && (
               <SettingsItemSwitch
-                title={t('useBiometryOption', {
-                  option: t(`biometryOption.${this.props.supportedBiometryType}`),
+                title={t('useBiometryType', {
+                  biometryType: t(`biometryType.${this.props.supportedBiometryType}`),
                 })}
                 value={this.props.pincodeType === PincodeType.PhoneAuth}
                 onValueChange={this.handleUseBiometryToggle}
@@ -491,12 +491,13 @@ export class Account extends React.Component<Props, State> {
               testID="requirePinOnAppOpenToggle"
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
+            {/* For now disable the option to use the light client 
             <SettingsItemSwitch
               title={t('enableDataSaver')}
               value={this.props.fornoEnabled}
               onValueChange={this.handleFornoToggle}
               details={t('dataSaverDetail')}
-            />
+            /> */}
             <SettingsItemSwitch
               title={t('shareAnalytics')}
               value={this.props.analyticsEnabled}

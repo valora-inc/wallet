@@ -5,8 +5,9 @@ import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
-import { Balances, balancesSelector } from 'src/stableToken/selectors'
-import { getCurrencyAddress } from 'src/tokens/saga'
+import { fetchFeeCurrencySaga } from 'src/fees/saga'
+import { TokenBalance } from 'src/tokens/reducer'
+import { coreTokensSelector } from 'src/tokens/selectors'
 import {
   sendTransactionAsync,
   SendTransactionLogEvent,
@@ -14,7 +15,7 @@ import {
   TxPromises,
 } from 'src/transactions/contract-utils'
 import { TransactionContext } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assertNever } from 'src/utils/typescript'
 import { getGasPrice } from 'src/web3/gas'
@@ -108,22 +109,18 @@ const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
 // If the preferred currency has enough balance, use that.
 // Otherwise use any that has enough balance.
 // TODO: Make fee currency choosing transparent for the user.
-// TODO: Check for balance should be more than fee instead of zero.
-export function* chooseFeeCurrency(preferredFeeCurrency: Currency) {
-  const balances: Balances = yield select(balancesSelector)
-  if (balances[preferredFeeCurrency]?.isGreaterThan(0)) {
+export function* chooseFeeCurrency(preferredFeeCurrency: string | undefined) {
+  const coreTokens: TokenBalance[] = yield select(coreTokensSelector)
+  const tokenInfo = coreTokens.find(
+    (token) =>
+      token.address === preferredFeeCurrency || (token.symbol === 'CELO' && !preferredFeeCurrency)
+  )
+  // TODO: Check if balance is enough to pay for fee, not just gt 0.
+  if (tokenInfo?.balance.gt(0)) {
     return preferredFeeCurrency
   }
-  for (const currency of Object.keys(CURRENCIES)) {
-    if (balances[currency as Currency]?.isGreaterThan(0)) {
-      return currency
-    }
-  }
-  Logger.error(
-    TAG,
-    '@chooseFeeCurrency no currency has enough balance to pay for fee, should never happen.'
-  )
-  return Currency.Dollar
+  const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+  return feeCurrency
 }
 
 // Sends a transaction and async returns promises for the txhash, confirmation, and receipt
@@ -134,7 +131,7 @@ export function* sendTransactionPromises(
   tx: CeloTxObject<any>,
   account: string,
   context: TransactionContext,
-  preferredFeeCurrency: Currency = Currency.Dollar,
+  preferredFeeCurrency: string | undefined,
   gas?: number,
   gasPrice?: BigNumber,
   nonce?: number
@@ -150,11 +147,11 @@ export function* sendTransactionPromises(
   if (gas || gasPrice) {
     Logger.debug(
       `${TAG}@sendTransactionPromises`,
-      `Using provided gas parameters: ${gas} gas @ ${gasPrice} ${preferredFeeCurrency}`
+      `Using provided gas parameters: ${gas} gas @ ${gasPrice} ${feeCurrency}`
     )
   }
 
-  if (preferredFeeCurrency && feeCurrency !== preferredFeeCurrency) {
+  if (feeCurrency !== preferredFeeCurrency) {
     Logger.warn(
       `${TAG}@sendTransactionPromises`,
       `Using fallback fee currency ${feeCurrency} instead of preferred ${preferredFeeCurrency}.`
@@ -170,10 +167,6 @@ export function* sendTransactionPromises(
       gasPrice = undefined
     }
   }
-
-  // Pass undefined to use CELO to pay for gas.
-  const feeCurrencyAddress: string | undefined =
-    feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
   Logger.debug(
     `${TAG}@sendTransactionPromises`,
@@ -196,7 +189,7 @@ export function* sendTransactionPromises(
     sendTransactionAsync,
     tx,
     account,
-    feeCurrencyAddress,
+    feeCurrency,
     getLogger(context, fornoMode),
     gas,
     gasPrice?.toString(),
@@ -213,7 +206,7 @@ export function* sendTransaction(
   context: TransactionContext,
   gas?: number,
   gasPrice?: BigNumber,
-  feeCurrency?: Currency
+  feeCurrency?: string | undefined
 ) {
   const sendTxMethod = function* (nonce?: number) {
     const { receipt } = yield call(
