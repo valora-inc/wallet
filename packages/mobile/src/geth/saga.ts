@@ -15,12 +15,7 @@ import {
   setInitState,
   SetInitStateAction,
 } from 'src/geth/actions'
-import {
-  FailedToFetchGenesisBlockError,
-  FailedToFetchStaticNodesError,
-  initGeth,
-  stopGethIfInitialized,
-} from 'src/geth/geth'
+import { FailedToFetchStaticNodesError, initGeth, stopGethIfInitialized } from 'src/geth/geth'
 import { InitializationState } from 'src/geth/reducer'
 import {
   chainHeadSelector,
@@ -50,7 +45,6 @@ export enum GethInitOutcomes {
   SUCCESS = 'SUCCESS',
   NETWORK_ERROR_FETCHING_STATIC_NODES = 'NETWORK_ERROR_FETCHING_STATIC_NODES',
   IRRECOVERABLE_FAILURE = 'IRRECOVERABLE_FAILURE',
-  NETWORK_ERROR_FETCHING_GENESIS_BLOCK = 'NETWORK_ERROR_FETCHING_GENESIS_BLOCK',
 }
 
 // react-native-geth on Android returns a non-standard block header encoding from the GethNewHead event.
@@ -194,8 +188,6 @@ function* waitForGethInit() {
     switch (error) {
       case FailedToFetchStaticNodesError:
         return GethInitOutcomes.NETWORK_ERROR_FETCHING_STATIC_NODES
-      case FailedToFetchGenesisBlockError:
-        return GethInitOutcomes.NETWORK_ERROR_FETCHING_GENESIS_BLOCK
       default: {
         Logger.error(TAG, 'Error getting geth instance', error)
         return GethInitOutcomes.IRRECOVERABLE_FAILURE
@@ -241,14 +233,6 @@ export function* initGethSaga() {
   let errorContext: string
 
   switch (failureResult) {
-    case GethInitOutcomes.NETWORK_ERROR_FETCHING_GENESIS_BLOCK: {
-      errorContext =
-        'Could not fetch genesis block from the network. Tell user to check data connection.'
-      Logger.error(TAG, errorContext)
-      yield put(setInitState(InitializationState.DATA_CONNECTION_MISSING_ERROR))
-      restartAppAutomatically = false
-      break
-    }
     case GethInitOutcomes.IRRECOVERABLE_FAILURE: {
       errorContext = 'Could not initialize geth. Will retry.'
       Logger.error(TAG, errorContext)

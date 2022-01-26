@@ -1,4 +1,4 @@
-import { GenesisBlockUtils, StaticNodeUtils } from '@celo/network-utils'
+import { StaticNodeUtils } from '@celo/network-utils'
 import GethBridge from 'react-native-geth'
 import { expectSaga } from 'redux-saga-test-plan'
 import { delay } from 'redux-saga/effects'
@@ -17,8 +17,6 @@ describe(initGethSaga, () => {
     getStaticNodeRegion.mockReturnValue('')
     const getStaticNodesAsync = StaticNodeUtils.getStaticNodesAsync as jest.Mock
     getStaticNodesAsync.mockReturnValue(Promise.resolve('["enode://foo"]'))
-    const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
-    getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
     const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
   })
@@ -51,8 +49,6 @@ describe(initGethSaga, () => {
   it('initializes the bridge and starts the node', async () => {
     const getStaticNodeRegion = StaticNodeUtils.getStaticNodeRegion as jest.Mock
     getStaticNodeRegion.mockReturnValue('')
-    const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
-    getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
     const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
     const getStaticNodesAsync = StaticNodeUtils.getStaticNodesAsync as jest.Mock

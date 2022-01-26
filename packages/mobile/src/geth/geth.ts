@@ -1,5 +1,4 @@
-import { GenesisBlockUtils, StaticNodeUtils } from '@celo/network-utils'
-import BigNumber from 'bignumber.js'
+import { StaticNodeUtils } from '@celo/network-utils'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import * as RNFS from 'react-native-fs'
@@ -18,9 +17,6 @@ let gethInitialized = false
 
 export const FailedToFetchStaticNodesError = new Error(
   'Failed to fetch static nodes from Google storage'
-)
-export const FailedToFetchGenesisBlockError = new Error(
-  'Failed to fetch genesis block from Google storage'
 )
 
 export const PROVIDER_CONNECTION_ERROR = "connection error: couldn't connect to node"
@@ -81,18 +77,14 @@ function getFolder(filePath: string) {
 
 async function setupGeth(sync: boolean = true, bootnodeEnodes: string[]): Promise<boolean> {
   Logger.debug('Geth@newGeth', 'Configure and create new Geth')
-  const { nodeDir, useDiscovery, syncMode } = networkConfig
-  const genesis: string = await readGenesisBlockFile(nodeDir)
-  const networkID: number = GenesisBlockUtils.getChainIdFromGenesis(genesis)
-
-  Logger.debug('Geth@newGeth', `Network ID is ${networkID}, syncMode is ${syncMode}`)
+  const { nodeDir, useDiscovery, syncMode, networkId } = networkConfig
+  Logger.debug('Geth@newGeth', `Network ID is ${networkId}, syncMode is ${syncMode}`)
 
   const maxPeers = sync ? SYNCING_MAX_PEERS : 0
 
   let gethOptions: NodeConfig = {
     nodeDir,
-    networkID,
-    genesis,
+    networkID: parseInt(networkId, 10),
     syncMode,
     maxPeers,
     useLightweightKDF: true,
@@ -143,20 +135,11 @@ export async function initGeth(shouldStartNode: boolean = true): Promise<boolean
 
   try {
     let staticNodes: string[] = []
-    await Promise.all([
-      ensureGenesisBlockWritten().then((ok) => {
-        if (!ok) {
-          throw FailedToFetchGenesisBlockError
-        }
-      }),
-      (async () => {
-        if (shouldStartNode && (useDiscovery || useStaticNodes)) {
-          staticNodes = await getStaticNodes()
-        }
-        Logger.info('Geth@init', `Got static nodes: ${staticNodes}`)
-        return initializeStaticNodesFile(useStaticNodes ? staticNodes : [])
-      })(),
-    ])
+    if (shouldStartNode && (useDiscovery || useStaticNodes)) {
+      staticNodes = await getStaticNodes()
+    }
+    Logger.info('Geth@init', `Got static nodes: ${staticNodes}`)
+    await initializeStaticNodesFile(useStaticNodes ? staticNodes : [])
 
     ValoraAnalytics.track(GethEvents.create_geth_start)
     try {
@@ -258,53 +241,6 @@ async function stop() {
     Logger.error('Geth@stop', 'Error stopping Geth', e)
     throw e
   }
-}
-
-async function ensureGenesisBlockWritten(): Promise<boolean> {
-  const { nodeDir } = networkConfig
-  if (await genesisBlockAlreadyWritten(nodeDir)) {
-    Logger.debug('Geth@ensureGenesisBlockWritten', 'genesis block already written')
-    return true
-  } else {
-    Logger.debug('Geth@ensureGenesisBlockWritten', 'writing genesis block')
-    let genesisBlock: string | null = null
-    try {
-      genesisBlock = await GenesisBlockUtils.getGenesisBlockAsync(DEFAULT_TESTNET)
-    } catch (error) {
-      Logger.error(`Failed to get the genesis block for network ${DEFAULT_TESTNET}.`, error)
-      return false
-    }
-    if (genesisBlock != null) {
-      await writeGenesisBlock(nodeDir, genesisBlock)
-      return true
-    }
-    return false
-  }
-}
-
-function getGenesisBlockFile(nodeDir: string) {
-  return `${getNodeInstancePath(nodeDir)}/genesis.json`
-}
-
-async function genesisBlockAlreadyWritten(nodeDir: string): Promise<boolean> {
-  const genesisBlockFile = getGenesisBlockFile(nodeDir)
-  if (!(await RNFS.exists(genesisBlockFile))) {
-    return false
-  }
-  const fileStat: RNFS.StatResult = await RNFS.stat(genesisBlockFile)
-  return fileStat.isFile() && new BigNumber(fileStat.size, 10).isGreaterThan(0)
-}
-
-async function readGenesisBlockFile(nodeDir: string): Promise<string> {
-  const genesisBlockFile = getGenesisBlockFile(nodeDir)
-  return RNFS.readFile(genesisBlockFile, { encoding: 'utf8' })
-}
-
-async function writeGenesisBlock(nodeDir: string, genesisBlock: string) {
-  Logger.debug(`writeGenesisBlock genesis block is: "${genesisBlock}"`)
-  const genesisBlockFile = getGenesisBlockFile(nodeDir)
-  await RNFS.mkdir(getFolder(genesisBlockFile))
-  await RNFS.writeFile(genesisBlockFile, genesisBlock, 'utf8')
 }
 
 function getStaticNodesFile(nodeDir: string) {
