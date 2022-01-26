@@ -1067,7 +1067,7 @@
     "titleRamp": "Ajoutez des {{currency}} pour commencer à utiliser Valora",
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
-  "balances": "Actifs",
+  "balances": "Assets",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
   "whatTotalValue": {
