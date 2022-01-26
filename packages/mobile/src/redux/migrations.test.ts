@@ -12,6 +12,7 @@ import {
   v18Schema,
   v1Schema,
   v21Schema,
+  v28Schema,
   v2Schema,
   v7Schema,
   v8Schema,
@@ -397,5 +398,13 @@ describe('Redux persist migrations', () => {
       otaTranslationsLanguage: '',
     })
     expect(migratedSchema.app.language).toBe(undefined)
+  })
+
+  it('works for v28 to v29', () => {
+    expect(v28Schema.web3.fornoMode).toBe(false)
+    const migratedSchema = migrations[29](v28Schema)
+
+    expect(migratedSchema.web3.fornoMode).toBe(true)
+    expect(migratedSchema.web3.hadFornoDisabled).toBe(true)
   })
 })

@@ -15,6 +15,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'cUSD',
       usdPrice: '1',
       balance: null,
+      isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
     [cEUR]: {
@@ -25,6 +26,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'cEUR',
       usdPrice: '1.18',
       balance: null,
+      isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
     [CELO]: {
@@ -35,6 +37,7 @@ export function e2eTokens(): StoredTokenBalances {
       symbol: 'CELO',
       usdPrice: '6.5',
       balance: null,
+      isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
   }

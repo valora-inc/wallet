@@ -9,7 +9,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
-import { calculateFee, FeeInfo } from 'src/fees/saga'
+import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { TokenBalance } from 'src/tokens/reducer'
@@ -35,7 +35,7 @@ export async function getInviteFee(
       throw Error(ErrorMessages.INSUFFICIENT_BALANCE)
     }
     const gas = await getEscrowTxGas()
-    const feeInfo = await calculateFee(gas, currency)
+    const feeInfo = await calculateFee(gas, await currencyToFeeCurrency(currency))
     return feeInfo
   } catch (error) {
     throw error

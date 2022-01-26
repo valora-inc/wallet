@@ -20,6 +20,7 @@ let uri, walletConnector, tx
 export default WalletConnect = () => {
   beforeAll(async () => {
     await device.reloadReactNative()
+
     // Create connector
     walletConnector = new NodeWalletConnect(
       {
@@ -92,6 +93,7 @@ export default WalletConnect = () => {
       .withTimeout(30 * 1000)
 
     // Allow and verify UI behavior
+    await device.disableSynchronization()
     await element(by.text('Allow')).tap()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
@@ -99,6 +101,7 @@ export default WalletConnect = () => {
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
+    await device.enableSynchronization()
   })
 
   jest.retryTimes(2)
@@ -109,7 +112,7 @@ export default WalletConnect = () => {
     // Verify transaction type text
     await waitFor(element(by.text('Send a Celo TX')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
 
     // View and assert on Data - TODO Move to Component Tests
     await element(by.text('Show details')).tap()
@@ -118,13 +121,15 @@ export default WalletConnect = () => {
 
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for transaction and get receipt
     let txHash = await result
@@ -144,12 +149,17 @@ export default WalletConnect = () => {
     let result = walletConnector.signTransaction(tx)
     await waitFor(element(by.text('Sign a Celo TX')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
   })
 
   jest.retryTimes(2)
@@ -163,15 +173,17 @@ export default WalletConnect = () => {
     let result = walletConnector.signPersonalMessage(msgParams)
     await waitFor(element(by.text('Sign a data payload')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -191,15 +203,17 @@ export default WalletConnect = () => {
     let result = walletConnector.signMessage(msgParams)
     await waitFor(element(by.text('Sign a data payload')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -257,12 +271,17 @@ export default WalletConnect = () => {
     let result = walletConnector.signTypedData(msgParams)
     await waitFor(element(by.text('Sign a data payload')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
@@ -297,20 +316,33 @@ export default WalletConnect = () => {
     let result = walletConnector.sendCustomRequest(customRequest)
     await waitFor(element(by.text('Sign a Celo TX')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
+    await device.disableSynchronization()
     await enterPinUiIfNecessary()
+    await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
+    await device.enableSynchronization()
 
     // Wait for signature
     let signature = await result
+
+    // TODO Validate signature
   })
 
   afterAll(async () => {
     // A sleep for ci
     await sleep(3 * 1000)
+
+    // Wait for hamburger to be visible
+    await waitFor(element(by.id('Hamburger')))
+      .toBeVisible()
+      .withTimeout(15 * 1000)
+
     // Tap Hamburger
     await element(by.id('Hamburger')).tap()
 
@@ -318,7 +350,7 @@ export default WalletConnect = () => {
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
     await element(by.id('Settings')).tap()
     await element(by.text('Connected Apps')).tap()
     await element(by.text('Tap to Disconnect')).tap()
