@@ -211,6 +211,12 @@ describe('Account', () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setPincodeSuccess(PincodeType.PhoneAuth)])
     )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometric_verification_approve
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometric_verification_complete
+    )
 
     fireEvent(getByTestId('useBiometryToggle'), 'valueChange', false)
     await flushMicrotasksQueue()
@@ -218,6 +224,9 @@ describe('Account', () => {
     expect(removeStoredPin).toHaveBeenCalledTimes(1)
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setPincodeSuccess(PincodeType.CustomPin)])
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometric_verification_disable
     )
   })
 })
