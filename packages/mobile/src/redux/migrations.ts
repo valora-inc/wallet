@@ -386,7 +386,7 @@ export const migrations = {
       hadFornoDisabled: state.web3.fornoMode === false,
     },
   }),
-  29: (state: any) => ({
+  30: (state: any) => ({
     ...state,
     app: {
       ...state.app,

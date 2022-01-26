@@ -907,14 +907,14 @@ export const v29Schema = {
   },
 }
 
-export const v29Schema = {
-  ...v28Schema,
+export const v30Schema = {
+  ...v29Schema,
   _persist: {
-    ...v28Schema._persist,
-    version: 29,
+    ...v29Schema._persist,
+    version: 30,
   },
   app: {
-    ...v28Schema.app,
+    ...v29Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
   },
@@ -925,5 +925,5 @@ export const v29Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v29Schema as Partial<RootState>
+  return v30Schema as Partial<RootState>
 }
