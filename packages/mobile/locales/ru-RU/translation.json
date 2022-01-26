@@ -160,20 +160,20 @@
       "text": "Любое лицо с помощью вашей фразы получит доступ к вашему аккаунту и всем его средствам. Не сообщайте ее другим людям."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Начните с Supercharge",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на свой остаток {{currency}}. Предложение действует в течение ограниченного времени, поэтому внесите средства прямо сейчас! Вот как это работает.",
   "earnWeekly": {
     "header": "Подключить номер телефона",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "header": "Добавьте минимальную сумму на баланс",
+    "earningText": "Добавьте {{minBalance}} {{currency}} для начала. Внесите до 1000 {{currency}}, чтобы получить максимальное вознаграждение.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Настройте фразу восстановления",
+    "text": "Это будет гарантировать, что ваши вознаграждения в безопасности и под вашим контролем."
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
   "cashIn": "Внести {{currency}}",
@@ -271,12 +271,12 @@
   "receiveWithBidali": "Подарочные карты и пополнение мобильного счета",
   "fundingEducationDialog": {
     "title": "Пополнение {{appName}}",
-    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo(cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы пополнить свой кошелек {{appName}}, купите cUSD у одного из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
+    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo (cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы пополнить свой кошелек {{appName}}, купите cUSD у одного из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Вывести из {{appName}}",
-    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo(cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы вывести свои средства с остатка в {{appName}}, продайте cUSD одному из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
+    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo (cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы вывести свои средства с остатка в {{appName}}, продайте cUSD одному из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Не удалось получить секрет номера телефона",
   "saltQuotaExceededError": "Квота поиска номера телефона исчерпана",
   "maxActionableAttestationsExceededError": "Сбой при повторной отправке сообщений",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Подтвердите номер",
   "matchmakingQuotaExceededError": "Подбор соответствий можно выполнить только один раз",
   "paymentLimitReached": "Ежедневный лимит составляет {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) осталось",
   "requestLimitError": "Не удастся запросить больше {{limit}} cUSD в рамках дневного лимита.",
@@ -1071,7 +1071,7 @@
     "titleRamp": "Внести {{currency}}, чтобы начать использовать Valora",
     "subtitleRamp": "Внесите средства с нулевой комиссией через одного из доверенных внешних поставщиков."
   },
-  "balances": "Остатки",
+  "balances": "Активы",
   "totalValue": "Общий остаток",
   "viewBalances": "Просмотр активов",
   "whatTotalValue": {
@@ -1126,19 +1126,19 @@
     "button": "Обновить"
   },
   "dappsScreen": {
-    "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "title": "Децентрализованные приложения",
+    "message": "Изучите способы использования криптовалюты.",
+    "errorMessage": "Произошла ошибка при загрузке децентрализованных приложений"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "title": "Что такое \"децентрализованные приложения\"?",
+    "message": "Децентрализованные приложения предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения DeFi.\n\nПодключите Valora к децентрализованному приложению, чтобы начать.",
     "dismiss": "Отклонить"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
-    "button": "Go to {{dappName}}"
+    "title": "{{dappName}} откроется во внешнем браузере",
+    "message": "Вы собираетесь открыть приложение, которым не управляет Valora.\n\nValora не дает никаких заверений относительно этого приложения. Вы используете его на свой риск.",
+    "button": "Перейти в {{dappName}}"
   },
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",
