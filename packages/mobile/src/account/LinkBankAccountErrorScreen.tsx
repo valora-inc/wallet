@@ -1,0 +1,69 @@
+import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import * as React from 'react'
+import fontStyles from '@celo/react-components/styles/fonts'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StackScreenProps } from '@react-navigation/stack'
+import { Screens } from 'src/navigator/Screens'
+import { useTranslation } from 'react-i18next'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+
+type Props = StackScreenProps<StackParamList, Screens.LinkBankAccountErrorScreen>
+
+function LinkBankAccountErrorScreen({ route }: Props) {
+  const { t } = useTranslation()
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{t('linkBankAccountScreen.error.title')}</Text>
+      <Text style={styles.description}>{t('linkBankAccountScreen.error.description')}</Text>
+      <Button
+        style={styles.button}
+        onPress={() => navigateBack()}
+        text={t('linkBankAccountScreen.tryAgain')}
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.MEDIUM}
+      />
+      <View style={styles.contactSupportButton}>
+        <BorderlessButton
+          onPress={() => {
+            navigate(Screens.SupportContact, {
+              prefilledText: t('linkBankAccountScreen.error.contactSupportPrefill'),
+            })
+          }}
+        >
+          <Text style={styles.contactSupport}>{t('contactSupport')}</Text>
+        </BorderlessButton>
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.h2,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+  },
+  button: {
+    marginTop: 13,
+  },
+  contactSupport: {
+    ...fontStyles.regular600,
+  },
+  contactSupportButton: {
+    marginTop: 26,
+  },
+})
+
+export default LinkBankAccountErrorScreen

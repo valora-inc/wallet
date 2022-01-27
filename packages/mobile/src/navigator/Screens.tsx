@@ -33,6 +33,7 @@ export enum Screens {
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',
   LinkBankAccountScreen = 'LinkBankAccountScreen',
+  LinkBankAccountErrorScreen = 'LinkBankAccountErrorScreen',
   Main = 'Main',
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',

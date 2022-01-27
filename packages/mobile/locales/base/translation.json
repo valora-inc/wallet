@@ -1120,6 +1120,11 @@
       "title": "Link a bank account",
       "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
       "cta": "Coming Soon!"
+    },
+    "error": {
+      "title": "Unable to link bank account.",
+      "description": "Please try to link your bank account again, or contact support.",
+      "contactSupportPrefill": "I was unable to link my bank account to Valora"
     }
   },
   "linkBankAccountSettingsTitle": "Link Bank Accounts",
