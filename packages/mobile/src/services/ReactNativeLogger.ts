@@ -4,6 +4,11 @@ import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 
 export default class ReactNativeLogger {
+  isNetworkConnected: boolean
+  constructor() {
+    this.isNetworkConnected = true
+  }
+
   /**
    * Note: A good `tag` will consist of filename followed by the method name.
    * For example, `CeloAnalytics/track`
@@ -34,11 +39,22 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
-    Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
-    console.info(`${tag} :: ${message} :: ${errorMsg}`)
+
+    // only send network errors to Sentry if the app is connected, ignore
+    // offline network errors
+    if (this.isNetworkConnected) {
+      Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
+    }
+    console.info(
+      `${tag} :: ${message} :: ${errorMsg} :: is network connected ${this.isNetworkConnected}`
+    )
     if (__DEV__) {
       console.info(console.trace())
     }
+  }
+
+  setIsNetworkConnected = (isConnected: boolean) => {
+    this.isNetworkConnected = isConnected
   }
 
   // TODO: see what to do with this on iOS since there's not native toast
