@@ -137,6 +137,7 @@ type CreateAccountScreens = Extract<
   Screens,
   | Screens.NameAndPicture
   | Screens.PincodeSet
+  | Screens.EnableBiometry
   | Screens.VerificationEducationScreen
   | Screens.VerificationInputScreen
 >
@@ -151,15 +152,17 @@ export const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number
 export const createAccountSteps: { [key in CreateAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
-  [Screens.VerificationEducationScreen]: 3,
-  [Screens.VerificationInputScreen]: 3,
+  [Screens.EnableBiometry]: 3,
+  [Screens.VerificationEducationScreen]: 4,
+  [Screens.VerificationInputScreen]: 4,
 }
 export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
   [Screens.PincodeSet]: 2,
-  [Screens.ImportWallet]: 3,
-  [Screens.VerificationEducationScreen]: 4,
-  [Screens.VerificationInputScreen]: 4,
+  [Screens.EnableBiometry]: 3,
+  [Screens.ImportWallet]: 4,
+  [Screens.VerificationEducationScreen]: 5,
+  [Screens.VerificationInputScreen]: 5,
 }
 
 // The logic in this selector should be moved to a hook when all registration
@@ -172,30 +175,27 @@ export const registrationStepsSelector = createSelector(
     recoveringFromStoreWipeSelector,
   ],
   (chooseRestoreAccount, biometryEnabled, activeScreen, recoveringFromStoreWipe) => {
-    let step = 0
-    let totalSteps = 3
-
     if (recoveringFromStoreWipe) {
-      return { step: storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens], totalSteps }
-    }
-
-    if (chooseRestoreAccount) {
-      totalSteps++
-      step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
-    } else {
-      step = createAccountSteps[activeScreen as CreateAccountScreens]
-    }
-
-    // biometry screen inserted as third screen
-    if (biometryEnabled) {
-      totalSteps++
-      if (activeScreen === Screens.EnableBiometry) {
-        step = 3
-      } else if (step > 2) {
-        step++
+      return {
+        step: storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens],
+        totalSteps: 3,
       }
     }
 
-    return { step, totalSteps }
+    if (chooseRestoreAccount) {
+      if (biometryEnabled) {
+        return { step: restoreAccountSteps[activeScreen as RestoreAccountScreens], totalSteps: 5 }
+      }
+      // remove biometry screen from step
+      const step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
+      return { step: step > 3 ? step - 1 : step, totalSteps: 4 }
+    }
+
+    if (biometryEnabled) {
+      return { step: createAccountSteps[activeScreen as CreateAccountScreens], totalSteps: 4 }
+    }
+    // remove biometry screen from step
+    const step = createAccountSteps[activeScreen as CreateAccountScreens]
+    return { step: step > 3 ? step - 1 : step, totalSteps: 3 }
   }
 )
