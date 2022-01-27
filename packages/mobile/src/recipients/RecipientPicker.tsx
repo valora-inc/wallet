@@ -4,8 +4,16 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import {
+  NameResolution,
+  ResolutionKind,
+  ResolveAddress,
+  ResolveGroup,
+  ResolveNom,
+} from '@valora/resolve-kit'
 import * as React from 'react'
 import { useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ListRenderItemInfo,
@@ -19,6 +27,7 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { DEFAULT_TESTNET } from 'src/config'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -30,6 +39,7 @@ import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
+import { getContractKitAsync } from 'src/web3/contracts'
 
 interface Section {
   key: string
@@ -55,6 +65,29 @@ function RecipientPicker(props: RecipientProps) {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
+
+  const kitCall = useAsync(async () => {
+    return await getContractKitAsync(false)
+  }, [])
+
+  const resolveKitCall = useAsync(async () => {
+    if (kitCall.result) {
+      const resolveGroup = new ResolveGroup([
+        new ResolveAddress(),
+        new ResolveNom({ kit: kitCall.result, contractAddress: getContractAddressFromEnv() }),
+      ])
+
+      return await resolveGroup.resolve(props.searchQuery)
+    }
+  }, [kitCall.result, props.searchQuery])
+
+  const getContractAddressFromEnv = () => {
+    if (DEFAULT_TESTNET === 'mainnet') {
+      return ResolveNom.MainnetContractAddress
+    } else {
+      return ResolveNom.AlfajoresContractAddress
+    }
+  }
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)
@@ -90,6 +123,7 @@ function RecipientPicker(props: RecipientProps) {
         ? renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
         : renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
+
     if (isValidAddress(props.searchQuery)) {
       return renderSendToAddress()
     }
@@ -181,6 +215,32 @@ function RecipientPicker(props: RecipientProps) {
     }
   }
 
+  const mapResolutionToRecipient = (resolution: NameResolution) => {
+    const lowerCaseAddress = resolution.address.toLowerCase()
+    switch (resolution.kind) {
+      case ResolutionKind.ADDRESS:
+        return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
+      case ResolutionKind.NOM:
+        return {
+          address: lowerCaseAddress,
+          name: t('nomSpaceRecipient', { name: resolution.name ?? props.searchQuery }),
+        }
+      default:
+        return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
+    }
+  }
+
+  const buildSections = (defaultSections: Section[]) => {
+    if (resolveKitCall.result && resolveKitCall.result.resolutions.length > 0) {
+      return [
+        ...defaultSections,
+        { key: t('others'), data: resolveKitCall.result.resolutions.map(mapResolutionToRecipient) },
+      ]
+    } else {
+      return defaultSections
+    }
+  }
+
   return (
     <View style={styles.body} testID={props.testID}>
       {showSendToAddressWarning && (
@@ -205,7 +265,7 @@ function RecipientPicker(props: RecipientProps) {
             }
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
-            sections={props.sections}
+            sections={buildSections(props.sections)}
             ItemSeparatorComponent={renderItemSeparator}
             ListHeaderComponent={props.listHeaderComponent}
             ListEmptyComponent={renderEmptyView()}
