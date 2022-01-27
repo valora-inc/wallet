@@ -9,7 +9,7 @@ export default class ReactNativeLogger {
   networkErrors: string[]
   constructor() {
     this.isNetworkConnected = true
-    this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS
+    this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS || []
   }
 
   /**
