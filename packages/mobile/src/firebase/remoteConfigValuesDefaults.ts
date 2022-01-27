@@ -47,5 +47,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: '',
+  biometryEnabled: false,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
 }

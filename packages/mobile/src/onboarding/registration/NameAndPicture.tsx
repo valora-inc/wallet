@@ -14,13 +14,13 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { registrationStepsSelector } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
-import useRegistrationStep from 'src/onboarding/registration/useRegistrationStep'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -33,10 +33,10 @@ function NameAndPicture({ navigation }: Props) {
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
+  const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
-  const registrationStep = useRegistrationStep(1)
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
@@ -46,11 +46,11 @@ function NameAndPicture({ navigation }: Props) {
       headerTitle: () => (
         <HeaderTitleWithSubtitle
           title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
-          subTitle={registrationStep}
+          subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
     })
-  }, [navigation, choseToRestoreAccount, registrationStep])
+  }, [navigation, choseToRestoreAccount, step, totalSteps])
 
   const goToNextScreen = () => {
     if (recoveringFromStoreWipe) {

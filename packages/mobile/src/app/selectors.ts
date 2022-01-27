@@ -1,7 +1,12 @@
 import { createSelector } from 'reselect'
-import { e164NumberSelector } from 'src/account/selectors'
+import {
+  choseToRestoreAccountSelector,
+  e164NumberSelector,
+  recoveringFromStoreWipeSelector,
+} from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
+import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import {
   isBalanceSufficientForSigRetrievalSelector,
@@ -110,6 +115,89 @@ export const sentryTracesSampleRateSelector = (state: RootState) => state.app.se
 
 export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors
 
+export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
+
+export const biometryEnabledSelector = (state: RootState) =>
+  state.app.biometryEnabled && !!state.app.supportedBiometryType
+
+export const useBiometrySelector = (state: RootState) => state.app.useBiometry
+
+export const activeScreenSelector = (state: RootState) => state.app.activeScreen
+
 export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
 
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
+
+type StoreWipeRecoveryScreens = Extract<
+  Screens,
+  | Screens.NameAndPicture
+  | Screens.ImportWallet
+  | Screens.VerificationEducationScreen
+  | Screens.VerificationInputScreen
+>
+type CreateAccountScreens = Extract<
+  Screens,
+  | Screens.NameAndPicture
+  | Screens.PincodeSet
+  | Screens.EnableBiometry
+  | Screens.VerificationEducationScreen
+  | Screens.VerificationInputScreen
+>
+type RestoreAccountScreens = CreateAccountScreens & Screens.ImportWallet
+
+export const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.ImportWallet]: 2,
+  [Screens.VerificationEducationScreen]: 3,
+  [Screens.VerificationInputScreen]: 3,
+}
+export const createAccountSteps: { [key in CreateAccountScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.PincodeSet]: 2,
+  [Screens.EnableBiometry]: 3,
+  [Screens.VerificationEducationScreen]: 4,
+  [Screens.VerificationInputScreen]: 4,
+}
+export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
+  [Screens.NameAndPicture]: 1,
+  [Screens.PincodeSet]: 2,
+  [Screens.EnableBiometry]: 3,
+  [Screens.ImportWallet]: 4,
+  [Screens.VerificationEducationScreen]: 5,
+  [Screens.VerificationInputScreen]: 5,
+}
+
+// The logic in this selector should be moved to a hook when all registration
+// screens are function components
+export const registrationStepsSelector = createSelector(
+  [
+    choseToRestoreAccountSelector,
+    biometryEnabledSelector,
+    activeScreenSelector,
+    recoveringFromStoreWipeSelector,
+  ],
+  (chooseRestoreAccount, biometryEnabled, activeScreen, recoveringFromStoreWipe) => {
+    if (recoveringFromStoreWipe) {
+      return {
+        step: storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens],
+        totalSteps: 3,
+      }
+    }
+
+    if (chooseRestoreAccount) {
+      if (biometryEnabled) {
+        return { step: restoreAccountSteps[activeScreen as RestoreAccountScreens], totalSteps: 5 }
+      }
+      // remove biometry screen from step
+      const step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
+      return { step: step > 3 ? step - 1 : step, totalSteps: 4 }
+    }
+
+    if (biometryEnabled) {
+      return { step: createAccountSteps[activeScreen as CreateAccountScreens], totalSteps: 4 }
+    }
+    // remove biometry screen from step
+    const step = createAccountSteps[activeScreen as CreateAccountScreens]
+    return { step: step > 3 ? step - 1 : step, totalSteps: 3 }
+  }
+)

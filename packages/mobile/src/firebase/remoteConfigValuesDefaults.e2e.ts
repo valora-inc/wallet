@@ -40,6 +40,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
   sentryNetworkErrors: '',
+  biometryEnabled: false,
   dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
   superchargeButtonType: SuperchargeButtonType.PillRewards,

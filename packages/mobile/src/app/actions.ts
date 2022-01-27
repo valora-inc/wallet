@@ -1,3 +1,4 @@
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
 import { Screens } from 'src/navigator/Screens'
 
@@ -12,11 +13,13 @@ export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
+  SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
   SET_LOCK_WITH_PIN_ENABLED = 'APP/SET_LOCK_WITH_PIN_ENABLED',
+  SET_USE_BIOMETRY = 'APP/USE_BIOMETRY',
   LOCK = 'APP/LOCK',
   UNLOCK = 'APP/UNLOCK',
   SET_SESSION_ID = 'SET_SESSION_ID',
@@ -46,6 +49,11 @@ interface SetNumberVerifiedAction {
   numberVerified: boolean
 }
 
+interface SetSupportedBiometryType {
+  type: Actions.SET_SUPPORTED_BIOMETRY_TYPE
+  supportedBiometryType: BIOMETRY_TYPE
+}
+
 export interface OpenDeepLink {
   type: Actions.OPEN_DEEP_LINK
   deepLink: string
@@ -63,6 +71,11 @@ interface SetAnalyticsEnabled {
 
 interface SetRequirePinOnAppOpen {
   type: Actions.SET_LOCK_WITH_PIN_ENABLED
+  enabled: boolean
+}
+
+interface SetUseBiometry {
+  type: Actions.SET_USE_BIOMETRY
   enabled: boolean
 }
 
@@ -131,10 +144,12 @@ export type ActionTypes =
   | SetAppState
   | SetLoggedIn
   | SetNumberVerifiedAction
+  | SetSupportedBiometryType
   | ResetAppOpenedState
   | OpenDeepLink
   | SetAnalyticsEnabled
   | SetRequirePinOnAppOpen
+  | SetUseBiometry
   | Lock
   | Unlock
   | SetSessionId
@@ -163,6 +178,11 @@ export const setNumberVerified = (numberVerified: boolean) => ({
   numberVerified,
 })
 
+export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE) => ({
+  type: Actions.SET_SUPPORTED_BIOMETRY_TYPE,
+  supportedBiometryType,
+})
+
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {
   return {
     type: Actions.OPEN_DEEP_LINK,
@@ -182,6 +202,11 @@ export const setAnalyticsEnabled = (enabled: boolean): SetAnalyticsEnabled => ({
 
 export const setRequirePinOnAppOpen = (enabled: boolean): SetRequirePinOnAppOpen => ({
   type: Actions.SET_LOCK_WITH_PIN_ENABLED,
+  enabled,
+})
+
+export const setUseBiometry = (enabled: boolean): SetUseBiometry => ({
+  type: Actions.SET_USE_BIOMETRY,
   enabled,
 })
 

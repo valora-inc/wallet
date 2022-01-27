@@ -916,6 +916,9 @@ export const v30Schema = {
   app: {
     ...v29Schema.app,
     sentryNetworkErrors: [],
+    biometryEnabled: false,
+    supportedBiometryType: null,
+    useBiometry: false,
   },
 }
 

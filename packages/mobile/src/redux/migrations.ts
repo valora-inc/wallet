@@ -391,6 +391,8 @@ export const migrations = {
     app: {
       ...state.app,
       sentryNetworkErrors: [],
+      biometryEnabled: false,
+      supportedBiometryType: null,
     },
   }),
 }

@@ -1,6 +1,7 @@
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import * as Keychain from 'react-native-keychain'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -26,6 +27,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
+  setSupportedBiometryType,
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
@@ -74,6 +76,9 @@ export function* appInit() {
   // config values, we can use the persisted value instead of an empty one
   const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
   Logger.setNetworkErrors(sentryNetworkErrors)
+
+  const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
+  yield put(setSupportedBiometryType(supportedBiometryType))
 
   const inSync = yield call(clockInSync)
   if (!inSync) {
@@ -177,6 +182,7 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
+  biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
 }
 
