@@ -2,13 +2,14 @@
 import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
+import { DEFAULT_SENTRY_NETWORK_ERRORS } from 'src/config'
 
 export default class ReactNativeLogger {
   isNetworkConnected: boolean
   networkErrors: string[]
   constructor() {
     this.isNetworkConnected = true
-    this.networkErrors = ['network request failed']
+    this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS
   }
 
   /**
@@ -70,7 +71,7 @@ export default class ReactNativeLogger {
   }
 
   setNetworkErrors = (errors: string[]) => {
-    this.networkErrors = [...this.networkErrors, ...errors]
+    this.networkErrors = [...DEFAULT_SENTRY_NETWORK_ERRORS, ...errors]
   }
 
   // TODO: see what to do with this on iOS since there's not native toast
