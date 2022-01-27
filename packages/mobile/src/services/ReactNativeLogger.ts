@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 
+const networkErrors = ['network request failed']
+
 export default class ReactNativeLogger {
   isNetworkConnected: boolean
   constructor() {
@@ -39,11 +41,21 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
+    const isNetworkError = networkErrors.some((networkError) =>
+      errorMsg.toLowerCase().includes(networkError)
+    )
 
-    // only send network errors to Sentry if the app is connected, ignore
-    // offline network errors
-    if (this.isNetworkConnected) {
-      Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
+    // prevent genuine network errors from being sent to Sentry
+    if (!isNetworkError || (this.isNetworkConnected && isNetworkError)) {
+      Sentry.captureException(error, {
+        extra: {
+          tag,
+          message,
+          errorMsg,
+          source: 'Logger.error',
+          networkConnected: this.isNetworkConnected,
+        },
+      })
     }
     console.info(
       `${tag} :: ${message} :: ${errorMsg} :: is network connected ${this.isNetworkConnected}`

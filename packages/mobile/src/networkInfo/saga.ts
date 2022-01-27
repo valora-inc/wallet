@@ -38,14 +38,14 @@ function* subscribeToNetworkStatus() {
   const networkStatusChannel = yield createNetworkStatusChannel()
   let connectionInfo: NetInfoState = yield call(NetInfo.fetch)
   let isNetworkConnected = isConnected(connectionInfo)
-  yield put(setNetworkConnectivity(isNetworkConnected))
   Logger.setIsNetworkConnected(isNetworkConnected)
+  yield put(setNetworkConnectivity(isNetworkConnected))
   while (true) {
     try {
       connectionInfo = yield take(networkStatusChannel)
-      const isNetworkConnected = isConnected(connectionInfo)
-      yield put(setNetworkConnectivity(isNetworkConnected))
+      isNetworkConnected = isConnected(connectionInfo)
       Logger.setIsNetworkConnected(isNetworkConnected)
+      yield put(setNetworkConnectivity(isNetworkConnected))
     } catch (error) {
       Logger.error(`${TAG}@subscribeToNetworkStatus`, error)
     } finally {
