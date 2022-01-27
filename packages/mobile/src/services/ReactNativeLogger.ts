@@ -3,12 +3,12 @@ import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 
-const networkErrors = ['network request failed']
-
 export default class ReactNativeLogger {
   isNetworkConnected: boolean
+  networkErrors: string[]
   constructor() {
     this.isNetworkConnected = true
+    this.networkErrors = ['network request failed']
   }
 
   /**
@@ -41,7 +41,7 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
-    const isNetworkError = networkErrors.some((networkError) =>
+    const isNetworkError = this.networkErrors.some((networkError) =>
       errorMsg.toLowerCase().includes(networkError)
     )
 
@@ -58,7 +58,7 @@ export default class ReactNativeLogger {
       })
     }
     console.info(
-      `${tag} :: ${message} :: ${errorMsg} :: is network connected ${this.isNetworkConnected}`
+      `${tag} :: ${message} :: ${errorMsg} :: network connected ${this.isNetworkConnected}`
     )
     if (__DEV__) {
       console.info(console.trace())
@@ -67,6 +67,10 @@ export default class ReactNativeLogger {
 
   setIsNetworkConnected = (isConnected: boolean) => {
     this.isNetworkConnected = isConnected
+  }
+
+  setNetworkErrors = (errors: string[]) => {
+    this.networkErrors = [...this.networkErrors, ...errors]
   }
 
   // TODO: see what to do with this on iOS since there's not native toast

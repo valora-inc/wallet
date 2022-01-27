@@ -907,6 +907,18 @@ export const v29Schema = {
   },
 }
 
+export const v30Schema = {
+  ...v29Schema,
+  _persist: {
+    ...v29Schema._persist,
+    version: 30,
+  },
+  app: {
+    ...v29Schema.app,
+    sentryNetworkErrors: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v29Schema as Partial<RootState>
+  return v30Schema as Partial<RootState>
 }
