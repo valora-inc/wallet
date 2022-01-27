@@ -691,7 +691,7 @@
   },
   "createAccount": "Créer un compte",
   "restoreAccount": "Restaurer mon compte",
-  "registrationSteps": "Step {{step}} of {{totalSteps}}",
+  "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
   "pincodeSet": {
     "create": "Créez un code PIN",
