@@ -666,6 +666,18 @@
     "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle aumentare.",
     "step3": "È sufficiente un cellulare per inviare, spendere ed esplorare."
   },
+  "enableBiometry": {
+    "title": "Secure your wallet",
+    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
+    "cta": "Turn on {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Fingerprint recognition",
+    "Face": "Face recognition",
+    "Iris": "Iris recognition"
+  },
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
@@ -679,8 +691,7 @@
   },
   "createAccount": "Crea conto",
   "restoreAccount": "Ripristina il mio conto",
-  "createAccountSteps": "Passaggio {{step}} di {{totalSteps}}",
-  "restoreAccountSteps": "Passaggio {{step}} di {{totalSteps}}",
+  "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Seleziona il codice del Paese",
   "pincodeSet": {
     "create": "Crea un PIN",
