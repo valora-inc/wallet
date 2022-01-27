@@ -272,7 +272,7 @@ describe(updatePin, () => {
       if (options?.service === 'mnemonic') {
         return Promise.resolve({
           username: 'some username',
-          password: mockEncryptedMneumonic,
+          password: mockEncryptedMnemonic,
           service: 'some service',
           storage: 'some string',
         })
@@ -286,8 +286,8 @@ describe(updatePin, () => {
   const expectedPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
   // expectedAccountHash generated from normalizeAddress(mockAccount)
   const expectedAccountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
-  // mockEncryptedMneumonic generated using mockMneumonic, mockAccount, old pin
-  const mockEncryptedMneumonic =
+  // mockEncryptedMnemonic generated using mockMnemonic, mockAccount, old pin
+  const mockEncryptedMnemonic =
     'U2FsdGVkX19p+azxZ2jqXIUhwbCpXi9hmfrdNMMVNYe+ptnyMGDadUzXrNJmgDyfUfmI+HXjKAcEs6XVJdeuoBFP3SH4quIeBzgjemMlq4yWFQ31TrN4TofrOuUjUuXEnnDol9Ad8gQmSK/6TmXZYXuRigwDigg9UGIKKl4SzHXgwJeWMKjnP3cOaWh9iJ8M43GfEWETJYFLCGgW6hyOeAREq6bOVP25GPcXCiE1yAM='
 
   it('should update the cached pin, stored password, and store mnemonic', async () => {
