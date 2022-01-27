@@ -919,7 +919,7 @@ export const v30Schema = {
     supportedBiometryType: null,
   },
   account: {
-    ...v28Schema.account,
+    ...v29Schema.account,
     isSettingPin: undefined,
   },
 }
