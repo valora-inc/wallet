@@ -33,7 +33,6 @@ export enum Actions {
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
   UPDATE_KYC_STATUS = 'ACCOUNT/UPDATE_KYC_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
-  OPEN_PLAID = 'ACCOUNT/OPEN_PLAID',
 }
 
 export interface ChooseCreateAccountAction {
@@ -179,10 +178,6 @@ export interface UpdateKycStatusAction {
   kycStatus?: KycStatus
 }
 
-export interface OpenPlaidAction {
-  type: Actions.OPEN_PLAID
-}
-
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -215,7 +210,6 @@ export type ActionTypes =
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
   | UpdateKycStatusAction
-  | OpenPlaidAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -388,8 +382,4 @@ export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) =
 export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
   type: Actions.UPDATE_KYC_STATUS,
   kycStatus,
-})
-
-export const openPlaid = (): OpenPlaidAction => ({
-  type: Actions.OPEN_PLAID,
 })

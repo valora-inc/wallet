@@ -4,6 +4,43 @@ import KeyEncoder from 'key-encoder'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
+interface DeleteFinclusiveBankAccountParams {
+  accountMTWAddress: string
+  dekPrivate: string
+  id: number
+}
+
+/**
+ * get a fiat bank account from finclusive
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @returns {Response} response object from the fetch call
+ */
+export const deleteFinclusiveBankAccount = async ({
+  accountMTWAddress,
+  dekPrivate,
+  id,
+}: DeleteFinclusiveBankAccountParams) => {
+  const body = {
+    accountAddress: accountMTWAddress,
+    accountId: id,
+  }
+  return signAndFetch({
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
+    accountMTWAddress,
+    dekPrivate,
+    requestOptions: {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+  })
+}
+
 interface GetFinclusiveBankAccountParams {
   accountMTWAddress: string
   dekPrivate: string
@@ -206,6 +243,13 @@ export const signAndFetch = async ({
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
   const authHeader = await getAuthHeader({ accountMTWAddress, dekPrivate })
+  console.debug(`${networkConfig.inHouseLiquidityURL}${path}`, {
+    ...requestOptions,
+    headers: {
+      ...requestOptions.headers,
+      Authorization: authHeader,
+    },
+  })
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {

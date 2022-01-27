@@ -2,28 +2,36 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 import PlusIcon from 'src/icons/PlusIcon'
 import TrippleDotVertical from 'src/icons/TrippleDotVertical'
-import { getFinclusiveBankAccount } from 'src/in-house-liquidity'
+import { deleteFinclusiveBankAccount, getFinclusiveBankAccount } from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import { navigate } from 'src/navigator/NavigationService'
+import openPlaid from './openPlaid'
+import { plaidParamsSelector } from 'src/account/selectors'
+import OptionsChooser from 'src/components/OptionsChooser'
 
 const TAG = 'BankAccounts'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
-function BankAccounts({ navigation }: Props) {
+function BankAccounts({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const [isOptionsVisible, setIsOptionsVisible] = useState(false)
+  const [selectedBankId, setSelectedBankId] = useState(0)
   const accountMTWAddress = useSelector(mtwAddressSelector) || ''
   const dekPrivate = useSelector(dataEncryptionKeySelector)
+  const plaidParams = useSelector(plaidParamsSelector)
+  const { newPublicToken } = route.params
 
   const header = () => {
     return (
@@ -53,12 +61,14 @@ function BankAccounts({ navigation }: Props) {
       return
     }
     const accounts = await bankAccountsResponse.json()
-    console.debug(accounts)
     return accounts.bankAccounts
-  }, [])
-  console.debug(bankAccounts)
+  }, [newPublicToken])
 
-  function getBankDisplay(bank: { accountName: string; accountNumberTruncated: string }) {
+  function getBankDisplay(bank: {
+    accountName: string
+    accountNumberTruncated: string
+    id: number
+  }) {
     return (
       <View style={styles.tokenContainer}>
         <View style={styles.row}>
@@ -70,23 +80,63 @@ function BankAccounts({ navigation }: Props) {
           </View>
 
           <View style={styles.tokenLabels}>
-            <Text
-              style={styles.bankName}
-            >{`${bank.accountName} (${bank.accountNumberTruncated})`}</Text>
+            <Text style={styles.bankName}>{`${
+              bank.accountName
+            } (${bank.accountNumberTruncated.slice(-8)})`}</Text>
           </View>
         </View>
-        <View style={styles.trippleDots}>
-          <TrippleDotVertical />
+        <View style={styles.rightSide}>
+          <BorderlessButton
+            onPress={() => {
+              setIsOptionsVisible(true)
+              setSelectedBankId(bank.id)
+            }}
+          >
+            <View style={styles.trippleDots}>
+              <TrippleDotVertical />
+            </View>
+          </BorderlessButton>
         </View>
       </View>
     )
+  }
+
+  async function deleteBankAccount() {
+    setIsOptionsVisible(false)
+    if (!dekPrivate) {
+      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
+      return
+    }
+    const bankAccountsResponse = await deleteFinclusiveBankAccount({
+      accountMTWAddress,
+      dekPrivate,
+      id: selectedBankId,
+    })
+    if (!bankAccountsResponse.ok) {
+      return
+    }
+    await bankAccounts.execute()
   }
 
   return (
     <ScrollView style={styles.scrollContainer}>
       {bankAccounts?.result?.map(getBankDisplay)}
       <View style={styles.addAccountContainer}>
-        <BorderlessButton>
+        <BorderlessButton
+          onPress={() =>
+            openPlaid({
+              ...plaidParams,
+              onSuccess: ({ publicToken }) => {
+                navigate(Screens.SyncBankAccountScreen, {
+                  publicToken,
+                })
+              },
+              onExit: () => {
+                // TODO(wallet#1447): handle errors from onExit
+              },
+            })
+          }
+        >
           <View style={styles.row}>
             <View style={styles.plusIconContainer}>
               <PlusIcon />
@@ -97,6 +147,14 @@ function BankAccounts({ navigation }: Props) {
           </View>
         </BorderlessButton>
       </View>
+      <OptionsChooser
+        isVisible={isOptionsVisible}
+        options={['Delete']}
+        includeCancelButton={true}
+        isLastOptionDestructive={true}
+        onOptionChosen={deleteBankAccount}
+        onCancel={() => setIsOptionsVisible(false)}
+      />
     </ScrollView>
   )
 }
@@ -130,11 +188,13 @@ const styles = StyleSheet.create({
   tokenLabels: {
     flexDirection: 'column',
   },
-  trippleDots: {
+  rightSide: {
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    marginRight: 10,
+  },
+  trippleDots: {
+    padding: 10,
   },
   header: {
     flexDirection: 'column',

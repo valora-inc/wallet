@@ -159,9 +159,7 @@ export class Account extends React.Component<Props, State> {
 
   goToLinkBankAccount = () => {
     ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
-    navigate(Screens.LinkBankAccountScreen, {
-      kycStatus: this.props.kycStatus,
-    })
+    navigate(Screens.BankAccounts, { newPublicToken: undefined })
   }
 
   goToNumberNotConnectScreen = () => {
