@@ -923,8 +923,8 @@
   },
   "sendToAddressWarning": {
     "title": "Sending to an address",
-    "body": "Please make sure the address supports cUSD. Funds sent to invalid addresses may not be recoverable.\n\nYou might also consider sending a small test payment first.",
-    "toggle": "Ask every time"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Scanning",
   "loadingFromDeeplink": "Connecting",
