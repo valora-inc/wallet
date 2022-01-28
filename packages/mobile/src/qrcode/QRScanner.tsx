@@ -57,7 +57,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
    * to enter QR codes manually.
    */
   const [value, setValue] = useState(
-    'celo://wallet/payment?reference_id=6011b518-38f1-436d-8314-17551b42c423&api_base=https%3A%2F%2Fsandbox.pikaia.firstdag.com%2Fapi%2Fcelo'
+    'celo://wallet/payment?reference_id=cc0562de-d0a8-497a-b375-afea8b81c033&api_base=https%3A%2F%2Fsandbox.pikaia.firstdag.com%2Fapi%2Fcelo'
   )
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
 

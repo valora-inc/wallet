@@ -7,9 +7,7 @@ import {
   WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
-import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
-import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
@@ -35,10 +33,10 @@ export async function initI18n(
   otaTranslationsAppVersion: string
 ) {
   let cachedTranslations: Resource = {}
-  if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
-    cachedTranslations = await getOtaTranslations()
-  }
-  const resources = getAvailableResources(cachedTranslations)
+  // if (allowOtaTranslations && DeviceInfo.getVersion() === otaTranslationsAppVersion) {
+  //   cachedTranslations = await getOtaTranslations()
+  // }
+  const resources = await getAvailableResources(cachedTranslations)
 
   return i18n.use(initReactI18next).init({
     fallbackLng: {

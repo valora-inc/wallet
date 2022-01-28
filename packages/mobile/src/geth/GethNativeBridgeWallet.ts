@@ -4,8 +4,10 @@ import {
   normalizeAddressWith0x,
   privateKeyToAddress,
 } from '@celo/utils/lib/address'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
+import * as ethUtil from 'ethereumjs-util'
 import { GethNativeModule } from 'react-native-geth'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { GethNativeBridgeSigner } from 'src/geth/GethNativeBridgeSigner'
@@ -98,5 +100,20 @@ export class GethNativeBridgeWallet
     const fromAddress = txParams.from!.toString()
     const signer = this.getSigner(fromAddress)
     return signer.signRawTransaction(txParams)
+  }
+
+  /**
+   * Gets the signer based on the 'from' field in the tx body
+   * @param txParams Transaction to sign
+   * @dev overrides WalletBase.signTransaction
+   */
+  async signTypedData(address: string, typedData: EIP712TypedData): Promise<string> {
+    Logger.info(
+      `${TAG}@signTypedData`,
+      `Signing typed DATA: ${JSON.stringify({ address, typedData })}`
+    )
+    const signer = this.getSigner(address)
+    const { v, r, s } = await signer.signTypedData(typedData, address)
+    return ethUtil.toRpcSig(v, r, s)
   }
 }

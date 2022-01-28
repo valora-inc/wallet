@@ -1,5 +1,9 @@
 import { RemoteConfigValues } from 'src/app/saga'
+<<<<<<< HEAD
 import { SuperchargeButtonType } from 'src/app/types'
+=======
+import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
+>>>>>>> b4cc1d0ab (wip: merchantscreen)
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -40,4 +44,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
   superchargeButtonType: SuperchargeButtonType.PillRewards,
   paymentDeepLinkHandler: '',
+  paymentDeepLinkHandler: PaymentDeepLinkHandler.Merchant, // TODO: revert to .Disabled
 }

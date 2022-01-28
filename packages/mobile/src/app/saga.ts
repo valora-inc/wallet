@@ -28,7 +28,6 @@ import {
   setAppState,
   updateRemoteConfigValues,
 } from 'src/app/actions'
-import { PaymentDeepLinkHandler } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
@@ -40,6 +39,7 @@ import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
+import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'

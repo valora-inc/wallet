@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -745,7 +746,6 @@ export const v23Schema = {
   app: {
     ...v22Schema.app,
     linkBankAccountEnabled: false,
-    paymentDeepLinkHandler: '',
   },
   fees: {
     estimates: {
@@ -778,13 +778,29 @@ export const v24Schema = {
   },
   app: {
     ...v23Schema.app,
-    sentryTracesSampleRate: 0.2,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   },
-  transactions: {
-    ...v23Schema.transactions,
-    transactions: [],
+  fees: {
+    estimates: {
+      [mockCusdAddress]: {
+        ['send']: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['invite']: {
+          usdFee: '0.04',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['exchange']: undefined,
+        ['reclaim-escrow']: undefined,
+        ['register-dek']: undefined,
+      },
+    },
   },
-  invite: undefined,
 }
 
 export const v25Schema = {

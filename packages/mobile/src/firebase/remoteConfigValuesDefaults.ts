@@ -2,6 +2,11 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 
+export enum PaymentDeepLinkHandler {
+  Disabled = '',
+  Merchant = 'merchant',
+}
+
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUrl'
@@ -44,4 +49,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
   paymentDeepLinkHandler: '',
+  paymentDeepLinkHandler: PaymentDeepLinkHandler.Merchant, // TODO: change back to .Disabled
 }

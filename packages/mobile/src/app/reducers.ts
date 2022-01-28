@@ -1,7 +1,14 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
+<<<<<<< HEAD
 import { SuperchargeButtonType } from 'src/app/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+=======
+import {
+  PaymentDeepLinkHandler,
+  REMOTE_CONFIG_VALUES_DEFAULTS,
+} from 'src/firebase/remoteConfigValuesDefaults'
+>>>>>>> b4cc1d0ab (wip: merchantscreen)
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -53,8 +60,6 @@ export interface State {
 >>>>>>> d49ceaaa6 (Starts work for merchant payments)
 }
 
-export type PaymentDeepLinkHandler = '' | 'merchant'
-
 const initialState = {
   loading: false,
   loggedIn: false,
@@ -92,9 +97,13 @@ const initialState = {
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
+<<<<<<< HEAD
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   paymentDeepLinkHandler: '' as PaymentDeepLinkHandler,
+=======
+  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
+>>>>>>> b4cc1d0ab (wip: merchantscreen)
 }
 
 export const appReducer = (
