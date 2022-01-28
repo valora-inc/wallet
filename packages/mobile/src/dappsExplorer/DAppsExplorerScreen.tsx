@@ -1,7 +1,7 @@
 import Button from '@celo/react-components/components/Button'
 import Card from '@celo/react-components/components/Card'
 import colors, { Colors } from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
+import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import React, { useState } from 'react'
@@ -65,6 +65,17 @@ interface SectionData {
   category: CategoryWithDapps
 }
 
+function mapDappFields(dapp: any, address: string): Dapp {
+  return {
+    id: dapp.id,
+    categoryId: dapp.categoryId,
+    name: dapp.name,
+    iconUrl: dapp.logoUrl,
+    description: dapp.description,
+    dappUrl: dapp.url.replace('{{address}}', address ?? ''),
+  }
+}
+
 export function DAppsExplorerScreen() {
   const { t, i18n } = useTranslation()
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
@@ -83,7 +94,7 @@ export function DAppsExplorerScreen() {
   }: {
     loading: boolean
     error: Error | undefined
-    result: CategoryWithDapps[] | undefined
+    result: { categories: CategoryWithDapps[]; featured: Dapp } | undefined
   } = useAsync(
     async () => {
       if (!dappsListUrl) {
@@ -111,17 +122,13 @@ export function DAppsExplorerScreen() {
           }
         })
         result.applications.forEach((app: any) => {
-          categoriesById[app.categoryId].dapps.push({
-            id: app.id,
-            categoryId: app.categoryId,
-            name: app.name,
-            iconUrl: app.logoUrl,
-            description: app.description,
-            dappUrl: app.url.replace('{{address}}', address ?? ''),
-          })
+          categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? ''))
         })
 
-        return Object.values(categoriesById)
+        return {
+          categories: Object.values(categoriesById),
+          featured: result.featured ? mapDappFields(result.featured, address ?? '') : undefined,
+        }
       } catch (error) {
         Logger.error(
           TAG,
@@ -198,6 +205,7 @@ export function DAppsExplorerScreen() {
               style={styles.bottomSheetButton}
               onPress={onPressNavigationButton}
               text={t('dappsScreenBottomSheet.button', { dappName: dappSelected?.name })}
+              testID="ConfirmDappButton"
             />
           </View>
         </View>
@@ -229,11 +237,22 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && result && (
           <SectionList
-            ListHeaderComponent={<DescriptionView message={t('dappsScreen.message')} />}
+            ListHeaderComponent={
+              <>
+                <DescriptionView message={t('dappsScreen.message')} />
+                {result.featured && (
+                  <>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
+                    <FeaturedDapp dapp={result.featured} onPressDapp={onPressDapp} />
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
+                  </>
+                )}
+              </>
+            }
             style={styles.sectionList}
-            sections={parseResultIntoSections(result)}
-            renderItem={({ item: category }) => <Dapp dapp={category} onPressDapp={onPressDapp} />}
-            keyExtractor={(item: Dapp) => `${item.categoryId}-${item.id}`}
+            sections={parseResultIntoSections(result.categories)}
+            renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
+            keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
             renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
               <CategoryHeader category={section.category} />
@@ -273,12 +292,28 @@ function CategoryHeader({ category }: { category: CategoryWithDapps }) {
   )
 }
 
+function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
+  const onPress = () => onPressDapp(dapp)
+
+  return (
+    <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
+      <TouchableOpacity style={styles.pressableCard} onPress={onPress} testID="featuredDapp">
+        <View style={styles.itemTextContainer}>
+          <Text style={styles.featuredDappTitle}>{dapp.name}</Text>
+          <Text style={styles.featuredDappSubtitle}>{dapp.description}</Text>
+        </View>
+        <Image source={{ uri: dapp.iconUrl }} style={styles.featuredDappIcon} />
+      </TouchableOpacity>
+    </Card>
+  )
+}
+
 function Dapp({ dapp, onPressDapp }: DappProps) {
   const onPress = () => onPressDapp(dapp)
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
-      <TouchableOpacity style={styles.pressableCard} onPress={onPress}>
+      <TouchableOpacity style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
         <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
         <View style={styles.itemTextContainer}>
           <Text style={styles.itemTitleText}>{dapp.name}</Text>
@@ -329,6 +364,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginRight: Spacing.Regular16,
   },
+  featuredDappIcon: {
+    width: 106,
+    height: 106,
+    borderRadius: 53,
+    marginLeft: Spacing.Small12,
+  },
   pressableCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -368,6 +409,14 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: Colors.gray5,
   },
+  featuredDappTitle: {
+    ...fontStyles.regular600,
+    marginBottom: 5,
+  },
+  featuredDappSubtitle: {
+    ...fontStyles.small,
+    color: Colors.gray4,
+  },
   descriptionText: {
     ...fontStyles.h1,
     flex: 1,
@@ -391,6 +440,12 @@ const styles = StyleSheet.create({
   sectionList: {
     flex: 1,
     padding: Spacing.Regular16,
+  },
+  sectionTitle: {
+    ...fontStyles.label,
+    color: colors.gray4,
+    fontFamily: fontFamily,
+    marginTop: 32,
   },
 })
 
