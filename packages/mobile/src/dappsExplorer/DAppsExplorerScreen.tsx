@@ -19,6 +19,8 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
@@ -94,7 +96,7 @@ export function DAppsExplorerScreen() {
   }: {
     loading: boolean
     error: Error | undefined
-    result: { categories: CategoryWithDapps[]; featured: Dapp } | undefined
+    result: { categories: CategoryWithDapps[]; featured: Dapp | undefined } | undefined
   } = useAsync(
     async () => {
       if (!dappsListUrl) {
@@ -125,9 +127,18 @@ export function DAppsExplorerScreen() {
           categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? ''))
         })
 
+        const featured = result.featured ? mapDappFields(result.featured, address ?? '') : undefined
+        if (featured) {
+          ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
+            categoryId: featured.categoryId,
+            dappId: featured.id,
+            dappName: featured.name,
+          })
+        }
+
         return {
           categories: Object.values(categoriesById),
-          featured: result.featured ? mapDappFields(result.featured, address ?? '') : undefined,
+          featured,
         }
       } catch (error) {
         Logger.error(
@@ -157,13 +168,24 @@ export function DAppsExplorerScreen() {
     setHelpDialogVisible(true)
   }
 
+  const openDapp = (dapp: Dapp) => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
+      categoryId: dapp.categoryId,
+      dappId: dapp.id,
+      dappName: dapp.name,
+      section: result?.featured?.id === dapp.id ? 'featured' : 'all',
+      horizontalPosition: 0,
+    })
+    dispatch(openUrl(dapp.dappUrl, true, true))
+  }
+
   const onPressNavigationButton = () => {
     if (!dappSelected) {
       // Should never happen
       Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
-    dispatch(openUrl(dappSelected.dappUrl, true, true))
+    openDapp(dappSelected)
     setBottomSheetVisible(false)
   }
 
@@ -172,7 +194,7 @@ export function DAppsExplorerScreen() {
       setDappSelected(dapp)
       setBottomSheetVisible(true)
     } else {
-      dispatch(openUrl(dapp.dappUrl, true, true))
+      openDapp(dapp)
     }
   }
 
