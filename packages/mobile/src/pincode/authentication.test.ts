@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
@@ -288,7 +289,7 @@ describe(updatePin, () => {
       if (options?.service === 'mnemonic') {
         return Promise.resolve({
           username: 'some username',
-          password: mockEncryptedMnemonic,
+          password: 'mockEncryptedValue',
           service: 'some service',
           storage: 'some string',
         })
@@ -298,13 +299,12 @@ describe(updatePin, () => {
   })
 
   const oldPin = '123123'
+  const oldPassword = mockPepper.password + oldPin
+  const newPassword = mockPepper.password + mockPin
   // expectedPasswordHash generated from mockPin
-  const expectedPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
+  const newPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
   // expectedAccountHash generated from normalizeAddress(mockAccount)
-  const expectedAccountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
-  // mockEncryptedMnemonic generated using mockMnemonic, mockAccount, old pin
-  const mockEncryptedMnemonic =
-    'U2FsdGVkX19p+azxZ2jqXIUhwbCpXi9hmfrdNMMVNYe+ptnyMGDadUzXrNJmgDyfUfmI+HXjKAcEs6XVJdeuoBFP3SH4quIeBzgjemMlq4yWFQ31TrN4TofrOuUjUuXEnnDol9Ad8gQmSK/6TmXZYXuRigwDigg9UGIKKl4SzHXgwJeWMKjnP3cOaWh9iJ8M43GfEWETJYFLCGgW6hyOeAREq6bOVP25GPcXCiE1yAM='
+  const accountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
 
   it('should update the cached pin, stored password, and store mnemonic', async () => {
     await updatePin(mockAccount, oldPin, mockPin)
@@ -313,15 +313,19 @@ describe(updatePin, () => {
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       1,
       'CELO',
-      expectedPasswordHash,
-      expect.objectContaining({ service: expectedAccountHash })
+      newPasswordHash,
+      expect.objectContaining({ service: accountHash })
     )
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       2,
       'CELO',
-      expect.any(String), // TODO test that this can be decrypted correctly
+      'mockEncryptedValue',
       expect.objectContaining({ service: 'mnemonic' })
     )
+    // as we are mocking the outcome of encryption/decryption of mnemonic, check
+    // that they are called with the expected params
+    expect(CryptoJS.AES.decrypt).toHaveBeenCalledWith('mockEncryptedValue', oldPassword)
+    expect(CryptoJS.AES.encrypt).toHaveBeenCalledWith('mockDecryptedValue', newPassword)
   })
 
   it('should update the cached pin, stored password, store mnemonic, and stored pin if biometry is enabled', async () => {
@@ -334,13 +338,13 @@ describe(updatePin, () => {
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       1,
       'CELO',
-      expectedPasswordHash,
-      expect.objectContaining({ service: expectedAccountHash })
+      newPasswordHash,
+      expect.objectContaining({ service: accountHash })
     )
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
       3,
       'CELO',
-      expect.any(String), // TODO test that this can be decrypted correctly
+      'mockEncryptedValue',
       expect.objectContaining({ service: 'mnemonic' })
     )
     expect(mockedKeychain.setGenericPassword).toHaveBeenNthCalledWith(
