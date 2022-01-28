@@ -31,7 +31,7 @@ import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
-import { getRecentPayments } from 'src/send/selectors'
+import { canSendTokensSelector, getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { TokenBalance } from 'src/tokens/reducer'
@@ -290,6 +290,10 @@ export function* handleSendPaymentData(
       origin: SendOrigin.AppSendFlow,
     })
   } else {
+    const canSendTokens: boolean = yield select(canSendTokensSelector)
+    if (!canSendTokens) {
+      throw new Error("Precondition failed: Can't send tokens from payment data")
+    }
     navigate(Screens.SendAmount, {
       recipient,
       isFromScan,

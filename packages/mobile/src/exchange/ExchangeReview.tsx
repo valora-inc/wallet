@@ -5,10 +5,11 @@ import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { Trans, WithTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -16,58 +17,46 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/actions'
-import { ExchangeRates } from 'src/exchange/reducer'
-import { withTranslation } from 'src/i18n'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
+import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
-interface StateProps {
-  exchangeRates: ExchangeRates | null
-  tobinTax: BigNumber
-  fee: BigNumber
-  appConnected: boolean
-  localCurrencyExchangeRates: Record<Currency, string | null>
-}
+type Props = StackScreenProps<StackParamList, Screens.ExchangeReview>
 
-interface DispatchProps {
-  fetchExchangeRate: typeof fetchExchangeRate
-  fetchTobinTax: typeof fetchTobinTax
-  exchangeTokens: typeof exchangeTokens
-}
+export default function ExchangeReview({ route }: Props) {
+  const { t } = useTranslation()
 
-interface State {
-  transferCurrency: Currency
-}
-
-type OwnProps = StackScreenProps<StackParamList, Screens.ExchangeReview>
-
-type Props = StateProps & WithTranslation & DispatchProps & OwnProps
-
-const mapStateToProps = (state: RootState): StateProps => ({
-  exchangeRates: state.exchange.exchangeRates,
-  tobinTax: new BigNumber(state.exchange.tobinTax || 0),
+  const exchangeRates = useSelector((state) => state.exchange.exchangeRates)
+  const tobinTax = useSelector((state) => new BigNumber(state.exchange.tobinTax || 0))
   // TODO: use real fee
-  fee: new BigNumber(0),
-  appConnected: isAppConnected(state),
-  localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
-})
+  const fee = new BigNumber(0)
+  const appConnected = useSelector(isAppConnected)
+  const localCurrencyExchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
-export class ExchangeReview extends React.Component<Props, State> {
-  onPressConfirm = () => {
-    const { makerToken, takerToken, celoAmount, stableAmount, inputToken } = this.props.route.params
+  const {
+    makerToken,
+    takerToken,
+    celoAmount,
+    stableAmount,
+    inputToken,
+    inputAmount,
+    inputTokenDisplayName,
+  } = route.params
+  const dispatch = useDispatch()
+
+  const onPressConfirm = () => {
     const stableToken = makerToken === Currency.Celo ? takerToken : makerToken
 
     // BEGIN: Analytics
     const localCurrencyAmount = convertCurrencyToLocalAmount(
       stableAmount,
-      this.props.localCurrencyExchangeRates[stableToken]
+      localCurrencyExchangeRates[stableToken]
     )
     ValoraAnalytics.track(
       makerToken !== Currency.Celo
@@ -82,104 +71,90 @@ export class ExchangeReview extends React.Component<Props, State> {
     )
 
     const makerTokenAmount = makerToken === Currency.Celo ? celoAmount : stableAmount
-    this.props.exchangeTokens(makerToken, makerTokenAmount, takerToken)
+    dispatch(exchangeTokens(makerToken, makerTokenAmount, takerToken))
   }
 
-  componentDidMount() {
-    const { makerToken, celoAmount, stableAmount } = this.props.route.params
+  useEffect(() => {
     const makerTokenAmount = makerToken === Currency.Celo ? celoAmount : stableAmount
-    this.props.fetchTobinTax(makerTokenAmount, makerToken)
-    this.props.fetchExchangeRate(makerToken, makerTokenAmount)
+    dispatch(fetchTobinTax(makerTokenAmount, makerToken))
+    dispatch(fetchExchangeRate(makerToken, makerTokenAmount))
+  }, [])
+
+  const stableToken = makerToken === Currency.Celo ? takerToken : makerToken
+  const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, stableToken).pow(-1)
+
+  const exchangeAmount = {
+    value: inputAmount,
+    currencyCode: inputToken,
+  }
+  const exchangeRateAmount = {
+    value: exchangeRate,
+    currencyCode: stableToken,
+  }
+  const subtotalAmount = {
+    value: stableAmount,
+    currencyCode: stableToken,
+  }
+  const totalFee = new BigNumber(tobinTax).plus(fee)
+
+  const totalAmount = {
+    value: stableAmount.plus(totalFee),
+    currencyCode: stableToken,
   }
 
-  render() {
-    const { exchangeRates, t, appConnected, tobinTax, fee } = this.props
-    const {
-      makerToken,
-      takerToken,
-      celoAmount,
-      stableAmount,
-      inputToken,
-      inputAmount,
-      inputTokenDisplayName,
-    } = this.props.route.params
-
-    const stableToken = makerToken === Currency.Celo ? takerToken : makerToken
-    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, stableToken).pow(-1)
-
-    const exchangeAmount = {
-      value: inputAmount,
-      currencyCode: inputToken,
-    }
-    const exchangeRateAmount = {
-      value: exchangeRate,
-      currencyCode: stableToken,
-    }
-    const subtotalAmount = {
-      value: stableAmount,
-      currencyCode: stableToken,
-    }
-    const totalFee = new BigNumber(tobinTax).plus(fee)
-
-    const totalAmount = {
-      value: stableAmount.plus(totalFee),
-      currencyCode: stableToken,
-    }
-
-    return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
-        <View style={styles.paddedContainer}>
-          <DisconnectBanner />
-          <ScrollView>
-            <View style={styles.flexStart}>
-              <View style={styles.amountRow}>
-                <Text style={styles.exchangeBodyText}>
-                  {t('exchangeAmount', {
-                    tokenName: inputTokenDisplayName,
-                  })}
-                </Text>
-                <CurrencyDisplay style={styles.currencyAmountText} amount={exchangeAmount} />
-              </View>
-              <HorizontalLine />
-              <LineItemRow
-                title={
-                  <Trans i18nKey="subtotalAmount">
-                    Subtotal @ <CurrencyDisplay amount={exchangeRateAmount} />
-                  </Trans>
-                }
-                amount={<CurrencyDisplay amount={subtotalAmount} />}
-              />
-              <FeeDrawer
-                testID={'feeDrawer/ExchangeReview'}
-                currency={Currency.Dollar}
-                securityFee={fee}
-                exchangeFee={tobinTax}
-                isExchange={true}
-                totalFee={totalFee}
-              />
-
-              <HorizontalLine />
-              <TotalLineItem amount={totalAmount} />
+  return (
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <View style={styles.paddedContainer}>
+        <DisconnectBanner />
+        <ScrollView>
+          <View style={styles.flexStart}>
+            <View style={styles.amountRow}>
+              <Text style={styles.exchangeBodyText}>
+                {t('exchangeAmount', {
+                  tokenName: inputTokenDisplayName,
+                })}
+              </Text>
+              <CurrencyDisplay style={styles.currencyAmountText} amount={exchangeAmount} />
             </View>
-          </ScrollView>
-        </View>
-        <Button
-          onPress={this.onPressConfirm}
-          size={BtnSizes.FULL}
-          text={
-            <Trans i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}>
-              {/* Used instead of Currency Display to deal with large text - CELO only exchanged here */}
-              {celoAmount.toFixed(2).toString()}
-            </Trans>
-          }
-          style={styles.buyBtn}
-          disabled={!appConnected || exchangeRate.isZero()}
-          type={BtnTypes.TERTIARY}
-          testID="ConfirmExchange"
-        />
-      </SafeAreaView>
-    )
-  }
+            <HorizontalLine />
+            <LineItemRow
+              title={
+                <Trans i18nKey="subtotalAmount">
+                  Subtotal @ <CurrencyDisplay amount={exchangeRateAmount} />
+                </Trans>
+              }
+              amount={<CurrencyDisplay amount={subtotalAmount} />}
+            />
+            <FeeDrawer
+              testID={'feeDrawer/ExchangeReview'}
+              currency={Currency.Dollar}
+              securityFee={fee}
+              exchangeFee={tobinTax}
+              isExchange={true}
+              totalFee={totalFee}
+            />
+
+            <HorizontalLine />
+            <TotalLineItem amount={totalAmount} />
+          </View>
+        </ScrollView>
+      </View>
+      <Button
+        onPress={onPressConfirm}
+        size={BtnSizes.FULL}
+        text={
+          <Trans i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}>
+            {/* Used instead of Currency Display to deal with large text - CELO only exchanged here */}
+            {celoAmount.toFixed(2).toString()}
+          </Trans>
+        }
+        style={styles.buyBtn}
+        disabled={!appConnected || exchangeRate.isZero()}
+        type={BtnTypes.TERTIARY}
+        testID="ConfirmExchange"
+      />
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -210,9 +185,3 @@ const styles = StyleSheet.create({
     padding: variables.contentPadding,
   },
 })
-
-export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
-  exchangeTokens,
-  fetchExchangeRate,
-  fetchTobinTax,
-})(withTranslation<Props>()(ExchangeReview))
