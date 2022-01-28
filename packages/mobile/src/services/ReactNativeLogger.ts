@@ -42,8 +42,10 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
-    const isNetworkError = this.networkErrors.some((networkError) =>
-      errorMsg.toLowerCase().includes(networkError)
+    const isNetworkError = this.networkErrors.some(
+      (networkError) =>
+        message.toString().toLowerCase().includes(networkError) ||
+        errorMsg.toLowerCase().includes(networkError)
     )
 
     // prevent genuine network errors from being sent to Sentry
