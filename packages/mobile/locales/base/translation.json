@@ -1111,6 +1111,11 @@
       "cta": "Coming Soon!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
+    "delete": "Delete"
+  },
   "linkBankAccountSettingsTitle": "Link Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "connectPhoneNumber": {

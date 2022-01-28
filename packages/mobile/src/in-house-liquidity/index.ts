@@ -243,13 +243,6 @@ export const signAndFetch = async ({
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
   const authHeader = await getAuthHeader({ accountMTWAddress, dekPrivate })
-  console.debug(`${networkConfig.inHouseLiquidityURL}${path}`, {
-    ...requestOptions,
-    headers: {
-      ...requestOptions.headers,
-      Authorization: authHeader,
-    },
-  })
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {

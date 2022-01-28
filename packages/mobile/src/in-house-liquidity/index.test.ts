@@ -189,6 +189,7 @@ describe('In House Liquidity Calls', () => {
       })
       const expectedBody = JSON.stringify({
         publicToken: 'foo',
+        accountAddress: MOCK_USER.accountMTWAddress,
       })
 
       // Calls Fetch Correctly

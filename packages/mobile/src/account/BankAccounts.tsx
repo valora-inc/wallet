@@ -36,7 +36,7 @@ function BankAccounts({ navigation, route }: Props) {
   const header = () => {
     return (
       <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{'Linked Bank Accounts'}</Text>
+        <Text style={fontStyles.navigationHeader}>{t('bankAccountsScreen.header')}</Text>
       </View>
     )
   }
@@ -57,7 +57,7 @@ function BankAccounts({ navigation, route }: Props) {
       accountMTWAddress,
     })
     if (!bankAccountsResponse.ok) {
-      console.debug('failed bank account get')
+      // TODO(wallet#1447): handle errors from IHL
       return
     }
     const accounts = await bankAccountsResponse.json()
@@ -70,7 +70,7 @@ function BankAccounts({ navigation, route }: Props) {
     id: number
   }) {
     return (
-      <View style={styles.tokenContainer}>
+      <View key={bank.id} style={styles.tokenContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
             <Image
@@ -87,6 +87,7 @@ function BankAccounts({ navigation, route }: Props) {
         </View>
         <View style={styles.rightSide}>
           <BorderlessButton
+            testID={`TrippleDot${bank.id}`}
             onPress={() => {
               setIsOptionsVisible(true)
               setSelectedBankId(bank.id)
@@ -123,6 +124,7 @@ function BankAccounts({ navigation, route }: Props) {
       {bankAccounts?.result?.map(getBankDisplay)}
       <View style={styles.addAccountContainer}>
         <BorderlessButton
+          testID="AddAccount"
           onPress={() =>
             openPlaid({
               ...plaidParams,
@@ -142,14 +144,14 @@ function BankAccounts({ navigation, route }: Props) {
               <PlusIcon />
             </View>
             <View style={styles.tokenLabels}>
-              <Text style={styles.bankName}>{'Add new bank account'}</Text>
+              <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
             </View>
           </View>
         </BorderlessButton>
       </View>
       <OptionsChooser
         isVisible={isOptionsVisible}
-        options={['Delete']}
+        options={[t('bankAccountsScreen.delete')]}
         includeCancelButton={true}
         isLastOptionDestructive={true}
         onOptionChosen={deleteBankAccount}

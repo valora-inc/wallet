@@ -226,7 +226,7 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
         testID="PlaidLinkButton"
-        disabled={false}
+        disabled={disabled}
       />
     </View>
   )

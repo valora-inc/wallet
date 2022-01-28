@@ -37,7 +37,6 @@ const SyncBankAccountScreen = ({ route }: Props) => {
     })
     if (!accessTokenResponse.ok) {
       // TODO(wallet#1447): handle errors from IHL
-      console.debug('Failed exchange token')
       return
     }
     const { accessToken } = await accessTokenResponse.json()
@@ -49,7 +48,6 @@ const SyncBankAccountScreen = ({ route }: Props) => {
     })
     if (!finclusiveBankAccountResponse.ok) {
       // TODO(wallet#1447): handle errors from IHL
-      console.debug('Failed bank account')
       return
     }
     navigate(Screens.BankAccounts, { newPublicToken: publicToken })
