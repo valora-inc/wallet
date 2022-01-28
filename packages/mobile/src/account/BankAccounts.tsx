@@ -73,13 +73,18 @@ function BankAccounts({ navigation, route }: Props) {
       <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
+            {
+              // TODO(wallet#1825): Use real institution logo
+            }
             <Image
               source={{ uri: 'https://www.chase.com/etc/designs/chase-ux/favicon-57.png' }}
               style={styles.bankImg}
             />
           </View>
-
           <View style={styles.accountLabels}>
+            {
+              // TODO(wallet#1825): Use institution name
+            }
             <Text style={styles.bankName}>{`${
               bank.accountName
             } (${bank.accountNumberTruncated.slice(-8)})`}</Text>
