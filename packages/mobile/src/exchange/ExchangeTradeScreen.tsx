@@ -8,11 +8,12 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { Trans, WithTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { hideAlert, showError } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { CeloExchangeEvents } from 'src/analytics/Events'
@@ -25,10 +26,8 @@ import LineItemRow from 'src/components/LineItemRow'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeTradeScreenHeader from 'src/exchange/ExchangeScreenHeader'
-import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
-import { withTranslation } from 'src/i18n'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import InfoIcon from 'src/icons/InfoIcon'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   convertCurrencyToLocalAmount,
   convertLocalAmountToCurrency,
@@ -41,7 +40,7 @@ import {
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RootState } from 'src/redux/reducers'
+import useSelector from 'src/redux/useSelector'
 import { updateLastUsedCurrency } from 'src/send/actions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { balancesSelector, defaultCurrencySelector } from 'src/stableToken/selectors'
@@ -56,111 +55,71 @@ export enum InputToken {
   LocalCurrency = 'LocalCurrency',
 }
 
-interface State {
-  inputToken: InputToken
-  buyCelo: boolean
-  inputAmount: string
-  exchangeRateInfoDialogVisible: boolean
-  transferCurrency: Currency
-}
+type Props = StackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
 
-interface StateProps {
-  exchangeRates: ExchangeRates | null
-  error: ErrorMessages | null
-  localCurrencyCode: LocalCurrencyCode
-  balances: Record<Currency, BigNumber | null>
-  localCurrencyExchangeRates: Record<Currency, string | null>
-  defaultCurrency: Currency
-}
+export default function ExchangeTradeScreen({ route }: Props) {
+  const { t } = useTranslation()
 
-interface DispatchProps {
-  fetchExchangeRate: typeof fetchExchangeRate
-  showError: typeof showError
-  hideAlert: typeof hideAlert
-  updateLastUsedCurrency: typeof updateLastUsedCurrency
-}
+  const exchangeRates = useSelector(exchangeRatesSelector)
+  const error = useSelector(errorSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const balances = useSelector(balancesSelector)
+  const localCurrencyExchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const defaultCurrency = useSelector(defaultCurrencySelector)
 
-type OwnProps = StackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
+  const { buyCelo } = route.params
 
-type Props = StateProps & DispatchProps & WithTranslation & OwnProps
+  const [inputToken, setInputToken] = useState(InputToken.Celo)
+  const [inputAmount, setInputAmount] = useState('') // Raw amount entered
+  const [exchangeRateInfoDialogVisible, setExchangeRateInfoDialogVisible] = useState(false)
+  const [transferCurrency, setTransferCurrency] = useState(defaultCurrency)
 
-const mapStateToProps = (state: RootState): StateProps => ({
-  exchangeRates: exchangeRatesSelector(state),
-  error: errorSelector(state),
-  localCurrencyCode: getLocalCurrencyCode(state),
-  balances: balancesSelector(state),
-  localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
-  defaultCurrency: defaultCurrencySelector(state),
-})
+  const dispatch = useDispatch()
 
-export class ExchangeTradeScreen extends React.Component<Props, State> {
-  state: State = {
-    inputToken: InputToken.Celo,
-    buyCelo: true,
-    inputAmount: '', // Raw amount entered, can be cGLD, cUSD or local currency
-    exchangeRateInfoDialogVisible: false,
-    transferCurrency: Currency.Dollar,
-  }
-
-  componentDidMount() {
-    this.getSellTokenPropertiesFromNavProps()
-  }
-
-  getSellTokenPropertiesFromNavProps = () => {
-    const { buyCelo } = this.props.route.params
-    const { defaultCurrency, balances } = this.props
-
-    this.setState({
-      buyCelo,
-      transferCurrency: defaultCurrency,
-    })
-
+  useEffect(() => {
     const sellToken = buyCelo ? defaultCurrency : Currency.Celo
     if (!balances[sellToken]) {
       Logger.error('ExchangeTradeScreen', `${sellToken} balance is missing. Should never happen`)
-      this.props.showError(ErrorMessages.FETCH_FAILED)
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
       navigateBack()
       return
     }
 
-    this.props.fetchExchangeRate(sellToken, balances[sellToken]!)
+    dispatch(fetchExchangeRate(sellToken, balances[sellToken]!))
+  }, [])
+
+  const onChangeExchangeAmount = (amount: string) => {
+    setInputAmount(amount)
   }
 
-  onChangeExchangeAmount = (amount: string) => {
-    this.setState({ inputAmount: amount }, () => {
-      this.updateError()
-    })
-  }
+  useEffect(() => {
+    updateError()
+  }, [inputAmount, inputToken])
 
-  updateError = () => {
-    const tokenAmount = this.getInputTokenAmount()
-    if (!this.inputAmountIsValid(tokenAmount)) {
-      this.props.showError(
-        this.state.buyCelo ? ErrorMessages.NSF_STABLE : ErrorMessages.NSF_GOLD,
-        null,
-        { token: getFullCurrencyName(this.state.transferCurrency) }
+  const updateError = () => {
+    const tokenAmount = getInputTokenAmount()
+    if (!inputAmountIsValid(tokenAmount)) {
+      dispatch(
+        showError(buyCelo ? ErrorMessages.NSF_STABLE : ErrorMessages.NSF_GOLD, null, {
+          token: getFullCurrencyName(transferCurrency),
+        })
       )
     } else {
-      this.props.hideAlert()
+      dispatch(hideAlert())
     }
   }
 
-  goToReview = () => {
-    const { buyCelo, inputToken, transferCurrency } = this.state
-    const inputAmount = this.getInputTokenAmount()
+  const goToReview = () => {
+    const inputAmount = getInputTokenAmount()
     // BEGIN: Analytics
-    const exchangeRate = getRateForMakerToken(
-      this.props.exchangeRates,
-      Currency.Celo,
-      transferCurrency
-    )
+    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, transferCurrency)
     const celoAmount =
       inputToken === InputToken.Celo ? inputAmount : exchangeRate.multipliedBy(inputAmount)
     const stableAmount =
       inputToken === InputToken.Celo ? exchangeRate.pow(-1).multipliedBy(inputAmount) : inputAmount
     const localCurrencyAmount = convertCurrencyToLocalAmount(
       stableAmount,
-      this.props.localCurrencyExchangeRates[transferCurrency]
+      localCurrencyExchangeRates[transferCurrency]
     )
     const inputCurrency = inputToken === InputToken.Celo ? Currency.Celo : transferCurrency
     ValoraAnalytics.track(
@@ -172,35 +131,24 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
       }
     )
     // END: Analytics
-    const makerToken = this.getMakerToken()
+    const makerToken = getMakerToken()
     navigate(Screens.ExchangeReview, {
       makerToken: makerToken,
-      takerToken: this.getTakerToken(),
+      takerToken: getTakerToken(),
       celoAmount,
       stableAmount,
       inputToken: inputCurrency,
-      inputTokenDisplayName: this.getInputTokenDisplayText(),
+      inputTokenDisplayName: getInputTokenDisplayText(),
       inputAmount,
     })
-    this.props.updateLastUsedCurrency(transferCurrency)
-  }
-
-  hasError = () => {
-    return !!this.props.error
+    dispatch(updateLastUsedCurrency(transferCurrency))
   }
 
   // |tokenAmount| will be in CELO if inputToken === Celo or in |transferCurrency| otherwise.
-  inputAmountIsValid = (tokenAmount: BigNumber) => {
-    const { buyCelo, inputToken, transferCurrency } = this.state
-    const { balances } = this.props
-
+  const inputAmountIsValid = (tokenAmount: BigNumber) => {
     if (buyCelo) {
       if (inputToken === InputToken.Celo) {
-        const exchangeRate = getRateForMakerToken(
-          this.props.exchangeRates,
-          Currency.Celo,
-          transferCurrency
-        )
+        const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, transferCurrency)
         return getTakerAmount(tokenAmount, exchangeRate).isLessThanOrEqualTo(
           balances[transferCurrency] ?? 0
         )
@@ -212,11 +160,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
       if (inputToken === InputToken.Celo) {
         return tokenAmount.isLessThanOrEqualTo(balances[Currency.Celo] ?? 0)
       } else {
-        const exchangeRate = getRateForMakerToken(
-          this.props.exchangeRates,
-          transferCurrency,
-          Currency.Celo
-        )
+        const exchangeRate = getRateForMakerToken(exchangeRates, transferCurrency, Currency.Celo)
         return getTakerAmount(tokenAmount, exchangeRate).isLessThanOrEqualTo(
           balances[Currency.Celo] ?? 0
         )
@@ -224,64 +168,47 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     }
   }
 
-  getMakerToken = () => {
-    const { buyCelo, transferCurrency } = this.state
+  const getMakerToken = () => {
     return buyCelo ? transferCurrency : Currency.Celo
   }
 
-  getTakerToken = () => {
-    const { buyCelo, transferCurrency } = this.state
+  const getTakerToken = () => {
     return buyCelo ? Currency.Celo : transferCurrency
   }
 
-  isExchangeInvalid = () => {
-    const tokenAmount = this.getInputTokenAmount()
+  const isExchangeInvalid = () => {
+    const tokenAmount = getInputTokenAmount()
 
     const amountIsInvalid =
-      !this.inputAmountIsValid(tokenAmount) ||
+      !inputAmountIsValid(tokenAmount) ||
       tokenAmount.isLessThan(
-        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : CELO_TRANSACTION_MIN_AMOUNT
+        isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : CELO_TRANSACTION_MIN_AMOUNT
       )
 
-    const exchangeRate = getRateForMakerToken(
-      this.props.exchangeRates,
-      this.getMakerToken(),
-      this.getTakerToken()
-    )
+    const exchangeRate = getRateForMakerToken(exchangeRates, getMakerToken(), getTakerToken())
     const exchangeRateIsInvalid = exchangeRate.isLessThanOrEqualTo(0)
-    const takerToken = this.getTakerToken()
+    const takerToken = getTakerToken()
     const takerAmountIsInvalid = getTakerAmount(
       tokenAmount,
       exchangeRate,
       CURRENCIES[takerToken].displayDecimals
     ).isLessThanOrEqualTo(0)
 
-    return amountIsInvalid || exchangeRateIsInvalid || takerAmountIsInvalid || this.hasError()
+    return amountIsInvalid || exchangeRateIsInvalid || takerAmountIsInvalid || !!error
   }
 
-  isLocalCurrencyInput = () => {
-    return this.state.inputToken === InputToken.LocalCurrency
-  }
-
-  getInputValue = () => {
-    if (this.state.inputAmount) {
-      return this.state.inputAmount
-    } else {
-      return ''
-    }
+  const isLocalCurrencyInput = () => {
+    return inputToken === InputToken.LocalCurrency
   }
 
   // Output is one of |CURRENCIES| based on input token
   // Local amounts are converted to one of |STABLE_CURRENCIES|.
-  getInputTokenAmount = () => {
-    const { inputAmount, inputToken, transferCurrency } = this.state
+  const getInputTokenAmount = () => {
     const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
 
     if (inputToken === InputToken.Celo) {
       return parsedInputAmount
     }
-
-    const { localCurrencyExchangeRates } = this.props
 
     const stableAmount =
       convertLocalAmountToCurrency(
@@ -292,36 +219,33 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     return convertToMaxSupportedPrecision(stableAmount)
   }
 
-  getInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.localCurrencyCode : this.props.t('gold')
+  const getInputTokenDisplayText = () => {
+    return isLocalCurrencyInput() ? localCurrencyCode : t('gold')
   }
 
-  getOppositeInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.t('gold') : this.props.localCurrencyCode
+  const getOppositeInputTokenDisplayText = () => {
+    return isLocalCurrencyInput() ? t('gold') : localCurrencyCode
   }
 
-  getOppositeInputToken = () => {
-    return this.isLocalCurrencyInput() ? InputToken.Celo : InputToken.LocalCurrency
+  const getOppositeInputToken = () => {
+    return isLocalCurrencyInput() ? InputToken.Celo : InputToken.LocalCurrency
   }
 
-  switchInputToken = () => {
-    const inputToken = this.getOppositeInputToken()
+  const switchInputToken = () => {
+    const inputToken = getOppositeInputToken()
     ValoraAnalytics.track(CeloExchangeEvents.celo_toggle_input_currency, {
       to: inputToken,
     })
-    this.setState({ inputToken }, () => {
-      this.updateError()
-    })
+    setInputToken(inputToken)
   }
 
-  getSubtotalAmount = (): MoneyAmount => {
-    const { inputToken, transferCurrency } = this.state
+  const getSubtotalAmount = (): MoneyAmount => {
     const exchangeRate = getRateForMakerToken(
-      this.props.exchangeRates,
+      exchangeRates,
       inputToken === InputToken.Celo ? Currency.Celo : transferCurrency,
       inputToken === InputToken.Celo ? transferCurrency : Currency.Celo
     )
-    const tokenAmount = this.getInputTokenAmount()
+    const tokenAmount = getInputTokenAmount()
     const subtotalAmount = getTakerAmount(tokenAmount, exchangeRate)
 
     return {
@@ -330,113 +254,98 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     }
   }
 
-  toggleExchangeRateInfoDialog = () => {
-    this.setState((state) => ({
-      exchangeRateInfoDialogVisible: !state.exchangeRateInfoDialogVisible,
-    }))
+  const toggleExchangeRateInfoDialog = () => {
+    setExchangeRateInfoDialogVisible(!exchangeRateInfoDialogVisible)
   }
 
-  updateTransferCurrency = (currency: Currency) => this.setState({ transferCurrency: currency })
+  const updateTransferCurrency = (currency: Currency) => setTransferCurrency(currency)
 
-  render() {
-    const { buyCelo } = this.props.route.params
-    const { t, exchangeRates } = this.props
-    const { transferCurrency, exchangeRateInfoDialogVisible } = this.state
+  const exchangeRateDisplay = getRateForMakerToken(exchangeRates, transferCurrency, Currency.Celo)
 
-    const exchangeRateDisplay = getRateForMakerToken(exchangeRates, transferCurrency, Currency.Celo)
-
-    return (
-      <SafeAreaView style={styles.container} edges={['bottom', 'top']}>
-        <ExchangeTradeScreenHeader
-          currency={transferCurrency}
-          isCeloPurchase={buyCelo}
-          onChangeCurrency={this.updateTransferCurrency}
-        />
-        <DisconnectBanner />
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps={'always'}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <View style={styles.amountInputContainer}>
-            <View>
-              <Text style={styles.exchangeBodyText}>
-                {t('exchangeAmount', { tokenName: this.getInputTokenDisplayText() })}
+  return (
+    <SafeAreaView style={styles.container} edges={['bottom', 'top']}>
+      <ExchangeTradeScreenHeader
+        currency={transferCurrency}
+        isCeloPurchase={buyCelo}
+        onChangeCurrency={updateTransferCurrency}
+      />
+      <DisconnectBanner />
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View style={styles.amountInputContainer}>
+          <View>
+            <Text style={styles.exchangeBodyText}>
+              {t('exchangeAmount', { tokenName: getInputTokenDisplayText() })}
+            </Text>
+            <TouchableOpacity onPress={switchInputToken} testID="ExchangeSwitchInput">
+              <Text style={styles.switchToText}>
+                {t('switchTo', { tokenName: getOppositeInputTokenDisplayText() })}
               </Text>
-              <TouchableOpacity onPress={this.switchInputToken} testID="ExchangeSwitchInput">
-                <Text style={styles.switchToText}>
-                  {t('switchTo', { tokenName: this.getOppositeInputTokenDisplayText() })}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <TextInput
-              autoFocus={true}
-              keyboardType={'decimal-pad'}
-              autoCapitalize="words"
-              onChangeText={this.onChangeExchangeAmount}
-              value={this.getInputValue()}
-              placeholderTextColor={colors.gray3}
-              placeholder={'0'}
-              style={styles.currencyInput}
-              testID="ExchangeInput"
-            />
+            </TouchableOpacity>
           </View>
-          <LineItemRow
-            textStyle={styles.subtotalBodyText}
-            title={
-              <Trans
-                i18nKey="inputSubtotal"
-                tOptions={{ context: this.isLocalCurrencyInput() ? 'gold' : null }}
-              >
-                Subtotal @{' '}
-                <CurrencyDisplay
-                  amount={{
-                    value: exchangeRateDisplay,
-                    currencyCode: transferCurrency,
-                  }}
-                />
-              </Trans>
-            }
-            amount={<CurrencyDisplay amount={this.getSubtotalAmount()} />}
+          <TextInput
+            autoFocus={true}
+            keyboardType={'decimal-pad'}
+            autoCapitalize="words"
+            onChangeText={onChangeExchangeAmount}
+            value={inputAmount}
+            placeholderTextColor={colors.gray3}
+            placeholder={'0'}
+            style={styles.currencyInput}
+            testID="ExchangeInput"
           />
-        </KeyboardAwareScrollView>
-        <TouchableOpacity onPress={this.toggleExchangeRateInfoDialog}>
-          <LineItemRow
-            title={t('exchangeRateInfo')}
-            titleIcon={<InfoIcon size={14} />}
-            style={styles.exchangeRateInfo}
-            textStyle={styles.exchangeRateInfoText}
-          />
-        </TouchableOpacity>
-        <Button
-          onPress={this.goToReview}
-          text={t(`review`)}
-          accessibilityLabel={t('continue')}
-          disabled={this.isExchangeInvalid()}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.FULL}
-          style={styles.reviewBtn}
-          testID="ExchangeReviewButton"
+        </View>
+        <LineItemRow
+          textStyle={styles.subtotalBodyText}
+          title={
+            <Trans
+              i18nKey="inputSubtotal"
+              tOptions={{ context: isLocalCurrencyInput() ? 'gold' : null }}
+            >
+              Subtotal @{' '}
+              <CurrencyDisplay
+                amount={{
+                  value: exchangeRateDisplay,
+                  currencyCode: transferCurrency,
+                }}
+              />
+            </Trans>
+          }
+          amount={<CurrencyDisplay amount={getSubtotalAmount()} />}
         />
-        <Dialog
-          title={t('rateInfoTitle')}
-          isVisible={exchangeRateInfoDialogVisible}
-          actionText={t('dismiss')}
-          actionPress={this.toggleExchangeRateInfoDialog}
-        >
-          {t('rateInfoBody')}
-        </Dialog>
-        <KeyboardSpacer />
-      </SafeAreaView>
-    )
-  }
+      </KeyboardAwareScrollView>
+      <TouchableOpacity onPress={toggleExchangeRateInfoDialog}>
+        <LineItemRow
+          title={t('exchangeRateInfo')}
+          titleIcon={<InfoIcon size={14} />}
+          style={styles.exchangeRateInfo}
+          textStyle={styles.exchangeRateInfoText}
+        />
+      </TouchableOpacity>
+      <Button
+        onPress={goToReview}
+        text={t(`review`)}
+        accessibilityLabel={t('continue')}
+        disabled={isExchangeInvalid()}
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.FULL}
+        style={styles.reviewBtn}
+        testID="ExchangeReviewButton"
+      />
+      <Dialog
+        title={t('rateInfoTitle')}
+        isVisible={exchangeRateInfoDialogVisible}
+        actionText={t('dismiss')}
+        actionPress={toggleExchangeRateInfoDialog}
+      >
+        {t('rateInfoBody')}
+      </Dialog>
+      <KeyboardSpacer />
+    </SafeAreaView>
+  )
 }
-
-export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
-  fetchExchangeRate,
-  showError,
-  hideAlert,
-  updateLastUsedCurrency,
-})(withTranslation<Props>()(ExchangeTradeScreen))
 
 const styles = StyleSheet.create({
   container: {
