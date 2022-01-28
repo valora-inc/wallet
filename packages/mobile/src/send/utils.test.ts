@@ -130,6 +130,10 @@ describe('send/utils', () => {
   })
 
   describe('handlePaymentDeeplink', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
     const mockData = {
       address: mockAccount2.toLowerCase(),
       currencyCode: 'USD' as LocalCurrencyCode,
@@ -163,7 +167,7 @@ describe('send/utils', () => {
 
     it('should navigate to SendAmount screen when amount and token are sent but not recognized', async () => {
       await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'NOT_A_TOKEN' })
-        .withState(createMockStore({}).getState())
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: true } }).getState())
         .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
@@ -172,6 +176,25 @@ describe('send/utils', () => {
         isOutgoingPaymentRequest: undefined,
         forceTokenAddress: undefined,
       })
+    })
+
+    it('should throw an error when no local currency exchange rate is available', async () => {
+      await expect(
+        expectSaga(handleSendPaymentData, mockData)
+          .withState(
+            createMockStore({
+              app: { multiTokenUseSendFlow: true },
+              localCurrency: {
+                exchangeRates: {
+                  [Currency.Dollar]: null,
+                },
+              },
+            }).getState()
+          )
+          .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+          .run()
+      ).rejects.toThrowError("Precondition failed: Can't send tokens from payment data")
+      expect(navigate).not.toHaveBeenCalled()
     })
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {

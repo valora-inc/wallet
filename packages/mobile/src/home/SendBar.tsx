@@ -8,6 +8,8 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
+import { canSendTokensSelector } from 'src/send/selectors'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
@@ -16,6 +18,8 @@ interface Props {
 }
 
 export default function SendBar({ selectedCurrency, skipImport }: Props) {
+  const canSendTokens = useSelector(canSendTokensSelector)
+
   const onPressSend = () => {
     navigate(Screens.Send, { skipContactsImport: skipImport, forceCurrency: selectedCurrency })
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
@@ -30,6 +34,7 @@ export default function SendBar({ selectedCurrency, skipImport }: Props) {
         size={BtnSizes.MEDIUM}
         text={t('send')}
         onPress={onPressSend}
+        disabled={!canSendTokens}
         testID="SendBar/SendButton"
       />
     </View>
