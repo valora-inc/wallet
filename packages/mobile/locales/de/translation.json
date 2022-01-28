@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "An eine Adresse senden",
-    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Guthaben sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
-    "toggle": "Immer fragen"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Scannen",
   "loadingFromDeeplink": "Verbindungsaufbau",
