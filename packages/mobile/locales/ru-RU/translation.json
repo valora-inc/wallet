@@ -925,8 +925,8 @@
   },
   "sendToAddressWarning": {
     "title": "Отправка на адрес",
-    "body": "Убедитесь, что адрес поддерживает cUSD. Средства, отправленные на неверный адрес, невозможно вернуть.\n\nМожно также отправить небольшой пробный платеж.",
-    "toggle": "Запрашивать каждый раз"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Сканирование",
   "loadingFromDeeplink": "Подключение",
