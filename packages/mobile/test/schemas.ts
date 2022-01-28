@@ -930,6 +930,7 @@ export const v31Schema = {
     biometryEnabled: false,
     supportedBiometryType: null,
     useBiometry: false,
+    linkBankAccountStepTwoEnabled: false,
   },
 }
 
