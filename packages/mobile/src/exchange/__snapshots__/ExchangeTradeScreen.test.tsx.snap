@@ -78,7 +78,26 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               }
             }
           >
-            loading
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Jost-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 20,
+                  },
+                  Object {
+                    "color": "#2E3338",
+                  },
+                ]
+              }
+              testID="undefined/value"
+            >
+              
+              ₱
+              400.40
+            </Text>
           </Text>
           <Text
             style={
@@ -329,7 +348,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             >
               
               ₱
-              12.09
+              181.81
             </Text>
           </Text>
         </View>
@@ -559,8 +578,10 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -583,8 +604,10 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
