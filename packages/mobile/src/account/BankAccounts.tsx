@@ -70,7 +70,7 @@ function BankAccounts({ navigation, route }: Props) {
     id: number
   }) {
     return (
-      <View key={bank.id} style={styles.tokenContainer}>
+      <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
             <Image
@@ -79,7 +79,7 @@ function BankAccounts({ navigation, route }: Props) {
             />
           </View>
 
-          <View style={styles.tokenLabels}>
+          <View style={styles.accountLabels}>
             <Text style={styles.bankName}>{`${
               bank.accountName
             } (${bank.accountNumberTruncated.slice(-8)})`}</Text>
@@ -143,7 +143,7 @@ function BankAccounts({ navigation, route }: Props) {
             <View style={styles.plusIconContainer}>
               <PlusIcon />
             </View>
-            <View style={styles.tokenLabels}>
+            <View style={styles.accountLabels}>
               <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
             </View>
           </View>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
     marginTop: 16,
   },
-  tokenContainer: {
+  accountContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     flex: 1,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     height: 72,
     marginTop: 12,
   },
-  tokenLabels: {
+  accountLabels: {
     flexDirection: 'column',
   },
   rightSide: {
