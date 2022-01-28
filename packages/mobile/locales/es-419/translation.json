@@ -674,9 +674,9 @@
   "biometryType": {
     "FaceID": "Face ID",
     "TouchID": "Touch ID",
-    "Fingerprint": "Fingerprint recognition",
-    "Face": "Face recognition",
-    "Iris": "Iris recognition"
+    "Fingerprint": "Reconocimiento de huella digital",
+    "Face": "Reconocimiento facial",
+    "Iris": "Reconocimiento de iris"
   },
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
-    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
-    "toggle": "Always remind me"
+    "body": "Asegúrate de que esta dirección sea compatible con el activo que deseas enviar. Si no lo es y completas el envío de todas maneras, perderás los fondos. Te recomendamos realizar una transacción de prueba antes de enviar el monto deseado.",
+    "toggle": "Recordármelo siempre"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
