@@ -212,10 +212,10 @@ describe('Account', () => {
       expect.arrayContaining([setPincodeSuccess(PincodeType.PhoneAuth)])
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SettingsEvents.settings_biometric_verification_approve
+      SettingsEvents.settings_biometry_opt_in_enable
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SettingsEvents.settings_biometric_verification_complete
+      SettingsEvents.settings_biometry_opt_in_complete
     )
 
     fireEvent(getByTestId('useBiometryToggle'), 'valueChange', false)
@@ -226,7 +226,7 @@ describe('Account', () => {
       expect.arrayContaining([setPincodeSuccess(PincodeType.CustomPin)])
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SettingsEvents.settings_biometric_verification_disable
+      SettingsEvents.settings_biometry_opt_in_disable
     )
   })
 })

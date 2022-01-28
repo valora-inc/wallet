@@ -64,12 +64,9 @@ describe('EnableBiometry', () => {
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
 
-    expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometric_verification_start)
-    expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometric_verification_approve)
-    expect(analyticsSpy).toHaveBeenNthCalledWith(
-      3,
-      OnboardingEvents.biometric_verification_complete
-    )
+    expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(3, OnboardingEvents.biometry_opt_in_complete)
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {
@@ -83,7 +80,7 @@ describe('EnableBiometry', () => {
     expect(store.getActions()).toEqual([])
     expect(navigate).not.toHaveBeenCalled()
     expect(loggerErrorSpy).toHaveBeenCalled()
-    expect(analyticsSpy).toHaveBeenCalledWith(OnboardingEvents.biometric_verification_error)
+    expect(analyticsSpy).toHaveBeenCalledWith(OnboardingEvents.biometry_opt_in_error)
   })
 
   it('should not log error if user cancels biometry validation, and not navigate', async () => {
