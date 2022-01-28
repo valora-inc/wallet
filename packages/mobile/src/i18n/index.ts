@@ -11,8 +11,6 @@ import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
 import { getOtaTranslations } from 'src/i18n/otaTranslations'
 
-const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
-
 function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
   for (const [language, value] of Object.entries(locales)) {
@@ -52,7 +50,7 @@ export async function initI18n(
     debug: false,
     interpolation: {
       escapeValue: false,
-      defaultVariables: { appName: APP_NAME, tosLink: TOS_LINK_DISPLAY },
+      defaultVariables: { appName: APP_NAME, tosLink: TOS_LINK.replace(/^https?:\/\//i, '') },
     },
   })
 }

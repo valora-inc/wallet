@@ -3,6 +3,12 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
+import {
+  mockCeloAddress,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockTestTokenAddress,
+} from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('@segment/analytics-react-native', () => ({
@@ -29,7 +35,53 @@ Date.now = jest.fn(() => 1482363367071)
 const mockedAnalytics = mocked(Analytics)
 
 const mockStore = mocked(store)
-const state = getMockStoreData()
+const state = getMockStoreData({
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        usdPrice: '1',
+        balance: '10',
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeurAddress]: {
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        usdPrice: '1.2',
+        balance: '20',
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeloAddress]: {
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        usdPrice: '5',
+        balance: '0',
+        priceFetchedAt: Date.now(),
+      },
+      [mockTestTokenAddress]: {
+        address: mockTestTokenAddress,
+        symbol: 'TT',
+        balance: '10',
+        priceFetchedAt: Date.now(),
+      },
+      '0xMOO': {
+        address: '0xMOO',
+        symbol: 'MOO',
+        usdPrice: '4',
+        balance: '0',
+        priceFetchedAt: Date.now(),
+      },
+      '0xUBE': {
+        address: '0xUBE',
+        symbol: 'UBE',
+        usdPrice: '2',
+        balance: '1',
+        priceFetchedAt: Date.now(),
+      },
+    },
+  },
+})
 mockStore.getState.mockImplementation(() => state)
 
 // Disable __DEV__ so analytics is enabled
@@ -86,12 +138,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: undefined,
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       timestamp: 1482363367071,
@@ -120,12 +172,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: undefined,
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       timestamp: 1482363367071,
@@ -157,12 +209,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: undefined,
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       someProp: 'testValue',
@@ -191,12 +243,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: 'Some Page',
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       someProp: 'testValue2',
@@ -227,12 +279,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: undefined,
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       timestamp: 1482363367071,
@@ -261,12 +313,12 @@ describe('ValoraAnalytics', () => {
       sHasVerifiedNumber: false,
       sLanguage: 'es-419',
       sLocalCurrencyCode: 'PHP',
-      sOtherTenTokens: 'TT:0,MOO:0',
+      sOtherTenTokens: 'UBE:1,TT:10',
       sPhoneCountryCallingCode: '+1',
       sPhoneCountryCodeAlpha2: 'US',
       sPrevScreenId: undefined,
-      sTokenCount: 5,
-      sTotalBalanceUsd: 34,
+      sTokenCount: 4,
+      sTotalBalanceUsd: 36,
       sWalletAddress: '0x0000000000000000000000000000000000007e57',
       sessionId: expectedSessionId,
       someProp: 'someValue',
