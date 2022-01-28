@@ -75,6 +75,19 @@ describe('EnableBiometry', () => {
     expect(loggerErrorSpy).toHaveBeenCalled()
   })
 
+  it('should not log error if user cancels biometry validation, and not navigate', async () => {
+    mockedSetPincodeWithBiometry.mockRejectedValue('user canceled the operation')
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    await flushMicrotasksQueue()
+
+    expect(setPincodeWithBiometry).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
+  })
+
   it('should allow skip and navigate to next screen', () => {
     const { getByText } = renderComponent()
 

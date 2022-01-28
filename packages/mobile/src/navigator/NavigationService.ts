@@ -16,6 +16,7 @@ import {
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
+import { isUserCancelledError } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
@@ -137,7 +138,9 @@ export async function ensurePincode(): Promise<boolean> {
       await getPincodeWithBiometry()
       return true
     } catch (error) {
-      Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
+      if (!isUserCancelledError(error)) {
+        Logger.error(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
+      }
       // do not return here, the pincode input is the user's fallback if
       // biometric auth fails
     }
