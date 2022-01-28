@@ -6419,10 +6419,10 @@
   dependencies:
     "@typescript-eslint/parser" "^4.25.0"
 
-"@valora/resolve-kit@^0.0.3-dev":
-  version "0.0.3-dev"
-  resolved "https://registry.yarnpkg.com/@valora/resolve-kit/-/resolve-kit-0.0.3-dev.tgz#18f3bad0b76184a15a4c04732b57e57534266942"
-  integrity sha512-hO+GoIVNyNrcec8+GQRMAjvAPE13RVkRFK1VMbyEPwdevZepud8XviPl9ybUWlbAr3YY6ZkJU1sU9v+qkDKosQ==
+"@valora/resolve-kit@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@valora/resolve-kit/-/resolve-kit-0.0.3.tgz#32bb03c4edc4ad6dd1f893bcd87745eeecda075a"
+  integrity sha512-0yh98oCA8FvpgQ5N5NceOkmqYaO+1E/nvLudohPZudHCqkc6JVUFivz/e45O8cAMWt2M6AjtEftojlE0zWGK4g==
   dependencies:
     "@celo/base" "^1.5.1"
     "@celo/utils" "^1.5.1"

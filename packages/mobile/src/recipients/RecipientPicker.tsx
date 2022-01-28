@@ -209,9 +209,9 @@ function RecipientPicker(props: RecipientProps) {
   const mapResolutionToRecipient = (resolution: NameResolution) => {
     const lowerCaseAddress = resolution.address.toLowerCase()
     switch (resolution.kind) {
-      case ResolutionKind.ADDRESS:
+      case ResolutionKind.Address:
         return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
-      case ResolutionKind.NOM:
+      case ResolutionKind.Nom:
         return {
           address: lowerCaseAddress,
           name: t('nomSpaceRecipient', { name: resolution.name ?? props.searchQuery }),
