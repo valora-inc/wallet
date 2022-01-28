@@ -47,6 +47,10 @@ export async function retrieveStoredItem(key: string) {
     return item.password
   } catch (error) {
     if (isUserCancelledError(error)) {
+      // throw the error to differentiate between a genuine keychain error vs a
+      // user cancelled error triggered by a failed and cancelled biometry
+      // verification, to help the consumer decide on the error handling (e.g.
+      // the level of logging)
       throw error
     }
     Logger.error(TAG, 'Error retrieving stored item', error, true)
