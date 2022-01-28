@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviando para um endereço",
-    "body": "Certifique-se de que o endereço suporta cUSD. Os fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode enviar um pagamento de teste pequeno primeiro.",
-    "toggle": "Perguntar sempre"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
