@@ -71,7 +71,7 @@ export default class ReactNativeLogger {
   }
 
   setNetworkErrors = (errors: string[]) => {
-    this.networkErrors = [...DEFAULT_SENTRY_NETWORK_ERRORS, ...errors]
+    this.networkErrors = errors
   }
 
   // TODO: see what to do with this on iOS since there's not native toast

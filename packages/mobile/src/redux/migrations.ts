@@ -1,7 +1,11 @@
 import _ from 'lodash'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import {
+  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+  DEFAULT_SENTRY_NETWORK_ERRORS,
+  DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
+} from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
@@ -390,7 +394,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      sentryNetworkErrors: [],
+      sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS,
     },
   }),
   31: (state: any) => ({

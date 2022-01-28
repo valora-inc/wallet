@@ -923,7 +923,7 @@ export const v31Schema = {
   ...v30Schema,
   _persist: {
     ...v30Schema._persist,
-    version: 30,
+    version: 31,
   },
   app: {
     ...v30Schema.app,

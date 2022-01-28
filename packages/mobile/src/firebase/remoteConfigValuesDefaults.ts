@@ -1,6 +1,6 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
-import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -46,7 +46,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
-  sentryNetworkErrors: '',
+  sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   biometryEnabled: false,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
 }
