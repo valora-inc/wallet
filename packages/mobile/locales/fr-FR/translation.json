@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Envoi à une adresse",
-    "body": "Veuillez vous assurer que l'adresse prend en charge les cUSD. Les fonds envoyés à des adresses non valides peuvent ne pas être récupérables.\n\nVous pourriez également envisager d'envoyer un petit paiement de test pour commencer.",
-    "toggle": "Demander à chaque fois"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
