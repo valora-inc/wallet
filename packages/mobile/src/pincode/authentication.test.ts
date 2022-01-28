@@ -71,22 +71,18 @@ describe(getPasswordSaga, () => {
     expectPincodeEntered()
   })
   it('should throw an error for unset pincode type', async () => {
-    try {
-      await expectSaga(getPasswordSaga, mockAccount, false, false)
+    await expect(
+      expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), PincodeType.Unset]])
         .run()
-    } catch (error) {
-      expect(error).toEqual(Error('Pin has never been set'))
-    }
+    ).rejects.toThrowError('Pin has never been set')
   })
   it('should throw an error for unexpected pincode type', async () => {
-    try {
-      await expectSaga(getPasswordSaga, mockAccount, false, false)
+    await expect(
+      expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), 'unexpectedPinType']])
         .run()
-    } catch (error) {
-      expect(error).toEqual(Error('Unsupported Pincode Type unexpectedPinType'))
-    }
+    ).rejects.toThrowError('Unsupported Pincode Type unexpectedPinType')
   })
 })
 
@@ -170,11 +166,8 @@ describe(getPincode, () => {
       params.onCancel()
     })
     expect.assertions(4)
-    try {
-      await getPincode()
-    } catch (error) {
-      expect(error).toEqual(CANCELLED_PIN_INPUT)
-    }
+
+    await expect(getPincode()).rejects.toEqual(CANCELLED_PIN_INPUT)
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
@@ -199,11 +192,9 @@ describe(getPincodeWithBiometry, () => {
   it('throws an error if a null pin was retrieved', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue(false)
 
-    try {
-      await getPincodeWithBiometry()
-    } catch (error) {
-      expect(error).toEqual(expect.any(Error))
-    }
+    await expect(getPincodeWithBiometry()).rejects.toThrowError(
+      'Failed to retrieve pin with biometry, recieved null value'
+    )
   })
 })
 
@@ -271,11 +262,9 @@ describe(setPincodeWithBiometry, () => {
       storage: 'storage',
     })
 
-    try {
-      await setPincodeWithBiometry()
-    } catch (error) {
-      expect(error).toEqual(expect.any(Error))
-    }
+    await expect(setPincodeWithBiometry()).rejects.toThrowError(
+      'Retrieved incorrect pin with biometry after saving'
+    )
   })
 })
 
@@ -363,20 +352,16 @@ describe(updatePin, () => {
 
 describe(removeStoredPin, () => {
   it('should remove the item from keychain', async () => {
-    mockedKeychain.resetGenericPassword.mockResolvedValue(true)
+    mockedKeychain.resetGenericPassword.mockResolvedValueOnce(true)
     await removeStoredPin()
 
     expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
   })
   it('should throw an error if item could not be removed from keychain', async () => {
-    mockedKeychain.resetGenericPassword.mockRejectedValue('some error')
+    mockedKeychain.resetGenericPassword.mockRejectedValueOnce('some error')
 
-    try {
-      await removeStoredPin()
-    } catch (error) {
-      expect(error).toEqual('some error')
-    }
+    await expect(removeStoredPin()).rejects.toEqual('some error')
   })
 })
 
