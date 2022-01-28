@@ -16,10 +16,10 @@ import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
-import { totalRegistrationStepsSelector } from 'src/account/selectors'
 import { hideAlert, showError, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { registrationStepsSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import DevSkipButton from 'src/components/DevSkipButton'
@@ -57,8 +57,7 @@ interface StateProps {
   verificationStatus: VerificationStatus
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
-  choseToRestoreAccount: boolean | undefined
-  totalRegistrationSteps: number
+  registrationStep: { step: number; totalSteps: number }
 }
 
 interface DispatchProps {
@@ -100,8 +99,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     verificationStatus: state.identity.verificationStatus,
     underlyingError: errorSelector(state),
     lastRevealAttempt,
-    choseToRestoreAccount: state.account.choseToRestoreAccount,
-    totalRegistrationSteps: totalRegistrationStepsSelector(state),
+    registrationStep: registrationStepsSelector(state),
   }
 }
 
@@ -126,13 +124,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
     headerTitle: () => (
       <HeaderTitleWithSubtitle
         title={i18n.t('verificationInput.title')}
-        subTitle={i18n.t(
-          route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
-          {
-            step: route.params?.choseToRestoreAccount ? '4' : '3',
-            totalSteps: route.params?.totalRegistrationSteps,
-          }
-        )}
+        subTitle={i18n.t('registrationSteps', {
+          step: route.params?.registrationStep?.step,
+          totalSteps: route.params?.registrationStep?.totalSteps,
+        })}
       />
     ),
     headerRight: () => (
@@ -161,14 +156,17 @@ class VerificationInputScreen extends React.Component<Props, State> {
       this.setState({ timer: timer - 1 })
     }, 1000)
 
-    // Setting choseToRestoreAccount on route param for navigationOptions
     this.props.navigation.setParams({
-      choseToRestoreAccount: this.props.choseToRestoreAccount,
-      totalRegistrationSteps: this.props.totalRegistrationSteps,
+      registrationStep: this.props.registrationStep,
     })
   }
 
   componentDidUpdate(prevProps: Props) {
+    if (prevProps.registrationStep.step !== this.props.registrationStep.step) {
+      this.props.navigation.setParams({
+        registrationStep: this.props.registrationStep,
+      })
+    }
     if (this.isVerificationComplete(prevProps)) {
       return this.finishVerification()
     }

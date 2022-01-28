@@ -160,20 +160,20 @@
       "text": "Chiunque conosca la tua frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesTitle": "Intoduzione ai bonus",
+  "consumerIncentivesSummary": "I bonus sono ora disponibili. Ottieni ricompense annue del {{percent}}% sul tuo saldo in {{currency}}. L’offerta è valida per un periodo limitato, quindi approfittane. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "text": "Tocca Connetti numero se non lo hai ancora connesso."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to {{maxBalance}} {{currency}} to max-out your rewards.",
+    "header": "Aggiungi un saldo minimo",
+    "earningText": "Aggiungi {{minBalance}} {{currency}} e fino a 1000 {{currency}} per iniziare.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Imposta la tua frase di recupero",
+    "text": "Questo assicurerà che le tue ricompense siano al sicuro e sotto il tuo controllo."
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "cashIn": "Aggiungi {{currency}}",
@@ -450,7 +450,7 @@
   "saltFetchFailure": "Impossibile recuperare il segreto del numero telefonico.",
   "saltQuotaExceededError": "Hai esaurito la tua quota di ricerca di numeri telefonici.",
   "maxActionableAttestationsExceededError": "Impossibile inviare nuovamente i messaggi.",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Conferma il tuo numero",
   "matchmakingQuotaExceededError": "Il matchmaking può essere eseguito solo una volta.",
   "paymentLimitReached": "Il limite quotidiano è pari a {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}}).\nRimangono {{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}).",
   "requestLimitError": "Impossibile richiedere un importo superiore al limite quotidiano di {{limit}} cUSD.",
@@ -1067,7 +1067,7 @@
     "titleRamp": "Aggiungi {{currency}} per iniziare a usare Valora",
     "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
-  "balances": "Saldi",
+  "balances": "Assets",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
   "whatTotalValue": {
@@ -1122,19 +1122,19 @@
     "button": "Aggiorna"
   },
   "dappsScreen": {
-    "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "title": "Dapp",
+    "message": "Esplora i modi per usare le tue criptovalute.",
+    "errorMessage": "Errore durante il caricamento delle Dapp."
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "title": "Che cosa sono le Dapp?",
+    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare la DeFi.\n\nConnetti Valora a una Dapp per iniziare.",
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
-    "button": "Go to {{dappName}}"
+    "title": "{{dappName}} si aprirà in un browser esterno",
+    "message": "Stai per aprire un'applicazione non gestita da Valora.\n\nValora non fornisce alcuna garanzia su questa applicazione. Usala a tuo rischio.",
+    "button": "Apri {{dappName}}"
   },
   "rewards": "Ricompense",
   "supercharge": "Bonus",

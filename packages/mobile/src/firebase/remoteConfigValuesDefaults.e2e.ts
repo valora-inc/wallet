@@ -3,8 +3,11 @@ import { SuperchargeButtonType } from 'src/app/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers'
-> & { komenciAllowedDeployers: string } = {
+  | 'showRaiseDailyLimitTarget'
+  | 'celoEducationUri'
+  | 'komenciAllowedDeployers'
+  | 'sentryNetworkErrors'
+> & { komenciAllowedDeployers: string; sentryNetworkErrors: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
@@ -36,8 +39,9 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: 0.2,
+  sentryNetworkErrors: '',
+  biometryEnabled: false,
   dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
-  dappsExplorerEnabled: true,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
 }

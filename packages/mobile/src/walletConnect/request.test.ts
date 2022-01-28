@@ -1,12 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { Currency } from 'src/utils/currencies'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { getWallet } from 'src/web3/contracts'
 import { unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
-import { mockWallet } from 'test/values'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress, mockWallet } from 'test/values'
 
 const signTransactionRequest = {
   method: SupportedActions.eth_signTransaction,
@@ -27,7 +26,34 @@ const signTypedDataV4Request = {
 
 const state = createMockStore({
   web3: { account: '0xWALLET', mtwAddress: undefined },
-  goldToken: { balance: '5' },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        balance: '00',
+        usdPrice: '1',
+        symbol: 'cUSD',
+        address: mockCusdAddress,
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeurAddress]: {
+        balance: '0',
+        usdPrice: '1.2',
+        symbol: 'cEUR',
+        address: mockCeurAddress,
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeloAddress]: {
+        balance: '5',
+        usdPrice: '3.5',
+        symbol: 'CELO',
+        address: mockCeloAddress,
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+    },
+  },
 }).getState()
 
 describe(handleRequest, () => {
@@ -117,8 +143,34 @@ describe(handleRequest, () => {
 
         const state = createMockStore({
           web3: { account: '0xWALLET', mtwAddress: undefined },
-          goldToken: { balance: '0' },
-          stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '0' } },
+          tokens: {
+            tokenBalances: {
+              [mockCusdAddress]: {
+                balance: '10',
+                usdPrice: '1',
+                symbol: 'cUSD',
+                address: mockCusdAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeurAddress]: {
+                balance: '0',
+                usdPrice: '1.2',
+                symbol: 'cEUR',
+                address: mockCeurAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeloAddress]: {
+                balance: '0',
+                usdPrice: '3.5',
+                symbol: 'CELO',
+                address: mockCeloAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
         }).getState()
 
         await expectSaga(handleRequest, {
@@ -131,7 +183,7 @@ describe(handleRequest, () => {
           .call([mockWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
-            feeCurrency: '0xStableToken',
+            feeCurrency: mockCusdAddress,
             gas: '50001', // 1 + STATIC_GAS_PADDING
             gasPrice: 3,
             chainId: '0xaef3', // 44787 as a hex string
@@ -166,7 +218,7 @@ describe(handleRequest, () => {
           from: '0xTEST',
           data: '0xABC',
           chainId: 45000,
-          feeCurrency: '0xSomeCurrency',
+          feeCurrency: mockCusdAddress,
           gas: 1,
           gasPrice: 2,
           nonce: 3,
@@ -182,7 +234,7 @@ describe(handleRequest, () => {
             from: '0xTEST',
             data: '0xABC',
             chainId: '0xafc8', // 45000 as a hex string
-            feeCurrency: '0xSomeCurrency',
+            feeCurrency: mockCusdAddress,
             gas: 1,
             gasPrice: 2,
             nonce: 3,
@@ -193,8 +245,34 @@ describe(handleRequest, () => {
       it('ensures feeCurrency is set to a token which has a balance, when not provided', async () => {
         const state = createMockStore({
           web3: { account: '0xWALLET', mtwAddress: undefined },
-          goldToken: { balance: '0' },
-          stableToken: { balances: { [Currency.Dollar]: '0', [Currency.Euro]: '10' } },
+          tokens: {
+            tokenBalances: {
+              [mockCusdAddress]: {
+                balance: '0',
+                usdPrice: '1',
+                symbol: 'cUSD',
+                address: mockCusdAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeurAddress]: {
+                balance: '10',
+                usdPrice: '1.2',
+                symbol: 'cEUR',
+                address: mockCeurAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+              [mockCeloAddress]: {
+                balance: '0',
+                usdPrice: '3.5',
+                symbol: 'CELO',
+                address: mockCeloAddress,
+                isCoreToken: true,
+                priceFetchedAt: Date.now(),
+              },
+            },
+          },
         }).getState()
 
         await expectSaga(handleRequest, {
@@ -207,7 +285,7 @@ describe(handleRequest, () => {
           .call([mockWallet, 'signTransaction'], {
             from: '0xTEST',
             data: '0xABC',
-            feeCurrency: '0xStableTokenEUR',
+            feeCurrency: mockCeurAddress,
             gas: 1000000,
             gasPrice: 3,
             chainId: '0xaef3', // 44787 as a hex string

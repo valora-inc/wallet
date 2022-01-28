@@ -17,6 +17,7 @@ export enum Screens {
   DAppsExplorerScreen = 'DAppsExplorerScreen',
   Debug = 'Debug',
   DrawerNavigator = 'DrawerNavigator',
+  EnableBiometry = 'EnableBiometry',
   ErrorScreen = 'ErrorScreen',
   EscrowedPaymentListScreen = 'EscrowedPaymentListScreen',
   ExchangeHomeScreen = 'ExchangeHomeScreen',

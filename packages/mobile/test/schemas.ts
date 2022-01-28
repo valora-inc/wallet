@@ -891,10 +891,48 @@ export const v28Schema = {
   app: {
     ...v27Schema.app,
     dappListApiUrl: null,
-    dappsExplorerEnabled: false,
+  },
+}
+
+export const v29Schema = {
+  ...v28Schema,
+  _persist: {
+    ...v28Schema._persist,
+    version: 29,
+  },
+  web3: {
+    ...v28Schema.web3,
+    fornoMode: true,
+    hadFornoDisabled: true,
+  },
+}
+
+export const v30Schema = {
+  ...v29Schema,
+  _persist: {
+    ...v29Schema._persist,
+    version: 30,
+  },
+  app: {
+    ...v29Schema.app,
+    sentryNetworkErrors: [],
+  },
+}
+
+export const v31Schema = {
+  ...v30Schema,
+  _persist: {
+    ...v30Schema._persist,
+    version: 31,
+  },
+  app: {
+    ...v30Schema.app,
+    biometryEnabled: false,
+    supportedBiometryType: null,
+    useBiometry: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v28Schema as Partial<RootState>
+  return v31Schema as Partial<RootState>
 }

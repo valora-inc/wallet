@@ -100,11 +100,11 @@ describe(exchangeGoldAndStableTokens, () => {
       })
       .call.like({
         fn: sendTransaction,
-        args: [{}, account, {}, undefined, undefined, Currency.Celo],
+        args: [{}, account, {}],
       })
       .call.like({
         fn: sendAndMonitorTransaction,
-        args: [undefined, account, {}, undefined, Currency.Celo],
+        args: [undefined, account, {}],
       })
       .run()
   })

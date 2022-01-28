@@ -1,4 +1,5 @@
 import { Platform } from 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -18,7 +19,6 @@ export interface State {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  dappsExplorerEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
@@ -47,6 +47,10 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  sentryNetworkErrors: string[]
+  supportedBiometryType: BIOMETRY_TYPE | null
+  biometryEnabled: boolean
+  useBiometry: boolean
   superchargeButtonType: SuperchargeButtonType
 }
 
@@ -64,7 +68,6 @@ const initialState = {
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   dappListApiUrl: null,
-  dappsExplorerEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsExplorerEnabled,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
@@ -89,6 +92,10 @@ const initialState = {
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
+  sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
+  supportedBiometryType: null,
+  biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
+  useBiometry: false,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
 }
 
@@ -156,6 +163,11 @@ export const appReducer = (
         ...state,
         requirePinOnAppOpen: action.enabled,
       }
+    case Actions.SET_USE_BIOMETRY:
+      return {
+        ...state,
+        useBiometry: action.enabled,
+      }
     case Actions.LOCK:
       return {
         ...state,
@@ -184,7 +196,6 @@ export const appReducer = (
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         dappListApiUrl: action.configValues.dappListApiUrl,
-        dappsExplorerEnabled: action.configValues.dappsExplorerEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         rewardsPercent: action.configValues.rewardsPercent,
@@ -202,6 +213,8 @@ export const appReducer = (
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
+        sentryNetworkErrors: action.configValues.sentryNetworkErrors,
+        biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
       }
     case Actions.TOGGLE_INVITE_MODAL:
@@ -225,6 +238,11 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
+      }
+    case Actions.SET_SUPPORTED_BIOMETRY_TYPE:
+      return {
+        ...state,
+        supportedBiometryType: action.supportedBiometryType,
       }
     default:
       return state

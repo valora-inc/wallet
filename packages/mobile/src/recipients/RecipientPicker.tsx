@@ -5,7 +5,8 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ListRenderItemInfo,
   SectionList,
@@ -15,17 +16,15 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { withTranslation } from 'src/i18n'
 import {
   getRecipientFromAddress,
   MobileRecipient,
   Recipient,
   recipientHasContact,
   recipientHasNumber,
-  RecipientInfo,
 } from 'src/recipients/recipient'
 import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -37,7 +36,7 @@ interface Section {
   data: Recipient[]
 }
 
-interface Props {
+interface RecipientProps {
   testID?: string
   searchQuery: string
   sections: Section[]
@@ -47,37 +46,29 @@ interface Props {
   isOutgoingPaymentRequest: boolean
 }
 
-interface StateProps {
-  recipientInfo: RecipientInfo
-  showSendToAddressWarning: boolean
-}
+function RecipientPicker(props: RecipientProps) {
+  const recipientInfo = useSelector(recipientInfoSelector)
+  const showSendToAddressWarning = useSelector(
+    (state: RootState) => state.send.showSendToAddressWarning
+  )
+  const { t } = useTranslation()
 
-type RecipientProps = Props & WithTranslation & StateProps
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false)
+  const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-const mapStateToProps = (state: RootState): StateProps => ({
-  recipientInfo: recipientInfoSelector(state),
-  showSendToAddressWarning: state.send.showSendToAddressWarning,
-})
-
-export class RecipientPicker extends React.Component<RecipientProps> {
-  state = {
-    keyboardVisible: false,
-    isSendToAddressWarningVisible: false,
+  const onToggleKeyboard = (visible: boolean) => {
+    setKeyboardVisible(visible)
   }
 
-  onToggleKeyboard = (visible: boolean) => {
-    this.setState({ keyboardVisible: visible })
-  }
-
-  renderItem = ({ item, index }: ListRenderItemInfo<Recipient>) => (
-    <RecipientItem recipient={item} onSelectRecipient={this.props.onSelectRecipient} />
+  const renderItem = ({ item, index }: ListRenderItemInfo<Recipient>) => (
+    <RecipientItem recipient={item} onSelectRecipient={props.onSelectRecipient} />
   )
 
-  renderSectionHeader = (info: { section: SectionListData<Recipient> }) => (
+  const renderSectionHeader = (info: { section: SectionListData<Recipient> }) => (
     <SectionHead text={info.section.key as string} />
   )
 
-  keyExtractor = (item: Recipient, index: number) => {
+  const keyExtractor = (item: Recipient, index: number) => {
     if (recipientHasContact(item)) {
       return item.contactId + item.e164PhoneNumber + index
     } else if (recipientHasNumber(item)) {
@@ -87,56 +78,55 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     }
   }
 
-  renderItemSeparator = () => <View style={styles.separator} />
+  const renderItemSeparator = () => <View style={styles.separator} />
 
-  renderEmptyView = () => {
+  const renderEmptyView = () => {
     const parsedNumber = parsePhoneNumber(
-      this.props.searchQuery,
-      this.props.defaultCountryCode ? this.props.defaultCountryCode : undefined
+      props.searchQuery,
+      props.defaultCountryCode ? props.defaultCountryCode : undefined
     )
     if (parsedNumber) {
-      return this.props.isOutgoingPaymentRequest
-        ? this.renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
-        : this.renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+      return props.isOutgoingPaymentRequest
+        ? renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+        : renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
-    if (isValidAddress(this.props.searchQuery)) {
-      return this.renderSendToAddress()
+    if (isValidAddress(props.searchQuery)) {
+      return renderSendToAddress()
     }
-    return this.renderNoContentEmptyView()
+    return renderNoContentEmptyView()
   }
 
-  renderNoContentEmptyView = () => (
+  const renderNoContentEmptyView = () => (
     <View style={styles.emptyView}>
-      {this.props.searchQuery !== '' ? (
+      {props.searchQuery !== '' ? (
         <>
           <View style={styles.emptyViewBody}>
             <Text style={fontStyles.emptyState}>
-              {this.props.t('noResultsFor')}
-              <Text style={fontStyles.emptyState}>{` "${this.props.searchQuery}"`}</Text>
+              {t('noResultsFor')}
+              <Text style={fontStyles.emptyState}>{` "${props.searchQuery}"`}</Text>
             </Text>
-            <Text style={styles.emptyStateBody}>{this.props.t('searchForSomeone')}</Text>
+            <Text style={styles.emptyStateBody}>{t('searchForSomeone')}</Text>
           </View>
         </>
       ) : (
         <View style={styles.emptyViewBody}>
-          <Text style={fontStyles.emptyState}>{this.props.t('noContacts')}</Text>
+          <Text style={fontStyles.emptyState}>{t('noContacts')}</Text>
         </View>
       )}
     </View>
   )
 
-  sendToUnknownAddress = (recipient: Recipient) => {
-    this.setState({ isSendToAddressWarningVisible: true })
+  const sendToUnknownAddress = (recipient: Recipient) => {
+    setSendToAddressWarningVisible(true)
     ValoraAnalytics.track(SendEvents.check_account_alert_shown)
   }
 
-  onCancelWarning = () => {
-    this.setState({ isSendToAddressWarningVisible: false })
+  const onCancelWarning = () => {
+    setSendToAddressWarningVisible(false)
     ValoraAnalytics.track(SendEvents.check_account_alert_back)
   }
 
-  renderRequestFromPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
-    const { onSelectRecipient, t } = this.props
+  const renderRequestFromPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
     const recipient: MobileRecipient = {
       displayNumber,
       name: t('requestFromMobileNumber'),
@@ -144,14 +134,13 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     }
     return (
       <>
-        <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
-        {this.renderItemSeparator()}
+        <RecipientItem recipient={recipient} onSelectRecipient={props.onSelectRecipient} />
+        {renderItemSeparator()}
       </>
     )
   }
 
-  renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
-    const { onSelectRecipient, t } = this.props
+  const renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
     const recipient: MobileRecipient = {
       displayNumber,
       e164PhoneNumber,
@@ -160,21 +149,15 @@ export class RecipientPicker extends React.Component<RecipientProps> {
       <>
         <RecipientItem
           recipient={{ ...recipient, name: t('sendToMobileNumber') }}
-          onSelectRecipient={() => onSelectRecipient(recipient)}
+          onSelectRecipient={() => props.onSelectRecipient(recipient)}
         />
-        {this.renderItemSeparator()}
+        {renderItemSeparator()}
       </>
     )
   }
 
-  renderSendToAddress = () => {
-    const {
-      searchQuery,
-      recipientInfo,
-      onSelectRecipient,
-      showSendToAddressWarning,
-      isOutgoingPaymentRequest,
-    } = this.props
+  const renderSendToAddress = () => {
+    const { searchQuery, onSelectRecipient, isOutgoingPaymentRequest } = props
     const searchedAddress = searchQuery.toLowerCase()
     const recipient = getRecipientFromAddress(searchedAddress, recipientInfo)
 
@@ -182,7 +165,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
       return (
         <>
           <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
-          {this.renderItemSeparator()}
+          {renderItemSeparator()}
         </>
       )
     } else {
@@ -190,63 +173,51 @@ export class RecipientPicker extends React.Component<RecipientProps> {
         <>
           <RecipientItem
             recipient={recipient}
-            onSelectRecipient={
-              showSendToAddressWarning ? this.sendToUnknownAddress : onSelectRecipient
-            }
+            onSelectRecipient={showSendToAddressWarning ? sendToUnknownAddress : onSelectRecipient}
           />
-          {this.renderItemSeparator()}
+          {renderItemSeparator()}
         </>
       )
     }
   }
 
-  render() {
-    const {
-      sections,
-      listHeaderComponent,
-      showSendToAddressWarning,
-      onSelectRecipient,
-      searchQuery,
-    } = this.props
-
-    return (
-      <View style={styles.body} testID={this.props.testID}>
-        {showSendToAddressWarning && (
-          <SendToAddressWarning
-            closeWarning={this.onCancelWarning}
-            onSelectRecipient={onSelectRecipient}
-            isVisible={this.state.isSendToAddressWarningVisible}
-            recipient={{ address: searchQuery.toLowerCase() }}
+  return (
+    <View style={styles.body} testID={props.testID}>
+      {showSendToAddressWarning && (
+        <SendToAddressWarning
+          closeWarning={onCancelWarning}
+          onSelectRecipient={props.onSelectRecipient}
+          isVisible={isSendToAddressWarningVisible}
+          recipient={{ address: props.searchQuery.toLowerCase() }}
+        />
+      )}
+      <SafeAreaInsetsContext.Consumer>
+        {(insets) => (
+          <SectionList
+            // Note: contentInsetAdjustmentBehavior="always" would be simpler
+            // but leaves an incorrect top offset for the scroll bar after hiding the keyboard
+            // so here we manually adjust the padding
+            contentContainerStyle={
+              !isKeyboardVisible &&
+              insets && {
+                paddingBottom: insets.bottom,
+              }
+            }
+            renderItem={renderItem}
+            renderSectionHeader={renderSectionHeader}
+            sections={props.sections}
+            ItemSeparatorComponent={renderItemSeparator}
+            ListHeaderComponent={props.listHeaderComponent}
+            ListEmptyComponent={renderEmptyView()}
+            keyExtractor={keyExtractor}
+            initialNumToRender={30}
+            keyboardShouldPersistTaps="always"
           />
         )}
-        <SafeAreaInsetsContext.Consumer>
-          {(insets) => (
-            <SectionList
-              // Note: contentInsetAdjustmentBehavior="always" would be simpler
-              // but leaves an incorrect top offset for the scroll bar after hiding the keyboard
-              // so here we manually adjust the padding
-              contentContainerStyle={
-                !this.state.keyboardVisible &&
-                insets && {
-                  paddingBottom: insets.bottom,
-                }
-              }
-              renderItem={this.renderItem}
-              renderSectionHeader={this.renderSectionHeader}
-              sections={sections}
-              ItemSeparatorComponent={this.renderItemSeparator}
-              ListHeaderComponent={listHeaderComponent}
-              ListEmptyComponent={this.renderEmptyView()}
-              keyExtractor={this.keyExtractor}
-              initialNumToRender={30}
-              keyboardShouldPersistTaps="always"
-            />
-          )}
-        </SafeAreaInsetsContext.Consumer>
-        <KeyboardSpacer onToggle={this.onToggleKeyboard} />
-      </View>
-    )
-  }
+      </SafeAreaInsetsContext.Consumer>
+      <KeyboardSpacer onToggle={onToggleKeyboard} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -271,4 +242,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect(mapStateToProps, {})(withTranslation<RecipientProps>()(RecipientPicker))
+export default RecipientPicker
