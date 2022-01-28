@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Invio a un indirizzo in corso",
-    "body": "Assicurati che l’indirizzo supporti cUSD. Potrebbe essere impossibile recuperare fondi inviati a indirizzi non validi.\n\nPotresti anche considerare l’invio preliminare di un piccolo pagamento di prova.",
-    "toggle": "Chiedi ogni volta"
+    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
+    "toggle": "Always remind me"
   },
   "loadingFromScan": "Scansione in corso",
   "loadingFromDeeplink": "Connessione in corso",
