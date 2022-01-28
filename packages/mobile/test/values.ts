@@ -6,6 +6,7 @@ import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
+import { FeeType } from 'src/fees/reducer'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -282,8 +283,8 @@ export const mockEscrowedPayment: EscrowedPayment = {
   recipientPhone: mockE164Number,
   recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
-  currency: Currency.Dollar,
-  amount: new BigNumber(10),
+  tokenAddress: mockCusdAddress,
+  amount: new BigNumber(10).toString(),
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
@@ -486,4 +487,12 @@ export const mockFeeInfo = {
   gas: new BigNumber(20000),
   gasPrice: mockGasPrice,
   feeCurrency: undefined,
+}
+
+export const emptyFees = {
+  [FeeType.SEND]: undefined,
+  [FeeType.INVITE]: undefined,
+  [FeeType.EXCHANGE]: undefined,
+  [FeeType.RECLAIM_ESCROW]: undefined,
+  [FeeType.REGISTER_DEK]: undefined,
 }

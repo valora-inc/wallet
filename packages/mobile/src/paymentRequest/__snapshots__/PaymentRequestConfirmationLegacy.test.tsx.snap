@@ -257,6 +257,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
