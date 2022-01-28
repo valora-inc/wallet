@@ -1,11 +1,15 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
-import { DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
+import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers' | 'dappListApiUrl'
-> & { komenciAllowedDeployers: string } = {
+  | 'showRaiseDailyLimitTarget'
+  | 'celoEducationUri'
+  | 'komenciAllowedDeployers'
+  | 'dappListApiUrl'
+  | 'sentryNetworkErrors'
+> & { komenciAllowedDeployers: string; sentryNetworkErrors: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
@@ -42,5 +46,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   allowOtaTranslations: false,
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
+  sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   superchargeButtonType: SuperchargeButtonType.PillRewards,
 }
