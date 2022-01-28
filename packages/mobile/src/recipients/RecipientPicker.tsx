@@ -2,7 +2,7 @@ import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import SectionHead from '@celo/react-components/components/SectionHead'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { isValidAddress } from '@celo/utils/lib/address'
+import { Address, isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import {
   NameResolution,
@@ -56,6 +56,11 @@ interface RecipientProps {
   isOutgoingPaymentRequest: boolean
 }
 
+const NOM_ADDRESSES: { [env: string]: Address } = {
+  mainnet: ResolveNom.MainnetContractAddress,
+  alfajores: ResolveNom.AlfajoresContractAddress,
+}
+
 function RecipientPicker(props: RecipientProps) {
   const recipientInfo = useSelector(recipientInfoSelector)
   const showSendToAddressWarning = useSelector(
@@ -66,28 +71,15 @@ function RecipientPicker(props: RecipientProps) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
-  const kitCall = useAsync(async () => {
-    return await getContractKitAsync(false)
-  }, [])
+  const { result: resolveAddressResult } = useAsync(async () => {
+    const kit = await getContractKitAsync(false)
+    const resolveGroup = new ResolveGroup([
+      new ResolveAddress(),
+      new ResolveNom({ kit, contractAddress: NOM_ADDRESSES[DEFAULT_TESTNET] }),
+    ])
 
-  const resolveKitCall = useAsync(async () => {
-    if (kitCall.result) {
-      const resolveGroup = new ResolveGroup([
-        new ResolveAddress(),
-        new ResolveNom({ kit: kitCall.result, contractAddress: getContractAddressFromEnv() }),
-      ])
-
-      return await resolveGroup.resolve(props.searchQuery)
-    }
-  }, [kitCall.result, props.searchQuery])
-
-  const getContractAddressFromEnv = () => {
-    if (DEFAULT_TESTNET === 'mainnet') {
-      return ResolveNom.MainnetContractAddress
-    } else {
-      return ResolveNom.AlfajoresContractAddress
-    }
-  }
+    return await resolveGroup.resolve(props.searchQuery)
+  }, [props.searchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
     setKeyboardVisible(visible)
@@ -123,7 +115,6 @@ function RecipientPicker(props: RecipientProps) {
         ? renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
         : renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
-
     if (isValidAddress(props.searchQuery)) {
       return renderSendToAddress()
     }
@@ -231,10 +222,10 @@ function RecipientPicker(props: RecipientProps) {
   }
 
   const buildSections = (defaultSections: Section[]) => {
-    if (resolveKitCall.result && resolveKitCall.result.resolutions.length > 0) {
+    if (resolveAddressResult && resolveAddressResult.resolutions.length > 0) {
       return [
         ...defaultSections,
-        { key: t('others'), data: resolveKitCall.result.resolutions.map(mapResolutionToRecipient) },
+        { key: t('others'), data: resolveAddressResult.resolutions.map(mapResolutionToRecipient) },
       ]
     } else {
       return defaultSections

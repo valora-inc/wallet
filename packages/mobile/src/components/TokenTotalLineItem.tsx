@@ -16,6 +16,7 @@ interface Props {
   localAmount?: LocalAmount
   feeToAddInUsd?: BigNumber | undefined
   hideSign?: boolean
+  title?: string
 }
 
 export default function TokenTotalLineItem({
@@ -24,6 +25,7 @@ export default function TokenTotalLineItem({
   localAmount,
   feeToAddInUsd,
   hideSign,
+  title,
 }: Props) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenAddress)
@@ -32,7 +34,7 @@ export default function TokenTotalLineItem({
   return (
     <>
       <LineItemRow
-        title={t('total')}
+        title={title ?? t('total')}
         textStyle={fontStyles.regular600}
         amount={
           <TokenDisplay

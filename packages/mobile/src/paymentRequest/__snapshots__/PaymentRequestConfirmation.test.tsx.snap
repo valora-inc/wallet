@@ -251,6 +251,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             testID="TotalLineItem/Total"
@@ -339,6 +340,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             testID="TotalLineItem/Subtotal"
