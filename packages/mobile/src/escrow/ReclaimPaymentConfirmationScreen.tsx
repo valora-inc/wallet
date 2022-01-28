@@ -2,189 +2,136 @@ import ReviewFrame from '@celo/react-components/components/ReviewFrame'
 import ReviewHeader from '@celo/react-components/components/ReviewHeader'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { EscrowEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { reclaimEscrowPayment, reclaimEscrowPaymentCancel } from 'src/escrow/actions'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
-import CalculateFee, { CalculateFeeChildren } from 'src/fees/CalculateFee'
-import { FeeType } from 'src/fees/reducer'
-import { getFeeInTokens } from 'src/fees/selectors'
-import { withTranslation } from 'src/i18n'
+import { estimateFee, FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
+import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { Currency } from 'src/utils/currencies'
-import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
+import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'escrow/ReclaimPaymentConfirmationScreen'
 
-interface StateProps {
-  isReclaiming: boolean
-  e164PhoneNumber: string | null
-  account: string | null
-  dollarBalance: string
-  celoBalance: string
-  appConnected: boolean
-}
+type Props = StackScreenProps<StackParamList, Screens.ReclaimPaymentConfirmationScreen>
 
-interface DispatchProps {
-  reclaimPayment: typeof reclaimEscrowPayment
-  reclaimEscrowPaymentCancel: typeof reclaimEscrowPaymentCancel
-  showError: typeof showError
-}
+export default function ReclaimPaymentConfirmationScreen({ navigation, route }: Props) {
+  const { t } = useTranslation()
 
-type ScreenProps = StackScreenProps<StackParamList, Screens.ReclaimPaymentConfirmationScreen>
+  const { amount, tokenAddress } = route.params.reclaimPaymentInput
 
-const mapDispatchToProps = {
-  reclaimPayment: reclaimEscrowPayment,
-  reclaimEscrowPaymentCancel,
-  showError,
-}
+  const isReclaiming = useSelector((state) => state.escrow.isReclaiming)
+  const account = useSelector(currentAccountSelector)
+  const appConnected = useSelector(isAppConnected)
 
-const mapStateToProps = (state: RootState): StateProps => {
-  return {
-    isReclaiming: state.escrow.isReclaiming,
-    e164PhoneNumber: state.account.e164PhoneNumber,
-    account: currentAccountSelector(state),
-    dollarBalance: state.stableToken.balances[Currency.Dollar] || '0',
-    celoBalance: state.goldToken.balance || '0',
-    appConnected: isAppConnected(state),
-  }
-}
+  const dispatch = useDispatch()
 
-type Props = DispatchProps & StateProps & WithTranslation & ScreenProps
-
-class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
-  componentDidMount() {
-    this.props.navigation.addListener('beforeRemove', () => {
-      if (this.props.isReclaiming) {
-        this.props.reclaimEscrowPaymentCancel()
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', () => {
+      if (isReclaiming) {
+        dispatch(reclaimEscrowPaymentCancel())
         ValoraAnalytics.track(EscrowEvents.escrow_reclaim_cancel)
       }
     })
-  }
 
-  getReclaimPaymentInput() {
-    const reclaimPaymentInput = this.props.route.params.reclaimPaymentInput
+    return unsubscribe
+  }, [])
+
+  const getReclaimPaymentInput = () => {
+    const reclaimPaymentInput = route.params.reclaimPaymentInput
     if (!reclaimPaymentInput) {
       throw new Error('Reclaim payment input missing')
     }
     return reclaimPaymentInput
   }
 
-  onConfirm = async () => {
-    const escrowedPayment = this.getReclaimPaymentInput()
+  const onConfirm = async () => {
+    const escrowedPayment = getReclaimPaymentInput()
     ValoraAnalytics.track(EscrowEvents.escrow_reclaim_confirm)
-    const address = this.props.account
+    const address = account
     if (!address) {
       throw new Error("Can't reclaim funds without a valid account")
     }
 
     try {
-      this.props.reclaimPayment(escrowedPayment.paymentID)
+      dispatch(reclaimEscrowPayment(escrowedPayment.paymentID))
     } catch (error) {
       Logger.error(TAG, 'Reclaiming escrowed payment failed, show error message', error)
-      this.props.showError(ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED)
+      dispatch(showError(ErrorMessages.RECLAIMING_ESCROWED_PAYMENT_FAILED))
       return
     }
   }
 
-  onCancel = () => {
-    navigateBack()
-  }
+  const onCancel = () => navigateBack()
 
-  renderHeader = () => {
-    const { t } = this.props
+  const renderHeader = () => {
     const title = t('reclaimPayment')
     return <ReviewHeader title={title} />
   }
 
-  renderFooter = () => {
-    return this.props.isReclaiming ? (
-      <ActivityIndicator size="large" color={colors.greenBrand} />
-    ) : null
+  const renderFooter = () => {
+    return isReclaiming ? <ActivityIndicator size="large" color={colors.greenBrand} /> : null
   }
 
-  renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
-    const { t, isReclaiming, appConnected, dollarBalance, celoBalance } = this.props
-    const payment = this.getReclaimPaymentInput()
-    const fee = getFeeInTokens(asyncFee.result?.fee)
-    // TODO: Although this is configured to display fees in CELO, the currency and fee is not yet
-    // plumbed through the rest of the system to ensure it actually pays for the fees in CELO if
-    // selected.
-    const feeCurrency = asyncFee.result?.feeCurrency
-    const convertedAmount = divideByWei(payment.amount.valueOf())
-    // TODO: Add support for any allowed fee currency, not just dollar.
-    const userHasEnough = fee?.isLessThanOrEqualTo(feeCurrency ? dollarBalance : celoBalance)
+  const payment = getReclaimPaymentInput()
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <DisconnectBanner />
-        <ReviewFrame
-          HeaderComponent={this.renderHeader}
-          FooterComponent={this.renderFooter}
-          confirmButton={{
-            action: this.onConfirm,
-            text: t('confirm'),
-            disabled:
-              isReclaiming ||
-              !userHasEnough ||
-              !appConnected ||
-              asyncFee.loading ||
-              !!asyncFee.error,
-          }}
-          modifyButton={{ action: this.onCancel, text: t('cancel'), disabled: isReclaiming }}
-        >
-          <ReclaimPaymentConfirmationCard
-            recipientPhone={payment.recipientPhone}
-            recipientContact={
-              {
-                e164PhoneNumber: payment.recipientPhone,
-              } /* TODO get recipient contact details from recipient cache*/
-            }
-            amount={convertedAmount}
-            currency={payment.currency}
-            feeInfo={asyncFee.result}
-            isLoadingFee={asyncFee.loading}
-            feeError={asyncFee.error}
-          />
-        </ReviewFrame>
-      </SafeAreaView>
-    )
-  }
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeEstimate = feeEstimates[tokenAddress]?.[FeeType.RECLAIM_ESCROW]
 
-  render() {
-    const { account } = this.props
-    if (!account) {
-      throw Error('Account is required')
+  useEffect(() => {
+    if (
+      !feeEstimate ||
+      feeEstimate.error ||
+      feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS
+    ) {
+      dispatch(
+        estimateFee({ feeType: FeeType.RECLAIM_ESCROW, tokenAddress, paymentID: payment.paymentID })
+      )
     }
+  }, [tokenAddress])
 
-    const payment = this.getReclaimPaymentInput()
-
-    return (
-      // Note: intentionally passing a new child func here otherwise
-      // it doesn't re-render on state change since CalculateFee is a pure component
-      <CalculateFee
-        feeType={FeeType.RECLAIM_ESCROW}
-        account={account}
-        paymentID={payment.paymentID}
+  return (
+    <SafeAreaView style={styles.container}>
+      <DisconnectBanner />
+      <ReviewFrame
+        HeaderComponent={renderHeader}
+        FooterComponent={renderFooter}
+        confirmButton={{
+          action: onConfirm,
+          text: t('confirm'),
+          disabled: isReclaiming || !appConnected || feeEstimate?.loading || !!feeEstimate?.error,
+        }}
+        modifyButton={{ action: onCancel, text: t('cancel'), disabled: isReclaiming }}
       >
-        {(asyncFee) => this.renderWithAsyncFee(asyncFee)}
-      </CalculateFee>
-    )
-  }
+        <ReclaimPaymentConfirmationCard
+          recipientPhone={payment.recipientPhone}
+          recipientContact={
+            {
+              e164PhoneNumber: payment.recipientPhone,
+            } /* TODO get recipient contact details from recipient cache*/
+          }
+          amount={new BigNumber(amount)}
+          tokenAddress={tokenAddress}
+        />
+      </ReviewFrame>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -193,8 +140,3 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
 })
-
-export default connect<StateProps, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation<Props>()(ReclaimPaymentConfirmationScreen))
