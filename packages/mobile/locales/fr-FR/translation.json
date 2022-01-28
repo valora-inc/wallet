@@ -669,14 +669,14 @@
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
     "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
-    "cta": "Turn on {{biometryType}}"
+    "cta": "Activer {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
     "TouchID": "Touch ID",
-    "Fingerprint": "Fingerprint recognition",
-    "Face": "Face recognition",
-    "Iris": "Iris recognition"
+    "Fingerprint": "Reconnaissance d'empreinte digitale",
+    "Face": "Reconnaissance faciale",
+    "Iris": "Reconnaissance de l'iris"
   },
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Envoi à une adresse",
-    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
-    "toggle": "Always remind me"
+    "body": "Veuillez vous assurer que cette adresse prend en charge l'actif que vous souhaitez envoyer. Si l'adresse est invalide, vous ne pourrez pas récupérer vos fonds. Envoyez d'abord un paiement test pour vous assurer que l'adresse est correcte.",
+    "toggle": "Toujours me rappeler"
   },
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
