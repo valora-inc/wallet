@@ -2,8 +2,16 @@
 import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
+import { DEFAULT_SENTRY_NETWORK_ERRORS } from 'src/config'
 
 export default class ReactNativeLogger {
+  isNetworkConnected: boolean
+  networkErrors: string[]
+  constructor() {
+    this.isNetworkConnected = true
+    this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS || []
+  }
+
   /**
    * Note: A good `tag` will consist of filename followed by the method name.
    * For example, `CeloAnalytics/track`
@@ -34,11 +42,36 @@ export default class ReactNativeLogger {
     const sanitizedError =
       error && shouldSanitizeError ? this.sanitizeError(error, valueToPurge) : error
     const errorMsg = this.getErrorMessage(sanitizedError)
-    Sentry.captureException(error, { extra: { tag, message, errorMsg, source: 'Logger.error' } })
-    console.info(`${tag} :: ${message} :: ${errorMsg}`)
+    const isNetworkError = this.networkErrors.some((networkError) =>
+      errorMsg.toLowerCase().includes(networkError)
+    )
+
+    // prevent genuine network errors from being sent to Sentry
+    if (!isNetworkError || (this.isNetworkConnected && isNetworkError)) {
+      Sentry.captureException(error, {
+        extra: {
+          tag,
+          message,
+          errorMsg,
+          source: 'Logger.error',
+          networkConnected: this.isNetworkConnected,
+        },
+      })
+    }
+    console.info(
+      `${tag} :: ${message} :: ${errorMsg} :: network connected ${this.isNetworkConnected}`
+    )
     if (__DEV__) {
       console.info(console.trace())
     }
+  }
+
+  setIsNetworkConnected = (isConnected: boolean) => {
+    this.isNetworkConnected = isConnected
+  }
+
+  setNetworkErrors = (errors: string[]) => {
+    this.networkErrors = errors
   }
 
   // TODO: see what to do with this on iOS since there's not native toast
