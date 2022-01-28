@@ -33,7 +33,12 @@ import {
   setCachedPin,
 } from 'src/pincode/PasswordCache'
 import { store } from 'src/redux/store'
-import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/keychain'
+import {
+  isUserCancelledError,
+  removeStoredItem,
+  retrieveStoredItem,
+  storeItem,
+} from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
@@ -324,7 +329,9 @@ export async function getPincode(withVerification = true) {
     } catch (error) {
       // do not return here, the pincode input is the user's fallback if
       // biometric auth fails
-      Logger.error(TAG, 'Failed to retrieve pin with biometry', error)
+      if (!isUserCancelledError(error)) {
+        Logger.error(TAG, 'Failed to retrieve pin with biometry', error)
+      }
     }
   }
 

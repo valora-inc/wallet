@@ -108,7 +108,7 @@ describe('registrationStepsSelector', () => {
       getMockStoreData({
         app: {
           activeScreen: screen,
-          biometryEnabled: false,
+          biometryEnabled: true,
           supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
           ...storeOverrides.app,
         },
@@ -124,7 +124,7 @@ describe('registrationStepsSelector', () => {
       (screen) => {
         expect(registrationStepsSelectorWithMockStore(screen)).toEqual({
           step: createAccountSteps[screen],
-          totalSteps: 3,
+          totalSteps: 4,
         })
       }
     )
@@ -138,7 +138,7 @@ describe('registrationStepsSelector', () => {
               choseToRestoreAccount: true,
             },
           })
-        ).toEqual({ step: restoreAccountSteps[screen], totalSteps: 4 })
+        ).toEqual({ step: restoreAccountSteps[screen], totalSteps: 5 })
       }
     )
   })
@@ -156,13 +156,12 @@ describe('registrationStepsSelector', () => {
     )
   })
 
-  it('should return the correct steps for create account screens with biometry enabled', () => {
+  it('should return the correct steps for create account screens with biometry disabled', () => {
     const expectedCreateAccountSteps = {
       [Screens.NameAndPicture]: 1,
       [Screens.PincodeSet]: 2,
-      [Screens.EnableBiometry]: 3,
-      [Screens.VerificationEducationScreen]: 4,
-      [Screens.VerificationInputScreen]: 4,
+      [Screens.VerificationEducationScreen]: 3,
+      [Screens.VerificationInputScreen]: 3,
     }
 
     ;(Object.keys(expectedCreateAccountSteps) as Array<
@@ -171,12 +170,12 @@ describe('registrationStepsSelector', () => {
       expect(
         registrationStepsSelectorWithMockStore(screen, {
           app: {
-            biometryEnabled: true,
+            biometryEnabled: false,
           },
         })
       ).toEqual({
         step: expectedCreateAccountSteps[screen],
-        totalSteps: 4,
+        totalSteps: 3,
       })
     })
   })

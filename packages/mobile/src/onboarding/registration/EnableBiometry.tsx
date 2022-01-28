@@ -26,6 +26,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
+import { isUserCancelledError } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'EnableBiometry'
@@ -89,8 +90,10 @@ export default function EnableBiometry({ navigation }: Props) {
       ValoraAnalytics.track(OnboardingEvents.biometric_verification_complete)
       handleNavigateToNextScreen()
     } catch (error) {
-      Logger.error(TAG, 'Error enabling biometry', error)
       ValoraAnalytics.track(OnboardingEvents.biometric_verification_error)
+      if (!isUserCancelledError(error)) {
+        Logger.error(TAG, 'Error enabling biometry', error)
+      }
     }
   }
 
