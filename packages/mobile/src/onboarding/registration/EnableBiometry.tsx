@@ -51,7 +51,7 @@ export default function EnableBiometry({ navigation }: Props) {
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   useEffect(() => {
-    ValoraAnalytics.track(OnboardingEvents.biometric_verification_start)
+    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
   }, [])
 
   useLayoutEffect(() => {
@@ -74,7 +74,7 @@ export default function EnableBiometry({ navigation }: Props) {
   }, [navigation, step, totalSteps])
 
   const onPressSkip = () => {
-    ValoraAnalytics.track(OnboardingEvents.biometric_verification_cancel)
+    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_cancel)
     handleNavigateToNextScreen()
   }
 
@@ -84,13 +84,13 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const onPressUseBiometry = async () => {
     try {
-      ValoraAnalytics.track(OnboardingEvents.biometric_verification_approve)
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_approve)
       await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
-      ValoraAnalytics.track(OnboardingEvents.biometric_verification_complete)
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
       handleNavigateToNextScreen()
     } catch (error) {
-      ValoraAnalytics.track(OnboardingEvents.biometric_verification_error)
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_error)
       if (!isUserCancelledError(error)) {
         Logger.error(TAG, 'Error enabling biometry', error)
       }

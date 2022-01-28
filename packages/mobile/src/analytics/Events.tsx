@@ -53,10 +53,10 @@ export enum SettingsEvents {
   change_pin_new_pin_entered = 'change_pin_new_pin_entered',
   change_pin_new_pin_confirmed = 'change_pin_new_pin_confirmed',
   change_pin_new_pin_error = 'change_pin_new_pin_error',
-  settings_biometric_verification_approve = 'settings_biometric_verification_approve',
-  settings_biometric_verification_complete = 'settings_biometric_verification_complete',
-  settings_biometric_verification_error = 'settings_biometric_verification_error',
-  settings_biometric_verification_disable = 'settings_biometric_verification_disable',
+  settings_biometry_opt_in_enable = 'settings_biometry_opt_in_enable',
+  settings_biometry_opt_in_complete = 'settings_biometry_opt_in_complete',
+  settings_biometry_opt_in_error = 'settings_biometry_opt_in_error',
+  settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
 }
@@ -109,11 +109,11 @@ export enum OnboardingEvents {
   pin_failed_to_set = 'pin_failed_to_set',
   pin_never_set = 'pin_never_set',
 
-  biometric_verification_start = 'biometric_verification_start',
-  biometric_verification_cancel = 'biometric_verification_cancel',
-  biometric_verification_approve = 'biometric_verification_approve',
-  biometric_verification_complete = 'biometric_verification_complete',
-  biometric_verification_error = 'biometric_verification_error',
+  biometry_opt_in_start = 'biometry_opt_in_start',
+  biometry_opt_in_cancel = 'biometry_opt_in_cancel',
+  biometry_opt_in_approve = 'biometry_opt_in_approve',
+  biometry_opt_in_complete = 'biometry_opt_in_complete',
+  biometry_opt_in_error = 'biometry_opt_in_error',
 
   wallet_import_start = 'wallet_import_start',
   wallet_import_phrase_updated = 'wallet_import_phrase_updated',

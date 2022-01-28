@@ -297,18 +297,18 @@ export class Account extends React.Component<Props, State> {
   handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
     try {
       if (turnBiometryOn) {
-        ValoraAnalytics.track(SettingsEvents.settings_biometric_verification_approve)
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_enable)
         await setPincodeWithBiometry()
         this.props.setPincodeSuccess(PincodeType.PhoneAuth)
-        ValoraAnalytics.track(SettingsEvents.settings_biometric_verification_complete)
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
       } else {
-        ValoraAnalytics.track(SettingsEvents.settings_biometric_verification_disable)
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
         await removeStoredPin()
         this.props.setPincodeSuccess(PincodeType.CustomPin)
       }
     } catch (error) {
       Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)
-      ValoraAnalytics.track(SettingsEvents.settings_biometric_verification_error)
+      ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_error)
     }
   }
 
