@@ -135,80 +135,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
   </View>
   <View
     style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "alignSelf": "center",
-          "flexDirection": "row",
-          "marginTop": 5,
-        },
-        undefined,
-      ]
-    }
-  >
-    <Text
-      numberOfLines={1}
-      style={
-        Array [
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 22,
-          },
-          Object {
-            "color": undefined,
-            "fontSize": 34,
-          },
-        ]
-      }
-    >
-      
-    </Text>
-    <Text
-      numberOfLines={1}
-      style={
-        Array [
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 22,
-          },
-          Object {
-            "color": undefined,
-            "fontSize": 24,
-            "paddingVertical": 4,
-          },
-        ]
-      }
-    >
-      ₱
-    </Text>
-    <Text
-      numberOfLines={1}
-      style={
-        Array [
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 22,
-            "paddingHorizontal": 3,
-          },
-          Object {
-            "color": undefined,
-            "fontSize": 48,
-            "lineHeight": 64,
-          },
-        ]
-      }
-    >
-      13.30
-    </Text>
-  </View>
-  <View
-    style={
       Object {
         "borderStyle": "solid",
         "borderTopColor": "#F8F9F9",
@@ -269,18 +195,9 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           undefined,
         ]
       }
+      testID="LineItemRow/ReclaimAmount"
     >
-      <Text
-        style={
-          Array [
-            undefined,
-            Object {
-              "color": undefined,
-            },
-          ]
-        }
-        testID="undefined/value"
-      >
+      <Text>
         
         ₱
         13.30
@@ -595,21 +512,14 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           undefined,
         ]
       }
+      testID="LineItemRow/SecurityFee"
     >
       <Text
-        style={
-          Array [
-            undefined,
-            Object {
-              "color": undefined,
-            },
-          ]
-        }
-        testID="undefined/value"
+        testID="ReclaimFee"
       >
-        -
+        
         ₱
-        0.0133
+        0.013
       </Text>
     </Text>
   </View>
@@ -685,21 +595,14 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           },
         ]
       }
+      testID="LineItemRow/undefined"
     >
       <Text
-        style={
-          Array [
-            undefined,
-            Object {
-              "color": undefined,
-            },
-          ]
-        }
-        testID="TotalLineItem/Total/value"
+        testID="TotalLineItem/Total"
       >
         
         ₱
-        13.28
+        13.29
       </Text>
     </Text>
   </View>
@@ -745,56 +648,23 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           ]
         }
       >
-        <View
-          accessibilityState={
+        <Text
+          style={
             Object {
-              "disabled": true,
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
             }
           }
-          accessible={true}
-          focusable={false}
-          nativeBackgroundAndroid={
-            Object {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
-            }
-          }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
+          testID="TotalLineItem/ExchangeRate"
         >
-          <Text
-            style={
-              Object {
-                "color": "#9CA4A9",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 14,
-                "lineHeight": 18,
-              }
-            }
-          >
-            <Text
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": undefined,
-                  },
-                ]
-              }
-              testID="TotalLineItem/ExchangeRate/value"
-            >
-              
-              $
-              0.75
-            </Text>
+          <Text>
+            
+            ₱
+            1.33
           </Text>
-        </View>
+        </Text>
       </Text>
     </View>
     <Text
@@ -814,21 +684,14 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           },
         ]
       }
+      testID="LineItemRow/undefined"
     >
       <Text
-        style={
-          Array [
-            undefined,
-            Object {
-              "color": undefined,
-            },
-          ]
-        }
-        testID="TotalLineItem/Subtotal/value"
+        testID="TotalLineItem/Subtotal"
       >
         
-        $
         9.99
+         cUSD
       </Text>
     </Text>
   </View>

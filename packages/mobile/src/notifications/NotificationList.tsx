@@ -11,7 +11,6 @@ import { Currency } from 'src/utils/currencies'
 const { contentPadding } = variables
 
 interface OwnProps<T> {
-  dollarBalance: string | null
   listItemRenderer: (item: T, key: number) => JSX.Element
   items: T[]
 }

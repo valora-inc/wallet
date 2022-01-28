@@ -4,78 +4,76 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import Avatar from 'src/components/Avatar'
-import CurrencyDisplay, { DisplayType, FormatType } from 'src/components/CurrencyDisplay'
 import { SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
-import TotalLineItem from 'src/components/TotalLineItem'
-import { FeeInfo } from 'src/fees/saga'
-import { getFeeInTokens } from 'src/fees/selectors'
+import TokenDisplay from 'src/components/TokenDisplay'
+import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
+import { FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import { MobileRecipient } from 'src/recipients/recipient'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { Currency } from 'src/utils/currencies'
+import useSelector from 'src/redux/useSelector'
+import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
+import { celoAddressSelector } from 'src/tokens/selectors'
+import { divideByWei } from 'src/utils/formatting'
 
 interface Props {
   recipientPhone: string
   recipientContact: MobileRecipient
   amount: BigNumber
-  feeInfo?: FeeInfo
-  isLoadingFee?: boolean
-  feeError?: Error
-  currency: Currency
+  tokenAddress: string
 }
 
 export default function ReclaimPaymentConfirmationCard({
   recipientPhone,
   recipientContact,
-  amount: amountProp,
-  feeInfo,
-  isLoadingFee,
-  feeError,
-  currency,
+  amount: amountInWei,
+  tokenAddress,
 }: Props) {
   const { t } = useTranslation()
-  const amount = {
-    value: amountProp,
-    currencyCode: currency,
-  }
-  const fee = getFeeInTokens(feeInfo?.fee)
+  const amount = divideByWei(amountInWei)
 
-  // TODO: Add support for any allowed fee currency, not just dollar/euro.
-  const feeToken = useTokenInfo(feeInfo?.feeCurrency ?? '')
-  const feeCurrency = !feeToken
-    ? Currency.Celo
-    : feeToken.symbol === 'cUSD'
-    ? Currency.Dollar
-    : Currency.Euro
-  const securityFeeAmount = fee &&
-    feeInfo && {
-      value: fee.negated(),
-      currencyCode: feeCurrency,
-    }
-  const totalAmount = {
-    value: amountProp.minus(fee ?? 0),
-    currencyCode: amount.currencyCode,
-  }
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeEstimate = feeEstimates[tokenAddress]?.[FeeType.RECLAIM_ESCROW]
+
+  const celoAddress = useSelector(celoAddressSelector)
+  const feeToken = useTokenInfo(feeEstimate?.feeInfo?.feeCurrency ?? celoAddress ?? '')
+  const feeInAmountToken = useUsdToTokenAmount(
+    new BigNumber(feeEstimate?.usdFee ?? 0),
+    tokenAddress
+  )
+  const totalAmount = amount.minus(feeInAmountToken ?? 0)
 
   return (
     <View style={styles.container}>
       <Avatar recipient={recipientContact} e164Number={recipientPhone} />
-      <CurrencyDisplay type={DisplayType.Big} amount={amount} />
       <HorizontalLine />
-      <LineItemRow title={t('amount')} amount={<CurrencyDisplay amount={amount} />} />
+      <LineItemRow
+        title={t('amount')}
+        amount={<TokenDisplay amount={amount} tokenAddress={tokenAddress} />}
+        testID={'ReclaimAmount'}
+      />
       <LineItemRow
         title={t('securityFee')}
         titleIcon={<SecurityFeeIcon />}
         amount={
-          securityFeeAmount && (
-            <CurrencyDisplay amount={securityFeeAmount} formatType={FormatType.Fee} />
+          feeEstimate?.feeInfo?.fee && (
+            <TokenDisplay
+              amount={divideByWei(feeEstimate.feeInfo.fee)}
+              tokenAddress={feeToken?.address ?? ''}
+              testID={'ReclaimFee'}
+            />
           )
         }
-        isLoading={isLoadingFee}
-        hasError={!!feeError}
+        testID={'SecurityFee'}
+        isLoading={feeEstimate?.loading}
+        hasError={!!feeEstimate?.error}
       />
       <HorizontalLine />
-      <TotalLineItem title={t('totalRefunded')} amount={totalAmount} />
+      <TokenTotalLineItem
+        title={t('totalRefunded')}
+        tokenAmount={totalAmount}
+        tokenAddress={tokenAddress}
+      />
     </View>
   )
 }

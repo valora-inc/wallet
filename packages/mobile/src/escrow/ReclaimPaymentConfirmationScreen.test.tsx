@@ -1,16 +1,16 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { Provider } from 'react-redux'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
-import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
+import { FeeEstimateState, FeeType } from 'src/fees/reducer'
+import { FeeInfo } from 'src/fees/saga'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
+  emptyFees,
   mockAccount,
   mockAccount2,
   mockCusdAddress,
@@ -34,12 +34,37 @@ const TEST_FEE_INFO_CELO = {
   feeCurrency: undefined,
 }
 
+const mockFeeEstimate = ({
+  error = false,
+  loading = false,
+  usdFee = null,
+  feeInfo,
+}: {
+  error?: boolean
+  loading?: boolean
+  usdFee?: string | null
+  feeInfo?: FeeInfo
+}) => ({
+  usdFee,
+  lastUpdated: 500,
+  loading,
+  error,
+  feeInfo,
+})
+
 jest.mock('src/escrow/saga')
 
-const mockedGetReclaimEscrowFee = getReclaimEscrowFee as jest.Mock
-const mockedReclaimPayment = reclaimFromEscrow as jest.Mock
-
-const store = createMockStore()
+const store = (feeEstimate: FeeEstimateState) =>
+  createMockStore({
+    fees: {
+      estimates: {
+        [mockCusdAddress]: {
+          ...emptyFees,
+          [FeeType.RECLAIM_ESCROW]: feeEstimate,
+        },
+      },
+    },
+  })
 
 const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmationScreen, {
   reclaimPaymentInput: {
@@ -47,8 +72,8 @@ const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmati
     recipientPhone: mockE164Number,
     recipientIdentifier: mockE164NumberHashWithPepper,
     paymentID: mockAccount,
-    currency: Currency.Dollar,
-    amount: new BigNumber(10).times(WEI_PER_TOKEN),
+    tokenAddress: mockCusdAddress,
+    amount: new BigNumber(10).times(WEI_PER_TOKEN).toString(),
     timestamp: new BigNumber(10000),
     expirySeconds: new BigNumber(50000),
   },
@@ -59,104 +84,56 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     jest.useRealTimers()
   })
 
-  beforeEach(() => {
-    mockedGetReclaimEscrowFee.mockClear()
-  })
-
-  it('renders correctly with fee in Celo dollars', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
-
-    const { getByText, queryByText, queryAllByText, toJSON } = render(
-      <Provider store={store}>
+  it('renders correctly with fee in cUSD', async () => {
+    const { getByTestId } = render(
+      <Provider store={store(mockFeeEstimate({ feeInfo: TEST_FEE_INFO_CUSD, usdFee: '0.01' }))}>
         <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
       </Provider>
     )
 
-    // Initial render should not contain a fee.
-    expect(toJSON()).toMatchSnapshot()
-    expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText(/-\s*₱\s*0\.0133/s)).toBeNull()
-
-    // Wait for fee to be calculated and displayed as "₱0.013"
-    // NOTE: Use regex here because the text may be split by a newline.
-    await waitFor(() => getByText(/-\s*₱\s*0\.0133/s))
-    expect(toJSON()).toMatchSnapshot()
-    // Query for the total amount, which should deduct the fee.
-    expect(queryByText(/₱\s*13\.28/s)).not.toBeNull()
+    expect(getElementText(getByTestId('LineItemRow/ReclaimAmount'))).toBe('₱13.30')
+    expect(getElementText(getByTestId('ReclaimFee'))).toBe('₱0.013')
+    expect(getElementText(getByTestId('TotalLineItem/Total'))).toBe('₱13.29')
+    expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toBe('9.99 cUSD')
+    expect(getByTestId('ConfirmButton')).not.toBeDisabled()
   })
 
   it('renders correctly in with fee in CELO', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
-
-    const { getByText, queryByText, queryAllByText, toJSON } = render(
-      <Provider store={store}>
+    const { getByTestId } = render(
+      <Provider store={store(mockFeeEstimate({ feeInfo: TEST_FEE_INFO_CELO, usdFee: '0.05' }))}>
         <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
       </Provider>
     )
 
-    // Initial render should not contain a fee.
-    expect(toJSON()).toMatchSnapshot()
-    expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText(/-\s*0\.01/s)).toBeNull()
-
-    // Wait for fee to be calculated and displayed as "0.01"
-    // NOTE: Use regex here because the text may be split by a newline.
-    await waitFor(() => getByText(/-\s*0\.01/s))
-    expect(toJSON()).toMatchSnapshot()
-    // Query for the total amount, which should deduct the fee.
-    expect(queryByText(/₱\s*13\.28/s)).not.toBeNull()
+    expect(getElementText(getByTestId('LineItemRow/ReclaimAmount'))).toBe('₱13.30')
+    expect(getElementText(getByTestId('ReclaimFee'))).toBe('₱0.067')
+    expect(getElementText(getByTestId('TotalLineItem/Total'))).toBe('₱13.23')
+    expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toBe('9.95 cUSD')
+    expect(getByTestId('ConfirmButton')).not.toBeDisabled()
   })
 
   it('renders correctly when fee calculation fails', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => {
-      throw new Error('Calculate fee failed')
-    })
-
-    const { queryAllByText, queryByText, getByText, toJSON } = render(
-      <Provider store={store}>
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store(mockFeeEstimate({ error: true }))}>
         <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
       </Provider>
     )
 
-    // Initial render
-    expect(toJSON()).toMatchSnapshot()
-    expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText('₱0.001')).toBeNull()
-    expect(queryAllByText('$10.00')).toHaveLength(1)
-
-    // Wait for fee error
-    await waitFor(() => getByText('---'))
-
-    expect(queryAllByText('$10.00')).toHaveLength(1)
-    expect(toJSON()).toMatchSnapshot()
+    expect(getElementText(getByTestId('LineItemRow/ReclaimAmount'))).toBe('₱13.30')
+    expect(queryByTestId('ReclaimFee')).toBeFalsy()
+    expect(getElementText(getByTestId('LineItemRow/SecurityFee'))).toBe('---')
+    expect(getElementText(getByTestId('TotalLineItem/Total'))).toBe('₱13.30')
+    expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toBe('10.00 cUSD')
+    expect(getByTestId('ConfirmButton')).toBeDisabled()
   })
 
   it('shows the activity indicator when a reclaim is in progress', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
-
     const tree = render(
-      <Provider store={store}>
+      <Provider store={store(mockFeeEstimate({ loading: true }))}>
         <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
       </Provider>
     )
 
     expect(tree.UNSAFE_queryByType(ActivityIndicator)).toBeTruthy()
-  })
-
-  it('clears the activity indicator when a reclaim fails', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
-    mockedReclaimPayment.mockImplementation(async () => {
-      throw Error(ErrorMessages.TRANSACTION_FAILED)
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
-      </Provider>
-    )
-
-    await flushMicrotasksQueue()
-
-    expect(tree.UNSAFE_queryByType(ActivityIndicator)).toBeFalsy()
   })
 })
