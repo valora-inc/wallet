@@ -667,16 +667,16 @@
     "step3": "È sufficiente un cellulare per inviare, spendere ed esplorare."
   },
   "enableBiometry": {
-    "title": "Secure your wallet",
-    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
-    "cta": "Turn on {{biometryType}}"
+    "title": "Proteggi il tuo portafoglio",
+    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
+    "cta": "Abilita {{biometryType}}"
   },
   "biometryType": {
     "FaceID": "Face ID",
     "TouchID": "Touch ID",
-    "Fingerprint": "Fingerprint recognition",
-    "Face": "Face recognition",
-    "Iris": "Iris recognition"
+    "Fingerprint": "Riconoscimento impronta digitale",
+    "Face": "Riconoscimento facciale",
+    "Iris": "Riconoscimento dell'iride"
   },
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
@@ -921,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Invio a un indirizzo in corso",
-    "body": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid. Send a test payment first to make sure this is the correct address.",
-    "toggle": "Always remind me"
+    "body": "Assicurati che questo indirizzo supporti l'asset che stai cercando di inviare. Se l'indirizzo non è valido, potresti perdere i tuoi fondi. Invia prima un pagamento di prova per assicurarti che questo sia l'indirizzo corretto.",
+    "toggle": "Ricordamelo sempre"
   },
   "loadingFromScan": "Scansione in corso",
   "loadingFromDeeplink": "Connessione in corso",
