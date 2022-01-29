@@ -1,4 +1,7 @@
+import { createSelector } from 'reselect'
+import { localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
+import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 
 export const getRecentPayments = (state: RootState) => {
   return state.send.recentPayments
@@ -7,3 +10,11 @@ export const getRecentPayments = (state: RootState) => {
 export const isSendingSelector = (state: RootState) => {
   return state.send.isSending
 }
+
+export const canSendTokensSelector = createSelector(
+  tokensWithTokenBalanceSelector,
+  localCurrencyToUsdSelector,
+  (tokensList, usdExchangeRate) => {
+    return tokensList.length > 0 && usdExchangeRate !== null
+  }
+)
