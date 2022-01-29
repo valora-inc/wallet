@@ -84,4 +84,51 @@ describe('LinkBankAccountScreen: integration tests (using real Persona component
     await waitFor(() => getByText('linkBankAccountScreen.verifying.title'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.persona_kyc_start)
   })
+  describe('step two button', () => {
+    it('step two is disabled when feature flag is switched off (even if kyc approved)', async () => {
+      const store = createMockStore({
+        web3: { mtwAddress: mockAccount },
+        account: { kycStatus: KycStatus.Approved },
+        app: { linkBankAccountStepTwoEnabled: false },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <LinkBankAccountScreen />
+        </Provider>
+      )
+      const plaidLinkButton = getByTestId('PlaidLinkButton')
+      expect(plaidLinkButton).toBeDisabled()
+    })
+    it('step two is disabled when feature flag is switched on and kyc is not approved', async () => {
+      const store = createMockStore({
+        web3: { mtwAddress: mockAccount },
+        account: { kycStatus: KycStatus.Pending },
+        app: { linkBankAccountStepTwoEnabled: true },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <LinkBankAccountScreen />
+        </Provider>
+      )
+      const plaidLinkButton = getByTestId('PlaidLinkButton')
+      expect(plaidLinkButton).toBeDisabled()
+    })
+    it('step two is enabled when feature flag is switched on and kyc is approved', async () => {
+      const store = createMockStore({
+        web3: { mtwAddress: mockAccount },
+        account: { kycStatus: KycStatus.Approved },
+        app: { linkBankAccountStepTwoEnabled: true },
+      })
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <LinkBankAccountScreen />
+        </Provider>
+      )
+      const plaidLinkButton = getByTestId('PlaidLinkButton')
+      expect(plaidLinkButton).not.toBeDisabled()
+    })
+  })
 })
