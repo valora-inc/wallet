@@ -4,7 +4,6 @@ import { Spacing } from '@celo/react-components/styles/styles'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 
 interface Props {
   title: string
@@ -46,8 +45,6 @@ function AccountErrorScreen({
     </SafeAreaView>
   )
 }
-
-AccountErrorScreen.navOptions = noHeaderGestureDisabled
 
 const styles = StyleSheet.create({
   content: {
