@@ -132,7 +132,7 @@ describe(getPincode, () => {
     mockStore.getState.mockImplementationOnce(() =>
       getMockStoreData({ account: { pincodeType: PincodeType.PhoneAuth } })
     )
-    mockedKeychain.getGenericPassword.mockRejectedValueOnce(false)
+    mockedKeychain.getGenericPassword.mockRejectedValueOnce('some error')
     mockedNavigate.mockImplementationOnce((_, params) => {
       params.onSuccess(mockPin)
     })
@@ -141,9 +141,10 @@ describe(getPincode, () => {
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
     expect(loggerErrorSpy).toHaveBeenCalledWith(
-      'pincode/authentication',
-      'Failed to retrieve pin with biometry',
-      expect.any(Error)
+      'storage/keychain',
+      'Error retrieving stored item',
+      'some error',
+      true
     )
     expectPincodeEntered()
     expect(pin).toEqual(mockPin)

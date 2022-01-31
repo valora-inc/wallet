@@ -1,5 +1,4 @@
 import * as Keychain from 'react-native-keychain'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'storage/keychain'
@@ -32,7 +31,7 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
     return result
   } catch (error) {
     Logger.error(TAG, 'Error storing item', error, true, value)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    throw error
   }
 }
 
@@ -46,15 +45,11 @@ export async function retrieveStoredItem(key: string) {
     }
     return item.password
   } catch (error) {
-    if (isUserCancelledError(error)) {
-      // throw the error to differentiate between a genuine keychain error vs a
-      // user cancelled error triggered by a failed and cancelled biometry
-      // verification, to help the consumer decide on the error handling (e.g.
-      // the level of logging)
-      throw error
+    if (!isUserCancelledError(error)) {
+      // triggered when biometry verification fails and user cancels the action
+      Logger.error(TAG, 'Error retrieving stored item', error, true)
     }
-    Logger.error(TAG, 'Error retrieving stored item', error, true)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    throw error
   }
 }
 
@@ -65,6 +60,6 @@ export async function removeStoredItem(key: string) {
     })
   } catch (error) {
     Logger.error(TAG, 'Error clearing item', error, true)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    throw error
   }
 }
