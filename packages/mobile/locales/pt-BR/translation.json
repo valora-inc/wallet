@@ -666,6 +666,18 @@
     "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
     "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
+  "enableBiometry": {
+    "title": "Proteja sua carteira",
+    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
+    "cta": "Ativar {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Reconhecimento de impressão digital",
+    "Face": "Reconhecimento facial",
+    "Iris": "Reconhecimento de Iris"
+  },
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
@@ -679,8 +691,7 @@
   },
   "createAccount": "Criar conta",
   "restoreAccount": "Restaurar conta existente",
-  "createAccountSteps": "Passo {{step}} de {{totalSteps}}",
-  "restoreAccountSteps": "Passo {{step}} de {{totalSteps}}",
+  "registrationSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
@@ -910,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviando para um endereço",
-    "body": "Certifique-se de que o endereço suporta cUSD. Os fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode enviar um pagamento de teste pequeno primeiro.",
-    "toggle": "Perguntar sempre"
+    "body": "Certifique-se de que este endereço suporta o ativo que você está tentando enviar. Seus fundos podem não ser recuperáveis se este endereço for inválido. Envie um pagamento teste primeiro para ter certeza de que este é o endereço correto.",
+    "toggle": "Lembrar sempre"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
