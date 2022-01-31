@@ -11,11 +11,11 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
-import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { canSendTokensSelector } from 'src/send/selectors'
+import { tokensListSelector } from 'src/tokens/selectors'
 
 export default function SendOrRequestBar() {
-  const sendableTokens = useSelector(tokensWithTokenBalanceSelector)
-  const sendButtonsDisabled = sendableTokens.length === 0
+  const sendButtonsDisabled = !useSelector(canSendTokensSelector)
   const requestButtonDisabled = useSelector(tokensListSelector).length === 0
 
   const onPressSend = () => {

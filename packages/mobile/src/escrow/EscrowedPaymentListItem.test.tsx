@@ -5,9 +5,8 @@ import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { Currency } from 'src/utils/currencies'
-import { getElementText, createMockStore, flushMicrotasksQueue } from 'test/utils'
-import { mockEscrowedPayment } from 'test/values'
+import { createMockStore, flushMicrotasksQueue, getElementText } from 'test/utils'
+import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 
 const store = createMockStore()
 Share.share = jest.fn()
@@ -19,13 +18,13 @@ describe('EscrowedPaymentReminderNotification', () => {
         <EscrowedPaymentListItem
           payment={{
             ...mockEscrowedPayment,
-            amount: new BigNumber(10).multipliedBy(WEI_PER_TOKEN),
+            amount: new BigNumber(10).multipliedBy(WEI_PER_TOKEN).toString(),
           }}
         />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
-    const component = tree.getByTestId('EscrowedPaymentListItem/amount/value')
+    const component = tree.getByTestId('EscrowedPaymentListItem/amount')
     // Local currency exchange rate for cUSD is 1.33
     expect(getElementText(component)).toEqual('₱13.30')
   })
@@ -36,16 +35,16 @@ describe('EscrowedPaymentReminderNotification', () => {
         <EscrowedPaymentListItem
           payment={{
             ...mockEscrowedPayment,
-            amount: new BigNumber(10).multipliedBy(WEI_PER_TOKEN),
-            currency: Currency.Euro,
+            amount: new BigNumber(10).multipliedBy(WEI_PER_TOKEN).toString(),
+            tokenAddress: mockCeurAddress,
           }}
         />
       </Provider>
     )
 
-    const component = getByTestId('EscrowedPaymentListItem/amount/value')
-    // Local currency exchange rate for cEUR is 2
-    expect(getElementText(component)).toEqual('₱20.00')
+    const component = getByTestId('EscrowedPaymentListItem/amount')
+    // cEUR price in USD is defined as 1.2 in test/schemas.
+    expect(getElementText(component)).toEqual('₱15.96')
   })
 
   it('opens the share dialog', async () => {
