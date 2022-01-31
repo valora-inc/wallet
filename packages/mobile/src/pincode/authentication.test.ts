@@ -135,7 +135,7 @@ describe(retrieveOrGeneratePepper, () => {
     expect(getCachedPepper(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPepper.password)
   })
 
-  it('should throw an error if it fails to correctly read the stored pepper', async () => {
+  it('should throw an error and remove stored pepper if it fails to correctly read the stored pepper', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
     mockedKeychain.setGenericPassword.mockResolvedValueOnce({
       service: 'PEPPER',
@@ -147,6 +147,7 @@ describe(retrieveOrGeneratePepper, () => {
     })
 
     await expect(retrieveOrGeneratePepper()).rejects.toThrowError('keychainStorageError')
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PEPPER' })
   })
 })
 
