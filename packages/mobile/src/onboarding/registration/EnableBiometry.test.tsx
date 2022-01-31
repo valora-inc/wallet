@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
@@ -10,10 +9,10 @@ import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
+import MockedNavigator from 'test/MockedNavigator'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
-const mockScreenProps = getMockStackScreenProps(Screens.EnableBiometry)
 const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -31,9 +30,7 @@ const store = createMockStore({
 const renderComponent = () => {
   return render(
     <Provider store={store}>
-      <NavigationContainer>
-        <EnableBiometry {...mockScreenProps} />
-      </NavigationContainer>
+      <MockedNavigator component={EnableBiometry} />
     </Provider>
   )
 }
@@ -76,5 +73,26 @@ describe('EnableBiometry', () => {
     expect(store.getActions()).toEqual([])
     expect(navigate).not.toHaveBeenCalled()
     expect(loggerErrorSpy).toHaveBeenCalled()
+  })
+
+  it('should not log error if user cancels biometry validation, and not navigate', async () => {
+    mockedSetPincodeWithBiometry.mockRejectedValue('user canceled the operation')
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    await flushMicrotasksQueue()
+
+    expect(setPincodeWithBiometry).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
+  })
+
+  it('should allow skip and navigate to next screen', () => {
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('skip'))
+
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   })
 })

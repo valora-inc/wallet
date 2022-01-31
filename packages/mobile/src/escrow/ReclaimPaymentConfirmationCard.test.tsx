@@ -3,12 +3,11 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
+import { FeeType } from 'src/fees/reducer'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
 import {} from 'src/home/NotificationBox'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockE164Number, mockRecipient } from 'test/values'
-
-const store = createMockStore()
 
 const TEST_FEE_INFO = {
   fee: new BigNumber(10).pow(16),
@@ -17,6 +16,28 @@ const TEST_FEE_INFO = {
   feeCurrency: mockCusdAddress,
 }
 
+const mockFeeEstimates = {
+  [FeeType.SEND]: undefined,
+  [FeeType.INVITE]: undefined,
+  [FeeType.EXCHANGE]: undefined,
+  [FeeType.RECLAIM_ESCROW]: {
+    usdFee: '0.01',
+    lastUpdated: 500,
+    loading: false,
+    error: false,
+    feeInfo: TEST_FEE_INFO,
+  },
+  [FeeType.REGISTER_DEK]: undefined,
+}
+
+const store = createMockStore({
+  fees: {
+    estimates: {
+      [mockCusdAddress]: mockFeeEstimates,
+    },
+  },
+})
+
 describe('ReclaimPaymentConfirmationCard', () => {
   it('renders correctly for send payment confirmation', () => {
     const tree = render(
@@ -24,9 +45,8 @@ describe('ReclaimPaymentConfirmationCard', () => {
         <ReclaimPaymentConfirmationCard
           recipientPhone={mockE164Number}
           recipientContact={mockRecipient}
-          amount={new BigNumber(10)}
-          currency={Currency.Dollar}
-          feeInfo={TEST_FEE_INFO}
+          amount={new BigNumber(10).times(WEI_PER_TOKEN)}
+          tokenAddress={mockCusdAddress}
         />
       </Provider>
     )

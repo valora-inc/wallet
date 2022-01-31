@@ -9,7 +9,8 @@ import { backupCompletedSelector } from 'src/backup/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { tokensByCurrencySelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
+import { tokensByCurrencySelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { sortByUsdBalance } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
@@ -20,7 +21,7 @@ export const getCurrentUserTraits = createSelector(
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
-    tokensByUsdBalanceSelector,
+    tokensWithTokenBalanceSelector,
     tokensByCurrencySelector,
     getLocalCurrencyCode,
     numberVerifiedSelector,
@@ -32,7 +33,7 @@ export const getCurrentUserTraits = createSelector(
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
-    tokensByUsdBalance,
+    tokens,
     tokensByCurrency,
     localCurrencyCode,
     hasVerifiedNumber,
@@ -41,6 +42,7 @@ export const getCurrentUserTraits = createSelector(
     const currencyAddresses = new Set(
       Object.values(tokensByCurrency).map((token) => token?.address)
     )
+    const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
 
     let totalBalanceUsd = new BigNumber(0)
     for (const token of tokensByUsdBalance) {
