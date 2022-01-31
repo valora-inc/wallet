@@ -102,7 +102,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#2E3338",
               "fontFamily": "Jost-Medium",
               "fontSize": 18,
               "lineHeight": 22,
@@ -115,7 +115,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#2E3338",
               "fontFamily": "Jost-Medium",
               "fontSize": 22,
               "lineHeight": 28,
@@ -129,7 +129,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#9CA4A9",
+              "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -167,11 +167,11 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
             <View
               accessibilityState={
                 Object {
-                  "disabled": true,
+                  "disabled": false,
                 }
               }
               accessible={true}
-              focusable={false}
+              focusable={true}
               nativeBackgroundAndroid={
                 Object {
                   "attribute": "selectableItemBackground",
@@ -204,7 +204,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
                 maxFontSizeMultiplier={1}
                 style={
                   Object {
-                    "color": "#9CA4A9",
+                    "color": "#2E3338",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -330,7 +330,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#2E3338",
+              "color": "#9CA4A9",
               "fontFamily": "Jost-Medium",
               "fontSize": 18,
               "lineHeight": 22,
@@ -343,7 +343,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#2E3338",
+              "color": "#9CA4A9",
               "fontFamily": "Jost-Medium",
               "fontSize": 22,
               "lineHeight": 28,
@@ -357,7 +357,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
         <Text
           style={
             Object {
-              "color": "#2E3338",
+              "color": "#9CA4A9",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -395,11 +395,11 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
             <View
               accessibilityState={
                 Object {
-                  "disabled": false,
+                  "disabled": true,
                 }
               }
               accessible={true}
-              focusable={true}
+              focusable={false}
               nativeBackgroundAndroid={
                 Object {
                   "attribute": "selectableItemBackground",
@@ -432,7 +432,7 @@ exports[`LinkBankAccountScreen: integration tests (using real Persona component,
                 maxFontSizeMultiplier={1}
                 style={
                   Object {
-                    "color": "#2E3338",
+                    "color": "#9CA4A9",
                     "fontFamily": "Inter-SemiBold",
                     "fontSize": 16,
                     "lineHeight": 22,
