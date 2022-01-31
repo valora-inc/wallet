@@ -1,7 +1,8 @@
 import Button from '@celo/react-components/components/Button'
 import Card from '@celo/react-components/components/Card'
+import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
-import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
+import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import React, { useState } from 'react'
@@ -14,7 +15,6 @@ import {
   SectionListData,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -319,13 +319,15 @@ function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
-      <TouchableOpacity style={styles.pressableCard} onPress={onPress} testID="featuredDapp">
-        <View style={styles.itemTextContainer}>
-          <Text style={styles.featuredDappTitle}>{dapp.name}</Text>
-          <Text style={styles.featuredDappSubtitle}>{dapp.description}</Text>
-        </View>
-        <Image source={{ uri: dapp.iconUrl }} style={styles.featuredDappIcon} />
-      </TouchableOpacity>
+      <Touchable style={styles.pressableCard} onPress={onPress} testID="FeaturedDapp">
+        <>
+          <View style={styles.itemTextContainer}>
+            <Text style={styles.featuredDappTitle}>{dapp.name}</Text>
+            <Text style={styles.featuredDappSubtitle}>{dapp.description}</Text>
+          </View>
+          <Image source={{ uri: dapp.iconUrl }} style={styles.featuredDappIcon} />
+        </>
+      </Touchable>
     </Card>
   )
 }
@@ -335,14 +337,16 @@ function Dapp({ dapp, onPressDapp }: DappProps) {
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
-      <TouchableOpacity style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
-        <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
-        <View style={styles.itemTextContainer}>
-          <Text style={styles.itemTitleText}>{dapp.name}</Text>
-          <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
-        </View>
-        <LinkArrow style={styles.linkArrow} />
-      </TouchableOpacity>
+      <Touchable style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
+        <>
+          <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
+          <View style={styles.itemTextContainer}>
+            <Text style={styles.itemTitleText}>{dapp.name}</Text>
+            <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
+          </View>
+          <LinkArrow style={styles.linkArrow} />
+        </>
+      </Touchable>
     </Card>
   )
 }
@@ -466,7 +470,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...fontStyles.label,
     color: colors.gray4,
-    fontFamily: fontFamily,
     marginTop: 32,
   },
 })

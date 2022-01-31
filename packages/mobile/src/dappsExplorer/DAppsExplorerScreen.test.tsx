@@ -78,7 +78,7 @@ describe(DAppsExplorerScreen, () => {
 
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
-    expect(queryByTestId('featuredDapp')).toBeFalsy()
+    expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
     fireEvent.press(getByTestId('Dapp/1'))
     expect(store.getActions().length).toEqual(0)
@@ -110,9 +110,9 @@ describe(DAppsExplorerScreen, () => {
 
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
-    expect(queryByTestId('featuredDapp')).toBeTruthy()
+    expect(queryByTestId('FeaturedDapp')).toBeTruthy()
 
-    fireEvent.press(getByTestId('featuredDapp'))
+    fireEvent.press(getByTestId('FeaturedDapp'))
     expect(store.getActions().length).toEqual(0)
     fireEvent.press(getByTestId('ConfirmDappButton'))
 
@@ -141,7 +141,7 @@ describe(DAppsExplorerScreen, () => {
 
     expect(getByTestId('Dapp/1')).toBeTruthy()
     expect(getByTestId('Dapp/2')).toBeTruthy()
-    expect(queryByTestId('featuredDapp')).toBeFalsy()
+    expect(queryByTestId('FeaturedDapp')).toBeFalsy()
 
     fireEvent.press(getByTestId('Dapp/2'))
 
