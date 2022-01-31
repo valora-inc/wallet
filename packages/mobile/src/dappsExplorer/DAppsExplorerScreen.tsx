@@ -55,6 +55,7 @@ interface Dapp {
   name: string
   description: string
   dappUrl: string
+  isFeatured: boolean
 }
 
 interface DappProps {
@@ -67,7 +68,7 @@ interface SectionData {
   category: CategoryWithDapps
 }
 
-function mapDappFields(dapp: any, address: string): Dapp {
+function mapDappFields(dapp: any, address: string, isFeatured: boolean): Dapp {
   return {
     id: dapp.id,
     categoryId: dapp.categoryId,
@@ -75,6 +76,7 @@ function mapDappFields(dapp: any, address: string): Dapp {
     iconUrl: dapp.logoUrl,
     description: dapp.description,
     dappUrl: dapp.url.replace('{{address}}', address ?? ''),
+    isFeatured,
   }
 }
 
@@ -124,10 +126,12 @@ export function DAppsExplorerScreen() {
           }
         })
         result.applications.forEach((app: any) => {
-          categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? ''))
+          categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? '', false))
         })
 
-        const featured = result.featured ? mapDappFields(result.featured, address ?? '') : undefined
+        const featured = result.featured
+          ? mapDappFields(result.featured, address ?? '', true)
+          : undefined
         if (featured) {
           ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
             categoryId: featured.categoryId,
@@ -173,7 +177,7 @@ export function DAppsExplorerScreen() {
       categoryId: dapp.categoryId,
       dappId: dapp.id,
       dappName: dapp.name,
-      section: result?.featured?.id === dapp.id ? 'featured' : 'all',
+      section: dapp.isFeatured ? 'featured' : 'all',
       horizontalPosition: 0,
     })
     dispatch(openUrl(dapp.dappUrl, true, true))
