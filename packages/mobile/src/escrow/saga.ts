@@ -45,7 +45,6 @@ import { fetchTokenBalances, TokenBalance } from 'src/tokens/reducer'
 import {
   getCurrencyAddress,
   getERC20TokenContract,
-  getStableCurrencyFromAddress,
   getTokenContractFromAddress,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
@@ -477,11 +476,6 @@ function* doFetchSentPayments() {
         continue
       }
 
-      const currency: Currency | null = yield call(getStableCurrencyFromAddress, payment.token)
-      if (!currency) {
-        continue
-      }
-
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
@@ -489,7 +483,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency,
+        tokenAddress: payment.token.toLowerCase(),
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],

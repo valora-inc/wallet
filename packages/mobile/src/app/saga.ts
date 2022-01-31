@@ -35,6 +35,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  sentryNetworkErrorsSelector,
 } from 'src/app/selectors'
 import { SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -71,6 +72,10 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
   yield call(initializeSentry)
+  // This step is important if the user if offline and unable to fetch remote
+  // config values, we can use the persisted value instead of an empty one
+  const sentryNetworkErrors = yield select(sentryNetworkErrorsSelector)
+  Logger.setNetworkErrors(sentryNetworkErrors)
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
@@ -176,6 +181,7 @@ export interface RemoteConfigValues {
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  sentryNetworkErrors: string[]
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
 }
@@ -198,6 +204,7 @@ export function* appRemoteFeatureFlagSaga() {
         timeout: delay(FETCH_TIMEOUT_DURATION),
       })
       if (configValues) {
+        Logger.setNetworkErrors(configValues.sentryNetworkErrors)
         yield put(updateRemoteConfigValues(configValues))
         lastLoadTime = Date.now()
       }

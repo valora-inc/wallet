@@ -83,6 +83,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRow/undefined"
       >
         <Text
           style={
@@ -171,6 +172,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -316,6 +318,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRow/undefined"
               >
                 <Text
                   style={
@@ -397,6 +400,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -526,6 +530,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={

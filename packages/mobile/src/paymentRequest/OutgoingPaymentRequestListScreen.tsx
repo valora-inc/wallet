@@ -16,10 +16,8 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 interface StateProps {
-  dollarBalance: string | null
   paymentRequests: PaymentRequest[]
   e164PhoneNumberAddressMapping: E164NumberToAddressType
   recipientInfo: RecipientInfo
@@ -31,7 +29,6 @@ interface DispatchProps {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  dollarBalance: cUsdBalanceSelector(state) ?? null,
   paymentRequests: getOutgoingPaymentRequests(state),
   e164PhoneNumberAddressMapping: e164NumberToAddressSelector(state),
   recipientInfo: recipientInfoSelector(state),
@@ -61,11 +58,7 @@ export const listItemRenderer = (params: {
 
 const OutgoingPaymentRequestListScreen = (props: Props) => {
   return (
-    <NotificationList
-      items={props.paymentRequests}
-      listItemRenderer={listItemRenderer(props)}
-      dollarBalance={props.dollarBalance}
-    />
+    <NotificationList items={props.paymentRequests} listItemRenderer={listItemRenderer(props)} />
   )
 }
 
