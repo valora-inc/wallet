@@ -4,7 +4,9 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
+  CICOEvents,
   ContractKitEvents,
+  DappExplorerEvents,
   DappKitEvents,
   EscrowEvents,
   FeeEvents,
@@ -24,7 +26,6 @@ import {
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
-  CICOEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -1142,6 +1143,21 @@ interface CICOEventsProperties {
   [CICOEvents.connect_phone_cancel]: undefined
 }
 
+interface DappExplorerEventsProperties {
+  [DappExplorerEvents.dapp_impression]: {
+    categoryId: string
+    dappId: string
+    dappName: string
+  }
+  [DappExplorerEvents.dapp_open]: {
+    categoryId: string
+    dappId: string
+    dappName: string
+    section: string
+    horizontalPosition: number
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1165,4 +1181,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   RewardsProperties &
   WalletConnectProperties &
   DappKitProperties &
-  CICOEventsProperties
+  CICOEventsProperties &
+  DappExplorerEventsProperties
