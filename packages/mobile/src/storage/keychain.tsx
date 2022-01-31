@@ -25,7 +25,7 @@ export async function storeItem({ key, value }: SecureStorage) {
     if (retrievedResult !== value) {
       await removeStoredItem(key)
       Logger.error(`${TAG}@storeItem`, 'Retrieved value does not match stored value')
-      throw new Error('Retrieved value does not match stored value')
+      throw new Error(`Retrieved value for key '${key}' does not match stored value`)
     }
 
     return result
