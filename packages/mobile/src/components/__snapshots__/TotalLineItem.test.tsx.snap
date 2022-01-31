@@ -62,6 +62,7 @@ Array [
           },
         ]
       }
+      testID="LineItemRow/undefined"
     >
       <Text
         style={
@@ -191,6 +192,7 @@ Array [
           },
         ]
       }
+      testID="LineItemRow/undefined"
     >
       <Text
         style={

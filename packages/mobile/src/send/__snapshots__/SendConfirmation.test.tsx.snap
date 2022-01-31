@@ -842,6 +842,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRow/undefined"
               >
                 <Text
                   style={
@@ -923,6 +924,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             testID="TotalLineItem/Total"
@@ -1011,6 +1013,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             testID="TotalLineItem/Subtotal"

@@ -5,13 +5,13 @@ import { Share, StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -24,6 +24,7 @@ const TAG = 'EscrowedPaymentListItem'
 function EscrowedPaymentListItem({ payment }: Props) {
   const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
+  const tokenInfo = useTokenInfo(payment.tokenAddress)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
@@ -34,7 +35,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     try {
       await Share.share({
         message: t('escrowedPaymentReminderSmsNoData', {
-          currency: payment.currency === Currency.Dollar ? t('celoDollars') : t('celoEuros'),
+          currency: tokenInfo?.symbol,
         }),
       })
     } catch (error) {
@@ -67,16 +68,18 @@ function EscrowedPaymentListItem({ payment }: Props) {
   }
 
   const nameToShow = recipient.name ?? t('unknown')
-  const amount = {
-    value: divideByWei(payment.amount),
-    currencyCode: payment.currency,
-  }
 
   return (
     <View style={styles.container}>
       <RequestMessagingCard
         title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
-        amount={<CurrencyDisplay amount={amount} testID="EscrowedPaymentListItem/amount" />}
+        amount={
+          <TokenDisplay
+            amount={divideByWei(payment.amount)}
+            tokenAddress={payment.tokenAddress}
+            testID="EscrowedPaymentListItem/amount"
+          />
+        }
         details={payment.message}
         icon={<ContactCircle recipient={recipient} />}
         callToActions={getCTA()}
