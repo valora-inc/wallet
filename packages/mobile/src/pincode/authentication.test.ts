@@ -70,22 +70,18 @@ describe(getPasswordSaga, () => {
     expectPincodeEntered()
   })
   it('should throw an error for unset pincode type', async () => {
-    try {
-      await expectSaga(getPasswordSaga, mockAccount, false, false)
+    await expect(
+      expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), PincodeType.Unset]])
         .run()
-    } catch (error) {
-      expect(error).toEqual(Error('Pin has never been set'))
-    }
+    ).rejects.toThrowError('Pin has never been set')
   })
   it('should throw an error for unexpected pincode type', async () => {
-    try {
-      await expectSaga(getPasswordSaga, mockAccount, false, false)
+    await expect(
+      expectSaga(getPasswordSaga, mockAccount, false, false)
         .provide([[select(pincodeTypeSelector), 'unexpectedPinType']])
         .run()
-    } catch (error) {
-      expect(error).toEqual(Error('Unsupported Pincode Type unexpectedPinType'))
-    }
+    ).rejects.toThrowError('Unsupported Pincode Type unexpectedPinType')
   })
 })
 
@@ -199,11 +195,9 @@ describe(getPincodeWithBiometry, () => {
   it('throws an error if a null pin was retrieved', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue(false)
 
-    try {
-      await getPincodeWithBiometry()
-    } catch (error) {
-      expect(error).toEqual(expect.any(Error))
-    }
+    await expect(getPincodeWithBiometry()).rejects.toThrowError(
+      'Failed to retrieve pin with biometry, recieved null value'
+    )
   })
 })
 
@@ -271,11 +265,9 @@ describe(setPincodeWithBiometry, () => {
       storage: 'storage',
     })
 
-    try {
-      await setPincodeWithBiometry()
-    } catch (error) {
-      expect(error).toEqual(expect.any(Error))
-    }
+    await expect(setPincodeWithBiometry()).rejects.toThrowError(
+      'Retrieved incorrect pin with biometry after saving'
+    )
   })
 })
 
