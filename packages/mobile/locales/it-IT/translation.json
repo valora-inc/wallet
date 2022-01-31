@@ -1135,7 +1135,9 @@
   "dappsScreen": {
     "title": "Dapp",
     "message": "Esplora i modi per usare le tue criptovalute.",
-    "errorMessage": "Errore durante il caricamento delle Dapp."
+    "errorMessage": "Errore durante il caricamento delle Dapp.",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
