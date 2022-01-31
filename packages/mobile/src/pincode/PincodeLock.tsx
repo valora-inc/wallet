@@ -15,7 +15,6 @@ import { pincodeTypeSelector } from 'src/account/selectors'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { biometryEnabledSelector } from 'src/app/selectors'
-import Logo, { LogoTypes } from 'src/icons/Logo'
 import { background } from 'src/images/Images'
 import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
@@ -75,7 +74,6 @@ function PincodeLock() {
     return (
       <SafeAreaView style={styles.loadingContainer}>
         <Image testID="BackgroundImage" source={background} style={styles.backgroundImage} />
-        <Logo type={LogoTypes.LIGHT} height={70} />
       </SafeAreaView>
     )
   }
@@ -101,8 +99,6 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
