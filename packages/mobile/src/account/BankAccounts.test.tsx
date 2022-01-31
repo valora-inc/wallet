@@ -5,7 +5,7 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
 import BankAccounts from './BankAccounts'
-import { deleteFinclusiveBankAccount, getFinclusiveBankAccount } from 'src/in-house-liquidity'
+import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-house-liquidity'
 import openPlaid from 'src/account/openPlaid'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
@@ -28,13 +28,13 @@ const MOCK_BANK_ACCOUNTS = {
 
 const mockGetResponse = Promise.resolve({
   ok: true,
-  json: () => MOCK_BANK_ACCOUNTS,
+  json: () => Promise.resolve(MOCK_BANK_ACCOUNTS),
 })
 const mockDeleteResponse = Promise.resolve({
   ok: true,
 })
 jest.mock('src/in-house-liquidity', () => ({
-  getFinclusiveBankAccount: jest.fn(() => mockGetResponse),
+  getFinclusiveBankAccounts: jest.fn(() => mockGetResponse),
   deleteFinclusiveBankAccount: jest.fn(() => mockDeleteResponse),
 }))
 
@@ -72,10 +72,10 @@ describe('BankAccounts', () => {
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccount).toHaveBeenCalled())
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
     expect(getByText('Checking (***8052)'))
     expect(getByText('Savings (****0992)'))
-    await fireEvent.press(getByTestId('TrippleDot2'))
+    await fireEvent.press(getByTestId('TripleDot2'))
     await fireEvent.press(getByText('bankAccountsScreen.delete'))
     expect(deleteFinclusiveBankAccount).toHaveBeenCalled()
   })
@@ -85,14 +85,14 @@ describe('BankAccounts', () => {
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccount).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalledTimes(1))
     // Does not get called with a normal re-render
     rerender(
       <Provider store={store}>
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccount).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalledTimes(1))
     // Gets called with a rerender where public token changes aka a new account has been added
     rerender(
       <Provider store={store}>
@@ -101,7 +101,7 @@ describe('BankAccounts', () => {
         />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccount).toHaveBeenCalledTimes(2))
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalledTimes(2))
   })
   it('can add new bank accounts', async () => {
     const { getByTestId } = render(
@@ -109,7 +109,7 @@ describe('BankAccounts', () => {
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccount).toHaveBeenCalled())
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
     await fireEvent.press(getByTestId('AddAccount'))
     expect(openPlaid).toHaveBeenCalledWith({
       accountMTWAddress: mockAccount,

@@ -41,7 +41,7 @@ export const deleteFinclusiveBankAccount = async ({
   })
 }
 
-interface GetFinclusiveBankAccountParams {
+interface GetFinclusiveBankAccountsParams {
   accountMTWAddress: string
   dekPrivate: string
 }
@@ -54,10 +54,10 @@ interface GetFinclusiveBankAccountParams {
  * @param {params.dekPrivate} dekPrivate private data encryption key
  * @returns {Response} response object from the fetch call
  */
-export const getFinclusiveBankAccount = async ({
+export const getFinclusiveBankAccounts = async ({
   accountMTWAddress,
   dekPrivate,
-}: GetFinclusiveBankAccountParams) => {
+}: GetFinclusiveBankAccountsParams) => {
   return signAndFetch({
     path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
     accountMTWAddress,

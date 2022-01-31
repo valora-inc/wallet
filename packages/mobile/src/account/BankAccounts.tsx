@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 import PlusIcon from 'src/icons/PlusIcon'
-import TrippleDotVertical from 'src/icons/TrippleDotVertical'
-import { deleteFinclusiveBankAccount, getFinclusiveBankAccount } from 'src/in-house-liquidity'
+import TripleDotVertical from 'src/icons/TripleDotVertical'
+import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -28,7 +28,7 @@ function BankAccounts({ navigation, route }: Props) {
   const { t } = useTranslation()
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
-  const accountMTWAddress = useSelector(mtwAddressSelector) || ''
+  const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const plaidParams = useSelector(plaidParamsSelector)
   const { newPublicToken } = route.params
@@ -52,7 +52,11 @@ function BankAccounts({ navigation, route }: Props) {
       Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
       return
     }
-    const bankAccountsResponse = await getFinclusiveBankAccount({
+    if (!accountMTWAddress) {
+      Logger.error(TAG, "Can't connect the users bank account because accountMTWAddress is null")
+      return
+    }
+    const bankAccountsResponse = await getFinclusiveBankAccounts({
       dekPrivate,
       accountMTWAddress,
     })
@@ -92,14 +96,14 @@ function BankAccounts({ navigation, route }: Props) {
         </View>
         <View style={styles.rightSide}>
           <BorderlessButton
-            testID={`TrippleDot${bank.id}`}
+            testID={`TripleDot${bank.id}`}
             onPress={() => {
               setIsOptionsVisible(true)
               setSelectedBankId(bank.id)
             }}
           >
-            <View style={styles.trippleDots}>
-              <TrippleDotVertical />
+            <View style={styles.tripleDots}>
+              <TripleDotVertical />
             </View>
           </BorderlessButton>
         </View>
@@ -111,6 +115,10 @@ function BankAccounts({ navigation, route }: Props) {
     setIsOptionsVisible(false)
     if (!dekPrivate) {
       Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
+      return
+    }
+    if (!accountMTWAddress) {
+      Logger.error(TAG, "Can't connect the users bank account because accountMTWAddress is null")
       return
     }
     const bankAccountsResponse = await deleteFinclusiveBankAccount({
@@ -200,7 +208,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
-  trippleDots: {
+  tripleDots: {
     padding: 10,
   },
   header: {
