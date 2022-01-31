@@ -146,11 +146,7 @@ describe(retrieveOrGeneratePepper, () => {
       password: 'some random password',
     })
 
-    try {
-      await retrieveOrGeneratePepper()
-    } catch (error) {
-      expect(error).toEqual(Error('keychainStorageError'))
-    }
+    await expect(retrieveOrGeneratePepper()).rejects.toThrowError('keychainStorageError')
   })
 })
 
