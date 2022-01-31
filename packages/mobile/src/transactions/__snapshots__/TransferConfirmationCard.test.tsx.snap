@@ -410,6 +410,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               undefined,
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -553,6 +554,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     undefined,
                   ]
                 }
+                testID="LineItemRow/undefined"
               >
                 <Text
                   style={
@@ -634,6 +636,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -762,6 +765,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -861,6 +865,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -990,6 +995,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -1416,6 +1422,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -1545,6 +1552,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -1947,6 +1955,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -2076,6 +2085,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -2478,6 +2488,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -2607,6 +2618,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -3040,6 +3052,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               undefined,
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -3183,6 +3196,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     undefined,
                   ]
                 }
+                testID="LineItemRow/undefined"
               >
                 <Text
                   style={
@@ -3264,6 +3278,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -3392,6 +3407,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -3824,6 +3840,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               undefined,
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -3967,6 +3984,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     undefined,
                   ]
                 }
+                testID="LineItemRow/undefined"
               >
                 <Text
                   style={
@@ -4048,6 +4066,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -4176,6 +4195,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -4275,6 +4295,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
@@ -4403,6 +4424,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               },
             ]
           }
+          testID="LineItemRow/undefined"
         >
           <Text
             style={
