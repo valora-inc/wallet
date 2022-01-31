@@ -171,7 +171,7 @@ describe('getCurrentUserTraits', () => {
       otherTenTokens: 'I:1000,K:80,0xi:11.003,G:10,H:9.12345,E:7,F:6,B:3,C:2,A:1',
       phoneCountryCallingCode: '+33',
       phoneCountryCodeAlpha2: 'FR',
-      tokenCount: 14,
+      tokenCount: 13,
       totalBalanceUsd: 5679.682283945,
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })

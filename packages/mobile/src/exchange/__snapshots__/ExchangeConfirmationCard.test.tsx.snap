@@ -147,6 +147,7 @@ exports[`renders correctly 1`] = `
                   undefined,
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -292,6 +293,7 @@ exports[`renders correctly 1`] = `
                         undefined,
                       ]
                     }
+                    testID="LineItemRow/undefined"
                   >
                     <Text
                       style={
@@ -385,6 +387,7 @@ exports[`renders correctly 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -514,6 +517,7 @@ exports[`renders correctly 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -685,6 +689,7 @@ exports[`renders correctly when local amount is null 1`] = `
                   undefined,
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -830,6 +835,7 @@ exports[`renders correctly when local amount is null 1`] = `
                         undefined,
                       ]
                     }
+                    testID="LineItemRow/undefined"
                   >
                     <Text
                       style={
@@ -923,6 +929,7 @@ exports[`renders correctly when local amount is null 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1052,6 +1059,7 @@ exports[`renders correctly when local amount is null 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1223,6 +1231,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                   undefined,
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1367,6 +1376,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                         undefined,
                       ]
                     }
+                    testID="LineItemRow/undefined"
                   >
                     <Text
                       style={
@@ -1459,6 +1469,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1630,6 +1641,7 @@ exports[`renders correctly with giant numbers 1`] = `
                   undefined,
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1775,6 +1787,7 @@ exports[`renders correctly with giant numbers 1`] = `
                         undefined,
                       ]
                     }
+                    testID="LineItemRow/undefined"
                   >
                     <Text
                       style={
@@ -1868,6 +1881,7 @@ exports[`renders correctly with giant numbers 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={
@@ -1997,6 +2011,7 @@ exports[`renders correctly with giant numbers 1`] = `
                   },
                 ]
               }
+              testID="LineItemRow/undefined"
             >
               <Text
                 style={

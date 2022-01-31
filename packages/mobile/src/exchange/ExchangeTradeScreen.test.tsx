@@ -1,16 +1,14 @@
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { ExchangeTradeScreen } from 'src/exchange/ExchangeTradeScreen'
+import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { makeExchangeRates } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
@@ -19,23 +17,43 @@ expect.extend({ toBeDisabled })
 
 const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '9.09090909')
 
-const store = createMockStore({
-  exchange: {
-    exchangeRates,
-  },
-})
-
-const balances = {
-  [Currency.Dollar]: new BigNumber(20.02),
-  [Currency.Celo]: new BigNumber(20),
-  [Currency.Euro]: new BigNumber(10),
-}
-
-const localCurrencyExchangeRates = {
-  [Currency.Dollar]: '20',
-  [Currency.Euro]: null,
-  [Currency.Celo]: null,
-}
+const createStore = ({
+  dollarBalance = '20.02',
+  localCurrencyCode,
+  lastUsedCurrency = Currency.Dollar,
+  localCurrencyDollarExchangeRate = '20',
+}: {
+  dollarBalance?: string
+  localCurrencyCode: LocalCurrencyCode
+  lastUsedCurrency?: Currency
+  localCurrencyDollarExchangeRate?: string
+}) =>
+  createMockStore({
+    exchange: {
+      exchangeRates,
+    },
+    localCurrency: {
+      exchangeRates: {
+        [Currency.Dollar]: localCurrencyDollarExchangeRate,
+        [Currency.Euro]: null,
+        [Currency.Celo]: null,
+      },
+      preferredCurrencyCode: localCurrencyCode,
+      fetchedCurrencyCode: localCurrencyCode,
+    },
+    stableToken: {
+      balances: {
+        [Currency.Dollar]: dollarBalance,
+        [Currency.Euro]: '10',
+      },
+    },
+    goldToken: {
+      balance: '20',
+    },
+    send: {
+      lastUsedCurrency,
+    },
+  })
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeTradeScreen, {
   buyCelo: false,
@@ -48,132 +66,140 @@ describe(ExchangeTradeScreen, () => {
 
   it('renders correctly', () => {
     const { toJSON } = render(
-      <Provider store={store}>
-        <ExchangeTradeScreen
-          {...mockScreenProps}
-          error={null}
-          fetchExchangeRate={jest.fn()}
-          showError={jest.fn()}
-          hideAlert={jest.fn()}
-          updateLastUsedCurrency={jest.fn()}
-          balances={balances}
-          exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.PHP}
-          localCurrencyExchangeRates={localCurrencyExchangeRates}
-          defaultCurrency={Currency.Dollar}
-          {...getMockI18nProps()}
-        />
+      <Provider store={createStore({ localCurrencyCode: LocalCurrencyCode.PHP })}>
+        <ExchangeTradeScreen {...mockScreenProps} />
       </Provider>
     )
     expect(toJSON()).toMatchSnapshot()
   })
 
   it('validates the amount when selling gold', () => {
-    const mockShowError = jest.fn()
-    const mockhideAlert = jest.fn()
-
+    const store = createStore({ localCurrencyCode: LocalCurrencyCode.PHP })
     const { getByTestId } = render(
       <Provider store={store}>
-        <ExchangeTradeScreen
-          {...mockScreenProps}
-          error={null}
-          fetchExchangeRate={jest.fn()}
-          showError={mockShowError}
-          hideAlert={mockhideAlert}
-          updateLastUsedCurrency={jest.fn()}
-          balances={balances}
-          exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.PHP}
-          localCurrencyExchangeRates={localCurrencyExchangeRates}
-          defaultCurrency={Currency.Dollar}
-          {...getMockI18nProps()}
-        />
+        <ExchangeTradeScreen {...mockScreenProps} />
       </Provider>
     )
 
+    store.clearActions()
     fireEvent.changeText(getByTestId('ExchangeInput'), '50')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
-      token: 'celoDollars',
-    }) // Can't afford 50 gold
+
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "action": null,
+          "alertType": "error",
+          "buttonMessage": null,
+          "dismissAfter": null,
+          "displayMethod": 0,
+          "message": "notEnoughGoldError, {\\"token\\":\\"celoDollars\\"}",
+          "title": null,
+          "type": "ALERT/SHOW",
+          "underlyingError": "notEnoughGoldError",
+        },
+      ]
+    `)
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
-    jest.clearAllMocks()
+    store.clearActions()
+
     fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
-    expect(mockhideAlert).toBeCalled() // Can afford 50 PHP (2.50 cUSD) worth of gold
+    expect(store.getActions()).toEqual([{ type: 'ALERT/HIDE' }]) // Can afford 50 PHP (2.50 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
-    jest.clearAllMocks()
+    store.clearActions()
+
     fireEvent.changeText(getByTestId('ExchangeInput'), '10000')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
-      token: 'celoDollars',
-    }) // Can't afford 10000 PHP (500 cUSD) worth of gold
+    // Can't afford 10000 PHP (500 cUSD) worth of gold
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "action": null,
+          "alertType": "error",
+          "buttonMessage": null,
+          "dismissAfter": null,
+          "displayMethod": 0,
+          "message": "notEnoughGoldError, {\\"token\\":\\"celoDollars\\"}",
+          "title": null,
+          "type": "ALERT/SHOW",
+          "underlyingError": "notEnoughGoldError",
+        },
+      ]
+    `)
+
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
   it('validates the amount when selling dollars', () => {
-    const mockShowError = jest.fn()
-    const mockhideAlert = jest.fn()
-
+    const store = createStore({ localCurrencyCode: LocalCurrencyCode.PHP })
     const { getByTestId } = render(
       <Provider store={store}>
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
             buyCelo: true,
           })}
-          error={null}
-          fetchExchangeRate={jest.fn()}
-          showError={mockShowError}
-          hideAlert={mockhideAlert}
-          updateLastUsedCurrency={jest.fn()}
-          balances={balances}
-          exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.PHP}
-          localCurrencyExchangeRates={localCurrencyExchangeRates}
-          defaultCurrency={Currency.Dollar}
-          {...getMockI18nProps()}
         />
       </Provider>
     )
 
+    store.clearActions()
+
     fireEvent.changeText(getByTestId('ExchangeInput'), '10')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
-      token: 'celoDollars',
-    }) // Can't afford 10 gold
+    // Can't afford 10 CELO
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "action": null,
+          "alertType": "error",
+          "buttonMessage": null,
+          "dismissAfter": null,
+          "displayMethod": 0,
+          "message": "notEnoughStableError, {\\"token\\":\\"celoDollars\\"}",
+          "title": null,
+          "type": "ALERT/SHOW",
+          "underlyingError": "notEnoughStableError",
+        },
+      ]
+    `)
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
-    jest.clearAllMocks()
+    store.clearActions()
+
     fireEvent.press(getByTestId('ExchangeSwitchInput')) // Input is now in PHP
-    expect(mockhideAlert).toBeCalled() // Can afford 10 PHP (0.5 cUSD) worth of gold
+    expect(store.getActions()).toEqual([{ type: 'ALERT/HIDE' }]) // Can afford 10 PHP (0.5 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton')).not.toBeDisabled()
 
-    jest.clearAllMocks()
+    store.clearActions()
+
     fireEvent.changeText(getByTestId('ExchangeInput'), '401')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
-      token: 'celoDollars',
-    }) // Can't afford 400 PHP (20.05 cUSD) worth of gold
+    // Can't afford 400 PHP (20.05 cUSD) worth of CELO
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "action": null,
+          "alertType": "error",
+          "buttonMessage": null,
+          "dismissAfter": null,
+          "displayMethod": 0,
+          "message": "notEnoughStableError, {\\"token\\":\\"celoDollars\\"}",
+          "title": null,
+          "type": "ALERT/SHOW",
+          "underlyingError": "notEnoughStableError",
+        },
+      ]
+    `)
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
   })
 
   it('checks the minimum amount when selling gold', () => {
     const { getByTestId } = render(
-      <Provider store={store}>
-        <ExchangeTradeScreen
-          {...mockScreenProps}
-          error={null}
-          fetchExchangeRate={jest.fn()}
-          showError={jest.fn()}
-          hideAlert={jest.fn()}
-          updateLastUsedCurrency={jest.fn()}
-          balances={balances}
-          exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.USD}
-          localCurrencyExchangeRates={{
-            ...localCurrencyExchangeRates,
-            [Currency.Dollar]: '1',
-          }}
-          defaultCurrency={Currency.Dollar}
-          {...getMockI18nProps()}
-        />
+      <Provider
+        store={createStore({
+          localCurrencyCode: LocalCurrencyCode.USD,
+          localCurrencyDollarExchangeRate: '1',
+        })}
+      >
+        <ExchangeTradeScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -192,28 +218,17 @@ describe(ExchangeTradeScreen, () => {
 
   it('checks the minimum amount when selling dollars', () => {
     const { getByTestId } = render(
-      <Provider store={store}>
+      <Provider
+        store={createStore({
+          dollarBalance: '200',
+          localCurrencyCode: LocalCurrencyCode.USD,
+          localCurrencyDollarExchangeRate: '1',
+        })}
+      >
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
             buyCelo: true,
           })}
-          error={null}
-          fetchExchangeRate={jest.fn()}
-          showError={jest.fn()}
-          hideAlert={jest.fn()}
-          updateLastUsedCurrency={jest.fn()}
-          balances={{
-            ...balances,
-            [Currency.Dollar]: new BigNumber('200'),
-          }}
-          exchangeRates={exchangeRates}
-          localCurrencyCode={LocalCurrencyCode.USD}
-          localCurrencyExchangeRates={{
-            ...localCurrencyExchangeRates,
-            [Currency.Dollar]: '1',
-          }}
-          defaultCurrency={Currency.Dollar}
-          {...getMockI18nProps()}
         />
       </Provider>
     )

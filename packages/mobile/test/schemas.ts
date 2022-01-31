@@ -915,6 +915,18 @@ export const v30Schema = {
   },
   app: {
     ...v29Schema.app,
+    sentryNetworkErrors: [],
+  },
+}
+
+export const v31Schema = {
+  ...v30Schema,
+  _persist: {
+    ...v30Schema._persist,
+    version: 31,
+  },
+  app: {
+    ...v30Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
   },
@@ -925,5 +937,5 @@ export const v30Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v30Schema as Partial<RootState>
+  return v31Schema as Partial<RootState>
 }
