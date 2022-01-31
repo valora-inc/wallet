@@ -81,24 +81,14 @@ const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) =>
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      if (!accountMTWAddress) {
-        Logger.warn(TAG, "Can't render Persona because accountMTWAddress is null")
-        return
-      }
-
-      if (!dekPrivate) {
-        Logger.error(TAG, 'Cannot render Persona because dekPrivate is null')
-        return
-      }
-
-      const IHLResponse = await createPersonaAccount({
-        accountMTWAddress,
-        dekPrivate,
-      })
-
-      if (IHLResponse.status === 201 || IHLResponse.status === 409) {
+      try {
+        await createPersonaAccount({
+          accountMTWAddress,
+          dekPrivate,
+        })
         setPersonaAccountCreated(true)
-      } else {
+      } catch (error) {
+        Logger.warn(TAG, error)
         dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
       }
     }

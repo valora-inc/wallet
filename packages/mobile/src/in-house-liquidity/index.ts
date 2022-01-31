@@ -4,9 +4,13 @@ import KeyEncoder from 'key-encoder'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
-interface DeleteFinclusiveBankAccountParams {
-  accountMTWAddress: string
-  dekPrivate: string
+const keyEncoder = new KeyEncoder('secp256k1')
+interface RequiredParams {
+  accountMTWAddress: string | null
+  dekPrivate: string | null
+}
+
+type DeleteFinclusiveBankAccountParams = RequiredParams & {
   id: number
 }
 
@@ -16,19 +20,18 @@ interface DeleteFinclusiveBankAccountParams {
  *
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
- * @returns {Response} response object from the fetch call
  */
 export const deleteFinclusiveBankAccount = async ({
   accountMTWAddress,
   dekPrivate,
   id,
-}: DeleteFinclusiveBankAccountParams) => {
+}: DeleteFinclusiveBankAccountParams): Promise<void> => {
   const body = {
     accountAddress: accountMTWAddress,
     accountId: id,
   }
-  return signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
+  const response = await signAndFetch({
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress ?? '')}`,
     accountMTWAddress,
     dekPrivate,
     requestOptions: {
@@ -39,27 +42,32 @@ export const deleteFinclusiveBankAccount = async ({
       body: JSON.stringify(body),
     },
   })
+  if (!response.ok) {
+    throw new Error(`IHL DELETE /account/bank-account failure status ${response.status}`)
+  }
 }
 
-interface GetFinclusiveBankAccountsParams {
-  accountMTWAddress: string
-  dekPrivate: string
+export interface BankAccount {
+  id: number
+  accountName: string
+  accountType: string
+  accountNumberTruncated: string
 }
 
 /**
- * get a fiat bank account from finclusive
+ * get a users fiat bank accounts from finclusive
  *
  *
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
- * @returns {Response} response object from the fetch call
+ * @returns {BankAccounts} List of bank accounts that the user has linked
  */
 export const getFinclusiveBankAccounts = async ({
   accountMTWAddress,
   dekPrivate,
-}: GetFinclusiveBankAccountsParams) => {
-  return signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
+}: RequiredParams): Promise<BankAccount[]> => {
+  const response = await signAndFetch({
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress ?? '')}`,
     accountMTWAddress,
     dekPrivate,
     requestOptions: {
@@ -69,10 +77,14 @@ export const getFinclusiveBankAccounts = async ({
       },
     },
   })
+  if (!response.ok) {
+    throw new Error(`IHL GET /account/bank-account failure status ${response.status}`)
+  }
+  const { bankAccounts } = await response.json()
+  return bankAccounts
 }
-interface CreateFinclusiveBankAccountParams {
-  accountMTWAddress: string
-  dekPrivate: string
+
+type CreateFinclusiveBankAccountParams = RequiredParams & {
   plaidAccessToken: string
 }
 
@@ -83,18 +95,17 @@ interface CreateFinclusiveBankAccountParams {
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
- * @returns {Response} response object from the fetch call
  */
 export const createFinclusiveBankAccount = async ({
   accountMTWAddress,
   dekPrivate,
   plaidAccessToken,
-}: CreateFinclusiveBankAccountParams) => {
+}: CreateFinclusiveBankAccountParams): Promise<void> => {
   const body = {
     accountAddress: accountMTWAddress,
     plaidAccessToken,
   }
-  return signAndFetch({
+  const response = await signAndFetch({
     path: '/account/bank-account',
     accountMTWAddress,
     dekPrivate,
@@ -106,11 +117,12 @@ export const createFinclusiveBankAccount = async ({
       body: JSON.stringify(body),
     },
   })
+  if (!response.ok) {
+    throw new Error(`IHL POST /account/bank-account failure status ${response.status}`)
+  }
 }
 
-interface ExchangePlaidAccessTokenParams {
-  accountMTWAddress: string
-  dekPrivate: string
+type ExchangePlaidAccessTokenParams = RequiredParams & {
   publicToken: string
 }
 
@@ -121,18 +133,18 @@ interface ExchangePlaidAccessTokenParams {
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  * @param {params.publicToken} publicToken plaid public token
- * @returns {Response} response object from the fetch call
+ * @returns {accessToken} string accesstoken from plaid
  */
 export const exchangePlaidAccessToken = async ({
   accountMTWAddress,
   dekPrivate,
   publicToken,
-}: ExchangePlaidAccessTokenParams) => {
+}: ExchangePlaidAccessTokenParams): Promise<string> => {
   const body = {
     publicToken,
     accountAddress: accountMTWAddress,
   }
-  return signAndFetch({
+  const response = await signAndFetch({
     path: '/plaid/access-token/exchange',
     accountMTWAddress,
     dekPrivate,
@@ -144,18 +156,19 @@ export const exchangePlaidAccessToken = async ({
       body: JSON.stringify(body),
     },
   })
+  if (!response.ok) {
+    throw new Error(`IHL /plaid/access-token/exchange failure status ${response.status}`)
+  }
+  const { accessToken } = await response.json()
+  return accessToken
 }
 
-interface CreateLinkTokenParams {
-  accountMTWAddress: string
-  dekPrivate: string
+type CreateLinkTokenParams = RequiredParams & {
   isAndroid: boolean
   language: string
   accessToken?: string
   phoneNumber: string
 }
-
-const keyEncoder = new KeyEncoder('secp256k1')
 
 /**
  * Create a new Plaid Link Token by calling IHL
@@ -167,7 +180,7 @@ const keyEncoder = new KeyEncoder('secp256k1')
  * @param {params.language} language the users current language
  * @param {params.accessToken} accessToken optional access token used for editing existing items
  * @param {params.phoneNumber} phoneNumber users verified phone number
- * @returns {Response} response object from the fetch call
+ * @returns {linkToken} the link token from the plaid backend
  */
 export const createLinkToken = async ({
   accountMTWAddress,
@@ -176,7 +189,7 @@ export const createLinkToken = async ({
   language,
   accessToken,
   phoneNumber,
-}: CreateLinkTokenParams): Promise<Response> => {
+}: CreateLinkTokenParams): Promise<string> => {
   const body = {
     accountAddress: accountMTWAddress,
     isAndroid,
@@ -184,7 +197,7 @@ export const createLinkToken = async ({
     accessToken,
     phoneNumber,
   }
-  return signAndFetch({
+  const response = await signAndFetch({
     path: '/plaid/link-token/create',
     accountMTWAddress,
     dekPrivate,
@@ -196,17 +209,26 @@ export const createLinkToken = async ({
       body: JSON.stringify(body),
     },
   })
+  if (!response.ok) {
+    throw new Error(`IHL /plaid/link-token/create failure status ${response.status}`)
+  }
+  const { linkToken } = await response.json()
+  return linkToken
 }
 
+/**
+ * Create a Persona account for the given accountMTWAddress
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ */
 export const createPersonaAccount = async ({
   accountMTWAddress,
   dekPrivate,
-}: {
-  accountMTWAddress: string
-  dekPrivate: string
-}): Promise<Response> => {
+}: RequiredParams): Promise<void> => {
   const body = { accountAddress: accountMTWAddress }
-  return signAndFetch({
+  const response = await signAndFetch({
     path: '/persona/account/create',
     accountMTWAddress,
     dekPrivate,
@@ -218,12 +240,15 @@ export const createPersonaAccount = async ({
       body: JSON.stringify(body),
     },
   })
+  if (response.status !== 201 && response.status !== 409) {
+    throw new Error(`IHL /persona/account/create failure status ${response.status}`)
+  }
 }
 
 interface SignAndFetchParams {
   path: string
-  accountMTWAddress: string
-  dekPrivate: string
+  accountMTWAddress: string | null
+  dekPrivate: string | null
   requestOptions: RequestInit
 }
 
@@ -262,10 +287,14 @@ export const signAndFetch = async ({
 export const getAuthHeader = async ({
   accountMTWAddress,
   dekPrivate,
-}: {
-  accountMTWAddress: string
-  dekPrivate: string
-}): Promise<string> => {
+}: RequiredParams): Promise<string> => {
+  if (!accountMTWAddress) {
+    throw new Error('Cannot call IHL because accountMTWAddress is null')
+  }
+
+  if (!dekPrivate) {
+    throw new Error('Cannot call IHL because dekPrivate is null')
+  }
   const dekPrivatePem = keyEncoder.encodePrivate(trimLeading0x(dekPrivate), 'raw', 'pem')
   const dekPublicHex = compressedPubKey(hexToBuffer(dekPrivate))
   const dekPublicPem = keyEncoder.encodePublic(trimLeading0x(dekPublicHex), 'raw', 'pem')

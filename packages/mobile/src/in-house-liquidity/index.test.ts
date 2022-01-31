@@ -53,6 +53,22 @@ describe('In House Liquidity Calls', () => {
       const token = authHeader.split(' ')[1]
       expect(jwt.verify(token, MOCK_USER.dekPublicPem, { algorithms: ['ES256'] })).toBeTruthy()
     })
+    it('throws when dekPrivate is null', async () => {
+      await expect(
+        getAuthHeader({
+          accountMTWAddress: MOCK_USER.accountMTWAddress,
+          dekPrivate: null,
+        })
+      ).rejects.toThrow('Cannot call IHL because dekPrivate is null')
+    })
+    it('throws when accountMTWAddress is null', async () => {
+      await expect(
+        getAuthHeader({
+          accountMTWAddress: null,
+          dekPrivate: MOCK_USER.dekPrivate,
+        })
+      ).rejects.toThrow('Cannot call IHL because accountMTWAddress is null')
+    })
   })
 
   describe('signAndFetch', () => {
@@ -112,15 +128,15 @@ describe('In House Liquidity Calls', () => {
           method: 'POST',
         }
       )
-      // Returns the response object
-      expect(response).toBeInstanceOf(Response)
+      // Returns nothing
+      expect(response).toEqual(undefined)
     })
   })
 
   describe('createLinkToken', () => {
     it('calls the /plaid/link-token/create endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const response = await createLinkToken({
+      mockFetch.mockResponseOnce(JSON.stringify({ linkToken: 'foo-token' }), { status: 201 })
+      const linkToken = await createLinkToken({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
         dekPrivate: MOCK_USER.dekPrivate,
         isAndroid: false,
@@ -146,8 +162,8 @@ describe('In House Liquidity Calls', () => {
           method: 'POST',
         }
       )
-      // Returns the response object
-      expect(response).toBeInstanceOf(Response)
+      // Returns the token
+      expect(linkToken).toEqual('foo-token')
     })
   })
   describe('createFinclusiveBankAccount', () => {
@@ -175,13 +191,13 @@ describe('In House Liquidity Calls', () => {
           method: 'POST',
         }
       )
-      // Returns the response object
-      expect(response).toBeInstanceOf(Response)
+      // Returns nothing
+      expect(response).toEqual(undefined)
     })
   })
   describe('exchangePlaidAccessToken', () => {
     it('calls the /account/bank-account endpoint', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
+      mockFetch.mockResponseOnce(JSON.stringify({ accessToken: 'bar-token' }), { status: 201 })
       const response = await exchangePlaidAccessToken({
         accountMTWAddress: MOCK_USER.accountMTWAddress,
         dekPrivate: MOCK_USER.dekPrivate,
@@ -204,8 +220,8 @@ describe('In House Liquidity Calls', () => {
           method: 'POST',
         }
       )
-      // Returns the response object
-      expect(response).toBeInstanceOf(Response)
+      // Returns the exchanged token
+      expect(response).toEqual('bar-token')
     })
   })
 })

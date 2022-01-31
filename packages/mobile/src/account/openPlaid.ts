@@ -40,29 +40,21 @@ export default async function openPlaid({
   locale = locale || ''
   phoneNumber = phoneNumber || ''
   const isAndroid = Platform.OS === 'android'
-  if (!accountMTWAddress) {
-    Logger.warn(TAG, "Can't render Plaid because accountMTWAddress is null")
-    return
-  }
-  if (!dekPrivate) {
-    Logger.error(TAG, "Can't render Plaid because dekPrivate is null")
-    return
-  }
-  const linkTokenResponse = await createLinkToken({
-    accountMTWAddress,
-    dekPrivate,
-    isAndroid,
-    language: locale.split('-')[0], // ex: just en, not en-US
-    phoneNumber,
-  })
-  if (!linkTokenResponse.ok) {
+  try {
+    const linkToken = await createLinkToken({
+      accountMTWAddress,
+      dekPrivate,
+      isAndroid,
+      language: locale.split('-')[0], // ex: just en, not en-US
+      phoneNumber,
+    })
+    return openLink({
+      tokenConfig: { token: linkToken },
+      onSuccess,
+      onExit,
+    })
+  } catch (error) {
+    Logger.warn(TAG, error)
     store.dispatch(showError(ErrorMessages.PLAID_CREATE_LINK_TOKEN_FAIL))
-    return
   }
-  const { linkToken } = await linkTokenResponse.json()
-  return openLink({
-    tokenConfig: { token: linkToken },
-    onSuccess,
-    onExit,
-  })
 }

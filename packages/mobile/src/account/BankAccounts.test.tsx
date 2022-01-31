@@ -26,16 +26,9 @@ const MOCK_BANK_ACCOUNTS = {
   ],
 }
 
-const mockGetResponse = Promise.resolve({
-  ok: true,
-  json: () => Promise.resolve(MOCK_BANK_ACCOUNTS),
-})
-const mockDeleteResponse = Promise.resolve({
-  ok: true,
-})
 jest.mock('src/in-house-liquidity', () => ({
-  getFinclusiveBankAccounts: jest.fn(() => mockGetResponse),
-  deleteFinclusiveBankAccount: jest.fn(() => mockDeleteResponse),
+  getFinclusiveBankAccounts: jest.fn(() => Promise.resolve(MOCK_BANK_ACCOUNTS)),
+  deleteFinclusiveBankAccount: jest.fn(() => Promise.resolve()),
 }))
 
 jest.mock('src/account/openPlaid', () => ({
@@ -72,7 +65,7 @@ describe('BankAccounts', () => {
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveReturned())
     expect(getByText('Checking (***8052)'))
     expect(getByText('Savings (****0992)'))
     await fireEvent.press(getByTestId('TripleDot2'))

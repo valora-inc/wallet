@@ -19,9 +19,8 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
-const mockResponse = new Response(null, { status: 201 })
 jest.mock('src/in-house-liquidity', () => ({
-  createPersonaAccount: jest.fn(() => mockResponse),
+  createPersonaAccount: jest.fn(() => Promise.resolve()),
 }))
 
 describe('LinkBankAccountScreen: integration tests (using real Persona component, for instance)', () => {

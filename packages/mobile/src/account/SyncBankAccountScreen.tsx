@@ -12,10 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
-import Logger from 'src/utils/Logger'
 import { navigate } from 'src/navigator/NavigationService'
-
-const TAG = 'SYNC_BANK_ACCOUNT'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
@@ -26,31 +23,24 @@ const SyncBankAccountScreen = ({ route }: Props) => {
   const { publicToken } = route.params
 
   useAsync(async () => {
-    if (!dekPrivate) {
-      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
-      return
-    }
-    const accessTokenResponse = await exchangePlaidAccessToken({
-      accountMTWAddress,
-      dekPrivate,
-      publicToken,
-    })
-    if (!accessTokenResponse.ok) {
-      // TODO(wallet#1447): handle errors from IHL
-      return
-    }
-    const { accessToken } = await accessTokenResponse.json()
+    try {
+      const accessToken = await exchangePlaidAccessToken({
+        accountMTWAddress,
+        dekPrivate,
+        publicToken,
+      })
 
-    const finclusiveBankAccountResponse = await createFinclusiveBankAccount({
-      accountMTWAddress,
-      dekPrivate,
-      plaidAccessToken: accessToken,
-    })
-    if (!finclusiveBankAccountResponse.ok) {
+      await createFinclusiveBankAccount({
+        accountMTWAddress,
+        dekPrivate,
+        plaidAccessToken: accessToken,
+      })
+
+      navigate(Screens.BankAccounts, { newPublicToken: publicToken })
+    } catch {
       // TODO(wallet#1447): handle errors from IHL
       return
     }
-    navigate(Screens.BankAccounts, { newPublicToken: publicToken })
   }, [])
 
   return (
