@@ -168,7 +168,11 @@ describe(getPincode, () => {
     })
     expect.assertions(4)
 
-    await expect(getPincode()).rejects.toEqual(CANCELLED_PIN_INPUT)
+    try {
+      await getPincode()
+    } catch (error) {
+      expect(error).toEqual(CANCELLED_PIN_INPUT)
+    }
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
@@ -360,9 +364,9 @@ describe(removeStoredPin, () => {
     expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
   })
   it('should throw an error if item could not be removed from keychain', async () => {
-    mockedKeychain.resetGenericPassword.mockRejectedValueOnce('some error')
+    mockedKeychain.resetGenericPassword.mockRejectedValueOnce(new Error('some error'))
 
-    await expect(removeStoredPin()).rejects.toEqual('some error')
+    await expect(removeStoredPin()).rejects.toThrowError('some error')
   })
 })
 
