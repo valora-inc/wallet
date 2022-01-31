@@ -4,7 +4,6 @@ import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux
 import {
   Actions,
   ClearStoredAccountAction,
-  initializeAccountFailure,
   initializeAccountSuccess,
   SetPincodeAction,
   setPincodeFailure,
@@ -23,6 +22,8 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
@@ -86,8 +87,7 @@ function* initializeAccount() {
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
-    yield put(showError(ErrorMessages.ACCOUNT_SETUP_FAILED))
-    yield put(initializeAccountFailure())
+    navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }
 
