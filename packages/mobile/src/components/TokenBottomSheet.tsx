@@ -2,16 +2,13 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheet from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
@@ -31,8 +28,6 @@ interface Props {
   isOutgoingPaymentRequest?: boolean
   isInvite?: boolean
 }
-
-const MIN_EMPTY_SPACE = 100
 
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
   return (
@@ -72,9 +67,6 @@ function TokenBottomSheet({
   isOutgoingPaymentRequest,
   isInvite = false,
 }: Props) {
-  const [showingOptions, setOptionsVisible] = useState(isVisible)
-  const [pickerHeight, setPickerHeight] = useState(0)
-
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
   const tokenList = (isInvite || isOutgoingPaymentRequest ? stableTokens : tokens).sort(
@@ -91,49 +83,9 @@ function TokenBottomSheet({
     onTokenSelected(tokenAddress)
   }
 
-  const safeAreaInsets = useSafeAreaInsets()
-
-  const progress = useSharedValue(0)
-  const animatedPickerPosition = useAnimatedStyle(() => ({
-    transform: [{ translateY: (1 - progress.value) * pickerHeight }],
-  }))
-  const animatedOpacity = useAnimatedStyle(() => ({
-    opacity: 0.5 * progress.value,
-  }))
-
-  useShowOrHideAnimation(
-    progress,
-    isVisible,
-    () => setOptionsVisible(true),
-    () => setOptionsVisible(false)
-  )
-
-  if (!showingOptions) {
-    return null
-  }
-
-  const onLayout = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout
-    setPickerHeight(height)
-  }
-
-  const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
-  const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
-
   return (
-    <View style={styles.container} testID="TokenBottomSheetContainer">
-      <Animated.View style={[styles.background, animatedOpacity]}>
-        <TouchableWithoutFeedback
-          style={styles.backgroundTouchable}
-          onPress={onClose}
-          testID={'BackgroundTouchable'}
-        />
-      </Animated.View>
-      <Animated.ScrollView
-        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
-        contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
-        onLayout={onLayout}
-      >
+    <BottomSheet isVisible={isVisible} onBackgroundPress={onClose}>
+      <>
         <Text style={styles.title}>{t('selectToken')}</Text>
         {tokenList.map((tokenInfo, index) => {
           return (
@@ -143,44 +95,14 @@ function TokenBottomSheet({
             </React.Fragment>
           )
         })}
-      </Animated.ScrollView>
-    </View>
+      </>
+    </BottomSheet>
   )
 }
 
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'flex-end',
-    zIndex: 1,
-  },
-  background: {
-    position: 'absolute',
-    backgroundColor: colors.modalBackdrop,
-    opacity: 0.5,
-    width: '100%',
-    height: '100%',
-  },
-  backgroundTouchable: {
-    width: '100%',
-    height: '100%',
-  },
-  contentContainer: {
-    position: 'absolute',
-    bottom: 0,
-    opacity: 1,
-    width: '100%',
-    backgroundColor: colors.light,
-    padding: Spacing.Thick24,
-    borderTopRightRadius: Spacing.Regular16,
-    borderTopLeftRadius: Spacing.Regular16,
-  },
   title: {
     ...fontStyles.h2,
     marginBottom: Spacing.Smallest8,
@@ -214,9 +136,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: colors.gray2,
-  },
-  fullHeightScrollView: {
-    paddingBottom: 50,
   },
 })
 
