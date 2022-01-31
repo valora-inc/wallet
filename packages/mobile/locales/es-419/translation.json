@@ -666,6 +666,18 @@
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
+  "enableBiometry": {
+    "title": "Mantén tu billetera segura",
+    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
+    "cta": "Habilitar {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Reconocimiento de huella digital",
+    "Face": "Reconocimiento facial",
+    "Iris": "Reconocimiento de iris"
+  },
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
@@ -679,8 +691,7 @@
   },
   "createAccount": "Crear Cuenta",
   "restoreAccount": "Restaurar cuenta existente",
-  "createAccountSteps": "Paso {{step}} de {{totalSteps}}",
-  "restoreAccountSteps": "Paso {{step}} de {{totalSteps}}",
+  "registrationSteps": "Paso {{step}} de {{totalSteps}}",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
     "create": "Crea un PIN",
@@ -910,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
-    "body": "Asegúrate de que la dirección sea compatible con cUSD. Es posible que no puedas recuperar los fondos enviados a direcciones no válidas.\n\nTambién puedes hacer un pequeño pago de prueba primero.",
-    "toggle": "Preguntar cada vez"
+    "body": "Asegúrate de que esta dirección sea compatible con el activo que deseas enviar. Si no lo es y completas el envío de todas maneras, perderás los fondos. Te recomendamos realizar una transacción de prueba antes de enviar el monto deseado.",
+    "toggle": "Recordármelo siempre"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",

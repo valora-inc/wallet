@@ -666,6 +666,18 @@
     "step2": "Avec {{appName}}, se lancer et développer votre portefeuille de cryptomonnaies est plus facile que jamais.",
     "step3": "Tout ce dont vous avez besoin est un téléphone portable pour envoyer, dépenser et découvrir."
   },
+  "enableBiometry": {
+    "title": "Sécurisez votre portefeuille",
+    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
+    "cta": "Activer {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Reconnaissance d'empreinte digitale",
+    "Face": "Reconnaissance faciale",
+    "Iris": "Reconnaissance de l'iris"
+  },
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
@@ -679,8 +691,7 @@
   },
   "createAccount": "Créer un compte",
   "restoreAccount": "Restaurer mon compte",
-  "createAccountSteps": "Étape {{step}} de {{totalSteps}}",
-  "restoreAccountSteps": "Étape {{step}} de {{totalSteps}}",
+  "registrationSteps": "Étape {{step}} de {{totalSteps}}",
   "selectCountryCode": "Sélectionnez l'indicatif du pays",
   "pincodeSet": {
     "create": "Créez un code PIN",
@@ -910,8 +921,8 @@
   },
   "sendToAddressWarning": {
     "title": "Envoi à une adresse",
-    "body": "Veuillez vous assurer que l'adresse prend en charge les cUSD. Les fonds envoyés à des adresses non valides peuvent ne pas être récupérables.\n\nVous pourriez également envisager d'envoyer un petit paiement de test pour commencer.",
-    "toggle": "Demander à chaque fois"
+    "body": "Veuillez vous assurer que cette adresse prend en charge l'actif que vous souhaitez envoyer. Si l'adresse est invalide, vous ne pourrez pas récupérer vos fonds. Envoyez d'abord un paiement test pour vous assurer que l'adresse est correcte.",
+    "toggle": "Toujours me rappeler"
   },
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
