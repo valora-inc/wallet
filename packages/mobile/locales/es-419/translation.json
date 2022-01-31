@@ -1135,7 +1135,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explora las distintas formas de usar tus cripto.",
-    "errorMessage": "Hubo un error al cargar las dapps"
+    "errorMessage": "Hubo un error al cargar las dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
