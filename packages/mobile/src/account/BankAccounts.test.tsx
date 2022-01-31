@@ -65,7 +65,7 @@ describe('BankAccounts', () => {
         <BankAccounts {...mockScreenProps} />
       </Provider>
     )
-    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveReturned())
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
     expect(getByText('Checking (***8052)'))
     expect(getByText('Savings (****0992)'))
     await fireEvent.press(getByTestId('TripleDot2'))
