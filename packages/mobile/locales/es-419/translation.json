@@ -1143,7 +1143,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
+    "message": "Las dapps (aplicaciones descentralizadas) proporcionan nuevas formas de utilizar tu cripto, ganar recompensas y explorar la Web3.\n\nConecta Valora a una dapp para empezar.",
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
