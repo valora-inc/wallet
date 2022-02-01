@@ -547,8 +547,8 @@
   "redeemFailed": "Erreur lors de la récupération du code ",
   "redeemInviteTimeout": "Délai d'attente de l'invitation écoulé",
   "accountSetupFailed": "Impossible de créer votre portefeuille",
-  "accountSetupFailedDescription": "Veuillez supprimer {{appName}} de votre appareil et réessayer. Si tu continues à avoir des problèmes, contacte le service d'assistance.",
-  "closeApp": "Fermer l'application",
+  "accountSetupFailedDescription": "Veuillez supprimer {{appName}} de votre appareil et réessayer. Si vous continuez à avoir des problèmes, contacte le service d'assistance.",
+  "closeApp": "Fermer l'appli",
   "emptyInviteCode": "Le code d'invitation n'a pas de fonds",
   "transferDollarsToAccount": "Les fonds ont été transférés sur votre compte !",
   "inviteAnyone": "Envoyez facilement des fonds à vos amis en ajoutant vos contacts",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Voir les actifs",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
-    "body": "Ton solde total est une somme approximative de tous tes actifs Valora. Ton solde total change en fonction des fluctuations des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs peuvent ne pas apparaître dans le Solde total car le prix n'est pas disponible au moment du calcul.",
+    "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
     "dismiss": "Refuser"
   },
   "supportEmailSubject": "Support de {{appName}} pour {{user}}",
@@ -1138,7 +1138,7 @@
     "title": "Dapps",
     "message": "Explorez les moyens d'utiliser vos crypto.",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
-    "featuredDapp": "Featured",
+    "featuredDapp": "En vedette",
     "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
