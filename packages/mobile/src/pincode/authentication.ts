@@ -13,7 +13,7 @@ import { call, select } from 'redux-saga/effects'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
@@ -235,7 +235,9 @@ export async function getPassword(
       return password
     }
 
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_start)
     const pin = await getPincode(withVerification)
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
     password = await getPasswordForPin(pin)
 
     if (storeHash) {
@@ -295,13 +297,16 @@ export async function setPincodeWithBiometry() {
 
 export async function getPincodeWithBiometry() {
   try {
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_start)
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
     if (retrievedPin) {
+      ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_complete)
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
       return retrievedPin
     }
     throw new Error('Failed to retrieve pin with biometry, recieved null value')
   } catch (error) {
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_error)
     Logger.warn(TAG, 'Failed to retrieve pin with biometry', error)
     throw error
   }

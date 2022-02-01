@@ -8,6 +8,8 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
+import { AuthenticationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { withTranslation } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
@@ -45,6 +47,10 @@ class PincodeEnter extends React.Component<Props, State> {
     pinIsCorrect: false,
   }
 
+  componentDidMount() {
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_start)
+  }
+
   componentWillUnmount() {
     const onCancel = this.props.route.params.onCancel
     if (onCancel && !this.state.pinIsCorrect) {
@@ -60,6 +66,7 @@ class PincodeEnter extends React.Component<Props, State> {
     this.setState({ pinIsCorrect: true })
     const onSuccess = this.props.route.params.onSuccess
     if (onSuccess) {
+      ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
       onSuccess(pin)
     }
   }
@@ -69,6 +76,7 @@ class PincodeEnter extends React.Component<Props, State> {
       pin: '',
       errorText: this.props.t(`${ErrorMessages.INCORRECT_PIN}`),
     })
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_error)
   }
 
   onPressConfirm = async () => {
