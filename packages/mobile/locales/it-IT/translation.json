@@ -1143,7 +1143,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
-    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare la DeFi.\n\nConnetti Valora a una Dapp per iniziare.",
+    "message": "Le Dapps (applicazioni decentralizzate) forniscono nuovi modi per usare la tua criptovaluta, guadagnare ricompense ed esplorare Web3.\n\nCollega Valora a una dapp per iniziare.",
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
