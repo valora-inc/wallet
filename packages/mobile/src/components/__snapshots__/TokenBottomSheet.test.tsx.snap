@@ -13,7 +13,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       "zIndex": 1,
     }
   }
-  testID="TokenBottomSheetContainer"
+  testID="BottomSheetContainer"
 >
   <View
     style={
