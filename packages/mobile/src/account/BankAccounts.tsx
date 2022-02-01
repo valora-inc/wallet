@@ -127,6 +127,7 @@ function BankAccounts({ navigation, route }: Props) {
       id: selectedBankId,
     })
     if (!bankAccountsResponse.ok) {
+      // TODO(wallet#1447): handle errors from IHL
       return
     }
     await bankAccounts.execute()
