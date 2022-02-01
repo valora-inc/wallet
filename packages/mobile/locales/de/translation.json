@@ -7,7 +7,7 @@
   "removeAccountTitle": "Valora zurücksetzen",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
   "legal": "Rechtshinweisen",
-  "securityAndData": "Sicherheit und Daten",
+  "security": "Sicherheit",
   "changePin": "PIN ändern",
   "pinChanged": "PIN geändert",
   "pinChangeFailed": "PIN-Änderung fehlgeschlagen",
@@ -680,6 +680,7 @@
     "Face": "Gesichtserkennung",
     "Iris": "Iris-Erkennung"
   },
+  "useBiometryType": "Verwende {{biometryType}}",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
@@ -1138,8 +1139,8 @@
     "title": "Dapps",
     "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "Empfohlen",
+    "allDapps": "Alle"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
