@@ -680,7 +680,7 @@
     "Face": "Reconhecimento facial",
     "Iris": "Reconhecimento de Iris"
   },
-  "useBiometryType": "Use {{biometryType}}",
+  "useBiometryType": "Usar {{biometryType}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
