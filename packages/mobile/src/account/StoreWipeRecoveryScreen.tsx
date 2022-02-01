@@ -1,30 +1,22 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
-import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import AccountErrorScreen from 'src/account/AccountErrorScreen'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { requestPincodeInput } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
-type Props = StackScreenProps<StackParamList, Screens.StoreWipeRecoveryScreen>
-
 const TAG = 'StoreWipeRecoveryScreen'
 
-function StoreWipeRecoveryScreen({ route }: Props) {
+function StoreWipeRecoveryScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const goToOnboarding = async () => {
+  const onPressGoToOnboarding = async () => {
     try {
       const wallet = await getWalletAsync()
       const account = wallet.getAccounts()[0]
@@ -37,38 +29,16 @@ function StoreWipeRecoveryScreen({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.content}>
-      <Text style={styles.title} testID={'StoreWipeRecovery'}>
-        {t('storeRecoveryTitle')}
-      </Text>
-      <Text style={styles.body}>{t('storeRecoveryBody')}</Text>
-      <TextButton onPress={goToOnboarding} testID="GoToOnboarding">
-        {t('storeRecoveryButton')}
-      </TextButton>
-    </SafeAreaView>
+    <AccountErrorScreen
+      title={t('storeRecoveryTitle')}
+      testID="StoreWipeRecovery"
+      description={t('storeRecoveryBody')}
+      onPress={onPressGoToOnboarding}
+      buttonLabel={t('storeRecoveryButton')}
+    />
   )
 }
 
 StoreWipeRecoveryScreen.navOptions = noHeaderGestureDisabled
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    marginHorizontal: Spacing.Thick24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    ...fontStyles.h2,
-    textAlign: 'center',
-    paddingBottom: Spacing.Regular16,
-    paddingTop: Spacing.Regular16,
-  },
-  body: {
-    ...fontStyles.regular,
-    textAlign: 'center',
-    paddingBottom: Spacing.Thick24,
-  },
-})
 
 export default StoreWipeRecoveryScreen
