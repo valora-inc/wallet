@@ -864,7 +864,7 @@
   "estimatedFee": "Commissione stimata: ",
   "selectBalance": "Seleziona saldo",
   "stableBalance": "Saldo {{token}}",
-  "selectToken": "Seleziona token",
+  "selectToken": "Seleziona attività",
   "verificationCta": {
     "header": "Inviare a un amico?",
     "body": "Conferma il tuo numero telefonico e sincronizza i tuoi contatti per inviare rapidamente ai tuoi amici.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Visualizza asset",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
-    "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni token potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
+    "body": "Il tuo Saldo Totale è una somma approssimativa di tutti i tuoi beni Valora. Il tuo Saldo Totale cambierà con la fluttuazione dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcune attività potrebbero non essere mostrate nel Saldo Totale perché il prezzo non è disponibile al momento del calcolo.",
     "dismiss": "Ignora"
   },
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
