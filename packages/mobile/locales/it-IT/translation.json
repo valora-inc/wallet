@@ -501,7 +501,7 @@
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
   "help": "Guida",
-  "dismiss": "Ignora",
+  "dismiss": "Ignorare",
   "review": "Rivedi",
   "insufficientBalance": "Il tuo saldo è insufficiente per eseguire questa transazione.",
   "amount": "Importo",
@@ -680,7 +680,7 @@
     "Face": "Riconoscimento facciale",
     "Iris": "Riconoscimento dell'iride"
   },
-  "useBiometryType": "Usa {{biometryType}}",
+  "useBiometryType": "Usare {{biometryType}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
@@ -736,7 +736,7 @@
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
     "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
-    "dismiss": "Ignora"
+    "dismiss": "Ignorare"
   },
   "importExistingKey": {
     "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -1087,7 +1087,7 @@
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
-    "dismiss": "Ignora"
+    "dismiss": "Ignorare"
   },
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
@@ -1145,7 +1145,7 @@
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
     "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare la Web3.\n\nConnetti Valora a una Dapp per iniziare.",
-    "dismiss": "Ignora"
+    "dismiss": "Ignorare"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} si aprirà in un browser esterno",
