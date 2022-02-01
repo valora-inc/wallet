@@ -510,6 +510,11 @@ export enum CICOEvents {
   connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
 }
 
+export enum DappExplorerEvents {
+  dapp_impression = 'dapp_impression', // when a dapp shows up in the featured section of the app
+  dapp_open = 'dapp_open', // when a dapp is opened
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents

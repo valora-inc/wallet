@@ -547,6 +547,8 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
+  "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
   "inviteAnyone": "Sende einfach an deine Freunde, indem du deine Kontakte hinzufügst",
@@ -666,6 +668,18 @@
     "step2": "Mit {{appName}} ist es ein einfach, auf deine Krypto zuzugreifen und sie zu vermehren.",
     "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
+  "enableBiometry": {
+    "title": "Sichere dein Wallet",
+    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
+    "cta": "{{biometryType}} einschalten"
+  },
+  "biometryType": {
+    "FaceID": "Face-ID",
+    "TouchID": "Touch-ID",
+    "Fingerprint": "Fingerabdruckerkennung",
+    "Face": "Gesichtserkennung",
+    "Iris": "Iris-Erkennung"
+  },
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
@@ -679,8 +693,7 @@
   },
   "createAccount": "Konto erstellen",
   "restoreAccount": "Mein Konto wiederherstellen",
-  "createAccountSteps": "Schritt {{step}} von {{totalSteps}}",
-  "restoreAccountSteps": "Schritt {{step}} von {{totalSteps}}",
+  "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
   "pincodeSet": {
     "create": "PIN erstellen",
@@ -910,8 +923,8 @@
   },
   "sendToAddressWarning": {
     "title": "An eine Adresse senden",
-    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Guthaben sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
-    "toggle": "Immer fragen"
+    "body": "Bitte vergewissere dich, dass diese Adresse das Vermögen unterstützt, das du senden möchtest. Wenn diese Adresse ungültig ist, kann dein Guthaben möglicherweise nicht wiederhergestellt werden. Sende zunächst eine Testzahlung, um sicherzustellen, dass dies die richtige Adresse ist.",
+    "toggle": "Immer erinnern"
   },
   "loadingFromScan": "Scannen",
   "loadingFromDeeplink": "Verbindungsaufbau",
@@ -1124,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
-    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten"
+    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1138,6 +1153,8 @@
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
+  "others": "Andere",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

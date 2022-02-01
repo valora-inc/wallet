@@ -4,6 +4,7 @@ import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, delay, select } from 'redux-saga/effects'
+import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateToError } from 'src/navigator/NavigationService'
 import {
@@ -66,6 +67,13 @@ describe(getOrCreateAccount, () => {
       .provide([
         [select(currentAccountSelector), null],
         [matchers.call.fn(generateMnemonic), MNEMONIC],
+        [
+          call(storeMnemonic, MNEMONIC, EXPECTED_ADDRESS),
+          {
+            service: 'mnemonic',
+            storage: 'storage',
+          },
+        ],
       ])
       .put(setAccount(EXPECTED_ADDRESS))
       .put(setDataEncryptionKey(EXPECTED_DEK))
@@ -87,6 +95,13 @@ describe(getOrCreateAccount, () => {
         .provide([
           [select(currentAccountSelector), null],
           [select(currentLanguageSelector), appLang],
+          [
+            matchers.call.fn(storeMnemonic),
+            {
+              service: 'mnemonic',
+              storage: 'storage',
+            },
+          ],
         ])
         .call(
           generateMnemonic,
