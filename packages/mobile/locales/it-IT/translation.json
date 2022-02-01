@@ -547,6 +547,8 @@
   "redeemFailed": "Impossibile riscattare il codice.",
   "redeemInviteTimeout": "Time-out dell’invito al riscatto.",
   "accountSetupFailed": "Impossibile creare il wallet.",
+  "accountSetupFailedDescription": "Per favore cancella {{appName}} dal tuo dispositivo e riprova. Se continui ad avere problemi, contatta il supporto.",
+  "closeApp": "Chiudi app",
   "emptyInviteCode": "Il codice di invito non include fondi.",
   "transferDollarsToAccount": "I fondi sono stati trasferiti sul tuo conto.",
   "inviteAnyone": "Invia facilmente ai tuoi amici aggiungendo i tuoi contatti",
