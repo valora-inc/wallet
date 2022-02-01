@@ -547,8 +547,8 @@
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
   "accountSetupFailed": "Error al crear la cuenta",
-  "accountSetupFailedDescription": "Por favor, elimina {{appName}} de tu dispositivo e inténtalo de nuevo. Si sigues teniendo problemas, ponte en contacto con el servicio de asistencia técnica.",
-  "closeApp": "Cerrar la aplicación",
+  "accountSetupFailedDescription": "Elimina {{appName}} de tu dispositivo e inténtalo de nuevo. Si sigues teniendo problemas, ponte en contacto con el equipo de soporte técnico.",
+  "closeApp": "Cerrar app",
   "emptyInviteCode": "El código de invitación no tiene fondos",
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
   "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",
@@ -864,7 +864,7 @@
   "estimatedFee": "Tarifa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
-  "selectToken": "Selecciona un activo",
+  "selectToken": "Seleccionar activo",
   "verificationCta": {
     "header": "¿Quieres enviar saldo a un amigo?",
     "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar dinero rápidamente a tus amigos.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Ver activos",
   "whatTotalValue": {
     "title": "¿Qué es el saldo total?",
-    "body": "Tu Saldo Total es una suma aproximada de todos tus activos de Valora. Tu Saldo Total cambiará a medida que los precios fluctúen. Se actualiza cada 10 minutos.\nAlgunos activos pueden no aparecer en el Saldo Total porque el precio no está disponible en el momento del cálculo.",
+    "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos activos no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   },
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
@@ -1138,8 +1138,8 @@
     "title": "Dapps",
     "message": "Explora las distintas formas de usar tus cripto.",
     "errorMessage": "Hubo un error al cargar las dapps",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "Destacadas",
+    "allDapps": "Todas"
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
