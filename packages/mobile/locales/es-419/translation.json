@@ -1123,6 +1123,12 @@
       "cta": "¡Muy pronto!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
+    "delete": "Eliminar"
+  },
+  "syncingBankAccount": "Syncing bank account...",
   "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
   "linkBankAccountSettingsValue": "Acceder",
   "connectPhoneNumber": {
