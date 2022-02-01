@@ -4,6 +4,7 @@ import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
+  CICOEvents,
   ContractKitEvents,
   DappKitEvents,
   EscrowEvents,
@@ -24,7 +25,6 @@ import {
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
-  CICOEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -159,6 +159,10 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_error]: undefined
   [SettingsEvents.settings_link_bank_account]: undefined
   [SettingsEvents.settings_number_not_connected]: undefined
+  [SettingsEvents.settings_biometry_opt_in_enable]: undefined
+  [SettingsEvents.settings_biometry_opt_in_complete]: undefined
+  [SettingsEvents.settings_biometry_opt_in_error]: undefined
+  [SettingsEvents.settings_biometry_opt_in_disable]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -231,6 +235,12 @@ interface OnboardingEventsProperties {
     error: string
   }
   [OnboardingEvents.pin_never_set]: undefined
+
+  [OnboardingEvents.biometry_opt_in_start]: undefined
+  [OnboardingEvents.biometry_opt_in_cancel]: undefined
+  [OnboardingEvents.biometry_opt_in_approve]: undefined
+  [OnboardingEvents.biometry_opt_in_complete]: undefined
+  [OnboardingEvents.biometry_opt_in_error]: undefined
 
   [OnboardingEvents.wallet_import_start]: undefined
   [OnboardingEvents.wallet_import_phrase_updated]: {
