@@ -1152,5 +1152,7 @@
     "button": "Go to {{dappName}}"
   },
   "rewards": "Rewards",
-  "supercharge": "Supercharge"
+  "supercharge": "Supercharge",
+  "others": "Others",
+  "nomSpaceRecipient": "Nom Space: {{name}}"
 }
