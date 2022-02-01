@@ -1143,7 +1143,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
-    "message": "Las dapps (aplicaciones descentralizadas) proporcionan nuevas formas de utilizar tu cripto, ganar recompensas y explorar la Web3.\n\nConecta Valora a una dapp para empezar.",
+    "message": "Las dapps (apps decentralizadas) traen nuevas maneras de usar tus cripto, ganar recompensas y explorar la Web3.\n\nContecta Valora a una dapp para comenzar.",
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
@@ -1154,7 +1154,7 @@
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Otros",
-  "nomSpaceRecipient": "Espacio Nom: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
