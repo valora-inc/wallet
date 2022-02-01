@@ -864,7 +864,7 @@
   "estimatedFee": "Tarifa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
-  "selectToken": "Select Asset",
+  "selectToken": "Selecciona un activo",
   "verificationCta": {
     "header": "¿Quieres enviar saldo a un amigo?",
     "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar dinero rápidamente a tus amigos.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Ver activos",
   "whatTotalValue": {
     "title": "¿Qué es el saldo total?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "body": "Tu Saldo Total es una suma aproximada de todos tus activos de Valora. Tu Saldo Total cambiará a medida que los precios fluctúen. Se actualiza cada 10 minutos.\nAlgunos activos pueden no aparecer en el Saldo Total porque el precio no está disponible en el momento del cálculo.",
     "dismiss": "Descartar"
   },
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
