@@ -547,7 +547,7 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
-  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
   "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
@@ -864,7 +864,7 @@
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Guthaben auswählen",
   "stableBalance": "{{token}} Guthaben",
-  "selectToken": "Asset auswählen",
+  "selectToken": "Vermögen auswählen",
   "verificationCta": {
     "header": "An einen Freund senden?",
     "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Vermögen ansehen",
   "whatTotalValue": {
     "title": "Was bedeutet Gesamtguthaben?",
-    "body": "Dein Gesamtguthaben ist eine ungefähre Summe aller deiner Valora-Guthaben. Dein Gesamtguthaben ändert sich, wenn die Preise schwanken. Er wird alle 10 Minuten aktualisiert.\nEs kann sein, dass einige Vermögenswerte nicht in der Gesamtbilanz angezeigt werden, weil der Preis zum Zeitpunkt der Berechnung nicht verfügbar ist.",
+    "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
@@ -1143,7 +1143,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
-    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Belohnungen zu verdienen und Web3 zu erkunden.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
+    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
@@ -1154,7 +1154,7 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Andere",
-  "nomSpaceRecipient": "Nom Space: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
