@@ -7,7 +7,7 @@
   "removeAccountTitle": "Réinitialiser Valora",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération",
   "legal": "Mentions légales",
-  "securityAndData": "Sécurité et données",
+  "security": "Sécurité",
   "changePin": "Modifier le code PIN",
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
@@ -680,6 +680,7 @@
     "Face": "Reconnaissance faciale",
     "Iris": "Reconnaissance de l'iris"
   },
+  "useBiometryType": "Utilise {{biometryType}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
