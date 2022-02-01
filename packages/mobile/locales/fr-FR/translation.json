@@ -547,6 +547,8 @@
   "redeemFailed": "Erreur lors de la récupération du code ",
   "redeemInviteTimeout": "Délai d'attente de l'invitation écoulé",
   "accountSetupFailed": "Impossible de créer votre portefeuille",
+  "accountSetupFailedDescription": "Veuillez supprimer {{appName}} de votre appareil et réessayer. Si tu continues à avoir des problèmes, contacte le service d'assistance.",
+  "closeApp": "Fermer l'application",
   "emptyInviteCode": "Le code d'invitation n'a pas de fonds",
   "transferDollarsToAccount": "Les fonds ont été transférés sur votre compte !",
   "inviteAnyone": "Envoyez facilement des fonds à vos amis en ajoutant vos contacts",
