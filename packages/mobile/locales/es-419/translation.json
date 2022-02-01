@@ -7,7 +7,7 @@
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
   "legal": "Legal",
-  "security": "Security",
+  "security": "Seguridad",
   "changePin": "Cambiar PIN",
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
@@ -680,7 +680,7 @@
     "Face": "Reconocimiento facial",
     "Iris": "Reconocimiento de iris"
   },
-  "useBiometryType": "Use {{biometryType}}",
+  "useBiometryType": "Utiliza {{biometryType}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
