@@ -279,6 +279,7 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
                         "lineHeight": 22,
                       },
                       Object {
+                        "color": "#9CA4A9",
                         "paddingTop": 16,
                       },
                     ]
@@ -603,6 +604,7 @@ exports[`HomeTokenBalance renders correctly with no balance 1`] = `
                         "lineHeight": 22,
                       },
                       Object {
+                        "color": "#9CA4A9",
                         "paddingTop": 16,
                       },
                     ]
@@ -913,6 +915,7 @@ exports[`HomeTokenBalance renders correctly with one balance 1`] = `
                         "lineHeight": 22,
                       },
                       Object {
+                        "color": "#9CA4A9",
                         "paddingTop": 16,
                       },
                     ]

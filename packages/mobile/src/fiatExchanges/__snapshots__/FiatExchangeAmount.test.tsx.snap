@@ -183,7 +183,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="invalidAmountDialog/PrimaryAction"
+              testID="invalidAmountDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -195,6 +195,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -899,7 +900,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="invalidAmountDialog/PrimaryAction"
+              testID="invalidAmountDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -911,6 +912,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]

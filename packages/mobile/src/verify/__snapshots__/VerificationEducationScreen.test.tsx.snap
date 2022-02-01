@@ -1291,7 +1291,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="VerificationLearnMoreDialog/PrimaryAction"
+              testID="VerificationLearnMoreDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -1303,6 +1303,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -2350,7 +2351,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="VerificationLearnMoreDialog/PrimaryAction"
+              testID="VerificationLearnMoreDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -2362,6 +2363,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -3409,7 +3411,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="VerificationLearnMoreDialog/PrimaryAction"
+              testID="VerificationLearnMoreDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -3421,6 +3423,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -4463,7 +4466,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="VerificationLearnMoreDialog/PrimaryAction"
+              testID="VerificationLearnMoreDialog/SecondaryAction"
             >
               <Text
                 style={
@@ -4475,6 +4478,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]

@@ -313,8 +313,9 @@ function SendConfirmation(props: Props) {
         <Dialog
           title={t('encryption.warningModalHeader')}
           isVisible={encryptionDialogVisible}
-          actionText={t('dismiss')}
-          actionPress={onDismissEncryptionModal}
+          secondaryActionText={t('dismiss')}
+          secondaryActionPress={onDismissEncryptionModal}
+          onBackgroundPress={onDismissEncryptionModal}
         >
           {t('encryption.warningModalBody')}
         </Dialog>

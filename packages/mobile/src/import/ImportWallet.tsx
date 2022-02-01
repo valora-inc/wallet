@@ -223,7 +223,7 @@ function ImportWallet({ navigation, route }: Props) {
                     />
                   </Trans>
                 }
-                isVisible={true}
+                isVisible={!!route.params?.showZeroBalanceModal}
                 actionText={t('emptyAccount.useAccount')}
                 actionPress={onPressRestore}
                 secondaryActionPress={onPressTryAnotherKey}
