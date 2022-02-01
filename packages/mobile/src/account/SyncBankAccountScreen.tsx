@@ -35,8 +35,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       publicToken,
     })
     if (!accessTokenResponse.ok) {
-      // TODO(wallet#1447): handle errors from IHL
-      return
+      navigate(Screens.LinkBankAccountErrorScreen)
     }
     const { accessToken } = await accessTokenResponse.json()
 
@@ -46,8 +45,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       plaidAccessToken: accessToken,
     })
     if (!finclusiveBankAccountResponse.ok) {
-      // TODO(wallet#1447): handle errors from IHL
-      return
+      navigate(Screens.LinkBankAccountErrorScreen)
     }
     // TODO(wallet#1449): redirect to Bank Account List Page
   }, [])
