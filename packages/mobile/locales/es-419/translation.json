@@ -1124,11 +1124,11 @@
     }
   },
   "bankAccountsScreen": {
-    "header": "Linked Bank Accounts",
-    "add": "Add new bank account",
+    "header": "Cuentas bancarias vinculadas",
+    "add": "Añadir una nueva cuenta bancaria",
     "delete": "Eliminar"
   },
-  "syncingBankAccount": "Syncing bank account...",
+  "syncingBankAccount": "Sincronizar la cuenta bancaria...",
   "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
   "linkBankAccountSettingsValue": "Acceder",
   "connectPhoneNumber": {
