@@ -19,6 +19,18 @@ export async function storeItem({ key, value }: SecureStorage) {
     if (result === false) {
       throw new Error('Store result false')
     }
+
+    // check that we can correctly read the keychain before proceeding
+    const retrievedResult = await retrieveStoredItem(key)
+    if (retrievedResult !== value) {
+      await removeStoredItem(key)
+      Logger.error(
+        `${TAG}@storeItem`,
+        `Retrieved value for key '${key}' does not match stored value`
+      )
+      throw new Error(`Retrieved value for key '${key}' does not match stored value`)
+    }
+
     return result
   } catch (error) {
     Logger.error(TAG, 'Error storing item', error, true, value)
