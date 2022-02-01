@@ -1127,6 +1127,12 @@
       "cta": "В ближайшее время!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Связанные банковские счета",
+    "add": "Добавьте новый банковский счет",
+    "delete": "Удалить"
+  },
+  "syncingBankAccount": "Синхронизация банковского счета...",
   "linkBankAccountSettingsTitle": "Привязать банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "connectPhoneNumber": {
