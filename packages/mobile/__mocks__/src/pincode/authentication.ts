@@ -14,4 +14,5 @@ module.exports = {
     .fn()
     .mockResolvedValue({ service: 'some service', storage: 'some storage' }),
   removeStoredPin: jest.fn().mockResolvedValue(true),
+  requestPincodeInput: jest.fn().mockResolvedValue('123123'),
 }

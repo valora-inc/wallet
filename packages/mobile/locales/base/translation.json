@@ -547,6 +547,8 @@
   "redeemFailed": "Failure redeeming code ",
   "redeemInviteTimeout": "Redeem Invite Timed out",
   "accountSetupFailed": "Failed to create your wallet",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "closeApp": "Close app",
   "emptyInviteCode": "Invite code has no funds",
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
@@ -865,7 +867,7 @@
   "estimatedFee": "Estimated fee: ",
   "selectBalance": "Select Balance",
   "stableBalance": "{{token}} Balance",
-  "selectToken": "Select Token",
+  "selectToken": "Select Asset",
   "verificationCta": {
     "header": "Sending to a friend?",
     "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
@@ -1086,7 +1088,7 @@
   "viewBalances": "View Assets",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
@@ -1138,7 +1140,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "errorMessage": "There was an error loading dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
@@ -1151,5 +1155,7 @@
     "button": "Go to {{dappName}}"
   },
   "rewards": "Rewards",
-  "supercharge": "Supercharge"
+  "supercharge": "Supercharge",
+  "others": "Others",
+  "nomSpaceRecipient": "Nom Space: {{name}}"
 }

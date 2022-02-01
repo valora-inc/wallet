@@ -4,7 +4,6 @@ import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux
 import {
   Actions,
   ClearStoredAccountAction,
-  initializeAccountFailure,
   initializeAccountSuccess,
   updateCusdDailyLimit,
   updateKycStatus,
@@ -20,12 +19,14 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress, getMTWAddress } from 'src/web3/saga'
+import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'account/saga'
 
@@ -69,7 +70,7 @@ function* initializeAccount() {
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
-    yield put(initializeAccountFailure())
+    navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }
 

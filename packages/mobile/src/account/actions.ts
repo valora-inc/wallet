@@ -101,10 +101,6 @@ export interface InitializeAccountSuccessAction {
   type: Actions.INITIALIZE_ACCOUNT_SUCCESS
 }
 
-export interface InitializeAccountFailureAction {
-  type: Actions.INITIALIZE_ACCOUNT_FAILURE
-}
-
 export interface SetAccountCreationAction {
   type: Actions.SET_ACCOUNT_CREATION_TIME
   now: number
@@ -187,7 +183,6 @@ export type ActionTypes =
   | SetPincodeFailureAction
   | InitializeAccountAction
   | InitializeAccountSuccessAction
-  | InitializeAccountFailureAction
   | SetAccountCreationAction
   | SetBackupCompletedAction
   | SetBackupDelayedAction
@@ -291,10 +286,6 @@ export const initializeAccount = (): InitializeAccountAction => ({
 
 export const initializeAccountSuccess = (): InitializeAccountSuccessAction => ({
   type: Actions.INITIALIZE_ACCOUNT_SUCCESS,
-})
-
-export const initializeAccountFailure = (): InitializeAccountFailureAction => ({
-  type: Actions.INITIALIZE_ACCOUNT_FAILURE,
 })
 
 export const setAccountCreationTime = (now: number): SetAccountCreationAction => ({

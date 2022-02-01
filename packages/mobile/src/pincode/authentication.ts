@@ -287,12 +287,6 @@ export async function setPincodeWithBiometry() {
     // from previous app installs/failed save attempts will be overwritten
     // safely here
     await storePinWithBiometry(pin)
-
-    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
-
-    if (retrievedPin !== pin) {
-      throw new Error('Retrieved incorrect pin with biometry after saving')
-    }
   } catch (error) {
     Logger.warn(TAG, 'Failed to save pin with biometry', error)
     throw error
