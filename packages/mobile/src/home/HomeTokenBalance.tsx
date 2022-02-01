@@ -114,6 +114,10 @@ function HomeTokenBalance() {
     navigate(Screens.TokenBalances)
   }
 
+  const onCloseDialog = () => {
+    setInfoVisible(false)
+  }
+
   const [infoVisible, setInfoVisible] = useState(false)
 
   return (
@@ -130,8 +134,9 @@ function HomeTokenBalance() {
         <Dialog
           title={t('whatTotalValue.title')}
           isVisible={infoVisible}
-          actionText={t('whatTotalValue.dismiss')}
-          actionPress={() => setInfoVisible(false)}
+          secondaryActionText={t('whatTotalValue.dismiss')}
+          secondaryActionPress={onCloseDialog}
+          onBackgroundPress={onCloseDialog}
         >
           {t('whatTotalValue.body')}
         </Dialog>

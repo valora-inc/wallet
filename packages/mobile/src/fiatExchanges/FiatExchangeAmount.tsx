@@ -235,8 +235,9 @@ function FiatExchangeAmount({ route }: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <Dialog
         isVisible={showingInvalidAmountDialog}
-        actionText={t('invalidAmountDialog.dismiss')}
-        actionPress={closeInvalidAmountDialog}
+        secondaryActionText={t('invalidAmountDialog.dismiss')}
+        secondaryActionPress={closeInvalidAmountDialog}
+        onBackgroundPress={closeInvalidAmountDialog}
         testID={'invalidAmountDialog'}
       >
         {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)

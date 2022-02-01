@@ -25,6 +25,7 @@ interface Props {
   isVisible: boolean
   showLoading?: boolean
   testID?: string
+  onBackgroundPress?: () => void
 }
 
 export default function Dialog({
@@ -39,9 +40,10 @@ export default function Dialog({
   image,
   isVisible,
   testID,
+  onBackgroundPress,
 }: Props) {
   return (
-    <Modal isVisible={isVisible} testID={testID}>
+    <Modal isVisible={isVisible} testID={testID} onBackgroundPress={onBackgroundPress}>
       <ScrollView contentContainerStyle={styles.root}>
         {image && <Image style={styles.imageContainer} source={image} resizeMode="contain" />}
         {title && <Text style={styles.title}>{title}</Text>}
