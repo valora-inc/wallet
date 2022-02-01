@@ -7,7 +7,7 @@
   "removeAccountTitle": "Ripristina Valora",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
   "legal": "Informazioni legali",
-  "securityAndData": "Sicurezza e dati",
+  "security": "Sicurezza",
   "changePin": "Modifica il PIN",
   "pinChanged": "Il PIN è stato modificato.",
   "pinChangeFailed": "Impossibile modificare il PIN.",
@@ -680,6 +680,7 @@
     "Face": "Riconoscimento facciale",
     "Iris": "Riconoscimento dell'iride"
   },
+  "useBiometryType": "Usa {{biometryType}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
