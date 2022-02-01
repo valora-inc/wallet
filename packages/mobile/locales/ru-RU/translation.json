@@ -1155,6 +1155,8 @@
   },
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",
+  "others": "Другие",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount_0": "<0></0> Доллар Celo",
   "celoDollarAmount_1": "<0></0> Доллары Celo",
   "celoDollarAmount_2": "<0></0> Доллары Celo",
