@@ -1151,6 +1151,8 @@
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
+  "others": "Andere",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
