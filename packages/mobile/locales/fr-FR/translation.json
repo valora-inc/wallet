@@ -864,7 +864,7 @@
   "estimatedFee": "Frais estimés : ",
   "selectBalance": "Sélectionner le solde",
   "stableBalance": "Solde de {{token}}",
-  "selectToken": "Sélectionner un jeton",
+  "selectToken": "Sélectionner l'actif",
   "verificationCta": {
     "header": "Envoyer à un ami ?",
     "body": "Confirmez votre téléphone et synchronisez vos contacts pour envoyer des valeurs rapidement à vos amis.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Voir les actifs",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
-    "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains jetons ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
+    "body": "Ton solde total est une somme approximative de tous tes actifs Valora. Ton solde total change en fonction des fluctuations des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs peuvent ne pas apparaître dans le Solde total car le prix n'est pas disponible au moment du calcul.",
     "dismiss": "Refuser"
   },
   "supportEmailSubject": "Support de {{appName}} pour {{user}}",
