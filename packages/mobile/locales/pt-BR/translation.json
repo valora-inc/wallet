@@ -547,6 +547,8 @@
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
   "accountSetupFailed": "Falha ao criar sua conta",
+  "accountSetupFailedDescription": "Por favor, delete {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, por favor, entre em contato com o suporte.",
+  "closeApp": "Fechar aplicativo",
   "emptyInviteCode": "O código do convite não tem fundos",
   "transferDollarsToAccount": "Fundos transferidos para sua conta!",
   "inviteAnyone": "Envie facilmente para seus amigos adicionando seus contatos",
@@ -1135,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore formas de usar suas cripto.",
-    "errorMessage": "Ocorreu um erro ao carregar os dapps"
+    "errorMessage": "Ocorreu um erro ao carregar os dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
@@ -1149,6 +1153,8 @@
   },
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
+  "others": "Outros",
+  "nomSpaceRecipient": "Espaço Nom: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
