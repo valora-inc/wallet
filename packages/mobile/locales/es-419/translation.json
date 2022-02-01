@@ -18,7 +18,7 @@
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
-  "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la Red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
+  "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
     "body": "Para activar y desactivar el modo Ahorro de datos, tendrás que reiniciar la aplicación y volver a esta pantalla.",
@@ -271,12 +271,12 @@
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retira fondos de {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -531,8 +531,8 @@
       "text": "Cuantas más personas usen Celo Dólares, más aumenta el valor del CELO. A diferencia del CELO, el valor del Celo Dólar no cambia."
     },
     {
-      "title": "Ayuda a dar forma a la Red Celo",
-      "text": "Si tienes CELO, tienes la posibilidad de elegir los cambios y las funciones que te gustaría ver en la Red Celo."
+      "title": "Ayuda a dar forma a la red Celo",
+      "text": "Si tienes CELO, tienes la posibilidad de elegir los cambios y las funciones que te gustaría ver en la red Celo."
     },
     {
       "title": "Por favor, compra y vende activos con responsabilidad.",
@@ -573,13 +573,13 @@
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
   "chooseCountryCode": "Código de país",
   "chooseCountry": "País",
-  "joinText": "{{appName}} te ayuda a enviar, recibir y guardar valor en la Red Celo.",
+  "joinText": "{{appName}} te ayuda a enviar, recibir y guardar valor en la red Celo.",
   "terms": {
     "title": "Condiciones de uso",
     "heading1": "Datos y privacidad",
     "heading2": "Activos Celo y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
-    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la Red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
+    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una cuenta de Valora, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni siquiera cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO, cUSD y cEUR son parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Solo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de Valora (“Límite diario”). Si deseas solicitar un aumento a este límite diario, deberás ponerte en contacto con support@valoraapp.com y proporcionar información personal adicional. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
   },
   "fullName": "Nombre",
@@ -649,7 +649,7 @@
   "retryWithFornoModal": {
     "header": "¿Volver a intentar la conexión con Ahorro de datos?",
     "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo con el modo Ahorro de datos habilitado.",
-    "body2": "El modo de Ahorro de datos te permite comunicarte con la Red Celo de manera más consistente a través de una conexión confiable.",
+    "body2": "El modo de Ahorro de datos te permite comunicarte con la red Celo de manera más consistente a través de una conexión confiable.",
     "retryButton": "Reintentar con Ahorro de datos"
   },
   "congratsVerified": "¡Felicitaciones! Ya eres un usuario confirmado.",
