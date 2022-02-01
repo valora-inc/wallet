@@ -547,6 +547,8 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
+  "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
   "inviteAnyone": "Sende einfach an deine Freunde, indem du deine Kontakte hinzufügst",
