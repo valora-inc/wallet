@@ -19,6 +19,7 @@ const mockGethWallet = {
   addAccount: jest.fn(async (privateKey: string, passphrase: string) =>
     privateKeyToAddress(privateKey)
   ),
+  updateAccount: jest.fn().mockResolvedValue(true),
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(() => true),
   signPersonalMessage: jest.fn(),

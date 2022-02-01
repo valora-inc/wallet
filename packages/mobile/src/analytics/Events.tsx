@@ -53,6 +53,10 @@ export enum SettingsEvents {
   change_pin_new_pin_entered = 'change_pin_new_pin_entered',
   change_pin_new_pin_confirmed = 'change_pin_new_pin_confirmed',
   change_pin_new_pin_error = 'change_pin_new_pin_error',
+  settings_biometry_opt_in_enable = 'settings_biometry_opt_in_enable',
+  settings_biometry_opt_in_complete = 'settings_biometry_opt_in_complete',
+  settings_biometry_opt_in_error = 'settings_biometry_opt_in_error',
+  settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
 }
@@ -104,6 +108,12 @@ export enum OnboardingEvents {
   pin_invalid = 'pin_invalid',
   pin_failed_to_set = 'pin_failed_to_set',
   pin_never_set = 'pin_never_set',
+
+  biometry_opt_in_start = 'biometry_opt_in_start',
+  biometry_opt_in_cancel = 'biometry_opt_in_cancel',
+  biometry_opt_in_approve = 'biometry_opt_in_approve',
+  biometry_opt_in_complete = 'biometry_opt_in_complete',
+  biometry_opt_in_error = 'biometry_opt_in_error',
 
   wallet_import_start = 'wallet_import_start',
   wallet_import_phrase_updated = 'wallet_import_phrase_updated',
@@ -508,6 +518,11 @@ export enum CICOEvents {
 
   connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
   connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
+}
+
+export enum DappExplorerEvents {
+  dapp_impression = 'dapp_impression', // when a dapp shows up in the featured section of the app
+  dapp_open = 'dapp_open', // when a dapp is opened
 }
 
 export type AnalyticsEventType =

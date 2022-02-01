@@ -17,7 +17,6 @@ type DeleteFinclusiveBankAccountParams = RequiredParams & {
 /**
  * get a fiat bank account from finclusive
  *
- *
  * @param {params.accountMTWAddress} accountAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  */

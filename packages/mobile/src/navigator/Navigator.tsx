@@ -4,6 +4,7 @@ import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
+import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
@@ -433,6 +434,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       name={Screens.StoreWipeRecoveryScreen}
       component={StoreWipeRecoveryScreen}
       options={StoreWipeRecoveryScreen.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.AccounSetupFailureScreen}
+      component={AccounSetupFailureScreen}
+      options={AccounSetupFailureScreen.navOptions}
     />
   </>
 )

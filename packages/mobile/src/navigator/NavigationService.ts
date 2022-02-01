@@ -10,8 +10,13 @@ import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { CANCELLED_PIN_INPUT, requestPincodeInput } from 'src/pincode/authentication'
+import {
+  CANCELLED_PIN_INPUT,
+  getPincodeWithBiometry,
+  requestPincodeInput,
+} from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
+import { isUserCancelledError } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
@@ -123,9 +128,22 @@ export async function ensurePincode(): Promise<boolean> {
     return false
   }
 
-  if (pincodeType !== PincodeType.CustomPin) {
+  if (pincodeType !== PincodeType.CustomPin && pincodeType !== PincodeType.PhoneAuth) {
     Logger.error(TAG + '@ensurePincode', `Unsupported Pincode Type ${pincodeType}`)
     return false
+  }
+
+  if (pincodeType === PincodeType.PhoneAuth) {
+    try {
+      await getPincodeWithBiometry()
+      return true
+    } catch (error) {
+      if (!isUserCancelledError(error)) {
+        Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
+      }
+      // do not return here, the pincode input is the user's fallback if
+      // biometric auth fails
+    }
   }
 
   try {
