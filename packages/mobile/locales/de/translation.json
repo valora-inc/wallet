@@ -547,6 +547,8 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
+  "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
   "inviteAnyone": "Sende einfach an deine Freunde, indem du deine Kontakte hinzufügst",
@@ -1135,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
-    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten"
+    "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
@@ -1149,6 +1153,8 @@
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
+  "others": "Andere",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
