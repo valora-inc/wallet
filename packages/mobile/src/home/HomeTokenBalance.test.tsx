@@ -143,7 +143,6 @@ describe('HomeTokenBalance', () => {
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
-    expect(store.getActions().length).toEqual(1)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
@@ -183,7 +182,6 @@ describe('HomeTokenBalance', () => {
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
-    expect(store.getActions().length).toEqual(1)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
