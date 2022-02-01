@@ -4,6 +4,7 @@ import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
+import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
@@ -15,6 +16,7 @@ import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -433,6 +435,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       name={Screens.StoreWipeRecoveryScreen}
       component={StoreWipeRecoveryScreen}
       options={StoreWipeRecoveryScreen.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.AccounSetupFailureScreen}
+      component={AccounSetupFailureScreen}
+      options={AccounSetupFailureScreen.navOptions}
     />
   </>
 )

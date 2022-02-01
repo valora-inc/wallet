@@ -7,6 +7,7 @@
 
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import { sha256 } from 'ethereumjs-util'
+import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { call, select } from 'redux-saga/effects'
 import sleep from 'sleep-promise'
@@ -31,7 +32,13 @@ import {
   setCachedPepper,
   setCachedPin,
 } from 'src/pincode/PasswordCache'
-import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/keychain'
+import { store } from 'src/redux/store'
+import {
+  isUserCancelledError,
+  removeStoredItem,
+  retrieveStoredItem,
+  storeItem,
+} from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
@@ -43,6 +50,7 @@ const TAG = 'pincode/authentication'
 enum STORAGE_KEYS {
   PEPPER = 'PEPPER',
   PASSWORD_HASH = 'PASSWORD_HASH',
+  PIN = 'PIN',
 }
 
 const PEPPER_LENGTH = 64
@@ -167,6 +175,22 @@ function storePasswordHash(hash: string, account: string) {
   return storeItem({ key: passwordHashStorageKey(account), value: hash })
 }
 
+function storePinWithBiometry(pin: string) {
+  return storeItem({
+    key: STORAGE_KEYS.PIN,
+    value: pin,
+    options: {
+      accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+    },
+  })
+}
+
+export function removeStoredPin() {
+  return removeStoredItem(STORAGE_KEYS.PIN)
+}
+
 async function retrievePasswordHash(account: string) {
   if (!getCachedPasswordHash(account)) {
     let hash: string | null = null
@@ -243,7 +267,7 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
     throw Error('Pin has never been set')
   }
 
-  if (pincodeType !== PincodeType.CustomPin) {
+  if (pincodeType !== PincodeType.CustomPin && pincodeType !== PincodeType.PhoneAuth) {
     throw new Error(`Unsupported Pincode Type ${pincodeType}`)
   }
 
@@ -252,12 +276,57 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
 
 type PinCallback = (pin: string) => void
 
+export async function setPincodeWithBiometry() {
+  let pin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
+  if (!pin) {
+    pin = await requestPincodeInput(true, true)
+  }
+
+  try {
+    // storeItem can be called multiple times with the same key, so stale keys
+    // from previous app installs/failed save attempts will be overwritten
+    // safely here
+    await storePinWithBiometry(pin)
+  } catch (error) {
+    Logger.warn(TAG, 'Failed to save pin with biometry', error)
+    throw error
+  }
+}
+
+export async function getPincodeWithBiometry() {
+  try {
+    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
+    if (retrievedPin) {
+      setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
+      return retrievedPin
+    }
+    throw new Error('Failed to retrieve pin with biometry, recieved null value')
+  } catch (error) {
+    Logger.warn(TAG, 'Failed to retrieve pin with biometry', error)
+    throw error
+  }
+}
+
 // Retrieve the pincode value
 // May trigger the pincode enter screen
 export async function getPincode(withVerification = true) {
   const cachedPin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (cachedPin) {
     return cachedPin
+  }
+
+  const pincodeType = pincodeTypeSelector(store.getState())
+  if (pincodeType === PincodeType.PhoneAuth) {
+    try {
+      const retrievedPin = await getPincodeWithBiometry()
+      return retrievedPin
+    } catch (error) {
+      // do not return here, the pincode input is the user's fallback if
+      // biometric auth fails
+      if (!isUserCancelledError(error)) {
+        Logger.warn(TAG, 'Failed to retrieve pin with biometry', error)
+      }
+    }
   }
 
   const pin = await requestPincodeInput(withVerification, true)
@@ -319,8 +388,12 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
     if (updated) {
       clearPasswordCaches()
       setCachedPin(DEFAULT_CACHE_ACCOUNT, newPin)
-      const hash = await getPasswordHash(newPassword)
+      const hash = getPasswordHash(newPassword)
       await storePasswordHash(hash, account)
+      const pincodeType = pincodeTypeSelector(store.getState())
+      if (pincodeType === PincodeType.PhoneAuth) {
+        await storePinWithBiometry(newPin)
+      }
       const phrase = await getStoredMnemonic(account, oldPassword)
       if (phrase) {
         await storeMnemonic(phrase, account, newPassword)
@@ -356,5 +429,6 @@ export async function removeAccountLocally(account: string) {
   return Promise.all([
     removeStoredItem(STORAGE_KEYS.PEPPER),
     removeStoredItem(passwordHashStorageKey(account)),
+    removeStoredItem(STORAGE_KEYS.PIN),
   ])
 }

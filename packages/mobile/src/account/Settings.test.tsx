@@ -1,17 +1,20 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
-import { KycStatus } from 'src/account/reducer'
+import { setPincodeSuccess } from 'src/account/actions'
+import { KycStatus, PincodeType } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
+import { SettingsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockE164Number, mockE164NumberPepper } from 'test/values'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SettingsEvents } from 'src/analytics/Events'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
@@ -182,5 +185,48 @@ describe('Account', () => {
       kycStatus: KycStatus.Completed,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+  })
+
+  it('toggle the biometry option correctly', async () => {
+    const store = createMockStore({
+      app: {
+        supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+        biometryEnabled: true,
+      },
+      account: {
+        pincodeType: PincodeType.CustomPin,
+      },
+    })
+    const { getByText, getByTestId } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent(getByTestId('useBiometryToggle'), 'valueChange', true)
+    await flushMicrotasksQueue()
+
+    expect(getByText('useBiometryType, {"biometryType":"biometryType.FaceID"}')).toBeTruthy()
+    expect(setPincodeWithBiometry).toHaveBeenCalledTimes(1)
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setPincodeSuccess(PincodeType.PhoneAuth)])
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometry_opt_in_enable
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometry_opt_in_complete
+    )
+
+    fireEvent(getByTestId('useBiometryToggle'), 'valueChange', false)
+    await flushMicrotasksQueue()
+
+    expect(removeStoredPin).toHaveBeenCalledTimes(1)
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setPincodeSuccess(PincodeType.CustomPin)])
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SettingsEvents.settings_biometry_opt_in_disable
+    )
   })
 })

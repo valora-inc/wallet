@@ -11,7 +11,6 @@ export enum Actions {
   SAVE_NAME_AND_PICTURE = 'ACCOUNT/SAVE_NAME_AND_PICTURE',
   DEV_MODE_TRIGGER_CLICKED = 'ACCOUNT/NAME_CLICKED',
   PHOTOSNUX_CLICKED = 'ACCOUNT/PHOTOSNUX_CLICKED',
-  SET_PINCODE = 'ACCOUNT/SET_PINCODE',
   SET_PINCODE_SUCCESS = 'ACCOUNT/SET_PINCODE_SUCCESS',
   SET_PINCODE_FAILURE = 'ACCOUNT/SET_PINCODE_FAILURE',
   SET_ACCOUNT_CREATION_TIME = 'ACCOUNT/SET_ACCOUNT_CREATION_TIME',
@@ -85,11 +84,6 @@ export interface PhotosNUXClickedAction {
   type: Actions.PHOTOSNUX_CLICKED
 }
 
-export interface SetPincodeAction {
-  type: Actions.SET_PINCODE
-  pincodeType: PincodeType
-}
-
 export interface SetPincodeSuccessAction {
   type: Actions.SET_PINCODE_SUCCESS
   pincodeType: PincodeType
@@ -105,10 +99,6 @@ export interface InitializeAccountAction {
 
 export interface InitializeAccountSuccessAction {
   type: Actions.INITIALIZE_ACCOUNT_SUCCESS
-}
-
-export interface InitializeAccountFailureAction {
-  type: Actions.INITIALIZE_ACCOUNT_FAILURE
 }
 
 export interface SetAccountCreationAction {
@@ -189,12 +179,10 @@ export type ActionTypes =
   | SaveNameAndPictureAction
   | DevModeTriggerClickedAction
   | PhotosNUXClickedAction
-  | SetPincodeAction
   | SetPincodeSuccessAction
   | SetPincodeFailureAction
   | InitializeAccountAction
   | InitializeAccountSuccessAction
-  | InitializeAccountFailureAction
   | SetAccountCreationAction
   | SetBackupCompletedAction
   | SetBackupDelayedAction
@@ -283,11 +271,6 @@ export const photosNUXCompleted = (): PhotosNUXClickedAction => ({
   type: Actions.PHOTOSNUX_CLICKED,
 })
 
-export const setPincode = (pincodeType: PincodeType): SetPincodeAction => ({
-  type: Actions.SET_PINCODE,
-  pincodeType,
-})
-
 export const setPincodeSuccess = (pincodeType: PincodeType): SetPincodeSuccessAction => ({
   type: Actions.SET_PINCODE_SUCCESS,
   pincodeType,
@@ -303,10 +286,6 @@ export const initializeAccount = (): InitializeAccountAction => ({
 
 export const initializeAccountSuccess = (): InitializeAccountSuccessAction => ({
   type: Actions.INITIALIZE_ACCOUNT_SUCCESS,
-})
-
-export const initializeAccountFailure = (): InitializeAccountFailureAction => ({
-  type: Actions.INITIALIZE_ACCOUNT_FAILURE,
 })
 
 export const setAccountCreationTime = (now: number): SetAccountCreationAction => ({

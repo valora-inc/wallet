@@ -64,6 +64,7 @@ export type StackParamList = {
     | {
         nextScreen: keyof StackParamList
       }
+  [Screens.AccounSetupFailureScreen]: undefined
   [Screens.BackupPhrase]:
     | undefined
     | {

@@ -404,5 +404,9 @@ export const migrations = {
       biometryEnabled: false,
       supportedBiometryType: null,
     },
+    account: {
+      ...state.account,
+      isSettingPin: undefined,
+    },
   }),
 }
