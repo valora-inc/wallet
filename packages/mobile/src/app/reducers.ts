@@ -50,7 +50,6 @@ export interface State {
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
-  useBiometry: boolean
   superchargeButtonType: SuperchargeButtonType
 }
 
@@ -95,7 +94,6 @@ const initialState = {
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
-  useBiometry: false,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
 }
 
@@ -162,11 +160,6 @@ export const appReducer = (
       return {
         ...state,
         requirePinOnAppOpen: action.enabled,
-      }
-    case Actions.SET_USE_BIOMETRY:
-      return {
-        ...state,
-        useBiometry: action.enabled,
       }
     case Actions.LOCK:
       return {

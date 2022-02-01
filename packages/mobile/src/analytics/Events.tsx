@@ -53,6 +53,10 @@ export enum SettingsEvents {
   change_pin_new_pin_entered = 'change_pin_new_pin_entered',
   change_pin_new_pin_confirmed = 'change_pin_new_pin_confirmed',
   change_pin_new_pin_error = 'change_pin_new_pin_error',
+  settings_biometry_opt_in_enable = 'settings_biometry_opt_in_enable',
+  settings_biometry_opt_in_complete = 'settings_biometry_opt_in_complete',
+  settings_biometry_opt_in_error = 'settings_biometry_opt_in_error',
+  settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
 }
@@ -104,6 +108,12 @@ export enum OnboardingEvents {
   pin_invalid = 'pin_invalid',
   pin_failed_to_set = 'pin_failed_to_set',
   pin_never_set = 'pin_never_set',
+
+  biometry_opt_in_start = 'biometry_opt_in_start',
+  biometry_opt_in_cancel = 'biometry_opt_in_cancel',
+  biometry_opt_in_approve = 'biometry_opt_in_approve',
+  biometry_opt_in_complete = 'biometry_opt_in_complete',
+  biometry_opt_in_error = 'biometry_opt_in_error',
 
   wallet_import_start = 'wallet_import_start',
   wallet_import_phrase_updated = 'wallet_import_phrase_updated',

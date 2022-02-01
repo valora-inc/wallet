@@ -7,7 +7,7 @@
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
-  "securityAndData": "Security and Data",
+  "security": "Security",
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
@@ -680,6 +680,7 @@
     "Face": "Face recognition",
     "Iris": "Iris recognition"
   },
+  "useBiometryType": "Use {{biometryType}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
@@ -1145,7 +1146,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
     "dismiss": "Dismiss"
   },
   "dappsScreenBottomSheet": {

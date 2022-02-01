@@ -929,7 +929,10 @@ export const v31Schema = {
     ...v30Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
-    useBiometry: false,
+  },
+  account: {
+    ...v30Schema.account,
+    isSettingPin: undefined,
   },
 }
 
