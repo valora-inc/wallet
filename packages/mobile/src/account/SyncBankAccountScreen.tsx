@@ -36,7 +36,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       publicToken,
     })
     if (!accessTokenResponse.ok) {
-      navigate(Screens.LinkBankAccountErrorScreen, {})
+      navigate(Screens.LinkBankAccountErrorScreen)
     }
     const { accessToken } = await accessTokenResponse.json()
 
@@ -46,7 +46,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       plaidAccessToken: accessToken,
     })
     if (!finclusiveBankAccountResponse.ok) {
-      navigate(Screens.LinkBankAccountErrorScreen, {})
+      navigate(Screens.LinkBankAccountErrorScreen)
     }
     // TODO(wallet#1449): redirect to Bank Account List Page
   }, [])

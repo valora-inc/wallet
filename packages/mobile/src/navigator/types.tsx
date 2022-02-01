@@ -294,7 +294,11 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
-  [Screens.LinkBankAccountErrorScreen]: { error: LinkError }
+  [Screens.LinkBankAccountErrorScreen]:
+    | undefined
+    | {
+        error: LinkError
+      }
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
   [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
