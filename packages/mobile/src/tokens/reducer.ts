@@ -42,9 +42,8 @@ export interface State {
 
 export const initialState = {
   tokenBalances: {},
-  error: false,
   loading: false,
-  lastSuccessfulFetch: 0,
+  error: false,
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
