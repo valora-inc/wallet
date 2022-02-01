@@ -44,7 +44,7 @@ describe('PincodeEnter', () => {
     })
   })
 
-  it.only('calls onSuccess when PIN is correct', async () => {
+  it('calls onSuccess when PIN is correct', async () => {
     mockedCheckPin.mockResolvedValueOnce(true)
     const { getByTestId } = renderComponentWithMockStore()
 
