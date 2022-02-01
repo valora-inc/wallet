@@ -1147,7 +1147,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Что такое \"децентрализованные приложения\"?",
-    "message": "Децентрализованные приложения предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения DeFi.\n\nПодключите Valora к децентрализованному приложению, чтобы начать.",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
     "dismiss": "Отклонить"
   },
   "dappsScreenBottomSheet": {
