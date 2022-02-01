@@ -8,6 +8,12 @@ const keychainMock = {
   SECURITY_RULES: {
     NONE: 'none',
   },
+  ACCESS_CONTROL: {
+    BIOMETRY_CURRENT_SET: 'BiometryCurrentSet',
+  },
+  AUTHENTICATION_TYPE: {
+    BIOMETRICS: 'AuthenticationWithBiometrics',
+  },
   BIOMETRY_TYPE: {
     TOUCH_ID: 'TouchID',
     FACE_ID: 'FaceID',

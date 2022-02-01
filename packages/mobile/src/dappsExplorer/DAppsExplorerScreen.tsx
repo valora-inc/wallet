@@ -1,5 +1,6 @@
 import Button from '@celo/react-components/components/Button'
 import Card from '@celo/react-components/components/Card'
+import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
@@ -14,11 +15,12 @@ import {
   SectionListData,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
@@ -53,6 +55,7 @@ interface Dapp {
   name: string
   description: string
   dappUrl: string
+  isFeatured: boolean
 }
 
 interface DappProps {
@@ -63,6 +66,18 @@ interface DappProps {
 interface SectionData {
   data: Dapp[]
   category: CategoryWithDapps
+}
+
+function mapDappFields(dapp: any, address: string, isFeatured: boolean): Dapp {
+  return {
+    id: dapp.id,
+    categoryId: dapp.categoryId,
+    name: dapp.name,
+    iconUrl: dapp.logoUrl,
+    description: dapp.description,
+    dappUrl: dapp.url.replace('{{address}}', address ?? ''),
+    isFeatured,
+  }
 }
 
 export function DAppsExplorerScreen() {
@@ -83,7 +98,7 @@ export function DAppsExplorerScreen() {
   }: {
     loading: boolean
     error: Error | undefined
-    result: CategoryWithDapps[] | undefined
+    result: { categories: CategoryWithDapps[]; featured: Dapp | undefined } | undefined
   } = useAsync(
     async () => {
       if (!dappsListUrl) {
@@ -111,17 +126,24 @@ export function DAppsExplorerScreen() {
           }
         })
         result.applications.forEach((app: any) => {
-          categoriesById[app.categoryId].dapps.push({
-            id: app.id,
-            categoryId: app.categoryId,
-            name: app.name,
-            iconUrl: app.logoUrl,
-            description: app.description,
-            dappUrl: app.url.replace('{{address}}', address ?? ''),
-          })
+          categoriesById[app.categoryId].dapps.push(mapDappFields(app, address ?? '', false))
         })
 
-        return Object.values(categoriesById)
+        const featured = result.featured
+          ? mapDappFields(result.featured, address ?? '', true)
+          : undefined
+        if (featured) {
+          ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
+            categoryId: featured.categoryId,
+            dappId: featured.id,
+            dappName: featured.name,
+          })
+        }
+
+        return {
+          categories: Object.values(categoriesById),
+          featured,
+        }
       } catch (error) {
         Logger.error(
           TAG,
@@ -150,13 +172,24 @@ export function DAppsExplorerScreen() {
     setHelpDialogVisible(true)
   }
 
+  const openDapp = (dapp: Dapp) => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
+      categoryId: dapp.categoryId,
+      dappId: dapp.id,
+      dappName: dapp.name,
+      section: dapp.isFeatured ? 'featured' : 'all',
+      horizontalPosition: 0,
+    })
+    dispatch(openUrl(dapp.dappUrl, true, true))
+  }
+
   const onPressNavigationButton = () => {
     if (!dappSelected) {
       // Should never happen
       Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
-    dispatch(openUrl(dappSelected.dappUrl, true, true))
+    openDapp(dappSelected)
     setBottomSheetVisible(false)
   }
 
@@ -165,7 +198,7 @@ export function DAppsExplorerScreen() {
       setDappSelected(dapp)
       setBottomSheetVisible(true)
     } else {
-      dispatch(openUrl(dapp.dappUrl, true, true))
+      openDapp(dapp)
     }
   }
 
@@ -198,6 +231,7 @@ export function DAppsExplorerScreen() {
               style={styles.bottomSheetButton}
               onPress={onPressNavigationButton}
               text={t('dappsScreenBottomSheet.button', { dappName: dappSelected?.name })}
+              testID="ConfirmDappButton"
             />
           </View>
         </View>
@@ -229,11 +263,22 @@ export function DAppsExplorerScreen() {
         )}
         {!loading && !error && result && (
           <SectionList
-            ListHeaderComponent={<DescriptionView message={t('dappsScreen.message')} />}
+            ListHeaderComponent={
+              <>
+                <DescriptionView message={t('dappsScreen.message')} />
+                {result.featured && (
+                  <>
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
+                    <FeaturedDapp dapp={result.featured} onPressDapp={onPressDapp} />
+                    <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
+                  </>
+                )}
+              </>
+            }
             style={styles.sectionList}
-            sections={parseResultIntoSections(result)}
-            renderItem={({ item: category }) => <Dapp dapp={category} onPressDapp={onPressDapp} />}
-            keyExtractor={(item: Dapp) => `${item.categoryId}-${item.id}`}
+            sections={parseResultIntoSections(result.categories)}
+            renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
+            keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
             renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
               <CategoryHeader category={section.category} />
@@ -273,19 +318,39 @@ function CategoryHeader({ category }: { category: CategoryWithDapps }) {
   )
 }
 
+function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
+  const onPress = () => onPressDapp(dapp)
+
+  return (
+    <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
+      <Touchable style={styles.pressableCard} onPress={onPress} testID="FeaturedDapp">
+        <>
+          <View style={styles.itemTextContainer}>
+            <Text style={styles.featuredDappTitle}>{dapp.name}</Text>
+            <Text style={styles.featuredDappSubtitle}>{dapp.description}</Text>
+          </View>
+          <Image source={{ uri: dapp.iconUrl }} style={styles.featuredDappIcon} />
+        </>
+      </Touchable>
+    </Card>
+  )
+}
+
 function Dapp({ dapp, onPressDapp }: DappProps) {
   const onPress = () => onPressDapp(dapp)
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
-      <TouchableOpacity style={styles.pressableCard} onPress={onPress}>
-        <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
-        <View style={styles.itemTextContainer}>
-          <Text style={styles.itemTitleText}>{dapp.name}</Text>
-          <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
-        </View>
-        <LinkArrow style={styles.linkArrow} />
-      </TouchableOpacity>
+      <Touchable style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
+        <>
+          <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
+          <View style={styles.itemTextContainer}>
+            <Text style={styles.itemTitleText}>{dapp.name}</Text>
+            <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
+          </View>
+          <LinkArrow style={styles.linkArrow} />
+        </>
+      </Touchable>
     </Card>
   )
 }
@@ -329,6 +394,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginRight: Spacing.Regular16,
   },
+  featuredDappIcon: {
+    width: 106,
+    height: 106,
+    borderRadius: 53,
+    marginLeft: Spacing.Small12,
+  },
   pressableCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -368,6 +439,14 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: Colors.gray5,
   },
+  featuredDappTitle: {
+    ...fontStyles.regular600,
+    marginBottom: 5,
+  },
+  featuredDappSubtitle: {
+    ...fontStyles.small,
+    color: Colors.gray4,
+  },
   descriptionText: {
     ...fontStyles.h1,
     flex: 1,
@@ -391,6 +470,11 @@ const styles = StyleSheet.create({
   sectionList: {
     flex: 1,
     padding: Spacing.Regular16,
+  },
+  sectionTitle: {
+    ...fontStyles.label,
+    color: colors.gray4,
+    marginTop: 32,
   },
 })
 

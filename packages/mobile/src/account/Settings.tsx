@@ -20,9 +20,15 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { clearStoredAccount, devModeTriggerClicked, toggleBackupState } from 'src/account/actions'
+import {
+  clearStoredAccount,
+  devModeTriggerClicked,
+  setPincodeSuccess,
+  toggleBackupState,
+} from 'src/account/actions'
 import { KycStatus, PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
@@ -35,7 +41,9 @@ import {
   setSessionId,
 } from 'src/app/actions'
 import {
+  biometryEnabledSelector,
   sessionIdSelector,
+  supportedBiometryTypeSelector,
   verificationPossibleSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
@@ -50,6 +58,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
@@ -64,6 +73,7 @@ interface DispatchProps {
   toggleBackupState: typeof toggleBackupState
   devModeTriggerClicked: typeof devModeTriggerClicked
   setRequirePinOnAppOpen: typeof setRequirePinOnAppOpen
+  setPincodeSuccess: typeof setPincodeSuccess
   toggleFornoMode: typeof toggleFornoMode
   setSessionId: typeof setSessionId
   clearStoredAccount: typeof clearStoredAccount
@@ -85,6 +95,8 @@ interface StateProps {
   sessionId: string
   connectedApplications: number
   walletConnectEnabled: boolean
+  biometryEnabled: boolean
+  supportedBiometryType: BIOMETRY_TYPE | null
   linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
   mtwAddress: string | null
@@ -113,6 +125,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: v1 || v2,
+    biometryEnabled: biometryEnabledSelector(state),
+    supportedBiometryType: supportedBiometryTypeSelector(state),
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
     mtwAddress: state.web3.mtwAddress,
@@ -127,6 +141,7 @@ const mapDispatchToProps = {
   toggleBackupState,
   devModeTriggerClicked,
   setRequirePinOnAppOpen,
+  setPincodeSuccess,
   toggleFornoMode,
   setSessionId,
   clearStoredAccount,
@@ -276,6 +291,24 @@ export class Account extends React.Component<Props, State> {
           </View>
         </View>
       )
+    }
+  }
+
+  handleUseBiometryToggle = async (turnBiometryOn: boolean) => {
+    try {
+      if (turnBiometryOn) {
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_enable)
+        await setPincodeWithBiometry()
+        this.props.setPincodeSuccess(PincodeType.PhoneAuth)
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_complete)
+      } else {
+        ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_disable)
+        await removeStoredPin()
+        this.props.setPincodeSuccess(PincodeType.CustomPin)
+      }
+    } catch (error) {
+      Logger.error('SettingsItem@onPress', 'Toggle use biometry error', error)
+      ValoraAnalytics.track(SettingsEvents.settings_biometry_opt_in_error)
     }
   }
 
@@ -431,12 +464,6 @@ export class Account extends React.Component<Props, State> {
               value={this.props.preferredCurrencyCode}
               onPress={this.goToLocalCurrencySetting}
             />
-            <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
-            <SettingsItemTextValue
-              title={t('changePin')}
-              onPress={this.goToChangePin}
-              testID="ChangePIN"
-            />
             {this.props.walletConnectEnabled && (
               <SettingsItemTextValue
                 title={t('connectedApplications')}
@@ -445,12 +472,29 @@ export class Account extends React.Component<Props, State> {
                 testID="ConnectedApplications"
               />
             )}
+            <SectionHead text={t('security')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
+            {this.props.biometryEnabled && this.props.supportedBiometryType && (
+              <SettingsItemSwitch
+                title={t('useBiometryType', {
+                  biometryType: t(`biometryType.${this.props.supportedBiometryType}`),
+                })}
+                value={this.props.pincodeType === PincodeType.PhoneAuth}
+                onValueChange={this.handleUseBiometryToggle}
+                testID="useBiometryToggle"
+              />
+            )}
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
               testID="requirePinOnAppOpenToggle"
             />
+            <SectionHead text={t('data')} style={styles.sectionTitle} />
             {/* For now disable the option to use the light client 
             <SettingsItemSwitch
               title={t('enableDataSaver')}

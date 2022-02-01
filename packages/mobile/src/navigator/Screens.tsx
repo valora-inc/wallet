@@ -1,11 +1,13 @@
 export enum Screens {
   AccountKeyEducation = 'AccountKeyEducation',
+  AccounSetupFailureScreen = 'AccounSetupFailureScreen',
   AppLoading = 'AppLoading',
   BackupComplete = 'BackupComplete',
   BackupForceScreen = 'BackupForceScreen',
   BackupIntroduction = 'BackupIntroduction',
   BackupPhrase = 'BackupPhrase',
   BackupQuiz = 'BackupQuiz',
+  BankAccounts = 'BankAccounts',
   BidaliScreen = 'BidaliScreen',
   CashInSuccess = 'CashInSuccess',
   ConnectPhoneNumberScreen = 'ConnectPhoneNumberScreen',

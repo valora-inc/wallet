@@ -71,7 +71,7 @@ describe('TokenBottomSheet', () => {
     const tree = renderPicker(true)
     const { getByTestId } = tree
 
-    expect(tree.getByTestId('TokenBottomSheetContainer')).toBeTruthy()
+    expect(tree.getByTestId('BottomSheetContainer')).toBeTruthy()
 
     expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
     expect(getElementText(getByTestId('LocalcUSDBalance'))).toBe('₱13.30')
@@ -104,13 +104,13 @@ describe('TokenBottomSheet', () => {
 
   it('renders nothing if not visible', () => {
     const { queryByTestId } = renderPicker(false)
-    expect(queryByTestId('TokenBottomSheetContainer')).toBeFalsy()
+    expect(queryByTestId('BottomSheetContainer')).toBeFalsy()
   })
 
   it("shows only invite tokens if it's an invite", () => {
     const { queryByTestId, getByTestId } = renderPicker(true, true)
 
-    expect(getByTestId('TokenBottomSheetContainer')).toBeTruthy()
+    expect(getByTestId('BottomSheetContainer')).toBeTruthy()
     expect(getElementText(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
     expect(queryByTestId('TTBalance')).toBeFalsy()
   })

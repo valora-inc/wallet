@@ -4,8 +4,10 @@ import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, delay, select } from 'redux-saga/effects'
+import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateToError } from 'src/navigator/NavigationService'
+import { getPasswordSaga } from 'src/pincode/authentication'
 import {
   completeWeb3Sync,
   setAccount,
@@ -32,6 +34,8 @@ import { createMockStore, sleep } from 'test/utils'
 import { mockAccount, mockAccount2, mockAccount3 } from 'test/values'
 
 const LAST_BLOCK_NUMBER = 200
+
+jest.unmock('src/pincode/authentication')
 
 jest.mock('src/account/actions', () => ({
   ...(jest.requireActual('src/account/actions') as any),
@@ -66,6 +70,14 @@ describe(getOrCreateAccount, () => {
       .provide([
         [select(currentAccountSelector), null],
         [matchers.call.fn(generateMnemonic), MNEMONIC],
+        [
+          call(storeMnemonic, MNEMONIC, EXPECTED_ADDRESS),
+          {
+            service: 'mnemonic',
+            storage: 'storage',
+          },
+        ],
+        [call(getPasswordSaga, EXPECTED_ADDRESS, false, true), 'somePassword'],
       ])
       .put(setAccount(EXPECTED_ADDRESS))
       .put(setDataEncryptionKey(EXPECTED_DEK))
@@ -87,6 +99,14 @@ describe(getOrCreateAccount, () => {
         .provide([
           [select(currentAccountSelector), null],
           [select(currentLanguageSelector), appLang],
+          [
+            matchers.call.fn(storeMnemonic),
+            {
+              service: 'mnemonic',
+              storage: 'storage',
+            },
+          ],
+          [matchers.call.fn(getPasswordSaga), 'somePassword'],
         ])
         .call(
           generateMnemonic,

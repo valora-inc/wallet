@@ -18,7 +18,6 @@ export interface State {
   devModeClickCount: number
   photosNUXClicked: boolean
   pincodeType: PincodeType
-  isSettingPin: boolean
   backupCompleted: boolean
   accountCreationTime: number
   backupRequiredTime: number | null
@@ -40,6 +39,7 @@ export interface State {
 export enum PincodeType {
   Unset = 'Unset',
   CustomPin = 'CustomPin',
+  PhoneAuth = 'PhoneAuth',
 }
 
 export interface UserContactDetails {
@@ -79,7 +79,6 @@ export const initialState: State = {
   devModeClickCount: 0,
   photosNUXClicked: false,
   pincodeType: PincodeType.Unset,
-  isSettingPin: false,
   accountCreationTime: 99999999999999,
   backupRequiredTime: null,
   backupCompleted: false,
@@ -138,7 +137,6 @@ export const reducer = (
         choseToRestoreAccount: false,
         recoveringFromStoreWipe: false,
         pincodeType: PincodeType.Unset,
-        isSettingPin: false,
       }
     case Actions.SET_NAME:
       return {
@@ -182,22 +180,15 @@ export const reducer = (
         ...state,
         photosNUXClicked: true,
       }
-    case Actions.SET_PINCODE:
-      return {
-        ...state,
-        isSettingPin: true,
-      }
     case Actions.SET_PINCODE_SUCCESS:
       return {
         ...state,
         pincodeType: action.pincodeType,
-        isSettingPin: false,
       }
     case Actions.SET_PINCODE_FAILURE:
       return {
         ...state,
         pincodeType: PincodeType.Unset,
-        isSettingPin: false,
       }
     case Actions.SET_ACCOUNT_CREATION_TIME:
       return {

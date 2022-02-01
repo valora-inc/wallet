@@ -4,11 +4,13 @@ import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
+import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -433,6 +435,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={StoreWipeRecoveryScreen}
       options={StoreWipeRecoveryScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.AccounSetupFailureScreen}
+      component={AccounSetupFailureScreen}
+      options={AccounSetupFailureScreen.navOptions}
+    />
   </>
 )
 
@@ -462,6 +469,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SyncBankAccountScreen}
       component={SyncBankAccountScreen}
       options={SyncBankAccountScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.BankAccounts}
+      component={BankAccounts}
+      options={BankAccounts.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}
