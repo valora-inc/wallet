@@ -1130,6 +1130,12 @@
       "contactSupportPrefill": "I was unable to link my bank account to Valora"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
+    "delete": "Delete"
+  },
+  "syncingBankAccount": "Syncing bank account...",
   "linkBankAccountSettingsTitle": "Link Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "connectPhoneNumber": {

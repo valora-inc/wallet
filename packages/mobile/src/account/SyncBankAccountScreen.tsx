@@ -48,7 +48,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
     if (!finclusiveBankAccountResponse.ok) {
       navigate(Screens.LinkBankAccountErrorScreen)
     }
-    // TODO(wallet#1449): redirect to Bank Account List Page
+    navigate(Screens.BankAccounts, { newPublicToken: publicToken })
   }, [])
 
   return (

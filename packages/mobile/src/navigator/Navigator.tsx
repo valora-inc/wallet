@@ -10,12 +10,13 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -474,6 +475,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SyncBankAccountScreen}
       component={SyncBankAccountScreen}
       options={SyncBankAccountScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.BankAccounts}
+      component={BankAccounts}
+      options={BankAccounts.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ConnectPhoneNumberScreen}
