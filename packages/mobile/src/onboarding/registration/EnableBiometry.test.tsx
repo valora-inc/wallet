@@ -4,6 +4,8 @@ import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
@@ -15,6 +17,7 @@ import { mocked } from 'ts-jest/utils'
 
 const mockedSetPincodeWithBiometry = mocked(setPincodeWithBiometry)
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+const analyticsSpy = jest.spyOn(ValoraAnalytics, 'track')
 
 const store = createMockStore({
   app: {
@@ -60,6 +63,37 @@ describe('EnableBiometry', () => {
     expect(setPincodeWithBiometry).toHaveBeenCalled()
     expect(store.getActions()).toEqual([setPincodeSuccess(PincodeType.PhoneAuth)])
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
+
+    expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
+    expect(analyticsSpy).toHaveBeenNthCalledWith(3, OnboardingEvents.biometry_opt_in_complete)
+  })
+
+  it('should log error and not navigate if biometry enable fails', async () => {
+    mockedSetPincodeWithBiometry.mockRejectedValue('some error')
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    await flushMicrotasksQueue()
+
+    expect(setPincodeWithBiometry).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(loggerErrorSpy).toHaveBeenCalled()
+    expect(analyticsSpy).toHaveBeenCalledWith(OnboardingEvents.biometry_opt_in_error)
+  })
+
+  it('should not log error if user cancels biometry validation, and not navigate', async () => {
+    mockedSetPincodeWithBiometry.mockRejectedValue('user canceled the operation')
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    await flushMicrotasksQueue()
+
+    expect(setPincodeWithBiometry).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {

@@ -3,7 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
@@ -48,6 +50,10 @@ export default function EnableBiometry({ navigation }: Props) {
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
+  useEffect(() => {
+    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_start)
+  }, [])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -60,12 +66,17 @@ export default function EnableBiometry({ navigation }: Props) {
         <TopBarTextButton
           title={t('skip')}
           testID="EnableBiometrySkipHeader"
-          onPress={handleNavigateToNextScreen}
+          onPress={onPressSkip}
           titleStyle={{ color: colors.goldDark }}
         />
       ),
     })
   }, [navigation, step, totalSteps])
+
+  const onPressSkip = () => {
+    ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_cancel)
+    handleNavigateToNextScreen()
+  }
 
   const handleNavigateToNextScreen = () => {
     navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
@@ -73,10 +84,13 @@ export default function EnableBiometry({ navigation }: Props) {
 
   const onPressUseBiometry = async () => {
     try {
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_approve)
       await setPincodeWithBiometry()
       dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_complete)
       handleNavigateToNextScreen()
     } catch (error) {
+      ValoraAnalytics.track(OnboardingEvents.biometry_opt_in_error)
       if (!isUserCancelledError(error)) {
         Logger.error(TAG, 'Error enabling biometry', error)
       }

@@ -187,6 +187,10 @@ function storePinWithBiometry(pin: string) {
   })
 }
 
+export function removeStoredPin() {
+  return removeStoredItem(STORAGE_KEYS.PIN)
+}
+
 async function retrievePasswordHash(account: string) {
   if (!getCachedPasswordHash(account)) {
     let hash: string | null = null
@@ -425,5 +429,6 @@ export async function removeAccountLocally(account: string) {
   return Promise.all([
     removeStoredItem(STORAGE_KEYS.PEPPER),
     removeStoredItem(passwordHashStorageKey(account)),
+    removeStoredItem(STORAGE_KEYS.PIN),
   ])
 }
