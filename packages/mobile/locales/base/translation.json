@@ -547,6 +547,8 @@
   "redeemFailed": "Failure redeeming code ",
   "redeemInviteTimeout": "Redeem Invite Timed out",
   "accountSetupFailed": "Failed to create your wallet",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "closeApp": "Close app",
   "emptyInviteCode": "Invite code has no funds",
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
