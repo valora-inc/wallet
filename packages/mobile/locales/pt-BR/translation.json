@@ -547,8 +547,8 @@
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
   "accountSetupFailed": "Falha ao criar sua conta",
-  "accountSetupFailedDescription": "Por favor, delete {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, por favor, entre em contato com o suporte.",
-  "closeApp": "Fechar aplicativo",
+  "accountSetupFailedDescription": "Exclua a {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, entre em contato com o suporte.",
+  "closeApp": "Fechar",
   "emptyInviteCode": "O código do convite não tem fundos",
   "transferDollarsToAccount": "Fundos transferidos para sua conta!",
   "inviteAnyone": "Envie facilmente para seus amigos adicionando seus contatos",
@@ -864,7 +864,7 @@
   "estimatedFee": "Taxa estimada: ",
   "selectBalance": "Selecionar Saldo",
   "stableBalance": "Saldo de {{token}}",
-  "selectToken": "Selecione o Ativo",
+  "selectToken": "Selecionar ativo",
   "verificationCta": {
     "header": "Enviando para um amigo?",
     "body": "Conecte seu celular e sincronize seus contatos para enviar fundos para seus amigos.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Ver ativos",
   "whatTotalValue": {
     "title": "O que significa Saldo total?",
-    "body": "Seu Saldo Total é uma soma aproximada de todos os seus ativos da Valora. Seu Saldo Total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos.\nAlguns ativos podem não ser mostrados no Saldo Total porque o preço está indisponível no momento do cálculo.",
+    "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns ativos não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
     "dismiss": "Ignorar"
   },
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
@@ -1138,12 +1138,12 @@
     "title": "Dapps",
     "message": "Explore formas de usar suas cripto.",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "Em destaque",
+    "allDapps": "Todos"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
-    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar seu criptograma, ganhar prêmios e explorar a Web3.\n\nConecte a Valora a um dapp para começar.",
+    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar a Web3.\n\nConecte Valora a um dapp para começar.",
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
@@ -1154,7 +1154,7 @@
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Outros",
-  "nomSpaceRecipient": "Espaço Nom: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
