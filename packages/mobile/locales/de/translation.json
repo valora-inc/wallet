@@ -864,7 +864,7 @@
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Guthaben auswählen",
   "stableBalance": "{{token}} Guthaben",
-  "selectToken": "Token auswählen",
+  "selectToken": "Asset auswählen",
   "verificationCta": {
     "header": "An einen Freund senden?",
     "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
@@ -1085,7 +1085,7 @@
   "viewBalances": "Vermögen ansehen",
   "whatTotalValue": {
     "title": "Was bedeutet Gesamtguthaben?",
-    "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
+    "body": "Dein Gesamtguthaben ist eine ungefähre Summe aller deiner Valora-Guthaben. Dein Gesamtguthaben ändert sich, wenn die Preise schwanken. Er wird alle 10 Minuten aktualisiert.\nEs kann sein, dass einige Vermögenswerte nicht in der Gesamtbilanz angezeigt werden, weil der Preis zum Zeitpunkt der Berechnung nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
