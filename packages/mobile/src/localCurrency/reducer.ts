@@ -5,6 +5,7 @@ import { Currency } from 'src/utils/currencies'
 
 export interface State {
   isLoading: boolean
+  error: boolean
   preferredCurrencyCode?: LocalCurrencyCode
   exchangeRates: { [token in Currency]: string | null }
   lastSuccessfulUpdate?: number
@@ -13,6 +14,7 @@ export interface State {
 
 const initialState = {
   isLoading: false,
+  error: false,
   exchangeRates: {
     [Currency.Celo]: null,
     [Currency.Dollar]: null,
@@ -33,17 +35,20 @@ export const reducer = (
         ...state,
         ...persistedState,
         isLoading: false,
+        error: false,
       }
     }
     case Actions.FETCH_CURRENT_RATE:
       return {
         ...state,
         isLoading: true,
+        error: false,
       }
     case Actions.FETCH_CURRENT_RATE_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        error: false,
         exchangeRates: {
           ...state.exchangeRates,
           ...action.exchangeRates,
@@ -55,6 +60,7 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
+        error: true,
       }
     case Actions.SELECT_PREFERRED_CURRENCY:
       return {

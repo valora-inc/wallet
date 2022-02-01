@@ -560,6 +560,7 @@ export const v16Schema = {
     },
     exchangeRate: undefined,
     fetchRateFailed: false,
+    error: false,
   },
   stableToken: {
     ...v15Schema.stableToken,
