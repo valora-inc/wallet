@@ -1,6 +1,6 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
-"NSCameraUsageDescription" = "Подключение камеры позволяет тебе сканировать коды для платежей.";
+"NSCameraUsageDescription" = "Подключение камеры позволяет сканировать коды для оплаты.";
 "NSContactsUsageDescription" = "Добавление контактов позволит легко отправлять или запрашивать платежи.";
 "NSPhotoLibraryAddUsageDescription" = "Подключение библиотеки фотографий позволит вам сохранять свой код на фотографиях.";
 "NSPhotoLibraryUsageDescription" = "Это необходимо для выбора изображения профиля.";
