@@ -547,6 +547,8 @@
   "redeemFailed": "Не удалось активировать код ",
   "redeemInviteTimeout": "Истекло время ожидания активации приглашения",
   "accountSetupFailed": "Не удалось создать кошелек",
+  "accountSetupFailedDescription": "Пожалуйста, удали {{appName}} с твоего устройства и попробуй снова. Если у тебя продолжаются проблемы, пожалуйста, обратись в службу поддержки.",
+  "closeApp": "Закрой приложение",
   "emptyInviteCode": "Код приглашения не содержит средств",
   "transferDollarsToAccount": "Средства отправлены на ваш аккаунт!",
   "inviteAnyone": "Можно просто отправить своим друзьям, добавив контакты",
@@ -1139,7 +1141,9 @@
   "dappsScreen": {
     "title": "Децентрализованные приложения",
     "message": "Изучите способы использования криптовалюты.",
-    "errorMessage": "Произошла ошибка при загрузке децентрализованных приложений"
+    "errorMessage": "Произошла ошибка при загрузке децентрализованных приложений",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "Что такое \"децентрализованные приложения\"?",
@@ -1153,6 +1157,8 @@
   },
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",
+  "others": "Другие",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount_0": "<0></0> Доллар Celo",
   "celoDollarAmount_1": "<0></0> Доллары Celo",
   "celoDollarAmount_2": "<0></0> Доллары Celo",
