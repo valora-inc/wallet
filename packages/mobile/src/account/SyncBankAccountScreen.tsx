@@ -13,6 +13,7 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import Logger from 'src/utils/Logger'
+import { navigate } from 'src/navigator/NavigationService'
 
 const TAG = 'SYNC_BANK_ACCOUNT'
 
