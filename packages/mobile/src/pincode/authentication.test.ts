@@ -4,6 +4,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
+import { AuthenticationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
   CANCELLED_PIN_INPUT,
@@ -36,6 +38,7 @@ jest.mock('react-native-securerandom', () => ({
   ...(jest.requireActual('react-native-securerandom') as any),
   generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
 }))
+jest.mock('src/analytics/ValoraAnalytics')
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockPepper = {
@@ -191,6 +194,10 @@ describe(getPincode, () => {
 })
 
 describe(getPincodeWithBiometry, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('returns the correct pin and populates the cache', async () => {
     clearPasswordCaches()
     mockedKeychain.getGenericPassword.mockResolvedValue({
@@ -203,6 +210,14 @@ describe(getPincodeWithBiometry, () => {
 
     expect(retrievedPin).toEqual(mockPin)
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AuthenticationEvents.get_pincode_with_biometry_start
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AuthenticationEvents.get_pincode_with_biometry_complete
+    )
   })
 
   it('throws an error if a null pin was retrieved', async () => {
@@ -210,6 +225,14 @@ describe(getPincodeWithBiometry, () => {
 
     await expect(getPincodeWithBiometry()).rejects.toThrowError(
       'Failed to retrieve pin with biometry, recieved null value'
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AuthenticationEvents.get_pincode_with_biometry_start
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      AuthenticationEvents.get_pincode_with_biometry_error
     )
   })
 })
