@@ -22,18 +22,20 @@ describe('Pincode', () => {
 
   afterAll(() => dispatchSpy.mockRestore())
 
-  it('renders correctly', () => {
+  it('renders the correct components', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
 
-    const { toJSON } = render(
+    const { getByTestId } = render(
       <Provider store={mockStore}>
         <PincodeSet {...mockScreenProps} />
       </Provider>
     )
 
-    // initial render shows pin enter screen
-    expect(toJSON()).toMatchSnapshot()
+    expect(getByTestId('PincodeDisplay')).toBeTruthy()
+    Array.from(Array(10).keys()).forEach((number) => {
+      expect(getByTestId(`digit${number}`)).toBeTruthy()
+    })
   })
 
   it('navigates to the VerificationEducationScreen screen after successfully verifying', async () => {
