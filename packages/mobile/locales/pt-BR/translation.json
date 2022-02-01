@@ -547,6 +547,8 @@
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
   "accountSetupFailed": "Falha ao criar sua conta",
+  "accountSetupFailedDescription": "Por favor, delete {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, por favor, entre em contato com o suporte.",
+  "closeApp": "Fechar aplicativo",
   "emptyInviteCode": "O código do convite não tem fundos",
   "transferDollarsToAccount": "Fundos transferidos para sua conta!",
   "inviteAnyone": "Envie facilmente para seus amigos adicionando seus contatos",
@@ -666,6 +668,18 @@
     "step2": "Com a {{appName}}, acesse e multiplique suas criptomoedas facilmente.",
     "step3": "Tudo o que você precisa é de um celular para enviar, gastar e explorar o mundo cripto."
   },
+  "enableBiometry": {
+    "title": "Proteja sua carteira",
+    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
+    "cta": "Ativar {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Reconhecimento de impressão digital",
+    "Face": "Reconhecimento facial",
+    "Iris": "Reconhecimento de Iris"
+  },
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
@@ -679,8 +693,7 @@
   },
   "createAccount": "Criar conta",
   "restoreAccount": "Restaurar conta existente",
-  "createAccountSteps": "Passo {{step}} de {{totalSteps}}",
-  "restoreAccountSteps": "Passo {{step}} de {{totalSteps}}",
+  "registrationSteps": "Passo {{step}} de {{totalSteps}}",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
@@ -910,8 +923,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviando para um endereço",
-    "body": "Certifique-se de que o endereço suporta cUSD. Os fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode enviar um pagamento de teste pequeno primeiro.",
-    "toggle": "Perguntar sempre"
+    "body": "Certifique-se de que este endereço suporta o ativo que você está tentando enviar. Seus fundos podem não ser recuperáveis se este endereço for inválido. Envie um pagamento teste primeiro para ter certeza de que este é o endereço correto.",
+    "toggle": "Lembrar sempre"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
@@ -1124,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore formas de usar suas cripto.",
-    "errorMessage": "Ocorreu um erro ao carregar os dapps"
+    "errorMessage": "Ocorreu um erro ao carregar os dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
@@ -1138,6 +1153,8 @@
   },
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
+  "others": "Outros",
+  "nomSpaceRecipient": "Espaço Nom: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }

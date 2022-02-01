@@ -12,10 +12,17 @@ import {
   getPincode,
   getPincodeWithBiometry,
   PinBlocklist,
+  retrieveOrGeneratePepper,
   setPincodeWithBiometry,
   updatePin,
 } from 'src/pincode/authentication'
-import { clearPasswordCaches, getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
+import {
+  clearPasswordCaches,
+  getCachedPepper,
+  getCachedPin,
+  setCachedPepper,
+  setCachedPin,
+} from 'src/pincode/PasswordCache'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 import { getMockStoreData } from 'test/utils'
@@ -24,11 +31,15 @@ import { mocked } from 'ts-jest/utils'
 
 jest.unmock('src/pincode/authentication')
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
-const loggerErrorSpy = jest.spyOn(Logger, 'error')
+jest.mock('react-native-securerandom', () => ({
+  ...(jest.requireActual('react-native-securerandom') as any),
+  generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
+}))
 
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockPepper = {
   username: 'some username',
-  password: '0000000000000000000000000000000000000000000000000000000000000001',
+  password: '01010101010101010101010101010101',
   service: 'some service',
   storage: 'some string',
 }
@@ -266,12 +277,20 @@ describe(setPincodeWithBiometry, () => {
     })
 
     await expect(setPincodeWithBiometry()).rejects.toThrowError(
-      'Retrieved incorrect pin with biometry after saving'
+      "Retrieved value for key 'PIN' does not match stored value"
     )
   })
 })
 
 describe(updatePin, () => {
+  const oldPin = '123123'
+  const oldPassword = mockPepper.password + oldPin
+  const newPassword = mockPepper.password + mockPin
+  // expectedPasswordHash generated from newPassword
+  const newPasswordHash = 'd9bb2d77ec27dc8bf4269a6241daaa0388e8908518458f6ce0314380d11411cd'
+  // expectedAccountHash generated from normalizeAddress(mockAccount)
+  const accountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
+
   beforeEach(() => {
     jest.clearAllMocks()
     clearPasswordCaches()
@@ -287,17 +306,25 @@ describe(updatePin, () => {
           storage: 'some string',
         })
       }
+      if (options?.service === accountHash) {
+        return Promise.resolve({
+          username: 'some username',
+          password: newPasswordHash,
+          service: 'some service',
+          storage: 'some string',
+        })
+      }
+      if (options?.service === 'PIN') {
+        return Promise.resolve({
+          username: 'some username',
+          password: mockPin,
+          service: 'some service',
+          storage: 'some string',
+        })
+      }
       return Promise.resolve(false)
     })
   })
-
-  const oldPin = '123123'
-  const oldPassword = mockPepper.password + oldPin
-  const newPassword = mockPepper.password + mockPin
-  // expectedPasswordHash generated from mockPin
-  const newPasswordHash = '9853810edb88b031bf6ac1505f5689cb423876fbeb14f7a3037c97ec4531b6ae'
-  // expectedAccountHash generated from normalizeAddress(mockAccount)
-  const accountHash = 'PASSWORD_HASH-0000000000000000000000000000000000007e57'
 
   it('should update the cached pin, stored password, and store mnemonic', async () => {
     await updatePin(mockAccount, oldPin, mockPin)
@@ -350,6 +377,56 @@ describe(updatePin, () => {
         authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
       })
     )
+  })
+})
+describe(retrieveOrGeneratePepper, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    clearPasswordCaches()
+  })
+
+  it('should return the cached pepper', async () => {
+    setCachedPepper(DEFAULT_CACHE_ACCOUNT, mockPepper.password)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+  })
+
+  it('should return the stored pepper if it is not cached', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(mockPepper)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+  })
+
+  it('should store and cache the pepper if it has not been stored or cached', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
+    mockedKeychain.setGenericPassword.mockResolvedValueOnce({
+      service: 'PEPPER',
+      storage: 'some storage',
+    })
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(mockPepper)
+    const pepper = await retrieveOrGeneratePepper()
+
+    expect(pepper).toEqual(mockPepper.password)
+    expect(getCachedPepper(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPepper.password)
+  })
+
+  it('should throw an error and remove stored pepper if it fails to correctly read the stored pepper', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce(false)
+    mockedKeychain.setGenericPassword.mockResolvedValueOnce({
+      service: 'PEPPER',
+      storage: 'some storage',
+    })
+    mockedKeychain.getGenericPassword.mockResolvedValueOnce({
+      ...mockPepper,
+      password: 'some random password',
+    })
+
+    await expect(retrieveOrGeneratePepper()).rejects.toThrowError(
+      "Retrieved value for key 'PEPPER' does not match stored value"
+    )
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PEPPER' })
   })
 })
 

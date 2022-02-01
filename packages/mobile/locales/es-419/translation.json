@@ -547,6 +547,8 @@
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
   "accountSetupFailed": "Error al crear la cuenta",
+  "accountSetupFailedDescription": "Por favor, elimina {{appName}} de tu dispositivo e inténtalo de nuevo. Si sigues teniendo problemas, ponte en contacto con el servicio de asistencia técnica.",
+  "closeApp": "Cerrar la aplicación",
   "emptyInviteCode": "El código de invitación no tiene fondos",
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
   "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",
@@ -666,6 +668,18 @@
     "step2": "Con {{appName}}, accede y multiplica tus criptomonedas en pocos pasos.",
     "step3": "Solo necesitas tu teléfono para enviar, gastar y explorar el mundo cripto."
   },
+  "enableBiometry": {
+    "title": "Mantén tu billetera segura",
+    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
+    "cta": "Habilitar {{biometryType}}"
+  },
+  "biometryType": {
+    "FaceID": "Face ID",
+    "TouchID": "Touch ID",
+    "Fingerprint": "Reconocimiento de huella digital",
+    "Face": "Reconocimiento facial",
+    "Iris": "Reconocimiento de iris"
+  },
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
@@ -679,8 +693,7 @@
   },
   "createAccount": "Crear Cuenta",
   "restoreAccount": "Restaurar cuenta existente",
-  "createAccountSteps": "Paso {{step}} de {{totalSteps}}",
-  "restoreAccountSteps": "Paso {{step}} de {{totalSteps}}",
+  "registrationSteps": "Paso {{step}} de {{totalSteps}}",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
     "create": "Crea un PIN",
@@ -910,8 +923,8 @@
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
-    "body": "Asegúrate de que la dirección sea compatible con cUSD. Es posible que no puedas recuperar los fondos enviados a direcciones no válidas.\n\nTambién puedes hacer un pequeño pago de prueba primero.",
-    "toggle": "Preguntar cada vez"
+    "body": "Asegúrate de que esta dirección sea compatible con el activo que deseas enviar. Si no lo es y completas el envío de todas maneras, perderás los fondos. Te recomendamos realizar una transacción de prueba antes de enviar el monto deseado.",
+    "toggle": "Recordármelo siempre"
   },
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
@@ -1124,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explora las distintas formas de usar tus cripto.",
-    "errorMessage": "Hubo un error al cargar las dapps"
+    "errorMessage": "Hubo un error al cargar las dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "¿Qué son las dapps?",
@@ -1138,6 +1153,8 @@
   },
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
+  "others": "Otros",
+  "nomSpaceRecipient": "Espacio Nom: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }

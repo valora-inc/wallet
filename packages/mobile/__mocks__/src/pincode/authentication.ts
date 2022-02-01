@@ -12,4 +12,5 @@ module.exports = {
   setPincodeWithBiometry: jest
     .fn()
     .mockResolvedValue({ service: 'some service', storage: 'some storage' }),
+  requestPincodeInput: jest.fn().mockResolvedValue('123123'),
 }

@@ -46,7 +46,7 @@ function LinkBankAccountScreen() {
         showsVerticalScrollIndicator={false}
       >
         <StepOne kycStatus={kycStatus} />
-        <StepTwo disabled={!kycStatus || kycStatus !== KycStatus.Completed} />
+        <StepTwo disabled={!kycStatus || kycStatus !== KycStatus.Approved} />
       </ScrollView>
     </SafeAreaView>
   )
