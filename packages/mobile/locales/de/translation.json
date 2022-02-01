@@ -680,7 +680,7 @@
     "Face": "Gesichtserkennung",
     "Iris": "Iris-Erkennung"
   },
-  "useBiometryType": "Verwende {{biometryType}}",
+  "useBiometryType": "{{biometryType}} verwenden",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
