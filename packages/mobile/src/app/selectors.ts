@@ -113,12 +113,12 @@ export const linkBankAccountEnabledSelector = (state: RootState) => state.app.li
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
+export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors
+
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
 export const biometryEnabledSelector = (state: RootState) =>
   state.app.biometryEnabled && !!state.app.supportedBiometryType
-
-export const useBiometrySelector = (state: RootState) => state.app.useBiometry
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 

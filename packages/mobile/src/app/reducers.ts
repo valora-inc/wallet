@@ -47,9 +47,9 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
+  sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
-  useBiometry: boolean
   superchargeButtonType: SuperchargeButtonType
 }
 
@@ -91,9 +91,9 @@ const initialState = {
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
+  sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
-  useBiometry: false,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
 }
 
@@ -161,11 +161,6 @@ export const appReducer = (
         ...state,
         requirePinOnAppOpen: action.enabled,
       }
-    case Actions.SET_USE_BIOMETRY:
-      return {
-        ...state,
-        useBiometry: action.enabled,
-      }
     case Actions.LOCK:
       return {
         ...state,
@@ -211,6 +206,7 @@ export const appReducer = (
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
+        sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
       }

@@ -4,11 +4,7 @@ import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux
 import {
   Actions,
   ClearStoredAccountAction,
-  initializeAccountFailure,
   initializeAccountSuccess,
-  SetPincodeAction,
-  setPincodeFailure,
-  setPincodeSuccess,
   updateCusdDailyLimit,
   updateKycStatus,
 } from 'src/account/actions'
@@ -23,30 +19,18 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress, getMTWAddress } from 'src/web3/saga'
+import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'account/saga'
 
 export const SENTINEL_MIGRATE_COMMENT = '__CELO_MIGRATE_TX__'
-
-export function* setPincode({ pincodeType }: SetPincodeAction) {
-  try {
-    // TODO hooks into biometrics will likely go here
-    // But for now this saga does not to much, most cut during the auth refactor
-    yield put(setPincodeSuccess(pincodeType))
-    Logger.info(TAG + '@setPincode', 'Pincode set successfully')
-  } catch (error) {
-    Logger.error(TAG + '@setPincode', 'Failed to set pincode', error)
-    ValoraAnalytics.track(OnboardingEvents.pin_failed_to_set, { error: error.message, pincodeType })
-    yield put(showError(ErrorMessages.SET_PIN_FAILED))
-    yield put(setPincodeFailure())
-  }
-}
 
 function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccountAction) {
   try {
@@ -86,7 +70,7 @@ function* initializeAccount() {
   } catch (e) {
     Logger.error(TAG, 'Failed to initialize account', e)
     ValoraAnalytics.track(OnboardingEvents.initialize_account_error, { error: e.message })
-    yield put(initializeAccountFailure())
+    navigateClearingStack(Screens.AccounSetupFailureScreen)
   }
 }
 
@@ -139,10 +123,6 @@ export function* watchKycStatus() {
   }
 }
 
-export function* watchSetPincode() {
-  yield takeLeading(Actions.SET_PINCODE, setPincode)
-}
-
 export function* watchClearStoredAccount() {
   const action = yield take(Actions.CLEAR_STORED_ACCOUNT)
   yield call(clearStoredAccountSaga, action)
@@ -157,7 +137,6 @@ export function* watchSaveNameAndPicture() {
 }
 
 export function* accountSaga() {
-  yield spawn(watchSetPincode)
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
