@@ -9,8 +9,9 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { setPincodeSuccess } from 'src/account/actions'
+import { PincodeType } from 'src/account/reducer'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
-import { setUseBiometry } from 'src/app/actions'
 import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
@@ -21,7 +22,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
+import { isUserCancelledError } from 'src/storage/keychain'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'EnableBiometry'
 
 type Props = StackScreenProps<StackParamList, Screens.EnableBiometry>
 
@@ -33,7 +39,7 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.IRIS]: <Face />,
 }
 
-export default function EnableBiometry({ navigation, route }: Props) {
+export default function EnableBiometry({ navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -66,10 +72,15 @@ export default function EnableBiometry({ navigation, route }: Props) {
   }
 
   const onPressUseBiometry = async () => {
-    dispatch(setUseBiometry(true))
-    // do some stuff to use biometry
-
-    handleNavigateToNextScreen()
+    try {
+      await setPincodeWithBiometry()
+      dispatch(setPincodeSuccess(PincodeType.PhoneAuth))
+      handleNavigateToNextScreen()
+    } catch (error) {
+      if (!isUserCancelledError(error)) {
+        Logger.error(TAG, 'Error enabling biometry', error)
+      }
+    }
   }
 
   return (
