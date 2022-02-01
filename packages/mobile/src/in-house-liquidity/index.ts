@@ -6,8 +6,8 @@ import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 
 const keyEncoder = new KeyEncoder('secp256k1')
 interface RequiredParams {
-  accountMTWAddress: string | null
-  dekPrivate: string | null
+  accountMTWAddress: string
+  dekPrivate: string
 }
 
 type DeleteFinclusiveBankAccountParams = RequiredParams & {
@@ -30,7 +30,7 @@ export const deleteFinclusiveBankAccount = async ({
     accountId: id,
   }
   const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress ?? '')}`,
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
     accountMTWAddress,
     dekPrivate,
     requestOptions: {
@@ -66,7 +66,7 @@ export const getFinclusiveBankAccounts = async ({
   dekPrivate,
 }: RequiredParams): Promise<BankAccount[]> => {
   const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress ?? '')}`,
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
     accountMTWAddress,
     dekPrivate,
     requestOptions: {
@@ -246,8 +246,8 @@ export const createPersonaAccount = async ({
 
 interface SignAndFetchParams {
   path: string
-  accountMTWAddress: string | null
-  dekPrivate: string | null
+  accountMTWAddress: string
+  dekPrivate: string
   requestOptions: RequestInit
 }
 
@@ -287,13 +287,6 @@ export const getAuthHeader = async ({
   accountMTWAddress,
   dekPrivate,
 }: RequiredParams): Promise<string> => {
-  if (!accountMTWAddress) {
-    throw new Error('Cannot call IHL because accountMTWAddress is null')
-  }
-
-  if (!dekPrivate) {
-    throw new Error('Cannot call IHL because dekPrivate is null')
-  }
   const dekPrivatePem = keyEncoder.encodePrivate(trimLeading0x(dekPrivate), 'raw', 'pem')
   const dekPublicHex = compressedPubKey(hexToBuffer(dekPrivate))
   const dekPublicPem = keyEncoder.encodePublic(trimLeading0x(dekPublicHex), 'raw', 'pem')
@@ -303,4 +296,24 @@ export const getAuthHeader = async ({
   })
 
   return `Bearer ${token}`
+}
+
+export const verifyDekAndMTW = ({
+  dekPrivate,
+  accountMTWAddress,
+}: {
+  dekPrivate: string | null
+  accountMTWAddress: string | null
+}): RequiredParams => {
+  if (!accountMTWAddress) {
+    throw new Error('Cannot call IHL because accountMTWAddress is null')
+  }
+
+  if (!dekPrivate) {
+    throw new Error('Cannot call IHL because dekPrivate is null')
+  }
+  return {
+    dekPrivate,
+    accountMTWAddress,
+  }
 }

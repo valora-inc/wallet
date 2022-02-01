@@ -16,6 +16,7 @@ const mockProps = getMockStackScreenProps(Screens.SyncBankAccountScreen, {
 })
 
 jest.mock('src/in-house-liquidity', () => ({
+  ...(jest.requireActual('src/in-house-liquidity') as any),
   createFinclusiveBankAccount: jest.fn(() => Promise.resolve()),
   exchangePlaidAccessToken: jest.fn(() => Promise.resolve(mockAccessToken)),
 }))

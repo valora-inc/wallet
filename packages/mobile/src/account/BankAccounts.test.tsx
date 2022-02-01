@@ -9,24 +9,23 @@ import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-h
 import openPlaid from 'src/account/openPlaid'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
-const MOCK_BANK_ACCOUNTS = {
-  bankAccounts: [
-    {
-      accountName: 'Checking',
-      accountNumberTruncated: '***8052',
-      accountType: 'checking',
-      id: 2,
-    },
-    {
-      accountName: 'Savings',
-      accountNumberTruncated: '********0992',
-      accountType: 'savings',
-      id: 3,
-    },
-  ],
-}
+const MOCK_BANK_ACCOUNTS = [
+  {
+    accountName: 'Checking',
+    accountNumberTruncated: '***8052',
+    accountType: 'checking',
+    id: 2,
+  },
+  {
+    accountName: 'Savings',
+    accountNumberTruncated: '********0992',
+    accountType: 'savings',
+    id: 3,
+  },
+]
 
 jest.mock('src/in-house-liquidity', () => ({
+  ...(jest.requireActual('src/in-house-liquidity') as any),
   getFinclusiveBankAccounts: jest.fn(() => Promise.resolve(MOCK_BANK_ACCOUNTS)),
   deleteFinclusiveBankAccount: jest.fn(() => Promise.resolve()),
 }))
@@ -37,23 +36,23 @@ jest.mock('src/account/openPlaid', () => ({
   default: jest.fn(),
 }))
 
-describe('BankAccounts', () => {
-  const store = createMockStore({
-    web3: {
-      mtwAddress: mockAccount,
-      dataEncryptionKey: mockPrivateDEK,
-    },
-    i18n: {
-      language: 'en-US',
-    },
-    account: {
-      e164PhoneNumber: MOCK_PHONE_NUMBER,
-    },
-  })
-  const mockScreenProps = getMockStackScreenProps(Screens.BankAccounts, {
-    newPublicToken: undefined,
-  })
+const store = createMockStore({
+  web3: {
+    mtwAddress: mockAccount,
+    dataEncryptionKey: mockPrivateDEK,
+  },
+  i18n: {
+    language: 'en-US',
+  },
+  account: {
+    e164PhoneNumber: MOCK_PHONE_NUMBER,
+  },
+})
+const mockScreenProps = getMockStackScreenProps(Screens.BankAccounts, {
+  newPublicToken: undefined,
+})
 
+describe('BankAccounts', () => {
   beforeEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()

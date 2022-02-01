@@ -5,6 +5,7 @@ import {
   createLinkToken,
   createFinclusiveBankAccount,
   exchangePlaidAccessToken,
+  verifyDekAndMTW,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/geth/networkConfig'
@@ -53,21 +54,24 @@ describe('In House Liquidity Calls', () => {
       const token = authHeader.split(' ')[1]
       expect(jwt.verify(token, MOCK_USER.dekPublicPem, { algorithms: ['ES256'] })).toBeTruthy()
     })
-    it('throws when dekPrivate is null', async () => {
-      await expect(
-        getAuthHeader({
+  })
+
+  describe('verifyDekAndMTW', () => {
+    it('throws when dekPrivate is null', () => {
+      expect(() =>
+        verifyDekAndMTW({
           accountMTWAddress: MOCK_USER.accountMTWAddress,
           dekPrivate: null,
         })
-      ).rejects.toThrow('Cannot call IHL because dekPrivate is null')
+      ).toThrow('Cannot call IHL because dekPrivate is null')
     })
-    it('throws when accountMTWAddress is null', async () => {
-      await expect(
-        getAuthHeader({
+    it('throws when accountMTWAddress is null', () => {
+      expect(() =>
+        verifyDekAndMTW({
           accountMTWAddress: null,
           dekPrivate: MOCK_USER.dekPrivate,
         })
-      ).rejects.toThrow('Cannot call IHL because accountMTWAddress is null')
+      ).toThrow('Cannot call IHL because accountMTWAddress is null')
     })
   })
 

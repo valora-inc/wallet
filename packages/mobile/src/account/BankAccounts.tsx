@@ -13,6 +13,7 @@ import {
   BankAccount,
   deleteFinclusiveBankAccount,
   getFinclusiveBankAccounts,
+  verifyDekAndMTW,
 } from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -50,10 +51,9 @@ function BankAccounts({ navigation, route }: Props) {
 
   const bankAccounts = useAsync(async () => {
     try {
-      const accounts = await getFinclusiveBankAccounts({
-        dekPrivate,
-        accountMTWAddress,
-      })
+      const accounts = await getFinclusiveBankAccounts(
+        verifyDekAndMTW({ dekPrivate, accountMTWAddress })
+      )
       return accounts
     } catch {
       // TODO(wallet#1447): handle errors from IHL
@@ -104,8 +104,7 @@ function BankAccounts({ navigation, route }: Props) {
     setIsOptionsVisible(false)
     try {
       await deleteFinclusiveBankAccount({
-        accountMTWAddress,
-        dekPrivate,
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
         id: selectedBankId,
       })
       await bankAccounts.execute()

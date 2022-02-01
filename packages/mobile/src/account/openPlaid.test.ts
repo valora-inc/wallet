@@ -8,6 +8,7 @@ jest.mock('react-native-plaid-link-sdk', () => ({
 }))
 
 jest.mock('src/in-house-liquidity', () => ({
+  ...(jest.requireActual('src/in-house-liquidity') as any),
   createLinkToken: jest.fn(({ accountMTWAddress }) => {
     if (accountMTWAddress === 'bad-account') {
       throw new Error('It failed')

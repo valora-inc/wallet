@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import { openLink, LinkSuccess, LinkExit } from 'react-native-plaid-link-sdk'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createLinkToken } from 'src/in-house-liquidity'
+import { createLinkToken, verifyDekAndMTW } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -42,8 +42,7 @@ export default async function openPlaid({
   const isAndroid = Platform.OS === 'android'
   try {
     const linkToken = await createLinkToken({
-      accountMTWAddress,
-      dekPrivate,
+      ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,

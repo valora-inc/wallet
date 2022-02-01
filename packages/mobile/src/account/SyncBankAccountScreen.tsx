@@ -6,7 +6,11 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native'
-import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
+import {
+  createFinclusiveBankAccount,
+  exchangePlaidAccessToken,
+  verifyDekAndMTW,
+} from 'src/in-house-liquidity'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -18,21 +22,19 @@ type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
 const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
-  const accountMTWAddress = useSelector(mtwAddressSelector) || ''
+  const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const { publicToken } = route.params
 
   useAsync(async () => {
     try {
       const accessToken = await exchangePlaidAccessToken({
-        accountMTWAddress,
-        dekPrivate,
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
         publicToken,
       })
 
       await createFinclusiveBankAccount({
-        accountMTWAddress,
-        dekPrivate,
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
         plaidAccessToken: accessToken,
       })
 

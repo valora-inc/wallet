@@ -20,6 +20,7 @@ jest.mock('src/firebase/firebase', () => ({
 }))
 
 jest.mock('src/in-house-liquidity', () => ({
+  ...(jest.requireActual('src/in-house-liquidity') as any),
   createPersonaAccount: jest.fn(() => Promise.resolve()),
 }))
 
