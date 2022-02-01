@@ -5,6 +5,8 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'utils/linking'
 
+const PLAID_UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/plaid-oauth-redirect'
+
 export function navigateToWalletStorePage() {
   if (Platform.OS === 'android') {
     navigateToURI(`market://details?id=${DeviceInfo.getBundleId()}`)
@@ -13,8 +15,12 @@ export function navigateToWalletStorePage() {
   }
 }
 
-export function isDeepLink(url: string): boolean {
-  return url.startsWith('celo:')
+export function isDeepLink(deeplink: string): boolean {
+  return deeplink.startsWith('celo:')
+}
+
+export function isPlaidRedirectDeepLink(deepLink: string): boolean {
+  return decodeURIComponent(deepLink).startsWith(PLAID_UNIVERSAL_LINK_PREFIX)
 }
 
 export function navigateToURI(uri: string, backupUri?: string) {

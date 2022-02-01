@@ -90,6 +90,12 @@ describe('App saga', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
+  it('Handles plaid oauth deep link', async () => {
+    const deeplink = 'https://valoraapp.com/plaid-oauth-redirect'
+    await expectSaga(handleDeepLink, openDeepLink(deeplink)).run()
+    expect(navigate).toHaveBeenCalledWith(Screens.BankAccounts)
+  })
+
   describe('WalletConnect deeplinks', () => {
     const connectionString = encodeURIComponent(
       'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@1?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'

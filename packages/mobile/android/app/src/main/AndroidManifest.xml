@@ -35,7 +35,14 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="https" android:host="valoraapp.com" android:pathPrefix="/wc" />
         <data android:scheme="http" />
-    </intent-filter>
+      </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" android:host="valoraapp.com" android:pathPrefix="/plaid-oauth-redirect" />
+        <data android:scheme="http" />
+      </intent-filter>
     </activity>
 
     <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.

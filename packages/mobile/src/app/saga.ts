@@ -49,7 +49,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { isDeepLink, navigateToURI } from 'src/utils/linking'
+import { isDeepLink, isPlaidRedirectDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -241,6 +241,11 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
+  if (isPlaidRedirectDeepLink(deepLink)) {
+    navigate(Screens.BankAccounts)
+    return
+  }
+
   if (isWalletConnectDeepLink(deepLink)) {
     yield call(handleWalletConnectDeepLink, deepLink)
     return
@@ -280,6 +285,8 @@ export function* watchDeepLinks() {
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
+  console.log('lisa handleOpenUrl', url)
+  debugger
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, url)
   Logger.debug(TAG, 'Handling url', url)
   if (isDeepLink(url) || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
