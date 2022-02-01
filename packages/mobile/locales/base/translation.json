@@ -1137,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "errorMessage": "There was an error loading dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
@@ -1150,5 +1152,7 @@
     "button": "Go to {{dappName}}"
   },
   "rewards": "Rewards",
-  "supercharge": "Supercharge"
+  "supercharge": "Supercharge",
+  "others": "Others",
+  "nomSpaceRecipient": "Nom Space: {{name}}"
 }
