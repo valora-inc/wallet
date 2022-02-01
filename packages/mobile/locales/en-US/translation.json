@@ -547,6 +547,8 @@
   "redeemFailed": "Failure redeeming code ",
   "redeemInviteTimeout": "Redeem Invite Timed out",
   "accountSetupFailed": "Failed to create your wallet",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "closeApp": "Close app",
   "emptyInviteCode": "Invite code has no funds",
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
@@ -1135,7 +1137,9 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Explore ways to use your crypto.",
-    "errorMessage": "There was an error loading dapps"
+    "errorMessage": "There was an error loading dapps",
+    "featuredDapp": "Featured",
+    "allDapps": "All"
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
@@ -1149,6 +1153,8 @@
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
+  "others": "Others",
+  "nomSpaceRecipient": "Nom Space: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
