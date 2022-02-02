@@ -111,6 +111,9 @@ export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
 
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 
+export const linkBankAccountStepTwoEnabledSelector = (state: RootState) =>
+  state.app.linkBankAccountStepTwoEnabled
+
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
 export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors

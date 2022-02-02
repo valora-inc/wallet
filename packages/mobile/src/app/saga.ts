@@ -180,6 +180,7 @@ export interface RemoteConfigValues {
   multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
+  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
