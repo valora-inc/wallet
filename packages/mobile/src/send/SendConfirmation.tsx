@@ -148,10 +148,13 @@ function SendConfirmation(props: Props) {
     if (!feeEstimate) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
+  }, [feeEstimate])
+
+  useEffect(() => {
     if (!isDekRegistered) {
       dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
     }
-  }, [isDekRegistered])
+  }, [isDekRegistered, feeEstimate])
 
   const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
