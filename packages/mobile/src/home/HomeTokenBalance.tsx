@@ -11,14 +11,15 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencySymbol,
+  localCurrencyExchangeRateErrorSelector,
+} from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
-  lastTokenFetchSelector,
   tokenFetchErrorSelector,
   tokenFetchLoadingSelector,
   tokensInfoUnavailableSelector,
@@ -73,15 +74,12 @@ function useErrorMessageWithRefresh() {
   const { t } = useTranslation()
 
   const tokensInfoUnavailable = useSelector(tokensInfoUnavailableSelector)
-  const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
-  const lastSuccessfulFetch = useSelector(lastTokenFetchSelector)
+  const tokenFetchError = useSelector(tokenFetchErrorSelector)
+  const localCurrencyError = useSelector(localCurrencyExchangeRateErrorSelector)
 
   const dispatch = useDispatch()
 
-  const shouldShowError =
-    (tokensInfoUnavailable ||
-      lastSuccessfulFetch < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE) &&
-    !tokenFetchLoading
+  const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
 
   useEffect(() => {
     if (shouldShowError) {
