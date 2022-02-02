@@ -1,13 +1,47 @@
-import { quote, sleep, inputNumberKeypad } from '../utils/utils'
+import { quote, sleep, inputNumberKeypad, enterPinUiIfNecessary } from '../utils/utils'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative, launchApp } from '../utils/retries'
 
 export default HandleDeepLinkSend = () => {
   const PAY_URL = quote(
-    'celo://wallet/pay?address=0x0b784e1cf121a2d9e914ae8bfe3090af0882f229&displayName=Crypto4BlackLives&e164PhoneNumber=%2B14046251530'
+    'celo://wallet/pay?address=0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846&displayName=TestFaucet'
   )
 
-  it('Launch app cold with url', async () => {
+  it.todo('Then handles amount (optional)')
+
+  it.todo('Then handles comment (optional)')
+
+  it.todo('Then handles token (optional)')
+
+  it.todo('Then handles amount (optional)')
+
+  it.todo('Then handles currencyCode (optional)')
+
+  it.todo('Then errors if address (required) not provided')
+
+  it('Launch app cold with url - amount included', async () => {
+    const PAY_AMOUNT_URL = quote(
+      'celo://wallet/pay?address=0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846&displayName=TestFaucet&currencyCode=KES&amount=0.1&comment='
+    )
+    await device.terminateApp()
+    await sleep(5000)
+    await launchApp({ url: PAY_AMOUNT_URL, newInstance: true })
+    await sleep(5000)
+    await dismissBanners()
+    // Correct name displayed
+    await expect(element(by.text('TestFaucet'))).toBeVisible()
+
+    // Tap Pay
+    await element(by.text('Pay')).tap()
+
+    // Enter pin
+    await enterPinUiIfNecessary()
+
+    // Arrived to Home screen
+    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+  })
+
+  it('Launch app cold with url - enter amount', async () => {
     await device.terminateApp()
     await sleep(5000)
     await launchApp({ url: PAY_URL, newInstance: true })
@@ -17,11 +51,20 @@ export default HandleDeepLinkSend = () => {
     await expect(element(by.id('Review'))).toBeVisible()
 
     // Enter amount and tap review
-    await inputNumberKeypad('1.5')
+    await inputNumberKeypad('0.1')
     await element(by.id('Review')).tap()
 
     // Correct name displayed
-    await expect(element(by.text('Crypto4BlackLives'))).toBeVisible()
+    await expect(element(by.text('TestFaucet'))).toBeVisible()
+
+    // Tap Pay
+    await element(by.text('Send')).tap()
+
+    // Enter pin
+    await enterPinUiIfNecessary()
+
+    // Arrived to Home screen
+    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
   })
 
   it(':ios: Send url while app is in background, home pressed', async () => {
