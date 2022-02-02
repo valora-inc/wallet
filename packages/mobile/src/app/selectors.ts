@@ -120,8 +120,6 @@ export const supportedBiometryTypeSelector = (state: RootState) => state.app.sup
 export const biometryEnabledSelector = (state: RootState) =>
   state.app.biometryEnabled && !!state.app.supportedBiometryType
 
-export const useBiometrySelector = (state: RootState) => state.app.useBiometry
-
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
 export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl

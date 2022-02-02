@@ -51,7 +51,6 @@ import { web3Saga } from 'src/web3/saga'
 const loggerBlocklist = [
   REHYDRATE,
   AccountActions.SET_PHONE_NUMBER,
-  AccountActions.SET_PINCODE,
   ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
   GethActions.SET_CHAIN_HEAD,
   GethActions.SET_GETH_CONNECTED,

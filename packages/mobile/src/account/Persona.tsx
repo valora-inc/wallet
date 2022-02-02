@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
-import { createPersonaAccount } from 'src/in-house-liquidity'
+import { createPersonaAccount, verifyDekAndMTW } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 
@@ -81,24 +81,11 @@ const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) =>
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      if (!accountMTWAddress) {
-        Logger.warn(TAG, "Can't render Persona because accountMTWAddress is null")
-        return
-      }
-
-      if (!dekPrivate) {
-        Logger.error(TAG, 'Cannot render Persona because dekPrivate is null')
-        return
-      }
-
-      const IHLResponse = await createPersonaAccount({
-        accountMTWAddress,
-        dekPrivate,
-      })
-
-      if (IHLResponse.status === 201 || IHLResponse.status === 409) {
+      try {
+        await createPersonaAccount(verifyDekAndMTW({ dekPrivate, accountMTWAddress }))
         setPersonaAccountCreated(true)
-      } else {
+      } catch (error) {
+        Logger.warn(TAG, error)
         dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
       }
     }

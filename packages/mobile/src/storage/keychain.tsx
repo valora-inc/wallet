@@ -1,20 +1,29 @@
 import * as Keychain from 'react-native-keychain'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'storage/keychain'
+// the user cancelled error strings are OS specific
+const KEYCHAIN_USER_CANCELLED_ERRORS = ['user canceled the operation']
 
 interface SecureStorage {
   key: string
   value: string
+  options?: Keychain.Options
 }
 
-export async function storeItem({ key, value }: SecureStorage) {
+export function isUserCancelledError(error: Error) {
+  return KEYCHAIN_USER_CANCELLED_ERRORS.some((userCancelledError) =>
+    error.toString().toLowerCase().includes(userCancelledError)
+  )
+}
+
+export async function storeItem({ key, value, options = {} }: SecureStorage) {
   try {
     const result = await Keychain.setGenericPassword('CELO', value, {
       service: key,
       accessible: Keychain.ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
       rules: Keychain.SECURITY_RULES.NONE,
+      ...options,
     })
     if (result === false) {
       throw new Error('Store result false')
@@ -34,7 +43,7 @@ export async function storeItem({ key, value }: SecureStorage) {
     return result
   } catch (error) {
     Logger.error(TAG, 'Error storing item', error, true, value)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    throw error
   }
 }
 
@@ -48,8 +57,11 @@ export async function retrieveStoredItem(key: string) {
     }
     return item.password
   } catch (error) {
-    Logger.error(TAG, 'Error retrieving stored item', error, true)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    if (!isUserCancelledError(error)) {
+      // triggered when biometry verification fails and user cancels the action
+      Logger.error(TAG, 'Error retrieving stored item', error, true)
+    }
+    throw error
   }
 }
 
@@ -60,6 +72,6 @@ export async function removeStoredItem(key: string) {
     })
   } catch (error) {
     Logger.error(TAG, 'Error clearing item', error, true)
-    throw new Error(ErrorMessages.KEYCHAIN_STORAGE_ERROR)
+    throw error
   }
 }

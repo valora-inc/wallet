@@ -6,50 +6,43 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native'
-import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
+import {
+  createFinclusiveBankAccount,
+  exchangePlaidAccessToken,
+  verifyDekAndMTW,
+} from 'src/in-house-liquidity'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'SYNC_BANK_ACCOUNT'
+import { navigate } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
 const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
-  const accountMTWAddress = useSelector(mtwAddressSelector) || ''
+  const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const { publicToken } = route.params
 
   useAsync(async () => {
-    if (!dekPrivate) {
-      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
-      return
-    }
-    const accessTokenResponse = await exchangePlaidAccessToken({
-      accountMTWAddress,
-      dekPrivate,
-      publicToken,
-    })
-    if (!accessTokenResponse.ok) {
-      // TODO(wallet#1447): handle errors from IHL
-      return
-    }
-    const { accessToken } = await accessTokenResponse.json()
+    try {
+      const accessToken = await exchangePlaidAccessToken({
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        publicToken,
+      })
 
-    const finclusiveBankAccountResponse = await createFinclusiveBankAccount({
-      accountMTWAddress,
-      dekPrivate,
-      plaidAccessToken: accessToken,
-    })
-    if (!finclusiveBankAccountResponse.ok) {
+      await createFinclusiveBankAccount({
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        plaidAccessToken: accessToken,
+      })
+
+      navigate(Screens.BankAccounts, { newPublicToken: publicToken })
+    } catch {
       // TODO(wallet#1447): handle errors from IHL
       return
     }
-    // TODO(wallet#1449): redirect to Bank Account List Page
   }, [])
 
   return (
