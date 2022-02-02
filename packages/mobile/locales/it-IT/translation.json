@@ -7,7 +7,7 @@
   "removeAccountTitle": "Ripristina Valora",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
   "legal": "Informazioni legali",
-  "securityAndData": "Sicurezza e dati",
+  "security": "Sicurezza",
   "changePin": "Modifica il PIN",
   "pinChanged": "Il PIN è stato modificato.",
   "pinChangeFailed": "Impossibile modificare il PIN.",
@@ -501,7 +501,7 @@
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
   "help": "Guida",
-  "dismiss": "Ignora",
+  "dismiss": "Ignorare",
   "review": "Rivedi",
   "insufficientBalance": "Il tuo saldo è insufficiente per eseguire questa transazione.",
   "amount": "Importo",
@@ -547,7 +547,7 @@
   "redeemFailed": "Impossibile riscattare il codice.",
   "redeemInviteTimeout": "Time-out dell’invito al riscatto.",
   "accountSetupFailed": "Impossibile creare il wallet.",
-  "accountSetupFailedDescription": "Per favore cancella {{appName}} dal tuo dispositivo e riprova. Se continui ad avere problemi, contatta il supporto.",
+  "accountSetupFailedDescription": "Elimina {{appName}} dal tuo dispositivo e riprova. Se continui ad avere problemi, contatta il supporto.",
   "closeApp": "Chiudi app",
   "emptyInviteCode": "Il codice di invito non include fondi.",
   "transferDollarsToAccount": "I fondi sono stati trasferiti sul tuo conto.",
@@ -680,6 +680,7 @@
     "Face": "Riconoscimento facciale",
     "Iris": "Riconoscimento dell'iride"
   },
+  "useBiometryType": "Usare {{biometryType}}",
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
@@ -735,7 +736,7 @@
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
     "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
-    "dismiss": "Ignora"
+    "dismiss": "Ignorare"
   },
   "importExistingKey": {
     "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -822,7 +823,7 @@
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
-  "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione per supportare la rete e e il suo funzionamento ottimale.",
+  "feeEducation": "La blockchain Celo addebita una commissione sulla transazione per supportare la rete e e il suo funzionamento ottimale.",
   "inviteMoneyEscrow": "Inviteremo questo contatto e manterremo i suoi fondi al sicuro fino a quando non avrà confermato il suo conto.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
@@ -864,7 +865,7 @@
   "estimatedFee": "Commissione stimata: ",
   "selectBalance": "Seleziona saldo",
   "stableBalance": "Saldo {{token}}",
-  "selectToken": "Seleziona token",
+  "selectToken": "Seleziona asset",
   "verificationCta": {
     "header": "Inviare a un amico?",
     "body": "Conferma il tuo numero telefonico e sincronizza i tuoi contatti per inviare rapidamente ai tuoi amici.",
@@ -1085,8 +1086,8 @@
   "viewBalances": "Visualizza asset",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
-    "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni token potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
-    "dismiss": "Ignora"
+    "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
+    "dismiss": "Ignorare"
   },
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
@@ -1122,6 +1123,12 @@
       "cta": "Presto disponibile."
     }
   },
+  "bankAccountsScreen": {
+    "header": "Conti bancari collegati",
+    "add": "Aggiungi un nuovo conto bancario",
+    "delete": "Elimina"
+  },
+  "syncingBankAccount": "Sincronizzazione del conto bancario...",
   "linkBankAccountSettingsTitle": "Collega conti bancari",
   "linkBankAccountSettingsValue": "Accedi",
   "connectPhoneNumber": {
@@ -1138,13 +1145,13 @@
     "title": "Dapp",
     "message": "Esplora i modi per usare le tue criptovalute.",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "In primo piano",
+    "allDapps": "Tutti"
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
-    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare la DeFi.\n\nConnetti Valora a una Dapp per iniziare.",
-    "dismiss": "Ignora"
+    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare la Web3.\n\nConnetti Valora a una Dapp per iniziare.",
+    "dismiss": "Ignorare"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} si aprirà in un browser esterno",
@@ -1154,7 +1161,7 @@
   "rewards": "Ricompense",
   "supercharge": "Bonus",
   "others": "Altri",
-  "nomSpaceRecipient": "Spazio Nom: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Dollaro Celo",
   "celoDollarAmount_plural": "<0></0> Dollari Celo"
 }

@@ -7,7 +7,7 @@
   "removeAccountTitle": "Redefinir a Valora",
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Frase de Recuperação.",
   "legal": "Jurídico",
-  "securityAndData": "Segurança e Dados",
+  "security": "Segurança",
   "changePin": "Alterar PIN",
   "pinChanged": "PIN alterado",
   "pinChangeFailed": "Falha ao alterar o PIN",
@@ -18,7 +18,7 @@
   "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
   "dataSaver": "Economia de Dados",
   "enableDataSaver": "Ativar Economia de Dados",
-  "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a Rede Celo por meio de um nó confiável. Você sempre pode alterar este modo nas configurações do aplicativo.",
+  "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a rede Celo por meio de um nó confiável. Você sempre pode alterar este modo nas configurações do aplicativo.",
   "restartModalSwitchOff": {
     "header": "Reinicie para desativar Economia de Dados",
     "body": "Para alternar entre ativar e desativar o modo de Economia de Dados repetidamente, você precisará reiniciar o aplicativo e retornar a esta tela.",
@@ -271,12 +271,12 @@
   "receiveWithBidali": "Vales-Presente e Recargas de Celular",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com a {{appName}}",
-    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Sacar fundos da {{appName}}",
-    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.\n\nPara sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.\n\nPara sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -531,8 +531,8 @@
       "text": "Se mais pessoas usarem o Celo Dólar, o valor do CELO aumenta. Ao contrário do CELO, o valor do Celo Dólar não muda. "
     },
     {
-      "title": "Molde a Rede Celo",
-      "text": "Ao manter uma quantia de CELO, você pode votar nas alterações e recursos que gostaria de ver na Rede Celo."
+      "title": "Molde a rede Celo",
+      "text": "Ao manter uma quantia de CELO, você pode votar nas alterações e recursos que gostaria de ver na rede Celo."
     },
     {
       "title": "Compre e venda com responsabilidade",
@@ -547,8 +547,8 @@
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
   "accountSetupFailed": "Falha ao criar sua conta",
-  "accountSetupFailedDescription": "Por favor, delete {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, por favor, entre em contato com o suporte.",
-  "closeApp": "Fechar aplicativo",
+  "accountSetupFailedDescription": "Exclua a {{appName}} do seu dispositivo e tente novamente. Se você continuar tendo problemas, entre em contato com o suporte.",
+  "closeApp": "Fechar",
   "emptyInviteCode": "O código do convite não tem fundos",
   "transferDollarsToAccount": "Fundos transferidos para sua conta!",
   "inviteAnyone": "Envie facilmente para seus amigos adicionando seus contatos",
@@ -573,13 +573,13 @@
   "welcomeCelo": "Bem-vindo à {{appName}}",
   "chooseCountryCode": "Código do país",
   "chooseCountry": "País",
-  "joinText": "A {{appName}} ajuda você a enviar, receber e economizar na Rede Celo.",
+  "joinText": "A {{appName}} ajuda você a enviar, receber e economizar na rede Celo.",
   "terms": {
     "title": "Termos e Condições",
     "heading1": "Dados e Privacidade",
     "heading2": "Ativos Celo e Conta da {{appName}}",
     "info": "Para usar nossos serviços, leia nosso <0>Termos de serviço e contrato do usuário</0> e toque no botão Aceitar para indicar que concorda.",
-    "privacy": "Ao entrar nesta rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você conectar seu número de celular, uma cópia hash dele será armazenada na Rede Celo. Se você conceder acesso à sua lista de contatos, a Valora irá importar o nome, número de celular e foto de perfil de cada contato para permitir que os usuários se conectem com eles através da Valora. Para saber como coletamos e usamos essas informações, consulte nossa <0>Política de privacidade</0>.",
+    "privacy": "Ao entrar nesta rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você conectar seu número de celular, uma cópia hash dele será armazenada na rede Celo. Se você conceder acesso à sua lista de contatos, a Valora irá importar o nome, número de celular e foto de perfil de cada contato para permitir que os usuários se conectem com eles através da Valora. Para saber como coletamos e usamos essas informações, consulte nossa <0>Política de privacidade</0>.",
     "goldDisclaimer": "Ao criar uma \"conta\" com a Valora você está criando uma carteira digital em que só você possui as chaves. Nenhuma outra pessoa ou entidade, incluindo cLabs e Valora, pode recuperar sua chave, trocar ou desfazer transações, ou recuperar fundos perdidos. Esteja ciente de que CELO, cUSD e cEUR fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Considere cuidadosamente sua situação financeira e tolerância ao risco antes de comprar qualquer ativo. Você só pode enviar até {{dailyLimitCUSD}} cUSD por dia através da Valora (o “limite diário”). Você deve entrar em contato com support@valoraapp.com e fornecer informações adicionais e pessoais para solicitar um aumento deste limite diário. Pode haver um atraso para conduzir a conformidade necessária."
   },
   "fullName": "Nome",
@@ -649,7 +649,7 @@
   "retryWithFornoModal": {
     "header": "Tentar confirmar novamente com o modo de Economia de Dados?",
     "body1": "Ocorreu um problema ao confirmar o seu número de celular. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
-    "body2": "O modo de Economia de Dados permite que você se comunique com a Rede Celo de forma mais consistente por meio de uma conexão confiável.",
+    "body2": "O modo de Economia de Dados permite que você se comunique com a rede Celo de forma mais consistente por meio de uma conexão confiável.",
     "retryButton": "Tentar novamente com o modo de Economia de Dados"
   },
   "congratsVerified": "Parabéns, você já foi confirmado!",
@@ -680,6 +680,7 @@
     "Face": "Reconhecimento facial",
     "Iris": "Reconhecimento de Iris"
   },
+  "useBiometryType": "Usar {{biometryType}}",
   "welcome": {
     "title": "Mergulhe no mundo cripto com a {{appName}}.",
     "createAccount": "Criar nova conta",
@@ -864,7 +865,7 @@
   "estimatedFee": "Taxa estimada: ",
   "selectBalance": "Selecionar Saldo",
   "stableBalance": "Saldo de {{token}}",
-  "selectToken": "Selecionar token",
+  "selectToken": "Selecionar ativo",
   "verificationCta": {
     "header": "Enviando para um amigo?",
     "body": "Conecte seu celular e sincronize seus contatos para enviar fundos para seus amigos.",
@@ -1085,7 +1086,7 @@
   "viewBalances": "Ver ativos",
   "whatTotalValue": {
     "title": "O que significa Saldo total?",
-    "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns tokens não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
+    "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns ativos não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
     "dismiss": "Ignorar"
   },
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
@@ -1122,6 +1123,12 @@
       "cta": "Em breve!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Contas Bancárias Vinculadas",
+    "add": "Adicionar nova conta bancária",
+    "delete": "Excluir"
+  },
+  "syncingBankAccount": "Sincronizando a conta bancária...",
   "linkBankAccountSettingsTitle": "Contas bancárias",
   "linkBankAccountSettingsValue": "Acessar",
   "connectPhoneNumber": {
@@ -1138,12 +1145,12 @@
     "title": "Dapps",
     "message": "Explore formas de usar suas cripto.",
     "errorMessage": "Ocorreu um erro ao carregar os dapps",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "Em destaque",
+    "allDapps": "Todos"
   },
   "dappsScreenHelpDialog": {
     "title": "O que são os dapps?",
-    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar as DeFi.\n\nConecte Valora a um dapp para começar.",
+    "message": "Dapps (aplicativos descentralizados) fornecem novas maneiras de usar suas cripto, ganhar recompensas e explorar a Web3.\n\nConecte Valora a um dapp para começar.",
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
@@ -1154,7 +1161,7 @@
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Outros",
-  "nomSpaceRecipient": "Espaço Nom: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
