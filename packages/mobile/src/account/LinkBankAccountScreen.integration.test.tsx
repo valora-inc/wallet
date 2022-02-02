@@ -37,6 +37,7 @@ describe('LinkBankAccountScreen: integration tests (using real Persona component
         const store = createMockStore({
           web3: { mtwAddress: mockAccount },
           account: { kycStatus: kycValue },
+          app: { linkBankAccountStepTwoEnabled: true },
         })
         const { toJSON } = render(
           <Provider store={store}>
