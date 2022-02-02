@@ -271,6 +271,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
+    linkBankAccountStepTwoEnabled: flags.linkBankAccountStepTwoEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
     biometryEnabled: flags.biometryEnabled.asBoolean(),
