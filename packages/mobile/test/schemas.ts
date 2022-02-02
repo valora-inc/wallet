@@ -929,12 +929,12 @@ export const v31Schema = {
     ...v30Schema.app,
     biometryEnabled: false,
     supportedBiometryType: null,
+    linkBankAccountStepTwoEnabled: false,
   },
   account: {
     ...v30Schema.account,
     isSettingPin: undefined,
     useBiometry: false,
-    linkBankAccountStepTwoEnabled: false,
   },
 }
 
