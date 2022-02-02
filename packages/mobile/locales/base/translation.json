@@ -7,7 +7,7 @@
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
-  "securityAndData": "Security and Data",
+  "security": "Security",
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
@@ -680,6 +680,7 @@
     "Face": "Face recognition",
     "Iris": "Iris recognition"
   },
+  "useBiometryType": "Use {{biometryType}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
@@ -1124,6 +1125,12 @@
       "cta": "Coming Soon!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
+    "delete": "Delete"
+  },
+  "syncingBankAccount": "Syncing bank account...",
   "linkBankAccountSettingsTitle": "Link Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "connectPhoneNumber": {

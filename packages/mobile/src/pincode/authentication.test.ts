@@ -12,6 +12,7 @@ import {
   getPincode,
   getPincodeWithBiometry,
   PinBlocklist,
+  removeStoredPin,
   retrieveOrGeneratePepper,
   setPincodeWithBiometry,
   updatePin,
@@ -177,6 +178,7 @@ describe(getPincode, () => {
       params.onCancel()
     })
     expect.assertions(4)
+
     try {
       await getPincode()
     } catch (error) {
@@ -379,6 +381,22 @@ describe(updatePin, () => {
     )
   })
 })
+
+describe(removeStoredPin, () => {
+  it('should remove the item from keychain', async () => {
+    mockedKeychain.resetGenericPassword.mockResolvedValueOnce(true)
+    await removeStoredPin()
+
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledTimes(1)
+    expect(mockedKeychain.resetGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
+  })
+  it('should throw an error if item could not be removed from keychain', async () => {
+    mockedKeychain.resetGenericPassword.mockRejectedValueOnce(new Error('some error'))
+
+    await expect(removeStoredPin()).rejects.toThrowError('some error')
+  })
+})
+
 describe(retrieveOrGeneratePepper, () => {
   beforeEach(() => {
     jest.clearAllMocks()

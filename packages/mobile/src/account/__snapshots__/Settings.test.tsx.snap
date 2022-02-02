@@ -534,7 +534,7 @@ exports[`Account renders correctly 1`] = `
               }
             }
           >
-            securityAndData
+            security
           </Text>
         </View>
         <View
@@ -679,6 +679,40 @@ exports[`Account renders correctly 1`] = `
               />
             </View>
           </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#EDEEEF",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
+            data
+          </Text>
         </View>
         <View
           style={
@@ -2920,7 +2954,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
               }
             }
           >
-            securityAndData
+            security
           </Text>
         </View>
         <View
@@ -3065,6 +3099,40 @@ exports[`Account renders correctly when dev mode active 1`] = `
               />
             </View>
           </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#EDEEEF",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
+            data
+          </Text>
         </View>
         <View
           style={
@@ -5547,7 +5615,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
               }
             }
           >
-            securityAndData
+            security
           </Text>
         </View>
         <View
@@ -5692,6 +5760,40 @@ exports[`Account renders correctly when verification is not possible 1`] = `
               />
             </View>
           </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#EDEEEF",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
+            data
+          </Text>
         </View>
         <View
           style={
@@ -7853,7 +7955,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
               }
             }
           >
-            securityAndData
+            security
           </Text>
         </View>
         <View
@@ -7998,6 +8100,40 @@ exports[`Account renders correctly when verification is not possible 2`] = `
               />
             </View>
           </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#FFFFFF",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "paddingHorizontal": 16,
+                "paddingVertical": 8,
+              },
+              Object {
+                "borderBottomColor": "#EDEEEF",
+                "borderBottomWidth": 1,
+                "marginLeft": 16,
+                "marginTop": 44,
+                "paddingLeft": 0,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 13,
+                "lineHeight": 16,
+              }
+            }
+          >
+            data
+          </Text>
         </View>
         <View
           style={
