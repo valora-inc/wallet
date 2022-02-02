@@ -20,6 +20,7 @@ function LinkBankAccountErrorScreen({ route }: Props) {
       <Text style={styles.description}>{t('linkBankAccountScreen.error.description')}</Text>
       <Button
         style={styles.button}
+        testID="TryAgain"
         onPress={() => navigateBack()}
         text={t('linkBankAccountScreen.tryAgain')}
         type={BtnTypes.SECONDARY}
@@ -27,6 +28,7 @@ function LinkBankAccountErrorScreen({ route }: Props) {
       />
       <View style={styles.contactSupportButton}>
         <BorderlessButton
+          testID="SupportContactLink"
           onPress={() => {
             navigate(Screens.SupportContact, {
               prefilledText: t('linkBankAccountScreen.error.contactSupportPrefill'),
