@@ -64,6 +64,7 @@ describe('SyncBankAccountScreen', () => {
   })
 
   it('directs to error page when token exchange fails', async () => {
+    //@ts-ignore .
     exchangePlaidAccessToken.mockRejectedValue()
 
     render(
@@ -77,6 +78,7 @@ describe('SyncBankAccountScreen', () => {
   })
 
   it('directs to error page when create finclusive bank account fails', async () => {
+    //@ts-ignore .
     createFinclusiveBankAccount.mockRejectedValue()
 
     render(
