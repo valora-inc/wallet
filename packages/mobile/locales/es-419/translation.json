@@ -1128,7 +1128,7 @@
     "add": "Añadir una cuenta bancaria",
     "delete": "Eliminar"
   },
-  "syncingBankAccount": "Sincronizar la cuenta bancaria...",
+  "syncingBankAccount": "Sincronizando cuenta bancaria...",
   "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
   "linkBankAccountSettingsValue": "Acceder",
   "connectPhoneNumber": {
@@ -1161,7 +1161,7 @@
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Otros",
-  "nomSpaceRecipient": "Espacio para las nubes: {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
