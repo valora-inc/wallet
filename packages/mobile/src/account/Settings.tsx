@@ -100,6 +100,8 @@ interface StateProps {
   linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
   mtwAddress: string | null
+  hasLinkedBankAccount: boolean
+  linkBankAccountStepTwoEnabled: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -130,6 +132,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
     mtwAddress: state.web3.mtwAddress,
+    hasLinkedBankAccount: state.account.hasLinkedBankAccount,
+    linkBankAccountStepTwoEnabled: state.app.linkBankAccountStepTwoEnabled,
   }
 }
 
@@ -177,6 +181,11 @@ export class Account extends React.Component<Props, State> {
     navigate(Screens.LinkBankAccountScreen, {
       kycStatus: this.props.kycStatus,
     })
+  }
+
+  goToBankAccounts = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
+    navigate(Screens.BankAccounts, {})
   }
 
   goToNumberNotConnectScreen = () => {
@@ -414,15 +423,85 @@ export class Account extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  getLinkBankAccountSettingItem() {
     const {
-      t,
-      i18n,
-      numberVerified,
-      verificationPossible,
+      kycStatus,
       linkBankAccountEnabled,
+      hasLinkedBankAccount,
       mtwAddress,
+      linkBankAccountStepTwoEnabled,
+      t,
     } = this.props
+
+    // Not enabled
+    if (!linkBankAccountEnabled) {
+      return null
+    }
+
+    // User has not connected their phone number
+    if (!mtwAddress) {
+      return (
+        <SettingsItemTextValue
+          title={t('linkBankAccountSettingsTitle')}
+          onPress={this.goToNumberNotConnectScreen}
+          value={t('linkBankAccountSettingsValue')}
+          isValueActionable={true}
+          testID="linkBankAccountSettings"
+        />
+      )
+    }
+    // User has not yet fully submitted their KYC info
+    const stillNeedsToDoPersona = [
+      undefined,
+      KycStatus.Created,
+      KycStatus.Pending,
+      KycStatus.Expired,
+    ]
+    if (stillNeedsToDoPersona.includes(kycStatus)) {
+      return (
+        <SettingsItemTextValue
+          title={t('linkBankAccountSettingsTitle')}
+          onPress={this.goToLinkBankAccount}
+          value={t('linkBankAccountSettingsValue')}
+          isValueActionable={true}
+          testID="linkBankAccountSettings"
+        />
+      )
+    }
+    // User has gone through KYC but either KYC has not been Approved or step 2 is not enabled
+    if (kycStatus !== KycStatus.Approved || !linkBankAccountStepTwoEnabled) {
+      return (
+        <SettingsItemTextValue
+          title={t('linkBankAccountSettingsTitle')}
+          onPress={this.goToLinkBankAccount}
+          testID="linkBankAccountSettings"
+        />
+      )
+    }
+    // User has been Approved with KYC and Step 2 is enabled, they have not yet added a bank account
+    if (!hasLinkedBankAccount) {
+      return (
+        <SettingsItemTextValue
+          title={t('linkBankAccountSettingsTitle')}
+          onPress={this.goToLinkBankAccount}
+          value={t('linkBankAccountSettingsValue2')}
+          isValueActionable={true}
+          testID="linkBankAccountSettings"
+        />
+      )
+    }
+    // User has gone through Plaid flow and added a bank account in the past
+    return (
+      <SettingsItemTextValue
+        title={t('linkBankAccountSettingsTitle')}
+        onPress={this.goToBankAccounts}
+        testID="linkBankAccountSettings"
+      />
+    )
+  }
+
+  render() {
+    const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
@@ -445,15 +524,7 @@ export class Account extends React.Component<Props, State> {
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
-            {linkBankAccountEnabled && (
-              <SettingsItemTextValue
-                title={t('linkBankAccountSettingsTitle')}
-                onPress={mtwAddress ? this.goToLinkBankAccount : this.goToNumberNotConnectScreen}
-                value={t('linkBankAccountSettingsValue')}
-                isValueActionable={true}
-                testID="linkBankAccountSettings"
-              />
-            )}
+            {this.getLinkBankAccountSettingItem()}
             <SettingsItemTextValue
               title={t('languageSettings')}
               value={currentLanguage?.name ?? t('unknown')}
