@@ -56,6 +56,10 @@ jobs:
         run: |
           cd packages/mobile/e2e/scripts
           node --unhandled-rejections=strict ./fund-e2e-accounts.ts
+      - name: Kill Existing Emulators
+        run: |
+          echo "Killing existing emulators"
+          sudo killall -9 qemu-system-x86_64 || true
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
