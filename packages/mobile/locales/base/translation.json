@@ -12,7 +12,7 @@
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require PIN on App Open",
-  "connectedApplications": "Connected Apps",
+  "connectedApplications": "Connected Dapps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
@@ -953,8 +953,8 @@
     "computeSharedSecret": "Generate a secret"
   },
   "tapToDisconnect": "Tap to Disconnect",
-  "sessionsTitle": "Connected Apps",
-  "sessionsSubTitle": "The following apps are connected to {{appName}}. You can connect to more apps by scanning their QR code.",
+  "sessionsTitle": "Connected Dapps",
+  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{dappName}}?",
   "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?",
@@ -1168,5 +1168,5 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Others",
-  "nomSpaceRecipient": "Nom Space: {{name}}"
+  "nomSpaceRecipient": "Nomspace: {{name}}"
 }

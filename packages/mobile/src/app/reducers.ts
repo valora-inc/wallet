@@ -46,6 +46,7 @@ export interface State {
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
+  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
@@ -90,6 +91,7 @@ const initialState = {
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
+  linkBankAccountStepTwoEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountStepTwoEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
@@ -205,6 +207,7 @@ export const appReducer = (
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
+        linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',

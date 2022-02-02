@@ -12,25 +12,14 @@ import { navigate } from 'src/navigator/NavigationService'
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
 
-const mockPlaidAccessTokenResponse = new Response(
-  JSON.stringify({ accessToken: mockAccessToken }),
-  { status: 200 }
-)
-const mockPlaidAccessTokenResponseError = new Response(
-  JSON.stringify({ accessToken: mockAccessToken }),
-  { status: 400 }
-)
-
-const mockFinclusiveBankAccountResponse = new Response(JSON.stringify({}), { status: 200 })
-const mockFinclusiveBankAccountResponseError = new Response(JSON.stringify({}), { status: 400 })
-
 const mockProps = getMockStackScreenProps(Screens.SyncBankAccountScreen, {
   publicToken: mockPublicToken,
 })
 
 jest.mock('src/in-house-liquidity', () => ({
-  createFinclusiveBankAccount: jest.fn(() => mockFinclusiveBankAccountResponse),
-  exchangePlaidAccessToken: jest.fn(() => mockPlaidAccessTokenResponse),
+  ...(jest.requireActual('src/in-house-liquidity') as any),
+  createFinclusiveBankAccount: jest.fn(() => Promise.resolve()),
+  exchangePlaidAccessToken: jest.fn(() => Promise.resolve(mockAccessToken)),
 }))
 
 jest.mock('src/navigator/NavigationService', () => ({
@@ -75,7 +64,7 @@ describe('SyncBankAccountScreen', () => {
   })
 
   it('directs to error page when token exchange fails', async () => {
-    exchangePlaidAccessToken.mockResolvedValue(mockPlaidAccessTokenResponseError)
+    exchangePlaidAccessToken.mockRejectedValue()
 
     render(
       <Provider store={store}>
@@ -88,7 +77,7 @@ describe('SyncBankAccountScreen', () => {
   })
 
   it('directs to error page when create finclusive bank account fails', async () => {
-    createFinclusiveBankAccount.mockResolvedValue(mockFinclusiveBankAccountResponseError)
+    createFinclusiveBankAccount.mockRejectedValue()
 
     render(
       <Provider store={store}>

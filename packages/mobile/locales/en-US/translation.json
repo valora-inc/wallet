@@ -7,7 +7,7 @@
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
-  "securityAndData": "Security and Data",
+  "security": "Security",
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
@@ -680,6 +680,7 @@
     "Face": "Face recognition",
     "Iris": "Iris recognition"
   },
+  "useBiometryType": "Use {{biometryType}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
@@ -864,7 +865,7 @@
   "estimatedFee": "Estimated fee: ",
   "selectBalance": "Select Balance",
   "stableBalance": "{{token}} Balance",
-  "selectToken": "Select Token",
+  "selectToken": "Select Asset",
   "verificationCta": {
     "header": "Sending to a friend?",
     "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
@@ -1085,7 +1086,7 @@
   "viewBalances": "View Assets",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
@@ -1122,6 +1123,12 @@
       "cta": "Coming Soon!"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
+    "delete": "Delete"
+  },
+  "syncingBankAccount": "Syncing bank account...",
   "linkBankAccountSettingsTitle": "Link Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "connectPhoneNumber": {
@@ -1143,7 +1150,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore DeFi.\n\nConnect Valora to a dapp to get started.",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
     "dismiss": "Dismiss"
   },
   "dappsScreenBottomSheet": {
