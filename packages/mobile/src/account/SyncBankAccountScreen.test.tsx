@@ -10,18 +10,15 @@ import { Screens } from 'src/navigator/Screens'
 
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
-const mockPlaidAccessTokenResponse = new Response(
-  JSON.stringify({ accessToken: mockAccessToken }),
-  { status: 200 }
-)
-const mockFinclusiveBankAccountReponse = new Response(JSON.stringify({}), { status: 200 })
+
 const mockProps = getMockStackScreenProps(Screens.SyncBankAccountScreen, {
   publicToken: mockPublicToken,
 })
 
 jest.mock('src/in-house-liquidity', () => ({
-  createFinclusiveBankAccount: jest.fn(() => mockFinclusiveBankAccountReponse),
-  exchangePlaidAccessToken: jest.fn(() => mockPlaidAccessTokenResponse),
+  ...(jest.requireActual('src/in-house-liquidity') as any),
+  createFinclusiveBankAccount: jest.fn(() => Promise.resolve()),
+  exchangePlaidAccessToken: jest.fn(() => Promise.resolve(mockAccessToken)),
 }))
 
 describe('SyncBankAccountScreen', () => {

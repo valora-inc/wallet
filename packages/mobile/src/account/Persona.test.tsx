@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockPrivateDEK } from 'test/values'
 import { createPersonaAccount } from 'src/in-house-liquidity'
 
 const FAKE_TEMPLATE_ID = 'fake template id'
@@ -15,9 +15,9 @@ jest.mock('src/firebase/firebase', () => ({
   readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
-const mockResponse = new Response(null, { status: 201 })
 jest.mock('src/in-house-liquidity', () => ({
-  createPersonaAccount: jest.fn(() => mockResponse),
+  ...(jest.requireActual('src/in-house-liquidity') as any),
+  createPersonaAccount: jest.fn(() => Promise.resolve()),
 }))
 
 const mockInquiryBuilder = {
@@ -36,7 +36,10 @@ jest.spyOn(Inquiry, 'fromTemplate').mockReturnValue(mockInquiryBuilder)
 
 describe('Persona', () => {
   const store = createMockStore({
-    web3: { mtwAddress: mockAccount },
+    web3: {
+      mtwAddress: mockAccount,
+      dataEncryptionKey: mockPrivateDEK,
+    },
   })
 
   beforeEach(() => {
