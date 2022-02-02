@@ -126,7 +126,7 @@ describe('HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
   })
 
-  it('renders correctly when fetching the balance failed', async () => {
+  it('renders correctly when fetching the token balances failed', async () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {},
@@ -143,7 +143,45 @@ describe('HomeTokenBalance', () => {
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
-    expect(store.getActions().length).toEqual(1)
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "action": Object {
+            "type": "HOME/REFRESH_BALANCES",
+          },
+          "alertType": "message",
+          "buttonMessage": "outOfSyncBanner.button",
+          "dismissAfter": null,
+          "displayMethod": 0,
+          "message": "outOfSyncBanner.message",
+          "title": "outOfSyncBanner.title",
+          "type": "ALERT/SHOW",
+          "underlyingError": undefined,
+        },
+      ]
+    `)
+  })
+
+  it('renders correctly when fetching the local currency failed', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      localCurrency: {
+        error: true,
+        exchangeRates: {
+          [Currency.Dollar]: null,
+        },
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {

@@ -115,12 +115,13 @@ export function* rootSaga() {
     yield spawn(web3Saga)
     yield spawn(accountSaga)
     yield spawn(firebaseSaga)
+    yield spawn(tokensSaga)
+    yield spawn(localCurrencySaga)
     yield spawn(transactionSaga)
     yield spawn(homeSaga)
     yield spawn(identitySaga)
     yield spawn(recipientsSaga)
     yield spawn(verifySaga)
-    yield spawn(localCurrencySaga)
     yield spawn(feesSaga)
     yield spawn(stableTokenSaga)
     yield spawn(goldTokenSaga)
@@ -134,7 +135,6 @@ export function* rootSaga() {
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
     yield spawn(checkAndroidMobileServicesSaga)
-    yield spawn(tokensSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry
