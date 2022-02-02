@@ -9,19 +9,21 @@ import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 import PlusIcon from 'src/icons/PlusIcon'
 import TripleDotVertical from 'src/icons/TripleDotVertical'
-import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-house-liquidity'
+import {
+  BankAccount,
+  deleteFinclusiveBankAccount,
+  getFinclusiveBankAccounts,
+  verifyDekAndMTW,
+} from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import { navigate } from 'src/navigator/NavigationService'
 import openPlaid from './openPlaid'
 import { plaidParamsSelector } from 'src/account/selectors'
 import OptionsChooser from 'src/components/OptionsChooser'
-
-const TAG = 'BankAccounts'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
 function BankAccounts({ navigation, route }: Props) {
@@ -48,31 +50,18 @@ function BankAccounts({ navigation, route }: Props) {
   }, [navigation])
 
   const bankAccounts = useAsync(async () => {
-    if (!dekPrivate) {
-      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
-      return
-    }
-    if (!accountMTWAddress) {
-      Logger.error(TAG, "Can't connect the users bank account because accountMTWAddress is null")
-      return
-    }
-    const bankAccountsResponse = await getFinclusiveBankAccounts({
-      dekPrivate,
-      accountMTWAddress,
-    })
-    if (!bankAccountsResponse.ok) {
+    try {
+      const accounts = await getFinclusiveBankAccounts(
+        verifyDekAndMTW({ dekPrivate, accountMTWAddress })
+      )
+      return accounts
+    } catch {
       // TODO(wallet#1447): handle errors from IHL
       return
     }
-    const accounts = await bankAccountsResponse.json()
-    return accounts.bankAccounts
   }, [newPublicToken])
 
-  function getBankDisplay(bank: {
-    accountName: string
-    accountNumberTruncated: string
-    id: number
-  }) {
+  function getBankDisplay(bank: BankAccount) {
     return (
       <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
@@ -113,24 +102,15 @@ function BankAccounts({ navigation, route }: Props) {
 
   async function deleteBankAccount() {
     setIsOptionsVisible(false)
-    if (!dekPrivate) {
-      Logger.error(TAG, "Can't connect the users bank account because dekPrivate is null")
-      return
-    }
-    if (!accountMTWAddress) {
-      Logger.error(TAG, "Can't connect the users bank account because accountMTWAddress is null")
-      return
-    }
-    const bankAccountsResponse = await deleteFinclusiveBankAccount({
-      accountMTWAddress,
-      dekPrivate,
-      id: selectedBankId,
-    })
-    if (!bankAccountsResponse.ok) {
+    try {
+      await deleteFinclusiveBankAccount({
+        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        id: selectedBankId,
+      })
+      await bankAccounts.execute()
+    } catch {
       // TODO(wallet#1447): handle errors from IHL
-      return
     }
-    await bankAccounts.execute()
   }
 
   return (
