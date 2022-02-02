@@ -952,7 +952,7 @@
   },
   "tapToDisconnect": "Appuyez pour vous déconnecter",
   "sessionsTitle": "Dapps connectées",
-  "sessionsSubTitle": "Les dapps suivantes sont connectées à {{appName}}. Tu peux te connecter à d'autres dapps en scannant leur code QR.",
+  "sessionsSubTitle": "Les dapps suivantes sont connectées à {{appName}}. Vous pouvez vous connecter à plus des dapps en scannant leur QR code.",
   "disconnect": "Déconnecter",
   "disconnectTitle": "Déconnecter {{dappName}} ?",
   "disconnectBody": "Confirmez-vous vouloir vous déconnecter de {{dappName}} ?",
@@ -1125,10 +1125,10 @@
   },
   "bankAccountsScreen": {
     "header": "Comptes bancaires liés",
-    "add": "Ajoute un nouveau compte bancaire",
+    "add": "Ajouter un compte bancaire",
     "delete": "Supprimer"
   },
-  "syncingBankAccount": "Synchronisation du compte bancaire...",
+  "syncingBankAccount": "Synchronisation du compte bancaire en cours...",
   "linkBankAccountSettingsTitle": "Relier des comptes bancaires",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
   "connectPhoneNumber": {
@@ -1161,7 +1161,7 @@
   "rewards": "Récompenses",
   "supercharge": "Supercharge",
   "others": "Autres",
-  "nomSpaceRecipient": "Nomspace : {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Dollars Celo",
   "celoDollarAmount_plural": "<0></0> Dollars Celo"
 }
