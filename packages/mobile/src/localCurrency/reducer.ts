@@ -5,7 +5,7 @@ import { Currency } from 'src/utils/currencies'
 
 export interface State {
   isLoading: boolean
-  error: boolean
+  error?: boolean
   preferredCurrencyCode?: LocalCurrencyCode
   exchangeRates: { [token in Currency]: string | null }
   lastSuccessfulUpdate?: number
