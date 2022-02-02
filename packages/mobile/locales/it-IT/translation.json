@@ -952,7 +952,7 @@
   },
   "tapToDisconnect": "Tocca per disconnetterti",
   "sessionsTitle": "Dapps collegati",
-  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
+  "sessionsSubTitle": "Le seguenti dapp sono collegate a {{appName}}. Puoi connetterti ad altre dapps scansionando il loro codice QR.",
   "disconnect": "Disconnetti",
   "disconnectTitle": "Disconnettere {{dappName}}?",
   "disconnectBody": "Eseguire la disconnessione da {{dappName}}?",
