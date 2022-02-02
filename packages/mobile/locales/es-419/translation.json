@@ -952,7 +952,7 @@
   },
   "tapToDisconnect": "Toca para desconectar",
   "sessionsTitle": "Dapps conectadas",
-  "sessionsSubTitle": "Las siguientes dapps están conectadas a {{appName}}. Puedes conectarte a más dapps escaneando su código QR.",
+  "sessionsSubTitle": "Las siguientes dapps están conectadas a {{appName}}. Puedes conectarte a más aplicaciones descentralizadas escaneando su código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
@@ -1125,7 +1125,7 @@
   },
   "bankAccountsScreen": {
     "header": "Cuentas bancarias vinculadas",
-    "add": "Añadir una nueva cuenta bancaria",
+    "add": "Añadir una cuenta bancaria",
     "delete": "Eliminar"
   },
   "syncingBankAccount": "Sincronizar la cuenta bancaria...",
