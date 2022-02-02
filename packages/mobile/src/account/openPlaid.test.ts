@@ -3,19 +3,17 @@ import { mockAccount, mockPrivateDEK } from 'test/values'
 import openPlaid from './openPlaid'
 import { createLinkToken } from 'src/in-house-liquidity'
 
-const mockSuccessResponse = new Response(JSON.stringify({ linkToken: 'foo' }), { status: 200 })
-const mockFailResponse = new Response(null, { status: 404 })
-
 jest.mock('react-native-plaid-link-sdk', () => ({
   openLink: jest.fn(),
 }))
 
 jest.mock('src/in-house-liquidity', () => ({
+  ...(jest.requireActual('src/in-house-liquidity') as any),
   createLinkToken: jest.fn(({ accountMTWAddress }) => {
     if (accountMTWAddress === 'bad-account') {
-      return mockFailResponse
+      throw new Error('It failed')
     }
-    return mockSuccessResponse
+    return Promise.resolve('foo')
   }),
 }))
 
@@ -70,32 +68,6 @@ describe('openPlaid', () => {
       phoneNumber: MOCK_PHONE_NUMBER,
       dekPrivate: mockPrivateDEK,
     })
-
-    expect(openLink).not.toHaveBeenCalled()
-  })
-  it('does nothing if the user has no accountMTWAddress', async () => {
-    await openPlaid({
-      accountMTWAddress: null,
-      locale: 'en-US',
-      phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
-      onSuccess,
-      onExit,
-    })
-    expect(createLinkToken).not.toHaveBeenCalled()
-
-    expect(openLink).not.toHaveBeenCalled()
-  })
-  it('does nothing if the user has no dekPrivate key', async () => {
-    await openPlaid({
-      accountMTWAddress: mockAccount,
-      locale: 'en-US',
-      phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: null,
-      onSuccess,
-      onExit,
-    })
-    expect(createLinkToken).not.toHaveBeenCalled()
 
     expect(openLink).not.toHaveBeenCalled()
   })

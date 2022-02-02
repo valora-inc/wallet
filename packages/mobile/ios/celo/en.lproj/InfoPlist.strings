@@ -5,3 +5,4 @@
 "NSPhotoLibraryAddUsageDescription" = "Connecting your photo library allows you to save your code to your photos.";
 "NSPhotoLibraryUsageDescription" = "This is required for you to choose a profile picture.";
 "NSUserTrackingUsageDescription" = "We use the advertising identifier to accurately attribute app installs from ad campaigns.";
+"NSFaceIDUsageDescription" = "This is required for you to use Face ID to secure your account.";
