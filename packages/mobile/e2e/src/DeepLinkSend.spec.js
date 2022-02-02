@@ -1,9 +1,9 @@
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
 import { quickOnboarding } from './utils/utils'
-import { launchApp } from './utils/retries'
 
 describe('Given Deep Link', () => {
   beforeAll(async () => {
+    // Clear redux store ?
     await quickOnboarding()
   })
   // The behavior for this case is not really specified yet
