@@ -12,7 +12,7 @@
   "pinChanged": "PIN alterado",
   "pinChangeFailed": "Falha ao alterar o PIN",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
-  "connectedApplications": "Connected Dapps",
+  "connectedApplications": "Dapps Conectados",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
   "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
@@ -951,7 +951,7 @@
     "computeSharedSecret": "Gerar um segredo"
   },
   "tapToDisconnect": "Toque para desconectar",
-  "sessionsTitle": "Connected Dapps",
+  "sessionsTitle": "Dapps Conectados",
   "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
   "disconnect": "Desconectar",
   "disconnectTitle": "Desconectar {{dappName}}?",
