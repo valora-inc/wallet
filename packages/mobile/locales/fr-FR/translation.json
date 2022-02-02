@@ -7,7 +7,7 @@
   "removeAccountTitle": "Réinitialiser Valora",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération",
   "legal": "Mentions légales",
-  "securityAndData": "Sécurité et données",
+  "security": "Sécurité",
   "changePin": "Modifier le code PIN",
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
@@ -156,7 +156,7 @@
       "text": "Notez votre phrase de récupération et conservez-la dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone."
     },
     {
-      "title": "Gardez votre phrase confidentielle",
+      "title": "Gardez-la",
       "text": "Quiconque possède votre phrase pourra accéder à votre compte et à tous les fonds qui s'y trouvent. Ne la partagez avec personne."
     }
   ],
@@ -201,7 +201,7 @@
   "exchange": "Échanger",
   "buy": "Acheter",
   "sell": "Vendre",
-  "withdrawCelo": "Retirer des CELO",
+  "withdrawCelo": "Retirer CELO",
   "buyGold": "Acheter des CELO",
   "sellGold": "Vendre des CELO",
   "exchangeAmount": "Montant ({{tokenName}})",
@@ -238,7 +238,7 @@
   "celoAmountLabel": "Montant (CELO)",
   "maxSymbol": "Max.",
   "withdrawCeloReview": "Vérifier",
-  "withdrawCeloTo": "Retirer vers",
+  "withdrawCeloTo": "Retiré vers",
   "withdrawCeloAmount": "Montant (CELO)",
   "withdrawScanQrTitle": "Scanner",
   "tokenBalance": "Solde de {{token}}",
@@ -272,12 +272,12 @@
   "fundingEducationDialog": {
     "title": "Créditer votre {{appName}}",
     "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
-    "dismiss": "Ok"
+    "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retirer de {{appName}}",
     "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
-    "dismiss": "Ok"
+    "dismiss": "OK"
   },
   "explanationModal": {
     "title": "À propos des prestataires",
@@ -286,7 +286,7 @@
   "invalidAmountDialog": {
     "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant plus élevé.",
     "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant moins élevé.",
-    "dismiss": "Ok"
+    "dismiss": "OK"
   },
   "dailyLimitDialog": {
     "body": "Vous êtes sur le point d'acheter plus que votre limite quotidienne de virement de {{limit}}. Veuillez contacter <0>{{contactEmail}}</0> si vous souhaitez augmenter votre limite de virement quotidienne.",
@@ -501,7 +501,7 @@
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
   "help": "Aide",
-  "dismiss": "Refuser",
+  "dismiss": "Ignorer",
   "review": "Vérifier",
   "insufficientBalance": "Votre solde est insuffisant pour effectuer cette transaction",
   "amount": "Montant",
@@ -547,8 +547,8 @@
   "redeemFailed": "Erreur lors de la récupération du code ",
   "redeemInviteTimeout": "Délai d'attente de l'invitation écoulé",
   "accountSetupFailed": "Impossible de créer votre portefeuille",
-  "accountSetupFailedDescription": "Veuillez supprimer {{appName}} de votre appareil et réessayer. Si tu continues à avoir des problèmes, contacte le service d'assistance.",
-  "closeApp": "Fermer l'application",
+  "accountSetupFailedDescription": "Veuillez supprimer {{appName}} de votre appareil et réessayer. Si vous continuez à avoir des problèmes, contacte le service d'assistance.",
+  "closeApp": "Fermer l'appli",
   "emptyInviteCode": "Le code d'invitation n'a pas de fonds",
   "transferDollarsToAccount": "Les fonds ont été transférés sur votre compte !",
   "inviteAnyone": "Envoyez facilement des fonds à vos amis en ajoutant vos contacts",
@@ -680,6 +680,7 @@
     "Face": "Reconnaissance faciale",
     "Iris": "Reconnaissance de l'iris"
   },
+  "useBiometryType": "Utiliser {{biometryType}}",
   "welcome": {
     "title": "Entrez dans le futur des cryptomonnaies avec {{appName}}",
     "createAccount": "Créer un nouveau compte",
@@ -735,7 +736,7 @@
   "verificationLearnMoreDialog": {
     "title": "Numéros de téléphone et {{appName}}",
     "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
-    "dismiss": "Refuser"
+    "dismiss": "Ignorer"
   },
   "importExistingKey": {
     "explanation": "Votre phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
@@ -817,12 +818,12 @@
   "sendTo": "Envoyer à",
   "addDescription": "Ajouter une description",
   "sentTo": "Envoyer à",
-  "withdrawnTo": "Retirer vers",
+  "withdrawnTo": "Retiré vers",
   "receivedFrom": "Reçu de",
   "commentLabel": "Message",
   "amountSent": "Montant envoyé",
   "amountCeloWithdrawn": "Montant (CELO)",
-  "feeEducation": "La Blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
+  "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
   "inviteMoneyEscrow": "Nous inviterons ce contact et garderons ses fonds en sécurité jusqu'à ce que son compte soit confirmé.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander le paiement",
@@ -864,7 +865,7 @@
   "estimatedFee": "Frais estimés : ",
   "selectBalance": "Sélectionner le solde",
   "stableBalance": "Solde de {{token}}",
-  "selectToken": "Sélectionner un jeton",
+  "selectToken": "Sélectionner l'actif",
   "verificationCta": {
     "header": "Envoyer à un ami ?",
     "body": "Confirmez votre téléphone et synchronisez vos contacts pour envoyer des valeurs rapidement à vos amis.",
@@ -1014,7 +1015,7 @@
     "1": "Nous vous envoyons un petit rappel pour vous informer que vous utilisez le réseau bêta {{testnet}}, les soldes affichés ne sont pas réels"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "{{address}} du compte",
+  "feedItemAddress": "Compte {{address}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Acheté <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Vendu <0></0> CELO",
@@ -1058,7 +1059,7 @@
   "feedItemGenericTitle_noRecipientDetails": "Inconnu",
   "feedItemGoldSold": "Vendu",
   "feedItemGoldPurchased": "Acheté",
-  "feedItemGoldWithdrawal": "Retirer vers {{displayName}}",
+  "feedItemGoldWithdrawal": "Retrait vers {{displayName}}",
   "feedItemGoldReceived": "Reçu de {{displayName}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Réseau",
@@ -1085,8 +1086,8 @@
   "viewBalances": "Voir les actifs",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
-    "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains jetons ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
-    "dismiss": "Refuser"
+    "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
+    "dismiss": "Ignorer"
   },
   "supportEmailSubject": "Support de {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
@@ -1122,6 +1123,12 @@
       "cta": "Bientôt disponible !"
     }
   },
+  "bankAccountsScreen": {
+    "header": "Comptes bancaires liés",
+    "add": "Ajoute un nouveau compte bancaire",
+    "delete": "Supprimer"
+  },
+  "syncingBankAccount": "Synchronisation du compte bancaire...",
   "linkBankAccountSettingsTitle": "Relier des comptes bancaires",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
   "connectPhoneNumber": {
@@ -1138,13 +1145,13 @@
     "title": "Dapps",
     "message": "Explorez les moyens d'utiliser vos crypto.",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "featuredDapp": "Dapps à la une",
+    "allDapps": "Tous"
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
-    "message": "Les Dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la DeFi.\n\nConnectez Valora à une dapp pour commencer.",
-    "dismiss": "Refuser"
+    "message": "Les Dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la Web3.\n\nConnectez Valora à une dapp pour commencer.",
+    "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} s'ouvrira dans un navigateur externe",
@@ -1154,7 +1161,7 @@
   "rewards": "Récompenses",
   "supercharge": "Supercharge",
   "others": "Autres",
-  "nomSpaceRecipient": "Espace Nom : {{name}}",
+  "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Dollars Celo",
   "celoDollarAmount_plural": "<0></0> Dollars Celo"
 }
