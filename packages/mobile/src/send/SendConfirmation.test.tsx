@@ -21,6 +21,7 @@ import {
   RecursivePartial,
 } from 'test/utils'
 import {
+  emptyFees,
   mockAccount,
   mockAccount2,
   mockAccount2Invite,
@@ -62,6 +63,7 @@ type ScreenProps = StackScreenProps<
 >
 
 const mockFeeEstimates = {
+  ...emptyFees,
   [FeeType.SEND]: {
     usdFee: '0.02',
     lastUpdated: 500,
@@ -76,9 +78,6 @@ const mockFeeEstimates = {
     error: false,
     feeInfo: mockFeeInfo,
   },
-  [FeeType.EXCHANGE]: undefined,
-  [FeeType.RECLAIM_ESCROW]: undefined,
-  [FeeType.REGISTER_DEK]: undefined,
 }
 
 describe('SendConfirmation', () => {
@@ -462,5 +461,28 @@ describe('SendConfirmation', () => {
         ),
       ])
     )
+  })
+
+  it('dispatches fee estimation if not already done', async () => {
+    const { store } = renderScreen({ fees: { estimates: emptyFees } })
+
+    expect(store.getActions()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "payload": Object {
+            "feeType": "send",
+            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+          },
+          "type": "FEES/ESTIMATE_FEE",
+        },
+        Object {
+          "payload": Object {
+            "feeType": "register-dek",
+            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+          },
+          "type": "FEES/ESTIMATE_FEE",
+        },
+      ]
+    `)
   })
 })
