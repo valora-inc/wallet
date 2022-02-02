@@ -12,7 +12,7 @@
   "pinChanged": "Il PIN è stato modificato.",
   "pinChangeFailed": "Impossibile modificare il PIN.",
   "requirePinOnAppOpen": "Richiedi il PIN all’apertura dell’app",
-  "connectedApplications": "Dapps collegati",
+  "connectedApplications": "Dapp connesse",
   "analytics": "Statistiche",
   "shareAnalytics": "Condividi statistiche",
   "shareAnalytics_detail": "Raccogliamo dati anonimizzati sull'utilizzo di {{appName}} per migliorare l’app a beneficio di tutti.",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Generazione di un segreto"
   },
   "tapToDisconnect": "Tocca per disconnetterti",
-  "sessionsTitle": "Dapps collegati",
-  "sessionsSubTitle": "Le seguenti dapp sono collegate a {{appName}}. Puoi connetterti ad altre dapps scansionando il loro codice QR.",
+  "sessionsTitle": "Dapp connesse",
+  "sessionsSubTitle": "Le seguenti dapp sono connesse a {{appName}}. Puoi connetterti ad altre dapp inquadrando il relativo codice QR.",
   "disconnect": "Disconnetti",
   "disconnectTitle": "Disconnettere {{dappName}}?",
   "disconnectBody": "Eseguire la disconnessione da {{dappName}}?",
@@ -1125,10 +1125,10 @@
   },
   "bankAccountsScreen": {
     "header": "Conti bancari collegati",
-    "add": "Aggiungi un nuovo conto bancario",
-    "delete": "Elimina"
+    "add": "Aggiungere un conto bancario",
+    "delete": "Eliminare"
   },
-  "syncingBankAccount": "Sincronizzazione del conto bancario...",
+  "syncingBankAccount": "Sincronizzazione del conto bancario in corso...",
   "linkBankAccountSettingsTitle": "Collega conti bancari",
   "linkBankAccountSettingsValue": "Accedi",
   "connectPhoneNumber": {
