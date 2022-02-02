@@ -154,6 +154,9 @@ if [ $PLATFORM = "android" ]; then
     yarn detox build -c $CONFIG_NAME
 
     NUM_DEVICES=`adb devices -l | grep emulator- | wc -l`
+    echo "Number of devices $NUM_DEVICES"
+    echo "Number of workers $WORKERS"
+    echo $NUM_DEVICES -gt $WORKERS
     if [ $NUM_DEVICES -gt $WORKERS ]; then
       echo "$NUM_DEVICES emulators already running or attached. Please shutdown / remove first"
       exit 1
