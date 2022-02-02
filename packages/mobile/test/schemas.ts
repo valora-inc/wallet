@@ -934,7 +934,6 @@ export const v31Schema = {
   account: {
     ...v30Schema.account,
     isSettingPin: undefined,
-    useBiometry: false,
   },
 }
 
