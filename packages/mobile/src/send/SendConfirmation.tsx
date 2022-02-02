@@ -141,7 +141,14 @@ function SendConfirmation(props: Props) {
 
   const isInvite = !recipient.address
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeEstimate = feeEstimates[tokenAddress]?.[isInvite ? FeeType.INVITE : FeeType.SEND]
+  const feeType = isInvite ? FeeType.INVITE : FeeType.SEND
+  const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
+
+  useEffect(() => {
+    if (!feeEstimate) {
+      dispatch(estimateFee({ feeType, tokenAddress }))
+    }
+  }, [feeEstimate])
 
   useEffect(() => {
     if (!isDekRegistered) {
