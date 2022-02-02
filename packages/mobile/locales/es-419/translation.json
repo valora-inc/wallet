@@ -12,7 +12,7 @@
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
   "requirePinOnAppOpen": "Requerir PIN al abrir la app",
-  "connectedApplications": "Connected Dapps",
+  "connectedApplications": "Dapps conectadas",
   "analytics": "Estadísticas de uso",
   "shareAnalytics": "Compartir estadísticas de uso",
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
@@ -951,7 +951,7 @@
     "computeSharedSecret": "Generar un secreto"
   },
   "tapToDisconnect": "Toca para desconectar",
-  "sessionsTitle": "Connected Dapps",
+  "sessionsTitle": "Dapps conectadas",
   "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
@@ -1161,7 +1161,7 @@
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Otros",
-  "nomSpaceRecipient": "Nomspace: {{name}}",
+  "nomSpaceRecipient": "Espacio para las nubes: {{name}}",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
