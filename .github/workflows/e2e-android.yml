@@ -59,7 +59,7 @@ jobs:
       - name: Kill Existing Emulators
         run: |
           echo "Killing existing emulators"
-          killall -9 qemu-system-x86_64 || true
+          adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
