@@ -952,7 +952,7 @@
   },
   "tapToDisconnect": "Antippen zum Trennen der Verbindung",
   "sessionsTitle": "Verbundene Dapps",
-  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
+  "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}}verbunden. Du kannst dich mit weiteren Dapps verbinden, indem du ihren QR-Code scannst.",
   "disconnect": "Verbindung trennen",
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
