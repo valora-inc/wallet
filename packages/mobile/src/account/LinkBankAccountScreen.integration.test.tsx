@@ -93,12 +93,15 @@ describe('LinkBankAccountScreen: integration tests (using real Persona component
         app: { linkBankAccountStepTwoEnabled: false },
       })
 
-      const { getByTestId } = render(
+      const { getByTestId, queryByText } = render(
         <Provider store={store}>
           <LinkBankAccountScreen />
         </Provider>
       )
       const plaidLinkButton = getByTestId('PlaidLinkButton')
+      expect(queryByText('linkBankAccountScreen.stepTwo.disabledTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountScreen.stepTwo.disabledDescription')).toBeTruthy()
+      expect(queryByText('linkBankAccountScreen.stepTwo.disabledCta')).toBeTruthy()
       expect(plaidLinkButton).toBeDisabled()
     })
     it('step two is disabled when feature flag is switched on and kyc is not approved', async () => {
@@ -123,12 +126,15 @@ describe('LinkBankAccountScreen: integration tests (using real Persona component
         app: { linkBankAccountStepTwoEnabled: true },
       })
 
-      const { getByTestId } = render(
+      const { getByTestId, queryByText } = render(
         <Provider store={store}>
           <LinkBankAccountScreen />
         </Provider>
       )
       const plaidLinkButton = getByTestId('PlaidLinkButton')
+      expect(queryByText('linkBankAccountScreen.stepTwo.title')).toBeTruthy()
+      expect(queryByText('linkBankAccountScreen.stepTwo.description')).toBeTruthy()
+      expect(queryByText('linkBankAccountScreen.stepTwo.cta')).toBeTruthy()
       expect(plaidLinkButton).not.toBeDisabled()
     })
   })
