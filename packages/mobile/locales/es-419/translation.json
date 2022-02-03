@@ -1131,7 +1131,7 @@
   "syncingBankAccount": "Sincronizando cuenta bancaria...",
   "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
-  "linkBankAccountSettingsValue2": "Add New",
+  "linkBankAccountSettingsValue2": "Añadir nuevo",
   "connectPhoneNumber": {
     "title": "Conecta tu número de teléfono para continuar",
     "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
