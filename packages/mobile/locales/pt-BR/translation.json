@@ -12,7 +12,7 @@
   "pinChanged": "PIN alterado",
   "pinChangeFailed": "Falha ao alterar o PIN",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
-  "connectedApplications": "Apps conectados",
+  "connectedApplications": "Dapps conectados",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
   "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Gerar um segredo"
   },
   "tapToDisconnect": "Toque para desconectar",
-  "sessionsTitle": "Apps conectados",
-  "sessionsSubTitle": "Os seguintes aplicativos estão conectados a {{appName}}. Você pode se conectar a mais aplicativos escaneando o código QR.",
+  "sessionsTitle": "Dapps conectados",
+  "sessionsSubTitle": "Os seguintes dapps estão conectados a {{appName}}. Você pode se conectar a mais aplicativos descentralizados o código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "Desconectar {{dappName}}?",
   "disconnectBody": "Tem certeza de que deseja desconectar de {{dappName}}?",
@@ -1124,7 +1124,7 @@
     }
   },
   "bankAccountsScreen": {
-    "header": "Contas Bancárias Vinculadas",
+    "header": "Contas bancárias vinculadas",
     "add": "Adicionar nova conta bancária",
     "delete": "Excluir"
   },
