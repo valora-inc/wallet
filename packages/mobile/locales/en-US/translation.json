@@ -1129,8 +1129,9 @@
     "delete": "Delete"
   },
   "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsTitle": "Linked Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
+  "linkBankAccountSettingsValue2": "Add New",
   "connectPhoneNumber": {
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
