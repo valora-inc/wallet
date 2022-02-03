@@ -60,6 +60,7 @@ export const PIN_LENGTH = 6
 export const DEFAULT_CACHE_ACCOUNT = 'default'
 export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
+export const BIOMETRY_VERIFICATION_DELAY = 800
 
 /**
  * Pin blocklist that loads from the bundle resources a pre-configured list and allows it to be
@@ -276,6 +277,12 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
 
 type PinCallback = (pin: string) => void
 
+async function addBiometryVerificationDelay() {
+  // insert artificial delay so that the native biometry verification
+  // animation can run the full course
+  return new Promise((resolve) => setTimeout(resolve, BIOMETRY_VERIFICATION_DELAY))
+}
+
 export async function setPincodeWithBiometry() {
   let pin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (!pin) {
@@ -287,6 +294,7 @@ export async function setPincodeWithBiometry() {
     // from previous app installs/failed save attempts will be overwritten
     // safely here
     await storePinWithBiometry(pin)
+    await addBiometryVerificationDelay()
   } catch (error) {
     Logger.warn(TAG, 'Failed to save pin with biometry', error)
     throw error
@@ -298,6 +306,7 @@ export async function getPincodeWithBiometry() {
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
     if (retrievedPin) {
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
+      await addBiometryVerificationDelay()
       return retrievedPin
     }
     throw new Error('Failed to retrieve pin with biometry, recieved null value')

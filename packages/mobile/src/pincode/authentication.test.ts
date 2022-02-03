@@ -100,6 +100,7 @@ describe(getPasswordSaga, () => {
 describe(getPincode, () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useRealTimers()
     mockedNavigate.mockReset()
     clearPasswordCaches()
   })
@@ -131,6 +132,7 @@ describe(getPincode, () => {
       storage: 'storage',
     })
     const pin = await getPincode()
+    jest.runAllTimers()
 
     expect(pin).toEqual(mockPin)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
@@ -192,6 +194,7 @@ describe(getPincode, () => {
 
 describe(getPincodeWithBiometry, () => {
   it('returns the correct pin and populates the cache', async () => {
+    jest.useRealTimers()
     clearPasswordCaches()
     mockedKeychain.getGenericPassword.mockResolvedValue({
       password: mockPin,
@@ -200,6 +203,7 @@ describe(getPincodeWithBiometry, () => {
       storage: 'storage',
     })
     const retrievedPin = await getPincodeWithBiometry()
+    jest.runAllTimers()
 
     expect(retrievedPin).toEqual(mockPin)
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
@@ -216,6 +220,7 @@ describe(getPincodeWithBiometry, () => {
 
 describe(setPincodeWithBiometry, () => {
   beforeEach(() => {
+    jest.useRealTimers()
     jest.clearAllMocks()
     clearPasswordCaches()
     mockedNavigate.mockReset()
@@ -231,6 +236,7 @@ describe(setPincodeWithBiometry, () => {
     })
 
     await setPincodeWithBiometry()
+    jest.runAllTimers()
 
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
@@ -256,6 +262,7 @@ describe(setPincodeWithBiometry, () => {
     })
 
     await setPincodeWithBiometry()
+    jest.runAllTimers()
 
     expectPincodeEntered()
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)
