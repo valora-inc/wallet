@@ -219,7 +219,7 @@ elif [ $PLATFORM = "ios" ]; then
   if [ $DEV_MODE = false ]; then
     echo "Closing Simulators"
     xcrun simctl shutdown all || true
-  if
+  fi
 
 else
   echo "Invalid value for platform, must be 'android' or 'ios'"
