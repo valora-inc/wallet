@@ -3,6 +3,7 @@ import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
+  AuthenticationEvents,
   CeloExchangeEvents,
   CICOEvents,
   ContractKitEvents,
@@ -525,6 +526,20 @@ interface IdentityEventsProperties {
     error: string
   }
   [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
+}
+
+interface AuthenticationEventsProperties {
+  [AuthenticationEvents.get_pincode_start]: undefined
+  [AuthenticationEvents.get_pincode_complete]: undefined
+  [AuthenticationEvents.get_pincode_error]: undefined
+
+  [AuthenticationEvents.get_pincode_with_biometry_start]: undefined
+  [AuthenticationEvents.get_pincode_with_biometry_complete]: undefined
+  [AuthenticationEvents.get_pincode_with_biometry_error]: undefined
+
+  [AuthenticationEvents.get_pincode_with_input_start]: undefined
+  [AuthenticationEvents.get_pincode_with_input_complete]: undefined
+  [AuthenticationEvents.get_pincode_with_input_error]: undefined
 }
 
 interface InviteEventsProperties {
@@ -1174,7 +1189,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   OnboardingEventsProperties &
   VerificationEventsProperties &
   IdentityEventsProperties &
-  IdentityEventsProperties &
+  AuthenticationEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
   EscrowEventsProperties &
