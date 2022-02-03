@@ -18,9 +18,9 @@ function LinkBankAccountErrorScreen({ route }: Props) {
 
   const { error, linkError } = route.params
   if (error) {
-    Logger.error(TAG, 'Error from IHL while adding bank account', error)
+    Logger.warn(TAG, 'Error from IHL while adding bank account', error)
   } else if (linkError) {
-    Logger.error(TAG, 'Error from Plaid while adding bank account', linkError)
+    Logger.warn(TAG, 'Error from Plaid while adding bank account', linkError)
   }
 
   return (
