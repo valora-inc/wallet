@@ -1143,7 +1143,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
+    "message": "Explore ways to use your crypto",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All"
