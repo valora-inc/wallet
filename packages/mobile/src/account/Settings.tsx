@@ -453,6 +453,7 @@ export class Account extends React.Component<Props, State> {
     // User has not yet fully submitted their KYC info
     const stillNeedsToDoPersona = [
       undefined,
+      KycStatus.NotCreated,
       KycStatus.Created,
       KycStatus.Pending,
       KycStatus.Expired,
