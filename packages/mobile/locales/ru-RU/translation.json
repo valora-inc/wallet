@@ -1133,8 +1133,9 @@
     "delete": "Удалить"
   },
   "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Привязать банковские счета",
+  "linkBankAccountSettingsTitle": "Связанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
+  "linkBankAccountSettingsValue2": "Добавить новый",
   "connectPhoneNumber": {
     "title": "Подключите номер телефона, чтобы продолжить",
     "body": "Для подтверждения личности и привязки вашего банковского счета необходимо подключить ваш номер телефона.",
