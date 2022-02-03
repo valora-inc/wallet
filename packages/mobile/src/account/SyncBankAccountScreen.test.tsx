@@ -11,6 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
+const mockError = new Error('some error')
 
 const mockProps = getMockStackScreenProps(Screens.SyncBankAccountScreen, {
   publicToken: mockPublicToken,
@@ -65,7 +66,7 @@ describe('SyncBankAccountScreen', () => {
 
   it('directs to error page when token exchange fails', async () => {
     //@ts-ignore .
-    exchangePlaidAccessToken.mockRejectedValue()
+    exchangePlaidAccessToken.mockRejectedValue(mockError)
 
     render(
       <Provider store={store}>
@@ -73,13 +74,15 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
+        error: mockError,
+      })
     })
   })
 
   it('directs to error page when create finclusive bank account fails', async () => {
     //@ts-ignore .
-    createFinclusiveBankAccount.mockRejectedValue()
+    createFinclusiveBankAccount.mockRejectedValue(mockError)
 
     render(
       <Provider store={store}>
@@ -87,7 +90,9 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
+        error: mockError,
+      })
     })
   })
 })

@@ -39,8 +39,8 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       })
 
       navigate(Screens.BankAccounts, { newPublicToken: publicToken })
-    } catch {
-      navigate(Screens.LinkBankAccountErrorScreen)
+    } catch (error) {
+      navigate(Screens.LinkBankAccountErrorScreen, { error })
       return
     }
   }, [])

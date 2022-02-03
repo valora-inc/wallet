@@ -8,11 +8,20 @@ import { StackParamList } from 'src/navigator/types'
 import { Screens } from 'src/navigator/Screens'
 import { useTranslation } from 'react-i18next'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import Logger from 'src/utils/Logger'
 
+const TAG = 'LinkBankAccountErrorScreen'
 type Props = StackScreenProps<StackParamList, Screens.LinkBankAccountErrorScreen>
 
 function LinkBankAccountErrorScreen({ route }: Props) {
   const { t } = useTranslation()
+
+  const { error, linkError } = route.params
+  if (error) {
+    Logger.error(TAG, 'Error from IHL while adding bank account', error)
+  } else if (linkError) {
+    Logger.error(TAG, 'Error from Plaid while adding bank account', linkError)
+  }
 
   return (
     <View style={styles.container}>

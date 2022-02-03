@@ -5,7 +5,15 @@ import { Screens } from 'src/navigator/Screens'
 import { getMockStackScreenProps } from 'test/utils'
 import * as React from 'react'
 
-const mockProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScreen)
+const mockError = new Error('some error')
+const mockLinkError = { errorMessage: 'some error' }
+
+const mockErrorProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScreen, {
+  error: mockError,
+})
+const mockLinkErrorProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScreen, {
+  linkError: mockLinkError,
+})
 
 jest.mock('src/navigator/NavigationService', () => ({
   __esModule: true,
@@ -21,7 +29,7 @@ describe('LinkBankAccountErrorScreen', () => {
   })
 
   it('Navigates to contact support page when button is pressed', async () => {
-    const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockProps} />)
+    const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockErrorProps} />)
     await fireEvent.press(getByTestId('SupportContactLink'))
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
       prefilledText: 'linkBankAccountScreen.error.contactSupportPrefill',
@@ -29,7 +37,7 @@ describe('LinkBankAccountErrorScreen', () => {
   })
 
   it('Navigates back when Try Again is presed', async () => {
-    const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockProps} />)
+    const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockLinkErrorProps} />)
     await fireEvent.press(getByTestId('TryAgain'))
     expect(navigateBack).toHaveBeenCalled()
   })
