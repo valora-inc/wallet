@@ -154,7 +154,7 @@ if [ $PLATFORM = "android" ]; then
     # Commented out for ci testing
     # yarn detox build -c $CONFIG_NAME
 
-    NUM_DEVICES=`adb devices -l | grep emulator- | wc -l`
+    NUM_DEVICES=`adb devices -l | grep emulator- | wc -l` || 0
     echo "Number of devices $NUM_DEVICES"
     echo "Number of workers $WORKERS"
     if [ $NUM_DEVICES -ge 1 ]; then
