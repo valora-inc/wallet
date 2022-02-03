@@ -36,6 +36,9 @@ jest.mock('react-native-securerandom', () => ({
   ...(jest.requireActual('react-native-securerandom') as any),
   generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
 }))
+jest.mock('@celo/utils/lib/async', () => ({
+  sleep: jest.fn().mockResolvedValue(true),
+}))
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockPepper = {
@@ -100,7 +103,6 @@ describe(getPasswordSaga, () => {
 describe(getPincode, () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useRealTimers()
     mockedNavigate.mockReset()
     clearPasswordCaches()
   })
@@ -131,8 +133,8 @@ describe(getPincode, () => {
       service: 'service',
       storage: 'storage',
     })
+
     const pin = await getPincode()
-    jest.runAllTimers()
 
     expect(pin).toEqual(mockPin)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
@@ -194,7 +196,6 @@ describe(getPincode, () => {
 
 describe(getPincodeWithBiometry, () => {
   it('returns the correct pin and populates the cache', async () => {
-    jest.useRealTimers()
     clearPasswordCaches()
     mockedKeychain.getGenericPassword.mockResolvedValue({
       password: mockPin,
@@ -203,7 +204,6 @@ describe(getPincodeWithBiometry, () => {
       storage: 'storage',
     })
     const retrievedPin = await getPincodeWithBiometry()
-    jest.runAllTimers()
 
     expect(retrievedPin).toEqual(mockPin)
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toEqual(mockPin)
@@ -220,7 +220,6 @@ describe(getPincodeWithBiometry, () => {
 
 describe(setPincodeWithBiometry, () => {
   beforeEach(() => {
-    jest.useRealTimers()
     jest.clearAllMocks()
     clearPasswordCaches()
     mockedNavigate.mockReset()
@@ -236,7 +235,6 @@ describe(setPincodeWithBiometry, () => {
     })
 
     await setPincodeWithBiometry()
-    jest.runAllTimers()
 
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledWith(
@@ -262,7 +260,6 @@ describe(setPincodeWithBiometry, () => {
     })
 
     await setPincodeWithBiometry()
-    jest.runAllTimers()
 
     expectPincodeEntered()
     expect(mockedKeychain.setGenericPassword).toHaveBeenCalledTimes(1)

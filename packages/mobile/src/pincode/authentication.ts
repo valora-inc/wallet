@@ -6,11 +6,11 @@
  */
 
 import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
+import { sleep } from '@celo/utils/lib/async'
 import { sha256 } from 'ethereumjs-util'
 import * as Keychain from 'react-native-keychain'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { call, select } from 'redux-saga/effects'
-import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -277,12 +277,6 @@ export function* getPasswordSaga(account: string, withVerification?: boolean, st
 
 type PinCallback = (pin: string) => void
 
-async function addBiometryVerificationDelay() {
-  // insert artificial delay so that the native biometry verification
-  // animation can run the full course
-  return new Promise((resolve) => setTimeout(resolve, BIOMETRY_VERIFICATION_DELAY))
-}
-
 export async function setPincodeWithBiometry() {
   let pin = getCachedPin(DEFAULT_CACHE_ACCOUNT)
   if (!pin) {
@@ -294,7 +288,8 @@ export async function setPincodeWithBiometry() {
     // from previous app installs/failed save attempts will be overwritten
     // safely here
     await storePinWithBiometry(pin)
-    await addBiometryVerificationDelay()
+    // allow native biometry verification animation to run fully
+    await sleep(BIOMETRY_VERIFICATION_DELAY)
   } catch (error) {
     Logger.warn(TAG, 'Failed to save pin with biometry', error)
     throw error
@@ -306,7 +301,8 @@ export async function getPincodeWithBiometry() {
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
     if (retrievedPin) {
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)
-      await addBiometryVerificationDelay()
+      // allow native biometry verification animation to run fully
+      await sleep(BIOMETRY_VERIFICATION_DELAY)
       return retrievedPin
     }
     throw new Error('Failed to retrieve pin with biometry, recieved null value')
