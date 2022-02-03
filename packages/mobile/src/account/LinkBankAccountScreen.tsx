@@ -21,6 +21,7 @@ import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import openPlaid from './openPlaid'
+import { linkBankAccountStepTwoEnabledSelector } from '../app/selectors'
 
 interface StepOneProps {
   kycStatus: KycStatus | undefined
@@ -38,6 +39,7 @@ function LinkBankAccountScreen() {
   }, [])
 
   const kycStatus = useSelector(kycStatusSelector)
+  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
 
   return (
     <SafeAreaView style={styles.body}>
@@ -46,7 +48,7 @@ function LinkBankAccountScreen() {
         showsVerticalScrollIndicator={false}
       >
         <StepOne kycStatus={kycStatus} />
-        <StepTwo disabled={!kycStatus || kycStatus !== KycStatus.Approved} />
+        <StepTwo disabled={!stepTwoEnabled || kycStatus !== KycStatus.Approved} />
       </ScrollView>
     </SafeAreaView>
   )

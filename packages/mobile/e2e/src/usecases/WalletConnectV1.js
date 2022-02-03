@@ -352,7 +352,7 @@ export default WalletConnect = () => {
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.id('Settings')).tap()
-    await element(by.text('Connected Apps')).tap()
+    await element(by.id('ConnectedApplications')).tap()
     await element(by.text('Tap to Disconnect')).tap()
     await element(by.text('Disconnect')).tap()
     await element(by.id('BackChevron')).tap()

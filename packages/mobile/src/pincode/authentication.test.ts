@@ -39,6 +39,9 @@ jest.mock('react-native-securerandom', () => ({
   generateSecureRandom: jest.fn(() => new Uint8Array(16).fill(1)),
 }))
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('@celo/utils/lib/async', () => ({
+  sleep: jest.fn().mockResolvedValue(true),
+}))
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 const mockPepper = {
@@ -133,6 +136,7 @@ describe(getPincode, () => {
       service: 'service',
       storage: 'storage',
     })
+
     const pin = await getPincode()
 
     expect(pin).toEqual(mockPin)
