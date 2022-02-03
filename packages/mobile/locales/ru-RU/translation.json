@@ -547,7 +547,7 @@
   "redeemFailed": "Не удалось активировать код ",
   "redeemInviteTimeout": "Истекло время ожидания активации приглашения",
   "accountSetupFailed": "Не удалось создать кошелек",
-  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "accountSetupFailedDescription": "Пожалуйста, удали {{appName}} с твоего устройства и попробуй снова. Если у тебя продолжаются проблемы, пожалуйста, обратись в службу поддержки.",
   "closeApp": "Закрыть",
   "emptyInviteCode": "Код приглашения не содержит средств",
   "transferDollarsToAccount": "Средства отправлены на ваш аккаунт!",
