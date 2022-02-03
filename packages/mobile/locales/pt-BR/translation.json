@@ -1129,8 +1129,9 @@
     "delete": "Excluir"
   },
   "syncingBankAccount": "Sincronizando a conta bancária...",
-  "linkBankAccountSettingsTitle": "Contas bancárias",
+  "linkBankAccountSettingsTitle": "Contas bancárias vinculadas",
   "linkBankAccountSettingsValue": "Acessar",
+  "linkBankAccountSettingsValue2": "Adicionar Novo",
   "connectPhoneNumber": {
     "title": "Conecte o número de celular para continuar",
     "body": "Seu número de celular deve estar conectado para verificar sua identidade e vincular sua conta.",
