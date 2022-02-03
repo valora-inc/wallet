@@ -1118,9 +1118,12 @@
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "title": "Verknüpfen Bankkontos",
-      "description": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
-      "cta": "Demnächst verfügbar"
+      "disabledTitle": "Verknüpfen Bankkontos",
+      "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
+      "disabledCta": "Demnächst verfügbar",
+      "title": "Bankverbindung eingeben",
+      "description": "Du bist fast fertig! Gib deine Bankdaten ein, um dein Konto mit Valora zu verknüpfen.",
+      "cta": "Link Bankkonto"
     }
   },
   "bankAccountsScreen": {
