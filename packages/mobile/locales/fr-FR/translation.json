@@ -1118,9 +1118,12 @@
     },
     "stepTwo": {
       "label": "Étape 2",
-      "title": "Relier un compte bancaire",
-      "description": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
-      "cta": "Bientôt disponible !"
+      "disabledTitle": "Relier un compte bancaire",
+      "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
+      "disabledCta": "Bientôt disponible !",
+      "title": "Saisis les coordonnées bancaires",
+      "description": "Tu as presque terminé ! Saisis les coordonnées bancaires pour lier ton compte à Valora.",
+      "cta": "Compte bancaire Link"
     }
   },
   "bankAccountsScreen": {
