@@ -152,39 +152,187 @@ describe('Account', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_number_not_connected)
   })
 
-  it('navigate to LinkBankAccount screen with kycStatus', async () => {
-    const tree = render(
-      <Provider
-        store={createMockStore({
-          account: {
-            e164PhoneNumber: mockE164Number,
-            kycStatus: KycStatus.Completed,
-          },
-          identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
-          goldToken: { balance: '0.00' },
-          verify: {
-            komenciAvailable: KomenciAvailable.Yes,
-            komenci: { errorTimestamps: [] },
-            status: {},
-          },
-          app: {
-            linkBankAccountEnabled: true,
-          },
-          web3: {
-            mtwAddress: mockAccount,
-          },
-        })}
-      >
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-
-    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
-    expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
-      kycStatus: KycStatus.Completed,
+  describe('LinkedBankAccountSettings', () => {
+    const baseStore = {
+      account: {
+        e164PhoneNumber: mockE164Number,
+        kycStatus: undefined,
+        hasLinkedBankAccount: false,
+      },
+      identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
+      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
+      goldToken: { balance: '0.00' },
+      verify: {
+        komenciAvailable: KomenciAvailable.Yes,
+        komenci: { errorTimestamps: [] },
+        status: {},
+      },
+      app: {
+        linkBankAccountEnabled: true,
+        linkBankAccountStepTwoEnabled: true,
+      },
+      web3: {
+        mtwAddress: mockAccount,
+      },
+    }
+    it('does not render if not enabled', () => {
+      const store = {
+        ...baseStore,
+        app: {
+          ...baseStore.app,
+          linkBankAccountEnabled: false,
+        },
+      }
+      const { queryByTestId } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByTestId('linkBankAccountSettings')).toBeNull()
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    it('renders correctly if the user has not connected their phone', () => {
+      const store = {
+        ...baseStore,
+        web3: {
+          mtwAddress: null,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeTruthy()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        SettingsEvents.settings_number_not_connected
+      )
+    })
+    it('renders correctly if the user has not fully submitted their KYC info', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Created,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeTruthy()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: KycStatus.Created,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
+    it('renders correctly if the user has gone through KYC but not yet approved', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Declined,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeNull()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: KycStatus.Declined,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
+    it('renders correctly if the user has been approved by KYC but step two is not enabled', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Approved,
+        },
+        app: {
+          ...baseStore.app,
+          linkBankAccountStepTwoEnabled: false,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeNull()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: KycStatus.Approved,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
+    it('renders correctly if the user has been approved by KYC and step two is enabled', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Approved,
+        },
+        app: {
+          ...baseStore.app,
+          linkBankAccountStepTwoEnabled: true,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue2')).toBeTruthy()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: KycStatus.Approved,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
+    it('renders correctly if the user has gone through the plaid flow and added a bank account', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Approved,
+          hasLinkedBankAccount: true,
+        },
+        app: {
+          ...baseStore.app,
+          linkBankAccountStepTwoEnabled: true,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeNull()
+      expect(queryByText('linkBankAccountSettingsValue2')).toBeNull()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.BankAccounts, {})
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
   })
 
   it('toggle the biometry option correctly', async () => {
