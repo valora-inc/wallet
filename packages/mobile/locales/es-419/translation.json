@@ -1118,9 +1118,12 @@
     },
     "stepTwo": {
       "label": "Paso 2",
-      "title": "Vincular una cuenta bancaria",
-      "description": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
-      "cta": "¡Muy pronto!"
+      "disabledTitle": "Vincular una cuenta bancaria",
+      "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
+      "disabledCta": "¡Muy pronto!",
+      "title": "Enter Bank Details",
+      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "cta": "Link Bank Account"
     }
   },
   "bankAccountsScreen": {
