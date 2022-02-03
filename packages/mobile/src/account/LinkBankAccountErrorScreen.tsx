@@ -16,7 +16,7 @@ type Props = StackScreenProps<StackParamList, Screens.LinkBankAccountErrorScreen
 function LinkBankAccountErrorScreen({ route }: Props) {
   const { t } = useTranslation()
 
-  const { error, linkError } = route.params
+  const { error, linkError } = route.params || {}
   if (error) {
     Logger.warn(TAG, 'Error from IHL while adding bank account', error)
   } else if (linkError) {

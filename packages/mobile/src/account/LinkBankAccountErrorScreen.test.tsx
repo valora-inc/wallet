@@ -3,10 +3,15 @@ import LinkBankAccountErrorScreen from './LinkBankAccountErrorScreen'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getMockStackScreenProps } from 'test/utils'
+import { LinkErrorCode, LinkErrorType } from 'react-native-plaid-link-sdk'
 import * as React from 'react'
 
 const mockError = new Error('some error')
-const mockLinkError = { errorMessage: 'some error' }
+const mockLinkError = {
+  errorMessage: 'some error',
+  errorCode: LinkErrorCode.INVALID_CREDENTIALS,
+  errorType: LinkErrorType.BANK_TRANSFER,
+}
 
 const mockErrorProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScreen, {
   error: mockError,
