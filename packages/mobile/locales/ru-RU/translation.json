@@ -7,12 +7,12 @@
   "removeAccountTitle": "Сбросить приложение Valora",
   "removeAccountDetails": "При выполнении сброса ваш аккаунт будет удален с этого устройства. Ваши средства останутся в аккаунте, но будут доступны только с помощью вашей фразы восстановления",
   "legal": "Правовая информация",
-  "security": "Безопасность",
+  "security": "Security",
   "changePin": "Изменить PIN-код",
   "pinChanged": "PIN-код изменен",
   "pinChangeFailed": "Не удалось изменить PIN-код",
   "requirePinOnAppOpen": "Требовать PIN-код при открытии приложения",
-  "connectedApplications": "Подключенные приложения",
+  "connectedApplications": "Connected Dapps",
   "analytics": "Аналитика",
   "shareAnalytics": "Предоставить аналитику",
   "shareAnalytics_detail": "Мы собираем анонимизированные данные о том, как вы используете приложение {{appName}}, чтобы улучшить его для всех пользователей.",
@@ -547,7 +547,7 @@
   "redeemFailed": "Не удалось активировать код ",
   "redeemInviteTimeout": "Истекло время ожидания активации приглашения",
   "accountSetupFailed": "Не удалось создать кошелек",
-  "accountSetupFailedDescription": "Пожалуйста, удали {{appName}} с твоего устройства и попробуй снова. Если у тебя продолжаются проблемы, пожалуйста, обратись в службу поддержки.",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
   "closeApp": "Закрыть",
   "emptyInviteCode": "Код приглашения не содержит средств",
   "transferDollarsToAccount": "Средства отправлены на ваш аккаунт!",
@@ -680,7 +680,7 @@
     "Face": "Распознавание лица",
     "Iris": "Распознавание по радужной оболочке глаза"
   },
-  "useBiometryType": "Используйте {{biometryType}}.",
+  "useBiometryType": "Use {{biometryType}}",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
@@ -758,10 +758,10 @@
     "codePlaceholder3_ios": "Выберите или скопируйте третье сообщение",
     "codePlaceholderWithCodeInClipboard": "Отлично! Вставьте здесь",
     "resendMessages_all": "Повторно отправить все сообщения",
-    "resendMessages_0": "Повторно отправить последнее сообщение",
-    "resendMessages_1": "Повторно отправить сообщения: {{count}}",
-    "resendMessages_2": "Повторно отправить сообщения: {{count}}",
-    "resendMessages_3": "Повторно отправить сообщения: {{count}}"
+    "resendMessages_0": "Resend last message",
+    "resendMessages_1": "Resend {{count}} messages",
+    "resendMessages_2": "Resend {{count}} messages",
+    "resendMessages_3": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Справка",
@@ -955,8 +955,8 @@
     "computeSharedSecret": "Генерировать секретный ключ"
   },
   "tapToDisconnect": "Коснуться для отключения",
-  "sessionsTitle": "Подключенные приложения",
-  "sessionsSubTitle": "К {{appName}} подключены следующие приложения. Путем сканирования QR-кода приложений можно подключиться к большему числу приложений.",
+  "sessionsTitle": "Connected Dapps",
+  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
   "disconnect": "Отключить",
   "disconnectTitle": "Отключить {{dappName}}?",
   "disconnectBody": "Вы действительно хотите отключить {{dappName}}?",
@@ -1128,11 +1128,11 @@
     }
   },
   "bankAccountsScreen": {
-    "header": "Связанные банковские счета",
-    "add": "Добавьте новый банковский счет",
+    "header": "Linked Bank Accounts",
+    "add": "Add new bank account",
     "delete": "Удалить"
   },
-  "syncingBankAccount": "Синхронизация банковского счета...",
+  "syncingBankAccount": "Syncing bank account...",
   "linkBankAccountSettingsTitle": "Привязать банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "connectPhoneNumber": {
