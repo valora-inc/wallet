@@ -89,3 +89,6 @@ export function shouldFetchCurrentRate(state: RootState): boolean {
 
   return !lastSuccessfulUpdate || Date.now() - lastSuccessfulUpdate > MIN_UPDATE_INTERVAL
 }
+
+export const localCurrencyExchangeRateErrorSelector = (state: RootState) =>
+  state.localCurrency.error
