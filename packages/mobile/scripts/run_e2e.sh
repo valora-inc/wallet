@@ -157,8 +157,7 @@ if [ $PLATFORM = "android" ]; then
     NUM_DEVICES=`adb devices -l | grep emulator- | wc -l`
     echo "Number of devices $NUM_DEVICES"
     echo "Number of workers $WORKERS"
-    echo "$NUM_DEVICES -gt $WORKERS"
-    if [ $NUM_DEVICES -gt 1 ]; then
+    if [ $NUM_DEVICES -ge 1 ]; then
       echo "$NUM_DEVICES emulators already running or attached, removing"
       adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
     fi
