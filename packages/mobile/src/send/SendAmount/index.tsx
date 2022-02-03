@@ -50,7 +50,6 @@ import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
-const LOCAL_CURRENCY_MAX_DECIMALS = 2
 const TOKEN_MAX_DECIMALS = 8
 
 export interface TransactionDataInput {
@@ -86,18 +85,6 @@ export function useInputAmounts(
     tokenAmount,
     usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
-}
-
-function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
-  if (!value || value.isNaN() || value.isZero()) {
-    return ''
-  }
-  // The first toFormat limits the number of desired decimals and the second
-  // removes trailing zeros.
-  return parseInputAmount(
-    value.toFormat(decimals, BigNumber.ROUND_DOWN),
-    decimalSeparator
-  ).toFormat()
 }
 
 // The value in |inputTokenAddress| that needs to be reduced from the user balance to send
@@ -155,21 +142,16 @@ function SendAmount(props: Props) {
 
   const onPressMax = () => {
     setAmount(
-      formatWithMaxDecimals(
-        showInputInLocalAmount ? maxInLocalCurrency : maxBalance,
-        showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
-      )
+      showInputInLocalAmount
+        ? maxInLocalCurrency
+          ? maxInLocalCurrency?.toFixed()
+          : ''
+        : maxBalance.toFixed(TOKEN_MAX_DECIMALS)
     )
     ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
-    setAmount(
-      formatWithMaxDecimals(
-        parseInputAmount(amount, decimalSeparator),
-        // Note that the decimal variables are reversed because we are changing the currency used here.
-        usingLocalAmount ? TOKEN_MAX_DECIMALS : LOCAL_CURRENCY_MAX_DECIMALS
-      )
-    )
+    setAmount('')
     setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
       tokenAddress: transferTokenAddress,
@@ -190,6 +172,10 @@ function SendAmount(props: Props) {
 
     dispatch(fetchAddressesAndValidate(recipient.e164PhoneNumber))
   }, [])
+
+  useEffect(() => {
+    setAmount('')
+  }, [transferTokenAddress])
 
   const { onSend, onRequest } = useTransactionCallbacks({
     recipient,

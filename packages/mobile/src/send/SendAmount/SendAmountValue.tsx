@@ -1,15 +1,33 @@
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+
+const { decimalSeparator } = getNumberFormatSettings()
+
+const LOCAL_CURRENCY_MAX_DECIMALS = 2
+
+function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
+  if (!value || value.isNaN() || value.isZero()) {
+    return ''
+  }
+  // The first toFormat limits the number of desired decimals and the second
+  // removes trailing zeros.
+  return parseInputAmount(
+    value.toFormat(decimals, BigNumber.ROUND_DOWN),
+    decimalSeparator
+  ).toFormat()
+}
 
 interface Props {
   inputAmount: string
@@ -39,6 +57,9 @@ function SendAmountValue({
   const tokenInfo = useTokenInfo(tokenAddress)
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
+  const primaryAmount = usingLocalAmount
+    ? formatWithMaxDecimals(new BigNumber(inputAmount || 0), LOCAL_CURRENCY_MAX_DECIMALS)
+    : inputAmount
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 
   return (
@@ -84,7 +105,7 @@ function SendAmountValue({
                 style={styles.mainAmount}
                 testID="InputAmount"
               >
-                {inputAmount ? inputAmount : 0}
+                {primaryAmount || 0}
               </Text>
             </View>
             {!usingLocalAmount && (
