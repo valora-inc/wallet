@@ -1118,9 +1118,12 @@
     },
     "stepTwo": {
       "label": "Passaggio 2",
-      "title": "Collega un conto bancario",
-      "description": "La procedura è quasi completata. Ora puoi collegare il tuo conto bancario a Valora tramite Plaid.",
-      "cta": "Presto disponibile."
+      "disabledTitle": "Collega un conto bancario",
+      "disabledDescription": "La procedura è quasi completata. Ora puoi collegare il tuo conto bancario a Valora tramite Plaid.",
+      "disabledCta": "Presto disponibile.",
+      "title": "Inserisci i dettagli della banca",
+      "description": "Hai quasi finito! Inserisci i dettagli bancari per collegare il tuo account a Valora.",
+      "cta": "Collegamento conto bancario"
     }
   },
   "bankAccountsScreen": {
