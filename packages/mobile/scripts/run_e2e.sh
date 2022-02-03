@@ -151,17 +151,13 @@ if [ $PLATFORM = "android" ]; then
 
   if [ $DEV_MODE = false ]; then
     echo "Building detox"
-    # Commented out for ci testing
-    # yarn detox build -c $CONFIG_NAME
+    yarn detox build -c $CONFIG_NAME
 
     NUM_DEVICES=`adb devices -l | grep emulator- | wc -l` || echo "0" | bc
-    echo "Number of devices $NUM_DEVICES"
-    echo "Number of workers $WORKERS"
     if [ $NUM_DEVICES -ge 1 ]; then
-      echo "$NUM_DEVICES emulators already running or attached, removing"
+      echo "$NUM_DEVICES emulator(s) already running or attached, removing"
       adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
     fi
-
 
     startPackager
 
