@@ -407,7 +407,7 @@ describe('SendAmount', () => {
       })
     })
 
-    it('when inputting using local currency and switching to a token without usd price, it switches to token input', async () => {
+    it('when inputting using local currency and switching to a token without usd price, it clears the token input', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
@@ -424,15 +424,15 @@ describe('SendAmount', () => {
       fireEvent.press(wrapper.getByTestId('onChangeToken'))
       fireEvent.press(wrapper.getByTestId('TTTouchable'))
 
-      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('10TT')
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('0TT')
       expect(wrapper.queryByTestId('SecondaryAmountContainer')).toBeNull()
       expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
 
       fireEvent.press(wrapper.getByTestId('onChangeToken'))
       fireEvent.press(wrapper.getByTestId('cEURTouchable'))
 
-      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
-      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('6.27cEUR')
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱0')
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('0.00cEUR')
       expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
     })
   })

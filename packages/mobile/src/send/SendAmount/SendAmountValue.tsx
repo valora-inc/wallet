@@ -29,6 +29,10 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
   ).toFormat()
 }
 
+function exceedsMaxDecimals(value: string, maxDecimals: number) {
+  return value.split(decimalSeparator)[1]?.length > maxDecimals
+}
+
 interface Props {
   inputAmount: string
   tokenAmount: BigNumber
@@ -57,9 +61,10 @@ function SendAmountValue({
   const tokenInfo = useTokenInfo(tokenAddress)
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
-  const primaryAmount = usingLocalAmount
-    ? formatWithMaxDecimals(new BigNumber(inputAmount || 0), LOCAL_CURRENCY_MAX_DECIMALS)
-    : inputAmount
+  const primaryAmount =
+    usingLocalAmount && exceedsMaxDecimals(inputAmount, LOCAL_CURRENCY_MAX_DECIMALS)
+      ? formatWithMaxDecimals(new BigNumber(inputAmount || 0), LOCAL_CURRENCY_MAX_DECIMALS)
+      : inputAmount
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 
   return (
