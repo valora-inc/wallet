@@ -71,7 +71,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Connecting your camera allows you to scans codes for payments.</string>
+	<string>Connecting your camera allows you to scan codes for payments.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Adding your contacts makes it easy to send and request payments with your friends.</string>
 	<key>NSFaceIDUsageDescription</key>
