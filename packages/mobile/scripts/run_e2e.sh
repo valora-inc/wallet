@@ -153,6 +153,7 @@ if [ $PLATFORM = "android" ]; then
     echo "Building detox"
     yarn detox build -c $CONFIG_NAME
 
+    echo "Test"
     NUM_DEVICES=`adb devices -l | grep emulator- | wc -l`
     echo "Number of devices $NUM_DEVICES"
     echo "Number of workers $WORKERS"
