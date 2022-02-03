@@ -6,7 +6,7 @@ import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
+import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -120,6 +120,7 @@ export const navigateClearingStack: SafeNavigate = (...args) => {
 }
 
 export async function ensurePincode(): Promise<boolean> {
+  ValoraAnalytics.track(AuthenticationEvents.get_pincode_start)
   const pincodeType = pincodeTypeSelector(store.getState())
 
   if (pincodeType === PincodeType.Unset) {
@@ -136,6 +137,7 @@ export async function ensurePincode(): Promise<boolean> {
   if (pincodeType === PincodeType.PhoneAuth) {
     try {
       await getPincodeWithBiometry()
+      ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
       return true
     } catch (error) {
       if (!isUserCancelledError(error)) {
@@ -148,6 +150,7 @@ export async function ensurePincode(): Promise<boolean> {
 
   try {
     await requestPincodeInput(true, false)
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
     return true
   } catch (error) {
     if (error === CANCELLED_PIN_INPUT) {
@@ -155,6 +158,7 @@ export async function ensurePincode(): Promise<boolean> {
     } else {
       Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error)
     }
+    ValoraAnalytics.track(AuthenticationEvents.get_pincode_error)
     return false
   }
 }
