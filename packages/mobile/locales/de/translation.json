@@ -1129,8 +1129,9 @@
     "delete": "Löschen"
   },
   "syncingBankAccount": "Bankkonto synchronisieren...",
-  "linkBankAccountSettingsTitle": "Bankkonten",
+  "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
+  "linkBankAccountSettingsValue2": "Neu hinzufügen",
   "connectPhoneNumber": {
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
