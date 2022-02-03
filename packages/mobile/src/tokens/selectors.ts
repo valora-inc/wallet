@@ -13,7 +13,6 @@ import { sortByUsdBalance } from './utils'
 
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
-export const lastTokenFetchSelector = (state: RootState) => state.tokens.lastSuccessfulFetch ?? 0
 
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
 export const tokensByAddressSelector = createSelector(
