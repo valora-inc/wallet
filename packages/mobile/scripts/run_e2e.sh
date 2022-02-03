@@ -208,18 +208,10 @@ elif [ $PLATFORM = "ios" ]; then
     echo "Building detox"
     yarn detox build -c $CONFIG_NAME
 
-    # Killing all simulators
-    xcrun simctl shutdown all || true
-
     startPackager
   fi
 
   runTest
-
-  if [ $DEV_MODE = false ]; then
-    echo "Closing Simulators"
-    xcrun simctl shutdown all || true
-  fi
 
 else
   echo "Invalid value for platform, must be 'android' or 'ios'"
