@@ -547,7 +547,7 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
-  "accountSetupFailedDescription": "Bitte löschen Sie {{appName}} von Ihrem Gerät und versuchen es erneut. Wenn Sie weiterhin Probleme haben, wenden Sie sich bitte an den Support.",
+  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
   "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
@@ -1118,12 +1118,12 @@
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "disabledTitle": "Ein Bankkonto verknüpfen",
-      "disabledDescription": "Sie sind fast fertig! Sie können Ihr Bankkonto jetzt über Plaid mit Valora verbinden.",
-      "disabledCta": "Demnächst verfügbar!",
-      "title": "Bankverbindung eingeben",
-      "description": "Sie sind fast fertig! Geben Sie Bankdaten ein, um Ihr Konto mit Valora zu verknüpfen.",
-      "cta": "Bankkonto verknüpfen"
+      "disabledTitle": "Link a bank account",
+      "disabledDescription": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "disabledCta": "Demnächst verfügbar",
+      "title": "Enter Bank Details",
+      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "cta": "Link Bank Account"
     }
   },
   "bankAccountsScreen": {
@@ -1134,7 +1134,7 @@
   "syncingBankAccount": "Bankkonto synchronisieren...",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
-  "linkBankAccountSettingsValue2": "Neu hinzufügen",
+  "linkBankAccountSettingsValue2": "Add New",
   "connectPhoneNumber": {
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
@@ -1147,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Erkunden Sie Möglichkeiten zur Verwendung Ihrer Kryptowährung",
+    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle"
