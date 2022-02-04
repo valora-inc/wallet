@@ -12,7 +12,7 @@
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
   "requirePinOnAppOpen": "Requerir PIN al abrir la app",
-  "connectedApplications": "Aplicaciones conectadas",
+  "connectedApplications": "Dapps conectadas",
   "analytics": "Estadísticas de uso",
   "shareAnalytics": "Compartir estadísticas de uso",
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Generar un secreto"
   },
   "tapToDisconnect": "Toca para desconectar",
-  "sessionsTitle": "Aplicaciones conectadas",
-  "sessionsSubTitle": "Las siguientes aplicaciones están conectadas a {{appName}}. Puedes conectarte a más aplicaciones escaneando su código QR.",
+  "sessionsTitle": "Dapps conectadas",
+  "sessionsSubTitle": "Las siguientes dapps están conectadas a {{appName}}. Puedes conectarte a más aplicaciones descentralizadas escaneando su código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
@@ -1118,19 +1118,23 @@
     },
     "stepTwo": {
       "label": "Paso 2",
-      "title": "Vincular una cuenta bancaria",
-      "description": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
-      "cta": "¡Muy pronto!"
+      "disabledTitle": "Vincular una cuenta bancaria",
+      "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
+      "disabledCta": "¡Muy pronto!",
+      "title": "Introduce los datos bancarios",
+      "description": "¡Ya casi has terminado! Introduce los datos bancarios para vincular tu cuenta a Valora.",
+      "cta": "Vincular la cuenta bancaria"
     }
   },
   "bankAccountsScreen": {
     "header": "Cuentas bancarias vinculadas",
-    "add": "Añadir una nueva cuenta bancaria",
+    "add": "Añadir una cuenta bancaria",
     "delete": "Eliminar"
   },
-  "syncingBankAccount": "Sincronizar la cuenta bancaria...",
-  "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
+  "syncingBankAccount": "Sincronizando cuenta bancaria...",
+  "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
+  "linkBankAccountSettingsValue2": "Añadir nuevo",
   "connectPhoneNumber": {
     "title": "Conecta tu número de teléfono para continuar",
     "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
