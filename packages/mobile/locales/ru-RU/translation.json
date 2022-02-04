@@ -1170,8 +1170,8 @@
   "supercharge": "Supercharge",
   "others": "Другие",
   "nomSpaceRecipient": "Nomspace: {{name}}",
-  "celoDollarAmount_0": "<0></0> Доллар Celo",
-  "celoDollarAmount_1": "<0></0> Доллары Celo",
-  "celoDollarAmount_2": "<0></0> Доллары Celo",
+  "celoDollarAmount_0": "<0></0> Celo Dollar",
+  "celoDollarAmount_1": "<0></0> Celo Dollars",
+  "celoDollarAmount_2": "<0></0> Celo Dollars",
   "celoDollarAmount_3": "<0></0> Celo Dollars"
 }
