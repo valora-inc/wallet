@@ -5,20 +5,11 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { getNumberFormatSettings } from 'react-native-localize'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-
-const { decimalSeparator } = getNumberFormatSettings()
-
-const LOCAL_CURRENCY_MAX_DECIMALS = 2
-
-function exceedsMaxDecimals(value: string, maxDecimals: number) {
-  return value.split(decimalSeparator)[1]?.length > maxDecimals
-}
 
 interface Props {
   inputAmount: string
@@ -48,10 +39,6 @@ function SendAmountValue({
   const tokenInfo = useTokenInfo(tokenAddress)
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
-  const primaryAmount =
-    usingLocalAmount && exceedsMaxDecimals(inputAmount, LOCAL_CURRENCY_MAX_DECIMALS)
-      ? formatValueToDisplay(new BigNumber(inputAmount || 0))
-      : inputAmount
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 
   return (
@@ -97,7 +84,7 @@ function SendAmountValue({
                 style={styles.mainAmount}
                 testID="InputAmount"
               >
-                {primaryAmount || 0}
+                {inputAmount ? inputAmount : 0}
               </Text>
             </View>
             {!usingLocalAmount && (

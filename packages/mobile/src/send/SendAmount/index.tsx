@@ -50,6 +50,7 @@ import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
+const LOCAL_CURRENCY_MAX_DECIMALS = 2
 const TOKEN_MAX_DECIMALS = 8
 
 export interface TransactionDataInput {
@@ -100,6 +101,18 @@ export function useInputAmounts(
   }
 }
 
+function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
+  if (!value || value.isNaN() || value.isZero()) {
+    return ''
+  }
+  // The first toFormat limits the number of desired decimals and the second
+  // removes trailing zeros.
+  return parseInputAmount(
+    value.toFormat(decimals, BigNumber.ROUND_DOWN),
+    decimalSeparator
+  ).toFormat()
+}
+
 // The value in |inputTokenAddress| that needs to be reduced from the user balance to send
 // when the MAX button is pressed.
 function useFeeToReduceFromMaxButtonInToken(
@@ -126,8 +139,8 @@ function SendAmount(props: Props) {
   const { t } = useTranslation()
 
   const [amount, setAmount] = useState('')
+  const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
-  const [usingMaxAmount, setUsingMaxAmount] = useState(false)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
   const defaultToken = useSelector(defaultTokenSelector)
   const inviteTokens = useSelector(stablecoinsSelector)
@@ -155,19 +168,26 @@ function SendAmount(props: Props) {
     : maxBalance.toFixed(TOKEN_MAX_DECIMALS)
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
-    amount,
+    rawAmount,
     showInputInLocalAmount,
     transferTokenAddress,
     maxBalance,
-    usingMaxAmount
+    rawAmount === maxAmountValue
   )
 
   const onPressMax = () => {
-    setAmount(maxAmountValue)
+    setAmount(
+      formatWithMaxDecimals(
+        new BigNumber(maxAmountValue),
+        showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
+      )
+    )
+    setRawAmount(maxAmountValue)
     ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
     setAmount('')
+    setRawAmount('')
     setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
       tokenAddress: transferTokenAddress,
@@ -190,11 +210,8 @@ function SendAmount(props: Props) {
   }, [])
 
   useEffect(() => {
-    setUsingMaxAmount(amount === maxAmountValue)
-  }, [amount])
-
-  useEffect(() => {
     setAmount('')
+    setRawAmount('')
   }, [transferTokenAddress])
 
   const { onSend, onRequest } = useTransactionCallbacks({
@@ -219,6 +236,7 @@ function SendAmount(props: Props) {
     ) {
       setTransferToken(inviteTokens[0].address)
       setAmount('')
+      setRawAmount('')
       return
     }
 
@@ -270,6 +288,11 @@ function SendAmount(props: Props) {
 
   const isAmountValid = localAmount?.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT) ?? true
 
+  const onAmountChange = (updatedAmount: string) => {
+    setAmount(updatedAmount)
+    setRawAmount(updatedAmount)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
@@ -294,7 +317,7 @@ function SendAmount(props: Props) {
         <AmountKeypad
           amount={amount}
           maxDecimals={showInputInLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : TOKEN_MAX_DECIMALS}
-          onAmountChange={setAmount}
+          onAmountChange={onAmountChange}
         />
       </View>
       <Button
