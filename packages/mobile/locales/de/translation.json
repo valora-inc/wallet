@@ -547,7 +547,7 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
-  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
   "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
@@ -1122,7 +1122,7 @@
       "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
       "disabledCta": "Demnächst verfügbar",
       "title": "Bankdaten eingeben",
-      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
       "cta": "Bankkonto verknüpfen"
     }
   },
