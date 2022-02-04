@@ -144,12 +144,12 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
           </Text>
 
           {moreInfoString && (
-            <View>
+            <>
               <Text style={styles.sectionHeaderText}>{t('action.data')}</Text>
               <TouchableOpacity onPress={onMoreInfo}>
                 <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
               </TouchableOpacity>
-            </View>
+            </>
           )}
         </View>
 
@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   center: {
-    display: 'flex',
     alignItems: 'center',
   },
   header: {
@@ -221,7 +220,6 @@ const styles = StyleSheet.create({
     marginHorizontal: '15%',
   },
   buttonContainer: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
