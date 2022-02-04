@@ -1147,14 +1147,14 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst",
+    "message": "Finde heraus, wie du dein Kryptowährung nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
-    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
+    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Kryptowährung zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
