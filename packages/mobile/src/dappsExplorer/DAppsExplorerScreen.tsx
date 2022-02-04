@@ -27,10 +27,10 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
-import DappsExplorerLogo from 'src/icons/DappsExplorerLogo'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
+import { dappListLogo } from 'src/images/Images'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -302,7 +302,7 @@ function DescriptionView({ message }: { message: string }) {
     <View style={styles.descriptionContainer}>
       <Text style={styles.descriptionText}>{message}</Text>
       <View style={styles.descriptionImage}>
-        <DappsExplorerLogo />
+        <Image source={dappListLogo} resizeMode="contain" />
       </View>
     </View>
   )
@@ -322,7 +322,7 @@ function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
   const onPress = () => onPressDapp(dapp)
 
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
+    <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable style={styles.pressableCard} onPress={onPress} testID="FeaturedDapp">
         <>
           <View style={styles.itemTextContainer}>
@@ -340,7 +340,7 @@ function Dapp({ dapp, onPressDapp }: DappProps) {
   const onPress = () => onPressDapp(dapp)
 
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.Soft}>
+    <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable style={styles.pressableCard} onPress={onPress} testID={`Dapp/${dapp.id}`}>
         <>
           <Image source={{ uri: dapp.iconUrl }} style={styles.dappIcon} />
@@ -348,7 +348,7 @@ function Dapp({ dapp, onPressDapp }: DappProps) {
             <Text style={styles.itemTitleText}>{dapp.name}</Text>
             <Text style={styles.itemSubtitleText}>{dapp.description}</Text>
           </View>
-          <LinkArrow style={styles.linkArrow} />
+          <LinkArrow size={24} />
         </>
       </Touchable>
     </Card>
@@ -373,6 +373,7 @@ const styles = StyleSheet.create({
   },
   itemTextContainer: {
     flex: 1,
+    marginRight: Spacing.Regular16,
   },
   descriptionContainer: {
     alignItems: 'center',
@@ -450,11 +451,6 @@ const styles = StyleSheet.create({
   descriptionText: {
     ...fontStyles.h1,
     flex: 1,
-  },
-  linkArrow: {
-    height: 20,
-    width: 20,
-    marginLeft: Spacing.Regular16,
   },
   descriptionImage: {
     height: 106,
