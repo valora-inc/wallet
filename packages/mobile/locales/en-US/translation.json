@@ -1145,5 +1145,6 @@
   "merchantPaymentNumberVerificationMessage": "You need to connect your number",
   "merchantPaymentSubmitFail": "Your payment failed to submit",
   "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
-  "merchantPaymentSubmitSuccess": "Your payment successfully submitted"
+  "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
+  "merchantWalletUnlockError": "TODO: soemthing went wrong when unlocking the wallet and/or DEK"
 }
