@@ -952,7 +952,6 @@ export const v32Schema = {
     hasLinkedBankAccount: false,
   },
 }
-
 export function getLatestSchema(): Partial<RootState> {
   return v32Schema as Partial<RootState>
 }
