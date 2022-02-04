@@ -1126,17 +1126,17 @@
       "disabledDescription": "Почти готово! Теперь вы можете подключить свой банковский счет к Valora через Plaid.",
       "disabledCta": "В ближайшее время!",
       "title": "Введите банковские реквизиты",
-      "description": "Ты почти закончил! Введи банковские реквизиты, чтобы привязать свой счет к Valora.",
-      "cta": "Связать банковский счет"
+      "description": "Почти готово! Введите банковские реквизиты, чтобы привязать свой счет к Valora.",
+      "cta": "Привязать банковский счет"
     }
   },
   "bankAccountsScreen": {
-    "header": "Linked Bank Accounts",
-    "add": "Add new bank account",
+    "header": "Привязанные банковские счета",
+    "add": "Добавить новый банковский счет",
     "delete": "Удалить"
   },
-  "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Связанные банковские счета",
+  "syncingBankAccount": "Синхронизация банковского счета...",
+  "linkBankAccountSettingsTitle": "Привязанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "linkBankAccountSettingsValue2": "Добавить новый",
   "connectPhoneNumber": {
