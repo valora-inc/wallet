@@ -67,14 +67,27 @@ const { decimalSeparator } = getNumberFormatSettings()
 export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
-  tokenAddress: string
+  tokenAddress: string,
+  maxTokenBalance: BigNumber,
+  usingMaxAmount: boolean
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
   const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)
   const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
-  const tokenAmountRaw = usingLocalAmount ? localToToken : parsedAmount
+  // when the user presses the max button, we max out the token value. when
+  // using the local amount, the "inputAmount" value received here was already
+  // converted once from the token value. if we convert again from local to
+  // token, rounding precision errors introduced which may result in a higher
+  // token value than original, preventing the user from sending the amount e.g.
+  // the max token balance could be something like 15.00, after conversion to
+  // local currency then back to token amount, it could be 15.000000001
+  const tokenAmountRaw = usingLocalAmount
+    ? usingMaxAmount
+      ? maxTokenBalance
+      : localToToken
+    : parsedAmount
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
   const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
@@ -82,7 +95,7 @@ export function useInputAmounts(
 
   return {
     localAmount,
-    tokenAmount,
+    tokenAmount: usingMaxAmount ? maxTokenBalance : tokenAmount,
     usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
 }
@@ -114,6 +127,7 @@ function SendAmount(props: Props) {
 
   const [amount, setAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
+  const [usingMaxAmount, setUsingMaxAmount] = useState(false)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
   const defaultToken = useSelector(defaultTokenSelector)
   const inviteTokens = useSelector(stablecoinsSelector)
@@ -124,11 +138,6 @@ function SendAmount(props: Props) {
 
   const showInputInLocalAmount = usingLocalAmount && tokenHasUsdPrice
 
-  const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
-    amount,
-    showInputInLocalAmount,
-    transferTokenAddress
-  )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeEstimates = useSelector(feeEstimatesSelector)
@@ -139,15 +148,22 @@ function SendAmount(props: Props) {
   )
   const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
+  const maxAmountValue = showInputInLocalAmount
+    ? maxInLocalCurrency
+      ? maxInLocalCurrency?.toFixed()
+      : ''
+    : maxBalance.toFixed(TOKEN_MAX_DECIMALS)
+
+  const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
+    amount,
+    showInputInLocalAmount,
+    transferTokenAddress,
+    maxBalance,
+    usingMaxAmount
+  )
 
   const onPressMax = () => {
-    setAmount(
-      showInputInLocalAmount
-        ? maxInLocalCurrency
-          ? maxInLocalCurrency?.toFixed()
-          : ''
-        : maxBalance.toFixed(TOKEN_MAX_DECIMALS)
-    )
+    setAmount(maxAmountValue)
     ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
@@ -174,6 +190,10 @@ function SendAmount(props: Props) {
   }, [])
 
   useEffect(() => {
+    setUsingMaxAmount(amount === maxAmountValue)
+  }, [amount])
+
+  useEffect(() => {
     setAmount('')
   }, [transferTokenAddress])
 
@@ -190,6 +210,7 @@ function SendAmount(props: Props) {
 
   const maxEscrowInLocalAmount =
     useCurrencyToLocalAmount(MAX_ESCROW_VALUE, Currency.Dollar) ?? new BigNumber(0) // TODO: Improve error handling
+
   useEffect(() => {
     if (
       // It's an invite and we're not sending a core stablecoin.
