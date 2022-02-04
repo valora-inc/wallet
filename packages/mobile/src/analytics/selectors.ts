@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -26,6 +26,7 @@ export const getCurrentUserTraits = createSelector(
     getLocalCurrencyCode,
     numberVerifiedSelector,
     backupCompletedSelector,
+    pincodeTypeSelector,
   ],
   (
     walletAddress,
@@ -37,7 +38,8 @@ export const getCurrentUserTraits = createSelector(
     tokensByCurrency,
     localCurrencyCode,
     hasVerifiedNumber,
-    hasCompletedBackup
+    hasCompletedBackup,
+    pincodeType
   ) => {
     const currencyAddresses = new Set(
       Object.values(tokensByCurrency).map((token) => token?.address)
@@ -92,6 +94,7 @@ export const getCurrentUserTraits = createSelector(
       appVersion: DeviceInfo.getVersion(),
       appBuildNumber: DeviceInfo.getBuildNumber(),
       appBundleId: DeviceInfo.getBundleId(),
+      pincodeType,
     }
   }
 )

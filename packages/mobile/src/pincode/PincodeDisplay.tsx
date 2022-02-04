@@ -44,7 +44,7 @@ export default function PincodeDisplay({ pin, maxLength }: Props) {
   }, [pin])
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="PincodeDisplay">
       {Array.from({ length: maxLength }).map((x, index) => {
         const char = index === revealIndex ? pin[index] : undefined
         const isEntered = index < pin.length
