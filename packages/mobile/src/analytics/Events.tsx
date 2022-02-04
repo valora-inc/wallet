@@ -229,6 +229,20 @@ export enum IdentityEvents {
   phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
 }
 
+export enum AuthenticationEvents {
+  get_pincode_start = 'get_pincode_start',
+  get_pincode_complete = 'get_pincode_complete',
+  get_pincode_error = 'get_pincode_error',
+
+  get_pincode_with_biometry_start = 'get_pincode_with_biometry_start',
+  get_pincode_with_biometry_complete = 'get_pincode_with_biometry_complete',
+  get_pincode_with_biometry_error = 'get_pincode_with_biometry_error',
+
+  get_pincode_with_input_start = 'get_pincode_with_input_start',
+  get_pincode_with_input_complete = 'get_pincode_with_input_complete',
+  get_pincode_with_input_error = 'get_pincode_with_input_error',
+}
+
 export enum InviteEvents {
   invite_tx_start = 'invite_tx_start',
   invite_tx_complete = 'invite_tx_complete',
@@ -532,6 +546,7 @@ export type AnalyticsEventType =
   | OnboardingEvents
   | VerificationEvents
   | IdentityEvents
+  | AuthenticationEvents
   | InviteEvents
   | EscrowEvents
   | FiatExchangeEvents
