@@ -32,7 +32,7 @@ export default HandleDeepLinkSend = () => {
     await expect(element(by.text('TestFaucet'))).toBeVisible()
 
     // Tap Pay
-    await element(by.text('Pay')).tap()
+    await element(by.id('ConfirmButton')).tap()
 
     // Enter pin
     await enterPinUiIfNecessary()
@@ -57,8 +57,8 @@ export default HandleDeepLinkSend = () => {
     // Correct name displayed
     await expect(element(by.text('TestFaucet'))).toBeVisible()
 
-    // Tap Pay
-    await element(by.text('Send')).tap()
+    // Tap Send
+    await element(by.id('ConfirmButton')).tap()
 
     // Enter pin
     await enterPinUiIfNecessary()
