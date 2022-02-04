@@ -186,8 +186,7 @@ function SendAmount(props: Props) {
     ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
-    setAmount('')
-    setRawAmount('')
+    onAmountChange('')
     setUsingLocalAmount(!usingLocalAmount)
     ValoraAnalytics.track(SendEvents.swap_input_pressed, {
       tokenAddress: transferTokenAddress,
@@ -210,8 +209,7 @@ function SendAmount(props: Props) {
   }, [])
 
   useEffect(() => {
-    setAmount('')
-    setRawAmount('')
+    onAmountChange('')
   }, [transferTokenAddress])
 
   const { onSend, onRequest } = useTransactionCallbacks({
@@ -235,8 +233,7 @@ function SendAmount(props: Props) {
       !inviteTokens.map((token) => token.address).includes(transferTokenAddress)
     ) {
       setTransferToken(inviteTokens[0].address)
-      setAmount('')
-      setRawAmount('')
+      onAmountChange('')
       return
     }
 
