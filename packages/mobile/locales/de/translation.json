@@ -1147,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
+    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle"
