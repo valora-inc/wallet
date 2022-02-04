@@ -1147,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explora las distintas formas de usar tus cripto.",
+    "message": "Explora las distintas formas de usar tus cripto",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas"
