@@ -12,7 +12,7 @@
   "pinChanged": "PIN geändert",
   "pinChangeFailed": "PIN-Änderung fehlgeschlagen",
   "requirePinOnAppOpen": "PIN beim Öffnen der App erforderlich",
-  "connectedApplications": "Verknüpfte Apps",
+  "connectedApplications": "Verknüpfte Dapps",
   "analytics": "Analytik",
   "shareAnalytics": "Analytics teilen",
   "shareAnalytics_detail": "Wir sammeln anonymisierte Daten darüber, wie du {{appName}} verwendest, um die Anwendung für alle zu verbessern.",
@@ -547,7 +547,7 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
-  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
   "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Geheimnis generieren"
   },
   "tapToDisconnect": "Antippen zum Trennen der Verbindung",
-  "sessionsTitle": "Verknüpfte Apps",
-  "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}} verbunden. Du kannst dich mit weiteren Apps verbinden, indem du ihren QR-Code scannst.",
+  "sessionsTitle": "Verknüpfte Dapps",
+  "sessionsSubTitle": "Die folgenden Dapps sind mit {{appName}} verbunden. Du kannst dich mit weiteren Dapps verbinden, indem du ihren QR-Code scannst.",
   "disconnect": "Verbindung trennen",
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
@@ -1118,19 +1118,23 @@
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "title": "Verknüpfen Bankkontos",
-      "description": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
-      "cta": "Demnächst verfügbar"
+      "disabledTitle": "Verknüpfen Bankkontos",
+      "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
+      "disabledCta": "Demnächst verfügbar",
+      "title": "Bankverbindung eingeben",
+      "description": "Du bist fast fertig! Gib deine Bankdaten ein, um dein Konto mit Valora zu verknüpfen.",
+      "cta": "Link Bankkonto"
     }
   },
   "bankAccountsScreen": {
     "header": "Verknüpfte Bankkonten",
-    "add": "Neues Bankkonto hinzufügen",
+    "add": "Hinzufügen Bankkontos",
     "delete": "Löschen"
   },
   "syncingBankAccount": "Bankkonto synchronisieren...",
-  "linkBankAccountSettingsTitle": "Bankkonten",
+  "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
+  "linkBankAccountSettingsValue2": "Neu hinzufügen",
   "connectPhoneNumber": {
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
