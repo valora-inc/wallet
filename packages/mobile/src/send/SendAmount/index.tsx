@@ -68,8 +68,8 @@ export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
   tokenAddress: string,
-  maxTokenBalance: BigNumber,
-  usingMaxAmount: boolean
+  maxTokenBalance: BigNumber = new BigNumber(0),
+  usingMaxAmount: boolean = false
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
   const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)
@@ -79,10 +79,10 @@ export function useInputAmounts(
   // when the user presses the max button, we max out the token value. when
   // using the local amount, the "inputAmount" value received here was already
   // converted once from the token value. if we convert again from local to
-  // token, rounding precision errors introduced which may result in a higher
-  // token value than original, preventing the user from sending the amount e.g.
-  // the max token balance could be something like 15.00, after conversion to
-  // local currency then back to token amount, it could be 15.000000001
+  // token, rounding precision errors introduced may result in a higher token
+  // value than original, preventing the user from sending the amount e.g. the
+  // max token balance could be something like 15.00, after conversion to local
+  // currency then back to token amount, it could be 15.000000001
   const tokenAmountRaw = usingLocalAmount
     ? usingMaxAmount
       ? maxTokenBalance

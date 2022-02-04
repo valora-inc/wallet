@@ -1,7 +1,6 @@
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { parseInputAmount } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,18 +15,6 @@ import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 const { decimalSeparator } = getNumberFormatSettings()
 
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
-
-function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
-  if (!value || value.isNaN() || value.isZero()) {
-    return ''
-  }
-  // The first toFormat limits the number of desired decimals and the second
-  // removes trailing zeros.
-  return parseInputAmount(
-    value.toFormat(decimals, BigNumber.ROUND_DOWN),
-    decimalSeparator
-  ).toFormat()
-}
 
 function exceedsMaxDecimals(value: string, maxDecimals: number) {
   return value.split(decimalSeparator)[1]?.length > maxDecimals
@@ -63,7 +50,7 @@ function SendAmountValue({
 
   const primaryAmount =
     usingLocalAmount && exceedsMaxDecimals(inputAmount, LOCAL_CURRENCY_MAX_DECIMALS)
-      ? formatWithMaxDecimals(new BigNumber(inputAmount || 0), LOCAL_CURRENCY_MAX_DECIMALS)
+      ? formatValueToDisplay(new BigNumber(inputAmount || 0))
       : inputAmount
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
 
