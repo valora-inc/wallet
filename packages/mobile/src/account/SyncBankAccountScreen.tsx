@@ -17,11 +17,14 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import { navigate } from 'src/navigator/NavigationService'
+import { useDispatch } from 'react-redux'
+import { Actions } from 'src/account/actions'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
 const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const { publicToken } = route.params
@@ -37,7 +40,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
         ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
         plaidAccessToken: accessToken,
       })
-
+      dispatch(Actions.SET_HAS_LINKED_BANK_ACCOUNT)
       navigate(Screens.BankAccounts, { newPublicToken: publicToken })
     } catch {
       // TODO(wallet#1447): handle errors from IHL

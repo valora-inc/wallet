@@ -937,6 +937,17 @@ export const v31Schema = {
   },
 }
 
+export const v32Schema = {
+  ...v31Schema,
+  _persist: {
+    ...v31Schema._persist,
+    version: 32,
+  },
+  account: {
+    ...v31Schema.account,
+    hasLinkedBankAccount: false,
+  },
+}
 export function getLatestSchema(): Partial<RootState> {
-  return v31Schema as Partial<RootState>
+  return v32Schema as Partial<RootState>
 }

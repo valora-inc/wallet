@@ -1,6 +1,7 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: '15%',
+    marginHorizontal: Spacing.Regular16,
   },
   header: {
     ...fontStyles.h1,
