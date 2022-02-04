@@ -12,7 +12,7 @@
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require PIN on App Open",
-  "connectedApplications": "Connected Apps",
+  "connectedApplications": "Connected Dapps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
@@ -953,8 +953,8 @@
     "computeSharedSecret": "Generate a secret"
   },
   "tapToDisconnect": "Tap to Disconnect",
-  "sessionsTitle": "Connected Apps",
-  "sessionsSubTitle": "The following apps are connected to {{appName}}. You can connect to more apps by scanning their QR code.",
+  "sessionsTitle": "Connected Dapps",
+  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{dappName}}?",
   "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?",
@@ -1120,9 +1120,12 @@
     },
     "stepTwo": {
       "label": "Step 2",
-      "title": "Link a bank account",
-      "description": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "cta": "Coming Soon!"
+      "disabledTitle": "Link a bank account",
+      "disabledDescription": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "disabledCta": "Coming Soon!",
+      "title": "Enter Bank Details",
+      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "cta": "Link Bank Account"
     }
   },
   "bankAccountsScreen": {
@@ -1131,8 +1134,9 @@
     "delete": "Delete"
   },
   "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Link Bank Accounts",
+  "linkBankAccountSettingsTitle": "Linked Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
+  "linkBankAccountSettingsValue2": "Add New",
   "connectPhoneNumber": {
     "title": "Connect phone number to continue",
     "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
@@ -1145,7 +1149,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explore ways to use your crypto.",
+    "message": "Explore ways to use your crypto",
     "errorMessage": "There was an error loading dapps",
     "featuredDapp": "Featured",
     "allDapps": "All"
@@ -1163,5 +1167,5 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Others",
-  "nomSpaceRecipient": "Nom Space: {{name}}"
+  "nomSpaceRecipient": "Nomspace: {{name}}"
 }
