@@ -12,7 +12,7 @@
   "pinChanged": "PIN-код изменен",
   "pinChangeFailed": "Не удалось изменить PIN-код",
   "requirePinOnAppOpen": "Требовать PIN-код при открытии приложения",
-  "connectedApplications": "Подключенные Dapps",
+  "connectedApplications": "Подключенные dapps",
   "analytics": "Аналитика",
   "shareAnalytics": "Предоставить аналитику",
   "shareAnalytics_detail": "Мы собираем анонимизированные данные о том, как вы используете приложение {{appName}}, чтобы улучшить его для всех пользователей.",
@@ -955,7 +955,7 @@
     "computeSharedSecret": "Генерировать секретный ключ"
   },
   "tapToDisconnect": "Коснуться для отключения",
-  "sessionsTitle": "Подключенные децентрализованные приложения",
+  "sessionsTitle": "Подключенные dapps",
   "sessionsSubTitle": "Следующие децентрализованные приложения подключены к {{appName}}. Можно подключить дополнительные децентрализованные приложения, сосканировав их QR-код.",
   "disconnect": "Отключить",
   "disconnectTitle": "Отключить {{dappName}}?",
@@ -1152,13 +1152,13 @@
   "dappsScreen": {
     "title": "Dapps",
     "message": "Изучите способы использования криптовалюты",
-    "errorMessage": "Произошла ошибка при загрузке децентрализованных приложений",
+    "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все"
   },
   "dappsScreenHelpDialog": {
-    "title": "Что такое \"децентрализованные приложения\"?",
-    "message": "Децентрализованные приложения предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения Web3.\n\nПодключите Valora к децентрализованному приложению, чтобы начать.",
+    "title": "Что такое dapps?",
+    "message": "Децентрализованные приложения (dapps) предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения Web3.\n\nПодключите Valora к dapp, чтобы начать.",
     "dismiss": "Закрыть"
   },
   "dappsScreenBottomSheet": {
@@ -1173,5 +1173,5 @@
   "celoDollarAmount_0": "<0></0> Доллар Celo",
   "celoDollarAmount_1": "<0></0> Доллары Celo",
   "celoDollarAmount_2": "<0></0> Доллары Celo",
-  "celoDollarAmount_3": "<0></0> Доллары Celo"
+  "celoDollarAmount_3": "<0></0> Celo Dollars"
 }
