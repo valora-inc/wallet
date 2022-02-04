@@ -137,6 +137,7 @@ function useFeeToReduceFromMaxButtonInToken(
 
 function SendAmount(props: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const [amount, setAmount] = useState('')
   const [rawAmount, setRawAmount] = useState('')
@@ -193,7 +194,6 @@ function SendAmount(props: Props) {
       swapToLocalAmount: !usingLocalAmount,
     })
   }
-  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchTokenBalances())
