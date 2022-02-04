@@ -583,7 +583,7 @@ type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
 export function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
-  console.log('lisa MainStackScreen, initialRouteName', initialRouteName)
+
   React.useEffect(() => {
     const {
       choseToRestoreAccount,
