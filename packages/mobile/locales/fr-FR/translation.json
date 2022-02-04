@@ -12,7 +12,7 @@
   "pinChanged": "Code PIN changé",
   "pinChangeFailed": "Le changement du code PIN a échoué",
   "requirePinOnAppOpen": "Exiger le code PIN à l'ouverture de l'appli",
-  "connectedApplications": "Applis connectées",
+  "connectedApplications": "Dapps connectées",
   "analytics": "Analyses",
   "shareAnalytics": "Partager les analyses",
   "shareAnalytics_detail": "Nous collectons des données anonymisées sur la façon dont vous utilisez {{appName}} pour permettre d'améliorer cette appli pour tous les utilisateurs.",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Générer un secret"
   },
   "tapToDisconnect": "Appuyez pour vous déconnecter",
-  "sessionsTitle": "Applis connectées",
-  "sessionsSubTitle": "Les applis suivantes sont connectées à {{appName}}. Vous pouvez vous connecter à plus d'applis en scannant leur QR code.",
+  "sessionsTitle": "Dapps connectées",
+  "sessionsSubTitle": "Les dapps suivantes sont connectées à {{appName}}. Vous pouvez vous connecter à plus des dapps en scannant leur QR code.",
   "disconnect": "Déconnecter",
   "disconnectTitle": "Déconnecter {{dappName}} ?",
   "disconnectBody": "Confirmez-vous vouloir vous déconnecter de {{dappName}} ?",
@@ -1118,19 +1118,23 @@
     },
     "stepTwo": {
       "label": "Étape 2",
-      "title": "Relier un compte bancaire",
-      "description": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
-      "cta": "Bientôt disponible !"
+      "disabledTitle": "Relier un compte bancaire",
+      "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
+      "disabledCta": "Bientôt disponible !",
+      "title": "Saisis les coordonnées bancaires",
+      "description": "Tu as presque terminé ! Saisis les coordonnées bancaires pour lier ton compte à Valora.",
+      "cta": "Compte bancaire Link"
     }
   },
   "bankAccountsScreen": {
     "header": "Comptes bancaires liés",
-    "add": "Ajoute un nouveau compte bancaire",
+    "add": "Ajouter un compte bancaire",
     "delete": "Supprimer"
   },
-  "syncingBankAccount": "Synchronisation du compte bancaire...",
-  "linkBankAccountSettingsTitle": "Relier des comptes bancaires",
+  "syncingBankAccount": "Synchronisation du compte bancaire en cours...",
+  "linkBankAccountSettingsTitle": "Comptes bancaires liés",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
+  "linkBankAccountSettingsValue2": "Ajouter nouveau",
   "connectPhoneNumber": {
     "title": "Connecter le numéro de téléphone pour continuer",
     "body": "Votre numéro de téléphone doit être connecté pour vérifier votre identité et lier votre compte bancaire.",
