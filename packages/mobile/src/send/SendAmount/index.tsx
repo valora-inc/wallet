@@ -162,28 +162,24 @@ function SendAmount(props: Props) {
   )
   const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
-  const maxAmountValue = showInputInLocalAmount
-    ? maxInLocalCurrency
-      ? maxInLocalCurrency?.toFixed()
-      : ''
-    : maxBalance.toFixed(TOKEN_MAX_DECIMALS)
+  const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
     rawAmount,
     showInputInLocalAmount,
     transferTokenAddress,
     maxBalance,
-    rawAmount === maxAmountValue
+    rawAmount === maxAmountValue?.toFixed()
   )
 
   const onPressMax = () => {
     setAmount(
       formatWithMaxDecimals(
-        new BigNumber(maxAmountValue),
+        maxAmountValue,
         showInputInLocalAmount ? LOCAL_CURRENCY_MAX_DECIMALS : TOKEN_MAX_DECIMALS
       )
     )
-    setRawAmount(maxAmountValue)
+    setRawAmount(maxAmountValue?.toFixed() ?? '')
     ValoraAnalytics.track(SendEvents.max_pressed, { tokenAddress: transferTokenAddress })
   }
   const onSwapInput = () => {
