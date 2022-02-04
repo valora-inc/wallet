@@ -943,11 +943,16 @@ export const v32Schema = {
     ...v31Schema._persist,
     version: 32,
   },
+  app: {
+    ...v31Schema.app,
+    removeOnboardingEducationScreensEnabled: false,
+  },
   account: {
     ...v31Schema.account,
     hasLinkedBankAccount: false,
   },
 }
+
 export function getLatestSchema(): Partial<RootState> {
   return v32Schema as Partial<RootState>
 }

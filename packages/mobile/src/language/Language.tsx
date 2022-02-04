@@ -6,8 +6,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { removeOnboardingEducationScreensEnabledSelector } from 'src/app/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -28,6 +30,9 @@ function keyExtractor(item: Language) {
 
 function LanguageScreen({ route }: Props) {
   const changeLanguage = useChangeLanguage()
+  const removeOnboardingEducationScreensEnabled = useSelector(
+    removeOnboardingEducationScreensEnabledSelector
+  )
   const { t, i18n } = useTranslation()
   const nextScreen = route.params?.nextScreen
 
@@ -36,7 +41,10 @@ function LanguageScreen({ route }: Props) {
     // Wait for next frame before navigating
     // so the user can see the changed selection briefly
     requestAnimationFrame(() => {
-      navigate(nextScreen || Screens.OnboardingEducationScreen)
+      const initialScreen = removeOnboardingEducationScreensEnabled
+        ? Screens.Welcome
+        : Screens.OnboardingEducationScreen
+      navigate(nextScreen || initialScreen)
     })
 
     ValoraAnalytics.track(SettingsEvents.language_select, { language: code })

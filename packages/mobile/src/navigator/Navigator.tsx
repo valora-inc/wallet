@@ -5,18 +5,18 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import BankAccounts from 'src/account/BankAccounts'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -575,6 +575,7 @@ const mapStateToProps = (state: RootState) => {
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
+    removeOnboardingEducationScreensEnabled: state.app.removeOnboardingEducationScreensEnabled,
   }
 }
 
@@ -582,7 +583,7 @@ type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
 export function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
-
+  console.log('lisa MainStackScreen, initialRouteName', initialRouteName)
   React.useEffect(() => {
     const {
       choseToRestoreAccount,
@@ -592,6 +593,7 @@ export function MainStackScreen() {
       pincodeType,
       account,
       hasSeenVerificationNux,
+      removeOnboardingEducationScreensEnabled,
     } = mapStateToProps(store.getState())
 
     let initialRoute: InitialRouteName
@@ -600,11 +602,17 @@ export function MainStackScreen() {
       initialRoute = Screens.Language
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
-      initialRoute = Screens.OnboardingEducationScreen
-    } else if (!account) {
-      initialRoute = choseToRestoreAccount
-        ? Screens.ImportWallet
+      initialRoute = removeOnboardingEducationScreensEnabled
+        ? Screens.Welcome
         : Screens.OnboardingEducationScreen
+    } else if (!account) {
+      if (choseToRestoreAccount) {
+        initialRoute = Screens.ImportWallet
+      } else {
+        initialRoute = removeOnboardingEducationScreensEnabled
+          ? Screens.Welcome
+          : Screens.OnboardingEducationScreen
+      }
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {

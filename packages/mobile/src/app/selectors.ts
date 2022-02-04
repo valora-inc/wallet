@@ -129,6 +129,9 @@ export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListA
 
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
+export const removeOnboardingEducationScreensEnabledSelector = (state: RootState) =>
+  state.app.removeOnboardingEducationScreensEnabled
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

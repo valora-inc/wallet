@@ -20,6 +20,7 @@ describe('Language', () => {
     mockedUseChangeLanguage.mockImplementation(() => changeLanguageSpy)
 
     const store = createMockStore()
+
     const { getByText } = render(
       <Provider store={store}>
         <Language {...getMockStackScreenProps(Screens.Language)} />
@@ -34,5 +35,26 @@ describe('Language', () => {
     jest.runOnlyPendingTimers()
     expect(changeLanguageSpy).toHaveBeenCalledWith('es-419')
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
+  })
+
+  it('navigates to welcome screen if remove onboarding education flag is turned on', () => {
+    const changeLanguageSpy = jest.fn().mockResolvedValue(true)
+    mockedUseChangeLanguage.mockImplementation(() => changeLanguageSpy)
+
+    const store = createMockStore({
+      app: {
+        removeOnboardingEducationScreensEnabled: true,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <Language {...getMockStackScreenProps(Screens.Language)} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('Español'))
+    jest.runOnlyPendingTimers()
+    expect(changeLanguageSpy).toHaveBeenCalledWith('es-419')
+    expect(navigate).toHaveBeenCalledWith(Screens.Welcome)
   })
 })
