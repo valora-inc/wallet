@@ -175,7 +175,7 @@
     "header": "Wiederherstellungsphrase einrichten",
     "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
-  "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
+  "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
@@ -665,7 +665,7 @@
   },
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
-    "step2": "Mit {{appName}} ist es ein einfach, auf deine Krypto zuzugreifen und sie zu vermehren.",
+    "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
     "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
   "enableBiometry": {
