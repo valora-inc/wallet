@@ -1147,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapp",
-    "message": "Esplora i modi per usare le tue criptovalute.",
+    "message": "Esplora i modi per usare le tue criptovalute",
     "errorMessage": "Errore durante il caricamento delle Dapp.",
     "featuredDapp": "In primo piano",
     "allDapps": "Tutti"
