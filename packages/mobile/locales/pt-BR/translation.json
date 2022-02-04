@@ -1118,12 +1118,12 @@
     },
     "stepTwo": {
       "label": "Passo 2",
-      "disabledTitle": "Vincule uma conta bancária",
+      "disabledTitle": "Vincular uma conta bancária",
       "disabledDescription": "Falta pouco! Você já pode vincular sua conta bancária à Valora pelo Plaid.",
       "disabledCta": "Em breve!",
-      "title": "Digite os dados bancários",
-      "description": "Você está quase terminando! Digite os dados bancários para vincular sua conta à Valora.",
-      "cta": "Ligar conta bancária"
+      "title": "Insira os dados bancários",
+      "description": "Falta pouco! Insira os dados bancários para vincular sua conta.",
+      "cta": "Vincular uma conta bancária"
     }
   },
   "bankAccountsScreen": {
@@ -1134,7 +1134,7 @@
   "syncingBankAccount": "Sincronizando a conta bancária...",
   "linkBankAccountSettingsTitle": "Contas bancárias vinculadas",
   "linkBankAccountSettingsValue": "Acessar",
-  "linkBankAccountSettingsValue2": "Adicionar Novo",
+  "linkBankAccountSettingsValue2": "Adicionar uma conta nova",
   "connectPhoneNumber": {
     "title": "Conecte o número de celular para continuar",
     "body": "Seu número de celular deve estar conectado para verificar sua identidade e vincular sua conta.",
