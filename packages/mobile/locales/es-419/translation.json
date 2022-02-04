@@ -1121,9 +1121,9 @@
       "disabledTitle": "Vincular una cuenta bancaria",
       "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
       "disabledCta": "¡Muy pronto!",
-      "title": "Introduce los datos bancarios",
-      "description": "¡Ya casi has terminado! Introduce los datos bancarios para vincular tu cuenta a Valora.",
-      "cta": "Vincular la cuenta bancaria"
+      "title": "Ingresa los datos bancarios",
+      "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
+      "cta": "Vincular cuenta bancaria"
     }
   },
   "bankAccountsScreen": {
