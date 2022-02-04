@@ -1118,12 +1118,12 @@
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "disabledTitle": "Link a bank account",
-      "disabledDescription": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "disabledTitle": "Bankkonto verknüpfen",
+      "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
       "disabledCta": "Demnächst verfügbar",
-      "title": "Enter Bank Details",
+      "title": "Bankdaten eingeben",
       "description": "You're almost done! Enter bank details to link your account to Valora.",
-      "cta": "Link Bank Account"
+      "cta": "Bankkonto verknüpfen"
     }
   },
   "bankAccountsScreen": {
@@ -1134,7 +1134,7 @@
   "syncingBankAccount": "Bankkonto synchronisieren...",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
-  "linkBankAccountSettingsValue2": "Add New",
+  "linkBankAccountSettingsValue2": "Hinzufügen",
   "connectPhoneNumber": {
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
