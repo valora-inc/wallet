@@ -96,7 +96,7 @@ export function useInputAmounts(
 
   return {
     localAmount,
-    tokenAmount: usingMaxAmount ? maxTokenBalance : tokenAmount,
+    tokenAmount,
     usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
 }

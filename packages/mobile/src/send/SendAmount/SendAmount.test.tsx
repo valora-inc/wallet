@@ -458,7 +458,6 @@ describe('SendAmount', () => {
 
       enterAmount(wrapper, '10')
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
-      // Note that the space between the amount and the symbol is set with CSS styles.
       expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
 
       fireEvent.press(wrapper.getByTestId('onChangeToken'))
@@ -478,7 +477,6 @@ describe('SendAmount', () => {
 
       enterAmount(wrapper, '10')
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
-      // Note that the space between the amount and the symbol is set with CSS styles.
       expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
 
       fireEvent.press(wrapper.getByTestId('SwapInput'))
