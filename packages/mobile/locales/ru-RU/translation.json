@@ -7,12 +7,12 @@
   "removeAccountTitle": "Сбросить приложение Valora",
   "removeAccountDetails": "При выполнении сброса ваш аккаунт будет удален с этого устройства. Ваши средства останутся в аккаунте, но будут доступны только с помощью вашей фразы восстановления",
   "legal": "Правовая информация",
-  "security": "Security",
+  "security": "Безопасность",
   "changePin": "Изменить PIN-код",
   "pinChanged": "PIN-код изменен",
   "pinChangeFailed": "Не удалось изменить PIN-код",
   "requirePinOnAppOpen": "Требовать PIN-код при открытии приложения",
-  "connectedApplications": "Connected Dapps",
+  "connectedApplications": "Подключенные dapps",
   "analytics": "Аналитика",
   "shareAnalytics": "Предоставить аналитику",
   "shareAnalytics_detail": "Мы собираем анонимизированные данные о том, как вы используете приложение {{appName}}, чтобы улучшить его для всех пользователей.",
@@ -547,7 +547,7 @@
   "redeemFailed": "Не удалось активировать код ",
   "redeemInviteTimeout": "Истекло время ожидания активации приглашения",
   "accountSetupFailed": "Не удалось создать кошелек",
-  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
+  "accountSetupFailedDescription": "Удалите {{appName}} с вашего устройства и повторите попытку. Если проблемы остались, свяжитесь со службой поддержки.",
   "closeApp": "Закрыть",
   "emptyInviteCode": "Код приглашения не содержит средств",
   "transferDollarsToAccount": "Средства отправлены на ваш аккаунт!",
@@ -680,7 +680,7 @@
     "Face": "Распознавание лица",
     "Iris": "Распознавание по радужной оболочке глаза"
   },
-  "useBiometryType": "Use {{biometryType}}",
+  "useBiometryType": "Использовать {{biometryType}}",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
@@ -758,10 +758,10 @@
     "codePlaceholder3_ios": "Выберите или скопируйте третье сообщение",
     "codePlaceholderWithCodeInClipboard": "Отлично! Вставьте здесь",
     "resendMessages_all": "Повторно отправить все сообщения",
-    "resendMessages_0": "Resend last message",
-    "resendMessages_1": "Resend {{count}} messages",
-    "resendMessages_2": "Resend {{count}} messages",
-    "resendMessages_3": "Resend {{count}} messages"
+    "resendMessages_0": "Отправить последнее сообщение",
+    "resendMessages_1": "Отправить {{count}} сообщений",
+    "resendMessages_2": "Отправка {{count}} сообщений",
+    "resendMessages_3": "Отправка {{count}} сообщений"
   },
   "verificationInputHelpDialog": {
     "title": "Справка",
@@ -955,8 +955,8 @@
     "computeSharedSecret": "Генерировать секретный ключ"
   },
   "tapToDisconnect": "Коснуться для отключения",
-  "sessionsTitle": "Connected Dapps",
-  "sessionsSubTitle": "The following dapps are connected to {{appName}}. You can connect to more dapps by scanning their QR code.",
+  "sessionsTitle": "Подключенные dapps",
+  "sessionsSubTitle": "Следующие децентрализованные приложения подключены к {{appName}}. Можно подключить дополнительные децентрализованные приложения, сосканировав их QR-код.",
   "disconnect": "Отключить",
   "disconnectTitle": "Отключить {{dappName}}?",
   "disconnectBody": "Вы действительно хотите отключить {{dappName}}?",
@@ -1126,17 +1126,17 @@
       "disabledDescription": "Почти готово! Теперь вы можете подключить свой банковский счет к Valora через Plaid.",
       "disabledCta": "В ближайшее время!",
       "title": "Введите банковские реквизиты",
-      "description": "Ты почти закончил! Введи банковские реквизиты, чтобы привязать свой счет к Valora.",
-      "cta": "Связать банковский счет"
+      "description": "Почти готово! Введите банковские реквизиты, чтобы привязать свой счет к Valora.",
+      "cta": "Привязать банковский счет"
     }
   },
   "bankAccountsScreen": {
-    "header": "Linked Bank Accounts",
-    "add": "Add new bank account",
+    "header": "Привязанные банковские счета",
+    "add": "Добавить новый банковский счет",
     "delete": "Удалить"
   },
-  "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Связанные банковские счета",
+  "syncingBankAccount": "Синхронизация банковского счета...",
+  "linkBankAccountSettingsTitle": "Привязанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "linkBankAccountSettingsValue2": "Добавить новый",
   "connectPhoneNumber": {
@@ -1150,15 +1150,15 @@
     "button": "Обновить"
   },
   "dappsScreen": {
-    "title": "Децентрализованные приложения",
-    "message": "Изучите способы использования криптовалюты.",
-    "errorMessage": "Произошла ошибка при загрузке децентрализованных приложений",
+    "title": "Dapps",
+    "message": "Изучите способы использования криптовалюты",
+    "errorMessage": "Произошла ошибка при загрузке dapps",
     "featuredDapp": "Подборка",
     "allDapps": "Все"
   },
   "dappsScreenHelpDialog": {
-    "title": "Что такое \"децентрализованные приложения\"?",
-    "message": "Децентрализованные приложения предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения Web3.\n\nПодключите Valora к децентрализованному приложению, чтобы начать.",
+    "title": "Что такое dapps?",
+    "message": "Децентрализованные приложения (dapps) предоставляют новые способы использования криптовалюты, получения вознаграждений и изучения Web3.\n\nПодключите Valora к dapp, чтобы начать.",
     "dismiss": "Закрыть"
   },
   "dappsScreenBottomSheet": {
@@ -1170,8 +1170,8 @@
   "supercharge": "Supercharge",
   "others": "Другие",
   "nomSpaceRecipient": "Nomspace: {{name}}",
-  "celoDollarAmount_0": "<0></0> Доллар Celo",
-  "celoDollarAmount_1": "<0></0> Доллары Celo",
-  "celoDollarAmount_2": "<0></0> Доллары Celo",
-  "celoDollarAmount_3": "<0></0> Доллары Celo"
+  "celoDollarAmount_0": "<0></0> Celo Dollar",
+  "celoDollarAmount_1": "<0></0> Celo Dollars",
+  "celoDollarAmount_2": "<0></0> Celo Dollars",
+  "celoDollarAmount_3": "<0></0> Celo Dollars"
 }
