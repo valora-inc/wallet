@@ -1,8 +1,9 @@
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
 import { quickOnboarding } from './utils/utils'
 
-describe('Deep link without account send', () => {
+describe('Given Deep Link', () => {
   beforeAll(async () => {
+    // Clear redux store ?
     await quickOnboarding()
   })
   // The behavior for this case is not really specified yet
@@ -13,5 +14,5 @@ describe('Deep link without account send', () => {
   // also would be great if the deep link survives through an app install
   // similar to the invite links
 
-  describe('HandleDeepLinkSend', HandleDeepLinkSend)
+  describe('When Sending', HandleDeepLinkSend)
 })
