@@ -42,7 +42,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       })
       dispatch(setHasLinkedBankAccount())
       navigate(Screens.BankAccounts, { newPublicToken: publicToken })
-    } catch (error) {
+    } catch {
       // TODO(wallet#1447): handle errors from IHL
       return
     }
