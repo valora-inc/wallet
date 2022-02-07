@@ -289,9 +289,17 @@ export function* handleSendPaymentData(
       isFromScan,
       origin: SendOrigin.AppSendFlow,
     })
+  } else if (isOutgoingPaymentRequest) {
+    navigate(Screens.SendAmount, {
+      recipient,
+      isFromScan,
+      isOutgoingPaymentRequest,
+      origin: SendOrigin.AppSendFlow,
+      forceTokenAddress: data.token ? tokenInfo?.address : undefined,
+    })
   } else {
     const canSendTokens: boolean = yield select(canSendTokensSelector)
-    if (!canSendTokens && !isOutgoingPaymentRequest) {
+    if (!canSendTokens) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
     navigate(Screens.SendAmount, {
