@@ -291,7 +291,7 @@ export function* handleSendPaymentData(
     })
   } else {
     const canSendTokens: boolean = yield select(canSendTokensSelector)
-    if (!canSendTokens) {
+    if (!canSendTokens && !isOutgoingPaymentRequest) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
     navigate(Screens.SendAmount, {
