@@ -97,7 +97,11 @@ function ImportWallet({ navigation, route }: Props) {
 
     if (isRecoveringFromStoreWipe) {
       autocompleteSavedMnemonic().catch((error) =>
-        Logger.error('Error while trying to recover account from store wipe:', error)
+        Logger.error(
+          'ImportWallet',
+          'Error while trying to recover account from store wipe:',
+          error
+        )
       )
     }
 
