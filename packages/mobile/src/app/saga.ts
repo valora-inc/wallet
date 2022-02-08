@@ -242,7 +242,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
   if (isPlaidRedirectDeepLink(deepLink)) {
-    navigate(Screens.BankAccounts)
+    navigate(Screens.BankAccounts, { newPublicToken: undefined })
     return
   }
 
