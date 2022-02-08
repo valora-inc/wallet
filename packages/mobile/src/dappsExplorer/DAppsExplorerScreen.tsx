@@ -4,8 +4,7 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
-import variables from '@celo/react-components/styles/variables'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,28 +12,35 @@ import {
   Image,
   SectionList,
   SectionListData,
+  SectionListProps,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import Animated from 'react-native-reanimated'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
-import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
-import CustomHeader from 'src/components/header/CustomHeader'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
 import { dappListLogo } from 'src/images/Images'
+import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+
+// @ts-ignore
+const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(
+  SectionList
+)
 
 const TAG = 'DAppExplorerScreen'
 
@@ -88,6 +94,9 @@ export function DAppsExplorerScreen() {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
   const dispatch = useDispatch()
+  const insets = useSafeAreaInsets()
+  const scrollPosition = useRef(new Animated.Value(0)).current
+  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
   const shortLanguage = i18n.language.split('-')[0]
 
@@ -203,17 +212,11 @@ export function DAppsExplorerScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <CustomHeader
-        left={<BackButton />}
-        title={t('dappsScreen.title')}
-        right={
-          <TopBarIconButton
-            icon={<Help />}
-            onPress={onPressHelp}
-            style={styles.helpIconContainer}
-          />
-        }
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
+      <DrawerTopBar
+        middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
+        rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
+        scrollPosition={scrollPosition}
       />
       <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
         <View>
@@ -262,7 +265,7 @@ export function DAppsExplorerScreen() {
           </View>
         )}
         {!loading && !error && result && (
-          <SectionList
+          <AnimatedSectionList
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -276,6 +279,14 @@ export function DAppsExplorerScreen() {
               </>
             }
             style={styles.sectionList}
+            contentContainerStyle={{
+              padding: Spacing.Regular16,
+              paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+            }}
+            // Workaround iOS setting an incorrect automatic inset at the top
+            scrollIndicatorInsets={{ top: 0.01 }}
+            scrollEventThrottle={16}
+            onScroll={onScroll}
             sections={parseResultIntoSections(result.categories)}
             renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
@@ -381,9 +392,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: Spacing.Smallest8,
   },
-  helpIconContainer: {
-    padding: variables.contentPadding,
-  },
   loadingIcon: {
     marginVertical: Spacing.Thick24,
     height: 108,
@@ -465,7 +473,6 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    padding: Spacing.Regular16,
   },
   sectionTitle: {
     ...fontStyles.label,
