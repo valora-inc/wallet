@@ -55,6 +55,6 @@ describe('SyncBankAccountScreen', () => {
         dekPrivate: mockPrivateDEK,
       })
     })
-    expect(store.dispatch).toHaveBeenCalledWith(Actions.SET_HAS_LINKED_BANK_ACCOUNT)
+    expect(store.dispatch).toHaveBeenCalledWith({ type: Actions.SET_HAS_LINKED_BANK_ACCOUNT })
   })
 })
