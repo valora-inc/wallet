@@ -229,8 +229,8 @@
   "goldPrice": "Prix CELO",
   "yourGoldBalance": "Votre solde CELO",
   "goldAmount": "Montant CELO",
-  "purchasedGold": "CELO acheté(s)",
-  "soldGold": "CELO vendu(s)",
+  "purchasedGold": "CELO achetés",
+  "soldGold": "CELO vendus",
   "exchangeRateInfo": "Les prix du CELO sont approximatifs",
   "rateInfoTitle": "Les prix du CELO sont approximatifs",
   "rateInfoBody": "Votre montant pourrait varier en fonction des conditions du marché. Votre montant final ne sera pas différent de 1 % de l'estimation affichée.",
@@ -1019,8 +1019,8 @@
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Acheté <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Vendu <0></0> CELO",
-  "feedItemBoughtCeloTitle": "CELO acheté(s)",
-  "feedItemSoldCeloTitle": "CELO vendu(s)",
+  "feedItemBoughtCeloTitle": "CELO achetés",
+  "feedItemSoldCeloTitle": "CELO vendus",
   "feedItemExchangeCeloInfo": "{{amount}} à {{price}}",
   "feedItemVerificationFeeTitle": "Celo",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
@@ -1039,7 +1039,7 @@
   "feedItemSentTitle": "{{displayName}}",
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Paiement envoyé",
-  "feedItemCeloRewardReceivedTitle": "CELO gagné(s)",
+  "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Réseau Celo",
   "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
   "feedItemInviteRewardReceivedTitle": "Réseau Celo",
@@ -1121,9 +1121,9 @@
       "disabledTitle": "Relier un compte bancaire",
       "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
       "disabledCta": "Bientôt disponible !",
-      "title": "Saisis les coordonnées bancaires",
-      "description": "Tu as presque terminé ! Saisis les coordonnées bancaires pour lier ton compte à Valora.",
-      "cta": "Compte bancaire Link"
+      "title": "Saisir les coordonnées bancaires",
+      "description": "Vous avez presque fini ! Saisissez les coordonnées bancaires pour lier votre compte.",
+      "cta": "Relier un compte bancaire"
     }
   },
   "bankAccountsScreen": {
@@ -1134,7 +1134,7 @@
   "syncingBankAccount": "Synchronisation du compte bancaire en cours...",
   "linkBankAccountSettingsTitle": "Comptes bancaires liés",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
-  "linkBankAccountSettingsValue2": "Ajouter nouveau",
+  "linkBankAccountSettingsValue2": "Ajouter un compte",
   "connectPhoneNumber": {
     "title": "Connecter le numéro de téléphone pour continuer",
     "body": "Votre numéro de téléphone doit être connecté pour vérifier votre identité et lier votre compte bancaire.",
@@ -1147,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explorez les moyens d'utiliser vos crypto.",
+    "message": "Explorez les moyens d'utiliser vos crypto",
     "errorMessage": "Une erreur s'est produite lors du chargement des dapps",
     "featuredDapp": "Dapps à la une",
     "allDapps": "Tous"
