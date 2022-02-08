@@ -5,4 +5,4 @@
 "NSPhotoLibraryAddUsageDescription" = "Подключение библиотеки фотографий позволит вам сохранять свой код на фотографиях.";
 "NSPhotoLibraryUsageDescription" = "Это необходимо для выбора изображения профиля.";
 "NSUserTrackingUsageDescription" = "Мы используем идентификатор рекламы для точного определения установочных приложений из рекламных кампаний.";
-"NSFaceIDUsageDescription" = "This is required for you to use Face ID to secure your account.";
+"NSFaceIDUsageDescription" = "Для защиты вашего аккаунта необходимо использовать функцию разблокировки по лицу.";

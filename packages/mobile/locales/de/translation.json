@@ -175,7 +175,7 @@
     "header": "Wiederherstellungsphrase einrichten",
     "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
-  "conclusion": "So einfach ist es Rewards zu erhalten: Lade deine Krypto noch heute auf!",
+  "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
@@ -547,7 +547,7 @@
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
   "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
-  "accountSetupFailedDescription": "Bitte lösche {{appName}} von deinem Gerät und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
+  "accountSetupFailedDescription": "Bitte lösche {{appName}} und versuche es erneut. Wenn du weiterhin Probleme hast, wende dich bitte an den Support.",
   "closeApp": "App schließen",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
   "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
@@ -665,7 +665,7 @@
   },
   "onboardingEducation": {
     "step1": "Krypto so einfach wie eine SMS. Ab sofort ist dein Handy dein Krypto-Wallet.",
-    "step2": "Mit {{appName}} ist es ein einfach, auf deine Krypto zuzugreifen und sie zu vermehren.",
+    "step2": "Mit {{appName}} ist es ein einfach, auf dein Krypto zuzugreifen und sie zu vermehren.",
     "step3": "Alles, was du brauchst, ist ein Mobiltelefon zum Entdecken."
   },
   "enableBiometry": {
@@ -1118,12 +1118,12 @@
     },
     "stepTwo": {
       "label": "Schritt 2",
-      "disabledTitle": "Verknüpfen Bankkontos",
+      "disabledTitle": "Bankkonto verknüpfen",
       "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
       "disabledCta": "Demnächst verfügbar",
-      "title": "Bankverbindung eingeben",
-      "description": "Du bist fast fertig! Gib deine Bankdaten ein, um dein Konto mit Valora zu verknüpfen.",
-      "cta": "Link Bankkonto"
+      "title": "Bankdaten eingeben",
+      "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
+      "cta": "Bankkonto verknüpfen"
     }
   },
   "bankAccountsScreen": {
@@ -1134,7 +1134,7 @@
   "syncingBankAccount": "Bankkonto synchronisieren...",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
-  "linkBankAccountSettingsValue2": "Neu hinzufügen",
+  "linkBankAccountSettingsValue2": "Hinzufügen",
   "connectPhoneNumber": {
     "title": "Verbinde deine Telefonnummer",
     "body": "Deine Telefonnummer muss verbunden werden, um deine Identität zu verifizieren und dein Bankkonto zu verknüpfen.",
@@ -1147,14 +1147,14 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Finde heraus, wie du deine Kryptowährung nutzen kannst.",
+    "message": "Finde heraus, wie du dein Kryptowährung nutzen kannst",
     "errorMessage": "Beim Laden Dapps ist ein Fehler aufgetreten",
     "featuredDapp": "Empfohlen",
     "allDapps": "Alle"
   },
   "dappsScreenHelpDialog": {
     "title": "Was sind Dapps?",
-    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, deine Kryptowährung zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
+    "message": "Dapps (dezentrale Apps) bieten neue Möglichkeiten, dein Kryptowährung zu nutzen, Rewards zu verdienen und Web3 zu entdecken.\n\nVerbinde Valora mit einer Dapp, um loszulegen.",
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
