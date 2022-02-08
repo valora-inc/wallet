@@ -23,14 +23,14 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
-import BackButton from 'src/components/BackButton'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
-import CustomHeader from 'src/components/header/CustomHeader'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
 import QuitIcon from 'src/icons/QuitIcon'
 import { dappListLogo } from 'src/images/Images'
+import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { styles as headerStyles } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -205,16 +205,9 @@ export function DAppsExplorerScreen() {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
-      <CustomHeader
-        left={<BackButton />}
-        title={t('dappsScreen.title')}
-        right={
-          <TopBarIconButton
-            icon={<Help />}
-            onPress={onPressHelp}
-            style={styles.helpIconContainer}
-          />
-        }
+      <DrawerTopBar
+        middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
+        rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
       />
       <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
         <View>
