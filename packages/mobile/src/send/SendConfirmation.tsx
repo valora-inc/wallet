@@ -96,6 +96,7 @@ function SendConfirmation(props: Props) {
     transactionData: {
       recipient: paramRecipient,
       inputAmount,
+      tokenAmount: inputTokenAmount,
       amountIsInLocalCurrency,
       tokenAddress,
     },
@@ -114,7 +115,8 @@ function SendConfirmation(props: Props) {
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
-    tokenAddress
+    tokenAddress,
+    inputTokenAmount
   )
 
   const dispatch = useDispatch()
@@ -243,7 +245,6 @@ function SendConfirmation(props: Props) {
       sendPaymentOrInvite(
         tokenAmount,
         tokenAddress,
-        localAmount,
         usdAmount,
         comment,
         recipient,

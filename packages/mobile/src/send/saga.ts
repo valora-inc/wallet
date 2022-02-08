@@ -245,7 +245,6 @@ export function* buildSendTx(
 function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
-  amountInLocalCurrency: BigNumber | null,
   usdAmount: BigNumber | null,
   tokenAddress: string,
   comment: string,
@@ -381,7 +380,6 @@ export function* watchSendPaymentOrInviteLegacy() {
 export function* sendPaymentOrInviteSaga({
   amount,
   tokenAddress,
-  amountInLocalCurrency,
   usdAmount,
   comment,
   recipient,
@@ -391,16 +389,7 @@ export function* sendPaymentOrInviteSaga({
   try {
     yield call(getConnectedUnlockedAccount)
     if (recipient.address) {
-      yield call(
-        sendPayment,
-        recipient.address,
-        amount,
-        amountInLocalCurrency,
-        usdAmount,
-        tokenAddress,
-        comment,
-        feeInfo
-      )
+      yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
     } else if (recipientHasNumber(recipient)) {
       yield call(sendInvite, recipient.e164PhoneNumber, amount, usdAmount, tokenAddress, feeInfo)
     } else {

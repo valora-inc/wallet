@@ -406,7 +406,6 @@ describe('SendConfirmation', () => {
         sendPaymentOrInvite(
           inputAmount,
           tokenAddress,
-          inputAmount.multipliedBy(1.33), // 1.33 is the default local currency exchange rate in tests
           inputAmount,
           '',
           recipient,
@@ -452,7 +451,6 @@ describe('SendConfirmation', () => {
         sendPaymentOrInvite(
           inputAmount,
           tokenAddress,
-          inputAmount.multipliedBy(1.33), // 1.33 is the default local currency exchange rate in tests
           inputAmount,
           '',
           { address: mockAccount2, e164PhoneNumber: mockE164Number },

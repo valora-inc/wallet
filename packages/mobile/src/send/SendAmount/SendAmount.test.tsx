@@ -86,7 +86,7 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionDataLegacy.type,
   recipient: mockTransactionDataLegacy.recipient,
-  amount: new BigNumber('3.706766917293233083'),
+  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (usdPrice of cUSD)
   tokenAddress: mockCusdAddress,
   reason: '',
 }
@@ -396,6 +396,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData.recipient,
           tokenAddress: mockCusdAddress,
+          tokenAmount: mockTransactionData2.amount, // input amount converted to token amount
         },
       })
     })
@@ -444,6 +445,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: false,
           recipient: mockTransactionData.recipient,
           tokenAddress: mockTestTokenAddress,
+          tokenAmount: new BigNumber(AMOUNT_VALID),
         },
       })
     })
@@ -514,6 +516,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCusdAddress,
+          tokenAmount: mockTransactionData2.amount,
         },
         addressValidationType: AddressValidationType.FULL,
       })
@@ -547,6 +550,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
+          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (usdPrice of cEUR)
         },
       })
     })

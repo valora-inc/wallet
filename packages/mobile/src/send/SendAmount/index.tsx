@@ -45,7 +45,11 @@ import {
   useUsdToTokenAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
-import { defaultTokenSelector, stablecoinsSelector } from 'src/tokens/selectors'
+import {
+  celoAddressSelector,
+  defaultTokenSelector,
+  stablecoinsSelector,
+} from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
@@ -58,6 +62,7 @@ export interface TransactionDataInput {
   inputAmount: BigNumber
   amountIsInLocalCurrency: boolean
   tokenAddress: string
+  tokenAmount: BigNumber
 }
 
 type RouteProps = StackScreenProps<StackParamList, Screens.SendAmount>
@@ -69,26 +74,23 @@ export function useInputAmounts(
   inputAmount: string,
   usingLocalAmount: boolean,
   tokenAddress: string,
-  maxTokenBalance: BigNumber = new BigNumber(0),
-  usingMaxAmount: boolean = false
+  inputTokenAmount?: BigNumber
 ) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
   const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)
   const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)
 
   const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
-  // when the user presses the max button, we max out the token value. when
-  // using the local amount, the "inputAmount" value received here was already
-  // converted once from the token value. if we convert again from local to
-  // token, rounding precision errors introduced may result in a higher token
-  // value than original, preventing the user from sending the amount e.g. the
-  // max token balance could be something like 15.00, after conversion to local
-  // currency then back to token amount, it could be 15.000000001
-  const tokenAmountRaw = usingLocalAmount
-    ? usingMaxAmount
-      ? maxTokenBalance
-      : localToToken
-    : parsedAmount
+  // when using the local amount, the "inputAmount" value received here was
+  // already converted once from the token value. if we calculate the token
+  // value by converting again from local to token, we introduce rounding
+  // precision errors. most of the time this is fine but when pressing the "max"
+  // button and using the max token value this becomes a problem because the
+  // precision error introduced may result in a higher token value than
+  // original, preventing the user from sending the amount e.g. the max token
+  // balance could be something like 15.00, after conversion to local currency
+  // then back to token amount, it could be 15.000000001.
+  const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
   const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
   const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
 
@@ -120,7 +122,11 @@ function useFeeToReduceFromMaxButtonInToken(
   recipientVerificationStatus: RecipientVerificationStatus
 ) {
   const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeTokenAddress = useFeeCurrency()
+  const celoAddress = useSelector(celoAddressSelector)
+
+  // feeTokenAddress is undefined if the fee currency is CELO, we still want to
+  // use the fee estimate if that is the case
+  const feeTokenAddress = useFeeCurrency() ?? celoAddress
 
   const feeType =
     recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
@@ -163,13 +169,13 @@ function SendAmount(props: Props) {
   const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
+  const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
     rawAmount,
     showInputInLocalAmount,
     transferTokenAddress,
-    maxBalance,
-    rawAmount === maxAmountValue?.toFixed()
+    isUsingMaxAmount ? maxBalance : undefined
   )
 
   const onPressMax = () => {
