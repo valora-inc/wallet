@@ -284,7 +284,7 @@ export function DAppsExplorerScreen() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={parseResultIntoSections(result.categories.filter((c) => c.dapps.length > 0))}
+            sections={parseResultIntoSections(result.categories)}
             renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
