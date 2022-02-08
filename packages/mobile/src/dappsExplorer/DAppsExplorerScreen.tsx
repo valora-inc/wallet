@@ -4,7 +4,6 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
-import variables from '@celo/react-components/styles/variables'
 import React, { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +12,7 @@ import {
   Image,
   SectionList,
   SectionListData,
+  SectionListProps,
   StyleSheet,
   Text,
   View,
@@ -37,7 +37,10 @@ import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+// @ts-ignore
+const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<ItemT, SectionT>>(
+  SectionList
+)
 
 const TAG = 'DAppExplorerScreen'
 
@@ -388,9 +391,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     marginHorizontal: Spacing.Smallest8,
-  },
-  helpIconContainer: {
-    padding: variables.contentPadding,
   },
   loadingIcon: {
     marginVertical: Spacing.Thick24,
