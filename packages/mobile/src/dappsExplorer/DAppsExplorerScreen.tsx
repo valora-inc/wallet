@@ -17,7 +17,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -88,6 +88,7 @@ export function DAppsExplorerScreen() {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
   const [dappSelected, setDappSelected] = useState<Dapp>()
   const dispatch = useDispatch()
+  const insets = useSafeAreaInsets()
 
   const shortLanguage = i18n.language.split('-')[0]
 
@@ -203,7 +204,7 @@ export function DAppsExplorerScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} edges={['top']}>
       <CustomHeader
         left={<BackButton />}
         title={t('dappsScreen.title')}
@@ -276,7 +277,13 @@ export function DAppsExplorerScreen() {
               </>
             }
             style={styles.sectionList}
-            sections={parseResultIntoSections(result.categories)}
+            contentContainerStyle={{
+              padding: Spacing.Regular16,
+              paddingBottom: Math.max(insets.bottom, Spacing.Regular16),
+            }}
+            // Workaround iOS setting an incorrect automatic inset at the top
+            scrollIndicatorInsets={{ top: 0.01 }}
+            sections={parseResultIntoSections(result.categories.filter((c) => c.dapps.length > 0))}
             renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
@@ -465,7 +472,6 @@ const styles = StyleSheet.create({
   },
   sectionList: {
     flex: 1,
-    padding: Spacing.Regular16,
   },
   sectionTitle: {
     ...fontStyles.label,
