@@ -409,4 +409,11 @@ export const migrations = {
       isSettingPin: undefined,
     },
   }),
+  32: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      hasLinkedBankAccount: false,
+    },
+  }),
 }

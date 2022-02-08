@@ -12,7 +12,7 @@
   "pinChanged": "Se cambió el PIN",
   "pinChangeFailed": "Error al cambiar el PIN",
   "requirePinOnAppOpen": "Requerir PIN al abrir la app",
-  "connectedApplications": "Aplicaciones conectadas",
+  "connectedApplications": "Dapps conectadas",
   "analytics": "Estadísticas de uso",
   "shareAnalytics": "Compartir estadísticas de uso",
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
@@ -126,7 +126,7 @@
   "savedConfirmation": "Sí, ya anoté mi frase.",
   "backupQuizWordCount": "¿Cuál es la <0>{{ordinal}}</0> palabra de tu Frase de recuperación?",
   "importBackupFailed": "No se pudo importar la cuenta",
-  "backupQuizFailed": "La Frase de recuperación introducida es incorrecta. Inténtalo de nuevo.",
+  "backupQuizFailed": "La Frase de recuperación ingresada es incorrecta. Inténtalo de nuevo.",
   "invalidBackupPhrase": "La Frase de recuperación no es válida.",
   "invalidWordsInBackupPhrase": "Algunas palabras en la Frase de recuperación no son válidas: {{ invalidWords }}",
   "backupComplete": {
@@ -491,8 +491,8 @@
   "addressValidationNoMatch": "La información de cuenta ingresada no coincide con ninguna cuenta asociada a tu contacto",
   "addressValidationFullPoorlyFormatted": "Las direcciones de cuenta comienzan con \"0x\", contienen solo números y letras, y tienen 42 caracteres de longitud. Sigue el enlace a continuación para obtener ayuda.",
   "addressValidationPartialPoorlyFormatted": "Las direcciones de cuenta contienen solo números y letras, introduce los últimos 4 dígitos. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationFullOwnAddress": "Introduce la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialOwnAddress": "Introduce los últimos 4 dígitos de la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
+  "addressValidationFullOwnAddress": "Ingresa la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
+  "addressValidationPartialOwnAddress": "Ingresa los últimos 4 dígitos de la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
@@ -699,7 +699,7 @@
   "pincodeSet": {
     "create": "Crea un PIN",
     "createNew": "Crear un nuevo PIN",
-    "verify": "Introduce tu PIN de nuevo para confirmar",
+    "verify": "Ingresa tu PIN de nuevo para confirmar",
     "changePIN": "Cambiar PIN",
     "pinsDontMatch": "Los PIN no coinciden",
     "invalidPin": "Por favor use un PIN más fuerte"
@@ -708,7 +708,7 @@
     "title": "Código de invitación",
     "body": "¿Recibiste un pago o una invitación? Si es así, copia y pega el código de invitación a continuación.",
     "label": "Código de invitación",
-    "codePlaceholder": "Ingresa tu Código de Invitación",
+    "codePlaceholder": "Ingresa tu código de invitación",
     "noCode": "No tengo un código de invitación",
     "nodeCodeInviteLink": "¿No tienes un código de invitación? Solicite uno en <0>celo.org/developers/wallet</0> o <1>continúe sin</1>",
     "loadingHeader": "Creando una cuenta...",
@@ -951,8 +951,8 @@
     "computeSharedSecret": "Generar un secreto"
   },
   "tapToDisconnect": "Toca para desconectar",
-  "sessionsTitle": "Aplicaciones conectadas",
-  "sessionsSubTitle": "Las siguientes aplicaciones están conectadas a {{appName}}. Puedes conectarte a más aplicaciones escaneando su código QR.",
+  "sessionsTitle": "Dapps conectadas",
+  "sessionsSubTitle": "Las siguientes dapps están conectadas a {{appName}}. Puedes conectarte a más aplicaciones descentralizadas escaneando su código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
@@ -1118,19 +1118,23 @@
     },
     "stepTwo": {
       "label": "Paso 2",
-      "title": "Vincular una cuenta bancaria",
-      "description": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
-      "cta": "¡Muy pronto!"
+      "disabledTitle": "Vincular una cuenta bancaria",
+      "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
+      "disabledCta": "¡Muy pronto!",
+      "title": "Ingresa los datos bancarios",
+      "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
+      "cta": "Vincular cuenta bancaria"
     }
   },
   "bankAccountsScreen": {
     "header": "Cuentas bancarias vinculadas",
-    "add": "Añadir una nueva cuenta bancaria",
+    "add": "Añadir una cuenta bancaria",
     "delete": "Eliminar"
   },
-  "syncingBankAccount": "Sincronizar la cuenta bancaria...",
-  "linkBankAccountSettingsTitle": "Vincular cuentas bancarias",
+  "syncingBankAccount": "Sincronizando cuenta bancaria...",
+  "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
+  "linkBankAccountSettingsValue2": "Agregar cuenta",
   "connectPhoneNumber": {
     "title": "Conecta tu número de teléfono para continuar",
     "body": "Tu número de teléfono debe estar conectado para verificar tu identidad y vincular tu cuenta bancaria.",
@@ -1143,7 +1147,7 @@
   },
   "dappsScreen": {
     "title": "Dapps",
-    "message": "Explora las distintas formas de usar tus cripto.",
+    "message": "Explora las distintas formas de usar tus cripto",
     "errorMessage": "Hubo un error al cargar las dapps",
     "featuredDapp": "Destacadas",
     "allDapps": "Todas"

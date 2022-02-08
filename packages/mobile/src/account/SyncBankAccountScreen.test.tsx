@@ -7,6 +7,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
 import { Screens } from 'src/navigator/Screens'
+import { Actions } from 'src/account/actions'
 
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
@@ -30,6 +31,7 @@ describe('SyncBankAccountScreen', () => {
   })
 
   beforeEach(() => {
+    store.dispatch = jest.fn()
     jest.useRealTimers()
     jest.clearAllMocks()
   })
@@ -53,5 +55,6 @@ describe('SyncBankAccountScreen', () => {
         dekPrivate: mockPrivateDEK,
       })
     })
+    expect(store.dispatch).toHaveBeenCalledWith({ type: Actions.SET_HAS_LINKED_BANK_ACCOUNT })
   })
 })
