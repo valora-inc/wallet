@@ -141,6 +141,7 @@ export const mockTransactionData = {
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
   recipient: mockInvitableRecipient2,
+  tokenAmount: new BigNumber(1),
 }
 
 export const mockTransactionDataLegacy = {
@@ -169,6 +170,7 @@ export const mockTokenTransactionData: TransactionDataInput = {
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
+  tokenAmount: new BigNumber(1),
 }
 
 export const mockTokenInviteTransactionData: TransactionDataInput = {
@@ -176,6 +178,7 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
+  tokenAmount: new BigNumber(1),
 }
 
 export const mockRecipient: ContactRecipient & AddressRecipient = {
