@@ -275,7 +275,7 @@ export function DAppsExplorerScreen() {
                 )}
               </>
             }
-            style={styles.sectionList}
+            contentContainerStyle={styles.sectionList}
             sections={parseResultIntoSections(result.categories)}
             renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
@@ -464,7 +464,6 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.Regular16,
   },
   sectionList: {
-    flex: 1,
     padding: Spacing.Regular16,
   },
   sectionTitle: {
