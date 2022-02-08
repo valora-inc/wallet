@@ -4,4 +4,5 @@ export default {
   startNode: jest.fn(),
   stop: jest.fn(),
   subscribeNewHead: jest.fn(),
+  signTransaction: jest.fn(),
 }
