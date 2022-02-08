@@ -1,9 +1,9 @@
 import { rlpEncodedTx } from '@celo/wallet-base'
+import GethNativeModule from 'react-native-geth'
 import { GethNativeBridgeSigner } from 'src/geth/GethNativeBridgeSigner'
+import { mocked } from 'ts-jest/utils'
 
-const mockGeth = {
-  signTransaction: jest.fn(),
-}
+const mockGeth = mocked(GethNativeModule)
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -26,7 +26,7 @@ describe('GethNativeBridgeSigner', () => {
         to: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73',
         gas: '0x1',
         gasPrice: '0x1',
-        nonce: '0x0',
+        nonce: 0,
         chainId: 42220,
       }
 
@@ -45,7 +45,7 @@ describe('GethNativeBridgeSigner', () => {
         from: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73',
         to: '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73',
         gas: '0x1',
-        nonce: '0x0',
+        nonce: 0,
         chainId: 42220,
       }
 
