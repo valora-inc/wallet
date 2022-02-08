@@ -5,7 +5,7 @@ import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
@@ -17,6 +17,7 @@ import {
   Text,
   View,
 } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
@@ -35,6 +36,8 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
+
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 const TAG = 'DAppExplorerScreen'
 
@@ -89,6 +92,8 @@ export function DAppsExplorerScreen() {
   const [dappSelected, setDappSelected] = useState<Dapp>()
   const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
+  const scrollPosition = useRef(new Animated.Value(0)).current
+  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
   const shortLanguage = i18n.language.split('-')[0]
 
@@ -208,6 +213,7 @@ export function DAppsExplorerScreen() {
       <DrawerTopBar
         middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
         rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
+        scrollPosition={scrollPosition}
       />
       <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
         <View>
@@ -256,7 +262,7 @@ export function DAppsExplorerScreen() {
           </View>
         )}
         {!loading && !error && result && (
-          <SectionList
+          <AnimatedSectionList
             ListHeaderComponent={
               <>
                 <DescriptionView message={t('dappsScreen.message')} />
@@ -276,6 +282,8 @@ export function DAppsExplorerScreen() {
             }}
             // Workaround iOS setting an incorrect automatic inset at the top
             scrollIndicatorInsets={{ top: 0.01 }}
+            scrollEventThrottle={16}
+            onScroll={onScroll}
             sections={parseResultIntoSections(result.categories.filter((c) => c.dapps.length > 0))}
             renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
