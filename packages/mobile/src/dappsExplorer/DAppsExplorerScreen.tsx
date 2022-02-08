@@ -291,7 +291,7 @@ export function DAppsExplorerScreen() {
 }
 
 function parseResultIntoSections(categoriesWithDapps: CategoryWithDapps[]): SectionData[] {
-  let filtered = categoriesWithDapps.filter((category) => category.dapps.length)
+  const filtered = categoriesWithDapps.filter((category) => category.dapps.length)
   return filtered.map((category) => ({
     data: category.dapps,
     category: category,
