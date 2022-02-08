@@ -13,6 +13,7 @@ import { AppState } from 'src/app/actions'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { FUNDING_LINK } from 'src/config'
 import { features } from 'src/flags'
+import HomeTokenBalance from 'src/home/HomeTokenBalance'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -76,10 +77,7 @@ function FiatExchange() {
       <DrawerTopBar />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
-          <View style={styles.balanceSheet}>
-            <Text style={styles.currentBalance}>{t('currentBalance')}</Text>
-            <CurrencyDisplay style={styles.localBalance} amount={dollarAmount} />
-          </View>
+          <HomeTokenBalance key={'HomeTokenBalance'} />
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
         </View>
         <View style={styles.optionsListContainer}>
