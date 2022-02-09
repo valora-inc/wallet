@@ -126,7 +126,7 @@
   "savedConfirmation": "Sì, ho annotato la mia frase di recupero.",
   "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua frase di recupero?",
   "importBackupFailed": "Impossibile importare il wallet.",
-  "backupQuizFailed": "La frase di recupero inserita non è corretta. Riprova.",
+  "backupQuizFailed": "La frase di recupero immesse non è corretta. Riprova.",
   "invalidBackupPhrase": "La frase di recupero non è valida.",
   "invalidWordsInBackupPhrase": "Alcune parole della frase di recupero non sono valide: {{ invalidWords }}.",
   "backupComplete": {
