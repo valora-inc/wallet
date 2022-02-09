@@ -39,7 +39,6 @@ import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
-import { getContractKitAsync } from 'src/web3/contracts'
 
 interface Section {
   key: string
