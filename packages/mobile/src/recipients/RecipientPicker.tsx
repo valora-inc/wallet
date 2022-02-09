@@ -27,7 +27,7 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DEFAULT_TESTNET } from 'src/config'
+import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -57,8 +57,8 @@ interface RecipientProps {
 }
 
 const NOM_ADDRESSES: { [env: string]: Address } = {
-  mainnet: ResolveNom.MainnetContractAddress,
-  alfajores: ResolveNom.AlfajoresContractAddress,
+  mainnet: ResolveNom.MainnetENSRegsitryAddress,
+  alfajores: ResolveNom.AlfajoresENSRegsitryAddress,
 }
 
 function RecipientPicker(props: RecipientProps) {
@@ -72,10 +72,12 @@ function RecipientPicker(props: RecipientProps) {
   const [isSendToAddressWarningVisible, setSendToAddressWarningVisible] = useState(false)
 
   const { result: resolveAddressResult } = useAsync(async () => {
-    const kit = await getContractKitAsync(false)
     const resolveGroup = new ResolveGroup([
       new ResolveAddress(),
-      new ResolveNom({ kit, contractAddress: NOM_ADDRESSES[DEFAULT_TESTNET] }),
+      new ResolveNom({
+        providerUrl: DEFAULT_FORNO_URL,
+        ensRegistryAddress: NOM_ADDRESSES[DEFAULT_TESTNET],
+      }),
     ])
 
     return await resolveGroup.resolve(props.searchQuery)
