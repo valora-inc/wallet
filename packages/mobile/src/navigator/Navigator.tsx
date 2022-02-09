@@ -9,6 +9,7 @@ import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
+import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
@@ -464,6 +465,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.LinkBankAccountScreen}
       component={LinkBankAccountScreen}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.LinkBankAccountErrorScreen}
+      component={LinkBankAccountErrorScreen}
+      options={headerWithCloseButton}
     />
     <Navigator.Screen
       name={Screens.SyncBankAccountScreen}
