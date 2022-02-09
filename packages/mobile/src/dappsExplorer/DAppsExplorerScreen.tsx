@@ -4,7 +4,7 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Shadow, Spacing } from '@celo/react-components/styles/styles'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
@@ -100,6 +100,10 @@ export function DAppsExplorerScreen() {
 
   const shortLanguage = i18n.language.split('-')[0]
 
+  useEffect(() => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
+  }, [])
+
   const {
     loading,
     error,
@@ -175,6 +179,15 @@ export function DAppsExplorerScreen() {
 
   const onCloseBottomSheet = () => {
     setBottomSheetVisible(false)
+    if (dappSelected) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_bottom_sheet_dismiss, {
+        categoryId: dappSelected.categoryId,
+        dappId: dappSelected.id,
+        dappName: dappSelected.name,
+        horizontalPosition: 0,
+        section: dappSelected.isFeatured ? 'featured' : 'all',
+      })
+    }
   }
 
   const onPressHelp = () => {
@@ -203,9 +216,19 @@ export function DAppsExplorerScreen() {
   }
 
   const onPressDapp = (dapp: Dapp) => {
+    const dappEventProps = {
+      categoryId: dapp.categoryId,
+      dappId: dapp.id,
+      dappName: dapp.name,
+      horizontalPosition: 0,
+      section: dapp.isFeatured ? 'featured' : 'all',
+    }
+    ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
+
     if (!isDeepLink(dapp.dappUrl)) {
       setDappSelected(dapp)
       setBottomSheetVisible(true)
+      ValoraAnalytics.track(DappExplorerEvents.dapp_bottom_sheet_open, dappEventProps)
     } else {
       openDapp(dapp)
     }
