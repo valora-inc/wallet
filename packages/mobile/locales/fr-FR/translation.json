@@ -284,8 +284,8 @@
     "body": "Les prestataires vous permettent d'ajouter des fonds à votre compte ou d'en retirer. Ils déterminent leurs propres tarifs et restrictions en fonction de différents facteurs. Veuillez consulter le site Web du prestataire pour obtenir de l'aide."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant plus élevé.",
-    "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant moins élevé.",
+    "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez saisir un montant plus élevé.",
+    "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez saisir un montant moins élevé.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -492,7 +492,7 @@
   "addressValidationFullPoorlyFormatted": "Les adresses du compte client commencent par \"0x\", ne contiennent que des chiffres et des lettres, et sont composées de 42 caractères. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "addressValidationPartialPoorlyFormatted": "Les adresses du compte ne contiennent que des chiffres et des lettres, veuillez fournir les 4 derniers chiffres. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "addressValidationFullOwnAddress": "Veuillez saisir l'adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'adresse de compte de votre contact, pas la vôtre. Cliquez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'adresse de compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "providerRateFetchFailed": "Impossible de récupérer le taux du prestataire. Vous pouvez continuer sans un taux prérempli.",
   "helpFindAccount": "Aidez votre contact à trouver son adresse de compte",
   "close": "Fermer",
@@ -826,7 +826,7 @@
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
   "inviteMoneyEscrow": "Nous inviterons ce contact et garderons ses fonds en sécurité jusqu'à ce que son compte soit confirmé.",
   "reviewPayment": "Consulter le paiement",
-  "requestPayment": "Demander le paiement",
+  "requestPayment": "Demander un paiement",
   "max": "MAX.",
   "inviteSendTo": "Inviter et envoyer à",
   "keepMoneySafe": "Nous garderons ces fonds en sécurité jusqu'à ce que votre ami crée son compte {{appName}}",
@@ -1099,7 +1099,7 @@
     },
     "completed": {
       "title": "Vérification terminée",
-      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez procéder à la connexion de votre compte bancaire."
+      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
