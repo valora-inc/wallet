@@ -208,6 +208,7 @@ describe('send/utils', () => {
           inputAmount: new BigNumber(1),
           amountIsInLocalCurrency: false,
           tokenAddress: mockCeurAddress,
+          tokenAmount: new BigNumber(1),
         },
         origin: SendOrigin.AppSendFlow,
       })
@@ -224,6 +225,7 @@ describe('send/utils', () => {
           inputAmount: new BigNumber(1),
           amountIsInLocalCurrency: false,
           tokenAddress: mockCusdAddress,
+          tokenAmount: new BigNumber(1),
         },
         origin: SendOrigin.AppSendFlow,
       })

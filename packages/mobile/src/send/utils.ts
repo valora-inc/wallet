@@ -283,6 +283,7 @@ export function* handleSendPaymentData(
       inputAmount: new BigNumber(data.amount),
       amountIsInLocalCurrency: false,
       tokenAddress: tokenInfo.address,
+      tokenAmount: new BigNumber(data.amount),
     }
     navigate(Screens.SendConfirmation, {
       transactionData,
