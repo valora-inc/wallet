@@ -911,7 +911,7 @@
   },
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
-  "sending": "Enviando",
+  "sending": "Enviar a",
   "feeActual": "Tarifas",
   "feeEstimate": "Tarifas estimadas",
   "encryption": {
