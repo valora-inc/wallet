@@ -1123,7 +1123,12 @@
       "disabledCta": "Bientôt disponible !",
       "title": "Saisir les coordonnées bancaires",
       "description": "Vous avez presque fini ! Saisissez les coordonnées bancaires pour lier votre compte.",
-      "cta": "Relier un compte bancaire"
+      "cta": "Relier un compte bancaire",
+      "error": {
+        "title": "Impossible de relier le compte bancaire.",
+        "description": "Essaie à nouveau de lier ton compte bancaire ou contacte l'assistance.",
+        "contactSupportPrefill": "Je n'ai pas pu relier mon compte bancaire à Valora."
+      }
     }
   },
   "bankAccountsScreen": {
