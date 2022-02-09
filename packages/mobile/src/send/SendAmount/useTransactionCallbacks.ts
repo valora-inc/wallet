@@ -64,6 +64,7 @@ function useTransactionCallbacks({
     (type: TokenTransactionType): TransactionDataInput => ({
       recipient,
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
+      tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
       tokenAddress: transferTokenAddress,
     }),

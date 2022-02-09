@@ -86,7 +86,7 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionDataLegacy.type,
   recipient: mockTransactionDataLegacy.recipient,
-  amount: new BigNumber('3.706766917293233083'),
+  amount: new BigNumber('3.706766917293233083'), // AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1 (usdPrice of cUSD)
   tokenAddress: mockCusdAddress,
   reason: '',
 }
@@ -204,6 +204,47 @@ describe('SendAmount', () => {
 
       // The value expected here is |BALANCE_VALID| - the send fee (1 cUSD)
       expect(getElementText(getByTestId('InputAmount'))).toEqual('22.85')
+    })
+
+    it('max button maxes out the token value only and displays the correct number of decimal places', () => {
+      const store = createMockStore({
+        ...storeData,
+        localCurrency: {
+          preferredCurrencyCode: LocalCurrencyCode.USD,
+          fetchedCurrencyCode: LocalCurrencyCode.USD,
+          exchangeRates: { [Currency.Dollar]: '1' },
+        },
+        tokens: {
+          tokenBalances: {
+            [mockCusdAddress]: {
+              address: mockCusdAddress,
+              symbol: 'cUSD',
+              usdPrice: '1',
+              balance: '22.85789012',
+              isCoreToken: true,
+              priceFetchedAt: Date.now(),
+            },
+          },
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      fireEvent.press(getByTestId('MaxButton'))
+
+      // The value expected here is |balance| - the send fee (1 cUSD)
+      expect(getElementText(getByTestId('InputAmountContainer'))).toEqual('$21.85')
+      expect(getElementText(getByTestId('SecondaryAmountContainer'))).toEqual('21.86cUSD')
+
+      fireEvent.press(getByTestId('SwapInput'))
+      fireEvent.press(getByTestId('MaxButton'))
+
+      // The value expected here is |balance| - the send fee (1 cUSD)
+      expect(getElementText(getByTestId('InputAmountContainer'))).toEqual('21.85789012cUSD')
+      expect(getElementText(getByTestId('SecondaryAmountContainer'))).toEqual('$21.86')
     })
 
     it('shows an error when tapping the send button with an amount over the limit', () => {
@@ -355,6 +396,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData.recipient,
           tokenAddress: mockCusdAddress,
+          tokenAmount: mockTransactionData2.amount, // input amount converted to token amount
         },
       })
     })
@@ -403,11 +445,12 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: false,
           recipient: mockTransactionData.recipient,
           tokenAddress: mockTestTokenAddress,
+          tokenAmount: new BigNumber(AMOUNT_VALID),
         },
       })
     })
 
-    it('when inputting using local currency and switching to a token without usd price, it switches to token input', async () => {
+    it('clears the entered amount when changing the token', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
@@ -417,23 +460,31 @@ describe('SendAmount', () => {
 
       enterAmount(wrapper, '10')
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
-      // Note that the space between the amount and the symbol is set with CSS styles.
       expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
-      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
-
-      fireEvent.press(wrapper.getByTestId('onChangeToken'))
-      fireEvent.press(wrapper.getByTestId('TTTouchable'))
-
-      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('10TT')
-      expect(wrapper.queryByTestId('SecondaryAmountContainer')).toBeNull()
-      expect(wrapper.queryByTestId('SwapInput')).toBeFalsy()
 
       fireEvent.press(wrapper.getByTestId('onChangeToken'))
       fireEvent.press(wrapper.getByTestId('cEURTouchable'))
 
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱0')
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('0.00cEUR')
+    })
+
+    it('clears the entered amount on press of the swap button', () => {
+      const store = createMockStore(storeData)
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      enterAmount(wrapper, '10')
       expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('₱10')
-      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('6.27cEUR')
-      expect(wrapper.queryByTestId('SwapInput')).toBeTruthy()
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('7.52cUSD')
+
+      fireEvent.press(wrapper.getByTestId('SwapInput'))
+
+      expect(getElementText(wrapper.getByTestId('InputAmountContainer'))).toEqual('0cUSD')
+      expect(getElementText(wrapper.getByTestId('SecondaryAmountContainer'))).toEqual('₱0.00')
     })
   })
 
@@ -465,6 +516,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCusdAddress,
+          tokenAmount: mockTransactionData2.amount,
         },
         addressValidationType: AddressValidationType.FULL,
       })
@@ -498,6 +550,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
+          tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (usdPrice of cEUR)
         },
       })
     })
