@@ -786,7 +786,7 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que realices la conexión.",
+  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Por favor, ingresa tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que realices la conexión.",
   "requests": "Solicitudes",
   "empty": "No tienes solicitudes de pago",
   "celoDollarBalance": "Saldo de Celo Dólares",
@@ -848,7 +848,7 @@
   "myCode": "Mi código",
   "scanCode": "Escanear",
   "scanQRCode": "Escanear código QR",
-  "enterQRCode": "Ingresa el código QR",
+  "enterQRCode": "Ingresar código QR",
   "writeStorageNeededForQrDownload": "Se necesita permiso de escritura de almacenamiento para descargar el código QR",
   "cameraScanInfo": "Centra el código QR en el cuadro",
   "cameraNotAuthorizedTitle": "Habilitar cámara",
@@ -1118,7 +1118,7 @@
     },
     "stepTwo": {
       "label": "Paso 2",
-      "disabledTitle": "Vincular una cuenta bancaria",
+      "disabledTitle": "Vincula una cuenta bancaria",
       "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
