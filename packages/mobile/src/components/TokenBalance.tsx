@@ -4,7 +4,7 @@ import variables from '@celo/react-components/styles/variables'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showMessage } from 'src/alert/actions'
 import { HomeEvents } from 'src/analytics/Events'
@@ -27,9 +27,9 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { refreshAllBalances } from './actions'
+import { refreshAllBalances } from 'src/home/actions'
 
-function TokenBalance() {
+function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
@@ -39,7 +39,7 @@ function TokenBalance() {
   if (tokensWithUsdValue.length === 0) {
     // Don't show zero if we haven't fetched the tokens yet.
     return (
-      <Text style={styles.balance} testID={'TotalTokenBalance'}>
+      <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {tokenFetchError || tokenFetchLoading ? '-' : new BigNumber(0).toFormat(2)}
       </Text>
@@ -50,7 +50,7 @@ function TokenBalance() {
       <View style={styles.oneBalance}>
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
-          <Text style={styles.balance} testID={'TotalTokenBalance'}>
+          <Text style={style} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
             {totalBalance?.toFormat(2) ?? '-'}
           </Text>
@@ -62,7 +62,7 @@ function TokenBalance() {
     )
   } else {
     return (
-      <Text style={styles.balance} testID={'TotalTokenBalance'}>
+      <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {totalBalance?.toFormat(2) ?? '-'}
       </Text>
@@ -98,7 +98,7 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-function HomeTokenBalance() {
+export function HomeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
@@ -145,6 +145,37 @@ function HomeTokenBalance() {
   )
 }
 
+export function FiatExchangeTokenBalance() {
+  const { t } = useTranslation()
+  const totalBalance = useSelector(totalTokenBalanceSelector)
+  const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
+
+  const onViewBalances = () => {
+    ValoraAnalytics.track(HomeEvents.view_token_balances, {
+      totalBalance: totalBalance?.toString(),
+    })
+    navigate(Screens.TokenBalances)
+  }
+
+  return (
+    <View style={styles.container} testID="FiatExchangeTokenBalance">
+      <View style={styles.titleExchange}>
+        <View style={styles.row}>
+          {tokenBalances.length > 1 ? (
+            <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
+              <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
+              <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray4} />
+            </TouchableOpacity>
+          ) : (
+            <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
+          )}
+        </View>
+      </View>
+      <TokenBalance style={styles.exchangeBalance} />
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
@@ -155,6 +186,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 7,
   },
+  titleExchange: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
   row: {
     flexDirection: 'row',
   },
@@ -162,6 +198,11 @@ const styles = StyleSheet.create({
     ...fontStyles.sectionHeader,
     color: Colors.gray4,
     paddingRight: 5,
+  },
+  exchangeTotalValue: {
+    ...fontStyles.label,
+    color: Colors.gray4,
+    paddingRight: 3,
   },
   viewBalances: {
     ...fontStyles.label,
@@ -171,8 +212,14 @@ const styles = StyleSheet.create({
   arrow: {
     paddingTop: 3,
   },
+  exchangeArrow: {
+    paddingTop: 4,
+  },
   balance: {
     ...fontStyles.largeNumber,
+  },
+  exchangeBalance: {
+    ...fontStyles.large500,
   },
   oneBalance: {
     flexDirection: 'row',
@@ -191,5 +238,3 @@ const styles = StyleSheet.create({
     color: Colors.gray4,
   },
 })
-
-export default HomeTokenBalance
