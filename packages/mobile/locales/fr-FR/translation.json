@@ -497,7 +497,7 @@
   "helpFindAccount": "Aidez votre contact à trouver son adresse de compte",
   "close": "Fermer",
   "home": "Accueil",
-  "accountKey": "Phrase de récupération",
+  "accountKey": "Récupération",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
   "help": "Aide",
@@ -587,7 +587,7 @@
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
-    "title": "Saisir le code PIN"
+    "title": "Saisissez le code PIN"
   },
   "goToSystemSecuritySettingsActionLabel": "Aller à la sécurité",
   "enableSystemScreenLockFailedMessage": "Impossible d'activer le verrouillage de l'écran",
