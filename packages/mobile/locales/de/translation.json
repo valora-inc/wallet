@@ -1123,7 +1123,12 @@
       "disabledCta": "Demnächst verfügbar",
       "title": "Bankdaten eingeben",
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
-      "cta": "Bankkonto verknüpfen"
+      "cta": "Bankkonto verknüpfen",
+      "error": {
+        "title": "Du kannst kein Bankkonto verknüpfen.",
+        "description": "Bitte versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere den Support.",
+        "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit Valora verknüpfen"
+      }
     }
   },
   "bankAccountsScreen": {
