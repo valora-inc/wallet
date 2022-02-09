@@ -12,7 +12,7 @@ export const getSafetyNetAttestation = async () => {
     const nonce = await RNGoogleSafetyNet.generateNonce(NONCE_LENGTH)
     return RNGoogleSafetyNet.sendAttestationRequest(nonce, SAFETYNET_KEY)
   } catch (error) {
-    Logger.error('Error requesting SafetyNet attestation', error)
+    Logger.error('safetyNet', 'Error requesting SafetyNet attestation', error)
     return {}
   }
 }

@@ -70,7 +70,7 @@ export function* fetchLocalCurrencyRateSaga() {
       )
     )
   } catch (error) {
-    Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, error)
+    Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, 'Failed to fetch local currency rate', error)
     yield put(fetchCurrentRateFailure())
   }
 }

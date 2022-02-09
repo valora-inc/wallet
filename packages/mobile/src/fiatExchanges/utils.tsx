@@ -96,7 +96,7 @@ export const fetchProviders = async (
 
     return response.json()
   } catch (error) {
-    Logger.error(`${TAG}:fetchProviders`, error.message)
+    Logger.error(`${TAG}:fetchProviders`, 'Failed to fetch providers', error)
     throw error
   }
 }
@@ -138,7 +138,7 @@ export const fetchSimplexPaymentData = async (
     const simplexPaymentData: SimplexPaymentData = simplexPaymentDataResponse
     return simplexPaymentData
   } catch (error) {
-    Logger.error(`${TAG}:fetchSimplexPaymentData`, error.message)
+    Logger.error(`${TAG}:fetchSimplexPaymentData`, 'Failed to fetch simplex payment data', error)
     throw error
   }
 }

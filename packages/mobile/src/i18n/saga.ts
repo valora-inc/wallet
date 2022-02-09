@@ -54,7 +54,7 @@ export function* handleFetchOtaTranslations() {
         )
       }
     } catch (error) {
-      Logger.error(`${TAG}@handleFetchOtaTranslations`, error)
+      Logger.error(`${TAG}@handleFetchOtaTranslations`, 'Failed to fetch OTA translations', error)
     }
   }
 }
