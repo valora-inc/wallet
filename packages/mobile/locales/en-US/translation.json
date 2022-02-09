@@ -1123,7 +1123,12 @@
       "disabledCta": "Coming Soon!",
       "title": "Enter Bank Details",
       "description": "You're almost done! Enter bank details to link your account to Valora.",
-      "cta": "Link Bank Account"
+      "cta": "Link Bank Account",
+      "error": {
+        "title": "Unable to link bank account.",
+        "description": "Please try to link your bank account again, or contact support.",
+        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+      }
     }
   },
   "bankAccountsScreen": {
