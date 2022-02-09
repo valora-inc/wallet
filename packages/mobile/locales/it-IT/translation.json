@@ -1123,7 +1123,12 @@
       "disabledCta": "Presto disponibile.",
       "title": "Immetti i dettagli della banca",
       "description": "La procedura è quasi completata. Immetti i dettagli della banca per collegare il tuo conto.",
-      "cta": "Collegare un conto bancario"
+      "cta": "Collegare un conto bancario",
+      "error": {
+        "title": "Impossibile collegare il conto bancario.",
+        "description": "Per favore prova a collegare di nuovo il tuo conto bancario o contatta il supporto.",
+        "contactSupportPrefill": "Non sono riuscito a collegare il mio conto bancario a Valora"
+      }
     }
   },
   "bankAccountsScreen": {
