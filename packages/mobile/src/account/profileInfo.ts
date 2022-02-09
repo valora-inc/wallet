@@ -74,10 +74,10 @@ export function* uploadNameAndPicture() {
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
     const nameWriteError = yield call([nameAccessor, 'write'], { name }, [])
     if (nameWriteError) {
-      Logger.error(TAG + '@uploadNameAndPicture error writing name', nameWriteError)
+      Logger.error(`${TAG}@uploadNameAndPicture`, 'Error writing name', nameWriteError)
       return false
     } else {
-      Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
+      Logger.info(`${TAG}@uploadNameAndPicture`, 'Uploaded profile name')
     }
 
     const pictureUri: string | null = yield select(pictureSelector)
@@ -88,15 +88,15 @@ export function* uploadNameAndPicture() {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
       const pictureWriteError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
       if (pictureWriteError) {
-        Logger.error(TAG + '@uploadNameAndPicture error writing picture', pictureWriteError)
+        Logger.error(`${TAG}@uploadNameAndPicture`, 'Error writing picture', pictureWriteError)
         return false
       } else {
-        Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
+        Logger.info(TAG + 'uploadNameAndPicture', 'Uploaded profile picture')
       }
     }
     return true
   } catch (error) {
-    Logger.error(TAG + '@uploadNameAndPicture got error', error)
+    Logger.error(`${TAG}@uploadNameAndPicture`, 'Failed to upload name and picture', error)
     return false
   }
 }
@@ -115,7 +115,7 @@ export function* giveProfileAccess(walletAddress: string) {
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
     let writeError = yield call([nameAccessor, 'allowAccess'], [accountAddress])
     if (writeError) {
-      Logger.error(TAG + '@giveProfileAccess', writeError)
+      Logger.error(`${TAG}@giveProfileAccess`, 'Failed to write to name accessor', writeError)
       return
     }
 
@@ -124,14 +124,14 @@ export function* giveProfileAccess(walletAddress: string) {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
       writeError = yield call([pictureAccessor, 'allowAccess'], [accountAddress])
       if (writeError) {
-        Logger.error(TAG + '@giveProfileAccess', writeError)
+        Logger.error(`${TAG}@giveProfileAccess`, 'Failed to write to picture accessor', writeError)
         return
       }
     }
 
-    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + accountAddress)
+    Logger.info(`${TAG}@giveProfileAccess`, 'Uploaded symmetric keys for ' + accountAddress)
   } catch (error) {
-    Logger.error(TAG + '@giveProfileAccess', 'error when giving access to ' + walletAddress, error)
+    Logger.error(`${TAG}@giveProfileAccess`, `Error when giving access to ${walletAddress}`, error)
   }
 }
 
