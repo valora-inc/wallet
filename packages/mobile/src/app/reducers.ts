@@ -1,14 +1,10 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-<<<<<<< HEAD
 import { SuperchargeButtonType } from 'src/app/types'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-=======
 import {
   PaymentDeepLinkHandler,
   REMOTE_CONFIG_VALUES_DEFAULTS,
 } from 'src/firebase/remoteConfigValuesDefaults'
->>>>>>> b4cc1d0ab (wip: merchantscreen)
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -52,12 +48,9 @@ export interface State {
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
-<<<<<<< HEAD
   sentryTracesSampleRate: number
   superchargeButtonType: SuperchargeButtonType
-=======
   paymentDeepLinkHandler: PaymentDeepLinkHandler
->>>>>>> d49ceaaa6 (Starts work for merchant payments)
 }
 
 const initialState = {
@@ -97,13 +90,9 @@ const initialState = {
   multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
-<<<<<<< HEAD
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
-  paymentDeepLinkHandler: '' as PaymentDeepLinkHandler,
-=======
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
->>>>>>> b4cc1d0ab (wip: merchantscreen)
 }
 
 export const appReducer = (
@@ -214,12 +203,9 @@ export const appReducer = (
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
-<<<<<<< HEAD
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         superchargeButtonType: action.configValues.superchargeButtonType,
-=======
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
->>>>>>> d49ceaaa6 (Starts work for merchant payments)
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
