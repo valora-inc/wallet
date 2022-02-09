@@ -12,6 +12,8 @@ describe('FiatExchange', () => {
         <FiatExchange />
       </Provider>
     )
-    expect(tree).toMatchSnapshot()
+    expect(tree.queryByTestId('FiatExchangeTokenBalance')).toBeTruthy()
+    expect(tree.queryByTestId('addFunds')).toBeTruthy()
+    expect(tree.queryByTestId('cashOut')).toBeTruthy()
   })
 })
