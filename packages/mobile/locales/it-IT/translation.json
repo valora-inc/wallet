@@ -911,7 +911,7 @@
   },
   "transferAddressChanged": "Questo contatto ha cambiato l’indirizzo del suo conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
-  "sending": "Invio in corso",
+  "sending": "Invia a",
   "feeActual": "Commissioni",
   "feeEstimate": "Commissioni stimate",
   "encryption": {
