@@ -84,7 +84,7 @@ function SupportContact({ route }: Props) {
       await sendEmail(email, deviceInfo, combinedLogsPath)
       navigateBackAndToast()
     } catch (error) {
-      Logger.error('Error while sending logs to support', error)
+      Logger.error('SupportContact', 'Error while sending logs to support', error)
     }
   }, [message, attachLogs, e164PhoneNumber])
 

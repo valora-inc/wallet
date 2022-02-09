@@ -118,7 +118,7 @@ const RaiseLimitScreen = () => {
       dispatch(showMessage(t('raiseLimitEmailSuccess')))
     } catch (error) {
       dispatch(showError(ErrorMessages.RAISE_LIMIT_EMAIL_NOT_SENT))
-      Logger.error('Error sending daily limit raise request', error)
+      Logger.error('RaiseLimitScreen', 'Error sending daily limit raise request', error)
     }
   }
 
