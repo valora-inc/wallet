@@ -6,21 +6,18 @@ import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppState } from 'src/app/actions'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { FUNDING_LINK } from 'src/config'
 import { features } from 'src/flags'
+import { FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useTypedSelector from 'src/redux/useSelector'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
-import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
@@ -57,11 +54,6 @@ function FiatExchange() {
   }
 
   const { t } = useTranslation()
-  const dollarBalance = useSelector(cUsdBalanceSelector)
-  const dollarAmount = {
-    value: dollarBalance ?? '0',
-    currencyCode: Currency.Dollar,
-  }
 
   const { FIAT_SPEND_ENABLED } = useCountryFeatures()
 
@@ -76,10 +68,7 @@ function FiatExchange() {
       <DrawerTopBar />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
-          <View style={styles.balanceSheet}>
-            <Text style={styles.currentBalance}>{t('currentBalance')}</Text>
-            <CurrencyDisplay style={styles.localBalance} amount={dollarAmount} />
-          </View>
+          <FiatExchangeTokenBalance key={'FiatExchangeTokenBalance'} />
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
         </View>
         <View style={styles.optionsListContainer}>
@@ -137,20 +126,6 @@ const styles = StyleSheet.create({
   },
   image: {
     marginHorizontal: variables.contentPadding,
-  },
-  balanceSheet: {
-    paddingVertical: variables.contentPadding,
-    paddingRight: variables.contentPadding,
-    marginLeft: variables.contentPadding,
-  },
-  currentBalance: {
-    ...fontStyles.label,
-    color: colors.gray4,
-    marginBottom: 4,
-  },
-  localBalance: {
-    ...fontStyles.large500,
-    marginBottom: 2,
   },
   optionsListContainer: {
     flex: 1,

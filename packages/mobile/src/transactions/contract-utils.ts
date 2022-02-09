@@ -190,7 +190,7 @@ export async function sendTransactionAsync<T>(
           clearInterval(timerID)
         })
         .catch((error) => {
-          Logger.error('Exception in polling for transaction receipt', error)
+          Logger.error('contractUtils', 'Exception in polling for transaction receipt', error)
         })
     }, RECEIPT_POLL_INTERVAL)
   }

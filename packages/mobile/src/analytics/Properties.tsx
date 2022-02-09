@@ -1168,19 +1168,24 @@ interface CICOEventsProperties {
   [CICOEvents.connect_phone_cancel]: undefined
 }
 
+interface DappEventProperties {
+  categoryId: string
+  dappId: string
+  dappName: string
+}
+
+interface DappSelectEventProperties extends DappEventProperties {
+  section: string
+  horizontalPosition: number
+}
+
 interface DappExplorerEventsProperties {
-  [DappExplorerEvents.dapp_impression]: {
-    categoryId: string
-    dappId: string
-    dappName: string
-  }
-  [DappExplorerEvents.dapp_open]: {
-    categoryId: string
-    dappId: string
-    dappName: string
-    section: string
-    horizontalPosition: number
-  }
+  [DappExplorerEvents.dapp_impression]: DappEventProperties
+  [DappExplorerEvents.dapp_open]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_screen_open]: undefined
+  [DappExplorerEvents.dapp_select]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_open]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappSelectEventProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

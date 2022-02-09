@@ -90,7 +90,7 @@ export function* watchDailyLimit() {
       }
     }
   } catch (error) {
-    Logger.error(`${TAG}@watchDailyLimit`, error)
+    Logger.error(`${TAG}@watchDailyLimit`, 'Failed to watch daily limit', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
@@ -115,7 +115,7 @@ export function* watchKycStatus() {
       }
     }
   } catch (error) {
-    Logger.error(`${TAG}@watchKycStatus`, error)
+    Logger.error(`${TAG}@watchKycStatus`, 'Failed to update KYC status', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
