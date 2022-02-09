@@ -201,7 +201,7 @@
   "exchange": "Intercambiar",
   "buy": "Comprar",
   "sell": "Vender",
-  "withdrawCelo": "Retirar CELO",
+  "withdrawCelo": "Transferir CELO",
   "buyGold": "Comprar CELO",
   "sellGold": "Vender CELO",
   "exchangeAmount": "Monto ({{tokenName}})",
@@ -238,7 +238,7 @@
   "celoAmountLabel": "Monto (CELO)",
   "maxSymbol": "Max",
   "withdrawCeloReview": "Revisar",
-  "withdrawCeloTo": "Retirar a",
+  "withdrawCeloTo": "Para",
   "withdrawCeloAmount": "Monto (CELO)",
   "withdrawScanQrTitle": "Escanear",
   "tokenBalance": "Saldo en {{token}}",
@@ -509,7 +509,7 @@
   "restore": "Restaurar",
   "commentUnavailable": "Comentario no disponible",
   "accountClearFailed": "Hubo un error al borrar tu Frase de recuperación. Podrías tener que reinstalar la app para poder usar todas las funcionalidades.",
-  "withdraw": "Retirar",
+  "withdraw": "Transferir",
   "countryNotAvailable": "{{appName}} no está disponible en tu país.",
   "fetchFailed": "Error de conexión con el servidor",
   "pictureLoadFailed": "Hubo un error al cargar la imagen.",
@@ -1059,7 +1059,7 @@
   "feedItemGenericTitle_noRecipientDetails": "Desconocido",
   "feedItemGoldSold": "Vendidos",
   "feedItemGoldPurchased": "Comprados",
-  "feedItemGoldWithdrawal": "Retirados a {{displayName}}",
+  "feedItemGoldWithdrawal": "Transferidos a {{displayName}}",
   "feedItemGoldReceived": "Recibidos de {{displayName}}",
   "transactionHeaderVerificationFee": "Confirmación",
   "transactionHeaderNetworkFee": "Red",
@@ -1067,7 +1067,7 @@
   "transactionHeaderInviteSent": "$t(inviteSent)",
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Pago enviado",
-  "transactionHeaderWithdrewCelo": "Retiro de CELO",
+  "transactionHeaderWithdrewCelo": "Transferencia de CELO",
   "transactionHeaderEscrowSent": "Pago de garantía enviado",
   "transactionHeaderReceived": "Pago recibido",
   "transactionHeaderCeloDeposit": "Depósito recibido",
@@ -1123,7 +1123,12 @@
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
-      "cta": "Vincular cuenta bancaria"
+      "cta": "Vincular cuenta bancaria",
+      "error": {
+        "title": "Unable to link bank account.",
+        "description": "Please try to link your bank account again, or contact support.",
+        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+      }
     }
   },
   "bankAccountsScreen": {
