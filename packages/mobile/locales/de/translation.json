@@ -911,7 +911,7 @@
   },
   "transferAddressChanged": "Dieser Kontakt hat seine Konto-Adresse seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
   "addressConfirmed": "Konto-Adresse bestätigt",
-  "sending": "Senden",
+  "sending": "Senden an",
   "feeActual": "Gebühren",
   "feeEstimate": "Geschätzte Gebühren",
   "encryption": {
