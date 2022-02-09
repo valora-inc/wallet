@@ -1118,7 +1118,7 @@
     },
     "stepTwo": {
       "label": "Étape 2",
-      "disabledTitle": "Relier un compte bancaire",
+      "disabledTitle": "Reliez un compte bancaire",
       "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
       "disabledCta": "Bientôt disponible !",
       "title": "Saisir les coordonnées bancaires",
