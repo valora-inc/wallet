@@ -4,6 +4,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getMockStackScreenProps } from 'test/utils'
 import { LinkErrorCode, LinkErrorType } from 'react-native-plaid-link-sdk'
+import Logger from 'src/utils/Logger'
 import * as React from 'react'
 
 const mockError = new Error('some error')
@@ -17,7 +18,7 @@ const mockErrorProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScree
   error: mockError,
 })
 const mockLinkErrorProps = getMockStackScreenProps(Screens.LinkBankAccountErrorScreen, {
-  linkError: mockLinkError,
+  error: mockLinkError,
 })
 
 jest.mock('src/navigator/NavigationService', () => ({
@@ -26,6 +27,15 @@ jest.mock('src/navigator/NavigationService', () => ({
   default: jest.fn(),
   navigate: jest.fn(),
   navigateBack: jest.fn(),
+}))
+
+jest.mock('src/utils/Logger', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: {
+    info: jest.fn(),
+    warn: jest.fn(),
+  },
 }))
 
 describe('LinkBankAccountErrorScreen', () => {
@@ -39,11 +49,21 @@ describe('LinkBankAccountErrorScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
       prefilledText: 'linkBankAccountScreen.error.contactSupportPrefill',
     })
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'LinkBankAccountErrorScreen',
+      'Error from IHL while adding bank account',
+      mockError
+    )
   })
 
   it('Navigates back when Try Again is presed', async () => {
     const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockLinkErrorProps} />)
     await fireEvent.press(getByTestId('TryAgain'))
     expect(navigateBack).toHaveBeenCalled()
+    expect(Logger.warn).toHaveBeenCalledWith(
+      'LinkBankAccountErrorScreen',
+      'Error from Plaid while adding bank account',
+      mockLinkError
+    )
   })
 })

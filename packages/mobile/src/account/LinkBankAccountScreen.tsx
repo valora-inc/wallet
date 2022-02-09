@@ -228,7 +228,7 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
             onExit: ({ error }) => {
               if (error) {
                 navigate(Screens.LinkBankAccountErrorScreen, {
-                  linkError: error,
+                  error: error,
                 })
               }
             },

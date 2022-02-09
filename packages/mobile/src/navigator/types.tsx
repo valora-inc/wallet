@@ -297,8 +297,7 @@ export type StackParamList = {
     | undefined
   [Screens.LinkBankAccountErrorScreen]:
     | {
-        linkError?: LinkError
-        error?: Error
+        error?: Error | LinkError
       }
     | undefined
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
