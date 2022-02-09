@@ -168,6 +168,8 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
+  [OnboardingEvents.onboarding_education_skipped]: undefined
+  [OnboardingEvents.onboarding_education_not_skipped]: undefined
   [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number

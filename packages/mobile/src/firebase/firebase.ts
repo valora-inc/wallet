@@ -276,7 +276,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
     biometryEnabled: flags.biometryEnabled.asBoolean(),
     superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
-    removeOnboardingEducationScreensEnabled: flags.removeOnboardingEducationScreensEnabled.asBoolean(),
   }
 }
 

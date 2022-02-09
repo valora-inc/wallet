@@ -53,6 +53,9 @@ export const backupCompletedSelector = (state: RootState) => state.account.backu
 export const choseToRestoreAccountSelector = (state: RootState) =>
   state.account.choseToRestoreAccount
 
+export const shouldSkipOnboardingEducationScreenSelector = (state: RootState) =>
+  state.account.shouldSkipOnboardingEducationScreen
+
 export const plaidParamsSelector = createSelector(
   [mtwAddressSelector, dataEncryptionKeySelector, currentLanguageSelector, e164NumberSelector],
   (accountMTWAddress, dekPrivate, locale, phoneNumber) => {

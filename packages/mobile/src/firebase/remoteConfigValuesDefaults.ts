@@ -50,5 +50,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   biometryEnabled: false,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
-  removeOnboardingEducationScreensEnabled: false,
 }

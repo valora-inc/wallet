@@ -35,6 +35,7 @@ export interface State {
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
   kycStatus: KycStatus | undefined
   hasLinkedBankAccount: boolean
+  shouldSkipOnboardingEducationScreen: boolean | undefined
 }
 
 export enum PincodeType {
@@ -97,6 +98,7 @@ export const initialState: State = {
   dailyLimitRequestStatus: undefined,
   kycStatus: undefined,
   hasLinkedBankAccount: false,
+  shouldSkipOnboardingEducationScreen: undefined,
 }
 
 export const reducer = (
@@ -276,6 +278,12 @@ export const reducer = (
       return {
         ...state,
         hasLinkedBankAccount: true,
+      }
+    }
+    case Actions.SKIP_ONBOARDING_EDUCATION_SCREEN: {
+      return {
+        ...state,
+        shouldSkipOnboardingEducationScreen: action.shouldSkip,
       }
     }
     default:

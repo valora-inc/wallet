@@ -33,6 +33,7 @@ export enum Actions {
   UPDATE_KYC_STATUS = 'ACCOUNT/UPDATE_KYC_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
   SET_HAS_LINKED_BANK_ACCOUNT = 'ACCOUNT/SET_HAS_LINKED_BANK_ACCOUNT',
+  SKIP_ONBOARDING_EDUCATION_SCREEN = 'ACCOUNT/SKIP_ONBOARDING_EDUCATION_SCREEN',
 }
 
 export interface ChooseCreateAccountAction {
@@ -173,6 +174,11 @@ export interface SetHasLinkedBankAccount {
   type: Actions.SET_HAS_LINKED_BANK_ACCOUNT
 }
 
+export interface SkipOnboardingEducationScreenAction {
+  type: Actions.SKIP_ONBOARDING_EDUCATION_SCREEN
+  shouldSkip: boolean
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -204,6 +210,7 @@ export type ActionTypes =
   | UpdateDailyLimitRequestStatusAction
   | UpdateKycStatusAction
   | SetHasLinkedBankAccount
+  | SkipOnboardingEducationScreenAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -372,3 +379,12 @@ export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction =>
 export const setHasLinkedBankAccount = (): SetHasLinkedBankAccount => ({
   type: Actions.SET_HAS_LINKED_BANK_ACCOUNT,
 })
+
+export function skipOnboardingEducationScreen(
+  shouldSkip: boolean
+): SkipOnboardingEducationScreenAction {
+  return {
+    type: Actions.SKIP_ONBOARDING_EDUCATION_SCREEN,
+    shouldSkip,
+  }
+}

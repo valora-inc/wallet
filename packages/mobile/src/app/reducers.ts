@@ -52,7 +52,6 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
-  removeOnboardingEducationScreensEnabled: boolean
 }
 
 const initialState = {
@@ -98,8 +97,6 @@ const initialState = {
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
-  removeOnboardingEducationScreensEnabled:
-    REMOTE_CONFIG_VALUES_DEFAULTS.removeOnboardingEducationScreensEnabled,
 }
 
 export const appReducer = (

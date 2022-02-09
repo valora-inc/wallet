@@ -3,8 +3,10 @@ import { createStackNavigator, StackScreenProps, TransitionPresets } from '@reac
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
+import { useDispatch } from 'react-redux'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
+import { skipOnboardingEducationScreen } from 'src/account/actions'
 import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
@@ -17,7 +19,8 @@ import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import { CeloExchangeEvents } from 'src/analytics/Events'
+import { CeloExchangeEvents, OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
@@ -575,7 +578,7 @@ const mapStateToProps = (state: RootState) => {
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
-    removeOnboardingEducationScreensEnabled: state.app.removeOnboardingEducationScreensEnabled,
+    shouldSkipOnboardingEducationScreen: state.account.shouldSkipOnboardingEducationScreen,
   }
 }
 
@@ -583,6 +586,8 @@ type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
 export function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
+
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
     const {
@@ -593,8 +598,22 @@ export function MainStackScreen() {
       pincodeType,
       account,
       hasSeenVerificationNux,
-      removeOnboardingEducationScreensEnabled,
+      shouldSkipOnboardingEducationScreen,
     } = mapStateToProps(store.getState())
+
+    // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
+    // The randomization is hardcoded here to achieve a 50/50 split, the value is written into the redux store so the same experience
+    // would persist. This block of code should be removed when the experiment is done.
+    let _shouldSkipOnboardingEducationScreen = shouldSkipOnboardingEducationScreen
+    if (shouldSkipOnboardingEducationScreen == undefined) {
+      if (Math.random() < 0.5) {
+        _shouldSkipOnboardingEducationScreen = true
+        dispatch(skipOnboardingEducationScreen(true))
+      } else {
+        _shouldSkipOnboardingEducationScreen = false
+        dispatch(skipOnboardingEducationScreen(false))
+      }
+    }
 
     let initialRoute: InitialRouteName
 
@@ -602,14 +621,25 @@ export function MainStackScreen() {
       initialRoute = Screens.Language
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
-      initialRoute = removeOnboardingEducationScreensEnabled
+
+      ValoraAnalytics.track(
+        _shouldSkipOnboardingEducationScreen
+          ? OnboardingEvents.onboarding_education_skipped
+          : OnboardingEvents.onboarding_education_not_skipped
+      )
+      initialRoute = _shouldSkipOnboardingEducationScreen
         ? Screens.Welcome
         : Screens.OnboardingEducationScreen
     } else if (!account) {
       if (choseToRestoreAccount) {
         initialRoute = Screens.ImportWallet
       } else {
-        initialRoute = removeOnboardingEducationScreensEnabled
+        ValoraAnalytics.track(
+          _shouldSkipOnboardingEducationScreen
+            ? OnboardingEvents.onboarding_education_skipped
+            : OnboardingEvents.onboarding_education_not_skipped
+        )
+        initialRoute = _shouldSkipOnboardingEducationScreen
           ? Screens.Welcome
           : Screens.OnboardingEducationScreen
       }
@@ -618,7 +648,6 @@ export function MainStackScreen() {
     } else {
       initialRoute = Screens.DrawerNavigator
     }
-
     setInitialRoute(initialRoute)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)
 

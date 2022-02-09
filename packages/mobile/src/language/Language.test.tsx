@@ -37,13 +37,13 @@ describe('Language', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
   })
 
-  it('navigates to welcome screen if remove onboarding education flag is turned on', () => {
+  it('navigates to welcome screen if skip onboarding education screen flag is turned on in redux store', () => {
     const changeLanguageSpy = jest.fn().mockResolvedValue(true)
     mockedUseChangeLanguage.mockImplementation(() => changeLanguageSpy)
 
     const store = createMockStore({
-      app: {
-        removeOnboardingEducationScreensEnabled: true,
+      account: {
+        shouldSkipOnboardingEducationScreen: true,
       },
     })
     const { getByText } = render(

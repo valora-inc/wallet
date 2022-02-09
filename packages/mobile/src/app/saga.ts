@@ -185,7 +185,6 @@ export interface RemoteConfigValues {
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
-  removeOnboardingEducationScreensEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
