@@ -198,16 +198,22 @@ export function StepOne({ kycStatus }: StepOneProps) {
 export function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
   const plaidParams = useSelector(plaidParamsSelector)
+  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+
   return (
     <View style={styles.stepTwo}>
       <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>
         {t('linkBankAccountScreen.stepTwo.label')}
       </Text>
       <Text style={{ ...styles.action, ...(disabled && styles.greyedOut) }}>
-        {t('linkBankAccountScreen.stepTwo.title')}
+        {stepTwoEnabled
+          ? t('linkBankAccountScreen.stepTwo.title')
+          : t('linkBankAccountScreen.stepTwo.disabledTitle')}
       </Text>
       <Text style={{ ...styles.description, ...(disabled && styles.greyedOut) }}>
-        {t('linkBankAccountScreen.stepTwo.description')}
+        {stepTwoEnabled
+          ? t('linkBankAccountScreen.stepTwo.description')
+          : t('linkBankAccountScreen.stepTwo.disabledDescription')}
       </Text>
       <Button
         style={styles.button}
@@ -228,7 +234,11 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
             },
           })
         }
-        text={t('linkBankAccountScreen.stepTwo.cta')}
+        text={
+          stepTwoEnabled
+            ? t('linkBankAccountScreen.stepTwo.cta')
+            : t('linkBankAccountScreen.stepTwo.disabledCta')
+        }
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
         testID="PlaidLinkButton"

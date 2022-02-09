@@ -82,7 +82,7 @@ export async function getSendTxGas(
     Logger.debug(`${TAG}/getSendTxGas`, `Estimated gas of ${gas.toString()}`)
     return gas
   } catch (error) {
-    Logger.error(`${TAG}/getSendTxGas`, 'Error', error)
+    Logger.error(`${TAG}/getSendTxGas`, 'Failed to get send tx gas', error)
     throw error
   }
 }

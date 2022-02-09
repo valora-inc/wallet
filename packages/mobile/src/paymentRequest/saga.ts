@@ -109,7 +109,11 @@ function* subscribeToPaymentRequests(
 
       yield put(updatePaymentRequestsActionCreator(paymentRequests))
     } catch (error) {
-      Logger.error(`${TAG}@subscribeToPaymentRequests`, error)
+      Logger.error(
+        `${TAG}@subscribeToPaymentRequests`,
+        'Failed to subscribe to payment requests',
+        error
+      )
     } finally {
       if (yield cancelled()) {
         paymentRequestChannel.close()

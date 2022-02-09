@@ -48,7 +48,9 @@ function InAppBrowser({ uri, isLoading, onCancel }: Props) {
       )
     }
 
-    isBrowserAvailable().catch(() => Logger.error(TAG, 'Error checking for browser availability'))
+    isBrowserAvailable().catch((error) =>
+      Logger.error(TAG, 'Error checking for browser availability', error)
+    )
   }, [])
 
   useEffect(() => {
@@ -68,7 +70,7 @@ function InAppBrowser({ uri, isLoading, onCancel }: Props) {
     }
 
     if (browserStatus === BrowserStatuses.available && !isLoading) {
-      openBrowser().catch(() => Logger.error(TAG, 'Error opening broswer'))
+      openBrowser().catch((error) => Logger.error(TAG, 'Error opening broswer', error))
     }
   }, [browserStatus, isLoading])
 

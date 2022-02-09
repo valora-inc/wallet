@@ -52,6 +52,12 @@ export class GethNativeBridgeSigner implements Signer {
     addToV: number,
     encodedTx: RLPEncodedTx
   ): Promise<{ v: number; r: Buffer; s: Buffer }> {
+    const { gasPrice } = encodedTx.transaction
+    if (gasPrice === '0x0' || gasPrice === '0x' || gasPrice === '0' || !gasPrice) {
+      // Make sure we don't sign and send transactions with 0 gas price
+      // This resulted in those TXs being stuck in the txpool for nodes running geth < v1.5.0
+      throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
+    }
     const signedTxBase64 = await this.geth.signTransaction(
       this.hexToBase64(encodedTx.rlpEncode),
       this.account
