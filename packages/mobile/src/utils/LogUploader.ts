@@ -77,7 +77,8 @@ export default class FirebaseLogUploader {
     } catch (e) {
       Logger.error(
         `${TAG}/uploadLogsToFirebaseStorage`,
-        `Failed to upload logs from file ${uploadFileName} to Firebase storage: ` + e
+        `Failed to upload logs from file ${uploadFileName} to Firebase storage: `,
+        e
       )
     }
   }

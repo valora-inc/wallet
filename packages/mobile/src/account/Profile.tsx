@@ -40,7 +40,7 @@ function Profile({ navigation, route }: Props) {
       // Delete old profile pictures if necessary.
       if (picturePath && picturePath !== newPictureUri) {
         RNFS.unlink(picturePath).catch((e) => {
-          Logger.error('Error deleting old profile picture:', e)
+          Logger.error('Profile', 'Error deleting old profile picture:', e)
         })
       }
     }

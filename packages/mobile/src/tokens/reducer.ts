@@ -61,12 +61,21 @@ export const reducer = createReducer(initialState, (builder) => {
         ...hydrated,
       }
     })
-    .addCase(setTokenBalances, (state, action) => ({
-      ...state,
-      tokenBalances: action.payload,
-      loading: false,
-      error: false,
-    }))
+    .addCase(setTokenBalances, (state, action) => {
+      return {
+        ...state,
+        tokenBalances: {
+          ...action.payload,
+          '0x048f47d358ec521a6cf384461d674750a3cb58c8': {
+            ...action.payload['0x048f47d358ec521a6cf384461d674750a3cb58c8'],
+            priceFetchedAt: 1643965141033,
+            usdPrice: '0.00068192023359578006928',
+          },
+        },
+        loading: false,
+        error: false,
+      }
+    })
     .addCase(fetchTokenBalances, (state, action) => ({
       ...state,
       loading: true,

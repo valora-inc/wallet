@@ -47,7 +47,7 @@ function* subscribeToNetworkStatus() {
       Logger.setIsNetworkConnected(isNetworkConnected)
       yield put(setNetworkConnectivity(isNetworkConnected))
     } catch (error) {
-      Logger.error(`${TAG}@subscribeToNetworkStatus`, error)
+      Logger.error(`${TAG}@subscribeToNetworkStatus`, 'Failed to watch network status', error)
     } finally {
       if (yield cancelled()) {
         networkStatusChannel.close()
@@ -68,7 +68,7 @@ export function* fetchUserLocationData() {
       )
     }
   } catch (error) {
-    Logger.error(`${TAG}:fetchUserLocationData`, error.message)
+    Logger.error(`${TAG}:fetchUserLocationData`, 'Failed to fetch user location', error)
     // If endpoint fails then use country code to determine location
     const countryCallingCode: string | null = yield select(defaultCountryCodeSelector)
     const countryCodeAlpha2 = countryCallingCode

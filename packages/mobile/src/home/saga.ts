@@ -94,7 +94,7 @@ function* fetchNotifications() {
       yield put(updateNotifications(notifications))
     }
   } catch (error) {
-    Logger.error(`${TAG}@fetchNotifications`, error)
+    Logger.error(`${TAG}@fetchNotifications`, 'Failed to update notifications', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
