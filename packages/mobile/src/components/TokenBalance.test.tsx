@@ -135,26 +135,24 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     }
   )
 
-  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
-    'renders correctly when fetching the token balances failed',
-    async (TokenBalanceComponent) => {
-      const store = createMockStore({
-        tokens: {
-          tokenBalances: {},
-          error: true,
-        },
-      })
+  it('renders correctly when fetching the token balances failed', async () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {},
+        error: true,
+      },
+    })
 
-      const tree = render(
-        <Provider store={store}>
-          <TokenBalanceComponent />
-        </Provider>
-      )
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
 
-      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
-      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
-      expect(store.getActions()).toMatchInlineSnapshot(`
+    expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
           "action": Object {
@@ -171,32 +169,29 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       ]
     `)
-    }
-  )
+  })
 
-  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
-    'renders correctly when fetching the local currency failed',
-    async (TokenBalanceComponent) => {
-      const store = createMockStore({
-        ...defaultStore,
-        localCurrency: {
-          error: true,
-          exchangeRates: {
-            [Currency.Dollar]: null,
-          },
+  it('renders correctly when fetching the local currency failed', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      localCurrency: {
+        error: true,
+        exchangeRates: {
+          [Currency.Dollar]: null,
         },
-      })
+      },
+    })
 
-      const tree = render(
-        <Provider store={store}>
-          <TokenBalanceComponent />
-        </Provider>
-      )
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
 
-      expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
-      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+    expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
 
-      expect(store.getActions()).toMatchInlineSnapshot(`
+    expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
           "action": Object {
@@ -213,6 +208,5 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       ]
     `)
-    }
-  )
+  })
 })

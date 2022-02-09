@@ -150,8 +150,6 @@ export function FiatExchangeTokenBalance() {
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
-  useErrorMessageWithRefresh()
-
   const onViewBalances = () => {
     ValoraAnalytics.track(HomeEvents.view_token_balances, {
       totalBalance: totalBalance?.toString(),
