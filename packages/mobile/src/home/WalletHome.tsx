@@ -22,7 +22,7 @@ import {
 } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
-import HomeTokenBalance from 'src/home/HomeTokenBalance'
+import { HomeTokenBalance } from 'src/components/TokenBalance'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
