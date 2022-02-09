@@ -225,7 +225,7 @@
   "loadingExchangeRate": "Chargement du taux de change...",
   "errorRefreshingRate": "Impossible d'actualiser le taux de change",
   "exchangeRateChange": "Le taux de change a changé, veuillez réessayer",
-  "feeExchangeEducation": "Lors d'un échange entre des CELO et cUSD, une somme modique est retenue pour maintenir la valeur du Dollar Celo stable et lié au dollar américain. \n\nVisitez la FAQ pour en savoir plus.",
+  "feeExchangeEducation": "Lors d'un échange entre des CELO et cUSD our cEUR, une somme modique est retenue pour maintenir la valeur du Celo Dollars et Celo Euros stable et liée au dollar américain et à l'euro. \n\nVisitez la FAQ pour en savoir plus.",
   "goldPrice": "Prix CELO",
   "yourGoldBalance": "Votre solde CELO",
   "goldAmount": "Montant CELO",
@@ -258,7 +258,7 @@
   "celoDollar": "Celo Dollar",
   "celoEuro": "Euro Celo",
   "celoDollars": "Celo Dollars",
-  "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse CUSD {{appName}}",
+  "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse cUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
   "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
   "selectDigitalCurrency": "Sélectionnez un actif digital",
@@ -271,12 +271,12 @@
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
     "title": "Créditer votre {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euros (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD our cEUR auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retirer de {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euros (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD our cEUR à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -524,11 +524,11 @@
   "goldEducationSteps": [
     {
       "title": "Qu'est-ce que CELO ?",
-      "text": "CELO est une monnaie numérique qui maintient la stabilité du Dollar Celo (cUSD)."
+      "text": "CELO est une monnaie numérique qui maintient la stabilité du Celo Dollar (cUSD) et du Celo Euro (cEUR)."
     },
     {
       "title": "Changements de prix du CELO",
-      "text": "Si plus de gens utilisent le Dollar Celo, la valeur du CELO augmente. Contrairement au CELO, le Dollar Celo ne change pas de valeur. "
+      "text": "Si plus de gens utilisent les Celo Dollar et Celo Euro, la valeur du CELO augmente. Contrairement au CELO, le Celo Dollar et le Celo Euro ne changent pas de valeur. "
     },
     {
       "title": "Participez au réseau Celo",
@@ -976,7 +976,7 @@
   "received": "Reçu",
   "viewAll": "Voir tout",
   "thanksForVerifying": "Merci de votre confirmation",
-  "goldIsWhereYouSave": "CELO vous permet de conserver les Dollars Celo que vous avez",
+  "goldIsWhereYouSave": "CELO vous permet de conserver les Celo Dollars et Celo Euro que vous avez",
   "dinner": "Dîner",
   "bikeParts": "Pièces de vélo",
   "groceryRun": "Épicerie",
@@ -988,7 +988,7 @@
   "verificationFee": "Frais de confirmation",
   "networkFee": "Frais de réseau",
   "networkFeeExplanation": {
-    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en Dollars Celo de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du Dollar Celo. Pour en savoir plus sur les frais Celo, consultez la ",
+    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en Celo Dollars de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du Celo Dollar. Pour en savoir plus sur les frais Celo, consultez la ",
     "1": "FAQ"
   },
   "confirmingTransaction": "Confirmation…",
