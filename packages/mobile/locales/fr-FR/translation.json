@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "La fonction Supercharge est disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus pour en profiter dès maintenant ! Découvrez ici comment ça fonctionne :",
+  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus pour en profiter dès maintenant ! Découvrez ici comment ça fonctionne :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
@@ -836,7 +836,7 @@
   "noContacts": "Aucun contact",
   "searchForSomeone": "Recherchez quelqu'un en utilisant son nom, son numéro de téléphone ou son adresse",
   "sentPayment": "Paiement envoyé",
-  "sentEscrowPayment": "Paiement du prestataire de séquestre envoyé",
+  "sentEscrowPayment": "Paiement au prestataire de séquestre envoyé",
   "mobileNumber": "N° de portable",
   "sendToMobileNumber": "Envoyer au numéro de téléphone",
   "requestFromMobileNumber": "Demande de numéro de téléphone",
@@ -1054,7 +1054,7 @@
   "feedItemEscrowReceivedTitle": "{{nameOrNumber}}",
   "feedItemEscrowReceivedTitle_noSenderDetails": "Inconnu",
   "feedItemEscrowReceivedInfo": "{{comment}}",
-  "feedItemEscrowReceivedInfo_noComment": "Paiement par le prestataire de séquestre reçu",
+  "feedItemEscrowReceivedInfo_noComment": "Paiement du prestataire de séquestre reçu",
   "feedItemGenericTitle": "{{nameOrNumber}}",
   "feedItemGenericTitle_noRecipientDetails": "Inconnu",
   "feedItemGoldSold": "Vendu",
@@ -1072,7 +1072,7 @@
   "transactionHeaderReceived": "Paiement reçu",
   "transactionHeaderCeloDeposit": "Dépôt reçu",
   "transactionHeaderCeloReward": "Récompense reçue",
-  "transactionHeaderEscrowReceived": "Paiement par le prestataire de séquestre reçu",
+  "transactionHeaderEscrowReceived": "Paiement du prestataire de séquestre reçu",
   "feedSectionHeaderRecent": "Récent",
   "cashInBottomSheet": {
     "title": "Ajoutez des fonds pour commencer à utiliser Valora !",
