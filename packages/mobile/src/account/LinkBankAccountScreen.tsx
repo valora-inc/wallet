@@ -225,8 +225,12 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
                 publicToken,
               })
             },
-            onExit: () => {
-              // TODO(wallet#1447): handle errors from onExit
+            onExit: ({ error }) => {
+              if (error) {
+                navigate(Screens.LinkBankAccountErrorScreen, {
+                  error: error,
+                })
+              }
             },
           })
         }

@@ -338,7 +338,7 @@ function* monitorGeth() {
           yield put(setGethConnected(false))
         }
       } catch (error) {
-        Logger.error(`${TAG}@monitorGeth`, error)
+        Logger.error(`${TAG}@monitorGeth`, 'Failure while monitoring Geth', error)
       } finally {
         if (yield cancelled()) {
           try {

@@ -57,7 +57,7 @@ export const replace: SafeNavigate = (...args) => {
       )
     })
     .catch((reason) => {
-      Logger.error(`${TAG}@replace`, `Navigation failure: ${reason}`)
+      Logger.error(`${TAG}@replace`, 'Navigation failure', reason)
     })
 }
 
@@ -75,7 +75,7 @@ export const pushToStack: SafeNavigate = (...args) => {
       )
     })
     .catch((reason) => {
-      Logger.error(`${TAG}@pushToStack`, `Navigation failure: ${reason}`)
+      Logger.error(`${TAG}@pushToStack`, 'Navigation failure', reason)
     })
 }
 
@@ -97,7 +97,7 @@ export function navigate<RouteName extends keyof StackParamList>(
       )
     })
     .catch((reason) => {
-      Logger.error(`${TAG}@navigate`, `Navigation failure: ${reason}`)
+      Logger.error(`${TAG}@navigate`, 'Navigation failure', reason)
     })
 }
 
@@ -115,7 +115,7 @@ export const navigateClearingStack: SafeNavigate = (...args) => {
       )
     })
     .catch((reason) => {
-      Logger.error(`${TAG}@navigateClearingStack`, `Navigation failure: ${reason}`)
+      Logger.error(`${TAG}@navigateClearingStack`, 'Navigation failure', reason)
     })
 }
 
@@ -179,7 +179,7 @@ export function navigateBack(params?: object) {
       navigationRef.current?.dispatch(NavigationActions.back(params))
     })
     .catch((reason) => {
-      Logger.error(`${TAG}@navigateBack`, `Navigation failure: ${reason}`)
+      Logger.error(`${TAG}@navigateBack`, 'Navigation failure', reason)
     })
 }
 

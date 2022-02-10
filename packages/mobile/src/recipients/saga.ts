@@ -17,7 +17,7 @@ function* fetchRewardsSendersSaga() {
       Logger.info(`${TAG}@fetchRewardsSendersSaga`, rewardsSenders)
     }
   } catch (error) {
-    Logger.error(`${TAG}@fetchRewardsSendersSaga`, error)
+    Logger.error(`${TAG}@fetchRewardsSendersSaga`, 'Failed to fetch rewards senders', error)
   } finally {
     if (yield cancelled()) {
       rewardsSendersChannel.close()
@@ -37,7 +37,11 @@ function* fetchInviteRewardsSendersSaga() {
       Logger.info(`${TAG}@fetchInviteRewardsSendersSaga`, rewardsSenders)
     }
   } catch (error) {
-    Logger.error(`${TAG}@fetchInviteRewardsSendersSaga`, error)
+    Logger.error(
+      `${TAG}@fetchInviteRewardsSendersSaga`,
+      'Failed to fetch invite rewards senders',
+      error
+    )
   } finally {
     if (yield cancelled()) {
       rewardsSendersChannel.close()

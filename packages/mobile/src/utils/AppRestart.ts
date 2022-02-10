@@ -19,7 +19,8 @@ export function deleteChainDataAndRestartApp() {
     .catch((reason) =>
       Logger.error(
         'utils/AppRestart/deleteChainDataAndRestartApp',
-        `Deleting chain data failed: ${reason}`
+        `Deleting chain data failed`,
+        reason
       )
     )
 }

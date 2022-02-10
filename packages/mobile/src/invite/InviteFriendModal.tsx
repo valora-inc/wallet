@@ -8,7 +8,7 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   isVisible: boolean
-  onInvite: () => void
+  onInvite: () => Promise<void>
   onCancel?: () => void
 }
 
@@ -22,7 +22,7 @@ const InviteFriendModal = ({ isVisible, onInvite, onCancel }: Props) => {
     try {
       await onInvite()
     } catch (error) {
-      Logger.error('Failed to invite:', error)
+      Logger.error('InviteFriendModal', 'Failed to invite:', error)
     }
     setLoading(false)
     closeModal()

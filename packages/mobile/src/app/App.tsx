@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { Dimensions, Linking, StatusBar, YellowBox } from 'react-native'
+import { Dimensions, Linking, LogBox, StatusBar } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -28,11 +28,16 @@ const ignoreWarnings = [
   'Remote debugger', // To avoid "Remote debugger in background tab" warning
   'cancelTouches', // rn-screens warning on iOS
   'Setting a timer', // warns about long setTimeouts which are actually saga timeouts
+  'Require cycle', // TODO: fix require cycles and remove this ;)
+  // These are caused by node-libs-react-native's stream-http capability checks and are harmless to ignore
+  // See https://github.com/jhiesey/stream-http/blob/cd697901d132cc20ea698079ac400b7cc11a7999/lib/capability.js#L48-L49
+  "The provided value 'moz-chunked-arraybuffer' is not a valid 'responseType'",
+  "The provided value 'ms-stream' is not a valid 'responseType'",
 ]
 if (isE2EEnv) {
   ignoreWarnings.push('Overriding previous layout')
 }
-YellowBox.ignoreWarnings(ignoreWarnings)
+LogBox.ignoreLogs(ignoreWarnings)
 
 const { decimalSeparator, groupingSeparator } = getNumberFormatSettings()
 
