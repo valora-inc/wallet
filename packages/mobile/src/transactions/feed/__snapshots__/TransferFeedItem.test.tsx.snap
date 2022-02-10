@@ -27,22 +27,13 @@ exports[`TransferFeedItem renders correctly 1`] = `
   <View
     style={
       Object {
-        "flex": 1,
         "flexDirection": "row",
-        "justifyContent": "space-between",
         "paddingHorizontal": 16,
         "paddingVertical": 12,
       }
     }
   >
-    <View
-      style={
-        Object {
-          "alignItems": "center",
-          "flexDirection": "column",
-        }
-      }
-    >
+    <View>
       <View
         style={
           Array [
@@ -84,103 +75,88 @@ exports[`TransferFeedItem renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 1,
+          "marginLeft": 16,
+          "width": "55%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
+          }
+        }
+        testID="TransferFeedItem/title"
+      >
+        feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xFdd8...3075\\"}"}
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#9CA4A9",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+            "paddingTop": 2,
+          }
+        }
+        testID="TransferFeedItem/subtitle"
+      >
+        feedItemSentInfo, {"context":"noComment"}
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexShrink": 1,
           "marginLeft": 16,
         }
       }
     >
-      <View
+      <Text
         style={
-          Object {
-            "flexDirection": "row",
-            "marginTop": -1,
-          }
-        }
-      >
-        <Text
-          style={
+          Array [
             Object {
               "color": "#2E3338",
-              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-            }
-          }
-          testID="TransferFeedItem/title"
-        >
-          feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xFdd8...3075\\"}"}
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "flexWrap": "wrap",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "marginLeft": "auto",
-                "minWidth": "40%",
-                "paddingLeft": 10,
-                "textAlign": "right",
-              },
-              Object {
-                "color": "#1AB775",
-              },
-            ]
-          }
-          testID="TransferFeedItem/amount"
-        >
-          +
-          ₱
-          13.30
-        </Text>
-      </View>
-      <View
+              "marginLeft": "auto",
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#1AB775",
+            },
+          ]
+        }
+        testID="TransferFeedItem/amount"
+      >
+        +
+        ₱
+        13.30
+      </Text>
+      <Text
         style={
           Object {
-            "flexDirection": "row",
-            "marginTop": -1,
+            "color": "#9CA4A9",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+            "marginLeft": "auto",
+            "minWidth": "40%",
+            "paddingTop": 2,
+            "textAlign": "right",
           }
         }
+        testID="TransferFeedItem/tokenAmount"
       >
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-              "paddingTop": 2,
-            }
-          }
-          testID="TransferFeedItem/subtitle"
-        >
-          feedItemSentInfo, {"context":"noComment"}
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "flexWrap": "wrap",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 14,
-              "lineHeight": 18,
-              "marginLeft": "auto",
-              "minWidth": "40%",
-              "paddingLeft": 10,
-              "paddingTop": 2,
-              "textAlign": "right",
-            }
-          }
-          testID="TransferFeedItem/tokenAmount"
-        >
-          
-          10.00
-           cUSD
-        </Text>
-      </View>
+        
+        10.00
+         cUSD
+      </Text>
     </View>
   </View>
 </View>
