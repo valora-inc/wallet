@@ -83,20 +83,20 @@ export function handleOnEvent(linkEvent: LinkEvent) {
   } = metadata
   switch (eventName) {
     case LinkEventName.OPEN:
-      ValoraAnalytics.track(CICOEvents.plaid_open_link_flow, { linkSessionId })
+      return ValoraAnalytics.track(CICOEvents.plaid_open_link_flow, { linkSessionId })
     case LinkEventName.SELECT_INSTITUTION:
-      ValoraAnalytics.track(CICOEvents.plaid_select_institution, {
+      return ValoraAnalytics.track(CICOEvents.plaid_select_institution, {
         linkSessionId,
         institutionId,
         institutionName,
       })
     case LinkEventName.SUBMIT_CREDENTIALS:
-      ValoraAnalytics.track(CICOEvents.plaid_submit_credentials, { linkSessionId })
+      return ValoraAnalytics.track(CICOEvents.plaid_submit_credentials, { linkSessionId })
     case LinkEventName.EXIT:
-      ValoraAnalytics.track(CICOEvents.plaid_exit, { linkSessionId })
+      return ValoraAnalytics.track(CICOEvents.plaid_exit, { linkSessionId })
     case LinkEventName.HANDOFF:
-      ValoraAnalytics.track(CICOEvents.plaid_handoff, { linkSessionId })
+      return ValoraAnalytics.track(CICOEvents.plaid_handoff, { linkSessionId })
     case LinkEventName.ERROR:
-      ValoraAnalytics.track(CICOEvents.plaid_error, { linkSessionId, errorCode, errorType })
+      return ValoraAnalytics.track(CICOEvents.plaid_error, { linkSessionId, errorCode, errorType })
   }
 }
