@@ -1126,7 +1126,7 @@
       "cta": "Relier un compte bancaire",
       "error": {
         "title": "Impossible de relier le compte bancaire.",
-        "description": "Essaie à nouveau de lier ton compte bancaire ou contacte l'assistance.",
+        "description": "Essayez à nouveau ou contactez le service d'assistance.",
         "contactSupportPrefill": "Je n'ai pas pu relier mon compte bancaire à Valora."
       }
     }
