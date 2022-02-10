@@ -17,6 +17,7 @@ export default NewAccountOnboarding = () => {
   })
 
   // One of the following two test cases should be deleted upon completion of the onboarding education screen experiments
+  // Math.random() is mocked here because the experiment was controlled by Math.random in Navigator.tsx
   it('Create a new account (with onboarding education screens skipped)', async () => {
     jest.spyOn(global.Math, 'random').mockReturnValue(0.3)
 
