@@ -16,7 +16,41 @@ export default NewAccountOnboarding = () => {
     await dismissBanners()
   })
 
-  it('Create a new account', async () => {
+  // One of the following two test cases should be deleted upon completion of the onboarding education screen experiments
+  it('Create a new account (with onboarding education screens skipped)', async () => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(0.3)
+
+    await element(by.id('CreateAccountButton')).tap()
+
+    // Accept Terms
+    await element(by.id('scrollView')).scrollTo('bottom')
+    await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
+    await element(by.id('AcceptTermsButton')).tap()
+
+    // Set name and number
+    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
+    await element(by.id('NameAndPictureContinueButton')).tap()
+
+    // Set & Verify pin
+    await enterPinUi()
+    await enterPinUi()
+
+    // Dismiss banners if present
+    await dismissBanners()
+
+    // Skip Phone Number verification
+    await element(by.id('VerificationEducationSkipHeader')).tap()
+    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+
+    // Arrived to Home screen
+    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+
+    jest.spyOn(global.Math, 'random').mockRestore()
+  })
+
+  it('Create a new account (without onboarding education screens skipped)', async () => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(0.8)
+
     // Onboarding education has 3 steps
     for (let i = 0; i < 3; i++) {
       await element(by.id('Education/progressButton')).tap()
@@ -46,6 +80,8 @@ export default NewAccountOnboarding = () => {
 
     // Arrived to Home screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+
+    jest.spyOn(global.Math, 'random').mockRestore()
   })
 
   // Ideally this wouldn't be dependent on the previous test
