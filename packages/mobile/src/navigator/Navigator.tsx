@@ -604,15 +604,10 @@ export function MainStackScreen() {
     // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
     // The randomization is hardcoded here to achieve a 50/50 split, the value is written into the redux store so the same experience
     // would persist. This block of code should be removed when the experiment is done.
-    let _shouldSkipOnboardingEducationScreen = shouldSkipOnboardingEducationScreen
+    const _shouldSkipOnboardingEducationScreen =
+      shouldSkipOnboardingEducationScreen ?? Math.random() < 0.5
     if (shouldSkipOnboardingEducationScreen == undefined) {
-      if (Math.random() < 0.5) {
-        _shouldSkipOnboardingEducationScreen = true
-        dispatch(skipOnboardingEducationScreen(true))
-      } else {
-        _shouldSkipOnboardingEducationScreen = false
-        dispatch(skipOnboardingEducationScreen(false))
-      }
+      dispatch(skipOnboardingEducationScreen(_shouldSkipOnboardingEducationScreen))
     }
 
     let initialRoute: InitialRouteName
