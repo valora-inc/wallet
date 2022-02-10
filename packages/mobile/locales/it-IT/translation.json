@@ -1126,8 +1126,8 @@
       "cta": "Collegare un conto bancario",
       "error": {
         "title": "Impossibile collegare il conto bancario.",
-        "description": "Per favore prova a collegare di nuovo il tuo conto bancario o contatta il supporto.",
-        "contactSupportPrefill": "Non sono riuscito a collegare il mio conto bancario a Valora"
+        "description": "Prova a collegare di nuovo il tuo conto o contatta il supporto.",
+        "contactSupportPrefill": "Non sono riuscito a collegare il mio conto bancario a Valora."
       }
     }
   },
