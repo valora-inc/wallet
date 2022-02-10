@@ -7,6 +7,8 @@ import { mockAccount, mockPrivateDEK } from 'test/values'
 import BankAccounts from './BankAccounts'
 import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-house-liquidity'
 import openPlaid from 'src/account/openPlaid'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
 const MOCK_BANK_ACCOUNTS = [
@@ -23,6 +25,8 @@ const MOCK_BANK_ACCOUNTS = [
     id: 3,
   },
 ]
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('src/in-house-liquidity', () => ({
   ...(jest.requireActual('src/in-house-liquidity') as any),
@@ -70,6 +74,7 @@ describe('BankAccounts', () => {
     await fireEvent.press(getByTestId('TripleDot2'))
     await fireEvent.press(getByText('bankAccountsScreen.delete'))
     expect(deleteFinclusiveBankAccount).toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.delete_bank_account, { id: 2 })
   })
   it('re-fetches bank account info when the newPublicToken navigation prop changes', async () => {
     const { rerender } = render(
@@ -103,6 +108,8 @@ describe('BankAccounts', () => {
     )
     await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
     await fireEvent.press(getByTestId('AddAccount'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.add_bank_account_start)
+
     expect(openPlaid).toHaveBeenCalledWith({
       accountMTWAddress: mockAccount,
       locale: 'en-US',
