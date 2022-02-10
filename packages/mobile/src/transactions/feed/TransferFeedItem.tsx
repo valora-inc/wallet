@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     paddingTop: 2,
-    paddingLeft: 10,
     marginLeft: 'auto',
     minWidth: '40%',
     textAlign: 'right',
