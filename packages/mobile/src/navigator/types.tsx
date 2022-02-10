@@ -18,6 +18,7 @@ import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirma
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { PendingAction, PendingSession } from 'src/walletConnect/types'
+import { LinkError } from 'react-native-plaid-link-sdk'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -292,6 +293,11 @@ export type StackParamList = {
         hideOnboardingStep?: boolean
         selectedCountryCodeAlpha2?: string
         choseToRestoreAccount?: boolean
+      }
+    | undefined
+  [Screens.LinkBankAccountErrorScreen]:
+    | {
+        error?: Error | LinkError
       }
     | undefined
   [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }

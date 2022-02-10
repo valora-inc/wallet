@@ -5,7 +5,7 @@
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
   "removeAccountTitle": "Réinitialiser Valora",
-  "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération",
+  "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
   "legal": "Mentions légales",
   "security": "Sécurité",
   "changePin": "Modifier le code PIN",
@@ -60,7 +60,7 @@
   "yourName": "Votre nom",
   "version": "Version {{appVersion}}",
   "addressCopied": "Adresse copiée dans le presse-papiers",
-  "support": "Support",
+  "support": "Assistance",
   "contact": "Contact",
   "faq": "Foire aux questions",
   "raiseLimit": "Augmenter la limite d'envoi du compte",
@@ -68,7 +68,7 @@
   "contactText": "Vous ne trouvez pas ce que vous cherchez ?",
   "contactMessagePlaceholder": "Veuillez taper votre message ici...",
   "attachLogs": "Joindre les journaux",
-  "supportLegalCheckbox": "En validant, j'accepte de partager les informations ci-dessus et toutes les données du journal de l'application jointes avec le Support de {{appName}}.",
+  "supportLegalCheckbox": "En validant, j'accepte de partager les informations ci-dessus et toutes les données du journal de l'application jointes avec l'Assistance {{appName}}.",
   "contactSuccess": "Votre problème a bien été signalé ! Une réponse vous sera rapidement envoyée par e-mail !",
   "namePictureSaved": "Votre nom et votre photo ont bien été enregistrés.",
   "addPhoto": "Ajouter une photo",
@@ -100,9 +100,9 @@
   "storeRecoveryTitle": "Nous avons besoin que vous reconfiguriez votre compte",
   "storeRecoveryBody": "Une erreur s'est produite. Nous sommes informés du problème et travaillons pour le résoudre le plus rapidement possible. En attendant, vous devez recommencer le processus d'installation.",
   "storeRecoveryButton": "Restaurer le compte",
-  "havingTrouble": "Un problème ?",
+  "havingTrouble": "Il y a un problème ?",
   "shakeForSupport": "Ce menu apparaît lorsque vous secouez votre appareil.",
-  "contactSupport": "Contacter le Support",
+  "contactSupport": "Contacter l'Assistance",
   "tapToCopy": "Appuyer pour copier",
   "headerTitle": "Phrase de récupération",
   "introTitle": "Votre phrase de récupération",
@@ -112,7 +112,7 @@
   "backupSetupBody": "Pour protéger vos fonds, vous devez configurer votre phrase de récupération avant de pouvoir continuer à utiliser {{appName}}.",
   "delayBackup": "Patientez pendant une heure",
   "postSetupTitle": "Votre phrase de récupération",
-  "postSetupBody": "Si vous perdez votre phrase de récupération, vous perdrez l'accès à tous vos Dollars Celo et à vos CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
+  "postSetupBody": "Si vous perdez votre phrase de récupération, vous perdrez l'accès à tous vos Celo Dollars, Celo Euro et CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
   "postSetupCTA": "En savoir plus sur votre phrase de récupération",
   "failedFetchMnemonic": "Impossible d'extraire votre phrase de récupération",
   "backupAndRecovery": "Sauvegarde et restauration",
@@ -194,7 +194,7 @@
   "learnMore": "En savoir plus",
   "equalToAmount": "Égal à <1></1>",
   "whatIsGold": "{{appName}} vous permet d'acheter et de vendre des CELO",
-  "manageCelo": "Gérer les Dollars Celo",
+  "manageCelo": "Gérer les Celo Dollars",
   "exchangeRate": "Taux de change",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Historique",
@@ -219,13 +219,13 @@
   "securityFee": "Frais de réseau",
   "exchangeFee": "Frais de change",
   "edit": "Modifier",
-  "notEnoughDollars": "Solde de Dollars Celo insuffisant pour faire un échange",
+  "notEnoughDollars": "Solde de Celo Dollars insuffisant pour faire un échange",
   "notEnoughGold": "Solde de CELO insuffisant pour faire un échange",
   "pending": "En attente",
   "loadingExchangeRate": "Chargement du taux de change...",
   "errorRefreshingRate": "Impossible d'actualiser le taux de change",
   "exchangeRateChange": "Le taux de change a changé, veuillez réessayer",
-  "feeExchangeEducation": "Lors d'un échange entre des CELO et cUSD, une somme modique est retenue pour maintenir la valeur du Dollar Celo stable et lié au dollar américain. \n\nVisitez la FAQ pour en savoir plus.",
+  "feeExchangeEducation": "Lors d'un échange entre des CELO et cUSD our cEUR, une somme modique est retenue pour maintenir la valeur du Celo Dollars et Celo Euro stable et liée au dollar américain et à l'euro. \n\nVisitez la FAQ pour en savoir plus.",
   "goldPrice": "Prix CELO",
   "yourGoldBalance": "Votre solde CELO",
   "goldAmount": "Montant CELO",
@@ -255,13 +255,13 @@
   "amountCelo": "Montant (CELO)",
   "onlyCeloDollars": "cUSD seulement",
   "onlyCelo": "CELO uniquement",
-  "celoDollar": "Dollar Celo",
-  "celoEuro": "Euro Celo",
-  "celoDollars": "Dollars Celo",
-  "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse CUSD {{appName}}",
+  "celoDollar": "Celo Dollar",
+  "celoEuro": "Celo Euro",
+  "celoDollars": "Celo Dollars",
+  "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse cUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
-  "dollarsNotYetEnabledNote": "Les Dollars Celo ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Dollars Celo, achetez des CELO et échangez-les contre des Dollars Celo dans l'onglet CELO.",
-  "selectDigitalCurrency": "Sélectionnez une valeur numérique",
+  "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
+  "selectDigitalCurrency": "Sélectionnez un actif digital",
   "selectPaymentMethod": "Payer avec :",
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
@@ -271,12 +271,12 @@
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
     "title": "Créditer votre {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euro (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour approvisionner votre portefeuille {{appName}}, achetez des cUSD our cEUR auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retirer de {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Dollars Celo (cUSD), une monnaie numérique stable qui suit le cours du dollar américain.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>",
+    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euro (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD ou cEUR à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -284,8 +284,8 @@
     "body": "Les prestataires vous permettent d'ajouter des fonds à votre compte ou d'en retirer. Ils déterminent leurs propres tarifs et restrictions en fonction de différents facteurs. Veuillez consulter le site Web du prestataire pour obtenir de l'aide."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant plus élevé.",
-    "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez entrer un montant moins élevé.",
+    "minAmount": "Nos prestataires ne prennent pas en charge les montants inférieurs à {{usdLimit}}{{localLimit}}. Veuillez saisir un montant plus élevé.",
+    "maxAmount": "Nos prestataires ne prennent pas en charge les montants supérieurs à {{usdLimit}}{{localLimit}}. Veuillez saisir un montant moins élevé.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -304,7 +304,7 @@
   },
   "dailyLimitRequest": "Bonjour ! Je voudrais augmenter ma limite de virement quotidienne.",
   "pleaseSelectProvider": "Veuillez sélectionner un prestataire ci-dessous. Ces liens se connectent à un service tiers.",
-  "otherFundingOptions": "Pour découvrir plus de moyens d'ajouter et de retirer des fonds, consulter <0>Comment créditer votre compte</0>",
+  "otherFundingOptions": "Pour découvrir plus de moyens d'ajouter et de retirer des fonds, consulter <0>Comment créditer votre compte</0>.",
   "youCanTransferIn": "Vous pouvez virer {{digitalAsset}} des fonds depuis n'importe quelle plateforme d'échange qui prend en charge {{digitalAsset}}. Vous aurez besoin de l'adresse de votre compte.",
   "youCanTransferOut": "Vous pouvez virer {{digitalAsset}} vers n'importe quelle plateforme d'échange qui prend en charge {{digitalAsset}}. Une fois que vous avez récupéré votre adresse, vous pourrez continuer le processus.",
   "useBalanceWithMerchants": "Utilisez votre solde auprès des vendeurs prenant en charge ces monnaies",
@@ -358,8 +358,8 @@
   "choose": "Choisir",
   "receivedPayment": "Paiement reçu",
   "getStarted": "Commencer",
-  "manageCeloDollars": "Gérer les Dollars Celo",
-  "sendCeloDollars": "Envoyer des Dollars Celo",
+  "manageCeloDollars": "Gérer les Celo Dollars",
+  "sendCeloDollars": "Envoyer des Celo Dollars",
   "startEarning": "Commencer à gagner",
   "backToWallet": "Retour au portefeuille",
   "exchangeForGold": "Échange contre des CELO",
@@ -389,12 +389,12 @@
   "for": "Pour",
   "reclaim": "Réclamer",
   "celoGold": "CELO",
-  "celoEuros": "Euros Celo",
-  "balanceAvailable": "<0></0> disponible",
+  "celoEuros": "Celo Euro",
+  "balanceAvailable": "<0></0> disponibles",
   "subtotal": "Sous-total",
   "total": "Total",
-  "totalInDollars": "Dollars Celo @ <0></0>",
-  "totalInEuros": "Euros Celo @ <0></0>",
+  "totalInDollars": "Celo Dollars @ <0></0>",
+  "totalInEuros": "Celo Euro @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
@@ -429,7 +429,7 @@
   "qrFailedInvalidRecipient": "Le code QR n'appartient pas au destinataire sélectionné",
   "qrFailedNoPhoneNumber": "Le code QR n'est pas associé au numéro de téléphone de votre contact",
   "corruptedChainDeleted": "Les chaînes de données corrompues ont été supprimées, veuillez redémarrer l'application",
-  "contractKitInitFailed": "Impossible d'initialiser le kit de contrat, essayez de redémarrer l'application ou d'envoyer un e-mail au Support.",
+  "contractKitInitFailed": "Impossible d'initialiser le kit de contrat, essayez de redémarrer l'application ou d'envoyer un e-mail à l'assistance.",
   "web3FailedToSync": "Échec de la synchronisation, vérifiez votre connexion réseau",
   "errorDuringSync": "Une erreur s'est produite lors de la synchronisation, veuillez réessayer plus tard",
   "accountUnlockFailed": "Impossible de déverrouiller votre compte",
@@ -492,12 +492,12 @@
   "addressValidationFullPoorlyFormatted": "Les adresses du compte client commencent par \"0x\", ne contiennent que des chiffres et des lettres, et sont composées de 42 caractères. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "addressValidationPartialPoorlyFormatted": "Les adresses du compte ne contiennent que des chiffres et des lettres, veuillez fournir les 4 derniers chiffres. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "addressValidationFullOwnAddress": "Veuillez saisir l'adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'adresse de compte de votre contact, pas la vôtre. Cliquez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'adresse de compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "providerRateFetchFailed": "Impossible de récupérer le taux du prestataire. Vous pouvez continuer sans un taux prérempli.",
   "helpFindAccount": "Aidez votre contact à trouver son adresse de compte",
   "close": "Fermer",
   "home": "Accueil",
-  "accountKey": "Phrase de récupération",
+  "accountKey": "Récupération",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
   "help": "Aide",
@@ -514,7 +514,7 @@
   "fetchFailed": "La connexion au serveur a échoué",
   "pictureLoadFailed": "Une erreur s'est produite lors du chargement de votre image",
   "simplexPurchaseFetchFailed": "Impossible de récupérer un devis de Simplex. Veuillez réessayer plus tard",
-  "providerFetchFailed": "Impossible de se connecter au service. Veuillez contacter le Support",
+  "providerFetchFailed": "Impossible de se connecter au service. Veuillez contacter le service d'assistance",
   "ok": "Ok",
   "cashOutLimitExceeded": "Vous ne pouvez pas retirer plus que votre solde de {{balance}} {{currency}}",
   "appDescription": "Un portefeuille pour les paiements mobiles qui fonctionne dans le monde entier",
@@ -524,11 +524,11 @@
   "goldEducationSteps": [
     {
       "title": "Qu'est-ce que CELO ?",
-      "text": "CELO est une monnaie numérique qui maintient la stabilité du Dollar Celo (cUSD)."
+      "text": "CELO est une monnaie numérique qui maintient la stabilité du Celo Dollar (cUSD) et du Celo Euro (cEUR)."
     },
     {
       "title": "Changements de prix du CELO",
-      "text": "Si plus de gens utilisent le Dollar Celo, la valeur du CELO augmente. Contrairement au CELO, le Dollar Celo ne change pas de valeur. "
+      "text": "Si plus de gens utilisent les Celo Dollar et Celo Euro, la valeur du CELO augmente. Contrairement au CELO, le Celo Dollar et le Celo Euro ne changent pas de valeur. "
     },
     {
       "title": "Participez au réseau Celo",
@@ -587,7 +587,7 @@
   "importIt": "Restaurer le portefeuille",
   "important": "Important",
   "confirmPin": {
-    "title": "Saisir le code PIN"
+    "title": "Saisissez le code PIN"
   },
   "goToSystemSecuritySettingsActionLabel": "Aller à la sécurité",
   "enableSystemScreenLockFailedMessage": "Impossible d'activer le verrouillage de l'écran",
@@ -789,7 +789,7 @@
   "verificationUnavailable": "La confirmation du numéro de téléphone est actuellement indisponible. Veuillez saisir votre numéro de téléphone et nous vous informerons quand il sera possible de le confirmer à nouveau.\n\nEn attendant, vous pouvez continuer à utiliser Valora ! Les paiements envoyés vers votre numéro de téléphone seront conservés en toute sécurité jusqu'à ce que vous puissiez les utiliser après avoir confirmé votre numéro de téléphone.",
   "requests": "Demandes",
   "empty": "Vous n'avez pas de demandes de paiement",
-  "celoDollarBalance": "Solde en Dollar Celo",
+  "celoDollarBalance": "Solde en Celo Dollars",
   "requestDeclined": "Demande déclinée",
   "requestPaid": "Demande payée",
   "paymentRequestUpdateFailed": "Impossible de mettre à jour la demande de paiement",
@@ -799,7 +799,7 @@
   "requestUnavailableNoDisplayNameHeader": "Le compte de votre contact n'est pas confirmé",
   "requestUnavailableBody": "Le numéro {{e164PhoneNumber}} n'a pas de compte ou n'est pas encore connecté. Les demandes ne peuvent être envoyées qu'aux numéros connectés.",
   "requestUnavailableNoNumberBody": "Votre contact n'a pas de compte ou ne s'est pas encore connecté. Les demandes ne peuvent être envoyées qu'aux numéros connectés.",
-  "requesting": "Demande en cours",
+  "requesting": "Demander à",
   "request": "Demander",
   "requestToken": "Demander {{token}}",
   "requestSent": "Demande envoyée",
@@ -826,7 +826,7 @@
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
   "inviteMoneyEscrow": "Nous inviterons ce contact et garderons ses fonds en sécurité jusqu'à ce que son compte soit confirmé.",
   "reviewPayment": "Consulter le paiement",
-  "requestPayment": "Demander le paiement",
+  "requestPayment": "Demander un paiement",
   "max": "MAX.",
   "inviteSendTo": "Inviter et envoyer à",
   "keepMoneySafe": "Nous garderons ces fonds en sécurité jusqu'à ce que votre ami crée son compte {{appName}}",
@@ -911,7 +911,7 @@
   },
   "transferAddressChanged": "Ce contact a changé l'adresse de son compte depuis la transaction. Ce paiement a été envoyé à :",
   "addressConfirmed": "Adresse du compte confirmée",
-  "sending": "Envoi en cours",
+  "sending": "Envoyer à",
   "feeActual": "Frais",
   "feeEstimate": "Frais estimés",
   "encryption": {
@@ -976,7 +976,7 @@
   "received": "Reçu",
   "viewAll": "Voir tout",
   "thanksForVerifying": "Merci de votre confirmation",
-  "goldIsWhereYouSave": "CELO vous permet de conserver les Dollars Celo que vous avez",
+  "goldIsWhereYouSave": "CELO vous permet de conserver les Celo Dollars et Celo Euro que vous avez",
   "dinner": "Dîner",
   "bikeParts": "Pièces de vélo",
   "groceryRun": "Épicerie",
@@ -988,7 +988,7 @@
   "verificationFee": "Frais de confirmation",
   "networkFee": "Frais de réseau",
   "networkFeeExplanation": {
-    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en Dollars Celo de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du Dollar Celo. Pour en savoir plus sur les frais Celo, consultez la ",
+    "0": "Chaque semaine, des sommes très modiques (moins de 0,01%) du solde en Celo Dollars de chaque utilisateur sont utilisés pour maintenir la stabilité de la valeur du Celo Dollar. Pour en savoir plus sur les frais Celo, consultez la ",
     "1": "FAQ"
   },
   "confirmingTransaction": "Confirmation…",
@@ -1089,7 +1089,7 @@
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
     "dismiss": "Ignorer"
   },
-  "supportEmailSubject": "Support de {{appName}} pour {{user}}",
+  "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
   "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessayez plus tard",
   "linkBankAccountScreen": {
@@ -1099,11 +1099,11 @@
     },
     "completed": {
       "title": "Vérification terminée",
-      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez procéder à la connexion de votre compte bancaire."
+      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
-      "description": "Nous n'avons pas pu vérifier votre identité. Veuillez réessayer ou contacter le Support pour continuer.",
+      "description": "Nous n'avons pas pu vérifier votre identité. Veuillez réessayer ou contacter le service d'assistance pour continuer.",
       "contactSupportPrefill": "Ma vérification d'identité a été refusée"
     },
     "pending": {
@@ -1118,12 +1118,17 @@
     },
     "stepTwo": {
       "label": "Étape 2",
-      "disabledTitle": "Relier un compte bancaire",
+      "disabledTitle": "Reliez un compte bancaire",
       "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
       "disabledCta": "Bientôt disponible !",
       "title": "Saisir les coordonnées bancaires",
       "description": "Vous avez presque fini ! Saisissez les coordonnées bancaires pour lier votre compte.",
-      "cta": "Relier un compte bancaire"
+      "cta": "Relier un compte bancaire",
+      "error": {
+        "title": "Impossible de relier le compte bancaire.",
+        "description": "Essaie à nouveau de lier ton compte bancaire ou contacte l'assistance.",
+        "contactSupportPrefill": "Je n'ai pas pu relier mon compte bancaire à Valora."
+      }
     }
   },
   "bankAccountsScreen": {
@@ -1154,7 +1159,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Que sont les dapps?",
-    "message": "Les Dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la Web3.\n\nConnectez Valora à une dapp pour commencer.",
+    "message": "Les dapps (applications décentralisées) fournissent de nouvelles façons d'utiliser votre crypto, de gagner des récompenses et d'explorer la Web3.\n\nConnectez Valora à une dapp pour commencer.",
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
@@ -1166,6 +1171,6 @@
   "supercharge": "Supercharge",
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
-  "celoDollarAmount": "<0></0> Dollars Celo",
-  "celoDollarAmount_plural": "<0></0> Dollars Celo"
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
