@@ -41,40 +41,36 @@ function TransferFeedItem({ transfer }: Props) {
   return (
     <Touchable disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
-        <View style={styles.iconContainer}>
-          {<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}
+        <View>{<ContactCircle recipient={recipient} size={AVATAR_SIZE} />}</View>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.title} testID={'TransferFeedItem/title'}>
+            {title}
+          </Text>
+          <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
+            {subtitle}
+          </Text>
         </View>
-        <View style={styles.contentContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} testID={'TransferFeedItem/title'}>
-              {title}
-            </Text>
+        <View style={styles.amountContainer}>
+          <TokenDisplay
+            amount={amount.value}
+            tokenAddress={amount.tokenAddress}
+            localAmount={amount.localAmount}
+            showExplicitPositiveSign={true}
+            showLocalAmount={!showTokenAmount}
+            style={[styles.amount, colorStyle]}
+            testID={'TransferFeedItem/amount'}
+          />
+          {!showTokenAmount && (
             <TokenDisplay
               amount={amount.value}
               tokenAddress={amount.tokenAddress}
-              localAmount={amount.localAmount}
-              showExplicitPositiveSign={true}
-              showLocalAmount={!showTokenAmount}
-              style={[styles.amount, colorStyle]}
-              testID={'TransferFeedItem/amount'}
+              showLocalAmount={false}
+              showSymbol={true}
+              hideSign={true}
+              style={styles.tokenAmount}
+              testID={'TransferFeedItem/tokenAmount'}
             />
-          </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
-              {subtitle}
-            </Text>
-            {!showTokenAmount && (
-              <TokenDisplay
-                amount={amount.value}
-                tokenAddress={amount.tokenAddress}
-                showLocalAmount={false}
-                showSymbol={true}
-                hideSign={true}
-                style={styles.tokenAmount}
-                testID={'TransferFeedItem/tokenAmount'}
-              />
-            )}
-          </View>
+          )}
         </View>
       </View>
     </Touchable>
@@ -84,26 +80,19 @@ function TransferFeedItem({ transfer }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
     paddingVertical: 12,
     paddingHorizontal: variables.contentPadding,
   },
-  iconContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  contentContainer: {
-    flex: 1,
+  descriptionContainer: {
     marginLeft: variables.contentPadding,
+    width: '55%',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    marginTop: -1,
+  amountContainer: {
+    marginLeft: variables.contentPadding,
+    flexShrink: 1,
   },
   title: {
     ...fontStyles.regular500,
-    flexShrink: 1,
   },
   subtitle: {
     ...fontStyles.small,
@@ -113,10 +102,7 @@ const styles = StyleSheet.create({
   amount: {
     ...fontStyles.regular500,
     marginLeft: 'auto',
-    paddingLeft: 10,
-    minWidth: '40%',
     textAlign: 'right',
-    flexWrap: 'wrap',
   },
   tokenAmount: {
     ...fontStyles.small,
@@ -126,7 +112,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     minWidth: '40%',
     textAlign: 'right',
-    flexWrap: 'wrap',
   },
 })
 
