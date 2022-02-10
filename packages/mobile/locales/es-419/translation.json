@@ -1125,9 +1125,9 @@
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
       "cta": "Vincular cuenta bancaria",
       "error": {
-        "title": "Unable to link bank account.",
-        "description": "Please try to link your bank account again, or contact support.",
-        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+        "title": "No se puede vincular la cuenta bancaria.",
+        "description": "Intenta volver a vincular tu cuenta bancaria o ponte en contacto con el servicio de asistencia.",
+        "contactSupportPrefill": "No he podido vincular mi cuenta bancaria a Valora"
       }
     }
   },
