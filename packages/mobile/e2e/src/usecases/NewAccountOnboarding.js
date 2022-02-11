@@ -16,13 +16,7 @@ export default NewAccountOnboarding = () => {
     await dismissBanners()
   })
 
-  // One of the following two test cases should be deleted upon completion of the onboarding education screen experiments
-  // Math.random() is mocked here because the experiment was controlled by Math.random in Navigator.tsx
-  it('Create a new account (with onboarding education screens skipped)', async () => {
-    // seedrandom('7646fb0d146383e8')() is smaller than 0.5
-    jest.mock('react-native-device-info', () => ({
-      getUniqueId: jest.fn(() => '7646fb0d146383e8'),
-    }))
+  it('Create a new account', async () => {
     await element(by.id('CreateAccountButton')).tap()
 
     // Accept Terms
@@ -47,47 +41,6 @@ export default NewAccountOnboarding = () => {
 
     // Arrived to Home screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
-
-    jest.unmock('react-native-device-info')
-  })
-
-  it('Create a new account (without onboarding education screens skipped)', async () => {
-    // seedrandom('ec3789a252e2cb17')() is greater than 0.5
-    jest.mock('react-native-device-info', () => ({
-      getUniqueId: jest.fn(() => 'ec3789a252e2cb17'),
-    }))
-
-    // Onboarding education has 3 steps
-    for (let i = 0; i < 3; i++) {
-      await element(by.id('Education/progressButton')).tap()
-    }
-
-    await element(by.id('CreateAccountButton')).tap()
-
-    // Accept Terms
-    await element(by.id('scrollView')).scrollTo('bottom')
-    await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
-    await element(by.id('AcceptTermsButton')).tap()
-
-    // Set name and number
-    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-    await element(by.id('NameAndPictureContinueButton')).tap()
-
-    // Set & Verify pin
-    await enterPinUi()
-    await enterPinUi()
-
-    // Dismiss banners if present
-    await dismissBanners()
-
-    // Skip Phone Number verification
-    await element(by.id('VerificationEducationSkipHeader')).tap()
-    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
-
-    // Arrived to Home screen
-    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
-
-    jest.unmock('react-native-device-info')
   })
 
   // Ideally this wouldn't be dependent on the previous test

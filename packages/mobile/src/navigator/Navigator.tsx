@@ -30,6 +30,7 @@ import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
+import { isE2EEnv } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
@@ -598,8 +599,10 @@ export function MainStackScreen() {
 
     // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
     // The randomization is hardcoded by device id here to achieve a 50/50 split, the value is written into the redux store so the same experience
-    // would persist. This block of code should be removed when the experiment is done.
-    const _shouldSkipOnboardingEducationScreen = getRandomByUUID() < 0.5
+    // would persist.
+    // e2e tests cannot mock value with jest thus need to default to true
+    // This block of code should be removed when the experiment is done.
+    const _shouldSkipOnboardingEducationScreen = isE2EEnv ? true : getRandomByUUID() < 0.5
 
     let initialRoute: InitialRouteName
 
