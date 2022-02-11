@@ -3,11 +3,8 @@ import { createStackNavigator, StackScreenProps, TransitionPresets } from '@reac
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
-import { useDispatch } from 'react-redux'
-import seedrandom from 'seedrandom'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
-import { skipOnboardingEducationScreen } from 'src/account/actions'
 import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
@@ -115,6 +112,7 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { getRandomByUUID } from 'src/utils/seedRandom'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
@@ -579,7 +577,6 @@ const mapStateToProps = (state: RootState) => {
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
-    shouldSkipOnboardingEducationScreen: state.account.shouldSkipOnboardingEducationScreen,
   }
 }
 
@@ -587,8 +584,6 @@ type InitialRouteName = ExtractProps<typeof Stack.Navigator>['initialRouteName']
 
 export function MainStackScreen() {
   const [initialRouteName, setInitialRoute] = React.useState<InitialRouteName>(undefined)
-
-  const dispatch = useDispatch()
 
   React.useEffect(() => {
     const {
@@ -599,19 +594,12 @@ export function MainStackScreen() {
       pincodeType,
       account,
       hasSeenVerificationNux,
-      shouldSkipOnboardingEducationScreen: savedShouldSkipEducationScreen,
     } = mapStateToProps(store.getState())
 
     // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
     // The randomization is hardcoded by device id here to achieve a 50/50 split, the value is written into the redux store so the same experience
     // would persist. This block of code should be removed when the experiment is done.
-    const rng = seedrandom('deviceInfoModule.getUniqueId()')
-    const randomNumber = rng()
-    const _shouldSkipOnboardingEducationScreen =
-      savedShouldSkipEducationScreen ?? randomNumber < 0.5
-    if (savedShouldSkipEducationScreen == undefined) {
-      dispatch(skipOnboardingEducationScreen(_shouldSkipOnboardingEducationScreen))
-    }
+    const _shouldSkipOnboardingEducationScreen = getRandomByUUID() < 0.5
 
     let initialRoute: InitialRouteName
 
