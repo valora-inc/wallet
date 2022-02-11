@@ -125,6 +125,15 @@ export function quote(s) {
 }
 
 export async function quickOnboarding() {
+  // This should be removed once onboarding edu screen removal exp is done
+  jest.mock('react-native-device-info', () => {
+    const original = jest.requireActual('react-native-device-info')
+    return {
+      ...original,
+      getUniqueId: jest.fn(() => 'ec3789a252e2cb17'),
+    }
+  })
+
   try {
     // Quickly pass through openning slides
     for (let i = 0; i < 3; i++) {
