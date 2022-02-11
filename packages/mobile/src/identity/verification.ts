@@ -125,6 +125,7 @@ export interface AttestationCode {
 }
 
 const inputAttestationCodeLock = new AwaitLock()
+const receiveAttestationCodeLock = new AwaitLock()
 
 export function* startVerificationSaga({ withoutRevealing }: StartVerificationAction) {
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
@@ -190,7 +191,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
   let receiveMessageTask: Task | undefined
   let autoRetrievalTask: Task | undefined
   const withoutRevealing = action.payload
-  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  const shouldUseKomenci: boolean | undefined = yield select(shouldUseKomenciSelector)
   try {
     yield put(setVerificationStatus(VerificationStatus.Prepping))
 
@@ -666,24 +667,29 @@ export function attestationCodeReceiver(
       action.index
     )
 
-    const attestationInputStatus = yield select(attestationInputStatusSelector)
-    const index = action.index ?? indexReadyForInput(attestationInputStatus)
-    if (index >= NUM_ATTESTATIONS_REQUIRED) {
-      Logger.error(
-        TAG + '@attestationCodeReceiver',
-        'All attestation code positions are full. Ignoring.'
-      )
-      return
-    }
-    yield put(setAttestationInputStatus(index, CodeInputStatus.Received))
+    // Only one code should be being received at the same time so that it doesn't cause any UI glitches by using
+    // the same index position for more that one. We use the lock for that.
+    yield call([receiveAttestationCodeLock, receiveAttestationCodeLock.acquireAsync])
 
-    const allIssuers = attestations.map((a) => a.issuer)
-    let securityCodeWithPrefix: string | null = null
-    let message = action.message
-
+    let message: string = action.message
+    let index: number | null = null
     try {
+      const attestationInputStatus: CodeInputStatus[] = yield select(attestationInputStatusSelector)
+      index = action.index ?? indexReadyForInput(attestationInputStatus)
+      if (index >= NUM_ATTESTATIONS_REQUIRED) {
+        Logger.error(
+          TAG + '@attestationCodeReceiver',
+          'All attestation code positions are full. Ignoring.'
+        )
+        return
+      }
+      yield put(setAttestationInputStatus(index, CodeInputStatus.Received))
+
+      const allIssuers = attestations.map((a) => a.issuer)
+      let securityCodeWithPrefix: string | null = null
+
       securityCodeWithPrefix = extractSecurityCodeWithPrefix(message)
-      const signer = yield call(getConnectedUnlockedAccount)
+      const signer: string = yield call(getConnectedUnlockedAccount)
       if (securityCodeWithPrefix) {
         message = yield call(
           getAttestationCodeForSecurityCode,
@@ -725,7 +731,7 @@ export function attestationCodeReceiver(
       ValoraAnalytics.track(VerificationEvents.verification_code_received, {
         feeless: isFeelessVerification,
       })
-      const issuer = yield call(
+      const issuer: string | null = yield call(
         [attestationsWrapper, attestationsWrapper.findMatchingIssuer],
         phoneHashDetails.phoneHash,
         account,
@@ -742,7 +748,7 @@ export function attestationCodeReceiver(
         issuer,
         feeless: isFeelessVerification,
       })
-      const isValidRequest = yield call(
+      const isValidRequest: boolean = yield call(
         [attestationsWrapper, attestationsWrapper.validateAttestationCode],
         phoneHashDetails.phoneHash,
         account,
@@ -763,6 +769,8 @@ export function attestationCodeReceiver(
         `Attestation code (${message}) is valid, starting processing (issuer: ${issuer})`
       )
 
+      yield put(setAttestationInputStatus(index, CodeInputStatus.Processing))
+
       yield put(
         inputAttestationCode(
           { code: attestationCode, shortCode: securityCodeWithPrefix, issuer },
@@ -776,7 +784,11 @@ export function attestationCodeReceiver(
         error
       )
       yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
-      yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
+      if (index !== null) {
+        yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
+      }
+    } finally {
+      receiveAttestationCodeLock.release()
     }
   }
 }
@@ -956,12 +968,8 @@ function* completeAttestation(
     `Completing code (${code.shortCode} ${codePosition}) for issuer: ${code.issuer}`
   )
 
-  // Make each concurrent completion attempt wait a sec for where they are relative to other codes
-  // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
-  // will have 0 delay, 1-index code will have 1 sec delay, etc.
   if (shouldUseKomenci) {
-    yield delay(codePosition * 5000)
-    yield inputAttestationCodeLock.acquireAsync()
+    yield call([inputAttestationCodeLock, inputAttestationCodeLock.acquireAsync])
     try {
       Logger.debug(TAG + '@completeAttestation', `Call complete for ${code.shortCode}`)
       const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
@@ -983,7 +991,7 @@ function* completeAttestation(
       Logger.error(TAG, '@completeAttestation - Failed to complete tx', error)
       throw error
     } finally {
-      yield inputAttestationCodeLock.release()
+      inputAttestationCodeLock.release()
     }
   } else {
     // Generate and send the transaction to complete the attestation from the given issuer.
