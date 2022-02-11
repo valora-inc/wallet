@@ -6,7 +6,7 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PlusIcon from 'src/icons/PlusIcon'
 import TripleDotVertical from 'src/icons/TripleDotVertical'
 import {
@@ -24,10 +24,16 @@ import { navigate } from 'src/navigator/NavigationService'
 import openPlaid from './openPlaid'
 import { plaidParamsSelector } from 'src/account/selectors'
 import OptionsChooser from 'src/components/OptionsChooser'
+import Logger from 'src/utils/Logger'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
+
+const TAG = 'BankAccounts'
 function BankAccounts({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
   const accountMTWAddress = useSelector(mtwAddressSelector)
@@ -55,8 +61,9 @@ function BankAccounts({ navigation, route }: Props) {
         verifyDekAndMTW({ dekPrivate, accountMTWAddress })
       )
       return accounts
-    } catch {
-      // TODO(wallet#1447): handle errors from IHL
+    } catch (error) {
+      Logger.warn(TAG, error)
+      dispatch(showError(ErrorMessages.GET_BANK_ACCOUNTS_FAIL))
       return
     }
   }, [newPublicToken])
@@ -108,8 +115,9 @@ function BankAccounts({ navigation, route }: Props) {
         id: selectedBankId,
       })
       await bankAccounts.execute()
-    } catch {
-      // TODO(wallet#1447): handle errors from IHL
+    } catch (error) {
+      Logger.warn(TAG, error)
+      dispatch(showError(ErrorMessages.DELETE_BANK_ACCOUNT_FAIL))
     }
   }
 
@@ -127,8 +135,12 @@ function BankAccounts({ navigation, route }: Props) {
                   publicToken,
                 })
               },
-              onExit: () => {
-                // TODO(wallet#1447): handle errors from onExit
+              onExit: ({ error }) => {
+                if (error) {
+                  navigate(Screens.LinkBankAccountErrorScreen, {
+                    error,
+                  })
+                }
               },
             })
           }
