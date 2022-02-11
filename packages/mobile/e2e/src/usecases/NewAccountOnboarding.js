@@ -3,6 +3,11 @@ import { EXAMPLE_NAME } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { launchApp } from '../utils/retries'
 
+// seedrandom(deviceUUID1)() is smaller than 0.5
+// seedrandom(deviceUUID2)() is greater than 0.5
+const deviceUUID1 = '7646fb0d146383e8'
+const deviceUUID2 = 'ec3789a252e2cb17'
+
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
     await device.terminateApp()
@@ -19,8 +24,9 @@ export default NewAccountOnboarding = () => {
   // One of the following two test cases should be deleted upon completion of the onboarding education screen experiments
   // Math.random() is mocked here because the experiment was controlled by Math.random in Navigator.tsx
   it('Create a new account (with onboarding education screens skipped)', async () => {
-    jest.spyOn(global.Math, 'random').mockReturnValue(0.3)
-
+    jest.mock('react-native-device-info', () => ({
+      getUniqueId: jest.fn(() => deviceUUID1),
+    }))
     await element(by.id('CreateAccountButton')).tap()
 
     // Accept Terms
@@ -46,11 +52,13 @@ export default NewAccountOnboarding = () => {
     // Arrived to Home screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
 
-    jest.spyOn(global.Math, 'random').mockRestore()
+    jest.unmock('react-native-device-info')
   })
 
   it('Create a new account (without onboarding education screens skipped)', async () => {
-    jest.spyOn(global.Math, 'random').mockReturnValue(0.8)
+    jest.mock('react-native-device-info', () => ({
+      getUniqueId: jest.fn(() => deviceUUID2),
+    }))
 
     // Onboarding education has 3 steps
     for (let i = 0; i < 3; i++) {
@@ -82,7 +90,7 @@ export default NewAccountOnboarding = () => {
     // Arrived to Home screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
 
-    jest.spyOn(global.Math, 'random').mockRestore()
+    jest.unmock('react-native-device-info')
   })
 
   // Ideally this wouldn't be dependent on the previous test

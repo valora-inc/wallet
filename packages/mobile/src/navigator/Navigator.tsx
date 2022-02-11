@@ -4,6 +4,7 @@ import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { useDispatch } from 'react-redux'
+import seedrandom from 'seedrandom'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
 import { skipOnboardingEducationScreen } from 'src/account/actions'
@@ -602,10 +603,12 @@ export function MainStackScreen() {
     } = mapStateToProps(store.getState())
 
     // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
-    // The randomization is hardcoded here to achieve a 50/50 split, the value is written into the redux store so the same experience
+    // The randomization is hardcoded by device id here to achieve a 50/50 split, the value is written into the redux store so the same experience
     // would persist. This block of code should be removed when the experiment is done.
+    const rng = seedrandom('deviceInfoModule.getUniqueId()')
+    const randomNumber = rng()
     const _shouldSkipOnboardingEducationScreen =
-      savedShouldSkipEducationScreen ?? Math.random() < 0.5
+      savedShouldSkipEducationScreen ?? randomNumber < 0.5
     if (savedShouldSkipEducationScreen == undefined) {
       dispatch(skipOnboardingEducationScreen(_shouldSkipOnboardingEducationScreen))
     }
