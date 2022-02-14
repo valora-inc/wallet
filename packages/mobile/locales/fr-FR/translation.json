@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez 25 % de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus pour en profiter dès maintenant ! Découvrez ici comment ça fonctionne :",
+  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre solde en {{currency}}. Disponible pour une durée limitée, alors n'attendez plus pour en profiter dès maintenant ! Découvrez ici comment ça fonctionne :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
