@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un 25% de recompensas anuales sobre tu saldo en {{currency}}. Aprovecha esta oportunidad por tiempo limitado. Así funciona:",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Aprovecha esta oportunidad por tiempo limitado. Así funciona:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
