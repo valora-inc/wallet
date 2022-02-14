@@ -667,7 +667,7 @@ export function attestationCodeReceiver(
       action.index
     )
 
-    // Only one code should be being received at the same time so that it doesn't cause any UI glitches by using
+    // Only one code should be received at the same time so that it doesn't cause any UI glitches by using
     // the same index position for more that one. We use the lock for that.
     yield call([receiveAttestationCodeLock, receiveAttestationCodeLock.acquireAsync])
 
