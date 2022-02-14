@@ -444,14 +444,13 @@ const styles = StyleSheet.create({
   },
   categoryTextContainer: {
     borderRadius: 100,
+    paddingHorizontal: 11,
+    paddingVertical: 4,
   },
   // Padding values honor figma designs
   categoryText: {
-    ...fontStyles.regular,
-    fontSize: 12.5,
-    borderRadius: 100,
-    paddingHorizontal: 11,
-    paddingVertical: 4,
+    ...fontStyles.sectionHeader,
+    fontSize: 13,
   },
   bottomSheetTitleText: {
     ...fontStyles.h2,
