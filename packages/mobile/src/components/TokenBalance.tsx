@@ -11,6 +11,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import { refreshAllBalances } from 'src/home/actions'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import {
@@ -27,7 +28,6 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { refreshAllBalances } from 'src/home/actions'
 
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
@@ -132,8 +132,9 @@ export function HomeTokenBalance() {
         <Dialog
           title={t('whatTotalValue.title')}
           isVisible={infoVisible}
-          secondaryActionText={t('whatTotalValue.dismiss')}
-          secondaryActionPress={onCloseDialog}
+          actionText={t('whatTotalValue.dismiss')}
+          actionPress={onCloseDialog}
+          isActionHighlighted={false}
           onBackgroundPress={onCloseDialog}
         >
           {t('whatTotalValue.body')}

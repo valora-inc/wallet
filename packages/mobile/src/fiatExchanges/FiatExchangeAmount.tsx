@@ -235,8 +235,9 @@ function FiatExchangeAmount({ route }: Props) {
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <Dialog
         isVisible={showingInvalidAmountDialog}
-        secondaryActionText={t('invalidAmountDialog.dismiss')}
-        secondaryActionPress={closeInvalidAmountDialog}
+        actionText={t('invalidAmountDialog.dismiss')}
+        actionPress={closeInvalidAmountDialog}
+        isActionHighlighted={false}
         onBackgroundPress={closeInvalidAmountDialog}
         testID={'invalidAmountDialog'}
       >

@@ -45,8 +45,9 @@ class FeeIcon extends React.Component<Props, State> {
         <Dialog
           title={title}
           isVisible={isOpen}
-          secondaryActionText={dismissText}
-          secondaryActionPress={this.onDismiss}
+          actionText={dismissText}
+          actionPress={this.onDismiss}
+          isActionHighlighted={false}
           onBackgroundPress={this.onDismiss}
         >
           {description}

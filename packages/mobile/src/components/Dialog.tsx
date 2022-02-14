@@ -18,6 +18,7 @@ interface Props {
   title?: string | React.ReactNode
   children: React.ReactNode
   actionText?: string
+  isActionHighlighted?: boolean
   actionPress?: () => void
   secondaryActionText?: string
   secondaryActionDisabled?: boolean
@@ -33,6 +34,7 @@ export default function Dialog({
   children,
   actionPress,
   actionText,
+  isActionHighlighted = true,
   secondaryActionText,
   secondaryActionDisabled,
   secondaryActionPress,
@@ -66,7 +68,7 @@ export default function Dialog({
           <>
             {actionText && (
               <TextButton
-                style={styles.primary}
+                style={isActionHighlighted ? styles.primary : styles.secondary}
                 onPress={actionPress}
                 testID={testID && `${testID}/PrimaryAction`}
               >

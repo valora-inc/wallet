@@ -203,8 +203,8 @@ describe('FiatExchangeAmount cashIn', () => {
       (DOLLAR_ADD_FUNDS_MIN_AMOUNT - 1).toString()
     )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -231,8 +231,8 @@ describe('FiatExchangeAmount cashIn', () => {
       minAmountInLocalCurrency.minus(1).toString()
     )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -250,8 +250,8 @@ describe('FiatExchangeAmount cashIn', () => {
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0.5')
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -272,8 +272,8 @@ describe('FiatExchangeAmount cashIn', () => {
       (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1).toString()
     )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -300,8 +300,8 @@ describe('FiatExchangeAmount cashIn', () => {
       maxAmountInLocalCurrency.plus(1).toString()
     )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -329,8 +329,8 @@ describe('FiatExchangeAmount cashIn', () => {
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(tree.getByTestId('invalidAmountDialog/SecondaryAction')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('invalidAmountDialog/SecondaryAction'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 

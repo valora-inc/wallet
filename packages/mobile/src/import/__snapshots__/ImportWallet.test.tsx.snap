@@ -282,12 +282,14 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
     }
     swipeThreshold={100}
     transparent={true}
-    visible={true}
+    visible={false}
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
       forwardedRef={[Function]}
+      nativeID="animatedComponent"
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -310,8 +312,10 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
       }
     />
     <View
+      collapsable={false}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
+      nativeID="animatedComponent"
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
@@ -328,7 +332,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
           "margin": 37.5,
           "transform": Array [
             Object {
-              "translateY": 1334,
+              "translateY": 0,
             },
           ],
         }

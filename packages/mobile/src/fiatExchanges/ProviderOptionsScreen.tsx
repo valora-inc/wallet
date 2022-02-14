@@ -298,8 +298,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
             <Dialog
               title={t('explanationModal.title')}
               isVisible={showingExplanation}
-              secondaryActionText={t('dismiss')}
-              secondaryActionPress={onDismissExplanation}
+              actionText={t('dismiss')}
+              actionPress={onDismissExplanation}
+              isActionHighlighted={false}
               onBackgroundPress={onDismissExplanation}
             >
               {t('explanationModal.body')}

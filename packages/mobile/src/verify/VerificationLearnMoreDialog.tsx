@@ -16,8 +16,9 @@ export default function VerificationLearnMoreDialog({ isVisible, onPressDismiss 
       testID="VerificationLearnMoreDialog"
       title={t('verificationLearnMoreDialog.title')}
       isVisible={isVisible}
-      secondaryActionText={t('verificationLearnMoreDialog.dismiss')}
-      secondaryActionPress={onPressDismiss}
+      actionText={t('verificationLearnMoreDialog.dismiss')}
+      actionPress={onPressDismiss}
+      isActionHighlighted={false}
       onBackgroundPress={onPressDismiss}
     >
       <Trans i18nKey="verificationLearnMoreDialog.body">

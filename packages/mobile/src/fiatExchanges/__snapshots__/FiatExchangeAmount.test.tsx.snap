@@ -183,7 +183,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="invalidAmountDialog/SecondaryAction"
+              testID="invalidAmountDialog/PrimaryAction"
             >
               <Text
                 style={
@@ -900,7 +900,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="invalidAmountDialog/SecondaryAction"
+              testID="invalidAmountDialog/PrimaryAction"
             >
               <Text
                 style={

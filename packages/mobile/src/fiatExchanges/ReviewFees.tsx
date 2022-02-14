@@ -72,8 +72,9 @@ export default function ReviewFees({
     <View style={[styles.review]}>
       <Dialog
         isVisible={showFeeExplanation}
-        secondaryActionText={t('ok')}
-        secondaryActionPress={closeFeeExplanation}
+        actionText={t('ok')}
+        actionPress={closeFeeExplanation}
+        isActionHighlighted={false}
         onBackgroundPress={closeFeeExplanation}
       >
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
@@ -85,8 +86,9 @@ export default function ReviewFees({
       </Dialog>
       <Dialog
         isVisible={showFeeDiscountExplanation}
-        secondaryActionText={t('ok')}
-        secondaryActionPress={closeFeeDiscountExplanation}
+        actionText={t('ok')}
+        actionPress={closeFeeDiscountExplanation}
+        isActionHighlighted={false}
         onBackgroundPress={closeFeeDiscountExplanation}
       >
         <Text style={[fontStyles.large600]}>{t('providerFeeDiscountDialog.title')}</Text>

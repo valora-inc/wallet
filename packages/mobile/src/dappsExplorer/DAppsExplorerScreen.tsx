@@ -270,8 +270,9 @@ export function DAppsExplorerScreen() {
       <Dialog
         title={t('dappsScreenHelpDialog.title')}
         isVisible={isHelpDialogVisible}
-        secondaryActionText={t('dappsScreenHelpDialog.dismiss')}
-        secondaryActionPress={onCloseDialog}
+        actionText={t('dappsScreenHelpDialog.dismiss')}
+        actionPress={onCloseDialog}
+        isActionHighlighted={false}
         onBackgroundPress={onCloseDialog}
       >
         {t('dappsScreenHelpDialog.message')}
