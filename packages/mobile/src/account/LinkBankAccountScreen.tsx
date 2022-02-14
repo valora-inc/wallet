@@ -20,7 +20,8 @@ import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import openPlaid from './openPlaid'
+import openPlaid, { handleOnEvent } from './openPlaid'
+import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { linkBankAccountStepTwoEnabledSelector } from '../app/selectors'
 
 interface StepOneProps {
@@ -199,7 +200,7 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
   const plaidParams = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
-
+  usePlaidEmitter(handleOnEvent)
   return (
     <View style={styles.stepTwo}>
       <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>
@@ -217,8 +218,9 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
       </Text>
       <Button
         style={styles.button}
-        onPress={() =>
-          openPlaid({
+        onPress={async () => {
+          ValoraAnalytics.track(CICOEvents.add_initial_bank_account_start)
+          await openPlaid({
             ...plaidParams,
             onSuccess: ({ publicToken }) => {
               navigate(Screens.SyncBankAccountScreen, {
@@ -233,7 +235,7 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
               }
             },
           })
-        }
+        }}
         text={
           stepTwoEnabled
             ? t('linkBankAccountScreen.stepTwo.cta')
