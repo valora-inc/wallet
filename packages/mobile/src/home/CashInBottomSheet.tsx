@@ -6,23 +6,23 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 // import styles from '@celo/react-components/styles/styles'
 import React, { useEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { fetchProviders } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
-import { currentAccountSelector } from 'src/web3/selectors'
-import Logger from 'src/utils/Logger'
-import { fetchProviders } from 'src/fiatExchanges/utils'
-import { useAsync } from 'react-async-hook'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'CashInBottomSheet'
 
@@ -80,7 +80,7 @@ function CashInBottomSheet() {
           rampURL: rampProvider?.url,
         }
       } catch (error) {
-        Logger.error(TAG, 'Failed to fetch CICO providers')
+        Logger.error(TAG, 'Failed to fetch CICO providers', error)
       }
     },
     [],

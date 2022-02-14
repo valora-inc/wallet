@@ -757,9 +757,11 @@
     "codePlaceholder3": "Copy the third message",
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages",
-    "resendMessages_all": "Resend all messages"
+    "resendMessages_all": "Resend all messages",
+    "resendMessages_0": "Resend last message",
+    "resendMessages_1": "Resend {{count}} messages",
+    "resendMessages_2": "Resend {{count}} messages",
+    "resendMessages_3": "Resend {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",
@@ -771,8 +773,10 @@
       "title": "Missing some or all messages?",
       "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
+      "content_countdown_0": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
+      "content_countdown_1": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds.",
+      "content_countdown_2": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds.",
+      "content_countdown_3": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Skip for now",
@@ -816,8 +820,6 @@
   "characterLimitExceeded": "{{max}} Character Limit Exceeded",
   "payRequest": "Pay Request",
   "sendTo": "Send to",
-  "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars",
   "addDescription": "Add description",
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
@@ -1172,5 +1174,9 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Others",
-  "nomSpaceRecipient": "Nomspace: {{name}}"
+  "nomSpaceRecipient": "Nomspace: {{name}}",
+  "celoDollarAmount_0": "<0></0> Celo Dollar",
+  "celoDollarAmount_1": "<0></0> Celo Dollars",
+  "celoDollarAmount_2": "<0></0> Celo Dollars",
+  "celoDollarAmount_3": "<0></0> Celo Dollars"
 }

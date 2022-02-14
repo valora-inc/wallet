@@ -53,7 +53,11 @@ export default class ReactNativeLogger {
       Sentry.captureException(error, {
         extra: {
           tag,
-          message,
+          // TODO: the toString() can be removed after upgrading TS to v4. It is
+          // needed for now because the try/catch errors are typed as any, and we
+          // don't get warnings from calling this function like
+          // `Logger.error(TAG, error)`
+          message: message?.toString(),
           errorMsg,
           source: 'Logger.error',
           networkConnected: this.isNetworkConnected,

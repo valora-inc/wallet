@@ -101,7 +101,7 @@ export function* appVersionSaga() {
       yield put(minAppVersionDetermined(minRequiredVersion))
     }
   } catch (error) {
-    Logger.error(`${TAG}@appVersionSaga`, error)
+    Logger.error(`${TAG}@appVersionSaga`, 'Failed to watch app version', error)
   } finally {
     if (yield cancelled()) {
       appVersionChannel.close()

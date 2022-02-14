@@ -54,7 +54,7 @@ export function* fetchPhoneHashPrivate(e164Number: string) {
         throw new Error(ErrorMessages.SALT_QUOTA_EXCEEDED)
       }
     } else {
-      Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'Unknown error', error)
+      Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'Failed to fetch phone hash private', error)
       throw new Error(ErrorMessages.SALT_FETCH_FAILURE)
     }
   }

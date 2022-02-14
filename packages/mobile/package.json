@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -208,7 +208,7 @@
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@valora/eslint-config-typescript": "^0.0.1",
-    "@valora/resolve-kit": "^0.0.3",
+    "@valora/resolve-kit": "^1.0.1",
     "@walletconnect/client": "^2.0.0-beta.20",
     "@walletconnect/node": "^1.0.0",
     "@walletconnect/qrcode-modal": "^1.6.6",

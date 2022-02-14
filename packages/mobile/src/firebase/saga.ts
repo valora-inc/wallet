@@ -158,7 +158,11 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
       yield put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
     }
   } catch (error) {
-    Logger.error(`${TAG}@subscribeToCeloGoldExchangeRateHistory`, error)
+    Logger.error(
+      `${TAG}@subscribeToCeloGoldExchangeRateHistory`,
+      'Failed to subscribe to celo gold exchange rate history',
+      error
+    )
   } finally {
     if (yield cancelled()) {
       channel.close()

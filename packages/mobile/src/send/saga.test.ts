@@ -338,7 +338,6 @@ describe(sendPaymentOrInviteSaga, () => {
     type: Actions.SEND_PAYMENT_OR_INVITE,
     amount,
     tokenAddress: mockCusdAddress,
-    amountInLocalCurrency: amount.multipliedBy(1.33),
     usdAmount: amount,
     comment: '',
     recipient: mockQRCodeRecipient,
