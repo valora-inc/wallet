@@ -21,13 +21,17 @@ import { StackParamList } from 'src/navigator/types'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import { navigate } from 'src/navigator/NavigationService'
-import openPlaid from './openPlaid'
+import openPlaid, { handleOnEvent } from './openPlaid'
 import { plaidParamsSelector } from 'src/account/selectors'
 import OptionsChooser from 'src/components/OptionsChooser'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
+import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
 function BankAccounts({ navigation, route }: Props) {
   const { t } = useTranslation()
+  usePlaidEmitter(handleOnEvent)
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
   const accountMTWAddress = useSelector(mtwAddressSelector)
@@ -102,6 +106,9 @@ function BankAccounts({ navigation, route }: Props) {
 
   async function deleteBankAccount() {
     setIsOptionsVisible(false)
+    ValoraAnalytics.track(CICOEvents.delete_bank_account, {
+      id: selectedBankId,
+    })
     try {
       await deleteFinclusiveBankAccount({
         ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
@@ -119,8 +126,9 @@ function BankAccounts({ navigation, route }: Props) {
       <View style={styles.addAccountContainer}>
         <BorderlessButton
           testID="AddAccount"
-          onPress={() =>
-            openPlaid({
+          onPress={async () => {
+            ValoraAnalytics.track(CICOEvents.add_bank_account_start)
+            await openPlaid({
               ...plaidParams,
               onSuccess: ({ publicToken }) => {
                 navigate(Screens.SyncBankAccountScreen, {
@@ -131,7 +139,7 @@ function BankAccounts({ navigation, route }: Props) {
                 // TODO(wallet#1447): handle errors from onExit
               },
             })
-          }
+          }}
         >
           <View style={styles.row}>
             <View style={styles.plusIconContainer}>
