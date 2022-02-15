@@ -608,30 +608,22 @@ export function MainStackScreen() {
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
+    } else if (
+      !name ||
+      !acceptedTerms ||
+      pincodeType === PincodeType.Unset ||
+      (!account && !choseToRestoreAccount)
+    ) {
       // User didn't go far enough in onboarding, start again from education
-
-      ValoraAnalytics.track(
-        _shouldSkipOnboardingEducationScreen
-          ? OnboardingEvents.onboarding_education_skipped
-          : OnboardingEvents.onboarding_education_not_skipped
-      )
-      initialRoute = _shouldSkipOnboardingEducationScreen
-        ? Screens.Welcome
-        : Screens.OnboardingEducationScreen
-    } else if (!account) {
-      if (choseToRestoreAccount) {
-        initialRoute = Screens.ImportWallet
+      if (_shouldSkipOnboardingEducationScreen) {
+        initialRoute = Screens.Welcome
+        ValoraAnalytics.track(OnboardingEvents.onboarding_education_skipped)
       } else {
-        ValoraAnalytics.track(
-          _shouldSkipOnboardingEducationScreen
-            ? OnboardingEvents.onboarding_education_skipped
-            : OnboardingEvents.onboarding_education_not_skipped
-        )
-        initialRoute = _shouldSkipOnboardingEducationScreen
-          ? Screens.Welcome
-          : Screens.OnboardingEducationScreen
+        initialRoute = Screens.OnboardingEducationScreen
+        ValoraAnalytics.track(OnboardingEvents.onboarding_education_not_skipped)
       }
+    } else if (!account && choseToRestoreAccount) {
+      initialRoute = Screens.ImportWallet
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
