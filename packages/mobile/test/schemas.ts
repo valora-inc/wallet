@@ -948,6 +948,15 @@ export const v32Schema = {
     hasLinkedBankAccount: false,
   },
 }
+
+export const v33Schema = {
+  ...v32Schema,
+  _persist: {
+    ...v32Schema._persist,
+    version: 33,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v32Schema as Partial<RootState>
+  return v33Schema as Partial<RootState>
 }
