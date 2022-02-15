@@ -56,9 +56,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
    * Emulator only. When in the emulator we want to be able
    * to enter QR codes manually.
    */
-  const [value, setValue] = useState(
-    'celo://wallet/payment?reference_id=cc0562de-d0a8-497a-b375-afea8b81c033&api_base=https%3A%2F%2Fsandbox.pikaia.firstdag.com%2Fapi%2Fcelo'
-  )
+  const [value, setValue] = useState('')
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
 
   const openModal = () => {

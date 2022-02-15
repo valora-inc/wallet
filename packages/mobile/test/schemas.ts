@@ -778,29 +778,13 @@ export const v24Schema = {
   },
   app: {
     ...v23Schema.app,
-    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    sentryTracesSampleRate: 0.2,
   },
-  fees: {
-    estimates: {
-      [mockCusdAddress]: {
-        ['send']: {
-          usdFee: '0.02',
-          lastUpdated: 500,
-          loading: false,
-          error: false,
-        },
-        ['invite']: {
-          usdFee: '0.04',
-          lastUpdated: 500,
-          loading: false,
-          error: false,
-        },
-        ['exchange']: undefined,
-        ['reclaim-escrow']: undefined,
-        ['register-dek']: undefined,
-      },
-    },
+  transactions: {
+    ...v23Schema.transactions,
+    transactions: [],
   },
+  invites: undefined,
 }
 
 export const v25Schema = {
@@ -924,6 +908,18 @@ export const v29Schema = {
   },
 }
 
+export const v30Schema = {
+  ...v29Schema,
+  _persist: {
+    ...v29Schema._persist,
+    version: 30,
+  },
+  app: {
+    ...v29Schema.app,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v29Schema as Partial<RootState>
+  return v30Schema as Partial<RootState>
 }

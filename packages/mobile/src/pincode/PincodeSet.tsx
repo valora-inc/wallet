@@ -19,7 +19,12 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { DEFAULT_CACHE_ACCOUNT, PinBlocklist, updatePin } from 'src/pincode/authentication'
+import {
+  DEFAULT_CACHE_ACCOUNT,
+  isPinValid,
+  PinBlocklist,
+  updatePin,
+} from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -144,11 +149,10 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return true
-    // return (
-    //   isPinValid(pin) &&
-    //   (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
-    // )
+    return (
+      isPinValid(pin) &&
+      (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
+    )
   }
 
   isPin2Valid = (pin: string) => {

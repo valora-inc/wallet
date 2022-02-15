@@ -48,6 +48,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   linkBankAccountEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
-  paymentDeepLinkHandler: '',
-  paymentDeepLinkHandler: PaymentDeepLinkHandler.Merchant, // TODO: change back to .Disabled
+  // TODO: revert to .Disabled when ready to merge
+  paymentDeepLinkHandler: PaymentDeepLinkHandler.Merchant,
 }
