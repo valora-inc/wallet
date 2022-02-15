@@ -9,6 +9,8 @@ import openPlaid from 'src/account/openPlaid'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOEvents } from 'src/analytics/Events'
 
 let personaButtonSuccessCallback: (() => any) | undefined // using this to simulate Persona success at any arbitrary time
 const MockPersona = ({ onSuccess, onPress }: { onSuccess: () => any; onPress: () => any }) => {
@@ -17,6 +19,8 @@ const MockPersona = ({ onSuccess, onPress }: { onSuccess: () => any; onPress: ()
 }
 
 const MOCK_PHONE_NUMBER = '+18487623478'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('./Persona', () => ({
   __esModule: true,
@@ -82,6 +86,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
 
       await fireEvent.press(getByTestId('PlaidLinkButton'))
 
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.add_initial_bank_account_start)
       expect(openPlaid).toHaveBeenCalledWith({
         accountMTWAddress: mockAccount,
         locale: 'en-US',
