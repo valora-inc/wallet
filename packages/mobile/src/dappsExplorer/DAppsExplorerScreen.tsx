@@ -442,16 +442,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  categoryTextContainer: {
-    borderRadius: 100,
-  },
   // Padding values honor figma designs
-  categoryText: {
-    ...fontStyles.regular,
-    fontSize: 12.5,
+  categoryTextContainer: {
     borderRadius: 100,
     paddingHorizontal: 11,
     paddingVertical: 4,
+  },
+  categoryText: {
+    ...fontStyles.sectionHeader,
+    fontSize: 13,
   },
   bottomSheetTitleText: {
     ...fontStyles.h2,

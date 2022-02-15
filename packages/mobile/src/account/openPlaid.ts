@@ -1,6 +1,14 @@
 import { Platform } from 'react-native'
-import { openLink, LinkSuccess, LinkExit } from 'react-native-plaid-link-sdk'
+import {
+  openLink,
+  LinkSuccess,
+  LinkExit,
+  LinkEvent,
+  LinkEventName,
+} from 'react-native-plaid-link-sdk'
 import { showError } from 'src/alert/actions'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createLinkToken, verifyDekAndMTW } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
@@ -55,5 +63,40 @@ export default async function openPlaid({
   } catch (error) {
     Logger.warn(TAG, error)
     store.dispatch(showError(ErrorMessages.PLAID_CREATE_LINK_TOKEN_FAIL))
+  }
+}
+
+/**
+ * Logs analytics events for things that happen in the plaid flow
+ *
+ * Use with usePlaidEmitter https://plaid.com/docs/link/react-native/#onevent
+ *
+ */
+export function handleOnEvent(linkEvent: LinkEvent) {
+  const { eventName, metadata } = linkEvent
+  const {
+    linkSessionId,
+    institutionId = 'N/A',
+    institutionName = 'N/A',
+    errorType = 'N/A',
+    errorCode = 'N/A',
+  } = metadata
+  switch (eventName) {
+    case LinkEventName.OPEN:
+      return ValoraAnalytics.track(CICOEvents.plaid_open_link_flow, { linkSessionId })
+    case LinkEventName.SELECT_INSTITUTION:
+      return ValoraAnalytics.track(CICOEvents.plaid_select_institution, {
+        linkSessionId,
+        institutionId,
+        institutionName,
+      })
+    case LinkEventName.SUBMIT_CREDENTIALS:
+      return ValoraAnalytics.track(CICOEvents.plaid_submit_credentials, { linkSessionId })
+    case LinkEventName.EXIT:
+      return ValoraAnalytics.track(CICOEvents.plaid_exit, { linkSessionId })
+    case LinkEventName.HANDOFF:
+      return ValoraAnalytics.track(CICOEvents.plaid_handoff, { linkSessionId })
+    case LinkEventName.ERROR:
+      return ValoraAnalytics.track(CICOEvents.plaid_error, { linkSessionId, errorCode, errorType })
   }
 }
