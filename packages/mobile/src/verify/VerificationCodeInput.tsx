@@ -2,7 +2,7 @@ import { hexToBuffer } from '@celo/utils/lib/address'
 import { extractSecurityCodeWithPrefix } from '@celo/utils/lib/attestations'
 import React, { useEffect } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import { setAttestationInputStatus } from 'src/identity/actions'
 import { ATTESTATION_CODE_PLACEHOLDER } from 'src/identity/reducer'
@@ -12,6 +12,7 @@ import {
   attestationInputStatusSelector,
 } from 'src/identity/selectors'
 import { AttestationCode } from 'src/identity/verification'
+import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 import { indexReadyForInput } from 'src/verify/utils'
 
