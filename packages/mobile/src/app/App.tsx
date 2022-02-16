@@ -70,7 +70,7 @@ export class App extends React.Component<Props> {
     // Handles opening Clevertap deeplinks when app is closed / in background
     CleverTap.getInitialUrl(async (err: any, url: any) => {
       if (err) {
-        Logger.error('App CleverTap Deeplink on Load', err)
+        Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
       } else if (url) {
         await this.handleOpenURL({ url }, true)
       }
