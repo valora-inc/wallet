@@ -56,7 +56,10 @@ export default async function openPlaid({
       phoneNumber,
     })
     return openLink({
-      tokenConfig: { token: linkToken },
+      tokenConfig: {
+        token: linkToken,
+        noLoadingState: false,
+      },
       onSuccess,
       onExit,
     })
