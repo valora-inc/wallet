@@ -30,11 +30,6 @@ export default NewAccountPhoneVerification = () => {
     // Dismiss banners for firebase warning
     await dismissBanners()
 
-    // Proceed through education screens
-    for (let i = 0; i < 3; i++) {
-      await element(by.id('Education/progressButton')).tap()
-    }
-
     // Create new account
     await element(by.id('CreateAccountButton')).tap()
 
