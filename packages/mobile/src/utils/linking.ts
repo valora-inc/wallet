@@ -13,8 +13,8 @@ export function navigateToWalletStorePage() {
   }
 }
 
-export function isDeepLink(deeplink: string): boolean {
-  return deeplink.startsWith('celo:')
+export function isDeepLink(url: string): boolean {
+  return url.startsWith('celo:')
 }
 
 export function navigateToURI(uri: string, backupUri?: string) {

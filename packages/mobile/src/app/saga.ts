@@ -280,7 +280,6 @@ export function* watchDeepLinks() {
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
-
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, url)
   Logger.debug(TAG, 'Handling url', url)
   if (isDeepLink(url) || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
