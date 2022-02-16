@@ -129,11 +129,11 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1 || v2,
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    linkBankAccountEnabled: state.app.linkBankAccountEnabled,
+    linkBankAccountEnabled: true,
     kycStatus: state.account.kycStatus,
     mtwAddress: state.web3.mtwAddress,
     hasLinkedBankAccount: state.account.hasLinkedBankAccount,
-    linkBankAccountStepTwoEnabled: state.app.linkBankAccountStepTwoEnabled,
+    linkBankAccountStepTwoEnabled: true,
   }
 }
 

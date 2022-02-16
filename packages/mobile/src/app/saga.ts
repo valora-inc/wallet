@@ -2,6 +2,7 @@ import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import * as Keychain from 'react-native-keychain'
+import { openLink } from 'react-native-plaid-link-sdk'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -15,6 +16,9 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
+import openPlaid from 'src/account/openPlaid'
+import { KycStatus } from 'src/account/reducer'
+import { plaidParamsSelector } from 'src/account/selectors'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -240,9 +244,28 @@ function convertQueryToScreenParams(query: string) {
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
+  // const plaidParams = yield select(plaidParamsSelector)
 
   if (isPlaidRedirectDeepLink(deepLink)) {
-    navigate(Screens.BankAccounts, { newPublicToken: undefined })
+    // const urlParams = new URLSearchParams(deepLink)
+    // const oauth_state_id = urlParams.get('oauth_state_id') || ''
+
+    // yield call(openLink,{
+    //   tokenConfig: { token: "link-sandbox-3331e280-3495-4bd6-ac25-8d003c282849" },
+    //   onSuccess: ({ publicToken }) => {
+    //     console.debug("HELLO WORLD", publicToken)
+    //     navigate(Screens.SyncBankAccountScreen, {
+    //       publicToken,
+    //     })
+    //   },
+    //   onExit: ({ error }) => {
+    //     if (error) {
+    //       navigate(Screens.LinkBankAccountErrorScreen, {
+    //         error: error,
+    //       })
+    //     }
+    //   },
+    // })
     return
   }
 

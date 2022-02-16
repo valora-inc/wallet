@@ -7,7 +7,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
+import { usePlaidEmitter, useDeepLinkRedirector } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
@@ -49,7 +49,7 @@ function LinkBankAccountScreen() {
         showsVerticalScrollIndicator={false}
       >
         <StepOne kycStatus={kycStatus} />
-        <StepTwo disabled={!stepTwoEnabled || kycStatus !== KycStatus.Approved} />
+        <StepTwo disabled={false} />
       </ScrollView>
     </SafeAreaView>
   )
@@ -200,11 +200,11 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
   const plaidParams = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
-  usePlaidEmitter(handleOnEvent)
-
   // This is used to handle universal links within React Native
   // https://plaid.com/docs/link/oauth/#handling-universal-links-within-react-native
   useDeepLinkRedirector()
+  usePlaidEmitter(handleOnEvent)
+
   return (
     <View style={styles.stepTwo}>
       <Text style={{ ...styles.label, ...(disabled && styles.greyedOut) }}>
