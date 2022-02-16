@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
-    "earningText": "Aggiungi {{minBalance}} {{currency}} e fino a 1000 {{currency}} per iniziare.",
+    "earningText": "Ricevi premi su 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
@@ -1040,7 +1040,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pagamento inviato",
   "feedItemCeloRewardReceivedTitle": "CELO guadagnati",
-  "feedItemRewardReceivedTitle": "Bonus",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Ricompense settimanali",
   "feedItemInviteRewardReceivedTitle": "Rete Celo",
   "feedItemInviteRewardReceivedInfo": "Ricompensa ricevuta",
