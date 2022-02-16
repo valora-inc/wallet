@@ -1,10 +1,10 @@
 import { Platform } from 'react-native'
 import {
-  openLink,
-  LinkSuccess,
-  LinkExit,
   LinkEvent,
   LinkEventName,
+  LinkExit,
+  LinkSuccess,
+  openLink,
 } from 'react-native-plaid-link-sdk'
 import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
@@ -55,7 +55,7 @@ export default async function openPlaid({
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,
     })
-    console.debug('LINK TOKEN', linkToken)
+
     return openLink({
       tokenConfig: { token: linkToken },
       onSuccess,
@@ -82,7 +82,7 @@ export function handleOnEvent(linkEvent: LinkEvent) {
     errorType = 'N/A',
     errorCode = 'N/A',
   } = metadata
-  console.debug(eventName, metadata)
+
   switch (eventName) {
     case LinkEventName.OPEN:
       return ValoraAnalytics.track(CICOEvents.plaid_open_link_flow, { linkSessionId })

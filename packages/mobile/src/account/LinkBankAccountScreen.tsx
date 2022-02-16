@@ -7,7 +7,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { usePlaidEmitter, useDeepLinkRedirector } from 'react-native-plaid-link-sdk'
+import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
@@ -49,7 +49,7 @@ function LinkBankAccountScreen() {
         showsVerticalScrollIndicator={false}
       >
         <StepOne kycStatus={kycStatus} />
-        <StepTwo disabled={false} />
+        <StepTwo disabled={!stepTwoEnabled || kycStatus !== KycStatus.Approved} />
       </ScrollView>
     </SafeAreaView>
   )
