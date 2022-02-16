@@ -70,7 +70,7 @@ export class App extends React.Component<Props> {
     // Handles opening Clevertap deeplinks when app is closed / in background
     CleverTap.getInitialUrl(async (err: any, url: any) => {
       if (err) {
-        Logger.debug('App', err)
+        Logger.error('App CleverTap Deeplink on Load', err)
       } else if (url) {
         await this.handleOpenURL({ url }, true)
       }
@@ -80,7 +80,7 @@ export class App extends React.Component<Props> {
     CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
       if (event.customExtras['wzrk_dl']) {
         const url = event.customExtras['wzrk_dl']
-        await this.handleCleverTapUrl(url, true)
+        await this.handleOpenURL({ url }, true)
       }
     })
 
@@ -124,11 +124,6 @@ export class App extends React.Component<Props> {
   handleOpenURL = async (event: any, isSecureOrigin: boolean = false) => {
     await waitUntilSagasFinishLoading()
     store.dispatch(openDeepLink(event.url, isSecureOrigin))
-  }
-
-  handleCleverTapUrl = async (url: string, isSecureOrigin: boolean = false) => {
-    await waitUntilSagasFinishLoading()
-    store.dispatch(openDeepLink(url, isSecureOrigin))
   }
 
   render() {
