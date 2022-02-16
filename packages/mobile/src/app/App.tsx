@@ -68,7 +68,7 @@ export class App extends React.Component<Props> {
     await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background
-    CleverTap.getInitialUrl(async (err: any, url: any) => {
+    CleverTap.getInitialUrl(async (err: any, url) => {
       if (err) {
         Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
       } else if (url) {
