@@ -1125,8 +1125,8 @@
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
       "cta": "Bankkonto verknüpfen",
       "error": {
-        "title": "Du kannst kein Bankkonto verknüpfen.",
-        "description": "Bitte versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere den Support.",
+        "title": "Dein Konto konnte nicht verknüpfen werden.",
+        "description": "Versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere das Support-Team.",
         "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit Valora verknüpfen"
       }
     }
