@@ -28,7 +28,6 @@ use_frameworks!
 
 target "celo" do
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
-  pod 'clevertap-react-native', :path => '../../../node_modules/clevertap-react-native'
   # RNPermissions
   permissions_path = '../../../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
