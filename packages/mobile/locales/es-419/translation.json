@@ -168,7 +168,7 @@
   },
   "noMinCommitment": {
     "header": "Agrega fondos",
-    "earningText": "Agrega entre {{minBalance}} {{currency}} y 1000 {{currency}} para recibir recompensas.",
+    "earningText": "Recibe recompensas sobre 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
     "connectText": "Solo debes tener un saldo de al menos {{minBalance}} {{currency}} y conectar tu número de teléfono para empezar a obtener recompensas."
   },
   "saveMoreEarnMore": {
