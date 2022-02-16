@@ -758,10 +758,10 @@
     "codePlaceholder3_ios": "Выберите или скопируйте третье сообщение",
     "codePlaceholderWithCodeInClipboard": "Отлично! Вставьте здесь",
     "resendMessages_all": "Повторно отправить все сообщения",
-    "resendMessages_0": "Отправить последнее сообщение",
-    "resendMessages_1": "Отправить {{count}} сообщений",
-    "resendMessages_2": "Отправка {{count}} сообщений",
-    "resendMessages_3": "Отправка {{count}} сообщений"
+    "resendMessages_0": "Повторно отправить последнее сообщение",
+    "resendMessages_1": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_2": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_3": "Повторно отправить сообщения: {{count}}"
   },
   "verificationInputHelpDialog": {
     "title": "Справка",
