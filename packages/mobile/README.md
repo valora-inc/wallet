@@ -498,6 +498,9 @@ We try to minimise the differences between running Valora in different modes and
 If you're having an error with installing packages, or `secrets.json` not existing:
 
 try to run `yarn postinstall` in the wallet root folder after running `yarn install`.
+  
+If some of your assets are not loaded and you see an error running sync_branding.sh.
+Check if you have set up your Github connection with SSH.
 
 A successful `yarn postinstall` looks like:
 
