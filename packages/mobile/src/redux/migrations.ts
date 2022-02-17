@@ -416,4 +416,11 @@ export const migrations = {
       hasLinkedBankAccount: false,
     },
   }),
+  33: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      ranVerificationMigrationAt: null,
+    },
+  }),
 }
