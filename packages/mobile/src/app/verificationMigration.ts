@@ -14,10 +14,7 @@ import { mtwAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'verificationMigration'
 
-function* isAddressVerified(address: string | null) {
-  if (!address) {
-    return false
-  }
+function* fetchPhoneIdentifier() {
   const e164Number: string = yield select(e164NumberSelector)
   const e164NumberToSalt: E164NumberToSaltType = yield select(e164NumberToSaltSelector)
   const pepper = e164NumberToSalt[e164Number]
@@ -26,9 +23,20 @@ function* isAddressVerified(address: string | null) {
       TAG,
       `No number or pepper found - Number present? ${!!e164Number} - Pepper present? ${!!pepper}`
     )
+    return null
+  }
+  return getPhoneHash(e164Number, pepper)
+}
+
+function* isAddressVerified(address: string | null) {
+  if (!address) {
     return false
   }
-  const identifier = getPhoneHash(e164Number, pepper)
+
+  const identifier: string | null = yield call(fetchPhoneIdentifier)
+  if (!identifier) {
+    return false
+  }
 
   const kit: ContractKit = yield call(getContractKit)
   const attestations: AttestationsWrapper = yield call([
@@ -45,33 +53,37 @@ function* isAddressVerified(address: string | null) {
   return isVerified
 }
 
-// This migration fixes two errors introduced by the 1.13 release:
-// - mtwAddress not set in redux store
-// - non-verified users marked as verified
-export function* runVerificationMigration() {
-  const ranVerificationMigration: boolean = yield select(ranVerificationMigrationSelector)
-  if (ranVerificationMigration) {
-    return
-  }
-  Logger.debug(TAG, 'Starting to run verification migration for 1.13 errors')
-  const numberVerified: boolean = yield select(numberVerifiedSelector)
+function* fetchMtwAddress() {
   const mtwAddress: string | null = yield select(mtwAddressSelector)
   const komenci: KomenciContext = yield select(komenciContextSelector)
   const address = mtwAddress ?? komenci.unverifiedMtwAddress
   Logger.debug(
     TAG,
-    `mtwAddress: ${mtwAddress}, unverifiedMtwAddress: ${komenci.unverifiedMtwAddress}, numberVerified: ${numberVerified}`
+    `mtwAddress: ${mtwAddress}, unverifiedMtwAddress: ${komenci.unverifiedMtwAddress}`
   )
+  return address
+}
 
-  if (address) {
-    const isVerified: boolean = yield call(isAddressVerified, address)
-    Logger.debug(TAG, `address ${address} is verified: ${isVerified}`)
-    yield put(verificationMigrationRan(isVerified ? address : null, isVerified))
+// This migration makes sure that user's MTW address is set correctly and that it's
+// verification status is accurate.
+// It was used initially after the 1.13 release and again on 1.27.
+export function* runVerificationMigration() {
+  const ranVerificationMigration: boolean = yield select(ranVerificationMigrationSelector)
+  if (ranVerificationMigration) {
+    return
+  }
+  Logger.debug(TAG, 'Starting to run verification migration')
+  const mtwAddress: string | null = yield call(fetchMtwAddress)
+  const numberVerified: boolean = yield select(numberVerifiedSelector)
+
+  if (mtwAddress) {
+    const isVerified: boolean = yield call(isAddressVerified, mtwAddress)
+    Logger.debug(TAG, `address ${mtwAddress} is verified: ${isVerified}`)
+    yield put(verificationMigrationRan(isVerified ? mtwAddress : null, isVerified))
   } else {
-    // Likely older install before the MTW was introduced, or unverified account
     Logger.debug(
       TAG,
-      `mtw address not present, leaving previous verification status: ${numberVerified}`
+      `MTW address not present, leaving previous verification status: ${numberVerified}`
     )
     yield put(verificationMigrationRan(null, numberVerified))
   }
