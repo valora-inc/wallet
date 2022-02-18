@@ -7,6 +7,7 @@ import {
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { Currency } from 'src/utils/currencies'
@@ -421,6 +422,14 @@ export const migrations = {
     app: {
       ...state.app,
       ranVerificationMigrationAt: null,
+    },
+  }),
+  34: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
+      superchargeTokens: [],
     },
   }),
 }

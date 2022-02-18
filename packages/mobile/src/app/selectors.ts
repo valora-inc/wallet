@@ -82,12 +82,9 @@ export const showRaiseDailyLimitSelector = createSelector(
   }
 )
 
-export const rewardsThresholdSelector = (state: RootState) => state.app.rewardsABTestThreshold
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector, rewardsThresholdSelector],
-  (address, rewardsThreshold) => {
-    return address! < rewardsThreshold
-  }
+  [accountAddressSelector],
+  (address) => !!address
 )
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>

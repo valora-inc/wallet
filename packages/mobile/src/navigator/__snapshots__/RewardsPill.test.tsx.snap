@@ -43,13 +43,17 @@ Array [
     </svg>
     <Text
       style={
-        Object {
-          "color": "#08CB7A",
-          "fontFamily": "Inter-Regular",
-          "fontSize": 14,
-          "lineHeight": 18,
-          "marginLeft": 5,
-        }
+        Array [
+          Object {
+            "color": "#1AB775",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 18,
+          },
+          Object {
+            "marginLeft": 5,
+          },
+        ]
       }
     >
       rewards
