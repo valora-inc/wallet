@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { CELO_REWARDS_T_AND_C } from 'src/config'
+import { SUPERCHARGE_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -140,6 +140,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
     fireEvent.press(getByTestId('LearnMore'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: CELO_REWARDS_T_AND_C })
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
   })
 })

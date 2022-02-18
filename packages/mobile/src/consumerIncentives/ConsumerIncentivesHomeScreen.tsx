@@ -10,7 +10,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CELO_REWARDS_T_AND_C } from 'src/brandingConfig'
+import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
@@ -48,7 +48,7 @@ function useHasBalanceForSupercharge() {
 
   for (const tokenConfig of superchargeTokens) {
     const tokenUserInfo = tokens.find((t) => t.symbol === tokenConfig.token)
-    if (tokenUserInfo?.balance.gt(tokenConfig.minBalance)) {
+    if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
       return true
     }
   }
@@ -57,7 +57,7 @@ function useHasBalanceForSupercharge() {
 
 function Header() {
   const { t } = useTranslation()
-  const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_T_AND_C })
+  const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
 
   return (
     <View style={styles.headerContainer}>

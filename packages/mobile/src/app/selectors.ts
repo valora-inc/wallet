@@ -83,8 +83,8 @@ export const showRaiseDailyLimitSelector = createSelector(
 )
 
 export const rewardsEnabledSelector = createSelector(
-  [accountAddressSelector],
-  (address) => !!address
+  [accountAddressSelector, (state) => state.app.superchargeTokens],
+  (address, superchargeTokens) => !!address && superchargeTokens.length > 0
 )
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>

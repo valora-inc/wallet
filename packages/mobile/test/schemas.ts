@@ -967,7 +967,13 @@ export const v34Schema = {
   app: {
     ...v33Schema.app,
     superchargeApy: 25,
-    superchargeTokens: [],
+    superchargeTokens: [
+      {
+        token: 'cUSD',
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    ],
   },
 }
 
