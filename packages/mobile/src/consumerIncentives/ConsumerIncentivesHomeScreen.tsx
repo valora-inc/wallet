@@ -88,13 +88,13 @@ function SuperchargeInstructions() {
       </Text>
       {!userIsVerified && (
         <View style={styles.section}>
-          <Image source={earn1} resizeMode="contain" />
+          <Image source={earn1} style={styles.sectionIcon} resizeMode="contain" />
           <Text style={styles.sectionText}>{t('superchargeConnectNumber')}</Text>
         </View>
       )}
       {!hasBalanceForSupercharge && (
         <View style={[styles.section, userIsVerified ? {} : { opacity: 0.4 }]}>
-          <Image source={earn2} resizeMode="contain" />
+          <Image source={earn2} style={styles.sectionIcon} resizeMode="contain" />
           <Text style={styles.sectionText}>
             {t('superchargeMinimumBalance', {
               amount: tokenToSupercharge.minBalance,
@@ -232,9 +232,15 @@ const styles = StyleSheet.create({
   },
   sectionText: {
     ...fontStyles.regular600,
-    marginLeft: 20,
+    flex: 1,
+    flexGrow: 1,
+  },
+  sectionIcon: {
+    marginRight: 16,
   },
   tokenDetailsIcon: {
+    width: 12,
+    height: 12,
     marginBottom: 2,
   },
   disclaimer: {
