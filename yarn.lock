@@ -18473,12 +18473,10 @@ react-native-persona@1.2.0:
     pkg-up "^3.1.0"
     xmlbuilder2 "^2.1.2"
 
-react-native-plaid-link-sdk@^7.0.7:
-  version "7.0.7"
-  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.0.7.tgz#3304a20e7e5b7b440caf9dcf1e3246aee35aa3dd"
-  integrity sha512-jXmifw8sw3ngsqndl5dUG3pRgcNF7o+rWvSuWd0EX6vWhzfhSGhPtMIVhnCA0k1wUSEpFcrIsJweaCmRg3DPHg==
-  dependencies:
-    tsc "^1.20150623.0"
+react-native-plaid-link-sdk@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.2.1.tgz#89ae1674aad5ead0af6db999da00c807f16d54e1"
+  integrity sha512-K0CPZiP4Wm8i5Iqydp1WMlbrJQNuuNK46h/lXIcC+S6jdLwNEiTe/2/9915nEne0HuqXIMtLWEdNLkmkdAhobA==
 
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"
@@ -21189,11 +21187,6 @@ ts-retry-promise@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.6.0.tgz#95643500d5388eed25abc90aa2e99c8b6c5a7bc9"
   integrity sha512-8DF80uA7JPu6m8ouHxGkyBpPTIGQnsgIUgLDqcRaD7EEhVowjG72KqCX334gsa1P+AmzeTVdd/xEzVFCAuPCtg==
-
-tsc@^1.20150623.0:
-  version "1.20150623.0"
-  resolved "https://registry.yarnpkg.com/tsc/-/tsc-1.20150623.0.tgz#4ebc3c774e169148cbc768a7342533f082c7a6e5"
-  integrity sha1-Trw8d04WkUjLx2inNCUz8ILHpuU=
 
 tsconfig-paths@^3.9.0:
   version "3.9.0"
