@@ -1092,6 +1092,8 @@
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
   "plaidCreateLinkTokenFail": "Não foi possível vincular a conta bancária. Por favor, tente novamente mais tarde.",
+  "getBankAccountsFail": "Incapaz de recuperar suas contas bancárias vinculadas. Por favor, tente novamente mais tarde",
+  "deleteBankAccountFail": "Incapaz de excluir sua conta bancária vinculada. Por favor, tente novamente mais tarde",
   "linkBankAccountScreen": {
     "tryAgain": "Repetir",
     "verifying": {
