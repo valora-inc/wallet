@@ -265,22 +265,22 @@
   "selectPaymentMethod": "Şununla ödeme yap:",
   "payWithBank": "Banka hesabı",
   "payWithCard": "Ön ödemeli kart",
-  "payWithExchange": "Cryptocurrency exchange",
-  "selectCashOutMethod": "Receive funds in:",
-  "receiveOnAddress": "Celo address",
-  "receiveWithBidali": "Gift Cards and Mobile Top Up",
+  "payWithExchange": "Kriptopara borsası",
+  "selectCashOutMethod": "Bakiye alma şekli:",
+  "receiveOnAddress": "Celo adresi",
+  "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
-    "title": "Funding your {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
-    "dismiss": "OK"
+    "title": "{{appName}} için bakiye yükleme",
+    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza para yatırmak için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "dismiss": "Tamam"
   },
   "cashOutEducationDialog": {
-    "title": "Withdraw from {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
-    "dismiss": "OK"
+    "title": "{{appName}} uygulamasından çekim",
+    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan para çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "dismiss": "Tamam"
   },
   "explanationModal": {
-    "title": "About Providers",
+    "title": "Sağlayıcılar Hakkında",
     "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
   },
   "invalidAmountDialog": {
