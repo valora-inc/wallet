@@ -5,4 +5,4 @@
 "NSPhotoLibraryAddUsageDescription" = "Fotoğraf kitaplığınızı bağlamak, kodunuzu fotoğraflarınıza kaydetmenize olanak tanır.";
 "NSPhotoLibraryUsageDescription" = "Profil resmi seçmeniz için gereklidir.";
 "NSUserTrackingUsageDescription" = "Reklam kampanyaları üzerinden uygulama yüklemelerini doğru bir şekilde ilişkilendirmek için reklam tanımlayıcısını kullanılmaktadır.";
-"NSFaceIDUsageDescription" = "This is required for you to use Face ID to secure your account.";
+"NSFaceIDUsageDescription" = "Hesabınızın güvenliğini sağlamak adına Face ID'yi kullanmanız için gereklidir.";
