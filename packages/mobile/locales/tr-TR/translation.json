@@ -161,24 +161,24 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
+  "consumerIncentivesSummary": "Supercharge geldi! {{currency}} bakiyenizde yıllık %{{percent}} ödül kazanın. Sınırlı bir süre için kullanılabilir o yüzden hemen para kazanmaya başlayın. Supercharge şöyle çalışır:",
   "earnWeekly": {
-    "header": "Connect your phone number",
-    "text": "Tap Connect Number if you haven't connected it yet."
+    "header": "Telefon numaranı bağla",
+    "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
   },
   "noMinCommitment": {
-    "header": "Add a minimum balance",
-    "earningText": "Add {{minBalance}} {{currency}} to start. Deposit up to 1000 {{currency}} to max-out your rewards.",
-    "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
+    "header": "Minimum bakiye ekle",
+    "earningText": "Başlamak için {{minBalance}} {{currency}} ekleyin. Ödüllerinizi maksimuma çıkarmak için 1000 {{currency}}'a kadar para yatırın.",
+    "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve elefon numaranızı bağlamanız yeterlidir."
   },
   "saveMoreEarnMore": {
-    "header": "Set up your Recovery Phrase",
-    "text": "This will ensure your rewards are safe and in your control."
+    "header": "Kurtarma Cümlenizi oluşturun",
+    "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
-  "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "cashIn": "Add {{currency}}",
-  "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "conclusion": "İşte bu kadar basit. Kriptoparanızı hemen Supercharge'layın!",
+  "cashIn": "{{currency}} ekle",
+  "connectNumber": "Telefon Numarası Bağla",
+  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",
