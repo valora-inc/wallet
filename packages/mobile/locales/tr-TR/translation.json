@@ -128,39 +128,39 @@
   "importBackupFailed": "Cüzdan İçe Aktarılamadı",
   "backupQuizFailed": "Girmiş Olduğunuz Kurtarma Cümlesi yanlış. Lütfen tekrar deneyin.",
   "invalidBackupPhrase": "Kurtarma Cümlesi geçersiz",
-  "invalidWordsInBackupPhrase": "Some words in the Recovery Phrase are not valid: {{ invalidWords }}",
+  "invalidWordsInBackupPhrase": "Kurtarma Cümlesindeki bazı kelimeler geçersiz: {{ invalidWords }}",
   "backupComplete": {
-    "header": "Backup Complete",
-    "0": "Success!",
-    "1": "Next, you can set up Safeguards.",
-    "2": "You’re all set!"
+    "header": "Yedekleme Tamamlandı",
+    "0": "Başarılı!",
+    "1": "Ardından Safeguard'larınızı ayarlayabilirsiniz.",
+    "2": "Her şey tamam, hazırsınız!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
-    "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
-    "action": "Complete Now",
-    "secondary": "Set Up Later"
+    "title": "Kurtarma Cümlesi oluşturmayı tamamla",
+    "body": "Kurtarma Cümleniz son derece önemlidir. Bir İfade olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Cümlenizi oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
+    "action": "Şimdi Tamamla",
+    "secondary": "Daha Sonra Tamamla"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "Your Recovery Phrase is a special kind of password",
-      "text": "Your Recovery Phrase is the one and only way to access your account."
+      "title": "Kurtarma Cümleniz özel bir tür paroladır",
+      "text": "Kurtarma Cümleniz hesabınıza erişmeniz için tek yoludur."
     },
     {
-      "title": "Without your Recovery Phrase, you can lose access forever",
-      "text": "If you lose your phone, you must have your Recovery Phrase to get your account back. Nobody, not even {{appName}}, will be able to recover your funds without it."
+      "title": "Kurtarma Cümleniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
+      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Cümlenize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
     },
     {
-      "title": "Write it down",
-      "text": "Write down your Recovery Phrase and store it in a safe place. Do not save it in your phone."
+      "title": "Yazın",
+      "text": "Kurtarma Cümlenizi yazın ve güvenli bir yerde saklayın. Kurtarma Cümlenizi telefonunuza kaydetmeyin."
     },
     {
-      "title": "Keep your Phrase private",
-      "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
+      "title": "Cümlenizi gizli tutun",
+      "text": "Kurtarma Cümlenize sahip herhangi bir kişi hesabınıza erişebilir. Başkaları ile paylaşmayın."
     }
   ],
-  "consumerIncentivesTitle": "Get started with Supercharge",
+  "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
   "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in. Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
