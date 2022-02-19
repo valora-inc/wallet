@@ -281,28 +281,28 @@
   },
   "explanationModal": {
     "title": "Sağlayıcılar Hakkında",
-    "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
+    "body": "Sağlayıcılar, hesabınıza para eklemenize veya hesabınızdan para çekmenize izin verir. Çeşitli faktörlere bağlı olarak kendi oranlarını ve kısıtlamalarını belirlerler. Özel yardım için lütfen sağlayıcının web sitesini ziyaret edin."
   },
   "invalidAmountDialog": {
-    "minAmount": "Our providers do not support totals smaller than {{usdLimit}}{{localLimit}}. Please enter a larger amount.",
-    "maxAmount": "Our providers do not support totals larger than {{usdLimit}}{{localLimit}}. Please enter a smaller amount.",
-    "dismiss": "OK"
+    "minAmount": "Sağlayıcılarımız {{usdLimit}}{{localLimit}} değerinden küçük miktarları desteklemez. Lütfen daha büyük bir miktar girin.",
+    "maxAmount": "Sağlayıcılarımız, {{usdLimit}}{{localLimit}}'den büyük miktarları desteklemez. Lütfen daha küçük bir miktar girin.",
+    "dismiss": "Tamam"
   },
   "dailyLimitDialog": {
-    "body": "You are about to purchase more than your daily send limit of {{limit}}. Please contact <0>{{contactEmail}}</0> if you want to raise your daily send limit.",
-    "contact": "Contact",
-    "continue": "I Understand"
+    "body": "Günlük gönderme limitiniz olan {{limit}}'den fazlasını satın almak üzeresiniz. Günlük gönderme limitinizi yükseltmek istiyorsanız lütfen <0>{{contactEmail}}</0> ile iletişime geçin.",
+    "contact": "İletişim",
+    "continue": "Anladım"
   },
   "providerFeesDialog": {
-    "title": "Provider Fees",
-    "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
-    "body2": "{{providerName}}'s website"
+    "title": "Sağlayıcı Ücretleri",
+    "body1": "Sağlayıcı ücretleri, her sağlayıcı tarafından ayrı ayrı belirlenir ve diğerlerinin yanı sıra bir değişim ücreti ve likidite ücreti içerir. Daha fazla bilgi edinmek için lütfen ziyaret edin ",
+    "body2": "{{providerName}} web sitesi"
   },
   "providerFeeDiscountDialog": {
-    "title": "Fee Discount",
-    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
+    "title": "Ücret İndirimi",
+    "body": "Valora'nın lansmanını kutlamak için bir promosyon olarak, ücretler geçici olarak düşürüldü!"
   },
-  "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
+  "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırma konusunda desteğinizi rica ederim.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
   "youCanTransferIn": "You can transfer {{digitalAsset}} from any exchange that supports {{digitalAsset}}. You'll need your Account Address.",
