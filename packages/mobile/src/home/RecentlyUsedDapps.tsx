@@ -25,6 +25,8 @@ interface Props {
   onSelectDapp(dapp: Dapp): void
 }
 
+const DAPP_ICON_SIZE = 68
+
 function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -70,13 +72,11 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
             style={styles.dappContainer}
             testID={`RecentDapp/${index}`}
           >
-            <View style={[styles.dappLogoContainer, index === 0 ? { marginLeft: 0 } : undefined]}>
-              <Image
-                source={{ uri: recentlyUsedDapp.iconUrl }}
-                style={styles.icon}
-                resizeMode="cover"
-              />
-            </View>
+            <Image
+              source={{ uri: recentlyUsedDapp.iconUrl }}
+              style={styles.icon}
+              resizeMode="cover"
+            />
             <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
               {recentlyUsedDapp.name}
             </Text>
@@ -86,8 +86,6 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
     </View>
   )
 }
-
-const DAPP_LOGO_SIZE = 44
 
 const styles = StyleSheet.create({
   body: {
@@ -119,22 +117,22 @@ const styles = StyleSheet.create({
   },
   dappContainer: {
     alignItems: 'center',
-    marginHorizontal: Spacing.Small12,
-  },
-  dappLogoContainer: {
-    padding: Spacing.Small12,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    marginBottom: Spacing.Small12,
+    marginHorizontal: Spacing.Regular16,
   },
   dappName: {
     ...fontStyles.small,
     textAlign: 'center',
+    fontSize: 12,
+    lineHeight: 16,
+    maxWidth: DAPP_ICON_SIZE,
   },
   icon: {
-    height: DAPP_LOGO_SIZE,
-    width: DAPP_LOGO_SIZE,
+    height: DAPP_ICON_SIZE,
+    width: DAPP_ICON_SIZE,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    marginBottom: Spacing.Small12,
   },
 })
 

@@ -966,8 +966,6 @@ export const v34Schema = {
   },
   app: {
     ...v33Schema.app,
-    recentDappsEnabled: false,
-    recentDapps: [],
     superchargeApy: 25,
     superchargeTokens: [
       {
