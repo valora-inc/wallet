@@ -168,6 +168,8 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
+  [OnboardingEvents.onboarding_education_skipped]: undefined
+  [OnboardingEvents.onboarding_education_not_skipped]: undefined
   [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
@@ -1166,6 +1168,31 @@ interface CICOEventsProperties {
   [CICOEvents.persona_kyc_error]: undefined
   [CICOEvents.connect_phone_start]: undefined
   [CICOEvents.connect_phone_cancel]: undefined
+  [CICOEvents.add_initial_bank_account_start]: undefined
+  [CICOEvents.add_bank_account_start]: undefined
+  [CICOEvents.delete_bank_account]: { id: number }
+  [CICOEvents.plaid_open_link_flow]: {
+    linkSessionId: string
+  }
+  [CICOEvents.plaid_select_institution]: {
+    linkSessionId: string
+    institutionId: string
+    institutionName: string
+  }
+  [CICOEvents.plaid_submit_credentials]: {
+    linkSessionId: string
+  }
+  [CICOEvents.plaid_exit]: {
+    linkSessionId: string
+  }
+  [CICOEvents.plaid_handoff]: {
+    linkSessionId: string
+  }
+  [CICOEvents.plaid_error]: {
+    linkSessionId: string
+    errorType: string
+    errorCode: string
+  }
 }
 
 interface DappEventProperties {

@@ -62,6 +62,8 @@ export enum SettingsEvents {
 }
 
 export enum OnboardingEvents {
+  onboarding_education_skipped = 'onboarding_education_skipped',
+  onboarding_education_not_skipped = 'onboarding_education_not_skipped',
   onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_complete = 'onboarding_education_complete',
@@ -532,6 +534,16 @@ export enum CICOEvents {
 
   connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
   connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
+
+  add_initial_bank_account_start = 'add_initial_bank_account_start', // When a user who has not added any accounts clicks on the initial “Link Bank Account” button
+  add_bank_account_start = 'add_bank_account_start', // When a user adds another bank account after the first (using the “Add new bank account” button)
+  delete_bank_account = 'delete_bank_account', // When a user deletes a bank account
+  plaid_open_link_flow = 'plaid_open_link_flow', // When a user opens the Plaid Link flow
+  plaid_select_institution = 'plaid_select_institution', // When a user selects an institution within the Plaid Link flow
+  plaid_submit_credentials = 'plaid_submit_credentials', // When a user submits credentials for an institution within the Plaid Link flow
+  plaid_exit = 'plaid_exit', // When a user exits the Plaid Link flow without connecting a bank account
+  plaid_handoff = 'plaid_handoff', // When a user exits the Plaid Link flow after successfully connecting a bank account
+  plaid_error = 'plaid_error', // When the Plaid Link flow encounters an unrecoverable error
 }
 
 export enum DappExplorerEvents {

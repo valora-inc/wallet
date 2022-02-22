@@ -88,4 +88,6 @@ export enum ErrorMessages {
   WC2_UNSUPPORTED = 'v2Unsupported',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
   PLAID_CREATE_LINK_TOKEN_FAIL = 'plaidCreateLinkTokenFail',
+  GET_BANK_ACCOUNTS_FAIL = 'getBankAccountsFail',
+  DELETE_BANK_ACCOUNT_FAIL = 'deleteBankAccountFail',
 }

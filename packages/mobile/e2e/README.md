@@ -128,22 +128,6 @@ export default AddedUsecase = () => {
 }
 ```
 
-### Recording a test
-On macOS it is possible to record a test using [Detox Recorder](https://github.com/wix/DetoxRecorder).
-
-1. Run the app with `yarn dev:ios` from `wallet/packages/mobile`.
-
-2. Navigate to the root directory `wallet`.
-
-3. Run the Detox Recorder.
-
-```sh
-# Running Detox Recorder from the wallet directory - It may take several tries to launch the recorder
-detox recorder --bundleId "org.celo.mobile.alfajores.dev" --simulatorId booted --outputTestFile "~/Desktop/RecordedTest.js" --testName "My Recorded Test" --record
-```
-
-4. Use the it-block in the recorded test as a starting point for the new e2e test. Add assertions where appropriate and structure it like existing tests in [usecases](./src/usecases) directory.
-
 ## Adding TestIDs
 
 A TestID is a unique string that you should give to the components you want to test. The build-in components from react native support adding testIDs like this:

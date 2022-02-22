@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus",
-  "consumerIncentivesSummary": "I bonus sono ora disponibili. Ottieni ricompense annue del {{percent}}% sul tuo saldo in {{currency}}. L’offerta è valida per un periodo limitato, quindi approfittane. Ecco come funziona:",
+  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili. Ottieni ricompense annue del {{percent}}% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Connetti numero se non lo hai ancora connesso."
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
-    "earningText": "Aggiungi {{minBalance}} {{currency}} e fino a 1000 {{currency}} per iniziare.",
+    "earningText": "Ricevi premi su 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
@@ -1040,7 +1040,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pagamento inviato",
   "feedItemCeloRewardReceivedTitle": "CELO guadagnati",
-  "feedItemRewardReceivedTitle": "Rete Celo",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Ricompense settimanali",
   "feedItemInviteRewardReceivedTitle": "Rete Celo",
   "feedItemInviteRewardReceivedInfo": "Ricompensa ricevuta",
@@ -1092,6 +1092,8 @@
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
   "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
+  "getBankAccountsFail": "Impossibile recuperare i tuoi conti bancari collegati. Riprova più tardi.",
+  "deleteBankAccountFail": "Impossibile eliminare il tuo conto bancario collegato. Riprova più tardi.",
   "linkBankAccountScreen": {
     "tryAgain": "Riprova",
     "verifying": {

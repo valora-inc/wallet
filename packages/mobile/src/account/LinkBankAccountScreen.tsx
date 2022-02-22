@@ -7,6 +7,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
@@ -20,8 +21,8 @@ import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import openPlaid from './openPlaid'
 import { linkBankAccountStepTwoEnabledSelector } from '../app/selectors'
+import openPlaid, { handleOnEvent } from './openPlaid'
 
 interface StepOneProps {
   kycStatus: KycStatus | undefined
@@ -199,6 +200,10 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
   const { t } = useTranslation()
   const plaidParams = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+  // This is used to handle universal links within React Native
+  // https://plaid.com/docs/link/oauth/#handling-universal-links-within-react-native
+  useDeepLinkRedirector()
+  usePlaidEmitter(handleOnEvent)
 
   return (
     <View style={styles.stepTwo}>
@@ -217,8 +222,9 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
       </Text>
       <Button
         style={styles.button}
-        onPress={() =>
-          openPlaid({
+        onPress={async () => {
+          ValoraAnalytics.track(CICOEvents.add_initial_bank_account_start)
+          await openPlaid({
             ...plaidParams,
             onSuccess: ({ publicToken }) => {
               navigate(Screens.SyncBankAccountScreen, {
@@ -233,7 +239,7 @@ export function StepTwo({ disabled }: { disabled: boolean }) {
               }
             },
           })
-        }
+        }}
         text={
           stepTwoEnabled
             ? t('linkBankAccountScreen.stepTwo.cta')
