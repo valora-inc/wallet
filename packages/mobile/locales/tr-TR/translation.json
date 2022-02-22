@@ -413,12 +413,12 @@
   "escrowTransferFailed": "Escrow transferi gerçekleştirilemedi",
   "escrowWithdrawalFailed": "Withdrawal from escrow failed",
   "reclaimingEscrowedPaymentFailed": "Payment could not be reclaimed",
-  "connectingToCelo": "Connecting…",
+  "connectingToCelo": "Bağlanıyor...",
   "poorConnection": {
-    "0": "Bad Connection",
-    "1": "some features disabled"
+    "0": "Zayıf Bağlantı",
+    "1": "bazı özellikler devre dışı bırakıldı"
   },
-  "networkConnectionFailed": "Could not connect with the network, please check your data connection",
+  "networkConnectionFailed": "Ağa bağlanılamadı, lütfen veri bağlantınızı kontrol edin",
   "firebaseFailed": "Internet connection is weak. Account information cannot be updated until connection is restored.",
   "gasPriceUpdateFailed": "Could not update fee",
   "appUpdateAvailable": "App Update Available",
