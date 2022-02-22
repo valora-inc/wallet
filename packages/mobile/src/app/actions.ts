@@ -1,5 +1,6 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { RemoteConfigValues } from 'src/app/saga'
+import { Dapp } from 'src/app/types'
 import { Screens } from 'src/navigator/Screens'
 
 // https://facebook.github.io/react-native/docs/appstate
@@ -32,6 +33,7 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
+  RECENT_DAPP_SELECTED = 'APP/RECENT_DAPP_SELECTED',
 }
 
 export interface SetAppState {
@@ -135,6 +137,11 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
+export interface RecentDappSelected {
+  type: Actions.RECENT_DAPP_SELECTED
+  dapp: Dapp
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -156,6 +163,7 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
+  | RecentDappSelected
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -272,4 +280,9 @@ export const androidMobileServicesAvailabilityChecked = (
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
   googleIsAvailable,
   huaweiIsAvailable,
+})
+
+export const recentDappSelected = (dapp: Dapp) => ({
+  type: Actions.RECENT_DAPP_SELECTED,
+  dapp,
 })

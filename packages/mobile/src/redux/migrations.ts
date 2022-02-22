@@ -428,6 +428,7 @@ export const migrations = {
     app: {
       ...state.app,
       recentDappsEnabled: false,
+      recentDapps: [],
     },
   }),
 }

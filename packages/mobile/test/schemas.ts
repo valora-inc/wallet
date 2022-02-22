@@ -967,9 +967,10 @@ export const v34Schema = {
   app: {
     ...v33Schema.app,
     recentDappsEnabled: false,
+    recentDapps: [],
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v33Schema as Partial<RootState>
+  return v34Schema as Partial<RootState>
 }

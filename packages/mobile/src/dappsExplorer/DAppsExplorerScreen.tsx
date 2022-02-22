@@ -24,6 +24,7 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
+import { Dapp } from 'src/app/types'
 import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -52,16 +53,6 @@ interface CategoryWithDapps {
   fontColor: string
   backgroundColor: string
   dapps: Dapp[]
-}
-
-interface Dapp {
-  id: string
-  categoryId: string
-  iconUrl: string
-  name: string
-  description: string
-  dappUrl: string
-  isFeatured: boolean
 }
 
 interface DappProps {

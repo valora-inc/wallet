@@ -1,7 +1,8 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { SuperchargeButtonType } from 'src/app/types'
+import { Dapp, SuperchargeButtonType } from 'src/app/types'
+import { NUM_RECENT_DAPPS } from 'src/config'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -53,6 +54,7 @@ export interface State {
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
   recentDappsEnabled: boolean
+  recentDapps: Dapp[]
 }
 
 const initialState = {
@@ -99,6 +101,7 @@ const initialState = {
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   recentDappsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.recentDappsEnabled,
+  recentDapps: [],
 }
 
 export const appReducer = (
@@ -242,6 +245,11 @@ export const appReducer = (
       return {
         ...state,
         supportedBiometryType: action.supportedBiometryType,
+      }
+    case Actions.RECENT_DAPP_SELECTED:
+      return {
+        ...state,
+        recentDapps: [action.dapp, ...state.recentDapps].slice(0, NUM_RECENT_DAPPS),
       }
     default:
       return state
