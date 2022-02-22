@@ -1,11 +1,3 @@
-export interface Quote {
-  fiatType: FiatType
-  cryptoType: string
-  fiatAmount?: number
-  cryptoAmount?: number
-  region: string
-}
-
 export enum FiatType {
   USD = 'USD',
   EUR = 'EUR',
