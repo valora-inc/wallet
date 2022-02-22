@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Начните с Supercharge",
-  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на свой остаток {{currency}}. Предложение действует в течение ограниченного времени, поэтому внесите средства прямо сейчас! Вот как это работает.",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на ваш стейблкоины с наибольшим остаток. Предложение действует в течение ограниченного времени:",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
   },
   "noMinCommitment": {
     "header": "Добавьте минимальную сумму на баланс",
-    "earningText": "Добавьте {{minBalance}} {{currency}} для начала. Внесите до 1000 {{currency}}, чтобы получить максимальное вознаграждение.",
+    "earningText": "Получить вознаграждения за 10-1000 cUSD, 10-1000 cEUR или 50-6000 cREAL.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
@@ -758,10 +758,10 @@
     "codePlaceholder3_ios": "Выберите или скопируйте третье сообщение",
     "codePlaceholderWithCodeInClipboard": "Отлично! Вставьте здесь",
     "resendMessages_all": "Повторно отправить все сообщения",
-    "resendMessages_0": "Отправить последнее сообщение",
-    "resendMessages_1": "Отправить {{count}} сообщений",
-    "resendMessages_2": "Отправка {{count}} сообщений",
-    "resendMessages_3": "Отправка {{count}} сообщений"
+    "resendMessages_0": "Повторно отправить последнее сообщение",
+    "resendMessages_1": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_2": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_3": "Повторно отправить сообщения: {{count}}"
   },
   "verificationInputHelpDialog": {
     "title": "Справка",
@@ -1044,7 +1044,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Платеж отправлен",
   "feedItemCeloRewardReceivedTitle": "Заработано CELO",
-  "feedItemRewardReceivedTitle": "Celo Network",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Еженедельные вознаграждения",
   "feedItemInviteRewardReceivedTitle": "Celo Network",
   "feedItemInviteRewardReceivedInfo": "Вознаграждение получено",
@@ -1096,6 +1096,8 @@
   "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
   "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
   "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
+  "getBankAccountsFail": "Невозможно получить ваши связанные банковские счета. Пожалуйста, повторите попытку позже",
+  "deleteBankAccountFail": "Невозможно удалить ваш привязанный банковский счет. Пожалуйста, повторите попытку позже",
   "linkBankAccountScreen": {
     "tryAgain": "Повторить попытку",
     "verifying": {
@@ -1130,8 +1132,8 @@
       "cta": "Привязать банковский счет",
       "error": {
         "title": "Невозможно привязать банковский счет.",
-        "description": "Пожалуйста, попробуй снова связать свой банковский счет или обратись в службу поддержки.",
-        "contactSupportPrefill": "Я не смог связать свой банковский счет с Valora"
+        "description": "Попробуйте снова привязать свой банковский счет или обратитесь в службу поддержки.",
+        "contactSupportPrefill": "Мне не удалось привязать свой банковский счет к Valora"
       }
     }
   },

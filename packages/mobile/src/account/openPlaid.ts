@@ -1,10 +1,10 @@
 import { Platform } from 'react-native'
 import {
-  openLink,
-  LinkSuccess,
-  LinkExit,
   LinkEvent,
   LinkEventName,
+  LinkExit,
+  LinkSuccess,
+  openLink,
 } from 'react-native-plaid-link-sdk'
 import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
@@ -56,7 +56,10 @@ export default async function openPlaid({
       phoneNumber,
     })
     return openLink({
-      tokenConfig: { token: linkToken },
+      tokenConfig: {
+        token: linkToken,
+        noLoadingState: false,
+      },
       onSuccess,
       onExit,
     })
