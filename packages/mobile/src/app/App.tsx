@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { Dimensions, Linking, LogBox, StatusBar } from 'react-native'
+import { Dimensions, Linking, LogBox, Platform, StatusBar } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -78,8 +78,9 @@ export class App extends React.Component<Props> {
 
     // Handles opening Clevertap deeplinks when app is open
     CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
-      if (event.customExtras['wzrk_dl']) {
-        const url = event.customExtras['wzrk_dl']
+      // Url location differs for iOS and Android
+      const url = Platform.OS === 'ios' ? event.customExtras['wzrk_dl'] : event['wzrk_dl']
+      if (url) {
         await this.handleOpenURL({ url }, true)
       }
     })
