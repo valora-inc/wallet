@@ -12,7 +12,9 @@ import {
   appStateSelector,
   multiTokenShowHomeBalancesSelector,
   multiTokenUseUpdatedFeedSelector,
+  recentDappsEnabledSelector,
 } from 'src/app/selectors'
+import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
   CELO_TRANSACTION_MIN_AMOUNT,
@@ -22,8 +24,8 @@ import {
 } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
-import { HomeTokenBalance } from 'src/components/TokenBalance'
 import NotificationBox from 'src/home/NotificationBox'
+import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
@@ -48,6 +50,7 @@ function WalletHome() {
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector((state) => state.app.numberVerified)
   const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
+  const showRecentDapps = useSelector(recentDappsEnabledSelector)
   const useUpdatedFeed = useSelector(multiTokenUseUpdatedFeedSelector)
   const balances = useSelector(balancesSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
@@ -132,6 +135,13 @@ function WalletHome() {
     sections.push({
       data: [{}],
       renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+    })
+  }
+
+  if (showRecentDapps) {
+    sections.push({
+      data: [{}],
+      renderItem: () => <RecentlyUsedDapps key="RecentlyUsedDapps" />,
     })
   }
 
