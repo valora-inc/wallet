@@ -18,7 +18,7 @@ export enum CryptoType {
 }
 
 export enum KycSchema {
-  NameAndAddress = 'NameAndAddress',
+  NameAndAddress = 'NameAndAddress', // NOTE: this is a MOCK schema (not a real one in the spec!)
 }
 
 export interface NameAndAddressKYCSchema {
