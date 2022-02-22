@@ -1,4 +1,3 @@
-import Button from '@celo/react-components/components/Button'
 import Card from '@celo/react-components/components/Card'
 import Touchable from '@celo/react-components/components/Touchable'
 import colors, { Colors } from '@celo/react-components/styles/colors'
@@ -19,22 +18,20 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl, recentDappSelected } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
-import BottomSheet from 'src/components/BottomSheet'
 import Dialog from 'src/components/Dialog'
+import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
+import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
-import QuitIcon from 'src/icons/QuitIcon'
 import { dappListLogo } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -82,12 +79,17 @@ export function DAppsExplorerScreen() {
   const dappsListUrl = useSelector(dappsListApiUrlSelector)
   const address = useSelector(walletAddressSelector)
   const [isHelpDialogVisible, setHelpDialogVisible] = useState(false)
-  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false)
-  const [dappSelected, setDappSelected] = useState<Dapp>()
-  const dispatch = useDispatch()
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
+
+  const {
+    onSelectDapp,
+    onOpenDapp,
+    onCancelOpenDapp,
+    showOpenDappConfirmation,
+    selectedDapp,
+  } = useOpenDapp()
 
   const shortLanguage = i18n.language.split('-')[0]
 
@@ -168,62 +170,8 @@ export function DAppsExplorerScreen() {
     }
   )
 
-  const onCloseBottomSheet = () => {
-    setBottomSheetVisible(false)
-    if (dappSelected) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_bottom_sheet_dismiss, {
-        categoryId: dappSelected.categoryId,
-        dappId: dappSelected.id,
-        dappName: dappSelected.name,
-        horizontalPosition: 0,
-        section: dappSelected.isFeatured ? 'featured' : 'all',
-      })
-    }
-  }
-
   const onPressHelp = () => {
     setHelpDialogVisible(true)
-  }
-
-  const openDapp = (dapp: Dapp) => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
-      categoryId: dapp.categoryId,
-      dappId: dapp.id,
-      dappName: dapp.name,
-      section: dapp.isFeatured ? 'featured' : 'all',
-      horizontalPosition: 0,
-    })
-    dispatch(recentDappSelected(dapp))
-    dispatch(openUrl(dapp.dappUrl, true, true))
-  }
-
-  const onPressNavigationButton = () => {
-    if (!dappSelected) {
-      // Should never happen
-      Logger.error(TAG, 'Internal error. There was no dapp selected')
-      return
-    }
-    openDapp(dappSelected)
-    setBottomSheetVisible(false)
-  }
-
-  const onPressDapp = (dapp: Dapp) => {
-    const dappEventProps = {
-      categoryId: dapp.categoryId,
-      dappId: dapp.id,
-      dappName: dapp.name,
-      horizontalPosition: 0,
-      section: dapp.isFeatured ? 'featured' : 'all',
-    }
-    ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
-
-    if (!isDeepLink(dapp.dappUrl)) {
-      setDappSelected(dapp)
-      setBottomSheetVisible(true)
-      ValoraAnalytics.track(DappExplorerEvents.dapp_bottom_sheet_open, dappEventProps)
-    } else {
-      openDapp(dapp)
-    }
   }
 
   return (
@@ -233,27 +181,12 @@ export function DAppsExplorerScreen() {
         rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
         scrollPosition={scrollPosition}
       />
-      <BottomSheet isVisible={isBottomSheetVisible} onBackgroundPress={onCloseBottomSheet}>
-        <View>
-          <TopBarIconButton
-            icon={<QuitIcon />}
-            style={styles.bottomSheetCloseButton}
-            onPress={onCloseBottomSheet}
-          />
-          <View style={styles.centerContainer}>
-            <Text style={styles.bottomSheetTitleText}>
-              {t('dappsScreenBottomSheet.title', { dappName: dappSelected?.name })}
-            </Text>
-            <Text style={styles.bottomSheetMessageText}>{t('dappsScreenBottomSheet.message')}</Text>
-            <Button
-              style={styles.bottomSheetButton}
-              onPress={onPressNavigationButton}
-              text={t('dappsScreenBottomSheet.button', { dappName: dappSelected?.name })}
-              testID="ConfirmDappButton"
-            />
-          </View>
-        </View>
-      </BottomSheet>
+      <DAppsBottomSheet
+        onClose={onCancelOpenDapp}
+        onConfirmOpenDapp={onOpenDapp}
+        selectedDapp={selectedDapp}
+        isVisible={showOpenDappConfirmation}
+      />
 
       <Dialog
         title={t('dappsScreenHelpDialog.title')}
@@ -287,7 +220,7 @@ export function DAppsExplorerScreen() {
                 {result.featured && (
                   <>
                     <Text style={styles.sectionTitle}>{t('dappsScreen.featuredDapp')}</Text>
-                    <FeaturedDapp dapp={result.featured} onPressDapp={onPressDapp} />
+                    <FeaturedDapp dapp={result.featured} onPressDapp={onSelectDapp} />
                     <Text style={styles.sectionTitle}>{t('dappsScreen.allDapps')}</Text>
                   </>
                 )}
@@ -303,7 +236,7 @@ export function DAppsExplorerScreen() {
             scrollEventThrottle={16}
             onScroll={onScroll}
             sections={parseResultIntoSections(result.categories)}
-            renderItem={({ item: dapp }) => <DappCard dapp={dapp} onPressDapp={onPressDapp} />}
+            renderItem={({ item: dapp }) => <DappCard dapp={dapp} onPressDapp={onSelectDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
             renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (

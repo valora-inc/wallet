@@ -15,12 +15,17 @@ import {
   View,
 } from 'react-native'
 import { recentDappsSelector } from 'src/app/selectors'
+import { Dapp } from 'src/app/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 
-function RecentlyUsedDapps() {
+interface Props {
+  onSelectDapp(dapp: Dapp): void
+}
+
+function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const [currentIndex, setCurrentIndex] = useState(0)
   const { t } = useTranslation()
@@ -48,7 +53,7 @@ function RecentlyUsedDapps() {
         <Text style={styles.title}>{t('recentlyUsedDapps')}</Text>
         <TouchableOpacity style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
           <Text style={styles.allDapps}>{t('allDapps')}</Text>
-          <ProgressArrow height={10} color={Colors.greenUI} />
+          <ProgressArrow color={Colors.greenUI} />
         </TouchableOpacity>
       </View>
 
@@ -59,7 +64,12 @@ function RecentlyUsedDapps() {
         testID="RecentlyUsedDapps/ScrollContainer"
       >
         {recentlyUsedDapps.map((recentlyUsedDapp, index) => (
-          <View key={recentlyUsedDapp.id} style={styles.dappContainer}>
+          <TouchableOpacity
+            key={recentlyUsedDapp.id}
+            onPress={() => onSelectDapp(recentlyUsedDapp)}
+            style={styles.dappContainer}
+            testID={`RecentDapp/${index}`}
+          >
             <View style={[styles.dappLogoContainer, index === 0 ? { marginLeft: 0 } : undefined]}>
               <Image
                 source={{ uri: recentlyUsedDapp.iconUrl }}
@@ -70,7 +80,7 @@ function RecentlyUsedDapps() {
             <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
               {recentlyUsedDapp.name}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
