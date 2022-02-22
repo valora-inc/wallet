@@ -1,7 +1,8 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 interface Props {
   text: string
@@ -12,10 +13,12 @@ interface Props {
 
 function Pill({ text, icon, onPress, testID }: Props) {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress} testID={testID}>
-      {icon}
-      <Text style={[styles.text, icon ? { marginLeft: 5 } : {}]}>{text}</Text>
-    </TouchableOpacity>
+    <Touchable style={styles.container} onPress={onPress} testID={testID}>
+      <>
+        {icon}
+        <Text style={[styles.text, icon ? { marginLeft: 5 } : {}]}>{text}</Text>
+      </>
+    </Touchable>
   )
 }
 

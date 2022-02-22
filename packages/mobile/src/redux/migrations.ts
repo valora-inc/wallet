@@ -430,6 +430,11 @@ export const migrations = {
       ...state.app,
       superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
       superchargeTokens: [],
+      rewardsPercent: undefined,
+      rewardsStartDate: undefined,
+      rewardsMax: undefined,
+      rewardsMin: undefined,
+      rewardsABTestThreshold: undefined,
     },
   }),
 }

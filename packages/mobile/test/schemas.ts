@@ -974,6 +974,11 @@ export const v34Schema = {
         maxBalance: 1000,
       },
     ],
+    rewardsPercent: undefined,
+    rewardsStartDate: undefined,
+    rewardsMax: undefined,
+    rewardsMin: undefined,
+    rewardsABTestThreshold: undefined,
   },
 }
 
