@@ -87,6 +87,18 @@ describe(DAppsExplorerScreen, () => {
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
+          "dapp": Object {
+            "categoryId": "1",
+            "dappUrl": "https://app.ubeswap.org/",
+            "description": "Swap tokens!",
+            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/ubeswap.png",
+            "id": "1",
+            "isFeatured": false,
+            "name": "Ubeswap",
+          },
+          "type": "APP/RECENT_DAPP_SELECTED",
+        },
+        Object {
           "isSecureOrigin": true,
           "openExternal": true,
           "type": "APP/OPEN_URL",
@@ -119,6 +131,18 @@ describe(DAppsExplorerScreen, () => {
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
+          "dapp": Object {
+            "categoryId": "1",
+            "dappUrl": "https://app.sushi.com/",
+            "description": "Swap some tokens!",
+            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/sushiswap.png",
+            "id": "3",
+            "isFeatured": true,
+            "name": "SushiSwap",
+          },
+          "type": "APP/RECENT_DAPP_SELECTED",
+        },
+        Object {
           "isSecureOrigin": true,
           "openExternal": true,
           "type": "APP/OPEN_URL",
@@ -147,6 +171,18 @@ describe(DAppsExplorerScreen, () => {
 
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
+        Object {
+          "dapp": Object {
+            "categoryId": "2",
+            "dappUrl": "celo://wallet/moolaScreen",
+            "description": "Lend and borrow tokens!",
+            "iconUrl": "https://raw.githubusercontent.com/valora-inc/app-list/main/assets/moola.png",
+            "id": "2",
+            "isFeatured": false,
+            "name": "Moola",
+          },
+          "type": "APP/RECENT_DAPP_SELECTED",
+        },
         Object {
           "isSecureOrigin": true,
           "openExternal": true,

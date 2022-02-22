@@ -22,7 +22,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl } from 'src/app/actions'
+import { openUrl, recentDappSelected } from 'src/app/actions'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import BottomSheet from 'src/components/BottomSheet'
@@ -193,6 +193,7 @@ export function DAppsExplorerScreen() {
       section: dapp.isFeatured ? 'featured' : 'all',
       horizontalPosition: 0,
     })
+    dispatch(recentDappSelected(dapp))
     dispatch(openUrl(dapp.dappUrl, true, true))
   }
 
@@ -302,7 +303,7 @@ export function DAppsExplorerScreen() {
             scrollEventThrottle={16}
             onScroll={onScroll}
             sections={parseResultIntoSections(result.categories)}
-            renderItem={({ item: dapp }) => <Dapp dapp={dapp} onPressDapp={onPressDapp} />}
+            renderItem={({ item: dapp }) => <DappCard dapp={dapp} onPressDapp={onPressDapp} />}
             keyExtractor={(dapp: Dapp) => `${dapp.categoryId}-${dapp.id}`}
             stickySectionHeadersEnabled={false}
             renderSectionHeader={({ section }: { section: SectionListData<any, SectionData> }) => (
@@ -361,7 +362,7 @@ function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
   )
 }
 
-function Dapp({ dapp, onPressDapp }: DappProps) {
+function DappCard({ dapp, onPressDapp }: DappProps) {
   const onPress = () => onPressDapp(dapp)
 
   return (
