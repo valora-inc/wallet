@@ -40,6 +40,7 @@ import {
 import { SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
+import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -163,12 +164,9 @@ export interface RemoteConfigValues {
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
-  rewardsABTestThreshold: string
-  rewardsPercent: number
-  rewardsStartDate: number
-  rewardsMax: number
   logPhoneNumberTypeEnabled: boolean
-  rewardsMin: number
+  superchargeApy: number
+  superchargeTokens: SuperchargeTokenConfig[]
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean

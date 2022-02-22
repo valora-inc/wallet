@@ -9,7 +9,17 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
   | 'sentryNetworkErrors'
-> & { komenciAllowedDeployers: string; sentryNetworkErrors: string } = {
+  | 'superchargeTokens'
+> & {
+  komenciAllowedDeployers: string
+  sentryNetworkErrors: string
+  superchargecUSDMin: number
+  superchargecUSDMax: number
+  superchargecEURMin: number
+  superchargecEURMax: number
+  superchargecREALMin: number
+  superchargecREALMax: number
+} = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
@@ -23,11 +33,13 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: false,
-  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
-  rewardsPercent: 50,
-  rewardsStartDate: 1622505600000,
-  rewardsMax: 1000,
-  rewardsMin: 10,
+  superchargeApy: 25,
+  superchargecUSDMin: 10,
+  superchargecUSDMax: 1000,
+  superchargecEURMin: 10,
+  superchargecEURMax: 1000,
+  superchargecREALMin: 50,
+  superchargecREALMax: 6000,
   komenciUseLightProxy: false,
   komenciAllowedDeployers: '',
   pincodeUseExpandedBlocklist: false,

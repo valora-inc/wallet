@@ -968,9 +968,35 @@ export const v34Schema = {
     ...v33Schema.app,
     recentDappsEnabled: false,
     recentDapps: [],
+    superchargeApy: 25,
+    superchargeTokens: [
+      {
+        token: 'cUSD',
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    ],
+    rewardsPercent: undefined,
+    rewardsStartDate: undefined,
+    rewardsMax: undefined,
+    rewardsMin: undefined,
+    rewardsABTestThreshold: undefined,
+  },
+}
+
+export const v35Schema = {
+  ...v34Schema,
+  _persist: {
+    ...v34Schema._persist,
+    version: 35,
+  },
+  app: {
+    ...v34Schema.app,
+    recentDappsEnabled: false,
+    recentDapps: [],
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v34Schema as Partial<RootState>
+  return v35Schema as Partial<RootState>
 }

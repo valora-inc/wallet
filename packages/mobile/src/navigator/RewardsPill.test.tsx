@@ -12,7 +12,6 @@ describe('RewardsPill', () => {
     const tree = render(
       <Provider
         store={createMockStore({
-          app: { rewardsABTestThreshold: '0x8000000000000000000000000000000000000000' },
           web3: { mtwAddress: mockAccount },
         })}
       >
@@ -26,7 +25,6 @@ describe('RewardsPill', () => {
     const { getByTestId } = render(
       <Provider
         store={createMockStore({
-          app: { rewardsABTestThreshold: '0x8000000000000000000000000000000000000000' },
           web3: { mtwAddress: mockAccount },
         })}
       >
