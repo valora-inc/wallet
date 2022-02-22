@@ -13,6 +13,7 @@ import { call, select, take } from 'redux-saga/effects'
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
+import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { currentLanguageSelector } from 'src/i18n/selectors'
@@ -254,11 +255,12 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
-    rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
-    rewardsPercent: flags.rewardsPercent.asNumber(),
-    rewardsStartDate: flags.rewardsStartDate.asNumber(),
-    rewardsMax: flags.rewardsMax.asNumber(),
-    rewardsMin: flags.rewardsMin.asNumber(),
+    superchargeApy: flags.superchargeApy.asNumber(),
+    superchargeTokens: (Object.keys(SuperchargeToken) as SuperchargeToken[]).map((token) => ({
+      token,
+      minBalance: flags[`supercharge${token}Min`].asNumber(),
+      maxBalance: flags[`supercharge${token}Max`].asNumber(),
+    })),
     komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
     komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),

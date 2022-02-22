@@ -20,8 +20,8 @@ export function InviteRewardsBanner() {
     navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_TERMS_LINK })
   }
 
-  const { USE_CEUR } = useCountryFeatures()
-  const currency = USE_CEUR ? Currency.Euro : Currency.Dollar
+  const { IS_IN_EUROPE } = useCountryFeatures()
+  const currency = IS_IN_EUROPE ? Currency.Euro : Currency.Dollar
 
   return (
     <Touchable testID="InviteRewardsBanner" onPress={openInviteTerms}>
