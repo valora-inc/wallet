@@ -176,6 +176,18 @@
     "text": "Isto irá garantir que suas recompensas estejam seguras em seu controle."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
+  "superchargeTitle": "Entre no Supercharge",
+  "superchargeDescription": "Obtenha {{apy}}recompensas anuais no seu {{token}} balanço. Aqui está como começar:",
+  "superchargeConnectNumber": "Conecte seu número de celular",
+  "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
+  "superchargeDisclaimer": "Max-out recompensas adicionando {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Quais ativos eu posso cobrar mais?",
+    "body": "Com o Supercharge, você recebe recompensas semanais no seu saldo mais alto de Celo stablecoin (cEUR, cUSD, cREAL, etc).",
+    "dismiss": "Ignorar"
+  },
+  "superchargingTitle": "Seu {{token}} está sendo Supercharged",
+  "superchargingDescription": "Você está recebendo {{apy}}anualmente. Reivindique suas recompensas aqui na terça-feira.",
   "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número",
   "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
