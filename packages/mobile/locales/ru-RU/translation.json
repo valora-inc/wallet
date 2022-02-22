@@ -176,6 +176,18 @@
     "text": "Это будет гарантировать, что ваши вознаграждения в безопасности и под вашим контролем."
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
+  "superchargeTitle": "Присоединяйтесь к программе Supercharge",
+  "superchargeDescription": "Получай {{apy}}ежегодные вознаграждения на свой {{token}} баланс. Вот как начать:",
+  "superchargeConnectNumber": "Подключить номер телефона",
+  "superchargeMinimumBalance": "Добавь минимальный баланс {{amount}} {{token}}.",
+  "superchargeDisclaimer": "Максимально увеличь вознаграждение, добавив {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Какие активы я могу Суперзарядить?",
+    "body": "С Supercharge ты получаешь еженедельные вознаграждения на свой самый высокий баланс стабильных монеток Celo (cEUR, cUSD, cREAL и т.д.).",
+    "dismiss": "Закрыть"
+  },
+  "superchargingTitle": "Твой {{token}} становится суперзаряженным",
+  "superchargingDescription": "Ты получаешь {{apy}}.\nnnually. Заяви о своем вознаграждении здесь во вторник.",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
   "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
