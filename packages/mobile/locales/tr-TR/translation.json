@@ -411,8 +411,8 @@
   "sendPaymentFailed": "Ödeme gönderilemedi",
   "paymentRequestFailed": "Ödeme İsteği gönderilemedi",
   "escrowTransferFailed": "Escrow transferi gerçekleştirilemedi",
-  "escrowWithdrawalFailed": "Withdrawal from escrow failed",
-  "reclaimingEscrowedPaymentFailed": "Payment could not be reclaimed",
+  "escrowWithdrawalFailed": "Escrow'dan para çekme işlemi başarısız",
+  "reclaimingEscrowedPaymentFailed": "Ödeme alınamadı",
   "connectingToCelo": "Bağlanıyor...",
   "poorConnection": {
     "0": "Zayıf Bağlantı",
@@ -524,31 +524,31 @@
   "goldEducationSteps": [
     {
       "title": "CELO Nedir?",
-      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+      "text": "CELO, Celo Dolarının (cUSD) stabil olmasını sağlayan dijital bir para birimidir."
     },
     {
-      "title": "CELO’s price changes",
-      "text": "If more people use the Celo Dollar, the value of CELO increases. Unlike CELO, the Celo Dollar doesn't change in value. "
+      "title": "CELO'nun fiyatı değişkendir",
+      "text": "Celo Dolarını ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dolar'ının değeri ise değişmez. "
     },
     {
-      "title": "Shape the Celo Network",
-      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+      "title": "Celo Ağının durumu",
+      "text": "Eğer CELO'ya sahip iseniz, Celo Ağı'nda görmek istediğiniz değişiklikler ve özellikler için oy kullanma olanağına da sahip olursunuz."
     },
     {
-      "title": "Please buy and sell responsibly",
-      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+      "title": "Lütfen sorumlu bir şekilde satın alın ve satın",
+      "text": "{{appName}} ile CELO alıp satabilirsiniz. CELO finansal kayıp riski taşır, lütfen dikkatli olun."
     }
   ],
-  "inviteWithWhatsapp": "Invite with WhatsApp",
-  "inviteWithSMS": "Invite with SMS",
-  "whySendFees": "This fee covers costs for the new user to connect their phone number",
-  "whyReceiveFees": "You were sent some crypto to confirm your account",
-  "inviteSent": "Invite Sent",
-  "redeemFailed": "Failure redeeming code ",
-  "redeemInviteTimeout": "Redeem Invite Timed out",
-  "accountSetupFailed": "Failed to create your wallet",
-  "accountSetupFailedDescription": "Please delete {{appName}} from your device and try again. If you continue to have issues please reach out to support.",
-  "closeApp": "Close app",
+  "inviteWithWhatsapp": "WhatsApp ile davet et",
+  "inviteWithSMS": "SMS ile davet et",
+  "whySendFees": "Bu işlem ücreti, yeni kullanıcının telefon numarasını bağlama masraflarını kapsar",
+  "whyReceiveFees": "Hesabınızı onaylamak için size bir miktar kriptopara gönderildi",
+  "inviteSent": "Davet gönderildi",
+  "redeemFailed": "Geçersiz kullanım kodu ",
+  "redeemInviteTimeout": "Daveti kodu zaman aşımına uğradı",
+  "accountSetupFailed": "Cüzdanınız oluşturulamadı",
+  "accountSetupFailedDescription": "Lütfen {{appName}} uygulamasını cihazınızdan kaldırın ve tekrar deneyin. Eğer sorunla karşılaşmaya devam ederseniz lütfen destek ekibiyle iletişime geçin.",
+  "closeApp": "Uygulamayı kapat",
   "emptyInviteCode": "Invite code has no funds",
   "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
