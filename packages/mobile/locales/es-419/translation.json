@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Aprovecha esta oportunidad por tiempo limitado. Así funciona:",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
   },
   "noMinCommitment": {
     "header": "Agrega fondos",
-    "earningText": "Agrega entre {{minBalance}} {{currency}} y 1000 {{currency}} para recibir recompensas.",
+    "earningText": "Recibe recompensas sobre 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
     "connectText": "Solo debes tener un saldo de al menos {{minBalance}} {{currency}} y conectar tu número de teléfono para empezar a obtener recompensas."
   },
   "saveMoreEarnMore": {
@@ -1040,7 +1040,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pago enviado",
   "feedItemCeloRewardReceivedTitle": "CELO ganados",
-  "feedItemRewardReceivedTitle": "Red Celo",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Recompensas semanales",
   "feedItemInviteRewardReceivedTitle": "Red Celo",
   "feedItemInviteRewardReceivedInfo": "Recompensa recibida",
@@ -1092,6 +1092,8 @@
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
   "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
+  "getBankAccountsFail": "No se han podido recuperar tus cuentas bancarias vinculadas. Vuelve a intentarlo más tarde",
+  "deleteBankAccountFail": "No se ha podido eliminar tu cuenta bancaria vinculada. Vuelve a intentarlo más tarde",
   "linkBankAccountScreen": {
     "tryAgain": "Reintentar",
     "verifying": {

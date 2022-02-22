@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Beginne Supercharge",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit. So funktioniert es:",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Jahresrewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR oder cREAL). Nur für kurze Zeit. So funktioniert es:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
     "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
+    "earningText": "Erhalte Rewards für 10-1000 cUSD, 10-1000 cEUR oder 50-6000 cREAL.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
@@ -1040,7 +1040,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Zahlung gesendet",
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
-  "feedItemRewardReceivedTitle": "Celo-Netzwerk",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
   "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
@@ -1092,6 +1092,8 @@
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
+  "getBankAccountsFail": "Deine verknüpften Bankkonten können nicht abgerufen werden. Bitte versuche es später noch einmal",
+  "deleteBankAccountFail": "Du kannst dein verlinktes Bankkonto nicht löschen. Bitte versuche es später noch einmal",
   "linkBankAccountScreen": {
     "tryAgain": "Wiederholen",
     "verifying": {
@@ -1125,8 +1127,8 @@
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
       "cta": "Bankkonto verknüpfen",
       "error": {
-        "title": "Du kannst kein Bankkonto verknüpfen.",
-        "description": "Bitte versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere den Support.",
+        "title": "Dein Konto konnte nicht verknüpfen werden.",
+        "description": "Versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere das Support-Team.",
         "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit Valora verknüpfen"
       }
     }
