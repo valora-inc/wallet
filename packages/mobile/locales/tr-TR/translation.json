@@ -176,6 +176,18 @@
     "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
   "conclusion": "İşte bu kadar basit. Kriptoparanızı hemen Supercharge'layın!",
+  "superchargeTitle": "Supercharge'lamaya başlayın",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeConnectNumber": "Telefon numaranı bağla",
+  "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
+  "superchargeDisclaimer": "Max-out rewards by adding {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Which assets can I Supercharge?",
+    "body": "With Supercharge, you get weekly rewards on your highest Celo stablecoin balance (cEUR, cUSD, cREAL, etc).",
+    "dismiss": "Yoksay"
+  },
+  "superchargingTitle": "Your {{token}} is being Supercharged",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Claim your rewards here on Tuesday.",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
   "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
