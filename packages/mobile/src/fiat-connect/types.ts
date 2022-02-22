@@ -17,8 +17,25 @@ enum CryptoType {
   CELO = 'CELO',
 }
 
-enum KycSchema {}
-// TODO
+enum KycSchema {
+  NameAndAddress = 'NameAndAddress',
+}
+
+interface NameAndAddressKYCSchema {
+  // NOTE: this is a MOCK schema (not a real one in the spec!)
+  firstName: string
+  lastName: string
+  address: PostalAddress
+}
+
+interface PostalAddress {
+  address1: string
+  address2?: string
+  city: string
+  region: string // in the US this means state
+  postalCode: string
+  isoCountryCode: string
+}
 
 enum FeeType {
   KYCFee = 'KYCFee',
