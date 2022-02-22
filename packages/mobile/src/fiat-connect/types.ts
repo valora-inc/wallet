@@ -1,4 +1,4 @@
-interface Quote {
+export interface Quote {
   fiatType: FiatType
   cryptoType: string
   fiatAmount?: number
@@ -6,29 +6,29 @@ interface Quote {
   region: string
 }
 
-enum FiatType {
+export enum FiatType {
   USD = 'USD',
   EUR = 'EUR',
 }
 
-enum CryptoType {
+export enum CryptoType {
   cUSD = 'cUSD',
   cEUR = 'cEUR',
   CELO = 'CELO',
 }
 
-enum KycSchema {
+export enum KycSchema {
   NameAndAddress = 'NameAndAddress',
 }
 
-interface NameAndAddressKYCSchema {
+export interface NameAndAddressKYCSchema {
   // NOTE: this is a MOCK schema (not a real one in the spec!)
   firstName: string
   lastName: string
   address: PostalAddress
 }
 
-interface PostalAddress {
+export interface PostalAddress {
   address1: string
   address2?: string
   city: string
@@ -37,45 +37,45 @@ interface PostalAddress {
   isoCountryCode: string
 }
 
-enum FeeType {
+export enum FeeType {
   KYCFee = 'KYCFee',
   PlatformFee = 'PlatformFee',
 }
 
-enum FeeFrequency {
+export enum FeeFrequency {
   OneTime = 'OneTime',
   Recurring = 'Recurring',
 }
 
-enum FiatAccountType {
+export enum FiatAccountType {
   CheckingAccount = 'CheckingAccount',
   DebitCard = 'DebitCard',
   CreditCard = 'CreditCard',
 }
 
-enum FiatAccountSchema {}
+export enum FiatAccountSchema {}
 // TODO
 
-enum TransferType {
+export enum TransferType {
   TransferIn = 'TransferIn',
   TransferOut = 'TransferOut',
 }
 
-enum TransferStatus {
+export enum TransferStatus {
   TransferStarted = 'TransferStarted',
   TransferPending = 'TransferPending',
   TransferComplete = 'TransferComplete',
   TransferFailed = 'TransferFailed',
 }
 
-enum WebhookEventType {
+export enum WebhookEventType {
   // NOTE: if we use these we should update the spec (which has 'webhook' prefix for all of these)
   KYCStatusEvent = 'KYCStatusEvent',
   TransferInStatusEvent = 'TransferInStatusEvent',
   TransferOutStatusEvent = 'TransferOutStatusEvent',
 }
 
-enum FCError {
+export enum FCError {
   GeoNotSupported = 'GeoNotSupported',
   CryptoAmountTooLow = 'CryptoAmountTooLow',
   CryptoAmountTooHigh = 'CryptoAmountTooHigh',
