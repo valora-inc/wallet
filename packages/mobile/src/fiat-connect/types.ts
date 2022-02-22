@@ -53,8 +53,18 @@ export enum FiatAccountType {
   CreditCard = 'CreditCard',
 }
 
-export enum FiatAccountSchema {}
-// TODO
+export enum FiatAccountSchema {
+  CheckingAccount = 'CheckingAccount', // NOTE: this is a MOCK schema (not a real one in the spec!)
+}
+
+export interface CheckingAccountSchema {
+  // NOTE: this is a MOCK schema (not a real one in the spec!)
+  bankName: string
+  accountName: string
+  fiatType: FiatType
+  accountNumber: string
+  routingNumber: string
+}
 
 export enum TransferType {
   TransferIn = 'TransferIn',
