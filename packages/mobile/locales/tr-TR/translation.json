@@ -556,8 +556,8 @@
   "escrowPaymentNotificationTitle": "{{mobile}} Davet edildi",
   "inviteDialog": {
     "title": "Arkadaşını davet et",
-    "body": "Valora'da arkadaşlarınız ve ailenizle bağlantı kurun ve değer paylaşın.",
-    "button": "Davetiye"
+    "body": "Valora'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
+    "button": "Davet"
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
@@ -573,34 +573,34 @@
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
   "chooseCountryCode": "Ülke Kodu",
   "chooseCountry": "Ülke",
-  "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
+  "joinText": "{{appName}} Celo Ağı üzerinde varlık almanızı, göndermenizi ve birikim yapmanızı sağlar.",
   "terms": {
-    "title": "Terms and Conditions",
-    "heading1": "Data and Privacy",
-    "heading2": "Celo Assets and {{appName}} Account",
-    "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
-    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "title": "Şartlar ve koşullar",
+    "heading1": "Veri ve Gizlilik",
+    "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
+    "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
+    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
     "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
   },
   "fullName": "İsim",
-  "fullNamePlaceholder": "First & Last name",
-  "importIt": "Restore Wallet",
+  "fullNamePlaceholder": "Ad & Soyad",
+  "importIt": "Cüzdanı Kurtar",
   "important": "Önemli",
   "confirmPin": {
     "title": "PIN Gir"
   },
-  "goToSystemSecuritySettingsActionLabel": "Go to security",
-  "enableSystemScreenLockFailedMessage": "Failed to enable screen lock",
-  "initKeystoreFailureMessage": "Failed to init keystore",
-  "pinLostForeverMessage": "You removed the screen lock, the PIN is lost",
+  "goToSystemSecuritySettingsActionLabel": "Güvenliğe git",
+  "enableSystemScreenLockFailedMessage": "Ekran kilidi etkileştirilemedi",
+  "initKeystoreFailureMessage": "Anahtar yöneticisi başlatılamadı",
+  "pinLostForeverMessage": "Ekran kilidini devre dışını bıraktınız, PIN artık geçerli değil",
   "importContactsPermission": {
     "title": "Önemli Kişiler",
-    "0": "Connecting your address book makes it easy to send and request payments with your friends. Otherwise, you’ll have to enter their info individually.",
-    "1": "Don’t worry—connecting does not send invites to your contacts.",
-    "enable": "Enable Contact Access",
-    "loading": "Finding friends on {{appName}}..."
+    "0": "Adres defterinizi bağlamak, arkadaşlarınızla ödeme göndermeyi ve talepte bulunmayı kolaylaştırır. Aksi takdirde, bilgilerini ayrı ayrı girmeniz gerekecektir.",
+    "1": "Endişelenmeyin, bağlantı kurmak kişilerinize davet göndermez.",
+    "enable": "Kişiler Erişimine İzin Ver",
+    "loading": "{{appName}} üzerinde arkadaşlarınızı bulmak..."
   },
-  "getVerified": "Confirm Phone Number",
+  "getVerified": "Telefon Numarasını Doğrula",
   "notReadyForCode": "Not yet ready for code entry",
   "emptyVerificationCode": "No Confirmation Code in Clipboard",
   "invalidVerificationCode": "Invalid Confirmation Code",
