@@ -377,16 +377,6 @@ const styles = StyleSheet.create({
     ...fontStyles.sectionHeader,
     fontSize: 13,
   },
-  bottomSheetTitleText: {
-    ...fontStyles.h2,
-    textAlign: 'center',
-    paddingVertical: Spacing.Regular16,
-  },
-  bottomSheetMessageText: {
-    ...fontStyles.regular,
-    textAlign: 'center',
-    flex: 1,
-  },
   itemTitleText: {
     ...fontStyles.small,
     color: Colors.dark,
@@ -411,12 +401,6 @@ const styles = StyleSheet.create({
     height: 106,
     width: 94,
     marginLeft: Spacing.Smallest8,
-  },
-  bottomSheetCloseButton: {
-    alignSelf: 'flex-end',
-  },
-  bottomSheetButton: {
-    marginVertical: Spacing.Regular16,
   },
   sectionList: {
     flex: 1,
