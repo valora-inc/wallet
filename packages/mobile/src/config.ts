@@ -171,3 +171,5 @@ export const DEFAULT_APP_LANGUAGE = 'en-US'
 
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2
 export const DEFAULT_SENTRY_NETWORK_ERRORS = ['network request failed']
+
+export const NUM_RECENT_DAPPS = 3

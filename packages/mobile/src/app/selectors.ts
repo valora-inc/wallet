@@ -127,6 +127,8 @@ export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
 export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
 
+export const recentDappsEnabledSelector = (state: RootState) => state.app.recentDappsEnabled
+
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 type StoreWipeRecoveryScreens = Extract<

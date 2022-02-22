@@ -958,6 +958,18 @@ export const v33Schema = {
   },
 }
 
+export const v34Schema = {
+  ...v33Schema,
+  _persist: {
+    ...v33Schema._persist,
+    version: 34,
+  },
+  app: {
+    ...v33Schema.app,
+    recentDappsEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
   return v33Schema as Partial<RootState>
 }

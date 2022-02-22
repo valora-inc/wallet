@@ -52,6 +52,7 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
+  recentDappsEnabled: boolean
 }
 
 const initialState = {
@@ -97,6 +98,7 @@ const initialState = {
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
+  recentDappsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.recentDappsEnabled,
 }
 
 export const appReducer = (
@@ -212,6 +214,7 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
+        recentDappsEnabled: action.configValues.recentDappsEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

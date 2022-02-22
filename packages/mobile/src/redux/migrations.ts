@@ -423,4 +423,11 @@ export const migrations = {
       ranVerificationMigrationAt: null,
     },
   }),
+  34: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      recentDappsEnabled: false,
+    },
+  }),
 }
