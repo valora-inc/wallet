@@ -7,7 +7,13 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
-> & { komenciAllowedDeployers: string; sentryNetworkErrors: string } = {
+  | 'superchargeTokens'
+> & {
+  komenciAllowedDeployers: string
+  sentryNetworkErrors: string
+  superchargecUSDMin: number
+  superchargecUSDMax: number
+} = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
@@ -20,11 +26,9 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: false,
-  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
-  rewardsPercent: 5,
-  rewardsStartDate: 1622505600000,
-  rewardsMax: 1000,
-  rewardsMin: 10,
+  superchargeApy: 25,
+  superchargecUSDMin: 10,
+  superchargecUSDMax: 1000,
   komenciUseLightProxy: false,
   komenciAllowedDeployers:
     '0xbDb92Ca42559adc5adC20a1E4985dC7c476483be,0x4cda887Bce324109535814D49b74c6a560fAe1D9',
