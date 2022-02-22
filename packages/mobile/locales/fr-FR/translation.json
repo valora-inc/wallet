@@ -176,6 +176,18 @@
     "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
+  "superchargeTitle": "Commence à Supercharger",
+  "superchargeDescription": "Obtiens des {{apy}}nnuellement des récompenses sur ton solde {{token}} . Voici comment commencer :",
+  "superchargeConnectNumber": "Connectez votre numéro de téléphone",
+  "superchargeMinimumBalance": "Ajoute un solde minimum de {{amount}} {{token}}.",
+  "superchargeDisclaimer": "Maximise les récompenses en ajoutant {{amount}} {{token}}.",
+  "superchargeTokenDetailsDialog": {
+    "title": "Quels sont les actifs que je peux Supercharger ?",
+    "body": "Avec Supercharge, tu obtiens des récompenses hebdomadaires sur ton solde le plus élevé en monnaie stable Celo (cEUR, cUSD, cREAL, etc.).",
+    "dismiss": "Ignorer"
+  },
+  "superchargingTitle": "Ton {{token}} est en train d'être Supercharged",
+  "superchargingDescription": "Tu obtiens {{apy}}nnuellement. Réclame tes récompenses ici le mardi.",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
   "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
