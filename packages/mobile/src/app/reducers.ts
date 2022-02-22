@@ -249,7 +249,10 @@ export const appReducer = (
     case Actions.RECENT_DAPP_SELECTED:
       return {
         ...state,
-        recentDapps: [...new Set([action.dapp, ...state.recentDapps])].slice(0, NUM_RECENT_DAPPS),
+        recentDapps: [
+          action.dapp,
+          ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
+        ].slice(0, NUM_RECENT_DAPPS),
       }
     default:
       return state
