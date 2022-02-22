@@ -176,6 +176,18 @@
     "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
   "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
+  "superchargeTitle": "Start Supercharging",
+  "superchargeDescription": "Erhalte {{apy}}nnliche Belohnungen auf dein {{token}} Guthaben. So fängst du an:",
+  "superchargeConnectNumber": "Verbinde deine Telefonnummer",
+  "superchargeMinimumBalance": "Füge ein Mindestguthaben von {{amount}} {{token}}hinzu",
+  "superchargeDisclaimer": "Maximiere die Belohnungen durch Hinzufügen von {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Welche Vermögenswerte kann ich aufladen?",
+    "body": "Mit Supercharge erhältst du wöchentliche Belohnungen auf dein höchstes Celo-Stablecoin-Guthaben (cEUR, cUSD, cREAL, etc.).",
+    "dismiss": "Verwerfen"
+  },
+  "superchargingTitle": "Dein {{token}} wird überladen",
+  "superchargingDescription": "Du bekommst {{apy}}nnentlich. Fordere deine Belohnungen am Dienstag hier an.",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
