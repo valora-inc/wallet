@@ -1111,8 +1111,8 @@
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
-  "getBankAccountsFail": "Deine verknüpften Bankkonten können nicht abgerufen werden. Bitte versuche es später noch einmal",
-  "deleteBankAccountFail": "Du kannst dein verlinktes Bankkonto nicht löschen. Bitte versuche es später noch einmal",
+  "getBankAccountsFail": "Die verknüpften Bankkonten konnten nicht abgerufen werden. Bitte versuchen Sie es später erneut",
+  "deleteBankAccountFail": "Ihr verlinktes Bankkonto konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut",
   "linkBankAccountScreen": {
     "tryAgain": "Wiederholen",
     "verifying": {
