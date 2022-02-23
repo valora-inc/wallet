@@ -247,6 +247,7 @@ Array [
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -510,6 +511,7 @@ Array [
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
