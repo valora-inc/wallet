@@ -1101,23 +1101,23 @@
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Yoksay"
   },
-  "supportEmailSubject": "{{appName}} support for {{user}}",
-  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
-  "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
-  "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
-  "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
+  "supportEmailSubject": "{{user}} kullanıcısı için {{appName}} desteği",
+  "personaAccountEndpointFail": "Kimlik doğrulama şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyiniz",
+  "plaidCreateLinkTokenFail": "Banka hesabı bağlanamıyor. Lütfen daha sonra tekrar deneyiniz",
+  "getBankAccountsFail": "Bağlı banka hesaplarınız alınamadı. Lütfen daha sonra tekrar deneyiniz",
+  "deleteBankAccountFail": "Bağlı banka hesabınız silinemiyor. Lütfen daha sonra tekrar deneyiniz",
   "linkBankAccountScreen": {
-    "tryAgain": "Try Again",
+    "tryAgain": "Tekrar Deneyin",
     "verifying": {
-      "title": "Verifying your Identity"
+      "title": "Kimliğiniz doğrulanıyor"
     },
     "completed": {
-      "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "title": "Doğrulama tamamlandı",
+      "description": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
     },
     "failed": {
-      "title": "Verification denied",
-      "description": "We were unable to verify your identity. Please try again or contact support to continue.",
+      "title": "Doğrulama reddedildi",
+      "description": "Kimliğinizi doğrulayamadık. Lütfen tekrar deneyin veya devam etmek için desteğe başvurun.",
       "contactSupportPrefill": "My identity verification was denied"
     },
     "pending": {
@@ -1183,7 +1183,7 @@
   },
   "rewards": "Rewards",
   "supercharge": "Supercharge",
-  "others": "Others",
+  "others": "Diğer",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "celoDollarAmount": "<0></0> Celo Doları",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
