@@ -918,8 +918,8 @@
   "helpModal": {
     "header": "Locating an Account Address",
     "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
-    "body2": "The Account Address is near the bottom of the menu.",
-    "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
+    "body2": "Hesap Adresi, menünün alt kısmındadır.",
+    "body3": "Hesap Adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır"
   },
   "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
   "addressConfirmed": "Account Address confirmed",
@@ -1021,23 +1021,23 @@
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> ve <1></1> henüz davetlerini kabul etmedi",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve biri daha davetlerini henüz kabul etmedi",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve bir kaç kişi daha henüz davetlerini kabul etmediler",
-  "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your {{currency}} with {{appName}}! Download the mobile app to get started!",
+  "escrowedPaymentReminderSmsNoData": "{{appName}} ile {{currency}} bakiyenizi henüz kullanmadığınızı hatırlatmak isteriz! kullanmak için mobil uygulamayı indirin!",
   "testnetAlert": {
     "0": "{{testnet}}",
-    "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
+    "1": "{{testnet}} ağ yapısını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
-  "feedItemAddress": "Account {{address}}",
+  "feedItemAddress": "Hesap {{address}}",
   "feedItemExchangeTitle": "CELO",
-  "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
-  "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
-  "feedItemBoughtCeloTitle": "Purchased CELO",
-  "feedItemSoldCeloTitle": "Sold CELO",
+  "feedItemExchangeInfo_boughtGold": "Alınan <0></0> CELO",
+  "feedItemExchangeInfo_soldGold": "Satılan <0></0> CELO",
+  "feedItemBoughtCeloTitle": "Satın Alınan CELO",
+  "feedItemSoldCeloTitle": "Satılan CELO",
   "feedItemExchangeCeloInfo": "{{amount}} @ {{price}}",
   "feedItemVerificationFeeTitle": "Celo",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
   "feedItemNetworkFeeTitle": "Celo",
-  "feedItemNetworkFeeInfo": "Network Fee",
+  "feedItemNetworkFeeInfo": "Ağ Ücreti",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Onaylayıcı Ödülü",
   "feedItemFaucetTitle": "Celo",
