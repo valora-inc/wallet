@@ -11,12 +11,13 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
-import { SUPERCHARGE_AVAILABLE_REWARDS_URL } from 'src/config'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
 import { claimRewards } from 'src/consumerIncentives/reducer'
 import {
@@ -25,6 +26,7 @@ import {
   SuperchargeTokenConfig,
 } from 'src/consumerIncentives/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+import config from 'src/geth/networkConfig'
 import InfoIcon from 'src/icons/InfoIcon'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -179,7 +181,7 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
     <>
       <Text style={[styles.title, { color: colors.greenUI }]} testID="ClaimSuperchargeDescription">
         {rewardStrings.length > 1
-          ? t('superchargeRewardsAvailableMultipleTokens', { amount: rewardStrings.join(' & ') })
+          ? t('superchargeRewardsAvailableMultipleTokens', { amounts: rewardStrings.join(' & ') })
           : t('superchargeRewardsAvailable', {
               token: tokens[singleRewardToken]?.symbol,
               amount: singleRewardAmount?.toFixed(2),
@@ -195,10 +197,11 @@ function useFetchAvailableRewards(): {
   loading: boolean
 } {
   const address = useSelector(walletAddressSelector)
+  const dispatch = useDispatch()
 
   const { result, loading } = useAsync(async () => {
     try {
-      const response = await fetch(`${SUPERCHARGE_AVAILABLE_REWARDS_URL}?address=${address}`, {
+      const response = await fetch(`${config.superchargeAvailableRewardsUrl}?address=${address}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -210,6 +213,7 @@ function useFetchAvailableRewards(): {
       return responseBody.availableRewards ?? []
     } catch (error) {
       Logger.error('SuperchargeScreen', 'Error while fetching pending rewards', error)
+      dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
     }
   }, [])
   return { availableRewards: result ?? [], loading }
@@ -231,18 +235,20 @@ export default function ConsumerIncentivesHomeScreen() {
   const onPressCTA = async () => {
     if (canClaimRewards) {
       dispatch(claimRewards(availableRewards))
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.ClaimRewards,
+      })
     } else if (userIsVerified) {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.CashIn,
+      })
     } else {
       navigate(Screens.VerificationEducationScreen, { hideOnboardingStep: true })
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.VerifyPhone,
+      })
     }
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
-      buttonPressed: canClaimRewards
-        ? RewardsScreenCta.ClaimRewards
-        : userIsVerified
-        ? RewardsScreenCta.CashIn
-        : RewardsScreenCta.VerifyPhone,
-    })
   }
 
   return (
@@ -280,7 +286,7 @@ export default function ConsumerIncentivesHomeScreen() {
               : t('connectNumber')
           }
           showLoading={loadingAvailableRewards || claimRewardsLoading}
-          disabled={loadingAvailableRewards}
+          disabled={loadingAvailableRewards || claimRewardsLoading}
           onPress={onPressCTA}
           testID="ConsumerIncentives/CTA"
         />

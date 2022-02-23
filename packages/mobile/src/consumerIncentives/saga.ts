@@ -87,7 +87,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
   } catch (error) {
     yield put(claimRewardsFailure())
     yield put(showError(ErrorMessages.SUPERCHARGE_CLAIM_FAILED))
-    Logger.error(TAG, 'Error claiming rewards', error.message)
+    Logger.error(TAG, 'Error claiming rewards', error)
   }
 }
 

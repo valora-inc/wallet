@@ -1,9 +1,13 @@
 import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga-test-plan/matchers'
-import { Actions as AlertActions } from 'src/alert/actions'
+import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen.test'
-import { claimRewards, claimRewardsSuccess } from 'src/consumerIncentives/reducer'
+import {
+  claimRewards,
+  claimRewardsFailure,
+  claimRewardsSuccess,
+} from 'src/consumerIncentives/reducer'
 import { claimRewardsSaga } from 'src/consumerIncentives/saga'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -136,5 +140,28 @@ describe('claimRewardsSaga', () => {
       nonce: mockBaseNonce + 1,
       from: mockAccount,
     })
+  })
+
+  it('filas if claimign a reward fails', async () => {
+    ;(getContract as jest.Mock).mockImplementation(() => mockContract)
+    mockTxo.sendAndWaitForReceipt.mockImplementationOnce(() => {
+      throw new Error('Error claiming')
+    })
+    await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+      ])
+      .not.put(claimRewardsSuccess())
+      .put(claimRewardsFailure())
+      .put.like({
+        action: {
+          type: AlertActions.SHOW,
+          alertType: AlertTypes.ERROR,
+          message: 'superchargeClaimFailure',
+        },
+      })
+      .run()
+    expect(navigateHome).not.toHaveBeenCalled()
   })
 })
