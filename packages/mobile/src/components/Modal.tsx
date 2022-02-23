@@ -10,14 +10,16 @@ interface Props {
   isVisible: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
+  onBackgroundPress?: () => void
 }
 
-export default function Modal({ children, isVisible, style, testID }: Props) {
+export default function Modal({ children, isVisible, style, testID, onBackgroundPress }: Props) {
   return (
     <ReactNativeModal
       testID={testID}
       isVisible={isVisible}
       backdropOpacity={0.1}
+      onBackdropPress={onBackgroundPress}
       // @ts-ignore statusBarTranslucent is supported since RN 0.62, but updated lib with the added prop hasn't been published yet
       statusBarTranslucent={true}
     >

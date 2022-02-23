@@ -438,6 +438,8 @@ function SendConfirmationLegacy(props: Props) {
             isVisible={encryptionDialogVisible}
             actionText={t('dismiss')}
             actionPress={onDismissEncryptionModal}
+            isActionHighlighted={false}
+            onBackgroundPress={onDismissEncryptionModal}
           >
             {t('encryption.warningModalBody')}
           </Dialog>
