@@ -1118,15 +1118,15 @@
     "failed": {
       "title": "Doğrulama reddedildi",
       "description": "Kimliğinizi doğrulayamadık. Lütfen tekrar deneyin veya devam etmek için desteğe başvurun.",
-      "contactSupportPrefill": "My identity verification was denied"
+      "contactSupportPrefill": "Kimlik doğrulamam reddedildi"
     },
     "pending": {
-      "title": "Review in progress",
-      "description": "Your information has been received and is being reviewed."
+      "title": "İnceleme devam ediyor",
+      "description": "Bilgileriniz tarafımıza ulaştı ve şu anda inceleniyor."
     },
     "begin": {
-      "label": "Step 1",
-      "title": "Verify your Identity",
+      "label": "1. Adım",
+      "title": "Kimliğinizi doğrulayın",
       "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
       "cta": "Begin"
     },
