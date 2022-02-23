@@ -50,7 +50,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   }
 
   return (
-    <View style={styles.body}>
+    <View style={styles.body} testID="RecentlyUsedDappsContainer">
       <View style={[styles.titleContainer, styles.row]}>
         <Text style={styles.title}>{t('recentlyUsedDapps')}</Text>
         <TouchableOpacity style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
@@ -70,12 +70,13 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
             key={recentlyUsedDapp.id}
             onPress={() => onSelectDapp(recentlyUsedDapp)}
             style={styles.dappContainer}
-            testID={`RecentDapp/${index}`}
+            testID={`RecentDapp${index}`}
           >
             <Image
               source={{ uri: recentlyUsedDapp.iconUrl }}
               style={styles.icon}
               resizeMode="cover"
+              testID={`RecentDapp${index}-icon`}
             />
             <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
               {recentlyUsedDapp.name}
