@@ -244,7 +244,7 @@
   "loadingExchangeRate": "Döviz Kuru Yükleniyor...",
   "errorRefreshingRate": "Döviz kuru yenilenemedi",
   "exchangeRateChange": "Döviz kuru değişti, lütfen tekrar deneyin",
-  "feeExchangeEducation": "CELO ve cUSD arasında değiş tokuş yaparken, Celo Dolarının değerini ABD Dolarına bağlı ve sabit tutmak için küçük bir ücret alınır.\n\nDaha fazla bilgi için SSS'a göz atın.",
+  "feeExchangeEducation": "When exchanging between assets, a small fee goes towards keeping the value of Celo stablecoins tied to the asset they track. \n\nVisit the FAQ to learn more.",
   "goldPrice": "CELO Fiyatı",
   "yourGoldBalance": "CELO Bakiyeniz",
   "goldAmount": "CELO Miktarı",
