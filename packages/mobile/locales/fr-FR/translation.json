@@ -1111,8 +1111,8 @@
   "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
   "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessayez plus tard",
-  "getBankAccountsFail": "Impossible de récupérer tes comptes bancaires liés. Réessaie plus tard.",
-  "deleteBankAccountFail": "Impossible de supprimer ton compte bancaire lié. Réessaie plus tard.",
+  "getBankAccountsFail": "Impossible de récupérer vos comptes bancaires liés. Veuillez réessayer plus tard",
+  "deleteBankAccountFail": "Impossible de supprimer votre compte bancaire associé. Veuillez réessayer plus tard",
   "linkBankAccountScreen": {
     "tryAgain": "Réessayer",
     "verifying": {
