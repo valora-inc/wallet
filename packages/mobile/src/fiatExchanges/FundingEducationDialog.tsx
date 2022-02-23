@@ -38,6 +38,8 @@ export default function FundingEducationDialog({ isVisible, onPressDismiss, isCa
       isVisible={isVisible}
       actionText={t(`${textBase}.dismiss`)}
       actionPress={onPressDismiss}
+      isActionHighlighted={false}
+      onBackgroundPress={onPressDismiss}
     >
       <Trans
         i18nKey={`${textBase}.body`}

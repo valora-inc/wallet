@@ -8262,12 +8262,12 @@ builtins@^1.0.3:
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
   integrity sha1-y5T662HIaWRR2zZTThQi+U8K7og=
 
-bunyan-debug-stream@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/bunyan-debug-stream/-/bunyan-debug-stream-1.1.1.tgz#4740a00b7d5c2d9d1b714925ab0802516040813e"
-  integrity sha512-jJbQ1gXUL6vMmZVdbaTFK1v1sGa7axLrSQQwkB6HU9HCPTzsw2HsKcPHm1vgXZlEck/4IvEuRwg/9+083YelCg==
+bunyan-debug-stream@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/bunyan-debug-stream/-/bunyan-debug-stream-2.0.1.tgz#9bd7c7e30c7b2cf711317e9d37529b0464c3b164"
+  integrity sha512-MCEoqggU7NMt7f2O+PU8VkqfSkoQoa4lmN/OWhaRfqFRBF1Se2TOXQyLF6NxC+EtfrdthnquQe8jOe83fpEoGA==
   dependencies:
-    colors "^1.0.3"
+    colors "1.4.0"
     exception-formatter "^1.0.4"
 
 bunyan@^1.8.12:
@@ -8933,7 +8933,7 @@ colors@1.0.3:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-colors@^1.0.3, colors@^1.1.2:
+colors@1.4.0, colors@^1.0.3, colors@^1.1.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
@@ -9960,25 +9960,19 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-detox-recorder@^1.0.151:
-  version "1.0.151"
-  resolved "https://registry.yarnpkg.com/detox-recorder/-/detox-recorder-1.0.151.tgz#5d59775dc01ea58595c749aade0420c5ba73dd43"
-  integrity sha512-a4ZPo7AR5XJJiLy8Xqml8YXxrIz6R7RKfiGmG9u5MBxG2I+w+yGJTj7ZhYDfoi5StpUD+dKHTCdvycZTOQ84Cw==
-
-detox@^19.4.2:
-  version "19.4.2"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-19.4.2.tgz#2ee3f83a607181b72cf518ca517a2ca28224b1c2"
-  integrity sha512-6nC094kcsf/Gnkk9ybkbI1wMB+28yBiNfAqnfhtYdUU/5AEkMzragxjiose55xC7LuXgkalaseLJEdkUodh3Ig==
+detox@^19.4.5:
+  version "19.4.5"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-19.4.5.tgz#81b1cadaec5c0f7dc53798d65242ff19f4da8412"
+  integrity sha512-kMHxNn3I9uTxOzIX4CTymI9qHRLn90xzuM/QhqHNeUH3AEDFtUmlJpcL86GmPO/VLWafcJScia9jqUiKveNAqg==
   dependencies:
     ajv "^8.6.3"
     bunyan "^1.8.12"
-    bunyan-debug-stream "^1.1.0"
+    bunyan-debug-stream "^2.0.1"
     chalk "^2.4.2"
     child-process-promise "^2.2.0"
     find-up "^4.1.0"
     fs-extra "^4.0.2"
     funpermaproxy "^1.0.1"
-    get-port "^2.1.0"
     ini "^1.3.4"
     lodash "^4.17.5"
     minimist "^1.2.0"
@@ -11993,13 +11987,6 @@ get-pkg-repo@^1.0.0:
     normalize-package-data "^2.3.0"
     parse-github-repo-url "^1.3.0"
     through2 "^2.0.0"
-
-get-port@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/get-port/-/get-port-2.1.0.tgz#8783f9dcebd1eea495a334e1a6a251e78887ab1a"
-  integrity sha1-h4P53OvR7qSVozThpqJR54iHqxo=
-  dependencies:
-    pinkie-promise "^2.0.0"
 
 get-port@^4.2.0:
   version "4.2.0"
@@ -18486,12 +18473,10 @@ react-native-persona@1.2.0:
     pkg-up "^3.1.0"
     xmlbuilder2 "^2.1.2"
 
-react-native-plaid-link-sdk@^7.0.7:
-  version "7.0.7"
-  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.0.7.tgz#3304a20e7e5b7b440caf9dcf1e3246aee35aa3dd"
-  integrity sha512-jXmifw8sw3ngsqndl5dUG3pRgcNF7o+rWvSuWd0EX6vWhzfhSGhPtMIVhnCA0k1wUSEpFcrIsJweaCmRg3DPHg==
-  dependencies:
-    tsc "^1.20150623.0"
+react-native-plaid-link-sdk@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.2.1.tgz#89ae1674aad5ead0af6db999da00c807f16d54e1"
+  integrity sha512-K0CPZiP4Wm8i5Iqydp1WMlbrJQNuuNK46h/lXIcC+S6jdLwNEiTe/2/9915nEne0HuqXIMtLWEdNLkmkdAhobA==
 
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"
@@ -21202,11 +21187,6 @@ ts-retry-promise@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/ts-retry-promise/-/ts-retry-promise-0.6.0.tgz#95643500d5388eed25abc90aa2e99c8b6c5a7bc9"
   integrity sha512-8DF80uA7JPu6m8ouHxGkyBpPTIGQnsgIUgLDqcRaD7EEhVowjG72KqCX334gsa1P+AmzeTVdd/xEzVFCAuPCtg==
-
-tsc@^1.20150623.0:
-  version "1.20150623.0"
-  resolved "https://registry.yarnpkg.com/tsc/-/tsc-1.20150623.0.tgz#4ebc3c774e169148cbc768a7342533f082c7a6e5"
-  integrity sha1-Trw8d04WkUjLx2inNCUz8ILHpuU=
 
 tsconfig-paths@^3.9.0:
   version "3.9.0"

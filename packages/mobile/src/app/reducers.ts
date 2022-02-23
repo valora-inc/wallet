@@ -2,6 +2,7 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
+import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -25,11 +26,8 @@ export interface State {
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
-  rewardsPercent: number
-  rewardsStartDate: number
-  rewardsMax: number
-  rewardsMin: number
-  rewardsABTestThreshold: string
+  superchargeApy: number
+  superchargeTokens: SuperchargeTokenConfig[]
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -74,11 +72,8 @@ const initialState = {
   showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
-  rewardsPercent: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsPercent,
-  rewardsStartDate: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsStartDate,
-  rewardsMax: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsMax,
-  rewardsMin: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsMin,
-  rewardsABTestThreshold: REMOTE_CONFIG_VALUES_DEFAULTS.rewardsABTestThreshold,
+  superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
+  superchargeTokens: [],
   ranVerificationMigrationAt: null,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
@@ -193,11 +188,8 @@ export const appReducer = (
         dappListApiUrl: action.configValues.dappListApiUrl,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
-        rewardsPercent: action.configValues.rewardsPercent,
-        rewardsStartDate: action.configValues.rewardsStartDate,
-        rewardsMax: action.configValues.rewardsMax,
-        rewardsMin: action.configValues.rewardsMin,
-        rewardsABTestThreshold: action.configValues.rewardsABTestThreshold,
+        superchargeApy: action.configValues.superchargeApy,
+        superchargeTokens: action.configValues.superchargeTokens,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),

@@ -176,6 +176,18 @@
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
+  "superchargeTitle": "Start Supercharging",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeConnectNumber": "Connect your phone number",
+  "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
+  "superchargeDisclaimer": "Max-out rewards by adding {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Which assets can I Supercharge?",
+    "body": "With Supercharge, you get weekly rewards on your highest Celo stablecoin balance (cEUR, cUSD, cREAL, etc).",
+    "dismiss": "Dismiss"
+  },
+  "superchargingTitle": "Your {{token}} is being Supercharged",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Claim your rewards here on Tuesday.",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
@@ -1042,7 +1054,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Payment Sent",
   "feedItemCeloRewardReceivedTitle": "Earned CELO",
-  "feedItemRewardReceivedTitle": "Celo Network",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Weekly Rewards",
   "feedItemInviteRewardReceivedTitle": "Celo Network",
   "feedItemInviteRewardReceivedInfo": "Reward Received",
@@ -1094,6 +1106,8 @@
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
+  "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
+  "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {

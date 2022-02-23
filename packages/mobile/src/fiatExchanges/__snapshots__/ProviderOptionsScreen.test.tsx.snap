@@ -1092,6 +1092,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "paddingTop": 16,
                         },
                       ]
