@@ -81,7 +81,7 @@ const useOpenDapp = () => {
 
   return {
     onSelectDapp,
-    ConfirmOpenDappBottomSheet: showOpenDappConfirmation ? ConfirmOpenDappBottomSheet : null,
+    ConfirmOpenDappBottomSheet,
   }
 }
 
