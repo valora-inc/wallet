@@ -90,4 +90,6 @@ export enum ErrorMessages {
   PLAID_CREATE_LINK_TOKEN_FAIL = 'plaidCreateLinkTokenFail',
   GET_BANK_ACCOUNTS_FAIL = 'getBankAccountsFail',
   DELETE_BANK_ACCOUNT_FAIL = 'deleteBankAccountFail',
+  SUPERCHARGE_FETCH_REWARDS_FAILED = 'superchargeFetchRewardsFailed',
+  SUPERCHARGE_CLAIM_FAILED = 'superchargeClaimFailure',
 }

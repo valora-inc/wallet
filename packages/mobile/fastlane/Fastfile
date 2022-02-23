@@ -94,7 +94,12 @@ platform :ios do
       # https://stackoverflow.com/questions/6395288/double-vs-single-quotes
       scheme: "celo-#{options[:environment]}",
       configuration: 'Release',
-      # xcargs: '-allowProvisioningUpdates',
+      xcargs: [
+        "-allowProvisioningUpdates",
+        "-authenticationKeyPath #{ENV['APPLE_CONNECT_CERTIFICATE_PATH']}",
+        "-authenticationKeyID #{ENV['APPLE_CONNECT_KEY_ID']}",
+        "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
+      ].join(' '),
       output_directory: 'build',
       # verbose: true
      ) 
