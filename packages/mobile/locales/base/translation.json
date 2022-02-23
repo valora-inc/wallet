@@ -176,6 +176,25 @@
     "text": "This will ensure your rewards are safe and in your control."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
+  "superchargeTitle": "Start Supercharging",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeConnectNumber": "Connect your phone number",
+  "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
+  "superchargeDisclaimer": "Max-out rewards by adding {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Which assets can I Supercharge?",
+    "body": "With Supercharge, you get weekly rewards on your highest Celo stablecoin balance (cEUR, cUSD, cREAL, etc).",
+    "dismiss": "Dismiss"
+  },
+  "superchargingTitle": "Your {{token}} is being Supercharged",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Claim your rewards here on Tuesday.",
+  "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
+  "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
+  "superchargeClaimText": "Claim your rewards to add them to your balance.",
+  "superchargeClaimButton": "Claim Rewards",
+  "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
+  "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
+  "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
@@ -1094,6 +1113,8 @@
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
+  "getBankAccountsFail": "Unable to retrieve your linked bank accounts. Please try again later",
+  "deleteBankAccountFail": "Unable to delete your linked bank account. Please try again later",
   "linkBankAccountScreen": {
     "tryAgain": "Try Again",
     "verifying": {

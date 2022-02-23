@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Corra, porque é por tempo limitado. Veja como funciona:",
+  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais na sua stablecoin com o maior saldo(cUSD, cEUR ou cREAL) por tempo limitado:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
   },
   "noMinCommitment": {
     "header": "Adicione fundos",
-    "earningText": "Adicione {{minBalance}}{{currency}} e até 1000 {{currency}} para ganhar.",
+    "earningText": "Receba recompensas em 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
@@ -1040,7 +1040,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pagamento enviado",
   "feedItemCeloRewardReceivedTitle": "Ganho de CELO",
-  "feedItemRewardReceivedTitle": "Rede Celo",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Recompensas semanais",
   "feedItemInviteRewardReceivedTitle": "Rede Celo",
   "feedItemInviteRewardReceivedInfo": "Recompensa recebida",
@@ -1092,6 +1092,8 @@
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Por favor, tente novamente mais tarde.",
   "plaidCreateLinkTokenFail": "Não foi possível vincular a conta bancária. Por favor, tente novamente mais tarde.",
+  "getBankAccountsFail": "Incapaz de recuperar suas contas bancárias vinculadas. Por favor, tente novamente mais tarde",
+  "deleteBankAccountFail": "Incapaz de excluir sua conta bancária vinculada. Por favor, tente novamente mais tarde",
   "linkBankAccountScreen": {
     "tryAgain": "Repetir",
     "verifying": {

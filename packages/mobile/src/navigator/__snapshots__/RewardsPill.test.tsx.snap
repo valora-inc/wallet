@@ -5,6 +5,13 @@ Array [
   <View
     accessible={true}
     focusable={true}
+    nativeBackgroundAndroid={
+      Object {
+        "attribute": "selectableItemBackground",
+        "rippleRadius": undefined,
+        "type": "ThemeAttrAndroid",
+      }
+    }
     onClick={[Function]}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -13,20 +20,15 @@ Array [
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#DEF8EA",
-          "borderRadius": 15,
-          "flexDirection": "row",
-          "height": 30,
-          "justifyContent": "center",
-          "paddingHorizontal": 12,
-        },
-        Object {
-          "opacity": 1,
-        },
-      ]
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#DEF8EA",
+        "borderRadius": 15,
+        "flexDirection": "row",
+        "height": 30,
+        "justifyContent": "center",
+        "paddingHorizontal": 12,
+      }
     }
     testID="EarnRewards"
   >
@@ -43,13 +45,17 @@ Array [
     </svg>
     <Text
       style={
-        Object {
-          "color": "#08CB7A",
-          "fontFamily": "Inter-Regular",
-          "fontSize": 14,
-          "lineHeight": 18,
-          "marginLeft": 5,
-        }
+        Array [
+          Object {
+            "color": "#1AB775",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 18,
+          },
+          Object {
+            "marginLeft": 5,
+          },
+        ]
       }
     >
       rewards

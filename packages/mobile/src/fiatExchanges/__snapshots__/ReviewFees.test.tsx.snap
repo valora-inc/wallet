@@ -229,6 +229,7 @@ exports[`ReviewFees renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -450,6 +451,7 @@ exports[`ReviewFees renders correctly 1`] = `
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -1093,6 +1095,7 @@ exports[`ReviewFees renders correctly 2`] = `
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
@@ -1310,6 +1313,7 @@ exports[`ReviewFees renders correctly 2`] = `
                       "lineHeight": 22,
                     },
                     Object {
+                      "color": "#9CA4A9",
                       "paddingTop": 16,
                     },
                   ]
