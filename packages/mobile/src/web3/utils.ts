@@ -66,3 +66,8 @@ export function* getLatestNonce(address: string) {
   Logger.debug(TAG, `Latest nonce found: ${nonce}`)
   return nonce
 }
+
+export async function getContract(abi: any, tokenAddress: string) {
+  const kit = await getContractKitAsync()
+  return new kit.web3.eth.Contract(abi, tokenAddress)
+}
