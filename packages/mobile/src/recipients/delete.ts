@@ -15,6 +15,31 @@ export async function getAddress(name: string) {
   return await resolveNom.resolve(name)
 }
 
+export async function brianFunction() {
+  console.log('BRIAN FUNCTION')
+  const provider = new providers.JsonRpcProvider('https://forno.celo.org')
+  const ens = new ENS({ provider, ensAddress: LocalResolveNom.AlfajoresENSRegsitryAddress }) // Refer to Contract Addresses for the ENSRegistry address
+
+  const name = ens.name(`${normalize('brian')}.nom`)
+  console.log('BRIAN FUNCTION BEFORE')
+
+  // Example to resolve brian.nom
+  const address = await name.getAddress() // 0x82C4...
+  console.log(`BRIAN: ${address}`)
+
+  // Example to get their github URL
+  const githubURL = await name.getText('com.github')
+  console.log(`BRIAN: ${githubURL}`)
+
+  let ensName = null
+  ;({ name: ensName } = await ens.getName(address))
+  console.log(`BRIAN: ${ensName}`)
+  // Check to be sure the reverse record is correct. skip check if the name is null
+  if (ensName == null || address != (await ens.name(`${ensName}.nom`).getAddress())) {
+    ensName = null
+  }
+}
+
 export class LocalResolveNom implements NameResolver {
   static readonly AlfajoresENSRegsitryAddress: Address =
     '0x40cd4db228e9c172dA64513D0e874d009486A9a9'

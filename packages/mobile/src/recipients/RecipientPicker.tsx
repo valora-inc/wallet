@@ -28,7 +28,7 @@ import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
-import { getAddress } from 'src/recipients/delete'
+import { brianFunction, getAddress } from 'src/recipients/delete'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -81,10 +81,11 @@ function RecipientPicker(props: RecipientProps) {
     ])
 
     const result = await resolveGroup.resolve(props.searchQuery)
-    console.log(`DIEGO result: ${JSON.stringify(result)}`)
+    console.log(`DIEGO resolve kit result: ${JSON.stringify(result)}`)
 
     const localResult = await getAddress(props.searchQuery)
-    console.log(`DIEGO local result: ${JSON.stringify(result)}`)
+    console.log(`DIEGO local result: ${JSON.stringify(localResult)}`)
+    await brianFunction()
     return result
   }, [props.searchQuery])
 
