@@ -688,15 +688,15 @@
   "biometryType": {
     "FaceID": "Face ID",
     "TouchID": "Touch ID",
-    "Fingerprint": "Fingerprint recognition",
-    "Face": "Face recognition",
-    "Iris": "Iris recognition"
+    "Fingerprint": "Parmak izi tanıma",
+    "Face": "Yüz tanıma",
+    "Iris": "İris tanıma"
   },
   "useBiometryType": "Kullan {{biometryType}}",
   "welcome": {
-    "title": "Step into the future of crypto with {{appName}}",
-    "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "title": "{{appName}} ile kriptonun geleceğine adım atın",
+    "createAccount": "Yeni hesap oluştur",
+    "restoreAccount": "Hesabımı geri yükle"
   },
   "accessContacts": {
     "disclosure": {
