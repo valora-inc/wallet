@@ -244,7 +244,7 @@
   "loadingExchangeRate": "Umtauschkurs wird geladen...",
   "errorRefreshingRate": "Umtauschkurs konnte nicht aktualisiert werden",
   "exchangeRateChange": "Umtauschkurs hat sich geändert. Bitte versuche es erneut.",
-  "feeExchangeEducation": "Beim Austausch zwischen CELO und cUSD oder cEUR wird eine geringe Gebühr dafür verwendet, den Wert des Celo Dollar und Celo Euro stabil zu halten. \n\nBesuche die FAQ um mehr zu erfahren.",
+  "feeExchangeEducation": "Beim Tausch zwischen Vermögenswerten wird eine kleine Gebühr erhoben, damit der Wert der Celo Stablecoins an den Vermögenswert gebunden bleibt, den sie verfolgen. \n\nBesuche die FAQ, um mehr zu erfahren.",
   "goldPrice": "CELO-Preis",
   "yourGoldBalance": "Dein CELO-Guthaben",
   "goldAmount": "CELO-Betrag",
