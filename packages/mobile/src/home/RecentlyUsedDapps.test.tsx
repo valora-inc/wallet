@@ -56,11 +56,11 @@ describe('RecentlyUsedDapps', () => {
     expect(getByText('recentlyUsedDapps')).toBeTruthy()
     expect(getByText('allDapps')).toBeTruthy()
     expect(within(dapp0).getByText(recentDapps[0].name)).toBeTruthy()
-    expect(within(dapp0).getByTestId('RecentDapp0-icon').props.source).toEqual({
+    expect(getByTestId('RecentDapp0-icon').props.source).toEqual({
       uri: recentDapps[0].iconUrl,
     })
     expect(within(dapp1).getByText(recentDapps[1].name)).toBeTruthy()
-    expect(within(dapp1).getByTestId('RecentDapp1-icon').props.source).toEqual({
+    expect(getByTestId('RecentDapp1-icon').props.source).toEqual({
       uri: recentDapps[1].iconUrl,
     })
   })

@@ -113,9 +113,6 @@ const styles = StyleSheet.create({
     color: Colors.greenUI,
     marginRight: Spacing.Smallest8,
   },
-  arrow: {
-    paddingLeft: Spacing.Smallest8,
-  },
   dappContainer: {
     alignItems: 'center',
     marginHorizontal: Spacing.Regular16,
