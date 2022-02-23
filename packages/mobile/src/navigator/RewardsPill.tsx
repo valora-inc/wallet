@@ -1,12 +1,10 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
 import { SuperchargeButtonType } from 'src/app/types'
+import Pill from 'src/components/Pill'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import Rings from 'src/icons/Rings'
 import Supercharge from 'src/icons/Supercharge'
@@ -36,30 +34,15 @@ function RewardsPill() {
     return null
   }
   return (
-    <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
-      {superchargeButton === SuperchargeButtonType.PillRewards ? <Rings /> : <Supercharge />}
-      <Text style={styles.earnRewardsText}>
-        {superchargeButton === SuperchargeButtonType.PillRewards ? t('rewards') : t('supercharge')}
-      </Text>
-    </TouchableOpacity>
+    <Pill
+      text={
+        superchargeButton === SuperchargeButtonType.PillRewards ? t('rewards') : t('supercharge')
+      }
+      icon={superchargeButton === SuperchargeButtonType.PillRewards ? <Rings /> : <Supercharge />}
+      onPress={onOpenRewards}
+      testID="EarnRewards"
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  rewardsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 30,
-    paddingHorizontal: 12,
-    borderRadius: 15,
-    backgroundColor: colors.greenBackground,
-  },
-  earnRewardsText: {
-    ...fontStyles.small,
-    color: colors.greenStrong,
-    marginLeft: 5,
-  },
-})
 
 export default RewardsPill
