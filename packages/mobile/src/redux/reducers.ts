@@ -4,7 +4,7 @@ import { Actions } from 'src/account/actions'
 import { reducer as account, State as AccountState } from 'src/account/reducer'
 import { reducer as alert, State as AlertState } from 'src/alert/reducer'
 import { appReducer as app, State as AppState } from 'src/app/reducers'
-import { reducer as supercharge, State as SuperchargeState } from 'src/consumerIncentives/reducer'
+import superchargeReducer, { State as SuperchargeState } from 'src/consumerIncentives/reducer'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
@@ -52,7 +52,7 @@ const appReducer = combineReducers({
   fiatExchanges,
   walletConnect,
   tokens,
-  supercharge,
+  supercharge: superchargeReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
