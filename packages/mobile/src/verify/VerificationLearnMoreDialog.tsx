@@ -18,6 +18,8 @@ export default function VerificationLearnMoreDialog({ isVisible, onPressDismiss 
       isVisible={isVisible}
       actionText={t('verificationLearnMoreDialog.dismiss')}
       actionPress={onPressDismiss}
+      isActionHighlighted={false}
+      onBackgroundPress={onPressDismiss}
     >
       <Trans i18nKey="verificationLearnMoreDialog.body">
         <Text style={fontStyles.regular600} />

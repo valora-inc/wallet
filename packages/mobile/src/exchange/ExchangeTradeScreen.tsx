@@ -339,6 +339,8 @@ export default function ExchangeTradeScreen({ route }: Props) {
         isVisible={exchangeRateInfoDialogVisible}
         actionText={t('dismiss')}
         actionPress={toggleExchangeRateInfoDialog}
+        isActionHighlighted={false}
+        onBackgroundPress={toggleExchangeRateInfoDialog}
       >
         {t('rateInfoBody')}
       </Dialog>
