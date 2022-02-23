@@ -3,17 +3,8 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Image,
-  NativeScrollEvent,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { recentDappsSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -29,17 +20,7 @@ const DAPP_ICON_SIZE = 68
 
 function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
-  const [currentIndex, setCurrentIndex] = useState(0)
   const { t } = useTranslation()
-
-  const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
-    const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
-    if (nextIndex === currentIndex) {
-      return
-    }
-
-    setCurrentIndex(nextIndex)
-  }
 
   const onPressAllDapps = () => {
     navigate(Screens.DAppsExplorerScreen)
@@ -62,7 +43,6 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        onScroll={handleScroll}
         testID="RecentlyUsedDapps/ScrollContainer"
       >
         {recentlyUsedDapps.map((recentlyUsedDapp, index) => (

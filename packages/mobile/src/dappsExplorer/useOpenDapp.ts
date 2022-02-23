@@ -60,12 +60,12 @@ const useOpenDapp = () => {
     }
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
 
-    if (!isDeepLink(dapp.dappUrl)) {
+    if (isDeepLink(dapp.dappUrl)) {
+      openDapp(dapp)
+    } else {
       setSelectedDapp(dapp)
       setShowOpenDappConfirmation(true)
       ValoraAnalytics.track(DappExplorerEvents.dapp_bottom_sheet_open, dappEventProps)
-    } else {
-      openDapp(dapp)
     }
   }
 
