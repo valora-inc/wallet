@@ -564,7 +564,7 @@
   "emptyInviteCode": "Davet kodunda yeterli bakiye bulunmuyor",
   "transferDollarsToAccount": "Hesabınıza bakiye transferi gerçekleşti!",
   "inviteAnyone": "Kişilerinize ekleyerek arkadaşlarınıza kolayca gönderim yapın",
-  "inviteReceived": "Davetiye Alındı",
+  "inviteReceived": "Davet Alındı",
   "escrowPaymentNotificationTitle": "{{mobile}} Davet edildi",
   "inviteDialog": {
     "title": "Arkadaşını davet et",
@@ -606,7 +606,7 @@
   "initKeystoreFailureMessage": "Anahtar yöneticisi başlatılamadı",
   "pinLostForeverMessage": "Ekran kilidini devre dışını bıraktınız, PIN artık geçerli değil",
   "importContactsPermission": {
-    "title": "Önemli Kişiler",
+    "title": "Kişileri İçe Aktar",
     "0": "Adres defterinizi bağlamak, arkadaşlarınızla ödeme göndermeyi ve talepte bulunmayı kolaylaştırır. Aksi takdirde, bilgilerini ayrı ayrı girmeniz gerekecektir.",
     "1": "Endişelenmeyin, bağlantı kurmak kişilerinize davet göndermez.",
     "enable": "Kişiler Erişimine İzin Ver",
@@ -700,27 +700,27 @@
   },
   "accessContacts": {
     "disclosure": {
-      "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
+      "title": "Kişileri İçe Aktar",
+      "body": "Valora kişilerinizi içe aktarmak istiyor. Aşağıdaki butona dokunarak, Valora aracılığıyla bağlantı kurmak amacıyla kişilerimin telefon numaralarına, adlarına ve fotoğraflarına erişmesine izin veriyorum"
     }
   },
-  "createAccount": "Create Account",
-  "restoreAccount": "Restore My Account",
-  "registrationSteps": "Step {{step}} of {{totalSteps}}",
-  "selectCountryCode": "Select Country Code",
+  "createAccount": "Hesap Oluştur",
+  "restoreAccount": "Hesabımı Geri Yükle",
+  "registrationSteps": "Toplam {{totalSteps}} adımdan {{step}}.",
+  "selectCountryCode": "Ülke Kodu Seçin",
   "pincodeSet": {
-    "create": "Create a PIN",
-    "createNew": "Create a new PIN",
-    "verify": "Enter your PIN again to confirm",
-    "changePIN": "Change PIN",
-    "pinsDontMatch": "The PINs didn't match",
-    "invalidPin": "Please use a stronger PIN"
+    "create": "PIN Oluştur",
+    "createNew": "Yeni PIN oluştur",
+    "verify": "Doğrulamak için PIN'i tekrar girin",
+    "changePIN": "PIN Değiştir",
+    "pinsDontMatch": "PIN'ler eşleşmedi",
+    "invalidPin": "Lütfen daha güçlü bir Pin kullanın"
   },
   "inviteCode": {
-    "title": "Invite Code",
-    "body": "Did you receive a payment or invite? If so, please copy and paste the Invite Code below.",
-    "label": "Invite Code",
-    "codePlaceholder": "Enter invite code",
+    "title": "Davet Kodu",
+    "body": "Bir ödeme veya davetiye mi aldınız? Öyleyse, lütfen aşağıdaki Davetiye Kodunu kopyalayıp yapıştırın.",
+    "label": "Davet Kodu",
+    "codePlaceholder": "Davet kodu gir",
     "noCode": "Don’t have an Invite Code",
     "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
     "loadingHeader": "Creating account...",
@@ -884,14 +884,14 @@
     "cta": "Start Confirmation"
   },
   "importContactsCta": {
-    "header": "Import Contacts",
-    "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
-    "cta": "Settings"
+    "header": "Kişileri İçe Aktar",
+    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler'e erişime izin verin.",
+    "cta": "Ayarlar"
   },
   "contactSyncProgress": {
     "header": "Syncing Contacts",
     "progress": "{{current}} of {{total}}",
-    "importing": "Importing..."
+    "importing": "İçe Aktarılıyor..."
   },
   "confirmAccount": {
     "header": "Please confirm {{displayName}}'s account",
