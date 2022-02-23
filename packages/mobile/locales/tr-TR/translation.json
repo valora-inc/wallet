@@ -649,41 +649,41 @@
   },
   "failModal": {
     "header": "Onaylama Hatası",
-    "body1": "An issue has occurred while confirming your phone number.",
-    "body2": "You can skip confirmation for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the confirmation process.",
-    "body2InsufficientBalance": "Please try again when you have added funds to your wallet.",
-    "body1SaltQuotaExceeded": "Your phone number lookup quota is used up",
-    "body2SaltQuotaExceeded": "Please try again when you have purchased more lookups",
-    "enterCodesBody": "If you already received three codes via SMS, you can still enter them.",
-    "enterCodesButton": "Enter Codes"
+    "body1": "Telefon numaranız onaylanırken bir sorun oluştu.",
+    "body2": "Şimdilik onay işlemini atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+    "body1InsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlamak için yeterli değil.",
+    "body2InsufficientBalance": "Cüzdanınıza para eklediğinizde lütfen tekrar deneyin.",
+    "body1SaltQuotaExceeded": "Telefon numarası adresi araması kotanız doldu",
+    "body2SaltQuotaExceeded": "Daha fazla arama satın aldığınızda lütfen tekrar deneyin",
+    "enterCodesBody": "SMS yoluyla zaten üç kod aldıysanız, bu kodları yine de girebilirsiniz.",
+    "enterCodesButton": "Kodları girin"
   },
   "retryWithFornoModal": {
-    "header": "Retry Confirmation with Data Saver?",
-    "body1": "An issue has occurred while confirming your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
-    "retryButton": "Retry with Data Saver"
+    "header": "Onaylamayı Veri Tasarufu modu ile tekrar dene?",
+    "body1": "Telefon numaranız onaylanırken bir sorun oluştu. Veri Tasarrufu modu etkinken tekrar denemenizi öneririz.",
+    "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak Celo Ağı ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
+    "retryButton": "Veri Tasarrufu modu ile tekrar dene"
   },
-  "congratsVerified": "Congratulations you are now confirmed!",
+  "congratsVerified": "Tebrikler hesabınızı onaylandınız!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
-    "cta": "Connect Now"
+    "body": "Telefon numaranıza doğrudan ödeme alın",
+    "cta": "Şimdi Bağlan"
   },
   "quotaLookup": {
-    "title": "Lookup quota exceeded",
-    "body1": "To keep your phone number safe and private, {{appName}} limits how many phone numbers users can lookup.",
-    "body2": "You can purchase more lookups for a small fee.",
-    "cta": "Purchase lookups (2)"
+    "title": "Arama kotası aşıldı",
+    "body1": "{{appName}}, telefon numaranızı güvende ve gizli tutmak için kullanıcıların telefon numarası arama sayısını sınırlar.",
+    "body2": "Küçük bir ücret karşılığında daha fazla arama satın alabilirsiniz.",
+    "cta": "Arama satın al (2)"
   },
   "onboardingEducation": {
-    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
-    "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend and explore."
+    "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
+    "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi büyütmek çok kolay.",
+    "step3": "Göndermek, harcamak ve keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
   },
   "enableBiometry": {
-    "title": "Secure your wallet",
-    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
-    "cta": "Turn on {{biometryType}}"
+    "title": "Cüzdanınızı emniyete alın",
+    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
+    "cta": "{{biometryType}}'ni etkinleştir"
   },
   "biometryType": {
     "FaceID": "Face ID",
