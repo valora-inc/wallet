@@ -183,11 +183,11 @@
   "superchargeDisclaimer": "Maksimum ödül kazanmak için daha fazla {{amount}} {{token}} ekleyin",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
-    "body": "With Supercharge, you get weekly rewards on your highest Celo stablecoin balance (cEUR, cUSD, cREAL, etc).",
+    "body": "Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) haftalık ödüller kazanırsınız.",
     "dismiss": "Yoksay"
   },
-  "superchargingTitle": "Your {{token}} is being Supercharged",
-  "superchargingDescription": "You’re getting {{apy}}% annually. Claim your rewards here on Tuesday.",
+  "superchargingTitle": "{{token}}'ınıza Supercharge uygulanıyor",
+  "superchargingDescription": "Yıllık %{{apy}} oranında getiri elde ediyorsunuz. Ödüllerinizi Salı günü buradan alabilirsiniz.",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
   "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
@@ -592,7 +592,7 @@
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
+    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek, kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
   },
   "fullName": "İsim",
   "fullNamePlaceholder": "Ad & Soyad",
@@ -626,29 +626,29 @@
   "pleaseRetry": "Lütfen onaylamayı tekrar deneyin.",
   "retryVerification": "Onaylamayı Tekrar Dene",
   "education": {
-    "header": "Confirm Your Phone",
-    "body1": "Next, please confirm your phone number.",
-    "body2": "Connecting your phone makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone confirmation",
-    "start": "Start Confirmation",
+    "header": "Telefonunuzu Onaylayın",
+    "body1": "Ardından, lütfen telefon numaranızı onaylayın.",
+    "body2": "Telefonunuzu bağlamak, arkadaşlarınızla göndermeyi ve almayı kolaylaştırır. Bu adımı atlayabilir, daha sonra geri dönerek tamamlayabilirsiniz.",
+    "learnMore": "Telefon onayı hakkında daha fazla bilgi edinin",
+    "start": "Onaylamayı başlat",
     "skip": "Şimdilik Atla"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "confirming": "Telefon Numarası Doğrulanıyor…",
+    "pleaseKeepAppOpen": "Lütfen bu ekrandan ayrılmayın yoksa yeniden başlamanız gerekir",
+    "learnMore": "Daha fazla bilgi edinin",
+    "card1": "Telefon numaranızın gerçekten size ait olduğundan emin olmak için size üç mesaj gönderiyoruz.",
+    "card2": "Numaranız onaylandıktan sonra, telefon numaranıza kolayca para gönderip alabilirsiniz.",
+    "card3": "Telefonunuzu onaylamak, hangi arkadaşlarınızın {{appName}}'da olduğunu görmenize de olanak tanır.",
+    "card4": "Hesabınızı daha güvenli tutmak için üç onay mesajına ihtiyacımız var."
   },
   "skipModal": {
-    "header": "Skip Confirmation?",
-    "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "header": "Onaylamayı atla?",
+    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza değer göndermesine olanak tanır.",
+    "body2": "Onay almadan da ödeme gönderebilirsiniz, ancak bunu yalnızca Hesap Adreslerini veya kare kod kullanarak yapabilirsiniz."
   },
   "failModal": {
-    "header": "Confirmation Error",
+    "header": "Onaylama Hatası",
     "body1": "An issue has occurred while confirming your phone number.",
     "body2": "You can skip confirmation for now and try again later.",
     "body1InsufficientBalance": "Your current balance is not high enough to complete the confirmation process.",
