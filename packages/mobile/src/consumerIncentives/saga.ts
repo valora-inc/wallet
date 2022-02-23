@@ -36,6 +36,8 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       walletAddress
     )
 
+    Logger.debug(TAG, `Starting to claim ${rewards.length} rewards with baseNonce: ${baseNonce}`)
+
     const receivedRewards: {
       fundsSource: string
       amount: string
@@ -43,6 +45,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       txHash: string
     }[] = yield all(
       rewards.map(async (reward, index) => {
+        Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
         const merkleContract = await getContract(merkleDistributor.abi, reward.contractAddress)
         const fundsSource = await merkleContract.methods.fundsSource().call()
 
@@ -50,12 +53,11 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
           kit.connection,
           merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof)
         )
-
         const receipt = await claimTx.sendAndWaitForReceipt({
           from: walletAddress,
           nonce: baseNonce + index,
         })
-        Logger.info(TAG, 'Claimed reward: ', JSON.stringify(receipt))
+        Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
         return {
           fundsSource: fundsSource.toLowerCase(),
           tokenAddress: reward.tokenAddress.toLowerCase(),
