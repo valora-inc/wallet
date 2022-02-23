@@ -88,27 +88,12 @@ platform :ios do
 
   desc 'Build the iOS application - requires environment param'
   lane :build do |options|
-    # First, build without signing
-    # We do this otherwise a development certificate is needed
-    # which is a problem with cloud signing in the CI, where it's gonna work the first time
-    # but it will fail on subsequent runs, needing to revoke the certificate
     gym(
       workspace: 'ios/celo.xcworkspace',
       # Needs double quotes because Ruby differentiates
       # https://stackoverflow.com/questions/6395288/double-vs-single-quotes
       scheme: "celo-#{options[:environment]}",
       configuration: 'Release',
-      skip_codesigning: true,
-      skip_package_ipa: true,
-    )
-    # Then export with cloud signing
-    gym(
-      workspace: 'ios/celo.xcworkspace',
-      scheme: "celo-#{options[:environment]}",
-      configuration: 'Release',
-      skip_build_archive: true,
-      archive_path: lane_context[SharedValues::XCODEBUILD_ARCHIVE],
-      export_team_id: "HDPUB8C3KG", # TODO: extract from the project
       xcargs: [
         "-allowProvisioningUpdates",
         "-authenticationKeyPath #{ENV['APPLE_CONNECT_CERTIFICATE_PATH']}",
@@ -116,7 +101,8 @@ platform :ios do
         "-authenticationKeyIssuerID #{ENV['APPLE_CONNECT_ISSUER_ID']}",
       ].join(' '),
       output_directory: 'build',
-    )
+      # verbose: true
+     ) 
   end
   
   desc 'Prepare TestFlight'
