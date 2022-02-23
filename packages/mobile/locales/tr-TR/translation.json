@@ -1140,40 +1140,40 @@
       "cta": "Banka Hesabı Bağla",
       "error": {
         "title": "Banka hesabı bağlanılamadı.",
-        "description": "Please try to link your bank account again, or contact support.",
-        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+        "description": "Lütfen banka hesabınızı tekrar bağlamayı deneyin veya destek ile iletişime geçin.",
+        "contactSupportPrefill": "Banka hesabımı Valora'ya bağlayamadım"
       }
     }
   },
   "bankAccountsScreen": {
-    "header": "Linked Bank Accounts",
-    "add": "Add new bank account",
-    "delete": "Delete"
+    "header": "Bağlı Banka Hesapları",
+    "add": "Yeni banka hesabı ekle",
+    "delete": "Sil"
   },
-  "syncingBankAccount": "Syncing bank account...",
-  "linkBankAccountSettingsTitle": "Linked Bank Accounts",
-  "linkBankAccountSettingsValue": "Get Access",
-  "linkBankAccountSettingsValue2": "Add New",
+  "syncingBankAccount": "Banka hesabı eşleniyor...",
+  "linkBankAccountSettingsTitle": "Bağlı Banka Hesapları",
+  "linkBankAccountSettingsValue": "Erişim Al",
+  "linkBankAccountSettingsValue2": "Yeni Ekle",
   "connectPhoneNumber": {
-    "title": "Connect phone number to continue",
-    "body": "Your phone number needs to be connected to verify your identity and link your bank account.",
-    "buttonText": "Connect"
+    "title": "Devam etmek için telefon numaranızı bağlayın",
+    "body": "Kimliğinizi doğrulamak ve banka hesabınızı bağlamak için telefon numaranızın bağlı olması gerekir.",
+    "buttonText": "Bağla"
   },
   "outOfSyncBanner": {
     "title": "Çevrimdışısınız.",
-    "message": "Your balances may not be up to date.",
+    "message": "Bakiyeleriniz güncel olmayabilir.",
     "button": "Yenile"
   },
   "dappsScreen": {
     "title": "Dağıtık Uygulamalar",
-    "message": "Explore ways to use your crypto",
-    "errorMessage": "There was an error loading dapps",
-    "featuredDapp": "Featured",
-    "allDapps": "All"
+    "message": "Kriptonuzu kullanmanın yollarını keşfedin",
+    "errorMessage": "Dapp'lar yüklenirken bir hata oluştu",
+    "featuredDapp": "Öne Çıkan",
+    "allDapps": "Tümü"
   },
   "dappsScreenHelpDialog": {
-    "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
+    "title": "Dapp'lar nedir?",
+    "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'a bağlayın.",
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
