@@ -486,6 +486,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "paddingTop": 16,
                         },
                       ]

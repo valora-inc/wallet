@@ -4,17 +4,29 @@ import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
+import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { SuperchargeToken, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { claimRewards } from 'src/consumerIncentives/slice'
+import {
+  SuperchargePendingReward,
+  SuperchargeToken,
+  SuperchargeTokenConfig,
+} from 'src/consumerIncentives/types'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
+import config from 'src/geth/networkConfig'
 import InfoIcon from 'src/icons/InfoIcon'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
@@ -22,8 +34,10 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
-import { stablecoinsSelector } from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 function useTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
   const { superchargeTokens } = useSelector((state) => state.app)
@@ -140,6 +154,71 @@ function SuperchargingInfo() {
   )
 }
 
+function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingReward[] }) {
+  const tokens = useSelector(tokensByAddressSelector)
+  const { t } = useTranslation()
+
+  const rewardsByToken: { [tokenAddress: string]: BigNumber | undefined } = rewards.reduce(
+    (acc, reward) => {
+      const tokenAddress = reward.tokenAddress.toLowerCase()
+      if (!acc[tokenAddress]) {
+        acc[tokenAddress] = new BigNumber(0)
+      }
+      acc[tokenAddress] = acc[tokenAddress].plus(
+        new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN)
+      )
+      return acc
+    },
+    {} as { [tokenAddress: string]: BigNumber }
+  )
+
+  const rewardStrings = Object.entries(rewardsByToken).map(
+    ([token, amount]) => `${amount?.toFixed(2)} ${tokens[token]?.symbol}`
+  )
+  const [singleRewardToken, singleRewardAmount] = Object.entries(rewardsByToken)[0]
+
+  return (
+    <>
+      <Text style={[styles.title, { color: colors.greenUI }]} testID="ClaimSuperchargeDescription">
+        {rewardStrings.length > 1
+          ? t('superchargeRewardsAvailableMultipleTokens', { amounts: rewardStrings.join(' & ') })
+          : t('superchargeRewardsAvailable', {
+              token: tokens[singleRewardToken]?.symbol,
+              amount: singleRewardAmount?.toFixed(2),
+            })}
+      </Text>
+      <Text style={styles.description}>{t('superchargeClaimText')}</Text>
+    </>
+  )
+}
+
+function useFetchAvailableRewards(): {
+  availableRewards: SuperchargePendingReward[]
+  loading: boolean
+} {
+  const address = useSelector(walletAddressSelector)
+  const dispatch = useDispatch()
+
+  const { result, loading } = useAsync(async () => {
+    try {
+      const response = await fetch(`${config.superchargeAvailableRewardsUrl}?address=${address}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
+
+      const responseBody = await response.json()
+      return responseBody.availableRewards ?? []
+    } catch (error) {
+      Logger.error('SuperchargeScreen', 'Error while fetching pending rewards', error)
+      dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
+    }
+  }, [])
+  return { availableRewards: result ?? [], loading }
+}
+
 export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
 
@@ -148,15 +227,28 @@ export default function ConsumerIncentivesHomeScreen() {
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const tokenToSupercharge = useTokenToSupercharge()
 
-  const onPressCTA = () => {
-    if (userIsVerified) {
+  const { availableRewards, loading: loadingAvailableRewards } = useFetchAvailableRewards()
+  const claimRewardsLoading = useSelector((state) => state.supercharge.loading)
+  const canClaimRewards = availableRewards.length > 0
+  const dispatch = useDispatch()
+
+  const onPressCTA = async () => {
+    if (canClaimRewards) {
+      dispatch(claimRewards(availableRewards))
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.ClaimRewards,
+      })
+    } else if (userIsVerified) {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.CashIn,
+      })
     } else {
       navigate(Screens.VerificationEducationScreen, { hideOnboardingStep: true })
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+        buttonPressed: RewardsScreenCta.VerifyPhone,
+      })
     }
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
-      buttonPressed: userIsVerified ? RewardsScreenCta.CashIn : RewardsScreenCta.VerifyPhone,
-    })
   }
 
   return (
@@ -167,7 +259,15 @@ export default function ConsumerIncentivesHomeScreen() {
       >
         <Header />
         <Image style={styles.image} source={boostRewards} />
-        {isSupercharging ? <SuperchargingInfo /> : <SuperchargeInstructions />}
+        {loadingAvailableRewards ? (
+          <ActivityIndicator size="small" color={colors.greenUI} testID="SuperchargeLoading" />
+        ) : canClaimRewards ? (
+          <ClaimSuperchargeRewards rewards={availableRewards} />
+        ) : isSupercharging ? (
+          <SuperchargingInfo />
+        ) : (
+          <SuperchargeInstructions />
+        )}
       </ScrollView>
       <Text style={styles.disclaimer}>
         {t('superchargeDisclaimer', {
@@ -179,10 +279,14 @@ export default function ConsumerIncentivesHomeScreen() {
         <Button
           size={BtnSizes.FULL}
           text={
-            userIsVerified
+            canClaimRewards
+              ? t('superchargeClaimButton')
+              : userIsVerified
               ? t('cashIn', { currency: tokenToSupercharge.token })
               : t('connectNumber')
           }
+          showLoading={loadingAvailableRewards || claimRewardsLoading}
+          disabled={loadingAvailableRewards || claimRewardsLoading}
           onPress={onPressCTA}
           testID="ConsumerIncentives/CTA"
         />

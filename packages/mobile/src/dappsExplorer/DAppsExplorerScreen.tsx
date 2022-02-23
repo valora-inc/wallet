@@ -194,6 +194,10 @@ export function DAppsExplorerScreen() {
     setHelpDialogVisible(true)
   }
 
+  const onCloseDialog = () => {
+    setHelpDialogVisible(false)
+  }
+
   const openDapp = (dapp: Dapp) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, {
       categoryId: dapp.categoryId,
@@ -266,8 +270,10 @@ export function DAppsExplorerScreen() {
       <Dialog
         title={t('dappsScreenHelpDialog.title')}
         isVisible={isHelpDialogVisible}
-        secondaryActionText={t('dappsScreenHelpDialog.dismiss')}
-        secondaryActionPress={() => setHelpDialogVisible(false)}
+        actionText={t('dappsScreenHelpDialog.dismiss')}
+        actionPress={onCloseDialog}
+        isActionHighlighted={false}
+        onBackgroundPress={onCloseDialog}
       >
         {t('dappsScreenHelpDialog.message')}
       </Dialog>

@@ -300,6 +300,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
               isVisible={showingExplanation}
               actionText={t('dismiss')}
               actionPress={onDismissExplanation}
+              isActionHighlighted={false}
+              onBackgroundPress={onDismissExplanation}
             >
               {t('explanationModal.body')}
             </Dialog>
