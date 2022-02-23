@@ -968,7 +968,7 @@
   "disconnect": "Disconnect",
   "disconnectTitle": "Bağlantıyı kes {{dappName}}?",
   "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?",
-  "connectionSuccess": "Success! Please go back to {{dappName}} to continue",
+  "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
   "timeoutTitle": "Time out!",
   "timeoutSubtitle": "Your connection timed out. Please check your internet connection & try again",
   "goBackButton": "Geri Dön",
