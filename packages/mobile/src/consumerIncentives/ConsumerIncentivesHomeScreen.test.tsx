@@ -70,13 +70,7 @@ function expectVisibleMainComponents(
 describe('ConsumerIncentivesHomeScreen', () => {
   let store: MockStoreEnhanced<RootState, {}>
   const mockFetch = fetch as FetchMock
-  beforeEach(() => {
-    mockQueryResponse(EMPTY_REWARDS_RESPONSE)
-  })
-
-  afterEach(() => {
-    // jest.useRealTimers()
-  })
+  beforeEach(() => mockQueryResponse(EMPTY_REWARDS_RESPONSE))
 
   function createStore({
     numberVerified,
