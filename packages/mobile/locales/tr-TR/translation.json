@@ -163,7 +163,7 @@
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
   "consumerIncentivesSummary": "Supercharge geldi! {{currency}} bakiyenizde yıllık %{{percent}} ödül kazanın. Sınırlı bir süre için kullanılabilir o yüzden hemen para kazanmaya başlayın. Supercharge şöyle çalışır:",
   "earnWeekly": {
-    "header": "Telefon numaranı bağla",
+    "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
   },
   "noMinCommitment": {
@@ -348,7 +348,7 @@
   "next": "Sonraki",
   "skip": "Atla",
   "copy": "Kopyala",
-  "goBack": "Geri git",
+  "goBack": "Geri Dön",
   "reset": "Reset",
   "done": "Tamamlandı",
   "tip": "İpucu: ",
@@ -721,27 +721,27 @@
     "body": "Bir ödeme veya davetiye mi aldınız? Öyleyse, lütfen aşağıdaki Davetiye Kodunu kopyalayıp yapıştırın.",
     "label": "Davet Kodu",
     "codePlaceholder": "Davet kodu gir",
-    "noCode": "Don’t have an Invite Code",
-    "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
-    "loadingHeader": "Creating account...",
-    "loadingBody": "This can take up to 90 seconds"
+    "noCode": "Davet Kodum yok",
+    "nodeCodeInviteLink": "Davet kodunuz yok mu? <0>celo.org/developers/wallet</0> adresinden bir istekte bulunun veya <1>kod olmadan devam edin</1>",
+    "loadingHeader": "Hesap oluşturuluyor...",
+    "loadingBody": "Bu işlem 90 saniye kadar sürebilir"
   },
   "verificationEducation": {
-    "title": "Phone Number",
-    "header": "Connect your phone number",
+    "title": "Telefon Numarası",
+    "header": "Telefon numaranızı bağlayın",
     "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
     "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
-    "start": "Start",
-    "resume": "Resume",
-    "doINeedToConfirm": "Do I need to confirm?",
-    "skipForNow": "Skip for now",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
-    "bodyAlreadyVerified": "Your number is already confirmed!"
+    "start": "Başla",
+    "resume": "Devam Et",
+    "doINeedToConfirm": "Onaylamam gerekiyor mu?",
+    "skipForNow": "Şimdilik atla",
+    "bodyInsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlayacak kadar yüksek değil.\n\nLütfen cüzdanınıza bakiye ekleyerek tekrar deneyin.",
+    "bodyAlreadyVerified": "Numaranız zaten onaylanmış!"
   },
   "verificationSkipDialog": {
-    "title": "Are you sure?",
-    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
-    "cancel": "Go Back",
+    "title": "Emin misiniz?",
+    "body": "Onaylama, telefon numaranıza kolayca varlık gönderip almanızı sağlar.\n\nOnaylanmamış hesaplar yalnızca Celo adreslerini veya kare kodları kullanarak ödeme gönderebilir.",
+    "cancel": "Geri Dön",
     "confirm": "Şimdilik Atla"
   },
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
@@ -788,7 +788,7 @@
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
     "skip": "Şimdilik Atla",
-    "back": "Go Back"
+    "back": "Geri Dön"
   },
   "emptyAccount": {
     "description": "This account doesn’t have any funds. Would you still like to use it?",
@@ -971,7 +971,7 @@
   "connectionSuccess": "Success! Please go back to {{dappName}} to continue",
   "timeoutTitle": "Time out!",
   "timeoutSubtitle": "Your connection timed out. Please check your internet connection & try again",
-  "goBackButton": "Go Back",
+  "goBackButton": "Geri Dön",
   "v2Unsupported": "This QR code is not supported",
   "incomingPaymentRequests": "Requests from Others",
   "incomingPaymentRequestsSummaryTitle": "{{count}} incomplete requests",
