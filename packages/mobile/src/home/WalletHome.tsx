@@ -22,7 +22,6 @@ import {
   SHOW_TESTNET_BANNER,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
@@ -62,13 +61,7 @@ function WalletHome() {
 
   const dispatch = useDispatch()
 
-  const {
-    onSelectDapp,
-    onOpenDapp,
-    onCancelOpenDapp,
-    showOpenDappConfirmation,
-    selectedDapp,
-  } = useOpenDapp()
+  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
   const showTestnetBanner = () => {
     dispatch(
@@ -180,14 +173,7 @@ function WalletHome() {
       />
       <SendOrRequestBar />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
-      {showRecentDapps && (
-        <DAppsBottomSheet
-          onClose={onCancelOpenDapp}
-          onConfirmOpenDapp={onOpenDapp}
-          selectedDapp={selectedDapp}
-          isVisible={showOpenDappConfirmation}
-        />
-      )}
+      {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )
 }

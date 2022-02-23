@@ -24,7 +24,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import Dialog from 'src/components/Dialog'
-import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
@@ -83,13 +82,7 @@ export function DAppsExplorerScreen() {
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
-  const {
-    onSelectDapp,
-    onOpenDapp,
-    onCancelOpenDapp,
-    showOpenDappConfirmation,
-    selectedDapp,
-  } = useOpenDapp()
+  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
   const shortLanguage = i18n.language.split('-')[0]
 
@@ -185,12 +178,7 @@ export function DAppsExplorerScreen() {
         rightElement={<TopBarIconButton icon={<Help />} onPress={onPressHelp} />}
         scrollPosition={scrollPosition}
       />
-      <DAppsBottomSheet
-        onClose={onCancelOpenDapp}
-        onConfirmOpenDapp={onOpenDapp}
-        selectedDapp={selectedDapp}
-        isVisible={showOpenDappConfirmation}
-      />
+      {ConfirmOpenDappBottomSheet}
 
       <Dialog
         title={t('dappsScreenHelpDialog.title')}

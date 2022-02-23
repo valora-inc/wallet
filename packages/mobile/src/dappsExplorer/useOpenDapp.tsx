@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl, recentDappSelected } from 'src/app/actions'
 import { Dapp } from 'src/app/types'
+import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import { isDeepLink } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
@@ -69,12 +70,18 @@ const useOpenDapp = () => {
     }
   }
 
+  const ConfirmOpenDappBottomSheet = (
+    <DAppsBottomSheet
+      onClose={onCancelOpenDapp}
+      onConfirmOpenDapp={onOpenDapp}
+      selectedDapp={selectedDapp}
+      isVisible={showOpenDappConfirmation}
+    />
+  )
+
   return {
     onSelectDapp,
-    onOpenDapp,
-    onCancelOpenDapp,
-    showOpenDappConfirmation,
-    selectedDapp,
+    ConfirmOpenDappBottomSheet: showOpenDappConfirmation ? ConfirmOpenDappBottomSheet : null,
   }
 }
 
