@@ -19,7 +19,7 @@ import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { claimRewards } from 'src/consumerIncentives/reducer'
+import { claimRewards } from 'src/consumerIncentives/slice'
 import {
   SuperchargePendingReward,
   SuperchargeToken,

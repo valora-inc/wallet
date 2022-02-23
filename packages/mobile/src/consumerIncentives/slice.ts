@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 
 export interface State {
   loading: boolean
@@ -14,7 +15,7 @@ const slice = createSlice({
   name: 'supercharge',
   initialState,
   reducers: {
-    claimRewards: (state) => ({
+    claimRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
       ...state,
       loading: true,
       error: false,

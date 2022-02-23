@@ -9,7 +9,7 @@ import {
   claimRewards,
   claimRewardsFailure,
   claimRewardsSuccess,
-} from 'src/consumerIncentives/reducer'
+} from 'src/consumerIncentives/slice'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'

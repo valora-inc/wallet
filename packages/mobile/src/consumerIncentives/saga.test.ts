@@ -3,12 +3,12 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen.test'
+import { claimRewardsSaga } from 'src/consumerIncentives/saga'
 import {
   claimRewards,
   claimRewardsFailure,
   claimRewardsSuccess,
-} from 'src/consumerIncentives/reducer'
-import { claimRewardsSaga } from 'src/consumerIncentives/saga'
+} from 'src/consumerIncentives/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { getContractKit } from 'src/web3/contracts'
