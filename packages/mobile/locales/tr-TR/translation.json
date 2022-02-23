@@ -879,9 +879,9 @@
   "stableBalance": "{{token}} Bakiyesi",
   "selectToken": "Varlık seçin",
   "verificationCta": {
-    "header": "Sending to a friend?",
-    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Start Confirmation"
+    "header": "Bir arkadaşına mı gönderiyorsun?",
+    "body": "Telefonunuzu onaylayın ve arkadaşlarınıza hızlı bir şekilde göndermek için kişilerinizi senkronize edin.",
+    "cta": "Onaylamayı başlat"
   },
   "importContactsCta": {
     "header": "Kişileri İçe Aktar",
@@ -889,34 +889,34 @@
     "cta": "Ayarlar"
   },
   "contactSyncProgress": {
-    "header": "Syncing Contacts",
-    "progress": "{{current}} of {{total}}",
+    "header": "Kişiler eşleniyor",
+    "progress": "Toplam {{total}} içerisinden {{current}}",
     "importing": "İçe Aktarılıyor..."
   },
   "confirmAccount": {
-    "header": "Please confirm {{displayName}}'s account",
-    "headerNoDisplayName": "Please confirm your contact's account",
-    "button": "Confirm Account Address"
+    "header": "Lütfen {{displayName}} hesabını onaylayın",
+    "headerNoDisplayName": "Lütfen kişinizin hesabını onaylayın",
+    "button": "Hesap Adresini Onaylayın"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body2": "You must scan their QR code or confirm their Account Address before transacting."
+    "body1": "{{e164PhoneNumber}} ile ilişkilendirilmiş birden fazla hesap bulunuyor. {{displayName}}, yeni bir {{appName}} hesabı oluşturmuş olabilir veya telefonunu kaybetmiş veya hesaplarının güvenliği ihlal edilmiş olabilir.",
+    "body1NoDisplayName": "Kişinizle ilişkilendirilmiş birden fazla hesap bulunuyor. Kişiniz yeni bir {{appName}} hesabı oluşturmuş olabilir veya telefonunu kaybetmiş veya hesabının güvenliği ihlal edilmiş olabilir.",
+    "body2": "İşlem yapmadan önce kare kodu taramanız veya Hesap Adreslerini onaylamanız gerekiyor."
   },
   "confirmAccountNumber": {
-    "title": "Confirm Account Address",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "body1Full": "Please ask {{displayName}} for their Account Address.",
-    "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
-    "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Help locating an Account Address",
-    "submit": "Submit"
+    "title": "Hesap Adresini Onaylayın",
+    "bodyPartial": "Lütfen {{displayName}}'dan Hesap Adreslerinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
+    "bodyPartialNoDisplayName": "Lütfen ilgili kişiden Hesap Adresinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
+    "body1Full": "Lütfen {{displayName}}'dan Hesap Adreslerini isteyin.",
+    "body1FullNoDisplayName": "Lütfen ilgili kişiden Hesap Adresini isteyin.",
+    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı şiddetle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
+    "help": "Hesap Adresi bulma konusunda yardım",
+    "submit": "Kaydet"
   },
-  "accountInputHeaderPartial": "Last 4 Digits",
-  "accountInputHeaderFull": "Account Address",
+  "accountInputHeaderPartial": "Son 4 Hane",
+  "accountInputHeaderFull": "Hesap Adresi",
   "helpModal": {
-    "header": "Locating an Account Address",
+    "header": "Bir Hesap Adresini bulma",
     "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
     "body2": "Hesap Adresi, menünün alt kısmındadır.",
     "body3": "Hesap Adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır"
