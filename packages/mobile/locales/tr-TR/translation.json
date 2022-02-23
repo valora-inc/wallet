@@ -729,8 +729,8 @@
   "verificationEducation": {
     "title": "Telefon Numarası",
     "header": "Telefon numaranızı bağlayın",
-    "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
-    "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
+    "body": "Numaranızın gerçekten size ait olduğundan emin olmak için size her biri yaklaşık 0,05 cUSD'ye mal olacak üç mesaj göndereceğiz.\n\nNumaranızın onaylanması yaklaşık üç dakika sürer.",
+    "feelessBody": "Bağlanmak yaklaşık üç dakika sürer. Numaranızın onaylanması için üç mesaj alacaksınız.",
     "start": "Başla",
     "resume": "Devam Et",
     "doINeedToConfirm": "Onaylamam gerekiyor mu?",
@@ -744,46 +744,46 @@
     "cancel": "Geri Dön",
     "confirm": "Şimdilik Atla"
   },
-  "verificationPrematureRevealMessage": "Please wait one minute before resending",
+  "verificationPrematureRevealMessage": "Lütfen yeniden göndermeden önce bir dakika bekleyin",
   "verificationLearnMoreDialog": {
-    "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "title": "Telefon Numaraları ve {{appName}}",
+    "body": "Onaylama, telefon numaranıza para gönderip almanıza izin vererek arkadaşlarınızla bağlantı kurmanızı kolaylaştırır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak onaylanmamış hesaplar yalnızca kare kodlar veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme yöntemi kullanır.",
     "dismiss": "Yoksay"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation": "Kurtarma Kelimeleriniz, hesabınızı oluştururken not ettiğiniz ve kaydettiğiniz 24 kelimelik bir ifadedir. Hesabınızı geri yüklemek için kelimeleri lütfen buraya girin.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
-    "title": "Confirm",
-    "body": "We sent you three messages (SMS). Please copy and paste them below.",
-    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
-    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
+    "title": "Onayla",
+    "body": "Size üç mesaj (SMS) gönderdik. Lütfen bunları kopyalayıp aşağıya yapıştırın.",
+    "body_ios": "Size üç mesaj (SMS) gönderdik. Lütfen aşağıdaki kodları doldurmak için her mesajdaki bağlantıya dokunun veya bunları manuel olarak kopyalayıp yapıştırın.",
+    "body_short": "{{phoneNumber}} numarasına üç kod gönderdik, lütfen bunları aşağıya girin.",
     "codeLabel1": "Birinci Kod",
     "codeLabel2": "İkinci Kod",
     "codeLabel3": "Üçüncü Kod",
-    "codePlaceholder1": "Copy the first message",
-    "codePlaceholder1_ios": "Tap or copy the first message",
-    "codePlaceholder2": "Copy the second message",
-    "codePlaceholder2_ios": "Tap or copy the second message",
-    "codePlaceholder3": "Copy the third message",
-    "codePlaceholder3_ios": "Tap or copy the third message",
-    "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
-    "resendMessages_all": "Resend all messages",
-    "resendMessages": "Resend last message",
-    "resendMessages_plural": "Resend {{count}} messages"
+    "codePlaceholder1": "İlk mesajı kopyala",
+    "codePlaceholder1_ios": "İlk mesaja dokunun veya kopyalayın",
+    "codePlaceholder2": "İkinci mesajı kopyala",
+    "codePlaceholder2_ios": "İkinci mesaja dokunun veya kopyalayın",
+    "codePlaceholder3": "Üçüncü mesajı kopyala",
+    "codePlaceholder3_ios": "Üçüncü mesaja dokunun veya kopyalayın",
+    "codePlaceholderWithCodeInClipboard": "Harika! Buraya yapıştırın",
+    "resendMessages_all": "Tüm mesajları tekrar gönderin",
+    "resendMessages": "Son mesajı tekrar gönder",
+    "resendMessages_plural": "{{count}} mesajı tekrar gönderin"
   },
   "verificationInputHelpDialog": {
-    "title": "Help",
+    "title": "Yardım",
     "bodySection1": {
-      "title": "Received all three messages?",
-      "content": "If your messages contain a link, simply tap the links to confirm.\n\nIf there are no links, please copy and paste the messages into the fields. You’re welcome to paste the entire message."
+      "title": "Üç mesajı da aldınız mı?",
+      "content": "Mesajlarınız bir bağlantı içeriyorsa, onaylamak için bağlantılara dokunmanız yeterlidir.\n\nBağlantı yoksa, lütfen mesajları kopyalayıp alanlara yapıştırın. Mesajın tamamını yapıştırabilirsiniz."
     },
     "bodySection2": {
-      "title": "Missing some or all messages?",
-      "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
+      "title": "Mesajların bir kısmı veya tamamı ulaşmadı mı?",
+      "defaultContent": "Mesajları almakta sorun yaşıyorsanız, şimdilik bu adımı atlayabilir ve daha sonra tekrar deneyebilirsiniz. Bazen mesajların gelmesi birkaç dakika sürebilir.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Adımı atlama seçeneği {{count}} saniye içerisinde gösterilecek.",
       "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
@@ -917,7 +917,7 @@
   "accountInputHeaderFull": "Hesap Adresi",
   "helpModal": {
     "header": "Bir Hesap Adresini bulma",
-    "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
+    "body1": "Hesap Adresleri (adresler) menüde bulunur. Ana ekrandan, sol üst köşedeki simgeye dokunarak menüyü açın.",
     "body2": "Hesap Adresi, menünün alt kısmındadır.",
     "body3": "Hesap Adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır"
   },
