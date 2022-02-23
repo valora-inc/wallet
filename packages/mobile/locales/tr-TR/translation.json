@@ -1127,19 +1127,19 @@
     "begin": {
       "label": "1. Adım",
       "title": "Kimliğinizi doğrulayın",
-      "description": "Adding crypto with a bank account is easy. This step will take about 5 minutes.",
-      "cta": "Begin"
+      "description": "Bir banka hesabıyla kripto eklemek kolaydır. Bu adım yaklaşık 5 dakika sürer.",
+      "cta": "Başla"
     },
     "stepTwo": {
-      "label": "Step 2",
-      "disabledTitle": "Link a bank account",
-      "disabledDescription": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
-      "disabledCta": "Coming Soon!",
-      "title": "Enter Bank Details",
-      "description": "You're almost done! Enter bank details to link your account to Valora.",
-      "cta": "Link Bank Account",
+      "label": "2. Adım",
+      "disabledTitle": "Bir banka hesabı bağla",
+      "disabledDescription": "Neredeyse tamam! Banka hesabınızı şimdi Plaid aracılığıyla Valora'ya bağlayabilirsiniz.",
+      "disabledCta": "Çok Yakında!",
+      "title": "Banka Bilgilerini Girin",
+      "description": "Neredeyse tamam! Hesabınızı Valora'ya bağlamak için banka bilgilerini girin.",
+      "cta": "Banka Hesabı Bağla",
       "error": {
-        "title": "Unable to link bank account.",
+        "title": "Banka hesabı bağlanılamadı.",
         "description": "Please try to link your bank account again, or contact support.",
         "contactSupportPrefill": "I was unable to link my bank account to Valora"
       }
