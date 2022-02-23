@@ -11,6 +11,7 @@ export enum RewardsScreenOrigin {
 }
 
 export enum RewardsScreenCta {
+  ClaimRewards = 'ClaimRewards',
   CashIn = 'CashIn',
   VerifyPhone = 'VerifyPhone',
 }
