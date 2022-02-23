@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -70,13 +70,16 @@ const useOpenDapp = () => {
     }
   }
 
-  const ConfirmOpenDappBottomSheet = (
-    <DAppsBottomSheet
-      onClose={onCancelOpenDapp}
-      onConfirmOpenDapp={onOpenDapp}
-      selectedDapp={selectedDapp}
-      isVisible={showOpenDappConfirmation}
-    />
+  const ConfirmOpenDappBottomSheet = useMemo(
+    () => (
+      <DAppsBottomSheet
+        onClose={onCancelOpenDapp}
+        onConfirmOpenDapp={onOpenDapp}
+        selectedDapp={selectedDapp}
+        isVisible={showOpenDappConfirmation}
+      />
+    ),
+    [selectedDapp, showOpenDappConfirmation]
   )
 
   return {
