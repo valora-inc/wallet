@@ -73,7 +73,7 @@ describe('RecentlyUsedDapps', () => {
     })
   })
 
-  it('fires the correct actions on press dapp', () => {
+  it('fires the correct callback on press dapp', () => {
     const selectDappSpy = jest.fn()
     const { getAllByTestId } = render(
       <Provider

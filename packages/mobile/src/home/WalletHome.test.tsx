@@ -221,7 +221,6 @@ describe('WalletHome', () => {
       )
 
       const dapps = getAllByTestId('RecentDapp')
-
       fireEvent.press(dapps[0])
 
       expect(dapps).toHaveLength(2)
