@@ -136,24 +136,24 @@
     "2": "Her şey tamam, hazırsınız!"
   },
   "cancelDialog": {
-    "title": "Kurtarma Cümlesi oluşturmayı tamamla",
-    "body": "Kurtarma Cümleniz son derece önemlidir. Bir İfade olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Cümlenizi oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
+    "title": "Kurtarma Kelimelerini oluşturmayı tamamla",
+    "body": "Kurtarma Kelimeleri son derece önemlidir. Bir Kelimeler olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Kelimelerini oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
     "action": "Şimdi Tamamla",
     "secondary": "Daha Sonra Tamamla"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "Kurtarma Cümleniz özel bir tür paroladır",
-      "text": "Kurtarma Cümleniz hesabınıza erişmeniz için tek yoludur."
+      "title": "Kurtarma Kelimeleriniz özel bir tür paroladır",
+      "text": "Kurtarma Kelimeleriniz hesabınıza erişmeniz için tek yoludur."
     },
     {
-      "title": "Kurtarma Cümleniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
-      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Cümlenize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
+      "title": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
+      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Kelimelerinize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
     },
     {
       "title": "Yazın",
-      "text": "Kurtarma Cümlenizi yazın ve güvenli bir yerde saklayın. Kurtarma Cümlenizi telefonunuza kaydetmeyin."
+      "text": "Kurtarma Kelimelerinizi yazın ve güvenli bir yerde saklayın. Kurtarma Kelimelerinizi telefonunuza kaydetmeyin."
     },
     {
       "title": "Cümlenizi gizli tutun",
@@ -172,7 +172,7 @@
     "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve elefon numaranızı bağlamanız yeterlidir."
   },
   "saveMoreEarnMore": {
-    "header": "Kurtarma Cümlenizi oluşturun",
+    "header": "Kurtarma Kelimelerinizi oluşturun",
     "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
   "conclusion": "İşte bu kadar basit. Kriptoparanızı hemen Supercharge'layın!",
