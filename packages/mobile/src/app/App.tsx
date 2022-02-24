@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
+import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
-import { Dimensions, Linking, LogBox, StatusBar } from 'react-native'
+import { Dimensions, Linking, LogBox, Platform, StatusBar } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
@@ -66,6 +67,24 @@ export class App extends React.Component<Props> {
   async componentDidMount() {
     await ValoraAnalytics.init()
 
+    // Handles opening Clevertap deeplinks when app is closed / in background
+    CleverTap.getInitialUrl(async (err: any, url) => {
+      if (err) {
+        Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
+      } else if (url) {
+        await this.handleOpenURL({ url }, true)
+      }
+    })
+
+    // Handles opening Clevertap deeplinks when app is open
+    CleverTap.addListener('CleverTapPushNotificationClicked', async (event: any) => {
+      // Url location differs for iOS and Android
+      const url = Platform.OS === 'ios' ? event.customExtras['wzrk_dl'] : event['wzrk_dl']
+      if (url) {
+        await this.handleOpenURL({ url }, true)
+      }
+    })
+
     Linking.addEventListener('url', this.handleOpenURL)
 
     const url = await Linking.getInitialURL()
@@ -98,13 +117,14 @@ export class App extends React.Component<Props> {
   }
 
   componentWillUnmount() {
+    CleverTap.removeListener('CleverTapPushNotificationClicked')
     Linking.removeEventListener('url', this.handleOpenURL)
     store.dispatch(appUnmounted())
   }
 
-  handleOpenURL = async (event: any) => {
+  handleOpenURL = async (event: any, isSecureOrigin: boolean = false) => {
     await waitUntilSagasFinishLoading()
-    store.dispatch(openDeepLink(event.url))
+    store.dispatch(openDeepLink(event.url, isSecureOrigin))
   }
 
   render() {
