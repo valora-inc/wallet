@@ -96,13 +96,7 @@ describe(DAppsExplorerScreen, () => {
             "isFeatured": false,
             "name": "Ubeswap",
           },
-          "type": "APP/RECENT_DAPP_SELECTED",
-        },
-        Object {
-          "isSecureOrigin": true,
-          "openExternal": true,
-          "type": "APP/OPEN_URL",
-          "url": "https://app.ubeswap.org/",
+          "type": "APP/DAPP_SELECTED",
         },
       ]
     `)
@@ -140,13 +134,7 @@ describe(DAppsExplorerScreen, () => {
             "isFeatured": true,
             "name": "SushiSwap",
           },
-          "type": "APP/RECENT_DAPP_SELECTED",
-        },
-        Object {
-          "isSecureOrigin": true,
-          "openExternal": true,
-          "type": "APP/OPEN_URL",
-          "url": "https://app.sushi.com/",
+          "type": "APP/DAPP_SELECTED",
         },
       ]
     `)
@@ -181,13 +169,7 @@ describe(DAppsExplorerScreen, () => {
             "isFeatured": false,
             "name": "Moola",
           },
-          "type": "APP/RECENT_DAPP_SELECTED",
-        },
-        Object {
-          "isSecureOrigin": true,
-          "openExternal": true,
-          "type": "APP/OPEN_URL",
-          "url": "celo://wallet/moolaScreen",
+          "type": "APP/DAPP_SELECTED",
         },
       ]
     `)
