@@ -33,7 +33,7 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
-  RECENT_DAPP_SELECTED = 'APP/RECENT_DAPP_SELECTED',
+  DAPP_SELECTED = 'APP/DAPP_SELECTED',
 }
 
 export interface SetAppState {
@@ -137,8 +137,8 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
-export interface RecentDappSelected {
-  type: Actions.RECENT_DAPP_SELECTED
+export interface DappSelected {
+  type: Actions.DAPP_SELECTED
   dapp: Dapp
 }
 
@@ -163,7 +163,7 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
-  | RecentDappSelected
+  | DappSelected
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -282,7 +282,7 @@ export const androidMobileServicesAvailabilityChecked = (
   huaweiIsAvailable,
 })
 
-export const recentDappSelected = (dapp: Dapp) => ({
-  type: Actions.RECENT_DAPP_SELECTED,
+export const dappSelected = (dapp: Dapp) => ({
+  type: Actions.DAPP_SELECTED,
   dapp,
 })

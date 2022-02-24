@@ -237,7 +237,7 @@ export const appReducer = (
         ...state,
         supportedBiometryType: action.supportedBiometryType,
       }
-    case Actions.RECENT_DAPP_SELECTED:
+    case Actions.DAPP_SELECTED:
       return {
         ...state,
         recentDapps: [

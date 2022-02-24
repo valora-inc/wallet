@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl, recentDappSelected } from 'src/app/actions'
+import { dappSelected } from 'src/app/actions'
 import { Dapp } from 'src/app/types'
 import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import { isDeepLink } from 'src/utils/linking'
@@ -37,8 +37,7 @@ const useOpenDapp = () => {
       section: dapp.isFeatured ? 'featured' : 'all',
       horizontalPosition: 0,
     })
-    dispatch(recentDappSelected(dapp))
-    dispatch(openUrl(dapp.dappUrl, true, true))
+    dispatch(dappSelected(dapp))
   }
 
   const onOpenDapp = () => {

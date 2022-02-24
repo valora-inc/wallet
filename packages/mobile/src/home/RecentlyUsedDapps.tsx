@@ -36,8 +36,10 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
       <View style={[styles.titleContainer, styles.row]}>
         <Text style={styles.title}>{t('recentlyUsedDapps')}</Text>
         <Touchable style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
-          <Text style={styles.allDapps}>{t('allDapps')}</Text>
-          <ProgressArrow color={Colors.greenUI} />
+          <>
+            <Text style={styles.allDapps}>{t('allDapps')}</Text>
+            <ProgressArrow color={Colors.greenUI} />
+          </>
         </Touchable>
       </View>
 
@@ -53,15 +55,17 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
             style={styles.dappContainer}
             testID={`RecentDapp${index}`}
           >
-            <Image
-              source={{ uri: recentlyUsedDapp.iconUrl }}
-              style={styles.icon}
-              resizeMode="cover"
-              testID={`RecentDapp${index}-icon`}
-            />
-            <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
-              {recentlyUsedDapp.name}
-            </Text>
+            <>
+              <Image
+                source={{ uri: recentlyUsedDapp.iconUrl }}
+                style={styles.icon}
+                resizeMode="cover"
+                testID={`RecentDapp${index}-icon`}
+              />
+              <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
+                {recentlyUsedDapp.name}
+              </Text>
+            </>
           </Touchable>
         ))}
       </ScrollView>
