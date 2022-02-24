@@ -7,18 +7,26 @@ import { providers } from 'ethers'
 const NullNomResolution = '0x0000000000000000000000000000000000000000'
 
 export async function getAddress(name: string) {
-  console.log(`DIEGO local: ${name}`)
-  const resolveNom = new LocalResolveNom({
-    providerUrl: 'https://alfajores-forno.celo-testnet.org/',
-    ensRegistryAddress: LocalResolveNom.AlfajoresENSRegsitryAddress,
-  })
-  return await resolveNom.resolve(name)
+  try {
+    console.log(`DIEGO getAddress: ${name}`)
+    const resolveNom = new LocalResolveNom({
+      providerUrl: 'https://alfajores-forno.celo-testnet.org/',
+      ensRegistryAddress: LocalResolveNom.AlfajoresENSRegsitryAddress,
+    })
+
+    console.log(`RESULT BEFORE`)
+    const result = await resolveNom.resolve(name)
+    console.log(`RESULT AFTER ${JSON.stringify(result)}`)
+    return result
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function brianFunction() {
-  console.log('BRIAN FUNCTION')
+  console.log('BRIAN FUNCTION 2')
   const provider = new providers.JsonRpcProvider('https://forno.celo.org')
-  const ens = new ENS({ provider, ensAddress: LocalResolveNom.AlfajoresENSRegsitryAddress }) // Refer to Contract Addresses for the ENSRegistry address
+  const ens = new ENS({ provider, ensAddress: LocalResolveNom.MainnetENSRegsitryAddress }) // Refer to Contract Addresses for the ENSRegistry address
 
   const name = ens.name(`${normalize('brian')}.nom`)
   console.log('BRIAN FUNCTION BEFORE')

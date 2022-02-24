@@ -28,7 +28,7 @@ import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
-import { brianFunction, getAddress } from 'src/recipients/delete'
+import { getAddress } from 'src/recipients/delete'
 import {
   getRecipientFromAddress,
   MobileRecipient,
@@ -80,13 +80,13 @@ function RecipientPicker(props: RecipientProps) {
       }),
     ])
 
+    console.log(`DIEGO reslutions`)
     const result = await resolveGroup.resolve(props.searchQuery)
     console.log(`DIEGO resolve kit result: ${JSON.stringify(result)}`)
-
     const localResult = await getAddress(props.searchQuery)
     console.log(`DIEGO local result: ${JSON.stringify(localResult)}`)
-    await brianFunction()
-    return result
+    // await brianFunction()
+    return localResult
   }, [props.searchQuery])
 
   const onToggleKeyboard = (visible: boolean) => {
