@@ -4,8 +4,8 @@
   "languageSettings": "Dil",
   "localCurrencySetting": "Para Birimi",
   "licenses": "Lisanslar",
-  "removeAccountTitle": "Valora'yı Resetle",
-  "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Paranız hesapta kalacak, ancak yalnızca Kurtarma Cümlesi ile erişilebilir olacaktır",
+  "removeAccountTitle": "Valora'yı Sıfırla",
+  "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Paranız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
   "legal": "Yasal",
   "security": "Güvenlik",
   "changePin": "PIN Değiştir",
@@ -106,7 +106,7 @@
   "tapToCopy": "Kopyalamak için Dokunun",
   "headerTitle": "Kurtarma Cümlesi",
   "introTitle": "Kurtarma Cümleniz",
-  "introBody": "Kurtarma Cümleniz, hesabınızın en önemli parçasıdır.\n\nLütfen Cümlenizi kurmak için özel bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
+  "introBody": "Kurtarma Kelimeleriniz, hesabınızın en önemli parçasıdır.\n\nLütfen Kelimelerinizi oluşturmak için yalnız olabileceğiniz bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
   "introPrimaryAction": "Şimdi Oluştur",
   "backupSetupTitle": "Kurtarma Cümlenizi Oluşturun",
   "backupSetupBody": "Fonlarınızı korumak için {{appName}} kullanmaya devam etmeden önce Kurtarma Cümlenizi oluşturmanız gerekir.",
@@ -118,17 +118,17 @@
   "backupAndRecovery": "Yedekleme ve Kurtarma",
   "writeDownKey": "Lütfen cümlenizi bir not edin",
   "completeEducation": "Anladım",
-  "yourAccountKey": "Kurtarma Cümleniz",
-  "backupKeyNotification": "Kurtarma Cümleniz hesabınızın en önemli parçasıdır",
-  "backupKeySummary": "Kurtarma Cümlenizi yazmak için özel bir yer bulun ve not edin. Lütfen cümlenizi güvenli bir yerde saklayın. Cümlenizi telefonunuza kaydetmeyin.",
+  "yourAccountKey": "Kurtarma Kelimeleriniz",
+  "backupKeyNotification": "Kurtarma Kelimeleriniz hesabınızın en önemli parçasıdır",
+  "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen cümlenizi güvenli bir yerde saklayın. Kelimeleri telefonunuza kaydetmeyin.",
   "copied": "Cümle panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",
   "savedConfirmation": "Evet, Kurtarma Cümlemi yazdım.",
-  "backupQuizWordCount": "Kurtarma cümlenizdeki <0>{{ordinal}}</0>. kelime nedir?",
+  "backupQuizWordCount": "Kurtarma Kelimelerinizdeki <0>{{ordinal}}</0>. kelime nedir?",
   "importBackupFailed": "Cüzdan İçe Aktarılamadı",
-  "backupQuizFailed": "Girmiş Olduğunuz Kurtarma Cümlesi yanlış. Lütfen tekrar deneyin.",
-  "invalidBackupPhrase": "Kurtarma Cümlesi geçersiz",
-  "invalidWordsInBackupPhrase": "Kurtarma Cümlesindeki bazı kelimeler geçersiz: {{ invalidWords }}",
+  "backupQuizFailed": "Girmiş Olduğunuz Kurtarma Kelimeleri yanlış. Lütfen tekrar deneyin.",
+  "invalidBackupPhrase": "Kurtarma Kelimeleri geçersiz",
+  "invalidWordsInBackupPhrase": "Kurtarma Kelimelerinin bazıları geçersiz: {{ invalidWords }}",
   "backupComplete": {
     "header": "Yedekleme Tamamlandı",
     "0": "Başarılı!",
@@ -136,24 +136,24 @@
     "2": "Her şey tamam, hazırsınız!"
   },
   "cancelDialog": {
-    "title": "Kurtarma Cümlesi oluşturmayı tamamla",
-    "body": "Kurtarma Cümleniz son derece önemlidir. Bir İfade olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Cümlenizi oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
+    "title": "Kurtarma Kelimelerini oluşturmayı tamamla",
+    "body": "Kurtarma Kelimeleri son derece önemlidir. Bir Kelimeler olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Kelimelerini oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
     "action": "Şimdi Tamamla",
     "secondary": "Daha Sonra Tamamla"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "Kurtarma Cümleniz özel bir tür paroladır",
-      "text": "Kurtarma Cümleniz hesabınıza erişmeniz için tek yoludur."
+      "title": "Kurtarma Kelimeleriniz özel bir tür paroladır",
+      "text": "Kurtarma Kelimeleriniz hesabınıza erişmeniz için tek yoludur."
     },
     {
-      "title": "Kurtarma Cümleniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
-      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Cümlenize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
+      "title": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
+      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Kelimelerinize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
     },
     {
       "title": "Yazın",
-      "text": "Kurtarma Cümlenizi yazın ve güvenli bir yerde saklayın. Kurtarma Cümlenizi telefonunuza kaydetmeyin."
+      "text": "Kurtarma Kelimelerinizi yazın ve güvenli bir yerde saklayın. Kurtarma Kelimelerinizi telefonunuza kaydetmeyin."
     },
     {
       "title": "Cümlenizi gizli tutun",
@@ -161,18 +161,18 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Supercharge geldi! {{currency}} bakiyenizde yıllık %{{percent}} ödül kazanın. Sınırlı bir süre için kullanılabilir o yüzden hemen para kazanmaya başlayın. Supercharge şöyle çalışır:",
+  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
   },
   "noMinCommitment": {
     "header": "Minimum bakiye ekle",
-    "earningText": "Başlamak için {{minBalance}} {{currency}} ekleyin. Ödüllerinizi maksimuma çıkarmak için 1000 {{currency}}'a kadar para yatırın.",
+    "earningText": "10-1000 cUSD, 10-1000 cEUR, veya 50-6000 cREAL için ödüller kazanın.",
     "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve elefon numaranızı bağlamanız yeterlidir."
   },
   "saveMoreEarnMore": {
-    "header": "Kurtarma Cümlenizi oluşturun",
+    "header": "Kurtarma Kelimelerinizi oluşturun",
     "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
   "conclusion": "İşte bu kadar basit. Kriptoparanızı hemen Supercharge'layın!",
@@ -188,13 +188,13 @@
   },
   "superchargingTitle": "{{token}}'ınıza Supercharge uygulanıyor",
   "superchargingDescription": "Yıllık %{{apy}} oranında getiri elde ediyorsunuz. Ödüllerinizi Salı günü buradan alabilirsiniz.",
-  "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
-  "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
-  "superchargeClaimText": "Claim your rewards to add them to your balance.",
-  "superchargeClaimButton": "Claim Rewards",
-  "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
-  "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
-  "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
+  "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
+  "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
+  "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
+  "superchargeClaimButton": "Ödüllerinizi Alın",
+  "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
+  "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
+  "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
   "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
@@ -244,7 +244,7 @@
   "loadingExchangeRate": "Döviz Kuru Yükleniyor...",
   "errorRefreshingRate": "Döviz kuru yenilenemedi",
   "exchangeRateChange": "Döviz kuru değişti, lütfen tekrar deneyin",
-  "feeExchangeEducation": "When exchanging between assets, a small fee goes towards keeping the value of Celo stablecoins tied to the asset they track. \n\nVisit the FAQ to learn more.",
+  "feeExchangeEducation": "Varlıklar arasında değiş tokuş yaparken, Celo stablecoinlerinin değerini sabit tutabilmek için bir işlem ücreti alınır.\n\nDaha fazla bilgi için SSS'a göz atın.",
   "goldPrice": "CELO Fiyatı",
   "yourGoldBalance": "CELO Bakiyeniz",
   "goldAmount": "CELO Miktarı",
