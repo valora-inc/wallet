@@ -183,7 +183,7 @@ export interface RemoteConfigValues {
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
-  recentDappsEnabled: boolean
+  maxNumRecentDapps: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

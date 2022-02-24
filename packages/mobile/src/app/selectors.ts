@@ -124,7 +124,7 @@ export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
 export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
 
-export const recentDappsEnabledSelector = (state: RootState) => state.app.recentDappsEnabled
+export const maxNumRecentDappsSelector = (state: RootState) => state.app.maxNumRecentDapps
 
 export const recentDappsSelector = (state: RootState) => state.app.recentDapps
 

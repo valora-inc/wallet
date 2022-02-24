@@ -10,9 +10,9 @@ import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
 import {
   appStateSelector,
+  maxNumRecentDappsSelector,
   multiTokenShowHomeBalancesSelector,
   multiTokenUseUpdatedFeedSelector,
-  recentDappsEnabledSelector,
 } from 'src/app/selectors'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -51,7 +51,7 @@ function WalletHome() {
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector((state) => state.app.numberVerified)
   const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
-  const showRecentDapps = useSelector(recentDappsEnabledSelector)
+  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const useUpdatedFeed = useSelector(multiTokenUseUpdatedFeedSelector)
   const balances = useSelector(balancesSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
@@ -141,7 +141,7 @@ function WalletHome() {
     })
   }
 
-  if (showRecentDapps) {
+  if (maxNumRecentDapps > 0) {
     sections.push({
       data: [{}],
       renderItem: () => <RecentlyUsedDapps key="RecentlyUsedDapps" onSelectDapp={onSelectDapp} />,

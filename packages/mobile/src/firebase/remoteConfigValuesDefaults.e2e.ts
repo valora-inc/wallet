@@ -49,5 +49,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappListApiUrl:
     'https://raw.githubusercontent.com/valora-inc/dapp-list/main/translations/valora-dapp-list-base.json',
   superchargeButtonType: SuperchargeButtonType.PillRewards,
-  recentDappsEnabled: false,
+  maxNumRecentDapps: 4,
 }

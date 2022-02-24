@@ -1002,7 +1002,7 @@ export const v36Schema = {
   },
   app: {
     ...v35Schema.app,
-    recentDappsEnabled: false,
+    maxNumRecentDapps: 0,
     recentDapps: [],
   },
 }

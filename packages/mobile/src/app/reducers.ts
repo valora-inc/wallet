@@ -2,7 +2,6 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { Dapp, SuperchargeButtonType } from 'src/app/types'
-import { NUM_RECENT_DAPPS } from 'src/config'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
@@ -51,7 +50,7 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
-  recentDappsEnabled: boolean
+  maxNumRecentDapps: number
   recentDapps: Dapp[]
 }
 
@@ -95,7 +94,7 @@ const initialState = {
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
-  recentDappsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.recentDappsEnabled,
+  maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
 }
 
@@ -209,7 +208,7 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
-        recentDappsEnabled: action.configValues.recentDappsEnabled,
+        maxNumRecentDapps: action.configValues.maxNumRecentDapps,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -244,7 +243,7 @@ export const appReducer = (
         recentDapps: [
           action.dapp,
           ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
-        ].slice(0, NUM_RECENT_DAPPS),
+        ].slice(0, state.maxNumRecentDapps),
       }
     default:
       return state
