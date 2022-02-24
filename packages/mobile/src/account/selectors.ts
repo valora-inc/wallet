@@ -48,6 +48,8 @@ export const recoveringFromStoreWipeSelector = (state: RootState) =>
 export const accountToRecoverSelector = (state: RootState) =>
   state.account.accountToRecoverFromStoreWipe
 export const kycStatusSelector = (state: RootState) => state.account.kycStatus
+export const finclusiveKycStatusSelector = (state: RootState) => state.account.finclusiveKycStatus
+
 export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
 
 export const choseToRestoreAccountSelector = (state: RootState) =>
