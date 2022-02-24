@@ -1,6 +1,8 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { act } from 'react-test-renderer'
+import { dappSelected } from 'src/app/actions'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
@@ -43,6 +45,28 @@ const undefinedBalances = {
     balance: undefined,
   },
 }
+
+const dapp = {
+  name: 'Ubeswap',
+  description: 'Swap any token, enter a pool, or farm your crypto',
+  dappUrl: 'https://app.ubeswap.org/',
+  categoryId: 'exchanges',
+  iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+  isFeatured: false,
+  id: 'ubeswap',
+}
+
+const deepLinkedDapp = {
+  name: 'Moola',
+  description: 'Lend, borrow, or add to a pool to earn rewards',
+  dappUrl: 'celo://wallet/moolaScreen',
+  categoryId: 'lend',
+  iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
+  isFeatured: false,
+  id: 'moola',
+}
+
+const recentDapps = [dapp, deepLinkedDapp]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
@@ -176,5 +200,58 @@ describe('WalletHome', () => {
     })
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()
+  })
+
+  describe('recently used dapps', () => {
+    const store = createMockStore({
+      app: {
+        recentDapps,
+        maxNumRecentDapps: 4,
+      },
+    })
+
+    beforeEach(() => {
+      store.clearActions()
+    })
+    it('should show the open dapp confirmation on press of external dapp', () => {
+      const { getAllByTestId, getByText } = render(
+        <Provider store={store}>
+          <WalletHome />
+        </Provider>
+      )
+
+      const dapps = getAllByTestId('RecentDapp')
+
+      expect(dapps).toHaveLength(2)
+
+      act(() => {
+        fireEvent.press(dapps[0])
+      })
+
+      expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"${dapp.name}"}`)).toBeTruthy()
+
+      act(() => {
+        fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
+      })
+
+      expect(store.getActions()).toEqual(expect.arrayContaining([dappSelected(dapp)]))
+    })
+
+    it('should open the dapp directly if it is deep linked', () => {
+      const { getAllByTestId, queryByText } = render(
+        <Provider store={store}>
+          <WalletHome />
+        </Provider>
+      )
+
+      act(() => {
+        fireEvent.press(getAllByTestId('RecentDapp')[1])
+      })
+
+      expect(
+        queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
+      ).toBeFalsy()
+      expect(store.getActions()).toEqual(expect.arrayContaining([dappSelected(deepLinkedDapp)]))
+    })
   })
 })

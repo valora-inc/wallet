@@ -30,7 +30,13 @@ const recentDapps = [
 describe('RecentlyUsedDapps', () => {
   it('renders nothing if there are no recently used dapps', () => {
     const { queryByTestId } = render(
-      <Provider store={createMockStore()}>
+      <Provider
+        store={createMockStore({
+          app: {
+            recentDapps: [],
+          },
+        })}
+      >
         <RecentlyUsedDapps onSelectDapp={jest.fn()} />
       </Provider>
     )
@@ -44,54 +50,58 @@ describe('RecentlyUsedDapps', () => {
         recentDapps,
       },
     })
-    const { getByTestId, getByText } = render(
+    const { getByText, getAllByTestId } = render(
       <Provider store={store}>
         <RecentlyUsedDapps onSelectDapp={jest.fn()} />
       </Provider>
     )
 
-    const dapp0 = getByTestId('RecentDapp0')
-    const dapp1 = getByTestId('RecentDapp1')
+    const dapps = getAllByTestId('RecentDapp')
 
     expect(getByText('recentlyUsedDapps')).toBeTruthy()
     expect(getByText('allDapps')).toBeTruthy()
-    expect(within(dapp0).getByText(recentDapps[0].name)).toBeTruthy()
-    expect(getByTestId('RecentDapp0-icon').props.source).toEqual({
+    expect(dapps).toHaveLength(2)
+
+    expect(within(dapps[0]).getByText(recentDapps[0].name)).toBeTruthy()
+    expect(within(dapps[0]).getByTestId('RecentDapp-icon').props.source).toEqual({
       uri: recentDapps[0].iconUrl,
     })
-    expect(within(dapp1).getByText(recentDapps[1].name)).toBeTruthy()
-    expect(getByTestId('RecentDapp1-icon').props.source).toEqual({
+
+    expect(within(dapps[1]).getByText(recentDapps[1].name)).toBeTruthy()
+    expect(within(dapps[1]).getByTestId('RecentDapp-icon').props.source).toEqual({
       uri: recentDapps[1].iconUrl,
     })
   })
 
   it('fires the correct actions on press dapp', () => {
     const selectDappSpy = jest.fn()
-    const store = createMockStore({
-      app: {
-        recentDapps,
-      },
-    })
-    const { getByTestId } = render(
-      <Provider store={store}>
+    const { getAllByTestId } = render(
+      <Provider
+        store={createMockStore({
+          app: {
+            recentDapps,
+          },
+        })}
+      >
         <RecentlyUsedDapps onSelectDapp={selectDappSpy} />
       </Provider>
     )
 
-    fireEvent.press(getByTestId('RecentDapp1'))
+    fireEvent.press(getAllByTestId('RecentDapp')[1])
 
     expect(selectDappSpy).toHaveBeenCalledTimes(1)
     expect(selectDappSpy).toHaveBeenCalledWith(recentDapps[1])
   })
 
   it('navigates to dapp explorer screen', () => {
-    const store = createMockStore({
-      app: {
-        recentDapps,
-      },
-    })
     const { getByText } = render(
-      <Provider store={store}>
+      <Provider
+        store={createMockStore({
+          app: {
+            recentDapps,
+          },
+        })}
+      >
         <RecentlyUsedDapps onSelectDapp={jest.fn()} />
       </Provider>
     )

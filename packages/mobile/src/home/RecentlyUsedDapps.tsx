@@ -53,14 +53,14 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
             key={recentlyUsedDapp.id}
             onPress={() => onSelectDapp(recentlyUsedDapp)}
             style={styles.dappContainer}
-            testID={`RecentDapp${index}`}
+            testID="RecentDapp"
           >
             <>
               <Image
                 source={{ uri: recentlyUsedDapp.iconUrl }}
                 style={styles.icon}
                 resizeMode="cover"
-                testID={`RecentDapp${index}-icon`}
+                testID="RecentDapp-icon"
               />
               <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
                 {recentlyUsedDapp.name}
