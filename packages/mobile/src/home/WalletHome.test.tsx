@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { act } from 'react-test-renderer'
 import { dappSelected } from 'src/app/actions'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
@@ -213,6 +212,7 @@ describe('WalletHome', () => {
     beforeEach(() => {
       store.clearActions()
     })
+
     it('should show the open dapp confirmation on press of external dapp', () => {
       const { getAllByTestId, getByText } = render(
         <Provider store={store}>
@@ -222,17 +222,12 @@ describe('WalletHome', () => {
 
       const dapps = getAllByTestId('RecentDapp')
 
+      fireEvent.press(dapps[0])
+
       expect(dapps).toHaveLength(2)
-
-      act(() => {
-        fireEvent.press(dapps[0])
-      })
-
       expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"${dapp.name}"}`)).toBeTruthy()
 
-      act(() => {
-        fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
-      })
+      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
 
       expect(store.getActions()).toEqual(expect.arrayContaining([dappSelected(dapp)]))
     })
@@ -244,9 +239,7 @@ describe('WalletHome', () => {
         </Provider>
       )
 
-      act(() => {
-        fireEvent.press(getAllByTestId('RecentDapp')[1])
-      })
+      fireEvent.press(getAllByTestId('RecentDapp')[1])
 
       expect(
         queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
