@@ -958,6 +958,42 @@ export const v33Schema = {
   },
 }
 
+export const v34Schema = {
+  ...v33Schema,
+  _persist: {
+    ...v33Schema._persist,
+    version: 34,
+  },
+  app: {
+    ...v33Schema.app,
+    superchargeApy: 25,
+    superchargeTokens: [
+      {
+        token: 'cUSD',
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    ],
+    rewardsPercent: undefined,
+    rewardsStartDate: undefined,
+    rewardsMax: undefined,
+    rewardsMin: undefined,
+    rewardsABTestThreshold: undefined,
+  },
+}
+
+export const v35Schema = {
+  ...v34Schema,
+  _persist: {
+    ...v34Schema._persist,
+    version: 35,
+  },
+  supercharge: {
+    loading: false,
+    error: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v33Schema as Partial<RootState>
+  return v35Schema as Partial<RootState>
 }

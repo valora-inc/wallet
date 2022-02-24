@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Начните с Supercharge",
-  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на свой остаток {{currency}}. Предложение действует в течение ограниченного времени, поэтому внесите средства прямо сейчас! Вот как это работает.",
+  "consumerIncentivesSummary": "Суперзарядка уже здесь! Получай {{percent}}.\nгодовое вознаграждение на твой самый высокий баланс в стабильных монетах (cUSD, cEUR или cREAL). Доступно в течение ограниченного времени. Вот как это работает:",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
   },
   "noMinCommitment": {
     "header": "Добавьте минимальную сумму на баланс",
-    "earningText": "Добавьте {{minBalance}} {{currency}} для начала. Внесите до 1000 {{currency}}, чтобы получить максимальное вознаграждение.",
+    "earningText": "Получай вознаграждения на 10-1000 cUSD, 10-1000 cEUR или 50-6000 cREAL.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
@@ -176,6 +176,25 @@
     "text": "Это будет гарантировать, что ваши вознаграждения в безопасности и под вашим контролем."
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
+  "superchargeTitle": "Присоединяйтесь к программе Supercharge",
+  "superchargeDescription": "Получай {{apy}}ежегодные вознаграждения на свой {{token}} баланс. Вот как начать:",
+  "superchargeConnectNumber": "Подключить номер телефона",
+  "superchargeMinimumBalance": "Добавь минимальный баланс {{amount}} {{token}}.",
+  "superchargeDisclaimer": "Максимально увеличь вознаграждение, добавив {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Какие активы я могу Суперзарядить?",
+    "body": "С Supercharge ты получаешь еженедельные вознаграждения на свой самый высокий баланс стабильных монеток Celo (cEUR, cUSD, cREAL и т.д.).",
+    "dismiss": "Закрыть"
+  },
+  "superchargingTitle": "Твой {{token}} становится суперзаряженным",
+  "superchargingDescription": "Ты получаешь {{apy}}.\nnnually. Заяви о своем вознаграждении здесь во вторник.",
+  "superchargeRewardsAvailable": "У тебя есть {{amount}} {{token}} , доступные для заявления!",
+  "superchargeRewardsAvailableMultipleTokens": "У тебя есть {{amounts}} , доступный для заявления!",
+  "superchargeClaimText": "Заяви о своих вознаграждениях, чтобы добавить их к своему балансу.",
+  "superchargeClaimButton": "Претендовать на вознаграждение",
+  "superchargeFetchRewardsFailed": "Ошибка при получении ожидаемых вознаграждений Supercharge. Пожалуйста, повторите попытку позже.",
+  "superchargeClaimSuccess": "Твои вознаграждения Supercharge были добавлены к твоему общему балансу.",
+  "superchargeClaimFailure": "Возникла проблема с получением вознаграждения за Суперзаряд.",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
   "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
@@ -225,7 +244,7 @@
   "loadingExchangeRate": "Загрузка обменного курса...",
   "errorRefreshingRate": "Не удалось обновить обменный курс",
   "exchangeRateChange": "Обменный курс изменился, повторите попытку",
-  "feeExchangeEducation": "При обмене валют CELO и cUSD небольшая комиссия направляется на поддержание стабильной стоимости доллара Celo и привязку к доллару США. \n\nПодробнее см. в разделе часто задаваемых вопросов.",
+  "feeExchangeEducation": "При обмене между активами небольшая комиссия идет на поддержание стоимости стабильных монеток Celo, привязанной к активу, который они отслеживают. \n\nПосети FAQ, чтобы узнать больше.",
   "goldPrice": "Цена CELO",
   "yourGoldBalance": "Ваш остаток CELO",
   "goldAmount": "Сумма CELO",
@@ -758,10 +777,10 @@
     "codePlaceholder3_ios": "Выберите или скопируйте третье сообщение",
     "codePlaceholderWithCodeInClipboard": "Отлично! Вставьте здесь",
     "resendMessages_all": "Повторно отправить все сообщения",
-    "resendMessages_0": "Отправить последнее сообщение",
-    "resendMessages_1": "Отправить {{count}} сообщений",
-    "resendMessages_2": "Отправка {{count}} сообщений",
-    "resendMessages_3": "Отправка {{count}} сообщений"
+    "resendMessages_0": "Повторно отправить последнее сообщение",
+    "resendMessages_1": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_2": "Повторно отправить сообщения: {{count}}",
+    "resendMessages_3": "Повторно отправить сообщения: {{count}}"
   },
   "verificationInputHelpDialog": {
     "title": "Справка",
@@ -1044,7 +1063,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Платеж отправлен",
   "feedItemCeloRewardReceivedTitle": "Заработано CELO",
-  "feedItemRewardReceivedTitle": "Celo Network",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Еженедельные вознаграждения",
   "feedItemInviteRewardReceivedTitle": "Celo Network",
   "feedItemInviteRewardReceivedInfo": "Вознаграждение получено",
@@ -1096,6 +1115,8 @@
   "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
   "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
   "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
+  "getBankAccountsFail": "Не удается получить связанные банковские счета. Пожалуйста, повторите попытку позже",
+  "deleteBankAccountFail": "Не удается удалить привязанный банковский счет. Пожалуйста, повторите попытку позже",
   "linkBankAccountScreen": {
     "tryAgain": "Повторить попытку",
     "verifying": {
@@ -1130,8 +1151,8 @@
       "cta": "Привязать банковский счет",
       "error": {
         "title": "Невозможно привязать банковский счет.",
-        "description": "Пожалуйста, попробуй снова связать свой банковский счет или обратись в службу поддержки.",
-        "contactSupportPrefill": "Я не смог связать свой банковский счет с Valora"
+        "description": "Попробуйте снова привязать свой банковский счет или обратитесь в службу поддержки.",
+        "contactSupportPrefill": "Мне не удалось привязать свой банковский счет к Valora"
       }
     }
   },

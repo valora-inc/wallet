@@ -1,9 +1,9 @@
 import { LinkEventMetadata, LinkEventName, openLink } from 'react-native-plaid-link-sdk'
-import { mockAccount, mockPrivateDEK } from 'test/values'
-import openPlaid, { handleOnEvent } from './openPlaid'
-import { createLinkToken } from 'src/in-house-liquidity'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { createLinkToken } from 'src/in-house-liquidity'
+import { mockAccount, mockPrivateDEK } from 'test/values'
+import openPlaid, { handleOnEvent } from './openPlaid'
 
 jest.mock('react-native-plaid-link-sdk', () => ({
   ...(jest.requireActual('react-native-plaid-link-sdk') as any),
@@ -52,6 +52,7 @@ describe('openPlaid', () => {
     expect(openLink).toHaveBeenCalledWith({
       tokenConfig: {
         token: 'foo',
+        noLoadingState: false,
       },
       onExit: onExit,
       onSuccess: onSuccess,

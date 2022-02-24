@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Beginne Supercharge",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% Rewards im Jahr auf dein {{currency}} Guthaben. Nur für kurze Zeit. So funktioniert es:",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}nnliche Belohnungen auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
     "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
   },
   "noMinCommitment": {
     "header": "Mindestguthaben hinzufügen",
-    "earningText": "Zwischen {{minBalance}} {{currency}} und 1000 {{currency}} hinzufügen.",
+    "earningText": "Erhalte Prämien für 10-1000 cUSD, 10-1000 cEUR oder 50-6000 cREAL.",
     "connectText": "Du brauchst nur ein Guthaben von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Rewards zu bekommen."
   },
   "saveMoreEarnMore": {
@@ -176,6 +176,25 @@
     "text": "Dies wird sicherstellen, dass deine Rewards sicher und in deiner Kontrolle sind."
   },
   "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
+  "superchargeTitle": "Start Supercharging",
+  "superchargeDescription": "Erhalte {{apy}}nnliche Belohnungen auf dein {{token}} Guthaben. So fängst du an:",
+  "superchargeConnectNumber": "Verbinde deine Telefonnummer",
+  "superchargeMinimumBalance": "Füge ein Mindestguthaben von {{amount}} {{token}}hinzu",
+  "superchargeDisclaimer": "Maximiere die Belohnungen durch Hinzufügen von {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "Welche Vermögenswerte kann ich aufladen?",
+    "body": "Mit Supercharge erhältst du wöchentliche Belohnungen auf dein höchstes Celo-Stablecoin-Guthaben (cEUR, cUSD, cREAL, etc.).",
+    "dismiss": "Verwerfen"
+  },
+  "superchargingTitle": "Dein {{token}} wird überladen",
+  "superchargingDescription": "Du bekommst {{apy}}nnentlich. Fordere deine Belohnungen am Dienstag hier an.",
+  "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} zur Verfügung!",
+  "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} zu beanspruchen!",
+  "superchargeClaimText": "Fordere deine Prämien an, um sie deinem Guthaben hinzuzufügen.",
+  "superchargeClaimButton": "Belohnungen anfordern",
+  "superchargeFetchRewardsFailed": "Fehler beim Abrufen von ausstehenden Supercharge-Belohnungen. Bitte versuche es später noch einmal.",
+  "superchargeClaimSuccess": "Deine Supercharge-Belohnungen wurden zu deinem Gesamtguthaben hinzugefügt.",
+  "superchargeClaimFailure": "Es gab ein Problem beim Einfordern deiner Supercharge-Belohnungen.",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
@@ -225,7 +244,7 @@
   "loadingExchangeRate": "Umtauschkurs wird geladen...",
   "errorRefreshingRate": "Umtauschkurs konnte nicht aktualisiert werden",
   "exchangeRateChange": "Umtauschkurs hat sich geändert. Bitte versuche es erneut.",
-  "feeExchangeEducation": "Beim Austausch zwischen CELO und cUSD oder cEUR wird eine geringe Gebühr dafür verwendet, den Wert des Celo Dollar und Celo Euro stabil zu halten. \n\nBesuche die FAQ um mehr zu erfahren.",
+  "feeExchangeEducation": "Beim Tausch zwischen Vermögenswerten wird eine kleine Gebühr erhoben, damit der Wert der Celo Stablecoins an den Vermögenswert gebunden bleibt, den sie verfolgen. \n\nBesuche die FAQ, um mehr zu erfahren.",
   "goldPrice": "CELO-Preis",
   "yourGoldBalance": "Dein CELO-Guthaben",
   "goldAmount": "CELO-Betrag",
@@ -1040,7 +1059,7 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Zahlung gesendet",
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
-  "feedItemRewardReceivedTitle": "Celo-Netzwerk",
+  "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
   "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
@@ -1092,6 +1111,8 @@
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
+  "getBankAccountsFail": "Die verknüpften Bankkonten konnten nicht abgerufen werden. Bitte versuchen Sie es später erneut",
+  "deleteBankAccountFail": "Ihr verlinktes Bankkonto konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut",
   "linkBankAccountScreen": {
     "tryAgain": "Wiederholen",
     "verifying": {
@@ -1125,8 +1146,8 @@
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
       "cta": "Bankkonto verknüpfen",
       "error": {
-        "title": "Du kannst kein Bankkonto verknüpfen.",
-        "description": "Bitte versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere den Support.",
+        "title": "Dein Konto konnte nicht verknüpfen werden.",
+        "description": "Versuche, dein Bankkonto erneut zu verknüpfen, oder kontaktiere das Support-Team.",
         "contactSupportPrefill": "Ich konnte mein Bankkonto nicht mit Valora verknüpfen"
       }
     }

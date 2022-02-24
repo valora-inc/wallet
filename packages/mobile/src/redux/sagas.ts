@@ -14,6 +14,7 @@ import {
   appVersionSaga,
   checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
+import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
@@ -134,6 +135,7 @@ export function* rootSaga() {
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
+    yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
