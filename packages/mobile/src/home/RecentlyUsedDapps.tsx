@@ -1,10 +1,11 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { recentDappsSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -34,10 +35,10 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
     <View style={styles.body} testID="RecentlyUsedDappsContainer">
       <View style={[styles.titleContainer, styles.row]}>
         <Text style={styles.title}>{t('recentlyUsedDapps')}</Text>
-        <TouchableOpacity style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
+        <Touchable style={styles.row} onPress={onPressAllDapps} testID="AllDapps">
           <Text style={styles.allDapps}>{t('allDapps')}</Text>
           <ProgressArrow color={Colors.greenUI} />
-        </TouchableOpacity>
+        </Touchable>
       </View>
 
       <ScrollView
@@ -46,7 +47,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
         testID="RecentlyUsedDapps/ScrollContainer"
       >
         {recentlyUsedDapps.map((recentlyUsedDapp, index) => (
-          <TouchableOpacity
+          <Touchable
             key={recentlyUsedDapp.id}
             onPress={() => onSelectDapp(recentlyUsedDapp)}
             style={styles.dappContainer}
@@ -61,7 +62,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
             <Text style={styles.dappName} numberOfLines={1} ellipsizeMode="tail">
               {recentlyUsedDapp.name}
             </Text>
-          </TouchableOpacity>
+          </Touchable>
         ))}
       </ScrollView>
     </View>
