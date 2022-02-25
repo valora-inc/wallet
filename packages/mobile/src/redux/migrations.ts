@@ -438,7 +438,8 @@ export const migrations = {
       rewardsABTestThreshold: undefined,
     },
   }),
-  35: (state: any) => ({
+  35: (state: any) => state,
+  36: (state: any) => ({
     ...state,
     account: {
       ...state.accout,

@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus",
-  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili. Ottieni ricompense annue del {{percent}}% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
+  "consumerIncentivesSummary": "Supercharge è qui! Ottieni {{percent}}premi annuali sul tuo saldo più alto in stablecoin (cUSD, cEUR, o cREAL). Disponibile per un tempo limitato. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Connetti numero se non lo hai ancora connesso."
@@ -176,6 +176,25 @@
     "text": "Questo assicurerà che le tue ricompense siano al sicuro e sotto il tuo controllo."
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
+  "superchargeTitle": "Inizia Supercharge",
+  "superchargeDescription": "Ottieni {{apy}}premi annuali sul tuo {{token}} saldo. Ecco come iniziare:",
+  "superchargeConnectNumber": "Collega il tuo numero telefonico",
+  "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
+  "superchargeDisclaimer": "Massimizza le ricompense aggiungendo {{amount}} {{token}}",
+  "superchargeTokenDetailsDialog": {
+    "title": "A quali asset posso applicare i bonus?",
+    "body": "Con Supercharge, ottieni ricompense settimanali sul tuo saldo più alto in Celo stablecoin (cEUR, cUSD, cREAL, ecc).",
+    "dismiss": "Ignorare"
+  },
+  "superchargingTitle": "Il tuo {{token}} viene sovralimentato",
+  "superchargingDescription": "Stai ottenendo {{apy}}nnualmente. Rivendica i tuoi premi qui martedì.",
+  "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibile per rivendicare!",
+  "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} a disposizione per rivendicare!",
+  "superchargeClaimText": "Richiedi i tuoi premi per aggiungerli al tuo saldo.",
+  "superchargeClaimButton": "Reclama i premi",
+  "superchargeFetchRewardsFailed": "Errore durante il recupero dei premi Supercharge in sospeso. Per favore riprova più tardi.",
+  "superchargeClaimSuccess": "I tuoi premi Supercharge sono stati aggiunti al tuo Saldo Totale.",
+  "superchargeClaimFailure": "C'è stato un problema nel richiedere i tuoi premi Supercharge.",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
   "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
@@ -225,7 +244,7 @@
   "loadingExchangeRate": "Caricamento del tasso di cambio in corso...",
   "errorRefreshingRate": "Impossibile aggiornare il tasso di cambio.",
   "exchangeRateChange": "Il tasso di cambio è variato, riprovare.",
-  "feeExchangeEducation": "Quando si esegue un cambio tra CELO e cUSD o cEUR, una piccola commissione permette di mantenere il valore del Celo Dollar e Celo Euro stabile e legato al dollaro statunitense e all'euro. \n\nPer ulteriori informazioni, visita la pagina delle Domande frequenti.",
+  "feeExchangeEducation": "Quando si scambia tra asset, una piccola commissione serve a mantenere il valore degli stablecoin Celo legato all'asset che seguono. \n\nVisita le FAQ per saperne di più.",
   "goldPrice": "Prezzo di CELO",
   "yourGoldBalance": "Il tuo saldo in CELO",
   "goldAmount": "Importo in CELO",

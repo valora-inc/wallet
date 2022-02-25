@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre stablecoin avec le solde le plus élevé (cUSD, cEUR, ou cREAL). Disponible pour une durée limitée :",
+  "consumerIncentivesSummary": "Supercharge est là ! Obtiens {{percent}}nnuellement des récompenses sur ton solde de stablecoin le plus élevé (cUSD, cEUR ou cREAL). Disponible pour une durée limitée. Voici comment cela fonctionne :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
   },
   "noMinCommitment": {
     "header": "Ajouter un solde minimum",
-    "earningText": "Recevez des récompenses sur 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
+    "earningText": "Reçois des récompenses sur 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
@@ -176,6 +176,25 @@
     "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
+  "superchargeTitle": "Commence à Supercharger",
+  "superchargeDescription": "Obtiens des {{apy}}nnuellement des récompenses sur ton solde {{token}} . Voici comment commencer :",
+  "superchargeConnectNumber": "Connectez votre numéro de téléphone",
+  "superchargeMinimumBalance": "Ajoute un solde minimum de {{amount}} {{token}}.",
+  "superchargeDisclaimer": "Maximise les récompenses en ajoutant {{amount}} {{token}}.",
+  "superchargeTokenDetailsDialog": {
+    "title": "Quels sont les actifs que je peux Supercharger ?",
+    "body": "Avec Supercharge, tu obtiens des récompenses hebdomadaires sur ton solde le plus élevé en monnaie stable Celo (cEUR, cUSD, cREAL, etc.).",
+    "dismiss": "Ignorer"
+  },
+  "superchargingTitle": "Ton {{token}} est en train d'être Supercharged",
+  "superchargingDescription": "Tu obtiens {{apy}}nnuellement. Réclame tes récompenses ici le mardi.",
+  "superchargeRewardsAvailable": "Tu as {{amount}} {{token}} disponible pour réclamer !",
+  "superchargeRewardsAvailableMultipleTokens": "Tu as {{amounts}} disponible pour réclamer !",
+  "superchargeClaimText": "Réclame tes récompenses pour les ajouter à ton solde.",
+  "superchargeClaimButton": "Réclamer des récompenses",
+  "superchargeFetchRewardsFailed": "Erreur lors de la récupération des récompenses Supercharge en attente. Réessaie plus tard.",
+  "superchargeClaimSuccess": "Tes récompenses Supercharge ont été ajoutées à ton solde total.",
+  "superchargeClaimFailure": "Il y a eu un problème pour réclamer tes récompenses Supercharge.",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
   "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
@@ -225,7 +244,7 @@
   "loadingExchangeRate": "Chargement du taux de change...",
   "errorRefreshingRate": "Impossible d'actualiser le taux de change",
   "exchangeRateChange": "Le taux de change a changé, veuillez réessayer",
-  "feeExchangeEducation": "Lors d'un échange entre des CELO et cUSD our cEUR, une somme modique est retenue pour maintenir la valeur du Celo Dollars et Celo Euro stable et liée au dollar américain et à l'euro. \n\nVisitez la FAQ pour en savoir plus.",
+  "feeExchangeEducation": "Lors d'un échange entre actifs, une petite commission sert à maintenir la valeur des stablecoins Celo liée à l'actif qu'ils suivent. \n\nVisite la FAQ pour en savoir plus.",
   "goldPrice": "Prix CELO",
   "yourGoldBalance": "Votre solde CELO",
   "goldAmount": "Montant CELO",
@@ -1092,8 +1111,8 @@
   "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
   "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessayez plus tard",
-  "getBankAccountsFail": "Impossible de récupérer tes comptes bancaires liés. Réessaie plus tard.",
-  "deleteBankAccountFail": "Impossible de supprimer ton compte bancaire lié. Réessaie plus tard.",
+  "getBankAccountsFail": "Impossible de récupérer vos comptes bancaires liés. Veuillez réessayer plus tard",
+  "deleteBankAccountFail": "Impossible de supprimer votre compte bancaire associé. Veuillez réessayer plus tard",
   "linkBankAccountScreen": {
     "tryAgain": "Réessayer",
     "verifying": {

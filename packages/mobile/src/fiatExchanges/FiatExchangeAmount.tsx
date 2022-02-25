@@ -237,6 +237,8 @@ function FiatExchangeAmount({ route }: Props) {
         isVisible={showingInvalidAmountDialog}
         actionText={t('invalidAmountDialog.dismiss')}
         actionPress={closeInvalidAmountDialog}
+        isActionHighlighted={false}
+        onBackgroundPress={closeInvalidAmountDialog}
         testID={'invalidAmountDialog'}
       >
         {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)
