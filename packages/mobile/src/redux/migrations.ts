@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { FinclusiveKycStatus } from 'src/account/reducer'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import {
@@ -435,6 +436,13 @@ export const migrations = {
       rewardsMax: undefined,
       rewardsMin: undefined,
       rewardsABTestThreshold: undefined,
+    },
+  }),
+  35: (state: any) => ({
+    ...state,
+    account: {
+      ...state.accout,
+      finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
     },
   }),
 }

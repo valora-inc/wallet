@@ -87,7 +87,7 @@ function* initializeAccount() {
   }
 }
 
-function* fetchFinclusiveKyc() {
+export function* fetchFinclusiveKyc() {
   const personaKycStatus = yield select(kycStatusSelector)
   const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
 

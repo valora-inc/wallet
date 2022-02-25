@@ -31,7 +31,6 @@ import openPlaid, { handleOnEvent } from './openPlaid'
 
 function LinkBankAccountScreen() {
   const navigation = useNavigation()
-  const dispatch = useDispatch()
 
   // Log a cancel event on a "back" action (hardware back button, swipe, or normal navigate back)
   useEffect(() => {
@@ -42,25 +41,6 @@ function LinkBankAccountScreen() {
     return unsubscribe
   }, [])
 
-  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
-  const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
-  const kycStatus = useSelector(kycStatusSelector)
-
-  // If the user's KYC has been accepted by Persona but not by Finclusive, then continuously
-  // poll finclusive for updates until the KYC is accepted
-  const pollFinclusiveKyc = () => {
-    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
-      dispatch(fetchFinclusiveKyc())
-    }
-  }
-  useEffect(() => {
-    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
-      pollFinclusiveKyc()
-      const timer = setInterval(pollFinclusiveKyc, 5000)
-      return () => clearInterval(timer)
-    }
-  }, [])
-
   return (
     <SafeAreaView style={styles.body}>
       <ScrollView
@@ -68,9 +48,7 @@ function LinkBankAccountScreen() {
         showsVerticalScrollIndicator={false}
       >
         <StepOne />
-        <StepTwo
-          disabled={!stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted}
-        />
+        <StepTwo />
       </ScrollView>
     </SafeAreaView>
   )
@@ -116,11 +94,7 @@ export function stepOneUIState({
     KycStatus.Approved,
     KycStatus.NeedsReview,
   ]
-  const finclusiveNotCompleted = [
-    FinclusiveKycStatus.NotSubmitted,
-    FinclusiveKycStatus.Submitted,
-    FinclusiveKycStatus.InReview,
-  ]
+  const finclusiveNotCompleted = [FinclusiveKycStatus.Submitted, FinclusiveKycStatus.InReview]
   if (
     successFromPersona ||
     userCompletedPersona.includes(kycStatus) ||
@@ -145,11 +119,27 @@ export function stepOneUIState({
 
 export function StepOne() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [isInPersonaFlow, setIsInPersonaFlow] = useState(false)
   const [errorFromPersona, setErrorFromPersona] = useState(false)
   const [successFromPersona, setSuccessFromPersona] = useState(false)
   const kycStatus = useSelector(kycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
+
+  // If the user's KYC has been accepted by Persona but not by Finclusive, then continuously
+  // poll finclusive for updates until the KYC is accepted
+  const pollFinclusiveKyc = () => {
+    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
+      dispatch(fetchFinclusiveKyc())
+    }
+  }
+  useEffect(() => {
+    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
+      pollFinclusiveKyc()
+      const timer = setInterval(pollFinclusiveKyc, 5000)
+      return () => clearInterval(timer)
+    }
+  }, [])
 
   const uiState = stepOneUIState({
     kycStatus,
@@ -259,10 +249,12 @@ export function StepOne() {
   }
 }
 
-export function StepTwo({ disabled }: { disabled: boolean }) {
+export function StepTwo() {
   const { t } = useTranslation()
+  const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
   const plaidParams = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+  const disabled = !stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted
   // This is used to handle universal links within React Native
   // https://plaid.com/docs/link/oauth/#handling-universal-links-within-react-native
   useDeepLinkRedirector()
