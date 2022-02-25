@@ -3,6 +3,9 @@ const Sentry = {
   setTagsContext: jest.fn(),
   captureException: jest.fn(),
   ReactNavigationInstrumentation: jest.fn().mockImplementation(() => ({})),
+  Severity: {
+    Error: 'error',
+  },
 }
 
 module.exports = Sentry
