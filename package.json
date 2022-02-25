@@ -72,6 +72,7 @@
     "typescript": "^3.8.3"
   },
   "resolutions": {
+    "ethers": "5.0.5",
     "**/truffle/mocha": "^6.2.2",
     "**/truffle-security/mocha": "^6.2.2",
     "node-gyp": "5.0.1",
