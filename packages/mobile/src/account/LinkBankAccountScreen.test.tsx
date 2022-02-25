@@ -17,7 +17,7 @@ import { Screens } from 'src/navigator/Screens'
 
 let personaButtonSuccessCallback: (() => any) | undefined // using this to simulate Persona success at any arbitrary time
 let personaButtonErrorCallback: (() => any) | undefined // using this to simulate Persona error at any arbitrary time
-let personaButtonCancelCallback: (() => any) | undefined // using this to simulate Persona error at any arbitrary time
+let personaButtonCancelCallback: (() => any) | undefined // using this to simulate Persona cancel at any arbitrary time
 
 const MockPersona = ({
   onSuccess,
