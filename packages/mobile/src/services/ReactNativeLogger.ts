@@ -51,7 +51,7 @@ export default class ReactNativeLogger {
     // prevent genuine network errors from being sent to Sentry
     if (!isNetworkError || (this.isNetworkConnected && isNetworkError)) {
       const captureContext = {
-        level: 'error',
+        level: Sentry.Severity.Error,
         extra: {
           tag,
           // TODO: the toString() can be removed after upgrading TS to v4. It is
