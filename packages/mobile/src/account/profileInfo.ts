@@ -33,7 +33,7 @@ export function* checkIfProfileUploaded() {
       yield put(profileUploaded())
     }
   } catch (e) {
-    Logger.error(TAG + '@uploadProfileInfo', 'Error uploading profile', e)
+    Logger.warn(TAG + '@uploadProfileInfo', 'Error uploading profile', e)
   }
 }
 
@@ -62,7 +62,7 @@ export function* checkIfProfileUploaded() {
 //     yield call(sendTransaction, setAccountTx.txo, account, context)
 //     Logger.info(TAG + '@addMetadataClaim' + 'set metadata URL')
 //   } catch (error) {
-//     Logger.error(`${TAG}/addMetadataClaim`, 'Could not add metadata claim', error)
+//     Logger.warn(`${TAG}/addMetadataClaim`, 'Could not add metadata claim', error)
 //     throw error
 //   }
 // }
@@ -74,7 +74,7 @@ export function* uploadNameAndPicture() {
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
     const nameWriteError = yield call([nameAccessor, 'write'], { name }, [])
     if (nameWriteError) {
-      Logger.error(`${TAG}@uploadNameAndPicture`, 'Error writing name', nameWriteError)
+      Logger.warn(`${TAG}@uploadNameAndPicture`, 'Error writing name', nameWriteError)
       return false
     } else {
       Logger.info(`${TAG}@uploadNameAndPicture`, 'Uploaded profile name')
@@ -88,7 +88,7 @@ export function* uploadNameAndPicture() {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
       const pictureWriteError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
       if (pictureWriteError) {
-        Logger.error(`${TAG}@uploadNameAndPicture`, 'Error writing picture', pictureWriteError)
+        Logger.warn(`${TAG}@uploadNameAndPicture`, 'Error writing picture', pictureWriteError)
         return false
       } else {
         Logger.info(TAG + 'uploadNameAndPicture', 'Uploaded profile picture')
@@ -96,7 +96,7 @@ export function* uploadNameAndPicture() {
     }
     return true
   } catch (error) {
-    Logger.error(`${TAG}@uploadNameAndPicture`, 'Failed to upload name and picture', error)
+    Logger.warn(`${TAG}@uploadNameAndPicture`, 'Failed to upload name and picture', error)
     return false
   }
 }
@@ -115,7 +115,7 @@ export function* giveProfileAccess(walletAddress: string) {
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
     let writeError = yield call([nameAccessor, 'allowAccess'], [accountAddress])
     if (writeError) {
-      Logger.error(`${TAG}@giveProfileAccess`, 'Failed to write to name accessor', writeError)
+      Logger.warn(`${TAG}@giveProfileAccess`, 'Failed to write to name accessor', writeError)
       return
     }
 
@@ -124,14 +124,14 @@ export function* giveProfileAccess(walletAddress: string) {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
       writeError = yield call([pictureAccessor, 'allowAccess'], [accountAddress])
       if (writeError) {
-        Logger.error(`${TAG}@giveProfileAccess`, 'Failed to write to picture accessor', writeError)
+        Logger.warn(`${TAG}@giveProfileAccess`, 'Failed to write to picture accessor', writeError)
         return
       }
     }
 
     Logger.info(`${TAG}@giveProfileAccess`, 'Uploaded symmetric keys for ' + accountAddress)
   } catch (error) {
-    Logger.error(`${TAG}@giveProfileAccess`, `Error when giving access to ${walletAddress}`, error)
+    Logger.warn(`${TAG}@giveProfileAccess`, `Error when giving access to ${walletAddress}`, error)
   }
 }
 
