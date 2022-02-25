@@ -50,7 +50,8 @@ export default class ReactNativeLogger {
 
     // prevent genuine network errors from being sent to Sentry
     if (!isNetworkError || (this.isNetworkConnected && isNetworkError)) {
-      Sentry.captureException(error, {
+      const captureContext = {
+        level: 'error',
         extra: {
           tag,
           // TODO: the toString() can be removed after upgrading TS to v4. It is
@@ -62,7 +63,17 @@ export default class ReactNativeLogger {
           source: 'Logger.error',
           networkConnected: this.isNetworkConnected,
         },
-      })
+      }
+
+      // If we don't have an error object call Sentry.captureMessage. That will
+      // group events without an error by message (accounting for some parameters
+      // in the message). Sentry.captureException sentry will group all events
+      // without an error object together.
+      if (error) {
+        Sentry.captureException(error, captureContext)
+      } else {
+        Sentry.captureMessage(message, captureContext)
+      }
     }
     console.info(
       `${tag} :: ${message} :: ${errorMsg} :: network connected ${this.isNetworkConnected}`
