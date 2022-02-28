@@ -283,23 +283,23 @@
   "selectDigitalCurrency": "Bir dijital varlık seçin",
   "selectPaymentMethod": "Şununla ödeme yap:",
   "payWithBank": "Banka hesabı",
-  "payWithCard": "Ön ödemeli kart",
+  "payWithCard": "Banka kartı",
   "payWithExchange": "Kriptopara borsası",
   "selectCashOutMethod": "Bakiye alma şekli:",
   "receiveOnAddress": "Celo adresi",
   "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
     "title": "{{appName}} için bakiye yükleme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza para yatırmak için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza para yatırmak için bölgenize hizmet veren 3. taraf sağlayıcıların birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "cashOutEducationDialog": {
-    "title": "{{appName}} uygulamasından çekim",
+    "title": "{{appName}} uygulamasından para çekme",
     "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan para çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "explanationModal": {
-    "title": "Sağlayıcılar Hakkında",
+    "title": "Hizmet Sağlayıcıları Hakkında",
     "body": "Sağlayıcılar, hesabınıza para eklemenize veya hesabınızdan para çekmenize izin verir. Çeşitli faktörlere bağlı olarak kendi oranlarını ve kısıtlamalarını belirlerler. Özel yardım için lütfen sağlayıcının web sitesini ziyaret edin."
   },
   "invalidAmountDialog": {
@@ -314,17 +314,17 @@
   },
   "providerFeesDialog": {
     "title": "Sağlayıcı Ücretleri",
-    "body1": "Sağlayıcı ücretleri, her sağlayıcı tarafından ayrı ayrı belirlenir ve diğerlerinin yanı sıra bir değişim ücreti ve likidite ücreti içerir. Daha fazla bilgi edinmek için lütfen ziyaret edin ",
+    "body1": "Sağlayıcı ücretleri, her sağlayıcı tarafından ayrı ayrı belirlenir ve başka ücretlerle birlikte değişim ve likidite ücreti içerir. Daha fazla bilgi edinmek için lütfen ziyaret edin ",
     "body2": "{{providerName}} web sitesi"
   },
   "providerFeeDiscountDialog": {
     "title": "Ücret İndirimi",
-    "body": "Valora'nın lansmanını kutlamak için bir promosyon olarak, ücretler geçici olarak düşürüldü!"
+    "body": "Valora'nın lansmanını kutlamak için ücretler geçici olarak düşürüldü!"
   },
-  "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırma konusunda desteğinizi rica ederim.",
+  "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırmak istiyorum.",
   "pleaseSelectProvider": "Lütfen aşağıdan bir sağlayıcı seçin. Bu bağlantılar bir üçüncü taraf hizmetine bağlanır.",
   "otherFundingOptions": "<0>Hesabınıza nasıl bakiye yatırılır</0> sayfasını ziyaret ederek daha fazla bakiye yatırma ve çekme yöntemi hakkında bilgi edinebilirsiniz",
-  "youCanTransferIn": "{{digitalAsset}} özelliğini destekleyen herhangi bir borsadan {{digitalAsset}} transfer edebilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
+  "youCanTransferIn": "{{digitalAsset}} destekleyen herhangi bir borsadan {{digitalAsset}} transfer edebilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
   "youCanTransferOut": "{{digitalAsset}} varlığınızı {{digitalAsset}}'i destekleyen herhangi bir borsaya aktarabilirsiniz. Adresinizi aldıktan sonra bir sonraki adıma geçebilirsiniz.",
   "useBalanceWithMerchants": "Bakiyenizi desteklenen satıcılarda kullanın",
   "findMerchants": "Yakınınızdaki yerel satıcıları bulun",
