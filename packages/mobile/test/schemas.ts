@@ -994,6 +994,19 @@ export const v35Schema = {
   },
 }
 
+export const v36Schema = {
+  ...v35Schema,
+  _persist: {
+    ...v35Schema._persist,
+    version: 36,
+  },
+  app: {
+    ...v35Schema.app,
+    maxNumRecentDapps: 0,
+    recentDapps: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v35Schema as Partial<RootState>
+  return v36Schema as Partial<RootState>
 }

@@ -438,4 +438,12 @@ export const migrations = {
     },
   }),
   35: (state: any) => state,
+  36: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      maxNumRecentDapps: 0,
+      recentDapps: [],
+    },
+  }),
 }
