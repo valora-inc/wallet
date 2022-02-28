@@ -75,6 +75,18 @@ describe('App saga', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
   })
 
+  it('Handles cash-in-success deep link', async () => {
+    const deepLink = 'celo://wallet/cash-in-success/simplex'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
+  })
+
+  it('Handles cash-in-success deep link with query params', async () => {
+    const deepLink = 'celo://wallet/cash-in-success/simplex?isApproved=true'
+    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
+  })
+
   it('Handles openScreen deep link with safe origin', async () => {
     const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeOptions}&isCashIn=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true)).run()
