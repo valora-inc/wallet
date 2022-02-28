@@ -1188,6 +1188,8 @@
     "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
+  "recentlyUsedDapps": "Kürzlich verwendete Dapps",
+  "allDapps": "Alle Dapps",
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Andere",
