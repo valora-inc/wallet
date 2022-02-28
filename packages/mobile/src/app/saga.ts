@@ -21,9 +21,11 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
+  DappSelected,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
+  openUrl,
   OpenUrlAction,
   SetAppState,
   setAppState,
@@ -183,6 +185,7 @@ export interface RemoteConfigValues {
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
+  maxNumRecentDapps: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -292,8 +295,16 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
+function* handleOpenDapp(action: DappSelected) {
+  yield call(handleOpenUrl, openUrl(action.dapp.dappUrl, true, true))
+}
+
 export function* watchOpenUrl() {
   yield takeEvery(Actions.OPEN_URL, handleOpenUrl)
+}
+
+export function* watchDappSelected() {
+  yield takeLatest(Actions.DAPP_SELECTED, handleOpenDapp)
 }
 
 function createAppStateChannel() {
@@ -339,6 +350,7 @@ export function* handleSetAppState(action: SetAppState) {
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
+  yield spawn(watchDappSelected)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
