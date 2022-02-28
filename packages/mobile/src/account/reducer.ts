@@ -35,6 +35,7 @@ export interface State {
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
   kycStatus: KycStatus | undefined
   hasLinkedBankAccount: boolean
+  finclusiveKycStatus: FinclusiveKycStatus
 }
 
 export enum PincodeType {
@@ -67,6 +68,14 @@ export enum KycStatus {
   NotCreated = 'not-created',
 }
 
+export enum FinclusiveKycStatus {
+  NotSubmitted = 0, // this represents state before sending to Finclusive. (Finclusive doesn't have this as a status.)
+  Submitted = 1, // finclusive calls this "Pending"
+  Accepted = 2,
+  Rejected = 3,
+  InReview = 4,
+}
+
 export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
@@ -97,6 +106,7 @@ export const initialState: State = {
   dailyLimitRequestStatus: undefined,
   kycStatus: undefined,
   hasLinkedBankAccount: false,
+  finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
 }
 
 export const reducer = (
@@ -276,6 +286,12 @@ export const reducer = (
       return {
         ...state,
         hasLinkedBankAccount: true,
+      }
+    }
+    case Actions.SET_FINCLUSIVE_KYC: {
+      return {
+        ...state,
+        finclusiveKycStatus: action.finclusiveKycStatus,
       }
     }
     default:

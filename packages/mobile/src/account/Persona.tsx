@@ -24,10 +24,11 @@ export interface Props {
   text?: string | undefined
   onPress?: () => any
   onCancelled?: () => any
+  onError?: () => any
   onSuccess?: () => any
 }
 
-const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) => {
+const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
@@ -71,7 +72,7 @@ const Persona = ({ kycStatus, text, onCancelled, onPress, onSuccess }: Props) =>
         Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
-        onCancelled?.()
+        onError?.()
         ValoraAnalytics.track(CICOEvents.persona_kyc_error)
         Logger.error(TAG, `Error: ${error.message}`)
       })

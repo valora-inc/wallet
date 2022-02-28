@@ -6,6 +6,7 @@ import {
   createFinclusiveBankAccount,
   exchangePlaidAccessToken,
   verifyDekAndMTW,
+  getFinclusiveComplianceStatus,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/geth/networkConfig'
@@ -226,6 +227,31 @@ describe('In House Liquidity Calls', () => {
       )
       // Returns the exchanged token
       expect(response).toEqual('bar-token')
+    })
+  })
+  describe('getFinclusiveComplianceStatus', () => {
+    it('calls the /account/{accoundAddress}/compliance-check-status endpoint', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ complianceCheckStatus: 1 }), { status: 200 })
+      const response = await getFinclusiveComplianceStatus({
+        accountMTWAddress: MOCK_USER.accountMTWAddress,
+        dekPrivate: MOCK_USER.dekPrivate,
+      })
+
+      // Calls Fetch Correctly
+      expect(mockFetch).toHaveBeenCalledWith(
+        `${networkConfig.inHouseLiquidityURL}/account/${encodeURIComponent(
+          MOCK_USER.accountMTWAddress
+        )}/compliance-check-status`,
+        {
+          headers: {
+            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            'Content-Type': 'application/json',
+          },
+          method: 'GET',
+        }
+      )
+      // Returns the exchanged token
+      expect(response).toEqual(1)
     })
   })
 })
