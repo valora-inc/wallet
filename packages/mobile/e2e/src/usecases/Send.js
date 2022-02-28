@@ -75,6 +75,19 @@ export default Send = () => {
     //   .withTimeout(60000)
   })
 
+  it('Nomspace lookup', async () => {
+    await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+      .toBeVisible()
+      .withTimeout(30000)
+    await element(by.id('SendOrRequestBar/SendButton')).tap()
+    // Look for an address and tap on it.
+    await element(by.id('SearchInput')).tap()
+    await element(by.id('SearchInput')).replaceText('Hello.nom')
+    await waitFor(element(by.id('RecipientItem')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+  })
+
   // TODO(tomm): debug why error is thrown in e2e tests
   it.skip('Request cUSD from address', async () => {
     let randomContent = faker.lorem.words()
