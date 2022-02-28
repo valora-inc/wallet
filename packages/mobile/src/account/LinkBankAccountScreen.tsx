@@ -128,11 +128,9 @@ export function StepOne() {
     }
   }
   useEffect(() => {
-    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
-      pollFinclusiveKyc()
-      const timer = setInterval(pollFinclusiveKyc, 5000)
-      return () => clearInterval(timer)
-    }
+    pollFinclusiveKyc()
+    const timer = setInterval(pollFinclusiveKyc, 5000)
+    return () => clearInterval(timer)
   }, [])
 
   const uiState = stepOneUIState({
