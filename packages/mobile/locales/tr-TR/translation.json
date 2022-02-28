@@ -1188,6 +1188,8 @@
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
+  "recentlyUsedDapps": "Recently Used Dapps",
+  "allDapps": "All Dapps",
   "rewards": "Ödüller",
   "supercharge": "Supercharge",
   "others": "Diğer",
