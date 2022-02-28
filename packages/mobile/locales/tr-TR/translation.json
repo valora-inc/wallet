@@ -608,22 +608,22 @@
   "confirmPin": {
     "title": "PIN Gir"
   },
-  "goToSystemSecuritySettingsActionLabel": "Güvenliğe git",
-  "enableSystemScreenLockFailedMessage": "Ekran kilidi etkileştirilemedi",
+  "goToSystemSecuritySettingsActionLabel": "Güvenlik ayarlarına git",
+  "enableSystemScreenLockFailedMessage": "Ekran kilidi etkinleştirilemedi",
   "initKeystoreFailureMessage": "Anahtar yöneticisi başlatılamadı",
   "pinLostForeverMessage": "Ekran kilidini devre dışını bıraktınız, PIN artık geçerli değil",
   "importContactsPermission": {
     "title": "Kişileri İçe Aktar",
     "0": "Adres defterinizi bağlamak, arkadaşlarınızla ödeme göndermeyi ve talepte bulunmayı kolaylaştırır. Aksi takdirde, bilgilerini ayrı ayrı girmeniz gerekecektir.",
-    "1": "Endişelenmeyin, bağlantı kurmak kişilerinize davet göndermez.",
-    "enable": "Kişiler Erişimine İzin Ver",
+    "1": "Adres defterinizi bağlamak kişilerinize davet göndermez.",
+    "enable": "Kişi Erişimine İzin Ver",
     "loading": "{{appName}} üzerinde arkadaşlarınızı bulmak..."
   },
   "getVerified": "Telefon Numarasını Doğrula",
   "notReadyForCode": "Kod girişi için henüz hazır değil",
   "emptyVerificationCode": "Panoda Onay Kodu Bulunmuyor",
   "invalidVerificationCode": "Geçersiz Onay Kodu",
-  "repeatVerificationCode": "Mükerrer Onay Kodu",
+  "repeatVerificationCode": "Tekrarlanan Onay Kodu",
   "revealAttestationFailure": "SMS mesajı istenirken hata oluştu",
   "verificationFailure": "Onaylama Başarısız",
   "cantVerifyRevokedAccount": "Bu hesap daha önce iptal edilmiş. Lütfen yeni bir hesap oluşturun ve tekrar deneyin.",
