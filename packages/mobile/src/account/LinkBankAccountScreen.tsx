@@ -87,16 +87,16 @@ export function stepOneUIState({
     return StepOneUIState.Completed
   }
 
-  const userCompletedPersona: KycStatus[] = [
-    KycStatus.Completed,
-    KycStatus.Approved,
-    KycStatus.NeedsReview,
+  const userCompletedPersona: KycStatus[] = [KycStatus.Completed, KycStatus.NeedsReview]
+  const finclusiveNotCompleted = [
+    FinclusiveKycStatus.Submitted,
+    FinclusiveKycStatus.InReview,
+    FinclusiveKycStatus.NotSubmitted,
   ]
-  const finclusiveNotCompleted = [FinclusiveKycStatus.Submitted, FinclusiveKycStatus.InReview]
   if (
     successFromPersona ||
     (kycStatus && userCompletedPersona.includes(kycStatus)) ||
-    finclusiveNotCompleted.includes(finclusiveKycStatus)
+    (kycStatus === KycStatus.Approved && finclusiveNotCompleted.includes(finclusiveKycStatus))
   ) {
     return StepOneUIState.Pending
   }

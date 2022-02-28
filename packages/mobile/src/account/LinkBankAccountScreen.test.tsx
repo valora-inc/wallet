@@ -138,6 +138,20 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         personaButtonSuccessCallback?.()
         await waitFor(() => getByText('linkBankAccountScreen.pending.title'))
       })
+      it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: KycStatus.Approved,
+            finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+          },
+        })
+        const { getByText } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => getByText('linkBankAccountScreen.pending.title'))
+      })
       it('shows the failure screen if the user failed with Persona', async () => {
         const store = createMockStore({
           account: {
@@ -158,6 +172,20 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         expect(navigate).toBeCalledWith(Screens.SupportContact, {
           prefilledText: 'linkBankAccountScreen.failed.contactSupportPrefill',
         })
+      })
+      it('shows the failure screen if the user failed with Finclusive', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: KycStatus.Approved,
+            finclusiveKycStatus: FinclusiveKycStatus.Rejected,
+          },
+        })
+        const { getByText } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => getByText('linkBankAccountScreen.failed.title'))
       })
       it('shows the begin screen again if the persona flow is canceled', async () => {
         const store = createMockStore({
