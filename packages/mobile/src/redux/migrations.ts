@@ -444,6 +444,7 @@ export const migrations = {
     account: {
       ...state.accout,
       finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+    },
     app: {
       ...state.app,
       maxNumRecentDapps: 0,

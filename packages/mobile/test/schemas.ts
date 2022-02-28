@@ -1003,6 +1003,7 @@ export const v36Schema = {
   account: {
     ...v35Schema.account,
     finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+  },
   app: {
     ...v35Schema.app,
     maxNumRecentDapps: 0,
