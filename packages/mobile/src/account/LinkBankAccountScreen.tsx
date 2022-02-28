@@ -83,13 +83,11 @@ export function stepOneUIState({
     return StepOneUIState.Spinner
   }
 
-  // Show the Completed Screen
   if (finclusiveKycStatus === FinclusiveKycStatus.Accepted) {
     return StepOneUIState.Completed
   }
 
-  // Show the Pending Screen
-  const userCompletedPersona: (KycStatus | undefined)[] = [
+  const userCompletedPersona: KycStatus[] = [
     KycStatus.Completed,
     KycStatus.Approved,
     KycStatus.NeedsReview,
@@ -97,23 +95,21 @@ export function stepOneUIState({
   const finclusiveNotCompleted = [FinclusiveKycStatus.Submitted, FinclusiveKycStatus.InReview]
   if (
     successFromPersona ||
-    userCompletedPersona.includes(kycStatus) ||
+    (kycStatus && userCompletedPersona.includes(kycStatus)) ||
     finclusiveNotCompleted.includes(finclusiveKycStatus)
   ) {
     return StepOneUIState.Pending
   }
 
-  // Show the Failed Screen
-  const personaFailed: (KycStatus | undefined)[] = [KycStatus.Failed, KycStatus.Declined]
+  const personaFailed: KycStatus[] = [KycStatus.Failed, KycStatus.Declined]
   if (
     errorFromPersona ||
-    personaFailed.includes(kycStatus) ||
+    (kycStatus && personaFailed.includes(kycStatus)) ||
     finclusiveKycStatus === FinclusiveKycStatus.Rejected
   ) {
     return StepOneUIState.Failure
   }
 
-  // Show Begin Screen
   return StepOneUIState.Begin
 }
 
@@ -126,8 +122,6 @@ export function StepOne() {
   const kycStatus = useSelector(kycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
 
-  // If the user's KYC has been accepted by Persona but not by Finclusive, then continuously
-  // poll finclusive for updates until the KYC is accepted
   const pollFinclusiveKyc = () => {
     if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
       dispatch(fetchFinclusiveKyc())

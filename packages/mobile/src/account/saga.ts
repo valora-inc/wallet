@@ -39,7 +39,7 @@ import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
-import { finclusiveKycStatusSelector, kycStatusSelector } from './selectors'
+import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -88,26 +88,17 @@ function* initializeAccount() {
 }
 
 export function* fetchFinclusiveKyc() {
-  const personaKycStatus = yield select(kycStatusSelector)
-  const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
+  try {
+    const accountMTWAddress = yield call(getMTWAddress)
+    const dekPrivate = yield select(dataEncryptionKeySelector)
 
-  // If a user has already been approved through Persona KYC, then we need to see if Finclusive has accepted the user's KYC yet.
-  if (
-    personaKycStatus === KycStatus.Approved &&
-    finclusiveKycStatus !== FinclusiveKycStatus.Accepted
-  ) {
-    try {
-      const accountMTWAddress = yield call(getMTWAddress)
-      const dekPrivate = yield select(dataEncryptionKeySelector)
-
-      const complianceStatus = yield call(
-        getFinclusiveComplianceStatus,
-        verifyDekAndMTW({ dekPrivate, accountMTWAddress })
-      )
-      yield put(setFinclusiveKyc(complianceStatus))
-    } catch (error) {
-      Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)
-    }
+    const complianceStatus = yield call(
+      getFinclusiveComplianceStatus,
+      verifyDekAndMTW({ dekPrivate, accountMTWAddress })
+    )
+    yield put(setFinclusiveKyc(complianceStatus))
+  } catch (error) {
+    Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)
   }
 }
 
@@ -145,10 +136,15 @@ export function* watchKycStatus() {
   try {
     while (true) {
       const kycStatus = yield take(channel)
-      Logger.debug(TAG + '@watchKycStatus', 'KYC status', kycStatus)
       if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
         yield put(updateKycStatus(kycStatus))
-        yield call(fetchFinclusiveKyc)
+        const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
+        if (
+          kycStatus === KycStatus.Approved &&
+          finclusiveKycStatus !== FinclusiveKycStatus.Accepted
+        ) {
+          yield call(fetchFinclusiveKyc)
+        }
       } else {
         Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }

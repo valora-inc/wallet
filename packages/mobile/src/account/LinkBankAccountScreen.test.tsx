@@ -70,7 +70,8 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       jest.clearAllMocks()
     })
     describe('StepOne', () => {
-      it('periodically polls ihl if KycStatus is approved but FinclusiveKycStatus is not', async () => {
+      it('periodically polls ihl if KycStatus is approved but FinclusiveKycStatus is not', () => {
+        jest.useFakeTimers()
         const store = createMockStore({
           account: {
             kycStatus: KycStatus.Approved,
@@ -78,16 +79,17 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           },
         })
         store.dispatch = jest.fn()
-        const { getByText } = render(
+        render(
           <Provider store={store}>
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.pending.title'))
         expect(store.dispatch).toHaveBeenCalledWith(fetchFinclusiveKyc())
-        await waitFor(() => expect(store.dispatch).toHaveBeenCalledTimes(2), { timeout: 6000 })
-      }, 7000)
-      it('does not poll ihl when FinclusiveKycStatus is Accepted', async () => {
+        jest.advanceTimersByTime(6000)
+        expect(store.dispatch).toHaveBeenCalledTimes(2)
+      })
+      it('does not poll ihl when FinclusiveKycStatus is Accepted', () => {
+        jest.useFakeTimers()
         const store = createMockStore({
           account: {
             kycStatus: KycStatus.Approved,
@@ -95,14 +97,14 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           },
         })
         store.dispatch = jest.fn()
-        const { getByText } = render(
+        render(
           <Provider store={store}>
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.completed.title'))
-        await waitFor(() => expect(store.dispatch).toHaveBeenCalledTimes(0), { timeout: 6000 })
-      }, 7000)
+        jest.advanceTimersByTime(6000)
+        expect(store.dispatch).toHaveBeenCalledTimes(0)
+      })
       it('shows the spinner if the user just clicked persona', async () => {
         const store = createMockStore({
           account: {
