@@ -1188,6 +1188,8 @@
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
+  "recentlyUsedDapps": "Dapps récemment utilisés",
+  "allDapps": "Toutes les Dapps",
   "rewards": "Récompenses",
   "supercharge": "Supercharge",
   "others": "Autres",

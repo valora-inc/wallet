@@ -1188,6 +1188,8 @@
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
+  "recentlyUsedDapps": "Dapps Recentemente Usados",
+  "allDapps": "Todos os Dapps",
   "rewards": "Recompensas",
   "supercharge": "Supercharge",
   "others": "Outros",

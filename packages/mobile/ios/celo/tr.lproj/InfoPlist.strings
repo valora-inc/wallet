@@ -1,8 +1,8 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
-"NSCameraUsageDescription" = "Kameraya izin vermek, ödemeler için kodları taramanıza olanak sağlar.";
-"NSContactsUsageDescription" = "Kişilerinizi eklemek, arkadaşlarınıza ödeme göndermeyi ve ödeme talebinde bulunmayı kolaylaştırır.";
+"NSCameraUsageDescription" = "Kamera izni ödemeler için kodları taramanıza olanak sağlar.";
+"NSContactsUsageDescription" = "Kişilerinizi eklemeniz, arkadaşlarınıza ödeme göndermeyi ve ödeme talebinde bulunmayı kolaylaştırır.";
 "NSPhotoLibraryAddUsageDescription" = "Fotoğraf kitaplığınızı bağlamak, kodunuzu fotoğraflarınıza kaydetmenize olanak tanır.";
 "NSPhotoLibraryUsageDescription" = "Profil resmi seçmeniz için gereklidir.";
-"NSUserTrackingUsageDescription" = "Reklam kampanyaları üzerinden uygulama yüklemelerini doğru bir şekilde ilişkilendirmek için reklam tanımlayıcısını kullanılmaktadır.";
+"NSUserTrackingUsageDescription" = "Reklam kampanyaları ile uygulama yüklemelerini ilişkilendirmek için reklam tanımlayıcı kullanılmaktadır.";
 "NSFaceIDUsageDescription" = "Hesabınızın güvenliğini sağlamak için Face ID kullanmanız gereklidir.";
