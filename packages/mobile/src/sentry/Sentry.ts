@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
 import { sentryTracesSampleRateSelector } from 'src/app/selectors'
-import { DEFAULT_FORNO_URL, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
+import { APP_BUNDLE_ID, DEFAULT_FORNO_URL, SENTRY_CLIENT_URL, SENTRY_ENABLED } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -21,6 +21,15 @@ export function* initializeSentry() {
 
   if (!SENTRY_CLIENT_URL) {
     Logger.info(TAG, 'installSentry', 'Sentry URL not found, skipping installation')
+    return
+  }
+
+  // Tentative to avoid Sentry reports from apps that modified the bundle id from published builds
+  // We're not yet sure who/what does that. Suspecting an automated tool testing the published builds.
+  // It's polluting the Sentry dashboard unnecessarily, since the environment is based on the bundle id.
+  const bundleId = DeviceInfo.getBundleId()
+  if (bundleId !== APP_BUNDLE_ID) {
+    Logger.info(TAG, 'Sentry skipped for this app')
     return
   }
 
