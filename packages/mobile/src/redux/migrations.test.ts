@@ -1,3 +1,4 @@
+import { PersonaKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
@@ -13,6 +14,7 @@ import {
   v1Schema,
   v21Schema,
   v28Schema,
+  v35Schema,
   v2Schema,
   v7Schema,
   v8Schema,
@@ -406,5 +408,18 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema.web3.fornoMode).toBe(true)
     expect(migratedSchema.web3.hadFornoDisabled).toBe(true)
+  })
+
+  it('works for v35 to v36', () => {
+    const v35Stub = {
+      ...v35Schema,
+      account: {
+        ...v35Schema.account,
+        kycStatus: PersonaKycStatus.Approved,
+      },
+    }
+    const migratedSchema = migrations[36](v35Stub)
+
+    expect(migratedSchema.account.personaKycStatus).toEqual(v35Stub.account.kycStatus)
   })
 })
