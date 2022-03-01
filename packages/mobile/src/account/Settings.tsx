@@ -29,7 +29,7 @@ import {
   setPincodeSuccess,
   toggleBackupState,
 } from 'src/account/actions'
-import { KycStatus, PincodeType } from 'src/account/reducer'
+import { PersonaKycStatus, PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -98,7 +98,7 @@ interface StateProps {
   biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
   linkBankAccountEnabled: boolean
-  kycStatus: KycStatus | undefined
+  personaKycStatus: PersonaKycStatus | undefined
   mtwAddress: string | null
   hasLinkedBankAccount: boolean
   linkBankAccountStepTwoEnabled: boolean
@@ -130,7 +130,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
-    kycStatus: state.account.kycStatus,
+    personaKycStatus: state.account.personaKycStatus,
     mtwAddress: state.web3.mtwAddress,
     hasLinkedBankAccount: state.account.hasLinkedBankAccount,
     linkBankAccountStepTwoEnabled: state.app.linkBankAccountStepTwoEnabled,
@@ -179,7 +179,7 @@ export class Account extends React.Component<Props, State> {
   goToLinkBankAccount = () => {
     ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
     navigate(Screens.LinkBankAccountScreen, {
-      kycStatus: this.props.kycStatus,
+      personaKycStatus: this.props.personaKycStatus,
     })
   }
 
@@ -425,7 +425,7 @@ export class Account extends React.Component<Props, State> {
 
   getLinkBankAccountSettingItem() {
     const {
-      kycStatus,
+      personaKycStatus,
       linkBankAccountEnabled,
       hasLinkedBankAccount,
       mtwAddress,
@@ -453,12 +453,12 @@ export class Account extends React.Component<Props, State> {
     // User has not yet fully submitted their KYC info
     const stillNeedsToDoPersona = [
       undefined,
-      KycStatus.NotCreated,
-      KycStatus.Created,
-      KycStatus.Pending,
-      KycStatus.Expired,
+      PersonaKycStatus.NotCreated,
+      PersonaKycStatus.Created,
+      PersonaKycStatus.Pending,
+      PersonaKycStatus.Expired,
     ]
-    if (stillNeedsToDoPersona.includes(kycStatus)) {
+    if (stillNeedsToDoPersona.includes(personaKycStatus)) {
       return (
         <SettingsItemTextValue
           title={t('linkBankAccountSettingsTitle')}
@@ -470,7 +470,7 @@ export class Account extends React.Component<Props, State> {
       )
     }
     // User has gone through KYC but either KYC has not been Approved or step 2 is not enabled
-    if (kycStatus !== KycStatus.Approved || !linkBankAccountStepTwoEnabled) {
+    if (personaKycStatus !== PersonaKycStatus.Approved || !linkBankAccountStepTwoEnabled) {
       return (
         <SettingsItemTextValue
           title={t('linkBankAccountSettingsTitle')}

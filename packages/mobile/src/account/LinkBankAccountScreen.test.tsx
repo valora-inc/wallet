@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { StepOne, StepTwo } from 'src/account/LinkBankAccountScreen'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, PersonaKycStatus } from 'src/account/reducer'
 import PersonaButton from './Persona'
 import Button from '@celo/react-components/components/Button'
 import openPlaid from 'src/account/openPlaid'
@@ -70,11 +70,11 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       jest.clearAllMocks()
     })
     describe('StepOne', () => {
-      it('periodically polls ihl if KycStatus is approved but FinclusiveKycStatus is not', () => {
+      it('periodically polls ihl if PersonaKycStatus is approved but FinclusiveKycStatus is not', () => {
         jest.useFakeTimers()
         const store = createMockStore({
           account: {
-            kycStatus: KycStatus.Approved,
+            personaKycStatus: PersonaKycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.InReview,
           },
         })
@@ -92,7 +92,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         jest.useFakeTimers()
         const store = createMockStore({
           account: {
-            kycStatus: KycStatus.Approved,
+            personaKycStatus: PersonaKycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
           },
         })
@@ -108,7 +108,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the spinner if the user just clicked persona', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: undefined,
+            personaKycStatus: undefined,
             finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
           },
         })
@@ -124,7 +124,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the pending screen if the user suceeded with Persona', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: undefined,
+            personaKycStatus: undefined,
             finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
           },
         })
@@ -141,7 +141,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: KycStatus.Approved,
+            personaKycStatus: PersonaKycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
           },
         })
@@ -155,7 +155,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the failure screen if the user failed with Persona', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: undefined,
+            personaKycStatus: undefined,
             finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
           },
         })
@@ -176,7 +176,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the failure screen if the user failed with Finclusive', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: KycStatus.Approved,
+            personaKycStatus: PersonaKycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Rejected,
           },
         })
@@ -190,7 +190,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the begin screen again if the persona flow is canceled', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: undefined,
+            personaKycStatus: undefined,
             finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
           },
         })
@@ -207,7 +207,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('shows the completed screen if finclusiveKycStatus is Accepted', async () => {
         const store = createMockStore({
           account: {
-            kycStatus: KycStatus.Approved,
+            personaKycStatus: PersonaKycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
           },
         })

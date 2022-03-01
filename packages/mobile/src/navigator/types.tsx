@@ -1,6 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
-import { KycStatus } from 'src/account/reducer'
+import { PersonaKycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -300,7 +300,7 @@ export type StackParamList = {
         error?: Error | LinkError
       }
     | undefined
-  [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
+  [Screens.LinkBankAccountScreen]: { personaKycStatus: PersonaKycStatus | undefined }
   [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
     | {

@@ -11,10 +11,10 @@ import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import PersonaButton from 'src/account/Persona'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, PersonaKycStatus } from 'src/account/reducer'
 import {
   finclusiveKycStatusSelector,
-  kycStatusSelector,
+  personaKycStatusSelector,
   plaidParamsSelector,
 } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
@@ -55,7 +55,7 @@ function LinkBankAccountScreen() {
 }
 
 interface StepOneUIStateParams {
-  kycStatus: KycStatus | undefined
+  personaKycStatus: PersonaKycStatus | undefined
   finclusiveKycStatus: FinclusiveKycStatus
   errorFromPersona: boolean
   successFromPersona: boolean
@@ -70,7 +70,7 @@ enum StepOneUIState {
   Spinner = 'Spinner',
 }
 export function stepOneUIState({
-  kycStatus,
+  personaKycStatus,
   finclusiveKycStatus,
   errorFromPersona,
   successFromPersona,
@@ -87,7 +87,10 @@ export function stepOneUIState({
     return StepOneUIState.Completed
   }
 
-  const userCompletedPersona: KycStatus[] = [KycStatus.Completed, KycStatus.NeedsReview]
+  const userCompletedPersona: PersonaKycStatus[] = [
+    PersonaKycStatus.Completed,
+    PersonaKycStatus.NeedsReview,
+  ]
   const finclusiveNotCompleted = [
     FinclusiveKycStatus.Submitted,
     FinclusiveKycStatus.InReview,
@@ -95,16 +98,17 @@ export function stepOneUIState({
   ]
   if (
     successFromPersona ||
-    (kycStatus && userCompletedPersona.includes(kycStatus)) ||
-    (kycStatus === KycStatus.Approved && finclusiveNotCompleted.includes(finclusiveKycStatus))
+    (personaKycStatus && userCompletedPersona.includes(personaKycStatus)) ||
+    (personaKycStatus === PersonaKycStatus.Approved &&
+      finclusiveNotCompleted.includes(finclusiveKycStatus))
   ) {
     return StepOneUIState.Pending
   }
 
-  const personaFailed: KycStatus[] = [KycStatus.Failed, KycStatus.Declined]
+  const personaFailed: PersonaKycStatus[] = [PersonaKycStatus.Failed, PersonaKycStatus.Declined]
   if (
     errorFromPersona ||
-    (kycStatus && personaFailed.includes(kycStatus)) ||
+    (personaKycStatus && personaFailed.includes(personaKycStatus)) ||
     finclusiveKycStatus === FinclusiveKycStatus.Rejected
   ) {
     return StepOneUIState.Failure
@@ -119,11 +123,14 @@ export function StepOne() {
   const [isInPersonaFlow, setIsInPersonaFlow] = useState(false)
   const [errorFromPersona, setErrorFromPersona] = useState(false)
   const [successFromPersona, setSuccessFromPersona] = useState(false)
-  const kycStatus = useSelector(kycStatusSelector)
+  const personaKycStatus = useSelector(personaKycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
 
   const pollFinclusiveKyc = () => {
-    if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
+    if (
+      personaKycStatus === PersonaKycStatus.Approved &&
+      finclusiveKycStatus !== FinclusiveKycStatus.Accepted
+    ) {
       dispatch(fetchFinclusiveKyc())
     }
   }
@@ -134,7 +141,7 @@ export function StepOne() {
   }, [])
 
   const uiState = stepOneUIState({
-    kycStatus,
+    personaKycStatus,
     finclusiveKycStatus,
     errorFromPersona,
     successFromPersona,
@@ -188,7 +195,7 @@ export function StepOne() {
           <Text style={styles.description}>{t('linkBankAccountScreen.failed.description')}</Text>
           <View style={styles.button}>
             <PersonaButton
-              kycStatus={kycStatus}
+              personaKycStatus={personaKycStatus}
               text={t('linkBankAccountScreen.tryAgain')}
               onPress={onPressPersona}
               onSuccess={onSuccessPersona}
@@ -228,7 +235,7 @@ export function StepOne() {
           <Text style={styles.description}>{t('linkBankAccountScreen.begin.description')}</Text>
           <View style={styles.button}>
             <PersonaButton
-              kycStatus={kycStatus}
+              personaKycStatus={personaKycStatus}
               text={t('linkBankAccountScreen.begin.cta')}
               onPress={onPressPersona}
               onSuccess={onSuccessPersona}

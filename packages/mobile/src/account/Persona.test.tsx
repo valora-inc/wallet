@@ -4,7 +4,7 @@ import 'react-native'
 import Inquiry from 'react-native-persona'
 import { Provider } from 'react-redux'
 import Persona, { Props } from 'src/account/Persona'
-import { KycStatus } from 'src/account/reducer'
+import { PersonaKycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
 import { createPersonaAccount } from 'src/in-house-liquidity'
@@ -49,7 +49,7 @@ describe('Persona', () => {
 
   it('renders correctly', () => {
     const personaProps: Props = {
-      kycStatus: KycStatus.Created,
+      personaKycStatus: PersonaKycStatus.Created,
     }
 
     const { toJSON } = render(
@@ -62,7 +62,7 @@ describe('Persona', () => {
 
   it('calls IHL to create a persona account if launching the first time', async () => {
     const personaProps: Props = {
-      kycStatus: undefined,
+      personaKycStatus: undefined,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -78,7 +78,7 @@ describe('Persona', () => {
 
   it('launches persona on button press', async () => {
     const personaProps: Props = {
-      kycStatus: KycStatus.Created,
+      personaKycStatus: PersonaKycStatus.Created,
     }
     const { getByTestId } = render(
       <Provider store={store}>
@@ -94,7 +94,7 @@ describe('Persona', () => {
 
   it('calls onSuccess callback on inquiry success', async () => {
     const personaProps: Props = {
-      kycStatus: KycStatus.Created,
+      personaKycStatus: PersonaKycStatus.Created,
       onSuccess: jest.fn(),
     }
     const { getByTestId } = render(
@@ -115,7 +115,7 @@ describe('Persona', () => {
   })
   it('calls onCancelled callback on inquiry cancel', async () => {
     const personaProps: Props = {
-      kycStatus: KycStatus.Created,
+      personaKycStatus: PersonaKycStatus.Created,
       onCancelled: jest.fn(),
     }
     const { getByTestId } = render(
@@ -136,7 +136,7 @@ describe('Persona', () => {
   })
   it('calls onError callback on inquiry error', async () => {
     const personaProps: Props = {
-      kycStatus: KycStatus.Created,
+      personaKycStatus: PersonaKycStatus.Created,
       onError: jest.fn(),
     }
     const { getByTestId } = render(

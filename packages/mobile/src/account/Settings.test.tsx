@@ -4,7 +4,7 @@ import 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
-import { KycStatus, PincodeType } from 'src/account/reducer'
+import { PersonaKycStatus, PincodeType } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -156,7 +156,7 @@ describe('Account', () => {
     const baseStore = {
       account: {
         e164PhoneNumber: mockE164Number,
-        kycStatus: undefined,
+        personaKycStatus: undefined,
         hasLinkedBankAccount: false,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
@@ -216,7 +216,7 @@ describe('Account', () => {
         ...baseStore,
         account: {
           ...baseStore.account,
-          kycStatus: KycStatus.Created,
+          personaKycStatus: PersonaKycStatus.Created,
         },
       }
       const { getByTestId, queryByText } = render(
@@ -229,7 +229,7 @@ describe('Account', () => {
 
       fireEvent.press(getByTestId('linkBankAccountSettings'))
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
-        kycStatus: KycStatus.Created,
+        personaKycStatus: PersonaKycStatus.Created,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
     })
@@ -238,7 +238,7 @@ describe('Account', () => {
         ...baseStore,
         account: {
           ...baseStore.account,
-          kycStatus: KycStatus.Declined,
+          personaKycStatus: PersonaKycStatus.Declined,
         },
       }
       const { getByTestId, queryByText } = render(
@@ -251,7 +251,7 @@ describe('Account', () => {
 
       fireEvent.press(getByTestId('linkBankAccountSettings'))
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
-        kycStatus: KycStatus.Declined,
+        personaKycStatus: PersonaKycStatus.Declined,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
     })
@@ -260,7 +260,7 @@ describe('Account', () => {
         ...baseStore,
         account: {
           ...baseStore.account,
-          kycStatus: KycStatus.Approved,
+          personaKycStatus: PersonaKycStatus.Approved,
         },
         app: {
           ...baseStore.app,
@@ -277,7 +277,7 @@ describe('Account', () => {
 
       fireEvent.press(getByTestId('linkBankAccountSettings'))
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
-        kycStatus: KycStatus.Approved,
+        personaKycStatus: PersonaKycStatus.Approved,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
     })
@@ -286,7 +286,7 @@ describe('Account', () => {
         ...baseStore,
         account: {
           ...baseStore.account,
-          kycStatus: KycStatus.Approved,
+          personaKycStatus: PersonaKycStatus.Approved,
         },
         app: {
           ...baseStore.app,
@@ -303,7 +303,7 @@ describe('Account', () => {
 
       fireEvent.press(getByTestId('linkBankAccountSettings'))
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
-        kycStatus: KycStatus.Approved,
+        personaKycStatus: PersonaKycStatus.Approved,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
     })
@@ -312,7 +312,7 @@ describe('Account', () => {
         ...baseStore,
         account: {
           ...baseStore.account,
-          kycStatus: KycStatus.Approved,
+          personaKycStatus: PersonaKycStatus.Approved,
           hasLinkedBankAccount: true,
         },
         app: {

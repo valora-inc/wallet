@@ -33,7 +33,7 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
-  kycStatus: KycStatus | undefined
+  personaKycStatus: PersonaKycStatus | undefined
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
 }
@@ -56,7 +56,7 @@ export enum DailyLimitRequestStatus {
   Denied = 'Denied',
 }
 
-export enum KycStatus {
+export enum PersonaKycStatus {
   Created = 'created',
   Completed = 'completed',
   Failed = 'failed',
@@ -104,7 +104,7 @@ export const initialState: State = {
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dailyLimitRequestStatus: undefined,
-  kycStatus: undefined,
+  personaKycStatus: undefined,
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
 }
@@ -265,10 +265,10 @@ export const reducer = (
         ...state,
         dailyLimitRequestStatus: action.dailyLimitRequestStatus,
       }
-    case Actions.UPDATE_KYC_STATUS:
+    case Actions.UPDATE_PERSONA_KYC_STATUS:
       return {
         ...state,
-        kycStatus: action.kycStatus,
+        personaKycStatus: action.personaKycStatus,
       }
     case Web3Actions.SET_ACCOUNT: {
       return {

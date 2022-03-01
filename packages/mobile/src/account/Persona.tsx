@@ -6,7 +6,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Inquiry, { InquiryAttributes } from 'react-native-persona'
 import { useDispatch, useSelector } from 'react-redux'
-import { KycStatus } from 'src/account/reducer'
+import { PersonaKycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -20,7 +20,7 @@ import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selector
 const TAG = 'PERSONA'
 
 export interface Props {
-  kycStatus: KycStatus | undefined
+  personaKycStatus: PersonaKycStatus | undefined
   text?: string | undefined
   onPress?: () => any
   onCancelled?: () => any
@@ -28,9 +28,9 @@ export interface Props {
   onSuccess?: () => any
 }
 
-const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: Props) => {
+const Persona = ({ personaKycStatus, text, onCancelled, onError, onPress, onSuccess }: Props) => {
   const { t } = useTranslation()
-  const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
+  const [personaAccountCreated, setPersonaAccountCreated] = useState(!!personaKycStatus)
 
   const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)

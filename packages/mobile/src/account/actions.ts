@@ -1,7 +1,7 @@
 import {
   DailyLimitRequestStatus,
   FinclusiveKycStatus,
-  KycStatus,
+  PersonaKycStatus,
   PincodeType,
 } from 'src/account/reducer'
 
@@ -35,7 +35,7 @@ export enum Actions {
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
-  UPDATE_KYC_STATUS = 'ACCOUNT/UPDATE_KYC_STATUS',
+  UPDATE_PERSONA_KYC_STATUS = 'ACCOUNT/UPDATE_PERSONA_KYC_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
   SET_HAS_LINKED_BANK_ACCOUNT = 'ACCOUNT/SET_HAS_LINKED_BANK_ACCOUNT',
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
@@ -171,9 +171,9 @@ export interface UpdateDailyLimitRequestStatusAction {
   dailyLimitRequestStatus: DailyLimitRequestStatus
 }
 
-export interface UpdateKycStatusAction {
-  type: Actions.UPDATE_KYC_STATUS
-  kycStatus?: KycStatus
+export interface UpdatePersonaKycStatusAction {
+  type: Actions.UPDATE_PERSONA_KYC_STATUS
+  personaKycStatus?: PersonaKycStatus
 }
 
 export interface SetHasLinkedBankAccount {
@@ -218,7 +218,7 @@ export type ActionTypes =
   | ProfileUploadedAction
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
-  | UpdateKycStatusAction
+  | UpdatePersonaKycStatusAction
   | SetHasLinkedBankAccount
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
@@ -382,9 +382,11 @@ export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) =
   dailyLimitRequestStatus: status,
 })
 
-export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
-  type: Actions.UPDATE_KYC_STATUS,
-  kycStatus,
+export const updatePersonaKycStatus = (
+  personaKycStatus?: PersonaKycStatus
+): UpdatePersonaKycStatusAction => ({
+  type: Actions.UPDATE_PERSONA_KYC_STATUS,
+  personaKycStatus,
 })
 
 export const setHasLinkedBankAccount = (): SetHasLinkedBankAccount => ({

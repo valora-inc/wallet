@@ -15,18 +15,22 @@ import {
   ClearStoredAccountAction,
   initializeAccountSuccess,
   updateCusdDailyLimit,
-  updateKycStatus,
+  updatePersonaKycStatus,
   setFinclusiveKyc,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, PersonaKycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
-import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
+import {
+  cUsdDailyLimitChannel,
+  firebaseSignOut,
+  personaKycStatusChannel,
+} from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
 import { getFinclusiveComplianceStatus, verifyDekAndMTW } from 'src/in-house-liquidity'
@@ -126,31 +130,38 @@ export function* watchDailyLimit() {
   }
 }
 
-export function* watchKycStatus() {
+export function* watchPersonaKycStatus() {
   const mtwAddress = yield call(getMTWAddress)
-  const channel = yield call(kycStatusChannel, mtwAddress)
+  const channel = yield call(personaKycStatusChannel, mtwAddress)
 
   if (!channel) {
     return
   }
   try {
     while (true) {
-      const kycStatus = yield take(channel)
-      if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
-        yield put(updateKycStatus(kycStatus))
+      const personaKycStatus = yield take(channel)
+      if (
+        personaKycStatus === undefined ||
+        Object.values(PersonaKycStatus).includes(personaKycStatus)
+      ) {
+        yield put(updatePersonaKycStatus(personaKycStatus))
         const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
         if (
-          kycStatus === KycStatus.Approved &&
+          personaKycStatus === PersonaKycStatus.Approved &&
           finclusiveKycStatus !== FinclusiveKycStatus.Accepted
         ) {
           yield call(fetchFinclusiveKyc)
         }
       } else {
-        Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
+        Logger.warn(
+          `${TAG}@watchPersonaKycStatus`,
+          'Persona KYC status is invalid or non-existant',
+          personaKycStatus
+        )
       }
     }
   } catch (error) {
-    Logger.error(`${TAG}@watchKycStatus`, 'Failed to update KYC status', error)
+    Logger.error(`${TAG}@watchPersonaKycStatus`, 'Failed to update KYC status', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
@@ -180,7 +191,7 @@ export function* accountSaga() {
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
   yield spawn(watchDailyLimit)
-  yield spawn(watchKycStatus)
+  yield spawn(watchPersonaKycStatus)
   yield spawn(registerAccountDek)
   yield spawn(watchFetchFinclusiveKYC)
 }
