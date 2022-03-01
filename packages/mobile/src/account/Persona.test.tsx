@@ -113,4 +113,46 @@ describe('Persona', () => {
     mockInquiryBuilder.onSuccess.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onSuccess callback
     expect(personaProps.onSuccess).toHaveBeenCalled()
   })
+  it('calls onCancelled callback on inquiry cancel', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      onCancelled: jest.fn(),
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+
+    fireEvent.press(getByTestId('PersonaButton'))
+    expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
+
+    expect(mockInquiryBuilder.onCancelled).toHaveBeenCalled()
+    expect(personaProps.onCancelled).not.toHaveBeenCalled()
+    mockInquiryBuilder.onCancelled.mock.calls?.[0]?.[0]?.() // simulate Persona invoking the onCancelled callback
+    expect(personaProps.onCancelled).toHaveBeenCalled()
+  })
+  it('calls onError callback on inquiry error', async () => {
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
+      onError: jest.fn(),
+    }
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Persona {...personaProps} />
+      </Provider>
+    )
+
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+
+    fireEvent.press(getByTestId('PersonaButton'))
+    expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
+
+    expect(mockInquiryBuilder.onError).toHaveBeenCalled()
+    expect(personaProps.onError).not.toHaveBeenCalled()
+    mockInquiryBuilder.onError.mock.calls?.[0]?.[0]?.({ message: 'error' }) // simulate Persona invoking the onError callback
+    expect(personaProps.onError).toHaveBeenCalled()
+  })
 })

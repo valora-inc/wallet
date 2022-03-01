@@ -3,11 +3,44 @@ import jwt from 'jsonwebtoken'
 import KeyEncoder from 'key-encoder'
 import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
+import { FinclusiveKycStatus } from 'src/account/reducer'
 
 const keyEncoder = new KeyEncoder('secp256k1')
 interface RequiredParams {
   accountMTWAddress: string
   dekPrivate: string
+}
+
+/**
+ * get the status of a users finclusive compliance check aka their KYC status
+ *
+ *
+ * @param {params.accountMTWAddress} accountAddress
+ * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @returns {FinclusiveKycStatus} the users current status
+ */
+export const getFinclusiveComplianceStatus = async ({
+  accountMTWAddress,
+  dekPrivate,
+}: RequiredParams): Promise<FinclusiveKycStatus> => {
+  const response = await signAndFetch({
+    path: `/account/${encodeURIComponent(accountMTWAddress)}/compliance-check-status`,
+    accountMTWAddress,
+    dekPrivate,
+    requestOptions: {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  })
+  if (!response.ok) {
+    throw new Error(
+      `IHL GET /account/:accountAddress/compliance-check-status failure status ${response.status}`
+    )
+  }
+  const { complianceCheckStatus } = await response.json()
+  return complianceCheckStatus
 }
 
 type DeleteFinclusiveBankAccountParams = RequiredParams & {

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { PincodeType } from 'src/account/reducer'
+import { FinclusiveKycStatus, PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
@@ -994,6 +994,23 @@ export const v35Schema = {
   },
 }
 
+export const v36Schema = {
+  ...v35Schema,
+  _persist: {
+    ...v35Schema._persist,
+    version: 36,
+  },
+  account: {
+    ...v35Schema.account,
+    finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+  },
+  app: {
+    ...v35Schema.app,
+    maxNumRecentDapps: 0,
+    recentDapps: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v35Schema as Partial<RootState>
+  return v36Schema as Partial<RootState>
 }
