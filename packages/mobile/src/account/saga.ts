@@ -1,15 +1,25 @@
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
-import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  select,
+  put,
+  spawn,
+  take,
+  takeEvery,
+  takeLeading,
+} from 'redux-saga/effects'
 import {
   Actions,
   ClearStoredAccountAction,
   initializeAccountSuccess,
   updateCusdDailyLimit,
   updateKycStatus,
+  setFinclusiveKyc,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
-import { KycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -19,6 +29,7 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
+import { getFinclusiveComplianceStatus, verifyDekAndMTW } from 'src/in-house-liquidity'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeAccountLocally } from 'src/pincode/authentication'
@@ -27,6 +38,8 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
+import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -74,6 +87,21 @@ function* initializeAccount() {
   }
 }
 
+export function* fetchFinclusiveKyc() {
+  try {
+    const accountMTWAddress = yield call(getMTWAddress)
+    const dekPrivate = yield select(dataEncryptionKeySelector)
+
+    const complianceStatus = yield call(
+      getFinclusiveComplianceStatus,
+      verifyDekAndMTW({ dekPrivate, accountMTWAddress })
+    )
+    yield put(setFinclusiveKyc(complianceStatus))
+  } catch (error) {
+    Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)
+  }
+}
+
 export function* watchDailyLimit() {
   const account = yield call(getWalletAddress)
   const channel = yield call(cUsdDailyLimitChannel, account)
@@ -110,6 +138,13 @@ export function* watchKycStatus() {
       const kycStatus = yield take(channel)
       if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
         yield put(updateKycStatus(kycStatus))
+        const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
+        if (
+          kycStatus === KycStatus.Approved &&
+          finclusiveKycStatus !== FinclusiveKycStatus.Accepted
+        ) {
+          yield call(fetchFinclusiveKyc)
+        }
       } else {
         Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }
@@ -136,6 +171,10 @@ export function* watchSaveNameAndPicture() {
   yield takeEvery(Actions.SAVE_NAME_AND_PICTURE, uploadNameAndPicture)
 }
 
+export function* watchFetchFinclusiveKYC() {
+  yield takeLeading(Actions.FETCH_FINCLUSIVE_KYC, fetchFinclusiveKyc)
+}
+
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
@@ -143,4 +182,5 @@ export function* accountSaga() {
   yield spawn(watchDailyLimit)
   yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
+  yield spawn(watchFetchFinclusiveKYC)
 }
