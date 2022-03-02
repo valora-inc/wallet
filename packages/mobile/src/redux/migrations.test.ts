@@ -1,3 +1,4 @@
+import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
@@ -13,6 +14,7 @@ import {
   v1Schema,
   v21Schema,
   v28Schema,
+  v35Schema,
   v2Schema,
   v7Schema,
   v8Schema,
@@ -406,5 +408,16 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema.web3.fornoMode).toBe(true)
     expect(migratedSchema.web3.hadFornoDisabled).toBe(true)
+  })
+  it('works for v35 to v36', () => {
+    const oldSchema = v35Schema
+    const migratedSchema = migrations[36](oldSchema)
+
+    const expectedSchema: any = { ...oldSchema }
+    expectedSchema.account.finclusiveKycStatus = FinclusiveKycStatus.NotSubmitted
+    expectedSchema.app.maxNumRecentDapps = 0
+    expectedSchema.app.recentDapps = []
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
   })
 })
