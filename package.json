@@ -108,6 +108,7 @@
     "trim-newlines": "^4.0.2",
     "glob-parent": "^5.1.2",
     "node-fetch": "^2.6.7",
-    "simple-get":"^4.0.1"
+    "simple-get":"^4.0.1",
+    "plist": "^3.0.4"
   }
 }
