@@ -442,7 +442,7 @@ export const migrations = {
   36: (state: any) => ({
     ...state,
     account: {
-      ...state.accout,
+      ...state.account,
       finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
     },
     app: {
