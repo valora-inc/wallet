@@ -19,11 +19,13 @@ interface BaseToken {
 export interface StoredTokenBalance extends BaseToken {
   balance: string | null
   usdPrice: string
+  last24hoursPrice?: string
 }
 
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
+  last24hoursPrice?: BigNumber
 }
 
 export interface StoredTokenBalances {

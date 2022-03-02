@@ -7,6 +7,7 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
@@ -61,12 +62,20 @@ function TokenBalancesScreen({ navigation }: Props) {
             testID={`tokenBalance:${token.symbol}`}
           />
           {token.usdPrice?.gt(0) && (
-            <TokenDisplay
-              amount={new BigNumber(token.balance!)}
-              tokenAddress={token.address}
-              style={styles.subtext}
-              testID={`tokenLocalBalance:${token.symbol}`}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              {token.last24hoursPrice && (
+                <PercentageIndicator
+                  comparedValue={token.last24hoursPrice}
+                  currentValue={token.usdPrice}
+                />
+              )}
+              <TokenDisplay
+                amount={new BigNumber(token.balance!)}
+                tokenAddress={token.address}
+                style={{ ...styles.subtext, marginLeft: 8 }}
+                testID={`tokenLocalBalance:${token.symbol}`}
+              />
+            </View>
           )}
         </View>
       </View>
