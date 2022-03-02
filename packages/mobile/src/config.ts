@@ -71,6 +71,8 @@ export const DEFAULT_FORNO_URL =
     : 'https://alfajores-forno.celo-testnet.org/'
 export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
+export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
+
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
