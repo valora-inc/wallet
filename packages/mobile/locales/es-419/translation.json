@@ -180,10 +180,10 @@
   "superchargeDescription": "Consigue {{apy}}nnual de tu saldo {{token}} . Aquí tienes cómo empezar:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeMinimumBalance": "Añade un saldo mínimo de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Maximiza las recompensas añadiendo {{amount}} {{token}}",
+  "superchargeDisclaimer": "Maximiza las recompensas sumando hasta {{amount}} {{token}}",
   "superchargeTokenDetailsDialog": {
     "title": "¿Qué activos puedo sobrecargar?",
-    "body": "Con la Supercarga, obtienes recompensas semanales sobre tu mayor saldo de Celo stablecoin (cEUR, cUSD, cREAL, etc.).",
+    "body": "Recibirás una recompensa semanal por tu stablecoin Celo de mayor valor (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Tu {{token}} está siendo Supercargado",

@@ -180,10 +180,10 @@
   "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
-  "superchargeDisclaimer": "Maksimum ödül kazanmak için daha fazla {{amount}} {{token}} ekleyin",
+  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
-    "body": "Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) haftalık ödüller kazanırsınız.",
+    "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
@@ -651,7 +651,7 @@
   },
   "skipModal": {
     "header": "Onaylamayı atla?",
-    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza değer göndermesine olanak tanır.",
+    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza varlık göndermesine olanak tanır.",
     "body2": "Onay almadan da ödeme gönderebilirsiniz, ancak bunu yalnızca Hesap Adreslerini veya kare kod kullanarak yapabilirsiniz."
   },
   "failModal": {
@@ -660,7 +660,7 @@
     "body2": "Şimdilik onay işlemini atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
     "body1InsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlamak için yeterli değil.",
     "body2InsufficientBalance": "Cüzdanınıza para eklediğinizde lütfen tekrar deneyin.",
-    "body1SaltQuotaExceeded": "Telefon numarası adresi araması kotanız doldu",
+    "body1SaltQuotaExceeded": "Telefon numarası adres kotanız doldu",
     "body2SaltQuotaExceeded": "Daha fazla arama satın aldığınızda lütfen tekrar deneyin",
     "enterCodesBody": "SMS yoluyla zaten üç kod aldıysanız, bu kodları yine de girebilirsiniz.",
     "enterCodesButton": "Kodları girin"
@@ -798,14 +798,14 @@
     "back": "Geri Dön"
   },
   "emptyAccount": {
-    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misin?",
+    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misiniz?",
     "useAccount": "Hesabı kullan",
     "title": "Bakiye <0></0>"
   },
   "success": {
     "message": "Her şey tamam, hazırsınız!"
   },
-  "verificationUnavailable": "Telefon numarası onayı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar onaylamanın mümkün olduğu zaman sizi bilgilendireceğiz.\n\nBu arada Valora'yı kullanmaya devam edebilirsiniz! Telefon numaranıza gönderilen ödemeler, siz telefon numaranızı onaylayarak kullanana kadar güvenli bir şekilde tutulacaktır.",
+  "verificationUnavailable": "Telefon numarası onayı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar onaylamanız mümkün olduğu zaman sizi bilgilendireceğiz.\n\nBu arada Valora'yı kullanmaya devam edebilirsiniz! Telefon numaranıza gönderilen ödemeler, siz telefon numaranızı onaylayarak kullanana kadar güvenli bir şekilde tutulacaktır.",
   "requests": "İstekler",
   "empty": "Ödeme İsteğiniz bulunmuyor",
   "celoDollarBalance": "Celo Dolar Bakiyesi",
@@ -861,8 +861,8 @@
   "requestFromMobileNumber": "Telefon Numarası ile iste",
   "sendToAddress": "Adrese gönder",
   "walletAddress": "Cüzdan Adresi",
-  "inviteWithoutPayment": "Selam! Dünya çapında kripto göndermek için {{appName}} kullanıyorum. Denemesi çok kolay ve sizi bu bağlantıya göz atmaya davet etmek istiyorum: {{link}}",
-  "inviteWithEscrowedPayment": "Selam! Dünya çapında kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. Lütfen {{appName}} Uygulamasını indirin ve şu bağlantıyı kullanarak {{token}} bakiyenizi kullanın: {{link}}",
+  "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
+  "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -886,13 +886,13 @@
   "stableBalance": "{{token}} Bakiyesi",
   "selectToken": "Varlık seçin",
   "verificationCta": {
-    "header": "Bir arkadaşına mı gönderiyorsun?",
+    "header": "Bir arkadaşınıza mı gönderiyorsunuz?",
     "body": "Telefonunuzu onaylayın ve arkadaşlarınıza hızlı bir şekilde göndermek için kişilerinizi senkronize edin.",
     "cta": "Onaylamayı başlat"
   },
   "importContactsCta": {
-    "header": "Kişileri İçe Aktar",
-    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler'e erişime izin verin.",
+    "header": "Kişileri Aktar",
+    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler erişimine izin verin.",
     "cta": "Ayarlar"
   },
   "contactSyncProgress": {
@@ -916,7 +916,7 @@
     "bodyPartialNoDisplayName": "Lütfen ilgili kişiden Hesap Adresinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
     "body1Full": "Lütfen {{displayName}}'dan Hesap Adreslerini isteyin.",
     "body1FullNoDisplayName": "Lütfen ilgili kişiden Hesap Adresini isteyin.",
-    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı şiddetle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
+    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı özellikle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
     "help": "Hesap Adresi bulma konusunda yardım",
     "submit": "Kaydet"
   },
@@ -973,8 +973,8 @@
   "sessionsTitle": "Bağlı Dapp'lar",
   "sessionsSubTitle": "Aşağıdaki dapp'ler {{appName}} uygulamasına bağlı. Kare kod tarayarak daha fazla dapp'e bağlanabilirsiniz.",
   "disconnect": "Bağlantıyı kes",
-  "disconnectTitle": "Bağlantıyı kes {{dappName}}?",
-  "disconnectBody": "{{dappName}} bağlantısını kesmek istediğinizden emin misiniz?",
+  "disconnectTitle": "{{dappName}} bağlantısını kes?",
+  "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
@@ -995,13 +995,13 @@
   "received": "Alındı",
   "viewAll": "Tümünü Göster",
   "thanksForVerifying": "Onay için teşekkürler",
-  "goldIsWhereYouSave": "CELO, sahip olduğunuz Celo Dolarını biriktirebileceğiniz yerdir",
+  "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dolarlarını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
   "bikeParts": "Bisiklet Parçaları",
   "groceryRun": "Market Alışverişi",
   "transactionsAreLoading": "İşlemler yükleniyor!",
   "pleaseHoldOn": "Lütfen bekleyin",
-  "welcomeToCeloPayments": "{{appName}} Hoş Geldiniz",
+  "welcomeToCeloPayments": "{{appName}}: Hoş geldiniz",
   "letsGetStartedByFirstTransaction": "Haydi ilk işleminizi göndererek başlayalım",
   "sendMoney": "Kripto Gönder",
   "verificationFee": "Onaylama Ücreti",
@@ -1018,7 +1018,7 @@
     "0": "Akış yükleme başarısız",
     "1": "Lütfen daha sonra tekrar deneyiniz"
   },
-  "noTransactionActivity": "Etkinliğiniz burada görünecek",
+  "noTransactionActivity": "İşleminiz burada görünecek",
   "noExchangeActivity": "Etkinliğiniz burada görünecek",
   "maybeLater": "Belki Daha Sonra",
   "balanceNeedUpdating": "Bakiyenin güncellenmesi gerekiyor",
@@ -1079,7 +1079,7 @@
   "feedItemGoldSold": "Satıldı",
   "feedItemGoldPurchased": "Alındı",
   "feedItemGoldWithdrawal": "{{displayName}}'a çekim",
-  "feedItemGoldReceived": "{{displayName}}'dan alındı",
+  "feedItemGoldReceived": "{{displayName}} alındı",
   "transactionHeaderVerificationFee": "Onay",
   "transactionHeaderNetworkFee": "Ağ",
   "transactionHeaderFaucet": "Faucet",

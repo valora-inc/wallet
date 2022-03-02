@@ -180,10 +180,10 @@
   "superchargeDescription": "Erhalte {{apy}}% jährliche Belohnungen auf deinem {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinden Sie Ihre Telefonnummer",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
-  "superchargeDisclaimer": "Max-out Belohnungen durch Hinzufügen von {{amount}} {{token}}",
+  "superchargeDisclaimer": "Maximiere die Belohnungen, indem du bis zu {{amount}} {{token}}addierst.",
   "superchargeTokenDetailsDialog": {
     "title": "Welche Assets kann ich aufladen?",
-    "body": "Mit Supercharge erhalten Sie wöchentliche Belohnungen auf Ihrem höchsten Celo-Guthaben (cEUR, cUSD, cREAL, etc).",
+    "body": "Du wirst wöchentlich für deinen Celo-Stablecoin mit dem höchsten Wert (cEUR, cUSD, cREAL) belohnt.",
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Dein {{token}} wird aufgeladen",
