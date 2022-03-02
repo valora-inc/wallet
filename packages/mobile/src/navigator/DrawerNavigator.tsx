@@ -257,14 +257,14 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings }}
+          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
+          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
         />
       )}
       <Drawer.Screen
