@@ -651,7 +651,7 @@
   },
   "skipModal": {
     "header": "Onaylamayı atla?",
-    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza değer göndermesine olanak tanır.",
+    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza varlık göndermesine olanak tanır.",
     "body2": "Onay almadan da ödeme gönderebilirsiniz, ancak bunu yalnızca Hesap Adreslerini veya kare kod kullanarak yapabilirsiniz."
   },
   "failModal": {
@@ -660,7 +660,7 @@
     "body2": "Şimdilik onay işlemini atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
     "body1InsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlamak için yeterli değil.",
     "body2InsufficientBalance": "Cüzdanınıza para eklediğinizde lütfen tekrar deneyin.",
-    "body1SaltQuotaExceeded": "Telefon numarası adresi araması kotanız doldu",
+    "body1SaltQuotaExceeded": "Telefon numarası adres kotanız doldu",
     "body2SaltQuotaExceeded": "Daha fazla arama satın aldığınızda lütfen tekrar deneyin",
     "enterCodesBody": "SMS yoluyla zaten üç kod aldıysanız, bu kodları yine de girebilirsiniz.",
     "enterCodesButton": "Kodları girin"
