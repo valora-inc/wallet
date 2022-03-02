@@ -886,13 +886,13 @@
   "stableBalance": "{{token}} Bakiyesi",
   "selectToken": "Varlık seçin",
   "verificationCta": {
-    "header": "Bir arkadaşına mı gönderiyorsun?",
+    "header": "Bir arkadaşınıza mı gönderiyorsunuz?",
     "body": "Telefonunuzu onaylayın ve arkadaşlarınıza hızlı bir şekilde göndermek için kişilerinizi senkronize edin.",
     "cta": "Onaylamayı başlat"
   },
   "importContactsCta": {
-    "header": "Kişileri İçe Aktar",
-    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler'e erişime izin verin.",
+    "header": "Kişileri Aktar",
+    "body": "Arkadaşlarınızı isimleri ile bulmak için lütfen telefonunuzun Ayarlarında Kişiler erişimine izin verin.",
     "cta": "Ayarlar"
   },
   "contactSyncProgress": {
@@ -916,7 +916,7 @@
     "bodyPartialNoDisplayName": "Lütfen ilgili kişiden Hesap Adresinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
     "body1Full": "Lütfen {{displayName}}'dan Hesap Adreslerini isteyin.",
     "body1FullNoDisplayName": "Lütfen ilgili kişiden Hesap Adresini isteyin.",
-    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı şiddetle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
+    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı özellikle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
     "help": "Hesap Adresi bulma konusunda yardım",
     "submit": "Kaydet"
   },
@@ -973,8 +973,8 @@
   "sessionsTitle": "Bağlı Dapp'lar",
   "sessionsSubTitle": "Aşağıdaki dapp'ler {{appName}} uygulamasına bağlı. Kare kod tarayarak daha fazla dapp'e bağlanabilirsiniz.",
   "disconnect": "Bağlantıyı kes",
-  "disconnectTitle": "Bağlantıyı kes {{dappName}}?",
-  "disconnectBody": "{{dappName}} bağlantısını kesmek istediğinizden emin misiniz?",
+  "disconnectTitle": "{{dappName}} bağlantısını kes?",
+  "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
