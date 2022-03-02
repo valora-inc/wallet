@@ -180,10 +180,10 @@
   "superchargeDescription": "Получите вознаграждение {{apy}}% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
-  "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся {{amount}} {{token}}",
+  "superchargeDisclaimer": "Максимально увеличивай вознаграждение, складывая до {{amount}} {{token}}",
   "superchargeTokenDetailsDialog": {
     "title": "На какие активы распространяется программа Supercharge?",
-    "body": "Благодаря программе Supercharge вы получите еженедельные вознаграждения на самый высокий остаток в стейблкоинах Celo (cEUR, cUSD, cREAL и т.д.).",
+    "body": "Ты будешь получать еженедельное вознаграждение на свою стабильную монеты Celo с наибольшей стоимостью (cEUR, cUSD, cREAL).",
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
