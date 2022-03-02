@@ -130,6 +130,7 @@ function SuperchargeInstructions() {
         isVisible={tokenDetailsVisible}
         secondaryActionText={t('superchargeTokenDetailsDialog.dismiss')}
         secondaryActionPress={() => setTokenDetailsVisible(false)}
+        onBackgroundPress={() => setTokenDetailsVisible(false)}
       >
         {t('superchargeTokenDetailsDialog.body')}
       </Dialog>
