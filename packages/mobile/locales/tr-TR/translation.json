@@ -798,14 +798,14 @@
     "back": "Geri Dön"
   },
   "emptyAccount": {
-    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misin?",
+    "description": "Bu hesapta hiç bakiye yok. Yine de kullanmak ister misiniz?",
     "useAccount": "Hesabı kullan",
     "title": "Bakiye <0></0>"
   },
   "success": {
     "message": "Her şey tamam, hazırsınız!"
   },
-  "verificationUnavailable": "Telefon numarası onayı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar onaylamanın mümkün olduğu zaman sizi bilgilendireceğiz.\n\nBu arada Valora'yı kullanmaya devam edebilirsiniz! Telefon numaranıza gönderilen ödemeler, siz telefon numaranızı onaylayarak kullanana kadar güvenli bir şekilde tutulacaktır.",
+  "verificationUnavailable": "Telefon numarası onayı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar onaylamanız mümkün olduğu zaman sizi bilgilendireceğiz.\n\nBu arada Valora'yı kullanmaya devam edebilirsiniz! Telefon numaranıza gönderilen ödemeler, siz telefon numaranızı onaylayarak kullanana kadar güvenli bir şekilde tutulacaktır.",
   "requests": "İstekler",
   "empty": "Ödeme İsteğiniz bulunmuyor",
   "celoDollarBalance": "Celo Dolar Bakiyesi",
@@ -861,7 +861,7 @@
   "requestFromMobileNumber": "Telefon Numarası ile iste",
   "sendToAddress": "Adrese gönder",
   "walletAddress": "Cüzdan Adresi",
-  "inviteWithoutPayment": "Selam! Dünya çapında kripto göndermek için {{appName}} kullanıyorum. Denemesi çok kolay ve sizi bu bağlantıya göz atmaya davet etmek istiyorum: {{link}}",
+  "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Selam! Dünya çapında kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. Lütfen {{appName}} Uygulamasını indirin ve şu bağlantıyı kullanarak {{token}} bakiyenizi kullanın: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
