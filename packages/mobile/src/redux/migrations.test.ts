@@ -1,4 +1,3 @@
-import { PersonaKycStatus } from 'src/account/reducer'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
