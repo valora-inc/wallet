@@ -180,10 +180,10 @@
   "superchargeDescription": "Obtiens des {{apy}}nnuellement des récompenses sur ton solde {{token}} . Voici comment commencer :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeMinimumBalance": "Ajoute un solde minimum de {{amount}} {{token}}.",
-  "superchargeDisclaimer": "Maximise les récompenses en ajoutant {{amount}} {{token}}.",
+  "superchargeDisclaimer": "Maximise les récompenses en additionnant jusqu'à {{amount}} {{token}}.",
   "superchargeTokenDetailsDialog": {
     "title": "Quels sont les actifs que je peux Supercharger ?",
-    "body": "Avec Supercharge, tu obtiens des récompenses hebdomadaires sur ton solde le plus élevé en monnaie stable Celo (cEUR, cUSD, cREAL, etc.).",
+    "body": "Tu seras récompensé chaque semaine sur ton stablecoin Celo ayant la valeur la plus élevée (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Ton {{token}} est en train d'être Supercharged",

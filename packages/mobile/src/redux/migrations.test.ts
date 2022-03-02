@@ -1,4 +1,5 @@
 import { PersonaKycStatus } from 'src/account/reducer'
+import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
@@ -411,15 +412,15 @@ describe('Redux persist migrations', () => {
   })
 
   it('works for v35 to v36', () => {
-    const v35Stub = {
-      ...v35Schema,
-      account: {
-        ...v35Schema.account,
-        kycStatus: PersonaKycStatus.Approved,
-      },
-    }
-    const migratedSchema = migrations[36](v35Stub)
+    const oldSchema = v35Schema
+    const migratedSchema = migrations[36](oldSchema)
 
-    expect(migratedSchema.account.personaKycStatus).toEqual(v35Stub.account.kycStatus)
+    const expectedSchema: any = { ...oldSchema }
+    expectedSchema.account.finclusiveKycStatus = FinclusiveKycStatus.NotSubmitted
+    expectedSchema.app.maxNumRecentDapps = 0
+    expectedSchema.app.recentDapps = []
+    expectedSchema.account.personaKycStatus = oldSchema.account.kycStatus
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
   })
 })

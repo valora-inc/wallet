@@ -180,10 +180,10 @@
   "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
-  "superchargeDisclaimer": "Max-out rewards by adding {{amount}} {{token}}",
+  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
   "superchargeTokenDetailsDialog": {
     "title": "Which assets can I Supercharge?",
-    "body": "With Supercharge, you get weekly rewards on your highest Celo stablecoin balance (cEUR, cUSD, cREAL, etc).",
+    "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "Your {{token}} is being Supercharged",

@@ -242,21 +242,29 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
-          options={{ title: t('dappsScreen.title'), drawerIcon: DappsExplorer }}
+          options={{
+            title: t('dappsScreen.title'),
+            drawerIcon: DappsExplorer,
+            // Special case for the Dapps explorer,
+            // so it reloads the list when the user comes back to it
+            // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
+            // but here it's the right expectation
+            unmountOnBlur: true,
+          }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings }}
+          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
+          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
         />
       )}
       <Drawer.Screen
