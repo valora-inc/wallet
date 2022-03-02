@@ -247,7 +247,7 @@ export default function DrawerNavigator() {
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,
             // so it reloads the list when the user comes back to it
-            // Note: we generally want to avoid this as the reset the scroll position (and all other component state)
+            // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
             // but here it's the right expectation
             unmountOnBlur: true,
           }}
