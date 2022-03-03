@@ -6,7 +6,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
 import { plaidParamsSelector } from 'src/account/selectors'
@@ -73,12 +73,13 @@ function BankAccounts({ navigation, route }: Props) {
   }, [newPublicToken])
 
   function getBankDisplay(bank: BankAccount) {
-    const bankLogoSrc = `data:image/png;base64, ${bank.institutionLogo}`
+    // Todo: Consider adding a default placeholder image for banks without a logo available
+    const bankLogoSrc = bank.institutionLogo ? `data:image/png;base64,${bank.institutionLogo}` : ''
     return (
       <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
-            <img src={bankLogoSrc} style={styles.bankImg} />
+            <Image style={styles.bankImg} source={{ uri: bankLogoSrc }} />
           </View>
           <View style={styles.accountLabels}>
             <Text style={styles.bankName}>{`${
