@@ -7,7 +7,7 @@ import variables from '@celo/react-components/styles/variables'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -28,6 +28,7 @@ import {
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import InfoIcon from 'src/icons/InfoIcon'
+import Logo, { LogoTypes } from 'src/icons/Logo'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -63,15 +64,23 @@ function useHasBalanceForSupercharge() {
   for (const tokenConfig of superchargeTokens) {
     const tokenUserInfo = tokens.find((t) => t.symbol === tokenConfig.token)
     if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
-      return true
+      return {
+        hasBalanceForSupercharge: true,
+        token: tokenUserInfo.symbol,
+        hasMaxBalance: tokenUserInfo.balance.gte(tokenConfig.maxBalance),
+      }
     }
   }
-  return false
+  return { hasBalanceForSupercharge: false }
+}
+
+const onLearnMore = () => {
+  ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
+  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
 }
 
 function Header() {
   const { t } = useTranslation()
-  const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
 
   return (
     <View style={styles.headerContainer}>
@@ -89,7 +98,7 @@ function SuperchargeInstructions() {
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { superchargeApy } = useSelector((state) => state.app)
-  const hasBalanceForSupercharge = useHasBalanceForSupercharge()
+  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
   const tokenToSupercharge = useTokenToSupercharge()
 
   return (
@@ -193,7 +202,7 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
   )
 }
 
-function useFetchAvailableRewards(): {
+export function useFetchAvailableRewards(): {
   availableRewards: SuperchargePendingReward[]
   loading: boolean
 } {
@@ -214,7 +223,7 @@ function useFetchAvailableRewards(): {
       return responseBody.availableRewards ?? []
     } catch (error) {
       Logger.error('SuperchargeScreen', 'Error while fetching pending rewards', error)
-      dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
+      dispatch(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
     }
   }, [])
   return { availableRewards: result ?? [], loading }
@@ -224,7 +233,11 @@ export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
-  const hasBalanceForSupercharge = useHasBalanceForSupercharge()
+  const {
+    hasBalanceForSupercharge,
+    token: superchargingToken,
+    hasMaxBalance,
+  } = useHasBalanceForSupercharge()
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const tokenToSupercharge = useTokenToSupercharge()
 
@@ -271,10 +284,18 @@ export default function ConsumerIncentivesHomeScreen() {
         )}
       </ScrollView>
       <Text style={styles.disclaimer}>
-        {t('superchargeDisclaimer', {
-          amount: tokenToSupercharge.maxBalance,
-          token: tokenToSupercharge.token,
-        })}
+        {canClaimRewards ? (
+          <Trans i18nKey="superchargeDisclaimerDayLimit">
+            <Text onPress={onLearnMore} style={styles.learnMoreLink} />
+          </Trans>
+        ) : hasMaxBalance ? (
+          t('superchargeDisclaimerMaxRewards', { token: superchargingToken })
+        ) : (
+          t('superchargeDisclaimer', {
+            amount: tokenToSupercharge.maxBalance,
+            token: tokenToSupercharge.token,
+          })
+        )}
       </Text>
       <View style={styles.buttonContainer}>
         <Button
@@ -286,6 +307,7 @@ export default function ConsumerIncentivesHomeScreen() {
               ? t('cashIn', { currency: tokenToSupercharge.token })
               : t('connectNumber')
           }
+          icon={canClaimRewards && <Logo style={styles.logo} height={24} type={LogoTypes.LIGHT} />}
           showLoading={loadingAvailableRewards || claimRewardsLoading}
           disabled={loadingAvailableRewards || claimRewardsLoading}
           onPress={onPressCTA}
@@ -353,11 +375,19 @@ const styles = StyleSheet.create({
     color: colors.gray5,
     textAlign: 'center',
     marginBottom: 18,
+    marginHorizontal: 24,
+  },
+  learnMoreLink: {
+    textDecorationLine: 'underline',
   },
   buttonContainer: {
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderTopColor: colors.gray2,
     borderTopWidth: 1,
+  },
+  logo: {
+    position: 'absolute',
+    left: 36,
   },
 })

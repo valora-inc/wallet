@@ -1,6 +1,6 @@
 import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga-test-plan/matchers'
+import { call, select } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen.test'
 import { claimRewardsSaga } from 'src/consumerIncentives/saga'
@@ -10,6 +10,7 @@ import {
   claimRewardsSuccess,
 } from 'src/consumerIncentives/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -47,6 +48,15 @@ const mockTxo = {
   })),
 }
 
+const mockTokens = {
+  [mockCusdAddress]: {
+    symbol: 'cUSD',
+  },
+  [mockCeurAddress]: {
+    symbol: 'cEUR',
+  },
+}
+
 describe('claimRewardsSaga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -58,6 +68,7 @@ describe('claimRewardsSaga', () => {
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [select(tokensByAddressSelector), {}],
       ])
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
@@ -71,6 +82,7 @@ describe('claimRewardsSaga', () => {
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [select(tokensByAddressSelector), mockTokens],
       ])
       .put.like({
         action: {
@@ -114,6 +126,7 @@ describe('claimRewardsSaga', () => {
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [select(tokensByAddressSelector), mockTokens],
       ])
       .put.like({
         action: {
@@ -151,6 +164,7 @@ describe('claimRewardsSaga', () => {
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
+        [select(tokensByAddressSelector), mockTokens],
       ])
       .not.put(claimRewardsSuccess())
       .put(claimRewardsFailure())

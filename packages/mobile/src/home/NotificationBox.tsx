@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
-import { HomeEvents } from 'src/analytics/Events'
+import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
@@ -18,12 +18,13 @@ import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { useFetchAvailableRewards } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, getVerified, learnCelo } from 'src/images/Images'
+import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -44,6 +45,7 @@ const INVITES_PRIORITY = 400
 const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
 const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
+const SUPERCHARGE_AVAILABLE_PRIORITY = 950
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -54,6 +56,7 @@ export enum NotificationBannerTypes {
   invite_prompt = 'invite_prompt',
   verification_prompt = 'verification_prompt',
   backup_prompt = 'backup_prompt',
+  supercharge_available = 'supercharge_available',
   remote_notification = 'remote_notification',
 }
 
@@ -88,6 +91,8 @@ function useSimpleActions() {
 
   const dispatch = useDispatch()
 
+  const { availableRewards: superchargeRewards } = useFetchAvailableRewards()
+
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
     actions.push({
@@ -111,6 +116,29 @@ function useSimpleActions() {
               .catch((error) => {
                 Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
               })
+          },
+        },
+      ],
+    })
+  }
+
+  if (superchargeRewards.length > 0) {
+    actions.push({
+      text: t('superchargeNotificationBody'),
+      icon: boostRewards,
+      priority: SUPERCHARGE_AVAILABLE_PRIORITY,
+      callToActions: [
+        {
+          text: t('superchargeNotificationStart'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.supercharge_available,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            navigate(Screens.ConsumerIncentivesHomeScreen)
+            ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+              origin: RewardsScreenOrigin.RewardAvailableNotification,
+            })
           },
         },
       ],
@@ -158,7 +186,10 @@ function useSimpleActions() {
     if (!texts) {
       continue
     }
-    if (notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
+    if (
+      notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) &&
+      (!rewardsEnabled || superchargeRewards.length > 0)
+    ) {
       continue
     }
 

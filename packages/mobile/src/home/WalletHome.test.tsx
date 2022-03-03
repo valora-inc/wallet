@@ -1,4 +1,5 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { dappSelected } from 'src/app/actions'
@@ -73,6 +74,9 @@ jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 describe('WalletHome', () => {
   beforeAll(() => {
     jest.useFakeTimers()
+    const mockFetch = fetch as FetchMock
+    mockFetch.resetMocks()
+    mockFetch.mockResponse(JSON.stringify({ availableRewards: [] }))
   })
 
   afterAll(() => {

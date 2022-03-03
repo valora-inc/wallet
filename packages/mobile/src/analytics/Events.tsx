@@ -483,6 +483,8 @@ export enum NavigationEvents {
 export enum RewardsEvents {
   rewards_screen_opened = 'rewards_screen_opened',
   rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+  learn_more_pressed = 'learn_more_pressed',
+  claimed_reward = 'claimed_reward',
 }
 
 export enum WalletConnectEvents {
