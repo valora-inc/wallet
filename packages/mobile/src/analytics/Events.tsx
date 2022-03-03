@@ -555,6 +555,15 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
 }
 
+export enum RecentlyUsedDappEvents {
+  dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
+  dapp_recently_used_impression = 'dapp_recently_used_impression', // when a dapp is shown in the recently used section
+  dapp_recently_used_open = 'dapp_recently_used_open', // when user opens the dapp from the bottom sheet, launched from recently used section
+  dapp_recently_used_select = 'dapp_recently_used_select', // when user selects the dapp from recently used section
+  dapp_recently_used_bottom_sheet_dismiss = 'dapp_recently_used_bottom_sheet_dismiss',
+  dapp_recently_used_bottom_sheet_open = 'dapp_recently_used_bottom_sheet_open',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -579,3 +588,5 @@ export type AnalyticsEventType =
   | WalletConnectEvents
   | DappKitEvents
   | CICOEvents
+  | DappExplorerEvents
+  | RecentlyUsedDappEvents

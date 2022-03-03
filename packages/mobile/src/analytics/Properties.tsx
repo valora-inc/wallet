@@ -20,6 +20,7 @@ import {
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
+  RecentlyUsedDappEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
@@ -1215,6 +1216,15 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappSelectEventProperties
 }
 
+interface RecentlyUsedDappProperties {
+  [RecentlyUsedDappEvents.dapp_view_all]: undefined
+  [RecentlyUsedDappEvents.dapp_recently_used_impression]: DappSelectEventProperties
+  [RecentlyUsedDappEvents.dapp_recently_used_select]: DappSelectEventProperties
+  [RecentlyUsedDappEvents.dapp_recently_used_open]: DappSelectEventProperties
+  [RecentlyUsedDappEvents.dapp_recently_used_bottom_sheet_dismiss]: DappSelectEventProperties
+  [RecentlyUsedDappEvents.dapp_recently_used_bottom_sheet_open]: DappSelectEventProperties
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1239,4 +1249,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WalletConnectProperties &
   DappKitProperties &
   CICOEventsProperties &
-  DappExplorerEventsProperties
+  DappExplorerEventsProperties &
+  RecentlyUsedDappProperties
