@@ -79,7 +79,11 @@ function BankAccounts({ navigation, route }: Props) {
       <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
-            <Image style={styles.bankImg} source={{ uri: bankLogoSrc }} />
+            <Image
+              style={styles.bankImg}
+              source={{ uri: bankLogoSrc }}
+              testID={`BankLogoImg-${bank.id}`}
+            />
           </View>
           <View style={styles.accountLabels}>
             <Text style={styles.bankName}>{`${
