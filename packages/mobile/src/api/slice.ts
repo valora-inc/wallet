@@ -18,6 +18,7 @@ export const cloudFunctionsApi = createApi({
   }),
 })
 
+// @ts-ignore This works but throws a build error because we're using an old typescript version :(
 const { useFetchSuperchargeRewardsQuery } = cloudFunctionsApi
 
 export function useFetchSuperchargeRewards() {

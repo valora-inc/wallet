@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { dappSelected } from 'src/app/actions'
@@ -70,13 +69,14 @@ const recentDapps = [dapp, deepLinkedDapp]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
+jest.mock('src/api/slice', () => ({
+  ...(jest.requireActual('src/api/slice') as any),
+  useFetchSuperchargeRewards: jest.fn(() => ({ superchargeRewards: [] })),
+}))
 
 describe('WalletHome', () => {
   beforeAll(() => {
     jest.useFakeTimers()
-    const mockFetch = fetch as FetchMock
-    mockFetch.resetMocks()
-    mockFetch.mockResponse(JSON.stringify({ availableRewards: [] }))
   })
 
   afterAll(() => {
