@@ -43,7 +43,7 @@ interface NetworkConfig {
   walletConnectEndpoint: string
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
-  superchargeAvailableRewardsUrl: string
+  cloudFunctionsBaseUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -81,10 +81,10 @@ const FETCH_USER_LOCATION_DATA_PROD = `${CLOUD_FUNCTIONS_MAINNET}/fetchUserLocat
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
-const SUPERCHARGE_AVAILABLE_REWARDS_URL_ALFAJORES =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchAvailableSuperchargeRewards'
-const SUPERCHARGE_AVAILABLE_REWARDS_URL_MAINNET =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchAvailableSuperchargeRewards'
+const CLOUD_FUNCTIONS_BASE_URL_ALFAJORES =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net'
+const CLOUD_FUNCTIONS_BASE_URL_MAINNET =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -113,7 +113,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
-    superchargeAvailableRewardsUrl: SUPERCHARGE_AVAILABLE_REWARDS_URL_ALFAJORES,
+    cloudFunctionsBaseUrl: CLOUD_FUNCTIONS_BASE_URL_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -140,7 +140,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
-    superchargeAvailableRewardsUrl: SUPERCHARGE_AVAILABLE_REWARDS_URL_MAINNET,
+    cloudFunctionsBaseUrl: CLOUD_FUNCTIONS_BASE_URL_MAINNET,
   },
 }
 

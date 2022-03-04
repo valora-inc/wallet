@@ -12,13 +12,13 @@ import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { openUrl } from 'src/app/actions'
 import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useFetchAvailableRewards } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
@@ -91,7 +91,7 @@ function useSimpleActions() {
 
   const dispatch = useDispatch()
 
-  const { availableRewards: superchargeRewards } = useFetchAvailableRewards()
+  const { superchargeRewards } = useFetchSuperchargeRewards()
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
