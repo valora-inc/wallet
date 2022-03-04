@@ -85,7 +85,7 @@ export interface BankAccount {
   accountType: string
   accountNumberTruncated: string
   institutionName: string
-  institutionLogo: string
+  institutionLogo?: string
 }
 
 /**
