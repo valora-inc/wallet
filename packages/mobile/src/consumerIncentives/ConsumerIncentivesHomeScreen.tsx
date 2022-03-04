@@ -211,7 +211,6 @@ export default function ConsumerIncentivesHomeScreen() {
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const tokenToSupercharge = useTokenToSupercharge()
 
-  console.log('QQ', useFetchSuperchargeRewards, JSON.stringify(useFetchSuperchargeRewards))
   const {
     superchargeRewards,
     isLoading: loadingAvailableRewards,
