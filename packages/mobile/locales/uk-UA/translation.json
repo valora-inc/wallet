@@ -181,6 +181,8 @@
   "superchargeConnectNumber": "Підключіть ваш номер телефону",
   "superchargeMinimumBalance": "Додати мінімальний баланс {{amount}} {{token}}",
   "superchargeDisclaimer": "Нагороди за перевищення ліміту, додавши до {{amount}} {{token}}",
+  "superchargeDisclaimerMaxRewards": "Ви отримуєте максимальну винагороду у {{token}}",
+  "superchargeDisclaimerDayLimit": "Ваші нагороди повинні бути зараховані протягом 28 днів. <0>Дізнатися більше</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Які активи можна взяти з витрати?",
     "body": "Ти отримаєш винагороду щотижня на Целу сталеву монету з найбільшою вартістю (cEUR, cUSD, сразу).",
@@ -195,6 +197,8 @@
   "superchargeFetchRewardsFailed": "Помилка при отриманні очікуваних нагород Суперзавантаження. Будь ласка, спробуйте ще раз пізніше.",
   "superchargeClaimSuccess": "Ваші нагороди за надбавку були додані до вашого Загального балансу.",
   "superchargeClaimFailure": "Виникла проблема з запитом ваших нагород з надбавки.",
+  "superchargeNotificationBody": "Нагороди за надбавку вже тут! Скличте їх зараз.",
+  "superchargeNotificationStart": "Запит винагороди",
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Підключити номер",
   "connectToWallet": "{{dappName}} хоче підключитися до {{appName}}",
