@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { dappSelected } from 'src/app/actions'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
+import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, RecursivePartial } from 'test/utils'
@@ -206,6 +207,7 @@ describe('WalletHome', () => {
       app: {
         recentDapps,
         maxNumRecentDapps: 4,
+        activeScreen: Screens.WalletHome,
       },
     })
 

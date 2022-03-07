@@ -3,6 +3,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
+import { Screens } from 'src/navigator/Screens'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
 const mockResponseWithoutFeaturedDapp = {
@@ -53,7 +54,7 @@ const mockResponseWithFeaturedDapp = {
 }
 
 const store = createMockStore({
-  app: { dappListApiUrl: 'http://url.com' },
+  app: { dappListApiUrl: 'http://url.com', activeScreen: Screens.DAppsExplorerScreen },
 })
 
 describe(DAppsExplorerScreen, () => {
