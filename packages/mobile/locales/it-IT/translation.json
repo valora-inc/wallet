@@ -186,7 +186,7 @@
   "superchargeTokenDetailsDialog": {
     "title": "A quali asset posso applicare i Supercharge?",
     "body": "Sarai ricompensato settimanalmente sulla tua stablecoin Celo con il valore più alto (cEUR, cUSD, cREAL).",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "superchargingTitle": "Il tuo {{token}} viene sovralimentato",
   "superchargingDescription": "Stai ottenendo {{apy}}nnualmente. Rivendica i tuoi premi qui martedì.",
@@ -524,7 +524,7 @@
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
   "help": "Guida",
-  "dismiss": "Ignorare",
+  "dismiss": "Ignora",
   "review": "Rivedi",
   "insufficientBalance": "Il tuo saldo è insufficiente per eseguire questa transazione.",
   "amount": "Importo",
@@ -759,7 +759,7 @@
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
     "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "importExistingKey": {
     "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
@@ -1110,7 +1110,7 @@
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
@@ -1185,7 +1185,7 @@
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
     "message": "Le dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una dapp per iniziare.",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} si aprirà in un browser esterno",
