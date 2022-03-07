@@ -10,7 +10,7 @@ import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createLinkToken, verifyDekAndMTW } from 'src/in-house-liquidity'
+import { createLinkToken } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -50,7 +50,9 @@ export default async function openPlaid({
   const isAndroid = Platform.OS === 'android'
   try {
     const linkToken = await createLinkToken({
-      ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+      walletAddress,
+      publicKey,
+      privateKey,
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,

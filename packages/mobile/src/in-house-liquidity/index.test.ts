@@ -5,20 +5,21 @@ import {
   createLinkToken,
   createFinclusiveBankAccount,
   exchangePlaidAccessToken,
-  verifyDekAndMTW,
   getFinclusiveComplianceStatus,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/geth/networkConfig'
 import { mockE164Number } from 'test/values'
 import jwt from 'jsonwebtoken'
+import KeyEncoder from 'key-encoder'
 
 const MOCK_USER = {
   accountMTWAddress: '0xc549560d398567d6ff75fde721b1488348df86dc',
   dekPrivate: '0x5776c418c5f63c5d149a4605c9fa6e0a1bd684a17f1b7ec563515dd4a13a8a3c',
-  dekPublicHex: '0x034e229e9b6503e42ac456fce7ef5c28230eedf8dd6f65c2806af3291ba107d354',
-  dekPublicPem:
-    '-----BEGIN PUBLIC KEY-----\nMDYwEAYHKoZIzj0CAQYFK4EEAAoDIgADTiKem2UD5CrEVvzn71woIw7t+N1vZcKA\navMpG6EH01Q=\n-----END PUBLIC KEY-----',
+
+  privateKey: 'c613bfdc491f266e35107050caedef9f1a9a01aff126b27ce620e10a7b859934',
+  publicKey: '0359bf477833fa7fd48ffe95454dcc31134f11a39a6c01610041a37850d0ad16f5',
+  walletAddress: '0x39845Bae1245693234dd32bA479828d5A42AD552',
 }
 
 describe('In House Liquidity Calls', () => {
@@ -38,14 +39,15 @@ describe('In House Liquidity Calls', () => {
   })
 
   const expectedJWTHeader = `eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9` // encoded version of {"alg": "ES256", "typ": "JWT"}
-  const expectedJWTPayload = `eyJpc3MiOiItLS0tLUJFR0lOIFBVQkxJQyBLRVktLS0tLVxuTURZd0VBWUhLb1pJemowQ0FRWUZLNEVFQUFvRElnQURUaUtlbTJVRDVDckVWdnpuNzF3b0l3N3QrTjF2WmNLQVxuYXZNcEc2RUgwMVE9XG4tLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0iLCJzdWIiOiIweGM1NDk1NjBkMzk4NTY3ZDZmZjc1ZmRlNzIxYjE0ODgzNDhkZjg2ZGMiLCJpYXQiOjE2NDE5NDU0MDAsImV4cCI6MTY0MTk0NTcwMH0` // encoded version of {"iss": "-----BEGIN PUBLIC KEY-----\nMDYwEAYHKoZIzj0CAQYFK4EEAAoDIgADTiKem2UD5CrEVvzn71woIw7t+N1vZcKA\navMpG6EH01Q=\n-----END PUBLIC KEY-----", "sub": "0xc549560d398567d6ff75fde721b1488348df86dc", "iat": 1641945400, "exp": 1641945700}
+  const expectedJWTPayload = `eyJzdWIiOiIweDM5ODQ1QmFlMTI0NTY5MzIzNGRkMzJiQTQ3OTgyOGQ1QTQyQUQ1NTIiLCJpc3MiOiIwMzU5YmY0Nzc4MzNmYTdmZDQ4ZmZlOTU0NTRkY2MzMTEzNGYxMWEzOWE2YzAxNjEwMDQxYTM3ODUwZDBhZDE2ZjUiLCJpYXQiOjE2NDE5NDU0MDAsImV4cCI6MTY0MTk0NTcwMH0` // encoded version of {"iss": "0359bf477833fa7fd48ffe95454dcc31134f11a39a6c01610041a37850d0ad16f5", "sub": "0x39845Bae1245693234dd32bA479828d5A42AD552", "iat": 1641945400, "exp": 1641945700}
   const expectedAuthHeaderPrefix = `Bearer ${expectedJWTHeader}.${expectedJWTPayload}.`
 
   describe('getAuthHeader', () => {
     it('creates the correct headers for a GET request', async () => {
       const authHeader = await getAuthHeader({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.privateKey,
+        publicKey: MOCK_USER.publicKey,
       })
 
       // verify header and payload
@@ -53,38 +55,25 @@ describe('In House Liquidity Calls', () => {
 
       // verify signature (non-deterministic, so a fixed value cannot be used)
       const token = authHeader.split(' ')[1]
-      expect(jwt.verify(token, MOCK_USER.dekPublicPem, { algorithms: ['ES256'] })).toBeTruthy()
-    })
-  })
-
-  describe('verifyDekAndMTW', () => {
-    it('throws when dekPrivate is null', () => {
-      expect(() =>
-        verifyDekAndMTW({
-          accountMTWAddress: MOCK_USER.accountMTWAddress,
-          dekPrivate: null,
+      const keyEncoder = new KeyEncoder('secp256k1')
+      expect(
+        jwt.verify(token, keyEncoder.encodePublic(MOCK_USER.publicKey, 'raw', 'pem'), {
+          algorithms: ['ES256'],
         })
-      ).toThrow('Cannot call IHL because dekPrivate is null')
-    })
-    it('throws when accountMTWAddress is null', () => {
-      expect(() =>
-        verifyDekAndMTW({
-          accountMTWAddress: null,
-          dekPrivate: MOCK_USER.dekPrivate,
-        })
-      ).toThrow('Cannot call IHL because accountMTWAddress is null')
+      ).toBeTruthy()
     })
   })
 
   describe('signAndFetch', () => {
     it('calls fetch with the correct params', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
-      const body = { accountAddress: MOCK_USER.accountMTWAddress }
+      const body = { accountAddress: MOCK_USER.walletAddress }
 
       const response = await signAndFetch({
         path: '/persona/account/create',
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
         requestOptions: {
           method: 'POST',
           headers: {
@@ -116,10 +105,11 @@ describe('In House Liquidity Calls', () => {
     it('calls the /persona/account/create endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createPersonaAccount({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
       })
-      const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.accountMTWAddress })
+      const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.walletAddress })
 
       // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
@@ -142,14 +132,15 @@ describe('In House Liquidity Calls', () => {
     it('calls the /plaid/link-token/create endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ linkToken: 'foo-token' }), { status: 201 })
       const linkToken = await createLinkToken({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
         isAndroid: false,
         language: 'en',
         phoneNumber: mockE164Number,
       })
       const expectedBody = JSON.stringify({
-        accountAddress: MOCK_USER.accountMTWAddress,
+        accountAddress: MOCK_USER.walletAddress,
         isAndroid: false,
         language: 'en',
         phoneNumber: mockE164Number,
@@ -175,12 +166,13 @@ describe('In House Liquidity Calls', () => {
     it('calls the /account/bank-account endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createFinclusiveBankAccount({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
         plaidAccessToken: 'foo',
       })
       const expectedBody = JSON.stringify({
-        accountAddress: MOCK_USER.accountMTWAddress,
+        accountAddress: MOCK_USER.walletAddress,
         plaidAccessToken: 'foo',
       })
 
@@ -204,13 +196,14 @@ describe('In House Liquidity Calls', () => {
     it('calls the /account/bank-account endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ accessToken: 'bar-token' }), { status: 201 })
       const response = await exchangePlaidAccessToken({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
         publicToken: 'foo',
       })
       const expectedBody = JSON.stringify({
         publicToken: 'foo',
-        accountAddress: MOCK_USER.accountMTWAddress,
+        accountAddress: MOCK_USER.walletAddress,
       })
 
       // Calls Fetch Correctly
@@ -233,14 +226,15 @@ describe('In House Liquidity Calls', () => {
     it('calls the /account/{accoundAddress}/compliance-check-status endpoint', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ complianceCheckStatus: 1 }), { status: 200 })
       const response = await getFinclusiveComplianceStatus({
-        accountMTWAddress: MOCK_USER.accountMTWAddress,
-        dekPrivate: MOCK_USER.dekPrivate,
+        walletAddress: MOCK_USER.walletAddress,
+        privateKey: MOCK_USER.dekPrivate,
+        publicKey: MOCK_USER.publicKey,
       })
 
       // Calls Fetch Correctly
       expect(mockFetch).toHaveBeenCalledWith(
         `${networkConfig.inHouseLiquidityURL}/account/${encodeURIComponent(
-          MOCK_USER.accountMTWAddress
+          MOCK_USER.walletAddress
         )}/compliance-check-status`,
         {
           headers: {
