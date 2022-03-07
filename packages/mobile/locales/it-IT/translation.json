@@ -181,6 +181,8 @@
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
   "superchargeDisclaimer": "Massimizza le ricompense sommando {{amount}} {{token}}",
+  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "A quali asset posso applicare i Supercharge?",
     "body": "Sarai ricompensato settimanalmente sulla tua stablecoin Celo con il valore più alto (cEUR, cUSD, cREAL).",
@@ -195,6 +197,8 @@
   "superchargeFetchRewardsFailed": "Errore durante il recupero dei premi Supercharge in sospeso. Per favore riprova più tardi.",
   "superchargeClaimSuccess": "I tuoi premi Supercharge sono stati aggiunti al tuo Saldo Totale.",
   "superchargeClaimFailure": "C'è stato un problema nel richiedere i tuoi premi Supercharge.",
+  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationStart": "Claim rewards",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
   "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
