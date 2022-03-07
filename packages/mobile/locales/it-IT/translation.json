@@ -182,7 +182,7 @@
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
   "superchargeDisclaimer": "Massimizza le ricompense sommando {{amount}} {{token}}",
   "superchargeTokenDetailsDialog": {
-    "title": "A quali asset posso applicare i bonus?",
+    "title": "A quali asset posso applicare i Supercharge?",
     "body": "Sarai ricompensato settimanalmente sulla tua stablecoin Celo con il valore più alto (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorare"
   },
