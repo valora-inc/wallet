@@ -12,6 +12,11 @@ const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const RECENT_BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 
+jest.mock('src/api/slice', () => ({
+  ...(jest.requireActual('src/api/slice') as any),
+  useFetchSuperchargeRewards: jest.fn(() => ({ superchargeRewards: [] })),
+}))
+
 const testNotification = {
   ctaUri: 'https://celo.org',
   priority: 20,

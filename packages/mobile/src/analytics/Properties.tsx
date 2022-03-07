@@ -1061,6 +1061,11 @@ interface RewardsProperties {
   [RewardsEvents.rewards_screen_cta_pressed]: {
     buttonPressed: RewardsScreenCta
   }
+  [RewardsEvents.learn_more_pressed]: undefined
+  [RewardsEvents.claimed_reward]: {
+    amount: string
+    token: string
+  }
 }
 
 interface WalletConnect1Properties {

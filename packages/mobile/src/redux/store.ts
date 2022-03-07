@@ -1,11 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { applyMiddleware, compose, createStore } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/dist/query'
+import { Middleware } from 'redux'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { cloudFunctionsApi } from 'src/api/slice'
 import createMigrate from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState } from 'src/redux/reducers'
@@ -90,9 +93,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 // eslint-disable-next-line no-var
 declare var window: any
 
-export const configureStore = (initialState = {}) => {
+export const setupStore = (initialState = {}) => {
   const sagaMiddleware = createSagaMiddleware()
-  const middlewares = [sagaMiddleware]
+  const middlewares: Middleware[] = [sagaMiddleware]
 
   if (__DEV__) {
     const createDebugger = require('redux-flipper').default
@@ -129,21 +132,31 @@ export const configureStore = (initialState = {}) => {
     )
   }
 
-  const enhancers = [applyMiddleware(...middlewares)]
+  middlewares.push(cloudFunctionsApi.middleware)
+
+  const enhancers = []
 
   if (__DEV__) {
     const Reactotron = require('src/reactotronConfig').default
     enhancers.push(Reactotron.createEnhancer())
   }
 
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-  // @ts-ignore
-  const createdStore = createStore(persistedReducer, initialState, composeEnhancers(...enhancers))
-
+  const createdStore = configureStore({
+    reducer: persistedReducer,
+    preloadedState: initialState,
+    middleware: (getDefaultMiddleware: any) =>
+      getDefaultMiddleware({
+        immutableCheck: false,
+        serializableCheck: false,
+      }).concat(...middlewares),
+    enhancers,
+  })
   const createdPersistor = persistStore(createdStore)
   sagaMiddleware.run(rootSaga)
+
   return { store: createdStore, persistor: createdPersistor }
 }
 
-const { store, persistor } = configureStore()
+const { store, persistor } = setupStore()
+setupListeners(store.dispatch)
 export { store, persistor }
