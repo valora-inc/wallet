@@ -5,7 +5,7 @@
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
   "removeAccountTitle": "Ripristina Valora",
-  "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+  "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "legal": "Informazioni legali",
   "security": "Sicurezza",
   "changePin": "Modifica il PIN",
@@ -30,13 +30,13 @@
     "switchToDataSaver": "Passa a Risparmio dati"
   },
   "accountKeyModal": {
-    "header": "Senza la tua frase di recupero perderai per sempre l’accesso a tuoi fondi",
-    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua frase di recupero.",
+    "header": "Senza la tua Frase di recupero perderai per sempre l’accesso a tuoi fondi",
+    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua Frase di recupero.",
     "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua frase di recupero."
   },
   "promptConfirmRemovalModal": {
     "header": "Ripristinare Valora?",
-    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
+    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua Frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
     "resetNow": "Ripristina ora"
   },
   "promptConfirmRevokeModal": {
@@ -105,30 +105,30 @@
   "contactSupport": "Contatta il supporto tecnico",
   "tapToCopy": "Tocca per copiare",
   "headerTitle": "Frase di recupero",
-  "introTitle": "La tua frase di recupero",
-  "introBody": "La tua frase di recupero è l’elemento più importante del tuo conto.\n\nTrova un luogo privato in cui impostarla. Occorrono circa cinque minuti.",
+  "introTitle": "La tua Frase di recupero",
+  "introBody": "La tua Frase di recupero è l’elemento più importante del tuo conto.\n\nTrova un luogo privato in cui impostarla. Occorrono circa cinque minuti.",
   "introPrimaryAction": "Imposta ora",
-  "backupSetupTitle": "Imposta la tua frase di recupero",
-  "backupSetupBody": "Per proteggere i tuoi fondi, devi impostare la tua frase di recupero prima di poter continuare a usare {{appName}}.",
+  "backupSetupTitle": "Imposta la tua Frase di recupero",
+  "backupSetupBody": "Per proteggere i tuoi fondi, devi impostare la tua Frase di recupero prima di poter continuare a usare {{appName}}.",
   "delayBackup": "Attendi un’ora",
-  "postSetupTitle": "La tua frase di recupero",
-  "postSetupBody": "Se smarrisci la tua frase di recupero, non potrai più accedere a tutti i tuoi Celo Dollar, Celo Euro e ai CELO. Nessuno, neanche {{appName}}, potrà aiutarti a recuperare il tuo conto senza la tua frase di recupero. Conservala in un luogo sicuro e non condividerla.",
-  "postSetupCTA": "Maggiori informazioni sulla frase di recupero",
-  "failedFetchMnemonic": "Impossibile recuperare la frase di recupero.",
+  "postSetupTitle": "La tua Frase di recupero",
+  "postSetupBody": "Se smarrisci la tua Frase di recupero, non potrai più accedere a tutti i tuoi Celo Dollar e CELO. Nessuno, neanche {{appName}}, potrà aiutarti a recuperare il tuo conto senza la tua Frase di recupero. Conservala in un luogo sicuro e non condividerla.",
+  "postSetupCTA": "Maggiori informazioni sulla Frase di recupero",
+  "failedFetchMnemonic": "Impossibile recuperare la Frase di recupero.",
   "backupAndRecovery": "Backup e ripristino",
   "writeDownKey": "Annota la tua frase di recupero",
   "completeEducation": "Ho capito",
-  "yourAccountKey": "La tua frase di recupero",
-  "backupKeyNotification": "La tua frase di recupero è l’elemento più importante del tuo conto.",
-  "backupKeySummary": "Trova un luogo privato e annota la tua frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
+  "yourAccountKey": "La tua Frase di recupero",
+  "backupKeyNotification": "La tua Frase di recupero è l’elemento più importante del tuo conto.",
+  "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "copied": "La frase di recupero è stata copiata negli Appunti.",
   "moreInfo": "Maggiori informazioni",
   "savedConfirmation": "Sì, ho annotato la mia frase di recupero.",
-  "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua frase di recupero?",
+  "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua Frase di recupero?",
   "importBackupFailed": "Impossibile importare il wallet.",
-  "backupQuizFailed": "La frase di recupero immesse non è corretta. Riprova.",
-  "invalidBackupPhrase": "La frase di recupero non è valida.",
-  "invalidWordsInBackupPhrase": "Alcune parole della frase di recupero non sono valide: {{ invalidWords }}.",
+  "backupQuizFailed": "La Frase di recupero inserita non è corretta. Riprova.",
+  "invalidBackupPhrase": "La Frase di recupero non è valida",
+  "invalidWordsInBackupPhrase": "Alcune parole della Frase di recupero non sono valide: {{ invalidWords }}.",
   "backupComplete": {
     "header": "Backup completato.",
     "0": "Operazione completata.",
@@ -136,24 +136,24 @@
     "2": "Configurazione completata."
   },
   "cancelDialog": {
-    "title": "Completa l’impostazione della frase di recupero",
-    "body": "La tua frase di recupero è importantissima. Senza di essa puoi perdere per sempre l’accesso al tuo wallet. \nNon potrai inviare alcuna transazione fino a quando non completi l’impostazione della frase di recupero.",
+    "title": "Completa l’impostazione della tua Frase di recupero",
+    "body": "La tua Frase di recupero è importantissima. Senza di essa puoi perdere per sempre l’accesso al tuo wallet. \nNon potrai inviare alcuna transazione fino a quando non completerai l’impostazione della tua Frase di recupero.",
     "action": "Completa ora",
     "secondary": "Imposta più tardi"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "La tua frase di recupero è un tipo speciale di password.",
-      "text": "La tua frase di recupero è l’unico modo per accedere al tuo conto."
+      "title": "La tua Frase di recupero è un tipo speciale di password",
+      "text": "La tua Frase di recupero è l’unico modo per accedere al tuo conto."
     },
     {
-      "title": "Senza la tua frase di recupero, puoi perdere per sempre l’accesso.",
-      "text": "Se smarrisci il tuo telefono, devi avere la tua frase di recupero per ottenere nuovamente l’accesso al tuo conto. Nessuno, neanche {{appName}}, potrà recuperare i tuoi fondi senza di essa."
+      "title": "Senza la tua Frase di recupero, puoi perdere per sempre l’accesso",
+      "text": "Se smarrisci il tuo telefono, devi avere la tua Frase di recupero per ottenere nuovamente l’accesso al tuo conto. Nessuno, neanche {{appName}}, potrà recuperare i tuoi fondi senza di essa."
     },
     {
       "title": "Annotala",
-      "text": "Annota la tua frase di recupero e conservala in un luogo sicuro. Non memorizzarla nel tuo telefono."
+      "text": "Annota la tua Frase di recupero e conservala in un luogo sicuro. Non memorizzarla nel tuo telefono."
     },
     {
       "title": "Mantieni al sicuro la tua frase di recupero.",
@@ -172,7 +172,7 @@
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
-    "header": "Imposta la tua frase di recupero",
+    "header": "Imposta la tua Frase di recupero",
     "text": "Questo assicurerà che le tue ricompense siano al sicuro e sotto il tuo controllo."
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
@@ -512,12 +512,12 @@
   ],
   "addressValidationError": "Le informazioni sul conto immesse non sono valide.",
   "addressValidationNoMatch": "Le informazioni sul conto immesse non corrispondono a nessun conto associato al tuo contatto.",
-  "addressValidationFullPoorlyFormatted": "L’indirizzo di un conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialPoorlyFormatted": "L’indirizzo di un conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationFullOwnAddress": "Immetti l’indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell’indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationFullPoorlyFormatted": "L’Indirizzo del conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationPartialPoorlyFormatted": "L’Indirizzo del conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationFullOwnAddress": "Immetti l’Indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell'Indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
   "providerRateFetchFailed": "Impossibile recuperare il tasso del provider. Puoi continuare senza un tasso precompilato.",
-  "helpFindAccount": "Aiuta il tuo contatto a trovare l’indirizzo del suo conto",
+  "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
   "home": "Home",
   "accountKey": "Frase di recupero",
@@ -531,7 +531,7 @@
   "currentBalance": "Saldo attuale (cUSD)",
   "restore": "Ripristina",
   "commentUnavailable": "Commento non disponibile",
-  "accountClearFailed": "Si è verificato un errore durante la rimozione della frase di recupero. Potrebbe essere necessario reinstallare l’app per ripristinare l’intera funzionalità.",
+  "accountClearFailed": "Si è verificato un errore durante la rimozione della Frase di recupero. Potrebbe essere necessario reinstallare l’app per ripristinare l’intera funzionalità.",
   "withdraw": "Preleva",
   "countryNotAvailable": "{{appName}} non è disponibile nel tuo Paese.",
   "fetchFailed": "Impossibile stabilire la connessione al server.",
@@ -762,7 +762,7 @@
     "dismiss": "Ignora"
   },
   "importExistingKey": {
-    "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
+    "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
@@ -907,7 +907,7 @@
   "confirmAccount": {
     "header": "Conferma il conto di {{displayName}}",
     "headerNoDisplayName": "Conferma il conto del tuo contatto",
-    "button": "Conferma l’indirizzo del conto"
+    "button": "Conferma l’Indirizzo del conto"
   },
   "secureSendExplanation": {
     "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
@@ -932,7 +932,7 @@
     "body2": "L’indirizzo del conto si trova vicino alla parte inferiore del menu.",
     "body3": "Gli indirizzi dei conti iniziano con \"0x\" e sono composti da 42 caratteri."
   },
-  "transferAddressChanged": "Questo contatto ha cambiato l’indirizzo del suo conto dopo la transazione. Questo pagamento è stato inviato a:",
+  "transferAddressChanged": "Questo contatto ha cambiato il suo Indirizzo del conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
   "sending": "Invia a",
   "feeActual": "Commissioni",
