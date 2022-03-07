@@ -862,7 +862,7 @@
   "sentEscrowPayment": "Pagamento de caução enviado",
   "mobileNumber": "Número do celular",
   "sendToMobileNumber": "Enviar para o número de celular",
-  "requestFromMobileNumber": "Solicitar a número de celular",
+  "requestFromMobileNumber": "proprietário do número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
