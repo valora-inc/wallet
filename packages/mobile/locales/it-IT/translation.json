@@ -327,14 +327,14 @@
   },
   "dailyLimitRequest": "Salve. Desidero aumentare il mio limite di invio quotidiano.",
   "pleaseSelectProvider": "Seleziona uno dei provider di seguito. Questi collegamenti rimandano a un servizio terze parti.",
-  "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo wallet</0>.",
+  "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo conto</0>.",
   "youCanTransferIn": "Puoi trasferire {{digitalAsset}} da qualsiasi exchange che supporta {{digitalAsset}}. Sarà necessario il tuo Indirizzo del conto.",
   "youCanTransferOut": "Puoi trasferire {{digitalAsset}} a qualsiasi exchange che supporta {{digitalAsset}}. Una volta recuperato il tuo indirizzo, puoi procedere con la fase successiva.",
   "useBalanceWithMerchants": "Usa il tuo saldo con commercianti che lo supportano",
   "findMerchants": "Trova commercianti locali nelle vicinanze",
-  "celoDeposit": "Acquisto di CELO",
-  "cUsdDeposit": "Acquisto di cUSD",
-  "cEurDeposit": "Acquisto di cEUR",
+  "celoDeposit": "CELO acquistati",
+  "cUsdDeposit": "cUSD acquistati",
+  "cEurDeposit": "cEUR acquistati",
   "providerUnavailable": "Attualmente non disponibile",
   "pricePer": "Prezzo per {{coin}}",
   "feeDiscount": "Sconto sulle commissioni",
@@ -344,9 +344,9 @@
     "bodyWithProvider": "{{provider}} sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni.",
     "bodyWithoutProvider": "Il service provider sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni."
   },
-  "restrictedRegion": "Supporto limitato nella regione geografica",
-  "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua regione geografica.",
-  "noProviders": "Nella tua regione geografica non sono presenti provider disponibili per {{digitalAsset}}.",
+  "restrictedRegion": "Supporto limitato nell'area",
+  "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua area.",
+  "noProviders": "Nella tua area non sono presenti provider disponibili per {{digitalAsset}}.",
   "switchCurrency": "Cambia valuta",
   "accept": "Accetta",
   "at": "alle",
@@ -398,7 +398,7 @@
   "enterManually": "Immetti manualmente",
   "incorrectPin": "PIN non corretto",
   "pinInputCanceled": "Il PIN è necessario. Riprova.",
-  "setPinFailed": "Impossibile impostare il PIN.",
+  "setPinFailed": "Impossibile impostare il PIN",
   "optIn": "Accetta opzione",
   "invalidInvite": "Codice di invito non valido.",
   "inviteFriends": "Invita amici",
@@ -430,7 +430,7 @@
   "loading": "Caricamento in corso…",
   "inviteFailed": "Impossibile inviare l'invito.",
   "inviteOpenAppFailed": "Impossibile aprire l'app di messaggistica, il codice dell’invito è stato copiato negli Appunti.",
-  "importContactsFailed": "Impossibile importare i contatti.",
+  "importContactsFailed": "Impossibile importare i contatti",
   "sendPaymentFailed": "Impossibile inviare il pagamento.",
   "paymentRequestFailed": "Impossibile inviare la richiesta di pagamento.",
   "escrowTransferFailed": "Impossibile eseguire il trasferimento a deposito in garanzia.",
@@ -547,7 +547,7 @@
   "goldEducationSteps": [
     {
       "title": "Cos’è CELO?",
-      "text": "CELO è una valuta digitale che mantiene stabile il Celo Dollar (cUSD) e il Celo Euro (cEUR)."
+      "text": "CELO è una valuta digitale che mantiene stabile Celo Dollar (cUSD) e Celo Euro (cEUR)."
     },
     {
       "title": "Il prezzo di CELO oscilla",
@@ -615,10 +615,10 @@
   "goToSystemSecuritySettingsActionLabel": "Passa a Sicurezza",
   "enableSystemScreenLockFailedMessage": "Impossibile abilitare il blocco per lo schermo.",
   "initKeystoreFailureMessage": "Impossibile inizializzare l'archivio chiavi.",
-  "pinLostForeverMessage": "Hai rimosso il blocco per lo schermo, il PIN è andato perso.",
+  "pinLostForeverMessage": "Hai rimosso il blocco per lo schermo, il PIN è andato perso",
   "importContactsPermission": {
     "title": "Importa contatti",
-    "0": "Collegando la tua rubrica puoi inviare e richiedere facilmente pagamenti ai tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
+    "0": "Collegando la tua rubrica, puoi inviare e richiedere facilmente pagamenti ai tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
     "1": "Non preoccuparti: il collegamento non comporta l’invio di inviti ai tuoi contatti.",
     "enable": "Abilita l’accesso ai contatti",
     "loading": "Ricerca di amici su {{appName}} in corso..."
@@ -639,7 +639,7 @@
   "education": {
     "header": "Conferma numero telefonico",
     "body1": "Successivamente, conferma il tuo numero telefonico.",
-    "body2": "Collegando il tuo numero telefonico puoi inviare e ricevere più facilmente con gli amici. Puoi anche saltare questo passaggio e tornare qui più tardi.",
+    "body2": "Collegando il tuo numero telefonico, puoi inviare e ricevere più facilmente con gli amici. Puoi anche saltare questo passaggio e tornare qui più tardi.",
     "learnMore": "Ulteriori informazioni sulla conferma del numero telefonico",
     "start": "Inizia conferma",
     "skip": "Salta per il momento"
@@ -682,7 +682,7 @@
   },
   "quotaLookup": {
     "title": "Quota di ricerca superata",
-    "body1": "Per mantenere il tuo numero telefonico sicuro e privato, {{appName}} limita la quantità di numeri telefonici che gli utenti possono cercare.",
+    "body1": "Per mantenere il tuo numero telefonico sicuro e privato, {{appName}} limita la quantità di numeri telefonici che è possibile cercare.",
     "body2": "Puoi acquistare più ricerche pagando una piccola commissione.",
     "cta": "Acquista ricerche (2)"
   },
@@ -729,7 +729,7 @@
   },
   "inviteCode": {
     "title": "Codice di invito",
-    "body": "Hai ricevuto un pagamento o un invito? In tal caso, copia e incolla di seguito il codice di invito.",
+    "body": "Hai ricevuto un pagamento o un invito? In tal caso, copia e incolla di seguito il Codice di invito.",
     "label": "Codice di invito",
     "codePlaceholder": "Immetti il codice di invito",
     "noCode": "Non ho un codice di invito",
@@ -741,7 +741,7 @@
     "title": "Numero telefonico",
     "header": "Collega il tuo numero telefonico",
     "body": "Per verificare che il numero sia davvero il tuo, stiamo per inviarti tre messaggi che costeranno circa 0,05 cUSD ciascuno.\n\nLa conferma del tuo numero richiede circa tre minuti.",
-    "feelessBody": "La connessione richiede circa tre minuti. Per confermare il tuo numero, riceverai tre messaggi.",
+    "feelessBody": "Il collegamento richiede circa tre minuti. Per confermare il tuo numero, riceverai tre messaggi.",
     "start": "Inizia",
     "resume": "Riprendi",
     "doINeedToConfirm": "Devo confermare?",
@@ -807,12 +807,12 @@
     "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "Configurazione completata."
+    "message": "Configurazione completata!"
   },
   "verificationUnavailable": "La funzione di conferma del numero telefonico non è attualmente disponibile. Immetti il tuo numero telefonico e ti avviseremo quando sarà nuovamente possibile eseguire la conferma.\n\nNel frattempo, puoi continuare a usare Valora. I pagamenti inviati al tuo numero telefonico saranno al sicuro fino a quando non li riscatterai confermando tale numero.",
   "requests": "Richieste",
   "empty": "Non hai alcuna richiesta di pagamento",
-  "celoDollarBalance": "Saldo in Celo Dollar",
+  "celoDollarBalance": "Saldo Celo Dollar",
   "requestDeclined": "Richiesta rifiutata",
   "requestPaid": "Richiesta pagata",
   "paymentRequestUpdateFailed": "Impossibile aggiornare la richiesta di pagamento",
@@ -846,13 +846,13 @@
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
-  "feeEducation": "La blockchain Celo addebita una commissione sulla transazione per supportare la rete e e il suo funzionamento ottimale.",
+  "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione, per supportare la rete e il suo funzionamento ottimale.",
   "inviteMoneyEscrow": "Inviteremo questo contatto e manterremo i suoi fondi al sicuro fino a quando non avrà confermato il suo conto.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
   "inviteSendTo": "Invita e invia a",
-  "keepMoneySafe": "Manterremo questi fondi al sicuro fino a quando il tuo amico non avrà creato un conto {{appName}}",
+  "keepMoneySafe": "Manterremo questi fondi al sicuro fino a quando il tuo amico non avrà creato un conto {{appName}}.",
   "searchFriends": "Se non riesci a trovare la persona che stai cercando, prova a immettere un numero telefonico.",
   "inviteVerifyPayment": "Invita e conferma pagamento",
   "noResultsFor": "Nessun risultato per",
@@ -1011,7 +1011,7 @@
   "verificationFee": "Commissione di conferma",
   "networkFee": "Commissione di rete",
   "networkFeeExplanation": {
-    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore del Celo Dollar. Per ulteriori informazioni sulle commissioni Celo, visita",
+    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore di Celo Dollar e Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
     "1": "Domande frequenti"
   },
   "confirmingTransaction": "Conferma in corso…",
@@ -1159,16 +1159,16 @@
   "bankAccountsScreen": {
     "header": "Conti bancari collegati",
     "add": "Aggiungere un conto bancario",
-    "delete": "Eliminare"
+    "delete": "Elimina"
   },
   "syncingBankAccount": "Sincronizzazione del conto bancario in corso...",
   "linkBankAccountSettingsTitle": "Conti bancari collegati",
   "linkBankAccountSettingsValue": "Accedi",
   "linkBankAccountSettingsValue2": "Aggiungere un conto nuovo",
   "connectPhoneNumber": {
-    "title": "Connetti il numero telefonico per continuare",
-    "body": "È necessario connettere il tuo numero telefonico per verificare la tua identità e collegare il tuo conto bancario.",
-    "buttonText": "Connetti"
+    "title": "Collega il tuo numero telefonico per continuare",
+    "body": "È necessario collegare il tuo numero telefonico per verificare la tua identità e collegare il tuo conto bancario.",
+    "buttonText": "Collega"
   },
   "outOfSyncBanner": {
     "title": "Sei offline.",
