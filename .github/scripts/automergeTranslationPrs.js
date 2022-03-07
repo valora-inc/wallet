@@ -10,8 +10,7 @@
  */
 
 const AUTOMERGE_LABEL = 'automerge'
-// const TRANSLATION_USERS = ['mpgaarciaa', 'lukasawagner']
-const TRANSLATION_USERS = ['kathaypacific']
+const TRANSLATION_USERS = ['mpgaarciaa', 'lukasawagner']
 const BASE_TRANSLATION_FILENAME = 'packages/mobile/locales/base/translation.json'
 
 /**
