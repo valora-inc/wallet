@@ -862,7 +862,7 @@
   "sentEscrowPayment": "Escrow-Zahlung gesendet",
   "mobileNumber": "Handy #",
   "sendToMobileNumber": "An Telefonnummer senden",
-  "requestFromMobileNumber": "Anfrage von Telefonnummer",
+  "requestFromMobileNumber": "Inhaber der Telefonnummer",
   "sendToAddress": "An Adresse senden",
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
