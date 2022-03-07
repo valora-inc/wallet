@@ -1,10 +1,10 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { MockStoreEnhanced } from 'redux-mock-store'
+import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { SUPERCHARGE_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { SuperchargePendingReward, SuperchargeToken } from 'src/consumerIncentives/types'
@@ -12,8 +12,13 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/reducer'
-import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
+
+jest.mock('src/api/slice', () => ({
+  ...(jest.requireActual('src/api/slice') as any),
+  useFetchSuperchargeRewards: jest.fn(),
+}))
 
 interface TokenBalances {
   [address: string]: Partial<StoredTokenBalance> | undefined
@@ -69,7 +74,6 @@ function expectVisibleMainComponents(
 
 describe('ConsumerIncentivesHomeScreen', () => {
   let store: MockStoreEnhanced<RootState, {}>
-  const mockFetch = fetch as FetchMock
   beforeEach(() => mockQueryResponse(EMPTY_REWARDS_RESPONSE))
 
   function createStore({
@@ -101,25 +105,12 @@ describe('ConsumerIncentivesHomeScreen', () => {
   }
 
   function mockQueryResponse(data: SuperchargePendingReward[]) {
-    mockFetch.resetMocks()
-    mockFetch.mockResponse(JSON.stringify({ availableRewards: data }))
+    ;(useFetchSuperchargeRewards as jest.Mock).mockImplementation(() => ({
+      superchargeRewards: data,
+      isLoading: false,
+      isError: false,
+    }))
   }
-
-  it('renders loading until the remote query finishes', async () => {
-    const { queryByTestId } = render(
-      <Provider
-        store={createStore({
-          numberVerified: false,
-          tokenBalances: NO_BALANCES,
-        })}
-      >
-        <ConsumerIncentivesHomeScreen />
-      </Provider>
-    )
-    expectVisibleMainComponents(queryByTestId, 'SuperchargeLoading')
-    await flushMicrotasksQueue()
-    expect(queryByTestId('SuperchargeLoading')).toBeNull()
-  })
 
   it('renders Supercharge instructions when not Supercharging', async () => {
     const { queryByTestId } = render(
@@ -132,7 +123,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     expectVisibleMainComponents(queryByTestId, 'SuperchargeInstructions')
   })
 
@@ -147,7 +138,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     expectVisibleMainComponents(queryByTestId, 'SuperchargingInfo')
   })
 
@@ -163,7 +154,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     expectVisibleMainComponents(queryByTestId, 'ClaimSuperchargeDescription')
   })
 
@@ -178,7 +169,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, { isCashIn: true })
@@ -195,7 +185,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen, {
@@ -214,7 +204,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     fireEvent.press(getByTestId('LearnMore'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
@@ -232,7 +222,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
         <ConsumerIncentivesHomeScreen />
       </Provider>
     )
-    await flushMicrotasksQueue()
+
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
 
     expect(store.getActions()).toMatchInlineSnapshot(`

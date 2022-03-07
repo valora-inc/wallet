@@ -1061,6 +1061,11 @@ interface RewardsProperties {
   [RewardsEvents.rewards_screen_cta_pressed]: {
     buttonPressed: RewardsScreenCta
   }
+  [RewardsEvents.learn_more_pressed]: undefined
+  [RewardsEvents.claimed_reward]: {
+    amount: string
+    token: string
+  }
 }
 
 interface WalletConnect1Properties {
@@ -1195,24 +1200,27 @@ interface CICOEventsProperties {
   }
 }
 
+export enum DappSection {
+  RecentlyUsed = 'recently used',
+  Featured = 'featured',
+  All = 'all',
+}
 interface DappEventProperties {
   categoryId: string
   dappId: string
   dappName: string
-}
-
-interface DappSelectEventProperties extends DappEventProperties {
-  section: string
-  horizontalPosition: number
+  section: DappSection
+  horizontalPosition?: number
 }
 
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
-  [DappExplorerEvents.dapp_open]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_open]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
-  [DappExplorerEvents.dapp_select]: DappSelectEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_open]: DappSelectEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_view_all]: undefined
+  [DappExplorerEvents.dapp_select]: DappEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -3,9 +3,21 @@ import { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
-import * as React from 'react'
+import { debounce, range } from 'lodash'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  Image,
+  NativeScrollEvent,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import { DappSection } from 'src/analytics/Properties'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { recentDappsSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -18,13 +30,53 @@ interface Props {
 }
 
 const DAPP_ICON_SIZE = 68
+const DAPP_WIDTH = 100
+const SCROLL_DEBOUNCE_TIME = 300 // milliseconds
+const windowWidth = Dimensions.get('window').width
 
 function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const { t } = useTranslation()
 
+  const lastViewedDapp = useRef(-1)
+
+  useEffect(() => {
+    if (recentlyUsedDapps.length) {
+      trackDappsImpressionForScrollPosition(0)
+    }
+  }, [])
+
+  const trackDappsImpressionForScrollPosition = debounce((horizontalContentOffset: number) => {
+    const numDappsVisible = Math.min(
+      Math.floor((windowWidth + horizontalContentOffset) / DAPP_WIDTH),
+      recentlyUsedDapps.length
+    )
+
+    if (numDappsVisible > lastViewedDapp.current + 1) {
+      // ensure single analytics event for each dapp impression, so that
+      // duplicate events are not sent if user scrolls back to the beginning
+      range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
+        const dapp = recentlyUsedDapps[dappIndex]
+        ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
+          categoryId: dapp.categoryId,
+          dappId: dapp.id,
+          dappName: dapp.name,
+          horizontalPosition: dappIndex,
+          section: DappSection.RecentlyUsed,
+        })
+      })
+
+      lastViewedDapp.current = numDappsVisible - 1
+    }
+  }, SCROLL_DEBOUNCE_TIME)
+
   const onPressAllDapps = () => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_view_all)
     navigate(Screens.DAppsExplorerScreen)
+  }
+
+  const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
+    trackDappsImpressionForScrollPosition(event.nativeEvent.contentOffset.x)
   }
 
   if (!recentlyUsedDapps.length) {
@@ -47,8 +99,10 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         testID="RecentlyUsedDapps/ScrollContainer"
+        onScroll={handleScroll}
+        scrollEventThrottle={50}
       >
-        {recentlyUsedDapps.map((recentlyUsedDapp, index) => (
+        {recentlyUsedDapps.map((recentlyUsedDapp) => (
           <Touchable
             key={recentlyUsedDapp.id}
             onPress={() => onSelectDapp(recentlyUsedDapp)}
@@ -100,7 +154,7 @@ const styles = StyleSheet.create({
   },
   dappContainer: {
     alignItems: 'center',
-    marginHorizontal: Spacing.Regular16,
+    width: DAPP_WIDTH,
   },
   dappName: {
     ...fontStyles.small,
