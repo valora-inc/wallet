@@ -157,25 +157,25 @@ describe('RecentlyUsedDapps', () => {
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, 'dapp_recently_used_impression', {
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, 'dapp_impression', {
         categoryId: 'exchanges',
         dappId: 'ubeswap',
         dappName: 'Ubeswap',
-        section: 'all',
+        origin: Screens.WalletHome,
         horizontalPosition: 0,
       })
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_recently_used_impression', {
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_impression', {
         categoryId: 'lend',
         dappId: 'moola',
         dappName: 'Moola',
-        section: 'all',
+        origin: Screens.WalletHome,
         horizontalPosition: 1,
       })
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(3, 'dapp_recently_used_impression', {
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(3, 'dapp_impression', {
         categoryId: 'exchanges',
         dappId: 'mentofi',
         dappName: 'Mento-Fi',
-        section: 'all',
+        origin: Screens.WalletHome,
         horizontalPosition: 2,
       })
     })
@@ -199,11 +199,11 @@ describe('RecentlyUsedDapps', () => {
       fireEvent.scroll(scrollview, { nativeEvent: { contentOffset: { x: 400 } } })
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(4)
-      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(4, 'dapp_recently_used_impression', {
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(4, 'dapp_impression', {
         categoryId: 'social',
         dappId: 'poofcash',
         dappName: 'Poof',
-        section: 'featured',
+        origin: Screens.WalletHome,
         horizontalPosition: 3,
       })
     })
