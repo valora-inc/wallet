@@ -180,10 +180,10 @@
   "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
-  "superchargeDisclaimer": "Max-out rewards by adding up to {{amount}} {{token}}",
+  "superchargeDisclaimer": "Maksimum ödül kazanmak için daha fazla {{amount}} {{token}} ekleyin",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
-    "body": "You’ll get rewarded weekly on your Celo stablecoin with the highest value (cEUR, cUSD, cREAL).",
+    "body": "Celo stabilcoin'inizde en yüksek değerle (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
@@ -1188,8 +1188,8 @@
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
-  "recentlyUsedDapps": "Recently Used Dapps",
-  "allDapps": "All Dapps",
+  "recentlyUsedDapps": "Son Kullanılan Dapp'ler",
+  "allDapps": "Tüm Dapp'ler",
   "rewards": "Ödüller",
   "supercharge": "Supercharge",
   "others": "Diğer",
