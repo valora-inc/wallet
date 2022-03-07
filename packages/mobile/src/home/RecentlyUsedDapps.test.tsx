@@ -1,10 +1,20 @@
 import { fireEvent, render, within } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('react-native/Libraries/Utilities/Dimensions', () => ({
+  get: jest.fn().mockReturnValue({ width: 314, height: 818, scale: 1, fontScale: 1 }),
+}))
+jest.mock('lodash', () => ({
+  ...(jest.requireActual('lodash') as any),
+  debounce: jest.fn((fn) => fn),
+}))
 
 const recentDapps = [
   {
@@ -24,6 +34,24 @@ const recentDapps = [
     iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/moola.png',
     isFeatured: false,
     id: 'moola',
+  },
+  {
+    name: 'Mento-Fi',
+    description: 'Exchange between Celo native currencies with Mento',
+    dappUrl: 'https://mento.finance/',
+    categoryId: 'exchanges',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/mentofi.png',
+    isFeatured: false,
+    id: 'mentofi',
+  },
+  {
+    name: 'Poof',
+    description: 'Make your transactions untraceable',
+    dappUrl: 'https://app.poof.cash/#/account/create',
+    categoryId: 'social',
+    iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/poofcash.png',
+    isFeatured: true,
+    id: 'poofcash',
   },
 ]
 
@@ -60,16 +88,13 @@ describe('RecentlyUsedDapps', () => {
 
     expect(getByText('recentlyUsedDapps')).toBeTruthy()
     expect(getByText('allDapps')).toBeTruthy()
-    expect(dapps).toHaveLength(2)
+    expect(dapps).toHaveLength(recentDapps.length)
 
-    expect(within(dapps[0]).getByText(recentDapps[0].name)).toBeTruthy()
-    expect(within(dapps[0]).getByTestId('RecentDapp-icon').props.source).toEqual({
-      uri: recentDapps[0].iconUrl,
-    })
-
-    expect(within(dapps[1]).getByText(recentDapps[1].name)).toBeTruthy()
-    expect(within(dapps[1]).getByTestId('RecentDapp-icon').props.source).toEqual({
-      uri: recentDapps[1].iconUrl,
+    dapps.forEach((dapp, index) => {
+      expect(within(dapp).getByText(recentDapps[index].name)).toBeTruthy()
+      expect(within(dapp).getByTestId('RecentDapp-icon').props.source.uri).toEqual(
+        recentDapps[index].iconUrl
+      )
     })
   })
 
@@ -109,5 +134,78 @@ describe('RecentlyUsedDapps', () => {
     fireEvent.press(getByText('allDapps'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.DAppsExplorerScreen)
+  })
+
+  describe('impression analytics', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+    })
+
+    it('should track impressions for dapps visible', () => {
+      // as the DAPP_WIDTH is 100, only 3 dapps should be displayed for the above
+      // mocked screen width
+      render(
+        <Provider
+          store={createMockStore({
+            app: {
+              recentDapps,
+            },
+          })}
+        >
+          <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, 'dapp_recently_used_impression', {
+        categoryId: 'exchanges',
+        dappId: 'ubeswap',
+        dappName: 'Ubeswap',
+        section: 'all',
+        horizontalPosition: 0,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_recently_used_impression', {
+        categoryId: 'lend',
+        dappId: 'moola',
+        dappName: 'Moola',
+        section: 'all',
+        horizontalPosition: 1,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(3, 'dapp_recently_used_impression', {
+        categoryId: 'exchanges',
+        dappId: 'mentofi',
+        dappName: 'Mento-Fi',
+        section: 'all',
+        horizontalPosition: 2,
+      })
+    })
+
+    it('should only track impressions once on scrolling back and forth', () => {
+      const { getByTestId } = render(
+        <Provider
+          store={createMockStore({
+            app: {
+              recentDapps,
+            },
+          })}
+        >
+          <RecentlyUsedDapps onSelectDapp={jest.fn()} />
+        </Provider>
+      )
+
+      const scrollview = getByTestId('RecentlyUsedDapps/ScrollContainer')
+      fireEvent.scroll(scrollview, { nativeEvent: { contentOffset: { x: 400 } } })
+      fireEvent.scroll(scrollview, { nativeEvent: { contentOffset: { x: 0 } } })
+      fireEvent.scroll(scrollview, { nativeEvent: { contentOffset: { x: 400 } } })
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(4)
+      expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(4, 'dapp_recently_used_impression', {
+        categoryId: 'social',
+        dappId: 'poofcash',
+        dappName: 'Poof',
+        section: 'featured',
+        horizontalPosition: 3,
+      })
+    })
   })
 })

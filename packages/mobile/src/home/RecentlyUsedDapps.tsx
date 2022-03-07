@@ -3,7 +3,7 @@ import { Colors } from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
-import { range } from 'lodash'
+import { debounce, range } from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -30,6 +30,7 @@ interface Props {
 
 const DAPP_ICON_SIZE = 68
 const DAPP_WIDTH = 100
+const SCROLL_DEBOUNCE_TIME = 300 // milliseconds
 const windowWidth = Dimensions.get('window').width
 
 function RecentlyUsedDapps({ onSelectDapp }: Props) {
@@ -40,25 +41,33 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   // dapp impression, zero index
   const lastViewedDapp = useRef(-1)
 
-  const trackDappImpression = (numDappsVisible: number) => {
-    range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
-      const dapp = recentlyUsedDapps[dappIndex]
-      ValoraAnalytics.track(RecentlyUsedDappEvents.dapp_recently_used_impression, {
-        categoryId: dapp.categoryId,
-        dappId: dapp.id,
-        dappName: dapp.name,
-        section: dapp.isFeatured ? 'featured' : 'all',
-        horizontalPosition: dappIndex,
-      })
-    })
-
-    lastViewedDapp.current = numDappsVisible - 1
-  }
-
   useEffect(() => {
-    const numDappsVisible = Math.floor(windowWidth / DAPP_WIDTH)
-    trackDappImpression(numDappsVisible)
+    if (recentlyUsedDapps.length) {
+      trackDappsImpressionForScrollPosition(0)
+    }
   }, [])
+
+  const trackDappsImpressionForScrollPosition = debounce((horizontalContentOffset: number) => {
+    const numDappsVisible = Math.min(
+      Math.floor((windowWidth + horizontalContentOffset) / DAPP_WIDTH),
+      recentlyUsedDapps.length
+    )
+
+    if (numDappsVisible > lastViewedDapp.current + 1) {
+      range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
+        const dapp = recentlyUsedDapps[dappIndex]
+        ValoraAnalytics.track(RecentlyUsedDappEvents.dapp_recently_used_impression, {
+          categoryId: dapp.categoryId,
+          dappId: dapp.id,
+          dappName: dapp.name,
+          section: dapp.isFeatured ? 'featured' : 'all',
+          horizontalPosition: dappIndex,
+        })
+      })
+
+      lastViewedDapp.current = numDappsVisible - 1
+    }
+  }, SCROLL_DEBOUNCE_TIME)
 
   const onPressAllDapps = () => {
     ValoraAnalytics.track(RecentlyUsedDappEvents.dapp_view_all)
@@ -66,12 +75,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   }
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
-    const numDappsVisible = Math.floor(
-      (windowWidth + event.nativeEvent.contentOffset.x) / DAPP_WIDTH
-    )
-    if (numDappsVisible > lastViewedDapp.current + 1) {
-      trackDappImpression(numDappsVisible)
-    }
+    trackDappsImpressionForScrollPosition(event.nativeEvent.contentOffset.x)
   }
 
   if (!recentlyUsedDapps.length) {
