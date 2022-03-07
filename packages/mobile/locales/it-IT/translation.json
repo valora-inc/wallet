@@ -328,7 +328,7 @@
   "dailyLimitRequest": "Salve. Desidero aumentare il mio limite di invio quotidiano.",
   "pleaseSelectProvider": "Seleziona uno dei provider di seguito. Questi collegamenti rimandano a un servizio terze parti.",
   "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo wallet</0>.",
-  "youCanTransferIn": "Puoi trasferire {{digitalAsset}} da qualsiasi exchange che supporta {{digitalAsset}}. Sarà necessario l’indirizzo del tuo conto.",
+  "youCanTransferIn": "Puoi trasferire {{digitalAsset}} da qualsiasi exchange che supporta {{digitalAsset}}. Sarà necessario il tuo Indirizzo del conto.",
   "youCanTransferOut": "Puoi trasferire {{digitalAsset}} a qualsiasi exchange che supporta {{digitalAsset}}. Una volta recuperato il tuo indirizzo, puoi procedere con la fase successiva.",
   "useBalanceWithMerchants": "Usa il tuo saldo con commercianti che lo supportano",
   "findMerchants": "Trova commercianti locali nelle vicinanze",
@@ -656,7 +656,7 @@
   "skipModal": {
     "header": "Saltare la conferma?",
     "body1": "La conferma consente ad altri di inviare valore al tuo numero telefonico.",
-    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando indirizzi di conti o codici QR."
+    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando un Indirizzo del conto o codici QR."
   },
   "failModal": {
     "header": "Errore durante la conferma.",
@@ -758,7 +758,7 @@
   "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
-    "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
+    "body": "La conferma semplifica la connessione con i tuoi amici, consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o Indirizzi di conto.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
     "dismiss": "Ignora"
   },
   "importExistingKey": {
@@ -912,25 +912,25 @@
   "secureSendExplanation": {
     "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
     "body1NoDisplayName": "Al tuo contatto sono associati più conti. Il tuo contatto potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è compromesso.",
-    "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare l’indirizzo del suo conto."
+    "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare il suo Indirizzo del conto."
   },
   "confirmAccountNumber": {
-    "title": "Conferma l’indirizzo del conto",
-    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
-    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
-    "body1Full": "Chiedi a {{displayName}} l’indirizzo del suo conto.",
-    "body1FullNoDisplayName": "Chiedi al tuo contatto l’indirizzo del suo conto.",
+    "title": "Conferma l’Indirizzo del conto",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
+    "body1Full": "Chiedi a {{displayName}} il suo Indirizzo del conto.",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto il suo Indirizzo del conto.",
     "body2Full": "È consigliabile chiedere di persona o per telefono, tramite WhatsApp o Messenger, oppure per e-mail. Per sicurezza, non utilizzare messaggi di testo (SMS).",
-    "help": "Guida per individuare l’indirizzo di un conto",
+    "help": "Guida per individuare un Indirizzo del conto",
     "submit": "Invia"
   },
   "accountInputHeaderPartial": "Ultime 4 cifre",
   "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
-    "header": "Individuazione dell’indirizzo di un conto",
-    "body1": "Gli indirizzi dei conti (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
-    "body2": "L’indirizzo del conto si trova vicino alla parte inferiore del menu.",
-    "body3": "Gli indirizzi dei conti iniziano con \"0x\" e sono composti da 42 caratteri."
+    "header": "Individuazione di un Indirizzo del conto",
+    "body1": "Gli Indirizzi del conto (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
+    "body2": "L’Indirizzo del conto si trova vicino alla parte inferiore del menu.",
+    "body3": "Gli Indirizzi del conto iniziano con \"0x\" e sono composti da 42 caratteri."
   },
   "transferAddressChanged": "Questo contatto ha cambiato il suo Indirizzo del conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
@@ -960,7 +960,7 @@
     "signTransaction": "Firma una transazione Celo",
     "sendTransaction": "Invia una transazione Celo",
     "decrypt": "Decrittografa un payload dati",
-    "accounts": "Leggi l’indirizzo del tuo conto {{appName}}",
+    "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
     "details": "Mostra dettagli",
     "computeSharedSecret": "Genera segreti"
   },
