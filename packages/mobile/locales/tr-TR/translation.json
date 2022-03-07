@@ -181,6 +181,8 @@
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
   "superchargeDisclaimer": "Maksimum ödül kazanmak için daha fazla {{amount}} {{token}} ekleyin",
+  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
     "body": "Celo stabilcoin'inizde en yüksek değerle (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
@@ -195,6 +197,8 @@
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
   "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
+  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationStart": "Claim rewards",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
   "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
