@@ -9,8 +9,8 @@
   "legal": "Informazioni legali",
   "security": "Sicurezza",
   "changePin": "Modifica il PIN",
-  "pinChanged": "Il PIN è stato modificato.",
-  "pinChangeFailed": "Impossibile modificare il PIN.",
+  "pinChanged": "Il PIN è stato modificato",
+  "pinChangeFailed": "Impossibile modificare il PIN",
   "requirePinOnAppOpen": "Richiedi il PIN all’apertura dell’app",
   "connectedApplications": "Dapp connesse",
   "analytics": "Statistiche",
@@ -32,7 +32,7 @@
   "accountKeyModal": {
     "header": "Senza la tua Frase di recupero perderai per sempre l’accesso a tuoi fondi",
     "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua Frase di recupero.",
-    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua frase di recupero."
+    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua Frase di recupero."
   },
   "promptConfirmRemovalModal": {
     "header": "Ripristinare Valora?",
@@ -47,7 +47,7 @@
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
-  "editProfile": "Modifica profilo",
+  "editProfile": "Profilo",
   "confirmNumber": "Collega numero telefonico",
   "cancel": "Annulla",
   "changeProfilePhoto": "Cambia foto del profilo",
@@ -67,8 +67,8 @@
   "forum": "Forum",
   "contactText": "Non trovi quello che cerchi?",
   "contactMessagePlaceholder": "Digita il tuo messaggio qui...",
-  "attachLogs": "Allega registri",
-  "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di registro dell’app allegati.",
+  "attachLogs": "Allega log",
+  "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
   "addPhoto": "Aggiungi foto",
@@ -116,14 +116,14 @@
   "postSetupCTA": "Maggiori informazioni sulla Frase di recupero",
   "failedFetchMnemonic": "Impossibile recuperare la Frase di recupero.",
   "backupAndRecovery": "Backup e ripristino",
-  "writeDownKey": "Annota la tua frase di recupero",
+  "writeDownKey": "Annota la tua Frase di recupero",
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification": "La tua Frase di recupero è l’elemento più importante del tuo conto.",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
-  "copied": "La frase di recupero è stata copiata negli Appunti.",
+  "copied": "La Frase di recupero è stata copiata negli appunti.",
   "moreInfo": "Maggiori informazioni",
-  "savedConfirmation": "Sì, ho annotato la mia frase di recupero.",
+  "savedConfirmation": "Sì, ho annotato la mia Frase di recupero.",
   "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua Frase di recupero?",
   "importBackupFailed": "Impossibile importare il wallet.",
   "backupQuizFailed": "La Frase di recupero inserita non è corretta. Riprova.",
@@ -133,7 +133,7 @@
     "header": "Backup completato.",
     "0": "Operazione completata.",
     "1": "Ora puoi configurare Safeguards.",
-    "2": "Configurazione completata."
+    "2": "Configurazione completata!"
   },
   "cancelDialog": {
     "title": "Completa l’impostazione della tua Frase di recupero",
@@ -157,14 +157,14 @@
     },
     {
       "title": "Mantenila al sicuro",
-      "text": "Chiunque conosca la tua frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
+      "text": "Chiunque conosca la tua Frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
     }
   ],
-  "consumerIncentivesTitle": "Intoduzione ai bonus",
+  "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
   "consumerIncentivesSummary": "Supercharge è qui! Ottieni {{percent}}premi annuali sul tuo saldo più alto in stablecoin (cUSD, cEUR, o cREAL). Disponibile per un tempo limitato. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
-    "text": "Tocca Connetti numero se non lo hai ancora connesso."
+    "text": "Tocca Collega numero se non lo hai ancora collegato."
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
@@ -213,7 +213,7 @@
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
   "data": "Dati",
-  "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload del registro non funzioneranno.",
+  "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload dei log non funzioneranno.",
   "learnMore": "Scopri di più",
   "equalToAmount": "Vale <1></1>",
   "whatIsGold": "{{appName}} consente di acquistare e vendere CELO",
@@ -551,7 +551,7 @@
     },
     {
       "title": "Il prezzo di CELO oscilla",
-      "text": "Se un numero maggiore di persone usa il cUSD e il cEUR, il valore di CELO aumenta. A differenza di CELO, il valore del Celo Dollar e del Celo Euro non oscilla. "
+      "text": "Se un numero maggiore di persone usa Celo Dollar, il valore di CELO aumenta. A differenza di CELO, il valore di Celo Dollar non oscilla. "
     },
     {
       "title": "Dai forma alla rete Celo",
@@ -1011,7 +1011,7 @@
   "verificationFee": "Commissione di conferma",
   "networkFee": "Commissione di rete",
   "networkFeeExplanation": {
-    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in dollari Celo di ogni utente viene utilizzata per mantenere stabile il valore del Celo Dollar e del Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
+    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore del Celo Dollar. Per ulteriori informazioni sulle commissioni Celo, visita",
     "1": "Domande frequenti"
   },
   "confirmingTransaction": "Conferma in corso…",
