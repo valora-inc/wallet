@@ -827,7 +827,7 @@
   "requestUnavailableBody": "Номер {{e164PhoneNumber}} не связан с аккаунтом или еще не подключен к нему. Запросы можно отправлять только на подключенные номера.",
   "requestUnavailableNoNumberBody": "Ваш контакт не связан с аккаунтом или еще не подключен к нему. Запросы можно отправлять только на подключенные номера.",
   "requesting": "Производится запрос",
-  "request": "Запрос",
+  "request": "Запросить",
   "requestToken": "Запросить {{token}}",
   "requestSent": "Запрос отправлен",
   "from": "от",
@@ -909,8 +909,8 @@
     "importing": "Выполняется импорт..."
   },
   "confirmAccount": {
-    "header": "Подтвердите аккаунт {{displayName}}",
-    "headerNoDisplayName": "Подтвердите аккаунт вашего контакта",
+    "header": "Подтвердить аккаунт {{displayName}}",
+    "headerNoDisplayName": "Подтвердить аккаунт вашего контакта",
     "button": "Подтвердите адрес аккаунта"
   },
   "secureSendExplanation": {
