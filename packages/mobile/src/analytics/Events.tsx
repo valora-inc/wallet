@@ -553,6 +553,7 @@ export enum DappExplorerEvents {
   dapp_select = 'dapp_select',
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
+  dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
 }
 
 export type AnalyticsEventType =
@@ -579,3 +580,4 @@ export type AnalyticsEventType =
   | WalletConnectEvents
   | DappKitEvents
   | CICOEvents
+  | DappExplorerEvents
