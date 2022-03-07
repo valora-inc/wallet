@@ -862,7 +862,7 @@
   "sentEscrowPayment": "Pagamento per deposito in garanzia inviato",
   "mobileNumber": "N. di cellulare",
   "sendToMobileNumber": "Invia al numero telefonico",
-  "requestFromMobileNumber": "Richiedi dal numero telefonico",
+  "requestFromMobileNumber": "Contatto",
   "sendToAddress": "Invia all’indirizzo",
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
@@ -975,11 +975,11 @@
   },
   "tapToDisconnect": "Tocca per disconnetterti",
   "sessionsTitle": "Dapp connesse",
-  "sessionsSubTitle": "Le seguenti dapp sono connesse a {{appName}}. Puoi connetterti ad altre dapp inquadrando il relativo codice QR.",
+  "sessionsSubTitle": "Le seguenti Dapp sono connesse a {{appName}}. Puoi connetterti ad altre Dapp inquadrando il relativo codice QR.",
   "disconnect": "Disconnetti",
   "disconnectTitle": "Disconnettere {{dappName}}?",
   "disconnectBody": "Eseguire la disconnessione da {{dappName}}?",
-  "connectionSuccess": "Operazione completata. Torna a {{dappName}} per continuare.",
+  "connectionSuccess": "Operazione completata! Torna a {{dappName}} per continuare.",
   "timeoutTitle": "Time-out",
   "timeoutSubtitle": "Time-out della connessione. Controlla la tua connessione a Internet e riprova.",
   "goBackButton": "Indietro",
@@ -1184,7 +1184,7 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
-    "message": "Le dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una dapp per iniziare.",
+    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una Dapp per iniziare.",
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
