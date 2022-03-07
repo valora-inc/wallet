@@ -112,7 +112,7 @@
   "backupSetupBody": "Для защиты ваших средств перед использованием приложения {{appName}} вам необходимо настроить свою фразу восстановления.",
   "delayBackup": "Подождите один час",
   "postSetupTitle": "Ваша фраза восстановления",
-  "postSetupBody": "Если вы потеряете фразу восстановления, то утратите доступ ко всем своим долларам Celo и CELO. Без вашей фразы никто не сможет восстановить ваш аккаунт даже с помощью приложения {{appName}}. Храните ее в безопасном месте и не сообщайте никому.",
+  "postSetupBody": "Если вы потеряете фразу восстановления, то утратите доступ ко всем своим стейблкоины Celo и CELO. Без вашей фразы никто не сможет восстановить ваш аккаунт даже с помощью приложения {{appName}}. Храните ее в безопасном месте и не сообщайте никому.",
   "postSetupCTA": "Сведения о вашей фразе восстановления",
   "failedFetchMnemonic": "Не удалось получить фразу восстановления",
   "backupAndRecovery": "Резервное копирование и восстановление",
@@ -217,7 +217,7 @@
   "learnMore": "Подробнее",
   "equalToAmount": "Равно <1></1>",
   "whatIsGold": "{{appName}} позволяет покупать и продавать CELO",
-  "manageCelo": "Управление долларами Celo",
+  "manageCelo": "Управление Celo Dollars",
   "exchangeRate": "Обменный курс",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Журнал",
@@ -242,7 +242,7 @@
   "securityFee": "Комиссия сообщества",
   "exchangeFee": "Комиссия за обмен",
   "edit": "Изменить",
-  "notEnoughDollars": "Недостаточно долларов Celo для обмена",
+  "notEnoughDollars": "Недостаточно Celo Dollars для обмена",
   "notEnoughGold": "Недостаточно CELO для обмена",
   "pending": "В ожидании",
   "loadingExchangeRate": "Загрузка обменного курса...",
@@ -278,12 +278,12 @@
   "amountCelo": "Сумма (CELO)",
   "onlyCeloDollars": "Только cUSD",
   "onlyCelo": "Только CELO",
-  "celoDollar": "Доллар Celo",
+  "celoDollar": "Celo Dollar",
   "celoEuro": "Евро Celo",
-  "celoDollars": "Доллары Celo",
+  "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "Коснитесь, чтобы скопировать свой адрес CUSD {{appName}}",
   "disclaimerFiat": "Суммы {{currency}} являются приблизительными.",
-  "dollarsNotYetEnabledNote": "Доллары Celo пока недоступны для поставщиков. Чтобы получить доллары Celo, приобретите CELO и обменяйте их на доллары Celo на вкладке CELO.",
+  "dollarsNotYetEnabledNote": "Celo Dollars пока недоступны для поставщиков. Чтобы получить Celo Dollars, приобретите CELO и обменяйте их на Celo Dollars на вкладке CELO.",
   "selectDigitalCurrency": "Выбрать цифровой актив",
   "selectPaymentMethod": "Способ оплаты:",
   "payWithBank": "Банковский счет",
@@ -294,12 +294,12 @@
   "receiveWithBidali": "Подарочные карты и пополнение мобильного счета",
   "fundingEducationDialog": {
     "title": "Пополнение {{appName}}",
-    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo (cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы пополнить свой кошелек {{appName}}, купите cUSD у одного из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
+    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются Celo Dollars (cUSD) и Celo Euro (cEUR).\n\nЧтобы пополнить свой кошелек {{appName}}, купите cUSD/cEUR у одного из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Вывести из {{appName}}",
-    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются доллары Celo (cUSD), стабильная цифровая валюта, привязанная к доллару США.\n\nЧтобы вывести свои средства с остатка в {{appName}}, продайте cUSD одному из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
+    "body": "{{appName}} работает на платформе Celo Network. В {{appName}} используются Celo Dollars (cUSD) и Celo Euro (cEUR).\n\nЧтобы вывести свои средства с остатка в {{appName}}, продайте cUSD/cEUR одному из сторонних поставщиков, доступных в вашем регионе. Для получения дополнительной информации посетите <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -381,8 +381,8 @@
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
   "getStarted": "Начать",
-  "manageCeloDollars": "Управление долларами Celo",
-  "sendCeloDollars": "Отправить доллары Celo",
+  "manageCeloDollars": "Управление Celo Dollars",
+  "sendCeloDollars": "Отправить Celo Dollars",
   "startEarning": "Начать зарабатывать",
   "backToWallet": "Вернуться в кошелек",
   "exchangeForGold": "Обмен на CELO",
@@ -416,7 +416,7 @@
   "balanceAvailable": "<0></0> доступно",
   "subtotal": "Подытог",
   "total": "Итог",
-  "totalInDollars": "Доллары Celo при <0></0>",
+  "totalInDollars": "Celo Dollars при <0></0>",
   "totalInEuros": "Евро Celo при <0></0>",
   "totalInCelo": "Celo при <0></0>",
   "totalInToken": "<0></0> при <1></1>",
@@ -547,11 +547,11 @@
   "goldEducationSteps": [
     {
       "title": "Что представляет собой CELO?",
-      "text": "CELO представляет собой цифровую валюту, обеспечивающую стабильность доллара Celo (cUSD)."
+      "text": "CELO представляет собой цифровую валюту, обеспечивающую стабильность Celo Dollar (cUSD) и Celo Euro (cEUR)."
     },
     {
       "title": "Изменения цен на CELO",
-      "text": "Чем больше людей использует доллары Celo, тем выше стоимость CELO. В отличие от CELO доллар Celo не меняется в цене. "
+      "text": "Чем больше людей использует стейблкоины Celo, тем выше стоимость CELO. В отличие от CELO стейблкоины Celo не меняется в цене. "
     },
     {
       "title": "Настройте Celo Network",
@@ -816,7 +816,7 @@
   "verificationUnavailable": "Подтверждение номера телефона в настоящее время недоступно. Укажите свой номер телефона, и мы сообщим вам, когда можно будет подтвердить повторно.\n\nА пока вы по-прежнему можете использовать Valora! Платежи, отправленные на ваш номер телефона, будут безопасно сохраняться до тех пор, пока вы не активируете их, подтвердив свой номер телефона.",
   "requests": "Запросы",
   "empty": "У вас нет запросов на платеж",
-  "celoDollarBalance": "Остаток в долларах Celo",
+  "celoDollarBalance": "Остаток в Celo Dollars",
   "requestDeclined": "Запрос отклонен",
   "requestPaid": "Оплачено по запросу",
   "paymentRequestUpdateFailed": "Не удается обновить запрос платежа",
