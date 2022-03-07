@@ -1195,12 +1195,16 @@ interface CICOEventsProperties {
   }
 }
 
+export enum DappSection {
+  RecentlyUsed = 'recently used',
+  Featured = 'featured',
+  All = 'all',
+}
 interface DappEventProperties {
   categoryId: string
   dappId: string
   dappName: string
-  origin: string
-  section?: string
+  section: DappSection
   horizontalPosition?: number
 }
 

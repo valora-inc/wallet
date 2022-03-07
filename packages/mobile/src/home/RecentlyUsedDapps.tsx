@@ -16,6 +16,7 @@ import {
   View,
 } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
+import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { recentDappsSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
@@ -61,7 +62,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
           dappId: dapp.id,
           dappName: dapp.name,
           horizontalPosition: dappIndex,
-          origin: Screens.WalletHome,
+          section: DappSection.RecentlyUsed,
         })
       })
 

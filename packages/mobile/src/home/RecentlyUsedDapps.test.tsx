@@ -161,21 +161,21 @@ describe('RecentlyUsedDapps', () => {
         categoryId: 'exchanges',
         dappId: 'ubeswap',
         dappName: 'Ubeswap',
-        origin: Screens.WalletHome,
+        section: 'recently used',
         horizontalPosition: 0,
       })
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, 'dapp_impression', {
         categoryId: 'lend',
         dappId: 'moola',
         dappName: 'Moola',
-        origin: Screens.WalletHome,
+        section: 'recently used',
         horizontalPosition: 1,
       })
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(3, 'dapp_impression', {
         categoryId: 'exchanges',
         dappId: 'mentofi',
         dappName: 'Mento-Fi',
-        origin: Screens.WalletHome,
+        section: 'recently used',
         horizontalPosition: 2,
       })
     })
@@ -203,7 +203,7 @@ describe('RecentlyUsedDapps', () => {
         categoryId: 'social',
         dappId: 'poofcash',
         dappName: 'Poof',
-        origin: Screens.WalletHome,
+        section: 'recently used',
         horizontalPosition: 3,
       })
     })

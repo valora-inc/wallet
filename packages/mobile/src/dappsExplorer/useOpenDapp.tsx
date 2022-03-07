@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
+import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected } from 'src/app/actions'
 import { activeScreenSelector, recentDappsSelector } from 'src/app/selectors'
@@ -26,11 +27,14 @@ const useOpenDapp = () => {
     categoryId: dapp.categoryId,
     dappId: dapp.id,
     dappName: dapp.name,
-    section: dapp.isFeatured ? 'featured' : 'all',
+    section: recentlyUsedDappsMode
+      ? DappSection.RecentlyUsed
+      : dapp.isFeatured
+      ? DappSection.Featured
+      : DappSection.All,
     horizontalPosition: recentlyUsedDappsMode
       ? recentlyUsedDapps.findIndex((recentlyUsedDapp) => recentlyUsedDapp.id === dapp.id)
-      : 0,
-    origin: activeScreen,
+      : undefined,
   })
 
   const onCancelOpenDapp = () => {
