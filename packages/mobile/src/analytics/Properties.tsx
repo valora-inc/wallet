@@ -20,7 +20,6 @@ import {
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
-  RecentlyUsedDappEvents,
   RequestEvents,
   RewardsEvents,
   SendEvents,
@@ -1200,29 +1199,19 @@ interface DappEventProperties {
   categoryId: string
   dappId: string
   dappName: string
-}
-
-interface DappSelectEventProperties extends DappEventProperties {
-  section: string
-  horizontalPosition: number
+  origin: string
+  section?: string
+  horizontalPosition?: number
 }
 
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
-  [DappExplorerEvents.dapp_open]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_open]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
-  [DappExplorerEvents.dapp_select]: DappSelectEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_open]: DappSelectEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappSelectEventProperties
-}
-
-interface RecentlyUsedDappProperties {
-  [RecentlyUsedDappEvents.dapp_view_all]: undefined
-  [RecentlyUsedDappEvents.dapp_recently_used_impression]: DappSelectEventProperties
-  [RecentlyUsedDappEvents.dapp_recently_used_select]: DappSelectEventProperties
-  [RecentlyUsedDappEvents.dapp_recently_used_open]: DappSelectEventProperties
-  [RecentlyUsedDappEvents.dapp_recently_used_bottom_sheet_dismiss]: DappSelectEventProperties
-  [RecentlyUsedDappEvents.dapp_recently_used_bottom_sheet_open]: DappSelectEventProperties
+  [DappExplorerEvents.dapp_view_all]: undefined
+  [DappExplorerEvents.dapp_select]: DappEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
+  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &
@@ -1249,5 +1238,4 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WalletConnectProperties &
   DappKitProperties &
   CICOEventsProperties &
-  DappExplorerEventsProperties &
-  RecentlyUsedDappProperties
+  DappExplorerEventsProperties

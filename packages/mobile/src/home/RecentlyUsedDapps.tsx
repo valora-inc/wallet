@@ -15,7 +15,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import { RecentlyUsedDappEvents } from 'src/analytics/Events'
+import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { recentDappsSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
@@ -37,8 +37,6 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const { t } = useTranslation()
 
-  // keep track of the viewed dapps to ensure single analytics event for each
-  // dapp impression, zero index
   const lastViewedDapp = useRef(-1)
 
   useEffect(() => {
@@ -54,14 +52,16 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
     )
 
     if (numDappsVisible > lastViewedDapp.current + 1) {
+      // ensure single analytics event for each dapp impression, so that
+      // duplicate events are not sent if user scrolls back to the beginning
       range(lastViewedDapp.current + 1, numDappsVisible).forEach((dappIndex) => {
         const dapp = recentlyUsedDapps[dappIndex]
-        ValoraAnalytics.track(RecentlyUsedDappEvents.dapp_recently_used_impression, {
+        ValoraAnalytics.track(DappExplorerEvents.dapp_impression, {
           categoryId: dapp.categoryId,
           dappId: dapp.id,
           dappName: dapp.name,
-          section: dapp.isFeatured ? 'featured' : 'all',
           horizontalPosition: dappIndex,
+          origin: Screens.WalletHome,
         })
       })
 
@@ -70,7 +70,7 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
   }, SCROLL_DEBOUNCE_TIME)
 
   const onPressAllDapps = () => {
-    ValoraAnalytics.track(RecentlyUsedDappEvents.dapp_view_all)
+    ValoraAnalytics.track(DappExplorerEvents.dapp_view_all)
     navigate(Screens.DAppsExplorerScreen)
   }
 

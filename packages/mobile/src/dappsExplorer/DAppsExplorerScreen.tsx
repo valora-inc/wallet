@@ -30,6 +30,7 @@ import Help from 'src/icons/navigator/Help'
 import { dappListLogo } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -136,6 +137,7 @@ export function DAppsExplorerScreen() {
             categoryId: featured.categoryId,
             dappId: featured.id,
             dappName: featured.name,
+            origin: Screens.DAppsExplorerScreen,
           })
         }
 
