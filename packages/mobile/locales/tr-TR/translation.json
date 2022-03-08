@@ -948,7 +948,7 @@
   "sendToAddressWarning": {
     "title": "Bir adrese gönderme",
     "body": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Eğer bu adres geçersizse paranız geri alınamayabilir. Bunun doğru adres olduğundan emin olmak için önce bir test ödemesi gönderin.",
-    "toggle": "Her zaman hatırlar"
+    "toggle": "Her zaman hatırlat"
   },
   "loadingFromScan": "Taranıyor",
   "loadingFromDeeplink": "Bağlanıyor",
