@@ -1150,7 +1150,7 @@
       "description": "Neredeyse tamam! Hesabınızı Valora'ya bağlamak için banka bilgilerini girin.",
       "cta": "Banka Hesabı Bağla",
       "error": {
-        "title": "Banka hesabı bağlanılamadı.",
+        "title": "Banka hesabı bağlanamadı.",
         "description": "Lütfen banka hesabınızı tekrar bağlamayı deneyin veya destek ile iletişime geçin.",
         "contactSupportPrefill": "Banka hesabımı Valora'ya bağlayamadım"
       }
@@ -1163,7 +1163,7 @@
   },
   "syncingBankAccount": "Banka hesabı eşleniyor...",
   "linkBankAccountSettingsTitle": "Bağlı Banka Hesapları",
-  "linkBankAccountSettingsValue": "Erişim Al",
+  "linkBankAccountSettingsValue": "Erişim",
   "linkBankAccountSettingsValue2": "Yeni Ekle",
   "connectPhoneNumber": {
     "title": "Devam etmek için telefon numaranızı bağlayın",
@@ -1176,15 +1176,15 @@
     "button": "Yenile"
   },
   "dappsScreen": {
-    "title": "Dağıtık Uygulamalar",
+    "title": "Dapp'ler",
     "message": "Kriptonuzu kullanmanın yollarını keşfedin",
-    "errorMessage": "Dapp'lar yüklenirken bir hata oluştu",
+    "errorMessage": "Dapp'ler yüklenirken bir hata oluştu",
     "featuredDapp": "Öne Çıkan",
     "allDapps": "Tümü"
   },
   "dappsScreenHelpDialog": {
-    "title": "Dapp'lar nedir?",
-    "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'a bağlayın.",
+    "title": "Dapp'ler nedir?",
+    "message": "Dapp'ler (merkezi olmayan uygulamalar), kriptonuzu kullanmanın, ödüller kazanmanın ve Web3'ü keşfetmenin yeni yollarını sunar.\n\nBaşlamak için Valora'yı bir dapp'e bağlayın.",
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
