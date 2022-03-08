@@ -1,0 +1,22 @@
+name: Bump App Version
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - valora-v1.[0-9]+.0
+    branches:
+      - kathy/auto-bump-app-version
+
+jobs:
+  runs-on: ubuntu-latest
+  permissions:
+    pull-requests: write
+  steps:
+    - uses: actions/checkout@v2
+    - run: .github/scripts/create_app_version_pr.sh
+    - uses: actions/github-script@v5
+      with:
+        script: |
+          const script = require('.github/scripts/automergeVersionBump.js')
+          await script({github, context, core})
