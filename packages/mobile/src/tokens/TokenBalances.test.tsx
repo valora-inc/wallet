@@ -31,7 +31,6 @@ describe('TokenBalancesScreen', () => {
       </Provider>
     )
 
-    expect(tree).toMatchSnapshot()
     expect(getElementText(tree.getByTestId('tokenBalance:POOF'))).toBe('5.00')
     expect(getElementText(tree.getByTestId('tokenLocalBalance:POOF'))).toBe('₱0.67')
 

@@ -15,17 +15,24 @@ interface BaseToken {
   isCoreToken?: boolean
 }
 
+interface HistoricalUsdPrices<T> {
+  lastDay: {
+    price: T
+    at: number
+  }
+}
+
 // Stored variant stores numbers as strings because BigNumber is not serializable.
 export interface StoredTokenBalance extends BaseToken {
   balance: string | null
   usdPrice: string
-  last24hoursPrice?: string
+  historicalUsdPrices?: HistoricalUsdPrices<string>
 }
 
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
-  last24hoursPrice?: BigNumber
+  historicalUsdPrices?: HistoricalUsdPrices<BigNumber>
 }
 
 export interface StoredTokenBalances {

@@ -1,26 +1,42 @@
+import DownIndicator from '@celo/react-components/icons/DownIndicator'
+import UpIndicator from '@celo/react-components/icons/UpIndicator'
 import Colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 interface Props {
   comparedValue: BigNumber.Value
   currentValue: BigNumber.Value
 }
 
-function getStyleAndText(percentage: BigNumber) {
+function renderPercentage(percentage: BigNumber) {
   const comparison = percentage.comparedTo(0)
   const percentageString = percentage.abs().toFixed(2)
+  let style
+  let indicator: any
   switch (comparison) {
     case -1:
-      return { style: styles.decreasedText, text: `▾ ${percentageString}%` }
+      style = styles.decreasedText
+      indicator = <DownIndicator />
+      break
     case 1:
-      return { style: styles.increasedText, text: `▴ ${percentageString}%` }
+      style = styles.increasedText
+      indicator = <UpIndicator />
+      break
     case 0:
     default:
-      return { style: styles.noChangeText, text: `- ${percentageString}%` }
+      style = styles.noChangeText
+      break
   }
+
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{ padding: 6 }}>{indicator}</View>
+      <Text style={style}>{percentageString}%</Text>
+    </View>
+  )
 }
 
 function PercentageIndicator({ comparedValue, currentValue }: Props) {
@@ -28,9 +44,7 @@ function PercentageIndicator({ comparedValue, currentValue }: Props) {
   const currentValueBN = new BigNumber(currentValue)
   const percentage = currentValueBN.dividedBy(comparedValueBN).multipliedBy(100).minus(100)
 
-  const { style, text } = getStyleAndText(percentage)
-
-  return <Text style={style}>{text}</Text>
+  return renderPercentage(percentage)
 }
 
 const styles = StyleSheet.create({

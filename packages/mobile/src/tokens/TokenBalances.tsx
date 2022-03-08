@@ -1,5 +1,6 @@
 import Colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
@@ -7,14 +8,17 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
@@ -23,6 +27,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
+  const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
 
   const header = () => {
     return (
@@ -41,6 +46,14 @@ function TokenBalancesScreen({ navigation }: Props) {
       headerTitle: header,
     })
   }, [navigation, totalBalance, localCurrencySymbol])
+
+  function isHistoricalPriceUpdated(token: TokenBalance) {
+    return (
+      token.historicalUsdPrices?.lastDay &&
+      TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES >
+        Math.abs(token.historicalUsdPrices.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
+    )
+  }
 
   function getTokenDisplay(token: TokenBalance) {
     return (
@@ -63,12 +76,14 @@ function TokenBalancesScreen({ navigation }: Props) {
           />
           {token.usdPrice?.gt(0) && (
             <View style={{ flexDirection: 'row' }}>
-              {token.last24hoursPrice && (
-                <PercentageIndicator
-                  comparedValue={token.last24hoursPrice}
-                  currentValue={token.usdPrice}
-                />
-              )}
+              {showPriceChangeIndicatorInBalances &&
+                token.historicalUsdPrices &&
+                isHistoricalPriceUpdated(token) && (
+                  <PercentageIndicator
+                    comparedValue={token.historicalUsdPrices.lastDay.price}
+                    currentValue={token.usdPrice}
+                  />
+                )}
               <TokenDisplay
                 amount={new BigNumber(token.balance!)}
                 tokenAddress={token.address}
@@ -83,9 +98,16 @@ function TokenBalancesScreen({ navigation }: Props) {
   }
 
   return (
-    <ScrollView style={styles.scrollContainer}>
-      {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
-    </ScrollView>
+    <>
+      {showPriceChangeIndicatorInBalances && (
+        <View style={styles.lastDayLabel}>
+          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+        </View>
+      )}
+      <ScrollView style={styles.scrollContainer}>
+        {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+      </ScrollView>
+    </>
   )
 }
 
@@ -134,6 +156,15 @@ const styles = StyleSheet.create({
   },
   tokenAmt: {
     ...fontStyles.large600,
+  },
+  lastDayText: {
+    ...fontStyles.small500,
+    color: Colors.gray4,
+    marginHorizontal: Spacing.Regular16,
+  },
+  lastDayLabel: {
+    marginTop: Spacing.Regular16,
+    flexDirection: 'row-reverse',
   },
 })
 

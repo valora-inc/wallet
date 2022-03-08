@@ -128,6 +128,9 @@ export const maxNumRecentDappsSelector = (state: RootState) => state.app.maxNumR
 
 export const recentDappsSelector = (state: RootState) => state.app.recentDapps
 
+export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
+  state.app.showPriceChangeIndicatorInBalances
+
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 type StoreWipeRecoveryScreens = Extract<
