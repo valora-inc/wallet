@@ -1,9 +1,12 @@
 import { toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { all, call, put, spawn, takeEvery } from 'redux-saga/effects'
+import { all, call, put, select, spawn, takeEvery } from 'redux-saga/effects'
 import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
+import { RewardsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { cloudFunctionsApi } from 'src/api/slice'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   claimRewards,
@@ -13,6 +16,8 @@ import {
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
+import { TokenBalances } from 'src/tokens/reducer'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import {
   newTransactionContext,
@@ -30,6 +35,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
+    const tokens: TokenBalances = yield select(tokensByAddressSelector)
     const baseNonce: number = yield call(
       // @ts-ignore I can't figure out the syntax for this, it works but TS complains :'(
       [kit.web3.eth, kit.web3.eth.getTransactionCount],
@@ -58,10 +64,16 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
           nonce: baseNonce + index,
         })
         Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+        const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
+        const tokenAddress = reward.tokenAddress.toLowerCase()
+        ValoraAnalytics.track(RewardsEvents.claimed_reward, {
+          amount,
+          token: tokens[tokenAddress]?.symbol ?? '',
+        })
         return {
           fundsSource: fundsSource.toLowerCase(),
-          tokenAddress: reward.tokenAddress.toLowerCase(),
-          amount: new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString(),
+          tokenAddress,
+          amount,
           txHash: receipt.transactionHash,
         }
       })
@@ -81,6 +93,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
         })
       )
     }
+    yield put(cloudFunctionsApi.util.invalidateTags(['Supercharge']))
     yield put(claimRewardsSuccess())
     yield put(showMessage(i18n.t('superchargeClaimSuccess')))
     navigateHome()

@@ -20,6 +20,7 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
+import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
@@ -136,6 +137,7 @@ export function DAppsExplorerScreen() {
             categoryId: featured.categoryId,
             dappId: featured.id,
             dappName: featured.name,
+            section: DappSection.Featured,
           })
         }
 

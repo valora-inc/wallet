@@ -155,6 +155,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "testUri": "../../../packages/mobile/src/images/backup-key.png",
                   }
                 }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
                 testID="undefined/Icon"
               />
             </View>
@@ -494,6 +500,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 source={
                   Object {
                     "testUri": "../../../packages/mobile/src/images/get-verified.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
                 testID="undefined/Icon"
@@ -846,6 +858,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 source={
                   Object {
                     "testUri": "../../../packages/mobile/src/images/learn-celo.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
                   }
                 }
                 testID="undefined/Icon"

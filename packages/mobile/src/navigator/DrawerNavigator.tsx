@@ -56,8 +56,8 @@ import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
-import MenuRings from 'src/icons/navigator/MenuRings'
-import MenuSupercharge from 'src/icons/navigator/MenuSupercharge'
+import { MenuRings } from 'src/icons/navigator/MenuRings'
+import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import BalancesDisplay from 'src/navigator/BalancesDisplay'
@@ -242,21 +242,29 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreen}
-          options={{ title: t('dappsScreen.title'), drawerIcon: DappsExplorer }}
+          options={{
+            title: t('dappsScreen.title'),
+            drawerIcon: DappsExplorer,
+            // Special case for the Dapps explorer,
+            // so it reloads the list when the user comes back to it
+            // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
+            // but here it's the right expectation
+            unmountOnBlur: true,
+          }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuRewards && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings }}
+          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
+          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
         />
       )}
       <Drawer.Screen

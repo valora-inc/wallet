@@ -86,6 +86,17 @@ const locales: Locales = {
       return require('date-fns/locale/it')
     },
   },
+  'uk-UA': {
+    name: 'Українська',
+    get strings() {
+      return {
+        translation: require('./uk-UA/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/uk')
+    },
+  },
 }
 
 export default locales
