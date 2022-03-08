@@ -36,7 +36,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Valora'yı resetlemek istediğinizden emin misiniz?",
-    "body": "Artık bu cihazdan fonlarınıza veya Kurtarma Cümlenize erişemeyeceksiniz. Kurtarma Cümlenizi kaydetmediyseniz kurtarmanın bir yolu bulunmamaktadır.",
+    "body": "Artık bu cihazdan fonlarınıza veya Kurtarma Kelimelerinize erişemeyeceksiniz. Kurtarma Kelimelerinizi kaydetmediyseniz kurtarmanın bir yolu bulunmamaktadır.",
     "resetNow": "Resetle"
   },
   "promptConfirmRevokeModal": {
@@ -68,7 +68,7 @@
   "contactText": "Aradığın şeyi bulamadın mı?",
   "contactMessagePlaceholder": "Lütfen mesajınızı buraya yazın...",
   "attachLogs": "İşlem kayıtlarını ekle",
-  "supportLegalCheckbox": "Yukarıdaki bilgileri ve ekli tüm uygulama günlüğü verilerini {{appName}} Desteği ile paylaşmayı kabul ediyorum.",
+  "supportLegalCheckbox": "Yukarıdaki bilgileri ve ekli tüm uygulama geçmişi verilerini {{appName}} Desteği ile paylaşmayı kabul ediyorum.",
   "contactSuccess": "Sorununuz başarıyla bildirildi! Çok yakında size e-posta ile geri dönüş sağlayacağız!",
   "namePictureSaved": "Adınız ve resminiz başarıyla kaydedildi.",
   "addPhoto": "Fotoğraf Ekle",
@@ -98,7 +98,7 @@
   "raiseLimitEmailSuccess": "Talebiniz başarıyla iletildi! Çok yakında size e-posta ile geri dönüş sağlayacağız!",
   "raiseLimitEmailNotSent": "Talebiniz gönderliemedi. Lütfen tekrar deneyin.",
   "storeRecoveryTitle": "Hesabınızın tekrar kurulması gerekiyor",
-  "storeRecoveryBody": "Bir hata oluştu. Sorunun farkındayız ve düzeltmek için çalışıyoruz. Bu zaman zarfında, kurulum sürecinden tekrar geçmeniz gerekecek.",
+  "storeRecoveryBody": "Bir hata oluştu. Sorunun farkındayız ve düzeltmek için çalışıyoruz. Bu arada kurulum sürecinden tekrar geçmeniz gerekecek.",
   "storeRecoveryButton": "Hesabı Geri Yükle",
   "havingTrouble": "Sorun mu yaşıyorsunuz?",
   "shakeForSupport": "Cihazınızı salladığınızda bu menü görünür.",
@@ -116,16 +116,16 @@
   "postSetupCTA": "Kurtarma Cümleniz ile ilgili daha fazla bilgi edinin",
   "failedFetchMnemonic": "Kurtarma Kelimeleriniz kaydedilemedi",
   "backupAndRecovery": "Yedekleme ve Kurtarma",
-  "writeDownKey": "Lütfen cümlenizi bir not edin",
+  "writeDownKey": "Lütfen kelimelerinizi not edin",
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
   "backupKeyNotification": "Kurtarma Kelimeleriniz hesabınızın en önemli parçasıdır",
-  "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen cümlenizi güvenli bir yerde saklayın. Kelimeleri telefonunuza kaydetmeyin.",
-  "copied": "Cümle panoya kopyalandı",
+  "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
+  "copied": "Kelimeler panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",
-  "savedConfirmation": "Evet, Kurtarma Cümlemi yazdım.",
+  "savedConfirmation": "Evet, Kurtarma Kelimelerimi yazdım.",
   "backupQuizWordCount": "Kurtarma Kelimelerinizdeki <0>{{ordinal}}</0>. kelime nedir?",
-  "importBackupFailed": "Cüzdan İçe Aktarılamadı",
+  "importBackupFailed": "Cüzdan Aktarılamadı",
   "backupQuizFailed": "Girmiş Olduğunuz Kurtarma Kelimeleri yanlış. Lütfen tekrar deneyin.",
   "invalidBackupPhrase": "Kurtarma Kelimeleri geçersiz",
   "invalidWordsInBackupPhrase": "Kurtarma Kelimelerinin bazıları geçersiz: {{ invalidWords }}",
@@ -137,7 +137,7 @@
   },
   "cancelDialog": {
     "title": "Kurtarma Kelimelerini oluşturmayı tamamla",
-    "body": "Kurtarma Kelimeleri son derece önemlidir. Bir Kelimeler olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Kelimelerini oluşturma işlemini tamamlayana kadar herhangi bir işlem göndermeniz engellenecektir.",
+    "body": "Kurtarma Kelimeleri son derece önemlidir. Kelimeler olmadan, cüzdanınıza erişiminizi sonsuza kadar kaybedebilirsiniz.\nKurtarma Kelimelerini oluşturma işlemini tamamlayana kadar herhangi bir işlem yapmanız engellenecektir.",
     "action": "Şimdi Tamamla",
     "secondary": "Daha Sonra Tamamla"
   },
@@ -145,7 +145,7 @@
   "guide": [
     {
       "title": "Kurtarma Kelimeleriniz özel bir tür paroladır",
-      "text": "Kurtarma Kelimeleriniz hesabınıza erişmeniz için tek yoludur."
+      "text": "Kurtarma Kelimeleriniz hesabınıza erişmenizin tek yoludur."
     },
     {
       "title": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
