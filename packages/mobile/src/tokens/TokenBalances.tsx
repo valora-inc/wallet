@@ -106,7 +106,6 @@ function TokenBalancesScreen({ navigation }: Props) {
         </View>
       )}
       <ScrollView style={styles.scrollContainer}>
-        {console.log(`DIEGO ${JSON.stringify(tokens.sort(sortByUsdBalance))}`)}
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
       </ScrollView>
     </>
