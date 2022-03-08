@@ -694,7 +694,7 @@
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
     "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
-    "cta": "{{biometryType}}'ni etkinleştir"
+    "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
     "FaceID": "Face ID",
@@ -703,7 +703,7 @@
     "Face": "Yüz tanıma",
     "Iris": "İris tanıma"
   },
-  "useBiometryType": "Kullan {{biometryType}}",
+  "useBiometryType": "{{biometryType}} kullan",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
@@ -712,7 +712,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Kişileri İçe Aktar",
-      "body": "Valora kişilerinizi içe aktarmak istiyor. Aşağıdaki butona dokunarak, Valora aracılığıyla bağlantı kurmak amacıyla kişilerimin telefon numaralarına, adlarına ve fotoğraflarına erişmesine izin veriyorum"
+      "body": "Valora kişilerinizi içe aktarmak istiyor. Aşağıdaki butona dokunarak, Valora aracılığıyla bağlantı kurmak amacıyla kişilerimin telefon numaralarına, adlarına ve fotoğraflarına erişilmesine izin veriyorum"
     }
   },
   "createAccount": "Hesap Oluştur",
@@ -853,7 +853,7 @@
   "max": "MAKS.",
   "inviteSendTo": "Daveti şuraya gönder",
   "keepMoneySafe": "Arkadaşınız bir {{appName}} hesabı oluşturana kadar bu parayı güvende tutacağız",
-  "searchFriends": "Aradığınız kişiyi bulamıyorsanız bir telefon numarası girmeyi deneyin",
+  "searchFriends": "Aradığınız kişiyi bulamıyorsanız telefon numarasını girmeyi deneyin",
   "inviteVerifyPayment": "Davet Et & Ödemeyi Onayla",
   "noResultsFor": "Sonuç bulunamadı",
   "noContacts": "Kişi bulunamadı",
@@ -940,7 +940,7 @@
   "encryption": {
     "warningLabel": "Bu yorum şifrelenmeyecektir",
     "warningModalHeader": "Şifreleme Hakkında",
-    "warningModalBody": "Şifreleme, yorumlarınızın gizli tutulmasını sağlar. {{appName}}, hem gönderici hem de alıcı bu özelliği kullanıyorken, işlem yorumlarında şifreleme kullanır. Kurulum, normalde bir kullanıcı ilk işlemini gönderdiğinde otomatik olarak gerçekleşir.",
+    "warningModalBody": "Şifreleme, yorumlarınızın gizli tutulmasını sağlar. {{appName}}, hem gönderici hem de alıcı bu özelliği kullanıyor ise, işlem yorumlarında şifreleme kullanır. Kurulum, normalde bir kullanıcı ilk işlemini gönderdiğinde otomatik olarak gerçekleşir.",
     "feeLabel": "Tek Seferlik Şifreleme Ücreti",
     "feeModalHeader": "Tek Seferlik Şifreleme Ücreti",
     "feeModalBody": "Şifreleme, hassas verilerinizin gizli kalmasına yardımcı olur. Şifrelemeyi ayarlamak için ilk işleminize bir kerelik küçük bir ücret eklenir. Bu, yorumlarınızın güvenli ve gizli bir şekilde gönderilmesini sağlar."
