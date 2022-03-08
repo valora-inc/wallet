@@ -584,8 +584,8 @@
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
-    "title": "{{name}} için olan ödemenizi saklayacağız",
-    "body": "Valora'ya katılmak için {{name}} ile bir davet mesajı paylaşın. Bir telefon numarası ile katılıp bağlandıklarında, gönderdiğiniz ödemeyi alacaklardır.",
+    "title": "{{name}} için olan gönderiminizi saklayacağız",
+    "body": "Valora'ya katılmak için {{name}} ile bir davet mesajı paylaşın. Bir telefon numarası ile katılıp bağlandıklarında, gönderdiğiniz miktarı alacaklardır.",
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
