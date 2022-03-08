@@ -271,7 +271,7 @@
   "noExchanges": "Bölgenizde {{digitalAsset}} için kullanılabilecek borsa yok.",
   "buySellOnExchanges": "Borsalar üzerinde alım/satım yap",
   "cashOut": "Bakiye Çekme",
-  "cashOutSubtitle": "Hediye kartları ve diğer alışverişlerde harcama yapın veya bir kripto borsasına para gönderin",
+  "cashOutSubtitle": "Hediye kartı satın alın, alışveriş yapın veya bir kripto borsasına para gönderin",
   "cashOutComingSoon": "Nakite Çevir (Yakında)",
   "spend": "Harcama",
   "spendSubtitle": "Bakiyenizi desteklenen satıcılarda kullanın",
@@ -389,7 +389,7 @@
   "missingFullName": "İsim alanı boş olamaz",
   "invalidPhone": "Geçersiz telefon numarası",
   "cantSelectInvalidPhone": "Kişi seçilemedi: geçersiz telefon numarası",
-  "needMoreFundsToSend": "Bu işlemi yapabilmek için {{currencySymbol}}{{amountNeeded}} sahip olmanız gerekir. Lütfen bakiye ekleyin veya daha az göndermeyi deneyin.",
+  "needMoreFundsToSend": "Bu işlemi yapabilmek için {{currencySymbol}}{{amountNeeded}} gerekiyor. Lütfen bakiye ekleyin veya daha az göndermeyi deneyin.",
   "maxEscrowTransferExceeded": "Onaylanmamış kullanıcılara aktarılacak maksimum tutar {{symbol}}{{maxAmount}}'dır",
   "invalidAmount": "Geçersiz miktar",
   "invalidCode": "Geçersiz Onay Kodu",
@@ -445,13 +445,13 @@
   "firebaseFailed": "Zayıf internet bağlantısı. Hesap bilgileri bağlantı tekrar sağlanana kadar güncellenemiyor.",
   "gasPriceUpdateFailed": "İşlem ücreti güncellenemedi",
   "appUpdateAvailable": "Uygulama Güncellemesi Mevcut",
-  "appIsOutdated": "Mevcut uygulama sürüm güncel değil, lütfen uygulamayı son sürüme güncelleyin",
+  "appIsOutdated": "Mevcut uygulama sürümü güncel değil, lütfen uygulamayı güncelleyin",
   "update": "Güncelle",
-  "qrFailedNoAddress": "Kare kod okuma başarısız. Sebep: cüzdan adresi bulunamadı.",
-  "qrFailedInvalidAddress": "Kare kod okuma başarısız. Sebep: cüzdan adresi geçersiz.",
-  "qrFailedInvalidRecipient": "Kare kod seçili alıcıya ait değil",
-  "qrFailedNoPhoneNumber": "Kare kod kontak kişinize ait telefon numarası ile ilişkilendirilemedi",
-  "corruptedChainDeleted": "Hatalı blokzincir verileri silindi, lütfen uygulamayı tekrar başlatın",
+  "qrFailedNoAddress": "QR okuma başarısız. Sebep: cüzdan adresi bulunamadı.",
+  "qrFailedInvalidAddress": "QR okuma başarısız. Sebep: cüzdan adresi geçersiz.",
+  "qrFailedInvalidRecipient": "QR seçili alıcıya ait değil",
+  "qrFailedNoPhoneNumber": "QR kodu kontakt kişinize ait telefon numarası ile ilişkilendirilemedi",
+  "corruptedChainDeleted": "Hatalı zincir verileri silindi, lütfen uygulamayı tekrar başlatın",
   "contractKitInitFailed": "Sözleşme kiti başlatılamadı, lütfen uygulamayı yeniden başlatmayı veya desteğe e-posta göndermeyi deneyin.",
   "web3FailedToSync": "Senkronizasyon başarısız, ağ bağlantınızı kontrol edin",
   "errorDuringSync": "Senkronizasyon esnasında bir hata oluştu, lütfen daha sonra tekrar deneyin",
@@ -472,7 +472,7 @@
   "addressLookupFailure": "Telefon numarası adresi araması başarısız",
   "saltFetchFailure": "Telefon numarası kodu alınamadı",
   "saltQuotaExceededError": "Telefon numarası adresi araması kotanız doldu",
-  "maxActionableAttestationsExceededError": "Mesaj tekrar gönderimi başarısız",
+  "maxActionableAttestationsExceededError": "Mesaj tekrar gönderilemedi",
   "odisInsufficientBalance": "Lütfen numaranızı doğrulayın",
   "matchmakingQuotaExceededError": "Eşleştirme sadece bir kez yapılabilir",
   "paymentLimitReached": "Günlük limitiniz {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} kalan cUSD ({{currencySymbol}}{{dailyRemaining}})",
@@ -603,11 +603,11 @@
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek, kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
+    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarları yalnızca sizde bulunan bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez, geri döndüremez ya da kaybedilen fonları geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce kendi finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin. Valora ile günde yalnızca {{dailyLimitCUSD}} cUSD'ye kadar (\"Günlük Limit\") gönderebilirsiniz. Bu Günlük Limitin artırılmasını talep etmek için support@valoraapp.com ile iletişime geçmeli ve ek kişisel bilgiler sağlamalısınız. Gerekli uyumlandırmanın gerçekleştirilmesinde gecikme yaşanabilir."
   },
   "fullName": "İsim",
   "fullNamePlaceholder": "Ad & Soyad",
-  "importIt": "Cüzdanı Kurtar",
+  "importIt": "Cüzdanı Yeniden Kur",
   "important": "Önemli",
   "confirmPin": {
     "title": "PIN Gir"
@@ -675,21 +675,21 @@
     "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak Celo Ağı ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
     "retryButton": "Veri Tasarrufu modu ile tekrar dene"
   },
-  "congratsVerified": "Tebrikler hesabınızı onaylandınız!",
+  "congratsVerified": "Tebrikler hesabınız onaylandı!",
   "notification": {
     "body": "Telefon numaranıza doğrudan ödeme alın",
     "cta": "Şimdi Bağlan"
   },
   "quotaLookup": {
     "title": "Arama kotası aşıldı",
-    "body1": "{{appName}}, telefon numaranızı güvende ve gizli tutmak için kullanıcıların telefon numarası arama sayısını sınırlar.",
+    "body1": "{{appName}} telefon numaranızı güvende ve gizli tutmak için kullanıcıların telefon numarası arama sayısını sınırlar.",
     "body2": "Küçük bir ücret karşılığında daha fazla arama satın alabilirsiniz.",
     "cta": "Arama satın al (2)"
   },
   "onboardingEducation": {
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
-    "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi büyütmek çok kolay.",
-    "step3": "Göndermek, harcamak ve keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
+    "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
+    "step3": "Para göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
