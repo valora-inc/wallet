@@ -149,15 +149,15 @@
     },
     {
       "title": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
-      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Kelimelerinize sahip olmanız gerekir. {{appName}} dahil hiç kimse, onsuz fonlarınızı kurtaramaz."
+      "text": "Telefonunuzu kaybederseniz hesabınızı geri almak için Kurtarma Kelimelerinizi girmeniz gerekir. {{appName}} dahil hiç kimse, kelimeleriniz olmadan fonlarınızı kurtaramaz."
     },
     {
-      "title": "Yazın",
-      "text": "Kurtarma Kelimelerinizi yazın ve güvenli bir yerde saklayın. Kurtarma Kelimelerinizi telefonunuza kaydetmeyin."
+      "title": "Not edin",
+      "text": "Kurtarma Kelimelerinizi not edin ve güvenli bir yerde saklayın. Kurtarma Kelimelerinizi telefonunuza kaydetmeyin."
     },
     {
-      "title": "Cümlenizi gizli tutun",
-      "text": "Kurtarma Cümlenize sahip herhangi bir kişi hesabınıza erişebilir. Başkaları ile paylaşmayın."
+      "title": "Kelimelerinizi gizli tutun",
+      "text": "Kurtarma Kelimelerinize sahip herhangi bir kişi hesabınıza erişebilir. Başkaları ile paylaşmayın."
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
@@ -169,7 +169,7 @@
   "noMinCommitment": {
     "header": "Minimum bakiye ekle",
     "earningText": "10-1000 cUSD, 10-1000 cEUR, veya 50-6000 cREAL için ödüller kazanın.",
-    "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve elefon numaranızı bağlamanız yeterlidir."
+    "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve telefon numaranızı bağlamanız yeterlidir."
   },
   "saveMoreEarnMore": {
     "header": "Kurtarma Kelimelerinizi oluşturun",
