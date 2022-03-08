@@ -169,7 +169,7 @@
   "noMinCommitment": {
     "header": "Minimum bakiye ekle",
     "earningText": "10-1000 cUSD, 10-1000 cEUR, veya 50-6000 cREAL için ödüller kazanın.",
-    "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyeniz olması ve telefon numaranızı bağlamanız yeterlidir."
+    "connectText": "Ödül almaya başlamak için en az {{minBalance}} {{currency}} bakiyenizin olması ve telefon numaranızı bağlamanız yeterlidir."
   },
   "saveMoreEarnMore": {
     "header": "Kurtarma Kelimelerinizi oluşturun",
@@ -180,7 +180,7 @@
   "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
-  "superchargeDisclaimer": "Maksimum ödül kazanmak için daha fazla {{amount}} {{token}} ekleyin",
+  "superchargeDisclaimer": "Maksimum ödül kazanmak için {{amount}} {{token}}'a kadar ekleme yapabilirsiniz",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
