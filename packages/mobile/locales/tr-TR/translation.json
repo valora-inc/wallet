@@ -472,7 +472,7 @@
   "addressLookupFailure": "Telefon numarası adresi araması başarısız",
   "saltFetchFailure": "Telefon numarası kodu alınamadı",
   "saltQuotaExceededError": "Telefon numarası adresi araması kotanız doldu",
-  "maxActionableAttestationsExceededError": "Mesaj tekrar gönderilemedi",
+  "maxActionableAttestationsExceededError": "Mesajlar yeniden gönderilemedi",
   "odisInsufficientBalance": "Lütfen numaranızı doğrulayın",
   "matchmakingQuotaExceededError": "Eşleştirme sadece bir kez yapılabilir",
   "paymentLimitReached": "Günlük limitiniz {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} kalan cUSD ({{currencySymbol}}{{dailyRemaining}})",
@@ -513,7 +513,7 @@
   "addressValidationError": "Girilen hesap bilgileri geçerli değil",
   "addressValidationNoMatch": "Girilen hesap bilgileri kişi listenizdeki bilgilerle eşleşmiyor",
   "addressValidationFullPoorlyFormatted": "Hesap Adresleri \"0x\" ile başlar, sadece rakam ve harflerden oluşur ve 42 karakter uzunluğundadır. Yardım için aşağıdaki bağlantıya tıklayın",
-  "addressValidationPartialPoorlyFormatted": "Hesap Adresleri sadece rakam ve harfleri içerir, lütfen son 4 haneyi giriniz. Yardım için aşağıdaki bağlantıya basın",
+  "addressValidationPartialPoorlyFormatted": "Hesap Adresleri sadece rakam ve harfleri içerir, lütfen son 4 haneyi giriniz. Yardım için aşağıdaki bağlantıya tıklayın",
   "addressValidationFullOwnAddress": "Lütfen kendinizin değil, kişi listenizdeki kişinin Hesap Adresini girin. Yardım için aşağıdaki bağlantıya tıklayın",
   "addressValidationPartialOwnAddress": "Lütfen kendinizin değil, kişi listenizdeki kişiye ait Hesap Adresininin son 4 hanesini girin. Yardım için aşağıdaki bağlantıya tıklayın",
   "providerRateFetchFailed": "Sağlayıcıdan oran bilgileri alınamadı. Önceden belirlenmiş oranlar olmadan devam edebilirsiniz.",
@@ -551,11 +551,11 @@
     },
     {
       "title": "CELO'nun fiyatı değişkendir",
-      "text": "Celo Dolarını ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dolar'ının değeri ise değişmez. "
+      "text": "Celo Dolarını ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dolar'ın değeri ise değişmez. "
     },
     {
-      "title": "Celo Ağının durumu",
-      "text": "Eğer CELO'ya sahip iseniz, Celo Ağı'nda görmek istediğiniz değişiklikler ve özellikler için oy kullanma olanağına da sahip olursunuz."
+      "title": "Celo Ağına katkıda bulunun",
+      "text": "Hesabınızda CELO tuttuğunuzda, Celo Ağı'nda görmek istediğiniz değişiklikler ve özellikler için oy kullanma olanağına da sahip olursunuz."
     },
     {
       "title": "Lütfen sorumlu bir şekilde satın alın ve satın",
@@ -568,7 +568,7 @@
   "whyReceiveFees": "Hesabınızı onaylamak için size bir miktar kriptopara gönderildi",
   "inviteSent": "Davet gönderildi",
   "redeemFailed": "Geçersiz kullanım kodu ",
-  "redeemInviteTimeout": "Daveti kodu zaman aşımına uğradı",
+  "redeemInviteTimeout": "Davet kodu zaman aşımına uğradı",
   "accountSetupFailed": "Cüzdanınız oluşturulamadı",
   "accountSetupFailedDescription": "Lütfen {{appName}} uygulamasını cihazınızdan kaldırın ve tekrar deneyin. Eğer sorunla karşılaşmaya devam ederseniz lütfen destek ekibiyle iletişime geçin.",
   "closeApp": "Uygulamayı kapat",
@@ -580,7 +580,7 @@
   "inviteDialog": {
     "title": "Arkadaşını davet et",
     "body": "Valora'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
-    "button": "Davet"
+    "button": "Davet Et"
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
