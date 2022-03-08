@@ -1,5 +1,5 @@
 import NewAccountPhoneVerification from './usecases/NewAccountPhoneVerification'
 
-describe('Given Phone Verification', () => {
+describe.skip('Given Phone Verification', () => {
   describe('When New Account', NewAccountPhoneVerification)
 })
