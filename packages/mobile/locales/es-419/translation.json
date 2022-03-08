@@ -454,7 +454,7 @@
   "corruptedChainDeleted": "Se ha borrado información corrupta, reinicia la aplicación.",
   "contractKitInitFailed": "Hubo un error al inicializar el kit de contrato, intenta reiniciar la aplicación o enviar un correo electrónico al equipo de soporte.",
   "web3FailedToSync": "Error de sincronización, verifica tu conexión.",
-  "errorDuringSync": "Error de sincronización, inténtalo de nuevo más tarde.",
+  "errorDuringSync": "Error de sincronización, vuelve a intentarlo más tarde.",
   "accountUnlockFailed": "Error al desbloquear tu cuenta",
   "calculateFeeFailed": "No se pudo calcular la tarifa",
   "failedToSwitchSyncModes": "Error al cambiar el modo de sincronización",
@@ -536,7 +536,7 @@
   "countryNotAvailable": "{{appName}} no está disponible en tu país.",
   "fetchFailed": "Error de conexión con el servidor",
   "pictureLoadFailed": "Hubo un error al cargar la imagen.",
-  "simplexPurchaseFetchFailed": "Hubo un error al recuperar la cotización de Simplex. Inténtalo de nuevo más tarde.",
+  "simplexPurchaseFetchFailed": "Hubo un error al recuperar la cotización de Simplex. Vuelve a intentarlo más tarde.",
   "providerFetchFailed": "No pudimos conectarnos con el servicio. Comunícate con el equipo de soporte.",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{balance}} {{currency}}.",
@@ -1020,7 +1020,7 @@
   "loadingActivity": "Cargando tu actividad",
   "errorLoadingActivity": {
     "0": "No es posible cargar tu actividad",
-    "1": "Inténtalo de nuevo más tarde"
+    "1": "Vuelve a intentarlo más tarde"
   },
   "noTransactionActivity": "Aquí verás tu actividad",
   "noExchangeActivity": "Aquí verás tu actividad",
@@ -1115,8 +1115,8 @@
   "supportEmailSubject": "Soporte técnico de {{appName}} para {{user}}",
   "personaAccountEndpointFail": "La verificación de identidad no está disponible actualmente. Vuelve a intentarlo más tarde.",
   "plaidCreateLinkTokenFail": "No fue posible vincular la cuenta bancaria. Vuelve a intentarlo más tarde.",
-  "getBankAccountsFail": "No se pueden recuperar las cuentas bancarias vinculadas. Por favor, inténtalo de nuevo más tarde",
-  "deleteBankAccountFail": "No se puede eliminar tu cuenta bancaria vinculada. Por favor, inténtalo de nuevo más tarde",
+  "getBankAccountsFail": "No se pueden recuperar las cuentas bancarias vinculadas. Vuelve a intentarlo más tarde.",
+  "deleteBankAccountFail": "No se puede eliminar tu cuenta bancaria vinculada. Vuelve a intentarlo más tarde.",
   "linkBankAccountScreen": {
     "tryAgain": "Reintentar",
     "verifying": {
