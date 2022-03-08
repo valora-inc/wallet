@@ -80,6 +80,7 @@ function TokenBalancesScreen({ navigation }: Props) {
                 token.historicalUsdPrices &&
                 isHistoricalPriceUpdated(token) && (
                   <PercentageIndicator
+                    testID={`percentageIndicator:${token.symbol}`}
                     comparedValue={token.historicalUsdPrices.lastDay.price}
                     currentValue={token.usdPrice}
                   />
@@ -105,6 +106,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         </View>
       )}
       <ScrollView style={styles.scrollContainer}>
+        {console.log(`DIEGO ${JSON.stringify(tokens.sort(sortByUsdBalance))}`)}
         {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
       </ScrollView>
     </>

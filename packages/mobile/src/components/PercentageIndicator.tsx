@@ -7,11 +7,12 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface Props {
+  testID?: string
   comparedValue: BigNumber.Value
   currentValue: BigNumber.Value
 }
 
-function renderPercentage(percentage: BigNumber) {
+function renderPercentage(percentage: BigNumber, testID?: string) {
   const comparison = percentage.comparedTo(0)
   const percentageString = percentage.abs().toFixed(2)
   let style
@@ -19,11 +20,11 @@ function renderPercentage(percentage: BigNumber) {
   switch (comparison) {
     case -1:
       style = styles.decreasedText
-      indicator = <DownIndicator />
+      indicator = <DownIndicator testID={`${testID}:DownIndicator`} />
       break
     case 1:
       style = styles.increasedText
-      indicator = <UpIndicator />
+      indicator = <UpIndicator testID={`${testID}:UpIndicator`} />
       break
     case 0:
     default:
@@ -32,19 +33,19 @@ function renderPercentage(percentage: BigNumber) {
   }
 
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row' }} testID={testID}>
       <View style={{ padding: 6 }}>{indicator}</View>
       <Text style={style}>{percentageString}%</Text>
     </View>
   )
 }
 
-function PercentageIndicator({ comparedValue, currentValue }: Props) {
+function PercentageIndicator({ comparedValue, currentValue, testID }: Props) {
   const comparedValueBN = new BigNumber(comparedValue)
   const currentValueBN = new BigNumber(currentValue)
   const percentage = currentValueBN.dividedBy(comparedValueBN).multipliedBy(100).minus(100)
 
-  return renderPercentage(percentage)
+  return renderPercentage(percentage, testID)
 }
 
 const styles = StyleSheet.create({
