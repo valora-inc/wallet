@@ -27,10 +27,8 @@ else
   yarn version --no-git-tag-version
 fi
 
-echo $pwd
-
 new_version="$(node -p "require('./package.json').version")"
-
+pwd
 echo $new_version
 
 echo "===Updating android/ios build files==="

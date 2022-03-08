@@ -11,7 +11,7 @@ git checkout -b $branch_name
 echo "BRANCH_NAME="$branch_name"" >> $GITHUB_ENV
 
 echo "Bump app version"
-yarn
+yarn add react-native-version@^3.1.0
 yarn pre-deploy --minor
 
 echo "Push changes to branch"
