@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "A sobretaxa está aqui! Obtenha {{percent}}recompensas anuais no seu balanço mais alto de moedas estáveis (cUSD, cEUR, ou cREAL). Disponível por um tempo limitado. Aqui está como funciona:",
+  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais na sua stablecoin com o maior saldo (cUSD, cEUR ou cREAL) por tempo limitado:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
   },
   "noMinCommitment": {
     "header": "Adicione fundos",
-    "earningText": "Receba prêmios em 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
+    "earningText": "Receba recompensas no seu saldo de 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
@@ -177,12 +177,12 @@
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "superchargeTitle": "Entre no Supercharge",
-  "superchargeDescription": "Obtenha {{apy}}recompensas anuais no seu {{token}} balanço. Aqui está como começar:",
+  "superchargeDescription": "Ganhe {{apy}}% em recompensas anuais no seus {{token}}. Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Max-out recompensas somando até {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimer": "Obtenha o máximo de recompensas com até {{amount}} {{token}}",
+  "superchargeDisclaimerMaxRewards": "Você está recebendo o máximo de recompensas no seus {{token}}",
+  "superchargeDisclaimerDayLimit": "As suas recompensas devem ser reclamadas dentro de 28 dias. <0>Saiba mais</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quais ativos eu posso cobrar mais?",
     "body": "Você será recompensado semanalmente no seu Celo stablecoin com o maior valor (cEUR, cUSD, cREAL).",
@@ -197,8 +197,8 @@
   "superchargeFetchRewardsFailed": "Erro na busca de recompensas pendentes de Supercharge. Por favor, tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas Supercharge foram adicionadas ao seu Saldo Total.",
   "superchargeClaimFailure": "Houve um problema reclamando suas recompensas Supercharge.",
-  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
-  "superchargeNotificationStart": "Claim rewards",
+  "superchargeNotificationBody": "As recompensas do Supercharge chegaram! Resgate-as agora mesmo.",
+  "superchargeNotificationStart": "Resgatar recompensas",
   "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número",
   "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
