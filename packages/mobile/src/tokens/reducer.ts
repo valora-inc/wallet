@@ -15,9 +15,9 @@ interface BaseToken {
   isCoreToken?: boolean
 }
 
-interface HistoricalUsdPrices<T> {
+interface HistoricalUsdPrices {
   lastDay: {
-    price: T
+    price: BigNumber.Value
     at: number
   }
 }
@@ -26,13 +26,13 @@ interface HistoricalUsdPrices<T> {
 export interface StoredTokenBalance extends BaseToken {
   balance: string | null
   usdPrice: string
-  historicalUsdPrices?: HistoricalUsdPrices<string>
+  historicalUsdPrices?: HistoricalUsdPrices
 }
 
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
-  historicalUsdPrices?: HistoricalUsdPrices<BigNumber>
+  historicalUsdPrices?: HistoricalUsdPrices
 }
 
 export interface StoredTokenBalances {
