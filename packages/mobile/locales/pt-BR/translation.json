@@ -184,8 +184,8 @@
   "superchargeDisclaimerMaxRewards": "Você está recebendo o máximo de recompensas no seus {{token}}",
   "superchargeDisclaimerDayLimit": "As suas recompensas devem ser reclamadas dentro de 28 dias. <0>Saiba mais</0>",
   "superchargeTokenDetailsDialog": {
-    "title": "Quais ativos eu posso cobrar mais?",
-    "body": "Você será recompensado semanalmente no seu Celo stablecoin com o maior valor (cEUR, cUSD, cREAL).",
+    "title": "Quais ativos recebem recompensas de Supercharge?",
+    "body": "Você receberá recompensas semanalmente na sua stablecoin de Celo com o maior saldo (cEUR, cUSD, cREAL).",
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Seu {{token}} está sendo Supercharged",
