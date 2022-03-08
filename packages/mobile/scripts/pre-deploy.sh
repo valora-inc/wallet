@@ -18,8 +18,6 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
-pwd
-
 echo "===Updating app version==="
 if [ "$MINOR" = true ]
 then
@@ -29,7 +27,11 @@ else
   yarn version --no-git-tag-version
 fi
 
+echo $pwd
+
 new_version="$(node -p "require('./package.json').version")"
+
+echo $new_version
 
 echo "===Updating android/ios build files==="
 # Android: use react-native-version, however on iOS it doesn't follow Xcode 11+ way of doing it, see iOS section below
