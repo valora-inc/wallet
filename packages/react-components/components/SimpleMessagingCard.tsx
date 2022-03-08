@@ -26,9 +26,7 @@ export default function SimpleMessagingCard({
         // @ts-ignore isValidElement check above ensures image is an image source type
         source={iconProp}
         resizeMode="contain"
-        style={
-          Object.prototype.hasOwnProperty.call(iconProp, 'uri') ? styles.remoteIcon : undefined
-        }
+        style={styles.icon}
         testID={`${testID}/Icon`}
       />
     )
@@ -68,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  remoteIcon: {
+  icon: {
     width: '100%',
     height: '100%',
   },

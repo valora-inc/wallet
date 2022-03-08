@@ -483,6 +483,8 @@ export enum NavigationEvents {
 export enum RewardsEvents {
   rewards_screen_opened = 'rewards_screen_opened',
   rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+  learn_more_pressed = 'learn_more_pressed',
+  claimed_reward = 'claimed_reward',
 }
 
 export enum WalletConnectEvents {
@@ -553,6 +555,7 @@ export enum DappExplorerEvents {
   dapp_select = 'dapp_select',
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
+  dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
 }
 
 export type AnalyticsEventType =
@@ -579,3 +582,4 @@ export type AnalyticsEventType =
   | WalletConnectEvents
   | DappKitEvents
   | CICOEvents
+  | DappExplorerEvents

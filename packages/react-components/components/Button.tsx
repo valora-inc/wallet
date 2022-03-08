@@ -33,6 +33,7 @@ export interface ButtonProps {
   loadingColor?: string
   accessibilityLabel?: string
   type?: BtnTypes
+  icon?: ReactNode
   rounded?: boolean
   disabled?: boolean
   size?: BtnSizes
@@ -46,6 +47,7 @@ export default React.memo(function Button(props: ButtonProps) {
     size,
     testID,
     text,
+    icon,
     type = BtnTypes.PRIMARY,
     rounded = true,
     style,
@@ -75,13 +77,16 @@ export default React.memo(function Button(props: ButtonProps) {
           {showLoading ? (
             <ActivityIndicator size="small" color={loadingColor ?? textColor} />
           ) : (
-            <Text
-              maxFontSizeMultiplier={1}
-              accessibilityLabel={accessibilityLabel}
-              style={{ ...fontStyles.regular600, color: textColor }}
-            >
-              {text}
-            </Text>
+            <>
+              {icon}
+              <Text
+                maxFontSizeMultiplier={1}
+                accessibilityLabel={accessibilityLabel}
+                style={{ ...fontStyles.regular600, color: textColor }}
+              >
+                {text}
+              </Text>
+            </>
           )}
         </Touchable>
       </View>

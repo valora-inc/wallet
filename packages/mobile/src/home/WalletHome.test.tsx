@@ -69,6 +69,10 @@ const recentDapps = [dapp, deepLinkedDapp]
 
 jest.mock('src/exchange/CeloGoldOverview', () => 'CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
+jest.mock('src/api/slice', () => ({
+  ...(jest.requireActual('src/api/slice') as any),
+  useFetchSuperchargeRewards: jest.fn(() => ({ superchargeRewards: [] })),
+}))
 
 describe('WalletHome', () => {
   beforeAll(() => {
