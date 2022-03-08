@@ -18,6 +18,8 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
+pwd
+
 echo "===Updating app version==="
 if [ "$MINOR" = true ]
 then

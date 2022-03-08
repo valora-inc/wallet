@@ -11,6 +11,7 @@ git checkout -b $branch_name
 echo "BRANCH_NAME="$branch_name"" >> $GITHUB_ENV
 
 echo "Bump app version"
+yarn
 yarn pre-deploy --minor
 
 echo "Push changes to branch"
