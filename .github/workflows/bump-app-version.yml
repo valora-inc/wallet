@@ -22,7 +22,7 @@ jobs:
       # - run: yarn
       - run: .github/scripts/create_app_version_pr.sh
         env:
-          VALORA_BOT_PAT: ${{ needs.check-date.outputs.VALORA_BOT_PAT }}
+          VALORA_BOT_PAT: ${{ secrets.VALORA_BOT_PAT }}
       - uses: actions/github-script@v5
         with:
           script: |
