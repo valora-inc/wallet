@@ -19,6 +19,7 @@ import {
   v7Schema,
   v8Schema,
   vNeg1Schema,
+  v36Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
@@ -417,6 +418,15 @@ describe('Redux persist migrations', () => {
     expectedSchema.account.finclusiveKycStatus = FinclusiveKycStatus.NotSubmitted
     expectedSchema.app.maxNumRecentDapps = 0
     expectedSchema.app.recentDapps = []
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v36 to v37', () => {
+    const oldSchema = v36Schema
+    const migratedSchema = migrations[37](oldSchema)
+
+    const expectedSchema: any = { ...oldSchema }
+    expectedSchema.app.showPriceChangeIndicatorInBalances = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
