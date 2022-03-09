@@ -16,4 +16,4 @@ yarn pre-deploy --minor
 echo "Push changes to branch"
 git add .
 git commit -m "Bump app version to $app_version"
-git push origin
+git push --set-upstream origin $branch_name
