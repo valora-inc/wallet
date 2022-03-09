@@ -5,6 +5,7 @@ import { Screens } from 'src/navigator/Screens'
 export enum RewardsScreenOrigin {
   RewardPill = 'RewardPill',
   NotificationBox = 'NotificationBox',
+  RewardAvailableNotification = 'RewardAvailableNotification',
   PaymentDetail = 'PaymentDetail',
   PushNotification = 'PushNotification',
   SideMenu = 'SideMenu',

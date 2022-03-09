@@ -7,7 +7,7 @@ import {
   TransferItemFragment,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import { CELO_LOGO_URL, DEFAULT_TESTNET } from 'src/config'
+import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config'
 import { ProviderFeedInfo, txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
@@ -313,7 +313,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
       } else if (isRewardSender) {
         title = t('feedItemRewardReceivedTitle')
         subtitle = t('feedItemRewardReceivedInfo')
-        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+        Object.assign(recipient, { thumbnailPath: SUPERCHARGE_LOGO_URL })
       } else if (isInviteRewardSender) {
         title = t('feedItemInviteRewardReceivedTitle')
         subtitle = t('feedItemInviteRewardReceivedInfo')
