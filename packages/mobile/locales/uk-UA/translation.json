@@ -1050,7 +1050,7 @@
   "feedItemSoldCeloTitle": "Продано CELO",
   "feedItemExchangeCeloInfo": "{{amount}} @ {{price}}",
   "feedItemVerificationFeeTitle": "Celo",
-  "feedItemVerificationFeeInfo": "$t(на затвердженні)",
+  "feedItemVerificationFeeInfo": "$t(verificationFee)",
   "feedItemNetworkFeeTitle": "Celo",
   "feedItemNetworkFeeInfo": "Комісія за мережу",
   "feedItemVerificationRewardTitle": "Celo",
