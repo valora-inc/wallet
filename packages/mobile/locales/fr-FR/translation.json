@@ -1198,7 +1198,7 @@
   "supercharge": "Supercharge",
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
-  "lastDay": "Last 24 hrs",
+  "lastDay": "24 dernières heures",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
