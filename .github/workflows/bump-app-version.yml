@@ -3,26 +3,25 @@ name: Bump App Version
 on:
   workflow_dispatch:
   push:
+    # trigger on new minor release tags only
     tags:
       - valora-v1.[0-9]+.0
-    branches:
-      - kathy/auto-bump-app-version
 
 jobs:
-  create-app-version-pr:
+  bump-app-version:
     # this job uses the pre-deploy script and agvtool which is only available on macos
     runs-on: macos-11
     permissions:
       pull-requests: write
     env:
       VALORA_BOT_PAT: ${{ secrets.VALORA_BOT_PAT }}
-      BRANCH_NAME: bump-app-version
+      BRANCH_NAME: valora-bot/bump-app-version
     steps:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.BOT_SSH_PRIVATE_KEY_WALLET }}
       - uses: actions/checkout@v2
-      # - run: yarn
+      - run: yarn
       - run: .github/scripts/create_app_version_pr.sh
       - uses: actions/github-script@v5
         with:

@@ -24,4 +24,4 @@ curl -u "valora-bot:$VALORA_BOT_PAT" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
-  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "[KATHY TEST] Automated app version bump", "draft": true }'
+  -d '{ "head": "'$BRANCH_NAME'", "base": "main" }'
