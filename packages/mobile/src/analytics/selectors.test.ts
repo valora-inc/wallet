@@ -20,6 +20,7 @@ describe('getCurrentUserTraits', () => {
             usdPrice: '1',
             balance: '10',
             priceFetchedAt: Date.now(),
+            isCoreToken: true,
           },
           '0xceur': {
             name: 'Celo Euros',
@@ -30,6 +31,7 @@ describe('getCurrentUserTraits', () => {
             usdPrice: '1.2',
             balance: '20',
             priceFetchedAt: Date.now(),
+            isCoreToken: true,
           },
           '0xcelo': {
             name: 'Celo',
@@ -40,6 +42,7 @@ describe('getCurrentUserTraits', () => {
             usdPrice: '5',
             balance: '0',
             priceFetchedAt: Date.now(),
+            isCoreToken: true,
           },
           '0xa': {
             name: 'a',
