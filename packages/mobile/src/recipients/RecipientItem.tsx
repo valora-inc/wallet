@@ -7,18 +7,35 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Logo, { LogoTypes } from 'src/icons/Logo'
-import { getDisplayDetail, getDisplayName, Recipient } from 'src/recipients/recipient'
+import {
+  getDisplayDetail,
+  getDisplayName,
+  Recipient,
+  RecipientType,
+} from 'src/recipients/recipient'
 
 interface Props {
   recipient: Recipient
   onSelectRecipient(recipient: Recipient): void
 }
 
+function getRecipientType(recipient: Recipient) {
+  if (recipient.e164PhoneNumber && !recipient.address) {
+    return RecipientType.PhoneNumber
+  } else if (recipient.address) {
+    return RecipientType.Address
+  }
+  return undefined
+}
+
 function RecipientItem({ recipient, onSelectRecipient }: Props) {
   const { t } = useTranslation()
 
   const onPress = () => {
-    onSelectRecipient(recipient)
+    onSelectRecipient({
+      ...recipient,
+      recipientType: recipient.recipientType ?? getRecipientType(recipient),
+    })
   }
 
   return (
