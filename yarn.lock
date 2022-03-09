@@ -5278,20 +5278,20 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-adjust/-/analytics-react-native-adjust-1.5.0.tgz#73d721ef9b7462648a8b02d628e798a3f56bf1e4"
   integrity sha512-h69KQqaduJ8jWpOVSBlnep56WHFZr0u4TABi58JvlSwHW1/UMvk4LqDUPrb/5Lk+jhBxle1nYmmyfd85c6DyEA==
 
-"@segment/analytics-react-native-clevertap@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-clevertap/-/analytics-react-native-clevertap-1.5.0.tgz#7ceb9f4a361d47f947cae362d425d54ec084113b"
-  integrity sha512-4eXJgcLbPQnSDYSjO8Kwx/OxgrE2uA0WzXSWZOrG0FOtVaGQLldMYuwAdT5yRXCfq8xQtceiz9qopVsPHCrOwA==
+"@segment/analytics-react-native-clevertap@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-clevertap/-/analytics-react-native-clevertap-1.5.2.tgz#20d14f9dfa622acd844e5e9910491ff5754130e4"
+  integrity sha512-NUwvG6B7ep8/aBL+TPVdbtl/gkgf2JNh3uw0X4cEb4a7ovKJ4neNthB0eXMENihPweJ3V2/qKPGB5em6EwuKfQ==
 
 "@segment/analytics-react-native-firebase@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.5.0.tgz#a95386e92de7452a19bc7ef0fbd12148c46fd490"
   integrity sha512-9HNDiX/n6NFrUK3tEHxtVrcqCagO4DzSuWyVbhkzrerVEGpE4i3MqCzVCPAyU0MCEK3h+9Z66eZDxWCHSYAl0A==
 
-"@segment/analytics-react-native@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.0.tgz#14538b8c018202ef62daf8c5b3898312a057fbde"
-  integrity sha512-hW93MKffFfkqNec615jQUB5wJHb5KyIcZitIVF5L7cZZxBCM7rQjVdwV9Jdk3KGFwjnWGRkAjDD2DkJZYqz7KQ==
+"@segment/analytics-react-native@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.5.2.tgz#1540cef83a83a6001fc249605ccf28f596edf791"
+  integrity sha512-LFfU2t6BIrVGmTU8CC/vaANfyczDBq4JD7700jTPbONMzfKUkO9sp2jgRA1+dKI+f8SuWNditA7ImUczAj2giw==
 
 "@sentry/browser@6.12.0":
   version "6.12.0"
