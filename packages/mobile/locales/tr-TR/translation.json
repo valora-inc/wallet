@@ -1198,6 +1198,7 @@
   "supercharge": "Supercharge",
   "others": "Diğer",
   "nomSpaceRecipient": "Nomspace: {{name}}",
+  "lastDay": "Last 24 hrs",
   "celoDollarAmount": "<0></0> Celo Doları ",
   "celoDollarAmount_plural": "<0></0> Celo Doları"
 }
