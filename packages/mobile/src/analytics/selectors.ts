@@ -76,7 +76,7 @@ export const getCurrentUserTraits = createSelector(
             )}`
         )
         .join(','),
-      // Maps core token balances
+      // Map core tokens balances
       // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
       ...Object.fromEntries(
         coreTokens.map((token) => [
