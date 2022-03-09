@@ -108,6 +108,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
         ?.div(oldestGoldRateInLocalCurrency)
         .minus(1)
         .multipliedBy(100)
+
       rateWentUp = rateChange?.gt(0)
     }
   }

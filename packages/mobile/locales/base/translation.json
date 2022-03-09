@@ -1199,5 +1199,6 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "others": "Others",
-  "nomSpaceRecipient": "Nomspace: {{name}}"
+  "nomSpaceRecipient": "Nomspace: {{name}}",
+  "lastDay": "Last 24 hrs"
 }

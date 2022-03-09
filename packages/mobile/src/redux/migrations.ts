@@ -451,4 +451,11 @@ export const migrations = {
       recentDapps: [],
     },
   }),
+  37: (state: any) => ({
+    ...state,
+    app: {
+      showPriceChangeIndicatorInBalances:
+        REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+    },
+  }),
 }
