@@ -45,6 +45,7 @@ const state = getMockStoreData({
         usdPrice: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
+        isCoreToken: true,
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
@@ -52,6 +53,7 @@ const state = getMockStoreData({
         usdPrice: '1.2',
         balance: '20',
         priceFetchedAt: Date.now(),
+        isCoreToken: true,
       },
       [mockCeloAddress]: {
         address: mockCeloAddress,
@@ -59,6 +61,7 @@ const state = getMockStoreData({
         usdPrice: '5',
         balance: '0',
         priceFetchedAt: Date.now(),
+        isCoreToken: true,
       },
       [mockTestTokenAddress]: {
         address: mockTestTokenAddress,
