@@ -6,6 +6,8 @@ on:
     # trigger on new minor release tags only
     tags:
       - valora-v[0-9]+.[0-9]+.0
+    branches:
+      - kathy/auto-bump-app-version
 
 jobs:
   bump-app-version:
@@ -14,7 +16,6 @@ jobs:
     permissions:
       pull-requests: write
     env:
-      VALORA_BOT_PAT: ${{ secrets.VALORA_BOT_PAT }}
       BRANCH_NAME: valora-bot/bump-app-version
     steps:
       - name: Google Secrets
@@ -23,6 +24,7 @@ jobs:
         with:
           secrets: |-
             BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
+            VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
           credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -30,6 +32,8 @@ jobs:
       - uses: actions/checkout@v2
       # - run: yarn
       - run: .github/scripts/create_app_version_pr.sh
+        env:
+          VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
       - uses: actions/github-script@v5
         with:
           script: |

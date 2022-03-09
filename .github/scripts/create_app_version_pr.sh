@@ -20,8 +20,8 @@ git commit -m "Bump app version to $app_version"
 git push --set-upstream origin $BRANCH_NAME
 
 echo "Open app version bump PR"
-curl -u "valora-bot:$VALORA_BOT_PAT" \
+curl -u "valora-bot:$VALORA_BOT_TOKEN" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
-  -d '{ "head": "'$BRANCH_NAME'", "base": "main" }'
+  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "draft": true, "title": "[KATHY TEST] Automated app version bump" }'
