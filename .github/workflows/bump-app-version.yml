@@ -5,8 +5,8 @@ on:
   push:
     tags:
       - valora-v1.[0-9]+.0
-    branches:
-      - kathy/auto-bump-app-version
+    # branches:
+    #   - kathy/auto-bump-app-version
 
 jobs:
   create-app-version-pr:
