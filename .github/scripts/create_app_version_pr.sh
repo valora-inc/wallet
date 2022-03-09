@@ -26,5 +26,5 @@ echo "Open app version bump PR"
 curl \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/octocat/valora-inc/wallet/pulls \
+  https://api.github.com/repos/valora-inc/wallet/pulls \
   -d '{ "head": "'"$branch_name"'", "base": "main", title: "[KATHY TEST] Automated app version bump", "draft": true }'
