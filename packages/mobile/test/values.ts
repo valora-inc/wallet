@@ -24,6 +24,7 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export const nullAddress = '0x0'
 
@@ -473,6 +474,36 @@ export const mockTokenBalances = {
     decimals: 18,
     balance: '0',
     priceFetchedAt: Date.now(),
+  },
+}
+
+export const mockTokenBalancesWithHistoricalPrices = {
+  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
+    ...mockTokenBalances['0x00400FcbF0816bebB94654259de7273f4A05c762'],
+    historicalUsdPrices: {
+      lastDay: {
+        price: '0.15',
+        at: Date.now() - ONE_DAY_IN_MILLIS,
+      },
+    },
+  },
+  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+    ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
+    historicalUsdPrices: {
+      lastDay: {
+        price: '1.14',
+        at: Date.now() - ONE_DAY_IN_MILLIS,
+      },
+    },
+  },
+  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
+    ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
+    historicalUsdPrices: {
+      lastDay: {
+        price: '0.99',
+        at: Date.now() - ONE_DAY_IN_MILLIS,
+      },
+    },
   },
 }
 
