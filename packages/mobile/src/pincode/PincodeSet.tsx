@@ -14,7 +14,6 @@ import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   biometryEnabledSelector,
-  hideVerificationSelector,
   registrationStepsSelector,
   skipVerificationSelector,
 } from 'src/app/selectors'
@@ -67,7 +66,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     registrationStep: registrationStepsSelector(state),
-    hideVerification: hideVerificationSelector(state),
+    hideVerification: state.app.hideVerification,
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     biometryEnabled: biometryEnabledSelector(state),
