@@ -23,7 +23,7 @@ jobs:
       #       */*/node_modules
       #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       # - run: yarn
-      # - run: .github/scripts/create_app_version_pr.sh
+      - run: .github/scripts/create_app_version_pr.sh
       - uses: actions/github-script@v5
         with:
           script: |
