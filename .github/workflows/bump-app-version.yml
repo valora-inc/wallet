@@ -12,6 +12,8 @@ jobs:
   create-app-version-pr:
     # this job uses the pre-deploy script and agvtool which is only available on macos
     runs-on: macos-11
+    permissions:
+      pull-requests: write
     steps:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
