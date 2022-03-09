@@ -167,7 +167,7 @@
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
   },
   "noMinCommitment": {
-    "header": "Ajouter un solde minimum",
+    "header": "Ajoutez un solde minimum",
     "earningText": "Reçois des récompenses sur 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
@@ -181,6 +181,8 @@
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeMinimumBalance": "Ajoute un solde minimum de {{amount}} {{token}}.",
   "superchargeDisclaimer": "Maximise les récompenses en additionnant jusqu'à {{amount}} {{token}}.",
+  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quels sont les actifs que je peux Supercharger ?",
     "body": "Tu seras récompensé chaque semaine sur ton stablecoin Celo ayant la valeur la plus élevée (cEUR, cUSD, cREAL).",
@@ -195,6 +197,8 @@
   "superchargeFetchRewardsFailed": "Erreur lors de la récupération des récompenses Supercharge en attente. Réessaie plus tard.",
   "superchargeClaimSuccess": "Tes récompenses Supercharge ont été ajoutées à ton solde total.",
   "superchargeClaimFailure": "Il y a eu un problème pour réclamer tes récompenses Supercharge.",
+  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationStart": "Claim rewards",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
   "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
@@ -262,7 +266,7 @@
   "withdrawScanQrTitle": "Scanner",
   "tokenBalance": "Solde de {{token}}",
   "addFunds": "Ajouter des fonds",
-  "addFundsSubtitle": "Créditer votre compte Valora",
+  "addFundsSubtitle": "Créditez votre compte Valora",
   "exchanges": "Échanges",
   "noExchanges": "Il n'y a pas d'échanges disponibles pour {{digitalAsset}} dans votre pays.",
   "buySellOnExchanges": "Acheter/Vendre sur les échanges",
@@ -858,7 +862,7 @@
   "sentEscrowPayment": "Paiement au prestataire de séquestre envoyé",
   "mobileNumber": "N° de portable",
   "sendToMobileNumber": "Envoyer au numéro de téléphone",
-  "requestFromMobileNumber": "Demande de numéro de téléphone",
+  "requestFromMobileNumber": "Propriétaire du numéro de téléphone",
   "sendToAddress": "Envoyer à l'adresse",
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",

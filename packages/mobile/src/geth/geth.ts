@@ -1,7 +1,6 @@
 import { GenesisBlockUtils, StaticNodeUtils } from '@celo/network-utils'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
-import DeviceInfo from 'react-native-device-info'
 import * as RNFS from 'react-native-fs'
 import GethBridge, { NodeConfig } from 'react-native-geth'
 import * as RNLocalize from 'react-native-localize'
@@ -11,7 +10,6 @@ import { DEFAULT_TESTNET, GETH_START_HTTP_RPC_SERVER } from 'src/config'
 import { SYNCING_MAX_PEERS } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
-import FirebaseLogUploader from 'src/utils/LogUploader'
 
 let gethLock = false
 let gethInitialized = false
@@ -43,9 +41,6 @@ enum LogLevel {
   DEBUG = 4,
   TRACE = 5,
 }
-
-// The logs will be uploaded only if they are larger than this size
-const UPLOAD_SIZE_THRESHOLD = 10 * 1024 // 10 KB
 
 enum ErrorType {
   Unknown,
@@ -121,8 +116,6 @@ async function setupGeth(sync: boolean = true, bootnodeEnodes: string[]): Promis
   // Setup Logging
   const gethLogFilePath = Logger.getGethLogFilePath()
 
-  // Upload logs first
-  await uploadLogs(gethLogFilePath, Logger.getReactNativeLogsFilePath())
   gethOptions.logFile = gethLogFilePath
   // Only log info and above to the log file.
   // The logcat logging mode remains unchanged.
@@ -383,39 +376,6 @@ async function deleteFileIfExists(path: string) {
   } catch (error) {
     Logger.error(`${TAG}@deleteFileIfExists`, `Failed to delete ${path}`, error)
     return false
-  }
-}
-
-// The only reason to upload both the logs simulatenously here is to have the same upload ID for both, so that,
-// the developers can correlate them.
-async function uploadLogs(gethLogFilePath: string, reactNativeLogFilePath: string) {
-  Logger.debug(`${TAG}@uploadLogs`, 'Attempting to upload geth logs')
-  try {
-    const bundleId = DeviceInfo.getBundleId()
-    const uploadPath = `${bundleId}/${DEFAULT_TESTNET}`
-
-    const timestamp = new Date().getTime()
-    const deviceId = DeviceInfo.getUniqueId()
-    const gethUploadFileName = `${deviceId}_${timestamp}_geth.txt`
-    const reactNativeUploadFileName = `${deviceId}_${timestamp}_rn.txt`
-    // Upload one if the other one is uploaded.
-
-    const [shouldUploadGeth, shouldUploadRN] = await Promise.all([
-      FirebaseLogUploader.shouldUpload(gethLogFilePath, UPLOAD_SIZE_THRESHOLD, true),
-      FirebaseLogUploader.shouldUpload(reactNativeLogFilePath, UPLOAD_SIZE_THRESHOLD, true),
-    ])
-
-    // If either of them have to be uploaded then upload both.
-    // Noth that the Wi-Fi can switch to cellular between the time of check and
-    // the time of use but at this time that's an acceptable tradeoff.
-    if (shouldUploadGeth || shouldUploadRN) {
-      await Promise.all([
-        FirebaseLogUploader.upload(gethLogFilePath, uploadPath, gethUploadFileName),
-        FirebaseLogUploader.upload(reactNativeLogFilePath, uploadPath, reactNativeUploadFileName),
-      ])
-    }
-  } catch (e) {
-    Logger.error(`${TAG}@uploadLogs`, 'Failed to upload logs', e)
   }
 }
 
