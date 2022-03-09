@@ -97,6 +97,17 @@ const locales: Locales = {
       return require('date-fns/locale/uk')
     },
   },
+  'tr-TR': {
+    name: 'Türkçe',
+    get strings() {
+      return {
+        translation: require('./tr-TR/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/tr')
+    },
+  },
 }
 
 export default locales
