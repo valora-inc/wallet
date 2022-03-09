@@ -9,9 +9,8 @@ import { backupCompletedSelector } from 'src/backup/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { tokensByCurrencySelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { coreTokensSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
-import { Currency } from 'src/utils/currencies'
 import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 export const getCurrentUserTraits = createSelector(
@@ -22,7 +21,7 @@ export const getCurrentUserTraits = createSelector(
     userLocationDataSelector,
     currentLanguageSelector,
     tokensWithTokenBalanceSelector,
-    tokensByCurrencySelector,
+    coreTokensSelector,
     getLocalCurrencyCode,
     numberVerifiedSelector,
     backupCompletedSelector,
@@ -35,15 +34,13 @@ export const getCurrentUserTraits = createSelector(
     { countryCodeAlpha2 },
     language,
     tokens,
-    tokensByCurrency,
+    coreTokens,
     localCurrencyCode,
     hasVerifiedNumber,
     hasCompletedBackup,
     pincodeType
   ) => {
-    const currencyAddresses = new Set(
-      Object.values(tokensByCurrency).map((token) => token?.address)
-    )
+    const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
 
     let totalBalanceUsd = new BigNumber(0)
@@ -69,7 +66,7 @@ export const getCurrentUserTraits = createSelector(
       totalBalanceUsd: totalBalanceUsd?.toNumber(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
-        .filter((token) => !currencyAddresses.has(token.address))
+        .filter((token) => !coreTokensAddresses.has(token.address))
         .slice(0, 10)
         .map(
           (token) =>
@@ -79,12 +76,12 @@ export const getCurrentUserTraits = createSelector(
             )}`
         )
         .join(','),
-      // Maps balances
+      // Map core tokens balances
       // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
       ...Object.fromEntries(
-        (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
-          `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
-          tokensByCurrency[currency]?.balance.toNumber(),
+        coreTokens.map((token) => [
+          `${token.symbol.toLowerCase()}Balance`,
+          token.balance.toNumber(),
         ])
       ),
       localCurrencyCode,
