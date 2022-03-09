@@ -14,7 +14,7 @@ import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -158,11 +158,10 @@ function BidaliScreen({ route, navigation }: Props) {
 }
 
 BidaliScreen.navigationOptions = () => {
-  const navigateToFiatExchange = () => navigate(Screens.FiatExchange)
   return {
     ...emptyHeader,
     headerTitle: 'Bidali',
-    headerLeft: () => <TopBarTextButton title={i18n.t('done')} onPress={navigateToFiatExchange} />,
+    headerLeft: () => <TopBarTextButton title={i18n.t('done')} onPress={navigateBack} />,
     headerRight: () => (
       <ActivityIndicator
         style={styles.headerActivityIndicator}
