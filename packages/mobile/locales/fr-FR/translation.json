@@ -182,7 +182,7 @@
   "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
   "superchargeDisclaimer": "Ajoutez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
   "superchargeDisclaimerMaxRewards": "Vous obtenez désormais le maximum de récompenses sur vos {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimerDayLimit": "Vos récompenses doivent être réclamées dans un délai de 28 jours. <0>En savoir plus</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quels sont les actifs que je peux Supercharger ?",
     "body": "Tu seras récompensé chaque semaine sur ton stablecoin Celo ayant la valeur la plus élevée (cEUR, cUSD, cREAL).",
