@@ -21,7 +21,6 @@ import {
   v7Schema,
   v8Schema,
   vNeg1Schema,
-  v36Schema,
 } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
