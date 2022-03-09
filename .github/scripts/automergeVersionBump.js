@@ -24,8 +24,8 @@ module.exports = async ({ github, context }) => {
   const { data: pr } = await github.rest.pulls.create({
     owner,
     repo,
-    head: `${context.repo.owner}:${BRANCH_NAME}`,
-    base: `${context.repo.owner}:main`,
+    head: BRANCH_NAME || '',
+    base: 'main',
     title: '[KATHY TEST] Automated app version bump',
     draft: true,
   })
