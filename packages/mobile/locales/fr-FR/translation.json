@@ -167,7 +167,7 @@
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
   },
   "noMinCommitment": {
-    "header": "Ajouter un solde minimum",
+    "header": "Ajoutez un solde minimum",
     "earningText": "Reçois des récompenses sur 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },

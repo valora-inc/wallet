@@ -187,6 +187,7 @@ export interface RemoteConfigValues {
   superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
   skipVerification: boolean
+  showPriceChangeIndicatorInBalances: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

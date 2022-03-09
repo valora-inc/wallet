@@ -51,4 +51,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeButtonType: SuperchargeButtonType.PillRewards,
   maxNumRecentDapps: 4,
   skipVerification: false,
+  showPriceChangeIndicatorInBalances: false,
 }

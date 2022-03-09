@@ -1020,6 +1020,7 @@ export const v37Schema = {
   app: {
     ...v36Schema.app,
     skipVerification: false,
+    showPriceChangeIndicatorInBalances: false,
   },
 }
 

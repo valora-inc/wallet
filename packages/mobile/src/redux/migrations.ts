@@ -456,6 +456,8 @@ export const migrations = {
     app: {
       ...state.app,
       skipVerification: false,
+      showPriceChangeIndicatorInBalances:
+        REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
     },
   }),
 }
