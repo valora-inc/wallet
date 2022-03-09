@@ -180,7 +180,7 @@
   "superchargeDescription": "Obtenez {{apy}} % de récompenses annuelles sur votre solde de {{token}}. Voici comment commencer :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
-  "superchargeDisclaimer": "Maximisez les récompenses en additionnant jusqu'à {{amount}} {{token}}",
+  "superchargeDisclaimer": "Ajoutez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
   "superchargeDisclaimerMaxRewards": "Vous obtenez désormais le maximum de récompenses sur vos {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
