@@ -9,21 +9,29 @@ on:
       - kathy/auto-bump-app-version
 
 jobs:
-  bump-app-version:
+  create-app-version-pr:
     # this job uses the pre-deploy script and agvtool which is only available on macos
     runs-on: macos-11
+    steps:
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v0.2.2
+        with:
+          secrets: |-
+            BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
+          credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: .github/scripts/create_app_version_pr.sh
+  automerge-app-version-pr:
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
       - uses: actions/checkout@v2
-      # - uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       node_modules
-      #       */*/node_modules
-      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      # - run: yarn
-      - run: .github/scripts/create_app_version_pr.sh
       - uses: actions/github-script@v5
         with:
           script: |

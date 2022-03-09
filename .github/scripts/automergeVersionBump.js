@@ -20,15 +20,19 @@ module.exports = async ({ github, context }) => {
   const { owner, repo } = context.repo
   const { BRANCH_NAME } = process.env
 
-  console.log('Open the version bump PR')
-  const { data: pr } = await github.rest.pulls.create({
+  console.log('Looking for version bump PR')
+  const listPrs = await github.rest.pulls.list({
     owner,
     repo,
-    head: BRANCH_NAME || '',
-    base: 'main',
-    title: '[KATHY TEST] Automated app version bump',
-    draft: true,
+    state: 'open',
+    head: `${context.repo.owner}:${BRANCH_NAME}`,
   })
+  const pr = listPrs.data[0]
+
+  if (!pr) {
+    console.log('No version bump PR found')
+    return
+  }
 
   console.log(`Approving PR: ${pr.number}`)
   await github.rest.pulls.createReview({
