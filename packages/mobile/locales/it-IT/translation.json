@@ -5,12 +5,12 @@
   "localCurrencySetting": "Valuta",
   "licenses": "Licenze",
   "removeAccountTitle": "Ripristina Valora",
-  "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+  "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "legal": "Informazioni legali",
   "security": "Sicurezza",
   "changePin": "Modifica il PIN",
-  "pinChanged": "Il PIN è stato modificato.",
-  "pinChangeFailed": "Impossibile modificare il PIN.",
+  "pinChanged": "Il PIN è stato modificato",
+  "pinChangeFailed": "Impossibile modificare il PIN",
   "requirePinOnAppOpen": "Richiedi il PIN all’apertura dell’app",
   "connectedApplications": "Dapp connesse",
   "analytics": "Statistiche",
@@ -30,13 +30,13 @@
     "switchToDataSaver": "Passa a Risparmio dati"
   },
   "accountKeyModal": {
-    "header": "Senza la tua frase di recupero perderai per sempre l’accesso a tuoi fondi",
-    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua frase di recupero.",
-    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua frase di recupero."
+    "header": "Senza la tua Frase di recupero perderai per sempre l’accesso a tuoi fondi",
+    "body1": "Per ripristinare Valora, devi confermare di avere scritto la tua Frase di recupero.",
+    "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua Frase di recupero."
   },
   "promptConfirmRemovalModal": {
     "header": "Ripristinare Valora?",
-    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
+    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua Frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
     "resetNow": "Ripristina ora"
   },
   "promptConfirmRevokeModal": {
@@ -47,7 +47,7 @@
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
-  "editProfile": "Modifica profilo",
+  "editProfile": "Profilo",
   "confirmNumber": "Collega numero telefonico",
   "cancel": "Annulla",
   "changeProfilePhoto": "Cambia foto del profilo",
@@ -67,8 +67,8 @@
   "forum": "Forum",
   "contactText": "Non trovi quello che cerchi?",
   "contactMessagePlaceholder": "Digita il tuo messaggio qui...",
-  "attachLogs": "Allega registri",
-  "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di registro dell’app allegati.",
+  "attachLogs": "Allega log",
+  "supportLegalCheckbox": "Premendo Invia, accetto di condividere con il Supporto {{appName}} le informazioni di cui sopra ed eventuali dati di log dell’app allegati.",
   "contactSuccess": "Il tuo problema è stato segnalato. Fra poco riceverai una risposta per e-mail.",
   "namePictureSaved": "Il tuo nome e la tua foto sono stati salvati.",
   "addPhoto": "Aggiungi foto",
@@ -105,66 +105,66 @@
   "contactSupport": "Contatta il supporto tecnico",
   "tapToCopy": "Tocca per copiare",
   "headerTitle": "Frase di recupero",
-  "introTitle": "La tua frase di recupero",
-  "introBody": "La tua frase di recupero è l’elemento più importante del tuo conto.\n\nTrova un luogo privato in cui impostarla. Occorrono circa cinque minuti.",
+  "introTitle": "La tua Frase di recupero",
+  "introBody": "La tua Frase di recupero è l’elemento più importante del tuo conto.\n\nTrova un luogo privato in cui impostarla. Occorrono circa cinque minuti.",
   "introPrimaryAction": "Imposta ora",
-  "backupSetupTitle": "Imposta la tua frase di recupero",
-  "backupSetupBody": "Per proteggere i tuoi fondi, devi impostare la tua frase di recupero prima di poter continuare a usare {{appName}}.",
+  "backupSetupTitle": "Imposta la tua Frase di recupero",
+  "backupSetupBody": "Per proteggere i tuoi fondi, devi impostare la tua Frase di recupero prima di poter continuare a usare {{appName}}.",
   "delayBackup": "Attendi un’ora",
-  "postSetupTitle": "La tua frase di recupero",
-  "postSetupBody": "Se smarrisci la tua frase di recupero, non potrai più accedere a tutti i tuoi Celo Dollar, Celo Euro e ai CELO. Nessuno, neanche {{appName}}, potrà aiutarti a recuperare il tuo conto senza la tua frase di recupero. Conservala in un luogo sicuro e non condividerla.",
-  "postSetupCTA": "Maggiori informazioni sulla frase di recupero",
-  "failedFetchMnemonic": "Impossibile recuperare la frase di recupero.",
+  "postSetupTitle": "La tua Frase di recupero",
+  "postSetupBody": "Se smarrisci la tua Frase di recupero, non potrai più accedere a tutti i tuoi Celo Dollar e CELO. Nessuno, neanche {{appName}}, potrà aiutarti a recuperare il tuo conto senza la tua Frase di recupero. Conservala in un luogo sicuro e non condividerla.",
+  "postSetupCTA": "Maggiori informazioni sulla Frase di recupero",
+  "failedFetchMnemonic": "Impossibile recuperare la Frase di recupero.",
   "backupAndRecovery": "Backup e ripristino",
-  "writeDownKey": "Annota la tua frase di recupero",
+  "writeDownKey": "Annota la tua Frase di recupero",
   "completeEducation": "Ho capito",
-  "yourAccountKey": "La tua frase di recupero",
-  "backupKeyNotification": "La tua frase di recupero è l’elemento più importante del tuo conto.",
-  "backupKeySummary": "Trova un luogo privato e annota la tua frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
-  "copied": "La frase di recupero è stata copiata negli Appunti.",
+  "yourAccountKey": "La tua Frase di recupero",
+  "backupKeyNotification": "La tua Frase di recupero è l’elemento più importante del tuo conto.",
+  "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
+  "copied": "La Frase di recupero è stata copiata negli appunti.",
   "moreInfo": "Maggiori informazioni",
-  "savedConfirmation": "Sì, ho annotato la mia frase di recupero.",
-  "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua frase di recupero?",
+  "savedConfirmation": "Sì, ho annotato la mia Frase di recupero.",
+  "backupQuizWordCount": "Qual è la <0>{{ordinal}}</0> parola della tua Frase di recupero?",
   "importBackupFailed": "Impossibile importare il wallet.",
-  "backupQuizFailed": "La frase di recupero immesse non è corretta. Riprova.",
-  "invalidBackupPhrase": "La frase di recupero non è valida.",
-  "invalidWordsInBackupPhrase": "Alcune parole della frase di recupero non sono valide: {{ invalidWords }}.",
+  "backupQuizFailed": "La Frase di recupero inserita non è corretta. Riprova.",
+  "invalidBackupPhrase": "La Frase di recupero non è valida",
+  "invalidWordsInBackupPhrase": "Alcune parole della Frase di recupero non sono valide: {{ invalidWords }}.",
   "backupComplete": {
     "header": "Backup completato.",
     "0": "Operazione completata.",
     "1": "Ora puoi configurare Safeguards.",
-    "2": "Configurazione completata."
+    "2": "Configurazione completata!"
   },
   "cancelDialog": {
-    "title": "Completa l’impostazione della frase di recupero",
-    "body": "La tua frase di recupero è importantissima. Senza di essa puoi perdere per sempre l’accesso al tuo wallet. \nNon potrai inviare alcuna transazione fino a quando non completi l’impostazione della frase di recupero.",
+    "title": "Completa l’impostazione della tua Frase di recupero",
+    "body": "La tua Frase di recupero è importantissima. Senza di essa puoi perdere per sempre l’accesso al tuo wallet. \nNon potrai inviare alcuna transazione fino a quando non completerai l’impostazione della tua Frase di recupero.",
     "action": "Completa ora",
     "secondary": "Imposta più tardi"
   },
   "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
   "guide": [
     {
-      "title": "La tua frase di recupero è un tipo speciale di password.",
-      "text": "La tua frase di recupero è l’unico modo per accedere al tuo conto."
+      "title": "La tua Frase di recupero è un tipo speciale di password",
+      "text": "La tua Frase di recupero è l’unico modo per accedere al tuo conto."
     },
     {
-      "title": "Senza la tua frase di recupero, puoi perdere per sempre l’accesso.",
-      "text": "Se smarrisci il tuo telefono, devi avere la tua frase di recupero per ottenere nuovamente l’accesso al tuo conto. Nessuno, neanche {{appName}}, potrà recuperare i tuoi fondi senza di essa."
+      "title": "Senza la tua Frase di recupero, puoi perdere per sempre l’accesso",
+      "text": "Se smarrisci il tuo telefono, devi avere la tua Frase di recupero per ottenere nuovamente l’accesso al tuo conto. Nessuno, neanche {{appName}}, potrà recuperare i tuoi fondi senza di essa."
     },
     {
       "title": "Annotala",
-      "text": "Annota la tua frase di recupero e conservala in un luogo sicuro. Non memorizzarla nel tuo telefono."
+      "text": "Annota la tua Frase di recupero e conservala in un luogo sicuro. Non memorizzarla nel tuo telefono."
     },
     {
-      "title": "Mantieni al sicuro la tua frase di recupero.",
-      "text": "Chiunque conosca la tua frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
+      "title": "Mantenila al sicuro",
+      "text": "Chiunque conosca la tua Frase di recupero avrà accesso al tuo conto e a tutti i fondi che contiene. Non condividerla."
     }
   ],
-  "consumerIncentivesTitle": "Intoduzione ai bonus",
+  "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
   "consumerIncentivesSummary": "Supercharge è qui! Ottieni {{percent}}premi annuali sul tuo saldo più alto in stablecoin (cUSD, cEUR, o cREAL). Disponibile per un tempo limitato. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
-    "text": "Tocca Connetti numero se non lo hai ancora connesso."
+    "text": "Tocca Collega numero se non lo hai ancora collegato."
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
@@ -172,7 +172,7 @@
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
-    "header": "Imposta la tua frase di recupero",
+    "header": "Imposta la tua Frase di recupero",
     "text": "Questo assicurerà che le tue ricompense siano al sicuro e sotto il tuo controllo."
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
@@ -181,10 +181,12 @@
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
   "superchargeDisclaimer": "Massimizza le ricompense sommando {{amount}} {{token}}",
+  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
-    "title": "A quali asset posso applicare i bonus?",
+    "title": "A quali asset posso applicare i Supercharge?",
     "body": "Sarai ricompensato settimanalmente sulla tua stablecoin Celo con il valore più alto (cEUR, cUSD, cREAL).",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "superchargingTitle": "Il tuo {{token}} viene sovralimentato",
   "superchargingDescription": "Stai ottenendo {{apy}}nnualmente. Rivendica i tuoi premi qui martedì.",
@@ -195,6 +197,8 @@
   "superchargeFetchRewardsFailed": "Errore durante il recupero dei premi Supercharge in sospeso. Per favore riprova più tardi.",
   "superchargeClaimSuccess": "I tuoi premi Supercharge sono stati aggiunti al tuo Saldo Totale.",
   "superchargeClaimFailure": "C'è stato un problema nel richiedere i tuoi premi Supercharge.",
+  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationStart": "Claim rewards",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
   "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
@@ -209,7 +213,7 @@
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
   "data": "Dati",
-  "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload del registro non funzioneranno.",
+  "firebaseDisabled": "Firebase è disabilitato, le notifiche e l’upload dei log non funzioneranno.",
   "learnMore": "Scopri di più",
   "equalToAmount": "Vale <1></1>",
   "whatIsGold": "{{appName}} consente di acquistare e vendere CELO",
@@ -267,7 +271,7 @@
   "noExchanges": "Nella tua area non sono presenti exchange disponibili per {{digitalAsset}}.",
   "buySellOnExchanges": "Acquista/Vendi su exchange",
   "cashOut": "Preleva fondi",
-  "cashOutSubtitle": "Spendi per buoni regalo e altri acquisti o invia fondi a un exchange per criptovalute",
+  "cashOutSubtitle": "Investi in buoni regalo, ricarica il credito del tuo cellulare e fai altri acquisti o invia fondi a un exchange",
   "cashOutComingSoon": "Preleva (presto disponibile)",
   "spend": "Spendi",
   "spendSubtitle": "Usa il tuo saldo con commercianti che lo supportano",
@@ -290,12 +294,12 @@
   "receiveWithBidali": "Buoni regalo e ricariche per cellulare",
   "fundingEducationDialog": {
     "title": "Aggiunta di fondi in {{appName}}",
-    "body": "{{appName}} è supportata dalla rete Celo. {{appName}} utilizza Celo Dollar (cUSD) e Celo Euro (cEUR), due valute digitali stabili attualmente legate al dollaro statunitense e all'euro.\n\nPer aggiungere fondi al tuo wallet {{appName}}, acquista cUSD o cEUR da uno dei provider di terze parti disponibili nella tua posizione. Per ulteriori informazioni, visita <0>{{link}}</0>.",
+    "body": "{{appName}} è supportata dalla rete Celo. {{appName}} utilizza Celo Dollar (cUSD) e Celo Euro (cEUR), due valute digitali stabili attualmente legate al dollaro statunitense e all'Euro.\n\nPer aggiungere fondi al tuo wallet {{appName}}, acquista cUSD o cEUR da uno dei provider di terze parti disponibili nella tua posizione. Per ulteriori informazioni, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Preleva da {{appName}}",
-    "body": "{{appName}} è supportata dalla rete Celo. {{appName}} utilizza Celo Dollar (cUSD) e Celo Euro (cEUR), due valute digitali stabili attualmente legate al dollaro statunitense e all'euro.\n\nPer prelevare fondi dal tuo saldo {{appName}}, vendi cUSD o cEUR tramite uno dei provider di terze parti disponibili nella tua posizione. Per ulteriori informazioni, visita <0>{{link}}</0>.",
+    "body": "{{appName}} è supportata dalla rete Celo. {{appName}} utilizza Celo Dollar (cUSD) e Celo Euro (cEUR), due valute digitali stabili attualmente legate al dollaro statunitense e all'Euro.\n\nPer prelevare fondi dal tuo saldo {{appName}}, vendi cUSD o cEUR tramite uno dei provider di terze parti disponibili nella tua posizione. Per ulteriori informazioni, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -323,14 +327,14 @@
   },
   "dailyLimitRequest": "Salve. Desidero aumentare il mio limite di invio quotidiano.",
   "pleaseSelectProvider": "Seleziona uno dei provider di seguito. Questi collegamenti rimandano a un servizio terze parti.",
-  "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo wallet</0>.",
-  "youCanTransferIn": "Puoi trasferire {{digitalAsset}} da qualsiasi exchange che supporta {{digitalAsset}}. Sarà necessario l’indirizzo del tuo conto.",
+  "otherFundingOptions": "Per ulteriori modalità per aggiungere e prelevare fondi, visita <0>Come aggiungere fondi al tuo conto</0>.",
+  "youCanTransferIn": "Puoi trasferire {{digitalAsset}} da qualsiasi exchange che supporta {{digitalAsset}}. Sarà necessario il tuo Indirizzo del conto.",
   "youCanTransferOut": "Puoi trasferire {{digitalAsset}} a qualsiasi exchange che supporta {{digitalAsset}}. Una volta recuperato il tuo indirizzo, puoi procedere con la fase successiva.",
   "useBalanceWithMerchants": "Usa il tuo saldo con commercianti che lo supportano",
   "findMerchants": "Trova commercianti locali nelle vicinanze",
-  "celoDeposit": "Acquisto di CELO",
-  "cUsdDeposit": "Acquisto di cUSD",
-  "cEurDeposit": "Acquisto di cEUR",
+  "celoDeposit": "CELO acquistati",
+  "cUsdDeposit": "cUSD acquistati",
+  "cEurDeposit": "cEUR acquistati",
   "providerUnavailable": "Attualmente non disponibile",
   "pricePer": "Prezzo per {{coin}}",
   "feeDiscount": "Sconto sulle commissioni",
@@ -340,9 +344,9 @@
     "bodyWithProvider": "{{provider}} sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni.",
     "bodyWithoutProvider": "Il service provider sta elaborando il tuo ordine. Dovresti ricevere i fondi entro un paio di giorni."
   },
-  "restrictedRegion": "Supporto limitato nella regione geografica",
-  "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua regione geografica.",
-  "noProviders": "Nella tua regione geografica non sono presenti provider disponibili per {{digitalAsset}}.",
+  "restrictedRegion": "Supporto limitato nell'area",
+  "unsupportedPaymentMethod": "Il pagamento con un {{paymentMethod}} non è supportato nella tua area.",
+  "noProviders": "Nella tua area non sono presenti provider disponibili per {{digitalAsset}}.",
   "switchCurrency": "Cambia valuta",
   "accept": "Accetta",
   "at": "alle",
@@ -394,7 +398,7 @@
   "enterManually": "Immetti manualmente",
   "incorrectPin": "PIN non corretto",
   "pinInputCanceled": "Il PIN è necessario. Riprova.",
-  "setPinFailed": "Impossibile impostare il PIN.",
+  "setPinFailed": "Impossibile impostare il PIN",
   "optIn": "Accetta opzione",
   "invalidInvite": "Codice di invito non valido.",
   "inviteFriends": "Invita amici",
@@ -426,7 +430,7 @@
   "loading": "Caricamento in corso…",
   "inviteFailed": "Impossibile inviare l'invito.",
   "inviteOpenAppFailed": "Impossibile aprire l'app di messaggistica, il codice dell’invito è stato copiato negli Appunti.",
-  "importContactsFailed": "Impossibile importare i contatti.",
+  "importContactsFailed": "Impossibile importare i contatti",
   "sendPaymentFailed": "Impossibile inviare il pagamento.",
   "paymentRequestFailed": "Impossibile inviare la richiesta di pagamento.",
   "escrowTransferFailed": "Impossibile eseguire il trasferimento a deposito in garanzia.",
@@ -508,26 +512,26 @@
   ],
   "addressValidationError": "Le informazioni sul conto immesse non sono valide.",
   "addressValidationNoMatch": "Le informazioni sul conto immesse non corrispondono a nessun conto associato al tuo contatto.",
-  "addressValidationFullPoorlyFormatted": "L’indirizzo di un conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialPoorlyFormatted": "L’indirizzo di un conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationFullOwnAddress": "Immetti l’indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell’indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationFullPoorlyFormatted": "L’Indirizzo del conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationPartialPoorlyFormatted": "L’Indirizzo del conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationFullOwnAddress": "Immetti l’Indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell'Indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
   "providerRateFetchFailed": "Impossibile recuperare il tasso del provider. Puoi continuare senza un tasso precompilato.",
-  "helpFindAccount": "Aiuta il tuo contatto a trovare l’indirizzo del suo conto",
+  "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
   "home": "Home",
   "accountKey": "Frase di recupero",
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
   "help": "Guida",
-  "dismiss": "Ignorare",
+  "dismiss": "Ignora",
   "review": "Rivedi",
   "insufficientBalance": "Il tuo saldo è insufficiente per eseguire questa transazione.",
   "amount": "Importo",
   "currentBalance": "Saldo attuale (cUSD)",
   "restore": "Ripristina",
   "commentUnavailable": "Commento non disponibile",
-  "accountClearFailed": "Si è verificato un errore durante la rimozione della frase di recupero. Potrebbe essere necessario reinstallare l’app per ripristinare l’intera funzionalità.",
+  "accountClearFailed": "Si è verificato un errore durante la rimozione della Frase di recupero. Potrebbe essere necessario reinstallare l’app per ripristinare l’intera funzionalità.",
   "withdraw": "Preleva",
   "countryNotAvailable": "{{appName}} non è disponibile nel tuo Paese.",
   "fetchFailed": "Impossibile stabilire la connessione al server.",
@@ -543,11 +547,11 @@
   "goldEducationSteps": [
     {
       "title": "Cos’è CELO?",
-      "text": "CELO è una valuta digitale che mantiene stabile il Celo Dollar (cUSD) e il Celo Euro (cEUR)."
+      "text": "CELO è una valuta digitale che mantiene stabile Celo Dollar (cUSD) e Celo Euro (cEUR)."
     },
     {
       "title": "Il prezzo di CELO oscilla",
-      "text": "Se un numero maggiore di persone usa il cUSD e il cEUR, il valore di CELO aumenta. A differenza di CELO, il valore del Celo Dollar e del Celo Euro non oscilla. "
+      "text": "Se un numero maggiore di persone usa Celo Dollar, il valore di CELO aumenta. A differenza di CELO, il valore di Celo Dollar non oscilla. "
     },
     {
       "title": "Dai forma alla rete Celo",
@@ -611,10 +615,10 @@
   "goToSystemSecuritySettingsActionLabel": "Passa a Sicurezza",
   "enableSystemScreenLockFailedMessage": "Impossibile abilitare il blocco per lo schermo.",
   "initKeystoreFailureMessage": "Impossibile inizializzare l'archivio chiavi.",
-  "pinLostForeverMessage": "Hai rimosso il blocco per lo schermo, il PIN è andato perso.",
+  "pinLostForeverMessage": "Hai rimosso il blocco per lo schermo, il PIN è andato perso",
   "importContactsPermission": {
     "title": "Importa contatti",
-    "0": "Collegando la tua rubrica puoi inviare e richiedere facilmente pagamenti ai tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
+    "0": "Collegando la tua rubrica, puoi inviare e richiedere facilmente pagamenti ai tuoi amici. In alternativa, dovrai immettere i loro dati individualmente.",
     "1": "Non preoccuparti: il collegamento non comporta l’invio di inviti ai tuoi contatti.",
     "enable": "Abilita l’accesso ai contatti",
     "loading": "Ricerca di amici su {{appName}} in corso..."
@@ -635,7 +639,7 @@
   "education": {
     "header": "Conferma numero telefonico",
     "body1": "Successivamente, conferma il tuo numero telefonico.",
-    "body2": "Collegando il tuo numero telefonico puoi inviare e ricevere più facilmente con gli amici. Puoi anche saltare questo passaggio e tornare qui più tardi.",
+    "body2": "Collegando il tuo numero telefonico, puoi inviare e ricevere più facilmente con gli amici. Puoi anche saltare questo passaggio e tornare qui più tardi.",
     "learnMore": "Ulteriori informazioni sulla conferma del numero telefonico",
     "start": "Inizia conferma",
     "skip": "Salta per il momento"
@@ -652,7 +656,7 @@
   "skipModal": {
     "header": "Saltare la conferma?",
     "body1": "La conferma consente ad altri di inviare valore al tuo numero telefonico.",
-    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando indirizzi di conti o codici QR."
+    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando un Indirizzo del conto o codici QR."
   },
   "failModal": {
     "header": "Errore durante la conferma.",
@@ -678,7 +682,7 @@
   },
   "quotaLookup": {
     "title": "Quota di ricerca superata",
-    "body1": "Per mantenere il tuo numero telefonico sicuro e privato, {{appName}} limita la quantità di numeri telefonici che gli utenti possono cercare.",
+    "body1": "Per mantenere il tuo numero telefonico sicuro e privato, {{appName}} limita la quantità di numeri telefonici che è possibile cercare.",
     "body2": "Puoi acquistare più ricerche pagando una piccola commissione.",
     "cta": "Acquista ricerche (2)"
   },
@@ -725,7 +729,7 @@
   },
   "inviteCode": {
     "title": "Codice di invito",
-    "body": "Hai ricevuto un pagamento o un invito? In tal caso, copia e incolla di seguito il codice di invito.",
+    "body": "Hai ricevuto un pagamento o un invito? In tal caso, copia e incolla di seguito il Codice di invito.",
     "label": "Codice di invito",
     "codePlaceholder": "Immetti il codice di invito",
     "noCode": "Non ho un codice di invito",
@@ -737,7 +741,7 @@
     "title": "Numero telefonico",
     "header": "Collega il tuo numero telefonico",
     "body": "Per verificare che il numero sia davvero il tuo, stiamo per inviarti tre messaggi che costeranno circa 0,05 cUSD ciascuno.\n\nLa conferma del tuo numero richiede circa tre minuti.",
-    "feelessBody": "La connessione richiede circa tre minuti. Per confermare il tuo numero, riceverai tre messaggi.",
+    "feelessBody": "Il collegamento richiede circa tre minuti. Per confermare il tuo numero, riceverai tre messaggi.",
     "start": "Inizia",
     "resume": "Riprendi",
     "doINeedToConfirm": "Devo confermare?",
@@ -754,11 +758,11 @@
   "verificationPrematureRevealMessage": "Attendi un minuto prima di inviare nuovamente",
   "verificationLearnMoreDialog": {
     "title": "Numeri telefonici e {{appName}}",
-    "body": "La conferma semplifica la connessione con i tuoi amici consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o indirizzi di conti.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
-    "dismiss": "Ignorare"
+    "body": "La conferma semplifica il collegamento con i tuoi amici, consentendoti di inviare e ricevere fondi tramite il tuo numero telefonico.\n\n<0>Posso farlo più tardi?</0>\n\nSì, ma un conto non confermato può inviare pagamenti solo tramite codici QR o Indirizzi di conto.\n\n<1>Sicuro e privato</1>\n\nValora utilizza tecniche di crittografia all'avanguardia per mantenere privato il tuo numero telefonico.",
+    "dismiss": "Ignora"
   },
   "importExistingKey": {
-    "explanation": "La tua frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
+    "explanation": "La tua Frase di recupero è composta da 24 parole e dovresti averla annotata quando hai configurato il tuo conto. Immettila qui per ripristinarlo.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
@@ -803,12 +807,12 @@
     "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "Configurazione completata."
+    "message": "Configurazione completata!"
   },
   "verificationUnavailable": "La funzione di conferma del numero telefonico non è attualmente disponibile. Immetti il tuo numero telefonico e ti avviseremo quando sarà nuovamente possibile eseguire la conferma.\n\nNel frattempo, puoi continuare a usare Valora. I pagamenti inviati al tuo numero telefonico saranno al sicuro fino a quando non li riscatterai confermando tale numero.",
   "requests": "Richieste",
   "empty": "Non hai alcuna richiesta di pagamento",
-  "celoDollarBalance": "Saldo in Celo Dollar",
+  "celoDollarBalance": "Saldo Celo Dollar",
   "requestDeclined": "Richiesta rifiutata",
   "requestPaid": "Richiesta pagata",
   "paymentRequestUpdateFailed": "Impossibile aggiornare la richiesta di pagamento",
@@ -842,13 +846,13 @@
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
-  "feeEducation": "La blockchain Celo addebita una commissione sulla transazione per supportare la rete e e il suo funzionamento ottimale.",
+  "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione, per supportare la rete e il suo funzionamento ottimale.",
   "inviteMoneyEscrow": "Inviteremo questo contatto e manterremo i suoi fondi al sicuro fino a quando non avrà confermato il suo conto.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
   "inviteSendTo": "Invita e invia a",
-  "keepMoneySafe": "Manterremo questi fondi al sicuro fino a quando il tuo amico non avrà creato un conto {{appName}}",
+  "keepMoneySafe": "Manterremo questi fondi al sicuro fino a quando il tuo amico non avrà creato un conto {{appName}}.",
   "searchFriends": "Se non riesci a trovare la persona che stai cercando, prova a immettere un numero telefonico.",
   "inviteVerifyPayment": "Invita e conferma pagamento",
   "noResultsFor": "Nessun risultato per",
@@ -858,7 +862,7 @@
   "sentEscrowPayment": "Pagamento per deposito in garanzia inviato",
   "mobileNumber": "N. di cellulare",
   "sendToMobileNumber": "Invia al numero telefonico",
-  "requestFromMobileNumber": "Richiedi dal numero telefonico",
+  "requestFromMobileNumber": "Contatto",
   "sendToAddress": "Invia all’indirizzo",
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
@@ -903,32 +907,32 @@
   "confirmAccount": {
     "header": "Conferma il conto di {{displayName}}",
     "headerNoDisplayName": "Conferma il conto del tuo contatto",
-    "button": "Conferma l’indirizzo del conto"
+    "button": "Conferma l’Indirizzo del conto"
   },
   "secureSendExplanation": {
     "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
     "body1NoDisplayName": "Al tuo contatto sono associati più conti. Il tuo contatto potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è compromesso.",
-    "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare l’indirizzo del suo conto."
+    "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare il suo Indirizzo del conto."
   },
   "confirmAccountNumber": {
-    "title": "Conferma l’indirizzo del conto",
-    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
-    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell’indirizzo del suo conto. È più sicuro farlo di persona o per telefono.",
-    "body1Full": "Chiedi a {{displayName}} l’indirizzo del suo conto.",
-    "body1FullNoDisplayName": "Chiedi al tuo contatto l’indirizzo del suo conto.",
+    "title": "Conferma l’Indirizzo del conto",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
+    "body1Full": "Chiedi a {{displayName}} il suo Indirizzo del conto.",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto il suo Indirizzo del conto.",
     "body2Full": "È consigliabile chiedere di persona o per telefono, tramite WhatsApp o Messenger, oppure per e-mail. Per sicurezza, non utilizzare messaggi di testo (SMS).",
-    "help": "Guida per individuare l’indirizzo di un conto",
+    "help": "Guida per individuare un Indirizzo del conto",
     "submit": "Invia"
   },
   "accountInputHeaderPartial": "Ultime 4 cifre",
   "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
-    "header": "Individuazione dell’indirizzo di un conto",
-    "body1": "Gli indirizzi dei conti (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
-    "body2": "L’indirizzo del conto si trova vicino alla parte inferiore del menu.",
-    "body3": "Gli indirizzi dei conti iniziano con \"0x\" e sono composti da 42 caratteri."
+    "header": "Individuazione di un Indirizzo del conto",
+    "body1": "Gli Indirizzi del conto (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
+    "body2": "L’Indirizzo del conto si trova vicino alla parte inferiore del menu.",
+    "body3": "Gli Indirizzi del conto iniziano con \"0x\" e sono composti da 42 caratteri."
   },
-  "transferAddressChanged": "Questo contatto ha cambiato l’indirizzo del suo conto dopo la transazione. Questo pagamento è stato inviato a:",
+  "transferAddressChanged": "Questo contatto ha cambiato il suo Indirizzo del conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
   "sending": "Invia a",
   "feeActual": "Commissioni",
@@ -956,7 +960,7 @@
     "signTransaction": "Firma una transazione Celo",
     "sendTransaction": "Invia una transazione Celo",
     "decrypt": "Decrittografa un payload dati",
-    "accounts": "Leggi l’indirizzo del tuo conto {{appName}}",
+    "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
     "details": "Mostra dettagli",
     "computeSharedSecret": "Genera segreti"
   },
@@ -971,11 +975,11 @@
   },
   "tapToDisconnect": "Tocca per disconnetterti",
   "sessionsTitle": "Dapp connesse",
-  "sessionsSubTitle": "Le seguenti dapp sono connesse a {{appName}}. Puoi connetterti ad altre dapp inquadrando il relativo codice QR.",
+  "sessionsSubTitle": "Le seguenti Dapp sono connesse a {{appName}}. Puoi connetterti ad altre Dapp inquadrando il relativo codice QR.",
   "disconnect": "Disconnetti",
   "disconnectTitle": "Disconnettere {{dappName}}?",
   "disconnectBody": "Eseguire la disconnessione da {{dappName}}?",
-  "connectionSuccess": "Operazione completata. Torna a {{dappName}} per continuare.",
+  "connectionSuccess": "Operazione completata! Torna a {{dappName}} per continuare.",
   "timeoutTitle": "Time-out",
   "timeoutSubtitle": "Time-out della connessione. Controlla la tua connessione a Internet e riprova.",
   "goBackButton": "Indietro",
@@ -1007,7 +1011,7 @@
   "verificationFee": "Commissione di conferma",
   "networkFee": "Commissione di rete",
   "networkFeeExplanation": {
-    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in dollari Celo di ogni utente viene utilizzata per mantenere stabile il valore del Celo Dollar e del Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
+    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore di Celo Dollar e Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
     "1": "Domande frequenti"
   },
   "confirmingTransaction": "Conferma in corso…",
@@ -1106,7 +1110,7 @@
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
-    "dismiss": "Ignorare"
+    "dismiss": "Ignora"
   },
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
@@ -1155,16 +1159,16 @@
   "bankAccountsScreen": {
     "header": "Conti bancari collegati",
     "add": "Aggiungere un conto bancario",
-    "delete": "Eliminare"
+    "delete": "Elimina"
   },
   "syncingBankAccount": "Sincronizzazione del conto bancario in corso...",
   "linkBankAccountSettingsTitle": "Conti bancari collegati",
   "linkBankAccountSettingsValue": "Accedi",
   "linkBankAccountSettingsValue2": "Aggiungere un conto nuovo",
   "connectPhoneNumber": {
-    "title": "Connetti il numero telefonico per continuare",
-    "body": "È necessario connettere il tuo numero telefonico per verificare la tua identità e collegare il tuo conto bancario.",
-    "buttonText": "Connetti"
+    "title": "Collega il tuo numero telefonico per continuare",
+    "body": "È necessario collegare il tuo numero telefonico per verificare la tua identità e collegare il tuo conto bancario.",
+    "buttonText": "Collega"
   },
   "outOfSyncBanner": {
     "title": "Sei offline.",
@@ -1180,8 +1184,8 @@
   },
   "dappsScreenHelpDialog": {
     "title": "Che cosa sono le Dapp?",
-    "message": "Le dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una dapp per iniziare.",
-    "dismiss": "Ignorare"
+    "message": "Le Dapp (app decentralizzate) offrono nuovi modi per usare le tue criptovalute, ottenere ricompense ed esplorare il Web3.\n\nConnetti Valora a una Dapp per iniziare.",
+    "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} si aprirà in un browser esterno",

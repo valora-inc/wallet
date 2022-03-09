@@ -330,6 +330,12 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                             "testUri": "../../../packages/mobile/src/images/backup-key.png",
                           }
                         }
+                        style={
+                          Object {
+                            "height": "100%",
+                            "width": "100%",
+                          }
+                        }
                         testID="undefined/Icon"
                       />
                     </View>
@@ -514,6 +520,12 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                         source={
                           Object {
                             "testUri": "../../../packages/mobile/src/images/learn-celo.png",
+                          }
+                        }
+                        style={
+                          Object {
+                            "height": "100%",
+                            "width": "100%",
                           }
                         }
                         testID="undefined/Icon"
