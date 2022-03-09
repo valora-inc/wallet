@@ -37,6 +37,10 @@ yarn react-native-version --target android --never-amend
 gradle_properties="android/gradle.properties"
 current_version_code="$(grep "VERSION_CODE" $gradle_properties | cut -d '=' -f 2)"
 new_version_code=$((current_version_code + 1))
+
+echo "===which sed==="
+which sed
+
 # sed -i "" "s/^VERSION_CODE=$current_version_code/VERSION_CODE=$new_version_code/" $gradle_properties
 
 # iOS: use sed to change MARKETING_VERSION in the project (agvtool unfortunately changes the plist files which we don't want)
