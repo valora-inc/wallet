@@ -83,10 +83,6 @@ export const getCurrentUserTraits = createSelector(
           `${token.symbol.toLowerCase()}Balance`,
           token.balance.toNumber(),
         ])
-        // (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
-        //   `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
-        //   tokensByCurrency[currency]?.balance.toNumber(),
-        // ])
       ),
       localCurrencyCode,
       hasVerifiedNumber,
