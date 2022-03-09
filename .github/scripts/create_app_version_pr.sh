@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+cd packages/mobile
+
 # ensure that we are using ssh
 git remote set-url origin git@github.com:valora-inc/wallet.git
-
-cd packages/mobile
 
 # TODO populate at the workflow level
 branch_name="bump-app-version"
