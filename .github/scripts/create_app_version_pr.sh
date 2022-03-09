@@ -23,7 +23,7 @@ git commit -m "Bump app version to $app_version"
 git push --set-upstream origin $branch_name
 
 echo "Open app version bump PR"
-curl \
+curl -u "valora-bot:$VALORA_BOT_PAT" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
