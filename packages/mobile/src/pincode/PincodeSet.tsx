@@ -12,7 +12,12 @@ import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { biometryEnabledSelector, registrationStepsSelector } from 'src/app/selectors'
+import {
+  biometryEnabledSelector,
+  hideVerificationSelector,
+  registrationStepsSelector,
+  skipVerificationSelector,
+} from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -38,6 +43,7 @@ interface StateProps {
   account: string
   registrationStep: { step: number; totalSteps: number }
   biometryEnabled: boolean
+  skipVerification: boolean
 }
 
 interface DispatchProps {
@@ -61,10 +67,11 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     registrationStep: registrationStepsSelector(state),
-    hideVerification: state.app.hideVerification,
+    hideVerification: hideVerificationSelector(state),
     useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
     biometryEnabled: biometryEnabledSelector(state),
+    skipVerification: skipVerificationSelector(state),
   }
 }
 
@@ -142,7 +149,11 @@ export class PincodeSet extends React.Component<Props, State> {
       navigate(Screens.EnableBiometry)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
-    } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
+    } else if (
+      this.props.hideVerification ||
+      !this.props.route.params?.komenciAvailable ||
+      this.props.skipVerification
+    ) {
       this.props.initializeAccount()
       navigateHome()
     } else {
