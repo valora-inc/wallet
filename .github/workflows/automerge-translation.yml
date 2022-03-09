@@ -1,0 +1,21 @@
+name: Automerge translations
+
+on:
+  workflow_dispatch:
+  # Hourly on workdays
+  # https://crontab.guru/#0_*_*_*_1-5
+  schedule:
+    - cron: '0 * * * 1-5'
+
+jobs:
+  automerge-translation-prs:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            const script = require('.github/scripts/automergeTranslationPrs.js')
+            await script({github, context, core})
