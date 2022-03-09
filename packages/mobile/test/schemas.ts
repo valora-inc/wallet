@@ -1019,11 +1019,22 @@ export const v37Schema = {
   },
   app: {
     ...v36Schema.app,
-    skipVerification: false,
     showPriceChangeIndicatorInBalances: false,
   },
 }
 
+export const v38Schema = {
+  ...v37Schema,
+  _persist: {
+    ...v37Schema._persist,
+    version: 38,
+  },
+  app: {
+    ...v37Schema.app,
+    skipVerification: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v37Schema as Partial<RootState>
+  return v38Schema as Partial<RootState>
 }

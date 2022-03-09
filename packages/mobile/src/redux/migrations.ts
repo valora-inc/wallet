@@ -455,9 +455,15 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      skipVerification: false,
       showPriceChangeIndicatorInBalances:
         REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+    },
+  }),
+  38: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipVerification: false,
     },
   }),
 }
