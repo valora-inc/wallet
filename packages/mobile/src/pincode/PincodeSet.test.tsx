@@ -111,6 +111,41 @@ describe('Pincode', () => {
     expect(navigateHome).toBeCalled()
   })
 
+  it('navigates home if skipVerification is enabled', async () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { komenciAvailable: true })
+    const mockStore = createMockStore({
+      app: {
+        skipVerification: true,
+        hideVerification: false,
+      },
+    })
+
+    const { getByTestId, rerender } = render(
+      <Provider store={mockStore}>
+        <PincodeSet {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Create pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runOnlyPendingTimers()
+    await flushMicrotasksQueue()
+    expect(mockScreenProps.navigation.setParams).toBeCalledWith({ isVerifying: true })
+
+    rerender(
+      <Provider store={mockStore}>
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
+      </Provider>
+    )
+
+    // Verify pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runOnlyPendingTimers()
+    await flushMicrotasksQueue()
+
+    expect(navigateHome).toBeCalled()
+  })
+
   it('displays an error text when setting a blocked PIN', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()

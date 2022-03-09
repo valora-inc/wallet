@@ -1011,6 +1011,18 @@ export const v36Schema = {
   },
 }
 
+export const v37Schema = {
+  ...v36Schema,
+  _persist: {
+    ...v36Schema._persist,
+    version: 37,
+  },
+  app: {
+    ...v36Schema.app,
+    skipVerification: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v36Schema as Partial<RootState>
+  return v37Schema as Partial<RootState>
 }

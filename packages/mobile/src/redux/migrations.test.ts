@@ -14,8 +14,9 @@ import {
   v1Schema,
   v21Schema,
   v28Schema,
-  v35Schema,
   v2Schema,
+  v35Schema,
+  v36Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -417,6 +418,15 @@ describe('Redux persist migrations', () => {
     expectedSchema.account.finclusiveKycStatus = FinclusiveKycStatus.NotSubmitted
     expectedSchema.app.maxNumRecentDapps = 0
     expectedSchema.app.recentDapps = []
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v36 to v37', () => {
+    const oldSchema = v36Schema
+    const migratedSchema = migrations[37](oldSchema)
+
+    const expectedSchema: any = { ...oldSchema }
+    expectedSchema.app.skipVerification = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

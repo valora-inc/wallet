@@ -64,7 +64,7 @@ export const walletConnectEnabledSelector = (state?: RootState) => ({
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
-export const hideVerificationSelector = (state: RootState) => true
+export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
 export const ranVerificationMigrationSelector = (state: RootState) =>
   state.app.ranVerificationMigrationAt
@@ -215,9 +215,7 @@ export const registrationStepsSelector = createSelector(
       }
     }
     if (skipVerification) {
-      if (Object.keys(steps).includes(Screens.VerificationEducationScreen)) {
-        totalSteps--
-      }
+      totalSteps--
     }
 
     return {
