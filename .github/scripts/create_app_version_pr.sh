@@ -3,6 +3,9 @@ set -euo pipefail
 
 cd packages/mobile
 
+# ensure that we are using ssh
+git remote set-url origin git@github.com:valora-inc/wallet.git
+
 branch_name="bump-app-version"
 app_version="$(node -p "require('./package.json').version")"
 
