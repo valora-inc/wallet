@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
-  "consumerIncentivesSummary": "Supercharge è qui! Ottieni {{percent}}premi annuali sul tuo saldo più alto in stablecoin (cUSD, cEUR, o cREAL). Disponibile per un tempo limitato. Ecco come funziona:",
+  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili! Ottieni ricompense annue del {{percent}}% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Collega numero se non lo hai ancora collegato."
   },
   "noMinCommitment": {
     "header": "Aggiungi un saldo minimo",
-    "earningText": "Ricevi premi su 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
+    "earningText": "Ricevi ricompense su 10-1000 cUSD, 10-1000 cEUR, o 50-6000 cREAL.",
     "connectText": "È sufficiente un saldo di almeno {{minBalance}} {{currency}} e collegare il tuo numero telefonico per iniziare a ottenere ricompense."
   },
   "saveMoreEarnMore": {
@@ -177,11 +177,11 @@
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "superchargeTitle": "Inizia Supercharge",
-  "superchargeDescription": "Ottieni {{apy}}premi annuali sul tuo {{token}} saldo. Ecco come iniziare:",
+  "superchargeDescription": "Ottieni {{apy}}% di ricompense annuali sul tuo saldo {{token}}. Ecco come iniziare:",
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
-  "superchargeDisclaimer": "Massimizza le ricompense sommando {{amount}} {{token}}",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeDisclaimer": "Aggiungi fino a {{maxBalance}} {{currency}} per massimizzare le tue ricompense.",
+  "superchargeDisclaimerMaxRewards": "Stai ottenendo il massimo dei ricompense sul tuo {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "A quali asset posso applicare i Supercharge?",
