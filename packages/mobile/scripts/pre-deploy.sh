@@ -33,15 +33,13 @@ echo "===Updating android/ios build files==="
 # Android: use react-native-version, however on iOS it doesn't follow Xcode 11+ way of doing it, see iOS section below
 yarn react-native-version --target android --never-amend
 
-ls
+cd android && ls && cd ..
 
 # Now increment Android versionCode
 gradle_properties="android/gradle.properties"
-echo $gradle_properties
+cat $gradle_properties
 current_version_code="$(grep "VERSION_CODE" $gradle_properties | cut -d '=' -f 2)"
-echo $current_version_code
 new_version_code=$((current_version_code + 1))
-echo $new_version_code
 sed -i "" "s/^VERSION_CODE=.*/VERSION_CODE=$new_version_code/" $gradle_properties
 
 # iOS: use sed to change MARKETING_VERSION in the project (agvtool unfortunately changes the plist files which we don't want)
