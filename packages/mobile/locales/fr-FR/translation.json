@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "Supercharge est là ! Obtiens {{percent}}nnuellement des récompenses sur ton solde de stablecoin le plus élevé (cUSD, cEUR ou cREAL). Disponible pour une durée limitée. Voici comment cela fonctionne :",
+  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre stablecoin avec le solde le plus élevé (cUSD, cEUR, ou cREAL). Disponible pour une durée limitée :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
   },
   "noMinCommitment": {
     "header": "Ajoutez un solde minimum",
-    "earningText": "Reçois des récompenses sur 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
+    "earningText": "Recevez des récompenses sur votre solde de 10-1000 cUSD, 10-1000 cEUR, ou 50-6000 cREAL.",
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
@@ -176,12 +176,12 @@
     "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
-  "superchargeTitle": "Commence à Supercharger",
-  "superchargeDescription": "Obtiens des {{apy}}nnuellement des récompenses sur ton solde {{token}} . Voici comment commencer :",
+  "superchargeTitle": "Commencez avec Supercharge !",
+  "superchargeDescription": "Obtenez {{apy}} % de récompenses annuelles sur votre solde de {{token}}. Voici comment commencer :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
-  "superchargeMinimumBalance": "Ajoute un solde minimum de {{amount}} {{token}}.",
-  "superchargeDisclaimer": "Maximise les récompenses en additionnant jusqu'à {{amount}} {{token}}.",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
+  "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
+  "superchargeDisclaimer": "Maximisez les récompenses en additionnant jusqu'à {{amount}} {{token}}",
+  "superchargeDisclaimerMaxRewards": "Vous obtenez désormais le maximum de récompenses sur vos {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Quels sont les actifs que je peux Supercharger ?",
