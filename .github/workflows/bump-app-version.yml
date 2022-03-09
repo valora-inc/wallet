@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.BOT_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.BOT_SSH_PRIVATE_KEY_WALLET }}
       - uses: actions/checkout@v2
       # - run: yarn
       - run: .github/scripts/create_app_version_pr.sh
