@@ -41,10 +41,10 @@ new_version_code=$((current_version_code + 1))
 echo "===which sed==="
 which sed
 
-# sed -i "" "s/^VERSION_CODE=$current_version_code/VERSION_CODE=$new_version_code/" $gradle_properties
+sed -i "" "s/^VERSION_CODE=$current_version_code/VERSION_CODE=$new_version_code/" $gradle_properties
 
 # iOS: use sed to change MARKETING_VERSION in the project (agvtool unfortunately changes the plist files which we don't want)
-# sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/" ios/celo.xcodeproj/project.pbxproj
+sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/" ios/celo.xcodeproj/project.pbxproj
 # agvtool works correctly for CURRENT_PROJECT_VERSION though and only touches the project and not the plist files
 pushd ios; agvtool next-version; popd
 echo "===Done updating versions==="

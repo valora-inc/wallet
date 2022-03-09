@@ -10,7 +10,7 @@ on:
 
 jobs:
   bump-app-version:
-    runs-on: ubuntu-latest
+    runs-on: macos-11
     permissions:
       pull-requests: write
     steps:
