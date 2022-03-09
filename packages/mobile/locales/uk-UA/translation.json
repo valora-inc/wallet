@@ -534,35 +534,35 @@
   "accountClearFailed": "Під час видалення вашої фрази для відновлення сталася помилка. Можливо, вам доведеться перевстановити застосунок для відновлення всіх функцій.",
   "withdraw": "Зняти",
   "countryNotAvailable": "{{appName}} не доступний у вашій країні",
-  "fetchFailed": "Помилка з’єднання з сервером",
+  "fetchFailed": "Помилка з’єднання із сервером",
   "pictureLoadFailed": "Під час завантаження зображення сталася помилка",
-  "simplexPurchaseFetchFailed": "Не вдалося отримати цитату з спрощеного варіанту. Будь ласка, спробуйте пізніше",
-  "providerFetchFailed": "Не вдалося підключитися до служби. Зверніться до служби підтримки",
-  "ok": "Гаразд",
-  "cashOutLimitExceeded": "У вас немає готівки більше, ніж ваш баланс {{balance}} {{currency}}",
+  "simplexPurchaseFetchFailed": "Не вдалося отримати квоту із Simplex. Просимо, спробуйте пізніше",
+  "providerFetchFailed": "Не вдалося під'єднатися до сервісу. Просимо зв'язатися зі службою підтримки",
+  "ok": "OK",
+  "cashOutLimitExceeded": "Ви не можете зняти готівки більше, ніж ваш залишок {{balance}} {{currency}}",
   "appDescription": "Мобільний платіжний гаманець, який працює по всьому світу",
   "earn": "Заробляти",
-  "free": "Безкоштовно",
+  "free": "Безплатно",
   "notNow": "Не зараз",
   "goldEducationSteps": [
     {
       "title": "Що таке CELO?",
-      "text": "CELO - це цифрова валюта, яка зберігає стабільний Celo Dollar (cUSD)."
+      "text": "CELO — це цифрова валюта, яка зберігає стабільним долар Celo (cUSD)."
     },
     {
-      "title": "Зміна ціни генерального директора",
-      "text": "Якщо все більше людей використовують Celo Доллар, вартість CELO зростає, на відміну від CELO, Celo Dollar не зміниться. "
+      "title": "Зміна ціни CELO",
+      "text": "Якщо все більше людей використовують долар Celo, вартість CELO зростає. На відміну від CELO, вартість долару Celo не зміниться. "
     },
     {
-      "title": "Форма мережі келихів",
-      "text": "Тримаючи CELO, у вас є можливість голосувати за зміни та функції, які ви б хотіли побачити в Celo Network."
+      "title": "Конфігурувати мережу Celo",
+      "text": "Тримаючи CELO, у вас є можливість голосувати за зміни та функції, які ви б хотіли побачити в мережі Celo."
     },
     {
-      "title": "Будь ласка, купіть і продавайте відповідально",
-      "text": "{{appName}} дозволяє купувати та продавати CELO. CELO представляє ризик отримання фінансових втрат, будь ласка, вмикайте обережність."
+      "title": "Просимо купувати й продавати відповідально",
+      "text": "{{appName}} дозволяє купувати та продавати CELO. CELO має ризик фінансових втрат, просимо діяти з обережністю."
     }
   ],
-  "inviteWithWhatsapp": "Запросити з WhatsApp",
+  "inviteWithWhatsapp": "Запросити у WhatsApp",
   "inviteWithSMS": "Запросити з SMS",
   "whySendFees": "Ця комісія охоплює витрати за нового користувача для під’єднання номера телефону",
   "whyReceiveFees": "Вам відправлено деякі криптовалюти, щоб підтвердити ваш обліковий запис",
@@ -692,7 +692,7 @@
     "step3": "Вам потрібен лише мобільний телефон, щоб надсилати, витрачати та досліджувати."
   },
   "enableBiometry": {
-    "title": "Захистіть ваш гаманець",
+    "title": "Захистіть свій гаманець",
     "description": "{{biometryType}} захищає ваш гаманець і полегшує використання {{appName}}",
     "cta": "Увімкнути {{biometryType}}"
   },
@@ -705,7 +705,7 @@
   },
   "useBiometryType": "Використати {{biometryType}}",
   "welcome": {
-    "title": "Крок у майбутнє крипто з {{appName}}",
+    "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
     "restoreAccount": "Відновити мій обліковий запис"
   },
@@ -768,18 +768,18 @@
   "verificationInput": {
     "title": "Підтвердити",
     "body": "Ми надіслали вам три повідомлення (SMS). Скопіюйте та вставте їх нижче.",
-    "body_ios": "Ми надіслали вам три повідомлення (СМС). Будь ласка, натисніть посилання в кожному повідомленні, щоб заповнити коди нижче або скопіювати їх та вставити вручну.",
-    "body_short": "Ми надіслали три коди {{phoneNumber}}. Будь ласка, введіть їх нижче.",
+    "body_ios": "Ми надіслали вам три повідомлення (SMS). Просимо, натисніть посилання в кожному повідомленні, щоб заповнити коди нижче, або скопіюйте їх та вставте вручну.",
+    "body_short": "Ми надіслали три коди на {{phoneNumber}}. Просимо, введіть їх нижче.",
     "codeLabel1": "Перший код",
     "codeLabel2": "Другий код",
     "codeLabel3": "Третій код",
     "codePlaceholder1": "Скопіювати перше повідомлення",
-    "codePlaceholder1_ios": "Торкніться або скопіюйте перше повідомлення",
+    "codePlaceholder1_ios": "Натисніть або скопіюйте перше повідомлення",
     "codePlaceholder2": "Скопіювати друге повідомлення",
-    "codePlaceholder2_ios": "Торкніться або скопіюйте друге повідомлення",
+    "codePlaceholder2_ios": "Натисніть або скопіюйте друге повідомлення",
     "codePlaceholder3": "Скопіювати третє повідомлення",
-    "codePlaceholder3_ios": "Торкніться чи скопіюйте третє повідомлення",
-    "codePlaceholderWithCodeInClipboard": "Чудово! Вставити його тут",
+    "codePlaceholder3_ios": "Натисніть або скопіюйте третє повідомлення",
+    "codePlaceholderWithCodeInClipboard": "Чудово! Вставте його тут",
     "resendMessages_all": "Повторно надіслати всі повідомлення",
     "resendMessages_0": "Повторно надіслати останнє повідомлення",
     "resendMessages_1": "Повторно відправити {{count}} повідомлень",
@@ -790,48 +790,48 @@
     "title": "Довідка",
     "bodySection1": {
       "title": "Отримано всі три повідомлення?",
-      "content": "Якщо ваші повідомлення містять посилання, просто натисніть на посилання для підтвердження.\n\nЯкщо немає посилань, будь ласка, скопіюйте та вставте повідомлення в поля. Ви можете вставити все повідомлення."
+      "content": "Якщо ваші повідомлення містять посилання, просто натисніть на посилання для підтвердження.\n\nЯкщо посилань немає, просимо скопіювати та вставити повідомлення в поля. Ви можете вставити все повідомлення."
     },
     "bodySection2": {
-      "title": "Відсутні деякі чи всі повідомлення?",
-      "defaultContent": "Якщо у вас виникли проблеми з отриманням повідомлень, ви можете пропустити цей крок на даний момент і спробувати знову пізніше. Іноді приходити може зайняти кілька хвилин.",
-      "content": "$t(verificationInputHelpDialog.bodySection2.за замовчуванням)",
+      "title": "Немає деяких чи всіх повідомлень?",
+      "defaultContent": "Якщо у вас виникли проблеми з отриманням повідомлень, ви можете зараз пропустити цей крок і спробувати знову пізніше. Іноді надходження повідомлень може забрати кілька хвилин.",
+      "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
       "content_countdown_0": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Опція пропуск буде доступна за {{count}} секунду.",
       "content_countdown_1": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Опція пропуску буде доступна за {{count}} секунд.",
       "content_countdown_2": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Опція пропуску буде доступна за {{count}} секунд.",
       "content_countdown_3": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Опція пропуску буде доступна за {{count}} секунд."
     },
-    "body": "<0>$t(verificationInputationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputationInputHelpDialog.bodySection2.content)",
-    "skip": "Поки що пропустити",
+    "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
+    "skip": "Пропустити зараз",
     "back": "Повернутися"
   },
   "emptyAccount": {
     "description": "На цьому рахунку немає коштів. Ви все ще хотіли б його використати?",
     "useAccount": "Використати обліковий запис",
-    "title": "Баланс <0></0>"
+    "title": "Залишок <0></0>"
   },
   "success": {
-    "message": "У тебе все готово!"
+    "message": "Все готово!"
   },
-  "verificationUnavailable": "Підтвердження номеру телефону в даний час недоступне. Будь ласка, введіть номер вашого телефону і ми повідомимо вас, коли буде можливо підтвердити ще раз.\n\nТим часом ви можете продовжити використовувати Валору! Платежі, надіслані на ваш номер телефону будуть надійно проведені, поки ви не підтвердите свій номер телефону.",
+  "verificationUnavailable": "Підтвердження номеру телефону наразі недоступне. Просимо ввести номер вашого телефону, і ми повідомимо вас, коли буде можливо підтвердити ще раз.\n\nТим часом ви можете продовжити використовувати Valora! Платежі, надіслані на ваш номер телефону, будуть надійно утримані, поки ви не підтвердите свій номер телефону.",
   "requests": "Запити",
-  "empty": "У вас немає запитів на оплату",
-  "celoDollarBalance": "Баланс селолар",
-  "requestDeclined": "Запит відхилений",
-  "requestPaid": "Запит на оплату",
-  "paymentRequestUpdateFailed": "Не вдалося оновити запит оплати",
-  "incomingPaymentRequestNotificationTitle": "{{name}} запит",
-  "outgoingPaymentRequestNotificationTitle": "Очікується на {{name}}",
-  "requestUnavailableHeader": "Обліковий запис {{displayName}}ще не підключений.",
-  "requestUnavailableNoDisplayNameHeader": "Ваш обліковий запис не підтверджено",
-  "requestUnavailableBody": "Номер {{e164PhoneNumber}} ще не підключений акаунт, або його ще не підключений досі не існує. Запит можна надіслати лише на підключений номер.",
-  "requestUnavailableNoNumberBody": "Ваш контакт не має облікового запису або ще не підключений до нього. Запит можна надсилати лише на підключені номери.",
+  "empty": "У вас немає запитів платежу",
+  "celoDollarBalance": "Залишок у доларах Celo",
+  "requestDeclined": "Запит відхилено",
+  "requestPaid": "Запит сплачено",
+  "paymentRequestUpdateFailed": "Не вдалося оновити запит платежу",
+  "incomingPaymentRequestNotificationTitle": "Запитано {{name}}",
+  "outgoingPaymentRequestNotificationTitle": "Очікування на {{name}}",
+  "requestUnavailableHeader": "Обліковий запис {{displayName}} ще не під’єднано.",
+  "requestUnavailableNoDisplayNameHeader": "Обліковий запис вашого контакту не підтверджено",
+  "requestUnavailableBody": "Номер {{e164PhoneNumber}} ще не має облікового запису або ще не під’єднано до нього. Запит можна надіслати лише на під’єднаний номер.",
+  "requestUnavailableNoNumberBody": "Ваш контакт ще не має облікового запису, або ще не під’єднано до нього. Запит можна надіслати лише на під’єднаний номер.",
   "requesting": "Запит",
-  "request": "Замовити",
+  "request": "Запит",
   "requestToken": "Запит {{token}}",
   "requestSent": "Запит надіслано",
   "from": "від",
-  "verificationMessage": "Плата за підключення вашого облікового запису. Вітаємо в {{appName}}!",
+  "verificationMessage": "Ви отримали плату за під'єднання вашого облікового запису. Вітаємо в {{appName}}!",
   "receivedAmountFromCelo": "Ви отримали цю суму від Faucet!",
   "dollarsSent": "Доларів надіслано",
   "withdrawToken": "Зняти {{token}}",
