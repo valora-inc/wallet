@@ -6,8 +6,6 @@ on:
     # trigger on new minor release tags only
     tags:
       - valora-v1.[0-9]+.0
-    branches:
-      - kathy/auto-bump-app-version
 
 jobs:
   bump-app-version:
