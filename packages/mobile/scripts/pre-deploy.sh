@@ -1,11 +1,32 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "This will prepare the mobile app for deployment to the store"
+# ========================================
+# Increment app version number
+# ========================================
 
-# Prompt for new version number
+# Flags:
+# --minor (Optional): Bump minor version automatically (default is to let user input new version number)
+
+MINOR=false
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --minor) MINOR=true ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
+
 echo "===Updating app version==="
-yarn version --no-git-tag-version
+if [ "$MINOR" = true ]
+then
+   yarn version --no-git-tag-version --minor
+else
+  # Prompt for new version number 
+  yarn version --no-git-tag-version
+fi
+
 new_version="$(node -p "require('./package.json').version")"
 
 echo "===Updating android/ios build files==="
