@@ -63,4 +63,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   biometryEnabled: false,
   superchargeButtonType: SuperchargeButtonType.PillRewards,
   maxNumRecentDapps: 0,
+  showPriceChangeIndicatorInBalances: false,
 }
