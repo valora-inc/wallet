@@ -186,6 +186,7 @@ export interface RemoteConfigValues {
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
+  skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
 }
 

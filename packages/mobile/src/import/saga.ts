@@ -20,13 +20,14 @@ import {
   spawn,
   takeLeading,
 } from 'redux-saga/effects'
-import { setBackupCompleted } from 'src/account/actions'
+import { initializeAccount, setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { skipVerificationSelector } from 'src/app/selectors'
 import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import {
@@ -35,7 +36,7 @@ import {
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
@@ -160,8 +161,13 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
     }
     ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
-
-    navigateClearingStack(Screens.VerificationEducationScreen)
+    const skipVerification = yield select(skipVerificationSelector)
+    if (skipVerification) {
+      yield put(initializeAccount())
+      navigateHome()
+    } else {
+      navigateClearingStack(Screens.VerificationEducationScreen)
+    }
 
     yield put(importBackupPhraseSuccess())
   } catch (error) {

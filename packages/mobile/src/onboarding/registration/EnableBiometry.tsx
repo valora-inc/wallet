@@ -9,18 +9,22 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { setPincodeSuccess } from 'src/account/actions'
+import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { registrationStepsSelector, supportedBiometryTypeSelector } from 'src/app/selectors'
+import {
+  registrationStepsSelector,
+  skipVerificationSelector,
+  supportedBiometryTypeSelector,
+} from 'src/app/selectors'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import TouchID from 'src/icons/biometry/TouchID'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -48,6 +52,7 @@ export default function EnableBiometry({ navigation }: Props) {
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const skipVerification = useSelector(skipVerificationSelector)
   const { step, totalSteps } = useSelector(registrationStepsSelector)
 
   useEffect(() => {
@@ -79,7 +84,16 @@ export default function EnableBiometry({ navigation }: Props) {
   }
 
   const handleNavigateToNextScreen = () => {
-    navigate(choseToRestoreAccount ? Screens.ImportWallet : Screens.VerificationEducationScreen)
+    if (choseToRestoreAccount) {
+      navigate(Screens.ImportWallet)
+      return
+    }
+    if (skipVerification) {
+      dispatch(initializeAccount())
+      navigateHome()
+      return
+    }
+    navigate(Screens.VerificationEducationScreen)
   }
 
   const onPressUseBiometry = async () => {

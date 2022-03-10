@@ -52,6 +52,7 @@ export interface State {
   superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
   recentDapps: Dapp[]
+  skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
 }
 
@@ -97,6 +98,7 @@ const initialState = {
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
+  skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
 }
@@ -212,6 +214,7 @@ export const appReducer = (
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
         maxNumRecentDapps: action.configValues.maxNumRecentDapps,
+        skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
       }
     case Actions.TOGGLE_INVITE_MODAL:
