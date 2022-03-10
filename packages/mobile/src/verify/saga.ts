@@ -249,7 +249,6 @@ export function* getKomenciKit(
   komenci: KomenciContext
 ) {
   const komenciConfig = yield select(komenciConfigSelector)
-  // @ts-expect-error
   return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
@@ -476,7 +475,6 @@ function* fetchVerifiedMtw(contractKit: ContractKit, walletAddress: string) {
   const verificationResults: Array<Result<true, WalletValidationError>> = yield all(
     possibleMtwAddressIndexes.map((possibleMtwAddressIndex) =>
       call(
-        // @ts-expect-error
         verifyWallet,
         contractKit,
         associatedAccounts[possibleMtwAddressIndex],
