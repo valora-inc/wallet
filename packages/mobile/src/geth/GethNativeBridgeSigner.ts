@@ -6,9 +6,14 @@ import { encodeTransaction, extractSignature, rlpEncodedTx } from '@celo/wallet-
 import * as ethUtil from 'ethereumjs-util'
 import { GethNativeModule } from 'react-native-geth'
 import Logger from 'src/utils/Logger'
+import { ethers } from 'ethers'
 
 const INCORRECT_PASSWORD_ERROR = 'could not decrypt key with given password'
+const FIVE_MIN_IN_SECONDS = 5 * 60
 const currentTimeInSeconds = () => Math.floor(Date.now() / 1000)
+const objToBase64 = (obj: Record<string, string | boolean | number>) =>
+  Buffer.from(JSON.stringify(obj)).toString('base64')
+export const JWT_HEADER = objToBase64({ alg: 'ES256', typ: 'JWT' })
 
 const TAG = 'geth/GethNativeBridgeSigner'
 /**
@@ -33,7 +38,10 @@ export class GethNativeBridgeSigner implements Signer {
     protected unlockDuration?: number
   ) {}
 
+  publicKey?: string
+
   async init(privateKey: string, passphrase: string) {
+    this.publicKey = new ethers.utils.SigningKey(ensureLeading0x(privateKey)).compressedPublicKey
     return this.geth.addAccount(this.hexToBase64(privateKey), passphrase)
   }
 
@@ -70,6 +78,27 @@ export class GethNativeBridgeSigner implements Signer {
     const hash = ethUtil.hashPersonalMessage(Buffer.from(data.replace('0x', ''), 'hex'))
     const signatureBase64 = await this.geth.signHash(hash.toString('base64'), this.account)
     return ethUtil.fromRpcSig(this.base64ToHex(signatureBase64))
+  }
+
+  async getJWT(
+    expirationTimeSeconds: number | undefined = currentTimeInSeconds() + FIVE_MIN_IN_SECONDS
+  ): Promise<string> {
+    // NOTE: we cannot just reuse signPersonalMessage here because  ethUtil.hashPersonalMessage uses keccak-256,
+    //  but ES-256 reqs SHA-256
+    if (!this.publicKey) {
+      throw new Error('Cannot get JWT because publicKey not assigned. Must initialize first')
+    }
+    const data: Record<string, string | number | boolean> = {
+      sub: this.account,
+      iss: this.publicKey,
+    }
+    if (expirationTimeSeconds) {
+      data.exp = expirationTimeSeconds
+    }
+    const payload = objToBase64(data)
+    const messageHash64 = ethUtil.sha256(Buffer.from(`${JWT_HEADER}.${payload}`)).toString('base64')
+    const signature = await this.geth.signHash(messageHash64, this.account)
+    return `${JWT_HEADER}.${payload}.${signature}`
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {

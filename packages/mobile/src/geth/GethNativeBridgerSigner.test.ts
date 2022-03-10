@@ -1,6 +1,6 @@
 import { rlpEncodedTx } from '@celo/wallet-base'
 import GethNativeModule from 'react-native-geth'
-import { GethNativeBridgeSigner } from 'src/geth/GethNativeBridgeSigner'
+import { GethNativeBridgeSigner, JWT_HEADER } from 'src/geth/GethNativeBridgeSigner'
 import { mocked } from 'ts-jest/utils'
 
 const mockGeth = mocked(GethNativeModule)
@@ -55,6 +55,47 @@ describe('GethNativeBridgeSigner', () => {
           `Preventing sign tx with 'gasPrice' set to '${gasPrice}'`
         )
       }
+    })
+  })
+  describe('JWT', () => {
+    it('Uses correct header', () => {
+      const headerData = JSON.parse(Buffer.from(JWT_HEADER, 'base64').toString('ascii'))
+      expect(headerData).toMatchObject({
+        alg: 'ES256',
+        typ: 'JWT',
+      })
+    })
+    it('Initializes with correct public key', async () => {
+      const signer = new GethNativeBridgeSigner(
+        mockGeth,
+        '0x7f3d7204fDB9ef755606C72f7fEDaB1f261b8658'
+      )
+      mockGeth.addAccount = jest.fn()
+      await signer.init(
+        'aa40e596798065f21f0c2f6526661bf7d3350690797b548d31d394742d9bf734',
+        'password'
+      )
+      expect(signer.publicKey).toEqual(
+        '0x02433cd898b99142890ed6394fa1bb150323999e4fea10870318730f9504565bb5'
+      )
+    })
+    it('getJWT works assuming the signature function works and header is correct', async () => {
+      const signer = new GethNativeBridgeSigner(mockGeth, 'mock_account')
+      signer.publicKey = 'mock_public_key'
+      mockGeth.signHash = jest.fn().mockResolvedValue('mock_signature')
+      const jwt = await signer.getJWT(123)
+      expect(jwt.includes('.')).toBeTruthy()
+      const jwtParts = jwt.split('.')
+      expect(jwtParts.length).toEqual(3)
+      const [header, payload, signature] = jwtParts
+      expect(header).toEqual(JWT_HEADER) // test for correctness of the header is done above
+      expect(signature).toEqual('mock_signature')
+      const decodedPayload = JSON.parse(Buffer.from(payload, 'base64').toString('ascii'))
+      expect(decodedPayload).toMatchObject({
+        sub: 'mock_account',
+        iss: 'mock_public_key',
+        exp: 123,
+      })
     })
   })
 })
