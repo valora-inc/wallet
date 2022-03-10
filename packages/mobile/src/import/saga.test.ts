@@ -4,17 +4,18 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { dynamic } from 'redux-saga-test-plan/providers'
 import { call, delay, fork, select } from 'redux-saga/effects'
-import { setBackupCompleted } from 'src/account/actions'
+import { initializeAccount, setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { skipVerificationSelector } from 'src/app/selectors'
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
@@ -54,6 +55,9 @@ const mockBalanceTask = (value?: number) => {
 }
 
 describe('Import wallet saga', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   const expectSuccessfulSagaWithPhrase = async (phrase: string) => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
@@ -63,12 +67,14 @@ describe('Import wallet saga', () => {
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, phrase, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
+        [select(skipVerificationSelector), false],
         [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
+    expect(navigateClearingStack).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   }
 
   it('imports a valid phrase', async () => {
@@ -77,6 +83,29 @@ describe('Import wallet saga', () => {
 
   it('imports a valid spanish phrase', async () => {
     await expectSuccessfulSagaWithPhrase(mockValidSpanishPhrase)
+  })
+
+  it('initializes account and navigates to home if skipVerification is true', async () => {
+    // @ts-ignore
+    await expectSaga(importBackupPhraseSaga, {
+      phrase: mockPhraseValid,
+      useEmptyWallet: false,
+    })
+      .provide([
+        [call(waitWeb3LastBlock), true],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
+        [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
+        [call(storeMnemonic, mockPhraseValid, mockAccount), true],
+        [select(recoveringFromStoreWipeSelector), false],
+        [select(skipVerificationSelector), true],
+        [call(uploadNameAndPicture)],
+      ])
+      .put(setBackupCompleted())
+      .put(refreshAllBalances())
+      .put(initializeAccount())
+      .put(importBackupPhraseSuccess())
+      .run()
+    expect(navigateHome).toHaveBeenCalledWith()
   })
 
   it('fails for a phrase invalid checksum', async () => {
@@ -114,6 +143,7 @@ describe('Import wallet saga', () => {
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
+        [select(skipVerificationSelector), false],
         [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())

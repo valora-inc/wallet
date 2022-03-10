@@ -1011,6 +1011,30 @@ export const v36Schema = {
   },
 }
 
+export const v37Schema = {
+  ...v36Schema,
+  _persist: {
+    ...v36Schema._persist,
+    version: 37,
+  },
+  app: {
+    ...v36Schema.app,
+    showPriceChangeIndicatorInBalances: false,
+  },
+}
+
+export const v38Schema = {
+  ...v37Schema,
+  _persist: {
+    ...v37Schema._persist,
+    version: 38,
+  },
+  app: {
+    ...v37Schema.app,
+    skipVerification: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v36Schema as Partial<RootState>
+  return v38Schema as Partial<RootState>
 }

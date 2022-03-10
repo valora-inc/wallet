@@ -2,11 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Provider } from 'react-redux'
-import { setPincodeSuccess } from 'src/account/actions'
+import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -67,6 +67,36 @@ describe('EnableBiometry', () => {
     expect(analyticsSpy).toHaveBeenNthCalledWith(1, OnboardingEvents.biometry_opt_in_start)
     expect(analyticsSpy).toHaveBeenNthCalledWith(2, OnboardingEvents.biometry_opt_in_approve)
     expect(analyticsSpy).toHaveBeenNthCalledWith(3, OnboardingEvents.biometry_opt_in_complete)
+  })
+  it('should navigate to the home screen if skipVerification is true', async () => {
+    const store = createMockStore({
+      app: {
+        supportedBiometryType: BIOMETRY_TYPE.FACE_ID,
+        biometryEnabled: true,
+        activeScreen: Screens.EnableBiometry,
+        skipVerification: true,
+      },
+      account: {
+        choseToRestoreAccount: false,
+      },
+    })
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={EnableBiometry} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('enableBiometry.cta, {"biometryType":"biometryType.FaceID"}'))
+    await flushMicrotasksQueue()
+
+    expect(setPincodeWithBiometry).toHaveBeenCalled()
+    expect(store.getActions()).toEqual([
+      setPincodeSuccess(PincodeType.PhoneAuth),
+      initializeAccount(),
+    ])
+    expect(navigate).not.toHaveBeenCalled()
+    expect(navigateHome).toHaveBeenCalled()
   })
 
   it('should log error and not navigate if biometry enable fails', async () => {

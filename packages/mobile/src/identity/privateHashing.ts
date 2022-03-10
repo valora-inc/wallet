@@ -173,7 +173,7 @@ function* navigateToQuotaPurchaseScreen() {
   try {
     yield new Promise((resolve, reject) => {
       navigate(Screens.PhoneNumberLookupQuota, {
-        onBuy: resolve,
+        onBuy: resolve as () => void,
         onSkip: () => reject('skipped'),
       })
     })
