@@ -128,6 +128,7 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
   const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
     return yield call(
+      //@ts-expect-error
       OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier,
       e164Number,
       accountAddress,

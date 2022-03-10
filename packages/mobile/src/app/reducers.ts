@@ -3,7 +3,10 @@ import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { Dapp, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import {
+  PaymentDeepLinkHandler,
+  REMOTE_CONFIG_VALUES_DEFAULTS,
+} from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 

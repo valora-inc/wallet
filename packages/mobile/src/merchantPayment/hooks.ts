@@ -39,6 +39,7 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
       dispatch(showError(t('merchantWalletUnlockError')))
     }
 
+    // @ts-expect-error
     const chainHandler = new ContractKitTransactionHandler(kit)
     const charge = new Charge(apiBase, referenceId, chainHandler, false)
     try {

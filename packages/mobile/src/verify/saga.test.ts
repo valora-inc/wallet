@@ -101,6 +101,7 @@ const getMockKomenciKit = (
   walletAddress: Address,
   komenci: KomenciContext
 ) => {
+  // @ts-expect-error
   return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
@@ -424,6 +425,7 @@ describe(fetchOrDeployMtwSaga, () => {
         ],
         [
           call(
+            // @ts-expect-error
             verifyWallet,
             contractKit,
             '0',
@@ -434,6 +436,7 @@ describe(fetchOrDeployMtwSaga, () => {
         ],
         [
           call(
+            // @ts-expect-error
             verifyWallet,
             contractKit,
             '1',
@@ -567,6 +570,7 @@ describe(fetchOrDeployMtwSaga, () => {
         ],
         [
           call(
+            // @ts-expect-error
             verifyWallet,
             contractKit,
             mockAccount1,

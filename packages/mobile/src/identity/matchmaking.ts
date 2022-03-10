@@ -40,6 +40,7 @@ export function* fetchContactMatches(e164NumberToRecipients: NumberToRecipient) 
 
   try {
     const matchedE164Number: string[] = yield call(
+      // @ts-expect-error
       OdisUtils.Matchmaking.getContactMatches,
       selfPhoneDetails.e164Number,
       Object.keys(e164NumberToRecipients),

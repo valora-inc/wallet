@@ -10,13 +10,15 @@ import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
-import { PaymentDeepLinkHandler } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
-import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import {
+  PaymentDeepLinkHandler,
+  REMOTE_CONFIG_VALUES_DEFAULTS,
+} from 'src/firebase/remoteConfigValuesDefaults'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'

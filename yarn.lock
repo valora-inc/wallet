@@ -2312,7 +2312,7 @@
     debug "^4.1.1"
     utf8 "3.0.0"
 
-"@celo/connect@1.2.5", "@celo/connect@~1.2.0":
+"@celo/connect@1.2.5", "@celo/connect@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/connect/-/connect-1.2.5.tgz#1cc867e2b801245917eff8c7b59545e01ec2b3f6"
   integrity sha512-Mg4Ul5mocMA39Zdw5ZzUk7PdyapuRN6WN7/i611sZgNs23TO8SbW7Hfal+oZAyZR/4weOSwejZoUQ/yR1cXF3w==
@@ -2354,7 +2354,7 @@
     moment "^2.29.0"
     web3 "1.3.5"
 
-"@celo/contractkit@1.2.5", "@celo/contractkit@~1.2.0":
+"@celo/contractkit@1.2.5", "@celo/contractkit@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-1.2.5.tgz#bc20de92bf18d9da5d73ad914027ae8902c071b5"
   integrity sha512-TaCMP2MigmkV/+ysSYgp0Xy8zmxJoZrIQn2gZdBtmszaBmmp3c+up8FbmLj4fkkvK8W+ZtvMiMJJKH1e3hStOw==
@@ -2407,7 +2407,7 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
-"@celo/identity@~1.2.0":
+"@celo/identity@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-1.2.5.tgz#6c2c3c9737b160b292e11dc1f894a2bf1752c406"
   integrity sha512-UX8OEUl98KA8RCDZYX/O/fk4ZkkXEDVsOdhsQL1ZWqexZoMlSEYHNWFK7g1bEm4VhkgTE3YuPTlRSuM9UqxoKg==
@@ -2424,7 +2424,7 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
-"@celo/network-utils@~1.2.0":
+"@celo/network-utils@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/network-utils/-/network-utils-1.2.5.tgz#4d1154ef098eb63ab3d30ec6d37ea80f2e20f5c6"
   integrity sha512-b3In48THjU6DPi7mQCFg1WbevTMML6IRlROy/kr8YPwl57P/GWXG1S7QZ5LI7CRTx2ttk9MLsucqWm8btNYW2A==
@@ -2539,7 +2539,7 @@
     web3-eth-abi "1.3.4"
     web3-utils "1.3.4"
 
-"@celo/utils@1.2.5", "@celo/utils@~1.2.4":
+"@celo/utils@1.2.5", "@celo/utils@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-1.2.5.tgz#84212540568c112d1ba43d3a76c96f96e574e2ac"
   integrity sha512-21Ays/8sqJNblU6gowsNmSnSxitNgx7nHe37dYWgtFXoUHFWQLF1J+SRVBjM55+4oVl6QpaH9cQjbEbLcCdD3Q==
@@ -2766,7 +2766,7 @@
     eth-lib "^0.2.8"
     ethereumjs-util "^5.2.0"
 
-"@celo/wallet-rpc@~1.2.0":
+"@celo/wallet-rpc@~1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@celo/wallet-rpc/-/wallet-rpc-1.2.5.tgz#dc94e01632711aa37d913db0375a5d6588d4bfc9"
   integrity sha512-fc1q4tAuAW1z0uMpqV9K3eNf1jfAxxtBrCk8Sfc4/fK6o6XyUsA/GA+gDEeOjbheSnWPsClycmLTgKJrKWoZcw==
@@ -8113,6 +8113,16 @@ bip32@2.0.5:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
+"bip39@git+https://github.com/bitcoinjs/bip39.git#d8ea080a18b40f301d4e2219a2991cd2417e83c2":
+  version "3.0.3"
+  uid d8ea080a18b40f301d4e2219a2991cd2417e83c2
+  resolved "git+https://github.com/bitcoinjs/bip39.git#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
+  dependencies:
+    "@types/node" "11.11.6"
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
+
 "bip39@https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2":
   version "3.0.3"
   resolved "https://github.com/bitcoinjs/bip39#d8ea080a18b40f301d4e2219a2991cd2417e83c2"
@@ -8143,9 +8153,27 @@ blakejs@^1.1.0:
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.1.0.tgz#69df92ef953aa88ca51a32df6ab1c54a155fc7a5"
   integrity sha1-ad+S75U6qIylGjLfarHFShVfx6U=
 
+"blind-threshold-bls@git+https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a":
+  version "0.1.0"
+  uid e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208
+  resolved "git+https://github.com/celo-org/blind-threshold-bls-wasm.git#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208"
+
 "blind-threshold-bls@https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a":
   version "0.1.0"
   resolved "https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a1ab5154c2f0b1c55cb0d61fbb1d907208"
+
+"bls12377js@git+https://github.com/celo-org/bls12377js.git#cb38a4cfb643c778619d79b20ca3e5283a2122a6":
+  version "0.1.0"
+  uid cb38a4cfb643c778619d79b20ca3e5283a2122a6
+  resolved "git+https://github.com/celo-org/bls12377js.git#cb38a4cfb643c778619d79b20ca3e5283a2122a6"
+  dependencies:
+    "@stablelib/blake2xs" "0.10.4"
+    "@types/node" "^12.11.7"
+    big-integer "^1.6.44"
+    chai "^4.2.0"
+    mocha "^6.2.2"
+    ts-node "^8.4.1"
+    typescript "^3.6.4"
 
 "bls12377js@https://github.com/celo-org/bls12377js#cb38a4cfb643c778619d79b20ca3e5283a2122a6":
   version "0.1.0"
