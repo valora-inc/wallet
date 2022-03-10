@@ -218,7 +218,16 @@ export const registrationStepsSelector = createSelector(
       }
     }
     if (skipVerification) {
-      totalSteps--
+      if (Object.keys(steps).includes(Screens.VerificationEducationScreen)) {
+        totalSteps--
+        step =
+          step >
+          (steps as Record<Screens.VerificationEducationScreen, number>)[
+            Screens.VerificationEducationScreen
+          ]
+            ? step - 1
+            : step
+      }
     }
 
     return {

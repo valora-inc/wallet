@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
@@ -435,7 +436,7 @@ describe('Redux persist migrations', () => {
     const oldSchema = v37Schema
     const migratedSchema = migrations[38](oldSchema)
 
-    const expectedSchema: any = { ...oldSchema }
+    const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.skipVerification = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
