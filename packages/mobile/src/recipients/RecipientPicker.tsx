@@ -34,6 +34,7 @@ import {
   Recipient,
   recipientHasContact,
   recipientHasNumber,
+  RecipientType,
 } from 'src/recipients/recipient'
 import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -170,6 +171,7 @@ function RecipientPicker(props: RecipientProps) {
     const recipient: MobileRecipient = {
       displayNumber,
       e164PhoneNumber,
+      recipientType: RecipientType.PhoneNumber,
     }
     return (
       <>
@@ -207,7 +209,7 @@ function RecipientPicker(props: RecipientProps) {
     }
   }
 
-  const mapResolutionToRecipient = (resolution: NameResolution) => {
+  const mapResolutionToRecipient = (resolution: NameResolution): Recipient => {
     const lowerCaseAddress = resolution.address.toLowerCase()
     switch (resolution.kind) {
       case ResolutionKind.Address:
@@ -216,6 +218,7 @@ function RecipientPicker(props: RecipientProps) {
         return {
           address: lowerCaseAddress,
           name: t('nomSpaceRecipient', { name: resolution.name ?? props.searchQuery }),
+          recipientType: RecipientType.Nomspace,
         }
       default:
         return getRecipientFromAddress(lowerCaseAddress, recipientInfo)

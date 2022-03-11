@@ -4,6 +4,7 @@ import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { Dapp, SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -52,7 +53,9 @@ export interface State {
   superchargeButtonType: SuperchargeButtonType
   maxNumRecentDapps: number
   recentDapps: Dapp[]
+  skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
 }
 
 const initialState = {
@@ -97,8 +100,10 @@ const initialState = {
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
+  skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
 }
 
 export const appReducer = (
@@ -212,7 +217,9 @@ export const appReducer = (
         biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
         superchargeButtonType: action.configValues.superchargeButtonType,
         maxNumRecentDapps: action.configValues.maxNumRecentDapps,
+        skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
+        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

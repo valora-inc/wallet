@@ -5,6 +5,7 @@ import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
@@ -1023,6 +1024,30 @@ export const v37Schema = {
   },
 }
 
+export const v38Schema = {
+  ...v37Schema,
+  _persist: {
+    ...v37Schema._persist,
+    version: 38,
+  },
+  app: {
+    ...v37Schema.app,
+    skipVerification: false,
+  },
+}
+
+export const v39Schema = {
+  ...v38Schema,
+  _persist: {
+    ...v38Schema._persist,
+    version: 39,
+  },
+  app: {
+    ...v38Schema.app,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v37Schema as Partial<RootState>
+  return v39Schema as Partial<RootState>
 }
