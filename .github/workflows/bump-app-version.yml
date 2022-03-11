@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: kathy/fix-auto-version-bump
-      # - run: yarn
+      - run: yarn
       - run: .github/scripts/create_app_version_pr.sh
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
