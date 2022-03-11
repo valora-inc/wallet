@@ -17,6 +17,7 @@ import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
@@ -281,6 +282,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
+    paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
   }
 }
 
