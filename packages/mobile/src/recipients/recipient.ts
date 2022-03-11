@@ -20,6 +20,7 @@ export type Recipient = {
   displayNumber?: string
   e164PhoneNumber?: string
   address?: string
+  recipientType?: RecipientType
 } & ({ e164PhoneNumber: string } | { address: string })
 
 export type MobileRecipient = Recipient & {
@@ -34,6 +35,12 @@ export type ContactRecipient = MobileRecipient & {
 
 export type AddressRecipient = Recipient & {
   address: string
+}
+
+export enum RecipientType {
+  Address = 'Address',
+  PhoneNumber = 'PhoneNumber',
+  Nomspace = 'Nomspace',
 }
 
 export function recipientHasNumber(recipient: Recipient): recipient is MobileRecipient {
