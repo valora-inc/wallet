@@ -5,8 +5,8 @@ set -euo pipefail
 
 # # ensure that we are using ssh
 # git remote set-url origin git@github.com:valora-inc/wallet.git
-# app_version="$(node -p "require('./package.json').version")"
-# commit_message="Bump app version to $app_version"
+app_version="$(node -p "require('./package.json').version")"
+commit_message="Bump app version to $app_version"
 
 # echo "Create branch from main"
 # git checkout -b $BRANCH_NAME
@@ -28,4 +28,4 @@ curl -u "valora-bot:$VALORA_BOT_TOKEN" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
-  -d '{ "head": "'$BRANCH_NAME'", "base": "main" }'
+  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "'$commit_message'" }'
