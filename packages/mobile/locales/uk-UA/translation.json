@@ -94,7 +94,7 @@
   "raiseLimitBegin": "Почати верифікацію особи",
   "raiseLimitResume": "Відновити верифікацію особи",
   "raiseLimitEmailSubject": "Запит на підвищення ліміту надсилання за рахунком",
-  "raiseLimitEmailBody": "Я хотів би подати запит на збільшення на {{dailyLimit}} денний ліміт для адреси {{address}}",
+  "raiseLimitEmailBody": "Я хотів би попросити збільшення розміру щоденного ліміту {{dailyLimit}} {{appName}} для адреси {{address}}",
   "raiseLimitEmailSuccess": "Ваш запит надіслано успішно! Очікуйте відповідь електронною поштою найближчим часом!",
   "raiseLimitEmailNotSent": "Ваш запит не було надіслано. Просимо, спробуйте ще раз.",
   "storeRecoveryTitle": "Вам необхідно знову налаштувати ваш обліковий запис",
@@ -784,7 +784,7 @@
     "resendMessages_0": "Повторно надіслати останнє повідомлення",
     "resendMessages_1": "Повторно відправити {{count}} повідомлень",
     "resendMessages_2": "Повторно відправити {{count}} повідомлень",
-    "resendMessages_3": "Повторно відправити {{count}} повідомлень"
+    "resendMessages_3": "Повторно надіслати {{count}} повідомлень"
   },
   "verificationInputHelpDialog": {
     "title": "Довідка",
