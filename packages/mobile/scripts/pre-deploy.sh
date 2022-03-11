@@ -9,12 +9,12 @@ set -euo pipefail
 # --minor (Optional): Bump minor version automatically (default is to let user input new version number)
 
 MINOR=false
-NO_DISCLAIMER=false
+NO_LICENSE_UPDATE=false
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     --minor) MINOR=true ;;
-    --no-disclaimer) NO_DISCLAIMER=true ;;
+    --no-licence-update) NO_LICENSE_UPDATE=true ;;
     *) echo "Unknown parameter passed: $1"; exit 1 ;;
   esac
   shift
@@ -46,7 +46,7 @@ sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/
 pushd ios; agvtool next-version; popd
 echo "===Done updating versions==="
 
-if [ "$NO_DISCLAIMER" = false ]
+if [ "$NO_LICENSE_UPDATE" = false ]
 then
   echo "===Update license list and disclaimer==="
   yarn deploy:update-disclaimer

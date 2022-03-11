@@ -10,7 +10,7 @@ echo "Create version bump branch from main"
 git checkout -b $BRANCH_NAME
 
 echo "Bump app version"
-yarn pre-deploy --minor --no-disclaimer
+yarn pre-deploy --minor --no-licence-update
 
 # TODO: remove this step as part of https://github.com/valora-inc/wallet/issues/1856
 echo "Generate licences and disclaimer"
