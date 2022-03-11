@@ -23,7 +23,7 @@ import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
-import WebViewScreen, { webViewScreenNavOptions } from 'src/app/WebViewScreen'
+import WebViewScreen from 'src/app/WebViewScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
@@ -195,7 +195,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
-        options={webViewScreenNavOptions}
+        options={emptyHeader}
       />
       <Navigator.Screen
         name={Screens.TokenBalances}

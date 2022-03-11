@@ -25,7 +25,6 @@ import {
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
-  openUrl,
   OpenUrlAction,
   SetAppState,
   setAppState,
@@ -298,7 +297,13 @@ export function* handleOpenUrl(action: OpenUrlAction) {
 }
 
 function* handleOpenDapp(action: DappSelected) {
-  yield call(handleOpenUrl, openUrl(action.dapp.dappUrl, true, true))
+  const { dappUrl, name } = action.dapp
+  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
+  if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
+    yield call(handleDeepLink, openDeepLink(dappUrl, true))
+  } else {
+    navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+  }
 }
 
 export function* watchOpenUrl() {
