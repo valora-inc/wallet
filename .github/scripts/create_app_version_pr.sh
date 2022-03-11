@@ -9,11 +9,9 @@ app_version="$(node -p "require('./package.json').version")"
 commit_message="Bump app version to $app_version"
 
 echo "Create branch from main"
-# it's important to explicitly checkout the main branch as this job is triggered
-# from a tag that is from a release branch with extra commit(s) for that release
-git checkout main
-git pull origin main
 git checkout -b $BRANCH_NAME
+
+yarn
 
 echo "Bump app version"
 yarn pre-deploy --minor --no-disclaimer
