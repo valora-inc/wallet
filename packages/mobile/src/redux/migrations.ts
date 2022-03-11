@@ -451,4 +451,19 @@ export const migrations = {
       recentDapps: [],
     },
   }),
+  37: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showPriceChangeIndicatorInBalances:
+        REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+    },
+  }),
+  38: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipVerification: false,
+    },
+  }),
 }

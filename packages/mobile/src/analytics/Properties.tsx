@@ -45,6 +45,7 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { RecipientType } from 'src/recipients/recipient'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -623,6 +624,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
+        recipientType?: RecipientType
         isScan: boolean
         isInvite: boolean
         localCurrencyExchangeRate?: string | null
@@ -648,6 +650,7 @@ interface SendEventsProperties {
       }
     | {
         origin: SendOrigin
+        recipientType?: RecipientType
         isScan: boolean
         isInvite: boolean
         localCurrency: LocalCurrencyCode

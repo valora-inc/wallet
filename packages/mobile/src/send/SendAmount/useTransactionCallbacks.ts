@@ -74,6 +74,7 @@ function useTransactionCallbacks({
   const continueAnalyticsParams = useMemo(() => {
     return {
       origin,
+      recipientType: recipient.recipientType,
       isScan: isFromScan,
       isInvite: recipientVerificationStatus !== RecipientVerificationStatus.VERIFIED,
       localCurrencyExchangeRate,

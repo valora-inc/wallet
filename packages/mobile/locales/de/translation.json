@@ -180,7 +180,7 @@
   "superchargeDescription": "Erhalte {{apy}}% jährliche Belohnungen auf deinem {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinden Sie Ihre Telefonnummer",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
-  "superchargeDisclaimer": "Maximiere die Belohnungen, indem du bis zu {{amount}} {{token}}addierst.",
+  "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
@@ -1198,6 +1198,7 @@
   "supercharge": "Supercharge",
   "others": "Andere",
   "nomSpaceRecipient": "Nomspace: {{name}}",
+  "lastDay": "Last 24 hrs",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

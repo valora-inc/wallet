@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
@@ -14,8 +15,10 @@ import {
   v1Schema,
   v21Schema,
   v28Schema,
-  v35Schema,
   v2Schema,
+  v35Schema,
+  v36Schema,
+  v37Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -417,6 +420,24 @@ describe('Redux persist migrations', () => {
     expectedSchema.account.finclusiveKycStatus = FinclusiveKycStatus.NotSubmitted
     expectedSchema.app.maxNumRecentDapps = 0
     expectedSchema.app.recentDapps = []
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v36 to v37', () => {
+    const oldSchema = v36Schema
+    const migratedSchema = migrations[37](oldSchema)
+
+    const expectedSchema: any = { ...oldSchema }
+    expectedSchema.app.showPriceChangeIndicatorInBalances = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v37 to v38', () => {
+    const oldSchema = v37Schema
+    const migratedSchema = migrations[38](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.skipVerification = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

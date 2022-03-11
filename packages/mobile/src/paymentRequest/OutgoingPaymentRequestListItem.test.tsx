@@ -1,13 +1,15 @@
 import { render } from '@testing-library/react-native'
+import { noop } from 'lodash'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
 import { createMockStore } from 'test/utils'
 const store = createMockStore()
 
 const commonProps = {
-  id: 1,
+  id: '1',
   amount: '24',
   comment: 'Hey thanks for the loan, Ill pay you back ASAP. LOVE YOU',
   requestee: {
@@ -17,13 +19,14 @@ const commonProps = {
     name: '5126608970',
     contact: undefined,
   },
+  cancelPaymentRequest: noop as typeof cancelPaymentRequest,
+  updatePaymentRequestNotified: noop as typeof updatePaymentRequestNotified,
 }
 
 describe('OutgoingPaymentRequestListItem', () => {
   it('renders correctly', () => {
     const tree = render(
       <Provider store={store}>
-        // @ts-ignore -- kind is not assignable?
         <OutgoingPaymentRequestListItem {...commonProps} />
       </Provider>
     )
