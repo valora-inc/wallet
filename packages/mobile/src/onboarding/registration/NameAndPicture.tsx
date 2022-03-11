@@ -34,6 +34,7 @@ function NameAndPicture({ navigation }: Props) {
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
+  const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -104,11 +105,13 @@ function NameAndPicture({ navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        <PictureInput
-          picture={picture}
-          onPhotoChosen={onPhotoChosen}
-          backgroundColor={colors.onboardingBrownLight}
-        />
+        {!shouldSkipProfilePicture && (
+          <PictureInput
+            picture={picture}
+            onPhotoChosen={onPhotoChosen}
+            backgroundColor={colors.onboardingBrownLight}
+          />
+        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}

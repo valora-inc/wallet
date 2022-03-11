@@ -57,6 +57,7 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
+  skipProfilePicture: boolean
 }
 
 const initialState = {
@@ -105,6 +106,7 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
+  skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
 }
 
 export const appReducer = (
@@ -221,7 +223,11 @@ export const appReducer = (
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
+<<<<<<< HEAD
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
+=======
+        skipProfilePicture: action.configValues.skipProfilePicture,
+>>>>>>> feat: experiment on removing profile picture during onboarding flow
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
