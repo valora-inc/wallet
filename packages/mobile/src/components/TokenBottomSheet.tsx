@@ -12,7 +12,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import { stablecoinsSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
-import { sortByUsdBalance } from 'src/tokens/utils'
+import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -70,7 +70,7 @@ function TokenBottomSheet({
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const stableTokens = useSelector(stablecoinsSelector)
   const tokenList = (isInvite || isOutgoingPaymentRequest ? stableTokens : tokens).sort(
-    sortByUsdBalance
+    sortFirstStableThenCeloThenOthersByUsdBalance
   )
 
   const { t } = useTranslation()
