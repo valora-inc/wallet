@@ -37,6 +37,7 @@ export enum Screens {
   LinkBankAccountScreen = 'LinkBankAccountScreen',
   LinkBankAccountErrorScreen = 'LinkBankAccountErrorScreen',
   Main = 'Main',
+  MerchantPayment = 'MerchantPayment',
   MoonPayScreen = 'MoonPayScreen',
   XanpoolScreen = 'XanpoolScreen',
   NameAndPicture = 'NameAndPicture',
