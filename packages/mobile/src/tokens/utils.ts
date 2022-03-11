@@ -80,5 +80,5 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 
 function usdBalance(token: TokenBalance): BigNumber {
   // We check that usdPrice is not null before calling this.
-  return token.usdPrice!!.times(token.balance)
+  return token.usdPrice!.times(token.balance)
 }
