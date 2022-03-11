@@ -161,14 +161,14 @@
     }
   ],
   "consumerIncentivesTitle": "Программа Supercharge",
-  "consumerIncentivesSummary": "Суперзарядка уже здесь! Получай {{percent}}.\nгодовое вознаграждение на твой самый высокий баланс в стабильных монетах (cUSD, cEUR или cREAL). Доступно в течение ограниченного времени. Вот как это работает:",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
   },
   "noMinCommitment": {
     "header": "Добавьте минимальную сумму на баланс",
-    "earningText": "Получай вознаграждения на 10-1000 cUSD, 10-1000 cEUR или 50-6000 cREAL.",
+    "earningText": "Получите вознаграждения при наличии на счете 10–1000 cUSD, 10–1000 cEUR или 50–6000 cREAL.",
     "connectText": "Для получения вознаграждения необходимо наличие остатка всего лишь {{minBalance}} {{currency}} и подключение номера телефона."
   },
   "saveMoreEarnMore": {
@@ -180,12 +180,12 @@
   "superchargeDescription": "Получите вознаграждение {{apy}}% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
-  "superchargeDisclaimer": "Максимально увеличивай вознаграждение, складывая до {{amount}} {{token}}",
+  "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
     "title": "На какие активы распространяется программа Supercharge?",
-    "body": "Ты будешь получать еженедельное вознаграждение на свою стабильную монеты Celo с наибольшей стоимостью (cEUR, cUSD, cREAL).",
+    "body": "Вы будете еженедельно получать вознаграждение за стейблкойн Celo с наибольшей стоимостью (cEUR, cUSD, cREAL).",
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
@@ -248,7 +248,7 @@
   "loadingExchangeRate": "Загрузка обменного курса...",
   "errorRefreshingRate": "Не удалось обновить обменный курс",
   "exchangeRateChange": "Обменный курс изменился, повторите попытку",
-  "feeExchangeEducation": "При обмене между активами небольшая комиссия идет на поддержание стоимости стабильных монеток Celo, привязанной к активу, который они отслеживают. \n\nПосети FAQ, чтобы узнать больше.",
+  "feeExchangeEducation": "При обмене между активами небольшая комиссия направляется на поддержание стоимости стейблкоинов Celo, привязанных к определенному активу. \n\nПодробнее см. в разделе часто задаваемых вопросов.",
   "goldPrice": "Цена CELO",
   "yourGoldBalance": "Ваш остаток CELO",
   "goldAmount": "Сумма CELO",
@@ -1196,7 +1196,7 @@
     "message": "Вы собираетесь открыть приложение, которым не управляет Valora.\n\nValora не дает никаких заверений относительно этого приложения. Вы используете его на свой риск.",
     "button": "Перейти в {{dappName}}"
   },
-  "recentlyUsedDapps": "Недавно использованные даппы",
+  "recentlyUsedDapps": "Недавно использованные Dapps",
   "allDapps": "Все Dapps",
   "rewards": "Вознаграждения",
   "supercharge": "Supercharge",
