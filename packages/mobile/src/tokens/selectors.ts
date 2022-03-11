@@ -9,7 +9,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
-import { sortByUsdBalance } from './utils'
+import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
@@ -54,6 +54,11 @@ export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector,
   return tokens.filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT))
 })
 
+export const tokensSortedToShowInSendSelector = createSelector(
+  tokensWithTokenBalanceSelector,
+  (tokens) => tokens.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
+)
+
 // Tokens sorted by usd balance (descending)
 export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) =>
   tokensList.sort(sortByUsdBalance)
@@ -84,25 +89,15 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
 })
 
 // Returns the token with the highest usd balance to use as default.
-export const defaultTokenSelector = createSelector(
-  tokensWithTokenBalanceSelector,
+export const defaultTokenToSendSelector = createSelector(
+  tokensSortedToShowInSendSelector,
   stablecoinsSelector,
   (tokens, stableCoins) => {
     if (tokens.length === 0) {
       // TODO: ideally we return based on location - cUSD for now.
       return stableCoins.find((coin) => coin.symbol === 'cUSD')?.address ?? ''
     }
-    let maxTokenAddress: string = ''
-    let maxBalance: BigNumber = new BigNumber(-1)
-    for (const token of tokens) {
-      const usdBalance = token.balance.multipliedBy(token.usdPrice ?? 0)
-      if (usdBalance.gt(maxBalance)) {
-        maxTokenAddress = token.address
-        maxBalance = usdBalance
-      }
-    }
-
-    return maxTokenAddress
+    return tokens[0].address
   }
 )
 
