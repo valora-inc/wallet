@@ -459,7 +459,18 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
     },
   }),
-  38: (state: any) => ({
-    ...state,
-  }),
+  38: (state: any) => {
+    return {
+      ...state,
+      walletConnect: {
+        ...(state.walletConnect?.v2?.sessions === undefined
+          ? _.omit(state.walletConnect, 'v2')
+          : state.walletConnect),
+      },
+      home: {
+        ...state.home,
+        ...(Array.isArray(state.home.notifications) ? { notifications: {} } : undefined),
+      },
+    }
+  },
 }
