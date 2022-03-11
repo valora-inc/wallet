@@ -11,8 +11,6 @@ commit_message="Bump app version to $app_version"
 echo "Create branch from main"
 git checkout -b $BRANCH_NAME
 
-yarn
-
 echo "Bump app version"
 yarn pre-deploy --minor --no-disclaimer
 
