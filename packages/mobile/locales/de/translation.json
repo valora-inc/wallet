@@ -181,8 +181,8 @@
   "superchargeConnectNumber": "Verbinden Sie Ihre Telefonnummer",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
   "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
-  "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
-  "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
+  "superchargeDisclaimerMaxRewards": "Du erhältst maximale Belohnungen für deine {{token}}",
+  "superchargeDisclaimerDayLimit": "Deine Belohnungen müssen innerhalb von 28 Tagen in Anspruch genommen werden. <0>Mehr erfahren</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Welche Assets kann ich aufladen?",
     "body": "Du wirst wöchentlich für deinen Celo-Stablecoin mit dem höchsten Wert (cEUR, cUSD, cREAL) belohnt.",
@@ -197,8 +197,8 @@
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Aufladungsbelohnungen. Bitte versuchen Sie es später erneut.",
   "superchargeClaimSuccess": "Deine Aufladungsbelohnungen wurden deinem Gesamtsaldo hinzugefügt.",
   "superchargeClaimFailure": "Es gab ein Problem bei der Inanspruchnahme deiner Superchard-Belohnungen.",
-  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
-  "superchargeNotificationStart": "Claim rewards",
+  "superchargeNotificationBody": "Die Supercharge-Belohnungen sind verfügbar! Nimm sie jetzt in Anspruch.",
+  "superchargeNotificationStart": "Belohnungen beanspruchen",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
@@ -1198,7 +1198,7 @@
   "supercharge": "Supercharge",
   "others": "Andere",
   "nomSpaceRecipient": "Nomspace: {{name}}",
-  "lastDay": "Last 24 hrs",
+  "lastDay": "Letzte 24 Stunden",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
