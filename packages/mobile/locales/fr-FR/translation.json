@@ -1199,6 +1199,13 @@
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
+  "merchant": "Merchant Payment",
+  "merchantMoneyEscrow": "You're about the send a direct payment to a merchant.",
+  "merchantPaymentNumberVerificationMessage": "You need to connect your number",
+  "merchantPaymentSubmitFail": "Your payment failed to submit",
+  "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
+  "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
+  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
