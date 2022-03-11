@@ -1040,7 +1040,7 @@ export const v39Schema = {
   ...v38Schema,
   _persist: {
     ...v38Schema._persist,
-    version: 38,
+    version: 39,
   },
   app: {
     ...v38Schema.app,
