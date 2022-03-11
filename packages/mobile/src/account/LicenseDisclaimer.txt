@@ -477,11 +477,47 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: @ethersproject/abi, @ethersproject/abstract-provider, @ethersproject/abstract-signer, @ethersproject/address, @ethersproject/base64, @ethersproject/bignumber, @ethersproject/bytes, @ethersproject/constants, @ethersproject/hash, @ethersproject/keccak256, @ethersproject/networks, @ethersproject/properties, @ethersproject/rlp, @ethersproject/signing-key, @ethersproject/strings, @ethersproject/transactions, @ethersproject/web. A copy of the source code may be downloaded from git://github.com/ethers-io/ethers.js.git (@ethersproject/abi), git://github.com/ethers-io/ethers.js.git (@ethersproject/abstract-provider), git://github.com/ethers-io/ethers.js.git (@ethersproject/abstract-signer), git://github.com/ethers-io/ethers.js.git (@ethersproject/address), git://github.com/ethers-io/ethers.js.git (@ethersproject/base64), git://github.com/ethers-io/ethers.js.git (@ethersproject/bignumber), git://github.com/ethers-io/ethers.js.git (@ethersproject/bytes), git://github.com/ethers-io/ethers.js.git (@ethersproject/constants), git://github.com/ethers-io/ethers.js.git (@ethersproject/hash), git://github.com/ethers-io/ethers.js.git (@ethersproject/keccak256), git://github.com/ethers-io/ethers.js.git (@ethersproject/networks), git://github.com/ethers-io/ethers.js.git (@ethersproject/properties), git://github.com/ethers-io/ethers.js.git (@ethersproject/rlp), git://github.com/ethers-io/ethers.js.git (@ethersproject/signing-key), git://github.com/ethers-io/ethers.js.git (@ethersproject/strings), git://github.com/ethers-io/ethers.js.git (@ethersproject/transactions), git://github.com/ethers-io/ethers.js.git (@ethersproject/web). This software contains the following license and notice below:
+The following software may be included in this product: @ethersproject/abi, @ethersproject/abstract-provider, @ethersproject/abstract-signer, @ethersproject/address, @ethersproject/base64, @ethersproject/bignumber, @ethersproject/bytes, @ethersproject/constants, @ethersproject/contracts, @ethersproject/hash, @ethersproject/hdnode, @ethersproject/json-wallets, @ethersproject/keccak256, @ethersproject/networks, @ethersproject/pbkdf2, @ethersproject/properties, @ethersproject/providers, @ethersproject/random, @ethersproject/rlp, @ethersproject/sha2, @ethersproject/signing-key, @ethersproject/solidity, @ethersproject/strings, @ethersproject/transactions, @ethersproject/units, @ethersproject/wallet, @ethersproject/web, @ethersproject/wordlists, ethers. A copy of the source code may be downloaded from git://github.com/ethers-io/ethers.js.git (@ethersproject/abi), git://github.com/ethers-io/ethers.js.git (@ethersproject/abstract-provider), git://github.com/ethers-io/ethers.js.git (@ethersproject/abstract-signer), git://github.com/ethers-io/ethers.js.git (@ethersproject/address), git://github.com/ethers-io/ethers.js.git (@ethersproject/base64), git://github.com/ethers-io/ethers.js.git (@ethersproject/bignumber), git://github.com/ethers-io/ethers.js.git (@ethersproject/bytes), git://github.com/ethers-io/ethers.js.git (@ethersproject/constants), git://github.com/ethers-io/ethers.js.git (@ethersproject/contracts), git://github.com/ethers-io/ethers.js.git (@ethersproject/hash), git://github.com/ethers-io/ethers.js.git (@ethersproject/hdnode), git://github.com/ethers-io/ethers.js.git (@ethersproject/json-wallets), git://github.com/ethers-io/ethers.js.git (@ethersproject/keccak256), git://github.com/ethers-io/ethers.js.git (@ethersproject/networks), git://github.com/ethers-io/ethers.js.git (@ethersproject/pbkdf2), git://github.com/ethers-io/ethers.js.git (@ethersproject/properties), git://github.com/ethers-io/ethers.js.git (@ethersproject/providers), git://github.com/ethers-io/ethers.js.git (@ethersproject/random), git://github.com/ethers-io/ethers.js.git (@ethersproject/rlp), git://github.com/ethers-io/ethers.js.git (@ethersproject/sha2), git://github.com/ethers-io/ethers.js.git (@ethersproject/signing-key), git://github.com/ethers-io/ethers.js.git (@ethersproject/solidity), git://github.com/ethers-io/ethers.js.git (@ethersproject/strings), git://github.com/ethers-io/ethers.js.git (@ethersproject/transactions), git://github.com/ethers-io/ethers.js.git (@ethersproject/units), git://github.com/ethers-io/ethers.js.git (@ethersproject/wallet), git://github.com/ethers-io/ethers.js.git (@ethersproject/web), git://github.com/ethers-io/ethers.js.git (@ethersproject/wordlists), git://github.com/ethers-io/ethers.js.git (ethers). This software contains the following license and notice below:
 
 MIT License
 
 Copyright (c) 2019 Richard Moore
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
+The following software may be included in this product: @ethersproject/basex. A copy of the source code may be downloaded from git://github.com/ethers-io/ethers.js.git. This software contains the following license and notice below:
+
+Forked from https://github.com/cryptocoinjs/bs58
+Originally written by Mike Hearn for BitcoinJ
+Copyright (c) 2011 Google Inc
+
+Ported to JavaScript by Stefan Thomas
+Merged Buffer refactorings from base58-native by Stephen Pair
+Copyright (c) 2013 BitPay Inc
+
+Removed Buffer Dependency
+Copyright (c) 2019 Richard Moore
+
+
+MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -959,7 +995,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @react-native-community/cli, @react-native-community/cli-debugger-ui, @react-native-community/cli-hermes, @react-native-community/cli-platform-android, @react-native-community/cli-platform-ios, @react-native-community/cli-plugin-metro, @react-native-community/cli-server-api, @react-native-community/cli-tools, @react-native-community/cli-types. A copy of the source code may be downloaded from https://github.com/react-native-community/cli.git (@react-native-community/cli), https://github.com/react-native-community/cli.git (@react-native-community/cli-debugger-ui), https://github.com/react-native-community/cli.git (@react-native-community/cli-hermes), https://github.com/react-native-community/cli.git (@react-native-community/cli-platform-android), https://github.com/react-native-community/cli.git (@react-native-community/cli-platform-ios), https://github.com/react-native-community/cli.git (@react-native-community/cli-plugin-metro), https://github.com/react-native-community/cli.git (@react-native-community/cli-server-api), https://github.com/react-native-community/cli.git (@react-native-community/cli-tools), https://github.com/react-native-community/cli.git (@react-native-community/cli-types). This software contains the following license and notice below:
+The following software may be included in this product: @react-native-community/cli, @react-native-community/cli-debugger-ui, @react-native-community/cli-hermes, @react-native-community/cli-platform-android, @react-native-community/cli-platform-ios, @react-native-community/cli-plugin-metro, @react-native-community/cli-tools, @react-native-community/cli-types. A copy of the source code may be downloaded from https://github.com/react-native-community/cli.git (@react-native-community/cli), https://github.com/react-native-community/cli.git (@react-native-community/cli-debugger-ui), https://github.com/react-native-community/cli.git (@react-native-community/cli-hermes), https://github.com/react-native-community/cli.git (@react-native-community/cli-platform-android), https://github.com/react-native-community/cli.git (@react-native-community/cli-platform-ios), https://github.com/react-native-community/cli.git (@react-native-community/cli-plugin-metro), https://github.com/react-native-community/cli.git (@react-native-community/cli-tools), https://github.com/react-native-community/cli.git (@react-native-community/cli-types). This software contains the following license and notice below:
 
 MIT License
 
@@ -1478,7 +1514,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @types/abstract-leveldown, @types/bn.js, @types/debug, @types/elliptic, @types/google-libphonenumber, @types/graceful-fs, @types/hammerjs, @types/invariant, @types/istanbul-lib-coverage, @types/istanbul-reports, @types/level-errors, @types/levelup, @types/lodash, @types/node, @types/pbkdf2, @types/prettier, @types/prop-types, @types/react, @types/react-redux, @types/scheduler, @types/secp256k1, @types/yargs, @types/yargs-parser, @types/zen-observable. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/abstract-leveldown), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/elliptic), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/google-libphonenumber), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/graceful-fs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hammerjs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/invariant), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-coverage), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-reports), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/level-errors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/levelup), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/pbkdf2), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prettier), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-redux), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/scheduler), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/secp256k1), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/zen-observable). This software contains the following license and notice below:
+The following software may be included in this product: @types/abstract-leveldown, @types/bn.js, @types/debug, @types/elliptic, @types/google-libphonenumber, @types/graceful-fs, @types/hammerjs, @types/invariant, @types/istanbul-lib-coverage, @types/istanbul-reports, @types/js-yaml, @types/level-errors, @types/levelup, @types/lodash, @types/node, @types/pbkdf2, @types/prettier, @types/prop-types, @types/react, @types/react-redux, @types/scheduler, @types/secp256k1, @types/seedrandom, @types/yargs, @types/yargs-parser, @types/zen-observable. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/abstract-leveldown), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/elliptic), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/google-libphonenumber), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/graceful-fs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hammerjs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/invariant), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-coverage), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-reports), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/js-yaml), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/level-errors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/levelup), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/pbkdf2), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prettier), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-redux), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/scheduler), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/secp256k1), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/seedrandom), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/zen-observable). This software contains the following license and notice below:
 
 MIT License
 
@@ -1504,7 +1540,7 @@ MIT License
 
 -----
 
-The following software may be included in this product: @types/bn.js, @types/country-data, @types/ethereumjs-util, @types/hoist-non-react-statics, @types/istanbul-lib-report, @types/ms, @types/node, @types/parse-json, @types/randombytes, @types/utf8. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/country-data), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ethereumjs-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-report), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ms), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/randombytes), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/utf8). This software contains the following license and notice below:
+The following software may be included in this product: @types/bn.js, @types/country-data, @types/ethereumjs-util, @types/hoist-non-react-statics, @types/isomorphic-fetch, @types/istanbul-lib-report, @types/ms, @types/node, @types/parse-json, @types/randombytes, @types/utf8. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/country-data), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ethereumjs-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/isomorphic-fetch), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-report), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ms), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/parse-json), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/randombytes), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/utf8). This software contains the following license and notice below:
 
 MIT License
 
@@ -2009,6 +2045,32 @@ The following software may be included in this product: ajv. A copy of the sourc
 The MIT License (MIT)
 
 Copyright (c) 2015-2017 Evgeny Poberezkin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
+The following software may be included in this product: ajv. A copy of the source code may be downloaded from https://github.com/ajv-validator/ajv.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2015-2021 Evgeny Poberezkin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -3591,6 +3653,33 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
+The following software may be included in this product: bech32. A copy of the source code may be downloaded from http://github.com/bitcoinjs/bech32. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2017 Pieter Wuille
+Copyright (c) 2018 bitcoinjs contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: better-sqlite3. A copy of the source code may be downloaded from git://github.com/JoshuaWise/better-sqlite3.git. This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -4658,7 +4747,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: bufferutil, utf-8-validate. A copy of the source code may be downloaded from https://github.com/websockets/bufferutil (bufferutil), https://github.com/websockets/utf-8-validate (utf-8-validate). This software contains the following license and notice below:
+The following software may be included in this product: bufferutil. A copy of the source code may be downloaded from https://github.com/websockets/bufferutil. This software contains the following license and notice below:
 
 Copyright (c) 2011 Einar Otto Stangvik <einaros@gmail.com> (http://2x.io)
 
@@ -6430,7 +6519,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: css-select, css-what, domelementtype, domutils, entities, nth-check. A copy of the source code may be downloaded from git://github.com/fb55/css-select.git (css-select), https://github.com/fb55/css-what (css-what), git://github.com/fb55/domelementtype.git (domelementtype), git://github.com/FB55/domutils.git (domutils), git://github.com/fb55/entities.git (entities), https://github.com/fb55/nth-check (nth-check). This software contains the following license and notice below:
+The following software may be included in this product: css-select, css-what, domelementtype, domhandler, domutils, entities, nth-check. A copy of the source code may be downloaded from git://github.com/fb55/css-select.git (css-select), https://github.com/fb55/css-what (css-what), git://github.com/fb55/domelementtype.git (domelementtype), git://github.com/fb55/domhandler.git (domhandler), git://github.com/fb55/domutils.git (domutils), git://github.com/fb55/entities.git (entities), https://github.com/fb55/nth-check (nth-check). This software contains the following license and notice below:
 
 Copyright (c) Felix Böhm
 All rights reserved.
@@ -8083,11 +8172,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: es5-ext, ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext.git (es5-ext), https://github.com/medikoo/es5-ext#ext (ext). This software contains the following license and notice below:
+The following software may be included in this product: es5-ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext.git. This software contains the following license and notice below:
 
 ISC License
 
-Copyright (c) 2011-2019, Mariusz Nowak, @medikoo, medikoo.com
+Copyright (c) 2011-2022, Mariusz Nowak, @medikoo, medikoo.com
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -9529,6 +9618,26 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: ext. A copy of the source code may be downloaded from https://github.com/medikoo/es5-ext#ext. This software contains the following license and notice below:
+
+ISC License
+
+Copyright (c) 2011-2019, Mariusz Nowak, @medikoo, medikoo.com
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
@@ -11676,7 +11785,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: is-retry-allowed. A copy of the source code may be downloaded from https://github.com/floatdrop/is-retry-allowed.git. This software contains the following license and notice below:
+The following software may be included in this product: is-retry-allowed, require-from-string. A copy of the source code may be downloaded from https://github.com/floatdrop/is-retry-allowed.git (is-retry-allowed), https://github.com/floatdrop/require-from-string.git (require-from-string). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
@@ -11699,6 +11808,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: isomorphic-fetch. A copy of the source code may be downloaded from https://github.com/matthew-andrews/isomorphic-fetch.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Matt Andrews
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -13770,6 +13905,34 @@ THE SOFTWARE.
 
 -----
 
+The following software may be included in this product: mime-db. A copy of the source code may be downloaded from https://github.com/jshttp/mime-db.git. This software contains the following license and notice below:
+
+(The MIT License)
+
+Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
+Copyright (c) 2015-2022 Douglas Christopher Wilson <doug@somethingdoug.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
 The following software may be included in this product: minimalistic-assert. A copy of the source code may be downloaded from https://github.com/calvinmetcalf/minimalistic-assert.git. This software contains the following license and notice below:
 
 Copyright 2015 Calvin Metcalf
@@ -14384,27 +14547,21 @@ SOFTWARE.
 
 The following software may be included in this product: next-tick. A copy of the source code may be downloaded from git://github.com/medikoo/next-tick.git. This software contains the following license and notice below:
 
-The MIT License
+ISC License
 
-Copyright (C) 2012-2016 Mariusz Nowak 
+Copyright (c) 2012-2020, Mariusz Nowak, @medikoo, medikoo.com
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
@@ -16245,7 +16402,7 @@ The following software may be included in this product: react-i18next. A copy of
 
 The MIT License (MIT)
 
-Copyright (c) 2021 i18next
+Copyright (c) 2022 i18next
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20270,6 +20427,41 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
+The following software may be included in this product: utf-8-validate. A copy of the source code may be downloaded from https://github.com/websockets/utf-8-validate. This software contains the following license and notice below:
+
+This project is licensed for use as follows:
+
+"""
+Copyright (c) 2011 Einar Otto Stangvik <einaros@gmail.com> (http://2x.io)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
+This license applies to parts originating from
+https://www.cl.cam.ac.uk/~mgk25/ucs/utf8_check.c:
+
+"""
+Markus Kuhn <http://www.cl.cam.ac.uk/~mgk25/> -- 2005-03-30
+License: http://www.cl.cam.ac.uk/~mgk25/short-license.html
+"""
+
+-----
+
 The following software may be included in this product: util-deprecate. A copy of the source code may be downloaded from git://github.com/TooTallNate/util-deprecate.git. This software contains the following license and notice below:
 
 (The MIT License)
@@ -20856,7 +21048,7 @@ THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: workspace-aggregator-6f8f1d34-1a60-4858-8058-0987b1b33c10. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-6a1dabea-1f07-4663-8c85-d5568cb0e461. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
