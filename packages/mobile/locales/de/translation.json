@@ -180,7 +180,7 @@
   "superchargeDescription": "Erhalte {{apy}}% jährliche Belohnungen auf deinem {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinden Sie Ihre Telefonnummer",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
-  "superchargeDisclaimer": "Maximiere die Belohnungen, indem du bis zu {{amount}} {{token}}addierst.",
+  "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
   "superchargeDisclaimerMaxRewards": "You’re getting maximum rewards on your {{token}}",
   "superchargeDisclaimerDayLimit": "Your rewards must be claimed within 28 days. <0>Learn more</0>",
   "superchargeTokenDetailsDialog": {
