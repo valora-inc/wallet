@@ -1,0 +1,322 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeeContainer renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "padding": 16,
+      "paddingBottom": 8,
+    }
+  }
+>
+  <View>
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      testID="feeDrawer/SendConfirmation"
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            feeEstimate
+          </Text>
+          <View
+            style={
+              Object {
+                "marginLeft": 7,
+                "transform": Array [
+                  Object {
+                    "rotate": "0deg",
+                  },
+                ],
+              }
+            }
+          >
+            <svg
+              fill="none"
+              height={16}
+              viewBox="0 0 16 16"
+              width={16}
+            >
+              <path
+                d="M3 6l5 5 5-5"
+                stroke="#B4B9BD"
+              />
+            </svg>
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+                "justifyContent": "space-between",
+                "marginVertical": 5,
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "marginRight": 5,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                undefined,
+              ]
+            }
+            testID="LineItemRow/undefined"
+          >
+            <Text
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": undefined,
+                  },
+                ]
+              }
+              testID="feeDrawer/SendConfirmation/totalFee/value"
+            >
+              
+              ₱
+              0.0266
+            </Text>
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "space-between",
+          "marginVertical": 5,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "marginRight": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            },
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 16,
+              "lineHeight": 22,
+            },
+          ]
+        }
+      >
+        total
+      </Text>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+        ]
+      }
+      testID="LineItemRow/undefined"
+    >
+      <Text
+        testID="TotalLineItem/Total"
+      >
+        
+        ₱
+        1,778.24
+      </Text>
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "space-between",
+          "marginVertical": 5,
+        },
+        Object {
+          "marginVertical": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "marginRight": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            },
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+            }
+          }
+          testID="TotalLineItem/ExchangeRate"
+        >
+          <Text>
+            
+            ₱
+            1.33
+          </Text>
+        </Text>
+      </Text>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+          },
+          Object {
+            "color": "#9CA4A9",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+          },
+        ]
+      }
+      testID="LineItemRow/undefined"
+    >
+      <Text
+        testID="TotalLineItem/Subtotal"
+      >
+        
+        1,337.00
+         cUSD
+      </Text>
+    </Text>
+  </View>
+</View>
+`;
