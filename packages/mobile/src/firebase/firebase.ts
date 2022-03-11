@@ -279,6 +279,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     biometryEnabled: flags.biometryEnabled.asBoolean(),
     superchargeButtonType: flags.superchargeButtonType.asString() as SuperchargeButtonType,
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
+    skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
   }
 }
