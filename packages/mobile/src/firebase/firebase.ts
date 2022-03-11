@@ -15,11 +15,9 @@ import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
-import {
-  PaymentDeepLinkHandler,
-  REMOTE_CONFIG_VALUES_DEFAULTS,
-} from 'src/firebase/remoteConfigValuesDefaults'
+import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
