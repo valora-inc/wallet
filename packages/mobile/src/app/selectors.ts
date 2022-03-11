@@ -90,6 +90,8 @@ export const rewardsEnabledSelector = createSelector(
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
   state.app.logPhoneNumberTypeEnabled
 
+export const paymentDeepLinkHandlerSelector = (state: RootState) => state.app.paymentDeepLinkHandler
+
 export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
 
 export const googleMobileServicesAvailableSelector = (state: RootState) =>
@@ -132,6 +134,8 @@ export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
   state.app.showPriceChangeIndicatorInBalances
 
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
+
+export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,
@@ -180,29 +184,57 @@ export const registrationStepsSelector = createSelector(
     biometryEnabledSelector,
     activeScreenSelector,
     recoveringFromStoreWipeSelector,
+    skipVerificationSelector,
   ],
-  (chooseRestoreAccount, biometryEnabled, activeScreen, recoveringFromStoreWipe) => {
+  (
+    chooseRestoreAccount,
+    biometryEnabled,
+    activeScreen,
+    recoveringFromStoreWipe,
+    skipVerification
+  ) => {
+    let steps
+    let totalSteps
+    let step
     if (recoveringFromStoreWipe) {
-      return {
-        step: storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens],
-        totalSteps: 3,
+      steps = storeWipeRecoverySteps
+      totalSteps = 3
+      step = storeWipeRecoverySteps[activeScreen as StoreWipeRecoveryScreens]
+    } else if (chooseRestoreAccount) {
+      steps = restoreAccountSteps
+      totalSteps = 5
+      step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
+    } else {
+      steps = createAccountSteps
+      totalSteps = 4
+      step = createAccountSteps[activeScreen as CreateAccountScreens]
+    }
+
+    if (!biometryEnabled) {
+      if (Object.keys(steps).includes(Screens.EnableBiometry)) {
+        totalSteps--
+        step =
+          step > (steps as Record<Screens.EnableBiometry, number>)[Screens.EnableBiometry]
+            ? step - 1
+            : step
+      }
+    }
+    if (skipVerification) {
+      if (Object.keys(steps).includes(Screens.VerificationEducationScreen)) {
+        totalSteps--
+        step =
+          step >
+          (steps as Record<Screens.VerificationEducationScreen, number>)[
+            Screens.VerificationEducationScreen
+          ]
+            ? step - 1
+            : step
       }
     }
 
-    if (chooseRestoreAccount) {
-      if (biometryEnabled) {
-        return { step: restoreAccountSteps[activeScreen as RestoreAccountScreens], totalSteps: 5 }
-      }
-      // remove biometry screen from step
-      const step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
-      return { step: step > 3 ? step - 1 : step, totalSteps: 4 }
+    return {
+      step,
+      totalSteps,
     }
-
-    if (biometryEnabled) {
-      return { step: createAccountSteps[activeScreen as CreateAccountScreens], totalSteps: 4 }
-    }
-    // remove biometry screen from step
-    const step = createAccountSteps[activeScreen as CreateAccountScreens]
-    return { step: step > 3 ? step - 1 : step, totalSteps: 3 }
   }
 )

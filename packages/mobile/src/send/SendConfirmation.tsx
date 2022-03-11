@@ -230,6 +230,7 @@ function SendConfirmation(props: Props) {
     }
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
+      recipientType: props.route.params.transactionData.recipient.recipientType,
       isScan: !!props.route.params?.isFromScan,
       isInvite,
       localCurrency: localCurrencyCode,

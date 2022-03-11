@@ -1,11 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "This will prepare the mobile app for deployment to the store"
+# ========================================
+# Increment app version number
+# ========================================
 
-# Prompt for new version number
+# Flags:
+# --minor (Optional): Bump minor version automatically (default is to let user input new version number)
+
+MINOR=false
+NO_LICENSE_UPDATE=false
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --minor) MINOR=true ;;
+    --no-licence-update) NO_LICENSE_UPDATE=true ;;
+    *) echo "Unknown parameter passed: $1"; exit 1 ;;
+  esac
+  shift
+done
+
 echo "===Updating app version==="
-yarn version --no-git-tag-version
+if [ "$MINOR" = true ]
+then
+   yarn version --no-git-tag-version --minor
+else
+  # Prompt for new version number 
+  yarn version --no-git-tag-version
+fi
+
 new_version="$(node -p "require('./package.json').version")"
 
 echo "===Updating android/ios build files==="
@@ -23,8 +46,11 @@ sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/
 pushd ios; agvtool next-version; popd
 echo "===Done updating versions==="
 
-echo "===Update license list and disclaimer==="
-yarn deploy:update-disclaimer
-echo "===Done updating licenses==="
+if [ "$NO_LICENSE_UPDATE" = false ]
+then
+  echo "===Update license list and disclaimer==="
+  yarn deploy:update-disclaimer
+  echo "===Done updating licenses==="
+fi
 
 echo "Pre-deploy steps complete"

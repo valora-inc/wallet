@@ -11,6 +11,7 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
@@ -457,6 +458,20 @@ export const migrations = {
       ...state.app,
       showPriceChangeIndicatorInBalances:
         REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+    },
+  }),
+  38: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipVerification: false,
+    },
+  }),
+  39: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
     },
   }),
 }
