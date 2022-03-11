@@ -1,6 +1,10 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
-import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
+
+export enum PaymentDeepLinkHandler {
+  Disabled = '',
+  Merchant = 'merchant',
+}
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
