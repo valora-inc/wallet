@@ -1031,6 +1031,18 @@ export const v38Schema = {
   },
   app: {
     ...v37Schema.app,
+    skipVerification: false,
+  },
+}
+
+export const v39Schema = {
+  ...v38Schema,
+  _persist: {
+    ...v38Schema._persist,
+    version: 39,
+  },
+  app: {
+    ...v38Schema.app,
     activeScreen: 'Main',
   },
   alert: null,
@@ -1038,5 +1050,5 @@ export const v38Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v38Schema as Partial<RootState>
+  return v39Schema as Partial<RootState>
 }

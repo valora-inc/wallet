@@ -129,6 +129,22 @@ describe('registrationStepsSelector', () => {
       }
     )
   })
+  it('should return the correct steps for create account screens with skipValidation enabled', () => {
+    ;(Object.keys(createAccountSteps) as Array<keyof typeof createAccountSteps>).forEach(
+      (screen) => {
+        expect(
+          registrationStepsSelectorWithMockStore(screen, {
+            app: {
+              skipVerification: true,
+            },
+          })
+        ).toEqual({
+          step: createAccountSteps[screen],
+          totalSteps: 3,
+        })
+      }
+    )
+  })
   it('should return the correct steps for restore account screens', () => {
     ;(Object.keys(restoreAccountSteps) as Array<keyof typeof restoreAccountSteps>).forEach(
       (screen) => {

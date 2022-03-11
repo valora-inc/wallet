@@ -89,7 +89,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 38,
+          "version": 39,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -188,6 +188,7 @@ describe('store state', () => {
           "sessionId": "",
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
+          "skipVerification": false,
           "superchargeApy": 25,
           "superchargeButtonType": "PILL_REWARDS",
           "superchargeTokens": Array [],

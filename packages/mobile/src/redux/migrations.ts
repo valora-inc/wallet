@@ -459,7 +459,14 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
     },
   }),
-  38: (state: any) => {
+  38: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipVerification: false,
+    },
+  }),
+  39: (state: any) => {
     return {
       ...state,
       walletConnect: {
