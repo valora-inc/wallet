@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# cd packages/mobile
+cd packages/mobile
 
 # # ensure that we are using ssh
 # git remote set-url origin git@github.com:valora-inc/wallet.git
@@ -23,11 +23,11 @@ commit_message="Bump app version to $app_version"
 # git commit -m $commit_message
 # git push --set-upstream origin $BRANCH_NAME
 
-echo "$BRANCH_NAME"
+echo "$commit_message"
 
 echo "Open app version bump PR"
 curl -u "valora-bot:$VALORA_BOT_TOKEN" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
-  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "[Kathy test]" }'
+  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "'$commit_message'" }'
