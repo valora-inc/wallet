@@ -1,7 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
   "definitions": {
     "ActionableAttestation": {
+      "additionalProperties": false,
       "properties": {
         "attestationServiceURL": {
           "type": "string"
@@ -23,6 +25,7 @@
       "type": "object"
     },
     "AddressInfoToDisplay": {
+      "additionalProperties": false,
       "properties": {
         "imageUrl": {
           "type": ["null", "string"]
@@ -62,94 +65,62 @@
       "additionalProperties": {
         "anyOf": [
           {
-            "allOf": [
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "displayNumber": {
-                    "type": "string"
-                  },
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "thumbnailPath": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  }
-                },
-                "required": ["e164PhoneNumber"],
-                "type": "object"
+              "contactId": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  }
-                },
-                "required": ["address"],
-                "type": "object"
+              "displayNumber": {
+                "type": "string"
+              },
+              "e164PhoneNumber": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "recipientType": {
+                "enum": ["Address", "Nomspace", "PhoneNumber"],
+                "type": "string"
+              },
+              "thumbnailPath": {
+                "type": "string"
               }
-            ]
+            },
+            "required": ["address", "e164PhoneNumber"],
+            "type": "object"
           },
           {
-            "allOf": [
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "displayNumber": {
-                    "type": "string"
-                  },
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "thumbnailPath": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  }
-                },
-                "required": ["address"],
-                "type": "object"
+              "contactId": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  }
-                },
-                "required": ["address"],
-                "type": "object"
+              "displayNumber": {
+                "type": "string"
+              },
+              "e164PhoneNumber": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "recipientType": {
+                "enum": ["Address", "Nomspace", "PhoneNumber"],
+                "type": "string"
+              },
+              "thumbnailPath": {
+                "type": "string"
               }
-            ]
+            },
+            "required": ["address"],
+            "type": "object"
           }
         ]
       },
@@ -160,6 +131,7 @@
       "type": "string"
     },
     "AppMetadata": {
+      "additionalProperties": false,
       "properties": {
         "description": {
           "type": "string"
@@ -185,6 +157,7 @@
       "type": "string"
     },
     "AttestationCode": {
+      "additionalProperties": false,
       "properties": {
         "code": {
           "type": "string"
@@ -199,25 +172,8 @@
       "required": ["code", "issuer"],
       "type": "object"
     },
-    "AttestationsStatus": {
-      "properties": {
-        "completed": {
-          "type": "number"
-        },
-        "isVerified": {
-          "type": "boolean"
-        },
-        "numAttestationsRemaining": {
-          "type": "number"
-        },
-        "total": {
-          "type": "number"
-        }
-      },
-      "required": ["completed", "isVerified", "numAttestationsRemaining", "total"],
-      "type": "object"
-    },
     "BlockchainTypes.Permissions": {
+      "additionalProperties": false,
       "properties": {
         "chains": {
           "items": {
@@ -230,6 +186,7 @@
       "type": "object"
     },
     "BlockchainTypes.State": {
+      "additionalProperties": false,
       "properties": {
         "accounts": {
           "items": {
@@ -242,6 +199,7 @@
       "type": "object"
     },
     "ChainHead": {
+      "additionalProperties": false,
       "properties": {
         "hash": {
           "type": "string"
@@ -258,6 +216,7 @@
     },
     "ContactMatches": {
       "additionalProperties": {
+        "additionalProperties": false,
         "properties": {
           "contactId": {
             "type": "string"
@@ -269,6 +228,7 @@
       "type": "object"
     },
     "CryptoTypes.Participant": {
+      "additionalProperties": false,
       "properties": {
         "publicKey": {
           "type": "string"
@@ -282,6 +242,7 @@
       "type": "string"
     },
     "Dapp": {
+      "additionalProperties": false,
       "properties": {
         "categoryId": {
           "type": "string"
@@ -331,6 +292,7 @@
       "type": "object"
     },
     "EnsuringRealHumanUser": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["EnsuringRealHumanUser"],
@@ -341,6 +303,7 @@
       "type": "object"
     },
     "Error": {
+      "additionalProperties": false,
       "properties": {
         "message": {
           "type": "string"
@@ -358,6 +321,7 @@
       "type": "number"
     },
     "EscrowedPayment": {
+      "additionalProperties": false,
       "properties": {
         "amount": {
           "type": "string"
@@ -400,6 +364,7 @@
       "type": "object"
     },
     "ExchangeRate": {
+      "additionalProperties": false,
       "properties": {
         "exchangeRate": {
           "type": "string"
@@ -412,6 +377,7 @@
       "type": "object"
     },
     "ExchangeRates": {
+      "additionalProperties": false,
       "properties": {
         "cEUR": {
           "$ref": "#/definitions/Record<Currency,string>"
@@ -427,6 +393,7 @@
       "type": "object"
     },
     "ExchangeStandby": {
+      "additionalProperties": false,
       "properties": {
         "context": {
           "$ref": "#/definitions/TransactionContext"
@@ -470,6 +437,7 @@
       "type": "object"
     },
     "ExchangeStandbyLegacy": {
+      "additionalProperties": false,
       "properties": {
         "context": {
           "$ref": "#/definitions/TransactionContext"
@@ -513,6 +481,7 @@
       "type": "object"
     },
     "Fee": {
+      "additionalProperties": false,
       "properties": {
         "amount": {
           "$ref": "#/definitions/TokenAmount"
@@ -525,6 +494,7 @@
       "type": "object"
     },
     "FeeEstimateState": {
+      "additionalProperties": false,
       "properties": {
         "error": {
           "type": "boolean"
@@ -546,6 +516,7 @@
       "type": "object"
     },
     "FeeInfo": {
+      "additionalProperties": false,
       "properties": {
         "fee": {
           "$ref": "#/definitions/default"
@@ -564,6 +535,7 @@
       "type": "object"
     },
     "FetchingMtw": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["FetchingMtw"],
@@ -574,6 +546,7 @@
       "type": "object"
     },
     "FetchingOnChainData": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["FetchingOnChainData"],
@@ -584,6 +557,7 @@
       "type": "object"
     },
     "FetchingPhoneNumberDetails": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["FetchingPhoneNumberDetails"],
@@ -598,8 +572,10 @@
       "type": "number"
     },
     "HistoricalUsdPrices": {
+      "additionalProperties": false,
       "properties": {
         "lastDay": {
+          "additionalProperties": false,
           "properties": {
             "at": {
               "type": "number"
@@ -623,6 +599,7 @@
       "type": "object"
     },
     "IClientMeta": {
+      "additionalProperties": false,
       "properties": {
         "description": {
           "type": "string"
@@ -644,6 +621,7 @@
       "type": "object"
     },
     "IJsonRpcSubscription": {
+      "additionalProperties": false,
       "properties": {
         "id": {
           "type": "number"
@@ -660,6 +638,7 @@
       "type": "object"
     },
     "IWalletConnectSession": {
+      "additionalProperties": false,
       "properties": {
         "accounts": {
           "items": {
@@ -734,6 +713,7 @@
       "type": "object"
     },
     "Idle": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["Idle"],
@@ -744,6 +724,7 @@
       "type": "object"
     },
     "ImportContactProgress": {
+      "additionalProperties": false,
       "properties": {
         "current": {
           "type": "number"
@@ -773,6 +754,7 @@
       "type": "string"
     },
     "JsonRpcPermissions": {
+      "additionalProperties": false,
       "properties": {
         "methods": {
           "items": {
@@ -785,6 +767,7 @@
       "type": "object"
     },
     "JsonRpcRequest<any>": {
+      "additionalProperties": false,
       "properties": {
         "id": {
           "type": "number"
@@ -811,6 +794,7 @@
       "type": "string"
     },
     "KomenciContext": {
+      "additionalProperties": false,
       "properties": {
         "callbackUrl": {
           "type": "string"
@@ -844,6 +828,7 @@
       "type": "object"
     },
     "LocalAmount": {
+      "additionalProperties": false,
       "properties": {
         "currencyCode": {
           "type": "string"
@@ -866,6 +851,7 @@
       "type": "object"
     },
     "Notification": {
+      "additionalProperties": false,
       "properties": {
         "blockedCountries": {
           "items": {
@@ -911,6 +897,7 @@
       "type": "object"
     },
     "NotificationPermissions": {
+      "additionalProperties": false,
       "properties": {
         "types": {
           "items": {
@@ -923,6 +910,7 @@
       "type": "object"
     },
     "NotificationTexts": {
+      "additionalProperties": false,
       "properties": {
         "body": {
           "type": "string"
@@ -941,124 +929,69 @@
       "additionalProperties": {
         "anyOf": [
           {
-            "allOf": [
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "displayNumber": {
-                    "type": "string"
-                  },
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "thumbnailPath": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  }
-                },
-                "required": ["e164PhoneNumber"],
-                "type": "object"
+              "contactId": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  }
-                },
-                "required": ["e164PhoneNumber"],
-                "type": "object"
+              "displayNumber": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "required": ["contactId", "name"],
-                "type": "object"
+              "e164PhoneNumber": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "recipientType": {
+                "enum": ["Address", "Nomspace", "PhoneNumber"],
+                "type": "string"
+              },
+              "thumbnailPath": {
+                "type": "string"
               }
-            ]
+            },
+            "required": ["contactId", "e164PhoneNumber", "name"],
+            "type": "object"
           },
           {
-            "allOf": [
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "displayNumber": {
-                    "type": "string"
-                  },
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "thumbnailPath": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
+            "additionalProperties": false,
+            "properties": {
+              "address": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  }
-                },
-                "required": ["address"],
-                "type": "object"
+              "contactId": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "e164PhoneNumber": {
-                    "type": "string"
-                  }
-                },
-                "required": ["e164PhoneNumber"],
-                "type": "object"
+              "displayNumber": {
+                "type": "string"
               },
-              {
-                "properties": {
-                  "contactId": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "required": ["contactId", "name"],
-                "type": "object"
+              "e164PhoneNumber": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "recipientType": {
+                "enum": ["Address", "Nomspace", "PhoneNumber"],
+                "type": "string"
+              },
+              "thumbnailPath": {
+                "type": "string"
               }
-            ]
+            },
+            "required": ["address", "contactId", "e164PhoneNumber", "name"],
+            "type": "object"
           }
         ]
       },
       "type": "object"
     },
     "PaymentInfo": {
+      "additionalProperties": false,
       "properties": {
         "amount": {
           "type": "number"
@@ -1071,6 +1004,7 @@
       "type": "object"
     },
     "PaymentRequest": {
+      "additionalProperties": false,
       "properties": {
         "amount": {
           "type": "string"
@@ -1119,6 +1053,7 @@
       "type": "string"
     },
     "PersistState": {
+      "additionalProperties": false,
       "properties": {
         "rehydrated": {
           "type": "boolean"
@@ -1135,6 +1070,7 @@
       "type": "string"
     },
     "Preparing": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["Preparing"],
@@ -1145,6 +1081,7 @@
       "type": "object"
     },
     "ProviderFeedInfo": {
+      "additionalProperties": false,
       "properties": {
         "icon": {
           "type": "string"
@@ -1163,6 +1100,7 @@
       "type": "object"
     },
     "Record<Currency,string>": {
+      "additionalProperties": false,
       "properties": {
         "cEUR": {
           "type": "string"
@@ -1178,6 +1116,7 @@
       "type": "object"
     },
     "RelayerTypes.ProtocolOptions": {
+      "additionalProperties": false,
       "properties": {
         "params": {},
         "protocol": {
@@ -1293,6 +1232,7 @@
       "type": "string"
     },
     "SecureSendDetails": {
+      "additionalProperties": false,
       "properties": {
         "address": {
           "type": "string"
@@ -1320,6 +1260,7 @@
       "type": "object"
     },
     "SessionTypes.Participant": {
+      "additionalProperties": false,
       "properties": {
         "metadata": {
           "$ref": "#/definitions/AppMetadata"
@@ -1332,6 +1273,7 @@
       "type": "object"
     },
     "SessionTypes.Proposal": {
+      "additionalProperties": false,
       "properties": {
         "permissions": {
           "$ref": "#/definitions/SessionTypes.ProposedPermissions"
@@ -1356,6 +1298,7 @@
       "type": "object"
     },
     "SessionTypes.ProposedPeer": {
+      "additionalProperties": false,
       "properties": {
         "controller": {
           "type": "boolean"
@@ -1371,6 +1314,7 @@
       "type": "object"
     },
     "SessionTypes.ProposedPermissions": {
+      "additionalProperties": false,
       "properties": {
         "blockchain": {
           "$ref": "#/definitions/BlockchainTypes.Permissions"
@@ -1386,6 +1330,7 @@
       "type": "object"
     },
     "SessionTypes.RequestEvent": {
+      "additionalProperties": false,
       "properties": {
         "chainId": {
           "type": "string"
@@ -1401,6 +1346,7 @@
       "type": "object"
     },
     "SessionTypes.Settled": {
+      "additionalProperties": false,
       "properties": {
         "expiry": {
           "type": "number"
@@ -1428,6 +1374,7 @@
       "type": "object"
     },
     "SessionTypes.SettledPermissions": {
+      "additionalProperties": false,
       "properties": {
         "blockchain": {
           "$ref": "#/definitions/BlockchainTypes.Permissions"
@@ -1446,6 +1393,7 @@
       "type": "object"
     },
     "SignalTypes.Pairing": {
+      "additionalProperties": false,
       "properties": {
         "method": {
           "enum": ["pairing"],
@@ -1459,6 +1407,7 @@
       "type": "object"
     },
     "SignalTypes.ParamsPairing": {
+      "additionalProperties": false,
       "properties": {
         "topic": {
           "type": "string"
@@ -1468,6 +1417,7 @@
       "type": "object"
     },
     "StableBalances": {
+      "additionalProperties": false,
       "properties": {
         "cEUR": {
           "type": ["null", "string"]
@@ -1480,6 +1430,7 @@
       "type": "object"
     },
     "StartingKomenciSession": {
+      "additionalProperties": false,
       "properties": {
         "type": {
           "enum": ["StartingKomenciSession"],
@@ -1490,6 +1441,7 @@
       "type": "object"
     },
     "State": {
+      "additionalProperties": false,
       "properties": {
         "activeScreen": {
           "$ref": "#/definitions/Screens"
@@ -1605,6 +1557,9 @@
         "showRaiseDailyLimitTarget": {
           "type": "string"
         },
+        "skipVerification": {
+          "type": "boolean"
+        },
         "superchargeApy": {
           "type": "number"
         },
@@ -1666,6 +1621,7 @@
         "sentryTracesSampleRate",
         "sessionId",
         "showPriceChangeIndicatorInBalances",
+        "skipVerification",
         "superchargeApy",
         "superchargeButtonType",
         "superchargeTokens",
@@ -1676,6 +1632,7 @@
       "type": "object"
     },
     "State_1": {
+      "additionalProperties": false,
       "properties": {
         "allowOtaTranslations": {
           "type": "boolean"
@@ -1703,6 +1660,7 @@
       "type": "object"
     },
     "State_10": {
+      "additionalProperties": false,
       "properties": {
         "account": {
           "type": ["null", "string"]
@@ -1744,6 +1702,7 @@
       "type": "object"
     },
     "State_11": {
+      "additionalProperties": false,
       "properties": {
         "acceptedAttestationCodes": {
           "items": {
@@ -1829,6 +1788,7 @@
       "type": "object"
     },
     "State_12": {
+      "additionalProperties": false,
       "properties": {
         "TEMPORARY_override_withoutVerification": {
           "type": "boolean"
@@ -1877,6 +1837,7 @@
           "$ref": "#/definitions/KomenciAvailable"
         },
         "komenciConfig": {
+          "additionalProperties": false,
           "properties": {
             "allowedDeployers": {
               "items": {
@@ -1898,20 +1859,26 @@
           "type": "number"
         },
         "status": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/AttestationsStatus"
+          "additionalProperties": false,
+          "properties": {
+            "completed": {
+              "type": "number"
             },
-            {
-              "properties": {
-                "komenci": {
-                  "type": "boolean"
-                }
-              },
-              "required": ["komenci"],
-              "type": "object"
+            "isVerified": {
+              "type": "boolean"
+            },
+            "komenci": {
+              "type": "boolean"
+            },
+            "numAttestationsRemaining": {
+              "type": "number"
+            },
+            "total": {
+              "type": "number"
             }
-          ]
+          },
+          "required": ["completed", "isVerified", "komenci", "numAttestationsRemaining", "total"],
+          "type": "object"
         },
         "withoutRevealing": {
           "type": "boolean"
@@ -1930,6 +1897,7 @@
       "type": "object"
     },
     "State_13": {
+      "additionalProperties": false,
       "properties": {
         "acceptedTerms": {
           "type": "boolean"
@@ -2051,6 +2019,7 @@
       "type": "object"
     },
     "State_14": {
+      "additionalProperties": false,
       "properties": {
         "chainHead": {
           "anyOf": [
@@ -2076,6 +2045,7 @@
       "type": "object"
     },
     "State_15": {
+      "additionalProperties": false,
       "properties": {
         "isReclaiming": {
           "type": "boolean"
@@ -2091,6 +2061,7 @@
       "type": "object"
     },
     "State_16": {
+      "additionalProperties": false,
       "properties": {
         "estimates": {
           "additionalProperties": {
@@ -2103,6 +2074,7 @@
       "type": "object"
     },
     "State_17": {
+      "additionalProperties": false,
       "properties": {
         "inviteRewardsSenders": {
           "items": {
@@ -2132,6 +2104,7 @@
       "type": "object"
     },
     "State_18": {
+      "additionalProperties": false,
       "properties": {
         "error": {
           "type": "boolean"
@@ -2194,6 +2167,7 @@
       "type": "object"
     },
     "State_19": {
+      "additionalProperties": false,
       "properties": {
         "isImportingWallet": {
           "type": "boolean"
@@ -2203,6 +2177,7 @@
       "type": "object"
     },
     "State_2": {
+      "additionalProperties": false,
       "properties": {
         "connected": {
           "type": "boolean"
@@ -2218,6 +2193,7 @@
       "type": "object"
     },
     "State_20": {
+      "additionalProperties": false,
       "properties": {
         "incomingPaymentRequests": {
           "items": {
@@ -2236,6 +2212,7 @@
       "type": "object"
     },
     "State_21": {
+      "additionalProperties": false,
       "properties": {
         "providerLogos": {
           "$ref": "#/definitions/ProviderLogos"
@@ -2248,6 +2225,7 @@
       "type": "object"
     },
     "State_22": {
+      "additionalProperties": false,
       "properties": {
         "v1": {
           "$ref": "#/definitions/State_23"
@@ -2260,9 +2238,11 @@
       "type": "object"
     },
     "State_23": {
+      "additionalProperties": false,
       "properties": {
         "pendingActions": {
           "items": {
+            "additionalProperties": false,
             "properties": {
               "action": {
                 "$ref": "#/definitions/IJsonRpcSubscription"
@@ -2293,6 +2273,7 @@
       "type": "object"
     },
     "State_24": {
+      "additionalProperties": false,
       "properties": {
         "pendingActions": {
           "items": {
@@ -2317,6 +2298,7 @@
       "type": "object"
     },
     "State_25": {
+      "additionalProperties": false,
       "properties": {
         "error": {
           "type": "boolean"
@@ -2332,6 +2314,7 @@
       "type": "object"
     },
     "State_26": {
+      "additionalProperties": false,
       "properties": {
         "error": {
           "type": "boolean"
@@ -2344,6 +2327,7 @@
       "type": "object"
     },
     "State_4": {
+      "additionalProperties": false,
       "properties": {
         "inviteRewardCusd": {
           "type": "number"
@@ -2370,76 +2354,62 @@
           "items": {
             "anyOf": [
               {
-                "allOf": [
-                  {
-                    "properties": {
-                      "address": {
-                        "type": "string"
-                      },
-                      "contactId": {
-                        "type": "string"
-                      },
-                      "displayNumber": {
-                        "type": "string"
-                      },
-                      "e164PhoneNumber": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "thumbnailPath": {
-                        "type": "string"
-                      }
-                    },
-                    "type": "object"
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "type": "string"
                   },
-                  {
-                    "properties": {
-                      "e164PhoneNumber": {
-                        "type": "string"
-                      }
-                    },
-                    "required": ["e164PhoneNumber"],
-                    "type": "object"
+                  "contactId": {
+                    "type": "string"
+                  },
+                  "displayNumber": {
+                    "type": "string"
+                  },
+                  "e164PhoneNumber": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "recipientType": {
+                    "enum": ["Address", "Nomspace", "PhoneNumber"],
+                    "type": "string"
+                  },
+                  "thumbnailPath": {
+                    "type": "string"
                   }
-                ]
+                },
+                "required": ["e164PhoneNumber"],
+                "type": "object"
               },
               {
-                "allOf": [
-                  {
-                    "properties": {
-                      "address": {
-                        "type": "string"
-                      },
-                      "contactId": {
-                        "type": "string"
-                      },
-                      "displayNumber": {
-                        "type": "string"
-                      },
-                      "e164PhoneNumber": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "thumbnailPath": {
-                        "type": "string"
-                      }
-                    },
-                    "type": "object"
+                "additionalProperties": false,
+                "properties": {
+                  "address": {
+                    "type": "string"
                   },
-                  {
-                    "properties": {
-                      "address": {
-                        "type": "string"
-                      }
-                    },
-                    "required": ["address"],
-                    "type": "object"
+                  "contactId": {
+                    "type": "string"
+                  },
+                  "displayNumber": {
+                    "type": "string"
+                  },
+                  "e164PhoneNumber": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "recipientType": {
+                    "enum": ["Address", "Nomspace", "PhoneNumber"],
+                    "type": "string"
+                  },
+                  "thumbnailPath": {
+                    "type": "string"
                   }
-                ]
+                },
+                "required": ["address"],
+                "type": "object"
               }
             ]
           },
@@ -2462,6 +2432,7 @@
       "type": "object"
     },
     "State_5": {
+      "additionalProperties": false,
       "properties": {
         "balance": {
           "type": ["null", "string"]
@@ -2477,6 +2448,7 @@
       "type": "object"
     },
     "State_6": {
+      "additionalProperties": false,
       "properties": {
         "balances": {
           "$ref": "#/definitions/StableBalances"
@@ -2492,6 +2464,7 @@
       "type": "object"
     },
     "State_7": {
+      "additionalProperties": false,
       "properties": {
         "loading": {
           "type": "boolean"
@@ -2504,6 +2477,7 @@
       "type": "object"
     },
     "State_8": {
+      "additionalProperties": false,
       "properties": {
         "exchangeRates": {
           "anyOf": [
@@ -2516,6 +2490,7 @@
           ]
         },
         "history": {
+          "additionalProperties": false,
           "properties": {
             "aggregatedExchangeRates": {
               "items": {
@@ -2559,6 +2534,7 @@
       "type": "object"
     },
     "State_9": {
+      "additionalProperties": false,
       "properties": {
         "knownFeedTransactions": {
           "$ref": "#/definitions/KnownFeedTransactionsType"
@@ -2616,6 +2592,7 @@
       "type": "object"
     },
     "StoredTokenBalance": {
+      "additionalProperties": false,
       "properties": {
         "address": {
           "type": "string"
@@ -2666,6 +2643,7 @@
       "type": "string"
     },
     "SuperchargeTokenConfig": {
+      "additionalProperties": false,
       "properties": {
         "maxBalance": {
           "type": "number"
@@ -2681,6 +2659,7 @@
       "type": "object"
     },
     "TokenAmount": {
+      "additionalProperties": false,
       "properties": {
         "localAmount": {
           "$ref": "#/definitions/LocalAmount"
@@ -2703,6 +2682,7 @@
       "type": "object"
     },
     "TokenExchange": {
+      "additionalProperties": false,
       "properties": {
         "__typename": {
           "enum": ["TokenExchangeV2"],
@@ -2750,6 +2730,7 @@
       "type": "object"
     },
     "TokenExchangeMetadata": {
+      "additionalProperties": false,
       "properties": {
         "subtitle": {
           "type": "string"
@@ -2765,6 +2746,7 @@
       "type": "string"
     },
     "TokenTransfer": {
+      "additionalProperties": false,
       "properties": {
         "__typename": {
           "enum": ["TokenTransferV2"],
@@ -2812,6 +2794,7 @@
       "type": "object"
     },
     "TokenTransferMetadata": {
+      "additionalProperties": false,
       "properties": {
         "comment": {
           "type": "string"
@@ -2833,6 +2816,7 @@
       "type": "string"
     },
     "TransactionContext": {
+      "additionalProperties": false,
       "properties": {
         "description": {
           "type": "string"
@@ -2852,6 +2836,7 @@
       "type": "string"
     },
     "TransferStandby": {
+      "additionalProperties": false,
       "properties": {
         "address": {
           "type": "string"
@@ -2894,6 +2879,7 @@
       "type": "object"
     },
     "TransferStandbyLegacy": {
+      "additionalProperties": false,
       "properties": {
         "address": {
           "type": "string"
@@ -2957,6 +2943,7 @@
       "type": "object"
     },
     "UserContactDetails": {
+      "additionalProperties": false,
       "properties": {
         "contactId": {
           "type": ["null", "string"]
@@ -2969,6 +2956,7 @@
       "type": "object"
     },
     "UserLocationData": {
+      "additionalProperties": false,
       "properties": {
         "countryCodeAlpha2": {
           "type": ["null", "string"]
@@ -2988,6 +2976,7 @@
       "type": "number"
     },
     "WalletConnectSessionRequest": {
+      "additionalProperties": false,
       "properties": {
         "id": {
           "type": "number"
@@ -3000,6 +2989,7 @@
         },
         "params": {
           "items": {
+            "additionalProperties": false,
             "properties": {
               "chainId": {
                 "type": ["null", "number"]
@@ -3030,6 +3020,7 @@
       "type": "object"
     },
     "Web3SyncProgress": {
+      "additionalProperties": false,
       "properties": {
         "currentBlock": {
           "type": "number"
@@ -3045,6 +3036,7 @@
       "type": "object"
     },
     "default": {
+      "additionalProperties": false,
       "properties": {
         "_isBigNumber": {
           "description": "Used internally to identify a BigNumber instance.",
@@ -3107,6 +3099,7 @@
       "type": "object"
     },
     "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {
+      "additionalProperties": false,
       "properties": {
         "cEUR": {
           "type": ["null", "string"]
@@ -3122,6 +3115,7 @@
       "type": "object"
     },
     "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}": {
+      "additionalProperties": false,
       "properties": {
         "exchange": {
           "$ref": "#/definitions/FeeEstimateState"
@@ -3152,6 +3146,7 @@
     "alert": {
       "anyOf": [
         {
+          "additionalProperties": false,
           "properties": {
             "action": {
               "anyOf": [

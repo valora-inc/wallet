@@ -1036,17 +1036,87 @@ export const v38Schema = {
 }
 
 export const v39Schema = {
-  ...v38Schema,
+  ..._.omit(v38Schema, ['medianator', 'invite']),
   _persist: {
     ...v38Schema._persist,
     version: 39,
   },
-  app: {
-    ...v38Schema.app,
-    activeScreen: 'Main',
+  account: {
+    ..._.omit(v38Schema.account, [
+      'pincodeSet',
+      'isSettingPin',
+      'backupDelayedTime',
+      'socialBackupCompleted',
+      'incomingPaymentRequests',
+      'outgoingPaymentRequests',
+      'dismissedInviteFriends',
+      'dismissedEarnRewards',
+      'shouldSkipOnboardingEducationScreen',
+    ]),
   },
   alert: null,
+  app: {
+    ..._.omit(v38Schema.app, [
+      'loading',
+      'inviteCodeEntered',
+      'error',
+      'dismissErrorAfter',
+      'language',
+      'doingBackupFlow',
+      'message',
+      'dismissMessageAfter',
+      'lockWithPinEnabled',
+      'rewardsPercent',
+      'rewardsStartDate',
+      'rewardsMax',
+      'rewardsMin',
+      'rewardsABTestThreshold',
+      'shortVerificationCodesEnabled',
+      'walletConnectEnabled',
+    ]),
+    activeScreen: 'Main',
+  },
   cloudFunctionsApi: {},
+  escrow: {
+    ..._.omit(v38Schema.escrow, ['suggestedFee']),
+  },
+  exchange: {
+    ..._.omit(v38Schema.exchange, ['exchangeRatePair']),
+    history: {
+      ..._.omit(v38Schema.exchange.history, ['isLoading']),
+    },
+  },
+  home: {
+    ...v38Schema.home,
+    notifications: {},
+  },
+  identity: {
+    ..._.omit(v38Schema.identity, [
+      'verificationFailed',
+      'startedVerification',
+      'isLoadingImportContacts',
+      'contactMappingProgress',
+      'attestationsCode',
+    ]),
+  },
+  localCurrency: {
+    ..._.omit(v38Schema.localCurrency, ['exchangeRate', 'fetchRateFailed']),
+  },
+  recipients: {
+    ..._.omit(v38Schema.recipients, ['recipientCache']),
+  },
+  send: {
+    ..._.omit(v38Schema.send, ['recipientCache']),
+  },
+  stableToken: {
+    ..._.omit(v38Schema.stableToken, ['balance']),
+  },
+  tokens: {
+    ..._.omit(v38Schema.tokens, ['lastSuccessfulFetch']),
+  },
+  web3: {
+    ..._.omit(v38Schema.web3, ['commentKey', 'gasPriceLastUpdated', 'contractKitReady']),
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

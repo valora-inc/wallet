@@ -6,17 +6,15 @@ describe(getLatestSchema, () => {
   // but it doesn't find missing root properties and different enum values
   // The RootStateSchema allows checking that at runtime
   it('validates against the RootState schema', async () => {
-    const ajv = new Ajv({ allErrors: true })
-    const schema = require('./RootStateSchema.json')
-
     const data = getLatestSchema()
 
+    const ajv = new Ajv({ allErrors: true })
+    const schema = require('./RootStateSchema.json')
     const validate = ajv.compile(schema)
-    const valid = validate(data)
-    console.log('==valid', valid, validate.errors?.length)
-    console.log(validate.errors)
+    const isValid = validate(data)
 
+    // console.log('Validation errors:', validate.errors?.length, validate.errors)
     expect(validate.errors).toBeNull()
-    expect(valid).toBe(true)
+    expect(isValid).toBe(true)
   })
 })

@@ -75,11 +75,13 @@ describe('store state', () => {
     })
 
     const data = store.getState()
+
     const ajv = new Ajv({ allErrors: true })
     const schema = require('test/RootStateSchema.json')
     const validate = ajv.compile(schema)
     const isValid = validate(data)
 
+    // console.log('Validation errors:', validate.errors?.length, validate.errors)
     expect(validate.errors).toBeNull()
     expect(isValid).toBe(true)
 
@@ -96,7 +98,6 @@ describe('store state', () => {
           "accountCreationTime": 99999999999999,
           "accountToRecoverFromStoreWipe": undefined,
           "backupCompleted": false,
-          "backupDelayedTime": 0,
           "backupRequiredTime": null,
           "choseToRestoreAccount": false,
           "contactDetails": Object {
@@ -110,25 +111,19 @@ describe('store state', () => {
           "devModeClickCount": 0,
           "dismissedGetVerified": false,
           "dismissedGoldEducation": false,
-          "dismissedInviteFriends": false,
           "e164PhoneNumber": "+14155556666",
           "finclusiveKycStatus": 0,
           "hasLinkedBankAccount": false,
           "hasMigratedToNewBip39": false,
-          "incomingPaymentRequests": undefined,
-          "isSettingPin": undefined,
           "kycStatus": undefined,
           "name": "John Doe",
-          "outgoingPaymentRequests": undefined,
           "photosNUXClicked": false,
           "pictureUri": null,
-          "pincodeSet": false,
           "pincodeType": "Unset",
           "profileUploaded": false,
           "promptFornoIfNeeded": false,
           "recoveringFromStoreWipe": false,
           "retryVerificationWithForno": true,
-          "socialBackupCompleted": false,
         },
         "alert": null,
         "app": Object {
@@ -140,26 +135,17 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
-          "dismissErrorAfter": null,
-          "dismissMessageAfter": null,
-          "doingBackupFlow": false,
-          "error": null,
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,
-          "inviteCodeEntered": false,
           "inviteModalVisible": false,
-          "language": undefined,
           "lastTimeBackgrounded": 0,
           "linkBankAccountEnabled": false,
           "linkBankAccountStepTwoEnabled": false,
-          "loading": false,
-          "lockWithPinEnabled": false,
           "locked": false,
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
           "maxNumRecentDapps": 0,
-          "message": null,
           "minVersion": null,
           "multiTokenShowHomeBalances": true,
           "multiTokenUseSendFlow": false,
@@ -176,11 +162,6 @@ describe('store state', () => {
             "es": "Recompensas",
             "pt": "Recompensas",
           },
-          "rewardsABTestThreshold": undefined,
-          "rewardsMax": undefined,
-          "rewardsMin": undefined,
-          "rewardsPercent": undefined,
-          "rewardsStartDate": undefined,
           "sentryNetworkErrors": Array [
             "network request failed",
           ],
@@ -217,7 +198,6 @@ describe('store state', () => {
           "sentEscrowedPayments": Array [],
         },
         "exchange": Object {
-          "exchangeRatePair": undefined,
           "exchangeRates": null,
           "history": Object {
             "aggregatedExchangeRates": Array [],
@@ -270,11 +250,6 @@ describe('store state', () => {
             "Disabled",
             "Disabled",
           ],
-          "attestationsCode": Array [],
-          "contactMappingProgress": Object {
-            "current": 0,
-            "total": 0,
-          },
           "e164NumberToAddress": Object {},
           "e164NumberToSalt": Object {},
           "hasSeenVerificationNux": false,
@@ -283,23 +258,18 @@ describe('store state', () => {
             "status": 0,
             "total": 0,
           },
-          "isLoadingImportContacts": false,
           "lastRevealAttempt": null,
           "matchedContacts": Object {},
           "numCompleteAttestations": 0,
           "secureSendPhoneNumberMapping": Object {},
-          "startedVerification": false,
-          "verificationFailed": false,
           "verificationStatus": 0,
           "walletToAccountAddress": Object {},
         },
         "imports": Object {
           "isImportingWallet": false,
         },
-        "invite": undefined,
         "localCurrency": Object {
           "error": false,
-          "exchangeRate": undefined,
           "exchangeRates": Object {
             "cEUR": null,
             "cGLD": null,
@@ -308,9 +278,6 @@ describe('store state', () => {
           "fetchedCurrencyCode": "PHP",
           "isLoading": false,
           "preferredCurrencyCode": "PHP",
-        },
-        "medianator": Object {
-          "exchangeRate": "1",
         },
         "networkInfo": Object {
           "connected": false,
@@ -328,7 +295,6 @@ describe('store state', () => {
         "recipients": Object {
           "inviteRewardsSenders": Array [],
           "phoneRecipientCache": Object {},
-          "recipientCache": Object {},
           "rewardsSenders": Array [],
           "valoraRecipientCache": Object {},
         },
@@ -340,11 +306,9 @@ describe('store state', () => {
           "lastUsedCurrency": "cUSD",
           "recentPayments": Array [],
           "recentRecipients": Array [],
-          "recipientCache": Object {},
           "showSendToAddressWarning": true,
         },
         "stableToken": Object {
-          "balance": undefined,
           "balances": Object {
             "cEUR": null,
             "cUSD": null,
@@ -414,11 +378,8 @@ describe('store state', () => {
         "web3": Object {
           "account": "0x0000000000000000000000000000000000007E57",
           "accountInWeb3Keystore": "0x0000000000000000000000000000000000007E57",
-          "commentKey": undefined,
-          "contractKitReady": false,
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
           "fornoMode": true,
-          "gasPriceLastUpdated": 0,
           "hadFornoDisabled": true,
           "isDekRegistered": false,
           "latestBlockNumber": 0,

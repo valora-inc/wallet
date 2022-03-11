@@ -468,15 +468,84 @@ export const migrations = {
   }),
   39: (state: any) => {
     return {
-      ...state,
+      ..._.omit(state, ['medianator', 'invite']),
+      account: {
+        ..._.omit(state.account, [
+          'pincodeSet',
+          'isSettingPin',
+          'backupDelayedTime',
+          'socialBackupCompleted',
+          'incomingPaymentRequests',
+          'outgoingPaymentRequests',
+          'dismissedInviteFriends',
+          'dismissedEarnRewards',
+          'shouldSkipOnboardingEducationScreen',
+        ]),
+      },
+      app: {
+        ..._.omit(state.app, [
+          'loading',
+          'inviteCodeEntered',
+          'error',
+          'dismissErrorAfter',
+          'language',
+          'doingBackupFlow',
+          'message',
+          'dismissMessageAfter',
+          'lockWithPinEnabled',
+          'rewardsPercent',
+          'rewardsStartDate',
+          'rewardsMax',
+          'rewardsMin',
+          'rewardsABTestThreshold',
+          'shortVerificationCodesEnabled',
+          'walletConnectEnabled',
+        ]),
+      },
+      escrow: {
+        ..._.omit(state.escrow, ['suggestedFee']),
+      },
+      exchange: {
+        ..._.omit(state.exchange, ['exchangeRatePair']),
+        history: {
+          ..._.omit(state.exchange.history, ['isLoading']),
+        },
+      },
+      home: {
+        ...state.home,
+        ...(Array.isArray(state.home.notifications) ? { notifications: {} } : undefined),
+      },
+      identity: {
+        ..._.omit(state.identity, [
+          'verificationFailed',
+          'startedVerification',
+          'isLoadingImportContacts',
+          'contactMappingProgress',
+          'attestationsCode',
+        ]),
+      },
+      localCurrency: {
+        ..._.omit(state.localCurrency, ['exchangeRate', 'fetchRateFailed']),
+      },
+      recipients: {
+        ..._.omit(state.recipients, ['recipientCache']),
+      },
+      send: {
+        ..._.omit(state.send, ['recipientCache']),
+      },
+      stableToken: {
+        ..._.omit(state.stableToken, ['balance']),
+      },
+      tokens: {
+        ..._.omit(state.tokens, ['lastSuccessfulFetch']),
+      },
       walletConnect: {
         ...(state.walletConnect?.v2?.sessions === undefined
           ? _.omit(state.walletConnect, 'v2')
           : state.walletConnect),
       },
-      home: {
-        ...state.home,
-        ...(Array.isArray(state.home.notifications) ? { notifications: {} } : undefined),
+      web3: {
+        ..._.omit(state.web3, ['commentKey', 'gasPriceLastUpdated', 'contractKitReady']),
       },
     }
   },
