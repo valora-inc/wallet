@@ -13,12 +13,10 @@ import {
   BankAccount,
   deleteFinclusiveBankAccount,
   getFinclusiveBankAccounts,
-  verifyRequiredParams,
 } from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { walletAddressSelector } from 'src/web3/selectors'
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import { navigate } from 'src/navigator/NavigationService'
 import openPlaid, { handleOnEvent } from './openPlaid'
@@ -30,6 +28,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
+import { getWalletAsync } from '../web3/contracts'
+import { requestPincodeInput } from '../pincode/authentication'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
 
@@ -40,8 +40,7 @@ function BankAccounts({ navigation, route }: Props) {
   usePlaidEmitter(handleOnEvent)
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
-  const walletAddress = useSelector(walletAddressSelector)
-  const plaidParams = useSelector(plaidParamsSelector)
+  const { walletAddress, phoneNumber, locale } = useSelector(plaidParamsSelector)
   const { newPublicToken } = route.params
 
   const header = () => {
@@ -59,9 +58,17 @@ function BankAccounts({ navigation, route }: Props) {
   }, [navigation])
 
   const bankAccounts = useAsync(async () => {
+    const wallet = await getWalletAsync()
+    if (!walletAddress) {
+      throw new Error('Cannot call IHL because walletAddress is null')
+    }
+    if (!wallet.isAccountUnlocked(walletAddress)) {
+      await requestPincodeInput(true, false, walletAddress)
+    }
     try {
       const accounts = await getFinclusiveBankAccounts({
-        ...verifyRequiredParams({ walletAddress, publicKey, privateKey }),
+        wallet,
+        walletAddress,
       })
       return accounts
     } catch (error) {
@@ -115,9 +122,17 @@ function BankAccounts({ navigation, route }: Props) {
     ValoraAnalytics.track(CICOEvents.delete_bank_account, {
       id: selectedBankId,
     })
+    if (!walletAddress) {
+      throw new Error('Cannot call IHL because walletAddress is null')
+    }
+    const wallet = await getWalletAsync()
+    if (!wallet.isAccountUnlocked(walletAddress)) {
+      await requestPincodeInput(true, false, walletAddress)
+    }
     try {
       await deleteFinclusiveBankAccount({
-        ...verifyRequiredParams({ privateKey, publicKey, walletAddress }),
+        walletAddress,
+        wallet,
         id: selectedBankId,
       })
       await bankAccounts.execute()
@@ -135,8 +150,13 @@ function BankAccounts({ navigation, route }: Props) {
           testID="AddAccount"
           onPress={async () => {
             ValoraAnalytics.track(CICOEvents.add_bank_account_start)
+            if (!walletAddress) {
+              throw new Error('Cannot add account because walletAddress is null')
+            }
             await openPlaid({
-              ...plaidParams,
+              phoneNumber,
+              locale,
+              walletAddress,
               onSuccess: ({ publicToken }) => {
                 navigate(Screens.SyncBankAccountScreen, {
                   publicToken,

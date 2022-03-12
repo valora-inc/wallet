@@ -1,14 +1,10 @@
 import networkConfig from 'src/geth/networkConfig'
-import jwt from 'jsonwebtoken'
-import KeyEncoder from 'key-encoder'
-import { trimLeading0x } from '@celo/utils/lib/address'
 import { FinclusiveKycStatus } from 'src/account/reducer'
+import { GethNativeBridgeWallet } from '../geth/GethNativeBridgeWallet'
 
-const keyEncoder = new KeyEncoder('secp256k1')
 interface RequiredParams {
   walletAddress: string
-  privateKey: string
-  publicKey: string
+  wallet: GethNativeBridgeWallet
 }
 
 /**
@@ -16,20 +12,17 @@ interface RequiredParams {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @returns {FinclusiveKycStatus} the users current status
  */
 export const getFinclusiveComplianceStatus = async ({
   walletAddress,
-  publicKey,
-  privateKey,
+  wallet,
 }: RequiredParams): Promise<FinclusiveKycStatus> => {
   const response = await signAndFetch({
     path: `/account/${encodeURIComponent(walletAddress)}/compliance-check-status`,
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'GET',
       headers: {
@@ -54,13 +47,12 @@ type DeleteFinclusiveBankAccountParams = RequiredParams & {
  * get a fiat bank account from finclusive
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
+ * @param {params.id} id: IHL ID for the bank account to delete
  */
 export const deleteFinclusiveBankAccount = async ({
   walletAddress,
-  privateKey,
-  publicKey,
+  wallet,
   id,
 }: DeleteFinclusiveBankAccountParams): Promise<void> => {
   const body = {
@@ -70,8 +62,7 @@ export const deleteFinclusiveBankAccount = async ({
   const response = await signAndFetch({
     path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'DELETE',
       headers: {
@@ -97,20 +88,17 @@ export interface BankAccount {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @returns {BankAccounts} List of bank accounts that the user has linked
  */
 export const getFinclusiveBankAccounts = async ({
   walletAddress,
-  publicKey,
-  privateKey,
+  wallet,
 }: RequiredParams): Promise<BankAccount[]> => {
   const response = await signAndFetch({
     path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
     walletAddress: walletAddress,
-    privateKey: privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'GET',
       headers: {
@@ -134,14 +122,12 @@ type CreateFinclusiveBankAccountParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
  */
 export const createFinclusiveBankAccount = async ({
   walletAddress,
-  privateKey,
-  publicKey,
+  wallet,
   plaidAccessToken,
 }: CreateFinclusiveBankAccountParams): Promise<void> => {
   const body = {
@@ -151,8 +137,7 @@ export const createFinclusiveBankAccount = async ({
   const response = await signAndFetch({
     path: '/account/bank-account',
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -175,15 +160,13 @@ type ExchangePlaidAccessTokenParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey public key for the valora account
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @param {params.publicToken} publicToken plaid public token
  * @returns {accessToken} string accesstoken from plaid
  */
 export const exchangePlaidAccessToken = async ({
   walletAddress,
-  privateKey,
-  publicKey,
+  wallet,
   publicToken,
 }: ExchangePlaidAccessTokenParams): Promise<string> => {
   const body = {
@@ -193,8 +176,7 @@ export const exchangePlaidAccessToken = async ({
   const response = await signAndFetch({
     path: '/plaid/access-token/exchange',
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -222,8 +204,7 @@ type CreateLinkTokenParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @param {params.isAndroid} isAndroid
  * @param {params.language} language the users current language
  * @param {params.accessToken} accessToken optional access token used for editing existing items
@@ -232,8 +213,7 @@ type CreateLinkTokenParams = RequiredParams & {
  */
 export const createLinkToken = async ({
   walletAddress,
-  privateKey,
-  publicKey,
+  wallet,
   isAndroid,
   language,
   accessToken,
@@ -249,8 +229,7 @@ export const createLinkToken = async ({
   const response = await signAndFetch({
     path: '/plaid/link-token/create',
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -271,20 +250,17 @@ export const createLinkToken = async ({
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  */
 export const createPersonaAccount = async ({
   walletAddress,
-  privateKey,
-  publicKey,
+  wallet,
 }: RequiredParams): Promise<void> => {
   const body = { accountAddress: walletAddress }
   const response = await signAndFetch({
     path: '/persona/account/create',
     walletAddress,
-    privateKey,
-    publicKey,
+    wallet,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -301,8 +277,7 @@ export const createPersonaAccount = async ({
 interface SignAndFetchParams {
   path: string
   walletAddress: string
-  privateKey: string
-  publicKey: string
+  wallet: GethNativeBridgeWallet
   requestOptions: RequestInit
 }
 
@@ -312,19 +287,17 @@ interface SignAndFetchParams {
  *
  * @param {params.path} string like /persona/get/foo
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey used for auth
- * @param {params.privateKey} privateKey used for auth
+ * @param {params.wallet} wallet
  * @param {params.requestOptions} requestOptions all the normal fetch options
  * @returns {Response} response object from the fetch call
  */
 export const signAndFetch = async ({
   path,
   walletAddress,
-  publicKey,
-  privateKey,
+  wallet,
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
-  const authHeader = await getAuthHeader({ walletAddress, publicKey, privateKey })
+  const authHeader = await getAuthHeader({ walletAddress, wallet })
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {
@@ -338,45 +311,10 @@ export const signAndFetch = async ({
  * Gets the auth header that IHL expects as a signature on most requests
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.publicKey} publicKey
- * @param {params.privateKey} privateKey
+ * @param {params.wallet} wallet
  * @returns authorization header
  */
-export const getAuthHeader = async ({
-  walletAddress,
-  privateKey,
-  publicKey,
-}: RequiredParams): Promise<string> => {
-  const privateKeyPem = keyEncoder.encodePrivate(trimLeading0x(privateKey), 'raw', 'pem')
-  const token = jwt.sign({ sub: walletAddress, iss: publicKey }, privateKeyPem, {
-    algorithm: 'ES256',
-    expiresIn: '5m',
-  })
-
+export const getAuthHeader = async ({ walletAddress, wallet }: RequiredParams): Promise<string> => {
+  const token = await wallet.getJWT({ walletAddress })
   return `Bearer ${token}`
-}
-
-export const verifyRequiredParams = ({
-  privateKey,
-  publicKey,
-  walletAddress,
-}: {
-  privateKey: string | null
-  publicKey: string | null
-  walletAddress: string | null
-}): RequiredParams => {
-  if (!privateKey) {
-    throw new Error('Cannot call IHL because privateKey is null')
-  }
-  if (!publicKey) {
-    throw new Error('Cannot call IHL because publicKey is null')
-  }
-  if (!walletAddress) {
-    throw new Error('Cannot call IHL because walletAddress is null')
-  }
-  return {
-    privateKey,
-    publicKey,
-    walletAddress,
-  }
 }

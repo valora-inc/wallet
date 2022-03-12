@@ -244,7 +244,7 @@ export function StepOne() {
 export function StepTwo() {
   const { t } = useTranslation()
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
-  const plaidParams = useSelector(plaidParamsSelector)
+  const { walletAddress, phoneNumber, locale } = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
   const disabled = !stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted
   // This is used to handle universal links within React Native
@@ -271,8 +271,13 @@ export function StepTwo() {
         style={styles.button}
         onPress={async () => {
           ValoraAnalytics.track(CICOEvents.add_initial_bank_account_start)
+          if (!walletAddress) {
+            throw new Error('Cannot start bank account link because walletAddress is null')
+          }
           await openPlaid({
-            ...plaidParams,
+            walletAddress,
+            phoneNumber,
+            locale,
             onSuccess: ({ publicToken }) => {
               navigate(Screens.SyncBankAccountScreen, {
                 publicToken,

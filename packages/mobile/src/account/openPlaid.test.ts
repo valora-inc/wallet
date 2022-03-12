@@ -34,10 +34,9 @@ describe('openPlaid', () => {
 
   it('calls IHL and openLink', async () => {
     await openPlaid({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockAccount,
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
       onSuccess,
       onExit,
     })
@@ -60,10 +59,9 @@ describe('openPlaid', () => {
   })
   it('does not call openLink if IHL fails', async () => {
     await openPlaid({
-      accountMTWAddress: 'bad-account',
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
+      walletAddress: mockAccount,
       onSuccess,
       onExit,
     })

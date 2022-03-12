@@ -99,4 +99,14 @@ export class GethNativeBridgeWallet
     const signer = this.getSigner(fromAddress)
     return signer.signRawTransaction(txParams)
   }
+
+  getJWT({
+    expirationTimeSeconds,
+    walletAddress,
+  }: {
+    expirationTimeSeconds?: number
+    walletAddress: string
+  }): Promise<string> {
+    return this.getSigner(walletAddress).getJWT(expirationTimeSeconds)
+  }
 }

@@ -10,22 +10,20 @@ import {
 import { FetchMock } from 'jest-fetch-mock/types'
 import networkConfig from 'src/geth/networkConfig'
 import { mockE164Number } from 'test/values'
-import jwt from 'jsonwebtoken'
-import KeyEncoder from 'key-encoder'
-
-const MOCK_USER = {
-  accountMTWAddress: '0xc549560d398567d6ff75fde721b1488348df86dc',
-  dekPrivate: '0x5776c418c5f63c5d149a4605c9fa6e0a1bd684a17f1b7ec563515dd4a13a8a3c',
-
-  privateKey: 'c613bfdc491f266e35107050caedef9f1a9a01aff126b27ce620e10a7b859934',
-  publicKey: '0359bf477833fa7fd48ffe95454dcc31134f11a39a6c01610041a37850d0ad16f5',
-  walletAddress: '0x39845Bae1245693234dd32bA479828d5A42AD552',
-}
+import { GethNativeBridgeWallet } from '../geth/GethNativeBridgeWallet'
 
 describe('In House Liquidity Calls', () => {
+  const mockGetJWT = jest.fn().mockResolvedValue('mock_token')
+  const MOCK_USER = {
+    privateKey: 'c613bfdc491f266e35107050caedef9f1a9a01aff126b27ce620e10a7b859934',
+    publicKey: '0359bf477833fa7fd48ffe95454dcc31134f11a39a6c01610041a37850d0ad16f5',
+    walletAddress: '0x39845Bae1245693234dd32bA479828d5A42AD552',
+    wallet: ({ getJWT: mockGetJWT } as unknown) as GethNativeBridgeWallet,
+  }
+
   const mockFetch = fetch as FetchMock
 
-  beforeAll(() => {
+  beforeAll(async () => {
     jest.useFakeTimers()
     jest.spyOn(Date, 'now').mockImplementation(() => 1641945400000)
   })
@@ -38,29 +36,13 @@ describe('In House Liquidity Calls', () => {
     jest.clearAllMocks()
   })
 
-  const expectedJWTHeader = `eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9` // encoded version of {"alg": "ES256", "typ": "JWT"}
-  const expectedJWTPayload = `eyJzdWIiOiIweDM5ODQ1QmFlMTI0NTY5MzIzNGRkMzJiQTQ3OTgyOGQ1QTQyQUQ1NTIiLCJpc3MiOiIwMzU5YmY0Nzc4MzNmYTdmZDQ4ZmZlOTU0NTRkY2MzMTEzNGYxMWEzOWE2YzAxNjEwMDQxYTM3ODUwZDBhZDE2ZjUiLCJpYXQiOjE2NDE5NDU0MDAsImV4cCI6MTY0MTk0NTcwMH0` // encoded version of {"iss": "0359bf477833fa7fd48ffe95454dcc31134f11a39a6c01610041a37850d0ad16f5", "sub": "0x39845Bae1245693234dd32bA479828d5A42AD552", "iat": 1641945400, "exp": 1641945700}
-  const expectedAuthHeaderPrefix = `Bearer ${expectedJWTHeader}.${expectedJWTPayload}.`
-
   describe('getAuthHeader', () => {
     it('creates the correct headers for a GET request', async () => {
       const authHeader = await getAuthHeader({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.privateKey,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
       })
-
-      // verify header and payload
-      expect(authHeader).toContain(expectedAuthHeaderPrefix)
-
-      // verify signature (non-deterministic, so a fixed value cannot be used)
-      const token = authHeader.split(' ')[1]
-      const keyEncoder = new KeyEncoder('secp256k1')
-      expect(
-        jwt.verify(token, keyEncoder.encodePublic(MOCK_USER.publicKey, 'raw', 'pem'), {
-          algorithms: ['ES256'],
-        })
-      ).toBeTruthy()
+      expect(authHeader).toEqual(`Bearer mock_token`)
     })
   })
 
@@ -72,8 +54,7 @@ describe('In House Liquidity Calls', () => {
       const response = await signAndFetch({
         path: '/persona/account/create',
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
         requestOptions: {
           method: 'POST',
           headers: {
@@ -89,7 +70,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: JSON.stringify(body),
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -106,8 +87,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createPersonaAccount({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
       })
       const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.walletAddress })
 
@@ -117,7 +97,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -133,8 +113,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ linkToken: 'foo-token' }), { status: 201 })
       const linkToken = await createLinkToken({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
         isAndroid: false,
         language: 'en',
         phoneNumber: mockE164Number,
@@ -152,7 +131,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -167,8 +146,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createFinclusiveBankAccount({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
         plaidAccessToken: 'foo',
       })
       const expectedBody = JSON.stringify({
@@ -182,7 +160,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -197,8 +175,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ accessToken: 'bar-token' }), { status: 201 })
       const response = await exchangePlaidAccessToken({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
         publicToken: 'foo',
       })
       const expectedBody = JSON.stringify({
@@ -212,7 +189,7 @@ describe('In House Liquidity Calls', () => {
         {
           body: expectedBody,
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -227,8 +204,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ complianceCheckStatus: 1 }), { status: 200 })
       const response = await getFinclusiveComplianceStatus({
         walletAddress: MOCK_USER.walletAddress,
-        privateKey: MOCK_USER.dekPrivate,
-        publicKey: MOCK_USER.publicKey,
+        wallet: MOCK_USER.wallet,
       })
 
       // Calls Fetch Correctly
@@ -238,7 +214,7 @@ describe('In House Liquidity Calls', () => {
         )}/compliance-check-status`,
         {
           headers: {
-            Authorization: expect.stringContaining(expectedAuthHeaderPrefix),
+            Authorization: 'Bearer mock_token',
             'Content-Type': 'application/json',
           },
           method: 'GET',

@@ -37,8 +37,9 @@ import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
+import { getMTWAddress, getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { finclusiveKycStatusSelector } from './selectors'
+import { getWallet } from '../web3/contracts'
 
 const TAG = 'account/saga'
 
@@ -87,13 +88,11 @@ function* initializeAccount() {
 }
 
 export function* fetchFinclusiveKyc() {
+  const wallet = yield call(getWallet)
+  const walletAddress: string = yield call(getWalletAddress)
+  yield call(unlockAccount, walletAddress) // todo remove this once we support non-expiring JWTs for status polling
   try {
-    const walletAddress = yield call(getWalletAddress)
-
-    const complianceStatus = yield call(
-      getFinclusiveComplianceStatus,
-      { publicKey, privateKey, walletAddress } // todo get public/private keys
-    )
+    const complianceStatus = yield call(getFinclusiveComplianceStatus, { walletAddress, wallet })
     yield put(setFinclusiveKyc(complianceStatus))
   } catch (error) {
     Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)

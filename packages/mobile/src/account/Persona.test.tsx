@@ -71,7 +71,7 @@ describe('Persona', () => {
     )
     // Should be disabled to start because we don't know if they have an account until the IHL call happens
     expect(getByTestId('PersonaButton')).toBeDisabled()
-
+    // fixme the async getWallet isn't working. something about contract kit not getting initialized...
     await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
     expect(createPersonaAccount).toHaveBeenCalledTimes(1)
   })

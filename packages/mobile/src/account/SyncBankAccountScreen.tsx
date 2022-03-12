@@ -6,11 +6,7 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native'
-import {
-  createFinclusiveBankAccount,
-  exchangePlaidAccessToken,
-  verifyRequiredParams,
-} from 'src/in-house-liquidity'
+import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -19,6 +15,8 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { useDispatch } from 'react-redux'
 import { setHasLinkedBankAccount } from 'src/account/actions'
+import { getWalletAsync } from '../web3/contracts'
+import { requestPincodeInput } from '../pincode/authentication'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
@@ -30,14 +28,23 @@ const SyncBankAccountScreen = ({ route }: Props) => {
   const { publicToken } = route.params
 
   useAsync(async () => {
+    const wallet = await getWalletAsync()
+    if (!walletAddress) {
+      throw new Error('Cannot call IHL because walletAddress is null')
+    }
+    if (!wallet.isAccountUnlocked(walletAddress)) {
+      await requestPincodeInput(true, false, walletAddress)
+    }
     try {
       const accessToken = await exchangePlaidAccessToken({
-        ...verifyRequiredParams({ privateKey, publicKey, walletAddress }),
+        wallet,
+        walletAddress,
         publicToken,
       })
 
       await createFinclusiveBankAccount({
-        ...verifyRequiredParams({ privateKey, publicKey, walletAddress }),
+        wallet,
+        walletAddress,
         plaidAccessToken: accessToken,
       })
       dispatch(setHasLinkedBankAccount())

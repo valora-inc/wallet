@@ -43,7 +43,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
   const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
   yield call(unlockAccount, account)
-
+  // TODO add getJWT to this?
   switch (method) {
     case SupportedActions.eth_signTransaction: {
       // IMPORTANT: We need to normalize the transaction parameters

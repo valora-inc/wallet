@@ -13,12 +13,13 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createLinkToken } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { getWalletAsync } from '../web3/contracts'
+import { requestPincodeInput } from '../pincode/authentication'
 
 const TAG = 'PLAID'
 
 interface OpenPlaidParams {
-  accountMTWAddress: string | null
-  dekPrivate: string | null
+  walletAddress: string
   locale: string | null
   phoneNumber: string | null
   onSuccess: (params: LinkSuccess) => void
@@ -38,8 +39,7 @@ interface OpenPlaidParams {
  * @returns {Response} response object from the fetch call
  */
 export default async function openPlaid({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
   locale,
   phoneNumber,
   onSuccess,
@@ -48,11 +48,14 @@ export default async function openPlaid({
   locale = locale || ''
   phoneNumber = phoneNumber || ''
   const isAndroid = Platform.OS === 'android'
+  const wallet = await getWalletAsync()
+  if (!wallet.isAccountUnlocked(walletAddress)) {
+    await requestPincodeInput(true, false, walletAddress)
+  }
   try {
     const linkToken = await createLinkToken({
       walletAddress,
-      publicKey,
-      privateKey,
+      wallet,
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,
