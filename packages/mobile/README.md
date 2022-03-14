@@ -446,11 +446,11 @@ We're using [GraphQL Code Generator][graphql code generator] to properly type Gr
 
 We're using [redux-persist](https://github.com/rt2zz/redux-persist) to persist the state of the app across launches.
 
-Whenever we add/remove/update properties to the [RooState][rootstate], we need to ensure previous versions of the app can successfully migrate their persisted state to the new schema version.
+Whenever we add/remove/update properties to the [RootState][rootstate], we need to ensure previous versions of the app can successfully migrate their persisted state to the new schema version.
 Otherwise it can lead to subtle bugs or crashes for existing users of the app, when their app is upgraded.
 
 We have automated checks to ensure that the state migration is working correctly across all versions. You're probably reading this because these checks pointed you to this documentation.
-These checks are based on the JSON schema representation of the [RooState][rootstate] TypeScript type. It is stored in [test/RootStateSchema.json][rootstateschema].
+These checks are based on the JSON schema representation of the [RootState][rootstate] TypeScript type. It is stored in [test/RootStateSchema.json][rootstateschema].
 
 #### When is a migration or new schema version needed?
 
@@ -468,7 +468,7 @@ If you're deleting or updating existing properties, please implement the appropr
 
 #### What do to when [test/RootStateSchema.json][rootstateschema] needs an update?
 
-1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is in sync with the [RooState][rootstate] TypeScript type.
+1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is in sync with the [RootState][rootstate] TypeScript type.
 2. Review the changes in the schema
 3. Increase the schema version in [src/redux/store.ts](src/redux/store.ts#L27)
 4. Add a new migration in [src/redux/migrations.ts](src/redux/migrations.ts)
