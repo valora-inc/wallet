@@ -92,6 +92,7 @@ function WebViewScreen({ route, navigation }: Props) {
           onPress={handleGoBack}
           hitSlop={iconHitslop}
           disabled={!canGoBack}
+          testID="WebViewScreen/GoBack"
         >
           <BackChevron color={canGoBack ? colors.dark : colors.gray3} />
         </Touchable>
@@ -100,6 +101,7 @@ function WebViewScreen({ route, navigation }: Props) {
           onPress={handleGoForward}
           hitSlop={iconHitslop}
           disabled={!canGoForward}
+          testID="WebViewScreen/GoForward"
         >
           <ForwardChevron color={canGoForward ? colors.dark : colors.gray3} />
         </Touchable>

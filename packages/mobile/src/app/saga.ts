@@ -306,7 +306,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-function* handleOpenDapp(action: DappSelected) {
+export function* handleOpenDapp(action: DappSelected) {
   const { dappUrl, name } = action.dapp
   const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
 
