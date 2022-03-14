@@ -72,12 +72,15 @@ export class GethNativeBridgeSigner implements Signer {
     return ethUtil.fromRpcSig(this.base64ToHex(signatureBase64))
   }
 
-  async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
+  async signTypedData(
+    typedData: EIP712TypedData,
+    address: string = this.account
+  ): Promise<{ v: number; r: Buffer; s: Buffer }> {
     // TODO: Not sure if it makes more sense to expose a `signTypedData` function on the RN Bridge
     // or just construct the hash here.
     Logger.info(`${TAG}@signTypedData`, `Signing typed data`)
     const hash = generateTypedDataHash(typedData)
-    const signatureBase64 = await this.geth.signHash(hash.toString('base64'), this.account)
+    const signatureBase64 = await this.geth.signHash(hash.toString('base64'), address)
     return ethUtil.fromRpcSig(this.base64ToHex(signatureBase64))
   }
 
