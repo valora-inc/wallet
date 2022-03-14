@@ -451,4 +451,11 @@ export const migrations = {
       recentDapps: [],
     },
   }),
+  37: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      jwt: undefined,
+    },
+  }),
 }

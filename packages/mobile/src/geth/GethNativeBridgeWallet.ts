@@ -79,7 +79,7 @@ export class GethNativeBridgeWallet
   async unlockAccount(account: string, passphrase: string, duration: number) {
     Logger.info(`${TAG}@unlockAccount`, `Unlocking ${account}`)
     const signer = this.getSigner(account) as GethNativeBridgeSigner
-    return signer.unlock(passphrase, duration)
+    return signer.unlock(passphrase, duration) // todo dispatch action if success?
   }
 
   isAccountUnlocked(address: string) {

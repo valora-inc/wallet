@@ -18,6 +18,7 @@ export enum Actions {
   PHOTOSNUX_CLICKED = 'ACCOUNT/PHOTOSNUX_CLICKED',
   SET_PINCODE_SUCCESS = 'ACCOUNT/SET_PINCODE_SUCCESS',
   SET_PINCODE_FAILURE = 'ACCOUNT/SET_PINCODE_FAILURE',
+  ENTER_PINCODE_SUCCESS = 'ACCOUNT/ENTER_PINCODE_SUCCESS',
   SET_ACCOUNT_CREATION_TIME = 'ACCOUNT/SET_ACCOUNT_CREATION_TIME',
   INITIALIZE_ACCOUNT = 'ACCOUNT/INITIALIZE_ACCOUNT',
   INITIALIZE_ACCOUNT_SUCCESS = 'ACCOUNT/INITIALIZE_ACCOUNT_SUCCESS',
@@ -40,6 +41,7 @@ export enum Actions {
   SET_HAS_LINKED_BANK_ACCOUNT = 'ACCOUNT/SET_HAS_LINKED_BANK_ACCOUNT',
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
+  SET_JWT = 'ACCOUNT/JWT',
 }
 
 export interface ChooseCreateAccountAction {
@@ -95,6 +97,10 @@ export interface PhotosNUXClickedAction {
 export interface SetPincodeSuccessAction {
   type: Actions.SET_PINCODE_SUCCESS
   pincodeType: PincodeType
+}
+
+export interface EnterPincodeSuccessAction {
+  type: Actions.ENTER_PINCODE_SUCCESS
 }
 
 export interface SetPincodeFailureAction {
@@ -189,6 +195,11 @@ export interface SetFinclusiveKyc {
   finclusiveKycStatus: FinclusiveKycStatus
 }
 
+export interface SetJWTAction {
+  type: Actions.SET_JWT
+  jwt: string
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -222,6 +233,7 @@ export type ActionTypes =
   | SetHasLinkedBankAccount
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
+  | SetJWTAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -302,6 +314,10 @@ export const setPincodeSuccess = (pincodeType: PincodeType): SetPincodeSuccessAc
 
 export const setPincodeFailure = (): SetPincodeFailureAction => ({
   type: Actions.SET_PINCODE_FAILURE,
+})
+
+export const enterPincodeSuccess = (): EnterPincodeSuccessAction => ({
+  type: Actions.ENTER_PINCODE_SUCCESS,
 })
 
 export const initializeAccount = (): InitializeAccountAction => ({
@@ -385,6 +401,11 @@ export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) =
 export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
   type: Actions.UPDATE_KYC_STATUS,
   kycStatus,
+})
+
+export const setJWT = (jwt: string): SetJWTAction => ({
+  type: Actions.SET_JWT,
+  jwt,
 })
 
 export const setHasLinkedBankAccount = (): SetHasLinkedBankAccount => ({

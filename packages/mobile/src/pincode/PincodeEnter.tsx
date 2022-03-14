@@ -20,6 +20,7 @@ import { checkPin } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { enterPincodeSuccess } from '../account/actions'
 
 interface State {
   pin: string
@@ -31,8 +32,16 @@ interface StateProps {
   currentAccount: string | null
 }
 
+interface DispatchProps {
+  enterPincodeSuccess: typeof enterPincodeSuccess
+}
+
 type RouteProps = StackScreenProps<StackParamList, Screens.PincodeEnter>
-type Props = StateProps & WithTranslation & RouteProps
+type Props = StateProps & WithTranslation & RouteProps & DispatchProps
+
+const mapDispatchToProps = {
+  enterPincodeSuccess,
+}
 
 class PincodeEnter extends React.Component<Props, State> {
   static navigationOptions = (navOptions: RouteProps) => ({
@@ -64,6 +73,7 @@ class PincodeEnter extends React.Component<Props, State> {
 
   onCorrectPin = (pin: string) => {
     this.setState({ pinIsCorrect: true })
+    this.props.enterPincodeSuccess() // dispatch enter pin code success action
     const onSuccess = this.props.route.params.onSuccess
     if (onSuccess) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
@@ -123,4 +133,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   currentAccount: currentAccountSelector(state),
 })
 
-export default connect(mapStateToProps)(withTranslation<Props>()(PincodeEnter))
+export default connect<StateProps, DispatchProps, {}, RootState>(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation<Props>()(PincodeEnter))

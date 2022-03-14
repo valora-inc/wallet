@@ -17,6 +17,7 @@ import {
   updateCusdDailyLimit,
   updateKycStatus,
   setFinclusiveKyc,
+  setJWT,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
@@ -155,6 +156,16 @@ export function* watchKycStatus() {
   }
 }
 
+/**
+ * Once a user has unlocked their wallet, set the JWT in redux.
+ */
+export function* setJWTFromWallet() {
+  const walletAddress = yield call(getWalletAddress)
+  const wallet = yield call(getWallet)
+  const jwt = yield call(wallet.getJWT, { walletAddress })
+  yield put(setJWT(jwt))
+}
+
 export function* watchClearStoredAccount() {
   const action = yield take(Actions.CLEAR_STORED_ACCOUNT)
   yield call(clearStoredAccountSaga, action)
@@ -162,6 +173,10 @@ export function* watchClearStoredAccount() {
 
 export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
+}
+
+export function* watchSetPincodeSuccess() {
+  yield takeLeading(Actions.ENTER_PINCODE_SUCCESS, setJWTFromWallet)
 }
 
 export function* watchSaveNameAndPicture() {
@@ -179,5 +194,6 @@ export function* accountSaga() {
   yield spawn(watchDailyLimit)
   yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
+  yield spawn(watchSetPincodeSuccess)
   yield spawn(watchFetchFinclusiveKYC)
 }

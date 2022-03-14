@@ -36,6 +36,7 @@ export interface State {
   kycStatus: KycStatus | undefined
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
+  jwt: string | undefined
 }
 
 export enum PincodeType {
@@ -107,6 +108,7 @@ export const initialState: State = {
   kycStatus: undefined,
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+  jwt: undefined,
 }
 
 export const reducer = (
@@ -292,6 +294,12 @@ export const reducer = (
       return {
         ...state,
         finclusiveKycStatus: action.finclusiveKycStatus,
+      }
+    }
+    case Actions.SET_JWT: {
+      return {
+        ...state,
+        jwt: action.jwt,
       }
     }
     default:
