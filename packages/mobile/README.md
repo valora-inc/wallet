@@ -470,7 +470,7 @@ If you're deleting or updating existing properties, please implementation the ri
 
 1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is sync with the [RooState][rootstate] TypeScript type.
 2. Review the changes in the schema
-3. Increase the schema version in [src/redux/store.ts](https://github.com/valora-inc/wallet/blob/main/packages/mobile/src/redux/store.ts#L25)
+3. Increase the schema version in [src/redux/store.ts](https://github.com/valora-inc/wallet/blob/main/packages/mobile/src/redux/store.ts#L27)
 4. Add a new migration in [src/redux/migrations.ts](https://github.com/valora-inc/wallet/blob/main/packages/mobile/src/redux/migrations.ts)
 5. Add a new test schema in [test/schema.ts](https://github.com/valora-inc/wallet/blob/main/packages/mobile/test/schema.ts), with the newly added/deleted/updated properties. The test schema is useful to test migrations and show how the schema changed over time.
 6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](https://github.com/valora-inc/wallet/blob/main/packages/mobile/src/redux/migrations.test.ts)
