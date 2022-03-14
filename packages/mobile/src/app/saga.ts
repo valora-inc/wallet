@@ -46,9 +46,11 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { paymentDeepLinkHandlerMerchant } from 'src/qrcode/utils'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
@@ -187,6 +189,7 @@ export interface RemoteConfigValues {
   maxNumRecentDapps: number
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -252,6 +255,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
+    } else if (rawParams.path.startsWith('/payment')) {
+      // TODO: contact our merchant partner and come up
+      // with something that doesn't match /pay, maybe /merchantPay ?
+      yield call(paymentDeepLinkHandlerMerchant, deepLink)
     } else if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
