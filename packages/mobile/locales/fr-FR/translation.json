@@ -285,7 +285,7 @@
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
   "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
   "selectDigitalCurrency": "Sélectionnez un actif digital",
-  "selectPaymentMethod": "Payer avec :",
+  "selectPaymentMethod": "Select method:",
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
