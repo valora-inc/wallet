@@ -29,7 +29,7 @@
     "test:e2e:ios": "./scripts/run_e2e.sh -p ios -r",
     "test:e2e:packager": "export CELO_TEST_CONFIG=e2e && yarn react-native start",
     "test:verify-locales": "./scripts/verify_locales.sh",
-    "test:update-root-state-schema": "typescript-json-schema ./tsconfig.json RootState --include src/redux/reducers.ts --ignoreErrors --required --noExtraProps > test/RootStateSchema.json",
+    "test:update-root-state-schema": "./scripts/update_root_state_schema.sh",
     "pre-deploy": "./scripts/pre-deploy.sh",
     "deploy:update-disclaimer": "cd ../.. && yarn && cd packages/mobile && yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh"
