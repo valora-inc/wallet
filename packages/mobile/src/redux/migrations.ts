@@ -476,7 +476,7 @@ export const migrations = {
   }),
   40: (state: any) => {
     return {
-      ..._.omit(state, ['medianator', 'invite']),
+      ...(_.omit(state, ['medianator', 'invite']) as any),
       account: {
         ..._.omit(state.account, [
           'pincodeSet',
