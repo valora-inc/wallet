@@ -25,6 +25,7 @@ import {
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
+  openUrl,
   OpenUrlAction,
   SetAppState,
   setAppState,
@@ -32,6 +33,7 @@ import {
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
+  dappsWebviewEnabledSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
@@ -306,11 +308,17 @@ export function* handleOpenUrl(action: OpenUrlAction) {
 
 function* handleOpenDapp(action: DappSelected) {
   const { dappUrl, name } = action.dapp
-  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
-  if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
-    yield call(handleDeepLink, openDeepLink(dappUrl, true))
+  const dappsWebviewEnabled = yield select(dappsWebviewEnabledSelector)
+
+  if (dappsWebviewEnabled) {
+    const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
+    if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
+      yield call(handleDeepLink, openDeepLink(dappUrl, true))
+    } else {
+      navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+    }
   } else {
-    navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+    yield call(handleOpenUrl, openUrl(dappUrl, true, true))
   }
 }
 
