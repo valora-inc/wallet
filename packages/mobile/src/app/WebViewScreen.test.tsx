@@ -27,6 +27,7 @@ describe('WebViewScreen', () => {
     expect(getByText(dappName)).toBeTruthy()
     expect(getByText(dappHostName)).toBeTruthy()
     expect(getByTestId('RNWebView').props.source.uri).toEqual(dappUri)
+    expect(getByTestId('WebViewScreen/Refresh')).toBeTruthy()
     expect(getByTestId('WebViewScreen/GoBack')).toBeDisabled()
     expect(getByTestId('WebViewScreen/GoForward')).toBeDisabled()
   })

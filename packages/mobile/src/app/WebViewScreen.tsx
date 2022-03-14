@@ -1,7 +1,9 @@
 import Touchable from '@celo/react-components/components/Touchable'
 import BackChevron from '@celo/react-components/icons/BackChevron'
 import ForwardChevron from '@celo/react-components/icons/ForwardChevron'
+import Refresh from '@celo/react-components/icons/Refresh'
 import colors from '@celo/react-components/styles/colors'
+import { Spacing } from '@celo/react-components/styles/styles'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useRef, useState } from 'react'
@@ -48,6 +50,16 @@ function WebViewScreen({ route, navigation }: Props) {
           subTitle={headerTitle ? hostname : undefined}
         />
       ),
+      headerRight: () => (
+        <Touchable
+          style={styles.refreshIcon}
+          onPress={handleRefresh}
+          hitSlop={iconHitslop}
+          testID="WebViewScreen/Refresh"
+        >
+          <Refresh color={colors.gray4} />
+        </Touchable>
+      ),
     })
   }, [navigation])
 
@@ -57,6 +69,12 @@ function WebViewScreen({ route, navigation }: Props) {
       return false
     }
     return true
+  }
+
+  const handleRefresh = () => {
+    if (webviewRef && webviewRef.current) {
+      webviewRef.current.reload()
+    }
   }
 
   const handleGoForward = () => {
@@ -132,6 +150,9 @@ const styles = StyleSheet.create({
   },
   navIcon: {
     marginRight: 136,
+  },
+  refreshIcon: {
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 
