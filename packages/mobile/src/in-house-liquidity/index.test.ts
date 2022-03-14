@@ -1,6 +1,5 @@
 import {
   createPersonaAccount,
-  getAuthHeader,
   signAndFetch,
   createLinkToken,
   createFinclusiveBankAccount,
@@ -34,16 +33,6 @@ describe('In House Liquidity Calls', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
     jest.clearAllMocks()
-  })
-
-  describe('getAuthHeader', () => {
-    it('creates the correct headers for a GET request', async () => {
-      const authHeader = await getAuthHeader({
-        walletAddress: MOCK_USER.walletAddress,
-        wallet: MOCK_USER.wallet,
-      })
-      expect(authHeader).toEqual(`Bearer mock_token`)
-    })
   })
 
   describe('signAndFetch', () => {
@@ -204,7 +193,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ complianceCheckStatus: 1 }), { status: 200 })
       const response = await getFinclusiveComplianceStatus({
         walletAddress: MOCK_USER.walletAddress,
-        wallet: MOCK_USER.wallet,
+        jwt: 'mock_token',
       })
 
       // Calls Fetch Correctly

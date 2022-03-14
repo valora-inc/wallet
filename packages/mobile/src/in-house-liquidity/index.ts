@@ -12,17 +12,20 @@ interface RequiredParams {
  *
  *
  * @param {params.walletAddress} walletAddress
- * @param {params.wallet} wallet
+ * @param {params.jwt} jwt to use for authentication. may be non-expiring.
  * @returns {FinclusiveKycStatus} the users current status
  */
 export const getFinclusiveComplianceStatus = async ({
   walletAddress,
-  wallet,
-}: RequiredParams): Promise<FinclusiveKycStatus> => {
+  jwt,
+}: {
+  walletAddress: string
+  jwt: string
+}): Promise<FinclusiveKycStatus> => {
   const response = await signAndFetch({
     path: `/account/${encodeURIComponent(walletAddress)}/compliance-check-status`,
     walletAddress,
-    wallet,
+    jwt,
     requestOptions: {
       method: 'GET',
       headers: {
@@ -277,7 +280,8 @@ export const createPersonaAccount = async ({
 interface SignAndFetchParams {
   path: string
   walletAddress: string
-  wallet: GethNativeBridgeWallet
+  wallet?: GethNativeBridgeWallet
+  jwt?: string
   requestOptions: RequestInit
 }
 
@@ -295,9 +299,17 @@ export const signAndFetch = async ({
   path,
   walletAddress,
   wallet,
+  jwt,
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
-  const authHeader = await getAuthHeader({ walletAddress, wallet })
+  let authHeader
+  if (jwt) {
+    authHeader = `Bearer ${jwt}`
+  } else if (wallet) {
+    authHeader = `Bearer ${await wallet.getJWT({ walletAddress })}`
+  } else {
+    throw new Error(`jwt or wallet is required`)
+  }
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {
@@ -305,16 +317,4 @@ export const signAndFetch = async ({
       Authorization: authHeader,
     },
   })
-}
-
-/**
- * Gets the auth header that IHL expects as a signature on most requests
- *
- * @param {params.walletAddress} walletAddress
- * @param {params.wallet} wallet
- * @returns authorization header
- */
-export const getAuthHeader = async ({ walletAddress, wallet }: RequiredParams): Promise<string> => {
-  const token = await wallet.getJWT({ walletAddress })
-  return `Bearer ${token}`
 }

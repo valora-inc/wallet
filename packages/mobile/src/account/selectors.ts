@@ -45,6 +45,7 @@ export const accountToRecoverSelector = (state: RootState) =>
   state.account.accountToRecoverFromStoreWipe
 export const kycStatusSelector = (state: RootState) => state.account.kycStatus
 export const finclusiveKycStatusSelector = (state: RootState) => state.account.finclusiveKycStatus
+export const jwtSelector = (state: RootState) => state.account.jwt
 
 export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
 
