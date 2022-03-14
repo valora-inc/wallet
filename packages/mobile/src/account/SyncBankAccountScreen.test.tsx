@@ -4,7 +4,6 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
 import { Screens } from 'src/navigator/Screens'
 import { navigate } from 'src/navigator/NavigationService'
@@ -24,6 +23,15 @@ jest.mock('src/in-house-liquidity', () => ({
   exchangePlaidAccessToken: jest.fn(() => Promise.resolve(mockAccessToken)),
 }))
 
+const mockWallet = {
+  isAccountUnlocked: jest.fn().mockReturnValue(true),
+}
+
+jest.mock('src/web3/contracts', () => ({
+  // ...(jest.requireActual('src/web3/contracts') as any),
+  getWalletAsync: jest.fn(() => Promise.resolve(mockWallet)),
+}))
+
 jest.mock('src/navigator/NavigationService', () => ({
   __esModule: true,
   namedExport: jest.fn(),
@@ -31,11 +39,12 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigate: jest.fn(),
 }))
 
+const mockWalletAddress = '0x123'
+
 describe('SyncBankAccountScreen', () => {
   const store = createMockStore({
     web3: {
-      mtwAddress: mockAccount,
-      dataEncryptionKey: mockPrivateDEK,
+      account: mockWalletAddress,
     },
   })
 
@@ -54,14 +63,14 @@ describe('SyncBankAccountScreen', () => {
     expect(toJSON()).toMatchSnapshot()
     await waitFor(() => {
       expect(exchangePlaidAccessToken).toHaveBeenCalledWith({
-        accountMTWAddress: mockAccount,
         publicToken: mockPublicToken,
-        dekPrivate: mockPrivateDEK,
+        walletAddress: mockWalletAddress,
+        wallet: mockWallet,
       })
       expect(createFinclusiveBankAccount).toHaveBeenCalledWith({
-        accountMTWAddress: mockAccount,
+        walletAddress: mockWalletAddress,
+        wallet: mockWallet,
         plaidAccessToken: mockAccessToken,
-        dekPrivate: mockPrivateDEK,
       })
     })
     expect(store.dispatch).toHaveBeenCalledWith({ type: Actions.SET_HAS_LINKED_BANK_ACCOUNT })

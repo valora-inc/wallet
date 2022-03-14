@@ -15,8 +15,8 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { useDispatch } from 'react-redux'
 import { setHasLinkedBankAccount } from 'src/account/actions'
-import { getWalletAsync } from '../web3/contracts'
-import { requestPincodeInput } from '../pincode/authentication'
+import { getWalletAsync } from 'src/web3/contracts'
+import { requestPincodeInput } from 'src/pincode/authentication'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
