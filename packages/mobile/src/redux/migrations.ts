@@ -478,7 +478,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      dappsWebviewEnabled: false,
+      dappsWebViewEnabled: false,
     },
   }),
 }

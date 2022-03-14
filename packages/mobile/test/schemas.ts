@@ -1056,7 +1056,7 @@ export const v40Schema = {
   },
   app: {
     ...v39Schema.app,
-    dappsWebviewEnabled: false,
+    dappsWebViewEnabled: false,
   },
 }
 
