@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 36,
+    borderTopWidth: 1,
+    borderColor: colors.gray2,
   },
   navIcon: {
     marginRight: 136,
