@@ -285,7 +285,7 @@
   "disclaimerFiat": "{{currency}}-Werte sind Geschätzt.",
   "dollarsNotYetEnabledNote": "Celo Dollar sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollar zu erhalten, erwerbe CELO und tausche diese gegen Celo Dollar im CELO Tab.",
   "selectDigitalCurrency": "Eine Digitalvermögen auswählen",
-  "selectPaymentMethod": "Zahlen mit:",
+  "selectPaymentMethod": "Select method:",
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
   "payWithExchange": "Kryptobörse",
