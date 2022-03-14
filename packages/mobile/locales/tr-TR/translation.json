@@ -285,7 +285,7 @@
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
   "dollarsNotYetEnabledNote": "Celo Doları henüz hiçbir sağlayıcıda mevcut değil. Celo Doları almak için CELO satın alın ve CELO sekmesinde Celo Dolarına dönüştürün.",
   "selectDigitalCurrency": "Bir dijital varlık seçin",
-  "selectPaymentMethod": "Şununla ödeme yap:",
+  "selectPaymentMethod": "Select method:",
   "payWithBank": "Banka hesabı",
   "payWithCard": "Banka kartı",
   "payWithExchange": "Kriptopara borsası",
