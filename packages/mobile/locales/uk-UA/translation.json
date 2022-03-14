@@ -285,7 +285,7 @@
   "disclaimerFiat": "Значення {{currency}} є оцінюваними.",
   "dollarsNotYetEnabledNote": "Долари Celo поки що не доступні ні для кого з постачальників. Щоб отримати долари Celo, придбайте CELO й обміняйте його на долари Celo у вкладці CELO.",
   "selectDigitalCurrency": "Виберіть цифровий актив",
-  "selectPaymentMethod": "Сплатити за допомогою:",
+  "selectPaymentMethod": "Обрати метод:",
   "payWithBank": "Банківський рахунок",
   "payWithCard": "Дебетова картка",
   "payWithExchange": "Біржа криптовалют",
