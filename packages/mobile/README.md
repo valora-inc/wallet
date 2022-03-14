@@ -468,7 +468,7 @@ If you're deleting or updating existing properties, please implement the appropr
 
 #### What do to when [test/RootStateSchema.json][rootstateschema] needs an update?
 
-1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is sync with the [RooState][rootstate] TypeScript type.
+1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is in sync with the [RooState][rootstate] TypeScript type.
 2. Review the changes in the schema
 3. Increase the schema version in [src/redux/store.ts](src/redux/store.ts#L27)
 4. Add a new migration in [src/redux/migrations.ts](src/redux/migrations.ts)
