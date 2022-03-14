@@ -7,6 +7,7 @@ import { getLatestSchema, vNeg1Schema } from 'test/schemas'
 
 // Mock sagas because we don't want them to run in this test
 jest.mock('src/redux/sagas', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   rootSaga: jest.fn(function* () {}),
 }))
 jest.unmock('redux-persist')
