@@ -846,6 +846,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               },
             ]
           }
+          testID="RNWebView"
           thirdPartyCookiesEnabled={true}
         />
       </View>
@@ -1906,6 +1907,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               },
             ]
           }
+          testID="RNWebView"
           thirdPartyCookiesEnabled={true}
         />
       </View>
@@ -2966,6 +2968,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               },
             ]
           }
+          testID="RNWebView"
           thirdPartyCookiesEnabled={true}
         />
       </View>
@@ -4021,6 +4024,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               },
             ]
           }
+          testID="RNWebView"
           thirdPartyCookiesEnabled={true}
         />
       </View>
