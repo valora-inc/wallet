@@ -225,6 +225,7 @@ interface OnboardingEventsProperties {
 
   [OnboardingEvents.name_and_picture_set]: {
     includesPhoto: boolean
+    profile_picture_skipped: boolean
   }
   [OnboardingEvents.phone_number_set]: {
     countryCode: string

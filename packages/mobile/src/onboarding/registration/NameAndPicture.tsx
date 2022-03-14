@@ -29,6 +29,7 @@ type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
   const [nameInput, setNameInput] = useState('')
+  const [photoChosen, setPhotoChosen] = useState(false)
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -80,7 +81,8 @@ function NameAndPicture({ navigation }: Props) {
 
     dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
-      includesPhoto: false,
+      includesPhoto: photoChosen,
+      profile_picture_skipped: shouldSkipProfilePicture,
     })
     dispatch(setName(newName))
 
@@ -91,12 +93,15 @@ function NameAndPicture({ navigation }: Props) {
   const onPhotoChosen = async (dataUrl: string | null) => {
     if (!dataUrl) {
       dispatch(setPicture(null))
+      setPhotoChosen(false)
     } else {
       try {
         const fileName = await saveProfilePicture(dataUrl)
         dispatch(setPicture(fileName))
+        setPhotoChosen(true)
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
+        setPhotoChosen(false)
       }
     }
   }
