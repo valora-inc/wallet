@@ -464,7 +464,7 @@ And it only merges the initial state with the persisted state up to 2 levels of 
 
 So in general, if you're only adding a new reducer or adding a new property to an existing reducer, the migration can just return the input state. The state reconciler will do the right thing.
 
-If you're deleting or updating existing properties, please implementation the right migration for them.
+If you're deleting or updating existing properties, please implement the appropriate migration for them.
 
 #### What do to when [test/RootStateSchema.json][rootstateschema] needs an update?
 
