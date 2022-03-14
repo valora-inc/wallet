@@ -67,4 +67,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  dappsWebviewEnabled: false,
 }

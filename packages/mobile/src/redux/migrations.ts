@@ -474,4 +474,11 @@ export const migrations = {
       paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
     },
   }),
+  40: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      dappsWebviewEnabled: false,
+    },
+  }),
 }
