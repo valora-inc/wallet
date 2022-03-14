@@ -459,7 +459,7 @@ As a rule of thumb, a migration is needed whenever the [RootState][rootstate] ch
 Here we're optimizing for correctness and explicitness to avoid breaking existing users.
 
 [redux-persist](https://github.com/rt2zz/redux-persist) can automatically handle newly added properties with its [state reconcilier](https://github.com/rt2zz/redux-persist#state-reconciler).
-However it leaves removed properties. Which is fine is the majority of the cases, but could create issues if later on a property is added again with the same name.
+However it leaves removed properties. Which is fine in the majority of the cases, but could create issues if later on a property is added again with the same name.
 And it only merges the initial state with the persisted state up to 2 levels of nesting (this is the `autoMergeLevel2` config we are using).
 
 So in general, if you're only adding a new reducer or adding a new property to an existing reducer, the migration can just return the input state. The state reconciler will do the right thing.
