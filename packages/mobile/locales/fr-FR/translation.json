@@ -656,7 +656,7 @@
   "skipModal": {
     "header": "Ignorer la confirmation ?",
     "body1": "La confirmation permet aux autres personnes d'envoyer des valeurs sur votre numéro de téléphone.",
-    "body2": "Sans confirmation, vous pouvez toujours envoyer des paiements, mais uniquement en utilisant les adresses du compte ou les QR codes."
+    "body2": "Sans confirmation, vous pouvez toujours envoyer des paiements, mais uniquement en utilisant les Adresses du compte ou les QR codes."
   },
   "failModal": {
     "header": "Erreur de confirmation",
@@ -758,7 +758,7 @@
   "verificationPrematureRevealMessage": "Veuillez patienter une minute avant de renvoyer",
   "verificationLearnMoreDialog": {
     "title": "Numéros de téléphone et {{appName}}",
-    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
+    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des Adresses du compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
     "dismiss": "Ignorer"
   },
   "importExistingKey": {
@@ -912,7 +912,7 @@
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} a plusieurs comptes associés. {{displayName}} a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
     "body1NoDisplayName": "Votre contact a plusieurs comptes associés à celui-ci. Votre contact a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
-    "body2": "Vous devez scanner son QR code ou confirmer son adresse de compte avant de procéder à la transaction."
+    "body2": "Vous devez scanner son QR code ou confirmer son Adresse du compte avant de procéder à la transaction."
   },
   "confirmAccountNumber": {
     "title": "Confirmer l'Adresse du compte",
@@ -927,10 +927,10 @@
   "accountInputHeaderPartial": "4 derniers chiffres",
   "accountInputHeaderFull": "Adresse du compte",
   "helpModal": {
-    "header": "Trouver une adresse de compte",
-    "body1": "Les adresses du compte (également connues sous le nom d'adresses) se trouvent dans le menu. À partir de l'écran d'Accueil, ouvrez le menu en appuyant sur l'icône en haut à gauche.",
-    "body2": "L'adresse du compte client se trouve en bas du menu.",
-    "body3": "Les adresses du compte client commencent par \"0x\" et sont composées de 42 caractères"
+    "header": "Trouver une Adresse du compte",
+    "body1": "Les Adresses du compte (également connues sous le nom d'adresses) se trouvent dans le menu. À partir de l'écran d'Accueil, ouvrez le menu en appuyant sur l'icône en haut à gauche.",
+    "body2": "L'Adresse du compte client se trouve en bas du menu.",
+    "body3": "Les Adresses du compte client commencent par \"0x\" et sont composées de 42 caractères"
   },
   "transferAddressChanged": "Ce contact a changé l'Adresse du compte depuis la transaction. Ce paiement a été envoyé à :",
   "addressConfirmed": "Adresse du compte confirmée",
