@@ -32,6 +32,7 @@ const renderComponentWithMockStore = () =>
 describe('PincodeEnter', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    store.clearActions()
   })
 
   it('renders the correct components', () => {
@@ -60,6 +61,7 @@ describe('PincodeEnter', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       AuthenticationEvents.get_pincode_with_input_complete
     )
+    expect(store.getActions()).toEqual([{ type: 'ACCOUNT/ENTER_PINCODE_SUCCESS' }])
   })
 
   it('shows wrong PIN notification', async () => {
