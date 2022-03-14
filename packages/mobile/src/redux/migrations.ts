@@ -11,6 +11,7 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
@@ -466,7 +467,14 @@ export const migrations = {
       skipVerification: false,
     },
   }),
-  39: (state: any) => {
+  39: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+    },
+  }),
+  40: (state: any) => {
     return {
       ..._.omit(state, ['medianator', 'invite']),
       account: {

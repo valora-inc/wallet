@@ -5,6 +5,7 @@ import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
@@ -1036,13 +1037,25 @@ export const v38Schema = {
 }
 
 export const v39Schema = {
-  ..._.omit(v38Schema, ['medianator', 'invite']),
+  ...v38Schema,
   _persist: {
     ...v38Schema._persist,
     version: 39,
   },
+  app: {
+    ...v38Schema.app,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  },
+}
+
+export const v40Schema = {
+  ..._.omit(v39Schema, ['medianator', 'invite']),
+  _persist: {
+    ...v39Schema._persist,
+    version: 40,
+  },
   account: {
-    ..._.omit(v38Schema.account, [
+    ..._.omit(v39Schema.account, [
       'pincodeSet',
       'isSettingPin',
       'backupDelayedTime',
@@ -1056,7 +1069,7 @@ export const v39Schema = {
   },
   alert: null,
   app: {
-    ..._.omit(v38Schema.app, [
+    ..._.omit(v39Schema.app, [
       'loading',
       'inviteCodeEntered',
       'error',
@@ -1078,20 +1091,20 @@ export const v39Schema = {
   },
   cloudFunctionsApi: {},
   escrow: {
-    ..._.omit(v38Schema.escrow, ['suggestedFee']),
+    ..._.omit(v39Schema.escrow, ['suggestedFee']),
   },
   exchange: {
-    ..._.omit(v38Schema.exchange, ['exchangeRatePair']),
+    ..._.omit(v39Schema.exchange, ['exchangeRatePair']),
     history: {
-      ..._.omit(v38Schema.exchange.history, ['isLoading']),
+      ..._.omit(v39Schema.exchange.history, ['isLoading']),
     },
   },
   home: {
-    ...v38Schema.home,
+    ...v39Schema.home,
     notifications: {},
   },
   identity: {
-    ..._.omit(v38Schema.identity, [
+    ..._.omit(v39Schema.identity, [
       'verificationFailed',
       'startedVerification',
       'isLoadingImportContacts',
@@ -1100,25 +1113,25 @@ export const v39Schema = {
     ]),
   },
   localCurrency: {
-    ..._.omit(v38Schema.localCurrency, ['exchangeRate', 'fetchRateFailed']),
+    ..._.omit(v39Schema.localCurrency, ['exchangeRate', 'fetchRateFailed']),
   },
   recipients: {
-    ..._.omit(v38Schema.recipients, ['recipientCache']),
+    ..._.omit(v39Schema.recipients, ['recipientCache']),
   },
   send: {
-    ..._.omit(v38Schema.send, ['recipientCache']),
+    ..._.omit(v39Schema.send, ['recipientCache']),
   },
   stableToken: {
-    ..._.omit(v38Schema.stableToken, ['balance']),
+    ..._.omit(v39Schema.stableToken, ['balance']),
   },
   tokens: {
-    ..._.omit(v38Schema.tokens, ['lastSuccessfulFetch']),
+    ..._.omit(v39Schema.tokens, ['lastSuccessfulFetch']),
   },
   web3: {
-    ..._.omit(v38Schema.web3, ['commentKey', 'gasPriceLastUpdated', 'contractKitReady']),
+    ..._.omit(v39Schema.web3, ['commentKey', 'gasPriceLastUpdated', 'contractKitReady']),
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v39Schema as Partial<RootState>
+  return v40Schema as Partial<RootState>
 }

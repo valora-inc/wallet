@@ -2351,6 +2351,40 @@
     cross-fetch "3.0.4"
     debug "^4.1.1"
 
+"@celo/payments-sdk@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@celo/payments-sdk/-/payments-sdk-0.0.9.tgz#d35e5a48cea0cfc23cb64b9a3120f518809959b3"
+  integrity sha512-z6FMNxT203JAD86RR6xtkNwSRY3KeBM7gXmar3gYuC54XbmaPst/1rPdGpYQ+CKJPSBdj0fvb1d2bV6aF5TpXw==
+  dependencies:
+    "@celo/base" "1.2.0"
+    "@celo/connect" "1.2.0"
+    "@celo/contractkit" "1.2.0"
+    "@celo/payments-types" "0.0.9"
+    "@celo/payments-utils" "0.0.9"
+    "@types/isomorphic-fetch" "^0.0.35"
+    ajv "^8.6.3"
+    bignumber.js "^9.0.1"
+    isomorphic-fetch "^3.0.0"
+
+"@celo/payments-types@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@celo/payments-types/-/payments-types-0.0.9.tgz#318677136ba47ba521deac01134d663ae73019e0"
+  integrity sha512-XYbKQDgfbcZYpei4nE0c3/OMYJCHKGzA+hkb9mW3MgrxlOwMMJHbynXS2QrTYMh1mwcNzP9+aNwBMksiUyNYHg==
+  dependencies:
+    "@celo/contractkit" "1.2.0"
+    "@celo/utils" "1.2.0"
+    "@types/js-yaml" "^4.0.3"
+    bignumber.js "^9.0.1"
+    js-yaml "^4.1.0"
+
+"@celo/payments-utils@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@celo/payments-utils/-/payments-utils-0.0.9.tgz#f84c7d43e26de614df3e70b0da1c466d7e8304e6"
+  integrity sha512-pKhLmE2EqxkqanYm0HarNnbbVPVtq0kpLdz83pI1h1JQrEpK52KDAg8QSIyWlMP8Yy1T3C9Wj6o+TMBMXbJ8xw==
+  dependencies:
+    "@celo/payments-types" "0.0.9"
+    bignumber.js "^9.0.1"
+
 "@celo/react-native-sms-retriever@git+https://github.com/celo-org/react-native-sms-retriever#11e078e":
   version "1.0.3"
   resolved "git+https://github.com/celo-org/react-native-sms-retriever#11e078e7631348d27bf7a0e8d0e172701ae30ea8"
@@ -5832,6 +5866,11 @@
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
+
+"@types/js-yaml@^4.0.3":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.5.tgz#738dd390a6ecc5442f35e7f03fa1431353f7e138"
+  integrity sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==
 
 "@types/json-schema@^7.0.3":
   version "7.0.4"
@@ -13681,6 +13720,14 @@ isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+isomorphic-fetch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz#0267b005049046d2421207215d45d6a262b8b8b4"
+  integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
+  dependencies:
+    node-fetch "^2.6.1"
+    whatwg-fetch "^3.4.1"
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -14438,7 +14485,7 @@ js-sha3@0.8.0, js-sha3@^0.8.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@3.13.1, js-yaml@3.14.0, js-yaml@^3.10.0, js-yaml@^3.13.1:
+js-yaml@3.13.1, js-yaml@3.14.0, js-yaml@^3.10.0, js-yaml@^3.13.1, js-yaml@^4.1.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -23007,6 +23054,11 @@ whatwg-fetch@>=0.10.0, whatwg-fetch@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
   integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
+
+whatwg-fetch@^3.4.1:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+  integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
 
 whatwg-mimetype@^2.3.0:
   version "2.3.0"
