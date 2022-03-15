@@ -782,9 +782,9 @@
     "codePlaceholderWithCodeInClipboard": "Чудово! Вставте його тут",
     "resendMessages_all": "Повторно надіслати всі повідомлення",
     "resendMessages_0": "Повторно надіслати останнє повідомлення",
-    "resendMessages_1": "Повторно відправити {{count}} повідомлень",
-    "resendMessages_2": "Повторно відправити {{count}} повідомлень",
-    "resendMessages_3": "Повторно надіслати {{count}} повідомлень"
+    "resendMessages_1": "Повторно надіслати повідомлення: {{count}}",
+    "resendMessages_2": "Повторно надіслати повідомлення: {{count}}",
+    "resendMessages_3": "Повторно надіслати повідомлення: {{count}}"
   },
   "verificationInputHelpDialog": {
     "title": "Довідка",
