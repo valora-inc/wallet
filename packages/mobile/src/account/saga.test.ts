@@ -1,11 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
-import { getMTWAddress } from 'src/web3/saga'
+import { getWalletAddress } from 'src/web3/saga'
 import { fetchFinclusiveKyc } from 'src/account/saga'
 import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
-import { mockAccount, mockDEKAddress } from 'test/values'
-import { dataEncryptionKeySelector } from 'src/web3/selectors'
+import { mockAccount } from 'test/values'
 import { setFinclusiveKyc } from './actions'
+import { jwtSelector } from './selectors'
 
 jest.mock('src/in-house-liquidity', () => ({
   ...(jest.requireActual('src/in-house-liquidity') as any),
@@ -20,8 +20,8 @@ describe('fetchFinclusiveKyc', () => {
   test('calls finclusive if persona is approved but finclusive kyc is not', async () => {
     await expectSaga(fetchFinclusiveKyc)
       .provide([
-        [call(getMTWAddress), mockAccount],
-        [select(dataEncryptionKeySelector), mockDEKAddress],
+        [call(getWalletAddress), mockAccount],
+        [select(jwtSelector), 'mock_jwt'],
       ])
       .put(setFinclusiveKyc(2))
       .run()
