@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 40,
+          "version": 41,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -137,6 +137,7 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
+          "dappsWebViewEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,

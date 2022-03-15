@@ -1783,6 +1783,9 @@
                         "string"
                     ]
                 },
+                "dappsWebViewEnabled": {
+                    "type": "boolean"
+                },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -1930,6 +1933,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "dappListApiUrl",
+                "dappsWebViewEnabled",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
