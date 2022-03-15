@@ -2,7 +2,7 @@ import { LinkEventMetadata, LinkEventName, openLink } from 'react-native-plaid-l
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { createLinkToken } from 'src/in-house-liquidity'
-import { mockAccount, mockPrivateDEK } from 'test/values'
+import { mockAccount } from 'test/values'
 import openPlaid, { handleOnEvent } from './openPlaid'
 
 jest.mock('react-native-plaid-link-sdk', () => ({
@@ -14,12 +14,20 @@ jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('src/in-house-liquidity', () => ({
   ...(jest.requireActual('src/in-house-liquidity') as any),
-  createLinkToken: jest.fn(({ accountMTWAddress }) => {
-    if (accountMTWAddress === 'bad-account') {
+  createLinkToken: jest.fn(({ walletAddress }) => {
+    if (walletAddress === 'bad-account') {
       throw new Error('It failed')
     }
     return Promise.resolve('foo')
   }),
+}))
+
+const mockWallet = {
+  isAccountUnlocked: jest.fn().mockReturnValue(true),
+}
+
+jest.mock('src/web3/contracts', () => ({
+  getWalletAsync: jest.fn(() => Promise.resolve(mockWallet)),
 }))
 
 const MOCK_PHONE_NUMBER = '+18487623478'
@@ -41,11 +49,11 @@ describe('openPlaid', () => {
       onExit,
     })
     expect(createLinkToken).toHaveBeenCalledWith({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockAccount,
       isAndroid: true,
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
+      wallet: mockWallet,
     })
 
     expect(openLink).toHaveBeenCalledWith({
@@ -61,16 +69,16 @@ describe('openPlaid', () => {
     await openPlaid({
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      walletAddress: mockAccount,
+      walletAddress: 'bad-account',
       onSuccess,
       onExit,
     })
     expect(createLinkToken).toHaveBeenCalledWith({
-      accountMTWAddress: 'bad-account',
+      walletAddress: 'bad-account',
       isAndroid: true,
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
+      wallet: mockWallet,
     })
 
     expect(openLink).not.toHaveBeenCalled()

@@ -13,8 +13,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { createLinkToken } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-import { getWalletAsync } from '../web3/contracts'
-import { requestPincodeInput } from '../pincode/authentication'
+import { getWalletAsync } from 'src/web3/contracts'
+import { requestPincodeInput } from 'src/pincode/authentication'
 
 const TAG = 'PLAID'
 
