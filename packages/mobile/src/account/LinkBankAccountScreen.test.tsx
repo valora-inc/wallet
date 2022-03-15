@@ -7,7 +7,6 @@ import PersonaButton from './Persona'
 import Button from '@celo/react-components/components/Button'
 import openPlaid from 'src/account/openPlaid'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
@@ -37,6 +36,7 @@ const MockPersona = ({
 }
 
 const MOCK_PHONE_NUMBER = '+18487623478'
+const MOCK_WALLET_ADDRESS = '0x123'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -222,7 +222,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
     describe('StepTwo', () => {
       it('step two is disabled when feature flag is switched off (even if kyc approved)', async () => {
         const store = createMockStore({
-          web3: { mtwAddress: mockAccount },
+          web3: { account: MOCK_WALLET_ADDRESS },
           account: { finclusiveKycStatus: FinclusiveKycStatus.Accepted },
           app: { linkBankAccountStepTwoEnabled: false },
         })
@@ -240,7 +240,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       })
       it('step two is disabled when feature flag is switched on and kyc is not approved', async () => {
         const store = createMockStore({
-          web3: { mtwAddress: mockAccount },
+          web3: { account: MOCK_WALLET_ADDRESS },
           account: { finclusiveKycStatus: FinclusiveKycStatus.Submitted },
           app: { linkBankAccountStepTwoEnabled: true },
         })
@@ -255,7 +255,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       })
       it('step two is enabled when feature flag is switched on and kyc is approved', async () => {
         const store = createMockStore({
-          web3: { mtwAddress: mockAccount },
+          web3: { account: MOCK_WALLET_ADDRESS },
           account: { finclusiveKycStatus: FinclusiveKycStatus.Accepted },
           app: { linkBankAccountStepTwoEnabled: true },
         })
@@ -274,8 +274,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('Calls openPlaid when the plaid button is clicked', async () => {
         const store = createMockStore({
           web3: {
-            mtwAddress: mockAccount,
-            dataEncryptionKey: mockPrivateDEK,
+            account: MOCK_WALLET_ADDRESS,
           },
           i18n: {
             language: 'en-US',
@@ -299,10 +298,9 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           CICOEvents.add_initial_bank_account_start
         )
         expect(openPlaid).toHaveBeenCalledWith({
-          accountMTWAddress: mockAccount,
+          walletAddress: MOCK_WALLET_ADDRESS,
           locale: 'en-US',
           phoneNumber: MOCK_PHONE_NUMBER,
-          dekPrivate: mockPrivateDEK,
           onSuccess: expect.any(Function),
           onExit: expect.any(Function),
         })
