@@ -29,9 +29,7 @@ interface OpenPlaidParams {
 /**
  * Retrieves a plaid link token, opens the plaid link UI
  *
- *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  * @param {params.locale} locale the users current locale
  * @param {params.phoneNumber} phoneNumber users verified phone number
  * @param {params.onSuccess} onSuccess function to be called when the user completes the plaid link flow
