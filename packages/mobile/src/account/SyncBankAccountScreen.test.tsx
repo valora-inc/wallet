@@ -2,13 +2,13 @@ import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { Actions } from 'src/account/actions'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
+import { navigate, replace } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
-import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
-import { Screens } from 'src/navigator/Screens'
-import { navigate } from 'src/navigator/NavigationService'
-import { Actions } from 'src/account/actions'
 
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
@@ -28,6 +28,7 @@ jest.mock('src/navigator/NavigationService', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
+  replace: jest.fn(),
   navigate: jest.fn(),
 }))
 
@@ -77,6 +78,7 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
+      expect(replace).toHaveBeenCalledWith(Screens.Settings)
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
         error: mockError,
       })
@@ -93,6 +95,7 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
+      expect(replace).toHaveBeenCalledWith(Screens.Settings)
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
         error: mockError,
       })
