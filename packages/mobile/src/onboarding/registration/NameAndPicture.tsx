@@ -82,7 +82,7 @@ function NameAndPicture({ navigation }: Props) {
     dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: photoChosen,
-      profile_picture_skipped: shouldSkipProfilePicture,
+      profilePictureSkipped: shouldSkipProfilePicture,
     })
     dispatch(setName(newName))
 
