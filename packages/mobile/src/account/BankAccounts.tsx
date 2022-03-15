@@ -1,3 +1,4 @@
+import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
@@ -5,8 +6,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
+import { plaidParamsSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import OptionsChooser from 'src/components/OptionsChooser'
 import PlusIcon from 'src/icons/PlusIcon'
 import TripleDotVertical from 'src/icons/TripleDotVertical'
 import {
@@ -16,20 +24,12 @@ import {
   verifyDekAndMTW,
 } from 'src/in-house-liquidity'
 import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
-import BorderlessButton from '@celo/react-components/components/BorderlessButton'
-import { navigate } from 'src/navigator/NavigationService'
-import openPlaid, { handleOnEvent } from './openPlaid'
-import { plaidParamsSelector } from 'src/account/selectors'
-import OptionsChooser from 'src/components/OptionsChooser'
 import Logger from 'src/utils/Logger'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CICOEvents } from 'src/analytics/Events'
-import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
+import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import openPlaid, { handleOnEvent } from './openPlaid'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
 
@@ -73,24 +73,21 @@ function BankAccounts({ navigation, route }: Props) {
   }, [newPublicToken])
 
   function getBankDisplay(bank: BankAccount) {
+    // Todo: Consider adding a default placeholder image for banks without a logo available
+    const bankLogoSrc = bank.institutionLogo ? `data:image/png;base64,${bank.institutionLogo}` : ''
     return (
       <View key={bank.id} style={styles.accountContainer}>
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
-            {
-              // TODO(wallet#1825): Use real institution logo
-            }
             <Image
-              source={{ uri: 'https://www.chase.com/etc/designs/chase-ux/favicon-57.png' }}
               style={styles.bankImg}
+              source={{ uri: bankLogoSrc }}
+              testID={`BankLogoImg-${bank.id}`}
             />
           </View>
           <View style={styles.accountLabels}>
-            {
-              // TODO(wallet#1825): Use institution name
-            }
             <Text style={styles.bankName}>{`${
-              bank.accountName
+              bank.institutionName
             } (${bank.accountNumberTruncated.slice(-8)})`}</Text>
           </View>
         </View>
