@@ -20,6 +20,14 @@ jest.mock('src/in-house-liquidity', () => ({
   createPersonaAccount: jest.fn(() => Promise.resolve()),
 }))
 
+const mockWallet = {
+  isAccountUnlocked: jest.fn().mockReturnValue(true),
+}
+
+jest.mock('src/web3/contracts', () => ({
+  getWalletAsync: jest.fn(() => Promise.resolve(mockWallet)),
+}))
+
 const mockInquiryBuilder = {
   fromTemplate: jest.fn().mockReturnThis(),
   referenceId: jest.fn().mockReturnThis(),
