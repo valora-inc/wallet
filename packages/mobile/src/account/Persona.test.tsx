@@ -47,6 +47,7 @@ describe('Persona', () => {
     web3: {
       mtwAddress: mockAccount,
       dataEncryptionKey: mockPrivateDEK,
+      publicKey: 'mock_public_key',
     },
   })
 

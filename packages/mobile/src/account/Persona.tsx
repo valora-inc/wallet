@@ -16,6 +16,8 @@ import networkConfig from 'src/geth/networkConfig'
 import { createPersonaAccount } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import { publicKeySelector, walletAddressSelector } from 'src/web3/selectors'
+import { getWalletAsync } from 'src/web3/contracts'
+import { requestPincodeInput } from '../pincode/authentication'
 
 const TAG = 'PERSONA'
 
@@ -80,12 +82,15 @@ const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: 
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      const wallet = await getWalletAsync()
       if (!walletAddress) {
         throw new Error('Cannot call IHL because walletAddress is null')
       }
       if (!publicKey) {
         throw new Error('Cannot call IHL because publicKey is null')
+      }
+      const wallet = await getWalletAsync()
+      if (!wallet.isAccountUnlocked(walletAddress)) {
+        await requestPincodeInput(true, false, walletAddress)
       }
       try {
         await createPersonaAccount({
