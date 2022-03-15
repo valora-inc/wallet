@@ -14,6 +14,7 @@ import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
+import SettingsScreen from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
@@ -60,6 +61,7 @@ import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScr
 import ImportWallet from 'src/import/ImportWallet'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
+import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
@@ -123,8 +125,6 @@ import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
-import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
-
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
@@ -551,6 +551,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.BidaliScreen}
       component={BidaliScreen}
     />
+    <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
   </>
 )
 

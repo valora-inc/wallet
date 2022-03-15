@@ -13,7 +13,7 @@ import {
   verifyDekAndMTW,
 } from 'src/in-house-liquidity'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -40,8 +40,10 @@ const SyncBankAccountScreen = ({ route }: Props) => {
         plaidAccessToken: accessToken,
       })
       dispatch(setHasLinkedBankAccount())
+      replace(Screens.Settings)
       navigate(Screens.BankAccounts, { newPublicToken: publicToken })
     } catch (error) {
+      replace(Screens.Settings)
       navigate(Screens.LinkBankAccountErrorScreen, { error })
       return
     }
