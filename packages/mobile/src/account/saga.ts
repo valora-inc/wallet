@@ -178,7 +178,7 @@ export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
 }
 
-export function* watchSetPincodeSuccess() {
+export function* watchEnterPincodeSuccess() {
   yield takeLeading(Actions.ENTER_PINCODE_SUCCESS, setJWTFromWallet)
 }
 
@@ -197,6 +197,6 @@ export function* accountSaga() {
   yield spawn(watchDailyLimit)
   yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
-  yield spawn(watchSetPincodeSuccess)
+  yield spawn(watchEnterPincodeSuccess)
   yield spawn(watchFetchFinclusiveKYC)
 }
