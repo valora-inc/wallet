@@ -1199,13 +1199,13 @@
   "others": "Otros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
-  "merchant": "Pago de comerciante",
+  "merchant": "Pago a comerciante",
   "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
-  "merchantPaymentNumberVerificationMessage": "Necesitas conectar tu número",
-  "merchantPaymentSubmitFail": "Tu pago no se pudo enviar",
-  "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, por favor intenta escanear el código QR de nuevo",
+  "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
+  "merchantPaymentSubmitFail": "No se pudo completar el pago",
+  "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
   "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
-  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu cartera, por favor inténtalo de nuevo",
+  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, inténtalo de nuevo",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
