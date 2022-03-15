@@ -3,7 +3,6 @@ import BackChevron from '@celo/react-components/icons/BackChevron'
 import ForwardChevron from '@celo/react-components/icons/ForwardChevron'
 import Refresh from '@celo/react-components/icons/Refresh'
 import colors from '@celo/react-components/styles/colors'
-import { Spacing } from '@celo/react-components/styles/styles'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useRef, useState } from 'react'
@@ -50,16 +49,6 @@ function WebViewScreen({ route, navigation }: Props) {
           title={headerTitle ?? hostname ?? ''}
           subTitle={headerTitle ? hostname : undefined}
         />
-      ),
-      headerRight: () => (
-        <Touchable
-          style={styles.refreshIcon}
-          onPress={handleRefresh}
-          hitSlop={iconHitslop}
-          testID="WebViewScreen/Refresh"
-        >
-          <Refresh color={colors.gray4} />
-        </Touchable>
       ),
     })
   }, [navigation])
@@ -112,7 +101,6 @@ function WebViewScreen({ route, navigation }: Props) {
       />
       <View style={styles.navBar}>
         <Touchable
-          style={styles.navIcon}
           onPress={handleGoBack}
           hitSlop={iconHitslop}
           disabled={!canGoBack}
@@ -121,13 +109,15 @@ function WebViewScreen({ route, navigation }: Props) {
           <BackChevron color={canGoBack ? colors.dark : colors.gray3} />
         </Touchable>
         <Touchable
-          style={styles.navIcon}
           onPress={handleGoForward}
           hitSlop={iconHitslop}
           disabled={!canGoForward}
           testID="WebViewScreen/GoForward"
         >
           <ForwardChevron color={canGoForward ? colors.dark : colors.gray3} />
+        </Touchable>
+        <Touchable onPress={handleRefresh} hitSlop={iconHitslop} testID="WebViewScreen/Refresh">
+          <Refresh height={20} color={colors.dark} />
         </Touchable>
       </View>
     </SafeAreaView>
@@ -150,15 +140,10 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 36,
+    justifyContent: 'space-between',
+    paddingHorizontal: 32,
     borderTopWidth: 1,
     borderColor: colors.gray2,
-  },
-  navIcon: {
-    marginRight: 136,
-  },
-  refreshIcon: {
-    paddingHorizontal: Spacing.Thick24,
   },
 })
 
