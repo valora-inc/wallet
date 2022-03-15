@@ -383,7 +383,7 @@ exports[`Account renders correctly 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -495,7 +495,7 @@ exports[`Account renders correctly 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -2811,7 +2811,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -2923,7 +2923,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -5480,7 +5480,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -5592,7 +5592,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -7828,7 +7828,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
@@ -7940,7 +7940,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                     style={Object {}}
                     testID="ForwardChevron"
                     viewBox="0 0 8 16"
-                    width={16}
+                    width={8}
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path

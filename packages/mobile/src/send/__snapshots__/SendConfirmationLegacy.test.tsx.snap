@@ -70,7 +70,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
             style={Object {}}
             testID="BackChevron"
             viewBox="0 0 8 16"
-            width={16}
+            width={8}
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
