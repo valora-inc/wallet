@@ -28,7 +28,6 @@ const mockWallet = {
 }
 
 jest.mock('src/web3/contracts', () => ({
-  // ...(jest.requireActual('src/web3/contracts') as any),
   getWalletAsync: jest.fn(() => Promise.resolve(mockWallet)),
 }))
 
