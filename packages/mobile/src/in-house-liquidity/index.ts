@@ -5,6 +5,7 @@ import { GethNativeBridgeWallet } from '../geth/GethNativeBridgeWallet'
 interface RequiredParams {
   walletAddress: string
   wallet: GethNativeBridgeWallet
+  publicKey: string
 }
 
 /**
@@ -24,7 +25,6 @@ export const getFinclusiveComplianceStatus = async ({
 }): Promise<FinclusiveKycStatus> => {
   const response = await signAndFetch({
     path: `/account/${encodeURIComponent(walletAddress)}/compliance-check-status`,
-    walletAddress,
     jwt,
     requestOptions: {
       method: 'GET',
@@ -50,11 +50,13 @@ type DeleteFinclusiveBankAccountParams = RequiredParams & {
  * get a fiat bank account from finclusive
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.wallet} wallet
  * @param {params.id} id: IHL ID for the bank account to delete
  */
 export const deleteFinclusiveBankAccount = async ({
   walletAddress,
+  publicKey,
   wallet,
   id,
 }: DeleteFinclusiveBankAccountParams): Promise<void> => {
@@ -62,9 +64,10 @@ export const deleteFinclusiveBankAccount = async ({
     accountAddress: walletAddress,
     accountId: id,
   }
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
     walletAddress,
+    publicKey,
     wallet,
     requestOptions: {
       method: 'DELETE',
@@ -91,16 +94,19 @@ export interface BankAccount {
  *
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.wallet} wallet
  * @returns {BankAccounts} List of bank accounts that the user has linked
  */
 export const getFinclusiveBankAccounts = async ({
   walletAddress,
+  publicKey,
   wallet,
 }: RequiredParams): Promise<BankAccount[]> => {
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
-    walletAddress: walletAddress,
+    walletAddress,
+    publicKey,
     wallet,
     requestOptions: {
       method: 'GET',
@@ -125,11 +131,13 @@ type CreateFinclusiveBankAccountParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.wallet} wallet
  * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
  */
 export const createFinclusiveBankAccount = async ({
   walletAddress,
+  publicKey,
   wallet,
   plaidAccessToken,
 }: CreateFinclusiveBankAccountParams): Promise<void> => {
@@ -137,9 +145,10 @@ export const createFinclusiveBankAccount = async ({
     accountAddress: walletAddress,
     plaidAccessToken,
   }
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: '/account/bank-account',
     walletAddress,
+    publicKey,
     wallet,
     requestOptions: {
       method: 'POST',
@@ -163,12 +172,14 @@ type ExchangePlaidAccessTokenParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.wallet} wallet
  * @param {params.publicToken} publicToken plaid public token
  * @returns {accessToken} string accesstoken from plaid
  */
 export const exchangePlaidAccessToken = async ({
   walletAddress,
+  publicKey,
   wallet,
   publicToken,
 }: ExchangePlaidAccessTokenParams): Promise<string> => {
@@ -176,9 +187,10 @@ export const exchangePlaidAccessToken = async ({
     publicToken,
     accountAddress: walletAddress,
   }
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: '/plaid/access-token/exchange',
     walletAddress,
+    publicKey,
     wallet,
     requestOptions: {
       method: 'POST',
@@ -207,6 +219,7 @@ type CreateLinkTokenParams = RequiredParams & {
  *
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.wallet} wallet
  * @param {params.isAndroid} isAndroid
  * @param {params.language} language the users current language
@@ -216,6 +229,7 @@ type CreateLinkTokenParams = RequiredParams & {
  */
 export const createLinkToken = async ({
   walletAddress,
+  publicKey,
   wallet,
   isAndroid,
   language,
@@ -229,10 +243,11 @@ export const createLinkToken = async ({
     accessToken,
     phoneNumber,
   }
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: '/plaid/link-token/create',
-    walletAddress,
+    publicKey,
     wallet,
+    walletAddress,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -254,16 +269,19 @@ export const createLinkToken = async ({
  *
  * @param {params.walletAddress} walletAddress
  * @param {params.wallet} wallet
+ * @param {params.publicKey} publicKey
  */
 export const createPersonaAccount = async ({
   walletAddress,
   wallet,
+  publicKey,
 }: RequiredParams): Promise<void> => {
   const body = { accountAddress: walletAddress }
-  const response = await signAndFetch({
+  const response = await signWithWalletAndFetch({
     path: '/persona/account/create',
-    walletAddress,
     wallet,
+    publicKey,
+    walletAddress,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -279,10 +297,26 @@ export const createPersonaAccount = async ({
 
 interface SignAndFetchParams {
   path: string
-  walletAddress: string
-  wallet?: GethNativeBridgeWallet
-  jwt?: string
+  jwt: string
   requestOptions: RequestInit
+}
+
+export const signWithWalletAndFetch = async ({
+  path,
+  requestOptions,
+  wallet,
+  walletAddress,
+  publicKey,
+}: Omit<SignAndFetchParams, 'jwt'> & {
+  wallet: GethNativeBridgeWallet
+  walletAddress: string
+  publicKey: string
+}): Promise<Response> => {
+  return signAndFetch({
+    path,
+    jwt: await wallet.getExpiringJWT({ publicKey, walletAddress }),
+    requestOptions,
+  })
 }
 
 /**
@@ -290,31 +324,20 @@ interface SignAndFetchParams {
  *
  *
  * @param {params.path} string like /persona/get/foo
- * @param {params.walletAddress} walletAddress
- * @param {params.wallet} wallet
+ * @param {params.jwt} jwt
  * @param {params.requestOptions} requestOptions all the normal fetch options
  * @returns {Response} response object from the fetch call
  */
 export const signAndFetch = async ({
   path,
-  walletAddress,
-  wallet,
   jwt,
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
-  let authHeader
-  if (jwt) {
-    authHeader = `Bearer ${jwt}`
-  } else if (wallet) {
-    authHeader = `Bearer ${await wallet.getJWT({ walletAddress })}`
-  } else {
-    throw new Error(`jwt or wallet is required`)
-  }
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {
       ...requestOptions.headers,
-      Authorization: authHeader,
+      Authorization: `Bearer ${jwt}`,
     },
   })
 }

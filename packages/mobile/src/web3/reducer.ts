@@ -6,6 +6,7 @@ export interface State {
   syncProgress: Web3SyncProgress
   latestBlockNumber: number
   account: string | null // this is the wallet address (EOA)
+  publicKey: string | null // from the private/public key pair for the user (EOA is the hash of this)
   mtwAddress: string | null // this is the account address
   accountInWeb3Keystore: string | null
   // The DEK private key
@@ -25,6 +26,7 @@ const initialState: State = {
   },
   latestBlockNumber: 0,
   account: null,
+  publicKey: null,
   mtwAddress: null,
   accountInWeb3Keystore: null,
   dataEncryptionKey: null,

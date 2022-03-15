@@ -42,8 +42,7 @@ describe('In House Liquidity Calls', () => {
 
       const response = await signAndFetch({
         path: '/persona/account/create',
-        walletAddress: MOCK_USER.walletAddress,
-        wallet: MOCK_USER.wallet,
+        jwt: 'mock_token',
         requestOptions: {
           method: 'POST',
           headers: {
@@ -76,6 +75,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createPersonaAccount({
         walletAddress: MOCK_USER.walletAddress,
+        publicKey: MOCK_USER.publicKey,
         wallet: MOCK_USER.wallet,
       })
       const expectedBody = JSON.stringify({ accountAddress: MOCK_USER.walletAddress })
@@ -102,6 +102,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ linkToken: 'foo-token' }), { status: 201 })
       const linkToken = await createLinkToken({
         walletAddress: MOCK_USER.walletAddress,
+        publicKey: MOCK_USER.publicKey,
         wallet: MOCK_USER.wallet,
         isAndroid: false,
         language: 'en',
@@ -135,6 +136,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
       const response = await createFinclusiveBankAccount({
         walletAddress: MOCK_USER.walletAddress,
+        publicKey: MOCK_USER.publicKey,
         wallet: MOCK_USER.wallet,
         plaidAccessToken: 'foo',
       })
@@ -164,6 +166,7 @@ describe('In House Liquidity Calls', () => {
       mockFetch.mockResponseOnce(JSON.stringify({ accessToken: 'bar-token' }), { status: 201 })
       const response = await exchangePlaidAccessToken({
         walletAddress: MOCK_USER.walletAddress,
+        publicKey: MOCK_USER.publicKey,
         wallet: MOCK_USER.wallet,
         publicToken: 'foo',
       })

@@ -11,3 +11,4 @@ export const dataEncryptionKeySelector = (state: RootState) => state.web3.dataEn
 export const isDekRegisteredSelector = (state: RootState) => state.web3.isDekRegistered
 export const accountAddressSelector = (state: RootState) =>
   state.web3.mtwAddress ?? state.web3.account
+export const publicKeySelector = (state: RootState) => state.web3.publicKey

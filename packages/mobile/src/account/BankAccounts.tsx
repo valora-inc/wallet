@@ -40,7 +40,7 @@ function BankAccounts({ navigation, route }: Props) {
   usePlaidEmitter(handleOnEvent)
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
-  const { walletAddress, phoneNumber, locale } = useSelector(plaidParamsSelector)
+  const { walletAddress, phoneNumber, locale, publicKey } = useSelector(plaidParamsSelector)
   const { newPublicToken } = route.params
 
   const header = () => {
@@ -62,6 +62,9 @@ function BankAccounts({ navigation, route }: Props) {
     if (!walletAddress) {
       throw new Error('Cannot call IHL because walletAddress is null')
     }
+    if (!publicKey) {
+      throw new Error('Cannot call IHL because publicKey is null')
+    }
     if (!wallet.isAccountUnlocked(walletAddress)) {
       await requestPincodeInput(true, false, walletAddress)
     }
@@ -69,6 +72,7 @@ function BankAccounts({ navigation, route }: Props) {
       const accounts = await getFinclusiveBankAccounts({
         wallet,
         walletAddress,
+        publicKey,
       })
       return accounts
     } catch (error) {
@@ -125,6 +129,9 @@ function BankAccounts({ navigation, route }: Props) {
     if (!walletAddress) {
       throw new Error('Cannot call IHL because walletAddress is null')
     }
+    if (!publicKey) {
+      throw new Error('Cannot call IHL because publicKey is null')
+    }
     const wallet = await getWalletAsync()
     if (!wallet.isAccountUnlocked(walletAddress)) {
       await requestPincodeInput(true, false, walletAddress)
@@ -132,6 +139,7 @@ function BankAccounts({ navigation, route }: Props) {
     try {
       await deleteFinclusiveBankAccount({
         walletAddress,
+        publicKey,
         wallet,
         id: selectedBankId,
       })
@@ -153,10 +161,14 @@ function BankAccounts({ navigation, route }: Props) {
             if (!walletAddress) {
               throw new Error('Cannot add account because walletAddress is null')
             }
+            if (!publicKey) {
+              throw new Error('Cannot add account because publicKey is null')
+            }
             await openPlaid({
               phoneNumber,
               locale,
               walletAddress,
+              publicKey,
               onSuccess: ({ publicToken }) => {
                 navigate(Screens.SyncBankAccountScreen, {
                   publicToken,

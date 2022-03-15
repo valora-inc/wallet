@@ -20,6 +20,7 @@ const TAG = 'PLAID'
 
 interface OpenPlaidParams {
   walletAddress: string
+  publicKey: string
   locale: string | null
   phoneNumber: string | null
   onSuccess: (params: LinkSuccess) => void
@@ -30,6 +31,7 @@ interface OpenPlaidParams {
  * Retrieves a plaid link token, opens the plaid link UI
  *
  * @param {params.walletAddress} walletAddress
+ * @param {params.publicKey} publicKey
  * @param {params.locale} locale the users current locale
  * @param {params.phoneNumber} phoneNumber users verified phone number
  * @param {params.onSuccess} onSuccess function to be called when the user completes the plaid link flow
@@ -38,6 +40,7 @@ interface OpenPlaidParams {
  */
 export default async function openPlaid({
   walletAddress,
+  publicKey,
   locale,
   phoneNumber,
   onSuccess,
@@ -53,6 +56,7 @@ export default async function openPlaid({
   try {
     const linkToken = await createLinkToken({
       walletAddress,
+      publicKey,
       wallet,
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US

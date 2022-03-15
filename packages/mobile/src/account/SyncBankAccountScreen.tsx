@@ -11,7 +11,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { walletAddressSelector } from 'src/web3/selectors'
+import { publicKeySelector, walletAddressSelector } from 'src/web3/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { useDispatch } from 'react-redux'
 import { setHasLinkedBankAccount } from 'src/account/actions'
@@ -24,6 +24,7 @@ const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const walletAddress = useSelector(walletAddressSelector)
+  const publicKey = useSelector(publicKeySelector)
 
   const { publicToken } = route.params
 
@@ -32,6 +33,9 @@ const SyncBankAccountScreen = ({ route }: Props) => {
     if (!walletAddress) {
       throw new Error('Cannot call IHL because walletAddress is null')
     }
+    if (!publicKey) {
+      throw new Error('Cannot call IHL because publicKey is null')
+    }
     if (!wallet.isAccountUnlocked(walletAddress)) {
       await requestPincodeInput(true, false, walletAddress)
     }
@@ -39,12 +43,14 @@ const SyncBankAccountScreen = ({ route }: Props) => {
       const accessToken = await exchangePlaidAccessToken({
         wallet,
         walletAddress,
+        publicKey,
         publicToken,
       })
 
       await createFinclusiveBankAccount({
         wallet,
         walletAddress,
+        publicKey,
         plaidAccessToken: accessToken,
       })
       dispatch(setHasLinkedBankAccount())

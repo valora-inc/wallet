@@ -457,5 +457,9 @@ export const migrations = {
       ...state.account,
       jwt: undefined,
     },
+    web3: {
+      ...state.web3,
+      publicKey: null,
+    },
   }),
 }

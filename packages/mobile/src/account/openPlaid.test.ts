@@ -43,6 +43,7 @@ describe('openPlaid', () => {
   it('calls IHL and openLink', async () => {
     await openPlaid({
       walletAddress: mockAccount,
+      publicKey: 'mock_public_key',
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
       onSuccess,
@@ -50,6 +51,7 @@ describe('openPlaid', () => {
     })
     expect(createLinkToken).toHaveBeenCalledWith({
       walletAddress: mockAccount,
+      publicKey: 'mock_public_key',
       isAndroid: true,
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
@@ -70,12 +72,14 @@ describe('openPlaid', () => {
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
       walletAddress: 'bad-account',
+      publicKey: 'mock_public_key',
       onSuccess,
       onExit,
     })
     expect(createLinkToken).toHaveBeenCalledWith({
       walletAddress: 'bad-account',
       isAndroid: true,
+      publicKey: 'mock_public_key',
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
       wallet: mockWallet,

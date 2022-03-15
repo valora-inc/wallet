@@ -1017,6 +1017,10 @@ export const v37Schema = {
     ...v36Schema.account,
     jwt: undefined,
   },
+  web3: {
+    ...v36Schema.web3,
+    publicKey: null,
+  },
   _persist: {
     ...v36Schema._persist,
     version: 37,

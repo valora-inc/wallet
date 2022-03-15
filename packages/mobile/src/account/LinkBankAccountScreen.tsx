@@ -244,7 +244,7 @@ export function StepOne() {
 export function StepTwo() {
   const { t } = useTranslation()
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
-  const { walletAddress, phoneNumber, locale } = useSelector(plaidParamsSelector)
+  const { walletAddress, phoneNumber, locale, publicKey } = useSelector(plaidParamsSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
   const disabled = !stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted
   // This is used to handle universal links within React Native
@@ -274,8 +274,13 @@ export function StepTwo() {
           if (!walletAddress) {
             throw new Error('Cannot start bank account link because walletAddress is null')
           }
+          if (!publicKey) {
+            throw new Error('Cannot start bank account link because publicKey is null')
+          }
+
           await openPlaid({
             walletAddress,
+            publicKey,
             phoneNumber,
             locale,
             onSuccess: ({ publicToken }) => {

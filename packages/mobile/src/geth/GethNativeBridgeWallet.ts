@@ -100,13 +100,24 @@ export class GethNativeBridgeWallet
     return signer.signRawTransaction(txParams)
   }
 
-  getJWT({
-    expirationTimeSeconds,
+  getNonExpiringJWT({
+    publicKey,
     walletAddress,
   }: {
-    expirationTimeSeconds?: number
+    publicKey: string
     walletAddress: string
   }): Promise<string> {
-    return this.getSigner(walletAddress).getJWT(expirationTimeSeconds)
+    return this.getSigner(walletAddress).getJWT(publicKey, undefined)
+  }
+
+  getExpiringJWT({
+    publicKey,
+    walletAddress,
+  }: {
+    publicKey: string
+    walletAddress: string
+  }): Promise<string> {
+    const fiveMinFromNowInSeconds = new Date().getTime() / 1000 + 5 * 60
+    return this.getSigner(walletAddress).getJWT(publicKey, fiveMinFromNowInSeconds)
   }
 }
