@@ -28,8 +28,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOEvents } from 'src/analytics/Events'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
-import { getWalletAsync } from '../web3/contracts'
-import { requestPincodeInput } from '../pincode/authentication'
+import { getWalletAsync } from 'src/web3/contracts'
+import { requestPincodeInput } from 'src/pincode/authentication'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
 
