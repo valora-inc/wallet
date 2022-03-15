@@ -1,9 +1,9 @@
-import networkConfig from 'src/geth/networkConfig'
+import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import jwt from 'jsonwebtoken'
 import KeyEncoder from 'key-encoder'
-import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
-import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
 import { FinclusiveKycStatus } from 'src/account/reducer'
+import networkConfig from 'src/geth/networkConfig'
 
 const keyEncoder = new KeyEncoder('secp256k1')
 interface RequiredParams {
@@ -84,6 +84,8 @@ export interface BankAccount {
   accountName: string
   accountType: string
   accountNumberTruncated: string
+  institutionName: string
+  institutionLogo?: string
 }
 
 /**

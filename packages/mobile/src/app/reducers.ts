@@ -60,7 +60,6 @@ export interface State {
 }
 
 const initialState = {
-  loading: false,
   loggedIn: false,
   numberVerified: false,
   analyticsEnabled: true,
