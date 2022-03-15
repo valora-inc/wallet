@@ -19,6 +19,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import useBackHandler from 'src/utils/useBackHandler'
 import { parse } from 'url'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
@@ -63,6 +64,17 @@ function WebViewScreen({ route, navigation }: Props) {
     })
   }, [navigation])
 
+  useBackHandler(() => {
+    // android hardware back button functions as either browser back button or
+    // app back button
+    if (canGoBack) {
+      handleGoBack()
+    } else {
+      navigateBack()
+    }
+    return true
+  }, [canGoBack, webviewRef?.current, navigation])
+
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
     if (event.url.startsWith('celo://')) {
       dispatch(openDeepLink(event.url))
@@ -72,21 +84,15 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const handleRefresh = () => {
-    if (webviewRef && webviewRef.current) {
-      webviewRef.current.reload()
-    }
+    webviewRef?.current?.reload()
   }
 
   const handleGoForward = () => {
-    if (webviewRef && webviewRef.current) {
-      webviewRef.current.goForward()
-    }
+    webviewRef?.current?.goForward()
   }
 
   const handleGoBack = () => {
-    if (webviewRef && webviewRef.current) {
-      webviewRef.current.goBack()
-    }
+    webviewRef?.current?.goBack()
   }
 
   return (
