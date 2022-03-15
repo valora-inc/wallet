@@ -29,6 +29,7 @@
   - [Building an APK or Bundle](#building-an-apk-or-bundle)
 - [Other](#other)
   - [Localization (l10n) / translation process](#localization-l10n--translation-process)
+  - [Redux state migration](#redux-state-migration)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
   - [Generating GraphQL Types](#generating-graphql-types)
   - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
@@ -441,6 +442,40 @@ The service that route SMS messages to the app needs to be configured to [append
 
 We're using [GraphQL Code Generator][graphql code generator] to properly type GraphQL queries. If you make a change to a query, run `yarn build:gen-graphql-types` to update the typings in the `typings` directory.
 
+### Redux state migration
+
+We're using [redux-persist](https://github.com/rt2zz/redux-persist) to persist the state of the app across launches.
+
+Whenever we add/remove/update properties to the [RootState][rootstate], we need to ensure previous versions of the app can successfully migrate their persisted state to the new schema version.
+Otherwise it can lead to subtle bugs or crashes for existing users of the app, when their app is upgraded.
+
+We have automated checks to ensure that the state migration is working correctly across all versions. You're probably reading this because these checks pointed you to this documentation.
+These checks are based on the JSON schema representation of the [RootState][rootstate] TypeScript type. It is stored in [test/RootStateSchema.json][rootstateschema].
+
+#### When is a migration or new schema version needed?
+
+As a rule of thumb, a migration is needed whenever the [RootState][rootstate] changes. That is whenever [test/RootStateSchema.json][rootstateschema] changes.
+
+Here we're optimizing for correctness and explicitness to avoid breaking existing users.
+
+[redux-persist](https://github.com/rt2zz/redux-persist) can automatically handle newly added properties with its [state reconcilier](https://github.com/rt2zz/redux-persist#state-reconciler).
+However it leaves removed properties. Which is fine in the majority of the cases, but could create issues if later on a property is added again with the same name.
+And it only merges the initial state with the persisted state up to 2 levels of nesting (this is the `autoMergeLevel2` config we are using).
+
+So in general, if you're only adding a new reducer or adding a new property to an existing reducer, the migration can just return the input state. The state reconciler will do the right thing.
+
+If you're deleting or updating existing properties, please implement the appropriate migration for them.
+
+#### What do to when [test/RootStateSchema.json][rootstateschema] needs an update?
+
+1. Run `yarn test:update-root-state-schema`. This will ensure the JSON schema is in sync with the [RootState][rootstate] TypeScript type.
+2. Review the changes in the schema
+3. Increase the schema version in [src/redux/store.ts](src/redux/store.ts#L27)
+4. Add a new migration in [src/redux/migrations.ts](src/redux/migrations.ts)
+5. Add a new test schema in [test/schema.ts](test/schema.ts), with the newly added/deleted/updated properties. The test schema is useful to test migrations and show how the schema changed over time.
+6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](src/redux/migrations.test.ts)
+7. Commit the changes
+
 ### How we handle Geth crashes in wallet app on Android
 
 Our Celo app has three types of codes.
@@ -498,7 +533,7 @@ We try to minimise the differences between running Valora in different modes and
 If you're having an error with installing packages, or `secrets.json` not existing:
 
 try to run `yarn postinstall` in the wallet root folder after running `yarn install`.
-  
+
 If some of your assets are not loaded and you see an error running sync_branding.sh.
 Check if you have set up your Github connection with SSH.
 
@@ -605,3 +640,5 @@ $ adb kill-server && adb start-server
 [device unauthorized]: https://stackoverflow.com/questions/23081263/adb-android-device-unauthorized
 [watchman]: https://facebook.github.io/watchman/docs/install/
 [jq]: https://stedolan.github.io/jq/
+[rootstate]: src/redux/reducers.ts#L79
+[rootstateschema]: test/RootStateSchema.json

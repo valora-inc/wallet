@@ -65,6 +65,10 @@ jobs:
         run: yarn
       - name: Build Yarn packages
         run: yarn build --ignore docs
+      - name: Update RootStateSchema if necessary
+        run: yarn --cwd packages/mobile test:update-root-state-schema
+      - name: Fail if someone forgot to commit "RootStateSchema.json"
+        run: git diff --exit-code
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
