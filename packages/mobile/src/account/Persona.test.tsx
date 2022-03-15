@@ -24,8 +24,8 @@ const mockWallet = {
   isAccountUnlocked: jest.fn().mockReturnValue(true),
 }
 
-jest.mock('src/web3/contracts', () => ({
-  getWalletAsync: jest.fn(() => Promise.resolve(mockWallet)),
+jest.mock('src/pincode/authentication', () => ({
+  getUnlockedWallet: jest.fn(() => Promise.resolve(mockWallet)),
 }))
 
 const mockInquiryBuilder = {

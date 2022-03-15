@@ -14,10 +14,9 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import { createPersonaAccount } from 'src/in-house-liquidity'
+import { getUnlockedWallet } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { publicKeySelector, walletAddressSelector } from 'src/web3/selectors'
-import { getWalletAsync } from 'src/web3/contracts'
-import { requestPincodeInput } from '../pincode/authentication'
 
 const TAG = 'PERSONA'
 
@@ -88,10 +87,11 @@ const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: 
       if (!publicKey) {
         throw new Error('Cannot call IHL because publicKey is null')
       }
-      const wallet = await getWalletAsync()
-      if (!wallet.isAccountUnlocked(walletAddress)) {
-        await requestPincodeInput(true, false, walletAddress)
+      const wallet = await getUnlockedWallet(walletAddress)
+      if (!wallet) {
+        throw new Error('Cannot call IHL because wallet is null')
       }
+      Logger.info(TAG, `isAccountUnlocked: ${wallet.isAccountUnlocked(walletAddress)}`)
       try {
         await createPersonaAccount({
           wallet,

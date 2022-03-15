@@ -41,6 +41,7 @@ import {
 } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
+import { GethNativeBridgeWallet } from '../geth/GethNativeBridgeWallet'
 
 const PIN_BLOCKLIST_PATH =
   'src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json'
@@ -432,6 +433,27 @@ export async function ensureCorrectPassword(
     Logger.showError(i18n.t(ErrorMessages.ACCOUNT_UNLOCK_FAILED))
     return false
   }
+}
+
+/**
+ * Get an unlocked wallet.
+ *
+ * May trigger a pincode enter screen.
+ *
+ * @param walletAddress
+ */
+export async function getUnlockedWallet(
+  walletAddress: string
+): Promise<GethNativeBridgeWallet | undefined> {
+  const pin = await getPincode() // may trigger 'pincode enter' screen
+  const password = await getPasswordForPin(pin)
+  const wallet = await getWalletAsync()
+  const unlockResult = await wallet.unlockAccount(walletAddress, password, UNLOCK_DURATION)
+  if (!unlockResult) {
+    Logger.error(TAG, 'Failed to unlock wallet')
+    return
+  }
+  return wallet
 }
 
 export async function removeAccountLocally(account: string) {
