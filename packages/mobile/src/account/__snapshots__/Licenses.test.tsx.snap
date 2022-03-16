@@ -60,6 +60,7 @@ exports[`Licenses renders correctly 1`] = `
           },
         ]
       }
+      testID="RNWebView"
       thirdPartyCookiesEnabled={true}
     />
   </View>

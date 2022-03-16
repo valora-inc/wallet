@@ -1048,6 +1048,102 @@ export const v39Schema = {
   },
 }
 
+export const v40Schema = {
+  ..._.omit(v39Schema, ['medianator', 'invite']),
+  _persist: {
+    ...v39Schema._persist,
+    version: 40,
+  },
+  account: {
+    ..._.omit(v39Schema.account, [
+      'pincodeSet',
+      'isSettingPin',
+      'backupDelayedTime',
+      'socialBackupCompleted',
+      'incomingPaymentRequests',
+      'outgoingPaymentRequests',
+      'dismissedInviteFriends',
+      'dismissedEarnRewards',
+      'shouldSkipOnboardingEducationScreen',
+    ]),
+  },
+  alert: null,
+  app: {
+    ..._.omit(v39Schema.app, [
+      'loading',
+      'inviteCodeEntered',
+      'error',
+      'dismissErrorAfter',
+      'language',
+      'doingBackupFlow',
+      'message',
+      'dismissMessageAfter',
+      'lockWithPinEnabled',
+      'rewardsPercent',
+      'rewardsStartDate',
+      'rewardsMax',
+      'rewardsMin',
+      'rewardsABTestThreshold',
+      'shortVerificationCodesEnabled',
+      'walletConnectEnabled',
+    ]),
+    activeScreen: 'Main',
+  },
+  cloudFunctionsApi: {},
+  escrow: {
+    ..._.omit(v39Schema.escrow, ['suggestedFee']),
+  },
+  exchange: {
+    ..._.omit(v39Schema.exchange, ['exchangeRatePair']),
+    history: {
+      ..._.omit(v39Schema.exchange.history, ['isLoading']),
+    },
+  },
+  home: {
+    ...v39Schema.home,
+    notifications: {},
+  },
+  identity: {
+    ..._.omit(v39Schema.identity, [
+      'verificationFailed',
+      'startedVerification',
+      'isLoadingImportContacts',
+      'contactMappingProgress',
+      'attestationsCode',
+    ]),
+  },
+  localCurrency: {
+    ..._.omit(v39Schema.localCurrency, ['exchangeRate', 'fetchRateFailed']),
+  },
+  recipients: {
+    ..._.omit(v39Schema.recipients, ['recipientCache']),
+  },
+  send: {
+    ..._.omit(v39Schema.send, ['recipientCache']),
+  },
+  stableToken: {
+    ..._.omit(v39Schema.stableToken, ['balance']),
+  },
+  tokens: {
+    ..._.omit(v39Schema.tokens, ['lastSuccessfulFetch']),
+  },
+  web3: {
+    ..._.omit(v39Schema.web3, ['commentKey', 'gasPriceLastUpdated', 'contractKitReady']),
+  },
+}
+
+export const v41Schema = {
+  ...v40Schema,
+  _persist: {
+    ...v40Schema._persist,
+    version: 41,
+  },
+  app: {
+    ...v40Schema.app,
+    dappsWebViewEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v39Schema as Partial<RootState>
+  return v41Schema as Partial<RootState>
 }

@@ -1,4 +1,4 @@
-import createMigrate from 'src/redux/createMigrate'
+import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import { _persistConfig } from 'src/redux/store'
 import { vNeg1Schema } from 'test/schemas'
