@@ -223,11 +223,8 @@ export const appReducer = (
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
-<<<<<<< HEAD
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
-=======
         skipProfilePicture: action.configValues.skipProfilePicture,
->>>>>>> feat: experiment on removing profile picture during onboarding flow
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
