@@ -140,11 +140,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
     Logger.debug(`${TAG}@tagTxsWithProviderInfo`, 'Done checking txs')
   } catch (error) {
-    Logger.debug(
-      `${TAG}@tagTxsWithProviderInfo`,
-      'Failed to tag txs with provider info',
-      error ?? undefined
-    )
+    Logger.error(`${TAG}@tagTxsWithProviderInfo`, 'Failed to tag txs with provider info', error)
   }
 }
 
