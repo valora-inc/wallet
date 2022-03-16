@@ -1188,7 +1188,7 @@
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} s'ouvrira dans une application externe",
+    "title": "{{dappName}} s'ouvrira dans une appli externe",
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
