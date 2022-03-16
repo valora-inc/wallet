@@ -557,11 +557,5 @@ export const migrations = {
       },
     }
   },
-  41: (state: any) => ({
-    ...state,
-    app: {
-      ...state.app,
-      dappsWebViewEnabled: false,
-    },
-  }),
+  41: (state: any) => state,
 }
