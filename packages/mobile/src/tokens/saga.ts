@@ -130,7 +130,10 @@ export function* fetchToken(token: Currency, tag: string) {
     } else {
       ValoraAnalytics.track(AppEvents.fetch_balance_error, balanceLogObject)
     }
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.message?.includes('The network connection was lost')) {
+      Logger.debug(tag, 'Error fetching balance', error)
+    }
     Logger.error(tag, 'Error fetching balance', error)
   }
 }
