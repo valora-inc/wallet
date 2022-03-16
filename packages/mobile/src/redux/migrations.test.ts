@@ -444,7 +444,7 @@ describe('Redux persist migrations', () => {
   })
   it('works for v41 to v42', () => {
     const oldSchema = v41Schema
-    const migratedSchema = migrations[41](oldSchema)
+    const migratedSchema = migrations[42](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.skipProfilePicture = false
