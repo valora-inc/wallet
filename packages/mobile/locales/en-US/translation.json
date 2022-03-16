@@ -12,7 +12,7 @@
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require Pin on App Open",
-  "connectedApplications": "Connected Apps",
+  "connectedApplications": "Connected Dapps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
