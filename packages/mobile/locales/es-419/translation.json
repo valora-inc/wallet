@@ -1188,7 +1188,7 @@
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} se abrirá en un navegador externo.",
+    "title": "{{dappName}} se abrirá en una aplicación externa",
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },
