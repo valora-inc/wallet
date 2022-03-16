@@ -1,5 +1,8 @@
 import BigNumber from 'bignumber.js'
-import { getHigherBalanceCurrency } from 'src/tokens/utils'
+import {
+  getHigherBalanceCurrency,
+  sortFirstStableThenCeloThenOthersByUsdBalance,
+} from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 describe(getHigherBalanceCurrency, () => {
@@ -61,4 +64,65 @@ describe(getHigherBalanceCurrency, () => {
       getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], balances, exchangesRates)
     ).toEqual(undefined)
   })
+})
+
+describe(sortFirstStableThenCeloThenOthersByUsdBalance, () => {
+  const expectedOrder = [
+    {
+      symbol: 'cUSD',
+      isCoreToken: true,
+      usdPrice: new BigNumber(1),
+      balance: new BigNumber(2),
+    },
+    {
+      symbol: 'cEUR',
+      isCoreToken: true,
+      usdPrice: new BigNumber(1.5),
+      balance: new BigNumber(1),
+    },
+    {
+      symbol: 'CELO',
+      isCoreToken: true,
+      usdPrice: new BigNumber(5),
+      balance: new BigNumber(1),
+    },
+    {
+      symbol: 'wBIT',
+      isCoreToken: false,
+      usdPrice: new BigNumber(5000),
+      balance: new BigNumber(1),
+    },
+    {
+      symbol: 'wETH',
+      isCoreToken: false,
+      usdPrice: new BigNumber(3000),
+      balance: new BigNumber(1),
+    },
+    {
+      symbol: 'TT2',
+      isCoreToken: false,
+      usdPrice: undefined,
+      balance: new BigNumber(5),
+    },
+    {
+      symbol: 'TT',
+      isCoreToken: false,
+      usdPrice: undefined,
+      balance: new BigNumber(2),
+    },
+  ]
+
+  it(`shouldn't change expected order while sorting`, () => {
+    const copy = Object.assign([], expectedOrder)
+    copy.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
+    expect(copy).toMatchObject(expectedOrder)
+    shuffle(copy)
+    copy.sort(sortFirstStableThenCeloThenOthersByUsdBalance)
+    expect(copy).toMatchObject(expectedOrder)
+  })
+
+  // Gives some randomness to the array
+  function shuffle(copy: any[]) {
+    copy.sort(() => 0.5 - Math.random())
+  }
 })

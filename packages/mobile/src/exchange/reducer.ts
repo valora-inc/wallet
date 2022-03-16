@@ -113,7 +113,6 @@ export const reducer = (
         },
         exchangeRates: initialState.exchangeRates,
         isLoading: false,
-        exchangeRatePair: undefined,
       }
     }
 
