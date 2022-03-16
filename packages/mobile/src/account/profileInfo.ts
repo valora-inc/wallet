@@ -67,7 +67,6 @@ export function* checkIfProfileUploaded() {
 //   }
 // }
 
-// delete this line
 export function* uploadNameAndPicture() {
   try {
     const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
