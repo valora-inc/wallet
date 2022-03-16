@@ -73,15 +73,15 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const handleRefresh = () => {
-    webviewRef?.current?.reload()
+    webviewRef.current?.reload()
   }
 
   const handleGoForward = () => {
-    webviewRef?.current?.goForward()
+    webviewRef.current?.goForward()
   }
 
   const handleGoBack = () => {
-    webviewRef?.current?.goBack()
+    webviewRef.current?.goBack()
   }
 
   return (
