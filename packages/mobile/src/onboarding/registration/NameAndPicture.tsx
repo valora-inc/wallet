@@ -93,15 +93,15 @@ function NameAndPicture({ navigation }: Props) {
   const onPhotoChosen = async (dataUrl: string | null) => {
     if (!dataUrl) {
       dispatch(setPicture(null))
-      setPhotoChosen(false)
+      setPhotoChosen(false) // coverage:ignore-line
     } else {
       try {
         const fileName = await saveProfilePicture(dataUrl)
         dispatch(setPicture(fileName))
-        setPhotoChosen(true)
+        setPhotoChosen(true) // coverage:ignore-line
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
-        setPhotoChosen(false)
+        setPhotoChosen(false) // coverage:ignore-line
       }
     }
   }
