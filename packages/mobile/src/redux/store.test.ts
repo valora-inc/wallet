@@ -137,6 +137,7 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
+          "dappSessionActive": null,
           "dappsWebViewEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,

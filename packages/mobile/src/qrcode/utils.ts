@@ -25,7 +25,7 @@ import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/Sen
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
-import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
+import { handleWalletConnectLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 export enum BarcodeTypes {
@@ -112,7 +112,7 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    handleLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Scan })
+    handleWalletConnectLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Scan })
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }

@@ -58,7 +58,7 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export async function handleWalletConnectLoadingWithTimeout(
+export function handleWalletConnectLoadingWithTimeout(
   routeParams: StackParamList[Screens.WalletConnectLoading]
 ) {
   navigate(Screens.WalletConnectLoading, routeParams)
