@@ -1,7 +1,11 @@
 import { call, select } from 'redux-saga/effects'
+import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import { navigate } from 'src/navigator/NavigationService'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import i18n from 'src/i18n'
+import { isScreenOnForeground, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 
@@ -9,6 +13,7 @@ const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
 const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
 const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
+const CONNECTION_TIMEOUT = 10_000
 
 /**
  * See https://docs.walletconnect.org/v/2.0/mobile-linking for exactly
@@ -36,7 +41,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
-    navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Deeplink })
+    handleLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Deeplink })
   }
 
   // connection request
@@ -51,4 +56,22 @@ export function isWalletConnectDeepLink(deepLink: string) {
   return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
     decodeURIComponent(deepLink).startsWith(prefix)
   )
+}
+
+export async function handleLoadingWithTimeout(
+  wcLoadingRouteParams: StackParamList[Screens.WalletConnectLoading]
+) {
+  navigate(Screens.WalletConnectLoading, wcLoadingRouteParams)
+
+  setTimeout(async () => {
+    if (await isScreenOnForeground(Screens.WalletConnectLoading)) {
+      ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+        error: 'timed out while waiting for a session',
+      })
+      navigate(Screens.WalletConnectResult, {
+        title: i18n.t('timeoutTitle'),
+        subtitle: i18n.t('timeoutSubtitle'),
+      })
+    }
+  }, CONNECTION_TIMEOUT)
 }
