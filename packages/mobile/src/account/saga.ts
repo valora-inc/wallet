@@ -18,6 +18,7 @@ import {
   updateKycStatus,
   setFinclusiveKyc,
   setJWT,
+  setPublicKey,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
@@ -160,12 +161,16 @@ export function* watchKycStatus() {
 }
 
 /**
- * Once a user has unlocked their wallet, set the JWT in redux.
+ * Once a user has unlocked their wallet, set the JWT and public key in redux.
+ *
+ * This will allow us to provide auth credentials when polling IHL in the background
  */
-export function* setJWTFromWallet() {
+export function* setJWTAndPublicKeyFromWallet() {
   const walletAddress = yield call(getWalletAddress)
   const wallet = yield call(getWallet)
-  const jwt = yield call(wallet.getJWT, { walletAddress })
+  const publicKey = yield call(wallet.getPublicKey, walletAddress)
+  yield put(setPublicKey(publicKey))
+  const jwt = yield call(wallet.getNonExpiringJWT, { walletAddress, publicKey })
   yield put(setJWT(jwt))
 }
 
@@ -179,7 +184,7 @@ export function* watchInitializeAccount() {
 }
 
 export function* watchEnterPincodeSuccess() {
-  yield takeLeading(Actions.ENTER_PINCODE_SUCCESS, setJWTFromWallet)
+  yield takeLeading(Actions.ENTER_PINCODE_SUCCESS, setJWTAndPublicKeyFromWallet)
 }
 
 export function* watchSaveNameAndPicture() {

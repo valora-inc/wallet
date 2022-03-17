@@ -42,6 +42,7 @@ export enum Actions {
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
   SET_JWT = 'ACCOUNT/JWT',
+  SET_PUBLIC_KEY = 'ACCOUNT/SET_PUBLIC_KEY',
 }
 
 export interface ChooseCreateAccountAction {
@@ -200,6 +201,11 @@ export interface SetJWTAction {
   jwt: string
 }
 
+export interface SetPublicKeyAction {
+  type: Actions.SET_PUBLIC_KEY
+  publicKey: string
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -234,6 +240,7 @@ export type ActionTypes =
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
   | SetJWTAction
+  | SetPublicKeyAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -406,6 +413,11 @@ export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction =>
 export const setJWT = (jwt: string): SetJWTAction => ({
   type: Actions.SET_JWT,
   jwt,
+})
+
+export const setPublicKey = (publicKey: string): SetPublicKeyAction => ({
+  type: Actions.SET_PUBLIC_KEY,
+  publicKey,
 })
 
 export const setHasLinkedBankAccount = (): SetHasLinkedBankAccount => ({

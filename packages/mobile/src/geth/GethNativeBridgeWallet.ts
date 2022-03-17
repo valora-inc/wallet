@@ -100,6 +100,10 @@ export class GethNativeBridgeWallet
     return signer.signRawTransaction(txParams)
   }
 
+  getPublicKey(walletAddress: string): Promise<string> {
+    return this.getSigner(walletAddress).getPublicKey()
+  }
+
   getNonExpiringJWT({
     publicKey,
     walletAddress,
