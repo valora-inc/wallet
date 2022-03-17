@@ -3,7 +3,7 @@ import { ContractKit } from '@celo/contractkit'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { KomenciKit, ProxyType } from '@komenci/kit/lib/kit'
 import { verifyWallet } from '@komenci/kit/lib/verifyWallet'
-import * as reduxSagaTestPlan from 'redux-saga-test-plan'
+import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -62,11 +62,11 @@ import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
-export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
-export const mockAccount = '0x0000000000000000000000000000000000007E57'
-export const mockAccount1 = '0x0000000000000000000000000000000000007E58'
-export const mockAccount2 = '0x0000000000000000000000000000000000007E59'
-export const mockKomenciContext = {
+const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
+const mockAccount = '0x0000000000000000000000000000000000007E57'
+const mockAccount1 = '0x0000000000000000000000000000000000007E58'
+const mockAccount2 = '0x0000000000000000000000000000000000007E59'
+const mockKomenciContext = {
   errorTimestamps: [],
   unverifiedMtwAddress: null,
   sessionActive: false,
@@ -74,9 +74,9 @@ export const mockKomenciContext = {
   callbackUrl: undefined,
   captchaToken: '',
 }
-export const mockE164Number = '+14155550000'
-export const mockPepper = 'pepper'
-export const mockPhoneHash = getPhoneHash(mockE164Number, mockPepper)
+const mockE164Number = '+14155550000'
+const mockPepper = 'pepper'
+const mockPhoneHash = getPhoneHash(mockE164Number, mockPepper)
 
 const mockActionableAttestation = {
   issuer: mockAccount2,
@@ -113,8 +113,7 @@ describe(checkIfKomenciAvailableSaga, () => {
   it('sets komenci availability', async () => {
     const contractKit = await getContractKitAsync()
     const komenciKit = getMockKomenciKit(contractKit, mockAccount, mockKomenciContext)
-    await reduxSagaTestPlan
-      .expectSaga(checkIfKomenciAvailableSaga)
+    await expectSaga(checkIfKomenciAvailableSaga)
       .provide([
         [call(getContractKit), contractKit],
         [call(getAccount), mockAccount],
@@ -136,8 +135,7 @@ describe(startSaga, () => {
       sessionActive: true,
     }
     const komenciKit = getMockKomenciKit(contractKit, mockAccount, activeSessionMockKomenciContext)
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: withoutRevealing })
+    await expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -165,8 +163,7 @@ describe(startSaga, () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     const komenciKit = getMockKomenciKit(contractKit, mockAccount, mockKomenciContext)
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: withoutRevealing })
+    await expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -191,8 +188,7 @@ describe(startSaga, () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     const komenciKit = getMockKomenciKit(contractKit, mockAccount, mockKomenciContext)
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: { withoutRevealing } })
+    await expectSaga(startSaga, { payload: { withoutRevealing } })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -220,8 +216,7 @@ describe(startSaga, () => {
   it('fails if komenci is disabled and balance fetch timeouts', async () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: withoutRevealing })
+    await expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -243,8 +238,7 @@ describe(startSaga, () => {
   it('fails if komenci is disabled and balance is insufficient', async () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: withoutRevealing })
+    await expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -269,8 +263,7 @@ describe(startSaga, () => {
   it('starts with Komenci disabled', async () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(startSaga, { payload: withoutRevealing })
+    await expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
         [
           call(navigate, Screens.VerificationLoadingScreen, {
@@ -296,8 +289,7 @@ describe(startSaga, () => {
 describe(fetchPhoneNumberDetailsSaga, () => {
   it('succeeds if phoneHash and pepper are cached', async () => {
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(fetchPhoneNumberDetailsSaga)
+    await expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -313,8 +305,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
 
   it('succeeds if only pepper is cached', async () => {
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(fetchPhoneNumberDetailsSaga)
+    await expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -336,8 +327,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
       ok: true,
       result: { pepper: mockPepper },
     })
-    await reduxSagaTestPlan
-      .expectSaga(fetchPhoneNumberDetailsSaga)
+    await expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
         [select(dataEncryptionKeySelector), mockPrivateDEK],
         [call(getContractKit), contractKit],
@@ -358,8 +348,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
 
   it('succeeds if pepper is not cached without Komenci', async () => {
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(fetchPhoneNumberDetailsSaga)
+    await expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -382,8 +371,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
 
   it('fails with an error', async () => {
     const contractKit = await getContractKitAsync()
-    await reduxSagaTestPlan
-      .expectSaga(fetchPhoneNumberDetailsSaga)
+    await expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -408,8 +396,7 @@ describe(fetchOrDeployMtwSaga, () => {
     ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
       isVerified: true,
     })
-    await reduxSagaTestPlan
-      .expectSaga(fetchOrDeployMtwSaga)
+    await expectSaga(fetchOrDeployMtwSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -465,8 +452,7 @@ describe(fetchOrDeployMtwSaga, () => {
       ok: true,
     })
     const mockRegisterWalletAndDekViaKomenci = jest.fn()
-    await reduxSagaTestPlan
-      .expectSaga(fetchOrDeployMtwSaga)
+    await expectSaga(fetchOrDeployMtwSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -511,8 +497,7 @@ describe(fetchOrDeployMtwSaga, () => {
       ok: true,
     })
     const mockRegisterWalletAndDekViaKomenci = jest.fn()
-    await reduxSagaTestPlan
-      .expectSaga(fetchOrDeployMtwSaga)
+    await expectSaga(fetchOrDeployMtwSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -551,8 +536,7 @@ describe(fetchOrDeployMtwSaga, () => {
       isVerified: true,
     })
 
-    await reduxSagaTestPlan
-      .expectSaga(fetchOrDeployMtwSaga)
+    await expectSaga(fetchOrDeployMtwSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -605,8 +589,7 @@ describe(fetchOnChainDataSaga, () => {
     const mockGetActionableAttestations = jest.fn()
     mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
 
-    await reduxSagaTestPlan
-      .expectSaga(fetchOnChainDataSaga)
+    await expectSaga(fetchOnChainDataSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -647,8 +630,7 @@ describe(fetchOnChainDataSaga, () => {
     const mockGetActionableAttestations = jest.fn()
     mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
 
-    await reduxSagaTestPlan
-      .expectSaga(fetchOnChainDataSaga)
+    await expectSaga(fetchOnChainDataSaga)
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
@@ -677,8 +659,7 @@ describe(fetchOnChainDataSaga, () => {
       .run()
   })
   it('emits fail event if something goes wrong', async () => {
-    await reduxSagaTestPlan
-      .expectSaga(fetchOnChainDataSaga)
+    await expectSaga(fetchOnChainDataSaga)
       .provide([[call(getContractKit), throwError(new Error(ErrorMessages.VERIFICATION_FAILURE))]])
       .put(fail(`fetchOnChainDataSaga - Error: ${ErrorMessages.VERIFICATION_FAILURE}`))
       .run()
@@ -687,8 +668,7 @@ describe(fetchOnChainDataSaga, () => {
 
 describe(resetSaga, () => {
   it('resets the verification process', async () => {
-    await reduxSagaTestPlan
-      .expectSaga(resetSaga)
+    await expectSaga(resetSaga)
       .provide([[select(e164NumberSelector), mockE164Number]])
       .put(updateE164PhoneNumberSalts({ [mockE164Number]: null }))
       .run()
@@ -697,8 +677,7 @@ describe(resetSaga, () => {
 
 describe(failSaga, () => {
   it('set verification status to failed', async () => {
-    await reduxSagaTestPlan
-      .expectSaga(failSaga, 'test')
+    await expectSaga(failSaga, 'test')
       .put(setOldVerificationStatus(VerificationStatus.Failed))
       .run()
   })

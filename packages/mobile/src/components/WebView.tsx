@@ -13,6 +13,7 @@ const WebView = React.forwardRef<WebViewRef, WebViewProps>(
     return (
       <RNWebView
         ref={ref}
+        testID="RNWebView"
         {...passThroughProps}
         style={SHOULD_USE_OPACITY_HACK ? [style, styles.opacityHack] : style}
       />

@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.28.0",
+  "version": "1.29.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -29,6 +29,7 @@
     "test:e2e:ios": "./scripts/run_e2e.sh -p ios -r",
     "test:e2e:packager": "export CELO_TEST_CONFIG=e2e && yarn react-native start",
     "test:verify-locales": "./scripts/verify_locales.sh",
+    "test:update-root-state-schema": "./scripts/update_root_state_schema.sh",
     "pre-deploy": "./scripts/pre-deploy.sh",
     "deploy:update-disclaimer": "cd ../.. && yarn && cd packages/mobile && yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh"
@@ -210,16 +211,18 @@
     "@types/utf8": "^2.1.6",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@valora/eslint-config-typescript": "^0.0.1",
+    "@valora/eslint-config-typescript": "^1.0.0",
     "@valora/resolve-kit": "^1.0.1",
     "@walletconnect/client": "^2.0.0-beta.20",
     "@walletconnect/node": "^1.0.0",
     "@walletconnect/qrcode-modal": "^1.6.6",
+    "ajv": "^8.10.0",
     "babel-core": "7.0.0-bridge.0",
     "detox": "^19.5.3",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
@@ -243,7 +246,8 @@
     "redux-saga-test-plan": "^4.0.0-beta.2",
     "remote-redux-devtools": "^0.5.12",
     "ts-retry-promise": "^0.6.0",
-    "twilio": "^3.69.0"
+    "twilio": "^3.69.0",
+    "typescript-json-schema": "^0.53.0"
   },
   "resolutions": {
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f"

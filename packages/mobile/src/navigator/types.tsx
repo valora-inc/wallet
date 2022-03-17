@@ -1,5 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
+import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -18,7 +19,6 @@ import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirma
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { PendingAction, PendingSession } from 'src/walletConnect/types'
-import { LinkError } from 'react-native-plaid-link-sdk'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -326,7 +326,7 @@ export type StackParamList = {
     dappIcon: string
   }
   [Screens.WalletHome]: undefined
-  [Screens.WebViewScreen]: { uri: string }
+  [Screens.WebViewScreen]: { uri: string; headerTitle?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {
     onAddressScanned: (address: string) => void
