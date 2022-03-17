@@ -289,7 +289,7 @@
   "payWithBank": "Банковский счет",
   "payWithCard": "Дебетовая карта",
   "payWithExchange": "Криптобиржа",
-  "selectCashOutMethod": "Получить средства на:",
+  "selectCashOutMethod": "Выберите способ",
   "receiveOnAddress": "Адрес Celo",
   "receiveWithBidali": "Подарочные карты и пополнение мобильного счета",
   "fundingEducationDialog": {
