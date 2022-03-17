@@ -289,7 +289,7 @@
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
-  "selectCashOutMethod": "Recevoir des fonds en :",
+  "selectCashOutMethod": "Sélectionnez la méthode :",
   "receiveOnAddress": "Adresse Celo",
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
