@@ -83,4 +83,28 @@ describe('GethNativeBridgeSigner', () => {
       })
     })
   })
+  describe('publicKey', () => {
+    it('getPublicKey: able to extract public key from geth', async () => {
+      /*
+      Used this code to get fixture data signatureBase64:
+
+      import * as ethUtil from 'ethereumjs-util'
+
+      const arbitraryMessage = '000'  // this is what's used in signer.getPublicKey()
+      const privateKey = 'c6e6c40360a8ad4b353d694442e7b26ccee42bd3afd694c920c741e1b3a6b717'
+      const hash = ethUtil.hashPersonalMessage(Buffer.from(arbitraryMessage, 'hex'))
+      const {v, r, s} = ethUtil.ecsign(hash, Buffer.from(privateKey, 'hex'))
+      const signatureHex = ethUtil.toRpcSig(v, r, s)
+      const signatureBase64 = Buffer.from(signatureHex, 'hex').toString('base64')
+       */
+      const signer = new GethNativeBridgeSigner(mockGeth, 'mock_account')
+      const signatureBase64 =
+        'gnja+Oay19W93yrGQM21Dco1yWBkd5Ohrnot2yRYD7cga6vERzLTgOUlGrCqyeEXxq9Ocfqmaph+ETJ90q2zjhs='
+      mockGeth.signHash = jest.fn().mockResolvedValue(signatureBase64)
+      const publicKey = await signer.getPublicKey()
+      expect(publicKey).toEqual(
+        '0295367c5f90c5f30b8d8a6871f772d63b76322fc6099ca13e03abb379bd29443a'
+      )
+    })
+  })
 })

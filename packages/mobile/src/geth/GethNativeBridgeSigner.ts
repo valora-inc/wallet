@@ -1,6 +1,6 @@
 import { ensureLeading0x, normalizeAddressWith0x } from '@celo/base/lib/address'
 import { CeloTx, RLPEncodedTx, Signer } from '@celo/connect'
-import { ensureUncompressed } from '@celo/utils/lib/ecdh'
+import { ensureCompressed, ensureUncompressed } from '@celo/utils/lib/ecdh'
 import { EIP712TypedData, generateTypedDataHash } from '@celo/utils/lib/sign-typed-data-utils'
 import { encodeTransaction, extractSignature, rlpEncodedTx } from '@celo/wallet-base'
 import * as ethUtil from 'ethereumjs-util'
@@ -89,6 +89,16 @@ export class GethNativeBridgeSigner implements Signer {
     const messageHash64 = ethUtil.sha256(Buffer.from(`${JWT_HEADER}.${payload}`)).toString('base64')
     const signature = await this.geth.signHash(messageHash64, this.account)
     return `${JWT_HEADER}.${payload}.${signature}`
+  }
+
+  async getPublicKey(): Promise<string> {
+    // from tip here: https://ethereum.stackexchange.com/questions/13778/get-public-key-of-any-ethereum-account
+    // unfortunately geth doesn't offer any convenient access of the public key, so we get it from the ECDSA signature
+    const arbitraryData = '000' // just needs to be hex (and not have 0x prefix)
+    const hash = ethUtil.hashPersonalMessage(Buffer.from(arbitraryData, 'hex'))
+    const { v, r, s } = await this.signPersonalMessage(arbitraryData)
+    const publicKeyBuffer = ethUtil.ecrecover(hash, v, r, s)
+    return ensureCompressed(publicKeyBuffer.toString('hex'))
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
