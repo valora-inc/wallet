@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Actions } from 'src/account/actions'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockPrivateDEK } from 'test/values'
@@ -28,7 +28,6 @@ jest.mock('src/navigator/NavigationService', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
-  replace: jest.fn(),
   navigate: jest.fn(),
 }))
 
@@ -78,7 +77,6 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith(Screens.Settings)
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
         error: mockError,
       })
@@ -95,7 +93,6 @@ describe('SyncBankAccountScreen', () => {
       </Provider>
     )
     await waitFor(() => {
-      expect(replace).toHaveBeenCalledWith(Screens.Settings)
       expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountErrorScreen, {
         error: mockError,
       })
