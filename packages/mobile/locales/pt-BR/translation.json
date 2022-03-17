@@ -289,7 +289,7 @@
   "payWithBank": "Conta bancária",
   "payWithCard": "Cartão de débito",
   "payWithExchange": "Exchange de criptomoedas",
-  "selectCashOutMethod": "Receber fundos em:",
+  "selectCashOutMethod": "Selecionar método:",
   "receiveOnAddress": "Endereço Celo",
   "receiveWithBidali": "Vales-Presente e Recargas de Celular",
   "fundingEducationDialog": {
