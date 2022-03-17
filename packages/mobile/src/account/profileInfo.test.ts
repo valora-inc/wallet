@@ -149,7 +149,7 @@ describe(giveProfileAccess, () => {
 
   it('handles error when fails to give recipient access to name', async () => {
     mockNameAllowAccess.mockReturnValueOnce(Error('error'))
-    const { returnValue } = await expectSaga(giveProfileAccess, walletAddress)
+    await expectSaga(giveProfileAccess, walletAddress)
       .provide([
         [select(walletToAccountAddressSelector), walletToAccountAddress],
         [call(getOffchainWrapper), null],
