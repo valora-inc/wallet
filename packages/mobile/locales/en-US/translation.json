@@ -289,7 +289,7 @@
   "payWithBank": "Bank account",
   "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
-  "selectCashOutMethod": "Receive funds in:",
+  "selectCashOutMethod": "Select method:",
   "receiveOnAddress": "Celo address",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
   "fundingEducationDialog": {
