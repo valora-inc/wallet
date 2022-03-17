@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
-  defaultTokenSelector,
+  defaultTokenToSendSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
@@ -158,10 +158,10 @@ describe('tokensWithUsdValueSelector', () => {
   })
 })
 
-describe(defaultTokenSelector, () => {
+describe(defaultTokenToSendSelector, () => {
   describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
-      expect(defaultTokenSelector(state)).toEqual('0x1')
+      expect(defaultTokenToSendSelector(state)).toEqual('0x1')
     })
   })
 })

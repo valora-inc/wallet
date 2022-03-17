@@ -47,7 +47,7 @@ import {
 import { fetchTokenBalances } from 'src/tokens/reducer'
 import {
   celoAddressSelector,
-  defaultTokenSelector,
+  defaultTokenToSendSelector,
   stablecoinsSelector,
 } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
@@ -149,7 +149,7 @@ function SendAmount(props: Props) {
   const [rawAmount, setRawAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)
   const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
-  const defaultToken = useSelector(defaultTokenSelector)
+  const defaultToken = useSelector(defaultTokenToSendSelector)
   const inviteTokens = useSelector(stablecoinsSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)

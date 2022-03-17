@@ -6,7 +6,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'redux/migrate'
 
-export default function createMigrate(migrations: MigrationManifest) {
+export function createMigrate(migrations: MigrationManifest) {
   return async (state: PersistedState, currentVersion: number): Promise<PersistedState> => {
     try {
       if (!state) {

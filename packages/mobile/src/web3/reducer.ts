@@ -48,9 +48,6 @@ export const reducer = (
           highestBlock: 0,
         },
         latestBlockNumber: 0,
-        contractKitReady: false,
-        // False to lock ContractKit upon every app reopen, until
-        // store is persisted and forno mode known
       }
     }
     case Actions.SET_ACCOUNT:

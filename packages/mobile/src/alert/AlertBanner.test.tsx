@@ -68,7 +68,7 @@ describe('AlertBanner', () => {
   })
 
   describe('when an action is provided', () => {
-    it('it dispatches the action when pressed', () => {
+    it('dispatches the action when pressed', () => {
       const store = createMockStore({
         alert: {
           type: 'message',
