@@ -7,6 +7,7 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { SUPERCHARGE_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { SuperchargePendingReward, SuperchargeToken } from 'src/consumerIncentives/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -40,16 +41,6 @@ const NO_BALANCES: TokenBalances = {
 }
 
 const EMPTY_REWARDS_RESPONSE: SuperchargePendingReward[] = []
-export const ONE_CUSD_REWARD_RESPONSE: SuperchargePendingReward[] = [
-  {
-    contractAddress: '0xdistributorContract',
-    tokenAddress: mockCusdAddress,
-    amount: (1e18).toString(16),
-    index: 0,
-    proof: [],
-    createdAt: 1645591363099,
-  },
-]
 
 function expectVisibleMainComponents(
   queryByTestId: (testId: string) => ReactTestInstance | null,

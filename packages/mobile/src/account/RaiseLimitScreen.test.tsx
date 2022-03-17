@@ -68,17 +68,6 @@ describe('RaiseLimitScreen', () => {
     expect(queryByTestId('RaiseLimitButton')).toBeFalsy()
   })
 
-  it("when application is in review there's no button", async () => {
-    const { queryByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.InReview)}>
-        <RaiseLimitScreen />
-      </Provider>
-    )
-
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeFalsy()
-  })
-
   it("when application is approved there's no button", async () => {
     const { queryByTestId } = render(
       <Provider store={createStore(true, DailyLimitRequestStatus.Approved)}>
