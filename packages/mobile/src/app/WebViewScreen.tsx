@@ -5,13 +5,14 @@ import Refresh from '@celo/react-components/icons/Refresh'
 import colors from '@celo/react-components/styles/colors'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
-import { useDispatch } from 'react-redux'
-import { openDeepLink } from 'src/app/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { dappSessionEnded, openDeepLink } from 'src/app/actions'
+import { dappSessionActiveSelector } from 'src/app/selectors'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -25,13 +26,22 @@ type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { uri, headerTitle } = route.params
+  const { headerTitle, uri, dappkitDeeplink } = route.params
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const dappSessionActive = useSelector(dappSessionActiveSelector)
 
-  const webviewRef = useRef<WebViewRef>(null)
+  const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
+
+  const handleCloseWebView = () => {
+    if (dappSessionActive) {
+      dispatch(dappSessionEnded())
+    }
+    navigateBack()
+  }
 
   useLayoutEffect(() => {
     const { hostname } = parse(uri)
@@ -40,7 +50,7 @@ function WebViewScreen({ route, navigation }: Props) {
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={navigateBack}
+          onPress={handleCloseWebView}
           titleStyle={{ color: colors.gray4 }}
         />
       ),
@@ -53,6 +63,14 @@ function WebViewScreen({ route, navigation }: Props) {
     })
   }, [navigation])
 
+  useEffect(() => {
+    if (dappSessionActive && dappkitDeeplink) {
+      webViewRef.current?.injectJavaScript(
+        `window.history.replaceState({}, "", "${dappkitDeeplink}"); true;`
+      )
+    }
+  }, [dappkitDeeplink, dappSessionActive])
+
   useBackHandler(() => {
     // android hardware back button functions as either browser back button or
     // app back button
@@ -62,7 +80,7 @@ function WebViewScreen({ route, navigation }: Props) {
       navigateBack()
     }
     return true
-  }, [canGoBack, webviewRef?.current, navigation])
+  }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
     if (event.url.startsWith('celo://')) {
@@ -73,21 +91,21 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const handleRefresh = () => {
-    webviewRef.current?.reload()
+    webViewRef.current?.reload()
   }
 
   const handleGoForward = () => {
-    webviewRef.current?.goForward()
+    webViewRef.current?.goForward()
   }
 
   const handleGoBack = () => {
-    webviewRef.current?.goBack()
+    webViewRef.current?.goBack()
   }
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
-        ref={webviewRef}
+        ref={webViewRef}
         originWhitelist={['https://*', 'celo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
         setSupportMultipleWindows={false}

@@ -1783,6 +1783,16 @@
                         "string"
                     ]
                 },
+                "dappSessionActive": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/Dapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
@@ -1933,6 +1943,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "dappListApiUrl",
+                "dappSessionActive",
                 "dappsWebViewEnabled",
                 "hideVerification",
                 "inviteModalVisible",

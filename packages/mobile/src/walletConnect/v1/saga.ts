@@ -3,7 +3,6 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
-import { showMessage } from 'src/alert/actions'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -47,6 +46,7 @@ import {
 import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
+import { showWCConnectionSuccessMessage } from '../saga'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
@@ -117,7 +117,7 @@ function* acceptSession(session: AcceptSession) {
     connector.updateSession(sessionData)
     yield put(storeSession(connector.session))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield put(showMessage(i18n.t('connectionSuccess', { dappName: peerMeta.name })))
+    yield call(showWCConnectionSuccessMessage, peerMeta.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -210,9 +210,10 @@ function* acceptRequest(r: AcceptRequest) {
     }
     const result: string = yield call(handleRequest, { method, params })
     connector.approveRequest({ id, jsonrpc, result })
-    yield put(
-      showMessage(i18n.t('connectionSuccess', { dappName: connector?.session?.peerMeta?.name }))
-    )
+
+    if (connector?.session?.peerMeta?.name) {
+      yield call(showWCConnectionSuccessMessage, connector.session.peerMeta.name)
+    }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)

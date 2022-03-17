@@ -1,8 +1,10 @@
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
-import { call, select, spawn } from 'redux-saga/effects'
+import { call, put, select, spawn } from 'redux-saga/effects'
+import { showMessage } from 'src/alert/actions'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import { walletConnectEnabledSelector } from 'src/app/selectors'
+import { dappSessionActiveSelector, walletConnectEnabledSelector } from 'src/app/selectors'
+import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnect/v1/saga'
 import { initialiseWalletConnectV2, walletConnectV2Saga } from 'src/walletConnect/v2/saga'
@@ -41,4 +43,10 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
     default:
       throw new Error(`Unsupported WalletConnect version '${version}'`)
   }
+}
+
+export function* showWCConnectionSuccessMessage(dappName: string) {
+  const dappSessionActive = yield select(dappSessionActiveSelector)
+  const successMessage = dappSessionActive ? 'inAppConnectionSuccess' : 'connectionSuccess'
+  yield put(showMessage(i18n.t(successMessage, { dappName })))
 }

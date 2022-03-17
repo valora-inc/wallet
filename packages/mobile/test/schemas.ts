@@ -1141,6 +1141,7 @@ export const v41Schema = {
   app: {
     ...v40Schema.app,
     dappsWebViewEnabled: false,
+    dappSessionActive: null,
   },
 }
 

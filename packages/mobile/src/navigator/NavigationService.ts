@@ -212,15 +212,11 @@ interface NavigateHomeOptions {
 }
 
 export function navigateHome(options?: NavigateHomeOptions) {
-  const { onAfterNavigate, params } = options ?? {}
+  const { params } = options ?? {}
   navigationRef.current?.reset({
     index: 0,
     routes: [{ name: Screens.DrawerNavigator, params }],
   })
-
-  if (onAfterNavigate) {
-    requestAnimationFrame(onAfterNavigate)
-  }
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {

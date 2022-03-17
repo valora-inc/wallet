@@ -139,6 +139,9 @@ export const skipVerificationSelector = (state: RootState) => state.app.skipVeri
 
 export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
 
+export const dappSessionActiveSelector = (state: RootState) =>
+  state.app.dappsWebViewEnabled && state.app.dappSessionActive
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture
