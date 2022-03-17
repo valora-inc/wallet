@@ -78,7 +78,7 @@ describe('TransferFeedItem', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  function verifyDisplay({
+  function expectDisplay({
     getByTestId,
     queryByTestId,
     expectedTitleSections,
@@ -116,7 +116,7 @@ describe('TransferFeedItem', () => {
 
   it('renders correctly for outgoing transfers to unknown address', async () => {
     const { getByTestId } = renderScreen({})
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -129,7 +129,7 @@ describe('TransferFeedItem', () => {
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Received,
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemReceivedTitle', formatShortenedAddress(MOCK_ADDRESS)],
       expectedSubtitleSections: ['feedItemReceivedInfo', 'noComment'],
@@ -149,7 +149,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -169,7 +169,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -184,7 +184,7 @@ describe('TransferFeedItem', () => {
         identity: { addressToE164Number: { [MOCK_ADDRESS]: MOCK_E164_NUMBER } },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', MOCK_E164_NUMBER],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -203,7 +203,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -219,7 +219,7 @@ describe('TransferFeedItem', () => {
         subtitle: 'a subtitle',
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', 'a title'],
       expectedSubtitleSections: ['feedItemSentInfo', 'a subtitle'],
@@ -237,7 +237,7 @@ describe('TransferFeedItem', () => {
         comment: 'Hello World',
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', 'a title'],
       expectedSubtitleSections: ['feedItemSentInfo', 'Hello World'],
@@ -259,7 +259,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', 'Simplex'],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -283,7 +283,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemCeloRewardReceivedTitle'],
       expectedSubtitleSections: ['feedItemRewardReceivedInfo'],
@@ -301,7 +301,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemRewardReceivedTitle'],
       expectedSubtitleSections: ['feedItemRewardReceivedInfo'],
@@ -319,7 +319,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemInviteRewardReceivedTitle'],
       expectedSubtitleSections: ['feedItemInviteRewardReceivedInfo'],
@@ -342,7 +342,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemReceivedTitle', 'Simplex'],
       expectedSubtitleSections: ['tokenDeposit', 'cUSD'],
@@ -361,7 +361,7 @@ describe('TransferFeedItem', () => {
         comment: 'Hello World',
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemReceivedTitle', 'a title'],
       expectedSubtitleSections: ['feedItemReceivedInfo', 'Hello World'],
@@ -382,7 +382,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
@@ -409,7 +409,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       queryByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
@@ -431,7 +431,7 @@ describe('TransferFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       queryByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
