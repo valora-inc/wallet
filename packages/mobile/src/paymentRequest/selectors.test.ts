@@ -3,7 +3,7 @@ import {
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import { PaymentRequestStatus } from 'src/paymentRequest/types'
-import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
+import { createMockPaymentRequest } from 'src/paymentRequest/testValues'
 
 describe('selectors', () => {
   describe(getIncomingPaymentRequests, () => {
