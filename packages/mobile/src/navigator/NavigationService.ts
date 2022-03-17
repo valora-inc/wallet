@@ -89,12 +89,24 @@ export function navigate<RouteName extends keyof StackParamList>(
     .then(() => {
       Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
 
-      navigationRef.current?.dispatch(
-        NavigationActions.navigate({
-          routeName,
-          params,
-        })
-      )
+      // Remove the WC loading screen from the stack as we never want to land
+      // on this screen when navigating back. Ensures that the dapp webview WC
+      // navigation works correctly.
+      if (navigationRef.current?.getCurrentRoute()?.name === Screens.WalletConnectLoading) {
+        navigationRef.current?.dispatch(
+          StackActions.replace({
+            routeName,
+            params,
+          })
+        )
+      } else {
+        navigationRef.current?.dispatch(
+          NavigationActions.navigate({
+            routeName,
+            params,
+          })
+        )
+      }
     })
     .catch((reason) => {
       Logger.error(`${TAG}@navigate`, 'Navigation failure', reason)
@@ -207,7 +219,6 @@ export async function isScreenOnForeground(screen: Screens) {
 }
 
 interface NavigateHomeOptions {
-  onAfterNavigate?: () => void
   params?: StackParamList[Screens.DrawerNavigator]
 }
 

@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -417,7 +417,7 @@ function* handlePendingStateOrNavigateBack() {
   if (hasPendingState) {
     yield call(handlePendingState)
   } else {
-    navigateHome()
+    navigateBack()
   }
 }
 
