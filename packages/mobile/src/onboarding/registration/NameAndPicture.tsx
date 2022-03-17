@@ -29,7 +29,6 @@ type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
 function NameAndPicture({ navigation }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const [photoChosen, setPhotoChosen] = useState(false)
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
@@ -93,15 +92,12 @@ function NameAndPicture({ navigation }: Props) {
   const onPhotoChosen = async (dataUrl: string | null) => {
     if (!dataUrl) {
       dispatch(setPicture(null))
-      setPhotoChosen(false) // coverage:ignore-line
     } else {
       try {
         const fileName = await saveProfilePicture(dataUrl)
         dispatch(setPicture(fileName))
-        setPhotoChosen(true) // coverage:ignore-line
       } catch (error) {
         dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
-        setPhotoChosen(false) // coverage:ignore-line
       }
     }
   }
