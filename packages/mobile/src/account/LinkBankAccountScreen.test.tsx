@@ -1,19 +1,19 @@
+import Button from '@celo/react-components/components/Button'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { StepOne, StepTwo } from 'src/account/LinkBankAccountScreen'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
-import PersonaButton from './Persona'
-import Button from '@celo/react-components/components/Button'
-import openPlaid from 'src/account/openPlaid'
-import { createMockStore } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Provider } from 'react-redux'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { StepOne, StepTwo } from 'src/account/LinkBankAccountScreen'
+import openPlaid from 'src/account/openPlaid'
+import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import { CICOEvents } from 'src/analytics/Events'
-import { fetchFinclusiveKyc } from './actions'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { createMockStore } from 'test/utils'
+import { mockAccount, mockPrivateDEK } from 'test/values'
+import { fetchFinclusiveKyc } from './actions'
+import PersonaButton from './Persona'
 
 let personaButtonSuccessCallback: (() => any) | undefined // using this to simulate Persona success at any arbitrary time
 let personaButtonErrorCallback: (() => any) | undefined // using this to simulate Persona error at any arbitrary time
@@ -117,9 +117,9 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.begin.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
-        await waitFor(() => getByText('linkBankAccountScreen.verifying.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.verifying.title')).toBeTruthy())
       })
       it('shows the pending screen if the user suceeded with Persona', async () => {
         const store = createMockStore({
@@ -133,10 +133,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.begin.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
         personaButtonSuccessCallback?.()
-        await waitFor(() => getByText('linkBankAccountScreen.pending.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
       })
       it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {
         const store = createMockStore({
@@ -150,7 +150,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.pending.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
       })
       it('shows the failure screen if the user failed with Persona', async () => {
         const store = createMockStore({
@@ -164,10 +164,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.begin.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
         personaButtonErrorCallback?.()
-        await waitFor(() => getByText('linkBankAccountScreen.failed.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.failed.title')).toBeTruthy())
         fireEvent.press(getByTestId('SupportContactLink'))
         expect(navigate).toBeCalledWith(Screens.SupportContact, {
           prefilledText: 'linkBankAccountScreen.failed.contactSupportPrefill',
@@ -185,7 +185,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.failed.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.failed.title')).toBeTruthy())
       })
       it('shows the begin screen again if the persona flow is canceled', async () => {
         const store = createMockStore({
@@ -199,10 +199,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.begin.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
         personaButtonCancelCallback?.()
-        await waitFor(() => getByText('linkBankAccountScreen.begin.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
       })
       it('shows the completed screen if finclusiveKycStatus is Accepted', async () => {
         const store = createMockStore({
@@ -216,7 +216,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
             <StepOne />
           </Provider>
         )
-        await waitFor(() => getByText('linkBankAccountScreen.completed.title'))
+        await waitFor(() => expect(getByText('linkBankAccountScreen.completed.title')).toBeTruthy())
       })
     })
     describe('StepTwo', () => {

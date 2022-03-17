@@ -74,7 +74,7 @@ describe('TokenDisplay', () => {
       expect(getElementText(getByTestId('test'))).toEqual('R$5.00')
     })
 
-    it('shows more decimals up to the ', () => {
+    it('shows more decimals up to the', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
           <TokenDisplay
