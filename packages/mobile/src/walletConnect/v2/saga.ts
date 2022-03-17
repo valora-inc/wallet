@@ -50,7 +50,7 @@ import {
   ERROR as WalletConnectErrors,
   ERROR_TYPE as WalletConnectErrorType,
 } from 'walletconnect-v2/utils'
-import { showWCConnectionSuccessMessage } from '../saga'
+import { showWalletConnectionSuccessMessage } from '../saga'
 
 const TAG = 'WalletConnect/saga'
 
@@ -132,7 +132,7 @@ function* acceptSession({ session }: AcceptSession) {
 
     yield call(client.approve.bind(client), response)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield call(showWCConnectionSuccessMessage, session.proposer.metadata.name)
+    yield call(showWalletConnectionSuccessMessage, session.proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -255,7 +255,7 @@ function* acceptRequest({ request }: AcceptRequest): any {
         error: error.type,
       })
     } else {
-      yield call(showWCConnectionSuccessMessage, session.peer.metadata.name)
+      yield call(showWalletConnectionSuccessMessage, session.peer.metadata.name)
       ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
     }
   } catch (e) {

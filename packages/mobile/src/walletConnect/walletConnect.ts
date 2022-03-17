@@ -41,7 +41,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
-    handleLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Deeplink })
+    handleWalletConnectLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Deeplink })
   }
 
   // connection request
@@ -58,10 +58,10 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export async function handleLoadingWithTimeout(
-  wcLoadingRouteParams: StackParamList[Screens.WalletConnectLoading]
+export async function handleWalletConnectLoadingWithTimeout(
+  routeParams: StackParamList[Screens.WalletConnectLoading]
 ) {
-  navigate(Screens.WalletConnectLoading, wcLoadingRouteParams)
+  navigate(Screens.WalletConnectLoading, routeParams)
 
   setTimeout(async () => {
     if (await isScreenOnForeground(Screens.WalletConnectLoading)) {
