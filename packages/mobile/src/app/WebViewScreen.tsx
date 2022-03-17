@@ -20,6 +20,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useBackHandler from 'src/utils/useBackHandler'
+import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
@@ -83,7 +84,7 @@ function WebViewScreen({ route, navigation }: Props) {
   }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith('celo://')) {
+    if (event.url.startsWith('celo://') || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
