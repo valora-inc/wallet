@@ -289,7 +289,7 @@
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
   "payWithExchange": "Kryptobörse",
-  "selectCashOutMethod": "Guthaben erhalten in:",
+  "selectCashOutMethod": "Methode auswählen:",
   "receiveOnAddress": "Celo-Adresse",
   "receiveWithBidali": "Geschenkkarten und Handy-Aufladen",
   "fundingEducationDialog": {
