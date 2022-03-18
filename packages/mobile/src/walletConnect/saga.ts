@@ -47,6 +47,8 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 
 export function* showWalletConnectionSuccessMessage(dappName: string) {
   const dappSessionActive = yield select(dappSessionActiveSelector)
-  const successMessage = dappSessionActive ? 'inAppConnectionSuccess' : 'connectionSuccess'
-  yield put(showMessage(i18n.t(successMessage, { dappName })))
+  const successMessage = dappSessionActive
+    ? i18n.t('inAppConnectionSuccess', { dappName })
+    : i18n.t('connectionSuccess', { dappName })
+  yield put(showMessage(successMessage))
 }
