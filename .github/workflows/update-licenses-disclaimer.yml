@@ -5,7 +5,7 @@ on:
     # trigger only when the yarn.lock file is modified in main
     branches:
       # - main
-      - kathy/automerge-licenses-disclaimer
+      - kathy/automerge-licences-disclaimer
     # paths:
     #   - 'yarn.lock'
 
