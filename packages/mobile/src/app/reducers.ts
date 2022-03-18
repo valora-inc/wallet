@@ -123,6 +123,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        dappSessionActive: null,
       }
     }
     case Actions.SET_APP_STATE:

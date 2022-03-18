@@ -22,7 +22,6 @@ import {
   androidMobileServicesAvailabilityChecked,
   appLock,
   DappSelected,
-  dappSessionEnded,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
@@ -34,7 +33,6 @@ import {
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
-  dappSessionActiveSelector,
   dappsWebViewEnabledSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
@@ -87,10 +85,6 @@ export function* appInit() {
 
   const supportedBiometryType = yield call(Keychain.getSupportedBiometryType)
   yield put(setSupportedBiometryType(supportedBiometryType))
-
-  if (yield select(dappSessionActiveSelector)) {
-    yield put(dappSessionEnded())
-  }
 
   const inSync = yield call(clockInSync)
   if (!inSync) {
