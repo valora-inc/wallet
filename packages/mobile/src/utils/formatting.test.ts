@@ -26,7 +26,7 @@ describe('utils->formatting', () => {
       )
     })
 
-    it('formats correctly for dollars', () => {
+    it('formats correctly for Celo', () => {
       expect(getMoneyDisplayValue(UNROUNDED_NUMBER, Currency.Celo)).toBe(ROUNDED_NUMBER_3_DECIMALS)
     })
 
@@ -53,7 +53,7 @@ describe('utils->formatting', () => {
     it('rounds to dollars when cents are 00', () => {
       expect(getCentAwareMoneyDisplay(500.0)).toBe('500')
     })
-    it('it shows both cent digits when it shows any cents', () => {
+    it('shows both cent digits when it shows any cents', () => {
       expect(getCentAwareMoneyDisplay(500.2)).toBe('500.20')
     })
   })

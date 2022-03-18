@@ -557,4 +557,5 @@ export const migrations = {
       },
     }
   },
+  41: (state: any) => state,
 }
