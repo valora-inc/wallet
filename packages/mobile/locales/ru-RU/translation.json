@@ -1166,6 +1166,7 @@
     "delete": "Удалить"
   },
   "syncingBankAccount": "Синхронизация банковского счета...",
+  "keepAppOpen": "Пожалуйста, держите приложение открытым!",
   "linkBankAccountSettingsTitle": "Привязанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "linkBankAccountSettingsValue2": "Добавить новый",
