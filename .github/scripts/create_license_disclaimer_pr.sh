@@ -17,9 +17,9 @@ git add .
 git commit -m "Update licenses and disclaimer"
 git push --set-upstream origin $BRANCH_NAME
 
-echo "Open licences and disclaimer PR"
+echo "Open licenses and disclaimer PR"
 curl -u "valora-bot:$VALORA_BOT_TOKEN" \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/valora-inc/wallet/pulls \
-  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "Update licences and disclaimer" }'
+  -d '{ "head": "'$BRANCH_NAME'", "base": "main", "title": "Update licenses and disclaimer" }'

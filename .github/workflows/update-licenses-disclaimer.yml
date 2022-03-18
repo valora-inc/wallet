@@ -1,21 +1,21 @@
-name: Bump App Version
+name: Update Licenses and Disclaimer
 
 on:
   push:
     # trigger only when the yarn.lock file is modified in main
     branches:
       - main
-      - kathy/automerge-licences-disclaimer
+      - kathy/automerge-licenses-disclaimer
     paths:
       - 'yarn.lock'
 
 jobs:
-  update-licences-and-disclaimer:
+  update-licenses-and-disclaimer:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     env:
-      BRANCH_NAME: valora-bot/update-licences-disclaimer
+      BRANCH_NAME: valora-bot/update-licenses-disclaimer
     steps:
       - name: Google Secrets
         id: google-secrets
