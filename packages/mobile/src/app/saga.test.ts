@@ -3,9 +3,14 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
-import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
-import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/app/actions'
+import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
+import {
+  dappsWebViewEnabledSelector,
+  getAppLocked,
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+} from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -291,5 +296,42 @@ describe('App saga', () => {
         [select(getRequirePinOnAppOpen), true],
       ])
       .run()
+  })
+
+  describe('Handles opening a dapp', () => {
+    const baseDapp = {
+      id: 'dapp',
+      categoryId: 'some category',
+      iconUrl: 'https://someIcon.url',
+      name: 'Dapp',
+      description: 'some description',
+      dappUrl: 'https://someDapp.url',
+      isFeatured: false,
+    }
+
+    it('opens a web view', async () => {
+      await expectSaga(handleOpenDapp, dappSelected(baseDapp))
+        .provide([[select(dappsWebViewEnabledSelector), true]])
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+        uri: baseDapp.dappUrl,
+        headerTitle: baseDapp.name,
+      })
+    })
+
+    it('opens a deep link', async () => {
+      await expectSaga(
+        handleOpenDapp,
+        dappSelected({
+          ...baseDapp,
+          dappUrl: 'celo://wallet/bidali',
+        })
+      )
+        .provide([[select(dappsWebViewEnabledSelector), true]])
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
+    })
   })
 })

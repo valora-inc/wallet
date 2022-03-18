@@ -1132,6 +1132,18 @@ export const v40Schema = {
   },
 }
 
+export const v41Schema = {
+  ...v40Schema,
+  _persist: {
+    ...v40Schema._persist,
+    version: 41,
+  },
+  app: {
+    ...v40Schema.app,
+    dappsWebViewEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v40Schema as Partial<RootState>
+  return v41Schema as Partial<RootState>
 }

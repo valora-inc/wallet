@@ -57,7 +57,7 @@ describe('ExchangeFeedItem', () => {
     }
   }
 
-  function verifyDisplay({
+  function expectDisplay({
     getByTestId,
     expectedTitleSections,
     expectedSubtitleSections,
@@ -98,7 +98,7 @@ describe('ExchangeFeedItem', () => {
         value: 2,
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemBoughtCeloTitle'],
       expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],
@@ -118,7 +118,7 @@ describe('ExchangeFeedItem', () => {
         value: 10,
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSoldCeloTitle'],
       expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],
@@ -148,7 +148,7 @@ describe('ExchangeFeedItem', () => {
         },
       },
     })
-    verifyDisplay({
+    expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSoldCeloTitle'],
       expectedSubtitleSections: ['feedItemExchangeCeloInfo', '2.00'],

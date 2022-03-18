@@ -184,16 +184,16 @@ export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps)
 }
 
 export function HeaderTitleWithSubtitle({
-  testID,
   title,
   subTitle,
+  testID,
 }: {
-  testID?: string
   title: string | JSX.Element
   subTitle?: string | JSX.Element
+  testID?: string
 }) {
   return (
-    <View style={styles.header}>
+    <View style={styles.header} testID={testID}>
       {title && <Text style={styles.headerTitle}>{title}</Text>}
       {subTitle && <Text style={styles.headerSubTitle}>{subTitle}</Text>}
     </View>

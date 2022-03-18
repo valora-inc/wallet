@@ -283,6 +283,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
+    dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
   }
 }
 

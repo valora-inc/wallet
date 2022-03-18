@@ -77,10 +77,10 @@ describe('BankAccounts', () => {
       </Provider>
     )
     await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
-    expect(getByText('Chase Bank (***8052)'))
+    expect(getByText('Chase Bank (***8052)')).toBeTruthy()
     const expectedLogoSourceURI = `data:image/png;base64,${MOCK_LOGO_SRC}`
     expect(getByTestId('BankLogoImg-2').props.source.uri).toEqual(expectedLogoSourceURI)
-    expect(getByText('Bank of America (****0992)'))
+    expect(getByText('Bank of America (****0992)')).toBeTruthy()
     // When a logo uri is not returned from the server, should show empty image
     expect(getByTestId('BankLogoImg-3').props.source.uri).toEqual('')
     await fireEvent.press(getByTestId('TripleDot2'))
@@ -97,8 +97,8 @@ describe('BankAccounts', () => {
       </Provider>
     )
     await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
-    expect(getByText('Chase Bank (***8052)'))
-    expect(getByText('Bank of America (****0992)'))
+    expect(getByText('Chase Bank (***8052)')).toBeTruthy()
+    expect(getByText('Bank of America (****0992)')).toBeTruthy()
     await fireEvent.press(getByTestId('TripleDot2'))
     await fireEvent.press(getByText('bankAccountsScreen.delete'))
     expect(deleteFinclusiveBankAccount).toHaveBeenCalled()

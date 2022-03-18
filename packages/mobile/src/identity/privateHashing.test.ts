@@ -72,8 +72,8 @@ describe('Fetch phone hash details', () => {
       account: { pincodeType: PincodeType.CustomPin },
     }).getState()
 
-    try {
-      await expectSaga(fetchPhoneHashPrivate, mockE164Number)
+    await expect(
+      expectSaga(fetchPhoneHashPrivate, mockE164Number)
         .provide([
           [call(getConnectedAccount), mockAccount],
           [select(isBalanceSufficientForSigRetrievalSelector), false],
@@ -87,12 +87,9 @@ describe('Fetch phone hash details', () => {
         ])
         .withState(state)
         .run()
-    } catch (e) {
-      expect(e.message).toEqual(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
-    }
+    ).rejects.toThrowError(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
   })
 
-  it.skip('handles failure from quota', async () => {
-    // TODO confirm it navs to quota purchase screen
-  })
+  // TODO confirm it navs to quota purchase screen
+  it.todo('handles failure from quota')
 })
