@@ -41,7 +41,9 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
-    handleWalletConnectLoadingWithTimeout({ origin: WalletConnectPairingOrigin.Deeplink })
+    yield call(handleWalletConnectLoadingWithTimeout, {
+      origin: WalletConnectPairingOrigin.Deeplink,
+    })
   }
 
   // connection request
