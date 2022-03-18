@@ -7,9 +7,10 @@ import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-house-liquidity'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
+import { mockAccount, mockNavigation, mockPrivateDEK } from 'test/values'
 import BankAccounts from './BankAccounts'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
@@ -159,5 +160,22 @@ describe('BankAccounts', () => {
       onSuccess: expect.any(Function),
       onExit: expect.any(Function),
     })
+  })
+  it('navigation header is set to a custom header and navigate to settings screen', async () => {
+    let headerBackButton: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerBackButton = options.headerLeft()
+    })
+
+    render(
+      <Provider store={store}>
+        <BankAccounts {...mockScreenProps} />
+      </Provider>
+    )
+    expect(mockNavigation.setOptions).toHaveBeenCalled()
+
+    const { getByTestId } = render(<Provider store={store}>{headerBackButton}</Provider>)
+    await fireEvent.press(getByTestId('backButton'))
+    expect(navigate).toHaveBeenCalledWith(Screens.Settings)
   })
 })
