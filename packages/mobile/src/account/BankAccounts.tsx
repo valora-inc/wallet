@@ -60,7 +60,6 @@ function BankAccounts({ navigation, route }: Props) {
   }
 
   useLayoutEffect(() => {
-    console.log('lisa navigation.setOptions')
     navigation.setOptions({
       headerTitle: header,
       headerLeft: () => (
