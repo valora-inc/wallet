@@ -289,7 +289,7 @@
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
-  "selectCashOutMethod": "Recevoir des fonds en :",
+  "selectCashOutMethod": "Sélectionnez la méthode :",
   "receiveOnAddress": "Adresse Celo",
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Vérification terminée",
-      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
+      "description": "Nous avons vérifié votre identité avec succès. Veuillez continuer pour finir de relier votre compte bancaire.",
+      "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
@@ -1162,6 +1163,7 @@
     "delete": "Supprimer"
   },
   "syncingBankAccount": "Synchronisation du compte bancaire en cours...",
+  "keepAppOpen": "S'il vous plaît, gardez l'application ouverte !",
   "linkBankAccountSettingsTitle": "Comptes bancaires liés",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
   "linkBankAccountSettingsValue2": "Ajouter un compte",
@@ -1188,7 +1190,7 @@
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} s'ouvrira dans un navigateur externe",
+    "title": "{{dappName}} s'ouvrira dans une appli externe",
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },

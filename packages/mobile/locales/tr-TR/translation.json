@@ -289,7 +289,7 @@
   "payWithBank": "Banka hesabı",
   "payWithCard": "Banka kartı",
   "payWithExchange": "Kriptopara borsası",
-  "selectCashOutMethod": "Bakiye alma şekli:",
+  "selectCashOutMethod": "Yöntem seçin:",
   "receiveOnAddress": "Celo adresi",
   "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Doğrulama tamamlandı",
-      "description": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
+      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
     },
     "failed": {
       "title": "Doğrulama reddedildi",
@@ -1162,6 +1163,7 @@
     "delete": "Sil"
   },
   "syncingBankAccount": "Banka hesabı eşleniyor...",
+  "keepAppOpen": "Please keep the app open!",
   "linkBankAccountSettingsTitle": "Bağlı Banka Hesapları",
   "linkBankAccountSettingsValue": "Erişim",
   "linkBankAccountSettingsValue2": "Yeni Ekle",
@@ -1188,7 +1190,7 @@
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} harici bir tarayıcıda açılacak",
+    "title": "{{dappName}} harici bir uygulamada açılacak",
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
