@@ -1162,6 +1162,7 @@
     "delete": "Sil"
   },
   "syncingBankAccount": "Banka hesabı eşleniyor...",
+  "keepAppOpen": "Please keep the app open!",
   "linkBankAccountSettingsTitle": "Bağlı Banka Hesapları",
   "linkBankAccountSettingsValue": "Erişim",
   "linkBankAccountSettingsValue2": "Yeni Ekle",
