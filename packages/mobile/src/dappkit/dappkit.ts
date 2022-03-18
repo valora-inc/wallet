@@ -16,7 +16,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { activeDappSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -75,6 +75,8 @@ function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
     })
   } else {
     navigateToURI(dappkitDeeplink)
+    // prevent staying on dapp connect screen
+    navigateBack()
   }
 }
 
