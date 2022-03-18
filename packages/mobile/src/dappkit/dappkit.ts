@@ -75,7 +75,7 @@ function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
     })
   } else {
     navigateToURI(dappkitDeeplink)
-    // prevent staying on dapp connect screen
+    // prevent staying on dappkit confirmation screen
     navigateBack()
   }
 }

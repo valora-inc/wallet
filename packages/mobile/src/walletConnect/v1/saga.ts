@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -43,6 +43,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
+import { handleWalletConnectNavigateAfterLoading } from 'src/walletConnect/walletConnect'
 import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
@@ -185,7 +186,9 @@ function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails
 
   // TODO: this is a short lived alternative to proper
   // transaction decoding.
-  yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
+  yield call(handleWalletConnectNavigateAfterLoading, Screens.DappKitTxDataScreen, {
+    dappKitData: infoString,
+  })
 }
 
 function* acceptRequest(r: AcceptRequest) {
@@ -357,7 +360,10 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...getDefaultSessionTrackedProperties(session),
   })
 
-  yield call(navigate, Screens.WalletConnectSessionRequest, { version: 1, session })
+  yield call(handleWalletConnectNavigateAfterLoading, Screens.WalletConnectSessionRequest, {
+    version: 1,
+    session,
+  })
 }
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {
@@ -378,7 +384,7 @@ function* showActionRequest({ action: request, peerId }: PendingAction) {
   })
 
   const { name: dappName, url: dappUrl, icons } = session.peerMeta!
-  yield call(navigate, Screens.WalletConnectActionRequest, {
+  yield call(handleWalletConnectNavigateAfterLoading, Screens.WalletConnectActionRequest, {
     version: 1,
     peerId,
     action: request,

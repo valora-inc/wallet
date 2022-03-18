@@ -1,11 +1,11 @@
-import { call, select } from 'redux-saga/effects'
+import { call, delay, race, select } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { activeScreenSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
-import { isScreenOnForeground, navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 
@@ -36,22 +36,20 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 
   link = decodeURIComponent(link)
 
-  // Show loading screen if there is no pending state
-  // Sometimes the WC request is received from the WebSocket before this deeplink
-  // handler is called, so it's important we don't display the loading screen on top
+  if (!link.includes('?')) {
+    // action request, we can do nothing
+    return
+  }
+
   const hasPendingState: boolean = yield select(selectHasPendingState)
-  if (!hasPendingState) {
-    yield call(handleWalletConnectLoadingWithTimeout, {
-      origin: WalletConnectPairingOrigin.Deeplink,
-    })
-  }
-
-  // connection request
-  if (link.includes('?')) {
+  if (hasPendingState) {
     yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
+  } else {
+    // Show loading screen if there is no pending state
+    // Sometimes the WC request is received from the WebSocket before this deeplink
+    // handler is called, so it's important we don't display the loading screen on top
+    yield call(initialiseWalletConnectWithLoading, link, WalletConnectPairingOrigin.Deeplink)
   }
-
-  // action request, we can do nothing
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
@@ -60,20 +58,36 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export function handleWalletConnectLoadingWithTimeout(
-  routeParams: StackParamList[Screens.WalletConnectLoading]
+export function* initialiseWalletConnectWithLoading(
+  uri: string,
+  origin: WalletConnectPairingOrigin
 ) {
-  navigate(Screens.WalletConnectLoading, routeParams)
+  yield call(navigate, Screens.WalletConnectLoading, { origin })
 
-  setTimeout(async () => {
-    if (await isScreenOnForeground(Screens.WalletConnectLoading)) {
-      ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
-        error: 'timed out while waiting for a session',
-      })
-      navigate(Screens.WalletConnectResult, {
-        title: i18n.t('timeoutTitle'),
-        subtitle: i18n.t('timeoutSubtitle'),
-      })
-    }
-  }, CONNECTION_TIMEOUT)
+  const { timedOut } = yield race({
+    timedOut: delay(CONNECTION_TIMEOUT),
+    cancel: call(initialiseWalletConnect, uri, WalletConnectPairingOrigin.Deeplink),
+  })
+
+  if (timedOut) {
+    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+      error: 'timed out while waiting for a session',
+    })
+
+    yield call(handleWalletConnectNavigateAfterLoading, Screens.WalletConnectResult, {
+      title: i18n.t('timeoutTitle'),
+      subtitle: i18n.t('timeoutSubtitle'),
+    })
+  }
+}
+
+export function* handleWalletConnectNavigateAfterLoading(...args: Parameters<typeof navigate>) {
+  // prevent wallet connect loading screen from remaining on the navigation
+  // stack and being navigated back to
+  const activeScreen = yield select(activeScreenSelector)
+  if (activeScreen === Screens.WalletConnectLoading) {
+    replace(...args)
+  } else {
+    navigate(...args)
+  }
 }

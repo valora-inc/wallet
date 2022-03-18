@@ -24,8 +24,8 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
-import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
-import { handleWalletConnectLoadingWithTimeout } from 'src/walletConnect/walletConnect'
+import { isWalletConnectEnabled } from 'src/walletConnect/saga'
+import { initialiseWalletConnectWithLoading } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 export enum BarcodeTypes {
@@ -112,8 +112,7 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield call(handleWalletConnectLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Scan })
-    yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
+    yield call(initialiseWalletConnectWithLoading, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
   if (barcode.data.startsWith('celo://wallet/payment')) {
