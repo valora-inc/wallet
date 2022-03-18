@@ -1162,6 +1162,7 @@
     "delete": "Delete"
   },
   "syncingBankAccount": "Syncing bank account...",
+  "keepAppOpen": "Please keep the app open!",
   "linkBankAccountSettingsTitle": "Linked Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "linkBankAccountSettingsValue2": "Add New",
