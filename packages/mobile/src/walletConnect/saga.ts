@@ -3,7 +3,7 @@ import '@react-native-firebase/messaging'
 import { call, put, select, spawn } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import { dappSessionActiveSelector, walletConnectEnabledSelector } from 'src/app/selectors'
+import { activeDappSelector, walletConnectEnabledSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnect/v1/saga'
@@ -46,8 +46,8 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
 }
 
 export function* showWalletConnectionSuccessMessage(dappName: string) {
-  const dappSessionActive = yield select(dappSessionActiveSelector)
-  const successMessage = dappSessionActive
+  const activeDapp = yield select(activeDappSelector)
+  const successMessage = activeDapp
     ? i18n.t('inAppConnectionSuccess', { dappName })
     : i18n.t('connectionSuccess', { dappName })
   yield put(showMessage(successMessage))

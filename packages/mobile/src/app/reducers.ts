@@ -57,7 +57,7 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
-  dappSessionActive: Dapp | null
+  activeDapp: Dapp | null
 }
 
 const initialState = {
@@ -106,7 +106,7 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
-  dappSessionActive: null,
+  activeDapp: null,
 }
 
 export const appReducer = (
@@ -123,7 +123,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        dappSessionActive: null,
+        activeDapp: null,
       }
     }
     case Actions.SET_APP_STATE:
@@ -260,12 +260,12 @@ export const appReducer = (
           action.dapp,
           ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
         ].slice(0, state.maxNumRecentDapps),
-        dappSessionActive: action.dapp,
+        activeDapp: action.dapp,
       }
     case Actions.DAPP_SESSION_ENDED:
       return {
         ...state,
-        dappSessionActive: null,
+        activeDapp: null,
       }
     default:
       return state

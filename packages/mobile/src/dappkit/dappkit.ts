@@ -13,7 +13,7 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { dappSessionActiveSelector } from 'src/app/selectors'
+import { activeDappSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -64,13 +64,13 @@ export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
 }
 
 function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
-  const dappSessionActive = yield select(dappSessionActiveSelector)
+  const activeDapp = yield select(activeDappSelector)
 
-  if (dappSessionActive) {
-    yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: dappSessionActive.name })))
+  if (activeDapp) {
+    yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
     navigate(Screens.WebViewScreen, {
-      uri: dappSessionActive.dappUrl,
-      headerTitle: dappSessionActive.name,
+      uri: activeDapp.dappUrl,
+      headerTitle: activeDapp.name,
       dappkitDeeplink,
     })
   } else {

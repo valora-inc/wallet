@@ -1753,6 +1753,16 @@
         "State": {
             "additionalProperties": false,
             "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/Dapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1781,16 +1791,6 @@
                     "type": [
                         "null",
                         "string"
-                    ]
-                },
-                "dappSessionActive": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/Dapp"
-                        },
-                        {
-                            "type": "null"
-                        }
                     ]
                 },
                 "dappsWebViewEnabled": {
@@ -1935,6 +1935,7 @@
                 }
             },
             "required": [
+                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
@@ -1943,7 +1944,6 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "dappListApiUrl",
-                "dappSessionActive",
                 "dappsWebViewEnabled",
                 "hideVerification",
                 "inviteModalVisible",

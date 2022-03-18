@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
 import { dappSessionEnded, openDeepLink } from 'src/app/actions'
-import { dappSessionActiveSelector } from 'src/app/selectors'
+import { activeDappSelector } from 'src/app/selectors'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -31,14 +31,14 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const dappSessionActive = useSelector(dappSessionActiveSelector)
+  const activeDapp = useSelector(activeDappSelector)
 
   const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
   const handleEndDappSession = () => {
-    if (dappSessionActive) {
+    if (activeDapp) {
       dispatch(dappSessionEnded())
     }
   }
@@ -75,12 +75,12 @@ function WebViewScreen({ route, navigation }: Props) {
   }, [])
 
   useEffect(() => {
-    if (dappSessionActive && dappkitDeeplink) {
+    if (activeDapp && dappkitDeeplink) {
       webViewRef.current?.injectJavaScript(
         `window.history.replaceState({}, "", "${dappkitDeeplink}"); true;`
       )
     }
-  }, [dappkitDeeplink, dappSessionActive])
+  }, [dappkitDeeplink, activeDapp])
 
   useBackHandler(() => {
     // android hardware back button functions as either browser back button or
