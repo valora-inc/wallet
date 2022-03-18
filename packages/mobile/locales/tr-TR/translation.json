@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Doğrulama tamamlandı",
-      "description": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
+      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
     },
     "failed": {
       "title": "Doğrulama reddedildi",
