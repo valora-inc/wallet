@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verifizierung abgeschlossen",
-      "description": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
+      "description": "Wir haben Ihre Identität erfolgreich überprüft. Bitte fahren Sie fort, um die Verknüpfung Ihres Bankkontos zu beenden.",
+      "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
     },
     "failed": {
       "title": "Verifizierung verweigert",
