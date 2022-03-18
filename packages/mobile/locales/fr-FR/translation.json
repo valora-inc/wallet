@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Vérification terminée",
-      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
+      "description": "Nous avons vérifié votre identité avec succès. Veuillez continuer pour finir de relier votre compte bancaire.",
+      "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
