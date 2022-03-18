@@ -37,10 +37,14 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
-  const handleCloseWebView = () => {
+  const handleEndDappSession = () => {
     if (dappSessionActive) {
       dispatch(dappSessionEnded())
     }
+  }
+
+  const handleCloseWebView = () => {
+    handleEndDappSession()
     navigateBack()
   }
 
@@ -63,6 +67,12 @@ function WebViewScreen({ route, navigation }: Props) {
       ),
     })
   }, [navigation])
+
+  useEffect(() => {
+    return () => {
+      handleEndDappSession()
+    }
+  }, [])
 
   useEffect(() => {
     if (dappSessionActive && dappkitDeeplink) {
