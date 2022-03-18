@@ -1162,6 +1162,7 @@
     "delete": "Elimina"
   },
   "syncingBankAccount": "Sincronizzazione del conto bancario in corso...",
+  "keepAppOpen": "Per favore, tenete aperta l'applicazione!",
   "linkBankAccountSettingsTitle": "Conti bancari collegati",
   "linkBankAccountSettingsValue": "Accedi",
   "linkBankAccountSettingsValue2": "Aggiungere un conto nuovo",
