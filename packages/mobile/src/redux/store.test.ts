@@ -168,6 +168,7 @@ describe('store state', () => {
           },
           "sentryNetworkErrors": Array [
             "network request failed",
+            "The network connection was lost",
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
