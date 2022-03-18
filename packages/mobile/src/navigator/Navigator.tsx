@@ -14,7 +14,6 @@ import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
-import SettingsScreen from 'src/account/Settings'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
@@ -551,7 +550,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.BidaliScreen}
       component={BidaliScreen}
     />
-    <Navigator.Screen name={Screens.Settings} component={SettingsScreen} options={noHeader} />
   </>
 )
 
