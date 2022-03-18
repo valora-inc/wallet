@@ -66,7 +66,7 @@ const MOCK_SIMPLEX_QUOTE = {
   supported_digital_currencies: ['CUSD', 'CELO'],
 }
 
-export const mockProviders: CicoProvider[] = [
+const mockProviders: CicoProvider[] = [
   {
     name: 'Simplex',
     restricted: false,
@@ -135,7 +135,7 @@ export const mockProviders: CicoProvider[] = [
   },
 ]
 
-export const mockNoUnrestrictedProviders: CicoProvider[] = [
+const mockNoUnrestrictedProviders: CicoProvider[] = [
   {
     name: 'Simplex',
     restricted: true,
@@ -400,7 +400,7 @@ describe('ProviderOptionsScreen', () => {
     expect(elements).toHaveLength(1)
   })
 
-  it(`shows "Free" if there is no fee associated with CICO `, async () => {
+  it(`shows "Free" if there is no fee associated with CICO`, async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(

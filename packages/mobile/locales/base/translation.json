@@ -1127,7 +1127,8 @@
     },
     "completed": {
       "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Verification denied",
@@ -1165,6 +1166,7 @@
     "delete": "Delete"
   },
   "syncingBankAccount": "Syncing bank account...",
+  "keepAppOpen": "Please keep the app open!",
   "linkBankAccountSettingsTitle": "Linked Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "linkBankAccountSettingsValue2": "Add New",

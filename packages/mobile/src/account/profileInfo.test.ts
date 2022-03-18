@@ -82,7 +82,7 @@ const pictureUri = `file://${RNFS.DocumentDirectoryPath}/profile-now.jpg`
 
 describe(uploadNameAndPicture, () => {
   it('uploads name and picture succesfully', async () => {
-    await expectSaga(uploadNameAndPicture)
+    const { returnValue } = await expectSaga(uploadNameAndPicture)
       .provide([
         [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -92,13 +92,14 @@ describe(uploadNameAndPicture, () => {
       ])
       .run()
 
+    expect(returnValue).toEqual(true)
     expect(mockNameWrite).toBeCalledWith({ name: mockName }, [])
     expect(mockPictureWrite).toBeCalledWith(Buffer.from(`data:image/jpeg;base64,${imageData}`), [])
   })
 
   it('handles error when name fails to upload', async () => {
     mockNameWrite.mockReturnValueOnce(Error('error'))
-    await expectSaga(uploadNameAndPicture)
+    const { returnValue } = await expectSaga(uploadNameAndPicture)
       .provide([
         [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -107,14 +108,12 @@ describe(uploadNameAndPicture, () => {
         [call(getContractKit), contractKit],
       ])
       .run()
-      .catch((error) => {
-        expect(error).toEqual(Error('Unable to write name'))
-      })
+    expect(returnValue).toEqual(false)
   })
 
   it('handles error when picture fails to upload', async () => {
     mockPictureWrite.mockReturnValueOnce(Error('error'))
-    await expectSaga(uploadNameAndPicture)
+    const { returnValue } = await expectSaga(uploadNameAndPicture)
       .provide([
         [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -123,9 +122,7 @@ describe(uploadNameAndPicture, () => {
         [call(getContractKit), contractKit],
       ])
       .run()
-      .catch((error) => {
-        expect(error).toEqual(Error('Unable to write picture'))
-      })
+    expect(returnValue).toEqual(false)
   })
 })
 
@@ -162,9 +159,6 @@ describe(giveProfileAccess, () => {
         [call(getContractKit), contractKit],
       ])
       .run()
-      .catch((error) => {
-        expect(error).toEqual(Error(`Unable to give ${walletAddress} access to name`))
-      })
   })
 
   it('handles error when fails to give recipient access to picture', async () => {
@@ -179,9 +173,6 @@ describe(giveProfileAccess, () => {
         [call(getContractKit), contractKit],
       ])
       .run()
-      .catch((error) => {
-        expect(error).toEqual(Error(`Unable to give ${walletAddress} access to picture`))
-      })
   })
 })
 

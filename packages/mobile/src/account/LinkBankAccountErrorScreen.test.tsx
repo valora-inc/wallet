@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import LinkBankAccountErrorScreen from './LinkBankAccountErrorScreen'
+import * as React from 'react'
+import { LinkErrorCode, LinkErrorType } from 'react-native-plaid-link-sdk'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getMockStackScreenProps } from 'test/utils'
-import { LinkErrorCode, LinkErrorType } from 'react-native-plaid-link-sdk'
 import Logger from 'src/utils/Logger'
-import * as React from 'react'
+import { getMockStackScreenProps } from 'test/utils'
+import LinkBankAccountErrorScreen from './LinkBankAccountErrorScreen'
 
 const mockError = new Error('some error')
 const mockLinkError = {
@@ -47,7 +47,7 @@ describe('LinkBankAccountErrorScreen', () => {
     const { getByTestId } = render(<LinkBankAccountErrorScreen {...mockErrorProps} />)
     await fireEvent.press(getByTestId('SupportContactLink'))
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
-      prefilledText: 'linkBankAccountScreen.error.contactSupportPrefill',
+      prefilledText: 'linkBankAccountScreen.stepTwo.error.contactSupportPrefill',
     })
     expect(Logger.warn).toHaveBeenCalledWith(
       'LinkBankAccountErrorScreen',
