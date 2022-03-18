@@ -217,6 +217,29 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           </Provider>
         )
         await waitFor(() => expect(getByText('linkBankAccountScreen.completed.title')).toBeTruthy())
+        await waitFor(() =>
+          expect(
+            getByText('linkBankAccountScreen.completed.descriptionStep2NotEnabled')
+          ).toBeTruthy()
+        )
+      })
+      it('shows the completed screen (with step2 enabled description) when finclusiveKycStatus is Accepted and step2 is enabled ', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: KycStatus.Approved,
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+          },
+          app: { linkBankAccountStepTwoEnabled: true },
+        })
+        const { getByText } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => expect(getByText('linkBankAccountScreen.completed.title')).toBeTruthy())
+        await waitFor(() =>
+          expect(getByText('linkBankAccountScreen.completed.description')).toBeTruthy()
+        )
       })
     })
     describe('StepTwo', () => {
