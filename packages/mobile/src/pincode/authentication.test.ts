@@ -184,13 +184,8 @@ describe(getPincode, () => {
     mockedNavigate.mockImplementationOnce((_, params) => {
       params.onCancel()
     })
-    expect.assertions(4)
 
-    try {
-      await getPincode()
-    } catch (error) {
-      expect(error).toEqual(CANCELLED_PIN_INPUT)
-    }
+    await expect(getPincode()).rejects.toEqual(CANCELLED_PIN_INPUT)
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
