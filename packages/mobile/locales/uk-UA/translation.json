@@ -1166,6 +1166,7 @@
     "delete": "Видалити"
   },
   "syncingBankAccount": "Синхронізація банківського рахунку...",
+  "keepAppOpen": "Будь ласка, тримайте додаток відкритим!",
   "linkBankAccountSettingsTitle": "Пов'язані банківські рахунки",
   "linkBankAccountSettingsValue": "Отримати доступ",
   "linkBankAccountSettingsValue2": "Додати новий",
