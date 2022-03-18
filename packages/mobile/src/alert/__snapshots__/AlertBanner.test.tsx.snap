@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AlertBanner when an action is provided it dispatches the action when pressed 1`] = `
+exports[`AlertBanner when an action is provided dispatches the action when pressed 1`] = `
 <View
   style={
     Object {

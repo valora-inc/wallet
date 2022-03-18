@@ -130,6 +130,7 @@ describe('SendAmount', () => {
       expect(wrapper.queryAllByText(AMOUNT_VALID)).toHaveLength(1)
     })
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('handles commas', () => {
       // TODO figure out how to mock RNLocalize.getNumberFormatSettings
       // from react-components properly
