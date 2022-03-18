@@ -223,7 +223,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           ).toBeTruthy()
         )
       })
-      it('shows the completed screen (with step2 enabled description) when finclusiveKycStatus is Accepted and step2 is enabled ', async () => {
+      it('shows the completed screen (with step2 enabled description) when finclusiveKycStatus is Accepted and step2 is enabled', async () => {
         const store = createMockStore({
           account: {
             kycStatus: KycStatus.Approved,
