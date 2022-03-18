@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verifica completata",
-      "description": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
+      "description": "Abbiamo verificato con successo la tua identità. Per favore, continui a finire di collegare il suo conto bancario.",
+      "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
     },
     "failed": {
       "title": "Verifica respinta",
