@@ -77,6 +77,7 @@ describe('BackupQuiz', () => {
    * in total over 10 seconds for all 24 mnemonic words. Maybe the
    * test renderer perf will improve at some point and we can enable this.
    */
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('can complete the quiz correctly', async () => {
     const mockSetBackupCompleted = jest.fn()
     const { getByText, getByTestId } = render(

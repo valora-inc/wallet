@@ -243,7 +243,7 @@ describe('send/utils', () => {
 
     const deeplink = urlFromUriData(data)
 
-    it('should call handleSendPaymentData with parsed payment data ', async () => {
+    it('should call handleSendPaymentData with parsed payment data', async () => {
       const parsed: UriData = {
         ...data,
         e164PhoneNumber: undefined,
@@ -260,7 +260,7 @@ describe('send/utils', () => {
         jest.clearAllMocks()
       })
 
-      it('should navigate to SendAmount screen when address & currencyCode are given ', async () => {
+      it('should navigate to SendAmount screen when address & currencyCode are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[3])
           .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[3].currencyCode]])
@@ -272,7 +272,7 @@ describe('send/utils', () => {
         })
       })
 
-      it('should navigate to SendConfirmation screen when address, currencyCode, & amount are given ', async () => {
+      it('should navigate to SendConfirmation screen when address, currencyCode, & amount are given', async () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
@@ -292,7 +292,7 @@ describe('send/utils', () => {
         })
       })
 
-      it('should navigate to SendConfirmation screen when address, currencyCode, amount, & token = cUSD are given ', async () => {
+      it('should navigate to SendConfirmation screen when address, currencyCode, amount, & token = cUSD are given', async () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
@@ -318,7 +318,7 @@ describe('send/utils', () => {
         jest.clearAllMocks()
       })
 
-      it('should navigate to WithdrawCeloReview screen when address, token = CELO, currencyCode, and amount are given ', async () => {
+      it('should navigate to WithdrawCeloReview screen when address, token = CELO, currencyCode, and amount are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[0])
           .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[0].currencyCode]])
@@ -332,7 +332,7 @@ describe('send/utils', () => {
         })
       })
 
-      it('should not navigate to WithdrawCeloReview screen when only address & token = CELO are given ', async () => {
+      it('should not navigate to WithdrawCeloReview screen when only address & token = CELO are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[1])
           .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[1].currencyCode]])
@@ -340,7 +340,7 @@ describe('send/utils', () => {
         expect(navigate).not.toHaveBeenCalled()
       })
 
-      it('should not navigate to any screen when an unsupported token is given ', async () => {
+      it('should not navigate to any screen when an unsupported token is given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[2])
           .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[2].currencyCode]])
