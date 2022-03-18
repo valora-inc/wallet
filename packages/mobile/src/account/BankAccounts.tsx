@@ -1,4 +1,5 @@
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import BackChevron from '@celo/react-components/icons/BackChevron'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
@@ -23,9 +24,10 @@ import {
   getFinclusiveBankAccounts,
   verifyDekAndMTW,
 } from 'src/in-house-liquidity'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
@@ -53,9 +55,22 @@ function BankAccounts({ navigation, route }: Props) {
     )
   }
 
+  const navigateToSettings = () => {
+    navigate(Screens.Settings)
+  }
+
   useLayoutEffect(() => {
+    console.log('lisa navigation.setOptions')
     navigation.setOptions({
       headerTitle: header,
+      headerLeft: () => (
+        <TopBarIconButton
+          icon={<BackChevron />}
+          onPress={navigateToSettings}
+          style={styles.backButton}
+          testID="backButton"
+        />
+      ),
     })
   }, [navigation])
 
@@ -173,7 +188,7 @@ function BankAccounts({ navigation, route }: Props) {
 }
 
 BankAccounts.navigationOptions = {
-  ...headerWithBackButton,
+  ...emptyHeader,
 }
 
 const styles = StyleSheet.create({
@@ -241,6 +256,9 @@ const styles = StyleSheet.create({
     marginRight: 12,
     padding: 14,
     backgroundColor: colors.gray2,
+  },
+  backButton: {
+    paddingLeft: 20,
   },
 })
 
