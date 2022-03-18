@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
-import { escrowPaymentDouble } from 'src/escrow/__mocks__'
+import { escrowPaymentDouble } from 'src/escrow/testValues'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
