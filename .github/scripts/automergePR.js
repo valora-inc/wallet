@@ -20,7 +20,7 @@ module.exports = async ({ github, context }) => {
   const { owner, repo } = context.repo
   const { BRANCH_NAME } = process.env
 
-  console.log('Looking for version bump PR')
+  console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
     owner,
     repo,
@@ -30,11 +30,11 @@ module.exports = async ({ github, context }) => {
   const pr = listPrs.data[0]
 
   if (!pr) {
-    console.log('No version bump PR found')
+    console.log(`No PR with branch name ${BRANCH_NAME} found`)
     return
   }
 
-  console.log(`Approving PR: ${pr.number}`)
+  console.log(`Approving PR #${pr.number}`)
   await github.rest.pulls.createReview({
     owner,
     repo,

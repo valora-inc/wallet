@@ -1,20 +1,21 @@
 name: Bump App Version
 
 on:
-  workflow_dispatch:
   push:
-    # trigger on new minor release tags only
-    tags:
-      - valora-v[0-9]+.[0-9]+.0
+    # trigger only when the yarn.lock file is modified in main
+    branches:
+      - main
+      - kathy/automerge-licences-disclaimer
+    paths:
+      - 'yarn.lock'
 
 jobs:
-  bump-app-version:
-    # this job uses the pre-deploy script and agvtool which is only available on macos
-    runs-on: macos-11
+  update-licences-and-disclaimer:
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     env:
-      BRANCH_NAME: valora-bot/bump-app-version
+      BRANCH_NAME: valora-bot/update-licences-disclaimer
     steps:
       - name: Google Secrets
         id: google-secrets
@@ -28,10 +29,7 @@ jobs:
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: actions/checkout@v2
-        with:
-          ref: main
-      - run: yarn
-      - run: .github/scripts/create_app_version_pr.sh
+      - run: .github/scripts/create_license_disclaimer_pr.sh
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
       - uses: actions/github-script@v5
