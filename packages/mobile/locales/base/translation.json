@@ -1127,7 +1127,8 @@
     },
     "completed": {
       "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Verification denied",
