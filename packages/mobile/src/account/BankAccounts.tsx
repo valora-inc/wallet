@@ -4,10 +4,10 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
 import { plaidParamsSelector } from 'src/account/selectors'
@@ -45,7 +45,7 @@ function BankAccounts({ navigation, route }: Props) {
   const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const plaidParams = useSelector(plaidParamsSelector)
-  const { newPublicToken } = route.params
+  const { newPublicToken, fromSyncBankAccountScreen } = route.params
 
   const header = () => {
     return (
@@ -58,6 +58,15 @@ function BankAccounts({ navigation, route }: Props) {
   const navigateToSettings = () => {
     navigate(Screens.Settings)
   }
+
+  useEffect(() => {
+    if (fromSyncBankAccountScreen === true) {
+      // Prevent back button on Android when previous screen is SyncBankAccountScreen
+      const backPressListener = () => true
+      BackHandler.addEventListener('hardwareBackPress', backPressListener)
+      return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
+    }
+  }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -188,6 +197,8 @@ function BankAccounts({ navigation, route }: Props) {
 
 BankAccounts.navigationOptions = {
   ...emptyHeader,
+  // Prevent swiping back on iOS
+  gestureEnabled: false,
 }
 
 const styles = StyleSheet.create({

@@ -77,7 +77,10 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BankAccounts]: { newPublicToken?: string }
+  [Screens.BankAccounts]: {
+    newPublicToken?: string
+    fromSyncBankAccountScreen?: boolean
+  }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
