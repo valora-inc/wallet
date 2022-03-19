@@ -7,6 +7,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { InquiryAttributes } from 'react-native-persona'
 import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
@@ -113,6 +114,10 @@ export function stepOneUIState({
   return StepOneUIState.Begin
 }
 
+// Persona data is parsed from step 1 to see whether the user's resident region is supported
+// This is a shared attribute between step 1 and step 2
+let isRegionSupported = false
+
 export function StepOne() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -146,7 +151,28 @@ export function StepOne() {
     // Add a bit of a delay so that Persona can popup before switching to the spinner view
     setTimeout(() => setIsInPersonaFlow(true), 500)
   }
-  const onSuccessPersona = () => {
+
+  const isUserRegionSupported = (address: InquiryAttributes['address']) => {
+    if (!address) {
+      return false
+    }
+    if (!address.countryCode || address.countryCode !== 'US') {
+      return false
+    }
+
+    const UNSUPPORTED_REGION_ABBR: string[] = ['NY', 'TX']
+    if (!address.subdivisionAbbr || UNSUPPORTED_REGION_ABBR.includes(address.subdivisionAbbr)) {
+      // Finclusive currently do not support residents of NY and TX
+      return false
+    }
+    return true
+  }
+
+  const onSuccessPersona = (attributes: InquiryAttributes) => {
+    if (isUserRegionSupported(attributes.address)) {
+      isRegionSupported = true
+    }
+
     setSuccessFromPersona(true)
     setIsInPersonaFlow(false)
   }
@@ -252,7 +278,7 @@ export function StepTwo() {
   const { t } = useTranslation()
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
   const plaidParams = useSelector(plaidParamsSelector)
-  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector) && isRegionSupported
   const disabled = !stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted
   // This is used to handle universal links within React Native
   // https://plaid.com/docs/link/oauth/#handling-universal-links-within-react-native
