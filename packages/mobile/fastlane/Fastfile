@@ -6,18 +6,14 @@ def get_app_bundle_id(env)
   Dotenv.parse("../.env.#{env}")['APP_BUNDLE_ID']
 end
 
-def fastlane_supply(env, track)
-  return supply(
-    json_key: 'fastlane/google-play-service-account.json',
-    track: track,
-    track_promote_to: track,
-    package_name: get_app_bundle_id(env),
-    mapping: lane_context[SharedValues::GRADLE_MAPPING_TXT_OUTPUT_PATH],
-    skip_upload_apk: true,
-    skip_upload_metadata: true,
-    skip_upload_changelogs: true,
-    skip_upload_images: true,
-    skip_upload_screenshots: true
+def fastlane_emerge(environment:, file_path:)
+  # Note: this requires the EMERGE_API_TOKEN env var to be set
+  emerge(
+    file_path: file_path,
+    repo_name: "valora-inc/wallet",
+    sha: `git rev-parse HEAD`.strip,
+    branch: `git branch --show-current`.strip,
+    build_type: environment,
   )
 end
 
@@ -43,32 +39,56 @@ platform :android do
     end
   end
 
+  desc 'Upload to the Play Store'
+  lane :upload do |options|
+    env = options[:environment]
+    track = options[:track]
+
+    supply(
+      json_key: 'fastlane/google-play-service-account.json',
+      track: track,
+      track_promote_to: track,
+      package_name: get_app_bundle_id(env),
+      mapping: lane_context[SharedValues::GRADLE_MAPPING_TXT_OUTPUT_PATH],
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+
+    fastlane_emerge(
+      environment: env, 
+      file_path: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH],
+    )
+  end
+
   desc 'Ship Alfajores to Playstore Internal'
   lane :alfajores do
     env = 'alfajores'
     build(environment: env)
-    fastlane_supply(env, 'internal')
+    upload(environment: env, track: 'internal')
   end
 
   desc 'Ship Alfajores Nightly to Playstore Internal'
   lane :alfajoresnightly do
     env = 'alfajoresnightly'
     build(environment: env)
-    fastlane_supply(env, 'internal')
+    upload(environment: env, track: 'internal')
   end
 
   desc 'Ship Mainnet to Playstore Internal'
   lane :mainnet do
     env = 'mainnet'
     build(environment: env)
-    fastlane_supply(env, 'internal')
+    upload(environment: env, track: 'internal')
   end
 
   desc 'Ship Mainnet Nightly to Playstore Internal'
   lane :mainnetnightly do
     env = 'mainnetnightly'
     build(environment: env)
-    fastlane_supply(env, 'internal')
+    upload(environment: env, track: 'internal')
   end
 
   desc 'Build an Android apk'
@@ -105,8 +125,8 @@ platform :ios do
      ) 
   end
   
-  desc 'Prepare TestFlight'
-  lane :prepare_testflight_and_upload do |options|
+  desc 'Upload to TestFlight'
+  lane :upload do |options|
     api_key = app_store_connect_api_key(
       key_id: "#{ENV['APPLE_CONNECT_KEY_ID']}",
       issuer_id: "#{ENV['APPLE_CONNECT_ISSUER_ID']}",
@@ -120,34 +140,39 @@ platform :ios do
       skip_submission: true,
       skip_waiting_for_build_processing: true,
     )
+
+    fastlane_emerge(
+      environment: options[:environment], 
+      file_path: lane_context[SharedValues::XCODEBUILD_ARCHIVE],
+    )
   end
 
   desc 'Ship Alfajores to TestFlight'
   lane :alfajores do
     env = 'alfajores'
     build(environment: env)
-    prepare_testflight_and_upload
+    upload(environment: env)
   end
 
   desc 'Ship Alfajores Nightly to TestFlight'
   lane :alfajoresnightly do
     env = 'alfajoresnightly'
     build(environment: env)
-    prepare_testflight_and_upload
+    upload(environment: env)
   end
 
   desc 'Ship Mainnet to TestFlight'
   lane :mainnet do
     env = 'mainnet'
     build(environment: env)
-    prepare_testflight_and_upload
+    upload(environment: env)
   end
 
   desc 'Ship Mainnet Nightly to TestFlight'
   lane :mainnetnightly do
     env = 'mainnetnightly'
     build(environment: env)
-    prepare_testflight_and_upload
+    upload(environment: env)
   end
 
 end
