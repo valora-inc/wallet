@@ -1,6 +1,6 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put, select } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -24,8 +24,8 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
-import { isWalletConnectEnabled } from 'src/walletConnect/saga'
-import { initialiseWalletConnectWithLoading } from 'src/walletConnect/walletConnect'
+import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
+import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 export enum BarcodeTypes {
@@ -112,7 +112,8 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield call(initialiseWalletConnectWithLoading, barcode.data, WalletConnectPairingOrigin.Scan)
+    yield fork(handleLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Scan })
+    yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
   if (barcode.data.startsWith('celo://wallet/payment')) {

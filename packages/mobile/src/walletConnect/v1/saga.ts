@@ -43,7 +43,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
-import { handleWalletConnectNavigateAfterLoading } from 'src/walletConnect/walletConnect'
+import { handleWalletConnectNavigate } from 'src/walletConnect/walletConnect'
 import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
@@ -186,7 +186,7 @@ function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails
 
   // TODO: this is a short lived alternative to proper
   // transaction decoding.
-  yield call(handleWalletConnectNavigateAfterLoading, Screens.DappKitTxDataScreen, {
+  yield call(handleWalletConnectNavigate, Screens.DappKitTxDataScreen, {
     dappKitData: infoString,
   })
 }
@@ -360,7 +360,7 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...getDefaultSessionTrackedProperties(session),
   })
 
-  yield call(handleWalletConnectNavigateAfterLoading, Screens.WalletConnectSessionRequest, {
+  yield call(handleWalletConnectNavigate, Screens.WalletConnectSessionRequest, {
     version: 1,
     session,
   })
@@ -384,7 +384,7 @@ function* showActionRequest({ action: request, peerId }: PendingAction) {
   })
 
   const { name: dappName, url: dappUrl, icons } = session.peerMeta!
-  yield call(handleWalletConnectNavigateAfterLoading, Screens.WalletConnectActionRequest, {
+  yield call(handleWalletConnectNavigate, Screens.WalletConnectActionRequest, {
     version: 1,
     peerId,
     action: request,

@@ -6,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import {
+  activeScreenSelector,
   dappsWebViewEnabledSelector,
   getAppLocked,
   getLastTimeBackgrounded,
@@ -14,16 +15,13 @@ import {
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
-import {
-  handleWalletConnectDeepLink,
-  initialiseWalletConnectWithLoading,
-} from 'src/walletConnect/walletConnect'
+import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/time', () => ({
@@ -129,13 +127,39 @@ describe('App saga', () => {
       },
     ]
 
+    it('handles loading time out', async () => {
+      await expectSaga(handleDeepLink, openDeepLink(connectionLinks[0].link))
+        .provide([
+          [select(selectHasPendingState), false],
+          [select(activeScreenSelector), Screens.WalletConnectLoading],
+          {
+            race: () => ({ timedOut: true }),
+          },
+        ])
+        .call(handleWalletConnectDeepLink, connectionLinks[0].link)
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+        origin: WalletConnectPairingOrigin.Deeplink,
+      })
+      expect(replace).toHaveBeenCalledWith(Screens.WalletConnectResult, {
+        subtitle: 'timeoutSubtitle',
+        title: 'timeoutTitle',
+      })
+    })
+
     for (const { name, link } of connectionLinks) {
       it(`handles ${name} connection links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
-          .provide([[select(selectHasPendingState), false]])
+          .provide([
+            [select(selectHasPendingState), false],
+            {
+              race: () => ({ timedOut: false }),
+            },
+          ])
           .call(handleWalletConnectDeepLink, link)
           .call(
-            initialiseWalletConnectWithLoading,
+            initialiseWalletConnect,
             decodeURIComponent(connectionString),
             WalletConnectPairingOrigin.Deeplink
           )
@@ -147,7 +171,12 @@ describe('App saga', () => {
 
       it(`handles ${name} connection links correctly when there's a pending request`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
-          .provide([[select(selectHasPendingState), true]])
+          .provide([
+            [select(selectHasPendingState), true],
+            {
+              race: () => ({ timedOut: false }),
+            },
+          ])
           .call(handleWalletConnectDeepLink, link)
           .call(
             initialiseWalletConnect,
@@ -170,9 +199,14 @@ describe('App saga', () => {
     for (const { name, link } of actionLinks) {
       it(`handles ${name} action links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
-          .provide([[select(selectHasPendingState), false]])
+          .provide([
+            [select(selectHasPendingState), false],
+            {
+              race: () => ({ timedOut: false }),
+            },
+          ])
           .call(handleWalletConnectDeepLink, link)
-          .not.call(initialiseWalletConnectWithLoading)
+          .not.call(initialiseWalletConnect)
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
           origin: WalletConnectPairingOrigin.Deeplink,
