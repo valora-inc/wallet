@@ -16,6 +16,7 @@ jobs:
       pull-requests: write
     env:
       BRANCH_NAME: valora-bot/update-licenses-disclaimer
+      EXPECTED_UPDATED_FILES: packages/mobile/src/account/LicenseDisclaimer.txt
     steps:
       - name: Google Secrets
         id: google-secrets
@@ -29,7 +30,7 @@ jobs:
         with:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: actions/checkout@v2
-      - run: yarn
+      # - run: yarn
       - run: .github/scripts/create_license_disclaimer_pr.sh
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}

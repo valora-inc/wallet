@@ -15,6 +15,7 @@ jobs:
       pull-requests: write
     env:
       BRANCH_NAME: valora-bot/bump-app-version
+      EXPECTED_UPDATED_FILES: packages/mobile/android/app/build.gradle,packages/mobile/android/gradle.properties,packages/mobile/ios/celo.xcodeproj/project.pbxproj,packages/mobile/package.json
     steps:
       - name: Google Secrets
         id: google-secrets

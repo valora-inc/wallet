@@ -18,7 +18,10 @@ const AUTOMERGE_LABEL = 'automerge'
  */
 module.exports = async ({ github, context }) => {
   const { owner, repo } = context.repo
-  const { BRANCH_NAME } = process.env
+  const { BRANCH_NAME, EXPECTED_UPDATED_FILES } = process.env
+  const expectedUpdatedFiles = EXPECTED_UPDATED_FILES?.split(',') ?? []
+
+  console.log('======expectedUpdatedFiles', expectedUpdatedFiles)
 
   console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
@@ -31,6 +34,23 @@ module.exports = async ({ github, context }) => {
 
   if (!pr) {
     console.log(`No PR with branch name ${BRANCH_NAME} found`)
+    return
+  }
+
+  console.log(`Verifying that expected files are modified for ${pr.number}`)
+  const listFiles = await github.rest.pulls.listFiles({
+    owner,
+    repo,
+    pull_number: pr.number,
+  })
+
+  console.log('======listFiles', listFiles)
+
+  if (
+    listFiles.data.length !== expectedUpdatedFiles.length ||
+    listFiles.data.some(({ filename }) => !expectedUpdatedFiles.includes(filename))
+  ) {
+    console.log(`${pr.number} has more than expected files modified, skipping...`)
     return
   }
 
