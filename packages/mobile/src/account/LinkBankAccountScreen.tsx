@@ -4,7 +4,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
@@ -121,6 +121,7 @@ export function StepOne() {
   const [successFromPersona, setSuccessFromPersona] = useState(false)
   const kycStatus = useSelector(kycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
+  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
 
   const pollFinclusiveKyc = () => {
     if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
@@ -175,7 +176,13 @@ export function StepOne() {
             <VerificationComplete />
           </View>
           <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
-          <Text style={styles.description}>{t('linkBankAccountScreen.completed.description')}</Text>
+          <Text style={styles.description}>
+            {t(
+              stepTwoEnabled
+                ? 'linkBankAccountScreen.completed.description'
+                : 'linkBankAccountScreen.completed.descriptionStep2NotEnabled'
+            )}
+          </Text>
         </View>
       )
     case StepOneUIState.Failure:

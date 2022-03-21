@@ -289,7 +289,7 @@
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
   "payWithExchange": "Kryptobörse",
-  "selectCashOutMethod": "Guthaben erhalten in:",
+  "selectCashOutMethod": "Methode auswählen:",
   "receiveOnAddress": "Celo-Adresse",
   "receiveWithBidali": "Geschenkkarten und Handy-Aufladen",
   "fundingEducationDialog": {
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verifizierung abgeschlossen",
-      "description": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
+      "description": "Wir haben Ihre Identität erfolgreich überprüft. Bitte fahren Sie fort, um die Verknüpfung Ihres Bankkontos zu beenden.",
+      "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
     },
     "failed": {
       "title": "Verifizierung verweigert",
@@ -1162,6 +1163,7 @@
     "delete": "Löschen"
   },
   "syncingBankAccount": "Bankkonto synchronisieren...",
+  "keepAppOpen": "Bitte halten Sie die App offen!",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
   "linkBankAccountSettingsValue2": "Hinzufügen",
@@ -1188,7 +1190,7 @@
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} wird in einem externen Browser öffnen",
+    "title": "{{dappName}} wird in einer externen Anwendung geöffnet",
     "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
