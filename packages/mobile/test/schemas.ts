@@ -1144,6 +1144,18 @@ export const v41Schema = {
   },
 }
 
+export const v42Schema = {
+  ...v41Schema,
+  _persist: {
+    ...v41Schema._persist,
+    version: 42,
+  },
+  app: {
+    ...v41Schema.app,
+    skipProfilePicture: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v41Schema as Partial<RootState>
+  return v42Schema as Partial<RootState>
 }
