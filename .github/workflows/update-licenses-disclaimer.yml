@@ -16,7 +16,7 @@ jobs:
       pull-requests: write
     env:
       BRANCH_NAME: valora-bot/update-licenses-disclaimer
-      EXPECTED_UPDATED_FILES: packages/mobile/src/account/LicenseDisclaimer.txt
+      EXPECTED_UPDATED_FILES: packages/mobile/src/account/LicenseDisclaimer.txt,packages/mobile/src/account/Licenses.tsx
     steps:
       - name: Google Secrets
         id: google-secrets

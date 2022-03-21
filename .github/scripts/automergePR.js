@@ -23,6 +23,7 @@ module.exports = async ({ github, context }) => {
   const expectedUpdatedFiles = EXPECTED_UPDATED_FILES ? EXPECTED_UPDATED_FILES.split(',') : []
 
   console.log('======expectedUpdatedFiles', expectedUpdatedFiles)
+  console.log('======expectedUpdatedFiles length', expectedUpdatedFiles.length)
 
   console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
@@ -44,13 +45,6 @@ module.exports = async ({ github, context }) => {
     repo,
     pull_number: pr.number,
   })
-
-  console.log('======listFiles', listFiles)
-
-  console.log(
-    '======listFiles some files updated are not expected',
-    listFiles.data.some(({ filename }) => !expectedUpdatedFiles.includes(filename))
-  )
 
   if (
     listFiles.data.length !== expectedUpdatedFiles.length ||
