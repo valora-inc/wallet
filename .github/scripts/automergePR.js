@@ -22,9 +22,6 @@ module.exports = async ({ github, context }) => {
   // As of writing this, github-script uses node 12 which doesn't support optional chaining (pr.user?.login)
   const expectedUpdatedFiles = EXPECTED_UPDATED_FILES ? EXPECTED_UPDATED_FILES.split(',') : []
 
-  console.log('======expectedUpdatedFiles', expectedUpdatedFiles)
-  console.log('======expectedUpdatedFiles length', expectedUpdatedFiles.length)
-
   console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
     owner,
@@ -45,7 +42,6 @@ module.exports = async ({ github, context }) => {
     repo,
     pull_number: pr.number,
   })
-
   if (
     listFiles.data.length !== expectedUpdatedFiles.length ||
     listFiles.data.some(({ filename }) => !expectedUpdatedFiles.includes(filename))

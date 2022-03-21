@@ -4,10 +4,9 @@ on:
   push:
     # trigger only when the yarn.lock file is modified in main
     branches:
-      # - main
-      - kathy/automerge-licences-disclaimer
-    # paths:
-    #   - 'yarn.lock'
+      - main
+    paths:
+      - 'yarn.lock'
 
 jobs:
   update-licenses-and-disclaimer:
@@ -16,7 +15,7 @@ jobs:
       pull-requests: write
     env:
       BRANCH_NAME: valora-bot/update-licenses-disclaimer
-      EXPECTED_UPDATED_FILES: packages/mobile/src/account/LicenseDisclaimer.txt,packages/mobile/src/account/Licenses.tsx
+      EXPECTED_UPDATED_FILES: packages/mobile/src/account/LicenseDisclaimer.txt
     steps:
       - name: Google Secrets
         id: google-secrets
