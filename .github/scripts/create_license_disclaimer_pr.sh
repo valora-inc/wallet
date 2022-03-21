@@ -14,6 +14,8 @@ yarn deploy:update-disclaimer
 
 echo "Push changes to branch"
 git add .
+git config user.email "valorabot@valoraapp.com"
+git config user.name "valora-bot"
 git commit -m "Update licenses and disclaimer"
 git push --set-upstream origin $BRANCH_NAME
 
