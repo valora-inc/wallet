@@ -36,20 +36,20 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 
   link = decodeURIComponent(link)
 
-  if (!link.includes('?')) {
-    // action request, we can do nothing
-    return
-  }
-
+  // Show loading screen if there is no pending state
+  // Sometimes the WC request is received from the WebSocket before this deeplink
+  // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
-  if (hasPendingState) {
-    yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
-  } else {
-    // Show loading screen if there is no pending state
-    // Sometimes the WC request is received from the WebSocket before this deeplink
-    // handler is called, so it's important we don't display the loading screen on top
+  if (!hasPendingState) {
     yield call(initialiseWalletConnectWithLoading, link, WalletConnectPairingOrigin.Deeplink)
   }
+
+  // connection request
+  if (link.includes('?')) {
+    yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
+  }
+
+  // action request, we can do nothing
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {

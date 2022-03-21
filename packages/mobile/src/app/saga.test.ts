@@ -20,7 +20,10 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
-import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import {
+  handleWalletConnectDeepLink,
+  initialiseWalletConnectWithLoading,
+} from 'src/walletConnect/walletConnect'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/utils/time', () => ({
@@ -132,7 +135,7 @@ describe('App saga', () => {
           .provide([[select(selectHasPendingState), false]])
           .call(handleWalletConnectDeepLink, link)
           .call(
-            initialiseWalletConnect,
+            initialiseWalletConnectWithLoading,
             decodeURIComponent(connectionString),
             WalletConnectPairingOrigin.Deeplink
           )
@@ -169,7 +172,7 @@ describe('App saga', () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
           .provide([[select(selectHasPendingState), false]])
           .call(handleWalletConnectDeepLink, link)
-          .not.call(initialiseWalletConnect)
+          .not.call(initialiseWalletConnectWithLoading)
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
           origin: WalletConnectPairingOrigin.Deeplink,

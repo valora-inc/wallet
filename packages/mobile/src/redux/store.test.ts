@@ -129,6 +129,7 @@ describe('store state', () => {
         },
         "alert": null,
         "app": Object {
+          "activeDapp": null,
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
@@ -137,7 +138,6 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
-          "activeDapp": null,
           "dappsWebViewEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
