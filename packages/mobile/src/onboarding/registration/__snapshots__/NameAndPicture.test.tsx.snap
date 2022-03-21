@@ -53,6 +53,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
         onGestureHandlerStateChange={[Function]}
         onHandlerStateChange={[Function]}
         rippleColor={0}
+        testID="PictureInput"
       >
         <View
           accessible={true}
@@ -616,6 +617,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
         onGestureHandlerStateChange={[Function]}
         onHandlerStateChange={[Function]}
         rippleColor={0}
+        testID="PictureInput"
       >
         <View
           accessible={true}
