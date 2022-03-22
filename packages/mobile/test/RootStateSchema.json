@@ -1885,6 +1885,9 @@
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
                 },
+                "skipProfilePicture": {
+                    "type": "boolean"
+                },
                 "skipVerification": {
                     "type": "boolean"
                 },
@@ -1957,6 +1960,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showPriceChangeIndicatorInBalances",
+                "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",

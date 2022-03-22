@@ -193,6 +193,7 @@ export interface RemoteConfigValues {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
+  skipProfilePicture: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

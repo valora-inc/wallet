@@ -558,4 +558,11 @@ export const migrations = {
     }
   },
   41: (state: any) => state,
+  42: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
+    },
+  }),
 }

@@ -58,4 +58,32 @@ describe('NameAndPictureScreen', () => {
     )
     expect(wrapper.UNSAFE_queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
   })
+
+  it('shows profile picture input if skipProfilePicture remote config is not enabled', () => {
+    const store = createMockStore({
+      app: {
+        skipProfilePicture: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('PictureInput')).toBeTruthy()
+  })
+
+  it('hides profile picture input if skipProfilePicture remote config is enabled', () => {
+    const store = createMockStore({
+      app: {
+        skipProfilePicture: true,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('PictureInput')).toBeNull()
+  })
 })
