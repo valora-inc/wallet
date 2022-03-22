@@ -3,13 +3,13 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
-import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen.test'
 import { claimRewardsSaga } from 'src/consumerIncentives/saga'
 import {
   claimRewards,
   claimRewardsFailure,
   claimRewardsSuccess,
 } from 'src/consumerIncentives/slice'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'

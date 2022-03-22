@@ -33,6 +33,7 @@ import {
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
+  dappsWebViewEnabledSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
@@ -191,6 +192,8 @@ export interface RemoteConfigValues {
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
+  dappsWebViewEnabled: boolean
+  skipProfilePicture: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -304,8 +307,20 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-function* handleOpenDapp(action: DappSelected) {
-  yield call(handleOpenUrl, openUrl(action.dapp.dappUrl, true, true))
+export function* handleOpenDapp(action: DappSelected) {
+  const { dappUrl, name } = action.dapp
+  const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
+
+  if (dappsWebViewEnabled) {
+    const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
+    if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
+      yield call(handleDeepLink, openDeepLink(dappUrl, true))
+    } else {
+      navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+    }
+  } else {
+    yield call(handleOpenUrl, openUrl(dappUrl, true, true))
+  }
 }
 
 export function* watchOpenUrl() {

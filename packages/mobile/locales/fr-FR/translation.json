@@ -5,7 +5,7 @@
   "localCurrencySetting": "Devise",
   "licenses": "Licences",
   "removeAccountTitle": "Réinitialiser Valora",
-  "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
+  "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
   "legal": "Mentions légales",
   "security": "Sécurité",
   "changePin": "Modifier le code PIN",
@@ -30,13 +30,13 @@
     "switchToDataSaver": "Activer l'Économiseur de données"
   },
   "accountKeyModal": {
-    "header": "Sans votre phrase de récupération, vous perdez définitivement l'accès à vos fonds",
-    "body1": "Afin de réinitialiser Valora, vous devrez confirmer que vous avez bien noté votre phrase de récupération.",
+    "header": "Sans votre Phrase de récupération, vous perdez définitivement l'accès à vos fonds",
+    "body1": "Afin de réinitialiser Valora, vous devrez confirmer que vous avez bien noté votre Phrase de récupération.",
     "body2": "Personne, même pas Valora, ne sera en mesure de récupérer votre compte sans votre phrase."
   },
   "promptConfirmRemovalModal": {
     "header": "Êtes-vous sûr de vouloir réinitialiser Valora ?",
-    "body": "Vous ne pourrez plus accéder à vos fonds ou à votre phrase de récupération depuis cet appareil. Il n'y a aucun moyen de récupérer votre phrase de récupération si vous ne l'avez pas notée quelque part.",
+    "body": "Vous ne pourrez plus accéder à vos fonds ou à votre Phrase de récupération depuis cet appareil. Il n'y a aucun moyen de récupérer votre Phrase de récupération si vous ne l'avez pas enregistrée quelque part.",
     "resetNow": "Réinitialiser maintenant"
   },
   "promptConfirmRevokeModal": {
@@ -105,30 +105,30 @@
   "contactSupport": "Contacter l'Assistance",
   "tapToCopy": "Appuyer pour copier",
   "headerTitle": "Phrase de récupération",
-  "introTitle": "Votre phrase de récupération",
-  "introBody": "Votre phrase de récupération est la partie la plus importante de votre compte.\n\nVeuillez trouver un endroit privé pour configurer votre Phrase. Cela vous prendra environ cinq minutes.",
-  "introPrimaryAction": "Set Up",
-  "backupSetupTitle": "Configurez votre phrase de récupération",
-  "backupSetupBody": "Pour protéger vos fonds, vous devez configurer votre phrase de récupération avant de pouvoir continuer à utiliser {{appName}}.",
+  "introTitle": "Votre Phrase de récupération",
+  "introBody": "Votre Phrase de récupération est la partie la plus importante de votre compte.\n\nVeuillez trouver un endroit privé pour configurer votre Phrase. Cela vous prendra environ cinq minutes.",
+  "introPrimaryAction": "Configuration",
+  "backupSetupTitle": "Configurez votre Phrase de récupération",
+  "backupSetupBody": "Pour protéger vos fonds, vous devez configurer votre Phrase de récupération avant de pouvoir continuer à utiliser {{appName}}.",
   "delayBackup": "Patientez pendant une heure",
-  "postSetupTitle": "Votre phrase de récupération",
-  "postSetupBody": "Si vous perdez votre phrase de récupération, vous perdrez l'accès à tous vos Celo Dollars, Celo Euro et CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
-  "postSetupCTA": "En savoir plus sur votre phrase de récupération",
-  "failedFetchMnemonic": "Impossible d'extraire votre phrase de récupération",
+  "postSetupTitle": "Votre Phrase de récupération",
+  "postSetupBody": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos Dollars Celo et à vos CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre Phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
+  "postSetupCTA": "En savoir plus sur votre Phrase de récupération",
+  "failedFetchMnemonic": "Impossible d'extraire votre Phrase de récupération",
   "backupAndRecovery": "Sauvegarde et restauration",
   "writeDownKey": "Veuillez noter votre phrase",
   "completeEducation": "Je comprends",
-  "yourAccountKey": "Votre phrase de récupération",
-  "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",
-  "backupKeySummary": "Trouvez un endroit secret et notez-y votre phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
+  "yourAccountKey": "Votre Phrase de récupération",
+  "backupKeyNotification": "Gardez vos fonds en sécurité. Configurez votre Phrase de récupération maintenant.",
+  "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
   "copied": "Phrase copiée dans le presse-papiers",
   "moreInfo": "Plus d'informations",
   "savedConfirmation": "Oui, j'ai bien noté ma phrase.",
-  "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre phrase de récupération ?",
+  "backupQuizWordCount": "Quel est le <0>{{ordinal}}</0> mot de votre Phrase de récupération ?",
   "importBackupFailed": "L'importation du portefeuille a échoué",
-  "backupQuizFailed": "La phrase de récupération que vous avez saisie est incorrecte. Veuillez réessayer.",
-  "invalidBackupPhrase": "La phrase de récupération n'est pas valide",
-  "invalidWordsInBackupPhrase": "Certains mots dans la phrase de récupération ne sont pas valides : {{ invalidWords }}",
+  "backupQuizFailed": "La Phrase de récupération que vous avez saisie est incorrecte. Veuillez réessayer.",
+  "invalidBackupPhrase": "La Phrase de récupération n'est pas valide",
+  "invalidWordsInBackupPhrase": "Certains mots dans la Phrase de récupération ne sont pas valides : {{ invalidWords }}",
   "backupComplete": {
     "header": "Sauvegarde terminée",
     "0": "Terminé avec succès !",
@@ -136,24 +136,24 @@
     "2": "Tout est prêt !"
   },
   "cancelDialog": {
-    "title": "Terminer la configuration de votre phrase de récupération",
-    "body": "Votre phrase de récupération est extrêmement importante. Sans cette phrase, vous pouvez perdre définitivement l'accès à votre portefeuille.\nVous ne pourrez plus faire aucune transaction tant que vous n'aurez pas terminé la configuration de votre phrase de récupération.",
+    "title": "Terminer la configuration de votre Phrase de récupération",
+    "body": "Votre Phrase de récupération est extrêmement importante. Sans cette phrase, vous pouvez perdre définitivement l'accès à votre portefeuille.\nVous ne pourrez plus faire aucune transaction tant que vous n'aurez pas terminé la configuration de votre Phrase de récupération.",
     "action": "Terminer maintenant",
     "secondary": "Configurer plus tard"
   },
   "backupPhrasePlaceholder": "cheval léopard chien singe requin tigre lémurien baleine calamar loup écureuil souris lion éléphant chat crevette ours pingouin chevreuil tortue renard zèbre chèvre girafe",
   "guide": [
     {
-      "title": "Votre phrase de récupération est un type spécial de mot de passe",
-      "text": "Votre phrase de récupération est la seule et unique façon d'accéder à votre compte."
+      "title": "Votre Phrase de récupération est un type spécial de mot de passe",
+      "text": "Votre Phrase de récupération est la seule et unique façon d'accéder à votre compte."
     },
     {
-      "title": "Sans votre phrase de récupération, vous perdez définitivement l'accès à vos fonds",
-      "text": "Si vous perdez votre téléphone, vous devez disposer de votre phrase de récupération pour accéder à votre compte. Personne, même pas {{appName}}, ne pourra récupérer vos fonds sans cette phrase."
+      "title": "Sans votre Phrase de récupération, vous perdez définitivement l'accès à vos fonds",
+      "text": "Si vous perdez votre téléphone, vous devez disposer de votre Phrase de récupération pour accéder à votre compte. Personne, même pas {{appName}}, ne pourra récupérer vos fonds sans cette phrase."
     },
     {
       "title": "Notez-la",
-      "text": "Notez votre phrase de récupération et conservez-la dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone."
+      "text": "Notez votre Phrase de récupération et conservez-la dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone."
     },
     {
       "title": "Gardez-la",
@@ -172,7 +172,7 @@
     "connectText": "Il vous suffit d'avoir un solde d'au moins {{minBalance}} {{currency}} et de connecter votre numéro de téléphone pour commencer à profiter des récompenses."
   },
   "saveMoreEarnMore": {
-    "header": "Configurez votre phrase de récupération",
+    "header": "Configurez votre Phrase de récupération",
     "text": "Cela vous assurera que vos récompenses sont sécurisées et sous votre contrôle."
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
@@ -285,11 +285,11 @@
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
   "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
   "selectDigitalCurrency": "Sélectionnez un actif digital",
-  "selectPaymentMethod": "Payer avec :",
+  "selectPaymentMethod": "Sélectionnez la méthode :",
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
-  "selectCashOutMethod": "Recevoir des fonds en :",
+  "selectCashOutMethod": "Sélectionnez la méthode :",
   "receiveOnAddress": "Adresse Celo",
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
@@ -328,8 +328,8 @@
   "dailyLimitRequest": "Bonjour ! Je voudrais augmenter ma limite de virement quotidienne.",
   "pleaseSelectProvider": "Veuillez sélectionner un prestataire ci-dessous. Ces liens se connectent à un service tiers.",
   "otherFundingOptions": "Pour découvrir plus de moyens d'ajouter et de retirer des fonds, consulter <0>Comment créditer votre compte</0>.",
-  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
-  "youCanTransferOut": "You can withdraw your funds by sending them to a third party exchange that supports {{digitalAsset}}.",
+  "youCanTransferIn": "Vous pouvez utiliser une plateforme d'échange tierce pour envoyer {{digitalAsset}} vers votre compte Valora. Vous aurez pour cela besoin de votre adresse de compte.",
+  "youCanTransferOut": "Vous pouvez retirer vos fonds en les envoyant à un partenaire tiers qui prend en charge les {{digitalAsset}}.",
   "useBalanceWithMerchants": "Utilisez votre solde auprès des vendeurs prenant en charge ces monnaies",
   "findMerchants": "Trouvez des vendeurs près de chez vous",
   "celoDeposit": "Achats CELO",
@@ -512,12 +512,12 @@
   ],
   "addressValidationError": "Les informations de compte saisies ne sont pas valides",
   "addressValidationNoMatch": "Les informations de compte saisies ne correspondent à pas celles associées à votre contact",
-  "addressValidationFullPoorlyFormatted": "Les adresses du compte client commencent par \"0x\", ne contiennent que des chiffres et des lettres, et sont composées de 42 caractères. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialPoorlyFormatted": "Les adresses du compte ne contiennent que des chiffres et des lettres, veuillez fournir les 4 derniers chiffres. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationFullOwnAddress": "Veuillez saisir l'adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'adresse de compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationFullPoorlyFormatted": "Les Adresses du compte client commencent par \"0x\", ne contiennent que des chiffres et des lettres, et sont composées de 42 caractères. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationPartialPoorlyFormatted": "Les Adresses du compte ne contiennent que des chiffres et des lettres, veuillez fournir les 4 derniers chiffres. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationFullOwnAddress": "Veuillez saisir l'Adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'Adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
   "providerRateFetchFailed": "Impossible de récupérer le taux du prestataire. Vous pouvez continuer sans un taux prérempli.",
-  "helpFindAccount": "Aidez votre contact à trouver son adresse de compte",
+  "helpFindAccount": "Aidez votre contact à trouver son Adresse du compte",
   "close": "Fermer",
   "home": "Accueil",
   "accountKey": "Récupération",
@@ -531,7 +531,7 @@
   "currentBalance": "Solde actuel (cUSD)",
   "restore": "Restaurer",
   "commentUnavailable": "Commentaire indisponible",
-  "accountClearFailed": "Une erreur s'est produite lors de la suppression de votre phrase de récupération. Vous devrez peut-être réinstaller l'appli pour restaurer toutes les fonctionnalités.",
+  "accountClearFailed": "Une erreur s'est produite lors de la suppression de votre Phrase de récupération. Vous devrez peut-être réinstaller l'appli pour restaurer toutes les fonctionnalités.",
   "withdraw": "Retirer",
   "countryNotAvailable": "{{appName}} n'est pas disponible dans votre pays",
   "fetchFailed": "La connexion au serveur a échoué",
@@ -656,7 +656,7 @@
   "skipModal": {
     "header": "Ignorer la confirmation ?",
     "body1": "La confirmation permet aux autres personnes d'envoyer des valeurs sur votre numéro de téléphone.",
-    "body2": "Sans confirmation, vous pouvez toujours envoyer des paiements, mais uniquement en utilisant les adresses du compte ou les QR codes."
+    "body2": "Sans confirmation, vous pouvez toujours envoyer des paiements, mais uniquement en utilisant les Adresses du compte ou les QR codes."
   },
   "failModal": {
     "header": "Erreur de confirmation",
@@ -758,11 +758,11 @@
   "verificationPrematureRevealMessage": "Veuillez patienter une minute avant de renvoyer",
   "verificationLearnMoreDialog": {
     "title": "Numéros de téléphone et {{appName}}",
-    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
+    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des Adresses du compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
     "dismiss": "Ignorer"
   },
   "importExistingKey": {
-    "explanation": "Votre phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
+    "explanation": "Votre Phrase de récupération est une phrase de 24 mots que vous avez écrite et enregistrée lorsque vous avez créé votre compte. Veuillez la saisir ici pour restaurer votre compte.",
     "keyPlaceholder": "cheval léopard chien singe ..."
   },
   "verificationInput": {
@@ -907,32 +907,32 @@
   "confirmAccount": {
     "header": "Veuillez confirmer le compte de {{displayName}}",
     "headerNoDisplayName": "Veuillez confirmer le compte de votre contact",
-    "button": "Confirmer l'adresse du compte"
+    "button": "Confirmer l'Adresse du compte"
   },
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} a plusieurs comptes associés. {{displayName}} a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
     "body1NoDisplayName": "Votre contact a plusieurs comptes associés à celui-ci. Votre contact a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
-    "body2": "Vous devez scanner son QR code ou confirmer son adresse de compte avant de procéder à la transaction."
+    "body2": "Vous devez scanner son QR code ou confirmer son Adresse du compte avant de procéder à la transaction."
   },
   "confirmAccountNumber": {
-    "title": "Confirmer l'adresse du compte",
-    "bodyPartial": "Demandez à {{displayName}} les quatre derniers chiffres de son adresse de compte. Il est plus sûr de le faire en personne ou par téléphone.",
-    "bodyPartialNoDisplayName": "Demandez à votre contact les quatre derniers chiffres de son adresse de compte. Il est plus sûr de le faire en personne ou par téléphone.",
-    "body1Full": "Veuillez demander à {{displayName}} son adresse de compte.",
-    "body1FullNoDisplayName": "Demandez à votre contact son adresse de compte.",
+    "title": "Confirmer l'Adresse du compte",
+    "bodyPartial": "Demandez à {{displayName}} les quatre derniers chiffres de son Adresse du compte. Il est plus sûr de le faire en personne ou par téléphone.",
+    "bodyPartialNoDisplayName": "Demandez à votre contact les quatre derniers chiffres de son Adresse du compte. Il est plus sûr de le faire en personne ou par téléphone.",
+    "body1Full": "Veuillez demander à {{displayName}} son Adresse du compte.",
+    "body1FullNoDisplayName": "Demandez à votre contact son Adresse du compte.",
     "body2Full": "Nous vous recommandons fortement de le lui demander en personne ou par téléphone, par WhatsApp ou Messenger, ou par e-mail. Pour des raisons de sécurité, veuillez ne pas le faire par SMS.",
-    "help": "Aide pour trouver une adresse de compte",
+    "help": "Aide pour trouver une Adresse du compte",
     "submit": "Envoyer"
   },
   "accountInputHeaderPartial": "4 derniers chiffres",
   "accountInputHeaderFull": "Adresse du compte",
   "helpModal": {
-    "header": "Trouver une adresse de compte",
-    "body1": "Les adresses du compte (également connues sous le nom d'adresses) se trouvent dans le menu. À partir de l'écran d'Accueil, ouvrez le menu en appuyant sur l'icône en haut à gauche.",
-    "body2": "L'adresse du compte client se trouve en bas du menu.",
-    "body3": "Les adresses du compte client commencent par \"0x\" et sont composées de 42 caractères"
+    "header": "Trouver une Adresse du compte",
+    "body1": "Les Adresses du compte (également connues sous le nom d'adresses) se trouvent dans le menu. À partir de l'écran d'Accueil, ouvrez le menu en appuyant sur l'icône en haut à gauche.",
+    "body2": "L'Adresse du compte client se trouve en bas du menu.",
+    "body3": "Les Adresses du compte client commencent par \"0x\" et sont composées de 42 caractères"
   },
-  "transferAddressChanged": "Ce contact a changé l'adresse de son compte depuis la transaction. Ce paiement a été envoyé à :",
+  "transferAddressChanged": "Ce contact a changé l'Adresse du compte depuis la transaction. Ce paiement a été envoyé à :",
   "addressConfirmed": "Adresse du compte confirmée",
   "sending": "Envoyer à",
   "feeActual": "Frais",
@@ -960,7 +960,7 @@
     "signTransaction": "Signer un Celo TX",
     "sendTransaction": "Envoyer un Celo TX",
     "decrypt": "Déchiffrer une charge utile de données",
-    "accounts": "Lire votre adresse de compte sur {{appName}}",
+    "accounts": "Lire votre Adresse du compte sur {{appName}}",
     "details": "Afficher les détails",
     "computeSharedSecret": "Générer des secrets"
   },
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Vérification terminée",
-      "description": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
+      "description": "Nous avons vérifié votre identité avec succès. Veuillez continuer pour finir de relier votre compte bancaire.",
+      "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
@@ -1162,6 +1163,7 @@
     "delete": "Supprimer"
   },
   "syncingBankAccount": "Synchronisation du compte bancaire en cours...",
+  "keepAppOpen": "S'il vous plaît, gardez l'application ouverte !",
   "linkBankAccountSettingsTitle": "Comptes bancaires liés",
   "linkBankAccountSettingsValue": "Obtenir l'accès",
   "linkBankAccountSettingsValue2": "Ajouter un compte",
@@ -1188,7 +1190,7 @@
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} s'ouvrira dans un navigateur externe",
+    "title": "{{dappName}} s'ouvrira dans une appli externe",
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
@@ -1199,13 +1201,13 @@
   "others": "Autres",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
-  "merchant": "Merchant Payment",
-  "merchantMoneyEscrow": "You're about the send a direct payment to a merchant.",
-  "merchantPaymentNumberVerificationMessage": "You need to connect your number",
-  "merchantPaymentSubmitFail": "Your payment failed to submit",
-  "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
-  "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
-  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
+  "merchant": "Paiement commerçant",
+  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un vendeur.",
+  "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
+  "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
+  "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
+  "merchantPaymentSubmitSuccess": "Votre paiement a bien été envoyé",
+  "merchantWalletUnlockError": "Une erreur s'est produite lors du déverrouillage de votre portefeuille, veuillez réessayer",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

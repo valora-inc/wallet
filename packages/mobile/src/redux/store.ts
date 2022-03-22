@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { cloudFunctionsApi } from 'src/api/slice'
-import createMigrate from 'src/redux/createMigrate'
+import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
@@ -22,7 +22,9 @@ let lastEventTime = Date.now()
 
 const persistConfig: PersistConfig<RootState> = {
   key: 'root',
-  version: 39, // default is -1, increment as we make migrations
+  // default is -1, increment as we make migrations
+  // See https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration
+  version: 42,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'imports', 'supercharge'],
@@ -88,12 +90,10 @@ persistConfig.getStoredState = async (config: any) => {
 // For testing only!
 export const _persistConfig = persistConfig
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
 // eslint-disable-next-line no-var
 declare var window: any
 
-export const setupStore = (initialState = {}) => {
+export const setupStore = (initialState = {}, config = persistConfig) => {
   const sagaMiddleware = createSagaMiddleware()
   const middlewares: Middleware[] = [sagaMiddleware]
 
@@ -140,6 +140,8 @@ export const setupStore = (initialState = {}) => {
     const Reactotron = require('src/reactotronConfig').default
     enhancers.push(Reactotron.createEnhancer())
   }
+
+  const persistedReducer = persistReducer(config, rootReducer)
 
   const createdStore = configureStore({
     reducer: persistedReducer,

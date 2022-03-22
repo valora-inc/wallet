@@ -137,6 +137,8 @@ export const superchargeButtonTypeSelector = (state: RootState) => state.app.sup
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
+export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

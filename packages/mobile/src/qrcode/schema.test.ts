@@ -22,32 +22,59 @@ const validBeamAndGoPaymentData = {
 
 describe('qrcode/schema', () => {
   describe('#uriDataFromJson', () => {
-    const validParse = (...objects: object[]) =>
-      objects.forEach((obj) => uriDataFromJson(JSON.parse(JSON.stringify(obj))))
-
-    it('should parse valid address', () =>
-      validParse(validAddressData, validUserData, validLocalPaymentData))
-
-    it('should parse valid user data', () => validParse(validUserData))
-
-    it('should parse valid local payment data', () => validParse(validLocalPaymentData))
-
-    it('should parse valid BeamAndGo payment data', () => validParse(validBeamAndGoPaymentData))
-
-    const invalidParse = (...pairs: Array<{ obj: object; s: string }>) =>
-      pairs.forEach((pair) => {
-        try {
-          uriDataFromJson(JSON.parse(JSON.stringify(pair.obj)))
-        } catch (e) {
-          expect(e).toEqual(new Error(pair.s))
-        }
+    it('should parse valid address', () => {
+      expect(uriDataFromJson(validAddressData)).toStrictEqual({
+        address: '0x0000000000000000000000000000000000000000',
+        amount: undefined,
+        comment: undefined,
+        currencyCode: undefined,
+        displayName: undefined,
+        e164PhoneNumber: undefined,
+        token: undefined,
       })
+    })
 
-    it('should parse with error on invalid address', () =>
-      invalidParse({
-        obj: { address: zeroAddress().slice(0, -1) },
-        s: 'is not a valid address',
-      }))
+    it('should parse valid user data', () => {
+      expect(uriDataFromJson(validUserData)).toStrictEqual({
+        address: '0x0000000000000000000000000000000000000000',
+        amount: undefined,
+        comment: undefined,
+        currencyCode: undefined,
+        displayName: 'alice',
+        e164PhoneNumber: '+14155552671',
+        token: undefined,
+      })
+    })
+
+    it('should parse valid local payment data', () => {
+      expect(uriDataFromJson(validLocalPaymentData)).toStrictEqual({
+        address: '0x0000000000000000000000000000000000000000',
+        amount: '521.46',
+        comment: undefined,
+        currencyCode: 'PHP',
+        displayName: undefined,
+        e164PhoneNumber: undefined,
+        token: undefined,
+      })
+    })
+
+    it('should parse valid BeamAndGo payment data', () => {
+      expect(uriDataFromJson(validBeamAndGoPaymentData)).toStrictEqual({
+        address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
+        amount: '500',
+        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
+        currencyCode: 'PHP',
+        displayName: 'Super 8',
+        e164PhoneNumber: undefined,
+        token: undefined,
+      })
+    })
+
+    it('should parse with error on invalid address', () => {
+      expect(() => uriDataFromJson({ address: zeroAddress().slice(0, -1) })).toThrowError(
+        'is not a valid address'
+      )
+    })
   })
 
   const data1: Partial<UriData> = {
@@ -77,8 +104,24 @@ describe('qrcode/schema', () => {
 
   describe('#uriDataFromUrl', () => {
     it('should parse correctly', () => {
-      uriDataFromUrl(url1)
-      uriDataFromUrl(url2)
+      expect(uriDataFromUrl(url1)).toStrictEqual({
+        address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
+        amount: undefined,
+        comment: undefined,
+        currencyCode: undefined,
+        displayName: undefined,
+        e164PhoneNumber: undefined,
+        token: undefined,
+      })
+      expect(uriDataFromUrl(url2)).toStrictEqual({
+        address: '0x8902dBbE62F149841F2b05a63dFE615bD8F69340',
+        amount: undefined,
+        comment: undefined,
+        currencyCode: undefined,
+        displayName: 'Steven Cowrie',
+        e164PhoneNumber: '+254720670799',
+        token: undefined,
+      })
     })
   })
 })

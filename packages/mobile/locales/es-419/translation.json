@@ -107,7 +107,7 @@
   "headerTitle": "Recuperación",
   "introTitle": "Tu Frase de recuperación",
   "introBody": "Tu Frase de recuperación es la parte más importante de tu cuenta. \n\nBusca un lugar privado donde puedas configurarla. Solo te tomará cinco minutos.",
-  "introPrimaryAction": "Set Up",
+  "introPrimaryAction": "Configurar",
   "backupSetupTitle": "Configura tu Frase de recuperación",
   "backupSetupBody": "Para proteger tus fondos, debes configurar tu Frase de recuperación antes de seguir usando {{appName}}.",
   "delayBackup": "Espera una hora por favor",
@@ -119,7 +119,7 @@
   "writeDownKey": "Por favor, anota tu frase.",
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
-  "backupKeyNotification": "Keep your funds safe. Set up your Recovery Phrase now.",
+  "backupKeyNotification": "Guarda tus fondos a salvo. Configura tu Frase de recuperación ahora.",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
   "copied": "Frase copiada al portapapeles",
   "moreInfo": "Más Información",
@@ -285,11 +285,11 @@
   "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares directamente en Valora, desde la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona un activo digital",
-  "selectPaymentMethod": "Paga con:",
+  "selectPaymentMethod": "Seleccionar método:",
   "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
-  "selectCashOutMethod": "Recibe los fondos en:",
+  "selectCashOutMethod": "Seleccionar método:",
   "receiveOnAddress": "Dirección Celo",
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
@@ -328,8 +328,8 @@
   "dailyLimitRequest": "¡Hola! Me gustaría aumentar mi límite de envío diario.",
   "pleaseSelectProvider": "Selecciona un proveedor de la lista a continuación. Estos enlaces te conectarán a servicios proporcionados por terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, consulta <0>¿Cómo puedo agregar fondos a mi cuenta de Valora?</0>",
-  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
-  "youCanTransferOut": "You can withdraw your funds by sending them to a third party exchange that supports {{digitalAsset}}.",
+  "youCanTransferIn": "Puedes usar un exchange de terceros para enviar {{digitalAsset}} a tu cuenta de Valora. Necesitarás tu Dirección de cuenta para esto.",
+  "youCanTransferOut": "Puedes retirar tus fondos enviándolos a un exchange de terceros que soporte {{digitalAsset}}.",
   "useBalanceWithMerchants": "Usa tu saldo para pagar en comercios asociados",
   "findMerchants": "Encuentra comercios asociados cerca tuyo",
   "celoDeposit": "Compra de CELO",
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verificación completa",
-      "description": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "description": "Hemos verificado su identidad con éxito. Por favor, continúe para terminar de vincular su cuenta bancaria.",
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1162,6 +1163,7 @@
     "delete": "Eliminar"
   },
   "syncingBankAccount": "Sincronizando cuenta bancaria...",
+  "keepAppOpen": "Por favor, mantén la aplicación abierta.",
   "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
   "linkBankAccountSettingsValue2": "Agregar cuenta",
@@ -1188,7 +1190,7 @@
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} se abrirá en un navegador externo.",
+    "title": "{{dappName}} se abrirá en una aplicación externa",
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },
@@ -1199,13 +1201,13 @@
   "others": "Otros",
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
-  "merchant": "Merchant Payment",
-  "merchantMoneyEscrow": "You're about the send a direct payment to a merchant.",
-  "merchantPaymentNumberVerificationMessage": "You need to connect your number",
-  "merchantPaymentSubmitFail": "Your payment failed to submit",
-  "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
-  "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
-  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
+  "merchant": "Pago a comerciante",
+  "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
+  "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
+  "merchantPaymentSubmitFail": "No se pudo completar el pago",
+  "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
+  "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
+  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, inténtalo de nuevo",
   "celoDollarAmount": "<0></0> Celo Dólar",
   "celoDollarAmount_plural": "<0></0> Celo Dólares"
 }
