@@ -36,6 +36,7 @@ export interface State {
   kycStatus: KycStatus | undefined
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
+  finclusiveRegionSupported: boolean
 }
 
 export enum PincodeType {
@@ -107,6 +108,7 @@ export const initialState: State = {
   kycStatus: undefined,
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+  finclusiveRegionSupported: false,
 }
 
 export const reducer = (
@@ -292,6 +294,12 @@ export const reducer = (
       return {
         ...state,
         finclusiveKycStatus: action.finclusiveKycStatus,
+      }
+    }
+    case Actions.SET_FINCLUSIVE_REGION_SUPPORTED: {
+      return {
+        ...state,
+        finclusiveRegionSupported: true,
       }
     }
     default:

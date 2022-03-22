@@ -11,10 +11,12 @@ import { InquiryAttributes } from 'react-native-persona'
 import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { setFinclusiveRegionSupported } from 'src/account/actions'
 import PersonaButton from 'src/account/Persona'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import {
   finclusiveKycStatusSelector,
+  finclusiveRegionSupportedSelector,
   kycStatusSelector,
   plaidParamsSelector,
 } from 'src/account/selectors'
@@ -33,6 +35,8 @@ import {
 } from '../app/selectors'
 import { fetchFinclusiveKyc } from './actions'
 import openPlaid, { handleOnEvent } from './openPlaid'
+
+const TAG = 'LinkBankAccountScreen'
 
 function LinkBankAccountScreen() {
   const navigation = useNavigation()
@@ -117,10 +121,6 @@ export function stepOneUIState({
 
   return StepOneUIState.Begin
 }
-
-// Persona data is parsed from step 1 to see whether the user's resident region is supported
-// This is a shared attribute between step 1 and step 2
-let isRegionSupported = false
 
 export function StepOne() {
   const { t } = useTranslation()
@@ -266,8 +266,10 @@ export function StepOne() {
 export function StepTwo() {
   const { t } = useTranslation()
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
+  const finclusiveRegionSupported = useSelector(finclusiveRegionSupportedSelector)
   const plaidParams = useSelector(plaidParamsSelector)
-  const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector) && isRegionSupported
+  const stepTwoEnabled =
+    useSelector(linkBankAccountStepTwoEnabledSelector) && finclusiveRegionSupported
   const disabled = !stepTwoEnabled || finclusiveKycStatus !== FinclusiveKycStatus.Accepted
   // This is used to handle universal links within React Native
   // https://plaid.com/docs/link/oauth/#handling-universal-links-within-react-native

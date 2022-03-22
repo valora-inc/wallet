@@ -13,7 +13,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
-  mockTestTokenAddress
+  mockTestTokenAddress,
 } from 'test/values'
 
 // Default (version -1 schema)
@@ -1161,6 +1161,10 @@ export const v43Schema = {
   _persist: {
     ...v42Schema._persist,
     version: 43,
+  },
+  account: {
+    ...v42Schema.account,
+    finclusiveRegionSupported: false,
   },
   app: {
     ...v42Schema.app,

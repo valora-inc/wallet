@@ -9,11 +9,13 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
   | 'superchargeTokens'
+  | 'finclusiveUnsupportedStates'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
   superchargecUSDMin: number
   superchargecUSDMax: number
+  finclusiveUnsupportedStates: string
 } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
@@ -56,8 +58,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: true,
   skipProfilePicture: false,
-  finclusiveUnsupportedStates: JSON.stringify({
-    NY: 'NEW YORK',
-    TX: 'TEXAS',
-  }),
+  finclusiveUnsupportedStates: 'NY,TX',
 }
