@@ -15,8 +15,9 @@ import { setFinclusiveRegionSupported } from 'src/account/actions'
 import PersonaButton from 'src/account/Persona'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import {
-  finclusiveKycStatusSelector, kycStatusSelector,
-  plaidParamsSelector
+  finclusiveKycStatusSelector,
+  kycStatusSelector,
+  plaidParamsSelector,
 } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -29,7 +30,7 @@ import { Screens } from 'src/navigator/Screens'
 import { isUserRegionSupportedByFinclusive } from 'src/utils/supportedRegions'
 import {
   finclusiveUnsupportedStatesSelector,
-  linkBankAccountStepTwoEnabledSelector
+  linkBankAccountStepTwoEnabledSelector,
 } from '../app/selectors'
 import { fetchFinclusiveKyc } from './actions'
 import openPlaid, { handleOnEvent } from './openPlaid'
@@ -120,10 +121,6 @@ export function stepOneUIState({
   return StepOneUIState.Begin
 }
 
-// Persona data is parsed from step 1 to see whether the user's resident region is supported
-// This is a shared attribute between step 1 and step 2
-let isRegionSupported = false
-
 export function StepOne() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -159,31 +156,9 @@ export function StepOne() {
     setTimeout(() => setIsInPersonaFlow(true), 500)
   }
 
-<<<<<<< HEAD
   const onSuccessPersona = (attributes: InquiryAttributes) => {
     if (isUserRegionSupportedByFinclusive(attributes.address, unsupportedRegions, TAG)) {
       dispatch(setFinclusiveRegionSupported())
-=======
-  const isUserRegionSupported = (address: InquiryAttributes['address']) => {
-    if (!address) {
-      return false
-    }
-    if (!address.countryCode || address.countryCode !== 'US') {
-      return false
-    }
-
-    const UNSUPPORTED_REGION_ABBR: string[] = ['NY', 'TX']
-    if (!address.subdivisionAbbr || UNSUPPORTED_REGION_ABBR.includes(address.subdivisionAbbr)) {
-      // Finclusive currently do not support residents of NY and TX
-      return false
-    }
-    return true
-  }
-
-  const onSuccessPersona = (attributes: InquiryAttributes) => {
-    if (isUserRegionSupported(attributes.address)) {
-      isRegionSupported = true
->>>>>>> block geo wip
     }
 
     setSuccessFromPersona(true)
