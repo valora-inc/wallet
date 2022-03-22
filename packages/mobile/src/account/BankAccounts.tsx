@@ -79,6 +79,8 @@ function BankAccounts({ navigation, route }: Props) {
           testID="backButton"
         />
       ),
+      // Prevent swiping back on iOS when previous screen is SyncBankAccountScreen
+      gestureEnabled: !!!fromSyncBankAccountScreen,
     })
   }, [navigation])
 
@@ -197,8 +199,6 @@ function BankAccounts({ navigation, route }: Props) {
 
 BankAccounts.navigationOptions = {
   ...emptyHeader,
-  // Prevent swiping back on iOS
-  gestureEnabled: false,
 }
 
 const styles = StyleSheet.create({
