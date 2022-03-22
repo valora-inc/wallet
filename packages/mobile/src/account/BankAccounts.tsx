@@ -80,7 +80,7 @@ function BankAccounts({ navigation, route }: Props) {
         />
       ),
       // Prevent swiping back on iOS when previous screen is SyncBankAccountScreen
-      gestureEnabled: !!!fromSyncBankAccountScreen,
+      gestureEnabled: !fromSyncBankAccountScreen,
     })
   }, [navigation])
 
