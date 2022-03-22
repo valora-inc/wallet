@@ -137,8 +137,8 @@ function MerchantPaymentScreen({ route }: Props) {
                   {businessInformation.address.city}, {businessInformation.address.state + ' '}
                   {businessInformation.address.postalCode}
                   {'\n'}
-                  {businessInformation.address.country}
-                  {'\n'}
+                  {/*businessInformation.address.country*/}
+                  {/*'\n'*/}
                 </Text>
               </View>
             )}
