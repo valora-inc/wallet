@@ -56,4 +56,8 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: true,
   skipProfilePicture: false,
+  finclusiveUnsupportedStates: JSON.stringify({
+    NY: 'NEW YORK',
+    TX: 'TEXAS',
+  }),
 }

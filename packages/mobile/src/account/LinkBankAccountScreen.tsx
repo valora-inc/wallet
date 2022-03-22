@@ -26,7 +26,11 @@ import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { linkBankAccountStepTwoEnabledSelector } from '../app/selectors'
+import { isUserRegionSupportedByFinclusive } from 'src/utils/supportedRegions'
+import {
+  finclusiveUnsupportedStatesSelector,
+  linkBankAccountStepTwoEnabledSelector,
+} from '../app/selectors'
 import { fetchFinclusiveKyc } from './actions'
 import openPlaid, { handleOnEvent } from './openPlaid'
 
@@ -127,6 +131,7 @@ export function StepOne() {
   const kycStatus = useSelector(kycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+  const unsupportedRegions = useSelector(finclusiveUnsupportedStatesSelector)
 
   const pollFinclusiveKyc = () => {
     if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
@@ -152,25 +157,9 @@ export function StepOne() {
     setTimeout(() => setIsInPersonaFlow(true), 500)
   }
 
-  const isUserRegionSupported = (address: InquiryAttributes['address']) => {
-    if (!address) {
-      return false
-    }
-    if (!address.countryCode || address.countryCode !== 'US') {
-      return false
-    }
-
-    const UNSUPPORTED_REGION_ABBR: string[] = ['NY', 'TX']
-    if (!address.subdivisionAbbr || UNSUPPORTED_REGION_ABBR.includes(address.subdivisionAbbr)) {
-      // Finclusive currently do not support residents of NY and TX
-      return false
-    }
-    return true
-  }
-
   const onSuccessPersona = (attributes: InquiryAttributes) => {
-    if (isUserRegionSupported(attributes.address)) {
-      isRegionSupported = true
+    if (isUserRegionSupportedByFinclusive(attributes.address, unsupportedRegions, TAG)) {
+      dispatch(setFinclusiveRegionSupported())
     }
 
     setSuccessFromPersona(true)

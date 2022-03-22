@@ -142,6 +142,9 @@ export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dapps
 export const activeDappSelector = (state: RootState) =>
   state.app.dappsWebViewEnabled ? state.app.activeDapp : null
 
+export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
+  state.app.finclusiveUnsupportedStates
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

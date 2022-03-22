@@ -194,6 +194,7 @@ export interface RemoteConfigValues {
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
+  finclusiveUnsupportedStates: string
 }
 
 export function* appRemoteFeatureFlagSaga() {

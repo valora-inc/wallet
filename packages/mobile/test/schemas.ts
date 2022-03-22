@@ -13,7 +13,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
-  mockTestTokenAddress,
+  mockTestTokenAddress
 } from 'test/values'
 
 // Default (version -1 schema)
@@ -1168,6 +1168,18 @@ export const v43Schema = {
   },
 }
 
+export const v44Schema = {
+  ...v43Schema,
+  _persist: {
+    ...v43Schema._persist,
+    version: 44,
+  },
+  app: {
+    ...v43Schema.app,
+    finclusiveUnsupportedStates: { NY: 'NEW YORK', TX: 'TEXAS' },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v43Schema as Partial<RootState>
+  return v44Schema as Partial<RootState>
 }
