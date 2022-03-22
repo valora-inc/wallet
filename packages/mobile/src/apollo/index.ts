@@ -3,7 +3,6 @@ import ApolloClient from 'apollo-boost'
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
 import { persistCache } from 'apollo-cache-persist'
 import { introspectionQueryResultData } from 'src/apollo/types'
-import config from 'src/geth/networkConfig'
 import Logger from 'src/utils/Logger'
 
 export const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -19,7 +18,7 @@ persistCache({
 }).catch((reason: string) => Logger.error('Apollo/index', `Failure to persist cache: ${reason}`))
 
 export const apolloClient = new ApolloClient<InMemoryCache>({
-  // uri: 'http://127.0.0.1:8080',
-  uri: config.blockchainApiUrl,
+  uri: 'http://127.0.0.1:8080',
+  // uri: config.blockchainApiUrl,
   cache,
 })
