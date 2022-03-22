@@ -37,17 +37,6 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
-  const handleEndDappSession = () => {
-    if (activeDapp) {
-      dispatch(dappSessionEnded())
-    }
-  }
-
-  const handleCloseWebView = () => {
-    handleEndDappSession()
-    navigateBack()
-  }
-
   useLayoutEffect(() => {
     const { hostname } = parse(uri)
 
@@ -55,7 +44,7 @@ function WebViewScreen({ route, navigation }: Props) {
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={handleCloseWebView}
+          onPress={navigateBack}
           titleStyle={{ color: colors.gray4 }}
         />
       ),
@@ -70,7 +59,14 @@ function WebViewScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     return () => {
-      handleEndDappSession()
+      // end the active dapp session when the screen is unmounted (e.g. screen
+      // dismissed via header close button or via gesture/device back button)
+      // note that the dependency array is empty so the values used here are
+      // captured on screen mount, which works for now but may need to be
+      // refreshed in the future
+      if (activeDapp) {
+        dispatch(dappSessionEnded())
+      }
     }
   }, [])
 
