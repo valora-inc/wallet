@@ -104,12 +104,13 @@ runTest() {
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
     --record-logs=failing \
-    --loglevel info \
+    --loglevel trace \
     --debug-synchronization 10000 \
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
     --record-videos=failing \
+    --record-logs all \
     "${test_match}" \
     "${extra_param}" 
   TEST_STATUS=$?
