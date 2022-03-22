@@ -1,5 +1,6 @@
 import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen.test'
@@ -12,6 +13,7 @@ import {
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
+import { sendTransaction } from 'src/transactions/send'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getContract } from 'src/web3/utils'
@@ -69,6 +71,7 @@ describe('claimRewardsSaga', () => {
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(tokensByAddressSelector), {}],
+        [matchers.call.fn(sendTransaction), {}],
       ])
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
@@ -83,6 +86,7 @@ describe('claimRewardsSaga', () => {
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(tokensByAddressSelector), mockTokens],
+        [matchers.call.fn(sendTransaction), {}],
       ])
       .put.like({
         action: {
@@ -127,6 +131,7 @@ describe('claimRewardsSaga', () => {
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(tokensByAddressSelector), mockTokens],
+        [matchers.call.fn(sendTransaction), {}],
       ])
       .put.like({
         action: {
@@ -155,7 +160,7 @@ describe('claimRewardsSaga', () => {
     })
   })
 
-  it('filas if claimign a reward fails', async () => {
+  it('fails if claiming a reward fails', async () => {
     ;(getContract as jest.Mock).mockImplementation(() => mockContract)
     mockTxo.sendAndWaitForReceipt.mockImplementationOnce(() => {
       throw new Error('Error claiming')
@@ -165,6 +170,7 @@ describe('claimRewardsSaga', () => {
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(tokensByAddressSelector), mockTokens],
+        [matchers.call.fn(sendTransaction), {}],
       ])
       .not.put(claimRewardsSuccess())
       .put(claimRewardsFailure())
