@@ -980,6 +980,7 @@
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
   "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
+  "inAppConnectionSuccess": "Die Verbindung zu {{dappName}} war erfolgreich!",
   "timeoutTitle": "Zeitüberschreitung!",
   "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
   "goBackButton": "Zurück",
