@@ -10,15 +10,14 @@ import { showError } from 'src/alert/actions'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createLinkToken, verifyDekAndMTW } from 'src/in-house-liquidity'
+import { createLinkToken, verifyWalletAddress } from 'src/in-house-liquidity'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'PLAID'
 
 interface OpenPlaidParams {
-  accountMTWAddress: string | null
-  dekPrivate: string | null
+  walletAddress: string | null
   locale: string | null
   phoneNumber: string | null
   onSuccess: (params: LinkSuccess) => void
@@ -29,8 +28,7 @@ interface OpenPlaidParams {
  * Retrieves a plaid link token, opens the plaid link UI
  *
  *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  * @param {params.locale} locale the users current locale
  * @param {params.phoneNumber} phoneNumber users verified phone number
  * @param {params.onSuccess} onSuccess function to be called when the user completes the plaid link flow
@@ -38,8 +36,7 @@ interface OpenPlaidParams {
  * @returns {Response} response object from the fetch call
  */
 export default async function openPlaid({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
   locale,
   phoneNumber,
   onSuccess,
@@ -50,7 +47,7 @@ export default async function openPlaid({
   const isAndroid = Platform.OS === 'android'
   try {
     const linkToken = await createLinkToken({
-      ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+      ...verifyWalletAddress({ walletAddress }),
       isAndroid,
       language: locale.split('-')[0], // ex: just en, not en-US
       phoneNumber,

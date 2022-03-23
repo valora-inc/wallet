@@ -4,11 +4,7 @@ import { createSelector } from 'reselect'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { RootState } from 'src/redux/reducers'
-import {
-  currentAccountSelector,
-  dataEncryptionKeySelector,
-  mtwAddressSelector,
-} from 'src/web3/selectors'
+import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const inferCountryCode = () => {
   const localizedCountry = new Countries(i18n.language).getCountryByCodeAlpha2(
@@ -56,11 +52,10 @@ export const choseToRestoreAccountSelector = (state: RootState) =>
   state.account.choseToRestoreAccount
 
 export const plaidParamsSelector = createSelector(
-  [mtwAddressSelector, dataEncryptionKeySelector, currentLanguageSelector, e164NumberSelector],
-  (accountMTWAddress, dekPrivate, locale, phoneNumber) => {
+  [walletAddressSelector, currentLanguageSelector, e164NumberSelector],
+  (walletAddress, locale, phoneNumber) => {
     return {
-      accountMTWAddress,
-      dekPrivate,
+      walletAddress,
       locale,
       phoneNumber,
     }

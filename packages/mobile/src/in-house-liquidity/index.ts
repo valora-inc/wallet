@@ -1,32 +1,24 @@
-import { hexToBuffer, trimLeading0x } from '@celo/utils/lib/address'
-import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
-import jwt from 'jsonwebtoken'
-import KeyEncoder from 'key-encoder'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import networkConfig from 'src/geth/networkConfig'
 
-const keyEncoder = new KeyEncoder('secp256k1')
 interface RequiredParams {
-  accountMTWAddress: string
-  dekPrivate: string
+  walletAddress: string
 }
 
 /**
  * get the status of a users finclusive compliance check aka their KYC status
  *
  *
- * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  * @returns {FinclusiveKycStatus} the users current status
  */
 export const getFinclusiveComplianceStatus = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
 }: RequiredParams): Promise<FinclusiveKycStatus> => {
   const response = await signAndFetch({
-    path: `/account/${encodeURIComponent(accountMTWAddress)}/compliance-check-status`,
-    accountMTWAddress,
-    dekPrivate,
+    path: `/account/${encodeURIComponent(walletAddress)}/compliance-check-status`,
+    walletAddress,
     requestOptions: {
       method: 'GET',
       headers: {
@@ -50,22 +42,20 @@ type DeleteFinclusiveBankAccountParams = RequiredParams & {
 /**
  * get a fiat bank account from finclusive
  *
- * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  */
 export const deleteFinclusiveBankAccount = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
   id,
 }: DeleteFinclusiveBankAccountParams): Promise<void> => {
   const body = {
-    accountAddress: accountMTWAddress,
+    accountAddress: walletAddress,
     accountId: id,
   }
   const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
-    accountMTWAddress,
-    dekPrivate,
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
+    walletAddress,
     requestOptions: {
       method: 'DELETE',
       headers: {
@@ -92,18 +82,16 @@ export interface BankAccount {
  * get a users fiat bank accounts from finclusive
  *
  *
- * @param {params.accountMTWAddress} accountAddress
+ * @param {params.walletAddress} walletAddress
  * @param {params.dekPrivate} dekPrivate private data encryption key
  * @returns {BankAccounts} List of bank accounts that the user has linked
  */
 export const getFinclusiveBankAccounts = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
 }: RequiredParams): Promise<BankAccount[]> => {
   const response = await signAndFetch({
-    path: `/account/bank-account?accountAddress=${encodeURIComponent(accountMTWAddress)}`,
-    accountMTWAddress,
-    dekPrivate,
+    path: `/account/bank-account?accountAddress=${encodeURIComponent(walletAddress)}`,
+    walletAddress,
     requestOptions: {
       method: 'GET',
       headers: {
@@ -126,23 +114,20 @@ type CreateFinclusiveBankAccountParams = RequiredParams & {
  * Create a fiat bank account with finclusive
  *
  *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  * @param {params.plaidAccessToken} plaidAccessToken plaid long term access token
  */
 export const createFinclusiveBankAccount = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
   plaidAccessToken,
 }: CreateFinclusiveBankAccountParams): Promise<void> => {
   const body = {
-    accountAddress: accountMTWAddress,
+    accountAddress: walletAddress,
     plaidAccessToken,
   }
   const response = await signAndFetch({
     path: '/account/bank-account',
-    accountMTWAddress,
-    dekPrivate,
+    walletAddress,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -164,24 +149,22 @@ type ExchangePlaidAccessTokenParams = RequiredParams & {
  * Exchange a plaid plublic token for a long-term plaid access token
  *
  *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  * @param {params.publicToken} publicToken plaid public token
  * @returns {accessToken} string accesstoken from plaid
  */
 export const exchangePlaidAccessToken = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
   publicToken,
 }: ExchangePlaidAccessTokenParams): Promise<string> => {
   const body = {
     publicToken,
-    accountAddress: accountMTWAddress,
+    accountAddress: walletAddress,
   }
   const response = await signAndFetch({
     path: '/plaid/access-token/exchange',
-    accountMTWAddress,
-    dekPrivate,
+    walletAddress,
+
     requestOptions: {
       method: 'POST',
       headers: {
@@ -208,8 +191,7 @@ type CreateLinkTokenParams = RequiredParams & {
  * Create a new Plaid Link Token by calling IHL
  *
  *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  * @param {params.isAndroid} isAndroid
  * @param {params.language} language the users current language
  * @param {params.accessToken} accessToken optional access token used for editing existing items
@@ -217,15 +199,15 @@ type CreateLinkTokenParams = RequiredParams & {
  * @returns {linkToken} the link token from the plaid backend
  */
 export const createLinkToken = async ({
-  accountMTWAddress,
-  dekPrivate,
+  walletAddress,
+
   isAndroid,
   language,
   accessToken,
   phoneNumber,
 }: CreateLinkTokenParams): Promise<string> => {
   const body = {
-    accountAddress: accountMTWAddress,
+    accountAddress: walletAddress,
     isAndroid,
     language,
     accessToken,
@@ -233,8 +215,8 @@ export const createLinkToken = async ({
   }
   const response = await signAndFetch({
     path: '/plaid/link-token/create',
-    accountMTWAddress,
-    dekPrivate,
+    walletAddress,
+
     requestOptions: {
       method: 'POST',
       headers: {
@@ -254,18 +236,13 @@ export const createLinkToken = async ({
  * Create a Persona account for the given accountMTWAddress
  *
  *
- * @param {params.accountMTWAddress} accountAddress
- * @param {params.dekPrivate} dekPrivate private data encryption key
+ * @param {params.walletAddress} walletAddress
  */
-export const createPersonaAccount = async ({
-  accountMTWAddress,
-  dekPrivate,
-}: RequiredParams): Promise<void> => {
-  const body = { accountAddress: accountMTWAddress }
+export const createPersonaAccount = async ({ walletAddress }: RequiredParams): Promise<void> => {
+  const body = { accountAddress: walletAddress }
   const response = await signAndFetch({
     path: '/persona/account/create',
-    accountMTWAddress,
-    dekPrivate,
+    walletAddress,
     requestOptions: {
       method: 'POST',
       headers: {
@@ -281,8 +258,7 @@ export const createPersonaAccount = async ({
 
 interface SignAndFetchParams {
   path: string
-  accountMTWAddress: string
-  dekPrivate: string
+  walletAddress: string
   requestOptions: RequestInit
 }
 
@@ -291,64 +267,34 @@ interface SignAndFetchParams {
  *
  *
  * @param {params.path} string like /persona/get/foo
- * @param {params.accountMTWAddress} accountMTWAddress
  * @param {params.requestOptions} requestOptions all the normal fetch options
  * @returns {Response} response object from the fetch call
  */
 export const signAndFetch = async ({
   path,
-  accountMTWAddress,
-  dekPrivate,
   requestOptions,
 }: SignAndFetchParams): Promise<Response> => {
-  const authHeader = await getAuthHeader({ accountMTWAddress, dekPrivate })
   return fetch(`${networkConfig.inHouseLiquidityURL}${path}`, {
     ...requestOptions,
     headers: {
       ...requestOptions.headers,
-      Authorization: authHeader,
+      // Authorization: authHeader, // todo add this once auth scheme is refactored
     },
   })
 }
 
-/**
- * Gets the auth header that IHL expects as a signature on most requests
- *
- * @param {params.accountMTWAddress} accountMTWAddress
- * @param {params.dekPrivate} dekPrivate : private data encryption key
- * @returns authorization header
- */
-export const getAuthHeader = async ({
-  accountMTWAddress,
-  dekPrivate,
-}: RequiredParams): Promise<string> => {
-  const dekPrivatePem = keyEncoder.encodePrivate(trimLeading0x(dekPrivate), 'raw', 'pem')
-  const dekPublicHex = compressedPubKey(hexToBuffer(dekPrivate))
-  const dekPublicPem = keyEncoder.encodePublic(trimLeading0x(dekPublicHex), 'raw', 'pem')
-  const token = jwt.sign({ iss: dekPublicPem, sub: accountMTWAddress }, dekPrivatePem, {
-    algorithm: 'ES256',
-    expiresIn: '5m',
-  })
-
-  return `Bearer ${token}`
-}
-
-export const verifyDekAndMTW = ({
-  dekPrivate,
-  accountMTWAddress,
+// just checks that the wallet address is non null for now. keeping this since we may want it to do more once
+//  the new auth scheme is figured out (like checking if a wallet is unlocked or a token is truthy)
+export const verifyWalletAddress = ({
+  walletAddress,
 }: {
-  dekPrivate: string | null
-  accountMTWAddress: string | null
+  walletAddress: string | null
 }): RequiredParams => {
-  if (!accountMTWAddress) {
-    throw new Error('Cannot call IHL because accountMTWAddress is null')
+  if (!walletAddress) {
+    throw new Error('Cannot call IHL because walletAddress is null')
   }
 
-  if (!dekPrivate) {
-    throw new Error('Cannot call IHL because dekPrivate is null')
-  }
   return {
-    dekPrivate,
-    accountMTWAddress,
+    walletAddress: walletAddress,
   }
 }

@@ -29,7 +29,7 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
-import { getFinclusiveComplianceStatus, verifyDekAndMTW } from 'src/in-house-liquidity'
+import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house-liquidity'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeAccountLocally } from 'src/pincode/authentication'
@@ -38,7 +38,6 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getMTWAddress, getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
-import { dataEncryptionKeySelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
@@ -89,12 +88,11 @@ function* initializeAccount() {
 
 export function* fetchFinclusiveKyc() {
   try {
-    const accountMTWAddress = yield call(getMTWAddress)
-    const dekPrivate = yield select(dataEncryptionKeySelector)
+    const walletAddress = yield call(getWalletAddress)
 
     const complianceStatus = yield call(
       getFinclusiveComplianceStatus,
-      verifyDekAndMTW({ dekPrivate, accountMTWAddress })
+      verifyWalletAddress({ walletAddress })
     )
     yield put(setFinclusiveKyc(complianceStatus))
   } catch (error) {
