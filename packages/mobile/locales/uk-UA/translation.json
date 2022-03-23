@@ -984,7 +984,6 @@
   "disconnectTitle": "Від’єднати {{dappName}}?",
   "disconnectBody": "Ви впевнені, що бажаєте від'єднатися від {{dappName}}?",
   "connectionSuccess": "Готово! Поверніться до {{dappName}} для продовження",
-  "inAppConnectionSuccess": "Підключення до {{dappName}} було успішним!",
   "timeoutTitle": "Час вийшов!",
   "timeoutSubtitle": "Вичерпано час під’єднання. Просимо перевірити під’єднання до Інтернету та спробувати ще раз",
   "goBackButton": "Повернутися",
