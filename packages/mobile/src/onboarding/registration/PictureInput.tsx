@@ -63,6 +63,7 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
       <TouchableOpacity
         style={[styles.container, { backgroundColor }]}
         onPress={updateShowOptions(true)}
+        testID={'PictureInput'}
       >
         {picture ? (
           <Image style={styles.picture} source={{ uri: picture }} />
