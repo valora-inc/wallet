@@ -12,13 +12,6 @@ const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
-  // Log Twilio balance at start
-  beforeAll(async () => {
-    try {
-      await checkBalance()
-    } catch {}
-  })
-
   beforeEach(async () => {
     await device.launchApp({
       delete: true,
@@ -59,6 +52,13 @@ export default NewAccountPhoneVerification = () => {
 
   // Check that Twilio SID, Auth Token and Verification Phone Number are defined
   if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && VERIFICATION_PHONE_NUMBER) {
+    // Log Twilio balance at start
+    beforeAll(async () => {
+      try {
+        await checkBalance()
+      } catch {}
+    })
+
     // Conditionally skipping jest tests with an async request is currently not possible
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489

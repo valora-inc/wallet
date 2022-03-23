@@ -206,9 +206,10 @@ export function* sendTransaction(
   context: TransactionContext,
   gas?: number,
   gasPrice?: BigNumber,
-  feeCurrency?: string | undefined
+  feeCurrency?: string | undefined,
+  nonce?: number
 ) {
-  const sendTxMethod = function* (nonce?: number) {
+  const sendTxMethod = function* () {
     const { receipt } = yield call(
       sendTransactionPromises,
       tx,

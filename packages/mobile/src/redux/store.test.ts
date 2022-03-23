@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 42,
+          "version": 43,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -129,6 +129,7 @@ describe('store state', () => {
         },
         "alert": null,
         "app": Object {
+          "activeDapp": null,
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
