@@ -35,6 +35,7 @@ exports[`Profile renders correctly 1`] = `
           onGestureHandlerStateChange={[Function]}
           onHandlerStateChange={[Function]}
           rippleColor={0}
+          testID="PictureInput"
         >
           <View
             accessible={true}

@@ -57,6 +57,7 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
+  skipProfilePicture: boolean
 }
 
 const initialState = {
@@ -105,6 +106,7 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
+  skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
 }
 
 export const appReducer = (
@@ -222,6 +224,7 @@ export const appReducer = (
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
+        skipProfilePicture: action.configValues.skipProfilePicture,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
