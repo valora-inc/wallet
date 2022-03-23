@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { dappSelected } from 'src/app/actions'
+import { DappSection } from 'src/app/reducers'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
@@ -232,7 +233,9 @@ describe('WalletHome', () => {
 
       fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
 
-      expect(store.getActions()).toEqual(expect.arrayContaining([dappSelected(dapp)]))
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([dappSelected({ ...dapp, openedFrom: DappSection.RecentlyUsed })])
+      )
     })
 
     it('should open the dapp directly if it is deep linked', () => {
@@ -247,7 +250,11 @@ describe('WalletHome', () => {
       expect(
         queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
       ).toBeFalsy()
-      expect(store.getActions()).toEqual(expect.arrayContaining([dappSelected(deepLinkedDapp)]))
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          dappSelected({ ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed }),
+        ])
+      )
     })
   })
 })
