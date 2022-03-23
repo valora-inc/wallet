@@ -1128,7 +1128,7 @@
     },
     "completed": {
       "title": "Проверка завершена",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "description": "Мы успешно проверили вашу личность. Завершите привязку своего банковского счета.",
       "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
@@ -1167,7 +1167,7 @@
     "delete": "Удалить"
   },
   "syncingBankAccount": "Синхронизация банковского счета...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Не закрывайте приложение!",
   "linkBankAccountSettingsTitle": "Привязанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "linkBankAccountSettingsValue2": "Добавить новый",
