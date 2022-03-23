@@ -980,7 +980,6 @@
   "disconnectTitle": "{{dappName}} bağlantısını kes?",
   "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
-  "inAppConnectionSuccess": "Connection to {{dappName}} was successful!",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
   "goBackButton": "Geri Dön",
