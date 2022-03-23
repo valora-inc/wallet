@@ -112,7 +112,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   )
 
   return (
-    <Animated.View style={animatedStyle}>
+    <Animated.View style={[animatedStyle]}>
       {isFocused && <StatusBar barStyle="light-content" />}
       {enableCamera && <QRScanner onBarCodeDetected={onBarCodeDetected} />}
     </Animated.View>
