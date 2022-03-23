@@ -1129,7 +1129,7 @@
     "completed": {
       "title": "Перевірку завершено",
       "description": "Ми успішно підтвердили вашу особистість. Продовжуйте, щоб завершити прив’язку банківського рахунку.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "descriptionStep2NotEnabled": "Ми успішно підтвердили вашу особистість. Ми дамо вам знати, коли ви зможете завершити прив’язку банківського рахунку."
     },
     "failed": {
       "title": "Перевірку відхилено",
