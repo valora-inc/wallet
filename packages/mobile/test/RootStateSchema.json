@@ -1753,6 +1753,16 @@
         "State": {
             "additionalProperties": false,
             "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/Dapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1885,6 +1895,9 @@
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
                 },
+                "skipProfilePicture": {
+                    "type": "boolean"
+                },
                 "skipVerification": {
                     "type": "boolean"
                 },
@@ -1925,6 +1938,7 @@
                 }
             },
             "required": [
+                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
@@ -1957,6 +1971,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showPriceChangeIndicatorInBalances",
+                "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",

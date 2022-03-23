@@ -1,12 +1,13 @@
 import BorderlessButton from '@celo/react-components/components/BorderlessButton'
+import BackChevron from '@celo/react-components/icons/BackChevron'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
 import { plaidParamsSelector } from 'src/account/selectors'
@@ -23,9 +24,10 @@ import {
   getFinclusiveBankAccounts,
   verifyDekAndMTW,
 } from 'src/in-house-liquidity'
-import { headerWithBackButton } from 'src/navigator/Headers'
+import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
@@ -43,7 +45,7 @@ function BankAccounts({ navigation, route }: Props) {
   const accountMTWAddress = useSelector(mtwAddressSelector)
   const dekPrivate = useSelector(dataEncryptionKeySelector)
   const plaidParams = useSelector(plaidParamsSelector)
-  const { newPublicToken } = route.params
+  const { newPublicToken, fromSyncBankAccountScreen } = route.params
 
   const header = () => {
     return (
@@ -53,9 +55,32 @@ function BankAccounts({ navigation, route }: Props) {
     )
   }
 
+  const navigateToSettings = () => {
+    navigate(Screens.Settings)
+  }
+
+  useEffect(() => {
+    if (fromSyncBankAccountScreen === true) {
+      // Prevent back button on Android when previous screen is SyncBankAccountScreen
+      const backPressListener = () => true
+      BackHandler.addEventListener('hardwareBackPress', backPressListener)
+      return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
+    }
+  }, [])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: header,
+      headerLeft: () => (
+        <TopBarIconButton
+          icon={<BackChevron />}
+          onPress={navigateToSettings}
+          style={styles.backButton}
+          testID="backButton"
+        />
+      ),
+      // Prevent swiping back on iOS when previous screen is SyncBankAccountScreen
+      gestureEnabled: !fromSyncBankAccountScreen,
     })
   }, [navigation])
 
@@ -173,7 +198,7 @@ function BankAccounts({ navigation, route }: Props) {
 }
 
 BankAccounts.navigationOptions = {
-  ...headerWithBackButton,
+  ...emptyHeader,
 }
 
 const styles = StyleSheet.create({
@@ -241,6 +266,9 @@ const styles = StyleSheet.create({
     marginRight: 12,
     padding: 14,
     backgroundColor: colors.gray2,
+  },
+  backButton: {
+    paddingLeft: 20,
   },
 })
 

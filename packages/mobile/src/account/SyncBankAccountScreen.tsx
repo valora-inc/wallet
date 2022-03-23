@@ -40,7 +40,10 @@ const SyncBankAccountScreen = ({ route }: Props) => {
         plaidAccessToken: accessToken,
       })
       dispatch(setHasLinkedBankAccount())
-      navigate(Screens.BankAccounts, { newPublicToken: publicToken })
+      navigate(Screens.BankAccounts, {
+        newPublicToken: publicToken,
+        fromSyncBankAccountScreen: true,
+      })
     } catch (error) {
       navigate(Screens.LinkBankAccountErrorScreen, { error })
       return

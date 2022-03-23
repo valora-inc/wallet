@@ -57,6 +57,8 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
+  activeDapp: Dapp | null
+  skipProfilePicture: boolean
 }
 
 const initialState = {
@@ -105,6 +107,8 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
+  activeDapp: null,
+  skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
 }
 
 export const appReducer = (
@@ -121,6 +125,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        activeDapp: null,
       }
     }
     case Actions.SET_APP_STATE:
@@ -222,6 +227,7 @@ export const appReducer = (
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
+        skipProfilePicture: action.configValues.skipProfilePicture,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -257,6 +263,12 @@ export const appReducer = (
           action.dapp,
           ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
         ].slice(0, state.maxNumRecentDapps),
+        activeDapp: action.dapp,
+      }
+    case Actions.DAPP_SESSION_ENDED:
+      return {
+        ...state,
+        activeDapp: null,
       }
     default:
       return state
