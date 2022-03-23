@@ -1129,7 +1129,7 @@
     "completed": {
       "title": "Проверка завершена",
       "description": "Мы успешно проверили вашу личность. Завершите привязку своего банковского счета.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "descriptionStep2NotEnabled": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета."
     },
     "failed": {
       "title": "Проверка отклонена",
