@@ -16,7 +16,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -65,7 +65,7 @@ class DappKitAccountAuthScreen extends React.Component<Props> {
       Logger.error(TAG, 'No account set up for this wallet')
       return
     }
-    navigateHome({ onAfterNavigate: () => this.props.approveAccountAuth(request) })
+    this.props.approveAccountAuth(request)
   }
 
   cancel = () => {

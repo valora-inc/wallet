@@ -8,12 +8,15 @@ import {
   SignTxRequest,
   SignTxResponseSuccess,
 } from '@celo/utils/lib/dappkit'
-import { call, select, takeLeading } from 'redux-saga/effects'
+import { call, put, select, takeLeading } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
+import { showMessage } from 'src/alert/actions'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { activeDappSelector } from 'src/app/selectors'
+import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -60,6 +63,23 @@ export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
   }
 }
 
+function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
+  const activeDapp = yield select(activeDappSelector)
+
+  if (activeDapp) {
+    yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
+    navigate(Screens.WebViewScreen, {
+      uri: activeDapp.dappUrl,
+      headerTitle: activeDapp.name,
+      dappkitDeeplink,
+    })
+  } else {
+    navigateToURI(dappkitDeeplink)
+    // prevent staying on dappkit confirmation screen
+    navigateBack()
+  }
+}
+
 function* respondToAccountAuth(action: ApproveAccountAuthAction) {
   const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
   try {
@@ -69,12 +89,14 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
     const phoneNumber = yield select(e164NumberSelector)
     const e164NumberToSalt = yield select(e164NumberToSaltSelector)
     const pepper = e164NumberToSalt[phoneNumber]
-    navigateToURI(
-      produceResponseDeeplink(
-        action.request,
-        AccountAuthResponseSuccess(account, phoneNumber, pepper)
-      )
+
+    const responseDeeplink = produceResponseDeeplink(
+      action.request,
+      AccountAuthResponseSuccess(account, phoneNumber, pepper)
     )
+
+    yield call(handleNavigationWithDeeplink, responseDeeplink)
+
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
   } catch (error) {
     Logger.error(TAG, 'Failed to respond to account auth', error)
@@ -128,7 +150,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     )
 
     Logger.debug(TAG, 'Txs signed, opening URL')
-    navigateToURI(produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs)))
+    const responseDeeplink = produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs))
+    yield call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
   } catch (error) {
     Logger.error(TAG, 'Failed to produce tx signature', error)

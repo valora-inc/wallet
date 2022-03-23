@@ -1,6 +1,6 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put, select } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -25,6 +25,7 @@ import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/Sen
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
+import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 export enum BarcodeTypes {
@@ -111,7 +112,7 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Scan })
+    yield fork(handleLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Scan })
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }

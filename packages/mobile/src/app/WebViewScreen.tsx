@@ -5,13 +5,14 @@ import Refresh from '@celo/react-components/icons/Refresh'
 import colors from '@celo/react-components/styles/colors'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
-import { useDispatch } from 'react-redux'
-import { openDeepLink } from 'src/app/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { dappSessionEnded, openDeepLink } from 'src/app/actions'
+import { activeDappSelector } from 'src/app/selectors'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -19,17 +20,20 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useBackHandler from 'src/utils/useBackHandler'
+import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { uri, headerTitle } = route.params
+  const { headerTitle, uri, dappkitDeeplink } = route.params
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const activeDapp = useSelector(activeDappSelector)
 
-  const webviewRef = useRef<WebViewRef>(null)
+  const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
@@ -53,6 +57,27 @@ function WebViewScreen({ route, navigation }: Props) {
     })
   }, [navigation])
 
+  useEffect(() => {
+    return () => {
+      // end the active dapp session when the screen is unmounted (e.g. screen
+      // dismissed via header close button or via gesture/device back button)
+      // note that the dependency array is empty so the values used here are
+      // captured on screen mount, which works for now but may need to be
+      // refreshed in the future
+      if (activeDapp) {
+        dispatch(dappSessionEnded())
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeDapp && dappkitDeeplink) {
+      webViewRef.current?.injectJavaScript(
+        `window.history.replaceState({}, "", "${dappkitDeeplink}"); true;`
+      )
+    }
+  }, [dappkitDeeplink, activeDapp])
+
   useBackHandler(() => {
     // android hardware back button functions as either browser back button or
     // app back button
@@ -62,10 +87,10 @@ function WebViewScreen({ route, navigation }: Props) {
       navigateBack()
     }
     return true
-  }, [canGoBack, webviewRef?.current, navigation])
+  }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith('celo://')) {
+    if (event.url.startsWith('celo://') || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
@@ -73,21 +98,21 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const handleRefresh = () => {
-    webviewRef.current?.reload()
+    webViewRef.current?.reload()
   }
 
   const handleGoForward = () => {
-    webviewRef.current?.goForward()
+    webViewRef.current?.goForward()
   }
 
   const handleGoBack = () => {
-    webviewRef.current?.goBack()
+    webViewRef.current?.goBack()
   }
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
-        ref={webviewRef}
+        ref={webViewRef}
         originWhitelist={['https://*', 'celo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
         setSupportMultipleWindows={false}
