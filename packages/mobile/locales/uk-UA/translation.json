@@ -1128,7 +1128,7 @@
     },
     "completed": {
       "title": "Перевірку завершено",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "description": "Ми успішно підтвердили вашу особистість. Продовжуйте, щоб завершити прив’язку банківського рахунку.",
       "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
@@ -1167,7 +1167,7 @@
     "delete": "Видалити"
   },
   "syncingBankAccount": "Синхронізація банківського рахунку...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Просимо залишати застосунок відкритим!",
   "linkBankAccountSettingsTitle": "Пов'язані банківські рахунки",
   "linkBankAccountSettingsValue": "Отримати доступ",
   "linkBankAccountSettingsValue2": "Додати новий",
