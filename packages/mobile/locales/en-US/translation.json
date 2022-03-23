@@ -12,7 +12,7 @@
   "pinChanged": "PIN changed",
   "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require Pin on App Open",
-  "connectedApplications": "Connected Apps",
+  "connectedApplications": "Connected Dapps",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
@@ -289,7 +289,7 @@
   "payWithBank": "Bank account",
   "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
-  "selectCashOutMethod": "Receive funds in:",
+  "selectCashOutMethod": "Select method:",
   "receiveOnAddress": "Celo address",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
   "fundingEducationDialog": {
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verification complete",
-      "description": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Verification denied",
@@ -1162,6 +1163,7 @@
     "delete": "Delete"
   },
   "syncingBankAccount": "Syncing bank account...",
+  "keepAppOpen": "Please keep the app open!",
   "linkBankAccountSettingsTitle": "Linked Bank Accounts",
   "linkBankAccountSettingsValue": "Get Access",
   "linkBankAccountSettingsValue2": "Add New",
@@ -1188,7 +1190,7 @@
     "dismiss": "Dismiss"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} will open in an external browser",
+    "title": "{{dappName}} will open in an external application",
     "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
   },

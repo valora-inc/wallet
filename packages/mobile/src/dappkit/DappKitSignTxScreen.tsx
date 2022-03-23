@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -54,7 +54,7 @@ class DappKitSignTxScreen extends React.Component<Props> {
   linkBack = () => {
     const request = this.getRequest()
 
-    navigateHome({ onAfterNavigate: () => this.props.requestTxSignature(request) })
+    this.props.requestTxSignature(request)
   }
 
   showDetails = () => {
