@@ -32,8 +32,8 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropperChooseText: t('choose'),
         cropperCancelText: t('cancel'),
       })
-      // @ts-ignore
       if (image) {
+        // @ts-ignore
         onPhotoChosen(getDataURL(image.mime, image.data))
       }
     } catch (e) {
