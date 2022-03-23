@@ -1125,7 +1125,7 @@
     "completed": {
       "title": "Verificación completa",
       "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
