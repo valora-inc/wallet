@@ -984,7 +984,6 @@
   "disconnectTitle": "Отключить {{dappName}}?",
   "disconnectBody": "Вы действительно хотите отключить {{dappName}}?",
   "connectionSuccess": "Выполнено успешно! Для продолжения вернитесь в {{dappName}}",
-  "inAppConnectionSuccess": "Подключение к {{dappName}} прошло успешно!",
   "timeoutTitle": "Истекло время ожидания!",
   "timeoutSubtitle": "Истекло время ожидания соединения. Проверьте подключение к Интернету и повторите попытку",
   "goBackButton": "Назад",
