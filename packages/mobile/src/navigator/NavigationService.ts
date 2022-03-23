@@ -88,7 +88,6 @@ export function navigate<RouteName extends keyof StackParamList>(
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
-
       navigationRef.current?.dispatch(
         NavigationActions.navigate({
           routeName,
@@ -207,20 +206,15 @@ export async function isScreenOnForeground(screen: Screens) {
 }
 
 interface NavigateHomeOptions {
-  onAfterNavigate?: () => void
   params?: StackParamList[Screens.DrawerNavigator]
 }
 
 export function navigateHome(options?: NavigateHomeOptions) {
-  const { onAfterNavigate, params } = options ?? {}
+  const { params } = options ?? {}
   navigationRef.current?.reset({
     index: 0,
     routes: [{ name: Screens.DrawerNavigator, params }],
   })
-
-  if (onAfterNavigate) {
-    requestAnimationFrame(onAfterNavigate)
-  }
 }
 
 export function navigateToError(errorMessage: string, error?: Error) {

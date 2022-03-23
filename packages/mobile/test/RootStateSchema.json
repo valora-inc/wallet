@@ -1753,6 +1753,16 @@
         "State": {
             "additionalProperties": false,
             "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/Dapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1928,6 +1938,7 @@
                 }
             },
             "required": [
+                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",

@@ -34,6 +34,7 @@ export enum Actions {
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   DAPP_SELECTED = 'APP/DAPP_SELECTED',
+  DAPP_SESSION_ENDED = 'APP/DAPP_SESSION_ENDED',
 }
 
 export interface SetAppState {
@@ -142,6 +143,10 @@ export interface DappSelected {
   dapp: Dapp
 }
 
+interface DappSessionEnded {
+  type: Actions.DAPP_SESSION_ENDED
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -164,6 +169,7 @@ export type ActionTypes =
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
   | DappSelected
+  | DappSessionEnded
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -285,4 +291,8 @@ export const androidMobileServicesAvailabilityChecked = (
 export const dappSelected = (dapp: Dapp) => ({
   type: Actions.DAPP_SELECTED,
   dapp,
+})
+
+export const dappSessionEnded = () => ({
+  type: Actions.DAPP_SESSION_ENDED,
 })
