@@ -50,7 +50,7 @@ describe('PictureInputScreen', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('onOptionChosen', async () => {
+  it('calls onPhotoChosen callback when a picture is selected', async () => {
     const store = createMockStore()
     const { getByText } = render(
       <Provider store={store}>
