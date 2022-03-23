@@ -11,6 +11,8 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSessionEnded, openDeepLink } from 'src/app/actions'
 import { activeDappSelector } from 'src/app/selectors'
 import WebView, { WebViewRef } from 'src/components/WebView'
@@ -37,6 +39,18 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
+  const handleCloseWebView = () => {
+    if (activeDapp) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+        categoryId: activeDapp.categoryId,
+        dappId: activeDapp.id,
+        dappName: activeDapp.name,
+        section: activeDapp.openedFrom,
+      })
+    }
+    navigateBack()
+  }
+
   useLayoutEffect(() => {
     const { hostname } = parse(uri)
 
@@ -44,7 +58,7 @@ function WebViewScreen({ route, navigation }: Props) {
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={navigateBack}
+          onPress={handleCloseWebView}
           titleStyle={{ color: colors.gray4 }}
         />
       ),
