@@ -1124,7 +1124,7 @@
     },
     "completed": {
       "title": "Verifizierung abgeschlossen",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
+      "description": "Wir haben deine Identität erfolgreich verifiziert. Bitte vervollständige die Verknüpfung deines Bankkontos.",
       "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
@@ -1163,7 +1163,7 @@
     "delete": "Löschen"
   },
   "syncingBankAccount": "Bankkonto synchronisieren...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Bitte halte die App geöffnet!",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
   "linkBankAccountSettingsValue2": "Hinzufügen",
