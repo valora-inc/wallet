@@ -4,14 +4,13 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
-import { showMessage } from 'src/alert/actions'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -51,6 +50,7 @@ import {
   ERROR as WalletConnectErrors,
   ERROR_TYPE as WalletConnectErrorType,
 } from 'walletconnect-v2/utils'
+import { showWalletConnectionSuccessMessage } from '../saga'
 
 const TAG = 'WalletConnect/saga'
 
@@ -132,9 +132,7 @@ function* acceptSession({ session }: AcceptSession) {
 
     yield call(client.approve.bind(client), response)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield put(
-      showMessage(i18n.t('connectionSuccess', { dappName: session.proposer.metadata.name }))
-    )
+    yield call(showWalletConnectionSuccessMessage, session.proposer.metadata.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -195,7 +193,7 @@ function* handlePendingStateOrNavigateBack() {
   if (hasPendingState) {
     yield call(handlePendingState)
   } else {
-    navigateHome()
+    navigateBack()
   }
 }
 
@@ -257,7 +255,7 @@ function* acceptRequest({ request }: AcceptRequest): any {
         error: error.type,
       })
     } else {
-      yield put(showMessage(i18n.t('connectionSuccess', { dappName: session.peer.metadata.name })))
+      yield call(showWalletConnectionSuccessMessage, session.peer.metadata.name)
       ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
     }
   } catch (e) {

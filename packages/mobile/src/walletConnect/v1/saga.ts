@@ -3,14 +3,13 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
-import { showMessage } from 'src/alert/actions'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -44,9 +43,11 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
+import { handleWalletConnectNavigate } from 'src/walletConnect/walletConnect'
 import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
+import { showWalletConnectionSuccessMessage } from '../saga'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
@@ -117,7 +118,7 @@ function* acceptSession(session: AcceptSession) {
     connector.updateSession(sessionData)
     yield put(storeSession(connector.session))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
-    yield put(showMessage(i18n.t('connectionSuccess', { dappName: peerMeta.name })))
+    yield call(showWalletConnectionSuccessMessage, peerMeta.name)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -185,7 +186,9 @@ function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails
 
   // TODO: this is a short lived alternative to proper
   // transaction decoding.
-  yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
+  yield call(handleWalletConnectNavigate, Screens.DappKitTxDataScreen, {
+    dappKitData: infoString,
+  })
 }
 
 function* acceptRequest(r: AcceptRequest) {
@@ -210,9 +213,10 @@ function* acceptRequest(r: AcceptRequest) {
     }
     const result: string = yield call(handleRequest, { method, params })
     connector.approveRequest({ id, jsonrpc, result })
-    yield put(
-      showMessage(i18n.t('connectionSuccess', { dappName: connector?.session?.peerMeta?.name }))
-    )
+
+    if (connector?.session?.peerMeta?.name) {
+      yield call(showWalletConnectionSuccessMessage, connector.session.peerMeta.name)
+    }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
@@ -356,7 +360,10 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...getDefaultSessionTrackedProperties(session),
   })
 
-  yield call(navigate, Screens.WalletConnectSessionRequest, { version: 1, session })
+  yield call(handleWalletConnectNavigate, Screens.WalletConnectSessionRequest, {
+    version: 1,
+    session,
+  })
 }
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {
@@ -377,7 +384,7 @@ function* showActionRequest({ action: request, peerId }: PendingAction) {
   })
 
   const { name: dappName, url: dappUrl, icons } = session.peerMeta!
-  yield call(navigate, Screens.WalletConnectActionRequest, {
+  yield call(handleWalletConnectNavigate, Screens.WalletConnectActionRequest, {
     version: 1,
     peerId,
     action: request,
@@ -416,7 +423,7 @@ function* handlePendingStateOrNavigateBack() {
   if (hasPendingState) {
     yield call(handlePendingState)
   } else {
-    navigateHome()
+    navigateBack()
   }
 }
 
