@@ -9,6 +9,7 @@ Array [
     onGestureHandlerStateChange={[Function]}
     onHandlerStateChange={[Function]}
     rippleColor={0}
+    testID="PictureInput"
   >
     <View
       accessible={true}
