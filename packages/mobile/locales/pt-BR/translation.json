@@ -980,7 +980,6 @@
   "disconnectTitle": "Desconectar {{dappName}}?",
   "disconnectBody": "Tem certeza de que deseja desconectar de {{dappName}}?",
   "connectionSuccess": "Deu certo! Volte para {{dappName}} para prosseguir",
-  "inAppConnectionSuccess": "A ligação a {{dappName}} foi bem sucedida!",
   "timeoutTitle": "Tempo esgotado!",
   "timeoutSubtitle": "Sua conexão expirou. Verifique sua conexão com a internet e tente novamente",
   "goBackButton": "Voltar",
