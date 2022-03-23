@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NameAndPictureScreen renders correctly 1`] = `
+exports[`PictureInputScreen renders correctly 1`] = `
 Array [
   <RNGestureHandlerButton
     collapsable={false}

@@ -33,7 +33,9 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropperCancelText: t('cancel'),
       })
       // @ts-ignore
-      onPhotoChosen(getDataURL(image.mime, image.data))
+      if (image) {
+        onPhotoChosen(getDataURL(image.mime, image.data))
+      }
     } catch (e) {
       const MISSING_PERMISSION_ERR_MSG = 'Required permission missing'
       const USER_CANCELLED_ERR_MSG = 'User cancelled image selection'
