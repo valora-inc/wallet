@@ -329,7 +329,7 @@ export type StackParamList = {
     dappIcon: string
   }
   [Screens.WalletHome]: undefined
-  [Screens.WebViewScreen]: { uri: string; headerTitle?: string }
+  [Screens.WebViewScreen]: { uri: string; headerTitle?: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {
     onAddressScanned: (address: string) => void
