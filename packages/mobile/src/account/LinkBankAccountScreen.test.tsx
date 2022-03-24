@@ -214,7 +214,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         }
         personaButtonSuccessCallback?.(MockPeronaAddressFromInquiry)
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
-        expect(Logger.info).toHaveBeenCalledWith()
+        expect(Logger.info).toHaveBeenCalledWith(
+          'LinkBankAccountScreen',
+          new Error('User region state not supported by finclusive')
+        )
       })
       it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {
         const store = createMockStore({
@@ -287,6 +290,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             kycStatus: KycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
         })
         const { getByText } = render(
@@ -306,6 +310,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             kycStatus: KycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
           app: { linkBankAccountStepTwoEnabled: true },
         })
@@ -396,7 +401,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
       it('step two is enabled when feature flag is switched on and kyc is approved', async () => {
         const store = createMockStore({
           web3: { mtwAddress: mockAccount },
-          account: { finclusiveKycStatus: FinclusiveKycStatus.Accepted },
+          account: {
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
+          },
           app: { linkBankAccountStepTwoEnabled: true },
         })
 
@@ -423,6 +431,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             e164PhoneNumber: MOCK_PHONE_NUMBER,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
           app: { linkBankAccountStepTwoEnabled: true },
         })
