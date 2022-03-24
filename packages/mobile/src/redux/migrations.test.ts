@@ -458,7 +458,7 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.account.finclusiveRegionSupported = false
-    expectedSchema.app.finclusiveUnsupportedStates = 'NY,TX'
+    expectedSchema.app.finclusiveUnsupportedStates = ['NY', 'TX']
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

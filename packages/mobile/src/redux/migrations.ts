@@ -574,7 +574,9 @@ export const migrations = {
     },
     app: {
       ...state.app,
-      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates,
+      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
+        ','
+      ),
     },
   }),
 }
