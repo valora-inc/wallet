@@ -15,10 +15,6 @@ import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
 
-// Additional gas added when setting the fee currency
-// See details where used.
-export const STATIC_GAS_PADDING = 50_000
-
 export interface WalletResponseError {
   isError: true
   error: string
@@ -74,7 +70,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           }: {
             feeCurrency: string | undefined
             gas?: number
-            gasPrice?: BigNumber
+            gasPrice?: string
           } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, rawTx.gasPrice)
 
           rawTx.feeCurrency = feeCurrency
