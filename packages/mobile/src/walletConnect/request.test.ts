@@ -192,7 +192,7 @@ describe(handleRequest, () => {
           .run()
       })
 
-      it('ensures gas is NOT padded and gasPrice is not recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
+      it('ensures gas is NOT padded and gasPrice is recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
         // This is because WalletConnect v1 utils strips away feeCurrency
         await expectSaga(handleRequest, {
           method: SupportedActions.eth_signTransaction,
