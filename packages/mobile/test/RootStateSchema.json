@@ -1844,6 +1844,12 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
+                "finclusiveUnsupportedStates": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -1983,12 +1989,6 @@
                 },
                 "walletConnectV2Enabled": {
                     "type": "boolean"
-                },
-                "finclusiveUnsupportedStates": {
-                  "additionalProperties": {
-                    "type": "string"
-                  },
-                  "type": "object"
                 }
             },
             "required": [
@@ -2002,6 +2002,7 @@
                 "celoEuroEnabled",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
+                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
@@ -2401,6 +2402,9 @@
                 "finclusiveKycStatus": {
                     "$ref": "#/definitions/FinclusiveKycStatus"
                 },
+                "finclusiveRegionSupported": {
+                    "type": "boolean"
+                },
                 "hasLinkedBankAccount": {
                     "type": "boolean"
                 },
@@ -2466,6 +2470,7 @@
                 "dismissedGoldEducation",
                 "e164PhoneNumber",
                 "finclusiveKycStatus",
+                "finclusiveRegionSupported",
                 "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",

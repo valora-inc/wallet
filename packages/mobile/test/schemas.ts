@@ -1180,7 +1180,11 @@ export const v44Schema = {
   },
   app: {
     ...v43Schema.app,
-    finclusiveUnsupportedStates: { NY: 'NEW YORK', TX: 'TEXAS' },
+    finclusiveUnsupportedStates: ['NY', 'TX'],
+  },
+  account: {
+    ...v43Schema.account,
+    finclusiveRegionSupported: false,
   },
 }
 

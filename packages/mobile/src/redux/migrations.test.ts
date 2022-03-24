@@ -20,6 +20,7 @@ import {
   v36Schema,
   v37Schema,
   v41Schema,
+  v43Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -448,6 +449,16 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.skipProfilePicture = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v43 to v44', () => {
+    const oldSchema = v43Schema
+    const migratedSchema = migrations[44](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.account.finclusiveRegionSupported = false
+    expectedSchema.app.finclusiveUnsupportedStates = 'NY,TX'
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

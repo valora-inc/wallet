@@ -1,24 +1,19 @@
 import { InquiryAttributes } from 'react-native-persona'
-import Logger from 'src/utils/Logger'
 
 export function isUserRegionSupportedByFinclusive(
   address: InquiryAttributes['address'],
-  unsupportedRegions: string[],
-  tag: string
+  unsupportedRegions: string[]
 ): Boolean {
   if (!address || !address.countryCode || !address.subdivisionAbbr) {
-    Logger.error(tag, 'Persona inquiry attributes missing address info')
-    return false
+    throw new Error('Persona inquiry attributes missing address info')
   }
   if (address.countryCode !== 'US') {
-    Logger.info(tag, 'User region country code not in US')
-    return false
+    throw new Error('User region country code not in US')
   }
 
   if (unsupportedRegions.includes(address.subdivisionAbbr)) {
     // Finclusive currently do not support residents of NY and TX
-    Logger.info(tag, 'User region state not supported by finclusive')
-    return false
+    throw new Error('User region state not supported by finclusive')
   }
   return true
 }

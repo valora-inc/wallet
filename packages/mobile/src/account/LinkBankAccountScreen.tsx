@@ -27,6 +27,7 @@ import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { isUserRegionSupportedByFinclusive } from 'src/utils/supportedRegions'
 import {
   finclusiveUnsupportedStatesSelector,
@@ -131,6 +132,7 @@ export function StepOne() {
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
   const unsupportedRegions = useSelector(finclusiveUnsupportedStatesSelector)
+  const finclusiveRegionSupported = useSelector(finclusiveRegionSupportedSelector)
 
   const pollFinclusiveKyc = () => {
     if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
@@ -156,9 +158,13 @@ export function StepOne() {
     setTimeout(() => setIsInPersonaFlow(true), 500)
   }
 
-  const onSuccessPersona = (attributes: InquiryAttributes) => {
-    if (isUserRegionSupportedByFinclusive(attributes.address, unsupportedRegions, TAG)) {
-      dispatch(setFinclusiveRegionSupported())
+  const onSuccessPersona = (address: InquiryAttributes['address']) => {
+    try {
+      if (isUserRegionSupportedByFinclusive(address, unsupportedRegions)) {
+        dispatch(setFinclusiveRegionSupported())
+      }
+    } catch (err) {
+      Logger.info(TAG, err)
     }
 
     setSuccessFromPersona(true)
@@ -192,9 +198,11 @@ export function StepOne() {
           <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
           <Text style={styles.description}>
             {t(
-              stepTwoEnabled
-                ? 'linkBankAccountScreen.completed.description'
-                : 'linkBankAccountScreen.completed.descriptionStep2NotEnabled'
+              finclusiveRegionSupported
+                ? stepTwoEnabled
+                  ? 'linkBankAccountScreen.completed.description'
+                  : 'linkBankAccountScreen.completed.descriptionStep2NotEnabled'
+                : 'linkBankAccountScreen.completed.descriptionRegionNotSupported'
             )}
           </Text>
         </View>
