@@ -980,7 +980,6 @@
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
   "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
-  "inAppConnectionSuccess": "Die Verbindung zu {{dappName}} war erfolgreich!",
   "timeoutTitle": "Zeitüberschreitung!",
   "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
   "goBackButton": "Zurück",
@@ -1125,8 +1124,8 @@
     },
     "completed": {
       "title": "Verifizierung abgeschlossen",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "Wir haben deine Identität erfolgreich verifiziert. Bitte vervollständige die Verknüpfung deines Bankkontos.",
+      "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
     },
     "failed": {
       "title": "Verifizierung verweigert",
@@ -1164,7 +1163,7 @@
     "delete": "Löschen"
   },
   "syncingBankAccount": "Bankkonto synchronisieren...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Bitte halte die App geöffnet!",
   "linkBankAccountSettingsTitle": "Verknüpfte Bankkonten",
   "linkBankAccountSettingsValue": "Zugriff",
   "linkBankAccountSettingsValue2": "Hinzufügen",

@@ -980,7 +980,6 @@
   "disconnectTitle": "{{dappName}} bağlantısını kes?",
   "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
-  "inAppConnectionSuccess": "Connection to {{dappName}} was successful!",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
   "goBackButton": "Geri Dön",
@@ -1126,7 +1125,7 @@
     "completed": {
       "title": "Doğrulama tamamlandı",
       "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
     },
     "failed": {
       "title": "Doğrulama reddedildi",
