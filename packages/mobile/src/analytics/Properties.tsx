@@ -35,6 +35,7 @@ import {
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { DappSection } from 'src/app/reducers'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
@@ -1204,11 +1205,6 @@ interface CICOEventsProperties {
   }
 }
 
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
 interface DappEventProperties {
   categoryId: string
   dappId: string
@@ -1220,6 +1216,7 @@ interface DappEventProperties {
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
   [DappExplorerEvents.dapp_open]: DappEventProperties
+  [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: undefined
   [DappExplorerEvents.dapp_select]: DappEventProperties

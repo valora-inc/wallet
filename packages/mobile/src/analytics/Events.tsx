@@ -551,6 +551,7 @@ export enum CICOEvents {
 export enum DappExplorerEvents {
   dapp_impression = 'dapp_impression', // when a dapp shows up in the featured section of the app
   dapp_open = 'dapp_open', // when a dapp is opened
+  dapp_close = 'dapp_close', // when a dapp is closed from the in-app dapp web view
   dapp_screen_open = 'dapp_screen_open',
   dapp_select = 'dapp_select',
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',

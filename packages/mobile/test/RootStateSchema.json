@@ -29,6 +29,46 @@
             ],
             "type": "object"
         },
+        "ActiveDapp": {
+            "additionalProperties": false,
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "openedFrom": {
+                    "$ref": "#/definitions/DappSection"
+                }
+            },
+            "required": [
+                "categoryId",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "isFeatured",
+                "name",
+                "openedFrom"
+            ],
+            "type": "object"
+        },
         "AddressInfoToDisplay": {
             "additionalProperties": false,
             "properties": {
@@ -341,6 +381,14 @@
                 "name"
             ],
             "type": "object"
+        },
+        "DappSection": {
+            "enum": [
+                "all",
+                "featured",
+                "recently used"
+            ],
+            "type": "string"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -1756,7 +1804,7 @@
                 "activeDapp": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/Dapp"
+                            "$ref": "#/definitions/ActiveDapp"
                         },
                         {
                             "type": "null"
@@ -2544,6 +2592,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],
@@ -2572,6 +2622,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],
