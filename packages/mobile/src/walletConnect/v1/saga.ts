@@ -4,8 +4,12 @@ import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
+import { WalletConnect1Properties } from 'src/analytics/Properties'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector } from 'src/app/selectors'
+import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -53,13 +57,15 @@ const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
 const TAG = 'WalletConnect/saga-v1'
 
-function getDefaultSessionTrackedProperties(
+function* getDefaultSessionTrackedProperties(
   session: WalletConnectSessionRequest | WalletConnectSession
-) {
+): Generator<any, WalletConnect1Properties, any> {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   const { peerId, peerMeta, chainId } = 'peerMeta' in session ? session : session.params[0]
   const { name: dappName, url: dappUrl, description: dappDescription, icons } = peerMeta!
   return {
     version: 1 as const,
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
     dappName,
     dappUrl,
     dappDescription,
@@ -96,7 +102,10 @@ function* getSessionFromPeerId(peerId: string) {
 
 function* acceptSession(session: AcceptSession) {
   Logger.debug(TAG + '@acceptSession', 'Starting to accept session request', session)
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session.session)
+  const defaultTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session.session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, defaultTrackedProperties)
     const { peerId, peerMeta } = session.session.params[0]
@@ -130,7 +139,10 @@ function* acceptSession(session: AcceptSession) {
 }
 
 function* denySession({ session }: AcceptSession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+  const defaultTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defaultTrackedProperties)
     const { peerId } = session.params[0]
@@ -153,7 +165,10 @@ function* denySession({ session }: AcceptSession) {
 }
 
 function* closeSession({ session }: CloseSession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+  const defaultTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, defaultTrackedProperties)
     const { peerId } = session
@@ -179,8 +194,12 @@ function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails
     yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
     return
   }
+  const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request, session.chainId),
   })
 
@@ -201,8 +220,12 @@ function* acceptRequest(r: AcceptRequest) {
     yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
     return
   }
+  const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   const defaultTrackedProperties = {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request, session.chainId),
   }
 
@@ -240,8 +263,12 @@ function* denyRequest(r: DenyRequest) {
     if (!session) {
       throw new Error(`Session not found for peer id ${peerId}`)
     }
+    const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+      getDefaultSessionTrackedProperties,
+      session
+    )
     const defaultTrackedProperties = {
-      ...getDefaultSessionTrackedProperties(session),
+      ...defaultSessionTrackedProperties,
       ...getDefaultRequestTrackedProperties(request, session.chainId),
       denyReason: reason,
     }
@@ -256,24 +283,26 @@ function* denyRequest(r: DenyRequest) {
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e?.message)
-    const defaultTrackedProperties = {
-      ...getDefaultSessionTrackedProperties(
-        session ?? {
-          ...request,
-          params: [
-            {
-              peerId: '',
-              peerMeta: {
-                name: '',
-                url: '',
-                description: '',
-                icons: [''],
-              },
-              chainId: -1,
+    const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+      getDefaultSessionTrackedProperties,
+      session ?? {
+        ...request,
+        params: [
+          {
+            peerId: '',
+            peerMeta: {
+              name: '',
+              url: '',
+              description: '',
+              icons: [''],
             },
-          ],
-        }
-      ),
+            chainId: -1,
+          },
+        ],
+      }
+    )
+    const defaultTrackedProperties = {
+      ...defaultSessionTrackedProperties,
       ...getDefaultRequestTrackedProperties(request, session?.chainId ?? -1),
       denyReason: reason,
     }
@@ -287,7 +316,9 @@ function* denyRequest(r: DenyRequest) {
 }
 
 function* handleInitialiseWalletConnect({ uri, origin }: InitialiseConnection) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
     origin,
   })
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
@@ -355,9 +386,16 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
 }
 
 function* showSessionRequest(session: WalletConnectSessionRequest) {
-  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success, {
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
+  })
+  const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
   })
 
   yield call(handleWalletConnectNavigate, Screens.WalletConnectSessionRequest, {
@@ -378,8 +416,12 @@ function* showActionRequest({ action: request, peerId }: PendingAction) {
     yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
     return
   }
+  const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request, session.chainId),
   })
 

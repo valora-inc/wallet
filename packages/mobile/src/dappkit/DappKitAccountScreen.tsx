@@ -12,6 +12,8 @@ import { connect } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector } from 'src/app/selectors'
 import AccountNumber from 'src/components/AccountNumber'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
 import { withTranslation } from 'src/i18n'
@@ -29,6 +31,7 @@ const TAG = 'dappkit/DappKitAccountScreen'
 interface StateProps {
   account: string | null
   phoneNumber: string | null
+  activeDapp: ActiveDapp | null
 }
 
 interface DispatchProps {
@@ -43,6 +46,7 @@ type Props = StateProps &
 const mapStateToProps = (state: RootState): StateProps => ({
   account: currentAccountSelector(state),
   phoneNumber: e164NumberSelector(state),
+  activeDapp: activeDappSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -71,7 +75,10 @@ class DappKitAccountAuthScreen extends React.Component<Props> {
   cancel = () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_cancel,
-      getDefaultRequestTrackedProperties(this.props.route.params.dappKitRequest)
+      getDefaultRequestTrackedProperties(
+        this.props.route.params.dappKitRequest,
+        this.props.activeDapp
+      )
     )
     navigateBack()
   }

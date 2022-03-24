@@ -20,3 +20,9 @@ export enum WalletConnectPairingOrigin {
   Scan = 'scan',
   Deeplink = 'deeplink',
 }
+
+// Origin of WalletConnect/DappKit request
+export enum DappRequestOrigin {
+  InAppWebView = 'in_app_web_view',
+  External = 'external',
+}
