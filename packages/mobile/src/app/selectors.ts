@@ -140,7 +140,7 @@ export const skipVerificationSelector = (state: RootState) => state.app.skipVeri
 export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
 
 export const activeDappSelector = (state: RootState) =>
-  state.app.dappsWebViewEnabled && state.app.activeDapp
+  state.app.dappsWebViewEnabled ? state.app.activeDapp : null
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,

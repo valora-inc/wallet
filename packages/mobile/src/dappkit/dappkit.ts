@@ -13,7 +13,9 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
 import { activeDappSelector } from 'src/app/selectors'
+import { getDappRequestOrigin } from 'src/app/utils'
 import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -51,10 +53,14 @@ export const requestTxSignature = (request: SignTxRequest): RequestTxSignatureAc
   request,
 })
 
-export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
+export function getDefaultRequestTrackedProperties(
+  request: DappKitRequest,
+  activeDapp: ActiveDapp | null
+) {
   const { type: requestType, callback: requestCallback, requestId, dappName } = request
   const dappUrl = new URL(requestCallback).origin
   return {
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
     dappName,
     dappUrl,
     requestType,
@@ -81,7 +87,8 @@ function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
 }
 
 function* respondToAccountAuth(action: ApproveAccountAuthAction) {
-  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Approving auth account')
@@ -109,7 +116,8 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
 
 // TODO Error handling here
 function* produceTxSignature(action: RequestTxSignatureAction) {
-  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Producing tx signature')
@@ -167,21 +175,22 @@ export function* dappKitSaga() {
   yield takeLeading(actions.REQUEST_TX_SIGNATURE, produceTxSignature)
 }
 
-export function handleDappkitDeepLink(deeplink: string) {
+export function* handleDappkitDeepLink(deeplink: string) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   try {
     const dappKitRequest = parseDappKitRequestDeeplink(deeplink)
     switch (dappKitRequest.type) {
       case DappKitRequestTypes.ACCOUNT_ADDRESS:
         ValoraAnalytics.track(
           DappKitEvents.dappkit_request_propose,
-          getDefaultRequestTrackedProperties(dappKitRequest)
+          getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
         navigate(Screens.DappKitAccountAuth, { dappKitRequest })
         break
       case DappKitRequestTypes.SIGN_TX:
         ValoraAnalytics.track(
           DappKitEvents.dappkit_request_propose,
-          getDefaultRequestTrackedProperties(dappKitRequest)
+          getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
         navigate(Screens.DappKitSignTxScreen, { dappKitRequest })
         break
@@ -193,6 +202,7 @@ export function handleDappkitDeepLink(deeplink: string) {
     navigate(Screens.ErrorScreen, { errorMessage: `Deep link not valid for dappkit: ${error}` })
     Logger.debug(TAG, `Deep link not valid for dappkit: ${error}`)
     ValoraAnalytics.track(DappKitEvents.dappkit_parse_deeplink_error, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
       deeplink,
       error: error.message,
     })
