@@ -1,6 +1,6 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
+import { ActiveDapp } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
-import { Dapp } from 'src/app/types'
 import { Screens } from 'src/navigator/Screens'
 
 // https://facebook.github.io/react-native/docs/appstate
@@ -140,7 +140,7 @@ export interface AndroidMobileServicesAvailabilityChecked {
 
 export interface DappSelected {
   type: Actions.DAPP_SELECTED
-  dapp: Dapp
+  dapp: ActiveDapp
 }
 
 interface DappSessionEnded {
@@ -288,7 +288,7 @@ export const androidMobileServicesAvailabilityChecked = (
   huaweiIsAvailable,
 })
 
-export const dappSelected = (dapp: Dapp) => ({
+export const dappSelected = (dapp: ActiveDapp) => ({
   type: Actions.DAPP_SELECTED,
   dapp,
 })
