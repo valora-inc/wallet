@@ -980,7 +980,6 @@
   "disconnectTitle": "Disconnect {{dappName}}?",
   "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?",
   "connectionSuccess": "Success! Please go back to {{dappName}} to continue",
-  "inAppConnectionSuccess": "Connection to {{dappName}} was successful!",
   "timeoutTitle": "Time out!",
   "timeoutSubtitle": "Your connection timed out. Please check your internet connection & try again",
   "goBackButton": "Go Back",

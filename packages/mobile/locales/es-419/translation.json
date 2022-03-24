@@ -980,7 +980,6 @@
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
   "connectionSuccess": "¡Lo hiciste! Vuelve a {{dappName}} para continuar",
-  "inAppConnectionSuccess": "La conexión con {{dappName}} se ha realizado con éxito.",
   "timeoutTitle": "¡Se agotó el tiempo!",
   "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.",
   "goBackButton": "Regresar",
@@ -1125,8 +1124,8 @@
     },
     "completed": {
       "title": "Verificación completa",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1164,7 +1163,7 @@
     "delete": "Eliminar"
   },
   "syncingBankAccount": "Sincronizando cuenta bancaria...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "¡Por favor, mantén la app abierta!",
   "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
   "linkBankAccountSettingsValue2": "Agregar cuenta",
