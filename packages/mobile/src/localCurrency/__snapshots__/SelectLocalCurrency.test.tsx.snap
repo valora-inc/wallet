@@ -48,6 +48,7 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
             "PHP",
             "RUB",
             "SLL",
+            "TRY",
             "UAH",
             "UGX",
             "USD",
