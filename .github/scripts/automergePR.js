@@ -15,12 +15,13 @@ const AUTOMERGE_LABEL = 'automerge'
  * @param {Object} obj - An object.
  * @param {GitHub} obj.github
  * @param {Context} obj.context
+ * @param {Array.<string>} obj.allowedUpdatedFiles
  */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, allowedUpdatedFiles }) => {
   const { owner, repo } = context.repo
-  const { BRANCH_NAME, EXPECTED_UPDATED_FILES } = process.env
-  // As of writing this, github-script uses node 12 which doesn't support optional chaining (pr.user?.login)
-  const expectedUpdatedFiles = EXPECTED_UPDATED_FILES ? EXPECTED_UPDATED_FILES.split(',') : []
+  const { BRANCH_NAME } = process.env
+
+  console.log('=======allowedUpdatedFiles', allowedUpdatedFiles)
 
   console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
@@ -36,18 +37,27 @@ module.exports = async ({ github, context }) => {
     return
   }
 
-  console.log(`Verifying that expected files are modified for ${pr.number}`)
-  const listFiles = await github.rest.pulls.listFiles({
-    owner,
-    repo,
-    pull_number: pr.number,
-  })
-  if (
-    listFiles.data.length !== expectedUpdatedFiles.length ||
-    listFiles.data.some(({ filename }) => !expectedUpdatedFiles.includes(filename))
-  ) {
-    console.log(`${pr.number} has more than expected files modified`)
-    return
+  if (allowedUpdatedFiles.length > 0) {
+    console.log(`Verifying that expected files are modified for ${pr.number}`)
+    const listFiles = await github.rest.pulls.listFiles({
+      owner,
+      repo,
+      pull_number: pr.number,
+    })
+    if (
+      listFiles.data.length !== allowedUpdatedFiles.length ||
+      listFiles.data.some(({ filename }) => !allowedUpdatedFiles.includes(filename))
+    ) {
+      console.log(`${pr.number} has more than expected files modified`)
+      console.log(
+        `The following modified files were not expected: ${listFiles.data.filter(
+          ({ filename }) => !allowedUpdatedFiles.includes(filename)
+        )}`
+      )
+      return
+    }
+  } else {
+    console.log(`Skipping verification for expected modified files because none were provided`)
   }
 
   console.log(`Approving PR #${pr.number}`)
