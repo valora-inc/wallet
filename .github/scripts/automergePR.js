@@ -21,8 +21,6 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
   const { owner, repo } = context.repo
   const { BRANCH_NAME } = process.env
 
-  console.log('=======allowedUpdatedFiles', allowedUpdatedFiles)
-
   console.log(`Looking for PR with branch name ${BRANCH_NAME}`)
   const listPrs = await github.rest.pulls.list({
     owner,
@@ -38,21 +36,36 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
   }
 
   if (allowedUpdatedFiles.length > 0) {
-    console.log(`Verifying that expected files are modified for ${pr.number}`)
+    console.log(`Verifying that expected files are modified for PR #${pr.number}`)
     const listFiles = await github.rest.pulls.listFiles({
       owner,
       repo,
       pull_number: pr.number,
     })
-    if (
-      listFiles.data.length !== allowedUpdatedFiles.length ||
-      listFiles.data.some(({ filename }) => !allowedUpdatedFiles.includes(filename))
-    ) {
-      console.log(`${pr.number} has more than expected files modified`)
+
+    const missingFiles = allowedUpdatedFiles.filter(
+      (file) => !listFiles.data.find(({ filename }) => filename === file)
+    )
+    if (missingFiles.length > 0) {
       console.log(
-        `The following modified files were not expected: ${listFiles.data.filter(
-          ({ filename }) => !allowedUpdatedFiles.includes(filename)
+        `Files updated in PR #${
+          pr.number
+        } do not match the expectation. The following files were not updated: ${missingFiles.join(
+          ', '
         )}`
+      )
+      return
+    }
+
+    const extraFiles = listFiles.data.filter(
+      ({ filename }) => !allowedUpdatedFiles.includes(filename)
+    )
+    if (extraFiles.length > 0) {
+      console.log(`Files updated in PR #${pr.number} do not match the expectation`)
+      console.log(
+        `The following modified files were not expected: ${extraFiles
+          .map(({ filename }) => filename)
+          .join(', ')}`
       )
       return
     }
