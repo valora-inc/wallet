@@ -8,12 +8,12 @@ export function isUserRegionSupportedByFinclusive(
     throw new Error('Persona inquiry attributes missing address info')
   }
   if (address.countryCode !== 'US') {
-    throw new Error('User region country code not in US')
+    return false
   }
 
   if (unsupportedRegions.includes(address.subdivisionAbbr)) {
     // Finclusive currently do not support residents of NY and TX
-    throw new Error('User region state not supported by finclusive')
+    return false
   }
   return true
 }

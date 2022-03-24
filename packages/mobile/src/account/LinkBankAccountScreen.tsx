@@ -162,6 +162,8 @@ export function StepOne() {
     try {
       if (isUserRegionSupportedByFinclusive(address, unsupportedRegions)) {
         dispatch(setFinclusiveRegionSupported())
+      } else {
+        Logger.info(TAG, 'User state not supported by finclusive')
       }
     } catch (err) {
       Logger.info(TAG, err)

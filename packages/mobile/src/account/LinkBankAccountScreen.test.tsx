@@ -216,7 +216,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
         expect(Logger.info).toHaveBeenCalledWith(
           'LinkBankAccountScreen',
-          new Error('User region state not supported by finclusive')
+          'User state not supported by finclusive'
         )
       })
       it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {

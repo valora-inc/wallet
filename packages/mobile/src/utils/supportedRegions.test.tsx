@@ -22,9 +22,7 @@ describe('finclusive supported regions helper', () => {
       subdivisionAbbr: 'OT',
     }
 
-    expect(() => {
-      isUserRegionSupportedByFinclusive(mockAddressObject, unsupportedRegions)
-    }).toThrowError('User region country code not in US')
+    expect(isUserRegionSupportedByFinclusive(mockAddressObject, unsupportedRegions)).toBeFalsy()
   })
 
   it('returns false if state is not supported by finclusive', () => {
@@ -38,9 +36,7 @@ describe('finclusive supported regions helper', () => {
       subdivisionAbbr: 'NY',
     }
 
-    expect(() => {
-      isUserRegionSupportedByFinclusive(mockAddressObject, unsupportedRegions)
-    }).toThrowError('User region state not supported by finclusive')
+    expect(isUserRegionSupportedByFinclusive(mockAddressObject, unsupportedRegions)).toBeFalsy()
   })
 
   it('returns true if state is supported by finclusive', () => {
