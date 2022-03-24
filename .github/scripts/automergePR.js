@@ -47,13 +47,8 @@ module.exports = async ({ github, context, allowedUpdatedFiles }) => {
       (file) => !listFiles.data.find(({ filename }) => filename === file)
     )
     if (missingFiles.length > 0) {
-      console.log(
-        `Files updated in PR #${
-          pr.number
-        } do not match the expectation. The following files were not updated: ${missingFiles.join(
-          ', '
-        )}`
-      )
+      console.log(`Files updated in PR #${pr.number} do not match the expectation`)
+      console.log(`The following files were not updated: ${missingFiles.join(', ')}`)
       return
     }
 
