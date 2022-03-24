@@ -5,8 +5,12 @@ import '@react-native-firebase/messaging'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
-import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { WalletConnect2Properties } from 'src/analytics/Properties'
+import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector } from 'src/app/selectors'
+import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -56,9 +60,10 @@ const TAG = 'WalletConnect/saga'
 
 let client: WalletConnectClient | null = null
 
-function getDefaultSessionTrackedProperties(
+function* getDefaultSessionTrackedProperties(
   session: SessionTypes.Proposal | SessionTypes.Created | SessionTypes.Settled
-) {
+): Generator<any, WalletConnect2Properties, any> {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   const peer = 'proposer' in session ? session.proposer : session.peer
   const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
   const {
@@ -69,6 +74,7 @@ function getDefaultSessionTrackedProperties(
   const { protocol: relayProtocol } = session.relay
   return {
     version: 2 as const,
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
     dappName,
     dappUrl,
     dappDescription,
@@ -102,7 +108,10 @@ function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
 }
 
 function* acceptSession({ session }: AcceptSession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, defaultTrackedProperties)
     if (!client) {
@@ -145,7 +154,10 @@ function* acceptSession({ session }: AcceptSession) {
 }
 
 function* denySession({ session }: DenySession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defaultTrackedProperties)
     if (!client) {
@@ -168,7 +180,10 @@ function* denySession({ session }: DenySession) {
 }
 
 function* closeSession({ session }: CloseSession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+  const defaultTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, defaultTrackedProperties)
     if (!client) {
@@ -199,8 +214,12 @@ function* handlePendingStateOrNavigateBack() {
 
 function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request),
   })
 
@@ -216,8 +235,12 @@ function* acceptRequest({ request }: AcceptRequest): any {
   } = request
 
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   const defaultTrackedProperties = {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request),
   }
 
@@ -278,8 +301,12 @@ function* denyRequest({ request, reason }: DenyRequest) {
   const errorResponse = WalletConnectErrors[reason].format()
 
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   const defaultTrackedProperties = {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request),
     denyReason: errorResponse.message,
   }
@@ -377,9 +404,16 @@ function* createWalletConnectChannel() {
 }
 
 function* showSessionRequest(session: SessionTypes.Proposal) {
-  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success, {
+    dappRequestOrigin: activeDapp ? DappRequestOrigin.InAppWebView : DappRequestOrigin.External,
+  })
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
   })
 
   yield call(navigate, Screens.WalletConnectSessionRequest, { version: 2, session })
@@ -393,8 +427,12 @@ function* showActionRequest(request: SessionTypes.RequestEvent) {
   }
 
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  const defaultSessionTrackedProperties: WalletConnect2Properties = yield call(
+    getDefaultSessionTrackedProperties,
+    session
+  )
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
-    ...getDefaultSessionTrackedProperties(session),
+    ...defaultSessionTrackedProperties,
     ...getDefaultRequestTrackedProperties(request),
   })
 
@@ -433,8 +471,10 @@ function* handleIncomingActionRequest({ request }: SessionPayload) {
 }
 
 function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
       origin,
     })
     if (!client) {
@@ -446,7 +486,10 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
   } catch (e) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
-    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, { error: e.message })
+    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
+      error: e.message,
+    })
   }
 }
 

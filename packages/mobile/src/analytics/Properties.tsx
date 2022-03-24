@@ -30,6 +30,7 @@ import {
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
+  DappRequestOrigin,
   ScrollDirection,
   SendOrigin,
   WalletConnectPairingOrigin,
@@ -1073,8 +1074,9 @@ interface RewardsProperties {
   }
 }
 
-interface WalletConnect1Properties {
+export interface WalletConnect1Properties {
   version: 1
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   dappDescription: string
@@ -1083,8 +1085,9 @@ interface WalletConnect1Properties {
   chainId: string
 }
 
-interface WalletConnect2Properties {
+export interface WalletConnect2Properties {
   version: 2
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   dappDescription: string
@@ -1112,10 +1115,12 @@ type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties 
 
 interface WalletConnectProperties {
   [WalletConnectEvents.wc_pairing_start]: {
+    dappRequestOrigin: DappRequestOrigin
     origin: WalletConnectPairingOrigin
   }
-  [WalletConnectEvents.wc_pairing_success]: undefined
+  [WalletConnectEvents.wc_pairing_success]: { dappRequestOrigin: DappRequestOrigin }
   [WalletConnectEvents.wc_pairing_error]: {
+    dappRequestOrigin: DappRequestOrigin
     error: string
   }
 
@@ -1151,6 +1156,7 @@ interface WalletConnectProperties {
 }
 
 interface DappKitRequestDefaultProperties {
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   requestType: DappKitRequestTypes
@@ -1159,7 +1165,11 @@ interface DappKitRequestDefaultProperties {
 }
 
 interface DappKitProperties {
-  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_parse_deeplink_error]: {
+    dappRequestOrigin: DappRequestOrigin
+    deeplink: string
+    error: string
+  }
   [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
