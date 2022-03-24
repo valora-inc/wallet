@@ -7,6 +7,7 @@ import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/a
 import { DappSection } from 'src/app/reducers'
 import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import {
+  activeDappSelector,
   activeScreenSelector,
   dappsWebViewEnabledSelector,
   getAppLocked,
@@ -133,6 +134,7 @@ describe('App saga', () => {
         .provide([
           [select(selectHasPendingState), false],
           [select(activeScreenSelector), Screens.WalletConnectLoading],
+          [select(activeDappSelector), null],
           {
             race: () => ({ timedOut: true }),
           },
