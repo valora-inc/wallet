@@ -16,17 +16,16 @@ import {
   View,
 } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp, DappSection } from 'src/app/reducers'
 import { recentDappsSelector } from 'src/app/selectors'
-import { Dapp } from 'src/app/types'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 
 interface Props {
-  onSelectDapp(dapp: Dapp): void
+  onSelectDapp(dapp: ActiveDapp): void
 }
 
 const DAPP_ICON_SIZE = 68
@@ -105,7 +104,9 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
         {recentlyUsedDapps.map((recentlyUsedDapp) => (
           <Touchable
             key={recentlyUsedDapp.id}
-            onPress={() => onSelectDapp(recentlyUsedDapp)}
+            onPress={() =>
+              onSelectDapp({ ...recentlyUsedDapp, openedFrom: DappSection.RecentlyUsed })
+            }
             style={styles.dappContainer}
             testID="RecentDapp"
           >

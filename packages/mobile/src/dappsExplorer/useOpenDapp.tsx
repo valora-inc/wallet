@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSelected } from 'src/app/actions'
+import { ActiveDapp } from 'src/app/reducers'
 import { activeScreenSelector, recentDappsSelector } from 'src/app/selectors'
-import { Dapp } from 'src/app/types'
 import DAppsBottomSheet from 'src/dappsExplorer/DAppsBottomSheet'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
@@ -18,20 +17,16 @@ const useOpenDapp = () => {
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const activeScreen = useSelector(activeScreenSelector)
   const [showOpenDappConfirmation, setShowOpenDappConfirmation] = useState(false)
-  const [selectedDapp, setSelectedDapp] = useState<Dapp | null>(null)
+  const [selectedDapp, setSelectedDapp] = useState<ActiveDapp | null>(null)
   const dispatch = useDispatch()
 
   const recentlyUsedDappsMode = activeScreen === Screens.WalletHome
 
-  const getEventProperties = (dapp: Dapp) => ({
+  const getEventProperties = (dapp: ActiveDapp) => ({
     categoryId: dapp.categoryId,
     dappId: dapp.id,
     dappName: dapp.name,
-    section: recentlyUsedDappsMode
-      ? DappSection.RecentlyUsed
-      : dapp.isFeatured
-      ? DappSection.Featured
-      : DappSection.All,
+    section: dapp.openedFrom,
     horizontalPosition: recentlyUsedDappsMode
       ? recentlyUsedDapps.findIndex((recentlyUsedDapp) => recentlyUsedDapp.id === dapp.id)
       : undefined,
@@ -47,7 +42,7 @@ const useOpenDapp = () => {
     }
   }
 
-  const openDapp = (dapp: Dapp) => {
+  const openDapp = (dapp: ActiveDapp) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, getEventProperties(dapp))
     dispatch(dappSelected(dapp))
   }
@@ -62,7 +57,7 @@ const useOpenDapp = () => {
     setShowOpenDappConfirmation(false)
   }
 
-  const onSelectDapp = (dapp: Dapp) => {
+  const onSelectDapp = (dapp: ActiveDapp) => {
     const dappEventProps = getEventProperties(dapp)
     ValoraAnalytics.track(DappExplorerEvents.dapp_select, dappEventProps)
 

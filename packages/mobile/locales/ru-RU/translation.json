@@ -984,7 +984,6 @@
   "disconnectTitle": "Отключить {{dappName}}?",
   "disconnectBody": "Вы действительно хотите отключить {{dappName}}?",
   "connectionSuccess": "Выполнено успешно! Для продолжения вернитесь в {{dappName}}",
-  "inAppConnectionSuccess": "Подключение к {{dappName}} прошло успешно!",
   "timeoutTitle": "Истекло время ожидания!",
   "timeoutSubtitle": "Истекло время ожидания соединения. Проверьте подключение к Интернету и повторите попытку",
   "goBackButton": "Назад",
@@ -1129,8 +1128,8 @@
     },
     "completed": {
       "title": "Проверка завершена",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "Мы успешно проверили вашу личность. Завершите привязку своего банковского счета.",
+      "descriptionStep2NotEnabled": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета."
     },
     "failed": {
       "title": "Проверка отклонена",
@@ -1168,7 +1167,7 @@
     "delete": "Удалить"
   },
   "syncingBankAccount": "Синхронизация банковского счета...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Не закрывайте приложение!",
   "linkBankAccountSettingsTitle": "Привязанные банковские счета",
   "linkBankAccountSettingsValue": "Получить доступ",
   "linkBankAccountSettingsValue2": "Добавить новый",
