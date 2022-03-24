@@ -1124,7 +1124,7 @@
     },
     "completed": {
       "title": "Verificación completa",
-      "description": "Hemos verificado su identidad con éxito. Por favor, continúe para terminar de vincular su cuenta bancaria.",
+      "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
       "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
@@ -1163,7 +1163,7 @@
     "delete": "Eliminar"
   },
   "syncingBankAccount": "Sincronizando cuenta bancaria...",
-  "keepAppOpen": "Por favor, mantén la aplicación abierta.",
+  "keepAppOpen": "¡Por favor, mantén la app abierta!",
   "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
   "linkBankAccountSettingsValue2": "Agregar cuenta",

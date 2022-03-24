@@ -1124,7 +1124,7 @@
     },
     "completed": {
       "title": "Verifica completata",
-      "description": "Abbiamo verificato con successo la tua identità. Per favore, continui a finire di collegare il suo conto bancario.",
+      "description": "Abbiamo verificato la tua identità. Procedi per completare il collegamento del tuo conto bancario.",
       "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
     },
     "failed": {
@@ -1163,7 +1163,7 @@
     "delete": "Elimina"
   },
   "syncingBankAccount": "Sincronizzazione del conto bancario in corso...",
-  "keepAppOpen": "Per favore, tenete aperta l'applicazione!",
+  "keepAppOpen": "Tieni aperta l'app!",
   "linkBankAccountSettingsTitle": "Conti bancari collegati",
   "linkBankAccountSettingsValue": "Accedi",
   "linkBankAccountSettingsValue2": "Aggiungere un conto nuovo",

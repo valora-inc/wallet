@@ -2351,38 +2351,35 @@
     cross-fetch "3.0.4"
     debug "^4.1.1"
 
-"@celo/payments-sdk@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@celo/payments-sdk/-/payments-sdk-0.0.9.tgz#d35e5a48cea0cfc23cb64b9a3120f518809959b3"
-  integrity sha512-z6FMNxT203JAD86RR6xtkNwSRY3KeBM7gXmar3gYuC54XbmaPst/1rPdGpYQ+CKJPSBdj0fvb1d2bV6aF5TpXw==
+"@celo/payments-sdk@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@celo/payments-sdk/-/payments-sdk-0.0.11.tgz#28bd65fc992d5202f6b51b53b93467d8a23b91f9"
+  integrity sha512-UY4DD6qJwr3lzV8TCVGIHAilzuWWRBfOBr6yyBGMccLMBq6KzXQZL4m14OxWKTVX3iu1Ik6clcFcZAiMWK51qQ==
   dependencies:
     "@celo/base" "1.2.0"
     "@celo/connect" "1.2.0"
     "@celo/contractkit" "1.2.0"
-    "@celo/payments-types" "0.0.9"
-    "@celo/payments-utils" "0.0.9"
+    "@celo/payments-types" "0.0.11"
+    "@celo/payments-utils" "0.0.11"
     "@types/isomorphic-fetch" "^0.0.35"
-    ajv "^8.6.3"
+    ajv "^6.12.3"
     bignumber.js "^9.0.1"
     isomorphic-fetch "^3.0.0"
 
-"@celo/payments-types@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@celo/payments-types/-/payments-types-0.0.9.tgz#318677136ba47ba521deac01134d663ae73019e0"
-  integrity sha512-XYbKQDgfbcZYpei4nE0c3/OMYJCHKGzA+hkb9mW3MgrxlOwMMJHbynXS2QrTYMh1mwcNzP9+aNwBMksiUyNYHg==
+"@celo/payments-types@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@celo/payments-types/-/payments-types-0.0.11.tgz#e3953654c516c68979614b4d8748424c986dcf42"
+  integrity sha512-b6QuwqoxtsjKXZ8lFNTmxXCOuT5pOnMumKa5JVaI+ACgkyZt8/vbBykqVl/MKtxBkoby3SMvSozKhvHTZvM6Fw==
   dependencies:
-    "@celo/contractkit" "1.2.0"
     "@celo/utils" "1.2.0"
-    "@types/js-yaml" "^4.0.3"
     bignumber.js "^9.0.1"
-    js-yaml "^4.1.0"
 
-"@celo/payments-utils@0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@celo/payments-utils/-/payments-utils-0.0.9.tgz#f84c7d43e26de614df3e70b0da1c466d7e8304e6"
-  integrity sha512-pKhLmE2EqxkqanYm0HarNnbbVPVtq0kpLdz83pI1h1JQrEpK52KDAg8QSIyWlMP8Yy1T3C9Wj6o+TMBMXbJ8xw==
+"@celo/payments-utils@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@celo/payments-utils/-/payments-utils-0.0.11.tgz#76ec7ba603d85ba42f341c350d519637817fecf5"
+  integrity sha512-ZF+yG5BpP/3gYhkOiDqKY2UW2JQTr6tCXJ90E5wB+6crCmiENQKMD0iVIADmdwHwVCi72CQggQAadtQGQdCU5Q==
   dependencies:
-    "@celo/payments-types" "0.0.9"
+    "@celo/payments-types" "0.0.11"
     bignumber.js "^9.0.1"
 
 "@celo/react-native-sms-retriever@git+https://github.com/celo-org/react-native-sms-retriever#11e078e":
@@ -5866,11 +5863,6 @@
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
-
-"@types/js-yaml@^4.0.3":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.5.tgz#738dd390a6ecc5442f35e7f03fa1431353f7e138"
-  integrity sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==
 
 "@types/json-schema@^7.0.3":
   version "7.0.4"
@@ -14592,7 +14584,7 @@ js-sha3@0.8.0, js-sha3@^0.8.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@3.13.1, js-yaml@3.14.0, js-yaml@^3.10.0, js-yaml@^3.13.1, js-yaml@^4.1.0:
+js-yaml@3.13.1, js-yaml@3.14.0, js-yaml@^3.10.0, js-yaml@^3.13.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -17828,10 +17820,10 @@ please-upgrade-node@^3.1.1:
   dependencies:
     semver-compare "^1.0.0"
 
-plist@^3.0.1, plist@^3.0.2, plist@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.4.tgz#a62df837e3aed2bb3b735899d510c4f186019cbe"
-  integrity sha512-ksrr8y9+nXOxQB2osVNqrgvX/XQPOXaU4BQMKjYq8PvaY1U18mo+fKgBSwzK+luSyinOuPae956lSVcBwxlAMg==
+plist@^3.0.1, plist@^3.0.2, plist@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.5.tgz#2cbeb52d10e3cdccccf0c11a63a85d830970a987"
+  integrity sha512-83vX4eYdQp3vP9SxuYgEM/G/pJQqLUz/V/xzPrzruLs7fz7jxGQ1msZ/mg1nwZxUSuOp4sb+/bEIbRrbzZRxDA==
   dependencies:
     base64-js "^1.5.1"
     xmlbuilder "^9.0.7"
