@@ -984,7 +984,6 @@
   "disconnectTitle": "Від’єднати {{dappName}}?",
   "disconnectBody": "Ви впевнені, що бажаєте від'єднатися від {{dappName}}?",
   "connectionSuccess": "Готово! Поверніться до {{dappName}} для продовження",
-  "inAppConnectionSuccess": "Підключення до {{dappName}} було успішним!",
   "timeoutTitle": "Час вийшов!",
   "timeoutSubtitle": "Вичерпано час під’єднання. Просимо перевірити під’єднання до Інтернету та спробувати ще раз",
   "goBackButton": "Повернутися",
@@ -1129,8 +1128,8 @@
     },
     "completed": {
       "title": "Перевірку завершено",
-      "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "description": "Ми успішно підтвердили вашу особистість. Продовжуйте, щоб завершити прив’язку банківського рахунку.",
+      "descriptionStep2NotEnabled": "Ми успішно підтвердили вашу особистість. Ми дамо вам знати, коли ви зможете завершити прив’язку банківського рахунку."
     },
     "failed": {
       "title": "Перевірку відхилено",
@@ -1168,7 +1167,7 @@
     "delete": "Видалити"
   },
   "syncingBankAccount": "Синхронізація банківського рахунку...",
-  "keepAppOpen": "Please keep the app open!",
+  "keepAppOpen": "Просимо залишати застосунок відкритим!",
   "linkBankAccountSettingsTitle": "Пов'язані банківські рахунки",
   "linkBankAccountSettingsValue": "Отримати доступ",
   "linkBankAccountSettingsValue2": "Додати новий",

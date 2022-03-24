@@ -130,7 +130,7 @@ export function* fetchToken(token: Currency, tag: string) {
     } else {
       ValoraAnalytics.track(AppEvents.fetch_balance_error, balanceLogObject)
     }
-  } catch (error) {
+  } catch (error: any) {
     Logger.error(tag, 'Error fetching balance', error)
   }
 }

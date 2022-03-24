@@ -109,6 +109,6 @@
     "glob-parent": "^5.1.2",
     "node-fetch": "^2.6.7",
     "simple-get": "^4.0.1",
-    "plist": "^3.0.4"
+    "plist": "^3.0.5"
   }
 }
