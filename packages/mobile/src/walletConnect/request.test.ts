@@ -206,7 +206,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1,
-            gasPrice: '2',
+            gasPrice: '50000',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })

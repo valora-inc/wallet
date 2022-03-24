@@ -71,7 +71,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
             feeCurrency: string | undefined
             gas?: number
             gasPrice?: string
-          } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, rawTx.gasPrice)
+          } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, undefined)
 
           rawTx.feeCurrency = feeCurrency
           rawTx.gas = gas
