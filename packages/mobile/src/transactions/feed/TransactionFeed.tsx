@@ -210,7 +210,7 @@ function TransactionFeed() {
     }
 
     return groupFeedItemsInSections(tokenTransactions)
-  }, [tokenTransactions])
+  }, [JSON.stringify(tokenTransactions.map((tx) => tx.transactionHash))])
 
   if (!tokenTransactions.length) {
     return <NoActivity kind={FeedType.HOME} loading={loading} error={error} />
@@ -238,12 +238,7 @@ function TransactionFeed() {
       />
       {fetchMoreTransactions && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator
-            style={styles.loadingIcon}
-            size="large"
-            color={colors.greenBrand}
-            testID="DAppExplorerScreen/loading"
-          />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.greenBrand} />
         </View>
       )}
     </>
