@@ -261,6 +261,34 @@ describe('Account', () => {
         account: {
           ...baseStore.account,
           kycStatus: KycStatus.Approved,
+          finclusiveRegionSupported: true,
+        },
+        app: {
+          ...baseStore.app,
+          linkBankAccountStepTwoEnabled: false,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeNull()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: KycStatus.Approved,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
+    it('renders correctly if the user has been approved by KYC, step two is enabled but user region not supported yet', () => {
+      const store = {
+        ...baseStore,
+        account: {
+          ...baseStore.account,
+          kycStatus: KycStatus.Approved,
+          finclusiveRegionSupported: false,
         },
         app: {
           ...baseStore.app,
@@ -287,6 +315,7 @@ describe('Account', () => {
         account: {
           ...baseStore.account,
           kycStatus: KycStatus.Approved,
+          finclusiveRegionSupported: true,
         },
         app: {
           ...baseStore.app,
@@ -314,6 +343,7 @@ describe('Account', () => {
           ...baseStore.account,
           kycStatus: KycStatus.Approved,
           hasLinkedBankAccount: true,
+          finclusiveRegionSupported: true,
         },
         app: {
           ...baseStore.app,
