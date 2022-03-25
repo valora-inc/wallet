@@ -15,7 +15,7 @@ const AUTOMERGE_LABEL = 'automerge'
  * @param {Object} obj - An object.
  * @param {GitHub} obj.github
  * @param {Context} obj.context
- * @param {Array.<string>} obj.allowedUpdatedFiles
+ * @param {Array<string>} obj.allowedUpdatedFiles
  */
 module.exports = async ({ github, context, allowedUpdatedFiles }) => {
   const { owner, repo } = context.repo
