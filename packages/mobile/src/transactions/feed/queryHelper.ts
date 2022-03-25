@@ -1,13 +1,48 @@
+import { useAsync } from 'react-async-hook'
 import config from 'src/geth/networkConfig'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import useSelector from 'src/redux/useSelector'
-import { walletAddressSelector } from 'src/web3/selectors'
 
-export async function queryTransactionsFeed(afterCursor?: string) {
-  console.log(`DIEGO internal query ${Date.now()}`)
-  const address = useSelector(walletAddressSelector)
-  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+export interface QueryParams {
+  address: string | null
+  localCurrencyCode: string
+  afterCursor?: string
+  dependencies: any[]
+  onSuccess: (result: any) => void
+  onError: (error: Error) => void
+  precondition?: () => boolean
+}
 
+export function useAsyncQueryTransactionsFeed(params: QueryParams) {
+  const {
+    address,
+    localCurrencyCode,
+    afterCursor,
+    dependencies,
+    onSuccess,
+    onError,
+    precondition,
+  } = params
+
+  return useAsync(
+    async () => {
+      if (precondition && !precondition()) {
+        // If a precondition is present and it's not met, we avoid the request and return null
+        return null
+      }
+      return await queryTransactionsFeed(address, localCurrencyCode, afterCursor)
+    },
+    dependencies,
+    {
+      onSuccess,
+      onError,
+    }
+  )
+}
+
+async function queryTransactionsFeed(
+  address: string | null,
+  localCurrencyCode: string,
+  afterCursor?: string
+) {
   const response = await fetch(`${config.blockchainApiUrl}/graphql`, {
     method: 'POST',
     headers: {
@@ -16,11 +51,10 @@ export async function queryTransactionsFeed(afterCursor?: string) {
     },
     body: JSON.stringify({
       query: TRANSACTIONS_QUERY,
-      variables: { address, localCurrencyCode },
+      variables: { address, localCurrencyCode, afterCursor },
     }),
   })
 
-  console.log(`DIEGO internal query result ${Date.now()}`)
   return response.json()
 }
 

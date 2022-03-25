@@ -13,8 +13,6 @@ import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 // [Months over a year ago] — "July 2019" -> Same as above, but with year appended.
 // Sections are hidden if they have no items.
 export function groupFeedItemsInSections<T extends { timestamp: number }>(items: T[]) {
-  console.log(`DIEGO sections ${Date.now()}`)
-
   const sectionsMap: {
     [key: string]: {
       data: T[]

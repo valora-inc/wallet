@@ -153,7 +153,6 @@ export const reducer = (
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
     case Actions.UPDATE_TRANSACTIONS:
-      console.log(`DIEGO reducer ${state.transactions.length} ${action.transactions.length}`)
       return {
         ...state,
         transactions: action.transactions,

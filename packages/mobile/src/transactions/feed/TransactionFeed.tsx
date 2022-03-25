@@ -3,15 +3,14 @@ import colors from '@celo/react-components/styles/colors'
 import { Spacing } from '@celo/react-components/styles/styles'
 import * as Sentry from '@sentry/react-native'
 import React, { useMemo, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { PageInfo } from 'src/apollo/types'
 import useInterval from 'src/hooks/useInterval'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { updateTransactions } from 'src/transactions/actions'
 import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
-import { queryTransactionsFeed } from 'src/transactions/feed/queryHelper'
+import { useAsyncQueryTransactionsFeed } from 'src/transactions/feed/queryHelper'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
 import { standbyTransactionsSelector, transactionsSelector } from 'src/transactions/reducer'
@@ -26,11 +25,18 @@ import {
 } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'transactions/TransactionFeed'
 // Query poll interval
 export const POLL_INTERVAL = 10000 // 10 secs
 
+export interface PageInfo {
+  startCursor: string
+  endCursor: string
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
 interface TransactionFeed {
   tokenTransactionsV2: {
     __typename: 'TokenTransactionsV2'
@@ -44,44 +50,6 @@ export type FeedTokenProperties = {
 }
 
 export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
-
-// function useQueryPaginatedTransactions(fetchMoreTransactions: boolean, lastPageInfo: PageInfo, onSuccess: (result: any) => void) {
-
-//   const { loading, error, result } = useAsync( async () => {
-//     if (fetchMoreTransactions && lastPageInfo.hasNextPage) {
-
-//     } else {
-//       return []
-//     }
-//   },
-//   [fetchMoreTransactions, JSON.stringify(lastPageInfo)]
-//   )
-// }
-
-function useQueryNewTransactionsFeed(onSuccess: (result: any) => void) {
-  // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
-  const [counter, setCounter] = useState(0)
-  useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
-
-  console.log(`DIEGO before query ${Date.now()}`)
-  // TODO: Extract this to a more generic function/hook so that it can be reused
-  const { loading, error, result } = useAsync(
-    async () => {
-      console.log(`DIEGO query ${Date.now()}`)
-      return await queryTransactionsFeed()
-    },
-    [counter],
-    {
-      onSuccess,
-    }
-  )
-
-  return {
-    loading,
-    error,
-    transactions: result?.data?.tokenTransactionsV2?.transactions,
-  }
-}
 
 function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): FeedTokenTransaction {
   switch (tx.type) {
@@ -125,61 +93,106 @@ function mapStandbyTransactionToFeedTokenTransaction(tx: StandbyTransaction): Fe
   }
 }
 
-function addFetchedTransactionGenerator(
+function addFetchedTransactionFunction(
   fetchedTransactions: TokenTransaction[],
   setFetchedTransactions: any
 ) {
   return (transactions: TokenTransaction[]) => {
-    console.log(
-      `DIEGO add fetched Transactions: ${fetchedTransactions.length} ${transactions.length}`
-    )
     const currentHashes = new Set(fetchedTransactions.map((tx) => tx.transactionHash))
 
     const transactionsWithoutDuplicatedHash = fetchedTransactions.concat(
       transactions.filter((tx) => !currentHashes.has(tx.transactionHash))
     )
-    //TODO: sorting by date
+
+    transactionsWithoutDuplicatedHash.sort((a, b) => {
+      return b.timestamp - a.timestamp
+    })
+
     setFetchedTransactions(transactionsWithoutDuplicatedHash)
   }
 }
 
 function TransactionFeed() {
-  const [latestPageInfo, setLatestPageInfo] = useState({})
+  const address = useSelector(walletAddressSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+
+  const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
   const [fetchMoreTransactions, setFetchMoreTransactions] = useState(false)
 
   const cachedTransactions = useSelector(transactionsSelector)
-  const [fetchedTransactions, setFetchedTransactions] = useState([])
-  const addFetchedTransactions = addFetchedTransactionGenerator(
+  const [fetchedTransactions, setFetchedTransactions] = useState<TokenTransaction[]>([])
+  const addFetchedTransactions = addFetchedTransactionFunction(
     fetchedTransactions,
     setFetchedTransactions
   )
 
   const dispatch = useDispatch()
 
-  const { loading, error, transactions } = useQueryNewTransactionsFeed((result) => {
-    console.log(`DIEGO feed: ${JSON.stringify(result)}`)
-    if (result?.data?.tokenTransactionsV2?.transactions.length) {
-      addFetchedTransactions(result.data.tokenTransactionsV2.transactions)
-      dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
-    }
-    if (!latestPageInfo) {
-      setLatestPageInfo(result?.data?.tokenTransactionsV2?.pageInfo)
-    }
+  // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
+  const [counter, setCounter] = useState(0)
+  useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-    if (result?.errors) {
-      Sentry.captureException(result.errors)
-      Logger.warn(
-        TAG,
-        `Found errors when querying the transaction feed: ${JSON.stringify(result.errors)}`
-      )
-    }
+  const { loading, error } = useAsyncQueryTransactionsFeed({
+    address,
+    localCurrencyCode,
+    dependencies: [counter],
+    onSuccess: (result) => {
+      if (result?.data?.tokenTransactionsV2?.transactions.length) {
+        addFetchedTransactions(result.data.tokenTransactionsV2.transactions)
+        dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
+      }
+      if (!pageInfo) {
+        setPageInfo(result?.data?.tokenTransactionsV2?.pageInfo)
+      }
+      if (result?.errors) {
+        Sentry.captureException(result.errors)
+        Logger.warn(
+          TAG,
+          ` Found errors when querying for new transactions in feed: ${JSON.stringify(
+            result.errors
+          )}`
+        )
+      }
+    },
+    onError: (error) => {
+      Sentry.captureException(error)
+      Logger.warn(TAG, ` Found errors when querying for new transactions in feed: ${error.message}`)
+    },
   })
 
-  console.log(
-    `DIEGO transactions lenghts: ${fetchedTransactions.length} ${transactions?.length} ${cachedTransactions.length}`
-  )
+  useAsyncQueryTransactionsFeed({
+    address,
+    localCurrencyCode,
+    afterCursor: pageInfo?.endCursor,
+    dependencies: [counter, fetchMoreTransactions, pageInfo?.endCursor],
+    precondition: () => {
+      return fetchMoreTransactions && !!pageInfo && pageInfo?.hasNextPage
+    },
+    onSuccess: (result) => {
+      // TODO: Show a message if we know there aren't more transactions
+      setFetchMoreTransactions(false)
+
+      if (result) {
+        if (result?.data?.tokenTransactionsV2?.transactions.length) {
+          addFetchedTransactions(result.data.tokenTransactionsV2.transactions)
+        }
+
+        setPageInfo(result?.data?.tokenTransactionsV2?.pageInfo)
+      }
+    },
+    onError: (error) => {
+      // TODO: show a message indicating there was an error
+      setFetchMoreTransactions(false)
+      Sentry.captureException(error)
+      Logger.warn(
+        TAG,
+        `Found errors when querying the paginated transaction feed: ${error.message}`
+      )
+    },
+  })
+
   const confirmedTokenTransactions: TokenTransaction[] =
-    fetchedTransactions ?? transactions ?? cachedTransactions
+    fetchedTransactions.length > 0 ? fetchedTransactions : cachedTransactions
   const confirmedFeedTransactions = confirmedTokenTransactions.map((tx) => ({
     ...tx,
     status: TransactionStatus.Complete,
@@ -192,7 +205,6 @@ function TransactionFeed() {
   const tokenTransactions = [...standbyFeedTransactions, ...confirmedFeedTransactions]
 
   const sections = useMemo(() => {
-    console.log(`DIEGO memo: ${Date.now()}`)
     if (tokenTransactions.length === 0) {
       return []
     }
