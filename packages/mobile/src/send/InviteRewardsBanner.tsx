@@ -9,7 +9,6 @@ import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { Currency } from 'src/utils/currencies'
 
 export function InviteRewardsBanner() {
@@ -19,9 +18,7 @@ export function InviteRewardsBanner() {
   const openInviteTerms = () => {
     navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_TERMS_LINK })
   }
-
-  const { IS_IN_EUROPE } = useCountryFeatures()
-  const currency = IS_IN_EUROPE ? Currency.Euro : Currency.Dollar
+  const currency = Currency.Dollar // invite rewards v2 experiment is only for US region
 
   return (
     <Touchable testID="InviteRewardsBanner" onPress={openInviteTerms}>

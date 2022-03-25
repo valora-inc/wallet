@@ -24,7 +24,7 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
+import { backupKey, boostRewards, getVerified, inviteFriends, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -35,6 +35,7 @@ import {
 } from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NotificationBox'
@@ -86,6 +87,9 @@ function useSimpleActions() {
   const verificationPossible = useSelector(verificationPossibleSelector)
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
+  const inviteRewardsEnabled = useSelector((state) => state.send.inviteRewardsEnabled)
+  const inviteRewardAmount = useSelector((state) => state.send.inviteRewardCusd)
+  const inviteRewardsCurrency = Currency.Dollar // invite rewards v2 experiment is only for US region
 
   const { t } = useTranslation()
 
@@ -139,6 +143,29 @@ function useSimpleActions() {
             ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
               origin: RewardsScreenOrigin.RewardAvailableNotification,
             })
+          },
+        },
+      ],
+    })
+  }
+
+  if (inviteRewardsEnabled) {
+    actions.push({
+      text: t('inviteRewardsHomeCard.body', {
+        amount: inviteRewardAmount,
+        currency: inviteRewardsCurrency,
+      }),
+      icon: inviteFriends,
+      priority: INVITES_PRIORITY,
+      callToActions: [
+        {
+          text: t('inviteRewardsHomeCard.cta'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.invite_prompt,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            navigate(Screens.Send)
           },
         },
       ],
