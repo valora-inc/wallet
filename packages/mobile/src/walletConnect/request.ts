@@ -65,8 +65,6 @@ export function* handleRequest({ method, params }: { method: string; params: any
           // otherwise it will fallback to the first currency with a balance
           const {
             feeCurrency,
-            gas,
-            gasPrice,
           }: {
             feeCurrency: string | undefined
             gas?: number
