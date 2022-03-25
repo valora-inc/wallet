@@ -119,7 +119,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1000000,
-            gasPrice: '50000',
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 7,
           })
@@ -206,7 +206,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1,
-            gasPrice: '50000',
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })

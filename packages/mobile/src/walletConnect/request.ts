@@ -65,15 +65,15 @@ export function* handleRequest({ method, params }: { method: string; params: any
           // otherwise it will fallback to the first currency with a balance
           const {
             feeCurrency,
+            gas,
           }: {
             feeCurrency: string | undefined
             gas?: number
-            gasPrice?: string
           } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, undefined)
 
           rawTx.feeCurrency = feeCurrency
-          rawTx.gas = undefined // gas
-          rawTx.gasPrice = undefined // gasPrice
+          if (rawTx.gas) rawTx.gas = gas
+          rawTx.gasPrice = undefined
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
         tx = yield call(normalizer.populate.bind(normalizer), rawTx)
