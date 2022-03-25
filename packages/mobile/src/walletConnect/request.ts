@@ -74,8 +74,8 @@ export function* handleRequest({ method, params }: { method: string; params: any
           } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, undefined)
 
           rawTx.feeCurrency = feeCurrency
-          rawTx.gas = gas
-          rawTx.gasPrice = gasPrice
+          rawTx.gas = undefined // gas
+          rawTx.gasPrice = undefined // gasPrice
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
         tx = yield call(normalizer.populate.bind(normalizer), rawTx)
