@@ -4,8 +4,10 @@ import { select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/app/actions'
+import { DappSection } from 'src/app/reducers'
 import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import {
+  activeDappSelector,
   activeScreenSelector,
   dappsWebViewEnabledSelector,
   getAppLocked,
@@ -132,6 +134,7 @@ describe('App saga', () => {
         .provide([
           [select(selectHasPendingState), false],
           [select(activeScreenSelector), Screens.WalletConnectLoading],
+          [select(activeDappSelector), null],
           {
             race: () => ({ timedOut: true }),
           },
@@ -347,7 +350,7 @@ describe('App saga', () => {
     }
 
     it('opens a web view', async () => {
-      await expectSaga(handleOpenDapp, dappSelected(baseDapp))
+      await expectSaga(handleOpenDapp, dappSelected({ ...baseDapp, openedFrom: DappSection.All }))
         .provide([[select(dappsWebViewEnabledSelector), true]])
         .run()
 
@@ -363,6 +366,7 @@ describe('App saga', () => {
         dappSelected({
           ...baseDapp,
           dappUrl: 'celo://wallet/bidali',
+          openedFrom: DappSection.All,
         })
       )
         .provide([[select(dappsWebViewEnabledSelector), true]])

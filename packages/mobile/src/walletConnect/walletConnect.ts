@@ -3,7 +3,9 @@ import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
-import { activeScreenSelector } from 'src/app/selectors'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector, activeScreenSelector } from 'src/app/selectors'
+import { getDappRequestOrigin } from 'src/app/utils'
 import i18n from 'src/i18n'
 import { navigate, replace } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -73,7 +75,9 @@ export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletC
   })
 
   if (timedOut) {
+    const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
       error: 'timed out while waiting for a session',
     })
     yield call(handleWalletConnectNavigate, Screens.WalletConnectResult, {
