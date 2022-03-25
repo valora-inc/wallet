@@ -146,7 +146,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
 
-        const MockPeronaAddressFromInquiry: InquiryAttributes['address'] = {
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
           street1: '4067 Center Avenue',
           street2: null,
           city: 'Fresno',
@@ -155,7 +155,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           countryCode: 'US',
           subdivisionAbbr: 'CA',
         }
-        personaButtonSuccessCallback?.(MockPeronaAddressFromInquiry)
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
       })
       it('updates finclusiveRegionSupported state in redux when user from supported states succeeded with Persona', async () => {
@@ -174,7 +174,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
 
-        const MockPeronaAddressFromInquiry: InquiryAttributes['address'] = {
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
           street1: '4067 Center Avenue',
           street2: null,
           city: 'Fresno',
@@ -183,7 +183,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           countryCode: 'US',
           subdivisionAbbr: 'CA',
         }
-        personaButtonSuccessCallback?.(MockPeronaAddressFromInquiry)
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
         expect(store.dispatch).toHaveBeenCalledWith(setFinclusiveRegionSupported())
       })
@@ -203,7 +203,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
 
-        const MockPeronaAddressFromInquiry: InquiryAttributes['address'] = {
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
           street1: '8669 Ketch Harbour Street',
           street2: null,
           city: 'Brooklyn',
@@ -212,7 +212,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           countryCode: 'US',
           subdivisionAbbr: 'NY',
         }
-        personaButtonSuccessCallback?.(MockPeronaAddressFromInquiry)
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
         expect(Logger.info).toHaveBeenCalledWith(
           'LinkBankAccountScreen',
@@ -396,6 +396,27 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           </Provider>
         )
         const plaidLinkButton = getByTestId('PlaidLinkButton')
+        expect(plaidLinkButton).toBeDisabled()
+      })
+      it('step two is disabled when feature flag is switched on and kyc is approved but user does not live in a region finclusive supports', async () => {
+        const store = createMockStore({
+          web3: { mtwAddress: mockAccount },
+          account: {
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: false,
+          },
+          app: { linkBankAccountStepTwoEnabled: true },
+        })
+
+        const { getByTestId, queryByText } = render(
+          <Provider store={store}>
+            <StepTwo />
+          </Provider>
+        )
+        const plaidLinkButton = getByTestId('PlaidLinkButton')
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledTitle')).toBeTruthy()
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledDescription')).toBeTruthy()
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledCta')).toBeTruthy()
         expect(plaidLinkButton).toBeDisabled()
       })
       it('step two is enabled when feature flag is switched on and kyc is approved', async () => {
