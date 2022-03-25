@@ -144,6 +144,8 @@ export default NameAndPicture
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
     backgroundColor: colors.onboardingBackground,
   },
   scrollContainer: {
