@@ -25537,7 +25537,7 @@ The following software may be included in this product: type. A copy of the sour
 
 ISC License
 
-Copyright (c) 2019-2022, Mariusz Nowak, @medikoo, medikoo.com
+Copyright (c) 2019, Mariusz Nowak, @medikoo, medikoo.com
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -25557,7 +25557,7 @@ The following software may be included in this product: type. A copy of the sour
 
 ISC License
 
-Copyright (c) 2019, Mariusz Nowak, @medikoo, medikoo.com
+Copyright (c) 2019-2022, Mariusz Nowak, @medikoo, medikoo.com
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -26639,7 +26639,7 @@ THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: workspace-aggregator-6fd812bf-b311-4c1d-942a-7440445a49ac. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-44624a0c-ba22-4117-9e7b-1a1bb5bae385. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
