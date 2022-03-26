@@ -8,6 +8,16 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
+export enum DappSection {
+  RecentlyUsed = 'recently used',
+  Featured = 'featured',
+  All = 'all',
+}
+
+export interface ActiveDapp extends Dapp {
+  openedFrom: DappSection
+}
+
 export interface State {
   loggedIn: boolean
   numberVerified: boolean
@@ -57,6 +67,7 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
+  activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
 }
 
@@ -106,6 +117,7 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
+  activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
 }
 
@@ -123,6 +135,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        activeDapp: null,
       }
     }
     case Actions.SET_APP_STATE:
@@ -260,6 +273,12 @@ export const appReducer = (
           action.dapp,
           ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
         ].slice(0, state.maxNumRecentDapps),
+        activeDapp: action.dapp,
+      }
+    case Actions.DAPP_SESSION_ENDED:
+      return {
+        ...state,
+        activeDapp: null,
       }
     default:
       return state

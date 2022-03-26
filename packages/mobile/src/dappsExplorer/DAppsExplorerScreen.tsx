@@ -20,8 +20,8 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp, DappSection } from 'src/app/reducers'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
 import Dialog from 'src/components/Dialog'
@@ -54,7 +54,7 @@ interface CategoryWithDapps {
 
 interface DappProps {
   dapp: Dapp
-  onPressDapp: (dapp: Dapp) => void
+  onPressDapp: (dapp: ActiveDapp) => void
 }
 
 interface SectionData {
@@ -274,7 +274,7 @@ function CategoryHeader({ category }: { category: CategoryWithDapps }) {
 }
 
 function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
-  const onPress = () => onPressDapp(dapp)
+  const onPress = () => onPressDapp({ ...dapp, openedFrom: DappSection.Featured })
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
@@ -292,7 +292,7 @@ function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
 }
 
 function DappCard({ dapp, onPressDapp }: DappProps) {
-  const onPress = () => onPressDapp(dapp)
+  const onPress = () => onPressDapp({ ...dapp, openedFrom: DappSection.All })
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
