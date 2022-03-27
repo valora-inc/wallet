@@ -21,15 +21,15 @@ function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
   const safeAreaInsets = useSafeAreaInsets()
 
   const progress = useSharedValue(0)
-  const animatedPickerPosition = useAnimatedStyle(
-    () => ({
-      transform: [{ translateY: (1 - progress.value) * pickerHeight }],
-      // Hide until we have the height of the picker,
-      // otherwise there's a 1 frame flicker with the fully visible picker
-      opacity: pickerHeight > 0 ? 1 : 0,
-    }),
-    [pickerHeight]
-  )
+  const animatedPickerPosition = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: (1 - progress.value) * pickerHeight,
+        },
+      ],
+    }
+  })
   const animatedOpacity = useAnimatedStyle(() => ({
     opacity: 0.5 * progress.value,
   }))
