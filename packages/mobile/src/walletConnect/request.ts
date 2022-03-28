@@ -72,7 +72,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
           } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, undefined)
 
           rawTx.feeCurrency = feeCurrency
-          if (rawTx.gas) rawTx.gas = gas
+          if (rawTx.gas && gas) rawTx.gas = gas.toString()
           rawTx.gasPrice = undefined
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
