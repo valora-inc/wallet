@@ -184,7 +184,7 @@ describe(handleRequest, () => {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: mockCusdAddress,
-            gas: '50001', // 1 + STATIC_GAS_PADDING
+            gas: 50001, // 1 + STATIC_GAS_PADDING
             gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
@@ -205,7 +205,7 @@ describe(handleRequest, () => {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
-            gas: '1',
+            gas: 1,
             gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
