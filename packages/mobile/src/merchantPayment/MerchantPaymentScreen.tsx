@@ -4,7 +4,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { useNavigation } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,7 +14,7 @@ import ContactCircle from 'src/components/ContactCircle'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { BASE_TAG } from 'src/merchantPayment/constants'
 import FeeContainer from 'src/merchantPayment/FeeContainer'
-import { useMerchantPayments } from 'src/merchantPayment/hooks'
+import { PaymentStatus, useMerchantPayments } from 'src/merchantPayment/hooks'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -28,6 +28,7 @@ function MerchantPaymentScreen({ route }: Props) {
   const LOG_TAG = BASE_TAG + 'Screen'
 
   const { params: routeParams } = route
+  const prevSubscription = useRef<(e: any) => void>()
   const { t } = useTranslation()
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -40,23 +41,44 @@ function MerchantPaymentScreen({ route }: Props) {
     businessInformation,
     loading,
     submit,
-    submitting,
+    paymentStatus,
     chargeError,
   } = useMerchantPayments(routeParams.apiBase, routeParams.referenceId)
 
+  const abortSubscriptionHandler = useCallback(
+    (e) => {
+      if (loading) return
+
+      switch (paymentStatus) {
+        case PaymentStatus.Initial:
+          void abort(AbortCodes.CUSTOMER_DECLINED)
+          break
+
+        case PaymentStatus.Errored:
+          void abort(AbortCodes.GENERAL)
+          break
+
+        case PaymentStatus.Pending:
+        case PaymentStatus.Done:
+        default:
+          break
+      }
+    },
+    [loading, paymentStatus]
+  )
+
   // Abort the charge on "back" action (hardware back button, swipe, or normal navigate back)
   useEffect(() => {
-    // only add an event listener if there's something to abort
-    if (loading) return
+    if (prevSubscription.current) {
+      navigation.removeListener('beforeRemove', prevSubscription.current)
+    }
 
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      if (!submitting) {
-        void abort(AbortCodes.GENERAL)
-      }
-    })
+    const unsubscribe = navigation.addListener('beforeRemove', abortSubscriptionHandler)
+    prevSubscription.current = abortSubscriptionHandler
+
     // Unsubscribe will be called on unmount
     return unsubscribe
-  }, [loading, abort, submitting])
+  }, [navigation, abortSubscriptionHandler])
 
   useEffect(() => {
     if (chargeError) {
@@ -98,9 +120,9 @@ function MerchantPaymentScreen({ route }: Props) {
           confirmButton={{
             action: submitPayment,
             text: t('send'),
-            disabled: submitting || !amount,
+            disabled: paymentStatus === PaymentStatus.Pending || !amount,
           }}
-          isSending={submitting}
+          isSending={paymentStatus === PaymentStatus.Pending}
         >
           <View style={styles.transferContainer}>
             <Text style={styles.description}>{t('merchantMoneyEscrow')}</Text>
