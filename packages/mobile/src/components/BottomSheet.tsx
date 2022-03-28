@@ -38,7 +38,10 @@ function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
     progress,
     isVisible,
     () => setOptionsVisible(true),
-    () => setOptionsVisible(false)
+    () => {
+      setPickerHeight(0)
+      setOptionsVisible(false)
+    }
   )
 
   if (!showingOptions) {
