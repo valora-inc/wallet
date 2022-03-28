@@ -16,6 +16,7 @@ import PersonaButton from 'src/account/Persona'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import {
   finclusiveKycStatusSelector,
+  finclusiveRegionSupportedSelector,
   kycStatusSelector,
   plaidParamsSelector,
 } from 'src/account/selectors'
