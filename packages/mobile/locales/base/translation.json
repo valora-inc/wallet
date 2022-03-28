@@ -589,8 +589,8 @@
     "button": "Finish sending"
   },
   "inviteRewardsBanner": {
-    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
-    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
