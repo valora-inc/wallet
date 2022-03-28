@@ -30,6 +30,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { skipVerificationSelector } from 'src/app/selectors'
 import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
   Actions,
   ImportBackupPhraseAction,
@@ -164,6 +165,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     const skipVerification = yield select(skipVerificationSelector)
     if (skipVerification) {
       yield put(initializeAccount())
+      yield put(setHasSeenVerificationNux(true))
       navigateHome()
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)

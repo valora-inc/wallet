@@ -10,7 +10,7 @@ import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-h
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockNavigation, mockPrivateDEK } from 'test/values'
+import { mockNavigation } from 'test/values'
 import BankAccounts from './BankAccounts'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
@@ -48,10 +48,10 @@ jest.mock('src/account/openPlaid', () => ({
   default: jest.fn(),
 }))
 
+const mockWalletAddress = '0x123'
 const store = createMockStore({
   web3: {
-    mtwAddress: mockAccount,
-    dataEncryptionKey: mockPrivateDEK,
+    account: mockWalletAddress,
   },
   i18n: {
     language: 'en-US',
@@ -153,10 +153,9 @@ describe('BankAccounts', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.add_bank_account_start)
 
     expect(openPlaid).toHaveBeenCalledWith({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockWalletAddress,
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
       onSuccess: expect.any(Function),
       onExit: expect.any(Function),
     })
