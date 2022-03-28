@@ -654,9 +654,8 @@
     "card4": "We require three confirmation messages to keep your account more secure."
   },
   "skipModal": {
-    "header": "Skip Confirmation?",
-    "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "header": "Are you sure?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Confirmation Error",
