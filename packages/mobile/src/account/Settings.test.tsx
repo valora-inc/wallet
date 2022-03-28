@@ -172,6 +172,27 @@ describe('Account', () => {
       )
       expect(queryByTestId('linkBankAccountSettings')).toBeNull()
     })
+    it('renders correctly if the user has not connected their phone', () => {
+      const store = {
+        ...baseStore,
+        web3: {
+          mtwAddress: null,
+        },
+      }
+      const { getByTestId, queryByText } = render(
+        <Provider store={createMockStore(store)}>
+          <Settings {...getMockStackScreenProps(Screens.Settings)} />
+        </Provider>
+      )
+      expect(queryByText('linkBankAccountSettingsTitle')).toBeTruthy()
+      expect(queryByText('linkBankAccountSettingsValue')).toBeTruthy()
+
+      fireEvent.press(getByTestId('linkBankAccountSettings'))
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: undefined,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
+    })
     it('renders correctly if the user has not fully submitted their KYC info', () => {
       const store = {
         ...baseStore,
