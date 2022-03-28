@@ -15,6 +15,13 @@ import Logger from 'src/utils/Logger'
 import { e164NumberSelector } from 'src/verify/reducer'
 import { getContractKitAsync } from 'src/web3/contracts'
 
+export enum PaymentStatus {
+  Initial,
+  Pending,
+  Errored,
+  Done,
+}
+
 export function useMerchantPayments(apiBase: string, referenceId: string) {
   const LOG_TAG = BASE_TAG + 'useMerchantPayments'
 
@@ -24,7 +31,7 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
 
   const [charge, setCharge] = useState<Charge | null>(null)
   const [amount, setAmount] = useState<BigNumber>(new BigNumber(0))
-  const [submitting, setSubmitting] = useState<boolean>(false)
+  const [paymentStatus, setStatus] = useState<PaymentStatus>(PaymentStatus.Initial)
   const [businessInformation, setBusinessInformation] = useState<BusinessData | null>(null)
 
   const { loading, error: chargeError } = useAsync(async () => {
@@ -53,18 +60,18 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
   }, [])
 
   const submit = useCallback(async () => {
-    if (!charge || submitting) return
+    if (!charge || paymentStatus === PaymentStatus.Pending) return
 
-    setSubmitting(true)
+    setStatus(PaymentStatus.Pending)
     try {
       await charge.submit({ phoneNumber: e164PhoneNumber })
-      setSubmitting(false)
+      setStatus(PaymentStatus.Done)
     } catch (e: unknown) {
-      setSubmitting(false)
+      setStatus(PaymentStatus.Errored)
       Logger.error(LOG_TAG, (e as Error).message)
       throw e
     }
-  }, [charge, dispatch, submitting])
+  }, [charge, dispatch, paymentStatus])
 
   const abort = useCallback(
     async (code: AbortCodes) => {
@@ -80,7 +87,7 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
     abort,
     amount,
     businessInformation,
-    submitting,
+    paymentStatus,
     loading: loading || !charge,
     chargeError,
   }
