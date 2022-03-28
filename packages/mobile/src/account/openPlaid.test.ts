@@ -2,7 +2,7 @@ import { LinkEventMetadata, LinkEventName, openLink } from 'react-native-plaid-l
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { createLinkToken } from 'src/in-house-liquidity'
-import { mockAccount, mockPrivateDEK } from 'test/values'
+import { mockAccount } from 'test/values'
 import openPlaid, { handleOnEvent } from './openPlaid'
 
 jest.mock('react-native-plaid-link-sdk', () => ({
@@ -14,8 +14,8 @@ jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('src/in-house-liquidity', () => ({
   ...(jest.requireActual('src/in-house-liquidity') as any),
-  createLinkToken: jest.fn(({ accountMTWAddress }) => {
-    if (accountMTWAddress === 'bad-account') {
+  createLinkToken: jest.fn(({ walletAddress }) => {
+    if (walletAddress === 'bad-account') {
       throw new Error('It failed')
     }
     return Promise.resolve('foo')
@@ -34,19 +34,17 @@ describe('openPlaid', () => {
 
   it('calls IHL and openLink', async () => {
     await openPlaid({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockAccount,
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
       onSuccess,
       onExit,
     })
     expect(createLinkToken).toHaveBeenCalledWith({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockAccount,
       isAndroid: true,
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
     })
 
     expect(openLink).toHaveBeenCalledWith({
@@ -60,19 +58,17 @@ describe('openPlaid', () => {
   })
   it('does not call openLink if IHL fails', async () => {
     await openPlaid({
-      accountMTWAddress: 'bad-account',
+      walletAddress: 'bad-account',
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
       onSuccess,
       onExit,
     })
     expect(createLinkToken).toHaveBeenCalledWith({
-      accountMTWAddress: 'bad-account',
+      walletAddress: 'bad-account',
       isAndroid: true,
       language: 'en',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
     })
 
     expect(openLink).not.toHaveBeenCalled()

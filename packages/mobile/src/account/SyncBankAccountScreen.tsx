@@ -10,33 +10,32 @@ import { setHasLinkedBankAccount } from 'src/account/actions'
 import {
   createFinclusiveBankAccount,
   exchangePlaidAccessToken,
-  verifyDekAndMTW,
+  verifyWalletAddress,
 } from 'src/in-house-liquidity'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>
 
 const SyncBankAccountScreen = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const accountMTWAddress = useSelector(mtwAddressSelector)
-  const dekPrivate = useSelector(dataEncryptionKeySelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const { publicToken } = route.params
 
   useAsync(async () => {
     try {
       const accessToken = await exchangePlaidAccessToken({
-        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        ...verifyWalletAddress({ walletAddress }),
         publicToken,
       })
 
       await createFinclusiveBankAccount({
-        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        ...verifyWalletAddress({ walletAddress }),
         plaidAccessToken: accessToken,
       })
       dispatch(setHasLinkedBankAccount())

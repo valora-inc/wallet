@@ -22,7 +22,7 @@ import {
   BankAccount,
   deleteFinclusiveBankAccount,
   getFinclusiveBankAccounts,
-  verifyDekAndMTW,
+  verifyWalletAddress,
 } from 'src/in-house-liquidity'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -30,7 +30,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import openPlaid, { handleOnEvent } from './openPlaid'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
@@ -42,8 +42,7 @@ function BankAccounts({ navigation, route }: Props) {
   usePlaidEmitter(handleOnEvent)
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
-  const accountMTWAddress = useSelector(mtwAddressSelector)
-  const dekPrivate = useSelector(dataEncryptionKeySelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const plaidParams = useSelector(plaidParamsSelector)
   const { newPublicToken, fromSyncBankAccountScreen } = route.params
 
@@ -86,9 +85,7 @@ function BankAccounts({ navigation, route }: Props) {
 
   const bankAccounts = useAsync(async () => {
     try {
-      const accounts = await getFinclusiveBankAccounts(
-        verifyDekAndMTW({ dekPrivate, accountMTWAddress })
-      )
+      const accounts = await getFinclusiveBankAccounts(verifyWalletAddress({ walletAddress }))
       return accounts
     } catch (error) {
       Logger.warn(TAG, error)
@@ -140,7 +137,7 @@ function BankAccounts({ navigation, route }: Props) {
     })
     try {
       await deleteFinclusiveBankAccount({
-        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        ...verifyWalletAddress({ walletAddress }),
         id: selectedBankId,
       })
       await bankAccounts.execute()

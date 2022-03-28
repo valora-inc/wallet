@@ -11,7 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
+import { mockAccount } from 'test/values'
 import { fetchFinclusiveKyc } from './actions'
 import PersonaButton from './Persona'
 
@@ -295,10 +295,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         expect(plaidLinkButton).not.toBeDisabled()
       })
       it('Calls openPlaid when the plaid button is clicked', async () => {
+        const mockWalletAddress = '0x123'
         const store = createMockStore({
           web3: {
-            mtwAddress: mockAccount,
-            dataEncryptionKey: mockPrivateDEK,
+            account: mockWalletAddress,
           },
           i18n: {
             language: 'en-US',
@@ -322,10 +322,9 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           CICOEvents.add_initial_bank_account_start
         )
         expect(openPlaid).toHaveBeenCalledWith({
-          accountMTWAddress: mockAccount,
+          walletAddress: mockWalletAddress,
           locale: 'en-US',
           phoneNumber: MOCK_PHONE_NUMBER,
-          dekPrivate: mockPrivateDEK,
           onSuccess: expect.any(Function),
           onExit: expect.any(Function),
         })
