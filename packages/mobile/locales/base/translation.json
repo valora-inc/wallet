@@ -1204,7 +1204,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Last 24 hrs",
   "merchant": "Merchant Payment",
-  "merchantMoneyEscrow": "You're about the send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "You need to connect your number",
   "merchantPaymentSubmitFail": "Your payment failed to submit",
   "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
