@@ -84,6 +84,7 @@ describe('Pincode', () => {
         hideVerification: true,
       },
     })
+    mockStore.dispatch = jest.fn()
 
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
@@ -109,6 +110,10 @@ describe('Pincode', () => {
     await flushMicrotasksQueue()
 
     expect(navigateHome).toBeCalled()
+    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
+      status: true,
+      type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
+    })
   })
 
   it('navigates home if skipVerification is enabled', async () => {
@@ -119,6 +124,7 @@ describe('Pincode', () => {
         hideVerification: false,
       },
     })
+    mockStore.dispatch = jest.fn()
 
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
@@ -144,6 +150,10 @@ describe('Pincode', () => {
     await flushMicrotasksQueue()
 
     expect(navigateHome).toBeCalled()
+    expect(mockStore.dispatch).toHaveBeenCalledWith({
+      status: true,
+      type: 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
+    })
   })
 
   it('displays an error text when setting a blocked PIN', async () => {
