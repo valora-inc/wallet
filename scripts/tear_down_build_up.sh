@@ -18,7 +18,7 @@ echo "Removing .mobile/ios/Pods ..."
 # If Pods are installed in packages/mobile/ios, deintegrate them
 if [ -d "packages/mobile/ios/Pods" ]; then
   cd packages/mobile/ios
-  arch -x86_64 pod deintegrate
+  pod deintegrate
   cd ../../..
 fi
 
