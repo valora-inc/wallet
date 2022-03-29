@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 43,
+          "version": 44,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -333,6 +333,7 @@ describe('store state', () => {
           "tokenBalances": Object {},
         },
         "transactions": Object {
+          "inviteTransactions": Object {},
           "knownFeedTransactions": Object {},
           "recentTxRecipientsCache": Object {},
           "standbyTransactions": Array [],

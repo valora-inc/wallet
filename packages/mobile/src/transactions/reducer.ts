@@ -14,6 +14,12 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 
+export interface InviteTransactions {
+  [txHash: string]: {
+    paymentId: string
+    recipientId: string
+  }
+}
 export interface State {
   // Tracks transactions that have been initiated by the user
   // before they are picked up by the chain explorer and
@@ -28,6 +34,9 @@ export interface State {
   knownFeedTransactions: KnownFeedTransactionsType
   recentTxRecipientsCache: NumberToRecipient
   transactions: TokenTransaction[]
+  // invite transactions are from the escrow contract, the following property maps
+  // transaction hash to recipient known to user
+  inviteTransactions: InviteTransactions
 }
 
 export interface KnownFeedTransactionsType {
@@ -42,6 +51,7 @@ const initialState = {
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
   transactions: [],
+  inviteTransactions: {},
 }
 
 export const reducer = (
@@ -157,6 +167,11 @@ export const reducer = (
         ...state,
         transactions: action.transactions,
       }
+    case Actions.UPDATE_INVITE_TRANSACTIONS:
+      return {
+        ...state,
+        inviteTransactions: action.inviteTransactions,
+      }
     default:
       return state
   }
@@ -188,3 +203,6 @@ export const recentTxRecipientsCacheSelector = (state: RootState) =>
   state.transactions.recentTxRecipientsCache
 
 export const transactionsSelector = (state: RootState) => state.transactions.transactions
+
+export const inviteTransactionsSelector = (state: RootState) =>
+  state.transactions.inviteTransactions
