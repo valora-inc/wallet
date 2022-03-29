@@ -100,20 +100,22 @@ export function* handleRequest({ method, params }: { method: string; params: any
           const {
             feeCurrency,
             gas,
+            gasPrice,
           }: {
             feeCurrency: string | undefined
             gas?: number
+            gasPrice?: string
           } = yield call(
             chooseTxFeeDetails,
             buildTxo(kit, rawTx),
             rawTx.feeCurrency,
             rawTx.gas,
-            undefined
+            rawTx.gasPrice
           )
 
           rawTx.feeCurrency = feeCurrency
-          if (rawTx.gas) rawTx.gas = gas
-          rawTx.gasPrice = undefined
+          rawTx.gas = gas
+          rawTx.gasPrice = gasPrice
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
         tx = yield call(normalizer.populate.bind(normalizer), rawTx)
