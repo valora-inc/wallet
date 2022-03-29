@@ -51,7 +51,6 @@ function BankAccounts({ navigation, route }: Props) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
   const walletAddress = useSelector(walletAddressSelector)
-  const [isLoadingBankAccounts, setIsLoadingBankAccounts] = useState(false)
   const plaidParams = useSelector(plaidParamsSelector)
   const { newPublicToken, fromSyncBankAccountScreen } = route.params
 
@@ -94,14 +93,9 @@ function BankAccounts({ navigation, route }: Props) {
 
   const bankAccounts = useAsync(async () => {
     try {
-      setIsLoadingBankAccounts(true)
-
       const accounts = await getFinclusiveBankAccounts(verifyWalletAddress({ walletAddress }))
-
-      setIsLoadingBankAccounts(false)
       return accounts
     } catch (error) {
-      setIsLoadingBankAccounts(false)
       Logger.warn(TAG, error)
       dispatch(showError(ErrorMessages.GET_BANK_ACCOUNTS_FAIL))
       return
@@ -163,11 +157,11 @@ function BankAccounts({ navigation, route }: Props) {
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      {isLoadingBankAccounts && (
+      {bankAccounts?.loading && (
         <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
       )}
       {bankAccounts?.result?.map(getBankDisplay)}
-      {!isLoadingBankAccounts && (
+      {!bankAccounts?.loading && (
         <View style={styles.addAccountContainer}>
           <BorderlessButton
             testID="AddAccount"

@@ -99,6 +99,7 @@ describe('BankAccounts', () => {
     expect(getByTestId('Loader')).toBeTruthy()
     await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
     await waitFor(() => expect(queryByTestId('Loader')).toBeFalsy())
+    await waitFor(() => expect(queryByTestId('AddAccount')).toBeTruthy())
   })
   it('shows an error when delete bank accounts fails', async () => {
     //@ts-ignore . my IDE complains about this, though jest allows it
