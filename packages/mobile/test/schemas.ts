@@ -1162,12 +1162,32 @@ export const v43Schema = {
     ...v42Schema._persist,
     version: 43,
   },
+  account: {
+    ...v42Schema.account,
+    finclusiveRegionSupported: false,
+  },
   app: {
     ...v42Schema.app,
     activeDapp: null,
   },
 }
 
+export const v44Schema = {
+  ...v43Schema,
+  _persist: {
+    ...v43Schema._persist,
+    version: 44,
+  },
+  app: {
+    ...v43Schema.app,
+    finclusiveUnsupportedStates: ['NY', 'TX'],
+  },
+  account: {
+    ...v43Schema.account,
+    finclusiveRegionSupported: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v43Schema as Partial<RootState>
+  return v44Schema as Partial<RootState>
 }
