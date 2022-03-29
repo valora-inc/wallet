@@ -6,7 +6,8 @@ import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector, paymentDeepLinkHandlerSelector } from 'src/app/selectors'
+// import { numberVerifiedSelector, paymentDeepLinkHandlerSelector } from 'src/app/selectors'
+import { paymentDeepLinkHandlerSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
@@ -191,7 +192,8 @@ function* paymentDeepLinkHandlerDisabled(uri: string) {
 }
 
 export function* paymentDeepLinkHandlerMerchant(uri: string) {
-  const numberVerified = yield select(numberVerifiedSelector)
+  // const numberVerified = yield select(numberVerifiedSelector)
+  const numberVerified = true
   if (numberVerified) {
     const { api_base: apiBase, reference_id: referenceId } = parse(uri, true).query
     if (typeof apiBase === 'string' && typeof referenceId === 'string') {
