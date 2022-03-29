@@ -163,7 +163,6 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_confirmed]: undefined
   [SettingsEvents.change_pin_new_pin_error]: undefined
   [SettingsEvents.settings_link_bank_account]: undefined
-  [SettingsEvents.settings_number_not_connected]: undefined
   [SettingsEvents.settings_biometry_opt_in_enable]: undefined
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined

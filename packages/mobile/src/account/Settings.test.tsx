@@ -134,24 +134,6 @@ describe('Account', () => {
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('navigate to connect phone number screen if mtwAddress is not present', async () => {
-    const tree = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            linkBankAccountEnabled: true,
-          },
-        })}
-      >
-        <Settings {...getMockStackScreenProps(Screens.Settings)} />
-      </Provider>
-    )
-
-    fireEvent.press(tree.getByTestId('linkBankAccountSettings'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_number_not_connected)
-  })
-
   describe('LinkedBankAccountSettings', () => {
     const baseStore = {
       account: {
@@ -206,10 +188,10 @@ describe('Account', () => {
       expect(queryByText('linkBankAccountSettingsValue')).toBeTruthy()
 
       fireEvent.press(getByTestId('linkBankAccountSettings'))
-      expect(navigate).toHaveBeenCalledWith(Screens.ConnectPhoneNumberScreen)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SettingsEvents.settings_number_not_connected
-      )
+      expect(navigate).toHaveBeenCalledWith(Screens.LinkBankAccountScreen, {
+        kycStatus: undefined,
+      })
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SettingsEvents.settings_link_bank_account)
     })
     it('renders correctly if the user has not fully submitted their KYC info', () => {
       const store = {
