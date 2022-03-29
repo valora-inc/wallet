@@ -34,6 +34,7 @@ function NameAndPicture({ navigation }: Props) {
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
+  const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -80,6 +81,7 @@ function NameAndPicture({ navigation }: Props) {
     dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
+      profilePictureSkipped: shouldSkipProfilePicture,
     })
     dispatch(setName(newName))
 
@@ -104,11 +106,13 @@ function NameAndPicture({ navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        <PictureInput
-          picture={picture}
-          onPhotoChosen={onPhotoChosen}
-          backgroundColor={colors.onboardingBrownLight}
-        />
+        {!shouldSkipProfilePicture && (
+          <PictureInput
+            picture={picture}
+            onPhotoChosen={onPhotoChosen}
+            backgroundColor={colors.onboardingBrownLight}
+          />
+        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}
@@ -140,7 +144,7 @@ export default NameAndPicture
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'space-between',
     backgroundColor: colors.onboardingBackground,
   },

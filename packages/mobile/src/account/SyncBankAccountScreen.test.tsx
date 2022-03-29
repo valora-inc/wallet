@@ -2,13 +2,12 @@ import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
-import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
-import { Screens } from 'src/navigator/Screens'
-import { navigate } from 'src/navigator/NavigationService'
 import { Actions } from 'src/account/actions'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import { createFinclusiveBankAccount, exchangePlaidAccessToken } from 'src/in-house-liquidity'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockPublicToken = 'foo'
 const mockAccessToken = 'bar'
@@ -32,10 +31,10 @@ jest.mock('src/navigator/NavigationService', () => ({
 }))
 
 describe('SyncBankAccountScreen', () => {
+  const mockWalletAddress = '0x123'
   const store = createMockStore({
     web3: {
-      mtwAddress: mockAccount,
-      dataEncryptionKey: mockPrivateDEK,
+      account: mockWalletAddress,
     },
   })
 
@@ -54,14 +53,12 @@ describe('SyncBankAccountScreen', () => {
     expect(toJSON()).toMatchSnapshot()
     await waitFor(() => {
       expect(exchangePlaidAccessToken).toHaveBeenCalledWith({
-        accountMTWAddress: mockAccount,
+        walletAddress: mockWalletAddress,
         publicToken: mockPublicToken,
-        dekPrivate: mockPrivateDEK,
       })
       expect(createFinclusiveBankAccount).toHaveBeenCalledWith({
-        accountMTWAddress: mockAccount,
+        walletAddress: mockWalletAddress,
         plaidAccessToken: mockAccessToken,
-        dekPrivate: mockPrivateDEK,
       })
     })
     expect(store.dispatch).toHaveBeenCalledWith({ type: Actions.SET_HAS_LINKED_BANK_ACCOUNT })

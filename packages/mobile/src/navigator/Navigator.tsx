@@ -60,6 +60,7 @@ import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScr
 import ImportWallet from 'src/import/ImportWallet'
 import Language from 'src/language/Language'
 import SelectLocalCurrency from 'src/localCurrency/SelectLocalCurrency'
+import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
@@ -123,8 +124,6 @@ import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
-import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
-
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()

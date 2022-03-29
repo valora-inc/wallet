@@ -16,6 +16,8 @@ export enum LocalCurrencyCode {
   PHP = 'PHP',
   RUB = 'RUB',
   SLL = 'SLL',
+  TRY = 'TRY',
+  UAH = 'UAH',
   UGX = 'UGX',
   USD = 'USD',
 }
@@ -36,6 +38,8 @@ export enum LocalCurrencySymbol {
   PHP = '₱',
   RUB = '₽',
   SLL = 'Le',
+  TRY = '₺',
+  UAH = '₴',
   UGX = 'USh',
   USD = '$',
 }

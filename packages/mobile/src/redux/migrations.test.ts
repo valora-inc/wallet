@@ -19,6 +19,7 @@ import {
   v35Schema,
   v36Schema,
   v37Schema,
+  v41Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -438,6 +439,15 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.skipVerification = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v41 to v42', () => {
+    const oldSchema = v41Schema
+    const migratedSchema = migrations[42](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.skipProfilePicture = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

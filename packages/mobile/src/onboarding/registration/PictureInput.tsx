@@ -32,9 +32,21 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropperChooseText: t('choose'),
         cropperCancelText: t('cancel'),
       })
-      // @ts-ignore
-      onPhotoChosen(getDataURL(image.mime, image.data))
+      if (image) {
+        // @ts-ignore
+        onPhotoChosen(getDataURL(image.mime, image.data))
+      }
     } catch (e) {
+      const MISSING_PERMISSION_ERR_MSG = 'Required permission missing'
+      const USER_CANCELLED_ERR_MSG = 'User cancelled image selection'
+      if (
+        e.message.includes(USER_CANCELLED_ERR_MSG) ||
+        e.message.includes(MISSING_PERMISSION_ERR_MSG)
+      ) {
+        Logger.info('PictureInput', e.message)
+        return
+      }
+
       Logger.error('PictureInput', 'Error while fetching image from picker', e)
     }
   }
@@ -63,6 +75,7 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
       <TouchableOpacity
         style={[styles.container, { backgroundColor }]}
         onPress={updateShowOptions(true)}
+        testID={'PictureInput'}
       >
         {picture ? (
           <Image style={styles.picture} source={{ uri: picture }} />

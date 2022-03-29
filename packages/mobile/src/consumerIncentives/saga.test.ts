@@ -1,5 +1,6 @@
 import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { claimRewardsSaga } from 'src/consumerIncentives/saga'
@@ -12,6 +13,7 @@ import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
+import { sendTransaction } from 'src/transactions/send'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getContract } from 'src/web3/utils'
@@ -42,10 +44,8 @@ const mockContract = {
   },
 }
 
-const mockTxo = {
-  sendAndWaitForReceipt: jest.fn(() => ({
-    transactionHash: '0x123',
-  })),
+const mockTx = {
+  txo: jest.fn(),
 }
 
 const mockTokens = {
@@ -57,10 +57,14 @@ const mockTokens = {
   },
 }
 
+jest.mock('src/transactions/send', () => ({
+  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+}))
+
 describe('claimRewardsSaga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    ;(toTransactionObject as jest.Mock).mockImplementation(() => mockTxo)
+    ;(toTransactionObject as jest.Mock).mockImplementation(() => mockTx)
   })
 
   it('claiming no rewards succeeds', async () => {
@@ -69,6 +73,7 @@ describe('claimRewardsSaga', () => {
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(tokensByAddressSelector), {}],
+        [matchers.call.fn(sendTransaction), {}],
       ])
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
@@ -94,10 +99,15 @@ describe('claimRewardsSaga', () => {
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
       .run()
     expect(navigateHome).toHaveBeenCalled()
-    expect(mockTxo.sendAndWaitForReceipt).toHaveBeenCalledWith({
-      nonce: mockBaseNonce,
-      from: mockAccount,
-    })
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      undefined,
+      undefined,
+      undefined,
+      mockBaseNonce
+    )
   })
 
   it('claiming two rewards succeeds', async () => {
@@ -144,20 +154,30 @@ describe('claimRewardsSaga', () => {
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
       .run()
     expect(navigateHome).toHaveBeenCalled()
-    expect(mockTxo.sendAndWaitForReceipt).toHaveBeenCalledTimes(2)
-    expect(mockTxo.sendAndWaitForReceipt).toHaveBeenCalledWith({
-      nonce: mockBaseNonce,
-      from: mockAccount,
-    })
-    expect(mockTxo.sendAndWaitForReceipt).toHaveBeenCalledWith({
-      nonce: mockBaseNonce + 1,
-      from: mockAccount,
-    })
+    expect(sendTransaction).toHaveBeenCalledTimes(2)
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      undefined,
+      undefined,
+      undefined,
+      mockBaseNonce
+    )
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      undefined,
+      undefined,
+      undefined,
+      mockBaseNonce + 1
+    )
   })
 
-  it('filas if claimign a reward fails', async () => {
+  it('fails if claiming a reward fails', async () => {
     ;(getContract as jest.Mock).mockImplementation(() => mockContract)
-    mockTxo.sendAndWaitForReceipt.mockImplementationOnce(() => {
+    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
       throw new Error('Error claiming')
     })
     await expectSaga(claimRewardsSaga, claimRewards(ONE_CUSD_REWARD_RESPONSE))

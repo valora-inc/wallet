@@ -289,7 +289,7 @@
   "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
-  "selectCashOutMethod": "Recibe los fondos en:",
+  "selectCashOutMethod": "Seleccionar método:",
   "receiveOnAddress": "Dirección Celo",
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
@@ -1124,7 +1124,8 @@
     },
     "completed": {
       "title": "Verificación completa",
-      "description": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1162,6 +1163,7 @@
     "delete": "Eliminar"
   },
   "syncingBankAccount": "Sincronizando cuenta bancaria...",
+  "keepAppOpen": "¡Por favor, mantén la app abierta!",
   "linkBankAccountSettingsTitle": "Cuentas bancarias vinculadas",
   "linkBankAccountSettingsValue": "Acceder",
   "linkBankAccountSettingsValue2": "Agregar cuenta",
@@ -1188,7 +1190,7 @@
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} se abrirá en un navegador externo.",
+    "title": "{{dappName}} se abrirá en una aplicación externa",
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },

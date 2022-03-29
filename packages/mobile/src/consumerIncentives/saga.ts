@@ -1,4 +1,4 @@
-import { toTransactionObject } from '@celo/connect'
+import { CeloTxReceipt, Contract, toTransactionObject } from '@celo/connect'
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, takeEvery } from 'redux-saga/effects'
@@ -13,12 +13,14 @@ import {
   claimRewardsFailure,
   claimRewardsSuccess,
 } from 'src/consumerIncentives/slice'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { TokenBalances } from 'src/tokens/reducer'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction } from 'src/transactions/actions'
+import { sendTransaction } from 'src/transactions/send'
 import {
   newTransactionContext,
   TokenTransactionTypeV2,
@@ -35,7 +37,6 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
   try {
     const kit: ContractKit = yield call(getContractKit)
     const walletAddress: string = yield call(getConnectedUnlockedAccount)
-    const tokens: TokenBalances = yield select(tokensByAddressSelector)
     const baseNonce: number = yield call(
       // @ts-ignore I can't figure out the syntax for this, it works but TS complains :'(
       [kit.web3.eth, kit.web3.eth.getTransactionCount],
@@ -49,35 +50,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
       amount: string
       tokenAddress: string
       txHash: string
-    }[] = yield all(
-      rewards.map(async (reward, index) => {
-        Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
-        const merkleContract = await getContract(merkleDistributor.abi, reward.contractAddress)
-        const fundsSource = await merkleContract.methods.fundsSource().call()
-
-        const claimTx = toTransactionObject(
-          kit.connection,
-          merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof)
-        )
-        const receipt = await claimTx.sendAndWaitForReceipt({
-          from: walletAddress,
-          nonce: baseNonce + index,
-        })
-        Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
-        const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
-        const tokenAddress = reward.tokenAddress.toLowerCase()
-        ValoraAnalytics.track(RewardsEvents.claimed_reward, {
-          amount,
-          token: tokens[tokenAddress]?.symbol ?? '',
-        })
-        return {
-          fundsSource: fundsSource.toLowerCase(),
-          tokenAddress,
-          amount,
-          txHash: receipt.transactionHash,
-        }
-      })
-    )
+    }[] = yield all(rewards.map((reward, index) => call(claimReward, reward, index, baseNonce)))
     for (const reward of receivedRewards) {
       yield put(
         addStandbyTransaction({
@@ -101,6 +74,48 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     yield put(claimRewardsFailure())
     yield put(showError(ErrorMessages.SUPERCHARGE_CLAIM_FAILED))
     Logger.error(TAG, 'Error claiming rewards', error)
+  }
+}
+
+function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
+  const kit: ContractKit = yield call(getContractKit)
+  const tokens: TokenBalances = yield select(tokensByAddressSelector)
+  const walletAddress: string = yield call(getConnectedUnlockedAccount)
+
+  Logger.debug(TAG, `Start claiming reward at index ${index}: ${JSON.stringify(reward)}`)
+  const merkleContract: Contract = yield call(
+    getContract,
+    merkleDistributor.abi,
+    reward.contractAddress
+  )
+  const fundsSource: string = yield call(async () => merkleContract.methods.fundsSource().call())
+  const tx = toTransactionObject(
+    kit.connection,
+    merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof)
+  )
+
+  const receipt: CeloTxReceipt = yield call(
+    sendTransaction,
+    tx.txo,
+    walletAddress,
+    newTransactionContext(TAG, 'Claim Supercharge reward'),
+    undefined,
+    undefined,
+    undefined,
+    baseNonce + index
+  )
+  Logger.info(TAG, `Claimed reward at index ${index}: ${JSON.stringify(receipt)}`)
+  const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
+  const tokenAddress = reward.tokenAddress.toLowerCase()
+  ValoraAnalytics.track(RewardsEvents.claimed_reward, {
+    amount,
+    token: tokens[tokenAddress]?.symbol ?? '',
+  })
+  return {
+    fundsSource: fundsSource.toLowerCase(),
+    tokenAddress,
+    amount,
+    txHash: receipt.transactionHash,
   }
 }
 

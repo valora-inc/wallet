@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 41,
+          "version": 43,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -129,6 +129,7 @@ describe('store state', () => {
         },
         "alert": null,
         "app": Object {
+          "activeDapp": null,
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
@@ -168,11 +169,13 @@ describe('store state', () => {
           },
           "sentryNetworkErrors": Array [
             "network request failed",
+            "The network connection was lost",
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
+          "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 25,
           "superchargeButtonType": "PILL_REWARDS",

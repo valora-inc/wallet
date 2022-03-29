@@ -13,6 +13,7 @@ import { skipVerificationSelector } from 'src/app/selectors'
 import { storeMnemonic } from 'src/backup/utils'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
@@ -103,6 +104,7 @@ describe('Import wallet saga', () => {
       .put(setBackupCompleted())
       .put(refreshAllBalances())
       .put(initializeAccount())
+      .put(setHasSeenVerificationNux(true))
       .put(importBackupPhraseSuccess())
       .run()
     expect(navigateHome).toHaveBeenCalledWith()

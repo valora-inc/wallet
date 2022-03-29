@@ -5,7 +5,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
   style={
     Object {
       "backgroundColor": "#F9F6F0",
-      "flex": 1,
+      "flexGrow": 1,
       "justifyContent": "space-between",
     }
   }
@@ -53,6 +53,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
         onGestureHandlerStateChange={[Function]}
         onHandlerStateChange={[Function]}
         rippleColor={0}
+        testID="PictureInput"
       >
         <View
           accessible={true}
@@ -568,7 +569,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
   style={
     Object {
       "backgroundColor": "#F9F6F0",
-      "flex": 1,
+      "flexGrow": 1,
       "justifyContent": "space-between",
     }
   }
@@ -616,6 +617,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
         onGestureHandlerStateChange={[Function]}
         onHandlerStateChange={[Function]}
         rippleColor={0}
+        testID="PictureInput"
       >
         <View
           accessible={true}

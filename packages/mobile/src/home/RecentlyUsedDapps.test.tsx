@@ -115,7 +115,7 @@ describe('RecentlyUsedDapps', () => {
     fireEvent.press(getAllByTestId('RecentDapp')[1])
 
     expect(selectDappSpy).toHaveBeenCalledTimes(1)
-    expect(selectDappSpy).toHaveBeenCalledWith(recentDapps[1])
+    expect(selectDappSpy).toHaveBeenCalledWith({ ...recentDapps[1], openedFrom: 'recently used' })
   })
 
   it('navigates to dapp explorer screen', () => {

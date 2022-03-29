@@ -149,6 +149,8 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-emerge (0.5.0)
+      faraday (~> 1.1)
     fastlane-plugin-versioning (0.4.3)
     ffi (1.13.1)
     fourflusher (2.3.1)
@@ -277,8 +279,9 @@ PLATFORMS
 DEPENDENCIES
   cocoapods
   fastlane
+  fastlane-plugin-emerge
   fastlane-plugin-versioning
   xcpretty
 
 BUNDLED WITH
-   2.2.1
+   2.2.21

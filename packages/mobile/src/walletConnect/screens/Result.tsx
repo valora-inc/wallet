@@ -7,7 +7,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 
@@ -21,7 +21,7 @@ function Result({ route }: Props) {
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
-      <Button onPress={navigateHome} text={t('goBackButton')} type={BtnTypes.SECONDARY} />
+      <Button onPress={navigateBack} text={t('goBackButton')} type={BtnTypes.SECONDARY} />
     </View>
   )
 }
