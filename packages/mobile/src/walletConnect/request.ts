@@ -38,7 +38,7 @@ function applyChainIdWorkaround(tx: any, chainId: number) {
 function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
   return {
     get arguments(): any[] {
-      throw new Error('Fake TXO not implemented')
+      return []
     },
     call(unusedTx?: CeloTx) {
       throw new Error('Fake TXO not implemented')
@@ -100,11 +100,9 @@ export function* handleRequest({ method, params }: { method: string; params: any
           const {
             feeCurrency,
             gas,
-            gasPrice,
           }: {
             feeCurrency: string | undefined
             gas?: number
-            gasPrice?: string
           } = yield call(
             chooseTxFeeDetails,
             buildTxo(kit, rawTx),
@@ -115,7 +113,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
           rawTx.feeCurrency = feeCurrency
           rawTx.gas = gas
-          rawTx.gasPrice = gasPrice
+          rawTx.gasPrice = undefined
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
         tx = yield call(normalizer.populate.bind(normalizer), rawTx)
