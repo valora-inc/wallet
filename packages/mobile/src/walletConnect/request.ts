@@ -35,6 +35,40 @@ function applyChainIdWorkaround(tx: any, chainId: number) {
   return tx
 }
 
+function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
+  return {
+    get arguments(): any[] {
+      throw new Error('Fake TXO not implemented')
+    },
+    call(unusedTx?: CeloTx) {
+      throw new Error('Fake TXO not implemented')
+    },
+    // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
+    send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
+      return kit.web3.eth.sendTransaction({
+        ...tx,
+        ...updatedTx,
+      })
+    },
+    // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
+    estimateGas(updatedTx?: CeloTx): Promise<number> {
+      return kit.connection.estimateGas({
+        ...tx,
+        ...updatedTx,
+        gas: undefined,
+      })
+    },
+    encodeABI(): string {
+      return tx.data ?? ''
+    },
+    // @ts-ignore
+    _parent: {
+      // @ts-ignore
+      _address: tx.to,
+    },
+  }
+}
+
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
@@ -48,16 +82,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Also the dapp developer may have omitted some of the needed fields,
       // so it's nice to be flexible and still allow the transaction to be signed (and sent) successfully
 
-      const rawTx: any = {
-        ...params[0],
-        encodeABI(): string {
-          return params[0].data ?? ''
-        },
-        _parent: {
-          // @ts-ignore
-          _address: params[0].to,
-        },
-      }
+      const rawTx: any = { ...params[0] }
       let tx
       // Provide an escape hatch for dapp developers who don't want any normalization
       if (rawTx.__skip_normalization) {
@@ -78,7 +103,13 @@ export function* handleRequest({ method, params }: { method: string; params: any
           }: {
             feeCurrency: string | undefined
             gas?: number
-          } = yield call(chooseTxFeeDetails, rawTx, rawTx.feeCurrency, rawTx.gas, undefined)
+          } = yield call(
+            chooseTxFeeDetails,
+            buildTxo(kit, rawTx),
+            rawTx.feeCurrency,
+            rawTx.gas,
+            undefined
+          )
 
           rawTx.feeCurrency = feeCurrency
           if (rawTx.gas) rawTx.gas = gas
@@ -107,36 +138,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Dapps using this method usually leave `feeCurrency` undefined which then requires users to have a CELO balance which is not always the case
       // handling this ourselves, solves this issue.
       // TODO: bypass this if `feeCurrency` is set
-      const txo: CeloTxObject<never> = {
-        get arguments(): any[] {
-          throw new Error('Fake TXO not implemented')
-        },
-        call(unusedTx?: CeloTx) {
-          throw new Error('Fake TXO not implemented')
-        },
-        // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
-        send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
-          return kit.web3.eth.sendTransaction({
-            ...tx,
-            ...updatedTx,
-          })
-        },
-        // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
-        estimateGas(updatedTx?: CeloTx): Promise<number> {
-          return kit.connection.estimateGas({
-            ...tx,
-            ...updatedTx,
-            gas: undefined,
-          })
-        },
-        encodeABI(): string {
-          return tx.data ?? ''
-        },
-        _parent: {
-          // @ts-ignore
-          _address: tx.to,
-        },
-      }
+      const txo = buildTxo(kit, tx)
 
       const receipt: CeloTxReceipt = yield call(
         sendTransaction,
