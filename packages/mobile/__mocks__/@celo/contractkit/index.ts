@@ -73,7 +73,8 @@ const connection = {
   chainId: jest.fn(() => Promise.resolve(44787)),
   nonce: jest.fn().mockResolvedValue(7),
   estimateGas: jest.fn().mockResolvedValue(1000000),
-  gasPrice: jest.fn().mockResolvedValue(3),
+  estimateGasWithInflationFactor: jest.fn().mockResolvedValue(1000000),
+  gasPrice: jest.fn().mockResolvedValue('3'),
 }
 
 const kit = {
