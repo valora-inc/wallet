@@ -5,14 +5,15 @@ import BigNumber from 'bignumber.js'
 import { useCallback, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { UNLOCK_DURATION } from 'src/geth/consts'
 import { BASE_TAG } from 'src/merchantPayment/constants'
 import { getPassword, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
-import { e164NumberSelector } from 'src/verify/reducer'
+// import { e164NumberSelector } from 'src/verify/reducer'
 import { getContractKitAsync } from 'src/web3/contracts'
 
 export enum PaymentStatus {
@@ -26,7 +27,7 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
   const LOG_TAG = BASE_TAG + 'useMerchantPayments'
 
   const { t } = useTranslation()
-  const e164PhoneNumber = useSelector(e164NumberSelector)
+  // const e164PhoneNumber = useSelector(e164NumberSelector)
   const dispatch = useDispatch()
 
   const [charge, setCharge] = useState<Charge | null>(null)
@@ -64,7 +65,9 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
 
     setStatus(PaymentStatus.Pending)
     try {
-      await charge.submit({ phoneNumber: e164PhoneNumber })
+      // Temporarily disabled for celo connect
+      // await charge.submit({ phoneNumber: e164PhoneNumber })
+      await charge.submit({ address: { country: 'ES' } })
       setStatus(PaymentStatus.Done)
     } catch (e: unknown) {
       setStatus(PaymentStatus.Errored)
