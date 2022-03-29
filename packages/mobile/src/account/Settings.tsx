@@ -42,6 +42,7 @@ import {
 } from 'src/app/actions'
 import {
   biometryEnabledSelector,
+  linkBankAccountStepTwoEnabledSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
@@ -131,7 +132,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
     hasLinkedBankAccount: state.account.hasLinkedBankAccount,
-    linkBankAccountStepTwoEnabled: state.app.linkBankAccountStepTwoEnabled,
+    linkBankAccountStepTwoEnabled: linkBankAccountStepTwoEnabledSelector(state),
   }
 }
 
