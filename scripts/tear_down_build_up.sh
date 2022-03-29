@@ -32,6 +32,12 @@ echo "Building zed-io/wallet ..."
 # Build dependencies for cwd (wallet) using Yarn
 arch -x86_64 yarn build:wallet
 
+if [ -d "packages/mobile" ]; then
+  cd packages/mobile/ios
+  arch -x86_64 bundle install
+  cd ../../..
+fi
+
 echo "Installing ./packages/mobile/node_modules..."
 # Install dependencies in packages/mobile using Yarn
 arch -x86_64 yarn install --cwd packages/mobile
@@ -39,7 +45,7 @@ arch -x86_64 yarn install --cwd packages/mobile
 echo "Installing ./mobile/ios/Pods ..."
 # Install pods using x86_64 architecture for Mac M1
 
-if [ -d "packages/mobile/ios/Pods" ]; then
+if [ -d "packages/mobile/ios" ]; then
   cd packages/mobile/ios
   arch -x86_64 bundle exec pod install
   cd ../../..
