@@ -89,6 +89,18 @@ describe('BankAccounts', () => {
     expect(deleteFinclusiveBankAccount).toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.delete_bank_account, { id: 2 })
   })
+  it('shows a loading circle when getFinclusiveBankAccounts is inflight', async () => {
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <BankAccounts {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(getByTestId('Loader')).toBeTruthy()
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
+    await waitFor(() => expect(queryByTestId('Loader')).toBeFalsy())
+    await waitFor(() => expect(queryByTestId('AddAccount')).toBeTruthy())
+  })
   it('shows an error when delete bank accounts fails', async () => {
     //@ts-ignore . my IDE complains about this, though jest allows it
     deleteFinclusiveBankAccount.mockImplementation(() => Promise.reject())
