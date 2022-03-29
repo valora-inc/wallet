@@ -51,7 +51,8 @@
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt",
     "check:packages": "node ./scripts/check-packages.js",
-    "dev:clean-install": "bash scripts/tear_down_build_up.sh"
+    "dev:clean-install": "bash scripts/tear_down_build_up.sh",
+    "audit:fix": "bash scripts/yarn_audit_fix.sh"
   },
   "husky": {
     "hooks": {
