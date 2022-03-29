@@ -26692,7 +26692,7 @@ THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: workspace-aggregator-6d169abc-994a-479e-b8df-3c0230bf463e. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-0ce40b56-783f-43c0-aad6-c42ba282109f. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
