@@ -119,7 +119,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1000000,
-            gasPrice: 3,
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 7,
           })
@@ -184,15 +184,15 @@ describe(handleRequest, () => {
             from: '0xTEST',
             data: '0xABC',
             feeCurrency: mockCusdAddress,
-            gas: '50001', // 1 + STATIC_GAS_PADDING
-            gasPrice: 3,
+            gas: 50001, // 1 + STATIC_GAS_PADDING
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })
           .run()
       })
 
-      it('ensures gas is NOT padded and gasPrice recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
+      it('ensures gas is NOT padded and gasPrice is recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
         // This is because WalletConnect v1 utils strips away feeCurrency
         await expectSaga(handleRequest, {
           method: SupportedActions.eth_signTransaction,
@@ -206,7 +206,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: undefined, // undefined to pay with CELO, since the balance is non zero
             gas: 1,
-            gasPrice: 3,
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 3,
           })
@@ -287,7 +287,7 @@ describe(handleRequest, () => {
             data: '0xABC',
             feeCurrency: mockCeurAddress,
             gas: 1000000,
-            gasPrice: 3,
+            gasPrice: '3',
             chainId: '0xaef3', // 44787 as a hex string
             nonce: 7,
           })
