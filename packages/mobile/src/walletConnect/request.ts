@@ -51,11 +51,11 @@ export function* handleRequest({ method, params }: { method: string; params: any
       const rawTx: any = {
         ...params[0],
         encodeABI(): string {
-          return rawTx.data ?? ''
+          return params[0].data ?? ''
         },
         _parent: {
           // @ts-ignore
-          _address: rawTx.to,
+          _address: params[0].to,
         },
       }
       let tx
