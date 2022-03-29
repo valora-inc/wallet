@@ -48,7 +48,16 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Also the dapp developer may have omitted some of the needed fields,
       // so it's nice to be flexible and still allow the transaction to be signed (and sent) successfully
 
-      const rawTx = { ...params[0] }
+      const rawTx: any = {
+        ...params[0],
+        encodeABI(): string {
+          return rawTx.data ?? ''
+        },
+        _parent: {
+          // @ts-ignore
+          _address: rawTx.to,
+        },
+      }
       let tx
       // Provide an escape hatch for dapp developers who don't want any normalization
       if (rawTx.__skip_normalization) {
@@ -87,12 +96,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
     case SupportedActions.personal_decrypt:
       return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
     case SupportedActions.eth_sendTransaction: {
-      const rawTx = {
-        ...params[0],
-        encodeABI(): string {
-          return tx.data ?? ''
-        },
-      }
+      const rawTx = { ...params[0] }
       const kit: ContractKit = yield call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
       applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
