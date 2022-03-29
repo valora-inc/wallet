@@ -26,7 +26,8 @@
     "unzipCeloClient": "cd node_modules/@celo/client/build/bin && yarn run postinstall && cd ../../../../..",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt",
-    "check:packages": "node ./scripts/check-packages.js"
+    "check:packages": "node ./scripts/check-packages.js",
+    "dev:clean-install": "bash scripts/tear_down_build_up.sh"
   },
   "husky": {
     "hooks": {
