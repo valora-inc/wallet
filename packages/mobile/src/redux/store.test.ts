@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 44,
+          "version": 45,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -115,6 +115,7 @@ describe('store state', () => {
           "dismissedGoldEducation": false,
           "e164PhoneNumber": "+14155556666",
           "finclusiveKycStatus": 0,
+          "finclusiveRegionSupported": false,
           "hasLinkedBankAccount": false,
           "hasMigratedToNewBip39": false,
           "kycStatus": undefined,
@@ -139,6 +140,10 @@ describe('store state', () => {
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
+          "finclusiveUnsupportedStates": Array [
+            "NY",
+            "TX",
+          ],
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,

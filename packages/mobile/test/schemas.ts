@@ -1162,6 +1162,10 @@ export const v43Schema = {
     ...v42Schema._persist,
     version: 43,
   },
+  account: {
+    ...v42Schema.account,
+    finclusiveRegionSupported: false,
+  },
   app: {
     ...v42Schema.app,
     activeDapp: null,
@@ -1174,12 +1178,28 @@ export const v44Schema = {
     ...v43Schema._persist,
     version: 44,
   },
+  app: {
+    ...v43Schema.app,
+    finclusiveUnsupportedStates: ['NY', 'TX'],
+  },
+  account: {
+    ...v43Schema.account,
+    finclusiveRegionSupported: false,
+  },
+}
+
+export const v45Schema = {
+  ...v44Schema,
+  _persist: {
+    ...v44Schema._persist,
+    version: 45,
+  },
   transactions: {
-    ...v43Schema.transactions,
+    ...v44Schema.transactions,
     inviteTransactions: {},
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v44Schema as Partial<RootState>
+  return v45Schema as Partial<RootState>
 }

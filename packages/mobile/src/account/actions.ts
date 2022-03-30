@@ -40,6 +40,7 @@ export enum Actions {
   SET_HAS_LINKED_BANK_ACCOUNT = 'ACCOUNT/SET_HAS_LINKED_BANK_ACCOUNT',
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
+  SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -189,6 +190,10 @@ export interface SetFinclusiveKyc {
   finclusiveKycStatus: FinclusiveKycStatus
 }
 
+export interface SetFinclusiveRegionSupported {
+  type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -222,6 +227,7 @@ export type ActionTypes =
   | SetHasLinkedBankAccount
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
+  | SetFinclusiveRegionSupported
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -398,4 +404,8 @@ export const fetchFinclusiveKyc = (): FetchFinclusiveKyc => ({
 export const setFinclusiveKyc = (finclusiveKycStatus: FinclusiveKycStatus): SetFinclusiveKyc => ({
   type: Actions.SET_FINCLUSIVE_KYC,
   finclusiveKycStatus,
+})
+
+export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => ({
+  type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED,
 })
