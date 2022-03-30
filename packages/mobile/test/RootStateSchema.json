@@ -974,13 +974,13 @@
                     "paymentId": {
                         "type": "string"
                     },
-                    "recipientId": {
+                    "recipientIdentifier": {
                         "type": "string"
                     }
                 },
                 "required": [
                     "paymentId",
-                    "recipientId"
+                    "recipientIdentifier"
                 ],
                 "type": "object"
             },

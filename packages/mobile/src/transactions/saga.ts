@@ -112,7 +112,7 @@ function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   }
 
   return {
-    recipientId: transactionDetails.returnValues.identifier,
+    recipientIdentifier: transactionDetails.returnValues.identifier,
     paymentId: transactionDetails.returnValues.paymentId,
   }
 }
@@ -128,14 +128,16 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
   if (newInviteTransactions.length > 0) {
     const inviteTransactions = { ...existingInviteTransactions }
     for (const newInviteTransaction of newInviteTransactions) {
-      const { recipientId, paymentId } = yield call(
+      const { recipientIdentifier, paymentId } = yield call(
         getInviteTransactionDetails,
         newInviteTransaction.transactionHash,
         newInviteTransaction.block
       )
-      inviteTransactions[newInviteTransaction.transactionHash] = {
-        paymentId,
-        recipientId,
+      if (recipientIdentifier && paymentId) {
+        inviteTransactions[newInviteTransaction.transactionHash] = {
+          paymentId,
+          recipientIdentifier,
+        }
       }
     }
     yield put(updateInviteTransactions(inviteTransactions))

@@ -17,7 +17,7 @@ import {
 export interface InviteTransactions {
   [txHash: string]: {
     paymentId: string
-    recipientId: string
+    recipientIdentifier: string
   }
 }
 export interface State {

@@ -246,8 +246,8 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
 
   const phoneNumber =
     transfer.type === TokenTransactionTypeV2.InviteSent &&
-    invitationTransactions[transfer.transactionHash]
-      ? identifierToE164Number[invitationTransactions[transfer.transactionHash].recipientId]
+    !!invitationTransactions[transfer.transactionHash]
+      ? identifierToE164Number[invitationTransactions[transfer.transactionHash].recipientIdentifier]
       : addressToE164Number[transfer.address]
 
   let recipient: Recipient
