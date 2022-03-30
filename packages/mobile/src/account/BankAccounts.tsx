@@ -7,7 +7,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  BackHandler,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
 import { plaidParamsSelector } from 'src/account/selectors'
@@ -98,7 +106,7 @@ function BankAccounts({ navigation, route }: Props) {
     // Todo: Consider adding a default placeholder image for banks without a logo available
     const bankLogoSrc = bank.institutionLogo ? `data:image/png;base64,${bank.institutionLogo}` : ''
     return (
-      <View key={bank.id} style={styles.accountContainer}>
+      <View key={bank.id} style={styles.accountContainer} testID="accountContainer">
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
             <Image
@@ -149,39 +157,44 @@ function BankAccounts({ navigation, route }: Props) {
 
   return (
     <ScrollView style={styles.scrollContainer}>
+      {bankAccounts?.loading && (
+        <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
+      )}
       {bankAccounts?.result?.map(getBankDisplay)}
-      <View style={styles.addAccountContainer}>
-        <BorderlessButton
-          testID="AddAccount"
-          onPress={async () => {
-            ValoraAnalytics.track(CICOEvents.add_bank_account_start)
-            await openPlaid({
-              ...plaidParams,
-              onSuccess: ({ publicToken }) => {
-                navigate(Screens.SyncBankAccountScreen, {
-                  publicToken,
-                })
-              },
-              onExit: ({ error }) => {
-                if (error) {
-                  navigate(Screens.LinkBankAccountErrorScreen, {
-                    error,
+      {!bankAccounts?.loading && (
+        <View style={styles.addAccountContainer}>
+          <BorderlessButton
+            testID="AddAccount"
+            onPress={async () => {
+              ValoraAnalytics.track(CICOEvents.add_bank_account_start)
+              await openPlaid({
+                ...plaidParams,
+                onSuccess: ({ publicToken }) => {
+                  navigate(Screens.SyncBankAccountScreen, {
+                    publicToken,
                   })
-                }
-              },
-            })
-          }}
-        >
-          <View style={styles.row}>
-            <View style={styles.plusIconContainer}>
-              <PlusIcon />
+                },
+                onExit: ({ error }) => {
+                  if (error) {
+                    navigate(Screens.LinkBankAccountErrorScreen, {
+                      error,
+                    })
+                  }
+                },
+              })
+            }}
+          >
+            <View style={styles.row}>
+              <View style={styles.plusIconContainer}>
+                <PlusIcon />
+              </View>
+              <View style={styles.accountLabels}>
+                <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
+              </View>
             </View>
-            <View style={styles.accountLabels}>
-              <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
-            </View>
-          </View>
-        </BorderlessButton>
-      </View>
+          </BorderlessButton>
+        </View>
+      )}
       <OptionsChooser
         isVisible={isOptionsVisible}
         options={[t('bankAccountsScreen.delete')]}
