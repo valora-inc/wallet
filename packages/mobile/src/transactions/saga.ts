@@ -117,7 +117,7 @@ function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
   }
 }
 
-function* handleUpdateInviteTransactions({ transactions }: UpdateTransactionsAction) {
+export function* getInviteTransactionsDetails({ transactions }: UpdateTransactionsAction) {
   const existingInviteTransactions = yield select(inviteTransactionsSelector)
   const newInviteTransactions = transactions.filter(
     (transaction) =>
@@ -280,7 +280,7 @@ function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
 function* watchNewFeedTransactions() {
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
   yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
-  yield takeLatest(Actions.UPDATE_TRANSACTIONS, handleUpdateInviteTransactions)
+  yield takeLatest(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
