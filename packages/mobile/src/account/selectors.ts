@@ -46,6 +46,9 @@ export const accountToRecoverSelector = (state: RootState) =>
 export const kycStatusSelector = (state: RootState) => state.account.kycStatus
 export const finclusiveKycStatusSelector = (state: RootState) => state.account.finclusiveKycStatus
 
+export const finclusiveRegionSupportedSelector = (state: RootState) =>
+  state.account.finclusiveRegionSupported
+
 export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
 
 export const choseToRestoreAccountSelector = (state: RootState) =>

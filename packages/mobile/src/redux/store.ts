@@ -24,7 +24,7 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration
-  version: 43,
+  version: 44,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'imports', 'supercharge'],
