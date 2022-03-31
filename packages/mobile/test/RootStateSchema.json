@@ -1889,15 +1889,6 @@
                         "string"
                     ]
                 },
-                "multiTokenShowHomeBalances": {
-                    "type": "boolean"
-                },
-                "multiTokenUseSendFlow": {
-                    "type": "boolean"
-                },
-                "multiTokenUseUpdatedFeed": {
-                    "type": "boolean"
-                },
                 "numberVerified": {
                     "type": "boolean"
                 },
@@ -2013,9 +2004,6 @@
                 "loggedIn",
                 "maxNumRecentDapps",
                 "minVersion",
-                "multiTokenShowHomeBalances",
-                "multiTokenUseSendFlow",
-                "multiTokenUseUpdatedFeed",
                 "numberVerified",
                 "paymentDeepLinkHandler",
                 "pincodeUseExpandedBlocklist",

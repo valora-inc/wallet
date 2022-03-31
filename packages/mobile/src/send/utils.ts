@@ -7,7 +7,6 @@ import { showError } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { multiTokenUseSendFlowSelector } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -24,6 +23,7 @@ import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
   localCurrencyExchangeRatesSelector,
+  localCurrencyToUsdSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -186,59 +186,6 @@ export function showLimitReachedError(
   return showError(ErrorMessages.PAYMENT_LIMIT_REACHED, ALERT_BANNER_DURATION, translationParams)
 }
 
-function* handleSendPaymentDataLegacy(
-  data: UriData,
-  recipient: Recipient,
-  isOutgoingPaymentRequest?: boolean,
-  isFromScan?: boolean
-) {
-  if (data.amount) {
-    if (data.token === 'CELO') {
-      navigate(Screens.WithdrawCeloReviewScreen, {
-        amount: new BigNumber(data.amount),
-        recipientAddress: data.address.toLowerCase(),
-        feeEstimate: new BigNumber(0),
-        isCashOut: false,
-      })
-    } else if (data.token === 'cUSD' || !data.token) {
-      const currency: LocalCurrencyCode = data.currencyCode
-        ? (data.currencyCode as LocalCurrencyCode)
-        : yield select(getLocalCurrencyCode)
-      const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
-      const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-      if (!dollarAmount) {
-        Logger.warn(TAG, '@handleSendPaymentData null amount')
-        return
-      }
-      const transactionData: TransactionDataInputLegacy = {
-        recipient,
-        amount: dollarAmount,
-        currency: Currency.Dollar,
-        reason: data.comment,
-        type: TokenTransactionType.PayPrefill,
-      }
-      navigate(Screens.SendConfirmationLegacy, {
-        transactionData,
-        isFromScan,
-        currencyInfo: { localCurrencyCode: currency, localExchangeRate: exchangeRate },
-        origin: SendOrigin.AppSendFlow,
-      })
-    }
-  } else {
-    if (data.token === 'CELO') {
-      Logger.warn(TAG, '@handleSendPaymentData no amount given in CELO withdrawal')
-      return
-    } else if (data.token === 'cUSD' || !data.token) {
-      navigate(Screens.SendAmountLegacy, {
-        recipient,
-        isFromScan,
-        isOutgoingPaymentRequest,
-        origin: SendOrigin.AppSendFlow,
-      })
-    }
-  }
-}
-
 export function* handleSendPaymentData(
   data: UriData,
   cachedRecipient?: Recipient,
@@ -259,14 +206,19 @@ export function* handleSendPaymentData(
     })
   )
 
-  const useTokenSendFlow: boolean = yield select(multiTokenUseSendFlowSelector)
-  if (!useTokenSendFlow) {
-    yield call(handleSendPaymentDataLegacy, data, recipient, isOutgoingPaymentRequest, isFromScan)
-    return
-  }
-
   const tokens: TokenBalance[] = yield select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
+
+  if (!tokenInfo?.usdPrice) {
+    navigate(Screens.SendAmount, {
+      recipient,
+      isFromScan,
+      isOutgoingPaymentRequest,
+      origin: SendOrigin.AppSendFlow,
+      forceTokenAddress: data.token ? tokenInfo?.address : undefined,
+    })
+    return
+  }
 
   if (data.amount && tokenInfo?.address) {
     const currency: LocalCurrencyCode = data.currencyCode
@@ -274,16 +226,19 @@ export function* handleSendPaymentData(
       : yield select(getLocalCurrencyCode)
     const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
     const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-    if (!dollarAmount) {
+    const localCurrencyExchangeRate: string | null = yield select(localCurrencyToUsdSelector)
+    const inputAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
+    const tokenAmount = dollarAmount?.times(tokenInfo.usdPrice)
+    if (!inputAmount || !tokenAmount) {
       Logger.warn(TAG, '@handleSendPaymentData null amount')
       return
     }
     const transactionData: TransactionDataInput = {
       recipient,
-      inputAmount: new BigNumber(data.amount),
-      amountIsInLocalCurrency: false,
+      inputAmount,
+      amountIsInLocalCurrency: true,
       tokenAddress: tokenInfo.address,
-      tokenAmount: new BigNumber(data.amount),
+      tokenAmount,
     }
     navigate(Screens.SendConfirmation, {
       transactionData,

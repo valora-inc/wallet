@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 44,
+          "version": 45,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -156,9 +156,6 @@ describe('store state', () => {
           "loggedIn": false,
           "maxNumRecentDapps": 0,
           "minVersion": null,
-          "multiTokenShowHomeBalances": true,
-          "multiTokenUseSendFlow": false,
-          "multiTokenUseUpdatedFeed": false,
           "numberVerified": false,
           "paymentDeepLinkHandler": "",
           "pincodeUseExpandedBlocklist": false,

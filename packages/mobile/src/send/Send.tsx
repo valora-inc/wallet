@@ -12,7 +12,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
+import { verificationPossibleSelector } from 'src/app/selectors'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
 import { noHeader } from 'src/navigator/Headers'
@@ -62,7 +62,6 @@ function Send({ route }: Props) {
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
-  const multiTokenUseSendFlow = useSelector(multiTokenUseSendFlowSelector)
 
   const dispatch = useDispatch()
 
@@ -118,20 +117,11 @@ function Send({ route }: Props) {
         }
       )
 
-      if (multiTokenUseSendFlow) {
-        navigate(Screens.SendAmount, {
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        })
-      } else {
-        navigate(Screens.SendAmountLegacy, {
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-          forceCurrency,
-        })
-      }
+      navigate(Screens.SendAmount, {
+        recipient,
+        isOutgoingPaymentRequest,
+        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      })
     },
     [isOutgoingPaymentRequest, searchQuery]
   )

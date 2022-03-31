@@ -1,7 +1,7 @@
-import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, inputNumberKeypad, sleep, waitForElementId } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 const AMOUNT_TO_SEND = '0.1'
@@ -65,8 +65,8 @@ export default Send = () => {
     // Should not throw error
     await expect(element(by.id('errorBanner'))).not.toBeVisible()
 
-    // Return to home.
-    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+    // Return to home
+    await waitForElementId('SendOrRequestBar')
 
     // TODO: See why these are taking so long in e2e tests to appear
     // Look for the latest transaction and assert

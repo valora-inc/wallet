@@ -8,12 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import {
-  appStateSelector,
-  maxNumRecentDappsSelector,
-  multiTokenShowHomeBalancesSelector,
-  multiTokenUseUpdatedFeedSelector,
-} from 'src/app/selectors'
+import { appStateSelector, maxNumRecentDappsSelector } from 'src/app/selectors'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -34,11 +29,8 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { balancesSelector } from 'src/stableToken/selectors'
+import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
-import { FeedType } from 'src/transactions/TransactionFeed'
-import TransactionsList from 'src/transactions/TransactionsList'
-import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -50,10 +42,9 @@ function WalletHome() {
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector((state) => state.app.numberVerified)
-  const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
   const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
-  const useUpdatedFeed = useSelector(multiTokenUseUpdatedFeedSelector)
-  const balances = useSelector(balancesSelector)
+  const coreTokenBalances = useSelector(coreTokensSelector)
+  const celoAddress = useSelector(celoAddressSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
 
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -110,10 +101,17 @@ function WalletHome() {
   }
 
   const shouldShowCashInBottomSheet = () => {
-    const hasStable = STABLE_CURRENCIES.some((currency) =>
-      balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+    // If there are no core tokens then we are either still loading or loading failed.
+    if (coreTokenBalances.length < 2) {
+      return false
+    }
+    const hasStable = !!coreTokenBalances.find(
+      (token) => token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT) && token.address !== celoAddress
     )
-    const hasCelo = balances[Currency.Celo]?.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
+
+    const hasCelo = coreTokenBalances
+      .find((token) => token.address !== celoAddress)
+      ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
     const isAccountBalanceZero = hasStable === false && hasCelo === false
 
     return cashInButtonExpEnabled && isAccountBalanceZero
@@ -134,12 +132,10 @@ function WalletHome() {
     renderItem: () => <NotificationBox key={'NotificationBox'} />,
   })
 
-  if (showTokensInHome) {
-    sections.push({
-      data: [{}],
-      renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
-    })
-  }
+  sections.push({
+    data: [{}],
+    renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+  })
 
   if (maxNumRecentDapps > 0) {
     sections.push({
@@ -150,12 +146,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () =>
-      useUpdatedFeed ? (
-        <TransactionFeed key={'TransactionList'} />
-      ) : (
-        <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />
-      ),
+    renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
   return (

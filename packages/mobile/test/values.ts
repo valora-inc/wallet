@@ -453,26 +453,28 @@ export const mockTokenBalances = {
     balance: '5',
     priceFetchedAt: Date.now(),
   },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
+  [mockCeurAddress]: {
     usdPrice: '1.16',
-    address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
+    address: mockCeurAddress,
     symbol: 'cEUR',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
     name: 'Celo Euro',
     decimals: 18,
     balance: '0',
+    isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
-  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
+  [mockCusdAddress]: {
     usdPrice: '1.001',
-    address: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
+    address: mockCusdAddress,
     symbol: 'cUSD',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
     name: 'Celo Dollar',
     decimals: 18,
     balance: '0',
+    isCoreToken: true,
     priceFetchedAt: Date.now(),
   },
 }

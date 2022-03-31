@@ -21,6 +21,7 @@ import {
   v37Schema,
   v41Schema,
   v43Schema,
+  v45Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -461,5 +462,11 @@ describe('Redux persist migrations', () => {
     expectedSchema.app.finclusiveUnsupportedStates = ['NY', 'TX']
 
     expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v44 to v45', () => {
+    const migratedSchema = migrations[45](v45Schema)
+    expect(migratedSchema.app.multiTokenUseSendFlow).toBeUndefined()
+    expect(migratedSchema.app.multiTokenUseUpdatedFeed).toBeUndefined()
+    expect(migratedSchema.app.multiTokenShowHomeBalances).toBeUndefined()
   })
 })

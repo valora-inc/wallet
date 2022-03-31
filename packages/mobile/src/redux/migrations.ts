@@ -579,4 +579,15 @@ export const migrations = {
       ),
     },
   }),
+  45: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(
+        state.app,
+        'multiTokenUseSendFlow',
+        'multiTokenUseUpdatedFeed',
+        'multiTokenShowHomeBalances'
+      ),
+    }
+  },
 }
