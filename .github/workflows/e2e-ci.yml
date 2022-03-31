@@ -86,3 +86,71 @@ jobs:
         with:
           name: android-e2e-test-report
           path: packages/mobile/e2e/test-results
+  ios:
+    env:
+      working-directory: ./packages/mobile
+    name: iOS
+    runs-on: ios-e2e-group
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - name: Install package dependencies
+        run: yarn
+      - name: Fail if someone forgot to commit "yarn.lock"
+        run: git diff --exit-code
+      - name: Build mobile dependencies
+        run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Install Ruby dependencies
+        working-directory: ${{env.working-directory}}
+        run: bundle install --path vendor/bundle
+      - name: Fail if someone forgot to commit "Gemfile.lock"
+        run: git diff --exit-code
+      - name: Install CocoaPods dependencies
+        working-directory: ${{env.working-directory}}/ios
+        run: bundle exec pod install || bundle exec pod install --repo-update
+      - name: Fail if someone forgot to commit "Podfile.lock"
+        run: git diff --exit-code
+      - name: Make jest available
+        working-directory: ${{env.working-directory}}
+        run: cp ../../node_modules/.bin/jest node_modules/.bin/
+      - name: Create Detox Build
+        working-directory: ${{env.working-directory}}
+        run: |
+          export CELO_TEST_CONFIG=e2e
+          yarn detox build -c ios.release
+      - name: Run Detox
+        working-directory: ${{env.working-directory}}
+        run: >
+          export CELO_TEST_CONFIG=e2e &&
+          yarn detox test
+          --configuration ios.release
+          --artifacts-location e2e/artifacts
+          --take-screenshots=failing
+          --record-videos=failing
+          --record-logs=failing
+          --loglevel info
+          --debug-synchronization 10000
+          --workers 5
+          --headless
+        timeout-minutes: 45
+      - name: Publish iOS JUnit Report
+        if: always()
+        uses: mikepenz/action-junit-report@v2
+        with:
+          check_name: iOS e2e Test Report
+          report_paths: 'packages/mobile/e2e/test-results/junit.xml'
+      - name: 'Upload iOS E2E Artifacts'
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-e2e-artifact
+          path: packages/mobile/e2e/artifacts
+      - name: 'Upload iOS E2E HTML Report'
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-e2e-test-report
+          path: packages/mobile/e2e/test-results
