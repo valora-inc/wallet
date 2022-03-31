@@ -589,8 +589,8 @@
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Valora'yı arkadaşınla paylaşarak {{amount}} {{currency}} kazan!",
-    "body": "Bir arkadaşınıza kripto para gönderdiğinizde ve arkadaşınız katıldığında {{amount}} {{currency}} kazanın. <0>Daha fazla bilgi edinin</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -654,9 +654,8 @@
     "card4": "Hesabınızı daha güvenli tutmak için üç onay mesajına ihtiyacımız var."
   },
   "skipModal": {
-    "header": "Onaylamayı atla?",
-    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza varlık göndermesine olanak tanır.",
-    "body2": "Onay almadan da ödeme gönderebilirsiniz, ancak bunu yalnızca Hesap Adreslerini veya kare kod kullanarak yapabilirsiniz."
+    "header": "Emin misiniz?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Onaylama Hatası",
@@ -980,6 +979,7 @@
   "disconnectTitle": "{{dappName}} bağlantısını kes?",
   "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
+  "inAppConnectionSuccess": "Connection to {{dappName}} was successful!",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
   "goBackButton": "Geri Dön",
@@ -1125,7 +1125,8 @@
     "completed": {
       "title": "Doğrulama tamamlandı",
       "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
+      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz.",
+      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Doğrulama reddedildi",
@@ -1145,7 +1146,7 @@
     "stepTwo": {
       "label": "2. Adım",
       "disabledTitle": "Bir banka hesabı bağla",
-      "disabledDescription": "Neredeyse tamam! Banka hesabınızı şimdi Plaid aracılığıyla Valora'ya bağlayabilirsiniz.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
       "disabledCta": "Çok Yakında!",
       "title": "Banka Bilgilerini Girin",
       "description": "Neredeyse tamam! Hesabınızı Valora'ya bağlamak için banka bilgilerini girin.",
@@ -1190,7 +1191,7 @@
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} harici bir uygulamada açılacak",
+    "title": "{{dappName}} is an external application",
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
@@ -1202,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Son 24 saat",
   "merchant": "Satıcı Ödemesi",
-  "merchantMoneyEscrow": "Bir satıcıya doğrudan ödeme göndermek üzeresiniz.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "Numaranızı bağlamanız gerekiyor",
   "merchantPaymentSubmitFail": "Ödemeniz gönderilemedi",
   "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
