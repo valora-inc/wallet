@@ -47,6 +47,7 @@ jobs:
         working-directory: ${{env.working-directory}}
       - name: Create Detox Build
         run: |
+          export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
         working-directory: ${{env.working-directory}}
