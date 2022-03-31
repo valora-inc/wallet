@@ -19,7 +19,9 @@ export const launchApp = async (
       }
     },
     { retries: 5, delay: 10000, timeout: 300000 }
-  )
+  ).then(async () => {
+    await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.*'])
+  })
 }
 
 export const reloadReactNative = async () => {
