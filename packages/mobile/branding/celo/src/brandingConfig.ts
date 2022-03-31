@@ -1,6 +1,6 @@
 // Note: For some of the links the actual link doesn't exist on celo.org, they are overridden
 // by the Valora branding
-export const APP_NAME = 'Celo Wallet'
+export const APP_NAME = 'Kolektivo Wallet'
 export const WEB_LINK = 'https://celo.org/'
 export const CELO_FAUCET_LINK = 'https://celo.org/developers/wallet'
 export const CELO_TERMS_LINK = 'https://celo.org/terms'
