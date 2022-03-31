@@ -245,16 +245,6 @@ export function getDeviceModel() {
   return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
 }
 
-export async function setUrlDenyList(
-  urlList = ['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*']
-) {
-  try {
-    await device.setURLBlacklist(urlList)
-  } catch (error) {
-    console.warn('Error in setUrlDenyList: ', error)
-  }
-}
-
 export async function waitForExpectNotVisible(elementId, secondsToWait = 10) {
   for (let i in [...Array(secondsToWait).keys()]) {
     await waitFor(element(by.id(elementId)))

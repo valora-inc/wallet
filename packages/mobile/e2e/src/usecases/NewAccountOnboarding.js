@@ -11,7 +11,6 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    await setUrlDenyList()
     await sleep(5000)
     await dismissBanners()
   })
