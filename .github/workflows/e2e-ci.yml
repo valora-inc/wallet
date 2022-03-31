@@ -40,6 +40,8 @@ jobs:
         run: yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
+      - name: Build mobile dependencies
+        run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - name: Make jest available
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
         working-directory: ${{env.working-directory}}
