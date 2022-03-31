@@ -115,11 +115,6 @@ export default AddedUsecase = () => {
     await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
     await expect(element(by.id('Provider/Ramp'))).toBeVisible()
     await expect(element(by.id('Provider/Transak'))).toBeVisible()
-    await sleep(5000)
-
-    // Compare to screenshot in `e2e/assets`
-    const imagePath = await device.takeScreenshot('All Providers')
-    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/All Providers.png`)
   })
 
   it('Additional Test Spec...', async () => {

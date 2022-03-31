@@ -55,7 +55,5 @@ export default ResetAccount = () => {
     // await element(by.id('ConfirmAccountRemovalModal/PrimaryAction')).tap()
     await waitForElementId('ConfirmAccountRemovalModal/PrimaryAction')
     await expect(element(by.id('ConfirmAccountRemovalModal/PrimaryAction'))).toBeVisible()
-    const imagePath = await device.takeScreenshot('Reset Account')
-    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Reset Account.png`)
   })
 }

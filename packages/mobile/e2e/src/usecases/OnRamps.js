@@ -33,8 +33,6 @@ export default onRamps = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        const imagePath = await device.takeScreenshot('cUSD In Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
       })
     })
 
@@ -52,8 +50,6 @@ export default onRamps = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        const imagePath = await device.takeScreenshot('cUSD In Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
       })
     })
 
@@ -72,8 +68,6 @@ export default onRamps = () => {
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('cUSD Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Exchanges.png`)
       })
     })
   })
@@ -100,8 +94,6 @@ export default onRamps = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        const imagePath = await device.takeScreenshot('CELO In Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
       })
     })
 
@@ -119,8 +111,6 @@ export default onRamps = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        const imagePath = await device.takeScreenshot('CELO In Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
       })
     })
 
@@ -143,9 +133,6 @@ export default onRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
-        // Note(Tom): Set allowed match diff higher to deal with https://github.com/valora-inc/wallet/issues/1136
-        const imagePath = await device.takeScreenshot('CELO Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`, 4.5)
       })
     })
   })
