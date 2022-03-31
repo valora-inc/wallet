@@ -63,6 +63,7 @@ export interface TransactionDataInput {
   amountIsInLocalCurrency: boolean
   tokenAddress: string
   tokenAmount: BigNumber
+  comment?: string
 }
 
 type RouteProps = StackScreenProps<StackParamList, Screens.SendAmount>

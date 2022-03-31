@@ -99,12 +99,13 @@ function SendConfirmation(props: Props) {
       tokenAmount: inputTokenAmount,
       amountIsInLocalCurrency,
       tokenAddress,
+      comment: commentFromParams,
     },
   } = props.route.params
 
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState(commentFromParams ?? '')
 
   const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false

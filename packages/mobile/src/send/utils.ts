@@ -239,6 +239,7 @@ export function* handleSendPaymentData(
       amountIsInLocalCurrency: true,
       tokenAddress: tokenInfo.address,
       tokenAmount,
+      comment: data.comment,
     }
     navigate(Screens.SendConfirmation, {
       transactionData,
