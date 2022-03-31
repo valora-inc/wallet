@@ -1,7 +1,7 @@
 import Clipboard from '@react-native-community/clipboard'
 import { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
-import { deviceIsIos14OrNewer } from 'src/components/utils/IosVersionUtils'
+import { deviceIsIos14OrNewer } from 'src/utils/IosVersionUtils'
 import Logger from 'src/utils/Logger'
 
 const CLIPBOARD_CHECK_INTERVAL = 1000 // 1sec
