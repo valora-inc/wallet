@@ -171,7 +171,9 @@ if [ $PLATFORM = "android" ]; then
         -verbose \
         -read-only \
         -netdelay $NET_DELAY \
-        ${CI:+-gpu swiftshader_indirect -no-window -snapshot ci_boot} \
+        -gpu swiftshader_indirect \
+        -no-window \
+        -snapshot ci_boot \
         &
     done
 
