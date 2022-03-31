@@ -1,8 +1,8 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
+import Touchable from 'src/components/Touchable'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface ButtonProps {
   onPress: () => void

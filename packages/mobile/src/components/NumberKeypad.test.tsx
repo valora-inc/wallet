@@ -1,6 +1,6 @@
-import NumberKeypad from '@celo/react-components/components/NumberKeypad'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
+import NumberKeypad from 'src/components/NumberKeypad'
 
 describe(NumberKeypad, () => {
   it('renders correctly without decimal separator', () => {

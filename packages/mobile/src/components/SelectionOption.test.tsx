@@ -1,7 +1,7 @@
-import SelectionOption from '@celo/react-components/components/SelectionOption'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
+import SelectionOption from 'src/components/SelectionOption'
 
 it('renders unselected correctly', () => {
   const tree = render(

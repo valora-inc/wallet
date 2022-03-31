@@ -1,14 +1,11 @@
 // HOC to add a paste button to a text input
-import TouchableDefault from '@celo/react-components/components/Touchable'
-import {
-  PasteAwareWrappedElementProps,
-  withPasteAware,
-} from '@celo/react-components/components/WithPasteAware'
-import Paste from '@celo/react-components/icons/Paste'
-import Search from '@celo/react-components/icons/Search'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleSheet, TextInputProps, View } from 'react-native'
+import TouchableDefault from 'src/components/Touchable'
+import { PasteAwareWrappedElementProps, withPasteAware } from 'src/components/WithPasteAware'
+import Paste from 'src/icons/Paste'
+import Search from 'src/icons/Search'
+import colors from 'src/styles/colors'
 
 const HEIGHT = 36
 

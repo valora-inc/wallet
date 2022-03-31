@@ -1,5 +1,5 @@
-import colors from '@celo/react-components/styles/colors'
 import { StyleSheet } from 'react-native'
+import colors from 'src/styles/colors'
 
 const Inter = {
   Regular: 'Inter-Regular',

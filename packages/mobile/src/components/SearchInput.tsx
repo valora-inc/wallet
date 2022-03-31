@@ -1,8 +1,8 @@
-import TextInput, { TextInputProps } from '@celo/react-components/components/TextInput'
-import Search from '@celo/react-components/icons/Search'
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import TextInput, { TextInputProps } from 'src/components/TextInput'
+import Search from 'src/icons/Search'
+import colors from 'src/styles/colors'
 
 const HEIGHT = 36
 

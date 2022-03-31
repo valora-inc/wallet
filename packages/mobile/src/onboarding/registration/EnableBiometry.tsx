@@ -1,7 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +15,7 @@ import {
   skipVerificationSelector,
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
@@ -31,6 +28,9 @@ import { StackParamList } from 'src/navigator/types'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
 import { default as useSelector } from 'src/redux/useSelector'
 import { isUserCancelledError } from 'src/storage/keychain'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'EnableBiometry'

@@ -1,6 +1,6 @@
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import colors from 'src/styles/colors'
 
 export default function FormUnderline() {
   return <View style={styles.container} />

@@ -1,11 +1,11 @@
-import Times from '@celo/react-components/icons/Times'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
+import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
+import colors from 'src/styles/colors'
 
 interface Props {
   onCancel?: () => void

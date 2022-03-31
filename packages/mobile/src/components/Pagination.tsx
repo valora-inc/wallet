@@ -1,6 +1,6 @@
-import progressDots from '@celo/react-components/styles/progressDots'
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import progressDots from 'src/styles/progressDots'
 
 interface Props {
   count: number

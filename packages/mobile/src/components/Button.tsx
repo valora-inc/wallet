@@ -1,9 +1,9 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors, { Colors } from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { debounce } from 'lodash'
 import React, { ReactNode, useCallback } from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import Touchable from 'src/components/Touchable'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 const BUTTON_TAP_DEBOUNCE_TIME = 300 // milliseconds
 const DEBOUNCE_OPTIONS = {

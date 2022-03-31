@@ -1,8 +1,8 @@
-import CallToActionsBar, { CallToAction } from '@celo/react-components/components/CallToActionsBar'
-import MessagingCard from '@celo/react-components/components/MessagingCard'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
+import MessagingCard from 'src/components/MessagingCard'
+import fontStyles from 'src/styles/fonts'
 
 export interface Props {
   text: string

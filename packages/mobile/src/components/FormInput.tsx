@@ -1,9 +1,7 @@
-import FormField from '@celo/react-components/components/FormField'
-import FormTextInput, {
-  Props as FormTextInputProps,
-} from '@celo/react-components/components/FormTextInput'
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
+import FormField from 'src/components/FormField'
+import FormTextInput, { Props as FormTextInputProps } from 'src/components/FormTextInput'
 
 type Props = Omit<FormTextInputProps, 'style'> & {
   style?: StyleProp<ViewStyle>

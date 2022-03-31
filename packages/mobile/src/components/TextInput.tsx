@@ -2,9 +2,6 @@
  * TextInput with a button to clear input
  */
 
-import CircleButton from '@celo/react-components/components/CircleButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import {
   NativeSyntheticEvent,
@@ -17,6 +14,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import CircleButton from 'src/components/CircleButton'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 export const LINE_HEIGHT = Platform.select({ android: 22, default: 20 })
 

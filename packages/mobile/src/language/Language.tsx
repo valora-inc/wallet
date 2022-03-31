@@ -1,5 +1,3 @@
-import SelectionOption from '@celo/react-components/components/SelectionOption'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import { localesList } from 'locales'
 import React from 'react'
@@ -8,11 +6,13 @@ import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import SelectionOption from 'src/components/SelectionOption'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import fontStyles from 'src/styles/fonts'
 import { getRandomByUUID } from 'src/utils/seedRandom'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>

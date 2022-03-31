@@ -1,6 +1,6 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { View, ViewStyle } from 'react-native'
+import colors from 'src/styles/colors'
 import Svg, { Circle, Path } from 'svgs'
 import { getSizing } from '../styles/accessibility'
 

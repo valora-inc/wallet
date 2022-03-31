@@ -1,7 +1,7 @@
-import AggregatedRequestsMessagingCard from '@celo/react-components/components/AggregatedRequestsMessagingCard'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
+import AggregatedRequestsMessagingCard from 'src/components/AggregatedRequestsMessagingCard'
 
 describe(AggregatedRequestsMessagingCard, () => {
   it('renders correctly', () => {

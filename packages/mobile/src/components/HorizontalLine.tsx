@@ -1,6 +1,6 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
+import colors from 'src/styles/colors'
 
 export default function HorizontalLine() {
   return <View style={styles.container} />

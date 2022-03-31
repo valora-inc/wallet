@@ -1,7 +1,7 @@
-import Card from '@celo/react-components/components/Card'
 import React from 'react'
 import { StyleSheet, ViewStyle } from 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
+import Card from 'src/components/Card'
 
 interface Props {
   address: string

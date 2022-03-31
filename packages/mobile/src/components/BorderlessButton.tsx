@@ -1,6 +1,6 @@
-import Touchable, { Props as TouchableProps } from '@celo/react-components/components/Touchable'
 import * as React from 'react'
 import { StyleProp, Text, TextStyle, ViewStyle } from 'react-native'
+import Touchable, { Props as TouchableProps } from 'src/components/Touchable'
 
 export type Props = Omit<TouchableProps, 'style'> & {
   style?: StyleProp<TextStyle>

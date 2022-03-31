@@ -1,7 +1,7 @@
-import ListItem from '@celo/react-components/components/ListItem'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text } from 'react-native'
+import ListItem from 'src/components/ListItem'
 
 const testID = 'ListItemTestID'
 

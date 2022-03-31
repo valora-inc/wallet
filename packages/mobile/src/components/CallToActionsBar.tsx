@@ -1,7 +1,7 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import TextButton from 'src/components/TextButton'
+import colors from 'src/styles/colors'
 
 export interface CallToAction {
   onPress: () => unknown

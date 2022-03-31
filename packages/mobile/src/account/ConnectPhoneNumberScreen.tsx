@@ -1,15 +1,15 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import fontStyles from '@celo/react-components/styles/fonts'
+import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { CICOEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import TextButton from 'src/components/TextButton'
 import { getVerified } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CICOEvents } from 'src/analytics/Events'
-import { useNavigation } from '@react-navigation/native'
+import fontStyles from 'src/styles/fonts'
 
 function onPressConnectButton() {
   ValoraAnalytics.track(CICOEvents.connect_phone_start)

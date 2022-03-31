@@ -1,10 +1,10 @@
-import ListItem from '@celo/react-components/components/ListItem'
-import TextInput from '@celo/react-components/components/TextInput'
-import ForwardChevron from '@celo/react-components/icons/ForwardChevron'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { StyleSheet, Switch, Text, View } from 'react-native'
+import ListItem from 'src/components/ListItem'
+import TextInput from 'src/components/TextInput'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface WrapperProps {
   testID?: string

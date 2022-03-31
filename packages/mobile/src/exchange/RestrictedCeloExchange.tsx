@@ -1,12 +1,12 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import { Spacing } from '@celo/react-components/styles/styles'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { CELO_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   onPressWithdraw: () => void

@@ -1,11 +1,11 @@
-import colors from '@celo/react-components/styles/colors'
-import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useState } from 'react'
 import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
+import colors from 'src/styles/colors'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   isVisible: boolean

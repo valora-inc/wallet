@@ -1,11 +1,11 @@
+import { fireEvent, render } from '@testing-library/react-native'
+import * as React from 'react'
+import 'react-native'
 import {
   SettingsItemInput,
   SettingsItemSwitch,
   SettingsItemTextValue,
-} from '@celo/react-components/components/SettingsItem'
-import { fireEvent, render } from '@testing-library/react-native'
-import * as React from 'react'
-import 'react-native'
+} from 'src/components/SettingsItem'
 
 const title = 'title'
 const testID = 'testID'

@@ -1,6 +1,6 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import Button, { BtnTypes } from 'src/components/Button'
 
 describe('Button', () => {
   describe('when pressed', () => {

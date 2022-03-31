@@ -1,6 +1,6 @@
-import ReviewHeader from '@celo/react-components/components/ReviewHeader'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
+import ReviewHeader from 'src/components/ReviewHeader'
 
 describe('ReviewHeader', () => {
   describe('when just title', () => {

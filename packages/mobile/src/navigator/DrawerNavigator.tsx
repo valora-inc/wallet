@@ -1,6 +1,3 @@
-import PhoneNumberWithFlag from '@celo/react-components/components/PhoneNumberWithFlag'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
@@ -42,6 +39,7 @@ import { SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
+import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
@@ -67,6 +65,8 @@ import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { default as useSelector } from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 

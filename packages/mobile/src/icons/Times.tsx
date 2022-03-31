@@ -1,6 +1,6 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import Animated from 'react-native-reanimated'
+import colors from 'src/styles/colors'
 import Svg, { Path } from 'svgs'
 
 const AnimatedPath = Animated.createAnimatedComponent(Path)

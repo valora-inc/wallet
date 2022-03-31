@@ -1,6 +1,6 @@
-import CircleButton from '@celo/react-components/components/CircleButton'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import CircleButton from 'src/components/CircleButton'
 
 describe('CircleButton', () => {
   it('renders correctly with minimum props', () => {

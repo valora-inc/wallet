@@ -1,12 +1,12 @@
-import TextInput from '@celo/react-components/components/TextInput'
-import withTextInputPasteAware from '@celo/react-components/components/WithTextInputPasteAware'
-import Checkmark from '@celo/react-components/icons/Checkmark'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import TextInput from 'src/components/TextInput'
+import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
+import Checkmark from 'src/icons/Checkmark'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 const CodeInput = withTextInputPasteAware(TextInput)
 

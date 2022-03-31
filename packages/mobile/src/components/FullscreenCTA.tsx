@@ -1,10 +1,10 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
-import Colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Button, { BtnTypes } from 'src/components/Button'
+import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 export interface Props {
   title: string

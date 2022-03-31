@@ -2,11 +2,11 @@
  * A button that's just text. For ann underlined text link, see Link.tsx
  */
 
-import BorderlessButton, { Props } from '@celo/react-components/components/BorderlessButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
+import BorderlessButton, { Props } from 'src/components/BorderlessButton'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 export default function TextButton({ style, ...passThroughProps }: Props) {
   return (

@@ -1,8 +1,8 @@
-import FormUnderline from '@celo/react-components/components/FormUnderline'
-import TextInput, { TextInputProps } from '@celo/react-components/components/TextInput'
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { View } from 'react-native'
+import FormUnderline from 'src/components/FormUnderline'
+import TextInput, { TextInputProps } from 'src/components/TextInput'
+import colors from 'src/styles/colors'
 
 export type Props = TextInputProps
 

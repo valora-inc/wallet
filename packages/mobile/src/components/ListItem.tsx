@@ -1,8 +1,8 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
+import Touchable from 'src/components/Touchable'
+import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 
 interface Props {
   children: React.ReactNode

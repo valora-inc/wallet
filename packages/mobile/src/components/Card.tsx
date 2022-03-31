@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
-import { getShadowStyle, Shadow } from '@celo/react-components/styles/styles'
 import React from 'react'
 import { StyleSheet, View, ViewProps } from 'react-native'
+import colors from 'src/styles/colors'
+import { getShadowStyle, Shadow } from 'src/styles/styles'
 
 export interface Props extends ViewProps {
   rounded?: boolean

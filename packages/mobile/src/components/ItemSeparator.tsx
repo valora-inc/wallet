@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
-import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 
 export default function ItemSeparator() {
   return <View style={styles.container} />

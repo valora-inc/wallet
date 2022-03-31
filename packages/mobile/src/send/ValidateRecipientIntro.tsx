@@ -1,5 +1,3 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -9,12 +7,14 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import ContactCircle from 'src/components/ContactCircle'
+import TextButton from 'src/components/TextButton'
 import { withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
+import fontStyles from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
 

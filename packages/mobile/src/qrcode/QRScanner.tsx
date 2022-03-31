@@ -1,6 +1,3 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
@@ -9,8 +6,11 @@ import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
+import TextButton from 'src/components/TextButton'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface QRScannerProps {
   onBarCodeDetected: (qrCode: QrCode) => void

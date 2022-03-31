@@ -1,6 +1,6 @@
-import FormLabel from '@celo/react-components/components/FormLabel'
 import React from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import FormLabel from 'src/components/FormLabel'
 
 interface Props {
   style?: StyleProp<ViewStyle>

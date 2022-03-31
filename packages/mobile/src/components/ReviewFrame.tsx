@@ -1,10 +1,10 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import CircleButton from '@celo/react-components/components/CircleButton'
-import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardAwareScrollView'
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleSheet, View, ViewProps } from 'react-native'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CircleButton from 'src/components/CircleButton'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import colors from 'src/styles/colors'
 
 interface ButtonProps {
   text: string

@@ -1,11 +1,11 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import Modal from 'src/components/Modal'
+import TextButton from 'src/components/TextButton'
 import SmsIcon from 'src/icons/SmsIcon'
 import WhatsAppLogo from 'src/icons/WhatsAppLogo'
+import colors from 'src/styles/colors'
 
 interface Props {
   isVisible: boolean

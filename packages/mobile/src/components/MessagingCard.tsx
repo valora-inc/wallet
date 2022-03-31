@@ -1,6 +1,6 @@
-import Card, { Props } from '@celo/react-components/components/Card'
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import Card, { Props } from 'src/components/Card'
 
 // Card used by all messaging cards
 export default function MessagingCard({ style, ...props }: Props) {

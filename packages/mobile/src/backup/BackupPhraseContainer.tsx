@@ -1,14 +1,14 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import withTextInputPasteAware from '@celo/react-components/components/WithTextInputPasteAware'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import Clipboard from '@react-native-community/clipboard'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
 import FlagSecure from 'react-native-flag-secure-android'
 import { isValidBackupPhrase } from 'src/backup/utils'
+import Touchable from 'src/components/Touchable'
+import withTextInputPasteAware from 'src/components/WithTextInputPasteAware'
 import { withTranslation } from 'src/i18n'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })

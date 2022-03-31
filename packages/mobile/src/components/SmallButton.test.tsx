@@ -1,8 +1,8 @@
-import SmallButton from '@celo/react-components/components/SmallButton'
-import Touchable from '@celo/react-components/components/Touchable'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text } from 'react-native'
+import SmallButton from 'src/components/SmallButton'
+import Touchable from 'src/components/Touchable'
 
 describe('SmallButton', () => {
   describe('when pressed', () => {

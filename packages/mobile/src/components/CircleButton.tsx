@@ -1,8 +1,8 @@
-import SmoothX from '@celo/react-components/icons/SmoothX'
-import colors from '@celo/react-components/styles/colors'
-import { iconHitslop } from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import SmoothX from 'src/icons/SmoothX'
+import colors from 'src/styles/colors'
+import { iconHitslop } from 'src/styles/variables'
 
 interface ButtonProps {
   onPress: () => void

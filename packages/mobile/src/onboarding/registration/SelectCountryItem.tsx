@@ -1,9 +1,9 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import Touchable from 'src/components/Touchable'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   country: LocalizedCountry

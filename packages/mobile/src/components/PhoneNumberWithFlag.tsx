@@ -1,8 +1,8 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { getCountryEmoji, parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   e164PhoneNumber: string

@@ -1,11 +1,11 @@
-import HorizontalLine from '@celo/react-components/components/HorizontalLine'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import HorizontalLine from 'src/components/HorizontalLine'
 import { decryptComment } from 'src/identity/commentEncryption'
 import useSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 interface Props {

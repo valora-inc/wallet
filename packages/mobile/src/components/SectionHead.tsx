@@ -1,8 +1,8 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 interface Props {
   text: string

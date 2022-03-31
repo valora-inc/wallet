@@ -1,10 +1,10 @@
-import SmallButton from '@celo/react-components/components/SmallButton'
-import Error from '@celo/react-components/icons/Error'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, FlexStyle, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import SmallButton from 'src/components/SmallButton'
+import Error from 'src/icons/Error'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 interface Props {
   alert: {
     type: 'message' | 'error'
