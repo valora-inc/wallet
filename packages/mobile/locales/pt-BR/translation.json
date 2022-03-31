@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Compartilhe a Valora com um amigo e ganhe {{amount}} {{currency}}!",
-    "body": "Envie cripto a um amigo e, se ele se inscrever, você ganha {{amount}} {{currency}}. <0>Saiba mais</0>"
+    "title": "Convide um amigo para {{appName}} , enviando-lhes algum criptograma.",
+    "body": "Ambos receberão {{amount}} {{currency}} assim que terminarem de configurar a sua conta."
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Exigimos três mensagens de confirmação para manter sua conta mais segura."
   },
   "skipModal": {
-    "header": "Pular confirmação?",
-    "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de celular.",
-    "body2": "Sem conexão, você ainda pode enviar pagamentos, mas apenas usando Endereços de Conta ou códigos QR."
+    "header": "Tem certeza?",
+    "body1": "Ligar o seu número dá-lhe mais formas de enviar pagamentos e permite-lhe receber recompensas Supercharge."
   },
   "failModal": {
     "header": "Erro de confirmação",
@@ -980,6 +979,7 @@
   "disconnectTitle": "Desconectar {{dappName}}?",
   "disconnectBody": "Tem certeza de que deseja desconectar de {{dappName}}?",
   "connectionSuccess": "Deu certo! Volte para {{dappName}} para prosseguir",
+  "inAppConnectionSuccess": "A ligação a {{dappName}} foi bem sucedida!",
   "timeoutTitle": "Tempo esgotado!",
   "timeoutSubtitle": "Sua conexão expirou. Verifique sua conexão com a internet e tente novamente",
   "goBackButton": "Voltar",
@@ -1125,7 +1125,8 @@
     "completed": {
       "title": "Verificação completa",
       "description": "Conseguimos verificar sua identidade. Continue para concluir a vinculação da sua conta bancária.",
-      "descriptionStep2NotEnabled": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária."
+      "descriptionStep2NotEnabled": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária.",
+      "descriptionRegionNotSupported": "Nós verificamos a sua identidade com sucesso. A sua região não é actualmente suportada. Nós o informaremos quando você puder terminar de vincular sua conta bancária."
     },
     "failed": {
       "title": "Verificação negada",
@@ -1145,7 +1146,7 @@
     "stepTwo": {
       "label": "Passo 2",
       "disabledTitle": "Vincule uma conta bancária",
-      "disabledDescription": "Falta pouco! Você já pode vincular sua conta bancária à Valora pelo Plaid.",
+      "disabledDescription": "Suporte de conta bancária em breve! Nós avisaremos quando você puder conectar sua conta bancária à Valora.",
       "disabledCta": "Em breve!",
       "title": "Insira os dados bancários",
       "description": "Falta pouco! Insira os dados bancários para vincular sua conta.",
@@ -1190,7 +1191,7 @@
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} é um aplicativo externo",
+    "title": "{{dappName}} é uma aplicação externa",
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
@@ -1202,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pagamento a comerciantes",
-  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
+  "merchantMoneyEscrow": "Estás prestes a enviar um pagamento directo a um comerciante.",
   "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
   "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
   "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
