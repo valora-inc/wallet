@@ -28,7 +28,7 @@ const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
   },
 ]
 
-export const MOCK_RESPONSE: {
+const MOCK_RESPONSE: {
   data: { tokenTransactionsV2: { transactions: TokenTransaction[] } }
 } = {
   data: {

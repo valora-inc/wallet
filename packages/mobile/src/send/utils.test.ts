@@ -250,7 +250,7 @@ describe('send/utils', () => {
       })
     })
 
-    it('should call handleSendPaymentData with parsed payment data ', async () => {
+    it('should call handleSendPaymentData with parsed payment data', async () => {
       const data = {
         address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
         displayName: 'Super 8',
@@ -340,7 +340,7 @@ describe('send/utils', () => {
         jest.clearAllMocks()
       })
 
-      it('should navigate to SendConfirmation screen when address, token = CELO, currencyCode, and amount are given ', async () => {
+      it('should navigate to SendConfirmation screen when address, token = CELO, currencyCode, and amount are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[0])
           .withState(createMockStore({}).getState())
           .provide([
@@ -360,7 +360,7 @@ describe('send/utils', () => {
         })
       })
 
-      it('should navigate to SendAmount screen when only address & token = CELO are given ', async () => {
+      it('should navigate to SendAmount screen when only address & token = CELO are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[1])
           .withState(createMockStore({}).getState())
           .provide([
@@ -375,7 +375,7 @@ describe('send/utils', () => {
         })
       })
 
-      it('should navigate to SendAmount screen when an unsupported token is given ', async () => {
+      it('should navigate to SendAmount screen when an unsupported token is given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[2])
           .withState(createMockStore({}).getState())
           .provide([
