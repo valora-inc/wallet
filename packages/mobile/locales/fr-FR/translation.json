@@ -589,8 +589,8 @@
     "button": "Terminer l'envoi"
   },
   "inviteRewardsBanner": {
-    "title": "Invite a friend to {{appName}} by sending them some crypto.",
-    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
+    "title": "Invitez un ami à {{appName}} en lui envoyant de la cryptographie.",
+    "body": "Vous obtiendrez tous deux {{amount}} {{currency}} une fois qu'ils auront fini de configurer leur compte."
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Êtes-vous sûr ?",
-    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
+    "body1": "La connexion de votre numéro vous donne plus de moyens d'envoyer des paiements et vous permet d'obtenir des récompenses Supercharge."
   },
   "failModal": {
     "header": "Erreur de confirmation",
@@ -979,7 +979,7 @@
   "disconnectTitle": "Déconnecter {{dappName}} ?",
   "disconnectBody": "Confirmez-vous vouloir vous déconnecter de {{dappName}} ?",
   "connectionSuccess": "C'est fait ! Veuillez revenir sur {{dappName}} pour continuer",
-  "inAppConnectionSuccess": "Connection to {{dappName}} was successful!",
+  "inAppConnectionSuccess": "La connexion à {{dappName}} a réussi !",
   "timeoutTitle": "Délai écoulé !",
   "timeoutSubtitle": "Votre connexion a expiré. Veuillez vérifier votre connexion Internet et réessayer",
   "goBackButton": "Retour",
@@ -1126,7 +1126,7 @@
       "title": "Vérification terminée",
       "description": "Nous avons bien vérifié votre identité. Vous pouvez poursuivre la connexion de votre compte bancaire.",
       "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire.",
-      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
+      "descriptionRegionNotSupported": "Nous avons vérifié avec succès votre identité. Votre région n'est pas prise en charge actuellement. Nous vous ferons savoir quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Étape 2",
       "disabledTitle": "Reliez un compte bancaire",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Support des comptes bancaires bientôt disponible ! Nous vous informerons dès que vous pourrez connecter votre compte bancaire à Valora.",
       "disabledCta": "Bientôt disponible !",
       "title": "Saisir les coordonnées bancaires",
       "description": "Vous avez presque fini ! Saisissez les coordonnées bancaires pour lier votre compte.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} is an external application",
+    "title": "{{dappName}} est une application externe",
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
   "merchant": "Paiement commerçant",
-  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un commerçant.",
   "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
   "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
   "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
