@@ -53,6 +53,7 @@ jobs:
       - name: Run Detox
         working-directory: ${{env.working-directory}}
         run: >
+          export CELO_TEST_CONFIG=e2e &&
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           yarn detox test
           --configuration android.release
