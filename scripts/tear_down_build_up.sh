@@ -18,33 +18,29 @@ echo "Removing .mobile/ios/Pods ..."
 # If Pods are installed in packages/mobile/ios, deintegrate them
 if [ -d "packages/mobile/ios/Pods" ]; then
   cd packages/mobile/ios
-  pod deintegrate
+  arch -x86_64 pod deintegrate
   cd ../../..
 fi
 
 echo "Building Up..."
 
-echo "Installing zed-io/wallet/node_modules ..."
+echo "Installing wallet/node_modules ..."
 # Install dependencies in cwd using Yarn
-arch -x86_64 yarn install
+arch -x86_64 yarn --silent install
 
-echo "Building zed-io/wallet ..."
+echo "Building wallet from monorepo and hoisting RN packages..."
 # Build dependencies for cwd (wallet) using Yarn
-arch -x86_64 yarn build:wallet
+arch -x86_64 yarn --silent build:wallet
 
+echo "Installing gems (e.g. cocoapods) ..."
 if [ -d "packages/mobile" ]; then
   cd packages/mobile/ios
   arch -x86_64 bundle install
   cd ../../..
 fi
 
-echo "Installing ./packages/mobile/node_modules..."
-# Install dependencies in packages/mobile using Yarn
-arch -x86_64 yarn install --cwd packages/mobile
-
-echo "Installing ./mobile/ios/Pods ..."
+echo "Installing Pods in /mobile/ios/ ..."
 # Install pods using x86_64 architecture for Mac M1
-
 if [ -d "packages/mobile/ios" ]; then
   cd packages/mobile/ios
   arch -x86_64 bundle exec pod install
