@@ -232,7 +232,7 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        forceCurrency?: Currency
+        forceTokenAddress?: string
       }
     | undefined
   [Screens.SendAmount]: {
