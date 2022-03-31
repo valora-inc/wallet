@@ -64,7 +64,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --workers 3
+          --workers 6
           --headless
           --device-boot-args="-snapshot ci_boot"
         timeout-minutes: 45
@@ -133,7 +133,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --workers 5
+          --workers 10
           --headless
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
