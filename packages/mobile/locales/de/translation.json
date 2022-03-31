@@ -1022,7 +1022,7 @@
     "0": "Feed kann nicht geladen werden",
     "1": "Bitte versuche es später erneut"
   },
-  "noTransactionActivity": "Deine Aktivität wird hier erscheinen",
+  "noTransactionActivity": "Deine Aktivitäten werden hier erscheinen",
   "noExchangeActivity": "Deine Aktivität wird hier erscheinen",
   "maybeLater": "Vielleicht später",
   "balanceNeedUpdating": "Guthaben muss aktualisiert werden",
@@ -1190,7 +1190,7 @@
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} wird in einer externen Anwendung geöffnet",
+    "title": "{{dappName}} ist eine externe Anwendung",
     "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
