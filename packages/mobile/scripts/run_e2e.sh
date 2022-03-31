@@ -169,10 +169,9 @@ if [ $PLATFORM = "android" ]; then
         -no-boot-anim \
         -noaudio \
         -no-snapshot-save \
-        -snapshot default_boot \
         -read-only \
         -netdelay $NET_DELAY \
-        ${CI:+-gpu swiftshader_indirect -no-window} \
+        ${CI:+-snapshot ci_boot} \
         &
     done
 

@@ -35,7 +35,7 @@ jobs:
           node-version: '12'
           check-latest: true
       - name: Copy Emulator Config
-        run: mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
+        run: mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/ci_avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
       - name: Install package dependencies
         run: yarn
       - name: Fail if someone forgot to commit "yarn.lock"
