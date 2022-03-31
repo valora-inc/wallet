@@ -112,7 +112,7 @@
   "backupSetupBody": "Para que seus fundos sejam protegidos, é necessário criar a sua Frase de Recuperação antes de continuar usando {{appName}}.",
   "delayBackup": "Espere uma hora",
   "postSetupTitle": "Sua Frase de Recuperação",
-  "postSetupBody": "Se você perder sua Frase de Recuperação, perderá o acesso a todos os seus Celo Dólares e CELO. Ninguém, nem mesmo a {{appName}}, poderá ajudar você a recuperar sua conta sem a sua Frase. Guarde-a em um local seguro e não a compartilhe.",
+  "postSetupBody": "Se você perder sua Frase de Recuperação, perderá o acesso a todos os seus ativos Celo. Ninguém, nem mesmo a {{appName}}, poderá ajudar você a recuperar sua conta sem a sua Frase. Guarde-a em um local seguro e não a compartilhe.",
   "postSetupCTA": "Saiba mais sobre a Frase de Recuperação",
   "failedFetchMnemonic": "Falha ao obter sua Frase de Recuperação",
   "backupAndRecovery": "Backup e recuperação",
@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você está recebendo {{apy}}% anualmente em recompensas. Resgate-as aqui na terça-feira.",
+  "superchargingDescription": "Você está recebendo {{apy}}% anualmente. Você receberá uma notificação semanal quando suas recompensas estiverem prontas, volte aqui para reclamá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -217,7 +217,7 @@
   "learnMore": "Saiba mais",
   "equalToAmount": "Igual a <1></1>",
   "whatIsGold": "A {{appName}} permite que você compre e venda CELO",
-  "manageCelo": "Gerenciar Celo Dólares",
+  "manageCelo": "Gerenciar Celo Dollars",
   "exchangeRate": "Taxa de troca",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Histórico",
@@ -242,7 +242,7 @@
   "securityFee": "Taxa de rede",
   "exchangeFee": "Taxa de troca",
   "edit": "Editar",
-  "notEnoughDollars": "Celo Dólares insuficientes para fazer a troca",
+  "notEnoughDollars": "Celo Dollars insuficientes para fazer a troca",
   "notEnoughGold": "CELO insuficientes para fazer a troca",
   "pending": "Pendente",
   "loadingExchangeRate": "Carregando taxa de troca...",
@@ -278,12 +278,12 @@
   "amountCelo": "Quantia (CELO)",
   "onlyCeloDollars": "Somente cUSD",
   "onlyCelo": "Somente CELO",
-  "celoDollar": "Celo Dólar",
+  "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
-  "celoDollars": "Celo Dólares",
+  "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "Toque para copiar seu endereço cUSD da {{appName}} ",
   "disclaimerFiat": "Os valores de {{currency}} são estimativos.",
-  "dollarsNotYetEnabledNote": "Os Celo Dólares ainda não estão disponíveis em nenhum fornecedor. Para obter Celo Dólares, adquira o CELO e troque por Celo Dólares na aba CELO.",
+  "dollarsNotYetEnabledNote": "Os Celo Dollars ainda não estão disponíveis em nenhum fornecedor. Para obter Celo Dollars, adquira o CELO e troque por Celo Dollars na aba CELO.",
   "selectDigitalCurrency": "Selecione um ativo digital",
   "selectPaymentMethod": "Selecionar método:",
   "payWithBank": "Conta bancária",
@@ -294,12 +294,12 @@
   "receiveWithBidali": "Vales-Presente e Recargas de Celular",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com a {{appName}}",
-    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dollars (cUSD), Celo Euros (cEUR) e Celo Real (cREAL), as moedas digitais estáveis que acompanham o dólar americano., o euro e o real.\n\nPara adicionar fundos à sua conta da {{appName}}, compre cUSD, cEUr ou cREAL com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Sacar fundos da {{appName}}",
-    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.\n\nPara sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela rede Celo. A {{appName}} gerencia Celo Dollars (cUSD), Celo Euros (cEUR) e Celo Real (cREAL), as moedas digitais estáveis que acompanham o dólar americano., o euro e o real.\n\nPara sacar seu saldo da {{appName}}, venda cUSD, cEUR ou cREAL com um dos fornecedores disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -381,8 +381,8 @@
   "choose": "Escolher",
   "receivedPayment": "Pagamento recebido",
   "getStarted": "Começar",
-  "manageCeloDollars": "Gerenciar Celo Dólares",
-  "sendCeloDollars": "Enviar Celo Dólares",
+  "manageCeloDollars": "Gerenciar Celo Dollars",
+  "sendCeloDollars": "Enviar Celo Dollars",
   "startEarning": "Comece a ganhar",
   "backToWallet": "Voltar para a conta",
   "exchangeForGold": "Tocar pelo CELO",
@@ -416,7 +416,7 @@
   "balanceAvailable": "<0></0> disponível",
   "subtotal": "Subtotal",
   "total": "Total",
-  "totalInDollars": "Celo Dólares @ <0></0>",
+  "totalInDollars": "Celo Dollars @ <0></0>",
   "totalInEuros": "Celo Euros @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
@@ -547,11 +547,11 @@
   "goldEducationSteps": [
     {
       "title": "O que é CELO?",
-      "text": "O CELO é uma moeda digital que mantém o Celo Dólar (cUSD) estável."
+      "text": "O CELO é uma moeda digital que mantém o Celo Dollar (cUSD) estável."
     },
     {
       "title": "Alterações de preço do CELO.",
-      "text": "Se mais pessoas usarem o Celo Dólar, o valor do CELO aumenta. Ao contrário do CELO, o valor do Celo Dólar não muda. "
+      "text": "Se mais pessoas usarem o Celo Dollar, o valor do CELO aumenta. Ao contrário do CELO, o valor do Celo Dollar não muda. "
     },
     {
       "title": "Molde a rede Celo",
@@ -812,7 +812,7 @@
   "verificationUnavailable": "A confirmação do número de celular está indisponível no momento. Por favor, digite seu número de celular e nós o notificaremos quando for possível confirmar novamente.\n\nEnquanto isso, você pode continuar usando a Valora! Os pagamentos enviados para seu número de celular serão mantidos com segurança até você resgatá-los confirmando seu número de celular.",
   "requests": "Solicitações",
   "empty": "Você não tem solicitações de pagamento",
-  "celoDollarBalance": "Saldo de Celo Dólar ",
+  "celoDollarBalance": "Saldo de Celo Dollars",
   "requestDeclined": "Solicitação recusada",
   "requestPaid": "Solicitação paga",
   "paymentRequestUpdateFailed": "Não é possível atualizar a solicitação de pagamento",
@@ -999,7 +999,7 @@
   "received": "Recebido",
   "viewAll": "Ver todos",
   "thanksForVerifying": "Obrigada por confirmar",
-  "goldIsWhereYouSave": "O CELO é onde você pode economizar seus Celo Dólares ",
+  "goldIsWhereYouSave": "O CELO é onde você pode economizar seus Celo Dollars",
   "dinner": "Jantar",
   "bikeParts": "Peças de bicicleta",
   "groceryRun": "Supermercado",
@@ -1011,7 +1011,7 @@
   "verificationFee": "Taxa de confirmação",
   "networkFee": "Taxa de rede",
   "networkFeeExplanation": {
-    "0": "A cada semana, uma taxa muito pequena (menos de 0,01%) do saldo em Celo Dólares de cada usuário é usada para manter o valor do Celo Dólar estável. Para saber mais sobre as taxas do Celo, acesse ",
+    "0": "A cada semana, uma taxa muito pequena (menos de 0,01%) do saldo em Celo Dollars de cada usuário é usada para manter o valor do Celo Dollar estável. Para saber mais sobre as taxas do Celo, acesse ",
     "1": "Perguntas frequentes"
   },
   "confirmingTransaction": "Confirmando…",
@@ -1190,7 +1190,7 @@
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} abrirá em um aplicativo externo",
+    "title": "{{dappName}} é um aplicativo externo",
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
@@ -1208,6 +1208,6 @@
   "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
   "merchantPaymentSubmitSuccess": "Seu pagamento foi enviado com sucesso",
   "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
-  "celoDollarAmount": "<0></0> Celo Dólar",
-  "celoDollarAmount_plural": "<0></0> Celo Dólares"
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
