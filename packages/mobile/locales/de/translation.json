@@ -589,8 +589,8 @@
     "button": "Senden"
   },
   "inviteRewardsBanner": {
-    "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
-    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
+    "title": "Laden Sie einen Freund zu {{appName}} ein, indem Sie ihm etwas Krypto schicken.",
+    "body": "Sie erhalten beide {{amount}} {{currency}} , sobald sie ihr Konto eingerichtet haben."
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
   },
   "skipModal": {
-    "header": "Bestätigung überspringen?",
-    "body1": "Bestätigen erlaubt es anderen, Wert an deine Telefonnummer zu senden.",
-    "body2": "Ohne Bestätigung kannst du immer noch Zahlungen versenden, aber nur mit Konto-Adressen oder QR-Codes."
+    "header": "Bist du sicher?",
+    "body1": "Wenn Sie Ihre Nummer verbinden, haben Sie mehr Möglichkeiten, Zahlungen zu senden und Supercharge-Prämien zu sammeln."
   },
   "failModal": {
     "header": "Bestätigungsfehler",
@@ -980,6 +979,7 @@
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Bist du sicher, dass du die Verbindung zu {{dappName}} trennen möchtest?",
   "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
+  "inAppConnectionSuccess": "Die Verbindung zu {{dappName}} war erfolgreich!",
   "timeoutTitle": "Zeitüberschreitung!",
   "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
   "goBackButton": "Zurück",
@@ -1125,7 +1125,8 @@
     "completed": {
       "title": "Verifizierung abgeschlossen",
       "description": "Wir haben deine Identität erfolgreich verifiziert. Bitte vervollständige die Verknüpfung deines Bankkontos.",
-      "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst."
+      "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst.",
+      "descriptionRegionNotSupported": "Wir haben Ihre Identität erfolgreich überprüft. Ihre Region wird derzeit nicht unterstützt. Wir benachrichtigen Sie, sobald Sie die Verknüpfung Ihres Bankkontos abschließen können."
     },
     "failed": {
       "title": "Verifizierung verweigert",
@@ -1145,7 +1146,7 @@
     "stepTwo": {
       "label": "Schritt 2",
       "disabledTitle": "Bankkonto verknüpfen",
-      "disabledDescription": "Du bist fast fertig! Du kannst nun über Plaid dein Bankkonto mit Valora verbinden.",
+      "disabledDescription": "Unterstützung für Bankkonten in Kürze! Wir werden Sie informieren, sobald Sie Ihr Bankkonto mit Valora verbinden können.",
       "disabledCta": "Demnächst verfügbar",
       "title": "Bankdaten eingeben",
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
@@ -1202,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Letzte 24 Stunden",
   "merchant": "Zahlung des Händlers",
-  "merchantMoneyEscrow": "Du bist dabei, eine Direktzahlung an einen Händler zu senden.",
+  "merchantMoneyEscrow": "Sie sind im Begriff, eine Direktzahlung an einen Händler zu senden.",
   "merchantPaymentNumberVerificationMessage": "Du musst deine Nummer verbinden",
   "merchantPaymentSubmitFail": "Die Übermittlung deiner Zahlung ist fehlgeschalgen",
   "merchantPaymentSetup": "Beim Laden der Händlerinformation ist ein Fehler aufgetreten. Bitte versuche, den QR-Code erneut zu scannen",
