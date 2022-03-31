@@ -46,7 +46,9 @@ jobs:
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
         working-directory: ${{env.working-directory}}
       - name: Create Detox Build
-        run: yarn detox build -c android.release
+        run: |
+          export ANDROID_SDK_ROOT=$HOME/android-tools
+          yarn detox build -c android.release
         working-directory: ${{env.working-directory}}
       - name: Run Detox
         working-directory: ${{env.working-directory}}
