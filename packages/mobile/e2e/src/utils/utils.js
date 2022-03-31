@@ -1,24 +1,9 @@
 import { dismissBanners } from '../utils/banners'
 import { DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
-const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
 const pixelmatch = require('pixelmatch')
-
-function exec(command, options = { cwd: process.cwd() }) {
-  return new Promise((resolve, reject) => {
-    childProcess.exec(command, { ...options }, (err, stdout, stderr) => {
-      if (err) {
-        err.stdout = stdout
-        err.stderr = stderr
-        reject(err)
-        return
-      }
-
-      resolve({ stdout, stderr })
-    })
-  })
-}
+const { execSync } = require('child_process')
 
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -204,23 +189,23 @@ export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPerc
 //** Sets device demo mode on devices for consistent screenshots */
 export async function setDemoMode() {
   if (device.getPlatform() === 'ios') {
-    exec(
+    execSync(
       `xcrun simctl status_bar "${device.id}" override --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4`
     )
   } else {
     // enter demo mode
-    exec(`adb -s ${device.id} shell settings put global sysui_demo_allowed 1`)
+    execSync(`adb -s ${device.id} shell settings put global sysui_demo_allowed 1`)
 
     // Display full mobile data with 4g type and no wifi
-    exec(
+    execSync(
       `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false`
     )
     // Hide notifications
-    exec(
+    execSync(
       `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false`
     )
     // Show full battery but not in charging state
-    exec(
+    execSync(
       `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100`
     )
   }
