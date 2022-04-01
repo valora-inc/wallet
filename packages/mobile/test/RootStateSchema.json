@@ -1513,7 +1513,6 @@
                 "SelectLocalCurrency",
                 "Send",
                 "SendAmount",
-                "SendAmountLegacy",
                 "SendConfirmation",
                 "SendConfirmationLegacy",
                 "SendConfirmationLegacyModal",
