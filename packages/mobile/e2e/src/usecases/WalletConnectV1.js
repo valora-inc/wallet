@@ -2,7 +2,7 @@ import { newKit } from '@celo/contractkit'
 import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatureUtils'
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
-import { launchApp } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
 
 const fromAddress = (
@@ -119,7 +119,6 @@ export default WalletConnect = () => {
 
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
-    await device.disableSynchronization()
     await enterPinUiIfNecessary()
     await waitFor(element(by.text('Success! Please go back to WalletConnectV1 E2E to continue')))
       .toBeVisible()
@@ -127,7 +126,6 @@ export default WalletConnect = () => {
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
       .withTimeout(15 * 1000)
-    await device.enableSynchronization()
 
     // Wait for transaction and get receipt
     let txHash = await result
@@ -333,6 +331,8 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
+    await reloadReactNative()
+
     // A sleep for ci
     await sleep(3 * 1000)
 
