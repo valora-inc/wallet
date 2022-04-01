@@ -1,8 +1,8 @@
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
 import { Recipient } from 'src/recipients/recipient'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle

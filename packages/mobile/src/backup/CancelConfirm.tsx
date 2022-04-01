@@ -1,4 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -7,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import Dialog from 'src/components/Dialog'
 import { navigateHome } from 'src/navigator/NavigationService'
+import colors from 'src/styles/colors'
 
 interface Props {
   screen: string

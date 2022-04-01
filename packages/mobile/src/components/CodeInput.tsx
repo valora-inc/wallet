@@ -1,9 +1,3 @@
-import Card from '@celo/react-components/components/Card'
-import TextInput, { LINE_HEIGHT } from '@celo/react-components/components/TextInput'
-import Checkmark from '@celo/react-components/icons/Checkmark'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import React, { useLayoutEffect } from 'react'
 import {
   ActivityIndicator,
@@ -15,7 +9,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import Card from 'src/components/Card'
 import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
+import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
+import Checkmark from 'src/icons/Checkmark'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Shadow, Spacing } from 'src/styles/styles'
 import { useClipboard } from 'src/utils/useClipboard'
 
 export enum CodeInputStatus {

@@ -2,7 +2,6 @@
  * This is a VIEW, which we use as an overlay, when we need
  * to lock the app with a PIN code.
  */
-import colors from '@celo/react-components/styles/colors'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +17,7 @@ import { biometryEnabledSelector } from 'src/app/selectors'
 import { background } from 'src/images/Images'
 import { checkPin, getPincodeWithBiometry } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
+import colors from 'src/styles/colors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 function PincodeLock() {

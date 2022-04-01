@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import { getAddressChunks } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-community/clipboard'
 import React from 'react'
@@ -8,6 +6,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
+import fontStyles, { fontFamily } from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 interface Props {

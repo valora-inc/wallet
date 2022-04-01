@@ -1,5 +1,3 @@
-import HorizontalLine from '@celo/react-components/components/HorizontalLine'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -8,8 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MoneyAmount } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
+import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
+import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 
 export interface ExchangeConfirmationCardProps {

@@ -1,8 +1,3 @@
-import Pagination from '@celo/react-components/components/Pagination'
-import SimpleMessagingCard, {
-  Props as SimpleMessagingCardProps,
-} from '@celo/react-components/components/SimpleMessagingCard'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +10,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { openUrl } from 'src/app/actions'
 import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
+import Pagination from 'src/components/Pagination'
+import SimpleMessagingCard, {
+  Props as SimpleMessagingCardProps,
+} from 'src/components/SimpleMessagingCard'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
@@ -34,6 +33,7 @@ import {
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import useSelector from 'src/redux/useSelector'
+import variables from 'src/styles/variables'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
 

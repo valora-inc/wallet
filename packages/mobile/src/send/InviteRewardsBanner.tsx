@@ -1,10 +1,10 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { notificationInvite } from 'src/images/Images'
 import useSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { Currency } from 'src/utils/currencies'
 

@@ -1,12 +1,12 @@
-import TextInputWithButtons from '@celo/react-components/components/TextInputWithButtons'
-import Touchable from '@celo/react-components/components/Touchable'
-import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, TextInputProps, ViewStyle } from 'react-native'
 import ClipboardAwarePasteIcon from 'src/components/ClipboardAwarePasteIcon'
+import TextInputWithButtons from 'src/components/TextInputWithButtons'
+import Touchable from 'src/components/Touchable'
+import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import colors from 'src/styles/colors'
 
 interface Props {
   inputContainerStyle?: ViewStyle

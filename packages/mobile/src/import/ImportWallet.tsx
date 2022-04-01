@@ -1,8 +1,3 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
-import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardAwareScrollView'
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
@@ -22,9 +17,12 @@ import {
   getStoredMnemonic,
   isValidBackupPhrase,
 } from 'src/backup/utils'
+import Button, { BtnTypes } from 'src/components/Button'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,6 +32,8 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
