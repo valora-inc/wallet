@@ -189,7 +189,7 @@
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Ваш {{token}} отримав надбавку",
-  "superchargingDescription": "Ви отримуєте {{apy}}% річних. Отримайте свою нагороду тут у вівторок.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
   "superchargeRewardsAvailableMultipleTokens": "У вас доступно {{amounts}} для запиту!",
   "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",
@@ -589,8 +589,8 @@
     "button": "Закінчити надсилання"
   },
   "inviteRewardsBanner": {
-    "title": "Отримайте {{amount}} {{currency}}, поділившись Valora з другом!",
-    "body": "Заробляйте {{amount}} {{currency}}, коли надсилаєте криптовалюту другу та він приєднується. <0>Дізнатися більше</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "Отримати винагороду ${{reward}}",
   "welcomeCelo": "Ласкаво просимо до {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Нам потрібно три повідомлення підтвердження, щоб ваш обліковий запис був у безпеці."
   },
   "skipModal": {
-    "header": "Пропустити підтвердження?",
-    "body1": "Підтвердження дозволяє іншим надсилати кошти на ваш номер телефону.",
-    "body2": "Без підтвердження ви можете продовжувати надсилати платежі, але тільки з використанням адрес облікових записів або QR-кодів."
+    "header": "Ви впевнені?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Помилка підтвердження",
@@ -1130,7 +1129,8 @@
     "completed": {
       "title": "Перевірку завершено",
       "description": "Ми успішно підтвердили вашу особистість. Продовжуйте, щоб завершити прив’язку банківського рахунку.",
-      "descriptionStep2NotEnabled": "Ми успішно підтвердили вашу особистість. Ми дамо вам знати, коли ви зможете завершити прив’язку банківського рахунку."
+      "descriptionStep2NotEnabled": "Ми успішно підтвердили вашу особистість. Ми дамо вам знати, коли ви зможете завершити прив’язку банківського рахунку.",
+      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Перевірку відхилено",
@@ -1150,7 +1150,7 @@
     "stepTwo": {
       "label": "Крок 2",
       "disabledTitle": "Прив'язати банківський рахунок",
-      "disabledDescription": "Ви майже закінчили! Тепер можна під'єднати ваш банк до Valora за допомогою Plaid.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
       "disabledCta": "Незабаром!",
       "title": "Введіть банківські реквізити",
       "description": "Майже готово! Введіть банківські реквізити для прив'язки рахунку до Valora.",
@@ -1195,7 +1195,7 @@
     "dismiss": "Відхилити"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} – це зовнішньому застосунку",
+    "title": "{{dappName}} is an external application",
     "message": "Ви збираєтеся відкрити застосунок, яким не керує Valora.\n\nValora не надає жодних гарантій щодо цього застосунку. Ви використовуєте його на свій страх і ризик.",
     "button": "Перейти до {{dappName}}"
   },
@@ -1207,7 +1207,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Останні 24 год",
   "merchant": "Платіж для продавця",
-  "merchantMoneyEscrow": "Ви збираєтеся надіслати прямий платіж продавцю.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "Треба під'єднати свій номер",
   "merchantPaymentSubmitFail": "Ваш платіж не вдалося надіслати",
   "merchantPaymentSetup": "Під час завантаження інформації про продавця сталася помилка, зіскануйте QR-код ще раз",
