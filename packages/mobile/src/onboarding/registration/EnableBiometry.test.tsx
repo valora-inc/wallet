@@ -6,6 +6,7 @@ import { initializeAccount, setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
@@ -94,6 +95,7 @@ describe('EnableBiometry', () => {
     expect(store.getActions()).toEqual([
       setPincodeSuccess(PincodeType.PhoneAuth),
       initializeAccount(),
+      setHasSeenVerificationNux(true),
     ])
     expect(navigate).not.toHaveBeenCalled()
     expect(navigateHome).toHaveBeenCalled()
