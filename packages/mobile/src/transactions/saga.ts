@@ -284,7 +284,7 @@ function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
 function* watchNewFeedTransactions() {
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
   yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
-  yield takeLatest(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
