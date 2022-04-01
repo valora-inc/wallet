@@ -1,6 +1,8 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { InviteEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { notificationInvite } from 'src/images/Images'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -14,6 +16,10 @@ export function InviteRewardsBanner() {
 
   const { IS_IN_EUROPE } = useCountryFeatures()
   const currency = IS_IN_EUROPE ? Currency.Euro : Currency.Dollar
+
+  useEffect(() => {
+    ValoraAnalytics.track(InviteEvents.invite_banner_impression)
+  }, [])
 
   return (
     <View style={styles.container} testID="InviteRewardsBanner">

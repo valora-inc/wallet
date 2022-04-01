@@ -5,6 +5,7 @@ import MessagingCard from 'src/components/MessagingCard'
 import fontStyles from 'src/styles/fonts'
 
 export interface Props {
+  id: string
   text: string
   icon?: ImageSourcePropType | React.ReactNode
   callToActions: CallToAction[]
