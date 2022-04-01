@@ -189,7 +189,7 @@
     "dismiss": "Dismiss"
   },
   "superchargingTitle": "Your {{token}} is being Supercharged",
-  "superchargingDescription": "You're getting {{apy}}% annually. You'll get a weekly notification when your rewards are ready, come back here to claim them.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "You have {{amount}} {{token}} available to claim!",
   "superchargeRewardsAvailableMultipleTokens": "You have {{amounts}} available to claim!",
   "superchargeClaimText": "Claim your rewards to add them to your balance.",
@@ -589,8 +589,8 @@
     "button": "Finish sending"
   },
   "inviteRewardsBanner": {
-    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
-    "body": "Earn {{amount}} {{currency}} when you send crypto to a friend and they join. <0>Learn more</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "We require three confirmation messages to keep your account more secure."
   },
   "skipModal": {
-    "header": "Skip Confirmation?",
-    "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "header": "Are you sure?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Confirmation Error",
@@ -1126,7 +1125,8 @@
     "completed": {
       "title": "Verification complete",
       "description": "We successfully verified your identity. Please continue to finish linking your bank account.",
-      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account."
+      "descriptionStep2NotEnabled": "We successfully verified your identity. We'll let you know when you can finish linking your bank account.",
+      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Verification denied",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Step 2",
       "disabledTitle": "Link a bank account",
-      "disabledDescription": "You're almost done! You can connect your bank acount to Valora now via Plaid.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
       "disabledCta": "Coming Soon!",
       "title": "Enter Bank Details",
       "description": "You're almost done! Enter bank details to link your account to Valora.",
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Last 24 hrs",
   "merchant": "Merchant Payment",
-  "merchantMoneyEscrow": "You're about the send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "You need to connect your number",
   "merchantPaymentSubmitFail": "Your payment failed to submit",
   "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QR Code again",
