@@ -335,6 +335,7 @@ describe('store state', () => {
           "tokenBalances": Object {},
         },
         "transactions": Object {
+          "inviteTransactions": Object {},
           "knownFeedTransactions": Object {},
           "recentTxRecipientsCache": Object {},
           "standbyTransactions": Array [],

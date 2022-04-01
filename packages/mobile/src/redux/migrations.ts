@@ -579,7 +579,8 @@ export const migrations = {
       ),
     },
   }),
-  45: (state: any) => {
+  45: (state: any) => state,
+  46: (state: any) => {
     return {
       ...state,
       app: _.omit(

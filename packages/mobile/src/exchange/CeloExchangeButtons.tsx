@@ -1,6 +1,5 @@
 // VIEW which contains buy and sell buttons for CELO.
 
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { StackNavigationProp } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +7,7 @@ import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'

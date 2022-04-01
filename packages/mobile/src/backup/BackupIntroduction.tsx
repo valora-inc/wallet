@@ -1,8 +1,3 @@
-import Button from '@celo/react-components/components/Button'
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,12 +11,17 @@ import BackupPhraseContainer, {
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
+import Button from 'src/components/Button'
+import TextButton from 'src/components/TextButton'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface StateProps {
   backupCompleted: boolean

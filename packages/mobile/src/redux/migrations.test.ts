@@ -463,8 +463,8 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
-  it('works for v44 to v45', () => {
-    const migratedSchema = migrations[45](v45Schema)
+  it('works for v45 to v46', () => {
+    const migratedSchema = migrations[46](v45Schema)
     expect(migratedSchema.app.multiTokenUseSendFlow).toBeUndefined()
     expect(migratedSchema.app.multiTokenUseUpdatedFeed).toBeUndefined()
     expect(migratedSchema.app.multiTokenShowHomeBalances).toBeUndefined()

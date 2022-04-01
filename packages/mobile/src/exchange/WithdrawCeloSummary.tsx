@@ -1,6 +1,5 @@
 // VIEW Small component that has the details of a withdrawal transaction
 
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +8,7 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
+import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 
 interface WithdrawCeloProps {

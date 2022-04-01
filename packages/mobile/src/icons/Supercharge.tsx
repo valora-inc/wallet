@@ -1,6 +1,6 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { G, Path, Svg } from 'react-native-svg'
+import colors from 'src/styles/colors'
 
 const Supercharge = () => {
   return (

@@ -1,11 +1,11 @@
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 
 const { contentPadding } = variables

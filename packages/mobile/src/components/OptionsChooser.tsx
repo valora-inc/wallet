@@ -1,13 +1,13 @@
 // This component shows the native Action Sheet on iOS to let a user choose between different options
 // or shows a modal with the options on Android.
 
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionSheetIOS, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'src/components/Modal'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   isVisible: boolean

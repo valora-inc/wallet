@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useAsync } from 'react-async-hook'
@@ -17,6 +15,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SyncBankAccountScreen>

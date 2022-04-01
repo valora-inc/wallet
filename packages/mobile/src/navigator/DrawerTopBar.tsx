@@ -1,12 +1,12 @@
-import colors from '@celo/react-components/styles/colors'
-import { iconHitslop } from '@celo/react-components/styles/variables'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { processColor, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { cond, greaterThan } from 'react-native-reanimated'
-import Hamburger from 'src/icons/Hamburger'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Hamburger from 'src/icons/Hamburger'
+import colors from 'src/styles/colors'
+import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
   middleElement?: React.ReactNode

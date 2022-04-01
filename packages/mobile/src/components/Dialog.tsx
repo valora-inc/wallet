@@ -1,6 +1,3 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import {
   ActivityIndicator,
@@ -12,6 +9,9 @@ import {
   View,
 } from 'react-native'
 import Modal from 'src/components/Modal'
+import TextButton from 'src/components/TextButton'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   image?: ImageSourcePropType

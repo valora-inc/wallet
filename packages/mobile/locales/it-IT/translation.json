@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ottenendo il {{apy}}% annuale. Richiedi i tuoi ricompense qui martedì.",
+  "superchargingDescription": "Stai ottenendo {{apy}}nnualmente. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per reclamarle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
@@ -589,8 +589,8 @@
     "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
-    "title": "Ricevi {{amount}} {{currency}} condividendo Valora con un amico.",
-    "body": "Guadagna {{amount}} {{currency}} quando invii criptovaluta a un amico che accetta l'invito. <0>Ulteriori informazioni</0>"
+    "title": "Invita un amico a {{appName}} inviandogli qualche crypto.",
+    "body": "Avrete entrambi {{amount}} {{currency}} una volta che hanno finito di impostare il loro account."
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Richiediamo tre messaggi di conferma per mantenere il tuo conto più sicuro."
   },
   "skipModal": {
-    "header": "Saltare la conferma?",
-    "body1": "La conferma consente ad altri di inviare valore al tuo numero telefonico.",
-    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando un Indirizzo del conto o codici QR."
+    "header": "Sei sicuro?",
+    "body1": "Collegare il tuo numero ti dà più modi per inviare pagamenti e ti permette di raccogliere premi Supercharge."
   },
   "failModal": {
     "header": "Errore durante la conferma.",
@@ -687,9 +686,9 @@
     "cta": "Acquista ricerche (2)"
   },
   "onboardingEducation": {
-    "step1": "Se puoi inviare SMS, puoi operare con le criptovalute. Da ora, il tuo telefono è il tuo wallet per criptovalute.",
-    "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle aumentare.",
-    "step3": "È sufficiente un cellulare per inviare, spendere ed esplorare."
+    "step1": "Se puoi inviare un SMS, puoi operare con le criptovalute. Da ora il tuo telefono sarà il tuo Crypto-wallet!",
+    "step2": "Con {{appName}}, è facile accedere alle tue criptovalute e farle crescere.",
+    "step3": "È sufficiente un cellulare per inviare, comprare ed esplorare."
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
@@ -980,6 +979,7 @@
   "disconnectTitle": "Disconnettere {{dappName}}?",
   "disconnectBody": "Eseguire la disconnessione da {{dappName}}?",
   "connectionSuccess": "Operazione completata! Torna a {{dappName}} per continuare.",
+  "inAppConnectionSuccess": "La connessione a {{dappName}} ha avuto successo!",
   "timeoutTitle": "Time-out",
   "timeoutSubtitle": "Time-out della connessione. Controlla la tua connessione a Internet e riprova.",
   "goBackButton": "Indietro",
@@ -1125,7 +1125,8 @@
     "completed": {
       "title": "Verifica completata",
       "description": "Abbiamo verificato la tua identità. Procedi per completare il collegamento del tuo conto bancario.",
-      "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
+      "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario.",
+      "descriptionRegionNotSupported": "Abbiamo verificato con successo la tua identità. La tua regione non è attualmente supportata. Ti faremo sapere quando potrai finire di collegare il tuo conto bancario."
     },
     "failed": {
       "title": "Verifica respinta",
@@ -1145,7 +1146,7 @@
     "stepTwo": {
       "label": "Passaggio 2",
       "disabledTitle": "Collega un conto bancario",
-      "disabledDescription": "La procedura è quasi completata. Ora puoi collegare il tuo conto bancario a Valora tramite Plaid.",
+      "disabledDescription": "Supporto per il conto bancario in arrivo! Ti faremo sapere quando potrai collegare il tuo conto bancario a Valora.",
       "disabledCta": "Presto disponibile.",
       "title": "Immetti i dettagli della banca",
       "description": "La procedura è quasi completata. Immetti i dettagli della banca per collegare il tuo conto.",
@@ -1190,7 +1191,7 @@
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} si aprirà in un'applicazione esterna",
+    "title": "{{dappName}} è un'applicazione esterna",
     "message": "Stai per aprire un'applicazione non gestita da Valora.\n\nValora non fornisce alcuna garanzia su questa applicazione. Usala a tuo rischio.",
     "button": "Apri {{dappName}}"
   },
@@ -1202,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Ultime 24 ore",
   "merchant": "Pagamento commerciante",
-  "merchantMoneyEscrow": "Stai per inviare un pagamento diretto a un commerciante.",
+  "merchantMoneyEscrow": "State per inviare un pagamento diretto a un commerciante.",
   "merchantPaymentNumberVerificationMessage": "Devi collegare il tuo numero",
   "merchantPaymentSubmitFail": "Impossibile inviare il pagamento",
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",

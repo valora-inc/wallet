@@ -1,11 +1,3 @@
-import SectionHead from '@celo/react-components/components/SectionHead'
-import {
-  SettingsExpandedItem,
-  SettingsItemSwitch,
-  SettingsItemTextValue,
-} from '@celo/react-components/components/SettingsItem'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as Sentry from '@sentry/react-native'
@@ -49,7 +41,13 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
+import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
+import {
+  SettingsExpandedItem,
+  SettingsItemSwitch,
+  SettingsItemTextValue,
+} from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
@@ -61,6 +59,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'

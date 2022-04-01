@@ -1,9 +1,9 @@
-import Card from '@celo/react-components/components/Card'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import ReactNativeModal from 'react-native-modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Card from 'src/components/Card'
+import colors from 'src/styles/colors'
 
 interface Props {
   children: React.ReactNode

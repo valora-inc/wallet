@@ -1,11 +1,8 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
+import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import {
   getDisplayDetail,
@@ -13,6 +10,9 @@ import {
   Recipient,
   RecipientType,
 } from 'src/recipients/recipient'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 interface Props {
   recipient: Recipient

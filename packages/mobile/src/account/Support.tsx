@@ -1,15 +1,15 @@
-import { SettingsItemTextValue } from '@celo/react-components/components/SettingsItem'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showRaiseDailyLimitSelector } from 'src/app/selectors'
+import { SettingsItemTextValue } from 'src/components/SettingsItem'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
 const openExternalLink = (link: string) => () => navigateToURI(link)

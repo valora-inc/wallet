@@ -1,12 +1,6 @@
 // SCREEN where users can review the data about the witdrawal of CELO they are about to make
 // and confirm.
 
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import HorizontalLine from '@celo/react-components/components/HorizontalLine'
-import Times from '@celo/react-components/icons/Times'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import { NavigationProp, RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -16,12 +10,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import HorizontalLine from 'src/components/HorizontalLine'
 import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
 import WithdrawCeloSummary from 'src/exchange/WithdrawCeloSummary'
 import i18n from 'src/i18n'
+import Times from 'src/icons/Times'
 import BackButton from 'src/navigator/BackButton'
 import { HeaderTitleWithBalance, headerWithBackEditButtons } from 'src/navigator/Headers'
 import {
@@ -35,6 +32,9 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloReviewScreen>
