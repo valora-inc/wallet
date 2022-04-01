@@ -60,7 +60,6 @@ export async function enterPinUi(pin = DEFAULT_PIN) {
   try {
     await device.disableSynchronization()
     for (const digit of pin) {
-      await sleep(100) // Small sleep
       try {
         if (device.getPlatform() === 'ios') {
           await element(by.id(`digit${digit}`))

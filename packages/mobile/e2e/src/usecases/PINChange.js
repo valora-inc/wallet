@@ -1,5 +1,5 @@
 import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
-import { enterPinUi, scrollIntoView } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
 
 export default ChangePIN = () => {
   beforeEach(async () => {
@@ -18,8 +18,10 @@ export default ChangePIN = () => {
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
     await enterPinUi(DEFAULT_PIN)
+    await sleep(500)
     // Then we enter the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
+    await sleep(500)
     // Then confirm the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
     await element(by.id('ChangePIN')).tap()
