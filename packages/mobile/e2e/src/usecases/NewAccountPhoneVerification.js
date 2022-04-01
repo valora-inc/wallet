@@ -5,21 +5,19 @@ import {
 } from 'react-native-dotenv'
 import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
+import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, setUrlDenyList, sleep, scrollIntoView } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
   beforeEach(async () => {
-    await device.launchApp({
+    await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    // Enable url deny list
-    await setUrlDenyList()
-
     // Dismiss banners for firebase warning
     await dismissBanners()
 
