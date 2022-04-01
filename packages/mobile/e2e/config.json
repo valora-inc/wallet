@@ -11,7 +11,7 @@
       {
         "pageTitle": "E2E Test Report",
         "outputPath": "e2e/test-results/index.html",
-        "executionTimeWarningThreshold": 90,
+        "executionTimeWarningThreshold": 300,
         "includeFailureMsg": true,
         "styleOverridePath": "teststyle.css",
         "logo": "valora-icon.png"
