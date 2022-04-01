@@ -54,8 +54,6 @@ jobs:
       - name: Run Detox
         working-directory: ${{env.working-directory}}
         run: >
-          export CELO_TEST_CONFIG=e2e &&
-          export ANDROID_SDK_ROOT=$HOME/android-tools &&
           yarn detox test
           --configuration android.release
           --artifacts-location e2e/artifacts
@@ -124,7 +122,6 @@ jobs:
       - name: Run Detox
         working-directory: ${{env.working-directory}}
         run: >
-          export CELO_TEST_CONFIG=e2e &&
           yarn detox test
           --configuration ios.release
           --artifacts-location e2e/artifacts
@@ -134,7 +131,6 @@ jobs:
           --loglevel info
           --debug-synchronization 10000
           --workers 6
-          --headless
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
