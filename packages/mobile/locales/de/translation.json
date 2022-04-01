@@ -654,7 +654,7 @@
     "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
   },
   "skipModal": {
-    "header": "Bist du sicher?",
+    "header": "Are you sure?",
     "body1": "Wenn Sie Ihre Nummer verbinden, haben Sie mehr Möglichkeiten, Zahlungen zu senden und Supercharge-Prämien zu sammeln."
   },
   "failModal": {
