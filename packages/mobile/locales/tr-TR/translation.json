@@ -654,7 +654,7 @@
     "card4": "Hesabınızı daha güvenli tutmak için üç onay mesajına ihtiyacımız var."
   },
   "skipModal": {
-    "header": "Emin misiniz?",
+    "header": "Are you sure?",
     "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
