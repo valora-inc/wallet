@@ -1,5 +1,6 @@
 import { reloadReactNative } from '../utils/retries'
 import { scrollIntoView, sleep } from '../utils/utils'
+import { dismissBanners } from '../utils/banners'
 const faker = require('@faker-js/faker')
 
 export default Settings = () => {
@@ -21,6 +22,8 @@ export default Settings = () => {
     await element(by.id('ProfileEditName')).clearText()
     await element(by.id('ProfileEditName')).replaceText(`${randomName}`)
     await element(by.id('SaveButton')).tap()
+    await expect(element(by.text('Your name and picture were saved successfully.'))).toBeVisible()
+    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
