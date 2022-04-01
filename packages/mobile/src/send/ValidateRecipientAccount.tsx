@@ -32,7 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 

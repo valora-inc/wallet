@@ -56,7 +56,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName } from 'src/recipients/recipient'
+import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
 import { sendPaymentOrInviteLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
@@ -68,6 +68,15 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
+
+export interface TransactionDataInput {
+  recipient: Recipient
+  amount: BigNumber
+  currency: Currency
+  type: TokenTransactionType
+  reason?: string
+  firebasePendingRequestUid?: string | null
+}
 
 export interface CurrencyInfo {
   localCurrencyCode: LocalCurrencyCode

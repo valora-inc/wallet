@@ -19,7 +19,7 @@ import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { TransactionDataInput } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
