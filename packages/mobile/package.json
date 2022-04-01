@@ -254,7 +254,10 @@
   },
   "detox": {
     "test-runner": "jest",
-    "runnerConfig": "e2e/config.json",
+    "runnerConfig": "./e2e/config.json",
+    "artifacts": {
+      "rootDir": "./e2e/artifacts"
+    },
     "apps": {
       "android.debug": {
         "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-x86_64-debug.apk",
