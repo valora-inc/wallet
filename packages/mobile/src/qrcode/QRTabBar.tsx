@@ -1,15 +1,15 @@
-import SegmentedControl from '@celo/react-components/components/SegmentedControl'
-import Share from '@celo/react-components/icons/Share'
-import Times from '@celo/react-components/icons/Times'
-import colors from '@celo/react-components/styles/colors'
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import SegmentedControl from 'src/components/SegmentedControl'
+import Share from 'src/icons/Share'
+import Times from 'src/icons/Times'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { shareQRCode, SVG } from 'src/send/actions'
+import colors from 'src/styles/colors'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>

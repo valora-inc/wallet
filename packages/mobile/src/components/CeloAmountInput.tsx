@@ -1,6 +1,3 @@
-import TextInputWithButtons from '@celo/react-components/components/TextInputWithButtons'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +11,10 @@ import {
   ViewStyle,
 } from 'react-native'
 import { useSelector } from 'react-redux'
+import TextInputWithButtons from 'src/components/TextInputWithButtons'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   inputContainerStyle?: ViewStyle

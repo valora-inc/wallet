@@ -1,4 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, Platform, StyleSheet, Text, View } from 'react-native'
@@ -6,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import ImagePicker from 'react-native-image-crop-picker'
 import OptionsChooser from 'src/components/OptionsChooser'
 import Photo from 'src/icons/Photo'
+import colors from 'src/styles/colors'
 import { getDataURL } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 

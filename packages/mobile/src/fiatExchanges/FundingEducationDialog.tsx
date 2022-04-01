@@ -1,4 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
@@ -6,6 +5,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { HELP_LINK } from 'src/config'
+import colors from 'src/styles/colors'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {

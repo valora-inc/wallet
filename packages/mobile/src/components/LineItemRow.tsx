@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { ActivityIndicator, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface LineItemProps {
   style?: ViewStyle

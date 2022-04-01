@@ -1,10 +1,10 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Button, { BtnTypes } from 'src/components/Button'
 import { withTranslation } from 'src/i18n'
+import colors from 'src/styles/colors'
 import { deleteChainDataAndRestartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
 
 const SHOW_RESTART_BUTTON_TIMEOUT = 10000

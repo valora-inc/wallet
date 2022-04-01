@@ -1,6 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,6 +7,9 @@ import QRCode from 'src/qrcode/QRGen'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 interface Props {

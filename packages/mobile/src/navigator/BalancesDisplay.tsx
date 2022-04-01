@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -9,6 +7,8 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/selectors'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { Currency } from 'src/utils/currencies'
 
 function useAmount(currency: Currency, selector: (state: RootState) => string | null | undefined) {

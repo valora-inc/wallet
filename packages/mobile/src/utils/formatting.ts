@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
 import BigNumber from 'bignumber.js'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
+import colors from 'src/styles/colors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 // Returns a localized string that represents the number with the right decimal points.
