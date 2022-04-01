@@ -73,7 +73,7 @@ export async function enterPinUi(pin = DEFAULT_PIN) {
       } catch {
         await element(by.id(`digit${digit}`)).tap()
       }
-    } 
+    }
   } catch {
     console.warn('Error entering Pin')
   } finally {
