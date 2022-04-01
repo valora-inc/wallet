@@ -1,7 +1,7 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation } from 'react-native'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 
 interface Props {
   getClipboardContent: () => Promise<string>

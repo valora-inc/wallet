@@ -1,6 +1,6 @@
-import Button, { ButtonProps } from '@celo/react-components/components/Button'
 import * as React from 'react'
 import { connect } from 'react-redux'
+import Button, { ButtonProps } from 'src/components/Button'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 

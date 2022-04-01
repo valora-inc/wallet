@@ -1,6 +1,3 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native'
@@ -8,8 +5,11 @@ import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Modal from 'src/components/Modal'
+import TextButton from 'src/components/TextButton'
 import { Recipient } from 'src/recipients/recipient'
 import { setShowWarning } from 'src/send/actions'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   onSelectRecipient: (recipient: Recipient) => void

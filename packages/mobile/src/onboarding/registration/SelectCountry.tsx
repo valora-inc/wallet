@@ -1,18 +1,18 @@
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import SearchInput from '@celo/react-components/components/SearchInput'
-import colors from '@celo/react-components/styles/colors'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import SearchInput from 'src/components/SearchInput'
 import i18n from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import SelectCountryItem from 'src/onboarding/registration/SelectCountryItem'
+import colors from 'src/styles/colors'
 
 const keyExtractor = (item: LocalizedCountry) => item.alpha2
 

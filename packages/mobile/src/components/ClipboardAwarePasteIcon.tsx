@@ -1,16 +1,13 @@
 // VIEW Paste icon that disappears when the |currentValue| passed matches the content
 // of the clipboard.
 
-import Touchable from '@celo/react-components/components/Touchable'
-import {
-  PasteAwareWrappedElementProps,
-  withPasteAware,
-} from '@celo/react-components/components/WithPasteAware'
-import Paste from '@celo/react-components/icons/Paste'
-import { iconHitslop } from '@celo/react-components/styles/variables'
 import React from 'react'
 import { StyleProp, ViewProps, ViewStyle } from 'react-native'
 import { isAddressFormat } from 'src/account/utils'
+import Touchable from 'src/components/Touchable'
+import { PasteAwareWrappedElementProps, withPasteAware } from 'src/components/WithPasteAware'
+import Paste from 'src/icons/Paste'
+import { iconHitslop } from 'src/styles/variables'
 
 interface PasteAwareProps {
   style?: StyleProp<ViewStyle>

@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useEffect, useRef, useState } from 'react'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 // How long the last entered digit is visible
 const LAST_DIGIT_VISIBLE_INTERVAL = 2000 // 2secs

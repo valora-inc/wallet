@@ -1,6 +1,3 @@
-import ReviewFrame from '@celo/react-components/components/ReviewFrame'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { firebase } from '@react-native-firebase/database'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
@@ -15,6 +12,7 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
+import ReviewFrame from 'src/components/ReviewFrame'
 import TotalLineItem from 'src/components/TotalLineItem'
 import {
   e164NumberToAddressSelector,
@@ -29,6 +27,8 @@ import { getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 

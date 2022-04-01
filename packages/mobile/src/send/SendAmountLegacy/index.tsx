@@ -1,5 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import variables from '@celo/react-components/styles/variables'
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
@@ -13,6 +11,7 @@ import { showError } from 'src/alert/actions'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
   ALERT_BANNER_DURATION,
   NUMBER_INPUT_MAX_DECIMALS,
@@ -34,6 +33,7 @@ import useTransactionCallbacks from 'src/send/SendAmountLegacy/useTransactionCal
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { defaultCurrencySelector } from 'src/stableToken/selectors'
+import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)

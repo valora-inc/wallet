@@ -1,10 +1,10 @@
-import DownIndicator from '@celo/react-components/icons/DownIndicator'
-import UpIndicator from '@celo/react-components/icons/UpIndicator'
-import Colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import DownIndicator from 'src/icons/DownIndicator'
+import UpIndicator from 'src/icons/UpIndicator'
+import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   testID?: string
