@@ -13,6 +13,9 @@ const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
 const AUTOMERGE_LABEL = 'automerge'
 
+const ALLOWED_UPDATED_FILE_MATCHER = `packages\/mobile\/locales\/.*\/translation\.json`
+const DISALLOWED_UPDATED_FILE = 'packages/mobile/locales/base/translation.json'
+
 /**
  * @param {Object} obj - An object.
  * @param {GitHub} obj.github
@@ -35,14 +38,41 @@ module.exports = async ({ github, context }) => {
     return
   }
 
+  console.log(`Verifying that only expected files are modified for PR #${pr.number}`)
+  const listFiles = await github.rest.pulls.listFiles({
+    owner,
+    repo,
+    pull_number: pr.number,
+  })
+  const unexpectedFiles = listFiles.data.filter(
+    ({ filename }) =>
+      filename === DISALLOWED_UPDATED_FILE ||
+      !filename.match(new RegExp(ALLOWED_UPDATED_FILE_MATCHER))
+  )
+  if (unexpectedFiles.length > 0) {
+    console.log(
+      `Files updated in PR #${pr.number} do not match the expectation, please check manually`
+    )
+    await github.rest.pulls.createReview({
+      owner,
+      repo,
+      pull_number: pr.number,
+      event: 'REQUEST_CHANGES',
+      body: `Changes requested from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}), as the updated files in this PR did not match the expectation. Please check.`,
+    })
+    return
+  }
+
   console.log(`Fetching reviews for ${pr.number}`)
   const listReviews = await github.rest.pulls.listReviews({
     owner,
     repo,
     pull_number: pr.number,
   })
-  const isApproved = listReviews.data.some((review) => review.state === 'APPROVED')
-  if (!isApproved) {
+  const isReviewed = listReviews.data.some(
+    (review) => review.state === 'APPROVED' || review.state === 'REQUEST_CHANGES'
+  )
+  if (!isReviewed) {
     console.log(`Approving Crowdin PR: ${pr.number}`)
     await github.rest.pulls.createReview({
       owner,
@@ -52,7 +82,7 @@ module.exports = async ({ github, context }) => {
       body: `Approved from [${context.workflow} #${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
     })
   } else {
-    console.log(`Already approved`)
+    console.log(`Already reviewed`)
   }
 
   const hasAutomergeLabel = pr.labels.some((label) => label.name === AUTOMERGE_LABEL)
