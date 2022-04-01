@@ -332,9 +332,8 @@ export default WalletConnect = () => {
     // TODO Validate signature
   })
 
-  afterAll(async () => {
-    await reloadReactNative()
-
+  jest.retryTimes(2)
+  it('Then should be able to disconnect a session', async () => {
     // A sleep for ci
     await sleep(3 * 1000)
 
