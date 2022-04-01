@@ -1,5 +1,5 @@
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
+import colors from 'src/styles/colors'
 import Svg, { Circle, Path } from 'svgs'
 
 interface Props {

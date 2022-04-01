@@ -1,8 +1,8 @@
-import SmallButton from '@celo/react-components/components/SmallButton'
-import fonts from '@celo/react-components/styles/fonts'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import SmallButton from 'src/components/SmallButton'
+import fonts from 'src/styles/fonts'
+import variables from 'src/styles/variables'
 
 export interface HomeActionProps {
   title: string

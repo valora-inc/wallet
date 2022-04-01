@@ -1,9 +1,9 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import TextButton from 'src/components/TextButton'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   title: string

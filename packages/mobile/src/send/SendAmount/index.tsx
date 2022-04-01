@@ -1,5 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import variables from '@celo/react-components/styles/variables'
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
@@ -14,6 +12,7 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import {
   ALERT_BANNER_DURATION,
   NUMBER_INPUT_MAX_DECIMALS,
@@ -37,6 +36,7 @@ import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
 import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import variables from 'src/styles/variables'
 import {
   useAmountAsUsd,
   useLocalToTokenAmount,

@@ -1,10 +1,10 @@
-import TextInput from '@celo/react-components/components/TextInput'
-import withTextSearchPasteAware from '@celo/react-components/components/WithTextSearchPasteAware'
-import colors from '@celo/react-components/styles/colors'
 import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import TextInput from 'src/components/TextInput'
+import withTextSearchPasteAware from 'src/components/WithTextSearchPasteAware'
+import colors from 'src/styles/colors'
 
 const SearchInput = withTextSearchPasteAware(TextInput)
 

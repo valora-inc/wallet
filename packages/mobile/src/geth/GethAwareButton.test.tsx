@@ -1,7 +1,7 @@
-import { BtnTypes } from '@celo/react-components/components/Button'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
+import { BtnTypes } from 'src/components/Button'
 import { GethAwareButton } from 'src/geth/GethAwareButton'
 
 it('renders correctly when disconnected', () => {

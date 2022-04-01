@@ -1,8 +1,8 @@
-import RewardIcon from '@celo/react-components/icons/RewardIcon'
 import * as React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { TokenTransactionType } from 'src/apollo/types'
 import ContactCircle from 'src/components/ContactCircle'
+import RewardIcon from 'src/icons/RewardIcon'
 import { transactionNetwork } from 'src/images/Images'
 import { Recipient } from 'src/recipients/recipient'
 

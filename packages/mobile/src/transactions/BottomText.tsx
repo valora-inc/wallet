@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface BottomTextProps {
   children: React.ReactNode

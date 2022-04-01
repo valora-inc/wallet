@@ -1,15 +1,15 @@
-import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
-import Times from '@celo/react-components/icons/Times'
-import colors from '@celo/react-components/styles/colors'
-import variables from '@celo/react-components/styles/variables'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
+import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
+import Times from 'src/icons/Times'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 
 interface Props {
   isOutgoingPaymentRequest: boolean

@@ -1,8 +1,8 @@
-import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   amount: string

@@ -1,14 +1,14 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 
 interface Props {

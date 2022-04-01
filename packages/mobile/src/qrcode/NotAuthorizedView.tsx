@@ -1,10 +1,10 @@
-import TextButton from '@celo/react-components/components/TextButton'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
+import TextButton from 'src/components/TextButton'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
 export default function NotAuthorizedView() {
