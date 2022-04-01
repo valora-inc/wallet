@@ -9,8 +9,8 @@
  * @typedef {import('@actions/github').context} Context
  */
 
-const CROWDIN_BRANCH = 'l10n/main'
-const CROWDIN_PR_USER = 'valora-bot-crowdin'
+const CROWDIN_BRANCH = 'kathy/test-fix-crowdin-base'
+const CROWDIN_PR_USER = 'kathaypacific'
 const AUTOMERGE_LABEL = 'automerge'
 
 const ALLOWED_UPDATED_FILE_MATCHER = `packages\/mobile\/locales\/.*\/translation\.json`
