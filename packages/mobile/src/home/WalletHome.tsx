@@ -109,9 +109,10 @@ function WalletHome() {
       (token) => token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT) && token.address !== celoAddress
     )
 
-    const hasCelo = coreTokenBalances
-      .find((token) => token.address === celoAddress)
-      ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
+    const hasCelo =
+      coreTokenBalances
+        .find((token) => token.address === celoAddress)
+        ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
     const isAccountBalanceZero = hasStable === false && hasCelo === false
 
     return cashInButtonExpEnabled && isAccountBalanceZero
