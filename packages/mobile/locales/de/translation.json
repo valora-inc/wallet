@@ -189,7 +189,7 @@
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Dein {{token}} wird aufgeladen",
-  "superchargingDescription": "Du erhältst {{apy}}% jährlich. Beanspruche deine Rewards hier am Dienstag.",
+  "superchargingDescription": "Sie erhalten {{apy}}nnually. Jede Woche erhalten Sie eine Benachrichtigung, wenn Ihre Prämien bereitstehen. Kommen Sie hierher zurück, um sie einzufordern.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
   "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
