@@ -5,7 +5,6 @@ import { reloadReactNative } from '../utils/retries'
 export default onRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
     await element(by.id('addFunds')).tap()

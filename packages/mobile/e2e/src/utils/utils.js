@@ -1,4 +1,3 @@
-import { dismissBanners } from '../utils/banners'
 import { DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -167,9 +166,6 @@ export async function quickOnboarding() {
       .toBeVisible()
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
-
-    // Dismiss banners if present
-    await dismissBanners()
 
     // Verify Education
     await waitForElementId('VerificationEducationSkipHeader')

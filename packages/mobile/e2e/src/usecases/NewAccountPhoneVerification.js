@@ -18,8 +18,6 @@ export default NewAccountPhoneVerification = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    // Dismiss banners for firebase warning
-    await dismissBanners()
 
     // Create new account
     await element(by.id('CreateAccountButton')).tap()
@@ -164,7 +162,6 @@ export default NewAccountPhoneVerification = () => {
   // Assert correct content is visible on the phone verification screen
   jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
-    await dismissBanners()
     await expect(element(by.text('Connect your phone number'))).toBeVisible()
     let skipAttributes = await element(by.text('Skip')).getAttributes()
     jestExpect(skipAttributes.enabled).toBe(true)

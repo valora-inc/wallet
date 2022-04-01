@@ -20,8 +20,6 @@ const CELO_TO_SELL_MIN = 0.002
 export default ExchangeCelo = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    // Tap Banner
-    await dismissBanners()
     // Tap Hamburger Menu
     await element(by.id('Hamburger')).tap()
     // Tap CELO

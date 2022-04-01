@@ -1,12 +1,10 @@
-import { enterPinUiIfNecessary, pixelDiff, waitForElementId, getDeviceModel } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
   })
 
   it('Reset Account by doing the Recovery Phrase quiz', async () => {

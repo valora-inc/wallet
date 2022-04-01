@@ -1,12 +1,10 @@
-import { dismissBanners } from '../utils/banners'
-import { scrollIntoView, sleep } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
+import { scrollIntoView, sleep } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 export default Settings = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
@@ -23,7 +21,6 @@ export default Settings = () => {
     await element(by.id('ProfileEditName')).clearText()
     await element(by.id('ProfileEditName')).replaceText(`${randomName}`)
     await element(by.id('SaveButton')).tap()
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()

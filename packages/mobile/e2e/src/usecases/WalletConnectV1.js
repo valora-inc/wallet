@@ -1,10 +1,9 @@
 import { newKit } from '@celo/contractkit'
 import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatureUtils'
 import NodeWalletConnect from '@walletconnect/node'
-import { dismissBanners } from '../utils/banners'
+import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
-import { utf8ToHex, formatUri } from '../utils/encoding'
 
 const fromAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -82,7 +81,6 @@ export default WalletConnect = () => {
       await sleep(2 * 1000)
       await device.openURL({ url: uri })
     }
-    await dismissBanners()
 
     // A sleep for ci
     await sleep(3 * 1000)

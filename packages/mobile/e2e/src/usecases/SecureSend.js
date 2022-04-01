@@ -1,6 +1,5 @@
-import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
-import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 const PHONE_NUMBER = '+12057368924'
@@ -10,7 +9,6 @@ const AMOUNT_TO_SEND = '0.5'
 export default SecureSend = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
   })
 
   it('Send cUSD to phone number with multiple mappings', async () => {

@@ -1,7 +1,6 @@
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
-import { dismissBanners } from '../utils/banners'
-import { scrollIntoView, sleep } from '../utils/utils'
 import { formatUri } from '../utils/encoding'
+import { scrollIntoView, sleep } from '../utils/utils'
 
 const WalletConnectAPIKey = process.env.WALLET_CONNECT_API_KEY || ''
 let uri, walletConnector
@@ -42,7 +41,6 @@ export default WalletConnect = () => {
   it('Then is able to establish a session', async () => {
     await sleep(2 * 1000)
     await device.openURL({ url: formatUri(uri) })
-    await dismissBanners()
   })
 
   // TODO - Add the tests below

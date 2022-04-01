@@ -1,9 +1,7 @@
-import { dismissBanners } from '../utils/banners'
 import { scrollIntoView } from '../utils/utils'
 
 export default RequirePIN = () => {
   beforeEach(async () => {
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))

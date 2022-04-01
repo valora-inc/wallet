@@ -93,9 +93,6 @@ export default AddedUsecase = () => {
     // Reload app on device
     await reloadReactNative()
 
-    // Dismiss banners if interfering with next steps
-    await dismissBanners()
-
     // Example setup steps for every test spec in this usecase
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()

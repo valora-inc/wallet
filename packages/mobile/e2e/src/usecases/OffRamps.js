@@ -1,12 +1,10 @@
-import { dismissBanners } from '../utils/banners'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, sleep } from '../utils/utils'
 
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
     // Waiting for element to be visible for up to 5 seconds before tap

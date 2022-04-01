@@ -1,10 +1,8 @@
-import { dismissBanners } from '../utils/banners'
 import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
 import { enterPinUi, scrollIntoView } from '../utils/utils'
 
 export default ChangePIN = () => {
   beforeEach(async () => {
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
