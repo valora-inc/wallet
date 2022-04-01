@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Estas seguro",
-    "body1": "La conexión de su número le ofrece más formas de enviar pagos y le permite recoger recompensas de Supercarga."
+    "body1": "Conectar tu número te permite enviar y recibir fondos más fácilmente, y te pone un paso más cerca de las recompensas Supercharge."
   },
   "failModal": {
     "header": "Error de conexión",
@@ -979,7 +979,7 @@
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
   "connectionSuccess": "¡Lo hiciste! Vuelve a {{dappName}} para continuar",
-  "inAppConnectionSuccess": "La conexión con {{dappName}} se ha realizado con éxito.",
+  "inAppConnectionSuccess": "¡La conexión con {{dappName}} fue un éxito!",
   "timeoutTitle": "¡Se agotó el tiempo!",
   "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.",
   "goBackButton": "Regresar",
@@ -1126,7 +1126,7 @@
       "title": "Verificación completa",
       "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
       "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria.",
-      "descriptionRegionNotSupported": "Hemos verificado su identidad con éxito. Tu región no es compatible actualmente. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "descriptionRegionNotSupported": "Hemos verificado tu identidad. Por el momento, esta función no está disponible en tu región, pero te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Paso 2",
       "disabledTitle": "Vincula una cuenta bancaria",
-      "disabledDescription": "Próximamente, soporte para cuentas bancarias. Te avisaremos cuando puedas conectar tu cuenta bancaria a Valora.",
+      "disabledDescription": "¡Pronto podrás asociar tu cuenta bancaria a {{appName}}! No te preocupes, nosotros te avisaremos cuando la función esté disponible.",
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pago a comerciante",
-  "merchantMoneyEscrow": "Está a punto de enviar un pago directo a un comerciante.",
+  "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
   "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
   "merchantPaymentSubmitFail": "No se pudo completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
