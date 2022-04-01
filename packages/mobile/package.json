@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -31,7 +31,7 @@
     "test:verify-locales": "./scripts/verify_locales.sh",
     "test:update-root-state-schema": "./scripts/update_root_state_schema.sh",
     "pre-deploy": "./scripts/pre-deploy.sh",
-    "deploy:update-disclaimer": "cd ../.. && yarn && cd packages/mobile && yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
+    "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh"
   },
   "rnpm": {
@@ -144,7 +144,7 @@
     "react-native-public-ip": "^1.0.2",
     "react-native-qrcode-svg": "^6.0.6",
     "react-native-randombytes": "^3.6.0",
-    "react-native-reanimated": "^2.3.1",
+    "react-native-reanimated": "^2.5.0",
     "react-native-restart-android": "^0.0.7",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.10.1",

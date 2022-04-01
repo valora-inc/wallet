@@ -7,7 +7,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  BackHandler,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { useDispatch, useSelector } from 'react-redux'
 import { plaidParamsSelector } from 'src/account/selectors'
@@ -22,7 +30,7 @@ import {
   BankAccount,
   deleteFinclusiveBankAccount,
   getFinclusiveBankAccounts,
-  verifyDekAndMTW,
+  verifyWalletAddress,
 } from 'src/in-house-liquidity'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -30,7 +38,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import openPlaid, { handleOnEvent } from './openPlaid'
 
 type Props = StackScreenProps<StackParamList, Screens.BankAccounts>
@@ -42,8 +50,7 @@ function BankAccounts({ navigation, route }: Props) {
   usePlaidEmitter(handleOnEvent)
   const [isOptionsVisible, setIsOptionsVisible] = useState(false)
   const [selectedBankId, setSelectedBankId] = useState(0)
-  const accountMTWAddress = useSelector(mtwAddressSelector)
-  const dekPrivate = useSelector(dataEncryptionKeySelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const plaidParams = useSelector(plaidParamsSelector)
   const { newPublicToken, fromSyncBankAccountScreen } = route.params
 
@@ -86,9 +93,7 @@ function BankAccounts({ navigation, route }: Props) {
 
   const bankAccounts = useAsync(async () => {
     try {
-      const accounts = await getFinclusiveBankAccounts(
-        verifyDekAndMTW({ dekPrivate, accountMTWAddress })
-      )
+      const accounts = await getFinclusiveBankAccounts(verifyWalletAddress({ walletAddress }))
       return accounts
     } catch (error) {
       Logger.warn(TAG, error)
@@ -101,7 +106,7 @@ function BankAccounts({ navigation, route }: Props) {
     // Todo: Consider adding a default placeholder image for banks without a logo available
     const bankLogoSrc = bank.institutionLogo ? `data:image/png;base64,${bank.institutionLogo}` : ''
     return (
-      <View key={bank.id} style={styles.accountContainer}>
+      <View key={bank.id} style={styles.accountContainer} testID="accountContainer">
         <View style={styles.row}>
           <View style={styles.bankImgContainer}>
             <Image
@@ -140,7 +145,7 @@ function BankAccounts({ navigation, route }: Props) {
     })
     try {
       await deleteFinclusiveBankAccount({
-        ...verifyDekAndMTW({ dekPrivate, accountMTWAddress }),
+        ...verifyWalletAddress({ walletAddress }),
         id: selectedBankId,
       })
       await bankAccounts.execute()
@@ -152,39 +157,44 @@ function BankAccounts({ navigation, route }: Props) {
 
   return (
     <ScrollView style={styles.scrollContainer}>
+      {bankAccounts?.loading && (
+        <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
+      )}
       {bankAccounts?.result?.map(getBankDisplay)}
-      <View style={styles.addAccountContainer}>
-        <BorderlessButton
-          testID="AddAccount"
-          onPress={async () => {
-            ValoraAnalytics.track(CICOEvents.add_bank_account_start)
-            await openPlaid({
-              ...plaidParams,
-              onSuccess: ({ publicToken }) => {
-                navigate(Screens.SyncBankAccountScreen, {
-                  publicToken,
-                })
-              },
-              onExit: ({ error }) => {
-                if (error) {
-                  navigate(Screens.LinkBankAccountErrorScreen, {
-                    error,
+      {!bankAccounts?.loading && (
+        <View style={styles.addAccountContainer}>
+          <BorderlessButton
+            testID="AddAccount"
+            onPress={async () => {
+              ValoraAnalytics.track(CICOEvents.add_bank_account_start)
+              await openPlaid({
+                ...plaidParams,
+                onSuccess: ({ publicToken }) => {
+                  navigate(Screens.SyncBankAccountScreen, {
+                    publicToken,
                   })
-                }
-              },
-            })
-          }}
-        >
-          <View style={styles.row}>
-            <View style={styles.plusIconContainer}>
-              <PlusIcon />
+                },
+                onExit: ({ error }) => {
+                  if (error) {
+                    navigate(Screens.LinkBankAccountErrorScreen, {
+                      error,
+                    })
+                  }
+                },
+              })
+            }}
+          >
+            <View style={styles.row}>
+              <View style={styles.plusIconContainer}>
+                <PlusIcon />
+              </View>
+              <View style={styles.accountLabels}>
+                <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
+              </View>
             </View>
-            <View style={styles.accountLabels}>
-              <Text style={styles.bankName}>{t('bankAccountsScreen.add')}</Text>
-            </View>
-          </View>
-        </BorderlessButton>
-      </View>
+          </BorderlessButton>
+        </View>
+      )}
       <OptionsChooser
         isVisible={isOptionsVisible}
         options={[t('bankAccountsScreen.delete')]}

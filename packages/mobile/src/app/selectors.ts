@@ -111,7 +111,7 @@ export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 
 export const linkBankAccountStepTwoEnabledSelector = (state: RootState) =>
-  state.app.linkBankAccountStepTwoEnabled
+  state.app.linkBankAccountStepTwoEnabled && state.account.finclusiveRegionSupported
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
@@ -140,7 +140,10 @@ export const skipVerificationSelector = (state: RootState) => state.app.skipVeri
 export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
 
 export const activeDappSelector = (state: RootState) =>
-  state.app.dappsWebViewEnabled && state.app.activeDapp
+  state.app.dappsWebViewEnabled ? state.app.activeDapp : null
+
+export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
+  state.app.finclusiveUnsupportedStates
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,

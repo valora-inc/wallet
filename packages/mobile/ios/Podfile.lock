@@ -627,7 +627,7 @@ PODS:
   - RNPersonaInquiry (1.2.0):
     - PersonaInquirySDK (~> 1.1.7)
     - React-Core
-  - RNReanimated (2.3.1):
+  - RNReanimated (2.5.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -1152,7 +1152,7 @@ SPEC CHECKSUMS:
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNPermissions: 034db8a73d562766f990c89abbdeaa5d6e204c67
   RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
-  RNReanimated: da3860204e5660c0dd66739936732197d359d753
+  RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
   RNSentry: fe878ca3982d7871e502ccbb90072fe764c8d07d

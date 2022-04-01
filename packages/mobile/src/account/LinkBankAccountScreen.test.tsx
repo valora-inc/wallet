@@ -2,6 +2,7 @@ import Button from '@celo/react-components/components/Button'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
+import { InquiryAttributes } from 'react-native-persona'
 import { Provider } from 'react-redux'
 import { StepOne, StepTwo } from 'src/account/LinkBankAccountScreen'
 import openPlaid from 'src/account/openPlaid'
@@ -10,12 +11,13 @@ import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockPrivateDEK } from 'test/values'
-import { fetchFinclusiveKyc } from './actions'
+import { mockAccount } from 'test/values'
+import { fetchFinclusiveKyc, setFinclusiveRegionSupported } from './actions'
 import PersonaButton from './Persona'
 
-let personaButtonSuccessCallback: (() => any) | undefined // using this to simulate Persona success at any arbitrary time
+let personaButtonSuccessCallback: ((address: InquiryAttributes['address']) => any) | undefined // using this to simulate Persona success at any arbitrary time
 let personaButtonErrorCallback: (() => any) | undefined // using this to simulate Persona error at any arbitrary time
 let personaButtonCancelCallback: (() => any) | undefined // using this to simulate Persona cancel at any arbitrary time
 
@@ -27,7 +29,7 @@ const MockPersona = ({
 }: {
   onCancelled: () => any
   onError: () => any
-  onSuccess: () => any
+  onSuccess: (address: InquiryAttributes['address']) => any
   onPress: () => any
 }) => {
   personaButtonSuccessCallback = onSuccess
@@ -50,6 +52,14 @@ jest.mock('src/account/openPlaid', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: jest.fn(),
+}))
+
+jest.mock('src/utils/Logger', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: {
+    info: jest.fn(),
+  },
 }))
 
 describe('LinkBankAccountScreen: unit tests (test one component at a time)', () => {
@@ -121,7 +131,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await fireEvent.press(getByTestId('PersonaButton'))
         await waitFor(() => expect(getByText('linkBankAccountScreen.verifying.title')).toBeTruthy())
       })
-      it('shows the pending screen if the user suceeded with Persona', async () => {
+      it('shows the pending screen if the user succeeded with Persona', async () => {
         const store = createMockStore({
           account: {
             kycStatus: undefined,
@@ -135,8 +145,79 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         )
         await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
         await fireEvent.press(getByTestId('PersonaButton'))
-        personaButtonSuccessCallback?.()
+
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
+          street1: '4067 Center Avenue',
+          street2: null,
+          city: 'Fresno',
+          subdivision: 'California',
+          postalCode: '93711',
+          countryCode: 'US',
+          subdivisionAbbr: 'CA',
+        }
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
         await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
+      })
+      it('updates finclusiveRegionSupported state in redux when user from supported states succeeded with Persona', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: undefined,
+            finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+          },
+        })
+        store.dispatch = jest.fn()
+        const { getByText, getByTestId } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
+        await fireEvent.press(getByTestId('PersonaButton'))
+
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
+          street1: '4067 Center Avenue',
+          street2: null,
+          city: 'Fresno',
+          subdivision: 'California',
+          postalCode: '93711',
+          countryCode: 'US',
+          subdivisionAbbr: 'CA',
+        }
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
+        await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
+        expect(store.dispatch).toHaveBeenCalledWith(setFinclusiveRegionSupported())
+      })
+      it('logs error when user from non-supported states succeeded with Persona', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: undefined,
+            finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
+          },
+        })
+        store.dispatch = jest.fn()
+        const { getByText, getByTestId } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => expect(getByText('linkBankAccountScreen.begin.title')).toBeTruthy())
+        await fireEvent.press(getByTestId('PersonaButton'))
+
+        const MockPersonaAddressFromInquiry: InquiryAttributes['address'] = {
+          street1: '8669 Ketch Harbour Street',
+          street2: null,
+          city: 'Brooklyn',
+          subdivision: 'New York',
+          postalCode: '11212',
+          countryCode: 'US',
+          subdivisionAbbr: 'NY',
+        }
+        personaButtonSuccessCallback?.(MockPersonaAddressFromInquiry)
+        await waitFor(() => expect(getByText('linkBankAccountScreen.pending.title')).toBeTruthy())
+        expect(Logger.info).toHaveBeenCalledWith(
+          'LinkBankAccountScreen',
+          'User state not supported by finclusive'
+        )
       })
       it('shows the pending screen if the user has been approved by persona but has not yet started finclusive', async () => {
         const store = createMockStore({
@@ -209,6 +290,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             kycStatus: KycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
         })
         const { getByText } = render(
@@ -228,6 +310,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             kycStatus: KycStatus.Approved,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
           app: { linkBankAccountStepTwoEnabled: true },
         })
@@ -239,6 +322,27 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         await waitFor(() => expect(getByText('linkBankAccountScreen.completed.title')).toBeTruthy())
         await waitFor(() =>
           expect(getByText('linkBankAccountScreen.completed.description')).toBeTruthy()
+        )
+      })
+      it('shows the completed screen with right description when user region is not supported by finclusive', async () => {
+        const store = createMockStore({
+          account: {
+            kycStatus: KycStatus.Approved,
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: false,
+          },
+          app: { linkBankAccountStepTwoEnabled: true },
+        })
+        const { getByText } = render(
+          <Provider store={store}>
+            <StepOne />
+          </Provider>
+        )
+        await waitFor(() => expect(getByText('linkBankAccountScreen.completed.title')).toBeTruthy())
+        await waitFor(() =>
+          expect(
+            getByText('linkBankAccountScreen.completed.descriptionRegionNotSupported')
+          ).toBeTruthy()
         )
       })
     })
@@ -276,10 +380,52 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         const plaidLinkButton = getByTestId('PlaidLinkButton')
         expect(plaidLinkButton).toBeDisabled()
       })
+      it('step two is disabled when user region is not supported', async () => {
+        const store = createMockStore({
+          web3: { mtwAddress: mockAccount },
+          account: {
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: false,
+          },
+          app: { linkBankAccountStepTwoEnabled: true },
+        })
+
+        const { getByTestId } = render(
+          <Provider store={store}>
+            <StepTwo />
+          </Provider>
+        )
+        const plaidLinkButton = getByTestId('PlaidLinkButton')
+        expect(plaidLinkButton).toBeDisabled()
+      })
+      it('step two is disabled when feature flag is switched on and kyc is approved but user does not live in a region finclusive supports', async () => {
+        const store = createMockStore({
+          web3: { mtwAddress: mockAccount },
+          account: {
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: false,
+          },
+          app: { linkBankAccountStepTwoEnabled: true },
+        })
+
+        const { getByTestId, queryByText } = render(
+          <Provider store={store}>
+            <StepTwo />
+          </Provider>
+        )
+        const plaidLinkButton = getByTestId('PlaidLinkButton')
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledTitle')).toBeTruthy()
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledDescription')).toBeTruthy()
+        expect(queryByText('linkBankAccountScreen.stepTwo.disabledCta')).toBeTruthy()
+        expect(plaidLinkButton).toBeDisabled()
+      })
       it('step two is enabled when feature flag is switched on and kyc is approved', async () => {
         const store = createMockStore({
           web3: { mtwAddress: mockAccount },
-          account: { finclusiveKycStatus: FinclusiveKycStatus.Accepted },
+          account: {
+            finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
+          },
           app: { linkBankAccountStepTwoEnabled: true },
         })
 
@@ -295,10 +441,10 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
         expect(plaidLinkButton).not.toBeDisabled()
       })
       it('Calls openPlaid when the plaid button is clicked', async () => {
+        const mockWalletAddress = '0x123'
         const store = createMockStore({
           web3: {
-            mtwAddress: mockAccount,
-            dataEncryptionKey: mockPrivateDEK,
+            account: mockWalletAddress,
           },
           i18n: {
             language: 'en-US',
@@ -306,6 +452,7 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           account: {
             e164PhoneNumber: MOCK_PHONE_NUMBER,
             finclusiveKycStatus: FinclusiveKycStatus.Accepted,
+            finclusiveRegionSupported: true,
           },
           app: { linkBankAccountStepTwoEnabled: true },
         })
@@ -322,10 +469,9 @@ describe('LinkBankAccountScreen: unit tests (test one component at a time)', () 
           CICOEvents.add_initial_bank_account_start
         )
         expect(openPlaid).toHaveBeenCalledWith({
-          accountMTWAddress: mockAccount,
+          walletAddress: mockWalletAddress,
           locale: 'en-US',
           phoneNumber: MOCK_PHONE_NUMBER,
-          dekPrivate: mockPrivateDEK,
           onSuccess: expect.any(Function),
           onExit: expect.any(Function),
         })

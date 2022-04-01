@@ -13,9 +13,9 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
-import { createPersonaAccount, verifyDekAndMTW } from 'src/in-house-liquidity'
+import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
-import { dataEncryptionKeySelector, mtwAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -25,15 +25,14 @@ export interface Props {
   onPress?: () => any
   onCancelled?: () => any
   onError?: () => any
-  onSuccess?: () => any
+  onSuccess?: (address: InquiryAttributes['address']) => any
 }
 
 const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: Props) => {
   const { t } = useTranslation()
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
-  const accountMTWAddress = useSelector(mtwAddressSelector)
-  const dekPrivate = useSelector(dataEncryptionKeySelector)
+  const walletAddress = useSelector(walletAddressSelector)
 
   const dispatch = useDispatch()
 
@@ -46,7 +45,7 @@ const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: 
       return
     }
 
-    if (!accountMTWAddress) {
+    if (!walletAddress) {
       // accountMTWAddress can be null if user's phone number is not verified.
       // Current plan for initial PFP release is to monitor drop off rate for users who haven't verified their phone numbers yet
       // Discussion -> https://valora-app.slack.com/archives/C025V1D6F3J/p1637606953112000
@@ -55,16 +54,13 @@ const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: 
     }
     onPress?.()
     Inquiry.fromTemplate(templateId)
-      .referenceId(accountMTWAddress)
+      .referenceId(walletAddress)
       .environment(networkConfig.personaEnvironment)
       .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
-        onSuccess?.()
+        onSuccess?.(attributes?.address)
         ValoraAnalytics.track(CICOEvents.persona_kyc_success)
-        Logger.info(
-          TAG,
-          `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
-        )
+        Logger.info(TAG, `Inquiry completed for ${inquiryId}`)
       })
       .onCancelled(() => {
         onCancelled?.()
@@ -83,7 +79,7 @@ const Persona = ({ kycStatus, text, onCancelled, onError, onPress, onSuccess }: 
   useAsync(async () => {
     if (!personaAccountCreated) {
       try {
-        await createPersonaAccount(verifyDekAndMTW({ dekPrivate, accountMTWAddress }))
+        await createPersonaAccount(verifyWalletAddress({ walletAddress }))
         setPersonaAccountCreated(true)
       } catch (error) {
         Logger.warn(TAG, error)

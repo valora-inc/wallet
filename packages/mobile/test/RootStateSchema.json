@@ -29,6 +29,46 @@
             ],
             "type": "object"
         },
+        "ActiveDapp": {
+            "additionalProperties": false,
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "openedFrom": {
+                    "$ref": "#/definitions/DappSection"
+                }
+            },
+            "required": [
+                "categoryId",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "isFeatured",
+                "name",
+                "openedFrom"
+            ],
+            "type": "object"
+        },
         "AddressInfoToDisplay": {
             "additionalProperties": false,
             "properties": {
@@ -341,6 +381,14 @@
                 "name"
             ],
             "type": "object"
+        },
+        "DappSection": {
+            "enum": [
+                "all",
+                "featured",
+                "recently used"
+            ],
+            "type": "string"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -1756,7 +1804,7 @@
                 "activeDapp": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/Dapp"
+                            "$ref": "#/definitions/ActiveDapp"
                         },
                         {
                             "type": "null"
@@ -1795,6 +1843,12 @@
                 },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
+                },
+                "finclusiveUnsupportedStates": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
@@ -1948,6 +2002,7 @@
                 "celoEuroEnabled",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
+                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
@@ -2347,6 +2402,9 @@
                 "finclusiveKycStatus": {
                     "$ref": "#/definitions/FinclusiveKycStatus"
                 },
+                "finclusiveRegionSupported": {
+                    "type": "boolean"
+                },
                 "hasLinkedBankAccount": {
                     "type": "boolean"
                 },
@@ -2412,6 +2470,7 @@
                 "dismissedGoldEducation",
                 "e164PhoneNumber",
                 "finclusiveKycStatus",
+                "finclusiveRegionSupported",
                 "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
@@ -2544,6 +2603,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],
@@ -2572,6 +2633,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],

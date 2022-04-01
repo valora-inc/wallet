@@ -6,7 +6,7 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
-import { chooseFeeCurrency, sendTransaction } from 'src/transactions/send'
+import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
@@ -14,10 +14,6 @@ import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
-
-// Additional gas added when setting the fee currency
-// See details where used.
-const STATIC_GAS_PADDING = 50_000
 
 export interface WalletResponseError {
   isError: true
@@ -39,6 +35,40 @@ function applyChainIdWorkaround(tx: any, chainId: number) {
   return tx
 }
 
+function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
+  return {
+    get arguments(): any[] {
+      return []
+    },
+    call(unusedTx?: CeloTx) {
+      throw new Error('Fake TXO not implemented')
+    },
+    // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
+    send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
+      return kit.web3.eth.sendTransaction({
+        ...tx,
+        ...updatedTx,
+      })
+    },
+    // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
+    estimateGas(updatedTx?: CeloTx): Promise<number> {
+      return kit.connection.estimateGas({
+        ...tx,
+        ...updatedTx,
+        gas: undefined,
+      })
+    },
+    encodeABI(): string {
+      return tx.data ?? ''
+    },
+    // @ts-ignore
+    _parent: {
+      // @ts-ignore
+      _address: tx.to,
+    },
+  }
+}
+
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
   const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
@@ -52,7 +82,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Also the dapp developer may have omitted some of the needed fields,
       // so it's nice to be flexible and still allow the transaction to be signed (and sent) successfully
 
-      const rawTx = { ...params[0] }
+      const rawTx: any = { ...params[0] }
       let tx
       // Provide an escape hatch for dapp developers who don't want any normalization
       if (rawTx.__skip_normalization) {
@@ -67,18 +97,22 @@ export function* handleRequest({ method, params }: { method: string; params: any
         if (!rawTx.feeCurrency) {
           // This will use CELO to pay for fees if the user has a balance,
           // otherwise it will fallback to the first currency with a balance
-          const feeCurrency: string | undefined = yield call(chooseFeeCurrency, undefined)
+          const {
+            feeCurrency,
+            gas,
+          }: {
+            feeCurrency: string | undefined
+            gas?: number
+          } = yield call(
+            chooseTxFeeDetails,
+            buildTxo(kit, rawTx),
+            rawTx.feeCurrency,
+            rawTx.gas,
+            rawTx.gasPrice
+          )
 
           rawTx.feeCurrency = feeCurrency
-          // If gas was set, we add some padding to it since we don't know if feeCurrency changed
-          // and it takes a bit more gas to pay for fees using a non-CELO fee currency.
-          // Why aren't we just estimating again?
-          // It may result in errors for the dapp. E.g. If a dapp developer is doing a two step approve and exchange and requesting both signatures
-          // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
-          if (rawTx.gas && feeCurrency) {
-            rawTx.gas = new BigNumber(rawTx.gas).plus(STATIC_GAS_PADDING).toString()
-          }
-          // We're resetting gasPrice here because if the feeCurrency has changed, we need to fetch it again
+          rawTx.gas = gas
           rawTx.gasPrice = undefined
         }
         applyChainIdWorkaround(rawTx, yield call([kit.connection, 'chainId']))
@@ -104,36 +138,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       // Dapps using this method usually leave `feeCurrency` undefined which then requires users to have a CELO balance which is not always the case
       // handling this ourselves, solves this issue.
       // TODO: bypass this if `feeCurrency` is set
-      const txo: CeloTxObject<never> = {
-        get arguments(): any[] {
-          throw new Error('Fake TXO not implemented')
-        },
-        call(unusedTx?: CeloTx) {
-          throw new Error('Fake TXO not implemented')
-        },
-        // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
-        send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
-          return kit.web3.eth.sendTransaction({
-            ...tx,
-            ...updatedTx,
-          })
-        },
-        // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
-        estimateGas(updatedTx?: CeloTx): Promise<number> {
-          return kit.connection.estimateGas({
-            ...tx,
-            ...updatedTx,
-            gas: undefined,
-          })
-        },
-        encodeABI(): string {
-          return tx.data ?? ''
-        },
-        _parent: {
-          // @ts-ignore
-          _address: tx.to,
-        },
-      }
+      const txo = buildTxo(kit, tx)
 
       const receipt: CeloTxReceipt = yield call(
         sendTransaction,
