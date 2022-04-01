@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
-    "body": "Gana {{amount}} {{currency}} por enviar cripto a un amigo para que se una. <0>Más información</0>"
+    "title": "Invita a tus amigos a {{appName}} desde la app, solo debes enviarles cripto",
+    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que termine de configurar su cuenta."
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Requerimos tres mensajes de confirmación para mantener tu cuenta más segura."
   },
   "skipModal": {
-    "header": "¿Omitir la conexión?",
-    "body1": "La conexión permite que otras personas envíen fondos a tu número de teléfono.",
-    "body2": "Sin esta conexión, podrás enviar pagos, pero solo utilizando direcciones de cuenta o códigos QR."
+    "header": "Estas seguro",
+    "body1": "Conectar tu número te permite enviar y recibir fondos más fácilmente, y te pone un paso más cerca de las recompensas Supercharge."
   },
   "failModal": {
     "header": "Error de conexión",
@@ -1126,7 +1125,8 @@
     "completed": {
       "title": "Verificación completa",
       "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
-      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria.",
+      "descriptionRegionNotSupported": "Hemos verificado tu identidad. Por el momento, esta función no está disponible en tu región, pero te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Paso 2",
       "disabledTitle": "Vincula una cuenta bancaria",
-      "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
+      "disabledDescription": "¡Pronto podrás asociar tu cuenta bancaria a {{appName}}! No te preocupes, nosotros te avisaremos cuando la función esté disponible.",
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
