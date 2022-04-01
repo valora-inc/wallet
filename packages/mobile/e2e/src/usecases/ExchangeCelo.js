@@ -1,15 +1,14 @@
 import { format } from 'date-fns'
+import { celoEducation } from '../utils/celoEducation'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
+import { reloadReactNative } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
   isElementVisible,
+  padTrailingZeros,
   sleep,
   waitForExpectNotVisible,
-  padTrailingZeros,
 } from '../utils/utils'
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { celoEducation } from '../utils/celoEducation'
-import { dismissBanners } from '../utils/banners'
-import { reloadReactNative } from '../utils/retries'
 
 const CELO_TO_SELL = 0.045
 const CELO_TO_BUY = +Math.random().toFixed(3)
