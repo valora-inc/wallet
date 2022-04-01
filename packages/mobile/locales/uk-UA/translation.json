@@ -189,7 +189,7 @@
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Ваш {{token}} отримав надбавку",
-  "superchargingDescription": "Ви отримуєте {{apy}}% річних. Отримайте свою нагороду тут у вівторок.",
+  "superchargingDescription": "Ви отримуєте {{apy}}% щотижня. Щотижня ви отримаєте сповіщення, коли ваші нагороди будуть готові, поверніться сюди, щоб отримати їх.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
   "superchargeRewardsAvailableMultipleTokens": "У вас доступно {{amounts}} для запиту!",
   "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",

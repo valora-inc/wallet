@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "Вы получаете {{apy}}% годовых. Здесь можно заявить о своих вознаграждениях во вторник.",
+  "superchargingDescription": "Вы получаете {{apy}}ежегодно. Каждую неделю вы будете получать уведомление, когда ваши награды будут готовы, возвращайтесь сюда, чтобы получить их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
