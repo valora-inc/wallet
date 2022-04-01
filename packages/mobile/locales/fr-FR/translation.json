@@ -189,7 +189,7 @@
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Vous obtenez {{apy}}nnuellement. Chaque semaine, vous recevrez une notification lorsque vos récompenses seront prêtes, revenez ici pour les réclamer.",
+  "superchargingDescription": "Vous recevez {{apy}}% annuellement. Vous recevrez une notification hebdomadaire lorsque vos récompenses seront prêtes, revenez ici pour les réclamer.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
   "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
@@ -589,8 +589,8 @@
     "button": "Terminer l'envoi"
   },
   "inviteRewardsBanner": {
-    "title": "Invitez un ami à {{appName}} en lui envoyant de la cryptographie.",
-    "body": "Vous obtiendrez tous deux {{amount}} {{currency}} une fois qu'ils auront fini de configurer leur compte."
+    "title": "Obtenez {{amount}} {{currency}} en partageant Valora avec un ami !",
+    "body": "Gagnez {{amount}} {{currency}} lorsque vous envoyez des cryptomonnaies à un ami qui s'inscrit ensuite. <0>En savoir plus</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -654,8 +654,9 @@
     "card4": "Nous avons besoin de trois messages de confirmation pour que votre compte soit plus sécurisé."
   },
   "skipModal": {
-    "header": "Êtes-vous sûr ?",
-    "body1": "La connexion de votre numéro vous donne plus de moyens d'envoyer des paiements et vous permet d'obtenir des récompenses Supercharge."
+    "header": "Ignorer la confirmation ?",
+    "body1": "La confirmation permet aux autres personnes d'envoyer des valeurs sur votre numéro de téléphone.",
+    "body2": "Sans confirmation, vous pouvez toujours envoyer des paiements, mais uniquement en utilisant les Adresses du compte ou les QR codes."
   },
   "failModal": {
     "header": "Erreur de confirmation",
@@ -1125,8 +1126,7 @@
     "completed": {
       "title": "Vérification terminée",
       "description": "Nous avons bien vérifié votre identité. Vous pouvez poursuivre la connexion de votre compte bancaire.",
-      "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire.",
-      "descriptionRegionNotSupported": "Nous avons vérifié avec succès votre identité. Votre région n'est pas prise en charge actuellement. Nous vous ferons savoir quand vous pourrez finir de relier votre compte bancaire."
+      "descriptionStep2NotEnabled": "Nous avons bien vérifié votre identité. Nous vous informerons quand vous pourrez finir de relier votre compte bancaire."
     },
     "failed": {
       "title": "Vérification refusée",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Étape 2",
       "disabledTitle": "Reliez un compte bancaire",
-      "disabledDescription": "Support des comptes bancaires bientôt disponible ! Nous vous informerons dès que vous pourrez connecter votre compte bancaire à Valora.",
+      "disabledDescription": "Vous avez presque fini ! Vous pouvez relier maintenant votre banque à Valora grâce à Plaid.",
       "disabledCta": "Bientôt disponible !",
       "title": "Saisir les coordonnées bancaires",
       "description": "Vous avez presque fini ! Saisissez les coordonnées bancaires pour lier votre compte.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Ignorer"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} est une application externe",
+    "title": "{{dappName}} est une appli externe",
     "message": "Vous êtes sur le point d'ouvrir une application non gérée par Valora.\n\nValora ne fait aucune déclaration à propos de cette application. À utiliser à vos propres risques.",
     "button": "Aller à {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "24 dernières heures",
   "merchant": "Paiement commerçant",
-  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un commerçant.",
+  "merchantMoneyEscrow": "Vous êtes sur le point d'envoyer un paiement direct à un vendeur.",
   "merchantPaymentNumberVerificationMessage": "Vous devez connecter votre numéro",
   "merchantPaymentSubmitFail": "Votre paiement n'a pas pu être envoyé",
   "merchantPaymentSetup": "Une erreur s'est produite lors du chargement des informations du vendeur, veuillez réessayer de scanner le QR code",
