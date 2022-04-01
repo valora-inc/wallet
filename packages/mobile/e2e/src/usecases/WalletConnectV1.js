@@ -333,8 +333,6 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
-    await reloadReactNative()
-
     // A sleep for ci
     await sleep(3 * 1000)
 
