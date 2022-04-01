@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "Вы получаете {{apy}}% годовых. Здесь можно заявить о своих вознаграждениях во вторник.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -589,8 +589,8 @@
     "button": "Завершить отправку"
   },
   "inviteRewardsBanner": {
-    "title": "Поделитесь сведениями о Valora и получите {{amount}} {{currency}}!",
-    "body": "Отправьте криптовалюту другу, и когда он примет предложение, вы заработаете {{amount}} {{currency}}. <0>Подробнее</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "Получить ${{reward}}",
   "welcomeCelo": "Добро пожаловать в {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Для обеспечения более высокого уровня безопасности аккаунта нам потребуются три подтверждающих сообщения."
   },
   "skipModal": {
-    "header": "Пропустить подтверждение?",
-    "body1": "Подтверждение позволяет другим пользователям отправлять средства по вашему номеру телефона.",
-    "body2": "Без подтверждения по-прежнему можно отправлять платежи, но только с использованием адресов аккаунтов или QR-кодов."
+    "header": "Вы уверены?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Ошибка подтверждения",
@@ -1130,7 +1129,8 @@
     "completed": {
       "title": "Проверка завершена",
       "description": "Мы успешно проверили вашу личность. Завершите привязку своего банковского счета.",
-      "descriptionStep2NotEnabled": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета."
+      "descriptionStep2NotEnabled": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета.",
+      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Проверка отклонена",
@@ -1150,7 +1150,7 @@
     "stepTwo": {
       "label": "Шаг 2",
       "disabledTitle": "Привязать банковский счет",
-      "disabledDescription": "Почти готово! Теперь вы можете подключить свой банковский счет к Valora через Plaid.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
       "disabledCta": "В ближайшее время!",
       "title": "Введите банковские реквизиты",
       "description": "Почти готово! Введите банковские реквизиты, чтобы привязать свой счет к Valora.",
@@ -1195,7 +1195,7 @@
     "dismiss": "Закрыть"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} является внешним приложением",
+    "title": "{{dappName}} is an external application",
     "message": "Вы собираетесь открыть приложение, которым не управляет Valora.\n\nValora не дает никаких заверений относительно этого приложения. Вы используете его на свой риск.",
     "button": "Перейти в {{dappName}}"
   },
@@ -1207,7 +1207,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Последние 24 часа",
   "merchant": "Платеж продавцу",
-  "merchantMoneyEscrow": "Вы собираетесь отправить прямой платеж продавцу.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "Вам нужно привязать свой номер",
   "merchantPaymentSubmitFail": "Ваш платеж не удалось отправить",
   "merchantPaymentSetup": "При загрузке информации о продавце произошла ошибка. Повторите попытку сканирования QR-кода",
