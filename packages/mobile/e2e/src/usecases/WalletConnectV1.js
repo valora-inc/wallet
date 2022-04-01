@@ -65,10 +65,6 @@ export default WalletConnect = () => {
     }
   })
 
-  afterAll(async () => {
-    await walletConnector.transportClose()
-  })
-
   jest.retryTimes(2)
   it('Then should be able to establish a session', async () => {
     // Launching in Android requires use of launchApp
@@ -332,8 +328,10 @@ export default WalletConnect = () => {
     // TODO Validate signature
   })
 
-  jest.retryTimes(2)
-  it('Then should be able to disconnect a session', async () => {
+  afterAll(async () => {
+    // Close wc
+    await walletConnector.transportClose()
+
     // A sleep for ci
     await sleep(3 * 1000)
 
