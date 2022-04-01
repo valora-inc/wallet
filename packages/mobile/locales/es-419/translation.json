@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingDescription": "Estás recibiendo {{apy}}nualmente. Cada semana recibirás una notificación cuando tus recompensas estén listas, vuelve aquí para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Invita a tus amigos a {{appName}} desde la app, solo debes enviarles cripto",
-    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que termine de configurar su cuenta."
+    "title": "Invita a un amigo a {{appName}} enviándole algo de cripto.",
+    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que terminen de configurar su cuenta."
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Estas seguro",
-    "body1": "Conectar tu número te permite enviar y recibir fondos más fácilmente, y te pone un paso más cerca de las recompensas Supercharge."
+    "body1": "La conexión de su número le ofrece más formas de enviar pagos y le permite recoger recompensas de Supercarga."
   },
   "failModal": {
     "header": "Error de conexión",
@@ -979,7 +979,7 @@
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
   "connectionSuccess": "¡Lo hiciste! Vuelve a {{dappName}} para continuar",
-  "inAppConnectionSuccess": "¡La conexión con {{dappName}} fue un éxito!",
+  "inAppConnectionSuccess": "La conexión con {{dappName}} se ha realizado con éxito.",
   "timeoutTitle": "¡Se agotó el tiempo!",
   "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.",
   "goBackButton": "Regresar",
@@ -1126,7 +1126,7 @@
       "title": "Verificación completa",
       "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
       "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria.",
-      "descriptionRegionNotSupported": "Hemos verificado tu identidad. Por el momento, esta función no está disponible en tu región, pero te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "descriptionRegionNotSupported": "Hemos verificado su identidad con éxito. Tu región no es compatible actualmente. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Paso 2",
       "disabledTitle": "Vincula una cuenta bancaria",
-      "disabledDescription": "¡Pronto podrás asociar tu cuenta bancaria a {{appName}}! No te preocupes, nosotros te avisaremos cuando la función esté disponible.",
+      "disabledDescription": "Próximamente, soporte para cuentas bancarias. Te avisaremos cuando puedas conectar tu cuenta bancaria a Valora.",
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} es una aplicación externa",
+    "title": "{{dappName}} is an external application",
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pago a comerciante",
-  "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
+  "merchantMoneyEscrow": "Está a punto de enviar un pago directo a un comerciante.",
   "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
   "merchantPaymentSubmitFail": "No se pudo completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
