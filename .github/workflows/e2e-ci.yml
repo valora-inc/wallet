@@ -55,6 +55,7 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: >
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
+          export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
           yarn detox test
           --configuration android.release
           --artifacts-location e2e/artifacts
