@@ -18,7 +18,7 @@ let uri, walletConnector, tx
 
 export default WalletConnect = () => {
   beforeAll(async () => {
-    await reloadReactNative()
+    await device.reloadReactNative()
 
     // Create connector
     walletConnector = new NodeWalletConnect(
@@ -63,6 +63,10 @@ export default WalletConnect = () => {
     if (closeIconPresent) {
       await element(by.id('Times')).tap()
     }
+  })
+
+  afterAll(async () => {
+    await walletConnector.transportClose()
   })
 
   jest.retryTimes(2)
@@ -329,9 +333,6 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
-    // Close wc
-    await walletConnector.transportClose()
-
     // A sleep for ci
     await sleep(3 * 1000)
 
