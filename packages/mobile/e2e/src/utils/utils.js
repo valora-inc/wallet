@@ -59,6 +59,7 @@ export async function skipTo(nextScreen) {
 export async function enterPinUi(pin = DEFAULT_PIN) {
   try {
     await device.disableSynchronization()
+    await sleep(100)
     for (const digit of pin) {
       try {
         if (device.getPlatform() === 'ios') {
