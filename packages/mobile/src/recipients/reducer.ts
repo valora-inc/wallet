@@ -44,7 +44,6 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
         ...initialState,
         ...state,
         ...hydrated,
-        phoneRecipientCache: initialState.phoneRecipientCache,
       }
     })
     .addCase(setPhoneRecipientCache, (state, action) => ({
