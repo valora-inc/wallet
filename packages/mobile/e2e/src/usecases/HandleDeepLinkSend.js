@@ -1,6 +1,5 @@
-import { quote, sleep, inputNumberKeypad, enterPinUiIfNecessary } from '../utils/utils'
-import { dismissBanners } from '../utils/banners'
-import { reloadReactNative, launchApp } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, inputNumberKeypad, quote, sleep } from '../utils/utils'
 
 export default HandleDeepLinkSend = () => {
   const PAY_URL = quote(
