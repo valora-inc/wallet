@@ -57,20 +57,27 @@ export async function skipTo(nextScreen) {
 }
 
 export async function enterPinUi(pin = DEFAULT_PIN) {
-  for (const digit of pin) {
-    try {
-      if (device.getPlatform() === 'ios') {
-        await element(by.id(`digit${digit}`))
-          .atIndex(1)
-          .tap()
-      } else {
-        await element(by.id(`digit${digit}`))
-          .atIndex(0)
-          .tap()
+  try {
+    await device.disableSynchronization()
+    for (const digit of pin) {
+      try {
+        if (device.getPlatform() === 'ios') {
+          await element(by.id(`digit${digit}`))
+            .atIndex(1)
+            .tap()
+        } else {
+          await element(by.id(`digit${digit}`))
+            .atIndex(0)
+            .tap()
+        }
+      } catch {
+        await element(by.id(`digit${digit}`)).tap()
       }
-    } catch {
-      await element(by.id(`digit${digit}`)).tap()
-    }
+    } 
+  } catch {
+    console.warn('Error entering Pin')
+  } finally {
+    await device.enableSynchronization()
   }
 }
 
