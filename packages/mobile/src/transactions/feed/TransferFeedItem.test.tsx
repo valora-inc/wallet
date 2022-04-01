@@ -330,7 +330,6 @@ describe('TransferFeedItem', () => {
 
   it('renders correctly for sent invites', async () => {
     const contactPhoneNumber = '+14155553695'
-    const contactName = 'Kate Bell'
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.InviteSent,
       storeOverrides: {
@@ -347,7 +346,7 @@ describe('TransferFeedItem', () => {
           phoneRecipientCache: {
             [contactPhoneNumber]: {
               e164PhoneNumber: contactPhoneNumber,
-              name: contactName,
+              name: 'Kate Bell',
             },
           },
         },
@@ -362,7 +361,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: [
-        `feedItemEscrowSentTitle, {"context":null,"nameOrNumber":"${contactName}"}`,
+        'feedItemEscrowSentTitle, {"context":null,"nameOrNumber":"Kate Bell"}',
       ],
       expectedSubtitleSections: ['feedItemEscrowSentInfo, {"context":"noComment"}'],
       expectedAmount: '+₱13.30',

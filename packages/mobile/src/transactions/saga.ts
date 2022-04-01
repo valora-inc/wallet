@@ -125,23 +125,25 @@ export function* getInviteTransactionsDetails({ transactions }: UpdateTransactio
       !existingInviteTransactions[transaction.transactionHash]
   )
 
-  if (newInviteTransactions.length > 0) {
-    const inviteTransactions = { ...existingInviteTransactions }
-    for (const newInviteTransaction of newInviteTransactions) {
-      const { recipientIdentifier, paymentId } = yield call(
-        getInviteTransactionDetails,
-        newInviteTransaction.transactionHash,
-        newInviteTransaction.block
-      )
-      if (recipientIdentifier && paymentId) {
-        inviteTransactions[newInviteTransaction.transactionHash] = {
-          paymentId,
-          recipientIdentifier,
-        }
+  if (newInviteTransactions.length <= 0) {
+    return
+  }
+
+  const inviteTransactions = { ...existingInviteTransactions }
+  for (const newInviteTransaction of newInviteTransactions) {
+    const { recipientIdentifier, paymentId } = yield call(
+      getInviteTransactionDetails,
+      newInviteTransaction.transactionHash,
+      newInviteTransaction.block
+    )
+    if (recipientIdentifier && paymentId) {
+      inviteTransactions[newInviteTransaction.transactionHash] = {
+        paymentId,
+        recipientIdentifier,
       }
     }
-    yield put(updateInviteTransactions(inviteTransactions))
   }
+  yield put(updateInviteTransactions(inviteTransactions))
 }
 
 export function* waitForTransactionWithId(txId: string) {
