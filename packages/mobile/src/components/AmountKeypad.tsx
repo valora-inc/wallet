@@ -1,6 +1,6 @@
-import NumberKeypad from '@celo/react-components/components/NumberKeypad'
 import React, { useCallback, useMemo } from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
+import NumberKeypad from 'src/components/NumberKeypad'
 
 const { decimalSeparator } = getNumberFormatSettings()
 

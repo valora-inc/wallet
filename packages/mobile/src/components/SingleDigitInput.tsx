@@ -1,7 +1,7 @@
-import TextInput from '@celo/react-components/components/TextInput'
-import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
+import TextInput from 'src/components/TextInput'
+import colors from 'src/styles/colors'
 
 export interface SingleDigitInputProps {
   inputValue: string

@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -9,6 +7,8 @@ import { ErrorDisplayType } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 const DISMISS_DEFAULT = 5
 

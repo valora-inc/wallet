@@ -1,8 +1,8 @@
-import colors from '@celo/react-components/styles/colors'
-import { elevationShadowStyle } from '@celo/react-components/styles/styles'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Hamburger from 'src/icons/Hamburger'
+import colors from 'src/styles/colors'
+import { elevationShadowStyle } from 'src/styles/styles'
 
 function HamburgerCard() {
   return (

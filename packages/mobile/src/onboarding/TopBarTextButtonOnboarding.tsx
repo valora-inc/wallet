@@ -1,7 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { TopBarTextButton, TopBarTextButtonProps } from 'src/navigator/TopBarButton'
+import colors from 'src/styles/colors'
 
 export default function TopBarTextButtonOnboarding({
   titleStyle,

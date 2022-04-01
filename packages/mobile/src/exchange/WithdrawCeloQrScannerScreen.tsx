@@ -1,7 +1,5 @@
 // SCREEN that scans QRs and calls |onAddressScanned| param when one is found.
 
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import { memoize } from 'lodash'
 import React from 'react'
@@ -18,6 +16,8 @@ import { StackParamList } from 'src/navigator/types'
 import QRScanner from 'src/qrcode/QRScanner'
 import { uriDataFromUrl } from 'src/qrcode/schema'
 import { QrCode } from 'src/send/actions'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'WithdrawCeloQrScannerScreen'

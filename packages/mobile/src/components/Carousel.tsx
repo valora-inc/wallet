@@ -1,9 +1,3 @@
-import Card from '@celo/react-components/components/Card'
-import Pagination from '@celo/react-components/components/Pagination'
-import fontStyles from '@celo/react-components/styles/fonts'
-import progressDots from '@celo/react-components/styles/progressDots'
-import { Spacing } from '@celo/react-components/styles/styles'
-import variables from '@celo/react-components/styles/variables'
 import React, { useState } from 'react'
 import {
   Image,
@@ -17,6 +11,12 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import Card from 'src/components/Card'
+import Pagination from 'src/components/Pagination'
+import fontStyles from 'src/styles/fonts'
+import progressDots from 'src/styles/progressDots'
+import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 const ITEM_WIDTH = variables.width - Spacing.Thick24 * 2
 const ITEM_HEIGHT = ITEM_WIDTH * (211 / 292)

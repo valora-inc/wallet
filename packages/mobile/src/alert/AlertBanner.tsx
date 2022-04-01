@@ -1,8 +1,8 @@
-import SmartTopAlert from '@celo/react-components/components/SmartTopAlert'
 import React, { memo, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { hideAlert } from 'src/alert/actions'
 import { ErrorDisplayType } from 'src/alert/reducer'
+import SmartTopAlert from 'src/components/SmartTopAlert'
 import useSelector from 'src/redux/useSelector'
 
 function AlertBanner() {

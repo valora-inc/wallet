@@ -1,15 +1,15 @@
-import Button, { BtnSizes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
-import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button, { BtnSizes } from 'src/components/Button'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import { canSendTokensSelector } from 'src/send/selectors'
+import colors from 'src/styles/colors'
+import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
