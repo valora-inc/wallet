@@ -105,10 +105,6 @@ describe('WalletHome', () => {
     )
   })
 
-  afterEach(() => {
-    jest.useRealTimers()
-  })
-
   function renderScreen(storeOverrides: RecursivePartial<RootState> = {}) {
     const store = createMockStore({
       ...mockBalances,

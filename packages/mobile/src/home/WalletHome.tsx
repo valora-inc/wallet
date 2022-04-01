@@ -102,7 +102,7 @@ function WalletHome() {
 
   const shouldShowCashInBottomSheet = () => {
     // If there are no core tokens then we are either still loading or loading failed.
-    if (coreTokenBalances.length < 2) {
+    if (!coreTokenBalances.length) {
       return false
     }
     const hasStable = !!coreTokenBalances.find(
@@ -110,7 +110,7 @@ function WalletHome() {
     )
 
     const hasCelo = coreTokenBalances
-      .find((token) => token.address !== celoAddress)
+      .find((token) => token.address === celoAddress)
       ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
     const isAccountBalanceZero = hasStable === false && hasCelo === false
 
