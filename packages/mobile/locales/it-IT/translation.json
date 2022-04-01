@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ottenendo il {{apy}}% annuale. Riceverai una notificazione settimanale quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
@@ -589,8 +589,8 @@
     "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
-    "title": "Ricevi {{amount}} {{currency}} condividendo Valora con un amico.",
-    "body": "Guadagna {{amount}} {{currency}} quando invii criptovaluta a un amico che accetta l'invito. <0>Ulteriori informazioni</0>"
+    "title": "Invite a friend to {{appName}} by sending them some crypto.",
+    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
@@ -654,9 +654,8 @@
     "card4": "Richiediamo tre messaggi di conferma per mantenere il tuo conto più sicuro."
   },
   "skipModal": {
-    "header": "Saltare la conferma?",
-    "body1": "La conferma consente ad altri di inviare valore al tuo numero telefonico.",
-    "body2": "Senza conferma, puoi ancora inviare pagamenti, ma solo utilizzando un Indirizzo del conto o codici QR."
+    "header": "Sei sicuro?",
+    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
   },
   "failModal": {
     "header": "Errore durante la conferma.",
@@ -1126,7 +1125,8 @@
     "completed": {
       "title": "Verifica completata",
       "description": "Abbiamo verificato la tua identità. Procedi per completare il collegamento del tuo conto bancario.",
-      "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario."
+      "descriptionStep2NotEnabled": "Abbiamo verificato la tua identità. Ti faremo sapere quando potrai terminare il collegamento del tuo conto bancario.",
+      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
     },
     "failed": {
       "title": "Verifica respinta",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Passaggio 2",
       "disabledTitle": "Collega un conto bancario",
-      "disabledDescription": "La procedura è quasi completata. Ora puoi collegare il tuo conto bancario a Valora tramite Plaid.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
       "disabledCta": "Presto disponibile.",
       "title": "Immetti i dettagli della banca",
       "description": "La procedura è quasi completata. Immetti i dettagli della banca per collegare il tuo conto.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Ignora"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} è un'applicazione esterna",
+    "title": "{{dappName}} is an external application",
     "message": "Stai per aprire un'applicazione non gestita da Valora.\n\nValora non fornisce alcuna garanzia su questa applicazione. Usala a tuo rischio.",
     "button": "Apri {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Ultime 24 ore",
   "merchant": "Pagamento commerciante",
-  "merchantMoneyEscrow": "Stai per inviare un pagamento diretto a un commerciante.",
+  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
   "merchantPaymentNumberVerificationMessage": "Devi collegare il tuo numero",
   "merchantPaymentSubmitFail": "Impossibile inviare il pagamento",
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
