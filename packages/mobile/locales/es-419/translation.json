@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo {{apy}}nualmente. Cada semana recibirás una notificación cuando tus recompensas estén listas, vuelve aquí para reclamarlas.",
+  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Invita a un amigo a {{appName}} enviándole algo de cripto.",
-    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que terminen de configurar su cuenta."
+    "title": "Invita a tus amigos a {{appName}} desde la app, solo debes enviarles cripto",
+    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que termine de configurar su cuenta."
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
