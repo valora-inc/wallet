@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você está recebendo {{apy}}% anualmente. Você receberá uma notificação semanal quando suas recompensas estiverem prontas, volte aqui para reclamá-las.",
+  "superchargingDescription": "Você está recebendo {{apy}}Não é costume. Toda semana você receberá uma notificação quando suas recompensas estiverem prontas, volte aqui para reclamá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",

@@ -1,4 +1,6 @@
-import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
+import { CeloTransactionObject, CeloTxReceipt, EventLog } from '@celo/connect'
+import { ContractKit } from '@celo/contractkit'
+import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
@@ -28,11 +30,13 @@ import {
   TransactionConfirmedAction,
   transactionFailed,
   TransactionFailedAction,
+  updateInviteTransactions,
   updateRecentTxRecipientsCache,
   UpdateTransactionsAction,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
 import {
+  inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   KnownFeedTransactionsType,
   standbyTransactionsLegacySelector,
@@ -43,10 +47,12 @@ import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import {
   StandbyTransaction,
   StandbyTransactionLegacy,
+  TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { getContractKit } from 'src/web3/contracts'
 
 const TAG = 'transactions/saga'
 
@@ -80,6 +86,64 @@ function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction)
       yield put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
+}
+
+function* getInviteTransactionDetails(txHash: string, blockNumber: string) {
+  const kit: ContractKit = yield call(getContractKit)
+  const escrowWrapper: EscrowWrapper = yield call([kit.contracts, kit.contracts.getEscrow])
+  const transferEvents: EventLog[] = yield call(
+    [escrowWrapper, escrowWrapper.getPastEvents],
+    'Transfer',
+    {
+      fromBlock: blockNumber,
+      toBlock: blockNumber,
+    }
+  )
+  const transactionDetails = transferEvents.find(
+    (transferEvent) => transferEvent.transactionHash === txHash
+  )
+
+  if (!transactionDetails) {
+    Logger.error(
+      `${TAG}@getInviteTransactionDetails`,
+      `No escrow past events found with transaction hash ${txHash} and block number ${blockNumber}`
+    )
+    return {}
+  }
+
+  return {
+    recipientIdentifier: transactionDetails.returnValues.identifier,
+    paymentId: transactionDetails.returnValues.paymentId,
+  }
+}
+
+export function* getInviteTransactionsDetails({ transactions }: UpdateTransactionsAction) {
+  const existingInviteTransactions = yield select(inviteTransactionsSelector)
+  const newInviteTransactions = transactions.filter(
+    (transaction) =>
+      transaction.type === TokenTransactionTypeV2.InviteSent &&
+      !existingInviteTransactions[transaction.transactionHash]
+  )
+
+  if (newInviteTransactions.length <= 0) {
+    return
+  }
+
+  const inviteTransactions = { ...existingInviteTransactions }
+  for (const newInviteTransaction of newInviteTransactions) {
+    const { recipientIdentifier, paymentId } = yield call(
+      getInviteTransactionDetails,
+      newInviteTransaction.transactionHash,
+      newInviteTransaction.block
+    )
+    if (recipientIdentifier && paymentId) {
+      inviteTransactions[newInviteTransaction.transactionHash] = {
+        paymentId,
+        recipientIdentifier,
+      }
+    }
+  }
+  yield put(updateInviteTransactions(inviteTransactions))
 }
 
 export function* waitForTransactionWithId(txId: string) {
@@ -220,6 +284,7 @@ function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
 function* watchNewFeedTransactions() {
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactionsLegacy)
   yield takeEvery(Actions.UPDATE_TRANSACTIONS, cleanupStandbyTransactions)
+  yield takeEvery(Actions.UPDATE_TRANSACTIONS, getInviteTransactionsDetails)
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
