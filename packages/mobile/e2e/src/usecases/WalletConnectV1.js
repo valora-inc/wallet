@@ -18,7 +18,7 @@ let uri, walletConnector, tx
 
 export default WalletConnect = () => {
   beforeAll(async () => {
-    await device.reloadReactNative()
+    await reloadReactNative()
 
     // Create connector
     walletConnector = new NodeWalletConnect(
@@ -333,6 +333,8 @@ export default WalletConnect = () => {
   })
 
   afterAll(async () => {
+    await reloadReactNative()
+
     // A sleep for ci
     await sleep(3 * 1000)
 
