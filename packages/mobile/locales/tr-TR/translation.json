@@ -189,7 +189,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Yıllık %{{apy}} oranında getiri elde ediyorsunuz. Ödüllerinizi Salı günü buradan alabilirsiniz.",
+  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
