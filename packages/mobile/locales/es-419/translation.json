@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo {{apy}}nualmente. Cada semana recibirás una notificación cuando tus recompensas estén listas, vuelve aquí para reclamarlas.",
+  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Invita a un amigo a {{appName}} enviándole algo de cripto.",
-    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que terminen de configurar su cuenta."
+    "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
+    "body": "Gana {{amount}} {{currency}} por enviar cripto a un amigo para que se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -654,8 +654,9 @@
     "card4": "Requerimos tres mensajes de confirmación para mantener tu cuenta más segura."
   },
   "skipModal": {
-    "header": "Estas seguro",
-    "body1": "La conexión de su número le ofrece más formas de enviar pagos y le permite recoger recompensas de Supercarga."
+    "header": "¿Omitir la conexión?",
+    "body1": "La conexión permite que otras personas envíen fondos a tu número de teléfono.",
+    "body2": "Sin esta conexión, podrás enviar pagos, pero solo utilizando direcciones de cuenta o códigos QR."
   },
   "failModal": {
     "header": "Error de conexión",
@@ -1125,8 +1126,7 @@
     "completed": {
       "title": "Verificación completa",
       "description": "Hemos verificado tu identidad con éxito. Por favor, continúa y termina de vincular tu cuenta bancaria.",
-      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria.",
-      "descriptionRegionNotSupported": "Hemos verificado su identidad con éxito. Tu región no es compatible actualmente. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
+      "descriptionStep2NotEnabled": "Hemos verificado tu identidad. Te avisaremos cuando puedas terminar de vincular tu cuenta bancaria."
     },
     "failed": {
       "title": "Verificación denegada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Paso 2",
       "disabledTitle": "Vincula una cuenta bancaria",
-      "disabledDescription": "Próximamente, soporte para cuentas bancarias. Te avisaremos cuando puedas conectar tu cuenta bancaria a Valora.",
+      "disabledDescription": "¡Ya casi terminas! Vincula tu cuenta bancaria a Valora a través de Plaid.",
       "disabledCta": "¡Muy pronto!",
       "title": "Ingresa los datos bancarios",
       "description": "¡Ya casi terminas! Ingresa los datos bancarios para vincular tu cuenta a Valora.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Descartar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} is an external application",
+    "title": "{{dappName}} es una aplicación externa",
     "message": "Estás a punto de abrir una aplicación externa, no operada por Valora.\n\nValora no ofrece garantías sobre esta aplicación. Úsala por cuenta y riesgo propios.",
     "button": "Ir a {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pago a comerciante",
-  "merchantMoneyEscrow": "Está a punto de enviar un pago directo a un comerciante.",
+  "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
   "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
   "merchantPaymentSubmitFail": "No se pudo completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
