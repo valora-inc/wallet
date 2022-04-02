@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Ви впевнені?",
-    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
+    "body1": "Під'єднавши свій номер, ви отримаєте більше способів надсилати платежі та зможете отримувати нагороди Supercharge."
   },
   "failModal": {
     "header": "Помилка підтвердження",
@@ -1130,7 +1130,7 @@
       "title": "Перевірку завершено",
       "description": "Ми успішно підтвердили вашу особистість. Продовжуйте, щоб завершити прив’язку банківського рахунку.",
       "descriptionStep2NotEnabled": "Ми успішно підтвердили вашу особистість. Ми дамо вам знати, коли ви зможете завершити прив’язку банківського рахунку.",
-      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
+      "descriptionRegionNotSupported": "Ми успішно підтвердили вашу особу. Ваш регіон наразі не підтримується. Ми повідомимо вас, коли ви зможете завершити під’єднання свого банківського рахунку."
     },
     "failed": {
       "title": "Перевірку відхилено",
@@ -1150,7 +1150,7 @@
     "stepTwo": {
       "label": "Крок 2",
       "disabledTitle": "Прив'язати банківський рахунок",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Підтримка банківського рахунку незабаром! Ми повідомимо вас, коли ви зможете під'єднати свій банківський рахунок до Valora.",
       "disabledCta": "Незабаром!",
       "title": "Введіть банківські реквізити",
       "description": "Майже готово! Введіть банківські реквізити для прив'язки рахунку до Valora.",
@@ -1195,7 +1195,7 @@
     "dismiss": "Відхилити"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} is an external application",
+    "title": "{{dappName}} є зовнішнім застосунком",
     "message": "Ви збираєтеся відкрити застосунок, яким не керує Valora.\n\nValora не надає жодних гарантій щодо цього застосунку. Ви використовуєте його на свій страх і ризик.",
     "button": "Перейти до {{dappName}}"
   },
@@ -1207,7 +1207,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Останні 24 год",
   "merchant": "Платіж для продавця",
-  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "Ви збираєтеся здійснити прямий платіж на користь продавця.",
   "merchantPaymentNumberVerificationMessage": "Треба під'єднати свій номер",
   "merchantPaymentSubmitFail": "Ваш платіж не вдалося надіслати",
   "merchantPaymentSetup": "Під час завантаження інформації про продавця сталася помилка, зіскануйте QR-код ще раз",
