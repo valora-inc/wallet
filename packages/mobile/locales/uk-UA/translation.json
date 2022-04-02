@@ -189,7 +189,7 @@
     "dismiss": "Відхилити"
   },
   "superchargingTitle": "Ваш {{token}} отримав надбавку",
-  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingDescription": "Ви отримуєте {{apy}}% річних. Щотижня ви отримуватимете повідомлення, коли ваші винагороди будуть готові, повертайтеся сюди, щоб забрати їх.",
   "superchargeRewardsAvailable": "У вас доступно {{amount}} {{token}} для запиту!",
   "superchargeRewardsAvailableMultipleTokens": "У вас доступно {{amounts}} для запиту!",
   "superchargeClaimText": "Отримайте свої нагороди, щоб додати їх до вашого залишку.",
@@ -589,8 +589,8 @@
     "button": "Закінчити надсилання"
   },
   "inviteRewardsBanner": {
-    "title": "Invite a friend to {{appName}} by sending them some crypto.",
-    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
+    "title": "Запросіть друзів до {{appName}}, надіславши їм криптовалюту.",
+    "body": "Ви обидва отримаєте {{amount}} {{currency}}, коли вони закінчать налаштування свого облікового запису."
   },
   "getReward": "Отримати винагороду ${{reward}}",
   "welcomeCelo": "Ласкаво просимо до {{appName}}",
