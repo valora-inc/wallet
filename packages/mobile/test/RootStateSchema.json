@@ -967,6 +967,25 @@
             ],
             "type": "string"
         },
+        "InviteTransactions": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "paymentId": {
+                        "type": "string"
+                    },
+                    "recipientIdentifier": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "paymentId",
+                    "recipientIdentifier"
+                ],
+                "type": "object"
+            },
+            "type": "object"
+        },
         "JsonRpcPermissions": {
             "additionalProperties": false,
             "properties": {
@@ -3090,6 +3109,9 @@
         "State_9": {
             "additionalProperties": false,
             "properties": {
+                "inviteTransactions": {
+                    "$ref": "#/definitions/InviteTransactions"
+                },
                 "knownFeedTransactions": {
                     "$ref": "#/definitions/KnownFeedTransactionsType"
                 },
@@ -3137,6 +3159,7 @@
                 }
             },
             "required": [
+                "inviteTransactions",
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
