@@ -38,12 +38,16 @@ export function useMerchantPayments(apiBase: string, referenceId: string) {
   const { loading, error: chargeError } = useAsync(async () => {
     const kit = await getContractKitAsync()
     const wallet = kit.getWallet()! as UnlockableWallet
-    const [account, dekAddress] = wallet.getAccounts()
+    // const [account, dekAddress] = wallet.getAccounts()
+    const [account] = wallet.getAccounts()
     await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
-    await wallet.unlockAccount(dekAddress, await retrieveOrGeneratePepper(), UNLOCK_DURATION)
+    // await wallet.unlockAccount(dekAddress, await retrieveOrGeneratePepper(), UNLOCK_DURATION)
 
     // Note: both the account and the DEK need to be unlocked for the payment merchant sdk to work
-    if (!wallet.isAccountUnlocked(account) || !wallet.isAccountUnlocked(dekAddress)) {
+    // if (!wallet.isAccountUnlocked(account) || !wallet.isAccountUnlocked(dekAddress)) {
+    //   dispatch(showError(t('merchantWalletUnlockError')))
+    // }
+    if (!wallet.isAccountUnlocked(account)) {
       dispatch(showError(t('merchantWalletUnlockError')))
     }
 
