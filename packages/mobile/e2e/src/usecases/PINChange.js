@@ -11,6 +11,7 @@ export default ChangePIN = () => {
     await element(by.id('Settings')).tap()
   })
 
+  jest.retries(2)
   it('Then should be retain changed PIN', async () => {
     await waitFor(element(by.id('ChangePIN')))
       .toBeVisible()
