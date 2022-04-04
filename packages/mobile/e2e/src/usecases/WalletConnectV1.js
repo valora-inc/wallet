@@ -69,7 +69,6 @@ export default WalletConnect = () => {
     await walletConnector.transportClose()
   })
 
-  jest.retryTimes(2)
   it('Then should be able to establish a session', async () => {
     // Launching in Android requires use of launchApp
     if (device.getPlatform() === 'android') {
@@ -102,7 +101,6 @@ export default WalletConnect = () => {
     await device.enableSynchronization()
   })
 
-  jest.retryTimes(2)
   it('Then is able to send a transaction (eth_sendTransaction)', async () => {
     // Save result and await for it later
     let result = walletConnector.sendTransaction(tx)
@@ -141,7 +139,7 @@ export default WalletConnect = () => {
 
   // TODO: Enable when Valora implantation defect is fixed - gas can be optional is resolved
   // https://github.com/valora-inc/wallet/issues/1559
-  jest.retryTimes(2)
+
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
@@ -160,7 +158,6 @@ export default WalletConnect = () => {
     await device.enableSynchronization()
   })
 
-  jest.retryTimes(2)
   it('Then is able to sign a personal message (personal_sign)', async () => {
     const message = `My email is valora.test@mailinator.com - ${+new Date()}`
     const msgParams = [
@@ -194,7 +191,7 @@ export default WalletConnect = () => {
   })
 
   // TODO: Check if verifySignature should check the hashed message or not
-  jest.retryTimes(2)
+
   it('Then is able to sign message (eth_sign)', async () => {
     const message = hashMessageWithPrefix(`My email is valora.test@mailinator.com - ${+new Date()}`)
     const msgParams = [fromAddress, message]
@@ -224,7 +221,7 @@ export default WalletConnect = () => {
   })
 
   // TODO: Investigate failing
-  jest.retryTimes(2)
+
   it.skip('Then is able to sign typed data (eth_signTypedData)', async () => {
     const typedData = {
       types: {
@@ -292,7 +289,7 @@ export default WalletConnect = () => {
   })
 
   // TODO: Investigate failing
-  jest.retryTimes(2)
+
   it.skip('Then is able to send custom request', async () => {
     const customRequest = {
       id: 1337,
@@ -328,11 +325,9 @@ export default WalletConnect = () => {
 
     // Wait for signature
     let signature = await result
-
-    // TODO Validate signature
   })
 
-  afterAll(async () => {
+  it('Then is able to disconnect a session', async () => {
     // A sleep for ci
     await sleep(3 * 1000)
 

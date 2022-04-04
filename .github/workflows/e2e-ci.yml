@@ -66,6 +66,7 @@ jobs:
           --debug-synchronization 10000
           --workers 3
           --headless
+          --retries 3
           --device-boot-args="-snapshot ci_boot"
         timeout-minutes: 45
       - name: Publish Android JUnit Report
@@ -133,6 +134,7 @@ jobs:
           --loglevel info
           --debug-synchronization 10000
           --workers 6
+          --retries 3
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
         if: always()
