@@ -23,11 +23,33 @@ Install [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils#install
 
 ## Running the tests
 
-Simply run `yarn test:e2e:android` or `yarn test:e2e:ios`
+```sh
+# Navigate to the mobile folder
+cd packages/mobile
 
-The run_e2e.sh script will take care of configuring and building the app for you.
+# Create your detox build various options present in the package.json
+# Only needs to be built when app code changes - test code can be changed without a new build.
+yarn run e2e:build:android-release
 
+# Run Detox
+yarn run e2e:test:android-release
+```
 
+### CLI Options
+
+[Detox CLI Options](https://github.com/wix/Detox/blob/master/docs/APIRef.DetoxCLI.md) can be passed directly to yarn.
+
+```sh
+# Running a specific test suite
+yarn run e2e:test:android-release Pin.spec.js
+
+# Running a specific test in a suite
+yarn run e2e:test:android-release Pin.spec.js --testNamePattern "Then should be require PIN on app open"
+
+# Reusing an existing app install
+yarn run e2e:test:android-release --reuse
+
+```
 ## e2e tests in Detox
 
 For most e2e tests you need to do three things:
