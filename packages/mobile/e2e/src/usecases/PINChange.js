@@ -17,6 +17,7 @@ export default ChangePIN = () => {
       .withTimeout(5000)
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
+    await sleep(500)
     await enterPinUi(DEFAULT_PIN)
     await sleep(500)
     // Then we enter the new PIN
@@ -26,6 +27,7 @@ export default ChangePIN = () => {
     await enterPinUi(ALTERNATIVE_PIN)
     await element(by.id('ChangePIN')).tap()
     // Now try to change it again and enter the old PIN
+    await sleep(500)
     await enterPinUi(DEFAULT_PIN)
     // Check old PIN doesn't work anymore
     await expect(element(by.text('Incorrect PIN'))).toBeVisible()
