@@ -171,11 +171,12 @@ class ExampleInput extends React.Component {
 
 It is recommended to follow the scheme parentID/ChildDescription.
 
-## Mocks for the e2e tests
+<!-- ## Mocks for the e2e tests
 
 The e2e tests should use as few mocks as possible, since they are supposed to be as close to the real app as possible. They don't change in between tests. All e2e test use the same build as the app, but sometimes it is necessary to mock a module.
 
 The mocks are only used when the environment variable `CELO_TEST_CONFIG` is set too 'e2e'. This variable will be read in `mobile/rn-cli.config.js` and will modify what the metro bundler will include in the bundle. If you're mocking a module from node_nodules, put the mock in `e2e/mocks/`. Use the file extension `.e2e.ts` or `.e2e.js`.
+-->
 
 ## The e2e banner
 
