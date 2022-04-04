@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Invite a friend to {{appName}} by sending them some crypto.",
-    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
+    "title": "Convide um amigo para o {{appName}} enviando criptomoedas.",
+    "body": "Vocês dois receberão {{amount}} {{currency}} depois que a conta do seu amigo for configurada."
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Tem certeza?",
-    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
+    "body1": "Ao conectar o seu número, você terá mais formas de enviar pagamentos e poderá coletar recompensas do Supercharge."
   },
   "failModal": {
     "header": "Erro de confirmação",
@@ -1126,7 +1126,7 @@
       "title": "Verificação completa",
       "description": "Conseguimos verificar sua identidade. Continue para concluir a vinculação da sua conta bancária.",
       "descriptionStep2NotEnabled": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária.",
-      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
+      "descriptionRegionNotSupported": "Verificamos sua identidade com sucesso. Sua região não é suportada atualmente. Avisaremos quando você puder finalizar a vinculação da sua conta bancária."
     },
     "failed": {
       "title": "Verificação negada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Passo 2",
       "disabledTitle": "Vincule uma conta bancária",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Suporte bancário em breve! Avisaremos quando você puder conectar sua conta bancária ao Valora.",
       "disabledCta": "Em breve!",
       "title": "Insira os dados bancários",
       "description": "Falta pouco! Insira os dados bancários para vincular sua conta.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} is an external application",
+    "title": "{{dappName}} é um aplicativo externo",
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pagamento a comerciantes",
-  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
   "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
   "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
   "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
