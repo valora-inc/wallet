@@ -48,8 +48,27 @@ yarn run e2e:test:android-release Pin.spec.js --testNamePattern "Then should be 
 
 # Reusing an existing app install
 yarn run e2e:test:android-release --reuse
-
 ```
+
+### Retries
+
+Retries in Detox can be used at the suite level across all the tests as done in CI with `e2e:test:android-release --retries 3` or on a test level by placing `jest.retryTimes(3)` above a test or describe block; These retry methods have fundamentally different behavior.
+
+Using the `--retries` CLI flag will retry an entire suite in order.
+#### Suite Level Retries
+```mermaid
+graph LR
+    A[Test 1 - Passed] --> B[Test 2 - Failed] --> C[Test 3  - Passed] --> D[Test 1 - Passed] --> E[Test 2 - Passed] --> F[Test 3 - Passed]
+```
+
+Using `jest.retryTimes(3)` above a test spec or describe block will retry the failed tests after the others complete.
+
+#### Test Level Retries
+```mermaid
+graph LR
+    1[Test 1 - Passed] --> 2[Test 2 - Failed] --> 3[Test 3  - Passed] --> 4[Test 2 - Passed]
+```
+
 ## e2e tests in Detox
 
 For most e2e tests you need to do three things:
