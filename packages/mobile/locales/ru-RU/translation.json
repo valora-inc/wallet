@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "You’re getting {{apy}}% annually. Every week you'll get a notification when your rewards are ready, come back here to claim them.",
+  "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -589,8 +589,8 @@
     "button": "Завершить отправку"
   },
   "inviteRewardsBanner": {
-    "title": "Invite a friend to {{appName}} by sending them some crypto.",
-    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
+    "title": "Пригласите друга/подругу в {{appName}}, отправив ему/ей немного криптовалюты.",
+    "body": "Вы оба получите {{amount}} {{currency}}, когда ваш друг/подруга завершит регистрацию своей учетной записи."
   },
   "getReward": "Получить ${{reward}}",
   "welcomeCelo": "Добро пожаловать в {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Вы уверены?",
-    "body1": "Connecting your number gives you more ways to send payments and allows you to collect Supercharge rewards."
+    "body1": "Подключите свой номер, и вам будут доступны дополнительные способы отправки платежей, кроме того, вы сможете получать вознаграждения Supercharge."
   },
   "failModal": {
     "header": "Ошибка подтверждения",
@@ -1130,7 +1130,7 @@
       "title": "Проверка завершена",
       "description": "Мы успешно проверили вашу личность. Завершите привязку своего банковского счета.",
       "descriptionStep2NotEnabled": "Ваша личность нами успешно подтверждена. Мы сообщим, когда вы сможете завершить привязку вашего банковского счета.",
-      "descriptionRegionNotSupported": "We successfully verified your identity. Your region is not currently supported. We'll let you know when you can finish linking your bank account."
+      "descriptionRegionNotSupported": "Мы успешно проверили вашу личность. Ваш регион в настоящее время не поддерживается. Мы сообщим вам, когда вы сможете завершить привязку своего банковского счета."
     },
     "failed": {
       "title": "Проверка отклонена",
@@ -1150,7 +1150,7 @@
     "stepTwo": {
       "label": "Шаг 2",
       "disabledTitle": "Привязать банковский счет",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Скоро будет обеспечена поддержка банковского счета! Мы сообщим вам, когда вы сможете подключить свой банковский счет к Valora.",
       "disabledCta": "В ближайшее время!",
       "title": "Введите банковские реквизиты",
       "description": "Почти готово! Введите банковские реквизиты, чтобы привязать свой счет к Valora.",
@@ -1195,7 +1195,7 @@
     "dismiss": "Закрыть"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} is an external application",
+    "title": "{{dappName}} является внешним приложением",
     "message": "Вы собираетесь открыть приложение, которым не управляет Valora.\n\nValora не дает никаких заверений относительно этого приложения. Вы используете его на свой риск.",
     "button": "Перейти в {{dappName}}"
   },
@@ -1207,7 +1207,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Последние 24 часа",
   "merchant": "Платеж продавцу",
-  "merchantMoneyEscrow": "You're about to send a direct payment to a merchant.",
+  "merchantMoneyEscrow": "Вы собираетесь отправить прямой платеж продавцу.",
   "merchantPaymentNumberVerificationMessage": "Вам нужно привязать свой номер",
   "merchantPaymentSubmitFail": "Ваш платеж не удалось отправить",
   "merchantPaymentSetup": "При загрузке информации о продавце произошла ошибка. Повторите попытку сканирования QR-кода",
