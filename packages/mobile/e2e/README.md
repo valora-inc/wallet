@@ -102,15 +102,20 @@ In the [usecases](./src/usecases) directory, create new `<usecase>.js` or add an
 
 If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following the format of [AccountSupport.spec.js](./src/AccountSupport.spec.js).
 
-While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy:
+While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy.
 
-- First create your Detox test build: `yarn e2e:build:android-release`.
+```sh
+# First create your Detox test build 
+yarn e2e:build:android-release
 
-- Second run your test case and suite: `yarn e2e:test:android-release sample-suite.spec.js -t "Test Name"`.
+# Second run your test case and suite
+yarn e2e:test:android-release sample-suite.spec.js -t "Test Name"
 
-- For subsequent test runs reuse your existing install so you don't need to install and onboard at the start of every test run: `yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r`
+# For subsequent test runs reuse your existing install to avoid onboarding at the start of every run
+yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r
+```
 
-### Example
+### Example test suite and use case
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
