@@ -54,16 +54,18 @@ yarn run e2e:test:android-release --reuse
 
 Retries in Detox can be used at the suite level across all the tests as done in CI with `e2e:test:android-release --retries 3` or on a test level by placing `jest.retryTimes(3)` above a test or describe block; These retry methods have fundamentally different behavior.
 
-Using the `--retries` CLI flag will retry an entire suite in order.
 #### Suite Level Retries
+
+Using the `--retries` CLI flag will retry an entire suite in order.
+
 ```mermaid
 graph LR
     A[Test 1 - Passed] --> B[Test 2 - Failed] --> C[Test 3  - Passed] --> D[Test 1 - Passed] --> E[Test 2 - Passed] --> F[Test 3 - Passed]
 ```
+#### Test Level Retries
 
 Using `jest.retryTimes(3)` above a test spec or describe block will retry the failed tests after the others complete.
 
-#### Test Level Retries
 ```mermaid
 graph LR
     1[Test 1 - Passed] --> 2[Test 2 - Failed] --> 3[Test 3  - Passed] --> 4[Test 2 - Passed]
@@ -102,11 +104,11 @@ If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following
 
 While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy:
 
-- For the first test run `yarn test:e2e:ios -w 1 -t <Test Name>.spec.js` this will install the application on your device and run the targeted test suite.
+- First create your Detox test build: `yarn e2e:build:android-release`.
 
-- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f <Test Name>.spec.js -t "Display Providers"`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
+- Second run your test case and suite: `yarn e2e:test:android-release sample-suite.spec.js -t "Test Name"`.
 
-Use a similar process to run and develop other test files.
+- For subsequent test runs reuse your existing install so you don't need to install and onboard at the start of every test run: `yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r`
 
 ### Example
 
