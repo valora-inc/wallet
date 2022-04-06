@@ -1,5 +1,5 @@
-import { scrollIntoView } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
+import { scrollIntoView } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {

@@ -1,6 +1,6 @@
+import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 import { scrollIntoView, sleep } from '../utils/utils'
-import { dismissBanners } from '../utils/banners'
 const faker = require('@faker-js/faker')
 
 export default Settings = () => {

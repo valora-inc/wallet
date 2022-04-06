@@ -3,7 +3,6 @@ import {
   TWILIO_AUTH_TOKEN,
   VERIFICATION_PHONE_NUMBER,
 } from 'react-native-dotenv'
-import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'

@@ -1,5 +1,3 @@
-import { dismissBanners } from '../utils/banners'
-import { pixelDiff, getDeviceModel } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
 
 export default onRamps = () => {
