@@ -1,7 +1,6 @@
 # End-to-End tests
 
-![Android E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml/badge.svg)
-![iOS E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
 
@@ -206,7 +205,7 @@ The mocks are only used when the environment variable `CELO_TEST_CONFIG` is set 
 
 ## The e2e banner
 
-In the readme files (in the root, mobile, and this one), there are banners for the e2e tests. The test status is saved in GitHub Actions [Android](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml) & [iOS](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml).
+In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml)
 
 There are reports for ci e2e runs and an additional artifacts for failing runs. These reports can be accessed from Actions > Android E2E or iOS E2E > select a run.
 
