@@ -1,4 +1,5 @@
 import { scrollIntoView } from '../utils/utils'
+import { reloadReactNative } from '../utils/retries'
 
 export default RequirePIN = () => {
   beforeEach(async () => {
@@ -15,7 +16,7 @@ export default RequirePIN = () => {
     await element(by.id('requirePinOnAppOpenToggle')).tap()
     await expect(element(by.id('requirePinOnAppOpenToggle'))).toHaveToggleValue(true)
     // Reload to simulate new app load from background
-    await device.reloadReactNative()
+    await reloadReactNative()
     // Check that PIN is required
     await expect(element(by.text('Enter PIN'))).toBeVisible()
   })

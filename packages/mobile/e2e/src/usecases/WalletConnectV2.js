@@ -7,7 +7,7 @@ let uri, walletConnector
 
 export default WalletConnect = () => {
   beforeAll(async () => {
-    await device.reloadReactNative()
+    await reloadReactNative()
     // Create connector
     walletConnector = await WalletConnectClient.init({
       relayProvider: 'wss://relay.walletconnect.com',

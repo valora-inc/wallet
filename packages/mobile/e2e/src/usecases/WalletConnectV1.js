@@ -2,7 +2,7 @@ import { newKit } from '@celo/contractkit'
 import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatureUtils'
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
-import { launchApp } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
 
 const fromAddress = (
@@ -18,7 +18,7 @@ let uri, walletConnector, tx
 
 export default WalletConnect = () => {
   beforeAll(async () => {
-    await device.reloadReactNative()
+    await reloadReactNative()
 
     // Create connector
     walletConnector = new NodeWalletConnect(
