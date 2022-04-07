@@ -30,6 +30,9 @@ cd packages/mobile
 # Only needs to be built when app code changes - test code can be changed without a new build.
 yarn run e2e:build:android-release
 
+# (optional) - When running the e2e tests on a debug build the e2e packager should be run in a separate terminal first.
+yarn run e2e:packager
+
 # Run Detox
 yarn run e2e:test:android-release
 ```
