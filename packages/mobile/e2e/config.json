@@ -1,5 +1,4 @@
 {
-  "bail": 3,
   "globalSetup": "./global-setup.js",
   "globalTeardown": "./global-teardown.js",
   "setupFilesAfterEnv": ["./init.js"],
