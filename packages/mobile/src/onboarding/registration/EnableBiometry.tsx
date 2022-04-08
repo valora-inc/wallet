@@ -20,6 +20,7 @@ import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
 import TouchID from 'src/icons/biometry/TouchID'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -90,6 +91,7 @@ export default function EnableBiometry({ navigation }: Props) {
     }
     if (skipVerification) {
       dispatch(initializeAccount())
+      dispatch(setHasSeenVerificationNux(true))
       navigateHome()
       return
     }
