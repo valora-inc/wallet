@@ -1,5 +1,5 @@
-import { quickOnboarding } from './utils/utils'
 import ExchangeCelo from './usecases/ExchangeCelo'
+import { quickOnboarding } from './utils/utils'
 
 describe('Given Exchange', () => {
   beforeAll(async () => {

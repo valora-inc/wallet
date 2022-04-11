@@ -1,4 +1,3 @@
-import { dismissBanners } from '../utils/banners'
 import { DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
@@ -58,20 +57,28 @@ export async function skipTo(nextScreen) {
 }
 
 export async function enterPinUi(pin = DEFAULT_PIN) {
-  for (const digit of pin) {
-    try {
-      if (device.getPlatform() === 'ios') {
-        await element(by.id(`digit${digit}`))
-          .atIndex(1)
-          .tap()
-      } else {
-        await element(by.id(`digit${digit}`))
-          .atIndex(0)
-          .tap()
+  try {
+    await device.disableSynchronization()
+    await sleep(250)
+    for (const digit of pin) {
+      try {
+        if (device.getPlatform() === 'ios') {
+          await element(by.id(`digit${digit}`))
+            .atIndex(1)
+            .tap()
+        } else {
+          await element(by.id(`digit${digit}`))
+            .atIndex(0)
+            .tap()
+        }
+      } catch {
+        await element(by.id(`digit${digit}`)).tap()
       }
-    } catch {
-      await element(by.id(`digit${digit}`)).tap()
     }
+  } catch {
+    console.warn('Error entering Pin')
+  } finally {
+    await device.enableSynchronization()
   }
 }
 
@@ -168,9 +175,6 @@ export async function quickOnboarding() {
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
 
-    // Dismiss banners if present
-    await dismissBanners()
-
     // Verify Education
     await waitForElementId('VerificationEducationSkipHeader')
     // Skip
@@ -243,16 +247,6 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
 
 export function getDeviceModel() {
   return device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, '')
-}
-
-export async function setUrlDenyList(
-  urlList = ['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*']
-) {
-  try {
-    await device.setURLBlacklist(urlList)
-  } catch (error) {
-    console.warn('Error in setUrlDenyList: ', error)
-  }
 }
 
 export async function waitForExpectNotVisible(elementId, secondsToWait = 10) {

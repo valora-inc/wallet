@@ -3,25 +3,20 @@ import {
   TWILIO_AUTH_TOKEN,
   VERIFICATION_PHONE_NUMBER,
 } from 'react-native-dotenv'
-import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
+import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, setUrlDenyList, sleep, scrollIntoView } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
   beforeEach(async () => {
-    await device.launchApp({
+    await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    // Enable url deny list
-    await setUrlDenyList()
-
-    // Dismiss banners for firebase warning
-    await dismissBanners()
 
     // Create new account
     await element(by.id('CreateAccountButton')).tap()
@@ -166,7 +161,6 @@ export default NewAccountPhoneVerification = () => {
   // Assert correct content is visible on the phone verification screen
   jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
-    await dismissBanners()
     await expect(element(by.text('Connect your phone number'))).toBeVisible()
     let skipAttributes = await element(by.text('Skip')).getAttributes()
     jestExpect(skipAttributes.enabled).toBe(true)

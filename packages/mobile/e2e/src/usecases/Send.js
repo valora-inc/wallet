@@ -1,7 +1,6 @@
-import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
 const AMOUNT_TO_SEND = '0.1'
@@ -10,7 +9,6 @@ const AMOUNT_TO_REQUEST = '0.1'
 export default Send = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
   })
 
   it('Send cUSD to address', async () => {
