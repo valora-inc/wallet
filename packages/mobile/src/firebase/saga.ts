@@ -15,7 +15,7 @@ import {
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { FIREBASE_ENABLED } from 'src/config'
+import { FIREBASE_ENABLED, isE2EEnv } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
@@ -49,6 +49,10 @@ export function* waitForFirebaseAuth() {
 
 function* initializeFirebase() {
   const address = yield call(getAccount)
+  if (isE2EEnv) {
+    // Return early if isE2EEnv === true and don't show banner
+    return
+  }
   if (!FIREBASE_ENABLED) {
     Logger.info(TAG, 'Firebase disabled')
     yield put(showError(ErrorMessages.FIREBASE_DISABLED))

@@ -1,6 +1,5 @@
-import { quote, sleep, inputNumberKeypad, enterPinUiIfNecessary } from '../utils/utils'
-import { dismissBanners } from '../utils/banners'
-import { reloadReactNative, launchApp } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, inputNumberKeypad, quote, sleep } from '../utils/utils'
 
 export default HandleDeepLinkSend = () => {
   const PAY_URL = quote(
@@ -27,7 +26,7 @@ export default HandleDeepLinkSend = () => {
     await sleep(5000)
     await launchApp({ url: PAY_AMOUNT_URL, newInstance: true })
     await sleep(5000)
-    await dismissBanners()
+
     // Correct name displayed
     await expect(element(by.text('TestFaucet'))).toBeVisible()
 
@@ -46,7 +45,7 @@ export default HandleDeepLinkSend = () => {
     await sleep(5000)
     await launchApp({ url: PAY_URL, newInstance: true })
     await sleep(5000)
-    await dismissBanners()
+
     // Arrived at SendAmount screen
     await expect(element(by.id('Review'))).toBeVisible()
 
