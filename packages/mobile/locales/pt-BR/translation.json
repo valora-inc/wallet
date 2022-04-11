@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você está recebendo {{apy}}Não é costume. Toda semana você receberá uma notificação quando suas recompensas estiverem prontas, volte aqui para reclamá-las.",
+  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -589,8 +589,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Convide um amigo para {{appName}} , enviando-lhes algum criptograma.",
-    "body": "Ambos receberão {{amount}} {{currency}} assim que terminarem de configurar a sua conta."
+    "title": "Convide um amigo para o {{appName}} enviando criptomoedas.",
+    "body": "Vocês dois receberão {{amount}} {{currency}} depois que a conta do seu amigo for configurada."
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Tem certeza?",
-    "body1": "Ligar o seu número dá-lhe mais formas de enviar pagamentos e permite-lhe receber recompensas Supercharge."
+    "body1": "Ao conectar o seu número, você terá mais formas de enviar pagamentos e poderá coletar recompensas do Supercharge."
   },
   "failModal": {
     "header": "Erro de confirmação",
@@ -1126,7 +1126,7 @@
       "title": "Verificação completa",
       "description": "Conseguimos verificar sua identidade. Continue para concluir a vinculação da sua conta bancária.",
       "descriptionStep2NotEnabled": "Conseguimos verificar a sua identidade. Nós avisaremos assim que for possível concluir a vinculação da sua conta bancária.",
-      "descriptionRegionNotSupported": "Nós verificamos a sua identidade com sucesso. A sua região não é actualmente suportada. Nós o informaremos quando você puder terminar de vincular sua conta bancária."
+      "descriptionRegionNotSupported": "Verificamos sua identidade com sucesso. Sua região não é suportada atualmente. Avisaremos quando você puder finalizar a vinculação da sua conta bancária."
     },
     "failed": {
       "title": "Verificação negada",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Passo 2",
       "disabledTitle": "Vincule uma conta bancária",
-      "disabledDescription": "Suporte de conta bancária em breve! Nós avisaremos quando você puder conectar sua conta bancária à Valora.",
+      "disabledDescription": "Suporte bancário em breve! Avisaremos quando você puder conectar sua conta bancária ao Valora.",
       "disabledCta": "Em breve!",
       "title": "Insira os dados bancários",
       "description": "Falta pouco! Insira os dados bancários para vincular sua conta.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Ignorar"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} é uma aplicação externa",
+    "title": "{{dappName}} é um aplicativo externo",
     "message": "Você está prestes a abrir um aplicativo não operado por Valora.\n\nValora não faz representações sobre este aplicativo. Use por sua conta e risco.",
     "button": "Ir para {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Últimas 24 horas",
   "merchant": "Pagamento a comerciantes",
-  "merchantMoneyEscrow": "Estás prestes a enviar um pagamento directo a um comerciante.",
+  "merchantMoneyEscrow": "Você está prestes a enviar um pagamento direto a um comerciante.",
   "merchantPaymentNumberVerificationMessage": "Você precisa conectar seu número",
   "merchantPaymentSubmitFail": "Seu pagamento não pôde ser enviado",
   "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
