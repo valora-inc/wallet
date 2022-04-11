@@ -1,7 +1,6 @@
 # End-to-End tests
 
-![Android E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml/badge.svg)
-![iOS E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml/badge.svg)
+![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
 
@@ -23,10 +22,56 @@ Install [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils#install
 
 ## Running the tests
 
-Simply run `yarn test:e2e:android` or `yarn test:e2e:ios`
+```sh
+# Navigate to the mobile folder
+cd packages/mobile
 
-The run_e2e.sh script will take care of configuring and building the app for you.
+# Create your detox build various options present in the package.json
+# Only needs to be built when app code changes - test code can be changed without a new build.
+yarn run e2e:build:android-release
 
+# (optional) - When running the e2e tests on a debug build the e2e packager should be run in a separate terminal first.
+yarn run e2e:packager
+
+# Run Detox
+yarn run e2e:test:android-release
+```
+
+### CLI Options
+
+[Detox CLI Options](https://github.com/wix/Detox/blob/master/docs/APIRef.DetoxCLI.md) can be passed directly to yarn.
+
+```sh
+# Running a specific test suite
+yarn run e2e:test:android-release Pin.spec.js
+
+# Running a specific test in a suite
+yarn run e2e:test:android-release Pin.spec.js --testNamePattern "Then should be require PIN on app open"
+
+# Reusing an existing app install
+yarn run e2e:test:android-release --reuse
+```
+
+### Retries
+
+Retries in Detox can be used at the suite level across all the tests as done in CI with `e2e:test:android-release --retries 3` or on a test level by placing `jest.retryTimes(3)` above a test or describe block; These retry methods have fundamentally different behavior.
+
+#### Suite Level Retries
+
+Using the `--retries` CLI flag will retry an entire suite in order.
+
+```mermaid
+graph LR
+    A[Test 1 - Passed] --> B[Test 2 - Failed] --> C[Test 3  - Passed] --> D[Test 1 - Passed] --> E[Test 2 - Passed] --> F[Test 3 - Passed]
+```
+#### Test Level Retries
+
+Using `jest.retryTimes(3)` above a test spec or describe block will retry the failed tests after the others complete.
+
+```mermaid
+graph LR
+    1[Test 1 - Passed] --> 2[Test 2 - Failed] --> 3[Test 3  - Passed] --> 4[Test 2 - Passed]
+```
 
 ## e2e tests in Detox
 
@@ -59,15 +104,20 @@ In the [usecases](./src/usecases) directory, create new `<usecase>.js` or add an
 
 If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following the format of [AccountSupport.spec.js](./src/AccountSupport.spec.js).
 
-While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy:
+While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy.
 
-- For the first test run `yarn test:e2e:ios -w 1 -t <Test Name>.spec.js` this will install the application on your device and run the targeted test suite.
+```sh
+# First create your Detox test build 
+yarn e2e:build:android-release
 
-- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f <Test Name>.spec.js -t "Display Providers"`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
+# Second run your test case and suite
+yarn e2e:test:android-release sample-suite.spec.js -t "Test Name"
 
-Use a similar process to run and develop other test files.
+# For subsequent test runs reuse your existing install to avoid onboarding at the start of every run
+yarn e2e:test:android-release sample-suite.spec.js -t "Test Name" -r
+```
 
-### Example
+### Example test suite and use case
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
@@ -93,9 +143,6 @@ export default AddedUsecase = () => {
     // Reload app on device
     await reloadReactNative()
 
-    // Dismiss banners if interfering with next steps
-    await dismissBanners()
-
     // Example setup steps for every test spec in this usecase
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
@@ -115,11 +162,6 @@ export default AddedUsecase = () => {
     await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
     await expect(element(by.id('Provider/Ramp'))).toBeVisible()
     await expect(element(by.id('Provider/Transak'))).toBeVisible()
-    await sleep(5000)
-
-    // Compare to screenshot in `e2e/assets`
-    const imagePath = await device.takeScreenshot('All Providers')
-    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/All Providers.png`)
   })
 
   it('Additional Test Spec...', async () => {
@@ -157,15 +199,9 @@ class ExampleInput extends React.Component {
 
 It is recommended to follow the scheme parentID/ChildDescription.
 
-## Mocks for the e2e tests
-
-The e2e tests should use as few mocks as possible, since they are supposed to be as close to the real app as possible. They don't change in between tests. All e2e test use the same build as the app, but sometimes it is necessary to mock a module.
-
-The mocks are only used when the environment variable `CELO_TEST_CONFIG` is set too 'e2e'. This variable will be read in `mobile/rn-cli.config.js` and will modify what the metro bundler will include in the bundle. If you're mocking a module from node_nodules, put the mock in `e2e/mocks/`. Use the file extension `.e2e.ts` or `.e2e.js`.
-
 ## The e2e banner
 
-In the readme files (in the root, mobile, and this one), there are banners for the e2e tests. The test status is saved in GitHub Actions [Android](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml) & [iOS](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml).
+In the readme files, wallet root and this one, there are banners for the e2e tests. The test status is saved in GitHub Actions [E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml)
 
 There are reports for ci e2e runs and an additional artifacts for failing runs. These reports can be accessed from Actions > Android E2E or iOS E2E > select a run.
 

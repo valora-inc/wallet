@@ -1,11 +1,9 @@
-import { dismissBanners } from '../utils/banners'
-import { pixelDiff, scrollIntoView, getDeviceModel } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
+import { scrollIntoView } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
   })
 
   if (device.getPlatform() === 'ios') {
