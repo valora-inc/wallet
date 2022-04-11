@@ -7,6 +7,8 @@ import { walletAddressSelector } from 'src/web3/selectors'
 export const cloudFunctionsApi = createApi({
   reducerPath: 'cloudFunctionsApi',
   baseQuery: fetchBaseQuery({ baseUrl: config.cloudFunctionsUrl }),
+  refetchOnMountOrArgChange: true,
+  refetchOnFocus: true,
   tagTypes: ['Supercharge'],
   endpoints: (builder) => ({
     fetchSuperchargeRewards: builder.query<SuperchargePendingReward[], string>({

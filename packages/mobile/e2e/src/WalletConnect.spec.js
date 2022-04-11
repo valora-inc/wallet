@@ -1,6 +1,6 @@
-import { quickOnboarding } from './utils/utils'
 import WalletConnectV1 from './usecases/WalletConnectV1'
 import WalletConnectV2 from './usecases/WalletConnectV2'
+import { quickOnboarding } from './utils/utils'
 
 describe('Given Wallet Connect', () => {
   beforeAll(async () => {

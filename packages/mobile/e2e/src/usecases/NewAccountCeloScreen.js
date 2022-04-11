@@ -1,5 +1,5 @@
-import { sleep } from '../utils/utils'
 import { celoEducation } from '../utils/celoEducation'
+import { sleep } from '../utils/utils'
 
 export default NewAccountCeloScreen = () => {
   it('Go to CELO screen and through education flow', async () => {

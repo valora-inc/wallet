@@ -1,12 +1,10 @@
-import { dismissBanners } from '../utils/banners'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, sleep } from '../utils/utils'
 
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
     // Waiting for element to be visible for up to 5 seconds before tap
@@ -41,13 +39,6 @@ export default offRamps = () => {
           .toBeVisible()
           .withTimeout(10 * 1000)
         await expect(element(by.id('ContactSupport'))).toBeVisible()
-
-        // Check Screenshot
-        const imagePath = await device.takeScreenshot('No cUSD Out Providers')
-        await pixelDiff(
-          imagePath,
-          `./e2e/assets/${await getDeviceModel()}/No cUSD Out Providers.png`
-        )
       })
     })
 
@@ -60,10 +51,6 @@ export default offRamps = () => {
       jest.retryTimes(2)
       it('Then Bidali Should Display', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
-        // TODO: Include Check of Screenshot in Nightly Tests
-        // await sleep(15000)
-        // const imagePath = await device.takeScreenshot('Bidali')
-        // await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
       })
     })
 
@@ -81,8 +68,6 @@ export default offRamps = () => {
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('cUSD Out Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Out Exchanges.png`)
       })
     })
   })
@@ -106,10 +91,6 @@ export default offRamps = () => {
       // Most likely culprits is the internal webview we use not playing nice with detox
       it.skip('Then Display Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
-        // TODO: Include Check of Screenshot in Nightly Tests
-        // await sleep(15000)
-        // const imagePath = await device.takeScreenshot('Bidali')
-        // await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
       })
     })
 
@@ -188,12 +169,6 @@ export default offRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         await expect(element(by.id('WithdrawCeloButton'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('CELO Out Exchanges')
-        await pixelDiff(
-          imagePath,
-          `./e2e/assets/${await getDeviceModel()}/CELO Out Exchanges.png`,
-          4
-        )
       })
     })
   })

@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 45,
+          "version": 46,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -196,8 +196,8 @@ describe('store state', () => {
             "middlewareRegistered": true,
             "online": true,
             "reducerPath": "cloudFunctionsApi",
-            "refetchOnFocus": false,
-            "refetchOnMountOrArgChange": false,
+            "refetchOnFocus": true,
+            "refetchOnMountOrArgChange": true,
             "refetchOnReconnect": false,
           },
           "mutations": Object {},

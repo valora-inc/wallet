@@ -1200,6 +1200,14 @@ export const v45Schema = {
   },
 }
 
+export const v46Schema = {
+  ...v45Schema,
+  _persist: {
+    ...v45Schema._persist,
+    version: 46,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v45Schema as Partial<RootState>
+  return v46Schema as Partial<RootState>
 }
