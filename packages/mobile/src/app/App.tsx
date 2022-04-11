@@ -65,6 +65,9 @@ export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
 
   async componentDidMount() {
+    if (isE2EEnv) {
+      LogBox.ignoreAllLogs(true)
+    }
     await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background

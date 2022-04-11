@@ -1,5 +1,5 @@
-import { enterPinUiIfNecessary, quote, setUrlDenyList, sleep } from '../utils/utils'
 import { launchApp } from '../utils/retries'
+import { enterPinUiIfNecessary, quote, sleep } from '../utils/utils'
 
 export default HandleDeepLinkDappkit = () => {
   const DAPPKIT_URL = quote(
@@ -12,7 +12,6 @@ export default HandleDeepLinkDappkit = () => {
     // OS has a timeout period in between closing and reopening an app
     await sleep(5000)
     await launchApp({ url: DAPPKIT_URL, newInstance: true })
-    await setUrlDenyList()
     // this second sleep is to allow for navigation to reach the desired deep link handler
     await sleep(5000)
 
