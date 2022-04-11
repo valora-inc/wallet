@@ -8,6 +8,16 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
+export enum DappSection {
+  RecentlyUsed = 'recently used',
+  Featured = 'featured',
+  All = 'all',
+}
+
+export interface ActiveDapp extends Dapp {
+  openedFrom: DappSection
+}
+
 export interface State {
   loggedIn: boolean
   numberVerified: boolean
@@ -57,8 +67,9 @@ export interface State {
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
-  activeDapp: Dapp | null
+  activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
+  finclusiveUnsupportedStates: string[]
 }
 
 const initialState = {
@@ -109,6 +120,7 @@ const initialState = {
   dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
   activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
+  finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
 }
 
 export const appReducer = (
@@ -228,6 +240,7 @@ export const appReducer = (
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
         skipProfilePicture: action.configValues.skipProfilePicture,
+        finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

@@ -1,8 +1,8 @@
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Text } from 'react-native'
 import Dialog from 'src/components/Dialog'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   isVisible: boolean

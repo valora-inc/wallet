@@ -58,6 +58,9 @@ export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
+// Additional gas added when setting the fee currency
+// See details where used.
+export const STATIC_GAS_PADDING = 50_000
 
 // We can safely assume that any balance query returning a number
 // higher than this is incorrect (currently set to 10M)
@@ -178,4 +181,7 @@ export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 export const DEFAULT_APP_LANGUAGE = 'en-US'
 
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2
-export const DEFAULT_SENTRY_NETWORK_ERRORS = ['network request failed']
+export const DEFAULT_SENTRY_NETWORK_ERRORS = [
+  'network request failed',
+  'The network connection was lost',
+]

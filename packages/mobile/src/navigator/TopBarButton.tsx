@@ -1,12 +1,12 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
-import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Touchable from 'src/components/Touchable'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 interface CommonProps {
   disabled?: boolean

@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 43,
+          "version": 46,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -115,6 +115,7 @@ describe('store state', () => {
           "dismissedGoldEducation": false,
           "e164PhoneNumber": "+14155556666",
           "finclusiveKycStatus": 0,
+          "finclusiveRegionSupported": false,
           "hasLinkedBankAccount": false,
           "hasMigratedToNewBip39": false,
           "kycStatus": undefined,
@@ -139,6 +140,10 @@ describe('store state', () => {
           "celoEuroEnabled": true,
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
+          "finclusiveUnsupportedStates": Array [
+            "NY",
+            "TX",
+          ],
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,
@@ -169,6 +174,7 @@ describe('store state', () => {
           },
           "sentryNetworkErrors": Array [
             "network request failed",
+            "The network connection was lost",
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
@@ -190,8 +196,8 @@ describe('store state', () => {
             "middlewareRegistered": true,
             "online": true,
             "reducerPath": "cloudFunctionsApi",
-            "refetchOnFocus": false,
-            "refetchOnMountOrArgChange": false,
+            "refetchOnFocus": true,
+            "refetchOnMountOrArgChange": true,
             "refetchOnReconnect": false,
           },
           "mutations": Object {},
@@ -332,6 +338,7 @@ describe('store state', () => {
           "tokenBalances": Object {},
         },
         "transactions": Object {
+          "inviteTransactions": Object {},
           "knownFeedTransactions": Object {},
           "recentTxRecipientsCache": Object {},
           "standbyTransactions": Array [],

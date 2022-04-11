@@ -9,12 +9,10 @@ set -euo pipefail
 # --minor (Optional): Bump minor version automatically (default is to let user input new version number)
 
 MINOR=false
-NO_LICENSE_UPDATE=false
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
     --minor) MINOR=true ;;
-    --no-licence-update) NO_LICENSE_UPDATE=true ;;
     *) echo "Unknown parameter passed: $1"; exit 1 ;;
   esac
   shift
@@ -45,12 +43,5 @@ sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/
 # agvtool works correctly for CURRENT_PROJECT_VERSION though and only touches the project and not the plist files
 pushd ios; agvtool next-version; popd
 echo "===Done updating versions==="
-
-if [ "$NO_LICENSE_UPDATE" = false ]
-then
-  echo "===Update license list and disclaimer==="
-  yarn deploy:update-disclaimer
-  echo "===Done updating licenses==="
-fi
 
 echo "Pre-deploy steps complete"

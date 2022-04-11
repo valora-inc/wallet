@@ -38,8 +38,7 @@ export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
-  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed and user has phone # linked
-  settings_number_not_connected = 'settings_number_not_connected', // when "Link Bank Account" is pressed and user does not have phone # linked
+  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   forno_toggle = 'forno_toggle',
@@ -551,6 +550,7 @@ export enum CICOEvents {
 export enum DappExplorerEvents {
   dapp_impression = 'dapp_impression', // when a dapp shows up in the featured section of the app
   dapp_open = 'dapp_open', // when a dapp is opened
+  dapp_close = 'dapp_close', // when a dapp is closed from the in-app dapp web view
   dapp_screen_open = 'dapp_screen_open',
   dapp_select = 'dapp_select',
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',

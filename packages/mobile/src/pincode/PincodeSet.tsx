@@ -1,7 +1,6 @@
 /**
  * This is a reactnavigation SCREEN, which we use to set a PIN.
  */
-import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -19,6 +18,7 @@ import {
 } from 'src/app/selectors'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { withTranslation } from 'src/i18n'
+import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -32,6 +32,7 @@ import {
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -48,6 +49,7 @@ interface StateProps {
 interface DispatchProps {
   initializeAccount: typeof initializeAccount
   setPincodeSuccess: typeof setPincodeSuccess
+  setHasSeenVerificationNux: typeof setHasSeenVerificationNux
 }
 
 interface State {
@@ -77,6 +79,7 @@ function mapStateToProps(state: RootState): StateProps {
 const mapDispatchToProps = {
   initializeAccount,
   setPincodeSuccess,
+  setHasSeenVerificationNux,
 }
 
 export class PincodeSet extends React.Component<Props, State> {
@@ -154,6 +157,10 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.skipVerification
     ) {
       this.props.initializeAccount()
+      // Tell the app that the user has already seen verification so that it
+      // doesn't prompt for verification after the app is killed. This same function
+      // is called when the user manually skips verification on the verification screen.
+      this.props.skipVerification && this.props.setHasSeenVerificationNux(true)
       navigateHome()
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)

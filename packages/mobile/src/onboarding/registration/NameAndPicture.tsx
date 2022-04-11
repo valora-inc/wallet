@@ -1,7 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import FormInput from '@celo/react-components/components/FormInput'
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,13 +11,17 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector } from 'src/app/selectors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
+import FormInput from 'src/components/FormInput'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
@@ -144,7 +144,7 @@ export default NameAndPicture
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'space-between',
     backgroundColor: colors.onboardingBackground,
   },

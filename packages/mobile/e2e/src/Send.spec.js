@@ -1,6 +1,6 @@
-import { quickOnboarding } from './utils/utils'
-import Send from './usecases/Send'
 import SecureSend from './usecases/SecureSend'
+import Send from './usecases/Send'
+import { quickOnboarding } from './utils/utils'
 
 describe('Send cUSD', () => {
   beforeAll(async () => {

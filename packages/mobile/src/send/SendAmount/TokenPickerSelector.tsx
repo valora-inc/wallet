@@ -1,10 +1,10 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
-import colors from '@celo/react-components/styles/colors'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Touchable from 'src/components/Touchable'
+import DownArrowIcon from 'src/icons/DownArrowIcon'
+import colors from 'src/styles/colors'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {

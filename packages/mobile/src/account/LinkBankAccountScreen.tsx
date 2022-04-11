@@ -1,33 +1,43 @@
-import BorderlessButton from '@celo/react-components/components/BorderlessButton'
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { InquiryAttributes } from 'react-native-persona'
 import { useDeepLinkRedirector, usePlaidEmitter } from 'react-native-plaid-link-sdk'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { setFinclusiveRegionSupported } from 'src/account/actions'
 import PersonaButton from 'src/account/Persona'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import {
   finclusiveKycStatusSelector,
+  finclusiveRegionSupportedSelector,
   kycStatusSelector,
   plaidParamsSelector,
 } from 'src/account/selectors'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BorderlessButton from 'src/components/BorderlessButton'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import VerificationComplete from 'src/icons/VerificationComplete'
 import VerificationDenied from 'src/icons/VerificationDenied'
 import VerificationPending from 'src/icons/VerificationPending'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { linkBankAccountStepTwoEnabledSelector } from '../app/selectors'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
+import { isUserRegionSupportedByFinclusive } from 'src/utils/supportedRegions'
+import {
+  finclusiveUnsupportedStatesSelector,
+  linkBankAccountStepTwoEnabledSelector,
+} from '../app/selectors'
 import { fetchFinclusiveKyc } from './actions'
 import openPlaid, { handleOnEvent } from './openPlaid'
+
+const TAG = 'LinkBankAccountScreen'
 
 function LinkBankAccountScreen() {
   const navigation = useNavigation()
@@ -122,6 +132,8 @@ export function StepOne() {
   const kycStatus = useSelector(kycStatusSelector)
   const finclusiveKycStatus = useSelector(finclusiveKycStatusSelector)
   const stepTwoEnabled = useSelector(linkBankAccountStepTwoEnabledSelector)
+  const unsupportedRegions = useSelector(finclusiveUnsupportedStatesSelector)
+  const finclusiveRegionSupported = useSelector(finclusiveRegionSupportedSelector)
 
   const pollFinclusiveKyc = () => {
     if (kycStatus === KycStatus.Approved && finclusiveKycStatus !== FinclusiveKycStatus.Accepted) {
@@ -146,7 +158,18 @@ export function StepOne() {
     // Add a bit of a delay so that Persona can popup before switching to the spinner view
     setTimeout(() => setIsInPersonaFlow(true), 500)
   }
-  const onSuccessPersona = () => {
+
+  const onSuccessPersona = (address: InquiryAttributes['address']) => {
+    try {
+      if (isUserRegionSupportedByFinclusive(address, unsupportedRegions)) {
+        dispatch(setFinclusiveRegionSupported())
+      } else {
+        Logger.info(TAG, 'User state not supported by finclusive')
+      }
+    } catch (err) {
+      Logger.info(TAG, err)
+    }
+
     setSuccessFromPersona(true)
     setIsInPersonaFlow(false)
   }
@@ -178,9 +201,11 @@ export function StepOne() {
           <Text style={styles.action}>{t('linkBankAccountScreen.completed.title')}</Text>
           <Text style={styles.description}>
             {t(
-              stepTwoEnabled
-                ? 'linkBankAccountScreen.completed.description'
-                : 'linkBankAccountScreen.completed.descriptionStep2NotEnabled'
+              finclusiveRegionSupported
+                ? stepTwoEnabled
+                  ? 'linkBankAccountScreen.completed.description'
+                  : 'linkBankAccountScreen.completed.descriptionStep2NotEnabled'
+                : 'linkBankAccountScreen.completed.descriptionRegionNotSupported'
             )}
           </Text>
         </View>

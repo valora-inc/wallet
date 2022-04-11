@@ -52,6 +52,7 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@types/jest": "^26.0.20",
+    "@types/shelljs": "^0.8.11",
     "babel-jest": "^26.6.3",
     "codecov": "^3.6.5",
     "husky": "^3.0.0",
@@ -66,6 +67,7 @@
     "prettier-plugin-java": "^0.6.0",
     "prettier-plugin-solidity": "1.0.0-alpha.35",
     "pretty-quick": "^2.0.1",
+    "shelljs": "^0.8.5",
     "solc": "0.5.8",
     "ts-jest": "^26.5.1",
     "ts-node": "10.7.0",
@@ -109,6 +111,8 @@
     "glob-parent": "^5.1.2",
     "node-fetch": "^2.6.7",
     "simple-get": "^4.0.1",
-    "plist": "^3.0.5"
+    "plist": "^3.0.5",
+    "simple-plist": "^1.3.1",
+    "moment": "^2.29.2"
   }
 }

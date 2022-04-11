@@ -1,6 +1,6 @@
-import AggregatedRequestsMessagingCard from '@celo/react-components/components/AggregatedRequestsMessagingCard'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import AggregatedRequestsMessagingCard from 'src/components/AggregatedRequestsMessagingCard'
 
 interface Props<T> {
   title: string

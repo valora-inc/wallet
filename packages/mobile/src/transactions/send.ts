@@ -4,8 +4,9 @@ import { call, cancel, cancelled, delay, fork, join, race, select } from 'redux-
 import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { DEFAULT_FORNO_URL } from 'src/config'
+import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
+import { WEI_DECIMALS } from 'src/geth/consts'
 import { TokenBalance } from 'src/tokens/reducer'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import {
@@ -15,11 +16,11 @@ import {
   TxPromises,
 } from 'src/transactions/contract-utils'
 import { TransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assertNever } from 'src/utils/typescript'
 import { getGasPrice } from 'src/web3/gas'
-import { fornoSelector } from 'src/web3/selectors'
+import { fornoSelector, walletAddressSelector } from 'src/web3/selectors'
+import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'transactions/send'
 
@@ -106,21 +107,65 @@ const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
   }
 }
 
-// If the preferred currency has enough balance, use that.
-// Otherwise use any that has enough balance.
-// TODO: Make fee currency choosing transparent for the user.
-export function* chooseFeeCurrency(preferredFeeCurrency: string | undefined) {
+// This function returns the feeCurrency and gas/gasPrice to use to send a tx.
+// If gas or gasPrice are not passed, we estimate/calculate them.
+// If the balance is not enough to pay for the gas fee, we return the currency with
+// highest balance, sometimes return a gas value if we can return a good estimate
+// and an empty gasPrice value.
+export function* chooseTxFeeDetails(
+  tx: CeloTxObject<any>,
+  preferredFeeCurrency: string | undefined,
+  gas?: number,
+  gasPrice?: BigNumber
+) {
   const coreTokens: TokenBalance[] = yield select(coreTokensSelector)
   const tokenInfo = coreTokens.find(
     (token) =>
       token.address === preferredFeeCurrency || (token.symbol === 'CELO' && !preferredFeeCurrency)
   )
-  // TODO: Check if balance is enough to pay for fee, not just gt 0.
-  if (tokenInfo?.balance.gt(0)) {
-    return preferredFeeCurrency
+  if (!tokenInfo || tokenInfo.balance.isZero()) {
+    const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+    return {
+      feeCurrency,
+      // If gas was set and we switched from CELO to a non-CELO fee currency, we add some padding to it
+      // since it takes a bit more gas to pay for fees using a non-CELO fee currency.
+      gas: gas && !preferredFeeCurrency && feeCurrency ? gas + STATIC_GAS_PADDING : gas,
+      // Set gasPrice to undefined if the currency being used for the fee changed.
+      gasPrice: preferredFeeCurrency !== feeCurrency ? undefined : gasPrice,
+    }
   }
-  const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
-  return feeCurrency
+  const userAddress: string = yield select(walletAddressSelector)
+  const feeCurrency = tokenInfo.symbol === 'CELO' ? undefined : tokenInfo.address
+  if (!gas) {
+    gas = ((yield call(estimateGas, tx, {
+      from: userAddress,
+      feeCurrency,
+    })) as BigNumber).toNumber()
+  }
+  if (!gasPrice) {
+    gasPrice = yield getGasPrice(feeCurrency)
+  }
+  if (new BigNumber(gasPrice!).times(gas!).lte(tokenInfo.balance.shiftedBy(WEI_DECIMALS))) {
+    return {
+      feeCurrency,
+      gas,
+      gasPrice: gasPrice?.toString(),
+    }
+  } else {
+    // Funds are not enough to pay for the fee.
+    const feeCurrency: string | undefined = yield call(fetchFeeCurrencySaga)
+    return {
+      feeCurrency,
+      // If gas was set and we switched from CELO to a non-CELO fee currency, we add some padding to it
+      // since it takes a bit more gas to pay for fees using a non-CELO fee currency.
+      // Why aren't we just estimating again?
+      // It may result in errors for the dapp. E.g. If a dapp developer is doing a two step approve and exchange and requesting both signatures
+      // together, they will set the gas on the second transaction because if estimateGas is run before the approve completes, execution will fail.
+      gas: gas && !preferredFeeCurrency && feeCurrency ? gas + STATIC_GAS_PADDING : gas,
+      // Set gasPrice to undefined if the currency being used for the fee changed.
+      gasPrice: preferredFeeCurrency !== feeCurrency ? undefined : gasPrice,
+    }
+  }
 }
 
 // Sends a transaction and async returns promises for the txhash, confirmation, and receipt
@@ -132,8 +177,8 @@ export function* sendTransactionPromises(
   account: string,
   context: TransactionContext,
   preferredFeeCurrency: string | undefined,
-  gas?: number,
-  gasPrice?: BigNumber,
+  proposedGas?: number,
+  proposedGasPrice?: BigNumber,
   nonce?: number
 ) {
   Logger.debug(
@@ -142,7 +187,15 @@ export function* sendTransactionPromises(
   )
 
   const fornoMode: boolean = yield select(fornoSelector)
-  const feeCurrency: Currency = yield call(chooseFeeCurrency, preferredFeeCurrency)
+  const {
+    feeCurrency,
+    gas,
+    gasPrice,
+  }: {
+    feeCurrency: string | undefined
+    gas?: number
+    gasPrice?: string
+  } = yield call(chooseTxFeeDetails, tx, preferredFeeCurrency, proposedGas, proposedGasPrice)
 
   if (gas || gasPrice) {
     Logger.debug(
@@ -151,39 +204,10 @@ export function* sendTransactionPromises(
     )
   }
 
-  if (feeCurrency !== preferredFeeCurrency) {
-    Logger.warn(
-      `${TAG}@sendTransactionPromises`,
-      `Using fallback fee currency ${feeCurrency} instead of preferred ${preferredFeeCurrency}.`
-    )
-    // If the currency is changed, the gas value and price are invalidated.
-    // TODO: Move the fallback currency logic up the stackso this will never happen.
-    if (gas || gasPrice) {
-      Logger.warn(
-        `${TAG}@sendTransactionPromises`,
-        `Resetting gas parameters because fee currency was changed.`
-      )
-      gas = undefined
-      gasPrice = undefined
-    }
-  }
-
   Logger.debug(
     `${TAG}@sendTransactionPromises`,
     `Sending tx ${context.id} in ${fornoMode ? 'forno' : 'geth'} mode`
   )
-  if (fornoMode) {
-    // In dev mode, verify that we are actually able to connect to the network. This
-    // ensures that we get a more meaningful error if the forno server is down, which
-    // can happen with networks without SLA guarantees like `integration`.
-    if (__DEV__) {
-      yield call(verifyUrlWorksOrThrow, DEFAULT_FORNO_URL)
-    }
-
-    if (!gasPrice) {
-      gasPrice = yield getGasPrice(feeCurrency)
-    }
-  }
 
   const transactionPromises: TxPromises = yield call(
     sendTransactionAsync,
@@ -192,7 +216,7 @@ export function* sendTransactionPromises(
     feeCurrency,
     getLogger(context, fornoMode),
     gas,
-    gasPrice?.toString(),
+    gasPrice,
     nonce
   )
   return transactionPromises
@@ -338,17 +362,4 @@ function shouldTxFailureRetry(err: any) {
   }
 
   return true
-}
-
-async function verifyUrlWorksOrThrow(url: string) {
-  try {
-    await fetch(url)
-  } catch (e) {
-    Logger.error(
-      'contracts@verifyUrlWorksOrThrow',
-      `Failed to perform HEAD request to url: "${url}"`,
-      e
-    )
-    throw new Error(`Failed to perform HEAD request to url: "${url}", is it working?`)
-  }
 }

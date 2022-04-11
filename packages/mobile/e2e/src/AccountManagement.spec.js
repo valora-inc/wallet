@@ -1,7 +1,7 @@
-import { quickOnboarding } from './utils/utils'
 import ResetAccount from './usecases/ResetAccount'
-import Support from './usecases/Support'
 import Settings from './usecases/Settings'
+import Support from './usecases/Support'
+import { quickOnboarding } from './utils/utils'
 
 describe('Account', () => {
   beforeAll(async () => {

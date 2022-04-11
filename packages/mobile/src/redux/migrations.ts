@@ -566,4 +566,22 @@ export const migrations = {
     },
   }),
   43: (state: any) => state,
+  44: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      finclusiveRegionSupported: false,
+    },
+    app: {
+      ...state.app,
+      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
+        ','
+      ),
+    },
+  }),
+  45: (state: any) => state,
+  46: (state: any) => ({
+    ...state,
+    cloudFunctionsApi: undefined,
+  }),
 }

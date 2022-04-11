@@ -1,9 +1,3 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import BackChevron from '@celo/react-components/icons/BackChevron'
-import ForwardChevron from '@celo/react-components/icons/ForwardChevron'
-import Refresh from '@celo/react-components/icons/Refresh'
-import colors from '@celo/react-components/styles/colors'
-import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,14 +5,22 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSessionEnded, openDeepLink } from 'src/app/actions'
 import { activeDappSelector } from 'src/app/selectors'
+import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import BackChevron from 'src/icons/BackChevron'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import Refresh from 'src/icons/Refresh'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import { iconHitslop } from 'src/styles/variables'
 import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
@@ -37,6 +39,18 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
+  const handleCloseWebView = () => {
+    if (activeDapp) {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+        categoryId: activeDapp.categoryId,
+        dappId: activeDapp.id,
+        dappName: activeDapp.name,
+        section: activeDapp.openedFrom,
+      })
+    }
+    navigateBack()
+  }
+
   useLayoutEffect(() => {
     const { hostname } = parse(uri)
 
@@ -44,7 +58,7 @@ function WebViewScreen({ route, navigation }: Props) {
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={navigateBack}
+          onPress={handleCloseWebView}
           titleStyle={{ color: colors.gray4 }}
         />
       ),

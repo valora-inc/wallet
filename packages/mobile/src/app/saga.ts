@@ -194,6 +194,7 @@ export interface RemoteConfigValues {
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
+  finclusiveUnsupportedStates: string[]
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -266,7 +267,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
-      handleDappkitDeepLink(deepLink)
+      yield call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {

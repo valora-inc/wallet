@@ -1,11 +1,3 @@
-import SectionHead from '@celo/react-components/components/SectionHead'
-import {
-  SettingsExpandedItem,
-  SettingsItemSwitch,
-  SettingsItemTextValue,
-} from '@celo/react-components/components/SettingsItem'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as Sentry from '@sentry/react-native'
@@ -42,13 +34,20 @@ import {
 } from 'src/app/actions'
 import {
   biometryEnabledSelector,
+  linkBankAccountStepTwoEnabledSelector,
   sessionIdSelector,
   supportedBiometryTypeSelector,
   verificationPossibleSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
+import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
+import {
+  SettingsExpandedItem,
+  SettingsItemSwitch,
+  SettingsItemTextValue,
+} from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
@@ -60,6 +59,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -99,7 +100,6 @@ interface StateProps {
   supportedBiometryType: BIOMETRY_TYPE | null
   linkBankAccountEnabled: boolean
   kycStatus: KycStatus | undefined
-  mtwAddress: string | null
   hasLinkedBankAccount: boolean
   linkBankAccountStepTwoEnabled: boolean
 }
@@ -131,9 +131,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     supportedBiometryType: supportedBiometryTypeSelector(state),
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
     kycStatus: state.account.kycStatus,
-    mtwAddress: state.web3.mtwAddress,
     hasLinkedBankAccount: state.account.hasLinkedBankAccount,
-    linkBankAccountStepTwoEnabled: state.app.linkBankAccountStepTwoEnabled,
+    linkBankAccountStepTwoEnabled: linkBankAccountStepTwoEnabledSelector(state),
   }
 }
 
@@ -186,11 +185,6 @@ export class Account extends React.Component<Props, State> {
   goToBankAccounts = () => {
     ValoraAnalytics.track(SettingsEvents.settings_link_bank_account)
     navigate(Screens.BankAccounts, {})
-  }
-
-  goToNumberNotConnectScreen = () => {
-    ValoraAnalytics.track(SettingsEvents.settings_number_not_connected)
-    navigate(Screens.ConnectPhoneNumberScreen)
   }
 
   goToLanguageSetting = () => {
@@ -428,7 +422,6 @@ export class Account extends React.Component<Props, State> {
       kycStatus,
       linkBankAccountEnabled,
       hasLinkedBankAccount,
-      mtwAddress,
       linkBankAccountStepTwoEnabled,
       t,
     } = this.props
@@ -438,18 +431,6 @@ export class Account extends React.Component<Props, State> {
       return null
     }
 
-    // User has not connected their phone number
-    if (!mtwAddress) {
-      return (
-        <SettingsItemTextValue
-          title={t('linkBankAccountSettingsTitle')}
-          onPress={this.goToNumberNotConnectScreen}
-          value={t('linkBankAccountSettingsValue')}
-          isValueActionable={true}
-          testID="linkBankAccountSettings"
-        />
-      )
-    }
     // User has not yet fully submitted their KYC info
     const stillNeedsToDoPersona = [
       undefined,
@@ -567,7 +548,7 @@ export class Account extends React.Component<Props, State> {
               testID="requirePinOnAppOpenToggle"
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
-            {/* For now disable the option to use the light client 
+            {/* For now disable the option to use the light client
             <SettingsItemSwitch
               title={t('enableDataSaver')}
               value={this.props.fornoEnabled}

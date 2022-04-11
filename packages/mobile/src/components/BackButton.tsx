@@ -1,9 +1,9 @@
-import BackChevron, { Props as BackChevronProps } from '@celo/react-components/icons/BackChevron'
-import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import BackChevron, { Props as BackChevronProps } from 'src/icons/BackChevron'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarIconButtonProps } from 'src/navigator/TopBarButton'
+import variables from 'src/styles/variables'
 
 type Props = Omit<TopBarIconButtonProps, 'icon'> & BackChevronProps
 

@@ -30,11 +30,13 @@ import {
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
+  DappRequestOrigin,
   ScrollDirection,
   SendOrigin,
   WalletConnectPairingOrigin,
 } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { DappSection } from 'src/app/reducers'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
@@ -161,7 +163,6 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_confirmed]: undefined
   [SettingsEvents.change_pin_new_pin_error]: undefined
   [SettingsEvents.settings_link_bank_account]: undefined
-  [SettingsEvents.settings_number_not_connected]: undefined
   [SettingsEvents.settings_biometry_opt_in_enable]: undefined
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
@@ -1072,8 +1073,9 @@ interface RewardsProperties {
   }
 }
 
-interface WalletConnect1Properties {
+export interface WalletConnect1Properties {
   version: 1
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   dappDescription: string
@@ -1082,8 +1084,9 @@ interface WalletConnect1Properties {
   chainId: string
 }
 
-interface WalletConnect2Properties {
+export interface WalletConnect2Properties {
   version: 2
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   dappDescription: string
@@ -1111,10 +1114,12 @@ type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties 
 
 interface WalletConnectProperties {
   [WalletConnectEvents.wc_pairing_start]: {
+    dappRequestOrigin: DappRequestOrigin
     origin: WalletConnectPairingOrigin
   }
-  [WalletConnectEvents.wc_pairing_success]: undefined
+  [WalletConnectEvents.wc_pairing_success]: { dappRequestOrigin: DappRequestOrigin }
   [WalletConnectEvents.wc_pairing_error]: {
+    dappRequestOrigin: DappRequestOrigin
     error: string
   }
 
@@ -1150,6 +1155,7 @@ interface WalletConnectProperties {
 }
 
 interface DappKitRequestDefaultProperties {
+  dappRequestOrigin: DappRequestOrigin
   dappName: string
   dappUrl: string
   requestType: DappKitRequestTypes
@@ -1158,7 +1164,11 @@ interface DappKitRequestDefaultProperties {
 }
 
 interface DappKitProperties {
-  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_parse_deeplink_error]: {
+    dappRequestOrigin: DappRequestOrigin
+    deeplink: string
+    error: string
+  }
   [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
   [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
@@ -1204,11 +1214,6 @@ interface CICOEventsProperties {
   }
 }
 
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
 interface DappEventProperties {
   categoryId: string
   dappId: string
@@ -1220,6 +1225,7 @@ interface DappEventProperties {
 interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_impression]: DappEventProperties
   [DappExplorerEvents.dapp_open]: DappEventProperties
+  [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: undefined
   [DappExplorerEvents.dapp_select]: DappEventProperties

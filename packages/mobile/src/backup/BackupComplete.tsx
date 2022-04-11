@@ -1,5 +1,3 @@
-import Checkmark from '@celo/react-components/icons/Checkmark'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,10 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
+import Checkmark from 'src/icons/Checkmark'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import fontStyles from 'src/styles/fonts'
 
 /**
  * Component shown to the user upon completion of the Recovery Phrase setup flow. Informs the user that

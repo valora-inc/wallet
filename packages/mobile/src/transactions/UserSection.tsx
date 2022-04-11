@@ -1,14 +1,14 @@
-import Expandable from '@celo/react-components/components/Expandable'
-import Touchable from '@celo/react-components/components/Touchable'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { getDisplayNumberInternational } from '@celo/utils/lib/phoneNumbers'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
+import Expandable from 'src/components/Expandable'
+import Touchable from 'src/components/Touchable'
 import { Screens } from 'src/navigator/Screens'
 import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   type: 'sent' | 'received' | 'withdrawn'

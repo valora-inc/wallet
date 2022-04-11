@@ -10,7 +10,7 @@ import { deleteFinclusiveBankAccount, getFinclusiveBankAccounts } from 'src/in-h
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockNavigation, mockPrivateDEK } from 'test/values'
+import { mockNavigation } from 'test/values'
 import BankAccounts from './BankAccounts'
 
 const MOCK_PHONE_NUMBER = '+18487623478'
@@ -48,10 +48,10 @@ jest.mock('src/account/openPlaid', () => ({
   default: jest.fn(),
 }))
 
+const mockWalletAddress = '0x123'
 const store = createMockStore({
   web3: {
-    mtwAddress: mockAccount,
-    dataEncryptionKey: mockPrivateDEK,
+    account: mockWalletAddress,
   },
   i18n: {
     language: 'en-US',
@@ -88,6 +88,18 @@ describe('BankAccounts', () => {
     await fireEvent.press(getByText('bankAccountsScreen.delete'))
     expect(deleteFinclusiveBankAccount).toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.delete_bank_account, { id: 2 })
+  })
+  it('shows a loading circle when getFinclusiveBankAccounts is inflight', async () => {
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <BankAccounts {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(getByTestId('Loader')).toBeTruthy()
+    await waitFor(() => expect(getFinclusiveBankAccounts).toHaveBeenCalled())
+    await waitFor(() => expect(queryByTestId('Loader')).toBeFalsy())
+    await waitFor(() => expect(queryByTestId('AddAccount')).toBeTruthy())
   })
   it('shows an error when delete bank accounts fails', async () => {
     //@ts-ignore . my IDE complains about this, though jest allows it
@@ -153,10 +165,9 @@ describe('BankAccounts', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(CICOEvents.add_bank_account_start)
 
     expect(openPlaid).toHaveBeenCalledWith({
-      accountMTWAddress: mockAccount,
+      walletAddress: mockWalletAddress,
       locale: 'en-US',
       phoneNumber: MOCK_PHONE_NUMBER,
-      dekPrivate: mockPrivateDEK,
       onSuccess: expect.any(Function),
       onExit: expect.any(Function),
     })

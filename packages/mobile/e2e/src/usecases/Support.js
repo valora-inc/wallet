@@ -1,11 +1,9 @@
-import { dismissBanners } from '../utils/banners'
-import { pixelDiff, scrollIntoView, getDeviceModel } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
+import { scrollIntoView } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
     await reloadReactNative()
-    await dismissBanners()
   })
 
   if (device.getPlatform() === 'ios') {
@@ -54,7 +52,5 @@ export default Support = () => {
     await element(by.id('MessageEntry')).tap()
     await element(by.id('MessageEntry')).typeText('This is a test from Valora')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')
-    const imagePath = await device.takeScreenshot('Support')
-    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Support.png`)
   })
 }

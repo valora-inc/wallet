@@ -1,15 +1,15 @@
-import Times from '@celo/react-components/icons/Times'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
+import Times from 'src/icons/Times'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, recipientHasNumber } from 'src/recipients/recipient'
+import fontStyles from 'src/styles/fonts'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.PaymentRequestUnavailable>
 type Props = RouteProps

@@ -1,11 +1,11 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { Mode } from 'src/backup/BackupQuiz'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Props {
   onPressSubmit: () => void

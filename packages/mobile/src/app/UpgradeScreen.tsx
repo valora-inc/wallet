@@ -1,6 +1,6 @@
-import FullscreenCTA from '@celo/react-components/components/FullscreenCTA'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
+import FullscreenCTA from 'src/components/FullscreenCTA'
 import { withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigateToWalletStorePage } from 'src/utils/linking'

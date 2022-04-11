@@ -11,7 +11,11 @@ import { CELO_LOGO_URL, DEFAULT_TESTNET, SUPERCHARGE_LOGO_URL } from 'src/config
 import { ProviderFeedInfo, txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
-import { addressToDisplayNameSelector, addressToE164NumberSelector } from 'src/identity/selectors'
+import {
+  addressToDisplayNameSelector,
+  addressToE164NumberSelector,
+  identifierToE164NumberSelector,
+} from 'src/identity/selectors'
 import {
   getDisplayName,
   getRecipientFromAddress,
@@ -30,6 +34,7 @@ import useSelector from 'src/redux/useSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
+  inviteTransactionsSelector,
   KnownFeedTransactionsType,
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
@@ -236,12 +241,16 @@ export function useTransactionRecipient(transfer: TokenTransfer) {
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const addressToE164Number = useSelector(addressToE164NumberSelector)
-  const phoneNumber = addressToE164Number[transfer.address]
-  let recipient: Recipient
+  const invitationTransactions = useSelector(inviteTransactionsSelector)
+  const identifierToE164Number = useSelector(identifierToE164NumberSelector)
 
-  if (transfer.type === TokenTransactionTypeV2.InviteSent) {
-    // TODO: Fetch the correct recipient in this case.
-  }
+  const phoneNumber =
+    transfer.type === TokenTransactionTypeV2.InviteSent &&
+    !!invitationTransactions[transfer.transactionHash]
+      ? identifierToE164Number[invitationTransactions[transfer.transactionHash].recipientIdentifier]
+      : addressToE164Number[transfer.address]
+
+  let recipient: Recipient
 
   if (phoneNumber) {
     recipient = phoneRecipientCache[phoneNumber] ?? recentTxRecipientsCache[phoneNumber]

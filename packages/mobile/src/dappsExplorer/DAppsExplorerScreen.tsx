@@ -1,8 +1,3 @@
-import Card from '@celo/react-components/components/Card'
-import Touchable from '@celo/react-components/components/Touchable'
-import colors, { Colors } from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Shadow, Spacing } from '@celo/react-components/styles/styles'
 import React, { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -20,11 +15,13 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp, DappSection } from 'src/app/reducers'
 import { dappsListApiUrlSelector } from 'src/app/selectors'
 import { Dapp } from 'src/app/types'
+import Card from 'src/components/Card'
 import Dialog from 'src/components/Dialog'
+import Touchable from 'src/components/Touchable'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
@@ -32,6 +29,9 @@ import { dappListLogo } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Shadow, Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -54,7 +54,7 @@ interface CategoryWithDapps {
 
 interface DappProps {
   dapp: Dapp
-  onPressDapp: (dapp: Dapp) => void
+  onPressDapp: (dapp: ActiveDapp) => void
 }
 
 interface SectionData {
@@ -274,7 +274,7 @@ function CategoryHeader({ category }: { category: CategoryWithDapps }) {
 }
 
 function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
-  const onPress = () => onPressDapp(dapp)
+  const onPress = () => onPressDapp({ ...dapp, openedFrom: DappSection.Featured })
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
@@ -292,7 +292,7 @@ function FeaturedDapp({ dapp, onPressDapp }: DappProps) {
 }
 
 function DappCard({ dapp, onPressDapp }: DappProps) {
-  const onPress = () => onPressDapp(dapp)
+  const onPress = () => onPressDapp({ ...dapp, openedFrom: DappSection.All })
 
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
