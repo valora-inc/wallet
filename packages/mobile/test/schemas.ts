@@ -1206,7 +1206,6 @@ export const v46Schema = {
     ...v45Schema._persist,
     version: 46,
   },
-  cloudFunctionsApi: undefined,
 }
 
 export function getLatestSchema(): Partial<RootState> {
