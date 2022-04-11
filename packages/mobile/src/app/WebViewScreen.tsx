@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Linking, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
@@ -108,6 +108,13 @@ function WebViewScreen({ route, navigation }: Props) {
       dispatch(openDeepLink(event.url))
       return false
     }
+
+    if (event.url && parse(uri).hostname !== parse(event.url).hostname) {
+      // open external links with the best installed app
+      Linking.openURL(event.url)
+      return false
+    }
+
     return true
   }
 
