@@ -337,7 +337,7 @@ function NotificationBox() {
   }
 
   useEffect(() => {
-    if (lastViewedIndex.current < currentIndex) {
+    if (notifications.length > 0 && lastViewedIndex.current < currentIndex) {
       ValoraAnalytics.track(HomeEvents.notification_impression, {
         notificationId: notifications[currentIndex].id,
       })
