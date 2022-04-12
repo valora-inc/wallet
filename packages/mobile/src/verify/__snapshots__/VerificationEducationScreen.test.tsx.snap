@@ -778,6 +778,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler2"
           mixedContentMode="always"
+          onError={[Function]}
           onHttpError={[Function]}
           onLoadingError={[Function]}
           onLoadingFinish={[Function]}
@@ -1839,6 +1840,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler5"
           mixedContentMode="always"
+          onError={[Function]}
           onHttpError={[Function]}
           onLoadingError={[Function]}
           onLoadingFinish={[Function]}
@@ -2900,6 +2902,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler1"
           mixedContentMode="always"
+          onError={[Function]}
           onHttpError={[Function]}
           onLoadingError={[Function]}
           onLoadingFinish={[Function]}
@@ -3956,6 +3959,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler3"
           mixedContentMode="always"
+          onError={[Function]}
           onHttpError={[Function]}
           onLoadingError={[Function]}
           onLoadingFinish={[Function]}
