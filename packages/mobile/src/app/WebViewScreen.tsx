@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Linking, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,6 +21,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
+import { navigateToURI } from 'src/utils/linking'
 import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
@@ -111,7 +112,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
     if (event.url && parse(uri).hostname !== parse(event.url).hostname) {
       // open external links with the best installed app
-      Linking.openURL(event.url)
+      navigateToURI(event.url)
       return false
     }
 
