@@ -189,7 +189,7 @@
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Dein {{token}} wird aufgeladen",
-  "superchargingDescription": "Sie erhalten {{apy}}nnually. Jede Woche erhalten Sie eine Benachrichtigung, wenn Ihre Prämien bereitstehen. Kommen Sie hierher zurück, um sie einzufordern.",
+  "superchargingDescription": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
   "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
@@ -589,8 +589,8 @@
     "button": "Senden"
   },
   "inviteRewardsBanner": {
-    "title": "Laden Sie einen Freund zu {{appName}} ein, indem Sie ihm etwas Krypto schicken.",
-    "body": "Sie erhalten beide {{amount}} {{currency}} , sobald sie ihr Konto eingerichtet haben."
+    "title": "Lade einen Freund zu {{appName}} ein, indem du ihm Krypto sendest.",
+    "body": "Ihr erhaltet beide {{amount}} {{currency}}, sobald dein Freund sein Konto eingerichtet hat."
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -655,7 +655,7 @@
   },
   "skipModal": {
     "header": "Bist du sicher?",
-    "body1": "Wenn Sie Ihre Nummer verbinden, haben Sie mehr Möglichkeiten, Zahlungen zu senden und Supercharge-Prämien zu sammeln."
+    "body1": "Wenn du deine Nummer hinzufügst, hast du mehr Möglichkeiten, Zahlungen zu senden. Außerdem kannst du so Supercharge-Rewards erhalten."
   },
   "failModal": {
     "header": "Bestätigungsfehler",
@@ -1126,7 +1126,7 @@
       "title": "Verifizierung abgeschlossen",
       "description": "Wir haben deine Identität erfolgreich verifiziert. Bitte vervollständige die Verknüpfung deines Bankkontos.",
       "descriptionStep2NotEnabled": "Wir haben deine Identität erfolgreich verifiziert. Wir werden dich darüber informieren, wann du dein Bankkonto verknüpfen kannst.",
-      "descriptionRegionNotSupported": "Wir haben Ihre Identität erfolgreich überprüft. Ihre Region wird derzeit nicht unterstützt. Wir benachrichtigen Sie, sobald Sie die Verknüpfung Ihres Bankkontos abschließen können."
+      "descriptionRegionNotSupported": "Wir haben deine Identität erfolgreich verifiziert. Deine Region wird aktuell nicht unterstützt. Wir informieren dich, wenn du die Verlinkung deines Bankkontos abschließen kannst."
     },
     "failed": {
       "title": "Verifizierung verweigert",
@@ -1146,7 +1146,7 @@
     "stepTwo": {
       "label": "Schritt 2",
       "disabledTitle": "Bankkonto verknüpfen",
-      "disabledDescription": "Unterstützung für Bankkonten in Kürze! Wir werden Sie informieren, sobald Sie Ihr Bankkonto mit Valora verbinden können.",
+      "disabledDescription": "Bankkonto-Unterstützung ist bald verfügbar! Wir informieren dich, sobald du dein Bankkonto mit Valora verbinden kannst.",
       "disabledCta": "Demnächst verfügbar",
       "title": "Bankdaten eingeben",
       "description": "Du bist fast fertig! Bankdaten eingeben ein, um dein Konto zu verknüpfen.",
@@ -1191,7 +1191,7 @@
     "dismiss": "Verwerfen"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} ist eine externe Anwendung",
+    "title": "{{dappName}} ist eine externe Anwendung.",
     "message": "Du bist dabei, eine Anwendung zu öffnen, die nicht von Valora betrieben wird.\n\nValora gibt keine Zusicherungen zu dieser Anwendung ab. Die Nutzung erfolgt auf eigene Gefahr.",
     "button": "Gehe zu {{dappName}}"
   },
@@ -1203,7 +1203,7 @@
   "nomSpaceRecipient": "Nomspace: {{name}}",
   "lastDay": "Letzte 24 Stunden",
   "merchant": "Zahlung des Händlers",
-  "merchantMoneyEscrow": "Sie sind im Begriff, eine Direktzahlung an einen Händler zu senden.",
+  "merchantMoneyEscrow": "Du bist dabei, eine direkte Zahlung an einen Händler zu senden.",
   "merchantPaymentNumberVerificationMessage": "Du musst deine Nummer verbinden",
   "merchantPaymentSubmitFail": "Die Übermittlung deiner Zahlung ist fehlgeschalgen",
   "merchantPaymentSetup": "Beim Laden der Händlerinformation ist ein Fehler aufgetreten. Bitte versuche, den QR-Code erneut zu scannen",

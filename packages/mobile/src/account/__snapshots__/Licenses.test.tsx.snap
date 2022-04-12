@@ -29,6 +29,7 @@ exports[`Licenses renders correctly 1`] = `
       javaScriptEnabled={true}
       messagingEnabled={false}
       messagingModuleName="WebViewMessageHandler1"
+      onError={[Function]}
       onHttpError={[Function]}
       onLoadingError={[Function]}
       onLoadingFinish={[Function]}

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { WebView as RNWebView, WebViewProps } from 'react-native-webview'
+import { WebViewErrorEvent } from 'react-native-webview/lib/WebViewTypes'
+import Logger from 'src/utils/Logger'
 
 export type WebViewRef = RNWebView
 
@@ -9,13 +11,22 @@ export type WebViewRef = RNWebView
 const SHOULD_USE_OPACITY_HACK = Platform.OS === 'android' && Platform.Version >= 28
 
 const WebView = React.forwardRef<WebViewRef, WebViewProps>(
-  ({ style, ...passThroughProps }, ref) => {
+  ({ style, onError, ...passThroughProps }, ref) => {
+    function onErrorHandler(event: WebViewErrorEvent) {
+      const { domain, code, description, url } = event.nativeEvent
+      Logger.error(
+        'WebView',
+        `Error: domain:${domain}, code:${code}, description:${description}, url:${url}`
+      )
+      onError?.(event)
+    }
     return (
       <RNWebView
         ref={ref}
         testID="RNWebView"
         {...passThroughProps}
         style={SHOULD_USE_OPACITY_HACK ? [style, styles.opacityHack] : style}
+        onError={onErrorHandler}
       />
     )
   }
