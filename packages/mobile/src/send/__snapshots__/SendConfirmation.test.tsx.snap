@@ -194,6 +194,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                       "lineHeight": 22,
                     }
                   }
+                  testID="DisplayName"
                 >
                   feedItemAddress, {"address":"0x0000...7E57"}
                 </Text>
@@ -209,6 +210,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   "paddingVertical": 8,
                 }
               }
+              testID="SendAmount"
             >
               
               1.00

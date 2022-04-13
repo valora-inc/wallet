@@ -283,7 +283,9 @@ function SendConfirmation(props: Props) {
               <Text style={styles.headerText} testID="HeaderText">
                 {t('sending')}
               </Text>
-              <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
+              <Text testID="DisplayName" style={styles.displayName}>
+                {getDisplayName(recipient, t)}
+              </Text>
               {validatedRecipientAddress && (
                 <View style={styles.editContainer}>
                   <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
@@ -299,6 +301,7 @@ function SendConfirmation(props: Props) {
             </View>
           </View>
           <TokenDisplay
+            testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
             tokenAddress={tokenAddress}
