@@ -26,6 +26,7 @@ concurrency:
 
 jobs:
   android:
+    if: ${{ 'true' == 'false' }}
     env:
       working-directory: ./packages/mobile
     name: Android
@@ -93,6 +94,19 @@ jobs:
     name: iOS
     runs-on: ios-e2e-group
     steps:
+      - name: Print GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "The event name is ${{ github.event_name }}"
+          echo "$GITHUB_CONTEXT"
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v0.2.2
+        with:
+          secrets: |-
+            EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
+          credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -122,6 +136,10 @@ jobs:
         run: |
           export CELO_TEST_CONFIG=e2e
           yarn detox build -c ios.release
+      - run: yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
+        env:
+          EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
+          DETOX_CONFIG: ios.release
       - name: Run Detox
         working-directory: ${{env.working-directory}}
         run: >
