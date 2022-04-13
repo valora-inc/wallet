@@ -76,7 +76,6 @@ function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
     yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
     navigate(Screens.WebViewScreen, {
       uri: activeDapp.dappUrl,
-      headerTitle: activeDapp.name,
       dappkitDeeplink,
     })
   } else {

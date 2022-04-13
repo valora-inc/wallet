@@ -30,6 +30,7 @@ export const noHeaderGestureDisabled: StackNavigationOptions = {
 export const styles = StyleSheet.create({
   headerTitle: {
     ...fontStyles.navigationHeader,
+    maxWidth: 220,
   },
   headerSubTitle: {
     color: colors.gray4,
@@ -194,8 +195,16 @@ export function HeaderTitleWithSubtitle({
 }) {
   return (
     <View style={styles.header} testID={testID}>
-      {title && <Text style={styles.headerTitle}>{title}</Text>}
-      {subTitle && <Text style={styles.headerSubTitle}>{subTitle}</Text>}
+      {title && (
+        <Text style={styles.headerTitle} numberOfLines={1}>
+          {title}
+        </Text>
+      )}
+      {subTitle && (
+        <Text style={styles.headerSubTitle} numberOfLines={1}>
+          {subTitle}
+        </Text>
+      )}
     </View>
   )
 }

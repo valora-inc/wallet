@@ -317,7 +317,7 @@ export function* handleOpenDapp(action: DappSelected) {
     if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
       yield call(handleDeepLink, openDeepLink(dappUrl, true))
     } else {
-      navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+      navigate(Screens.WebViewScreen, { uri: dappUrl })
     }
   } else {
     yield call(handleOpenUrl, openUrl(dappUrl, true, true))

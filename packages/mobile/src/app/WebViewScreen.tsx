@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -29,7 +29,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { headerTitle, uri, dappkitDeeplink } = route.params
+  const { uri, dappkitDeeplink } = route.params
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -51,21 +51,24 @@ function WebViewScreen({ route, navigation }: Props) {
     navigateBack()
   }
 
-  useLayoutEffect(() => {
-    const { hostname } = parse(uri)
+  const handleSetNavigationTitle = useCallback(
+    (uri: string, title: string) => {
+      const { hostname } = parse(uri)
 
+      navigation.setOptions({
+        headerTitle: () => <HeaderTitleWithSubtitle title={title} subTitle={hostname} />,
+      })
+    },
+    [navigation]
+  )
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
           onPress={handleCloseWebView}
           titleStyle={{ color: colors.gray4 }}
-        />
-      ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={headerTitle ?? hostname ?? ''}
-          subTitle={headerTitle ? hostname : undefined}
         />
       ),
     })
@@ -98,7 +101,7 @@ function WebViewScreen({ route, navigation }: Props) {
     if (canGoBack) {
       handleGoBack()
     } else {
-      navigateBack()
+      handleCloseWebView()
     }
     return true
   }, [canGoBack, webViewRef.current, navigation])
@@ -136,6 +139,7 @@ function WebViewScreen({ route, navigation }: Props) {
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack)
           setCanGoForward(navState.canGoForward)
+          handleSetNavigationTitle(navState.url, navState.title)
         }}
       />
       <View style={styles.navBar}>
