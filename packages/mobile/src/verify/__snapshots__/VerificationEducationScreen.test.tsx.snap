@@ -774,6 +774,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           androidLayerType="none"
           automaticallyAdjustContentInsets={true}
           cacheEnabled={true}
+          decelerationRate="normal"
           javaScriptEnabled={true}
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler2"
@@ -1836,6 +1837,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           androidLayerType="none"
           automaticallyAdjustContentInsets={true}
           cacheEnabled={true}
+          decelerationRate="normal"
           javaScriptEnabled={true}
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler5"
@@ -2898,6 +2900,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           androidLayerType="none"
           automaticallyAdjustContentInsets={true}
           cacheEnabled={true}
+          decelerationRate="normal"
           javaScriptEnabled={true}
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler1"
@@ -3955,6 +3958,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           androidLayerType="none"
           automaticallyAdjustContentInsets={true}
           cacheEnabled={true}
+          decelerationRate="normal"
           javaScriptEnabled={true}
           messagingEnabled={true}
           messagingModuleName="WebViewMessageHandler3"

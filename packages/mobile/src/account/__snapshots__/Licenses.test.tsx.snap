@@ -26,6 +26,7 @@ exports[`Licenses renders correctly 1`] = `
       androidHardwareAccelerationDisabled={false}
       androidLayerType="none"
       cacheEnabled={true}
+      decelerationRate="normal"
       javaScriptEnabled={true}
       messagingEnabled={false}
       messagingModuleName="WebViewMessageHandler1"
