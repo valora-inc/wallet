@@ -42,6 +42,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             "fontFamily": "Jost-Medium",
             "fontSize": 16,
             "lineHeight": 20,
+            "maxWidth": 220,
           }
         }
       >
