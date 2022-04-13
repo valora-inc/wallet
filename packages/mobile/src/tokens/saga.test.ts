@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { throwError } from 'redux-saga-test-plan/providers'
+import { dynamic, EffectProvider, ProviderNextF, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -11,6 +11,7 @@ import {
   fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
+import { totalTokenBalanceSelector } from 'src/tokens/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
@@ -76,6 +77,7 @@ describe(fetchTokenBalancesSaga, () => {
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+        [select(totalTokenBalanceSelector), new BigNumber(10)],
       ])
       .put(setTokenBalances(mockTokenBalances))
       .run()
@@ -105,6 +107,53 @@ describe(fetchTokenBalancesSaga, () => {
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
       error: 'Error message',
+    })
+  })
+
+  describe('account event', () => {
+    let returnValueFirstTimeOnly: (value: BigNumber) => EffectProvider<any>
+
+    beforeEach(() => {
+      returnValueFirstTimeOnly = (value: BigNumber) => {
+        let hasBeenCalled = false
+        return (_: any, next: ProviderNextF) => {
+          if (hasBeenCalled) {
+            return next()
+          }
+          hasBeenCalled = true
+          return value
+        }
+      }
+    })
+
+    it('should be sent when account funded', async () => {
+      await expectSaga(fetchTokenBalancesSaga)
+        .provide([
+          [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+          [select(walletAddressSelector), mockAccount],
+          [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+          [select(totalTokenBalanceSelector), dynamic(returnValueFirstTimeOnly(new BigNumber(0)))],
+          [select(totalTokenBalanceSelector), new BigNumber(10)],
+        ])
+        .put(setTokenBalances(mockTokenBalances))
+        .run()
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
+    })
+
+    it('should be sent when account liquidated', async () => {
+      await expectSaga(fetchTokenBalancesSaga)
+        .provide([
+          [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+          [select(walletAddressSelector), mockAccount],
+          [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+          [select(totalTokenBalanceSelector), dynamic(returnValueFirstTimeOnly(new BigNumber(10)))],
+          [select(totalTokenBalanceSelector), new BigNumber(0)],
+        ])
+        .put(setTokenBalances(mockTokenBalances))
+        .run()
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
     })
   })
 })

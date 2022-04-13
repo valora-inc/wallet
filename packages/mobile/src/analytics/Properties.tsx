@@ -112,6 +112,8 @@ interface AppEventsProperties {
   [AppEvents.request_tracking_permission_accepted]: {
     newPermission: 'granted'
   }
+  [AppEvents.account_funded]: undefined
+  [AppEvents.account_liquidated]: undefined
 }
 
 interface HomeEventsProperties {

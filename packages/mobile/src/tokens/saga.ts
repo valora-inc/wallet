@@ -14,7 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
@@ -27,7 +27,7 @@ import {
   TokenBalance,
   tokenBalanceFetchError,
 } from 'src/tokens/reducer'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -313,6 +313,22 @@ export async function fetchTokenBalancesForAddress(
   return response.data.userBalances.balances
 }
 
+export function* updateTokenBalances(tokens: StoredTokenBalances) {
+  const tokenBalanceBefore = yield select(totalTokenBalanceSelector)
+  const isAccountFundedBefore = tokenBalanceBefore.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
+
+  yield put(setTokenBalances(tokens))
+
+  const tokenBalanceAfter = yield select(totalTokenBalanceSelector)
+  const isAccountFundedAfter = tokenBalanceAfter.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
+
+  if (isAccountFundedBefore && !isAccountFundedAfter) {
+    ValoraAnalytics.track(AppEvents.account_liquidated)
+  } else if (!isAccountFundedBefore && isAccountFundedAfter) {
+    ValoraAnalytics.track(AppEvents.account_funded)
+  }
+}
+
 export function* fetchTokenBalancesSaga() {
   try {
     const address: string | null = yield select(walletAddressSelector)
@@ -337,7 +353,7 @@ export function* fetchTokenBalancesSaga() {
           .toString()
       }
     }
-    yield put(setTokenBalances(tokens))
+    yield call(updateTokenBalances, tokens)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
     yield put(tokenBalanceFetchError())

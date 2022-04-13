@@ -18,6 +18,9 @@ export enum AppEvents {
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
   request_tracking_permission_accepted = 'request_tracking_permission_accepted',
+
+  account_funded = 'account_funded',
+  account_liquidated = 'account_liquidated',
 }
 
 export enum HomeEvents {
