@@ -3,19 +3,6 @@ import * as $ from 'shelljs'
 
 $.config.fatal = true
 
-function getPRNumber(refName: string): string | undefined {
-  if (refName === '') {
-    return undefined
-  }
-
-  if (!refName.includes('pull')) {
-    return undefined
-  }
-
-  const splits = refName.split('/')
-  return splits[2]
-}
-
 // Adapted from https://github.com/EmergeTools/emerge-upload-action/blob/d2f4fc1627edd5b8c346d75d77565da83a97f443/src/inputs.ts
 function getGitHubInfo() {
   // On PRs, the GITHUB_SHA refers to the merge commit instead
@@ -24,6 +11,7 @@ function getGitHubInfo() {
   let sha
   let baseSha
   let branchName
+  let prNumber
   const eventFile = fs.readFileSync(process.env.GITHUB_EVENT_PATH ?? '', {
     encoding: 'utf8',
   })
@@ -32,16 +20,16 @@ function getGitHubInfo() {
     sha = eventFileJson?.pull_request?.head?.sha ?? process.env.GITHUB_SHA ?? ''
     baseSha = eventFileJson?.pull_request?.base?.sha ?? ''
     branchName = process.env.GITHUB_HEAD_REF ?? ''
+    prNumber = eventFileJson?.number ?? ''
+
+    if (!prNumber) {
+      throw new Error('Could not get prNumber for a PR triggered build.')
+    }
   } else if (process.env.GITHUB_EVENT_NAME === 'push') {
     sha = process.env.GITHUB_SHA ?? ''
     // Get the SHA of the previous commit, which will be the baseSha in the case of a push event.
     baseSha = eventFileJson?.before ?? ''
-
-    const ref = process.env.GITHUB_REF ?? ''
-    if (ref !== '') {
-      const refSplits = ref.split('/')
-      branchName = refSplits[refSplits.length - 1]
-    }
+    branchName = process.env.GITHUB_REF_NAME ?? ''
   } else {
     throw new Error(`Unsupported action trigger: ${process.env.GITHUB_EVENT_NAME}`)
   }
@@ -52,22 +40,13 @@ function getGitHubInfo() {
   if (!baseSha) {
     throw new Error('Could not get SHA of the base branch.')
   }
-  // branchName is optional, so we won't fail if not present
   if (!branchName) {
-    // Explicitly set to undefined so we won't send an empty string to the Emerge API
-    branchName = undefined
+    throw new Error('Could not get name of the branch.')
   }
 
   const repoName = process.env.GITHUB_REPOSITORY ?? ''
   if (repoName === '') {
     throw new Error('Could not get repository name.')
-  }
-
-  // Required for PRs
-  const refName = process.env.GITHUB_REF ?? ''
-  const prNumber = getPRNumber(refName)
-  if (refName.includes('pull') && !prNumber) {
-    throw new Error('Could not get prNumber for a PR triggered build.')
   }
 
   return {
