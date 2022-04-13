@@ -14,26 +14,6 @@ expect.extend({ toBeDisabled })
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
-  it('renders correctly', () => {
-    const store = createMockStore()
-    const tree = render(
-      <Provider store={store}>
-        <NameAndPicture {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
-  it('renders with an error', () => {
-    const store = createMockStore({ alert: { underlyingError: ErrorMessages.INVALID_INVITATION } })
-    const tree = render(
-      <Provider store={store}>
-        <NameAndPicture {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(
