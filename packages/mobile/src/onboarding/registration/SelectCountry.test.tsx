@@ -26,5 +26,11 @@ describe('SelectCountry', () => {
     // Syria does not
     fireEvent.changeText(tree.getByTestId('SearchInput'), 'Syria')
     expect(tree.queryByText('Syria')).toBeNull()
+    // Iran does not
+    fireEvent.changeText(tree.getByTestId('SearchInput'), 'Iran')
+    expect(tree.queryByText('Syria')).toBeNull()
+    // North Korea does not
+    fireEvent.changeText(tree.getByTestId('SearchInput'), 'North Korea')
+    expect(tree.queryByText('North Korea')).toBeNull()
   })
 })
