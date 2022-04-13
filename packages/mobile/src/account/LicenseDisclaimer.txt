@@ -1374,7 +1374,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: @stablelib/binary, @stablelib/blake2s, @stablelib/blake2xs, @stablelib/bytes, @stablelib/hash, @stablelib/int, @stablelib/keyagreement, @stablelib/random, @stablelib/wipe. A copy of the source code may be downloaded from https://github.com/StableLib/stablelib (@stablelib/bytes), https://github.com/StableLib/stablelib (@stablelib/keyagreement), https://github.com/StableLib/stablelib (@stablelib/random). This software contains the following license and notice below:
+The following software may be included in this product: @stablelib/binary, @stablelib/blake2s, @stablelib/blake2xs, @stablelib/bytes, @stablelib/hash, @stablelib/int, @stablelib/keyagreement, @stablelib/random, @stablelib/wipe. A copy of the source code may be downloaded from https://github.com/StableLib/stablelib (@stablelib/binary), https://github.com/StableLib/stablelib (@stablelib/bytes), https://github.com/StableLib/stablelib (@stablelib/int), https://github.com/StableLib/stablelib (@stablelib/keyagreement), https://github.com/StableLib/stablelib (@stablelib/random), https://github.com/StableLib/stablelib (@stablelib/wipe). This software contains the following license and notice below:
 
 This software is licensed under the MIT license:
 
@@ -26632,7 +26632,7 @@ THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: workspace-aggregator-092a6f43-0c30-4d58-bf88-9b6d58776754. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-9b7c7868-73ac-4960-baeb-3a63a821a3ea. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
