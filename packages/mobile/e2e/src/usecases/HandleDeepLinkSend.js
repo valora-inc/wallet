@@ -1,5 +1,5 @@
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, inputNumberKeypad, quote } from '../utils/utils'
+import { inputNumberKeypad, quote } from '../utils/utils'
 
 const deepLinks = {
   withAll:
@@ -21,17 +21,6 @@ const openDeepLink = async (payUrl) => {
   await device.openURL({ url: payUrl })
 }
 
-const pay = async () => {
-  // Tap Pay
-  await element(by.id('ConfirmButton')).tap()
-  // Enter pin
-  await enterPinUiIfNecessary()
-  // Arrived to Home screen
-  await waitFor(element(by.id('SendOrRequestBar')))
-    .toBeVisible()
-    .withTimeout(30 * 1000)
-}
-
 export default HandleDeepLinkSend = () => {
   describe('When Launching Deeplink - App Closed', () => {
     it('Then should handle deeplink with all attributes', async () => {
@@ -46,7 +35,6 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.text('sending usd: 0.1 to my wallet')))
         .toBeVisible()
         .withTimeout(10 * 1000)
-      await pay()
     })
 
     it('Then should handle deeplink without amount', async () => {
@@ -54,7 +42,6 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink(PAY_URL)
       await inputNumberKeypad('0.1')
       await element(by.id('Review')).tap()
-      await pay()
     })
 
     it('Then should error if no address provided', async () => {
@@ -83,7 +70,6 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.text('sending usd: 0.1 to my wallet')))
         .toBeVisible()
         .withTimeout(10 * 1000)
-      await pay()
     })
 
     it('Then should error if no address provided', async () => {
@@ -106,7 +92,6 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.text('sending usd: 0.1 to my wallet')))
         .toBeVisible()
         .withTimeout(10 * 1000)
-      await pay()
     })
 
     it('Then should error if no address provided', async () => {
