@@ -39,18 +39,6 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
-  const handleCloseWebView = () => {
-    if (activeDapp) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
-        categoryId: activeDapp.categoryId,
-        dappId: activeDapp.id,
-        dappName: activeDapp.name,
-        section: activeDapp.openedFrom,
-      })
-    }
-    navigateBack()
-  }
-
   const handleSetNavigationTitle = useCallback(
     (uri: string, title: string) => {
       const { hostname } = parse(uri)
@@ -67,7 +55,7 @@ function WebViewScreen({ route, navigation }: Props) {
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={handleCloseWebView}
+          onPress={navigateBack}
           titleStyle={{ color: colors.gray4 }}
         />
       ),
@@ -83,6 +71,12 @@ function WebViewScreen({ route, navigation }: Props) {
       // refreshed in the future
       if (activeDapp) {
         dispatch(dappSessionEnded())
+        ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+          categoryId: activeDapp.categoryId,
+          dappId: activeDapp.id,
+          dappName: activeDapp.name,
+          section: activeDapp.openedFrom,
+        })
       }
     }
   }, [])
@@ -132,7 +126,6 @@ function WebViewScreen({ route, navigation }: Props) {
         ref={webViewRef}
         originWhitelist={['https://*', 'celo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
-        setSupportMultipleWindows={false}
         source={{ uri }}
         startInLoadingState={true}
         renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
