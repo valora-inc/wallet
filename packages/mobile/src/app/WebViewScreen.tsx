@@ -42,9 +42,12 @@ function WebViewScreen({ route, navigation }: Props) {
   const handleSetNavigationTitle = useCallback(
     (uri: string, title: string) => {
       const { hostname } = parse(uri)
+      // when first loading, the title of the webpage is unknown and the title
+      // defaults to the url - display a loading placeholder in this case
+      const displayedTitle = parse(title).protocol && parse(title).hostname ? t('loading') : title
 
       navigation.setOptions({
-        headerTitle: () => <HeaderTitleWithSubtitle title={title} subTitle={hostname} />,
+        headerTitle: () => <HeaderTitleWithSubtitle title={displayedTitle} subTitle={hostname} />,
       })
     },
     [navigation]
