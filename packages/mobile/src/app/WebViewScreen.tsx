@@ -101,7 +101,7 @@ function WebViewScreen({ route, navigation }: Props) {
     if (canGoBack) {
       handleGoBack()
     } else {
-      handleCloseWebView()
+      navigateBack()
     }
     return true
   }, [canGoBack, webViewRef.current, navigation])

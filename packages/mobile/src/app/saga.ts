@@ -309,7 +309,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
 }
 
 export function* handleOpenDapp(action: DappSelected) {
-  const { dappUrl, name } = action.dapp
+  const { dappUrl } = action.dapp
   const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
 
   if (dappsWebViewEnabled) {
