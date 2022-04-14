@@ -21,6 +21,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
@@ -40,11 +41,23 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoForward, setCanGoForward] = useState(false)
 
   const handleSetNavigationTitle = useCallback(
-    (uri: string, title: string) => {
-      const { hostname } = parse(uri)
-      // when first loading, the title of the webpage is unknown and the title
-      // defaults to the url - display a loading placeholder in this case
-      const displayedTitle = parse(title).protocol && parse(title).hostname ? t('loading') : title
+    (url: string, title: string) => {
+      let hostname = ' '
+      let displayedTitle = ' '
+
+      try {
+        hostname = parse(url).hostname ?? ' '
+        // when first loading, the title of the webpage is unknown and the title
+        // defaults to the url - display a loading placeholder in this case
+        const parsedTitleUrl = parse(title)
+        displayedTitle = parsedTitleUrl.protocol && parsedTitleUrl.hostname ? t('loading') : title
+      } catch (error) {
+        Logger.error(
+          'WebViewScreen',
+          `could not parse url for screen header, with url ${url} and title ${title}`,
+          error
+        )
+      }
 
       navigation.setOptions({
         headerTitle: () => <HeaderTitleWithSubtitle title={displayedTitle} subTitle={hostname} />,
