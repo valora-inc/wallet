@@ -45,6 +45,9 @@ jobs:
       - name: Make jest available
         working-directory: ${{env.working-directory}}
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
+      - name: Check E2E wallet balance
+        working-directory: ${{env.working-directory}}/e2e/scripts
+        run: node --unhandled-rejections=strict ./check-e2e-wallet-balance.ts
       - name: Create Detox Build
         working-directory: ${{env.working-directory}}
         run: |
@@ -117,6 +120,9 @@ jobs:
       - name: Make jest available
         working-directory: ${{env.working-directory}}
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
+      - name: Check E2E wallet balance
+        working-directory: ${{env.working-directory}}/e2e/scripts
+        run: node --unhandled-rejections=strict ./check-e2e-wallet-balance.ts
       - name: Create Detox Build
         working-directory: ${{env.working-directory}}
         run: |
