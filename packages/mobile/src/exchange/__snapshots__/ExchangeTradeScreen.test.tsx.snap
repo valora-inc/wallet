@@ -69,12 +69,14 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Object {
                 "color": "#2E3338",
                 "fontFamily": "Jost-Medium",
                 "fontSize": 16,
                 "lineHeight": 20,
+                "maxWidth": 450,
               }
             }
           >
@@ -86,6 +88,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                     "fontFamily": "Jost-Medium",
                     "fontSize": 16,
                     "lineHeight": 20,
+                    "maxWidth": 450,
                   },
                   Object {
                     "color": "#2E3338",
@@ -100,6 +103,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             </Text>
           </Text>
           <Text
+            numberOfLines={1}
             style={
               Object {
                 "color": "#9CA4A9",
