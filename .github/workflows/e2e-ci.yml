@@ -25,17 +25,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # `if` conditions can't directly access secrets, so we use a workaround
-  # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
-  check-secrets:
-    runs-on: ubuntu-latest
-    outputs:
-      available: ${{ steps.check-secrets.outputs.available }}
-    steps:
-      - name: check for secrets availability
-        id: check-secrets
-        run: test ! -z "${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}" && echo "::set-output name=available::true"
-
   android:
     env:
       working-directory: ./packages/mobile
@@ -99,15 +88,16 @@ jobs:
           name: android-e2e-test-report
           path: packages/mobile/e2e/test-results
   ios:
-    needs:
-      - check-secrets
     env:
       working-directory: ./packages/mobile
+      # `if` conditions can't directly access secrets, so we use a workaround
+      # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
+      SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
     name: iOS
     runs-on: ios-e2e-group
     steps:
       - name: Google Secrets
-        if: ${{ needs.check-secrets.outputs.available == 'true' }}
+        if: ${{ env.SECRETS_AVAILABLE }}
         id: google-secrets
         uses: google-github-actions/get-secretmanager-secrets@v0.2.2
         with:
@@ -144,7 +134,7 @@ jobs:
           export CELO_TEST_CONFIG=e2e
           yarn detox build -c ios.release
       - name: Upload Detox Build to Emerge
-        if: ${{ needs.check-secrets.outputs.available == 'true' }}
+        if: ${{ env.SECRETS_AVAILABLE }}
         run: yarn ts-node .github/scripts/uploadE2eBuildToEmerge.ts
         env:
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
