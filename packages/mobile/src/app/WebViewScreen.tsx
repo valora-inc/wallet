@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -21,6 +21,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
@@ -29,7 +30,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { headerTitle, uri, dappkitDeeplink } = route.params
+  const { uri, dappkitDeeplink } = route.params
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -39,33 +40,40 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
-  const handleCloseWebView = () => {
-    if (activeDapp) {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
-        categoryId: activeDapp.categoryId,
-        dappId: activeDapp.id,
-        dappName: activeDapp.name,
-        section: activeDapp.openedFrom,
+  const handleSetNavigationTitle = useCallback(
+    (url: string, title: string) => {
+      let hostname = ' '
+      let displayedTitle = ' '
+
+      try {
+        hostname = parse(url).hostname ?? ' '
+        // when first loading, the title of the webpage is unknown and the title
+        // defaults to the url - display a loading placeholder in this case
+        const parsedTitleUrl = parse(title)
+        displayedTitle =
+          !title || (parsedTitleUrl.protocol && parsedTitleUrl.hostname) ? t('loading') : title
+      } catch (error) {
+        Logger.error(
+          'WebViewScreen',
+          `could not parse url for screen header, with url ${url} and title ${title}`,
+          error
+        )
+      }
+
+      navigation.setOptions({
+        headerTitle: () => <HeaderTitleWithSubtitle title={displayedTitle} subTitle={hostname} />,
       })
-    }
-    navigateBack()
-  }
+    },
+    [navigation]
+  )
 
   useLayoutEffect(() => {
-    const { hostname } = parse(uri)
-
     navigation.setOptions({
       headerLeft: () => (
         <TopBarTextButton
           title={t('close')}
-          onPress={handleCloseWebView}
+          onPress={navigateBack}
           titleStyle={{ color: colors.gray4 }}
-        />
-      ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={headerTitle ?? hostname ?? ''}
-          subTitle={headerTitle ? hostname : undefined}
         />
       ),
     })
@@ -80,6 +88,12 @@ function WebViewScreen({ route, navigation }: Props) {
       // refreshed in the future
       if (activeDapp) {
         dispatch(dappSessionEnded())
+        ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+          categoryId: activeDapp.categoryId,
+          dappId: activeDapp.id,
+          dappName: activeDapp.name,
+          section: activeDapp.openedFrom,
+        })
       }
     }
   }, [])
@@ -129,13 +143,13 @@ function WebViewScreen({ route, navigation }: Props) {
         ref={webViewRef}
         originWhitelist={['https://*', 'celo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
-        setSupportMultipleWindows={false}
         source={{ uri }}
         startInLoadingState={true}
         renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack)
           setCanGoForward(navState.canGoForward)
+          handleSetNavigationTitle(navState.url, navState.title)
         }}
       />
       <View style={styles.navBar}>
