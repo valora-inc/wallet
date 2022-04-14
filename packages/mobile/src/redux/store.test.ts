@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 46,
+          "version": 47,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -187,7 +187,6 @@ describe('store state', () => {
           "superchargeTokens": Array [],
           "supportedBiometryType": null,
           "walletConnectV1Enabled": true,
-          "walletConnectV2Enabled": false,
         },
         "cloudFunctionsApi": Object {
           "config": Object {
@@ -378,11 +377,6 @@ describe('store state', () => {
         },
         "walletConnect": Object {
           "v1": Object {
-            "pendingActions": Array [],
-            "pendingSessions": Array [],
-            "sessions": Array [],
-          },
-          "v2": Object {
             "pendingActions": Array [],
             "pendingSessions": Array [],
             "sessions": Array [],

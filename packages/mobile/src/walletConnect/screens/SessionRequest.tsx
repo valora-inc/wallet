@@ -16,10 +16,6 @@ import {
   acceptSession as acceptSessionV1,
   denySession as denySessionV1,
 } from 'src/walletConnect/v1/actions'
-import {
-  acceptSession as acceptSessionV2,
-  denySession as denySessionV2,
-} from 'src/walletConnect/v2/actions'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
 
@@ -27,8 +23,6 @@ function acceptSession(params: Props['route']['params']) {
   switch (params.version) {
     case 1:
       return acceptSessionV1(params.session)
-    case 2:
-      return acceptSessionV2(params.session)
   }
 }
 
@@ -36,8 +30,6 @@ function denySession(params: Props['route']['params']) {
   switch (params.version) {
     case 1:
       return denySessionV1(params.session)
-    case 2:
-      return denySessionV2(params.session)
   }
 }
 
@@ -50,14 +42,6 @@ function getRequestInfo(params: Props['route']['params']) {
         name: peerMeta.name,
         icon: peerMeta.icons[0],
         methods: [],
-      }
-    case 2:
-      const { metadata } = params.session.proposer
-      return {
-        url: metadata.url,
-        name: metadata.name,
-        icon: metadata.icons[0],
-        methods: params.session.permissions.jsonrpc.methods,
       }
   }
 }

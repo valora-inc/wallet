@@ -204,33 +204,6 @@
             ],
             "type": "string"
         },
-        "AppMetadata": {
-            "additionalProperties": false,
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "icons": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "description",
-                "icons",
-                "name",
-                "url"
-            ],
-            "type": "object"
-        },
         "AppState": {
             "enum": [
                 "Active",
@@ -258,36 +231,6 @@
             "required": [
                 "code",
                 "issuer"
-            ],
-            "type": "object"
-        },
-        "BlockchainTypes.Permissions": {
-            "additionalProperties": false,
-            "properties": {
-                "chains": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "chains"
-            ],
-            "type": "object"
-        },
-        "BlockchainTypes.State": {
-            "additionalProperties": false,
-            "properties": {
-                "accounts": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "accounts"
             ],
             "type": "object"
         },
@@ -324,18 +267,6 @@
                 ],
                 "type": "object"
             },
-            "type": "object"
-        },
-        "CryptoTypes.Participant": {
-            "additionalProperties": false,
-            "properties": {
-                "publicKey": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "publicKey"
-            ],
             "type": "object"
         },
         "Currency": {
@@ -986,43 +917,6 @@
             },
             "type": "object"
         },
-        "JsonRpcPermissions": {
-            "additionalProperties": false,
-            "properties": {
-                "methods": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "methods"
-            ],
-            "type": "object"
-        },
-        "JsonRpcRequest<any>": {
-            "additionalProperties": false,
-            "properties": {
-                "id": {
-                    "type": "number"
-                },
-                "jsonrpc": {
-                    "type": "string"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "params": {}
-            },
-            "required": [
-                "id",
-                "jsonrpc",
-                "method",
-                "params"
-            ],
-            "type": "object"
-        },
         "KnownFeedTransactionsType": {
             "additionalProperties": {
                 "type": [
@@ -1153,21 +1047,6 @@
             "required": [
                 "content",
                 "ctaUri"
-            ],
-            "type": "object"
-        },
-        "NotificationPermissions": {
-            "additionalProperties": false,
-            "properties": {
-                "types": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "types"
             ],
             "type": "object"
         },
@@ -1433,19 +1312,6 @@
             ],
             "type": "object"
         },
-        "RelayerTypes.ProtocolOptions": {
-            "additionalProperties": false,
-            "properties": {
-                "params": {},
-                "protocol": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "protocol"
-            ],
-            "type": "object"
-        },
         "Screens": {
             "enum": [
                 "AccounSetupFailureScreen",
@@ -1580,204 +1446,6 @@
             "additionalProperties": {
                 "$ref": "#/definitions/SecureSendDetails"
             },
-            "type": "object"
-        },
-        "SessionTypes.Participant": {
-            "additionalProperties": false,
-            "properties": {
-                "metadata": {
-                    "$ref": "#/definitions/AppMetadata"
-                },
-                "publicKey": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "metadata",
-                "publicKey"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.Proposal": {
-            "additionalProperties": false,
-            "properties": {
-                "permissions": {
-                    "$ref": "#/definitions/SessionTypes.ProposedPermissions"
-                },
-                "proposer": {
-                    "$ref": "#/definitions/SessionTypes.ProposedPeer"
-                },
-                "relay": {
-                    "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
-                },
-                "signal": {
-                    "$ref": "#/definitions/SignalTypes.Pairing"
-                },
-                "topic": {
-                    "type": "string"
-                },
-                "ttl": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "permissions",
-                "proposer",
-                "relay",
-                "signal",
-                "topic",
-                "ttl"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.ProposedPeer": {
-            "additionalProperties": false,
-            "properties": {
-                "controller": {
-                    "type": "boolean"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/AppMetadata"
-                },
-                "publicKey": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "controller",
-                "metadata",
-                "publicKey"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.ProposedPermissions": {
-            "additionalProperties": false,
-            "properties": {
-                "blockchain": {
-                    "$ref": "#/definitions/BlockchainTypes.Permissions"
-                },
-                "jsonrpc": {
-                    "$ref": "#/definitions/JsonRpcPermissions"
-                },
-                "notifications": {
-                    "$ref": "#/definitions/NotificationPermissions"
-                }
-            },
-            "required": [
-                "blockchain",
-                "jsonrpc",
-                "notifications"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.RequestEvent": {
-            "additionalProperties": false,
-            "properties": {
-                "chainId": {
-                    "type": "string"
-                },
-                "request": {
-                    "$ref": "#/definitions/JsonRpcRequest<any>"
-                },
-                "topic": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "request",
-                "topic"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.Settled": {
-            "additionalProperties": false,
-            "properties": {
-                "expiry": {
-                    "type": "number"
-                },
-                "peer": {
-                    "$ref": "#/definitions/SessionTypes.Participant"
-                },
-                "permissions": {
-                    "$ref": "#/definitions/SessionTypes.SettledPermissions"
-                },
-                "relay": {
-                    "$ref": "#/definitions/RelayerTypes.ProtocolOptions"
-                },
-                "self": {
-                    "$ref": "#/definitions/SessionTypes.Participant"
-                },
-                "state": {
-                    "$ref": "#/definitions/BlockchainTypes.State"
-                },
-                "topic": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "expiry",
-                "peer",
-                "permissions",
-                "relay",
-                "self",
-                "state",
-                "topic"
-            ],
-            "type": "object"
-        },
-        "SessionTypes.SettledPermissions": {
-            "additionalProperties": false,
-            "properties": {
-                "blockchain": {
-                    "$ref": "#/definitions/BlockchainTypes.Permissions"
-                },
-                "controller": {
-                    "$ref": "#/definitions/CryptoTypes.Participant"
-                },
-                "jsonrpc": {
-                    "$ref": "#/definitions/JsonRpcPermissions"
-                },
-                "notifications": {
-                    "$ref": "#/definitions/NotificationPermissions"
-                }
-            },
-            "required": [
-                "blockchain",
-                "controller",
-                "jsonrpc",
-                "notifications"
-            ],
-            "type": "object"
-        },
-        "SignalTypes.Pairing": {
-            "additionalProperties": false,
-            "properties": {
-                "method": {
-                    "enum": [
-                        "pairing"
-                    ],
-                    "type": "string"
-                },
-                "params": {
-                    "$ref": "#/definitions/SignalTypes.ParamsPairing"
-                }
-            },
-            "required": [
-                "method",
-                "params"
-            ],
-            "type": "object"
-        },
-        "SignalTypes.ParamsPairing": {
-            "additionalProperties": false,
-            "properties": {
-                "topic": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "topic"
-            ],
             "type": "object"
         },
         "StableBalances": {
@@ -2005,9 +1673,6 @@
                 },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
-                },
-                "walletConnectV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
@@ -2051,8 +1716,7 @@
                 "superchargeButtonType",
                 "superchargeTokens",
                 "supportedBiometryType",
-                "walletConnectV1Enabled",
-                "walletConnectV2Enabled"
+                "walletConnectV1Enabled"
             ],
             "type": "object"
         },
@@ -2741,14 +2405,10 @@
             "properties": {
                 "v1": {
                     "$ref": "#/definitions/State_23"
-                },
-                "v2": {
-                    "$ref": "#/definitions/State_24"
                 }
             },
             "required": [
-                "v1",
-                "v2"
+                "v1"
             ],
             "type": "object"
         },
@@ -2797,35 +2457,6 @@
         "State_24": {
             "additionalProperties": false,
             "properties": {
-                "pendingActions": {
-                    "items": {
-                        "$ref": "#/definitions/SessionTypes.RequestEvent"
-                    },
-                    "type": "array"
-                },
-                "pendingSessions": {
-                    "items": {
-                        "$ref": "#/definitions/SessionTypes.Proposal"
-                    },
-                    "type": "array"
-                },
-                "sessions": {
-                    "items": {
-                        "$ref": "#/definitions/SessionTypes.Settled"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "pendingActions",
-                "pendingSessions",
-                "sessions"
-            ],
-            "type": "object"
-        },
-        "State_25": {
-            "additionalProperties": false,
-            "properties": {
                 "error": {
                     "type": "boolean"
                 },
@@ -2843,7 +2474,7 @@
             ],
             "type": "object"
         },
-        "State_26": {
+        "State_25": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -3997,7 +3628,6 @@
                                         "superchargeFetchRewardsFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
-                                        "v2Unsupported",
                                         "verificationFailure",
                                         "verificationTimeout"
                                     ],
@@ -4074,10 +3704,10 @@
             "$ref": "#/definitions/State_6"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_26"
+            "$ref": "#/definitions/State_25"
         },
         "tokens": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "transactions": {
             "$ref": "#/definitions/State_9"

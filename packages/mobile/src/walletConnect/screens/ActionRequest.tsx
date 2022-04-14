@@ -18,12 +18,6 @@ import {
   denyRequest as denyRequestV1,
   showRequestDetails as showRequestDetailsV1,
 } from 'src/walletConnect/v1/actions'
-import {
-  acceptRequest as acceptRequestV2,
-  denyRequest as denyRequestV2,
-  showRequestDetails as showRequestDetailsV2,
-} from 'src/walletConnect/v2/actions'
-import { ERROR_TYPE as WalletConnectErrorType } from 'walletconnect-v2/utils'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 
@@ -31,8 +25,6 @@ function showRequestDetails(params: Props['route']['params'], infoString: string
   switch (params.version) {
     case 1:
       return showRequestDetailsV1(params.peerId, params.action, infoString)
-    case 2:
-      return showRequestDetailsV2(params.action, infoString)
   }
 }
 
@@ -40,8 +32,6 @@ function acceptRequest(params: Props['route']['params']) {
   switch (params.version) {
     case 1:
       return acceptRequestV1(params.peerId, params.action)
-    case 2:
-      return acceptRequestV2(params.action)
   }
 }
 
@@ -49,8 +39,6 @@ function denyRequest(params: Props['route']['params']) {
   switch (params.version) {
     case 1:
       return denyRequestV1(params.peerId, params.action, 'User denied')
-    case 2:
-      return denyRequestV2(params.action, WalletConnectErrorType.JSONRPC_REQUEST_METHOD_REJECTED)
   }
 }
 
@@ -63,14 +51,6 @@ function getRequestInfo(params: Props['route']['params']) {
         icon: params.dappIcon,
         method: params.action.method,
         params: params.action.params,
-      }
-    case 2:
-      return {
-        url: params.dappUrl,
-        name: params.dappName,
-        icon: params.dappIcon,
-        method: params.action.request.method,
-        params: params.action.request.params,
       }
   }
 }

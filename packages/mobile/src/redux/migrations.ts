@@ -584,4 +584,10 @@ export const migrations = {
     ...state,
     cloudFunctionsApi: undefined,
   }),
+  47: (state: any) => ({
+    ...state,
+    walletConnect: {
+      ..._.omit(state.walletConnect, ['v2']),
+    },
+  }),
 }
