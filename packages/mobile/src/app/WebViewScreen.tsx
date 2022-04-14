@@ -50,7 +50,8 @@ function WebViewScreen({ route, navigation }: Props) {
         // when first loading, the title of the webpage is unknown and the title
         // defaults to the url - display a loading placeholder in this case
         const parsedTitleUrl = parse(title)
-        displayedTitle = parsedTitleUrl.protocol && parsedTitleUrl.hostname ? t('loading') : title
+        displayedTitle =
+          !title || (parsedTitleUrl.protocol && parsedTitleUrl.hostname) ? t('loading') : title
       } catch (error) {
         Logger.error(
           'WebViewScreen',
