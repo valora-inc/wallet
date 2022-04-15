@@ -211,6 +211,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         "paddingTop": 16,
       }
     }
+    testID="SendSearchInput"
   >
     <View
       style={
