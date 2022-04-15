@@ -98,7 +98,6 @@ export default Send = () => {
       await inputNumberKeypad('01')
       await element(by.id('Review')).tap()
       let amount = await element(by.id('SendAmount')).getAttributes()
-      console.log(amount)
       jestExpect(amount.text).toEqual('0.01 cEUR')
       let emptyComment = await element(by.id('commentInput/send')).getAttributes()
       jestExpect(emptyComment.text).toEqual('')
