@@ -121,7 +121,7 @@ function NameAndPicture({ navigation }: Props) {
           enablesReturnKeyAutomatically={true}
           placeholder={t('fullNamePlaceholder')}
           testID={'NameEntry'}
-          multiline={true}
+          multiline={false}
         />
         <Button
           onPress={onPressContinue}
