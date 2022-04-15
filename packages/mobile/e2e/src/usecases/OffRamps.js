@@ -136,11 +136,13 @@ export default offRamps = () => {
         // Enter PIN if necessary
         await enterPinUiIfNecessary()
         // Assert send transaction is present in feed
-        const element = element(
+        const target = element(
           by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
         ).atIndex(0)
-        await waitFor(element).toBeVisible().withTimeout(30000)
-        await expect(element).toBeVisible()
+        await waitFor(target)
+          .toBeVisible()
+          .withTimeout(30 * 1000)
+        await expect(target).toBeVisible()
       })
     })
 
