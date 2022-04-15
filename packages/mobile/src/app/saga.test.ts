@@ -356,7 +356,6 @@ describe('App saga', () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
         uri: baseDapp.dappUrl,
-        headerTitle: baseDapp.name,
       })
     })
 

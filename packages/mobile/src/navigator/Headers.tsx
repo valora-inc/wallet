@@ -1,7 +1,7 @@
 import { StackNavigationOptions } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -30,6 +30,7 @@ export const noHeaderGestureDisabled: StackNavigationOptions = {
 export const styles = StyleSheet.create({
   headerTitle: {
     ...fontStyles.navigationHeader,
+    maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
     color: colors.gray4,
@@ -194,8 +195,16 @@ export function HeaderTitleWithSubtitle({
 }) {
   return (
     <View style={styles.header} testID={testID}>
-      {title && <Text style={styles.headerTitle}>{title}</Text>}
-      {subTitle && <Text style={styles.headerSubTitle}>{subTitle}</Text>}
+      {title && (
+        <Text style={styles.headerTitle} numberOfLines={1}>
+          {title}
+        </Text>
+      )}
+      {subTitle && (
+        <Text style={styles.headerSubTitle} numberOfLines={1}>
+          {subTitle}
+        </Text>
+      )}
     </View>
   )
 }
