@@ -4,7 +4,7 @@ const faker = require('@faker-js/faker')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCOUNT_CHARACTERS = 'FD08'
-const AMOUNT_TO_SEND = '0.5'
+const AMOUNT_TO_SEND = '0.1'
 
 export default SecureSend = () => {
   beforeEach(async () => {
@@ -60,7 +60,9 @@ export default SecureSend = () => {
     await enterPinUiIfNecessary()
 
     // Return to home screen.
-    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+    await waitFor(element(by.id('SendOrRequestBar')))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
 
     // TODO: See why these are taking so long in e2e tests to appear
     // Look for the latest transaction and assert
