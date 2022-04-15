@@ -4,7 +4,7 @@ const faker = require('@faker-js/faker')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCOUNT_CHARACTERS = 'FD08'
-const AMOUNT_TO_SEND = '0.5'
+const AMOUNT_TO_SEND = '0.1'
 
 export default SecureSend = () => {
   beforeEach(async () => {
@@ -62,6 +62,12 @@ export default SecureSend = () => {
     // Return to home screen.
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(30 * 10000)
+      .withTimeout(30 * 1000)
+
+    // TODO: See why these are taking so long in e2e tests to appear
+    // Look for the latest transaction and assert
+    // await waitFor(element(by.text(`${randomContent}`)))
+    //   .toBeVisible()
+    //   .withTimeout(60000)
   })
 }
