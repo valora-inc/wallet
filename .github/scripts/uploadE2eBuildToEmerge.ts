@@ -74,6 +74,6 @@ $.exec(`bundle exec fastlane run emerge \
   sha:${sha} \
   base_sha:${baseSha} \
   branch:${branchName} \
-  pr_number:${prNumber} \
+  pr_number:${prNumber || ''} \
   build_type:e2e
 `)
