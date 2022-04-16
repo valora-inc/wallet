@@ -148,13 +148,13 @@ const valoraTestFaucetSecret = process.env.TEST_FAUCET_SECRET
   }
 
   // Set Amount To Send
-  let amountToSend = utils.web3.utils.toWei('50', 'ether')
+  let amountToSend = utils.web3.utils.toWei('100', 'ether')
 
   // Loop through E2E Test Wallet Balance Object
   for (const coin in receivingBalance) {
     let tx
-    // Add funds if balance is less than 100 add 50
-    if (receivingBalance[coin] < 100 && sendingBalance[coin] > 50) {
+    // Add funds if balance is less than 100 add 100
+    if (receivingBalance[coin] < 100 && sendingBalance[coin] > 100) {
       switch (coin) {
         case 'CELO':
           tx = await celoToken
