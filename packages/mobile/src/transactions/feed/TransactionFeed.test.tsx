@@ -3,10 +3,10 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
-import TransactionFeed, { PageInfo } from 'src/transactions/feed/TransactionFeed'
+import { QueryResponse } from 'src/transactions/feed/queryHelper'
+import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
   StandbyTransaction,
-  TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -30,9 +30,7 @@ const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
 
 const END_CURSOR = 'YXJyYXljb25uZWN0aW9uOjk='
 
-const MOCK_RESPONSE: {
-  data: { tokenTransactionsV2: { pageInfo: PageInfo; transactions: TokenTransaction[] } }
-} = {
+const MOCK_RESPONSE: QueryResponse = {
   data: {
     tokenTransactionsV2: {
       pageInfo: {
@@ -61,9 +59,7 @@ const MOCK_RESPONSE: {
   },
 }
 
-const MOCK_RESPONSE_NEXT_PAGE: {
-  data: { tokenTransactionsV2: { pageInfo: PageInfo; transactions: TokenTransaction[] } }
-} = {
+const MOCK_RESPONSE_NEXT_PAGE: QueryResponse = {
   data: {
     tokenTransactionsV2: {
       pageInfo: {

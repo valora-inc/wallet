@@ -25,10 +25,9 @@ interface PageInfo {
   hasNextPage: boolean
   hasPreviousPage: boolean
 }
-interface QueryResponse {
+export interface QueryResponse {
   data: {
     tokenTransactionsV2: {
-      __typename: 'TokenTransactionsV2'
       transactions: TokenTransaction[]
       pageInfo: PageInfo
     }
@@ -78,14 +77,18 @@ export function useFetchTransactions(): QueryHookResult {
   const handleResult = (result: QueryResponse, paginatedResult: boolean) => {
     Logger.info(TAG, `Fetched ${paginatedResult ? 'next page' : 'new'} transactions`)
 
-    if (result?.data?.tokenTransactionsV2?.transactions.length) {
-      addTransactions(result.data.tokenTransactionsV2.transactions)
+    const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
+    if (returnedTransactions?.length) {
+      addTransactions(returnedTransactions)
+      // We store non-paginated results in redux
       if (!paginatedResult) {
-        dispatch(updateTransactions(result.data.tokenTransactionsV2.transactions))
+        dispatch(updateTransactions(returnedTransactions))
       }
     }
-    if (!pageInfo || paginatedResult) {
-      setPageInfo(result?.data?.tokenTransactionsV2?.pageInfo)
+
+    const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo
+    if ((!pageInfo || paginatedResult) && returnedPageInfo) {
+      setPageInfo(returnedPageInfo)
     }
   }
 
