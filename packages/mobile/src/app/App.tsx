@@ -65,12 +65,19 @@ export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
 
   async componentDidMount() {
+    if (isE2EEnv) {
+      LogBox.ignoreAllLogs(true)
+    }
     await ValoraAnalytics.init()
 
     // Handles opening Clevertap deeplinks when app is closed / in background
     CleverTap.getInitialUrl(async (err: any, url) => {
       if (err) {
-        Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
+        if (err?.message?.includes('CleverTap InitialUrl is null')) {
+          Logger.warn('App/componentDidMount', 'CleverTap InitialUrl is null', err)
+        } else {
+          Logger.error('App/componentDidMount', 'App CleverTap Deeplink on Load', err)
+        }
       } else if (url) {
         await this.handleOpenURL({ url }, true)
       }

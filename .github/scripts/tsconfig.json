@@ -3,12 +3,12 @@
     "lib": ["es2020"],
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
     "strict": true
   },
-  "include": ["*.js"]
+  "include": ["*.js", "*.ts"]
 }

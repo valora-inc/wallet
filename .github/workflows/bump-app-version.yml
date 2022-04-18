@@ -37,5 +37,11 @@ jobs:
       - uses: actions/github-script@v5
         with:
           script: |
-            const script = require('.github/scripts/automergeVersionBump.js')
-            await script({github, context, core})
+            const allowedUpdatedFiles = [
+              'packages/mobile/android/app/build.gradle',
+              'packages/mobile/android/gradle.properties',
+              'packages/mobile/ios/celo.xcodeproj/project.pbxproj',
+              'packages/mobile/package.json'
+            ]
+            const script = require('.github/scripts/automergePR.js')
+            await script({github, context, core, allowedUpdatedFiles})

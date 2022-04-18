@@ -18,8 +18,10 @@ export const launchApp = async (
         throw error
       }
     },
-    { retries: 5, delay: 10000, timeout: 300000 }
-  )
+    { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
+  ).then(async () => {
+    await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.*'])
+  })
 }
 
 export const reloadReactNative = async () => {
@@ -33,6 +35,6 @@ export const reloadReactNative = async () => {
         await launchApp()
       }
     },
-    { retries: 5, delay: 10000, timeout: 300000 }
+    { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   )
 }

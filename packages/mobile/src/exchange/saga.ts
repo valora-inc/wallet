@@ -491,13 +491,12 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       amount: amount.toString(),
     })
   } catch (error) {
-    Logger.error(TAG, 'Error withdrawing CELO', error)
-
     if (error.message === ErrorMessages.PIN_INPUT_CANCELED) {
       yield put(withdrawCeloCanceled())
       return
     }
 
+    Logger.error(TAG, 'Error withdrawing CELO', error)
     const errorToShow =
       error.message === ErrorMessages.INCORRECT_PIN
         ? ErrorMessages.INCORRECT_PIN

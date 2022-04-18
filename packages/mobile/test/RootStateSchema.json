@@ -29,6 +29,46 @@
             ],
             "type": "object"
         },
+        "ActiveDapp": {
+            "additionalProperties": false,
+            "properties": {
+                "categoryId": {
+                    "type": "string"
+                },
+                "dappUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "iconUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isFeatured": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "openedFrom": {
+                    "$ref": "#/definitions/DappSection"
+                }
+            },
+            "required": [
+                "categoryId",
+                "dappUrl",
+                "description",
+                "iconUrl",
+                "id",
+                "isFeatured",
+                "name",
+                "openedFrom"
+            ],
+            "type": "object"
+        },
         "AddressInfoToDisplay": {
             "additionalProperties": false,
             "properties": {
@@ -341,6 +381,14 @@
                 "name"
             ],
             "type": "object"
+        },
+        "DappSection": {
+            "enum": [
+                "all",
+                "featured",
+                "recently used"
+            ],
+            "type": "string"
         },
         "E164NumberToAddressType": {
             "additionalProperties": {
@@ -918,6 +966,25 @@
                 "NOT_YET_INITIALIZED"
             ],
             "type": "string"
+        },
+        "InviteTransactions": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "paymentId": {
+                        "type": "string"
+                    },
+                    "recipientIdentifier": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "paymentId",
+                    "recipientIdentifier"
+                ],
+                "type": "object"
+            },
+            "type": "object"
         },
         "JsonRpcPermissions": {
             "additionalProperties": false,
@@ -1753,6 +1820,16 @@
         "State": {
             "additionalProperties": false,
             "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/ActiveDapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1785,6 +1862,12 @@
                 },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
+                },
+                "finclusiveUnsupportedStates": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
@@ -1885,6 +1968,9 @@
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
                 },
+                "skipProfilePicture": {
+                    "type": "boolean"
+                },
                 "skipVerification": {
                     "type": "boolean"
                 },
@@ -1925,6 +2011,7 @@
                 }
             },
             "required": [
+                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
@@ -1934,6 +2021,7 @@
                 "celoEuroEnabled",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
+                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
@@ -1957,6 +2045,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showPriceChangeIndicatorInBalances",
+                "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",
@@ -2332,6 +2421,9 @@
                 "finclusiveKycStatus": {
                     "$ref": "#/definitions/FinclusiveKycStatus"
                 },
+                "finclusiveRegionSupported": {
+                    "type": "boolean"
+                },
                 "hasLinkedBankAccount": {
                     "type": "boolean"
                 },
@@ -2397,6 +2489,7 @@
                 "dismissedGoldEducation",
                 "e164PhoneNumber",
                 "finclusiveKycStatus",
+                "finclusiveRegionSupported",
                 "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
@@ -2529,6 +2622,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],
@@ -2557,6 +2652,8 @@
                         "PHP",
                         "RUB",
                         "SLL",
+                        "TRY",
+                        "UAH",
                         "UGX",
                         "USD"
                     ],
@@ -3012,6 +3109,9 @@
         "State_9": {
             "additionalProperties": false,
             "properties": {
+                "inviteTransactions": {
+                    "$ref": "#/definitions/InviteTransactions"
+                },
                 "knownFeedTransactions": {
                     "$ref": "#/definitions/KnownFeedTransactionsType"
                 },
@@ -3059,6 +3159,7 @@
                 }
             },
             "required": [
+                "inviteTransactions",
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",

@@ -558,4 +558,30 @@ export const migrations = {
     }
   },
   41: (state: any) => state,
+  42: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
+    },
+  }),
+  43: (state: any) => state,
+  44: (state: any) => ({
+    ...state,
+    account: {
+      ...state.account,
+      finclusiveRegionSupported: false,
+    },
+    app: {
+      ...state.app,
+      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
+        ','
+      ),
+    },
+  }),
+  45: (state: any) => state,
+  46: (state: any) => ({
+    ...state,
+    cloudFunctionsApi: undefined,
+  }),
 }

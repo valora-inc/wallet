@@ -1,7 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -10,24 +6,40 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector } from 'src/app/selectors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { RootState } from 'src/redux/reducers'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
+
+interface StateProps {
+  activeDapp: ActiveDapp | null
+}
 
 interface DispatchProps {
   requestTxSignature: typeof requestTxSignature
 }
 
-type Props = DispatchProps &
+type Props = StateProps &
+  DispatchProps &
   WithTranslation &
   StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
+
+const mapStateToProps = (state: RootState): StateProps => ({
+  activeDapp: activeDappSelector(state),
+})
 
 const mapDispatchToProps = {
   requestTxSignature,
@@ -54,7 +66,7 @@ class DappKitSignTxScreen extends React.Component<Props> {
   linkBack = () => {
     const request = this.getRequest()
 
-    navigateHome({ onAfterNavigate: () => this.props.requestTxSignature(request) })
+    this.props.requestTxSignature(request)
   }
 
   showDetails = () => {
@@ -62,7 +74,7 @@ class DappKitSignTxScreen extends React.Component<Props> {
 
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_details,
-      getDefaultRequestTrackedProperties(request)
+      getDefaultRequestTrackedProperties(request, this.props.activeDapp)
     )
 
     // TODO(sallyjyl): figure out which data to pass in for multitx
@@ -74,7 +86,7 @@ class DappKitSignTxScreen extends React.Component<Props> {
   cancel = () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_cancel,
-      getDefaultRequestTrackedProperties(this.getRequest())
+      getDefaultRequestTrackedProperties(this.getRequest(), this.props.activeDapp)
     )
     navigateBack()
   }
@@ -163,7 +175,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<null, DispatchProps>(
-  null,
+export default connect<StateProps, DispatchProps, {}, RootState>(
+  mapStateToProps,
   mapDispatchToProps
 )(withTranslation<Props>()(DappKitSignTxScreen))

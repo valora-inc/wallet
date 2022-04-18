@@ -8,12 +8,17 @@ import {
   SignTxRequest,
   SignTxResponseSuccess,
 } from '@celo/utils/lib/dappkit'
-import { call, select, takeLeading } from 'redux-saga/effects'
+import { call, put, select, takeLeading } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
+import { showMessage } from 'src/alert/actions'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp } from 'src/app/reducers'
+import { activeDappSelector } from 'src/app/selectors'
+import { getDappRequestOrigin } from 'src/app/utils'
+import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -48,10 +53,14 @@ export const requestTxSignature = (request: SignTxRequest): RequestTxSignatureAc
   request,
 })
 
-export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
+export function getDefaultRequestTrackedProperties(
+  request: DappKitRequest,
+  activeDapp: ActiveDapp | null
+) {
   const { type: requestType, callback: requestCallback, requestId, dappName } = request
   const dappUrl = new URL(requestCallback).origin
   return {
+    dappRequestOrigin: getDappRequestOrigin(activeDapp),
     dappName,
     dappUrl,
     requestType,
@@ -60,8 +69,25 @@ export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
   }
 }
 
+function* handleNavigationWithDeeplink(dappkitDeeplink: string) {
+  const activeDapp = yield select(activeDappSelector)
+
+  if (activeDapp) {
+    yield put(showMessage(i18n.t('inAppConnectionSuccess', { dappName: activeDapp.name })))
+    navigate(Screens.WebViewScreen, {
+      uri: activeDapp.dappUrl,
+      dappkitDeeplink,
+    })
+  } else {
+    navigateToURI(dappkitDeeplink)
+    // prevent staying on dappkit confirmation screen
+    navigateBack()
+  }
+}
+
 function* respondToAccountAuth(action: ApproveAccountAuthAction) {
-  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Approving auth account')
@@ -69,12 +95,14 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
     const phoneNumber = yield select(e164NumberSelector)
     const e164NumberToSalt = yield select(e164NumberToSaltSelector)
     const pepper = e164NumberToSalt[phoneNumber]
-    navigateToURI(
-      produceResponseDeeplink(
-        action.request,
-        AccountAuthResponseSuccess(account, phoneNumber, pepper)
-      )
+
+    const responseDeeplink = produceResponseDeeplink(
+      action.request,
+      AccountAuthResponseSuccess(account, phoneNumber, pepper)
     )
+
+    yield call(handleNavigationWithDeeplink, responseDeeplink)
+
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
   } catch (error) {
     Logger.error(TAG, 'Failed to respond to account auth', error)
@@ -87,7 +115,8 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
 
 // TODO Error handling here
 function* produceTxSignature(action: RequestTxSignatureAction) {
-  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
+  const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request, activeDapp)
   try {
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Producing tx signature')
@@ -128,7 +157,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     )
 
     Logger.debug(TAG, 'Txs signed, opening URL')
-    navigateToURI(produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs)))
+    const responseDeeplink = produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs))
+    yield call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
   } catch (error) {
     Logger.error(TAG, 'Failed to produce tx signature', error)
@@ -144,21 +174,22 @@ export function* dappKitSaga() {
   yield takeLeading(actions.REQUEST_TX_SIGNATURE, produceTxSignature)
 }
 
-export function handleDappkitDeepLink(deeplink: string) {
+export function* handleDappkitDeepLink(deeplink: string) {
+  const activeDapp: ActiveDapp | null = yield select(activeDappSelector)
   try {
     const dappKitRequest = parseDappKitRequestDeeplink(deeplink)
     switch (dappKitRequest.type) {
       case DappKitRequestTypes.ACCOUNT_ADDRESS:
         ValoraAnalytics.track(
           DappKitEvents.dappkit_request_propose,
-          getDefaultRequestTrackedProperties(dappKitRequest)
+          getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
         navigate(Screens.DappKitAccountAuth, { dappKitRequest })
         break
       case DappKitRequestTypes.SIGN_TX:
         ValoraAnalytics.track(
           DappKitEvents.dappkit_request_propose,
-          getDefaultRequestTrackedProperties(dappKitRequest)
+          getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
         navigate(Screens.DappKitSignTxScreen, { dappKitRequest })
         break
@@ -170,6 +201,7 @@ export function handleDappkitDeepLink(deeplink: string) {
     navigate(Screens.ErrorScreen, { errorMessage: `Deep link not valid for dappkit: ${error}` })
     Logger.debug(TAG, `Deep link not valid for dappkit: ${error}`)
     ValoraAnalytics.track(DappKitEvents.dappkit_parse_deeplink_error, {
+      dappRequestOrigin: getDappRequestOrigin(activeDapp),
       deeplink,
       error: error.message,
     })

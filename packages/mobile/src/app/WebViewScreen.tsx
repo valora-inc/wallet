@@ -1,41 +1,73 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import BackChevron from '@celo/react-components/icons/BackChevron'
-import ForwardChevron from '@celo/react-components/icons/ForwardChevron'
-import Refresh from '@celo/react-components/icons/Refresh'
-import colors from '@celo/react-components/styles/colors'
-import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
-import { useDispatch } from 'react-redux'
-import { openDeepLink } from 'src/app/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { dappSessionEnded, openDeepLink } from 'src/app/actions'
+import { activeDappSelector } from 'src/app/selectors'
+import Touchable from 'src/components/Touchable'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import BackChevron from 'src/icons/BackChevron'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import Refresh from 'src/icons/Refresh'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import { iconHitslop } from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import useBackHandler from 'src/utils/useBackHandler'
+import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
 function WebViewScreen({ route, navigation }: Props) {
-  const { uri, headerTitle } = route.params
+  const { uri, dappkitDeeplink } = route.params
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const activeDapp = useSelector(activeDappSelector)
 
-  const webviewRef = useRef<WebViewRef>(null)
+  const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
 
-  useLayoutEffect(() => {
-    const { hostname } = parse(uri)
+  const handleSetNavigationTitle = useCallback(
+    (url: string, title: string) => {
+      let hostname = ' '
+      let displayedTitle = ' '
 
+      try {
+        hostname = parse(url).hostname ?? ' '
+        // when first loading, the title of the webpage is unknown and the title
+        // defaults to the url - display a loading placeholder in this case
+        const parsedTitleUrl = parse(title)
+        displayedTitle =
+          !title || (parsedTitleUrl.protocol && parsedTitleUrl.hostname) ? t('loading') : title
+      } catch (error) {
+        Logger.error(
+          'WebViewScreen',
+          `could not parse url for screen header, with url ${url} and title ${title}`,
+          error
+        )
+      }
+
+      navigation.setOptions({
+        headerTitle: () => <HeaderTitleWithSubtitle title={displayedTitle} subTitle={hostname} />,
+      })
+    },
+    [navigation]
+  )
+
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TopBarTextButton
@@ -44,14 +76,35 @@ function WebViewScreen({ route, navigation }: Props) {
           titleStyle={{ color: colors.gray4 }}
         />
       ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          title={headerTitle ?? hostname ?? ''}
-          subTitle={headerTitle ? hostname : undefined}
-        />
-      ),
     })
   }, [navigation])
+
+  useEffect(() => {
+    return () => {
+      // end the active dapp session when the screen is unmounted (e.g. screen
+      // dismissed via header close button or via gesture/device back button)
+      // note that the dependency array is empty so the values used here are
+      // captured on screen mount, which works for now but may need to be
+      // refreshed in the future
+      if (activeDapp) {
+        dispatch(dappSessionEnded())
+        ValoraAnalytics.track(DappExplorerEvents.dapp_close, {
+          categoryId: activeDapp.categoryId,
+          dappId: activeDapp.id,
+          dappName: activeDapp.name,
+          section: activeDapp.openedFrom,
+        })
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeDapp && dappkitDeeplink) {
+      webViewRef.current?.injectJavaScript(
+        `window.history.replaceState({}, "", "${dappkitDeeplink}"); true;`
+      )
+    }
+  }, [dappkitDeeplink, activeDapp])
 
   useBackHandler(() => {
     // android hardware back button functions as either browser back button or
@@ -62,10 +115,10 @@ function WebViewScreen({ route, navigation }: Props) {
       navigateBack()
     }
     return true
-  }, [canGoBack, webviewRef?.current, navigation])
+  }, [canGoBack, webViewRef.current, navigation])
 
   const handleLoadRequest = (event: ShouldStartLoadRequest): boolean => {
-    if (event.url.startsWith('celo://')) {
+    if (event.url.startsWith('celo://') || isWalletConnectDeepLink(event.url)) {
       dispatch(openDeepLink(event.url))
       return false
     }
@@ -73,30 +126,30 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const handleRefresh = () => {
-    webviewRef.current?.reload()
+    webViewRef.current?.reload()
   }
 
   const handleGoForward = () => {
-    webviewRef.current?.goForward()
+    webViewRef.current?.goForward()
   }
 
   const handleGoBack = () => {
-    webviewRef.current?.goBack()
+    webViewRef.current?.goBack()
   }
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
-        ref={webviewRef}
+        ref={webViewRef}
         originWhitelist={['https://*', 'celo://*']}
         onShouldStartLoadWithRequest={handleLoadRequest}
-        setSupportMultipleWindows={false}
         source={{ uri }}
         startInLoadingState={true}
         renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack)
           setCanGoForward(navState.canGoForward)
+          handleSetNavigationTitle(navState.url, navState.title)
         }}
       />
       <View style={styles.navBar}>

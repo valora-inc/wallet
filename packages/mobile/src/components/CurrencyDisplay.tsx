@@ -1,5 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ColorValue, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
@@ -9,6 +7,8 @@ import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,

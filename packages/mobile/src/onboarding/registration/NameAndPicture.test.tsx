@@ -4,7 +4,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -14,26 +13,6 @@ expect.extend({ toBeDisabled })
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
 describe('NameAndPictureScreen', () => {
-  it('renders correctly', () => {
-    const store = createMockStore()
-    const tree = render(
-      <Provider store={store}>
-        <NameAndPicture {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
-  it('renders with an error', () => {
-    const store = createMockStore({ alert: { underlyingError: ErrorMessages.INVALID_INVITATION } })
-    const tree = render(
-      <Provider store={store}>
-        <NameAndPicture {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
   it('disable button when no name', () => {
     const store = createMockStore()
     const { getByTestId } = render(
@@ -57,5 +36,33 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
     expect(wrapper.UNSAFE_queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
+  })
+
+  it('shows profile picture input if skipProfilePicture remote config is not enabled', () => {
+    const store = createMockStore({
+      app: {
+        skipProfilePicture: false,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('PictureInput')).toBeTruthy()
+  })
+
+  it('hides profile picture input if skipProfilePicture remote config is enabled', () => {
+    const store = createMockStore({
+      app: {
+        skipProfilePicture: true,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NameAndPicture {...mockScreenProps} />
+      </Provider>
+    )
+    expect(queryByTestId('PictureInput')).toBeNull()
   })
 })

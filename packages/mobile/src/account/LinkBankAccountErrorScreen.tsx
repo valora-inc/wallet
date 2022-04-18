@@ -1,13 +1,13 @@
-import BorderlessButton from '@celo/react-components/components/BorderlessButton'
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import * as React from 'react'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { StyleSheet, Text, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
-import { StackParamList } from 'src/navigator/types'
-import { Screens } from 'src/navigator/Screens'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import BorderlessButton from 'src/components/BorderlessButton'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'LinkBankAccountErrorScreen'
@@ -25,8 +25,8 @@ function LinkBankAccountErrorScreen({ route }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t('linkBankAccountScreen.error.title')}</Text>
-      <Text style={styles.description}>{t('linkBankAccountScreen.error.description')}</Text>
+      <Text style={styles.title}>{t('linkBankAccountScreen.stepTwo.error.title')}</Text>
+      <Text style={styles.description}>{t('linkBankAccountScreen.stepTwo.error.description')}</Text>
       <Button
         style={styles.button}
         testID="TryAgain"
@@ -40,7 +40,7 @@ function LinkBankAccountErrorScreen({ route }: Props) {
           testID="SupportContactLink"
           onPress={() => {
             navigate(Screens.SupportContact, {
-              prefilledText: t('linkBankAccountScreen.error.contactSupportPrefill'),
+              prefilledText: t('linkBankAccountScreen.stepTwo.error.contactSupportPrefill'),
             })
           }}
         >

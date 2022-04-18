@@ -1144,6 +1144,70 @@ export const v41Schema = {
   },
 }
 
+export const v42Schema = {
+  ...v41Schema,
+  _persist: {
+    ...v41Schema._persist,
+    version: 42,
+  },
+  app: {
+    ...v41Schema.app,
+    skipProfilePicture: false,
+  },
+}
+
+export const v43Schema = {
+  ...v42Schema,
+  _persist: {
+    ...v42Schema._persist,
+    version: 43,
+  },
+  account: {
+    ...v42Schema.account,
+    finclusiveRegionSupported: false,
+  },
+  app: {
+    ...v42Schema.app,
+    activeDapp: null,
+  },
+}
+
+export const v44Schema = {
+  ...v43Schema,
+  _persist: {
+    ...v43Schema._persist,
+    version: 44,
+  },
+  app: {
+    ...v43Schema.app,
+    finclusiveUnsupportedStates: ['NY', 'TX'],
+  },
+  account: {
+    ...v43Schema.account,
+    finclusiveRegionSupported: false,
+  },
+}
+
+export const v45Schema = {
+  ...v44Schema,
+  _persist: {
+    ...v44Schema._persist,
+    version: 45,
+  },
+  transactions: {
+    ...v44Schema.transactions,
+    inviteTransactions: {},
+  },
+}
+
+export const v46Schema = {
+  ...v45Schema,
+  _persist: {
+    ...v45Schema._persist,
+    version: 46,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v41Schema as Partial<RootState>
+  return v46Schema as Partial<RootState>
 }

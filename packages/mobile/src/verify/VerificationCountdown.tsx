@@ -1,9 +1,9 @@
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Animated, { EasingNode } from 'react-native-reanimated'
 import { circularProgressBig } from 'src/images/Images'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 import { loop } from 'src/utils/reanimated'
 
 const TOTAL_TIME = 2 * 60 * 1000 // 2 minutes in milliseconds

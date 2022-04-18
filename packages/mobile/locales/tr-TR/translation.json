@@ -5,7 +5,7 @@
   "localCurrencySetting": "Para Birimi",
   "licenses": "Lisanslar",
   "removeAccountTitle": "Valora'yı Sıfırla",
-  "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Paranız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
+  "removeAccountDetails": "Sıfırlama, hesabınızı bu cihazdan kaldıracaktır. Fonlarınız hesapta kalacak, ancak yalnızca Kurtarma Kelimeleri ile erişilebilir olacaktır",
   "legal": "Yasal",
   "security": "Güvenlik",
   "changePin": "PIN Değiştir",
@@ -30,9 +30,9 @@
     "switchToDataSaver": "Veri Tasarrufuna Geç"
   },
   "accountKeyModal": {
-    "header": "Kurtarma Cümleniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
-    "body1": "Valora'yı sıfırlamak için Kurtarma Cümlenizi yazdığınızı onaylamanız gerekir.",
-    "body2": "Valora dahil hiç kimse, Kurtarma Cümleniz olmadan hesabınızı kurtaramaz."
+    "header": "Kurtarma Kelimeleriniz olmadan fonlarınıza erişiminizi sonsuza kadar kaybedersiniz",
+    "body1": "Valora'yı sıfırlamak için Kurtarma Kelimelerinizi yazdığınızı onaylamanız gerekir.",
+    "body2": "Valora dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtaramaz."
   },
   "promptConfirmRemovalModal": {
     "header": "Valora'yı resetlemek istediğinizden emin misiniz?",
@@ -104,22 +104,22 @@
   "shakeForSupport": "Cihazınızı salladığınızda bu menü görünür.",
   "contactSupport": "Destek ile İletişime Geç",
   "tapToCopy": "Kopyalamak için Dokunun",
-  "headerTitle": "Kurtarma Cümlesi",
-  "introTitle": "Kurtarma Cümleniz",
+  "headerTitle": "Kurtarma Kelimeleri",
+  "introTitle": "Kurtarma Kelimeleriniz",
   "introBody": "Kurtarma Kelimeleriniz, hesabınızın en önemli parçasıdır.\n\nLütfen Kelimelerinizi oluşturmak için yalnız olabileceğiniz bir yer bulun. Bu işlem yaklaşık beş dakika sürer.",
   "introPrimaryAction": "Oluştur",
-  "backupSetupTitle": "Kurtarma Cümlenizi Oluşturun",
-  "backupSetupBody": "Fonlarınızı korumak için {{appName}} kullanmaya devam etmeden önce Kurtarma Cümlenizi oluşturmanız gerekir.",
+  "backupSetupTitle": "Kurtarma Kelimelerinizi oluşturun",
+  "backupSetupBody": "Fonlarınızı korumak için {{appName}} kullanmaya devam etmeden önce Kurtarma Kelimelerini oluşturmanız gerekir.",
   "delayBackup": "Bir Saat Bekleyin",
-  "postSetupTitle": "Kurtarma Cümleniz",
-  "postSetupBody": "Kurtarma Cümlenizi kaybederseniz, tüm Celo Dolarınız ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Cümleniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Cümlenizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
-  "postSetupCTA": "Kurtarma Cümleniz ile ilgili daha fazla bilgi edinin",
+  "postSetupTitle": "Kurtarma Kelimeleriniz",
+  "postSetupBody": "Kurtarma Kelimelerinizi kaybederseniz, tüm Celo Dollar ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Kelimelerinizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
+  "postSetupCTA": "Kurtarma Kelimeleriniz ile ilgili daha fazla bilgi edinin",
   "failedFetchMnemonic": "Kurtarma Kelimeleriniz kaydedilemedi",
   "backupAndRecovery": "Yedekleme ve Kurtarma",
   "writeDownKey": "Lütfen kelimelerinizi not edin",
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
-  "backupKeyNotification": "Paranızı güvende tutun. Kurtarma Cümlenizi şimdi oluşturun.",
+  "backupKeyNotification": "Fonlarınızı güvende tutun. Kurtarma Kelimelerinizi şimdi oluşturun.",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
   "copied": "Kelimeler panoya kopyalandı",
   "moreInfo": "Daha Fazla Bilgi",
@@ -175,7 +175,7 @@
     "header": "Kurtarma Kelimelerinizi oluşturun",
     "text": "Böylelikle ödüllerinizin güvende ve kontrolünüzde olmasını sağlanacaktır."
   },
-  "conclusion": "İşte bu kadar basit. Kriptoparanızı hemen Supercharge'layın!",
+  "conclusion": "İşte bu kadar basit. Kriptonuzu hemen Supercharge'layın!",
   "superchargeTitle": "Supercharge'lamaya başlayın",
   "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
@@ -185,11 +185,11 @@
   "superchargeDisclaimerDayLimit": "Ödülleriniz 28 gün içinde talep edilmelidir. <0>Daha fazla bilgi edinin</0>",
   "superchargeTokenDetailsDialog": {
     "title": "Hangi varlıklara Supercharge uygulayabilirim?",
-    "body": "Celo stabilcoin'inizde en yüksek değerle (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
+    "body": "Celo stablecoinlerinizden en yüksek değeri olanla (cEUR, cUSD, cREAL) haftalık olarak ödüllendirileceksiniz.",
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Yıllık %{{apy}} oranında getiri elde ediyorsunuz. Ödüllerinizi Salı günü buradan alabilirsiniz.",
+  "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
@@ -217,7 +217,7 @@
   "learnMore": "Daha Fazla Bilgi Edinin",
   "equalToAmount": "<1></1>'a eşit",
   "whatIsGold": "{{appName}}, CELO alıp satmanıza olanak tanır",
-  "manageCelo": "Celo Dolarlarınızı Yönetin",
+  "manageCelo": "Celo Dollar'larınızı Yönetin",
   "exchangeRate": "Döviz Kuru",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Geçmiş",
@@ -242,7 +242,7 @@
   "securityFee": "Ağ Ücreti",
   "exchangeFee": "Dönüşüm Ücreti ",
   "edit": "Düzenle",
-  "notEnoughDollars": "Dönüştürmek için yeterli Celo Doları mevcut değil",
+  "notEnoughDollars": "Dönüştürmek için yeterli Celo Dollar mevcut değil",
   "notEnoughGold": "Dönüştürmek için yeterli CELO mevcut değil",
   "pending": "Beklemede",
   "loadingExchangeRate": "Döviz Kuru Yükleniyor...",
@@ -270,41 +270,41 @@
   "exchanges": "Borsalar",
   "noExchanges": "Bölgenizde {{digitalAsset}} için kullanılabilecek borsa yok.",
   "buySellOnExchanges": "Borsalar üzerinde alım/satım yap",
-  "cashOut": "Bakiye Çekme",
-  "cashOutSubtitle": "Hediye kartı satın alın, alışveriş yapın veya bir kripto borsasına para gönderin",
+  "cashOut": "Bakiye Çek",
+  "cashOutSubtitle": "Hediye kartı satın alın, alışveriş yapın veya bir kripto borsasına fon gönderin",
   "cashOutComingSoon": "Nakite Çevir (Yakında)",
   "spend": "Harcama",
   "spendSubtitle": "Bakiyenizi desteklenen satıcılarda kullanın",
   "amountCelo": "Miktar (CELO)",
   "onlyCeloDollars": "Sadece cUSD",
   "onlyCelo": "Sadece CELO",
-  "celoDollar": "Celo Doları",
+  "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Eurosu",
-  "celoDollars": "Celo Doları",
-  "tapToCopyCeloDollarsAddress": "{{appName}} CUSD adresinizi kopyalamak için dokunun",
+  "celoDollars": "Celo Dollar",
+  "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
-  "dollarsNotYetEnabledNote": "Celo Doları henüz hiçbir sağlayıcıda mevcut değil. Celo Doları almak için CELO satın alın ve CELO sekmesinde Celo Dolarına dönüştürün.",
+  "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
   "selectDigitalCurrency": "Bir dijital varlık seçin",
   "selectPaymentMethod": "Yöntem seçin:",
   "payWithBank": "Banka hesabı",
   "payWithCard": "Banka kartı",
-  "payWithExchange": "Kriptopara borsası",
-  "selectCashOutMethod": "Bakiye alma şekli:",
+  "payWithExchange": "Kripto para borsası",
+  "selectCashOutMethod": "Yöntem seçin:",
   "receiveOnAddress": "Celo adresi",
   "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
     "title": "{{appName}} için bakiye yükleme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza para yatırmak için bölgenize hizmet veren 3. taraf sağlayıcıların birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza fon eklemek için bölgenize hizmet veren 3. taraf sağlayıcıların birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "cashOutEducationDialog": {
-    "title": "{{appName}} uygulamasından para çekme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen istikrarlı bir dijital para birimi olan Celo Doları (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan para çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "title": "{{appName}} uygulamasından bakiye çekme",
+    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan fon çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "explanationModal": {
     "title": "Hizmet Sağlayıcıları Hakkında",
-    "body": "Sağlayıcılar, hesabınıza para eklemenize veya hesabınızdan para çekmenize izin verir. Çeşitli faktörlere bağlı olarak kendi oranlarını ve kısıtlamalarını belirlerler. Özel yardım için lütfen sağlayıcının web sitesini ziyaret edin."
+    "body": "Sağlayıcılar, hesabınıza fon eklemenize veya hesabınızdan fon çekmenize izin verir. Çeşitli faktörlere bağlı olarak kendi oranlarını ve kısıtlamalarını belirlerler. Yardım için lütfen sağlayıcının web sitesini ziyaret edin."
   },
   "invalidAmountDialog": {
     "minAmount": "Sağlayıcılarımız {{usdLimit}}{{localLimit}} değerinden küçük miktarları desteklemez. Lütfen daha büyük bir miktar girin.",
@@ -327,9 +327,9 @@
   },
   "dailyLimitRequest": "Merhaba! Günlük gönderim limitimi artırmak istiyorum.",
   "pleaseSelectProvider": "Lütfen aşağıdan bir sağlayıcı seçin. Bu bağlantılar bir üçüncü taraf hizmetine bağlanır.",
-  "otherFundingOptions": "<0>Hesabınıza nasıl bakiye yatırılır</0> sayfasını ziyaret ederek daha fazla bakiye yatırma ve çekme yöntemi hakkında bilgi edinebilirsiniz",
+  "otherFundingOptions": "<0>Hesaba nasıl bakiye yatırılır</0> sayfasını ziyaret ederek bakiye yatırma ve çekme yöntemleri hakkında daha fazla bilgi edinebilirsiniz",
   "youCanTransferIn": "Valora hesabınıza {{digitalAsset}} göndermek için bir üçüncü taraf borsa kullanabilirsiniz. Bunun için Hesap Adresinize ihtiyacınız olacak.",
-  "youCanTransferOut": "Paranızı {{digitalAsset}}'i destekleyen bir üçüncü taraf borsaya göndererek çekebilirsiniz.",
+  "youCanTransferOut": "Fonlarınızı {{digitalAsset}}'i destekleyen bir üçüncü taraf borsaya göndererek çekebilirsiniz.",
   "useBalanceWithMerchants": "Bakiyenizi desteklenen satıcılarda kullanın",
   "findMerchants": "Yakınınızdaki yerel satıcıları bulun",
   "celoDeposit": "CELO Satın Alma",
@@ -342,7 +342,7 @@
   "cicoSuccess": {
     "title": "Sipariş İletildi!",
     "bodyWithProvider": "{{provider}} siparişinizi işliyor. Fonlarınızı birkaç gün içinde alabileceksiniz.",
-    "bodyWithoutProvider": "Servis sağlayıcı siparişinizi işliyor. Bakiyenizi birkaç gün içinde alabileceksiniz."
+    "bodyWithoutProvider": "Servis sağlayıcı siparişinizi işliyor. Fonlarınızı birkaç gün içinde alabileceksiniz."
   },
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
@@ -381,8 +381,8 @@
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
   "getStarted": "Kullanmaya Başlayın",
-  "manageCeloDollars": "Celo Dolarlarını Yönetin",
-  "sendCeloDollars": "Celo Dolar Gönderin",
+  "manageCeloDollars": "Celo Dollar'ları Yönetin",
+  "sendCeloDollars": "Celo Dollar Gönderin",
   "startEarning": "Kazanmaya Başlayın",
   "backToWallet": "Cüzdana geri dön",
   "exchangeForGold": "CELO'ya dönüştür",
@@ -416,7 +416,7 @@
   "balanceAvailable": "<0></0> mevcut",
   "subtotal": "Toplam",
   "total": "Toplam",
-  "totalInDollars": "Celo Doları @ <0></0>",
+  "totalInDollars": "Celo Dollars @ <0></0>",
   "totalInEuros": "Celo Euro @ <0></0>",
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
@@ -434,7 +434,7 @@
   "sendPaymentFailed": "Ödeme gönderilemedi",
   "paymentRequestFailed": "Ödeme İsteği gönderilemedi",
   "escrowTransferFailed": "Escrow transferi gerçekleştirilemedi",
-  "escrowWithdrawalFailed": "Escrow'dan para çekme işlemi başarısız",
+  "escrowWithdrawalFailed": "Escrow'dan fon çekme işlemi başarısız",
   "reclaimingEscrowedPaymentFailed": "Ödeme alınamadı",
   "connectingToCelo": "Bağlanıyor...",
   "poorConnection": {
@@ -521,7 +521,7 @@
   "close": "Kapat",
   "home": "Ana Sayfa",
   "accountKey": "Kurtarma Kelimeleri",
-  "addAndWithdraw": "Ekleme & Çekme",
+  "addAndWithdraw": "Ekle & Çek",
   "settings": "Ayarlar",
   "help": "Yardım",
   "dismiss": "Yoksay",
@@ -547,11 +547,11 @@
   "goldEducationSteps": [
     {
       "title": "CELO Nedir?",
-      "text": "CELO, Celo Dolarının (cUSD) stabil olmasını sağlayan dijital bir para birimidir."
+      "text": "CELO, Celo Dollar'ın (cUSD) stabil olmasını sağlayan dijital bir para birimidir."
     },
     {
       "title": "CELO'nun fiyatı değişkendir",
-      "text": "Celo Dolarını ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dolar'ın değeri ise değişmez. "
+      "text": "Celo Dollar'ı ne kadar fazla kişi kullanırsa CELO'nun değeri de o kadar artar. CELO'nun aksine Celo Dollar'ın değeri ise değişmez. "
     },
     {
       "title": "Celo Ağına katkıda bulunun",
@@ -565,7 +565,7 @@
   "inviteWithWhatsapp": "WhatsApp ile davet et",
   "inviteWithSMS": "SMS ile davet et",
   "whySendFees": "Bu işlem ücreti, yeni kullanıcının telefon numarasını bağlama masraflarını kapsar",
-  "whyReceiveFees": "Hesabınızı onaylamak için size bir miktar kriptopara gönderildi",
+  "whyReceiveFees": "Hesabınızı onaylamak için size bir miktar kripto gönderildi",
   "inviteSent": "Davet gönderildi",
   "redeemFailed": "Geçersiz kullanım kodu ",
   "redeemInviteTimeout": "Davet kodu zaman aşımına uğradı",
@@ -589,8 +589,8 @@
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Valora'yı arkadaşınla paylaşarak {{amount}} {{currency}} kazan!",
-    "body": "Bir arkadaşınıza kriptopara gönderdiğinizde ve arkadaşınız katıldığında {{amount}} {{currency}} kazanın. <0>Daha fazla bilgi edinin</0>"
+    "title": "Bir arkadaşınıza kripto para göndererek {{appName}} uygulamasına davet edin.",
+    "body": "Hesaplarını ayarlamayı bitirdiklerinden sonra ikiniz de {{amount}} {{currency}} alacaksınız."
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -649,21 +649,20 @@
     "pleaseKeepAppOpen": "Lütfen bu ekrandan ayrılmayın yoksa yeniden başlamanız gerekir",
     "learnMore": "Daha fazla bilgi edinin",
     "card1": "Telefon numaranızın gerçekten size ait olduğundan emin olmak için size üç mesaj gönderiyoruz.",
-    "card2": "Numaranız onaylandıktan sonra, telefon numaranıza kolayca para gönderip alabilirsiniz.",
+    "card2": "Numaranız onaylandıktan sonra, telefon numaranıza kolayca fon gönderip alabilirsiniz.",
     "card3": "Telefonunuzu onaylamak, hangi arkadaşlarınızın {{appName}}'da olduğunu görmenize de olanak tanır.",
     "card4": "Hesabınızı daha güvenli tutmak için üç onay mesajına ihtiyacımız var."
   },
   "skipModal": {
-    "header": "Onaylamayı atla?",
-    "body1": "Telefonuzu onaylamak, başkalarının telefon numaranıza varlık göndermesine olanak tanır.",
-    "body2": "Onay almadan da ödeme gönderebilirsiniz, ancak bunu yalnızca Hesap Adreslerini veya kare kod kullanarak yapabilirsiniz."
+    "header": "Emin misiniz?",
+    "body1": "Numaranızı bağlamanız size ödeme göndermeniz için daha fazla yol sunar ve Supercharge ödüllerini toplamanıza olanak tanır."
   },
   "failModal": {
     "header": "Onaylama Hatası",
     "body1": "Telefon numaranız onaylanırken bir sorun oluştu.",
     "body2": "Şimdilik onay işlemini atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
     "body1InsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlamak için yeterli değil.",
-    "body2InsufficientBalance": "Cüzdanınıza para eklediğinizde lütfen tekrar deneyin.",
+    "body2InsufficientBalance": "Cüzdanınıza bakiye eklediğinizde lütfen tekrar deneyin.",
     "body1SaltQuotaExceeded": "Telefon numarası adres kotanız doldu",
     "body2SaltQuotaExceeded": "Daha fazla arama satın aldığınızda lütfen tekrar deneyin",
     "enterCodesBody": "SMS yoluyla zaten üç kod aldıysanız, bu kodları yine de girebilirsiniz.",
@@ -689,7 +688,7 @@
   "onboardingEducation": {
     "step1": "Eğer mesaj gönderebiliyorsanız, kripto da kullanabilirsiniz. Şu andan itibaren telefonunuz aynı zamanda sizin kripto cüzdanınız.",
     "step2": "{{appName}} ile kriptoya erişmek ve kripto bakiyenizi artırmak çok kolay.",
-    "step3": "Para göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
+    "step3": "Fon göndermek, harcama yapmak ve daha fazlasını keşfetmek için ihtiyacınız olan tek şey bir cep telefonu."
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
@@ -758,7 +757,7 @@
   "verificationPrematureRevealMessage": "Lütfen yeniden göndermeden önce bir dakika bekleyin",
   "verificationLearnMoreDialog": {
     "title": "Telefon Numaraları ve {{appName}}",
-    "body": "Onaylama, telefon numaranıza para gönderip almanıza izin vererek arkadaşlarınızla bağlantı kurmanızı kolaylaştırır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak onaylanmamış hesaplar yalnızca kare kodlar veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme yöntemi kullanır.",
+    "body": "Onaylama, telefon numaranıza fon gönderip almanıza izin vererek arkadaşlarınızla bağlantı kurmanızı kolaylaştırır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak onaylanmamış hesaplar yalnızca kare kodlar veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme yöntemi kullanır.",
     "dismiss": "Yoksay"
   },
   "importExistingKey": {
@@ -812,7 +811,7 @@
   "verificationUnavailable": "Telefon numarası onayı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar onaylamanız mümkün olduğu zaman sizi bilgilendireceğiz.\n\nBu arada Valora'yı kullanmaya devam edebilirsiniz! Telefon numaranıza gönderilen ödemeler, siz telefon numaranızı onaylayarak kullanana kadar güvenli bir şekilde tutulacaktır.",
   "requests": "İstekler",
   "empty": "Ödeme İsteğiniz bulunmuyor",
-  "celoDollarBalance": "Celo Dolar Bakiyesi",
+  "celoDollarBalance": "Celo Dollar Bakiyesi",
   "requestDeclined": "İstek Reddedildi",
   "requestPaid": "İsteğe ait ödeme gerçekleşti",
   "paymentRequestUpdateFailed": "Ödeme isteği güncellenemiyor",
@@ -852,7 +851,7 @@
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
   "inviteSendTo": "Daveti şuraya gönder",
-  "keepMoneySafe": "Arkadaşınız bir {{appName}} hesabı oluşturana kadar bu parayı güvende tutacağız",
+  "keepMoneySafe": "Arkadaşınız bir {{appName}} hesabı oluşturana kadar bakiyesini güvende tutacağız",
   "searchFriends": "Aradığınız kişiyi bulamıyorsanız telefon numarasını girmeyi deneyin",
   "inviteVerifyPayment": "Davet Et & Ödemeyi Onayla",
   "noResultsFor": "Sonuç bulunamadı",
@@ -947,7 +946,7 @@
   },
   "sendToAddressWarning": {
     "title": "Bir adrese gönderme",
-    "body": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Eğer bu adres geçersizse paranız geri alınamayabilir. Bunun doğru adres olduğundan emin olmak için önce bir test ödemesi gönderin.",
+    "body": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Eğer bu adres geçersizse fonlarınız geri alınamayabilir. Bunun doğru adres olduğundan emin olmak için önce bir test ödemesi gönderin.",
     "toggle": "Her zaman hatırlat"
   },
   "loadingFromScan": "Taranıyor",
@@ -967,8 +966,8 @@
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
     "sign": "Veri Yüklerinin İmzalanması",
-    "signTransaction": "Para Gönderme",
-    "sendTransaction": "Para Gönderme",
+    "signTransaction": "Varlık Gönderme",
+    "sendTransaction": "Bakiye Gönder",
     "accounts": "Adresi Okuma",
     "decrypt": "Veri Çözme",
     "computeSharedSecret": "Gizli kelime oluşturma"
@@ -980,6 +979,7 @@
   "disconnectTitle": "{{dappName}} bağlantısını kes?",
   "disconnectBody": "{{dappName}} bağlantısını kesmek istediğine emin misin?",
   "connectionSuccess": "Başarılı! Devam etmek için lütfen {{dappName}} sayfasına geri dönün",
+  "inAppConnectionSuccess": "{{dappName}} ile bağlantı başarılı oldu!",
   "timeoutTitle": "Zaman aşımı!",
   "timeoutSubtitle": "Bağlantınız zaman aşımına uğradı. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin",
   "goBackButton": "Geri Dön",
@@ -999,7 +999,7 @@
   "received": "Alındı",
   "viewAll": "Tümünü Göster",
   "thanksForVerifying": "Onay için teşekkürler",
-  "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dolarlarını biriktirebileceğiniz yerdir",
+  "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dollar'larını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
   "bikeParts": "Bisiklet Parçaları",
   "groceryRun": "Market Alışverişi",
@@ -1011,7 +1011,7 @@
   "verificationFee": "Onaylama Ücreti",
   "networkFee": "Ağ Ücreti",
   "networkFeeExplanation": {
-    "0": "Her hafta, Celo Doları'nın değerini sabit tutmak için her kullanıcının Celo Doları Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. Celo ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
+    "0": "Her hafta, Celo Dollar'ın değerini sabit tutmak için her kullanıcının Celo Dollar Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. Celo ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
     "1": "SSS"
   },
   "confirmingTransaction": "Onaylanıyor…",
@@ -1124,7 +1124,9 @@
     },
     "completed": {
       "title": "Doğrulama tamamlandı",
-      "description": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
+      "description": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlama işlemini tamamlamak için lütfen devam edin.",
+      "descriptionStep2NotEnabled": "Kimliğinizi başarıyla doğruladık. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz.",
+      "descriptionRegionNotSupported": "Kimliğinizi başarıyla doğruladık. Bölgeniz şu anda desteklenmiyor. Banka hesabınızı bağlamayı ne zaman tamamlayabileceğinizi size bildireceğiz."
     },
     "failed": {
       "title": "Doğrulama reddedildi",
@@ -1144,7 +1146,7 @@
     "stepTwo": {
       "label": "2. Adım",
       "disabledTitle": "Bir banka hesabı bağla",
-      "disabledDescription": "Neredeyse tamam! Banka hesabınızı şimdi Plaid aracılığıyla Valora'ya bağlayabilirsiniz.",
+      "disabledDescription": "Banka hesabı desteği çok yakında! Banka hesabınızı Valora'ya ne zaman bağlayabileceğinizi size bildireceğiz.",
       "disabledCta": "Çok Yakında!",
       "title": "Banka Bilgilerini Girin",
       "description": "Neredeyse tamam! Hesabınızı Valora'ya bağlamak için banka bilgilerini girin.",
@@ -1162,6 +1164,7 @@
     "delete": "Sil"
   },
   "syncingBankAccount": "Banka hesabı eşleniyor...",
+  "keepAppOpen": "Ltfen uyglmyı açık tutun!",
   "linkBankAccountSettingsTitle": "Bağlı Banka Hesapları",
   "linkBankAccountSettingsValue": "Erişim",
   "linkBankAccountSettingsValue2": "Yeni Ekle",
@@ -1188,7 +1191,7 @@
     "dismiss": "Yoksay"
   },
   "dappsScreenBottomSheet": {
-    "title": "{{dappName}} harici bir tarayıcıda açılacak",
+    "title": "{{dappName}} harici bir uygulamadır",
     "message": "Valora tarafından işletilmeyen bir uygulamayı açmak üzeresiniz.\n\nValora, bu uygulama hakkında hiçbir beyanda bulunmaz. Kendi sorumluluğunuzda kullanın.",
     "button": "{{dappName}} uygulamasına git"
   },
@@ -1206,6 +1209,6 @@
   "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
   "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
-  "celoDollarAmount": "<0></0> Celo Doları ",
-  "celoDollarAmount_plural": "<0></0> Celo Doları"
+  "celoDollarAmount": "<0></0> Celo Dollar",
+  "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

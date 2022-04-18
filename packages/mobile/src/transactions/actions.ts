@@ -6,6 +6,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmountLegacy'
+import { InviteTransactions } from 'src/transactions/reducer'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import {
   StandbyTransaction,
@@ -27,6 +28,7 @@ export enum Actions {
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   // Remove legacy action once the multitoken support feature is fully released
   ADD_STANDBY_TRANSACTION_LEGACY = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION_LEGACY',
+  UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
 export interface AddStandbyTransactionAction {
@@ -80,6 +82,11 @@ export interface UpdateTransactionsAction {
   transactions: TokenTransaction[]
 }
 
+export interface UpdateInviteTransactionsAction {
+  type: Actions.UPDATE_INVITE_TRANSACTIONS
+  inviteTransactions: InviteTransactions
+}
+
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
@@ -90,6 +97,7 @@ export type ActionTypes =
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
+  | UpdateInviteTransactionsAction
 
 export const addStandbyTransactionLegacy = (
   transaction: StandbyTransactionLegacy
@@ -154,6 +162,13 @@ export const newTransactionsInFeed = (
 export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({
   type: Actions.UPDATE_TRANSACTIONS,
   transactions,
+})
+
+export const updateInviteTransactions = (
+  inviteTransactions: InviteTransactions
+): UpdateInviteTransactionsAction => ({
+  type: Actions.UPDATE_INVITE_TRANSACTIONS,
+  inviteTransactions,
 })
 
 export const navigateToPaymentTransferReview = (

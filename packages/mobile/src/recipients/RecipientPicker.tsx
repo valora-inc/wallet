@@ -1,7 +1,3 @@
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import SectionHead from '@celo/react-components/components/SectionHead'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { Address, isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import {
@@ -27,6 +23,8 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import SectionHead from 'src/components/SectionHead'
 import { DEFAULT_FORNO_URL, DEFAULT_TESTNET } from 'src/config'
 import {
   getRecipientFromAddress,
@@ -40,6 +38,8 @@ import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import SendToAddressWarning from 'src/send/SendToAddressWarning'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 interface Section {
   key: string

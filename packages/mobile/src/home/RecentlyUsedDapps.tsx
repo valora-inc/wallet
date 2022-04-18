@@ -1,8 +1,3 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import { Colors } from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
-import variables from '@celo/react-components/styles/variables'
 import { debounce, range } from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,17 +11,21 @@ import {
   View,
 } from 'react-native'
 import { DappExplorerEvents } from 'src/analytics/Events'
-import { DappSection } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ActiveDapp, DappSection } from 'src/app/reducers'
 import { recentDappsSelector } from 'src/app/selectors'
-import { Dapp } from 'src/app/types'
+import Touchable from 'src/components/Touchable'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import { Colors } from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 interface Props {
-  onSelectDapp(dapp: Dapp): void
+  onSelectDapp(dapp: ActiveDapp): void
 }
 
 const DAPP_ICON_SIZE = 68
@@ -105,7 +104,9 @@ function RecentlyUsedDapps({ onSelectDapp }: Props) {
         {recentlyUsedDapps.map((recentlyUsedDapp) => (
           <Touchable
             key={recentlyUsedDapp.id}
-            onPress={() => onSelectDapp(recentlyUsedDapp)}
+            onPress={() =>
+              onSelectDapp({ ...recentlyUsedDapp, openedFrom: DappSection.RecentlyUsed })
+            }
             style={styles.dappContainer}
             testID="RecentDapp"
           >

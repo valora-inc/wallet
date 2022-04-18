@@ -1,13 +1,13 @@
-import Button from '@celo/react-components/components/Button'
-import fontStyles from '@celo/react-components/styles/fonts'
-import { Spacing } from '@celo/react-components/styles/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { Dapp } from 'src/app/types'
 import BottomSheet from 'src/components/BottomSheet'
+import Button from 'src/components/Button'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   selectedDapp: Dapp | null

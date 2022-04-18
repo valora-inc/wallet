@@ -77,7 +77,10 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BankAccounts]: { newPublicToken?: string }
+  [Screens.BankAccounts]: {
+    newPublicToken?: string
+    fromSyncBankAccountScreen?: boolean
+  }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
@@ -326,7 +329,7 @@ export type StackParamList = {
     dappIcon: string
   }
   [Screens.WalletHome]: undefined
-  [Screens.WebViewScreen]: { uri: string; headerTitle?: string }
+  [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawCeloQrScannerScreen]: {
     onAddressScanned: (address: string) => void

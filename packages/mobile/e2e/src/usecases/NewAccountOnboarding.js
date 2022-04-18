@@ -1,7 +1,6 @@
-import { enterPinUi, setUrlDenyList, sleep } from '../utils/utils'
 import { EXAMPLE_NAME } from '../utils/consts'
-import { dismissBanners } from '../utils/banners'
 import { launchApp } from '../utils/retries'
+import { enterPinUi, sleep } from '../utils/utils'
 
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
@@ -11,9 +10,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    await setUrlDenyList()
     await sleep(5000)
-    await dismissBanners()
   })
 
   it('Create a new account', async () => {
@@ -31,9 +28,6 @@ export default NewAccountOnboarding = () => {
     // Set & Verify pin
     await enterPinUi()
     await enterPinUi()
-
-    // Dismiss banners if present
-    await dismissBanners()
 
     // Skip Phone Number verification
     await element(by.id('VerificationEducationSkipHeader')).tap()

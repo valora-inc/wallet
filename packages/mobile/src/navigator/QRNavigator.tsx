@@ -112,6 +112,7 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   )
 
   return (
+    // @ts-expect-error
     <Animated.View style={animatedStyle}>
       {isFocused && <StatusBar barStyle="light-content" />}
       {enableCamera && <QRScanner onBarCodeDetected={onBarCodeDetected} />}

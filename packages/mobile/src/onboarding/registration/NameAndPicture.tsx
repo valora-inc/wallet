@@ -1,7 +1,3 @@
-import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import FormInput from '@celo/react-components/components/FormInput'
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
-import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,13 +11,17 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { registrationStepsSelector } from 'src/app/selectors'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
+import FormInput from 'src/components/FormInput'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
+import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
@@ -34,6 +34,7 @@ function NameAndPicture({ navigation }: Props) {
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
+  const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -80,6 +81,7 @@ function NameAndPicture({ navigation }: Props) {
     dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
+      profilePictureSkipped: shouldSkipProfilePicture,
     })
     dispatch(setName(newName))
 
@@ -104,11 +106,13 @@ function NameAndPicture({ navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        <PictureInput
-          picture={picture}
-          onPhotoChosen={onPhotoChosen}
-          backgroundColor={colors.onboardingBrownLight}
-        />
+        {!shouldSkipProfilePicture && (
+          <PictureInput
+            picture={picture}
+            onPhotoChosen={onPhotoChosen}
+            backgroundColor={colors.onboardingBrownLight}
+          />
+        )}
         <FormInput
           label={t('fullName')}
           style={styles.name}
@@ -117,7 +121,7 @@ function NameAndPicture({ navigation }: Props) {
           enablesReturnKeyAutomatically={true}
           placeholder={t('fullNamePlaceholder')}
           testID={'NameEntry'}
-          multiline={true}
+          multiline={false}
         />
         <Button
           onPress={onPressContinue}
@@ -140,7 +144,7 @@ export default NameAndPicture
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'space-between',
     backgroundColor: colors.onboardingBackground,
   },

@@ -1,9 +1,3 @@
-import Button, { BtnTypes } from '@celo/react-components/components/Button'
-import BackChevron from '@celo/react-components/icons/BackChevron'
-import Times from '@celo/react-components/icons/Times'
-import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
-import progressDots from '@celo/react-components/styles/progressDots'
 import * as React from 'react'
 import {
   Image,
@@ -20,9 +14,15 @@ import Swiper from 'react-native-swiper'
 import { OnboardingEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button, { BtnTypes } from 'src/components/Button'
+import BackChevron from 'src/icons/BackChevron'
+import Times from 'src/icons/Times'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import progressDots from 'src/styles/progressDots'
 
 export enum EmbeddedNavBar {
   Close = 'Close',

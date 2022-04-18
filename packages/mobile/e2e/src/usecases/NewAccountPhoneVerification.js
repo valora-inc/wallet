@@ -3,32 +3,20 @@ import {
   TWILIO_AUTH_TOKEN,
   VERIFICATION_PHONE_NUMBER,
 } from 'react-native-dotenv'
-import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
+import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, setUrlDenyList, sleep, scrollIntoView } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
-  // Log Twilio balance at start
-  beforeAll(async () => {
-    try {
-      await checkBalance()
-    } catch {}
-  })
-
   beforeEach(async () => {
-    await device.launchApp({
+    await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    // Enable url deny list
-    await setUrlDenyList()
-
-    // Dismiss banners for firebase warning
-    await dismissBanners()
 
     // Create new account
     await element(by.id('CreateAccountButton')).tap()
@@ -59,6 +47,13 @@ export default NewAccountPhoneVerification = () => {
 
   // Check that Twilio SID, Auth Token and Verification Phone Number are defined
   if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && VERIFICATION_PHONE_NUMBER) {
+    // Log Twilio balance at start
+    beforeAll(async () => {
+      try {
+        await checkBalance()
+      } catch {}
+    })
+
     // Conditionally skipping jest tests with an async request is currently not possible
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489
@@ -166,7 +161,6 @@ export default NewAccountPhoneVerification = () => {
   // Assert correct content is visible on the phone verification screen
   jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
-    await dismissBanners()
     await expect(element(by.text('Connect your phone number'))).toBeVisible()
     let skipAttributes = await element(by.text('Skip')).getAttributes()
     jestExpect(skipAttributes.enabled).toBe(true)
