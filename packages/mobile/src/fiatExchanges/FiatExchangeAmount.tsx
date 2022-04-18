@@ -20,6 +20,7 @@ import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import LineItemRow from 'src/components/LineItemRow'
+import TokenDisplay from 'src/components/TokenDisplay'
 import {
   ALERT_BANNER_DURATION,
   CELO_SUPPORT_EMAIL_ADDRESS,
@@ -45,9 +46,12 @@ import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import { roundDown, roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
+
+const TAG = 'FiatExchangeAmount'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
@@ -75,6 +79,11 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
 
   const { currency } = route.params
+  const tokenInfo = useTokenInfoBySymbol(currency == Currency.Celo ? 'CELO' : currency)
+  if (!tokenInfo) {
+    Logger.error(TAG, "Couldn't grab the exchange token info")
+    return null
+  }
 
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
   const displaySymbol = currency === Currency.Celo ? '' : localCurrencySymbol
@@ -307,13 +316,11 @@ function FiatExchangeAmount({ route }: Props) {
             </Trans>
           }
           amount={
-            <CurrencyDisplay
-              amount={{
-                value: currencyAmountRequested,
-                currencyCode: currency,
-              }}
-              hideSymbol={currency !== Currency.Celo}
+            <TokenDisplay
+              amount={currencyAmountRequested}
+              tokenAddress={tokenInfo.address}
               showLocalAmount={currency === Currency.Celo}
+              hideSign={currency !== Currency.Celo}
             />
           }
         />
@@ -350,7 +357,7 @@ FiatExchangeAmount.navOptions = ({
     route.params?.isCashIn ? (
       <HeaderTitleWithSubtitle
         title={i18n.t('addFundsHeaderWithCurrency', {
-          token: route.params.currency,
+          token: route.params.currency === Currency.Celo ? 'CELO' : route.params.currency,
         })}
       />
     ) : (
