@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ricevendo ricompense pari al/all' {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingDescription": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
