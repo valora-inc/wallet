@@ -37,6 +37,7 @@ interface NetworkConfig {
   CIP8AuthorizerUrl: string
   CIP8MetadataUrl: string
   providerFetchUrl: string
+  getFiatConnectProvidersUrl: string
   simplexApiUrl: string
   fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
@@ -71,6 +72,9 @@ const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
 const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 
+const GET_FIAT_CONNECT_PROVIDERS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getFiatConnectProviders`
+const GET_FIAT_CONNECT_PROVIDERS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getFiatConnectProviders`
+
 const SIMPLEX_API_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/processSimplexRequest`
 const SIMPLEX_API_URL_PROD = `${CLOUD_FUNCTIONS_MAINNET}/processSimplexRequest`
 
@@ -101,6 +105,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
+    getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
@@ -127,6 +132,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
+    getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
