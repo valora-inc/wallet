@@ -79,11 +79,6 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
 
   const { currency } = route.params
-  const tokenInfo = useTokenInfoBySymbol(currency == Currency.Celo ? 'CELO' : currency)
-  if (!tokenInfo) {
-    Logger.error(TAG, "Couldn't grab the exchange token info")
-    return null
-  }
 
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
   const displaySymbol = currency === Currency.Celo ? '' : localCurrencySymbol
@@ -159,6 +154,12 @@ function FiatExchangeAmount({ route }: Props) {
   React.useEffect(() => {
     dispatch(fetchExchangeRate())
   }, [])
+
+  const tokenInfo = useTokenInfoBySymbol(currency == Currency.Celo ? 'CELO' : currency)
+  if (!tokenInfo) {
+    Logger.error(TAG, "Couldn't grab the exchange token info")
+    return null
+  }
 
   function isNextButtonValid() {
     return parsedInputAmount.isGreaterThan(0)
