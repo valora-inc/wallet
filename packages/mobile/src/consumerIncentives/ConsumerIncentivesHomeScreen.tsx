@@ -9,7 +9,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
+import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
@@ -73,7 +73,7 @@ function useHasBalanceForSupercharge() {
 
 const onLearnMore = () => {
   ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
-  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
+  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
 }
 
 function Header() {
