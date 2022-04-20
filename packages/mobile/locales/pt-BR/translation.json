@@ -266,7 +266,7 @@
   "withdrawScanQrTitle": "Escanear",
   "tokenBalance": "Saldo em {{token}}",
   "addFunds": "Adicionar Fundos",
-  "addFundsHeaderWithCurrency": "Adicione {{token}}",
+  "addFundsHeaderWithCurrency": "Adicionar {{token}}",
   "addFundsSubtitle": "Adicione fundos à sua conta da Valora",
   "exchanges": "Exchanges",
   "noExchanges": "Não há exchanges disponíveis para {{digitalAsset}} em sua região.",
