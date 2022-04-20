@@ -580,7 +580,11 @@ export const migrations = {
     },
   }),
   45: (state: any) => state,
-  46: (state: any) => {
+  46: (state: any) => ({
+    ...state,
+    cloudFunctionsApi: undefined,
+  }),
+  47: (state: any) => {
     return {
       ...state,
       app: _.omit(

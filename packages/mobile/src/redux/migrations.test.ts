@@ -465,8 +465,21 @@ describe('Redux persist migrations', () => {
   })
   it('works for v45 to v46', () => {
     const migratedSchema = migrations[46](v45Schema)
+
+    const expectedSchema: any = _.cloneDeep(v45Schema)
+    expectedSchema.cloudFunctionsApi = undefined
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v46 to v47', () => {
+    const migratedSchema = migrations[47](v45Schema)
+
+    const expectedSchema: any = _.cloneDeep(v45Schema)
+
     expect(migratedSchema.app.multiTokenUseSendFlow).toBeUndefined()
     expect(migratedSchema.app.multiTokenUseUpdatedFeed).toBeUndefined()
     expect(migratedSchema.app.multiTokenShowHomeBalances).toBeUndefined()
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
   })
 })

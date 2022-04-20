@@ -1,7 +1,6 @@
-import { enterPinUi, waitForElementId, sleep } from '../utils/utils'
-import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME } from '../utils/consts'
-import { dismissBanners } from '../utils/banners'
+import { EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { launchApp } from '../utils/retries'
+import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
 
 export default RestoreAccountOnboarding = () => {
   beforeAll(async () => {
@@ -12,7 +11,6 @@ export default RestoreAccountOnboarding = () => {
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await sleep(5000)
-    await dismissBanners()
   })
   // Language is auto selected if it matches one of the available locale
   // it('Language', async () => {
@@ -67,11 +65,6 @@ export default RestoreAccountOnboarding = () => {
       .toBeVisible()
       .withTimeout(1000 * 5)
     await element(by.id('ImportWalletButton')).tap()
-
-    // Wait a little more as import can take some time
-    // and triggers the firebase error banner
-    // otherwise next step will tap the banner instead of the button
-    await dismissBanners()
   })
 
   it('Verify Education', async () => {

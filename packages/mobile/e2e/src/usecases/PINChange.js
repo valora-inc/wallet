@@ -1,15 +1,14 @@
-import { dismissBanners } from '../utils/banners'
 import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
-import { enterPinUi, scrollIntoView } from '../utils/utils'
+import { reloadReactNative } from '../utils/retries'
+import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
 
 export default ChangePIN = () => {
   beforeEach(async () => {
-    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
       .toBeVisible()
-      .withTimeout(30000)
+      .withTimeout(30 * 1000)
     await element(by.id('Settings')).tap()
   })
 
@@ -19,13 +18,27 @@ export default ChangePIN = () => {
       .withTimeout(5000)
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
+    await sleep(500)
     await enterPinUi(DEFAULT_PIN)
+    await sleep(500)
     // Then we enter the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
+    await sleep(500)
     // Then confirm the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
+    await sleep(500)
+
+    // Reload app and navigate to change pin
+    await reloadReactNative()
+    await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Settings', 'SettingsScrollView')
+    await waitFor(element(by.id('Settings')))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    await element(by.id('Settings')).tap()
     await element(by.id('ChangePIN')).tap()
     // Now try to change it again and enter the old PIN
+    await sleep(500)
     await enterPinUi(DEFAULT_PIN)
     // Check old PIN doesn't work anymore
     await expect(element(by.text('Incorrect PIN'))).toBeVisible()

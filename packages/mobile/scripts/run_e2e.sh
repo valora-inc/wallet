@@ -168,10 +168,12 @@ if [ $PLATFORM = "android" ]; then
         -avd $VD_NAME \
         -no-boot-anim \
         -noaudio \
-        -no-snapshot \
+        -verbose \
         -read-only \
         -netdelay $NET_DELAY \
-        ${CI:+-gpu swiftshader_indirect -no-window} \
+        -gpu swiftshader_indirect \
+        -no-window \
+        -snapshot ci_boot \
         &
     done
 

@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -25,9 +25,15 @@
     "test:ci": "yarn test --coverage --maxWorkers=3",
     "test:watch": "yarn test --watch --maxWorkers=4",
     "test:verbose": "export TZ=UTC && jest --verbose",
-    "test:e2e:android": "./scripts/run_e2e.sh -p android -r",
-    "test:e2e:ios": "./scripts/run_e2e.sh -p ios -r",
-    "test:e2e:packager": "export CELO_TEST_CONFIG=e2e && yarn react-native start",
+    "e2e:packager": "export CELO_TEST_CONFIG=e2e && yarn react-native start",
+    "e2e:build:android-debug": "export CELO_TEST_CONFIG=e2e && yarn detox build -c android.debug",
+    "e2e:build:android-release": "export CELO_TEST_CONFIG=e2e && detox build -c android.release",
+    "e2e:build:ios-debug": "export CELO_TEST_CONFIG=e2e && detox build -c ios.debug",
+    "e2e:build:ios-release": "export CELO_TEST_CONFIG=e2e && detox build -c ios.release",
+    "e2e:test:android-debug": "detox test -c android.debug -l verbose",
+    "e2e:test:android-release": "detox test -c android.release -l verbose",
+    "e2e:test:ios-debug": "detox test -c ios.debug -l verbose",
+    "e2e:test:ios-release": "detox test -c ios.release -l verbose",
     "test:verify-locales": "./scripts/verify_locales.sh",
     "test:update-root-state-schema": "./scripts/update_root_state_schema.sh",
     "pre-deploy": "./scripts/pre-deploy.sh",
@@ -218,7 +224,7 @@
     "@walletconnect/qrcode-modal": "^1.6.6",
     "ajv": "^8.10.0",
     "babel-core": "7.0.0-bridge.0",
-    "detox": "^19.4.5",
+    "detox": "^19.5.7",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.23.3",
@@ -254,7 +260,10 @@
   },
   "detox": {
     "test-runner": "jest",
-    "runnerConfig": "e2e/config.json",
+    "runnerConfig": "./e2e/config.json",
+    "artifacts": {
+      "rootDir": "./e2e/artifacts"
+    },
     "apps": {
       "android.debug": {
         "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-x86_64-debug.apk",
@@ -274,12 +283,12 @@
       },
       "ios.debug": {
         "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/celo.app",
-        "build": "set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
+        "build": "unset PREFIX && set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
         "type": "ios.app"
       },
       "ios.release": {
         "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/celo.app",
-        "build": "set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Release -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
+        "build": "unset PREFIX && set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Release -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
         "type": "ios.app"
       }
     },
