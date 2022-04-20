@@ -27,7 +27,6 @@ export default ExchangeCelo = () => {
     await celoEducation()
   })
 
-  jest.retryTimes(2)
   it('Then Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
@@ -65,7 +64,6 @@ export default ExchangeCelo = () => {
     // TODO Check that transaction appears in home feed
   })
 
-  jest.retryTimes(2)
   it('Then Sell CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Sell')))
@@ -118,7 +116,6 @@ export default ExchangeCelo = () => {
   })
 
   // Note: Amount fluctuates based on CELO value
-  jest.retryTimes(2)
   it.skip('Then Sell Minimum CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Sell')))
@@ -168,7 +165,6 @@ export default ExchangeCelo = () => {
     // TODO Check that transaction appears in home feed
   })
 
-  jest.retryTimes(2)
   it('Then Withdraw CELO', async () => {
     // Scroll to the withdraw button
     await waitFor(element(by.id('WithdrawCELO')))
