@@ -590,19 +590,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           }
           testID="LineItemRow/undefined"
         >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
+          <Text>
             
             0.00
+             cUSD
           </Text>
         </Text>
       </View>
@@ -1307,19 +1298,10 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           }
           testID="LineItemRow/undefined"
         >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
+          <Text>
             
             0.00
+             cUSD
           </Text>
         </Text>
       </View>
