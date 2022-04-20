@@ -476,11 +476,10 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[47](v46Schema)
 
     const expectedSchema: any = _.cloneDeep(v46Schema)
+    delete expectedSchema.app.multiTokenUseSendFlow
+    delete expectedSchema.app.multiTokenUseUpdatedFeed
+    delete expectedSchema.app.multiTokenShowHomeBalances
 
     expect(migratedSchema).toMatchObject(expectedSchema)
-
-    expect(migratedSchema.app.multiTokenUseSendFlow).toBeUndefined()
-    expect(migratedSchema.app.multiTokenUseUpdatedFeed).toBeUndefined()
-    expect(migratedSchema.app.multiTokenShowHomeBalances).toBeUndefined()
   })
 })
