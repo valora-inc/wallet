@@ -1206,9 +1206,17 @@ export const v46Schema = {
     ...v45Schema._persist,
     version: 46,
   },
+}
+
+export const v47Schema = {
+  ...v46Schema,
+  _persist: {
+    ...v46Schema._persist,
+    version: 47,
+  },
   app: {
     ..._.omit(
-      v45Schema.app,
+      v46Schema.app,
       'multiTokenUseSendFlow',
       'multiTokenUseUpdatedFeed',
       'multiTokenShowHomeBalances'
@@ -1217,5 +1225,5 @@ export const v46Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v46Schema as Partial<RootState>
+  return v47Schema as Partial<RootState>
 }
