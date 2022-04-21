@@ -14,7 +14,36 @@ const CELO_TO_SELL = 0.045
 const CELO_TO_BUY = +Math.random().toFixed(3)
 const CELO_TO_WITHDRAW = +Math.random().toFixed(3)
 const CELO_TO_SELL_MIN = 0.002
-// TODO Fetch Fees
+
+const scrollToTopOfFeed = async () => {
+  // Scroll to top of feed - scroll not possible if not all transactions loaded
+  try {
+    await waitFor(element(by.id('ExchangeScrollView')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+    await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+  } catch {}
+}
+
+const assertTransactionAppeared = async (amount, transactionTime) => {
+  // Wait up to 1 minute and assert the transaction correctly appears
+  await waitFor(
+    element(
+      by.text(`-${padTrailingZeros(amount.toFixed(3))}`).withAncestor(by.id('TransactionList'))
+    ).atIndex(0)
+  )
+    .toBeVisible()
+    .withTimeout(30 * 1000)
+  await waitFor(
+    element(
+      by
+        .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
+        .withAncestor(by.id('TransactionList'))
+    ).atIndex(0)
+  )
+    .toBeVisible()
+    .withTimeout(30 * 1000)
+}
 
 export default ExchangeCelo = () => {
   beforeEach(async () => {
@@ -54,13 +83,7 @@ export default ExchangeCelo = () => {
     let transactionTime = new Date()
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await waitFor(element(by.id('ExchangeScrollView')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
+    await scrollToTopOfFeed()
     // Wait up to 1 minute and assert the transaction correctly appears
     // TODO: assert on amount minus fees
     await waitFor(element(by.text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)).atIndex(0))
@@ -96,32 +119,8 @@ export default ExchangeCelo = () => {
     let transactionTime = new Date()
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await waitFor(element(by.id('ExchangeScrollView')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
-    // Wait up to 1 minute and assert the transaction correctly appears
-    await waitFor(
-      element(
-        by
-          .text(`-${padTrailingZeros(CELO_TO_SELL.toFixed(3))}`)
-          .withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
-    await waitFor(
-      element(
-        by
-          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
-          .withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
+    await scrollToTopOfFeed()
+    await assertTransactionAppeared(CELO_TO_SELL, transactionTime)
     // TODO Check that transaction appears in home feed
   })
 
@@ -153,30 +152,8 @@ export default ExchangeCelo = () => {
     let transactionTime = new Date()
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await waitFor(element(by.id('ExchangeScrollView')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
-    // Wait up to 1 minute and assert the transaction correctly appears
-    await waitFor(
-      element(
-        by.text(`-${padTrailingZeros(CELO_TO_SELL_MIN)}`).withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
-    await waitFor(
-      element(
-        by
-          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
-          .withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
+    await scrollToTopOfFeed()
+    await assertTransactionAppeared(CELO_TO_SELL_MIN, transactionTime)
     // TODO Check that transaction appears in home feed
   })
 
@@ -214,32 +191,8 @@ export default ExchangeCelo = () => {
     let transactionTime = new Date()
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await waitFor(element(by.id('ExchangeScrollView')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
-    // Wait up to 1 minute and assert the transaction correctly appears
-    await waitFor(
-      element(
-        by
-          .text(`-${padTrailingZeros(CELO_TO_WITHDRAW.toFixed(3))}`)
-          .withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
-    await waitFor(
-      element(
-        by
-          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
-          .withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    )
-      .toBeVisible()
-      .withTimeout(30 * 1000)
+    await scrollToTopOfFeed()
+    await assertTransactionAppeared(CELO_TO_WITHDRAW, transactionTime)
     // TODO Check that transaction appears in home feed
   })
 }
