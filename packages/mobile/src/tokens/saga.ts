@@ -313,22 +313,6 @@ export async function fetchTokenBalancesForAddress(
   return response.data.userBalances.balances
 }
 
-export function* updateTokenBalances(tokens: StoredTokenBalances) {
-  const tokenBalanceBefore = yield select(totalTokenBalanceSelector)
-  const isAccountFundedBefore = tokenBalanceBefore.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
-
-  yield put(setTokenBalances(tokens))
-
-  const tokenBalanceAfter = yield select(totalTokenBalanceSelector)
-  const isAccountFundedAfter = tokenBalanceAfter.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
-
-  if (isAccountFundedBefore && !isAccountFundedAfter) {
-    ValoraAnalytics.track(AppEvents.account_liquidated)
-  } else if (!isAccountFundedBefore && isAccountFundedAfter) {
-    ValoraAnalytics.track(AppEvents.account_funded)
-  }
-}
-
 export function* fetchTokenBalancesSaga() {
   try {
     const address: string | null = yield select(walletAddressSelector)
@@ -353,7 +337,7 @@ export function* fetchTokenBalancesSaga() {
           .toString()
       }
     }
-    yield call(updateTokenBalances, tokens)
+    yield put(setTokenBalances(tokens))
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
     yield put(tokenBalanceFetchError())
@@ -385,6 +369,34 @@ export function* watchFetchBalance() {
   yield takeEvery(fetchTokenBalances.type, fetchTokenBalancesSaga)
 }
 
+export function* watchAccountFundedOrLiquidated() {
+  let prevTokenBalance
+  while (true) {
+    const tokenBalance: ReturnType<typeof totalTokenBalanceSelector> = yield select(
+      totalTokenBalanceSelector
+    )
+    if (tokenBalance !== prevTokenBalance) {
+      // prevTokenBalance is undefined for the base case and null if token list
+      // is not yet loaded
+      if (prevTokenBalance) {
+        const isAccountFundedBefore = prevTokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
+        const isAccountFundedAfter = tokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
+
+        if (isAccountFundedBefore && !isAccountFundedAfter) {
+          ValoraAnalytics.track(AppEvents.account_liquidated)
+        } else if (!isAccountFundedBefore && isAccountFundedAfter) {
+          ValoraAnalytics.track(AppEvents.account_funded)
+        }
+      }
+
+      prevTokenBalance = tokenBalance
+    }
+
+    yield take()
+  }
+}
+
 export function* tokensSaga() {
   yield spawn(watchFetchBalance)
+  yield spawn(watchAccountFundedOrLiquidated)
 }

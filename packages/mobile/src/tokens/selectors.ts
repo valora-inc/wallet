@@ -102,10 +102,15 @@ export const defaultTokenToSendSelector = createSelector(
 )
 
 export const totalTokenBalanceSelector = createSelector(
-  [tokensWithUsdValueSelector, localCurrencyExchangeRatesSelector, tokenFetchErrorSelector],
-  (tokensWithUsdValue, exchangeRate, tokenFetchError) => {
+  [
+    tokensListSelector,
+    tokensWithUsdValueSelector,
+    localCurrencyExchangeRatesSelector,
+    tokenFetchErrorSelector,
+  ],
+  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError) => {
     const usdRate = exchangeRate[Currency.Dollar]
-    if (!usdRate) {
+    if (!usdRate || Object.keys(tokensList).length === 0) {
       return null
     }
     let totalBalance = new BigNumber(0)
