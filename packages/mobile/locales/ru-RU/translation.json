@@ -266,6 +266,7 @@
   "withdrawScanQrTitle": "Сканировать",
   "tokenBalance": "Остаток {{token}}",
   "addFunds": "Внести средства",
+  "addFundsHeaderWithCurrency": "Внести {{token}}",
   "addFundsSubtitle": "Внести средства на аккаунт Valora",
   "exchanges": "Криптобиржа",
   "noExchanges": "В вашем регионе отсутствуют доступные Криптобиржа для {{digitalAsset}}.",
