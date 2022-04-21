@@ -28,6 +28,7 @@ export enum HomeEvents {
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   notification_scroll = 'notification_scroll',
+  notification_impression = 'notification_impression',
   notification_select = 'notification_select',
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
@@ -255,6 +256,7 @@ export enum InviteEvents {
   invite_method_whatsapp = 'invite_method_whatsapp',
   invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
+  invite_banner_impression = 'invite_banner_impression',
 }
 
 export enum EscrowEvents {
