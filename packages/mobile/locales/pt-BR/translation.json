@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Ocorreu um erro ao resgatar recompensas de Supercharge pendentes. Tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas de Supercharge foram adicionadas ao seu saldo total.",
   "superchargeClaimFailure": "Ocorreu um erro ao resgatar suas recompensas de Supercharge.",
-  "superchargeNotificationBody": "As suas recompensas Supercharge estão aqui! Reclame-as agora.",
+  "superchargeNotificationBody": "As suas recompensas Supercharge chegaram! Resgate-as agora mesmo",
   "superchargeNotificationStart": "Resgatar recompensas",
   "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número",
