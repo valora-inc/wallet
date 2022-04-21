@@ -52,10 +52,15 @@ export default ExchangeCelo = () => {
     await enterPinUiIfNecessary()
     // Get transaction time
     let transactionTime = new Date()
-    // Scroll to top of feed
-    await element(by.id('ExchangeScrollView')).scroll(200, 'down')
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
+    // Scroll to top of feed - scroll not possible if not all transactions loaded
+    try {
+      await waitFor(element(by.id('ExchangeScrollView')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+    } catch {}
     // Wait up to 1 minute and assert the transaction correctly appears
     // TODO: assert on amount minus fees
     await waitFor(element(by.text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)).atIndex(0))
@@ -89,12 +94,15 @@ export default ExchangeCelo = () => {
     await enterPinUiIfNecessary()
     // Get transaction time
     let transactionTime = new Date()
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
+    // Scroll to top of feed - scroll not possible if not all transactions loaded
+    try {
+      await waitFor(element(by.id('ExchangeScrollView')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+    } catch {}
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
       element(
@@ -143,12 +151,15 @@ export default ExchangeCelo = () => {
     await enterPinUiIfNecessary()
     // Get transaction time
     let transactionTime = new Date()
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
+    // Scroll to top of feed - scroll not possible if not all transactions loaded
+    try {
+      await waitFor(element(by.id('ExchangeScrollView')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+    } catch {}
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
       element(
@@ -201,12 +212,15 @@ export default ExchangeCelo = () => {
     await enterPinUiIfNecessary()
     // Get transaction time
     let transactionTime = new Date()
-    // Scroll to top of feed - scroll not possible if not all transactions loaded
-    try {
-      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
-    } catch {}
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
+    // Scroll to top of feed - scroll not possible if not all transactions loaded
+    try {
+      await waitFor(element(by.id('ExchangeScrollView')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+      await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+    } catch {}
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
       element(
