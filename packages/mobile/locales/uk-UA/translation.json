@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Помилка при отриманні очікуваних нагород за надбавку. Просимо, спробуйте ще раз пізніше.",
   "superchargeClaimSuccess": "Ваші нагороди за надбавку додані до вашого загального залишку.",
   "superchargeClaimFailure": "Виникла проблема із запитом ваших нагород за надбавку.",
-  "superchargeNotificationBody": "Винагорода Supercharge вже тут! Отримай зараз.",
+  "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Запит винагороди",
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Під’єднати номер",
