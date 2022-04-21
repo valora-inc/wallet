@@ -266,6 +266,7 @@
   "withdrawScanQrTitle": "Сканувати",
   "tokenBalance": "Залишок {{token}}",
   "addFunds": "Додати кошти",
+  "addFundsHeaderWithCurrency": "Додати {{token}}",
   "addFundsSubtitle": "Поповніть ваш рахунок Valora",
   "exchanges": "Обмін валют",
   "noExchanges": "В вашому регіоні немає доступних обмінів для {{digitalAsset}}.",
