@@ -62,6 +62,7 @@ export default function NumberKeypad(props: Props) {
         )}
         <DigitButton digit={0} onDigitPress={props.onDigitPress} />
         <Touchable
+          testID="Backspace"
           borderless={true}
           onPress={props.onBackspacePress}
           onLongPress={props.onBackspaceLongPress}

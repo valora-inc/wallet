@@ -28,7 +28,6 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Should Be Display No Providers Message', async () => {
         // Enter Amount to Exchange
         await element(by.id('FiatExchangeInput')).replaceText('2')
@@ -48,7 +47,6 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Bidali Should Display', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
       })
@@ -60,7 +58,6 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Should Display Exchanges', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
@@ -80,7 +77,6 @@ export default offRamps = () => {
       await element(by.id('radio/cEUR')).tap()
     })
 
-    jest.retryTimes(2)
     describe('When Gift Cards and Mobile Top Up Selected', () => {
       beforeEach(async () => {
         await element(by.id('receiveWithBidali')).tap()
@@ -100,7 +96,6 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Should Display No Exchanges Available Text', async () => {
         // Check page elements
         await expect(element(by.id('NoExchanges'))).toHaveText(
@@ -135,18 +130,24 @@ export default offRamps = () => {
         await element(by.id('WithdrawReviewButton')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Send To Address', async () => {
         // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
         // Enter PIN if necessary
         await enterPinUiIfNecessary()
+        // Assert we've arrived at the home screen
+        await waitFor(element(by.id('SendOrRequestBar')))
+          .toBeVisible()
+          .withTimeout(30 * 1000)
+        // Failing due to alfajores blockscout issues
         // Assert send transaction is present in feed
-        await expect(
-          element(by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))).atIndex(
-            0
-          )
-        ).toBeVisible()
+        // const target = element(
+        //   by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
+        // ).atIndex(0)
+        // await waitFor(target)
+        //   .toBeVisible()
+        //   .withTimeout(30 * 1000)
+        // await expect(target).toBeVisible()
       })
     })
 
@@ -156,7 +157,6 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      jest.retryTimes(2)
       it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
