@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Supercharge-Rewards. Bitte versuche es später erneut.",
   "superchargeClaimSuccess": "Deine Supercharge-Rewards wurden deinem Gesamtguthaben hinzugefügt.",
   "superchargeClaimFailure": "Es gab ein Problem bei der Inanspruchnahme deiner Supercharge-Rewards.",
-  "superchargeNotificationBody": "Ihre Supercharge-Belohnungen sind da! Fordern Sie sie jetzt an.",
+  "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
