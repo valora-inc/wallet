@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Ошибка при получении ожидаемых вознаграждений Supercharge. Повторите попытку позже.",
   "superchargeClaimSuccess": "Ваши вознаграждения Supercharge были добавлены на ваш общий баланс.",
   "superchargeClaimFailure": "Возникла проблема с заявкой на вознаграждения Supercharge.",
-  "superchargeNotificationBody": "Ваши вознаграждения за Суперзаряд уже здесь! Получите их прямо сейчас.",
+  "superchargeNotificationBody": "Вознаграждения Supercharge уже ждут вас! Получите их прямо сейчас",
   "superchargeNotificationStart": "Получить вознаграждения",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
