@@ -488,6 +488,7 @@ exports[`NumberKeypad renders correctly with decimal separator 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      testID="Backspace"
     >
       <View
         style={
@@ -997,6 +998,7 @@ exports[`NumberKeypad renders correctly without decimal separator 1`] = `
       onResponderTerminate={[Function]}
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
+      testID="Backspace"
     >
       <View
         style={

@@ -1208,6 +1208,22 @@ export const v46Schema = {
   },
 }
 
+export const v47Schema = {
+  ...v46Schema,
+  _persist: {
+    ...v46Schema._persist,
+    version: 47,
+  },
+  app: {
+    ..._.omit(
+      v46Schema.app,
+      'multiTokenUseSendFlow',
+      'multiTokenUseUpdatedFeed',
+      'multiTokenShowHomeBalances'
+    ),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v46Schema as Partial<RootState>
+  return v47Schema as Partial<RootState>
 }

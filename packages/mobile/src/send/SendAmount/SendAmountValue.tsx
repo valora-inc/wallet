@@ -63,6 +63,7 @@ function SendAmountValue({
             {usingLocalAmount && (
               <View style={styles.symbolContainer}>
                 <Text
+                  testID="PrimaryInputSymbol"
                   allowFontScaling={false}
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}
@@ -90,6 +91,7 @@ function SendAmountValue({
             {!usingLocalAmount && (
               <View style={styles.symbolContainer}>
                 <Text
+                  testID="PrimaryInputSymbol"
                   allowFontScaling={false}
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}

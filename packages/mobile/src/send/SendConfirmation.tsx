@@ -99,12 +99,13 @@ function SendConfirmation(props: Props) {
       tokenAmount: inputTokenAmount,
       amountIsInLocalCurrency,
       tokenAddress,
+      comment: commentFromParams,
     },
   } = props.route.params
 
   const [inviteModalVisible, setInviteModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState(commentFromParams ?? '')
 
   const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
@@ -282,7 +283,9 @@ function SendConfirmation(props: Props) {
               <Text style={styles.headerText} testID="HeaderText">
                 {t('sending')}
               </Text>
-              <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
+              <Text testID="DisplayName" style={styles.displayName}>
+                {getDisplayName(recipient, t)}
+              </Text>
               {validatedRecipientAddress && (
                 <View style={styles.editContainer}>
                   <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
@@ -298,6 +301,7 @@ function SendConfirmation(props: Props) {
             </View>
           </View>
           <TokenDisplay
+            testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
             tokenAddress={tokenAddress}

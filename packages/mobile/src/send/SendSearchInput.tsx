@@ -18,7 +18,7 @@ export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.textInputContainer}>
+    <View testID="SendSearchInput" style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
         placeholder={t('namePhoneAddress')}
