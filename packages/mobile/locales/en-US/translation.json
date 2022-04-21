@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
   "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
-  "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now",
+  "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Claim rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
