@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
   "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
-  "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et",
   "superchargeNotificationStart": "Ödüllerinizi alın",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
