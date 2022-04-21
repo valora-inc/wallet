@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Si è verificato un errore durante il recupero delle ricompense Supercharge. Riprova più tardi.",
   "superchargeClaimSuccess": "Le tue ricompense Supercharge sono state aggiunte al tuo saldo totale.",
   "superchargeClaimFailure": "Si è verificato un errore nel richiedere i tuoi premi ricompense Supercharge.",
-  "superchargeNotificationBody": "I tuoi premi Supercharge sono qui! Richiedili ora.",
+  "superchargeNotificationBody": "Le tue ricompense Supercharge sono arrivate! Richiedile ora",
   "superchargeNotificationStart": "Richiedi ora",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
