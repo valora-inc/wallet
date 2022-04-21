@@ -4,13 +4,17 @@ import { createSelector } from 'reselect'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { RootState } from 'src/redux/reducers'
+import { getCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector, walletAddressSelector } from 'src/web3/selectors'
 
 const inferCountryCode = () => {
   const localizedCountry = new Countries(i18n.language).getCountryByCodeAlpha2(
     RNLocalize.getCountry()
   )
-  return localizedCountry?.countryCallingCode ?? null
+  if (localizedCountry && !getCountryFeatures(localizedCountry.alpha2).SANCTIONED_COUNTRY) {
+    return localizedCountry.countryCallingCode
+  }
+  return null
 }
 
 export const devModeSelector = (state: RootState) => state.account.devModeActive
@@ -19,7 +23,9 @@ export const e164NumberSelector = (state: RootState) => state.account.e164PhoneN
 export const pictureSelector = (state: RootState) => state.account.pictureUri
 export const defaultCountryCodeSelector = createSelector(
   (state: RootState) => state.account.defaultCountryCode,
-  (defaultCountryCode) => defaultCountryCode || inferCountryCode()
+  (defaultCountryCode) => {
+    return defaultCountryCode || inferCountryCode()
+  }
 )
 export const userContactDetailsSelector = (state: RootState) => state.account.contactDetails
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType

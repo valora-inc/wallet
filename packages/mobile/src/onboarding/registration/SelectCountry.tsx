@@ -13,6 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import SelectCountryItem from 'src/onboarding/registration/SelectCountryItem'
 import colors from 'src/styles/colors'
+import { getCountryFeatures } from 'src/utils/countryFeatures'
 
 const keyExtractor = (item: LocalizedCountry) => item.alpha2
 
@@ -23,10 +24,13 @@ export default function SelectCountry({ navigation, route }: Props) {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
 
-  const filteredCountries = useMemo(() => countries.getFilteredCountries(searchText), [
-    countries,
-    searchText,
-  ])
+  const filteredCountries = useMemo(
+    () =>
+      countries
+        .getFilteredCountries(searchText)
+        .filter((country) => !getCountryFeatures(country.alpha2).SANCTIONED_COUNTRY),
+    [countries, searchText]
+  )
 
   function onSelect(country: LocalizedCountry) {
     navigation.navigate(Screens.VerificationEducationScreen, {
