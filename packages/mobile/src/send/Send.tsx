@@ -178,9 +178,6 @@ function Send({ route }: Props) {
         />
       )
     }
-    if (numberVerified && hasGivenContactPermission && inviteRewardsEnabled) {
-      return <InviteRewardsBanner />
-    }
     return null
   }
 
@@ -189,6 +186,9 @@ function Send({ route }: Props) {
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
+      {inviteRewardsEnabled && numberVerified && hasGivenContactPermission && (
+        <InviteRewardsBanner />
+      )}
       <RecipientPicker
         testID={'RecipientPicker'}
         sections={buildSections()}
