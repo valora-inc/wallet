@@ -5,7 +5,7 @@ import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmation
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput } from 'src/send/SendConfirmationLegacy'
 import { InviteTransactions } from 'src/transactions/reducer'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import {
