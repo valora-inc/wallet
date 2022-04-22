@@ -4,18 +4,15 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { useFetchSuperchargeRewards } from 'src/api/slice'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { claimRewards } from 'src/consumerIncentives/slice'
+import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import {
   SuperchargePendingReward,
   SuperchargeToken,
@@ -37,7 +34,7 @@ import variables from 'src/styles/variables'
 import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 
-function useTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
+function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
   const { superchargeTokens } = useSelector((state) => state.app)
   const userCountry = useSelector(userLocationDataSelector)
   const { IS_IN_EUROPE } = useCountryFeatures()
@@ -54,7 +51,11 @@ function useTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
   )
 }
 
-function useHasBalanceForSupercharge() {
+function useHasBalanceForSupercharge(): {
+  hasBalanceForSupercharge: boolean
+  superchargingToken?: SuperchargeTokenConfig
+  hasMaxBalance?: boolean
+} {
   const { superchargeTokens } = useSelector((state) => state.app)
   const tokens = useSelector(stablecoinsSelector)
 
@@ -63,7 +64,7 @@ function useHasBalanceForSupercharge() {
     if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
       return {
         hasBalanceForSupercharge: true,
-        token: tokenUserInfo.symbol,
+        superchargingToken: tokenConfig,
         hasMaxBalance: tokenUserInfo.balance.gte(tokenConfig.maxBalance),
       }
     }
@@ -95,8 +96,9 @@ function SuperchargeInstructions() {
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { superchargeApy } = useSelector((state) => state.app)
-  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
-  const tokenToSupercharge = useTokenToSupercharge()
+  const { hasBalanceForSupercharge, superchargingToken } = useHasBalanceForSupercharge()
+  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
+  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
 
   return (
     <>
@@ -147,7 +149,9 @@ function SuperchargeInstructions() {
 function SuperchargingInfo() {
   const { t } = useTranslation()
   const { superchargeApy } = useSelector((state) => state.app)
-  const tokenToSupercharge = useTokenToSupercharge()
+  const { superchargingToken } = useHasBalanceForSupercharge()
+  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
+  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
 
   return (
     <>
@@ -171,6 +175,7 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
       if (!acc[tokenAddress]) {
         acc[tokenAddress] = new BigNumber(0)
       }
+
       acc[tokenAddress] = acc[tokenAddress].plus(
         new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN)
       )
@@ -201,30 +206,30 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
 
 export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchAvailableRewards())
+  }, [])
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const {
     hasBalanceForSupercharge,
-    token: superchargingToken,
+    superchargingToken,
     hasMaxBalance,
   } = useHasBalanceForSupercharge()
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
-  const tokenToSupercharge = useTokenToSupercharge()
+  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
+  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
 
-  const {
-    superchargeRewards,
-    isLoading: loadingAvailableRewards,
-    isError: errorLoadingRewards,
-  } = useFetchSuperchargeRewards()
   const claimRewardsLoading = useSelector((state) => state.supercharge.loading)
+  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const loadingAvailableRewards = useSelector(
+    (state) => state.supercharge.fetchAvailableRewardsLoading
+  )
   const canClaimRewards = superchargeRewards.length > 0
-  const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (errorLoadingRewards) {
-      dispatch(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
-    }
-  }, [errorLoadingRewards])
+  const showLoadingIndicator = !canClaimRewards && loadingAvailableRewards
 
   const onPressCTA = async () => {
     if (canClaimRewards) {
@@ -253,7 +258,7 @@ export default function ConsumerIncentivesHomeScreen() {
       >
         <Header />
         <Image style={styles.image} source={boostRewards} />
-        {loadingAvailableRewards ? (
+        {showLoadingIndicator ? (
           <ActivityIndicator size="small" color={colors.greenUI} testID="SuperchargeLoading" />
         ) : canClaimRewards ? (
           <ClaimSuperchargeRewards rewards={superchargeRewards} />
@@ -288,8 +293,8 @@ export default function ConsumerIncentivesHomeScreen() {
               : t('connectNumber')
           }
           icon={canClaimRewards && <Logo style={styles.logo} height={24} type={LogoTypes.LIGHT} />}
-          showLoading={loadingAvailableRewards || claimRewardsLoading}
-          disabled={loadingAvailableRewards || claimRewardsLoading}
+          showLoading={showLoadingIndicator || claimRewardsLoading}
+          disabled={showLoadingIndicator || claimRewardsLoading}
           onPress={onPressCTA}
           testID="ConsumerIncentives/CTA"
         />

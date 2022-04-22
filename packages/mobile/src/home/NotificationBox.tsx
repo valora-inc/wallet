@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -7,7 +7,6 @@ import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { openUrl } from 'src/app/actions'
 import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
@@ -18,6 +17,7 @@ import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
@@ -91,7 +91,11 @@ function useSimpleActions() {
 
   const dispatch = useDispatch()
 
-  const { superchargeRewards } = useFetchSuperchargeRewards()
+  useEffect(() => {
+    dispatch(fetchAvailableRewards())
+  }, [])
+
+  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
