@@ -42,9 +42,11 @@ function SimplexScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   const currencyToBuy =
-    simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
-      ? CiCoCurrency.CUSD
-      : CiCoCurrency.CELO
+    {
+      CELO: CiCoCurrency.CELO,
+      CUSD: CiCoCurrency.CUSD,
+      CEUR: CiCoCurrency.CEUR,
+    }[simplexQuote.digital_money.currency.toUpperCase()] || CiCoCurrency.CELO
 
   const feeIsWaived =
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
@@ -67,8 +69,11 @@ function SimplexScreen({ route, navigation }: Props) {
   }
 
   useLayoutEffect(() => {
-    const token =
-      simplexQuote.digital_money.currency.toLowerCase() === 'cusd' ? Currency.Dollar : Currency.Celo
+    const token = {
+      [CiCoCurrency.CELO]: Currency.Celo,
+      [CiCoCurrency.CUSD]: Currency.Dollar,
+      [CiCoCurrency.CEUR]: Currency.Euro,
+    }[currencyToBuy]
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,
@@ -95,7 +100,7 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [])
 
   const simplexPaymentRequest = asyncSimplexPaymentData?.result
-
+  console.debug(simplexQuote)
   return (
     <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (

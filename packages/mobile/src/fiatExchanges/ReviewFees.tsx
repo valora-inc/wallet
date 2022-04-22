@@ -66,7 +66,11 @@ export default function ReviewFees({
     />
   )
 
-  const token = currencyToBuy === CiCoCurrency.CUSD ? 'cUSD' : 'CELO'
+  const token = {
+    [CiCoCurrency.CELO]: 'CELO',
+    [CiCoCurrency.CUSD]: 'cUSD',
+    [CiCoCurrency.CEUR]: 'cEUR',
+  }[currencyToBuy]
 
   return (
     <View style={[styles.review]}>
