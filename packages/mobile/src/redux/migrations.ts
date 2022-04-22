@@ -584,5 +584,16 @@ export const migrations = {
     ...state,
     cloudFunctionsApi: undefined,
   }),
-  47: (state: any) => state,
+  47: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(
+        state.app,
+        'multiTokenUseSendFlow',
+        'multiTokenUseUpdatedFeed',
+        'multiTokenShowHomeBalances'
+      ),
+    }
+  },
+  48: (state: any) => state,
 }

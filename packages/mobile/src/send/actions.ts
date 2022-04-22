@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 

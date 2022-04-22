@@ -12,8 +12,10 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
-import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
+import {
+  CurrencyInfo,
+  TransactionDataInput as TransactionDataInputLegacy,
+} from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
@@ -232,7 +234,7 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        forceCurrency?: Currency
+        forceTokenAddress?: string
       }
     | undefined
   [Screens.SendAmount]: {
@@ -241,13 +243,6 @@ export type StackParamList = {
     isFromScan?: boolean
     origin: SendOrigin
     forceTokenAddress?: string
-  }
-  [Screens.SendAmountLegacy]: {
-    recipient: Recipient
-    isOutgoingPaymentRequest?: boolean
-    isFromScan?: boolean
-    origin: SendOrigin
-    forceCurrency?: Currency
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
