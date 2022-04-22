@@ -8,7 +8,7 @@ import { AppState } from 'src/app/actions'
 import ListItem from 'src/components/ListItem'
 import { FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { FUNDING_LINK } from 'src/config'
-import { features } from 'src/flags'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -17,7 +17,6 @@ import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
@@ -37,25 +36,23 @@ function FiatExchange() {
   }, [appState])
 
   function goToAddFunds() {
-    navigate(Screens.FiatExchangeOptions, {
-      isCashIn: true,
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected)
   }
 
   function goToCashOut() {
-    navigate(Screens.FiatExchangeOptions, { isCashIn: false })
+    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
     ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_selected)
   }
 
   function goToSpend() {
-    navigate(Screens.Spend)
+    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
     ValoraAnalytics.track(FiatExchangeEvents.cico_spend_selected)
   }
 
   const { t } = useTranslation()
-
-  const { FIAT_SPEND_ENABLED } = useCountryFeatures()
 
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
@@ -74,28 +71,28 @@ function FiatExchange() {
         <View style={styles.optionsListContainer}>
           <ListItem onPress={goToAddFunds}>
             <Text testID="addFunds" style={styles.optionTitle}>
-              {t('addFunds')}
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.CashIn}.fiatExchangeTitle`)}
             </Text>
-            <Text style={styles.optionSubtitle}>{t('addFundsSubtitle')}</Text>
+            <Text style={styles.optionSubtitle}>
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.CashIn}.fiatExchangeSubtitle`)}
+            </Text>
           </ListItem>
-          {features.SHOW_CASH_OUT ? (
-            <ListItem onPress={goToCashOut}>
-              <Text testID="cashOut" style={styles.optionTitle}>
-                {t('cashOut')}
-              </Text>
-              <Text style={styles.optionSubtitle}>{t('cashOutSubtitle')}</Text>
-            </ListItem>
-          ) : (
-            <ListItem>
-              <Text style={styles.optionTitleComingSoon}>{t('cashOutComingSoon')}</Text>
-            </ListItem>
-          )}
-          {FIAT_SPEND_ENABLED && (
-            <ListItem onPress={goToSpend}>
-              <Text style={styles.optionTitle}>{t('spend')}</Text>
-              <Text style={styles.optionSubtitle}>{t('spendSubtitle')}</Text>
-            </ListItem>
-          )}
+          <ListItem onPress={goToSpend}>
+            <Text style={styles.optionTitle}>
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.Spend}.fiatExchangeTitle`)}
+            </Text>
+            <Text style={styles.optionSubtitle}>
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.Spend}.fiatExchangeSubtitle`)}
+            </Text>
+          </ListItem>
+          <ListItem onPress={goToCashOut}>
+            <Text testID="cashOut" style={styles.optionTitle}>
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.CashOut}.fiatExchangeTitle`)}
+            </Text>
+            <Text style={styles.optionSubtitle}>
+              {t(`fiatExchangeFlow.${FiatExchangeFlow.CashOut}.fiatExchangeSubtitle`)}
+            </Text>
+          </ListItem>
         </View>
         <View style={styles.moreWaysContainer}>
           <Text style={styles.moreWays}>
@@ -139,10 +136,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
     ...fontStyles.small,
     color: colors.gray4,
-  },
-  optionTitleComingSoon: {
-    ...fontStyles.regular,
-    color: colors.gray3,
   },
   moreWaysContainer: {
     flexGrow: 1,

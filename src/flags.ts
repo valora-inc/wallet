@@ -4,7 +4,6 @@ export const features = {
   DATA_SAVER: true,
   PHONE_NUM_METADATA_IN_TRANSFERS: true,
   VERIFICATION_FORNO_RETRY: true,
-  SHOW_CASH_OUT: true,
   PNP_USE_DEK_FOR_AUTH: true,
   SHOW_INVITE_MENU_ITEM: false,
 }

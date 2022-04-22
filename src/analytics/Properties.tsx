@@ -43,7 +43,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
-import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -930,12 +930,11 @@ interface FiatExchangeEventsProperties {
     link: string
   }
   [FiatExchangeEvents.cico_option_chosen]: {
-    isCashIn: boolean
-    paymentMethod: PaymentMethod
+    flow: FiatExchangeFlow
     currency: Currency
   }
   [FiatExchangeEvents.provider_chosen]: {
-    isCashIn: boolean
+    flow: CICOFlow
     provider: string
   }
   [FiatExchangeEvents.cash_in_success]: {
@@ -961,7 +960,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_funds_amount_continue]: {
     amount: number
     currency: Currency
-    isCashIn: boolean
+    flow: CICOFlow
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
   [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
@@ -982,6 +981,9 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
   [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
   [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
+  [FiatExchangeEvents.cico_select_currency_back]: {
+    flow: FiatExchangeFlow
+  }
 }
 
 interface GethEventsProperties {

@@ -46,10 +46,10 @@ import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
-import FiatExchangeOptions, {
+import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
-} from 'src/fiatExchanges/FiatExchangeOptions'
-import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
+} from 'src/fiatExchanges/FiatExchangeCurrency'
+import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import i18n from 'src/i18n'
@@ -518,8 +518,8 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       options={fiatExchangesOptionsScreenOptions}
-      name={Screens.FiatExchangeOptions}
-      component={FiatExchangeOptions}
+      name={Screens.FiatExchangeCurrency}
+      component={FiatExchangeCurrency}
     />
     <Navigator.Screen
       options={CashInSuccess.navigationOptions}
@@ -532,9 +532,9 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={SimplexScreen}
     />
     <Navigator.Screen
-      options={ProviderOptionsScreen.navigationOptions}
-      name={Screens.ProviderOptionsScreen}
-      component={ProviderOptionsScreen}
+      options={SelectProviderScreen.navigationOptions}
+      name={Screens.SelectProvider}
+      component={SelectProviderScreen}
     />
     <Navigator.Screen
       options={BidaliScreen.navigationOptions}

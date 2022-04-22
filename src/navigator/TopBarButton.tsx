@@ -13,6 +13,7 @@ interface CommonProps {
   testID?: string
   onPress: () => void
   eventName?: AnalyticsEventType
+  eventProperties?: any
   style?: StyleProp<ViewStyle>
 }
 
@@ -20,10 +21,20 @@ type WrapperProps = CommonProps & {
   children: JSX.Element
 }
 
-function Wrapper({ eventName, onPress, disabled, testID, children, style }: WrapperProps) {
+function Wrapper({
+  eventName,
+  onPress,
+  disabled,
+  testID,
+  children,
+  style,
+  eventProperties,
+}: WrapperProps) {
   const onPressLocal = React.useCallback(() => {
     if (eventName) {
-      ValoraAnalytics.track(eventName)
+      eventProperties
+        ? ValoraAnalytics.track(eventName, eventProperties)
+        : ValoraAnalytics.track(eventName)
     }
     onPress()
   }, [onPress, eventName])

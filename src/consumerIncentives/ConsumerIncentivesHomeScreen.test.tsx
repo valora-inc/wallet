@@ -1,14 +1,15 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import { SUPERCHARGE_LEARN_MORE } from 'branding/celo/src/brandingConfig'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -151,7 +152,9 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, { isCashIn: true })
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
+    })
   })
 
   it('navigates to Phone Confirmation screen if user is not verified and CTA is tapped', async () => {

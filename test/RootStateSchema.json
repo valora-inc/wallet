@@ -1342,7 +1342,7 @@
                 "ExternalExchanges",
                 "FiatExchange",
                 "FiatExchangeAmount",
-                "FiatExchangeOptions",
+                "FiatExchangeCurrency",
                 "GoldEducation",
                 "ImportWallet",
                 "IncomingPaymentRequestListScreen",

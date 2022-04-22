@@ -5,7 +5,7 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -122,12 +122,10 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: Currency
-    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
-    isCashIn: boolean
+    flow: CICOFlow
   }
-  [Screens.FiatExchangeOptions]: {
-    isCashIn?: boolean
-    amount?: BigNumber
+  [Screens.FiatExchangeCurrency]: {
+    flow: FiatExchangeFlow
   }
   [Screens.MoonPayScreen]: {
     localAmount: number
@@ -209,15 +207,6 @@ export type StackParamList = {
   [Screens.PhotosEducation]: undefined
   [Screens.PhotosNUX]: undefined
   [Screens.Profile]: undefined
-  [Screens.ProviderOptionsScreen]: {
-    isCashIn?: boolean
-    selectedCrypto: Currency
-    amount: {
-      crypto: number
-      fiat: number
-    }
-    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
-  }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -230,6 +219,14 @@ export type StackParamList = {
     selectedCountryCodeAlpha2: string
   }
   [Screens.SelectLocalCurrency]: undefined
+  [Screens.SelectProvider]: {
+    flow: CICOFlow
+    selectedCrypto: Currency
+    amount: {
+      crypto: number
+      fiat: number
+    }
+  }
   [Screens.Send]:
     | {
         isOutgoingPaymentRequest?: boolean
