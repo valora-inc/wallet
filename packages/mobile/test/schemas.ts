@@ -1208,6 +1208,18 @@ export const v46Schema = {
   },
 }
 
+export const v47Schema = {
+  ...v46Schema,
+  _persist: {
+    ...v46Schema._persist,
+    version: 47,
+  },
+  account: {
+    ...v46Schema.account,
+    signedMessage: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v46Schema as Partial<RootState>
+  return v47Schema as Partial<RootState>
 }

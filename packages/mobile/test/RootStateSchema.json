@@ -2473,6 +2473,12 @@
                 },
                 "retryVerificationWithForno": {
                     "type": "boolean"
+                },
+                "signedMessage": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
@@ -2497,7 +2503,8 @@
                 "pictureUri",
                 "pincodeType",
                 "promptFornoIfNeeded",
-                "retryVerificationWithForno"
+                "retryVerificationWithForno",
+                "signedMessage"
             ],
             "type": "object"
         },

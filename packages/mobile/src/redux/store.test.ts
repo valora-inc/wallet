@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 46,
+          "version": 47,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -127,6 +127,7 @@ describe('store state', () => {
           "promptFornoIfNeeded": false,
           "recoveringFromStoreWipe": false,
           "retryVerificationWithForno": true,
+          "signedMessage": null,
         },
         "alert": null,
         "app": Object {

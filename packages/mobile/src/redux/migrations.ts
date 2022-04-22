@@ -584,4 +584,5 @@ export const migrations = {
     ...state,
     cloudFunctionsApi: undefined,
   }),
+  47: (state: any) => state,
 }
