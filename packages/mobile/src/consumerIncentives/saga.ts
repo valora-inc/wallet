@@ -100,7 +100,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   const fundsSource: string = yield call(async () => merkleContract.methods.fundsSource().call())
   const tx = toTransactionObject(
     kit.connection,
-    merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof)
+    merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof ?? [])
   )
 
   const receipt: CeloTxReceipt = yield call(
