@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -73,6 +73,7 @@ export enum NotificationBannerCTATypes {
 interface Notification {
   element: React.ReactElement
   priority: number
+  id: string
 }
 
 function useSimpleActions() {
@@ -100,6 +101,7 @@ function useSimpleActions() {
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
     actions.push({
+      id: 'backup',
       text: t('backupKeyNotification'),
       icon: backupKey,
       priority: BACKUP_PRIORITY,
@@ -128,6 +130,7 @@ function useSimpleActions() {
 
   if (superchargeRewards.length > 0) {
     actions.push({
+      id: 'supercharge',
       text: t('superchargeNotificationBody'),
       icon: boostRewards,
       priority: SUPERCHARGE_AVAILABLE_PRIORITY,
@@ -151,6 +154,7 @@ function useSimpleActions() {
 
   if (!dismissedGetVerified && !numberVerified && verificationPossible) {
     actions.push({
+      id: 'getVerified',
       text: t('notification.body'),
       icon: getVerified,
       priority: VERIFICATION_PRIORITY,
@@ -198,6 +202,7 @@ function useSimpleActions() {
     }
 
     actions.push({
+      id,
       text: texts.body,
       icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
       priority: notification.priority ?? DEFAULT_PRIORITY,
@@ -232,6 +237,7 @@ function useSimpleActions() {
 
   if (!dismissedGoldEducation && !goldEducationCompleted) {
     actions.push({
+      id: 'celoEducation',
       text: t('whatIsGold'),
       icon: learnCelo,
       priority: CELO_EDUCATION_PRIORITY,
@@ -275,6 +281,7 @@ function useNotifications() {
         <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />
       ),
       priority: INVITES_PRIORITY,
+      id: 'reclaimInvite',
     })
   }
 
@@ -286,6 +293,7 @@ function useNotifications() {
         <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />
       ),
       priority: INCOMING_PAYMENT_REQUESTS_PRIORITY,
+      id: 'incomingPaymentRequest',
     })
   }
 
@@ -297,6 +305,7 @@ function useNotifications() {
         <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />
       ),
       priority: OUTGOING_PAYMENT_REQUESTS_PRIORITY,
+      id: 'outgoingPaymentRequest',
     })
   }
 
@@ -305,14 +314,19 @@ function useNotifications() {
     ...simpleActions.map((notification, i) => ({
       element: <SimpleMessagingCard key={i} {...notification} />,
       priority: notification.priority,
+      id: notification.id,
     }))
   )
 
-  return notifications.sort((n1, n2) => n2.priority - n1.priority).map((n) => n.element)
+  return notifications.sort((n1, n2) => n2.priority - n1.priority)
 }
 
 function NotificationBox() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  // This variable tracks the last scrolled to notification, so that impression
+  // events are not dispatched twice for the same notification
+  const lastViewedIndex = useRef(-1)
+  const notifications = useNotifications()
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
@@ -327,7 +341,14 @@ function NotificationBox() {
     setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
 
-  const notifications = useNotifications()
+  useEffect(() => {
+    if (notifications.length > 0 && lastViewedIndex.current < currentIndex) {
+      ValoraAnalytics.track(HomeEvents.notification_impression, {
+        notificationId: notifications[currentIndex].id,
+      })
+      lastViewedIndex.current = currentIndex
+    }
+  }, [currentIndex])
 
   if (!notifications.length) {
     // No notifications, no slider
@@ -342,9 +363,9 @@ function NotificationBox() {
         onScroll={handleScroll}
         testID="CTA/ScrollContainer"
       >
-        {notifications.map((notification, i) => (
-          <View key={i} style={styles.notificationContainer}>
-            {notification}
+        {notifications.map((notification) => (
+          <View key={notification.id} style={styles.notificationContainer}>
+            {notification.element}
           </View>
         ))}
       </ScrollView>

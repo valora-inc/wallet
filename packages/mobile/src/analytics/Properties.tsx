@@ -134,6 +134,9 @@ interface HomeEventsProperties {
     selectedAction: NotificationBannerCTATypes
     notificationId?: string
   }
+  [HomeEvents.notification_impression]: {
+    notificationId: string
+  }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
@@ -580,6 +583,7 @@ interface InviteEventsProperties {
     error: string
   }
   [InviteEvents.invite_from_menu]: undefined
+  [InviteEvents.invite_banner_impression]: undefined
 }
 
 interface EscrowEventsProperties {

@@ -96,7 +96,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
   }
 
   function mockQueryResponse(data: SuperchargePendingReward[]) {
-    ;(useFetchSuperchargeRewards as jest.Mock).mockImplementation((arr: any[]) => ({
+    ;(useFetchSuperchargeRewards as jest.Mock).mockImplementation(() => ({
       superchargeRewards: data,
       isLoading: false,
       isError: false,
