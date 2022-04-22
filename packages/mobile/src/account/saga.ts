@@ -1,10 +1,13 @@
+import { generateKeys } from '@celo/utils/lib/account'
+import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
+import * as bip39 from 'react-native-bip39'
 import {
   call,
   cancelled,
-  select,
   put,
+  select,
   spawn,
   take,
   takeEvery,
@@ -14,17 +17,22 @@ import {
   Actions,
   ClearStoredAccountAction,
   initializeAccountSuccess,
+  saveSignedMessage,
+  setFinclusiveKyc,
   updateCusdDailyLimit,
   updateKycStatus,
-  setFinclusiveKyc,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
+import {
+  RegistrationProperties,
+  updateAccountRegistration,
+} from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { clearStoredMnemonic } from 'src/backup/utils'
+import { clearStoredMnemonic, getStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
@@ -38,7 +46,8 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
-import { finclusiveKycStatusSelector } from './selectors'
+import { currentAccountSelector } from 'src/web3/selectors'
+import { finclusiveKycStatusSelector, signedMessageSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -153,6 +162,50 @@ export function* watchKycStatus() {
     if (yield cancelled()) {
       channel.close()
     }
+  }
+}
+
+export function* generateSignedMessage() {
+  try {
+    const address = yield select(currentAccountSelector)
+    const mnemonic = yield call(getStoredMnemonic, address)
+    const { privateKey } = yield call(
+      generateKeys,
+      mnemonic,
+      undefined,
+      undefined,
+      undefined,
+      bip39
+    )
+
+    const signedMessage = yield call(
+      serializeSignature,
+      signMessage('valora auth message', privateKey, address)
+    )
+    yield put(saveSignedMessage(signedMessage))
+
+    return signedMessage
+  } catch (error) {
+    Logger.error(`${TAG}@generateSignedMessage`, 'Unable to generate signed message', error)
+  }
+}
+
+export function* handleUpdateAccountRegistration(properties: RegistrationProperties) {
+  const address = yield select(currentAccountSelector)
+  let signature = yield select(signedMessageSelector)
+
+  if (!signature) {
+    signature = yield call(generateSignedMessage)
+  }
+
+  try {
+    yield call(updateAccountRegistration, address, signature, properties)
+  } catch (error) {
+    Logger.error(
+      `${TAG}@handleUpdateAccountRegistration`,
+      'Unable to update account registration',
+      error
+    )
   }
 }
 

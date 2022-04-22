@@ -70,3 +70,5 @@ export const plaidParamsSelector = createSelector(
     }
   }
 )
+
+export const signedMessageSelector = (state: RootState) => state.account.signedMessage

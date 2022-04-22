@@ -41,6 +41,7 @@ export enum Actions {
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
+  SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
 }
 
 export interface ChooseCreateAccountAction {
@@ -194,6 +195,11 @@ export interface SetFinclusiveRegionSupported {
   type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED
 }
 
+export interface SaveSignedMessage {
+  type: Actions.SAVE_SIGNED_MESSAGE
+  signedMessage: string
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -228,6 +234,7 @@ export type ActionTypes =
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
   | SetFinclusiveRegionSupported
+  | SaveSignedMessage
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -408,4 +415,9 @@ export const setFinclusiveKyc = (finclusiveKycStatus: FinclusiveKycStatus): SetF
 
 export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => ({
   type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED,
+})
+
+export const saveSignedMessage = (signedMessage: string): SaveSignedMessage => ({
+  type: Actions.SAVE_SIGNED_MESSAGE,
+  signedMessage,
 })

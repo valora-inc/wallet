@@ -37,6 +37,7 @@ export interface State {
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
   finclusiveRegionSupported: boolean
+  signedMessage: string | null
 }
 
 export enum PincodeType {
@@ -109,6 +110,7 @@ export const initialState: State = {
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
   finclusiveRegionSupported: false,
+  signedMessage: null,
 }
 
 export const reducer = (
@@ -300,6 +302,12 @@ export const reducer = (
       return {
         ...state,
         finclusiveRegionSupported: true,
+      }
+    }
+    case Actions.SAVE_SIGNED_MESSAGE: {
+      return {
+        ...state,
+        signedMessage: action.signedMessage,
       }
     }
     default:
