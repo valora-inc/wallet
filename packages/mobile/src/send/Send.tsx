@@ -11,7 +11,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
+import { verificationPossibleSelector } from 'src/app/selectors'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -43,7 +43,7 @@ type Props = StackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
-  const forceCurrency = route.params?.forceCurrency
+  const forceTokenAddress = route.params?.forceTokenAddress
   const { t } = useTranslation()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
@@ -62,7 +62,6 @@ function Send({ route }: Props) {
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
-  const multiTokenUseSendFlow = useSelector(multiTokenUseSendFlowSelector)
 
   const dispatch = useDispatch()
 
@@ -118,20 +117,12 @@ function Send({ route }: Props) {
         }
       )
 
-      if (multiTokenUseSendFlow) {
-        navigate(Screens.SendAmount, {
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        })
-      } else {
-        navigate(Screens.SendAmountLegacy, {
-          recipient,
-          isOutgoingPaymentRequest,
-          origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-          forceCurrency,
-        })
-      }
+      navigate(Screens.SendAmount, {
+        recipient,
+        isOutgoingPaymentRequest,
+        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+        forceTokenAddress,
+      })
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
@@ -178,9 +169,6 @@ function Send({ route }: Props) {
         />
       )
     }
-    if (numberVerified && hasGivenContactPermission && inviteRewardsEnabled) {
-      return <InviteRewardsBanner />
-    }
     return null
   }
 
@@ -189,6 +177,9 @@ function Send({ route }: Props) {
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
       <DisconnectBanner />
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
+      {inviteRewardsEnabled && numberVerified && hasGivenContactPermission && (
+        <InviteRewardsBanner />
+      )}
       <RecipientPicker
         testID={'RecipientPicker'}
         sections={buildSections()}

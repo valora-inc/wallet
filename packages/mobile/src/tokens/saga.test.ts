@@ -40,6 +40,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: null,
+    isCoreToken: true,
     priceFetchedAt: mockTokenBalances[cUsdAddress].priceFetchedAt,
   },
   [cEurAddress]: {
@@ -51,6 +52,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Euro',
     decimals: 18,
     balance: null,
+    isCoreToken: true,
     priceFetchedAt: mockTokenBalances[cEurAddress].priceFetchedAt,
   },
 }
