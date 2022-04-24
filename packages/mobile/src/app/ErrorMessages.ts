@@ -18,6 +18,7 @@ export enum ErrorMessages {
   FAILED_FETCH_MNEMONIC = 'failedFetchMnemonic',
   INVALID_PHONE_NUMBER = 'invalidPhone',
   MISSING_FULL_NAME = 'missingFullName',
+  MISSING_FRIENDLY_NAME = 'missingFriendlyName',
   NOT_READY_FOR_CODE = 'notReadyForCode',
   EMPTY_ATTESTATION_CODE = 'emptyVerificationCode',
   INVALID_ATTESTATION_CODE = 'invalidVerificationCode',

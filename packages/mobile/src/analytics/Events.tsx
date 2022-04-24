@@ -103,6 +103,7 @@ export enum OnboardingEvents {
   celo_education_cancel = 'celo_education_cancel',
 
   name_and_picture_set = 'name_and_picture_set',
+  friendlyName_set = 'friendlyName_set',
 
   phone_number_set = 'phone_number_set',
 

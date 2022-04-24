@@ -11,6 +11,7 @@ export enum Actions {
   START_STORE_WIPE_RECOVERY = 'ACCOUNT/START_STORE_WIPE_RECOVERY',
   CANCEL_CREATE_OR_RESTORE_ACCOUNT = 'ACCOUNT/CANCEL_CREATE_OR_RESTORE_ACCOUNT',
   SET_NAME = 'ACCOUNT/SET_NAME',
+  SET_FRIENDLY_NAME = 'ACCOUNT/SET_FRIENDLY_NAME',
   SET_PHONE_NUMBER = 'ACCOUNT/SET_PHONE_NUMBER',
   SET_PICTURE = 'ACCOUNT/SET_PICTURE',
   SAVE_NAME_AND_PICTURE = 'ACCOUNT/SAVE_NAME_AND_PICTURE',
@@ -62,6 +63,11 @@ export interface CancelCreateOrRestoreAccountAction {
 export interface SetNameAction {
   type: Actions.SET_NAME
   name: string
+}
+
+export interface SetFriendlyNameAction {
+  type: Actions.SET_FRIENDLY_NAME
+  friendlyName: string
 }
 
 export interface SetPhoneNumberAction {
@@ -200,6 +206,7 @@ export type ActionTypes =
   | StartStoreWipeRecoveryAction
   | CancelCreateOrRestoreAccountAction
   | SetNameAction
+  | SetFriendlyNameAction
   | SetPhoneNumberAction
   | SetPictureAction
   | SaveNameAndPictureAction
@@ -258,6 +265,13 @@ export function setName(name: string): SetNameAction {
   return {
     type: Actions.SET_NAME,
     name,
+  }
+}
+
+export function setFriendlyName(friendlyName: string): SetFriendlyNameAction {
+  return {
+    type: Actions.SET_FRIENDLY_NAME,
+    friendlyName,
   }
 }
 

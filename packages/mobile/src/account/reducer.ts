@@ -37,6 +37,7 @@ export interface State {
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
   finclusiveRegionSupported: boolean
+  friendlyName: string | null
 }
 
 export enum PincodeType {
@@ -79,6 +80,7 @@ export enum FinclusiveKycStatus {
 
 export const initialState: State = {
   name: null,
+  friendlyName: null,
   e164PhoneNumber: null,
   pictureUri: null,
   defaultCountryCode: null,
@@ -156,6 +158,11 @@ export const reducer = (
       return {
         ...state,
         name: action.name,
+      }
+    case Actions.SET_FRIENDLY_NAME:
+      return {
+        ...state,
+        friendlyName: action.friendlyName,
       }
     case Actions.SET_PICTURE:
       return {

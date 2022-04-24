@@ -54,7 +54,7 @@ export default function Welcome() {
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
         <Button
           onPress={onPressCreateAccount}
-          text={t('welcome.createAccount')}
+          text={t('welcome.createAccount') + 'now'}
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
           style={styles.createAccountButton}

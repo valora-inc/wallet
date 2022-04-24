@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { setName, setPicture, setPromptForno } from 'src/account/actions'
+import { setFriendlyName, setPromptForno } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -19,22 +19,18 @@ import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Hea
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
-import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
-type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
+type Props = StackScreenProps<StackParamList, Screens.FriendlyName>
 
-function NameAndPicture({ navigation }: Props) {
-  const [nameInput, setNameInput] = useState('')
-  const cachedName = useTypedSelector((state) => state.account.name)
-  const picture = useTypedSelector((state) => state.account.pictureUri)
+const FriendlyName = ({ navigation }: Props) => {
+  const [friendlyNameInput, setFriendlyNameInput] = useState('')
+  const cachedFriendlyName = useTypedSelector((state) => state.account.friendlyName)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const { step, totalSteps } = useTypedSelector(registrationStepsSelector)
-  const shouldSkipProfilePicture = useTypedSelector((state) => state.app.skipProfilePicture)
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -57,68 +53,47 @@ function NameAndPicture({ navigation }: Props) {
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {
-      navigate(Screens.FriendlyName)
+      navigate(Screens.PincodeSet, {
+        komenciAvailable: !!asyncKomenciReadiness.result,
+      })
     }
   }
 
   const onPressContinue = () => {
     dispatch(hideAlert())
 
-    const newName = nameInput.trim()
+    const newFriendlyName = friendlyNameInput.trim()
 
-    if (cachedName === newName) {
+    if (cachedFriendlyName === newFriendlyName) {
       goToNextScreen()
       return
     }
 
-    if (!newName) {
-      dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
+    if (!newFriendlyName) {
+      dispatch(showError(ErrorMessages.MISSING_FRIENDLY_NAME))
       return
     }
 
     dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
-    ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
-      includesPhoto: false,
-      profilePictureSkipped: shouldSkipProfilePicture,
-    })
-    dispatch(setName(newName))
+    ValoraAnalytics.track(OnboardingEvents.friendlyName_set)
+    dispatch(setFriendlyName(newFriendlyName))
 
-    // TODO: Store name and picture on CIP-8.
+    // TODO: I have no idea what CIP-8 is. Find out what it is and maybe store friendly name there ?
     goToNextScreen()
-  }
-
-  const onPhotoChosen = async (dataUrl: string | null) => {
-    if (!dataUrl) {
-      dispatch(setPicture(null))
-    } else {
-      try {
-        const fileName = await saveProfilePicture(dataUrl)
-        dispatch(setPicture(fileName))
-      } catch (error) {
-        dispatch(showError(ErrorMessages.PICTURE_LOAD_FAILED))
-      }
-    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <DevSkipButton nextScreen={Screens.FriendlyName} />
+      <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
-        {!shouldSkipProfilePicture && (
-          <PictureInput
-            picture={picture}
-            onPhotoChosen={onPhotoChosen}
-            backgroundColor={colors.onboardingBrownLight}
-          />
-        )}
         <FormInput
-          label={t('fullName')}
+          label={t('friendlyName')}
           style={styles.name}
-          onChangeText={setNameInput}
-          value={nameInput}
+          onChangeText={setFriendlyNameInput}
+          value={friendlyNameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={t('fullNamePlaceholder')}
-          testID={'NameEntry'}
+          placeholder={t('friendlyNamePlaceholder')}
+          testID={'FriendlyNameEntry'}
           multiline={false}
         />
         <Button
@@ -126,8 +101,8 @@ function NameAndPicture({ navigation }: Props) {
           text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
-          disabled={!nameInput.trim()}
-          testID={'NameAndPictureContinueButton'}
+          disabled={!friendlyNameInput.trim()}
+          testID={'FriendlyNameContinueButton'}
           showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
@@ -136,9 +111,9 @@ function NameAndPicture({ navigation }: Props) {
   )
 }
 
-NameAndPicture.navOptions = nuxNavigationOptions
+FriendlyName.navOptions = nuxNavigationOptions
 
-export default NameAndPicture
+export default FriendlyName
 
 const styles = StyleSheet.create({
   container: {

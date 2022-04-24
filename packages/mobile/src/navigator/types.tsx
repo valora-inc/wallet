@@ -129,6 +129,7 @@ export type StackParamList = {
     isCashIn?: boolean
     amount?: BigNumber
   }
+  [Screens.FriendlyName]: undefined
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
