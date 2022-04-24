@@ -149,6 +149,7 @@ type StoreWipeRecoveryScreens = Extract<
 type CreateAccountScreens = Extract<
   Screens,
   | Screens.NameAndPicture
+  | Screens.FriendlyName
   | Screens.PincodeSet
   | Screens.EnableBiometry
   | Screens.VerificationEducationScreen
@@ -164,10 +165,11 @@ export const storeWipeRecoverySteps: { [key in StoreWipeRecoveryScreens]: number
 }
 export const createAccountSteps: { [key in CreateAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
-  [Screens.PincodeSet]: 2,
-  [Screens.EnableBiometry]: 3,
-  [Screens.VerificationEducationScreen]: 4,
-  [Screens.VerificationInputScreen]: 4,
+  [Screens.FriendlyName]: 2,
+  [Screens.PincodeSet]: 3,
+  [Screens.EnableBiometry]: 4,
+  [Screens.VerificationEducationScreen]: 5,
+  [Screens.VerificationInputScreen]: 5,
 }
 export const restoreAccountSteps: { [key in RestoreAccountScreens]: number } = {
   [Screens.NameAndPicture]: 1,
@@ -208,7 +210,7 @@ export const registrationStepsSelector = createSelector(
       step = restoreAccountSteps[activeScreen as RestoreAccountScreens]
     } else {
       steps = createAccountSteps
-      totalSteps = 4
+      totalSteps = Object.keys(createAccountSteps).length - 1 // to account for verification and verification education screens being 1 step
       step = createAccountSteps[activeScreen as CreateAccountScreens]
     }
 

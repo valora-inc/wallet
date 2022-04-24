@@ -1224,6 +1224,14 @@ export const v47Schema = {
   },
 }
 
+export const v48Schema = {
+  ...v47Schema,
+  account: {
+    ...v47Schema.account,
+    friendlyName: 'johndoe@valora',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v47Schema as Partial<RootState>
+  return v48Schema as Partial<RootState>
 }

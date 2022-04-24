@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setFriendlyName, setPromptForno } from 'src/account/actions'
@@ -22,6 +22,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+import fontStyles from 'src/styles/fonts'
 
 type Props = StackScreenProps<StackParamList, Screens.FriendlyName>
 
@@ -86,13 +87,15 @@ const FriendlyName = ({ navigation }: Props) => {
     <SafeAreaView style={styles.container}>
       <DevSkipButton nextScreen={Screens.PincodeSet} />
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="always">
+        <Text style={styles.header}>{t('friendlyName.descriptionTitle')}</Text>
+        <Text style={styles.disclaimer}>{t('friendlyName.description')}</Text>
         <FormInput
-          label={t('friendlyName')}
+          label={t('friendlyName.inputLabel')}
           style={styles.name}
           onChangeText={setFriendlyNameInput}
           value={friendlyNameInput}
           enablesReturnKeyAutomatically={true}
-          placeholder={t('friendlyNamePlaceholder')}
+          placeholder={t('friendlyName.inputPlaceholder')}
           testID={'FriendlyNameEntry'}
           multiline={false}
         />
@@ -128,5 +131,13 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 24,
     marginBottom: 32,
+  },
+  header: {
+    ...fontStyles.h2,
+    marginBottom: 10,
+  },
+  disclaimer: {
+    ...fontStyles.small,
+    marginBottom: 15,
   },
 })
