@@ -6,8 +6,6 @@ import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { signedMessageSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { initializeCloudMessaging } from 'src/firebase/firebase'
-import { currentLanguageSelector } from 'src/i18n/selectors'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { mockAccount2 } from 'test/values'
 
 const hasPermissionMock = jest.fn(() => null)
@@ -69,8 +67,6 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('Firebase has permission', async () => {
-    const mockLanguage = 'en_US'
-    const mockCountry = 'US'
     await expectSaga(initializeCloudMessaging, app, address)
       .provide([
         [call([app.messaging(), 'hasPermission']), true],
@@ -78,9 +74,6 @@ describe(initializeCloudMessaging, () => {
         [
           call(handleUpdateAccountRegistration, {
             fcmToken: mockFcmToken,
-            appVersion: '0.0.1',
-            language: mockLanguage,
-            country: mockCountry,
           }),
           null,
         ],
@@ -90,8 +83,6 @@ describe(initializeCloudMessaging, () => {
           }),
           null,
         ],
-        [select(currentLanguageSelector), mockLanguage],
-        [select(userLocationDataSelector), { countryCodeAlpha2: mockCountry }],
         [select(signedMessageSelector), 'someSignature'],
         {
           spawn(effect, next) {
@@ -102,9 +93,6 @@ describe(initializeCloudMessaging, () => {
       ])
       .call(handleUpdateAccountRegistration, {
         fcmToken: mockFcmToken,
-        appVersion: '0.0.1',
-        language: mockLanguage,
-        country: mockCountry,
       })
       .run()
   })
