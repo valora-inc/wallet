@@ -6,7 +6,6 @@ import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { cloudFunctionsApi } from 'src/api/slice'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   claimRewards,
@@ -73,7 +72,6 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
         })
       )
     }
-    yield put(cloudFunctionsApi.util.invalidateTags(['Supercharge']))
     yield put(setAvailableRewards([]))
     yield put(fetchAvailableRewards())
     yield put(claimRewardsSuccess())

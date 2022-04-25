@@ -4061,7 +4061,6 @@
         "app": {
             "$ref": "#/definitions/State"
         },
-        "cloudFunctionsApi": {},
         "escrow": {
             "$ref": "#/definitions/State_15"
         },
@@ -4134,7 +4133,6 @@
         "account",
         "alert",
         "app",
-        "cloudFunctionsApi",
         "escrow",
         "exchange",
         "fees",

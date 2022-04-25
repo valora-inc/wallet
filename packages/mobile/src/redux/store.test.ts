@@ -186,22 +186,6 @@ describe('store state', () => {
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": false,
         },
-        "cloudFunctionsApi": Object {
-          "config": Object {
-            "focused": true,
-            "keepUnusedDataFor": 60,
-            "middlewareRegistered": true,
-            "online": true,
-            "reducerPath": "cloudFunctionsApi",
-            "refetchOnFocus": true,
-            "refetchOnMountOrArgChange": true,
-            "refetchOnReconnect": false,
-          },
-          "mutations": Object {},
-          "provided": Object {},
-          "queries": Object {},
-          "subscriptions": Object {},
-        },
         "escrow": Object {
           "isReclaiming": false,
           "sentEscrowedPayments": Array [],

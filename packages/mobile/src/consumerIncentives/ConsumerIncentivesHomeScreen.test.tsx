@@ -15,11 +15,6 @@ import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/reducer'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
-
-jest.mock('src/api/slice', () => ({
-  ...(jest.requireActual('src/api/slice') as any),
-}))
-
 interface TokenBalances {
   [address: string]: Partial<StoredTokenBalance> | undefined
 }
