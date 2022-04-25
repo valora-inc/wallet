@@ -1,4 +1,5 @@
 import { generateKeys } from '@celo/utils/lib/account'
+import { ensureLeading0x } from '@celo/utils/lib/address'
 import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
@@ -180,7 +181,7 @@ export function* generateSignedMessage() {
 
     const signedMessage = yield call(
       serializeSignature,
-      signMessage('valora auth message', privateKey, address)
+      signMessage('valora auth message', ensureLeading0x(privateKey), address)
     )
     yield put(saveSignedMessage(signedMessage))
 
