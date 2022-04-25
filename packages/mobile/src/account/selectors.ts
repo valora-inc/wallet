@@ -21,6 +21,7 @@ export const devModeSelector = (state: RootState) => state.account.devModeActive
 export const nameSelector = (state: RootState) => state.account.name
 export const e164NumberSelector = (state: RootState) => state.account.e164PhoneNumber
 export const pictureSelector = (state: RootState) => state.account.pictureUri
+export const friendlyNameSelector = (state: RootState) => state.account.friendlyName
 export const defaultCountryCodeSelector = createSelector(
   (state: RootState) => state.account.defaultCountryCode,
   (defaultCountryCode) => {

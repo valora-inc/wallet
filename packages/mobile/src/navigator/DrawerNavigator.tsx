@@ -23,7 +23,12 @@ import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
-import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
+import {
+  defaultCountryCodeSelector,
+  e164NumberSelector,
+  friendlyNameSelector,
+  nameSelector,
+} from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
@@ -152,6 +157,7 @@ function CustomDrawerItemList({
 function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
   const { t } = useTranslation()
   const displayName = useSelector(nameSelector)
+  const friendlyName = useSelector(friendlyNameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
@@ -182,7 +188,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
-        <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <AccountNumber
+          address={account || ''}
+          location={Screens.DrawerNavigator}
+          friendlyName={friendlyName || ''}
+        />
         <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
       </View>
     </DrawerContentScrollView>

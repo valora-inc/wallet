@@ -12,11 +12,12 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   address: string
+  friendlyName?: string
   touchDisabled?: boolean
   location?: Screens
 }
 
-export default function AccountNumber({ address, touchDisabled, location }: Props) {
+export default function AccountNumber({ address, touchDisabled, location, friendlyName }: Props) {
   const { t } = useTranslation()
   const onPressAddress = () => {
     if (!address.length) {
@@ -37,10 +38,13 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
       ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
   }
+
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
   // into 'ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10'
   const addressChunks = getAddressChunks(address)
-  const addressString = '0x ' + addressChunks.join(' ')
+
+  // if friendly name exists, show friendly name instead of address
+  const addressString = friendlyName || '0x ' + addressChunks.join(' ')
 
   return touchDisabled ? (
     <Text style={styles.text}>{addressString}</Text>
