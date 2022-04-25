@@ -20,7 +20,7 @@ import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -41,10 +41,7 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
 
-  const currencyToBuy =
-    simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
-      ? CiCoCurrency.CUSD
-      : CiCoCurrency.CELO
+  const currencyToBuy = resolveCICOCurrency(simplexQuote.digital_money.currency)
 
   const feeIsWaived =
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
@@ -67,8 +64,7 @@ function SimplexScreen({ route, navigation }: Props) {
   }
 
   useLayoutEffect(() => {
-    const token =
-      simplexQuote.digital_money.currency.toLowerCase() === 'cusd' ? Currency.Dollar : Currency.Celo
+    const token = resolveCurrency(simplexQuote.digital_money.currency)
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,
@@ -95,7 +91,6 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [])
 
   const simplexPaymentRequest = asyncSimplexPaymentData?.result
-
   return (
     <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
