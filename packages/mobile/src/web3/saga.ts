@@ -6,7 +6,8 @@ import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import { setAccountCreationTime, setPromptForno } from 'src/account/actions'
-import { promptFornoIfNeededSelector } from 'src/account/selectors'
+import { generateSignedMessage, handleUpdateAccountRegistration } from 'src/account/saga'
+import { promptFornoIfNeededSelector, signedMessageSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -350,6 +351,19 @@ export function* getConnectedUnlockedAccount() {
   const account: string = yield call(getConnectedAccount)
   const result: UnlockResult = yield call(unlockAccount, account)
   if (result === UnlockResult.SUCCESS) {
+    const signedMessage = yield select(signedMessageSelector)
+    if (!signedMessage) {
+      try {
+        yield call(generateSignedMessage)
+        yield call(handleUpdateAccountRegistration)
+      } catch (error) {
+        Logger.error(
+          `${TAG}@getConnectedUnlockedAccount`,
+          'Unable to generate signed message and update account registration',
+          error
+        )
+      }
+    }
     return account
   } else {
     throw new Error(

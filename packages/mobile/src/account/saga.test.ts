@@ -12,10 +12,12 @@ import {
 import { signedMessageSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { getStoredMnemonic } from 'src/backup/utils'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import Logger from 'src/utils/Logger'
 import { getWalletAddress } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
 import { saveSignedMessage, setFinclusiveKyc } from './actions'
 
@@ -43,49 +45,45 @@ describe('fetchFinclusiveKyc', () => {
 describe('handleUpdateAccountRegistration', () => {
   const mockRegistrationProperties = {
     fcmToken: 'someToken',
-    appVersion: '0.0.1',
-    language: 'en-US',
-    country: 'HV',
   }
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('generates the signed message before calling the account registration service', async () => {
+  it('calls the account registration service with correct params', async () => {
     await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
       .provide([
-        [select(currentAccountSelector), '0xabc'],
-        [select(signedMessageSelector), null],
-        [call(generateSignedMessage), 'someSignedMessage'],
-        [matchers.call.fn(updateAccountRegistration), undefined],
-      ])
-      .call(generateSignedMessage)
-      .call(updateAccountRegistration, '0xabc', 'someSignedMessage', mockRegistrationProperties)
-      .run()
-  })
-
-  it('calls the account registration service with existing signed message', async () => {
-    await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
-      .provide([
-        [select(currentAccountSelector), '0xabc'],
+        [select(walletAddressSelector), '0xabc'],
         [select(signedMessageSelector), 'someSignedMessage'],
         [call(generateSignedMessage), 'someSignedMessage'],
+        [select(currentLanguageSelector), 'en-US'],
+        [select(userLocationDataSelector), { countryCodeAlpha2: 'US' }],
       ])
-      .not.call(generateSignedMessage)
-      .call(updateAccountRegistration, '0xabc', 'someSignedMessage', mockRegistrationProperties)
+      .call(updateAccountRegistration, '0xabc', 'someSignedMessage', {
+        appVersion: '0.0.1',
+        language: 'en-US',
+        country: 'US',
+        ...mockRegistrationProperties,
+      })
       .run()
   })
 
-  it('does not call the account registration service if signed message is missing', async () => {
+  it('logs an error if the account registration service fails', async () => {
     await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
       .provide([
-        [select(currentAccountSelector), '0xabc'],
-        [select(signedMessageSelector), null],
-        [call(generateSignedMessage), throwError(new Error('some error'))],
+        [select(walletAddressSelector), '0xabc'],
+        [select(signedMessageSelector), 'someSignedMessage'],
+        [select(currentLanguageSelector), 'en-US'],
+        [select(userLocationDataSelector), { countryCodeAlpha2: 'US' }],
+        [matchers.call.fn(updateAccountRegistration), throwError(new Error('some error'))],
       ])
-      .call(generateSignedMessage)
-      .not.call(updateAccountRegistration)
+      .call(updateAccountRegistration, '0xabc', 'someSignedMessage', {
+        appVersion: '0.0.1',
+        language: 'en-US',
+        country: 'US',
+        ...mockRegistrationProperties,
+      })
       .run()
 
     expect(loggerErrorSpy).toHaveBeenCalled()
@@ -103,7 +101,7 @@ describe('generateSignedMessage', () => {
   it('generates and saves the signed message', async () => {
     await expectSaga(generateSignedMessage)
       .provide([
-        [select(currentAccountSelector), address],
+        [select(walletAddressSelector), address],
         [call(getStoredMnemonic, address), 'some phrase'],
         [matchers.call.fn(generateKeys), { privateKey }],
         [matchers.call.fn(serializeSignature), 'someSignedMessage'],
@@ -116,7 +114,7 @@ describe('generateSignedMessage', () => {
     await expect(
       expectSaga(generateSignedMessage)
         .provide([
-          [select(currentAccountSelector), address],
+          [select(walletAddressSelector), address],
           [call(getStoredMnemonic, address), 'some phrase'],
           [matchers.call.fn(generateKeys), { privateKey }],
           [matchers.call.fn(serializeSignature), throwError(new Error('some signature error'))],

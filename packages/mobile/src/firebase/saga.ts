@@ -85,9 +85,9 @@ function* initializeFirebase() {
   }
 }
 
-export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
+export function* syncLanguageSelection() {
   yield call(waitForFirebaseAuth)
-  yield call(handleUpdateAccountRegistration, { language: action.payload })
+  yield call(handleUpdateAccountRegistration)
 }
 
 export function* watchLanguage() {

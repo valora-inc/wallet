@@ -8,10 +8,14 @@ export interface RegistrationProperties {
 }
 
 export async function updateAccountRegistration(
-  address: string,
-  signature: string,
+  address: string | null,
+  signature: string | null,
   properties: RegistrationProperties
 ): Promise<void> {
+  if (!signature || !address) {
+    throw new Error('Missing address or signed message')
+  }
+
   const response = await fetch(networkConfig.setRegistrationProperties, {
     method: 'POST',
     headers: {

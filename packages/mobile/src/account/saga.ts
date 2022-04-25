@@ -4,6 +4,7 @@ import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
 import * as bip39 from 'react-native-bip39'
+import DeviceInfo from 'react-native-device-info'
 import {
   call,
   cancelled,
@@ -38,16 +39,18 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house-liquidity'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector, signedMessageSelector } from './selectors'
 
 const TAG = 'account/saga'
@@ -168,7 +171,7 @@ export function* watchKycStatus() {
 
 export function* generateSignedMessage() {
   try {
-    const address = yield select(currentAccountSelector)
+    const address = yield select(walletAddressSelector)
     const mnemonic = yield call(getStoredMnemonic, address)
     const { privateKey } = yield call(
       generateKeys,
@@ -191,24 +194,31 @@ export function* generateSignedMessage() {
   }
 }
 
-export function* handleUpdateAccountRegistration(properties: RegistrationProperties) {
-  const address = yield select(currentAccountSelector)
-  let signature = yield select(signedMessageSelector)
+export function* handleUpdateAccountRegistration(extraProperties: RegistrationProperties = {}) {
+  const address = yield select(walletAddressSelector)
+  const signedMessage = yield select(signedMessageSelector)
+  const appVersion = DeviceInfo.getVersion()
+  const language = yield select(currentLanguageSelector)
+  const country = yield select(userLocationDataSelector)
+
+  if (!signedMessage) {
+    // ensures backwards compatibility - this should happen only for updating the
+    // fcm token when an existing user updates the app and the signed message is
+    // not yet generated
+    Logger.warn(
+      `${TAG}@handleUpdateAccountRegistration`,
+      'Tried to update account registration without signed message'
+    )
+    return
+  }
 
   try {
-    if (!signature) {
-      signature = yield call(generateSignedMessage)
-    }
-
-    if (!signature || !address) {
-      Logger.error(
-        `${TAG}@handleUpdateAccountRegistration`,
-        'Unable to update account registration due to missing address or signed message'
-      )
-      return
-    }
-
-    yield call(updateAccountRegistration, address, signature, properties)
+    yield call(updateAccountRegistration, address, signedMessage, {
+      appVersion,
+      language,
+      country: country?.countryCodeAlpha2,
+      ...extraProperties,
+    })
   } catch (error) {
     Logger.error(
       `${TAG}@handleUpdateAccountRegistration`,

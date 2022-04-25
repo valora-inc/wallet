@@ -3,6 +3,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
+import { signedMessageSelector } from 'src/account/selectors'
+import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { initializeCloudMessaging } from 'src/firebase/firebase'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -78,12 +80,19 @@ describe(initializeCloudMessaging, () => {
             fcmToken: mockFcmToken,
             appVersion: '0.0.1',
             language: mockLanguage,
-            country: 'HV',
+            country: mockCountry,
+          }),
+          null,
+        ],
+        [
+          call(updateAccountRegistration, address, 'someSignature', {
+            fcmToken: mockFcmToken,
           }),
           null,
         ],
         [select(currentLanguageSelector), mockLanguage],
         [select(userLocationDataSelector), { countryCodeAlpha2: mockCountry }],
+        [select(signedMessageSelector), 'someSignature'],
         {
           spawn(effect, next) {
             // mock all spawns

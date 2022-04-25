@@ -7,7 +7,6 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
-import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
@@ -19,9 +18,7 @@ import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
@@ -162,15 +159,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
-    const appVersion = DeviceInfo.getVersion()
-    const language = yield select(currentLanguageSelector)
-    const country = yield select(userLocationDataSelector)
-
     yield call(handleUpdateAccountRegistration, {
       fcmToken,
-      appVersion,
-      language,
-      country: country?.countryCodeAlpha2,
     })
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
@@ -178,19 +168,22 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     }
   }
 
-  const signature = yield select(signedMessageSelector)
+  const signedMessage = yield select(signedMessageSelector)
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
   app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
-    try {
-      await updateAccountRegistration(address, signature, { fcmToken })
-    } catch (error) {
-      Logger.error(
-        `${TAG}@initializeCloudMessaging`,
-        'Unable to update cloud messaging token',
-        error
-      )
+
+    if (signedMessage) {
+      try {
+        await updateAccountRegistration(address, signedMessage, { fcmToken })
+      } catch (error) {
+        Logger.error(
+          `${TAG}@initializeCloudMessaging`,
+          'Unable to update cloud messaging token',
+          error
+        )
+      }
     }
 
     if (Platform.OS === 'android') {
