@@ -42,6 +42,7 @@ export enum Actions {
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
   DISMISS_SUPERCHARGING = 'ACCOUNT/DISMISS_SUPERCHARGING',
+  DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
 }
 
 export interface ChooseCreateAccountAction {
@@ -199,6 +200,10 @@ export interface DismissSuperchargingAction {
   type: Actions.DISMISS_SUPERCHARGING
 }
 
+export interface DismissStartSuperchargingAction {
+  type: Actions.DISMISS_START_SUPERCHARGING
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -234,6 +239,7 @@ export type ActionTypes =
   | SetFinclusiveKyc
   | SetFinclusiveRegionSupported
   | DismissSuperchargingAction
+  | DismissStartSuperchargingAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -418,4 +424,8 @@ export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => 
 
 export const dismissSupercharging = (): DismissSuperchargingAction => ({
   type: Actions.DISMISS_SUPERCHARGING,
+})
+
+export const dismissStartSupercharging = (): DismissStartSuperchargingAction => ({
+  type: Actions.DISMISS_START_SUPERCHARGING,
 })

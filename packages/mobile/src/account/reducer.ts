@@ -38,6 +38,7 @@ export interface State {
   finclusiveKycStatus: FinclusiveKycStatus
   finclusiveRegionSupported: boolean
   dismissedSupercharging: boolean
+  dismissedStartSupercharging: boolean
 }
 
 export enum PincodeType {
@@ -111,6 +112,7 @@ export const initialState: State = {
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
   finclusiveRegionSupported: false,
   dismissedSupercharging: false,
+  dismissedStartSupercharging: false,
 }
 
 export const reducer = (
@@ -308,6 +310,11 @@ export const reducer = (
       return {
         ...state,
         dismissedSupercharging: true,
+      }
+    case Actions.DISMISS_START_SUPERCHARGING:
+      return {
+        ...state,
+        dismissedStartSupercharging: true,
       }
     default:
       return state

@@ -3,7 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { dismissGetVerified, dismissGoldEducation, dismissSupercharging } from 'src/account/actions'
+import {
+  dismissGetVerified,
+  dismissGoldEducation,
+  dismissStartSupercharging,
+  dismissSupercharging,
+} from 'src/account/actions'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -44,7 +49,7 @@ const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
 const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
-const SUPERCHARGING_PRIORITY = 440
+const SUPERCHARGE_INFO_PRIORITY = 440
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -58,6 +63,7 @@ export enum NotificationBannerTypes {
   supercharge_available = 'supercharge_available',
   remote_notification = 'remote_notification',
   supercharging = 'supercharging',
+  start_supercharging = 'start_supercharging',
 }
 
 export enum NotificationBannerCTATypes {
@@ -82,6 +88,7 @@ function useSimpleActions() {
     dismissedGetVerified,
     dismissedGoldEducation,
     dismissedSupercharging,
+    dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
   const numberVerified = useSelector((state) => state.app.numberVerified)
@@ -91,11 +98,7 @@ function useSimpleActions() {
   const verificationPossible = useSelector(verificationPossibleSelector)
 
   console.log(`DIEGO EXTRA: ${JSON.stringify(extraNotifications)}`)
-  const {
-    hasBalanceForSupercharge,
-    superchargingToken,
-    hasMaxBalance,
-  } = useHasBalanceForSupercharge()
+  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
   const isSupercharging = numberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
@@ -140,63 +143,99 @@ function useSimpleActions() {
     })
   }
 
-  if (superchargeRewards.length > 0) {
-    actions.push({
-      id: 'supercharge',
-      text: t('superchargeNotificationBody'),
-      icon: boostRewards,
-      priority: SUPERCHARGING_PRIORITY,
-      callToActions: [
-        {
-          text: t('superchargeNotificationStart'),
-          onPress: () => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.supercharge_available,
-              selectedAction: NotificationBannerCTATypes.accept,
-            })
-            navigate(Screens.ConsumerIncentivesHomeScreen)
-            ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-              origin: RewardsScreenOrigin.RewardAvailableNotification,
-            })
-          },
-        },
-      ],
-    })
-  } else {
-    if (isSupercharging && !dismissedSupercharging) {
+  if (rewardsEnabled) {
+    if (superchargeRewards.length > 0) {
       actions.push({
-        id: 'keepSupercharging',
-        text: t('superchargingNotificationBody'),
+        id: 'supercharge',
+        text: t('superchargeNotificationBody'),
         icon: boostRewards,
-        priority: SUPERCHARGE_AVAILABLE_PRIORITY,
+        priority: SUPERCHARGE_INFO_PRIORITY,
         callToActions: [
           {
-            text: t('learnMore'),
+            text: t('superchargeNotificationStart'),
             onPress: () => {
               ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.supercharging,
+                notificationType: NotificationBannerTypes.supercharge_available,
                 selectedAction: NotificationBannerCTATypes.accept,
               })
               navigate(Screens.ConsumerIncentivesHomeScreen)
               ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-                origin: RewardsScreenOrigin.SuperchargingNotification,
+                origin: RewardsScreenOrigin.RewardAvailableNotification,
               })
-            },
-          },
-          {
-            text: t('dismiss'),
-            isSecondary: true,
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.supercharging,
-                selectedAction: NotificationBannerCTATypes.decline,
-              })
-              dispatch(dismissSupercharging())
             },
           },
         ],
       })
     } else {
+      if (isSupercharging && !dismissedSupercharging) {
+        actions.push({
+          id: 'keepSupercharging',
+          text: t('superchargingNotificationBody'),
+          icon: boostRewards,
+          priority: SUPERCHARGE_INFO_PRIORITY,
+          callToActions: [
+            {
+              text: t('superchargingNotificationStart'),
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.accept,
+                })
+                navigate(Screens.ConsumerIncentivesHomeScreen)
+                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                  origin: RewardsScreenOrigin.SuperchargingNotification,
+                })
+              },
+            },
+            {
+              text: t('dismiss'),
+              isSecondary: true,
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.decline,
+                })
+                dispatch(dismissSupercharging())
+              },
+            },
+          ],
+        })
+      }
+
+      if (!isSupercharging && !dismissedStartSupercharging) {
+        actions.push({
+          id: 'startSupercharging',
+          text: t('startSuperchargingNotificationBody'),
+          icon: boostRewards,
+          priority: SUPERCHARGE_INFO_PRIORITY,
+          callToActions: [
+            {
+              text: t('startSuperchargingNotificationStart'),
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.start_supercharging,
+                  selectedAction: NotificationBannerCTATypes.accept,
+                })
+                navigate(Screens.ConsumerIncentivesHomeScreen)
+                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                  origin: RewardsScreenOrigin.StartSuperchargingNotification,
+                })
+              },
+            },
+            {
+              text: t('dismiss'),
+              isSecondary: true,
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.decline,
+                })
+                dispatch(dismissStartSupercharging())
+              },
+            },
+          ],
+        })
+      }
     }
   }
 
@@ -242,12 +281,6 @@ function useSimpleActions() {
     if (!texts) {
       continue
     }
-    // if (
-    //   notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) &&
-    //   (!rewardsEnabled || superchargeRewards.length > 0)
-    // ) {
-    //   continue
-    // }
 
     actions.push({
       id,

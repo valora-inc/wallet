@@ -10,6 +10,7 @@ export enum RewardsScreenOrigin {
   PushNotification = 'PushNotification',
   SideMenu = 'SideMenu',
   SuperchargingNotification = 'SuperchargingNotification',
+  StartSuperchargingNotification = 'StartSuperchargingNotification',
 }
 
 export enum RewardsScreenCta {
