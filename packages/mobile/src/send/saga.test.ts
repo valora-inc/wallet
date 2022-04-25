@@ -102,14 +102,14 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
 
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -132,14 +132,14 @@ describe(watchQrCodeDetections, () => {
     }
 
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -161,14 +161,14 @@ describe(watchQrCodeDetections, () => {
     }
 
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -187,7 +187,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: INVALID_QR }
 
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -207,7 +207,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(INVALID_QR_ADDRESS) }
 
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -227,7 +227,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -251,7 +251,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -273,7 +273,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -298,7 +298,7 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
       fromModal: false,
     }
     await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
@@ -320,7 +320,7 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
       fromModal: false,
     }
     await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
-      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
+      .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
