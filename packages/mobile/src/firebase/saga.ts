@@ -87,11 +87,7 @@ function* initializeFirebase() {
 
 export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
   yield call(waitForFirebaseAuth)
-  try {
-    yield call(handleUpdateAccountRegistration, { language: action.payload })
-  } catch (error) {
-    Logger.error(TAG, 'Syncing language selection to Firebase failed', error)
-  }
+  yield call(handleUpdateAccountRegistration, { language: action.payload })
 }
 
 export function* watchLanguage() {

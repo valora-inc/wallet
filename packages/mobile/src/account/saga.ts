@@ -187,7 +187,7 @@ export function* generateSignedMessage() {
 
     return signedMessage
   } catch (error) {
-    Logger.error(`${TAG}@generateSignedMessage`, 'Unable to generate signed message', error)
+    throw error
   }
 }
 
@@ -195,11 +195,19 @@ export function* handleUpdateAccountRegistration(properties: RegistrationPropert
   const address = yield select(currentAccountSelector)
   let signature = yield select(signedMessageSelector)
 
-  if (!signature) {
-    signature = yield call(generateSignedMessage)
-  }
-
   try {
+    if (!signature) {
+      signature = yield call(generateSignedMessage)
+    }
+
+    if (!signature || !address) {
+      Logger.error(
+        `${TAG}@handleUpdateAccountRegistration`,
+        'Unable to update account registration due to missing address or signed message'
+      )
+      return
+    }
+
     yield call(updateAccountRegistration, address, signature, properties)
   } catch (error) {
     Logger.error(
