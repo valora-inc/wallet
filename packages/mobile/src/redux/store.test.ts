@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 47,
+          "version": 48,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -185,22 +185,6 @@ describe('store state', () => {
           "supportedBiometryType": null,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": false,
-        },
-        "cloudFunctionsApi": Object {
-          "config": Object {
-            "focused": true,
-            "keepUnusedDataFor": 60,
-            "middlewareRegistered": true,
-            "online": true,
-            "reducerPath": "cloudFunctionsApi",
-            "refetchOnFocus": true,
-            "refetchOnMountOrArgChange": true,
-            "refetchOnReconnect": false,
-          },
-          "mutations": Object {},
-          "provided": Object {},
-          "queries": Object {},
-          "subscriptions": Object {},
         },
         "escrow": Object {
           "isReclaiming": false,
@@ -326,7 +310,10 @@ describe('store state', () => {
           "lastFetch": null,
         },
         "supercharge": Object {
+          "availableRewards": Array [],
           "error": false,
+          "fetchAvailableRewardsError": false,
+          "fetchAvailableRewardsLoading": false,
           "loading": false,
         },
         "tokens": Object {
