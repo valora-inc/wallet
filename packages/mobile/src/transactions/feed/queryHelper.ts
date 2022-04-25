@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
+import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { showError, showMessage } from 'src/alert/actions'
+import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import config from 'src/geth/networkConfig'
 import useInterval from 'src/hooks/useInterval'
@@ -39,22 +40,22 @@ const TAG = 'transactions/feed/queryHelper'
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
 
-function addDeduplicatedTransactions(
-  fetchedTransactions: TokenTransaction[],
-  setFetchedTransactions: (txs: TokenTransaction[]) => void
-) {
-  return (transactions: TokenTransaction[]) => {
-    const currentHashes = new Set(fetchedTransactions.map((tx) => tx.transactionHash))
-
-    const transactionsWithoutDuplicatedHash = fetchedTransactions.concat(
+function useDeduplicatedTransactions() {
+  const [transactions, setTransactions] = useState<TokenTransaction[]>([])
+  const addTransactions = (transactions: TokenTransaction[]) => {
+    const currentHashes = new Set(transactions.map((tx) => tx.transactionHash))
+    const transactionsWithoutDuplicatedHash = transactions.concat(
       transactions.filter((tx) => !currentHashes.has(tx.transactionHash))
     )
-
     transactionsWithoutDuplicatedHash.sort((a, b) => {
       return b.timestamp - a.timestamp
     })
+    setTransactions(transactionsWithoutDuplicatedHash)
+  }
 
-    setFetchedTransactions(transactionsWithoutDuplicatedHash)
+  return {
+    transactions,
+    addTransactions,
   }
 }
 
@@ -66,13 +67,11 @@ export function useFetchTransactions(): QueryHookResult {
 
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  const [transactions, setTransactions] = useState<TokenTransaction[]>([])
+  const { transactions, addTransactions } = useDeduplicatedTransactions()
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
-
-  const addTransactions = addDeduplicatedTransactions(transactions, setTransactions)
 
   const handleResult = (result: QueryResponse, paginatedResult: boolean) => {
     Logger.info(TAG, `Fetched ${paginatedResult ? 'next page' : 'new'} transactions`)
@@ -80,7 +79,7 @@ export function useFetchTransactions(): QueryHookResult {
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
     if (returnedTransactions?.length) {
       addTransactions(returnedTransactions)
-      // We store non-paginated results in redux
+      // We store non-paginated results in redux to show them to the users when they open the app.
       if (!paginatedResult) {
         dispatch(updateTransactions(returnedTransactions))
       }
@@ -93,7 +92,6 @@ export function useFetchTransactions(): QueryHookResult {
   }
 
   const handleError = (error: Error) => {
-    dispatch(showError(ErrorMessages.FETCH_FAILED))
     Logger.error(TAG, 'Error while fetching transactions', error)
   }
 
@@ -125,6 +123,7 @@ export function useFetchTransactions(): QueryHookResult {
     {
       onError: (e) => {
         setFetchingMoreTransactions(false)
+        dispatch(showError(ErrorMessages.FETCH_FAILED))
         handleError(e)
       },
     }
@@ -139,7 +138,10 @@ export function useFetchTransactions(): QueryHookResult {
       if (!pageInfo) {
         dispatch(showError(ErrorMessages.FETCH_FAILED))
       } else if (!pageInfo.hasNextPage) {
-        dispatch(showMessage(t('noMoreTransactions')))
+        // If the user has a few transactions, don't show any message
+        if (transactions.length > 20) {
+          Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
+        }
       } else {
         setFetchingMoreTransactions(true)
       }
