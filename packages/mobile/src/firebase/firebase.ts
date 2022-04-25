@@ -183,7 +183,16 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
-    await updateAccountRegistration(address, signature, { fcmToken })
+    try {
+      await updateAccountRegistration(address, signature, { fcmToken })
+    } catch (error) {
+      Logger.error(
+        `${TAG}@initializeCloudMessaging`,
+        'Unable to update cloud messaging token',
+        error
+      )
+    }
+
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       CleverTap.setPushToken(fcmToken, CleverTap.FCM)
