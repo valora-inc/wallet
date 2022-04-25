@@ -70,6 +70,7 @@ export default function ReviewFees({
     [CiCoCurrency.CELO]: 'CELO',
     [CiCoCurrency.CUSD]: 'cUSD',
     [CiCoCurrency.CEUR]: 'cEUR',
+    [CiCoCurrency.CREAL]: 'cREAL',
   }[currencyToBuy]
 
   return (

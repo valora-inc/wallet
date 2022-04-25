@@ -8,6 +8,7 @@ export enum CiCoCurrency {
   CELO = 'CELO',
   CUSD = 'CUSD',
   CEUR = 'CEUR',
+  CREAL = 'CREAL',
 }
 
 export interface CurrencyInfo {
@@ -75,6 +76,7 @@ export function resolveCICOCurrency(currencyCode: string): CiCoCurrency {
     CGLD: CiCoCurrency.CELO,
     CUSD: CiCoCurrency.CUSD,
     CEUR: CiCoCurrency.CEUR,
+    CREAL: CiCoCurrency.CREAL,
   }
   return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CELO
 }

@@ -9,7 +9,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - clevertap-react-native (0.5.2):
     - CleverTap-iOS-SDK (= 3.9.3)
-    - React-Core
+    - React
   - CocoaAsyncSocket (7.6.5)
   - CTNotificationService (0.1.3)
   - DoubleConversion (1.1.6)
@@ -448,18 +448,18 @@ PODS:
     - React-Core
   - react-native-fast-crypto (2.0.0):
     - OpenSSL-Universal
-    - React-Core
+    - React
   - react-native-flipper (0.127.0):
     - React-Core
   - react-native-geth (1.0.0):
     - CeloBlockchain
     - React-Core
   - react-native-keep-awake (4.0.0):
-    - React-Core
+    - React
   - react-native-mail (6.0.0):
     - React-Core
   - react-native-netinfo (5.8.0):
-    - React-Core
+    - React
   - react-native-plaid-link-sdk (7.2.1):
     - Plaid (~> 2.3.2)
     - React-Core
@@ -473,7 +473,7 @@ PODS:
     - React-Core
     - Toast (~> 4.0.0)
   - react-native-sms (1.11.0):
-    - React-Core
+    - React
   - react-native-splash-screen (3.3.0):
     - React-Core
   - react-native-tcp (3.3.0):
@@ -659,14 +659,14 @@ PODS:
     - React-Core
     - React-RCTImage
   - RNSecureRandom (1.0.0):
-    - React-Core
+    - React
   - RNSentry (3.2.8):
     - React-Core
     - Sentry (= 7.5.4)
   - RNShare (7.3.2):
     - React-Core
   - RNSVG (12.1.1):
-    - React-Core
+    - React
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -1039,7 +1039,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
-  clevertap-react-native: f28f984e24a77559d82bb05786a8c1a7f58c2ce8
+  clevertap-react-native: efbeea50527a7998603be8b249eab81ca0678072
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CTNotificationService: 910b253821ef6c08158bf8c7dedc421a4df4cd4c
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
@@ -1100,18 +1100,18 @@ SPEC CHECKSUMS:
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
-  react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
+  react-native-fast-crypto: b6dea8324fb1b095dd4f29a80356b43acb3ee2e9
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
-  react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
+  react-native-keep-awake: afad8a51dfef9fe9655a6344771be32c8596d774
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
-  react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
+  react-native-netinfo: b9650ab1b8b4362b3c455b1274e4bc48223cc957
   react-native-plaid-link-sdk: 33cb904b956dc3b56799ac3027de8aa6fbb4b0ab
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
-  react-native-sms: 9e317eb8712d2f73a0da36953f15239fa535b0c0
+  react-native-sms: 31fbb9d6ebb565ad32e409eaf9dc70329936a129
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-tcp: 97bb57dd886806263ab6a734a208e29de040e5d5
   react-native-udp: f2c3b982aaef764b3c9bb333938f78136906a515
@@ -1154,10 +1154,10 @@ SPEC CHECKSUMS:
   RNPersonaInquiry: e8d8f3fe4807f6a826ff96e7fb64f482ef6c4e97
   RNReanimated: ee33ab40fa252332a36aeed9d936801ed9700b24
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
-  RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
+  RNSecureRandom: 0dcee021fdb3d50cd5cee5db0ebf583c42f5af0e
   RNSentry: fe878ca3982d7871e502ccbb90072fe764c8d07d
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
-  RNSVG: 0ff39850623301a540e69b0ccd9aabb2061812e3
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Segment-Adjust: 7646c502b087a153d89a42059dd53e6d1d143737
   Segment-CleverTap: a0e74aee844bcf859cbbf30dfe3d2ae25d67d9cc
@@ -1170,4 +1170,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ad0b7d976bd70b45a93f791d74ef83af45025678
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
