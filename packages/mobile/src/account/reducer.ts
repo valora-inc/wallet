@@ -37,6 +37,7 @@ export interface State {
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
   finclusiveRegionSupported: boolean
+  dismissedSupercharging: boolean
 }
 
 export enum PincodeType {
@@ -109,6 +110,7 @@ export const initialState: State = {
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
   finclusiveRegionSupported: false,
+  dismissedSupercharging: false,
 }
 
 export const reducer = (
@@ -302,6 +304,11 @@ export const reducer = (
         finclusiveRegionSupported: true,
       }
     }
+    case Actions.DISMISS_SUPERCHARGING:
+      return {
+        ...state,
+        dismissedSupercharging: true,
+      }
     default:
       return state
   }

@@ -12,12 +12,9 @@ import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
+import { useDefaultTokenToSupercharge } from 'src/consumerIncentives/hooks'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import {
-  SuperchargePendingReward,
-  SuperchargeToken,
-  SuperchargeTokenConfig,
-} from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -26,30 +23,11 @@ import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
-
-function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
-  const { superchargeTokens } = useSelector((state) => state.app)
-  const userCountry = useSelector(userLocationDataSelector)
-  const { IS_IN_EUROPE } = useCountryFeatures()
-
-  const tokenToSupercharge = IS_IN_EUROPE
-    ? SuperchargeToken.cEUR
-    : userCountry?.countryCodeAlpha2 === 'BR'
-    ? SuperchargeToken.cREAL
-    : SuperchargeToken.cUSD
-  return (
-    superchargeTokens.find((token) => token.token === tokenToSupercharge) ?? {
-      token: tokenToSupercharge,
-    }
-  )
-}
 
 function useHasBalanceForSupercharge(): {
   hasBalanceForSupercharge: boolean
