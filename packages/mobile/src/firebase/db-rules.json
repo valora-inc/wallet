@@ -32,7 +32,7 @@
           ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
         },
         "country": {
-          ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
+          ".write": false
         },
         "dailyLimitCusd": {
           ".write": false,
