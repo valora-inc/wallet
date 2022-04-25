@@ -8,7 +8,7 @@ import { SUPERCHARGE_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
-import { SuperchargePendingReward, SuperchargeToken } from 'src/consumerIncentives/types'
+import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -38,8 +38,6 @@ const NO_BALANCES: TokenBalances = {
     isCoreToken: true,
   },
 }
-
-const EMPTY_REWARDS_RESPONSE: SuperchargePendingReward[] = []
 
 function expectVisibleMainComponents(
   queryByTestId: (testId: string) => ReactTestInstance | null,
@@ -241,7 +239,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
   })
 
   it('dispatches a fetch rewards action when opened', async () => {
-    const { getByTestId } = render(
+    render(
       <Provider
         store={createStore({
           numberVerified: true,

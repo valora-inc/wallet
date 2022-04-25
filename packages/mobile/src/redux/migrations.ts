@@ -595,4 +595,14 @@ export const migrations = {
       ),
     }
   },
+  48: (state: any) => {
+    return {
+      ...state,
+      supercharge: {
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      },
+    }
+  },
 }

@@ -128,7 +128,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
   }
 }
 
-function* fetchAvailableRewardsSaga() {
+export function* fetchAvailableRewardsSaga() {
   const address: string | null = yield select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')

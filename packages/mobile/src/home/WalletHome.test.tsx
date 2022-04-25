@@ -143,6 +143,10 @@ describe('WalletHome', () => {
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
+          "payload": undefined,
+          "type": "supercharge/fetchAvailableRewards",
+        },
+        Object {
           "type": "ALERT/HIDE",
         },
         Object {
