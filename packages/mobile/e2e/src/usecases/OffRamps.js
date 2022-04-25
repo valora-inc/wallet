@@ -29,6 +29,9 @@ export default offRamps = () => {
       })
 
       it('Then Should Be Display No Providers Message', async () => {
+        await waitFor(element(by.id('FiatExchangeInput')))
+          .toBeVisible()
+          .withTimeout(10 * 1000)
         // Enter Amount to Exchange
         await element(by.id('FiatExchangeInput')).replaceText('2')
         // Got To Exchanges
