@@ -4,23 +4,17 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { SUPERCHARGE_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
-import { SuperchargePendingReward, SuperchargeToken } from 'src/consumerIncentives/types'
+import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { StoredTokenBalance } from 'src/tokens/reducer'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
-
-jest.mock('src/api/slice', () => ({
-  ...(jest.requireActual('src/api/slice') as any),
-  useFetchSuperchargeRewards: jest.fn(),
-}))
-
 interface TokenBalances {
   [address: string]: Partial<StoredTokenBalance> | undefined
 }
@@ -39,8 +33,6 @@ const NO_BALANCES: TokenBalances = {
     isCoreToken: true,
   },
 }
-
-const EMPTY_REWARDS_RESPONSE: SuperchargePendingReward[] = []
 
 function expectVisibleMainComponents(
   queryByTestId: (testId: string) => ReactTestInstance | null,
@@ -65,14 +57,15 @@ function expectVisibleMainComponents(
 
 describe('ConsumerIncentivesHomeScreen', () => {
   let store: MockStoreEnhanced<RootState, {}>
-  beforeEach(() => mockQueryResponse(EMPTY_REWARDS_RESPONSE))
 
   function createStore({
     numberVerified,
     tokenBalances,
+    supercharge = initialState,
   }: {
     numberVerified: boolean
     tokenBalances: TokenBalances
+    supercharge?: State
   }) {
     store = createMockStore({
       app: {
@@ -91,16 +84,9 @@ describe('ConsumerIncentivesHomeScreen', () => {
         ],
       },
       tokens: { tokenBalances },
+      supercharge,
     })
     return store
-  }
-
-  function mockQueryResponse(data: SuperchargePendingReward[]) {
-    ;(useFetchSuperchargeRewards as jest.Mock).mockImplementation(() => ({
-      superchargeRewards: data,
-      isLoading: false,
-      isError: false,
-    }))
   }
 
   it('renders Supercharge instructions when not Supercharging', async () => {
@@ -134,12 +120,15 @@ describe('ConsumerIncentivesHomeScreen', () => {
   })
 
   it('renders available rewards to claim when they are available', async () => {
-    mockQueryResponse(ONE_CUSD_REWARD_RESPONSE)
     const { queryByTestId } = render(
       <Provider
         store={createStore({
           numberVerified: true,
           tokenBalances: CUSD_BALANCE,
+          supercharge: {
+            ...initialState,
+            availableRewards: ONE_CUSD_REWARD_RESPONSE,
+          },
         })}
       >
         <ConsumerIncentivesHomeScreen />
@@ -202,8 +191,50 @@ describe('ConsumerIncentivesHomeScreen', () => {
   })
 
   it('dispatches a claim rewards action when CTA is tapped', async () => {
-    mockQueryResponse(ONE_CUSD_REWARD_RESPONSE)
     const { getByTestId } = render(
+      <Provider
+        store={createStore({
+          numberVerified: true,
+          tokenBalances: CUSD_BALANCE,
+          supercharge: {
+            ...initialState,
+            availableRewards: ONE_CUSD_REWARD_RESPONSE,
+          },
+        })}
+      >
+        <ConsumerIncentivesHomeScreen />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
+
+    // One action to fetch rewards and other one to claim them
+    expect(store.getActions().length).toBe(2)
+    expect(store.getActions()[0]).toMatchInlineSnapshot(`
+      Object {
+        "payload": undefined,
+        "type": "supercharge/fetchAvailableRewards",
+      }
+    `)
+    expect(store.getActions()[1]).toMatchInlineSnapshot(`
+      Object {
+        "payload": Array [
+          Object {
+            "amount": "de0b6b3a7640000",
+            "contractAddress": "0xdistributorContract",
+            "createdAt": 1645591363099,
+            "index": 0,
+            "proof": Array [],
+            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+          },
+        ],
+        "type": "supercharge/claimRewards",
+      }
+    `)
+  })
+
+  it('dispatches a fetch rewards action when opened', async () => {
+    render(
       <Provider
         store={createStore({
           numberVerified: true,
@@ -214,24 +245,12 @@ describe('ConsumerIncentivesHomeScreen', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
-
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "payload": Array [
-            Object {
-              "amount": "de0b6b3a7640000",
-              "contractAddress": "0xdistributorContract",
-              "createdAt": 1645591363099,
-              "index": 0,
-              "proof": Array [],
-              "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
-            },
-          ],
-          "type": "supercharge/claimRewards",
-        },
-      ]
+    expect(store.getActions().length).toBe(1)
+    expect(store.getActions()[0]).toMatchInlineSnapshot(`
+      Object {
+        "payload": undefined,
+        "type": "supercharge/fetchAvailableRewards",
+      }
     `)
   })
 })

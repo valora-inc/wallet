@@ -595,4 +595,15 @@ export const migrations = {
       ),
     }
   },
+  48: (state: any) => {
+    return {
+      ...(_.omit(state, ['cloudFunctionsApi']) as any),
+      supercharge: {
+        ...state.supercharge,
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      },
+    }
+  },
 }

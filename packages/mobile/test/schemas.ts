@@ -1225,13 +1225,27 @@ export const v47Schema = {
 }
 
 export const v48Schema = {
-  ...v47Schema,
+  ..._.omit(v47Schema, 'cloudFunctionsApi'),
+  _persist: {
+    ...v47Schema._persist,
+    version: 48,
+  },
+  supercharge: {
+    ...v47Schema.supercharge,
+    fetchAvailableRewardsLoading: false,
+    fetchAvailableRewardsError: false,
+    availableRewards: [],
+  },
+}
+
+export const v49Schema = {
+  ...v48Schema,
   account: {
-    ...v47Schema.account,
+    ...v48Schema.account,
     friendlyName: 'johndoe@valora',
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v48Schema as Partial<RootState>
+  return v49Schema as Partial<RootState>
 }
