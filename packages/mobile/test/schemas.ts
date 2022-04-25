@@ -1238,6 +1238,19 @@ export const v48Schema = {
   },
 }
 
+export const v49Schema = {
+  ...v48Schema,
+  _persist: {
+    ...v48Schema._persist,
+    version: 49,
+  },
+  account: {
+    ...v48Schema.account,
+    dismissedKeepSupercharging: false,
+    dismissedStartSupercharging: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v48Schema as Partial<RootState>
+  return v49Schema as Partial<RootState>
 }

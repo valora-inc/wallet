@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import {
   dismissGetVerified,
   dismissGoldEducation,
+  dismissKeepSupercharging,
   dismissStartSupercharging,
-  dismissSupercharging,
 } from 'src/account/actions'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
@@ -87,7 +87,7 @@ function useSimpleActions() {
     backupCompleted,
     dismissedGetVerified,
     dismissedGoldEducation,
-    dismissedSupercharging,
+    dismissedKeepSupercharging: dismissedSupercharging,
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
@@ -97,7 +97,6 @@ function useSimpleActions() {
   const extraNotifications = useSelector(getExtraNotifications)
   const verificationPossible = useSelector(verificationPossibleSelector)
 
-  console.log(`DIEGO EXTRA: ${JSON.stringify(extraNotifications)}`)
   const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
   const isSupercharging = numberVerified && hasBalanceForSupercharge
 
@@ -146,7 +145,7 @@ function useSimpleActions() {
   if (rewardsEnabled) {
     if (superchargeRewards.length > 0) {
       actions.push({
-        id: 'supercharge',
+        id: 'claimSuperchargeRewards',
         text: t('superchargeNotificationBody'),
         icon: boostRewards,
         priority: SUPERCHARGE_INFO_PRIORITY,
@@ -195,7 +194,7 @@ function useSimpleActions() {
                   notificationType: NotificationBannerTypes.supercharging,
                   selectedAction: NotificationBannerCTATypes.decline,
                 })
-                dispatch(dismissSupercharging())
+                dispatch(dismissKeepSupercharging())
               },
             },
           ],
@@ -393,7 +392,7 @@ function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification, i) => ({
-      element: <SimpleMessagingCard key={i} {...notification} />,
+      element: <SimpleMessagingCard key={i} testID={notification.id} {...notification} />,
       priority: notification.priority,
       id: notification.id,
     }))
@@ -435,6 +434,7 @@ function NotificationBox() {
     // No notifications, no slider
     return null
   }
+
   return (
     <View style={styles.body}>
       <ScrollView
@@ -445,7 +445,11 @@ function NotificationBox() {
         testID="CTA/ScrollContainer"
       >
         {notifications.map((notification) => (
-          <View key={notification.id} style={styles.notificationContainer}>
+          <View
+            testID={`NotificationView/${notification.id}`}
+            key={notification.id}
+            style={styles.notificationContainer}
+          >
             {notification.element}
           </View>
         ))}

@@ -37,7 +37,7 @@ export interface State {
   hasLinkedBankAccount: boolean
   finclusiveKycStatus: FinclusiveKycStatus
   finclusiveRegionSupported: boolean
-  dismissedSupercharging: boolean
+  dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
 }
 
@@ -111,7 +111,7 @@ export const initialState: State = {
   hasLinkedBankAccount: false,
   finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
   finclusiveRegionSupported: false,
-  dismissedSupercharging: false,
+  dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
 }
 
@@ -306,10 +306,10 @@ export const reducer = (
         finclusiveRegionSupported: true,
       }
     }
-    case Actions.DISMISS_SUPERCHARGING:
+    case Actions.DISMISS_KEEP_SUPERCHARGING:
       return {
         ...state,
-        dismissedSupercharging: true,
+        dismissedKeepSupercharging: true,
       }
     case Actions.DISMISS_START_SUPERCHARGING:
       return {

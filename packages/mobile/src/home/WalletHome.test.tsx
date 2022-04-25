@@ -133,7 +133,7 @@ describe('WalletHome', () => {
     jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
 
-    expect(tree).toMatchSnapshot()
+    expect(tree.queryByTestId('startSupercharging')).toBeTruthy()
     expect(tree.queryByTestId('HomeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
     expect(store.getActions()).toMatchInlineSnapshot(`
