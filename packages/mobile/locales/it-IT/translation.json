@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Si è verificato un errore durante il recupero delle ricompense Supercharge. Riprova più tardi.",
   "superchargeClaimSuccess": "Le tue ricompense Supercharge sono state aggiunte al tuo saldo totale.",
   "superchargeClaimFailure": "Si è verificato un errore nel richiedere i tuoi premi ricompense Supercharge.",
-  "superchargeNotificationBody": "Le ricompense Supercharge sono arrivate! Richiedile ora.",
+  "superchargeNotificationBody": "Le tue ricompense Supercharge sono arrivate! Richiedile ora",
   "superchargeNotificationStart": "Richiedi ora",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
@@ -1210,6 +1210,7 @@
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
   "merchantPaymentSubmitSuccess": "Pagamento inviato correttamente",
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo portafoglio, riprova",
+  "noMoreTransactions": "Non ci sono più transazioni",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
