@@ -31,6 +31,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
   keyExtractor={[Function]}
   keyboardShouldPersistTaps="always"
   onContentSizeChange={[Function]}
+  onEndReached={[Function]}
   onLayout={[Function]}
   onMomentumScrollBegin={[Function]}
   onMomentumScrollEnd={[Function]}
