@@ -26,7 +26,7 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { backupKey, getVerified, learnCelo, supercharge } from 'src/images/Images'
+import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -147,7 +147,7 @@ function useSimpleActions() {
       actions.push({
         id: 'claimSuperchargeRewards',
         text: t('superchargeNotificationBody'),
-        icon: supercharge,
+        icon: boostRewards,
         priority: SUPERCHARGE_AVAILABLE_PRIORITY,
         callToActions: [
           {
@@ -170,7 +170,7 @@ function useSimpleActions() {
         actions.push({
           id: 'keepSupercharging',
           text: t('superchargingNotificationBody'),
-          icon: supercharge,
+          icon: boostRewards,
           priority: SUPERCHARGE_INFO_PRIORITY,
           callToActions: [
             {
@@ -205,7 +205,7 @@ function useSimpleActions() {
         actions.push({
           id: 'startSupercharging',
           text: t('startSuperchargingNotificationBody'),
-          icon: supercharge,
+          icon: boostRewards,
           priority: SUPERCHARGE_INFO_PRIORITY,
           callToActions: [
             {
