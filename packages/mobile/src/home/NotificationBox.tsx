@@ -296,7 +296,6 @@ function useSimpleActions() {
               notificationId: id,
             })
             dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
-            // trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
           },
         },
         {
