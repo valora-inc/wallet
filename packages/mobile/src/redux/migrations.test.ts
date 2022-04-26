@@ -23,6 +23,7 @@ import {
   v43Schema,
   v45Schema,
   v46Schema,
+  v48Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -483,9 +484,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
   it('works for v48 to v49', () => {
-    const migratedSchema = migrations[49](v46Schema)
+    const migratedSchema = migrations[49](v48Schema)
 
-    const expectedSchema: any = _.cloneDeep(v46Schema)
+    const expectedSchema: any = _.cloneDeep(v48Schema)
     delete expectedSchema.app.walletConnectV2Enabled
     delete expectedSchema.walletConnect.v2
 
