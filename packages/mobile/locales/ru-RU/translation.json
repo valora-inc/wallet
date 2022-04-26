@@ -1214,7 +1214,7 @@
   "merchantPaymentSetup": "При загрузке информации о продавце произошла ошибка. Повторите попытку сканирования QR-кода",
   "merchantPaymentSubmitSuccess": "Ваш платеж успешно отправлен",
   "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
-  "noMoreTransactions": "Больше нет транзакций",
+  "noMoreTransactions": "Больше транзакций нет",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
