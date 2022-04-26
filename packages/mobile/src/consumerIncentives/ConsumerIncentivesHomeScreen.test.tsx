@@ -4,7 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { MockStoreEnhanced } from 'redux-mock-store'
-import { SUPERCHARGE_T_AND_C } from 'src/config'
+import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
@@ -187,7 +187,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
 
     fireEvent.press(getByTestId('LearnMore'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
   })
 
   it('dispatches a claim rewards action when CTA is tapped', async () => {
