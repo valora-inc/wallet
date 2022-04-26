@@ -266,6 +266,7 @@
   "withdrawScanQrTitle": "Tara",
   "tokenBalance": "{{token}} Bakiyesi",
   "addFunds": "Bakiye Ekle",
+  "addFundsHeaderWithCurrency": "{{token}} ekle",
   "addFundsSubtitle": "Valora hesabına bakiye yükle",
   "exchanges": "Borsalar",
   "noExchanges": "Bölgenizde {{digitalAsset}} için kullanılabilecek borsa yok.",

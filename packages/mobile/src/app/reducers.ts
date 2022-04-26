@@ -50,9 +50,6 @@ export interface State {
   }
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
-  multiTokenShowHomeBalances: boolean
-  multiTokenUseSendFlow: boolean
-  multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
@@ -99,9 +96,6 @@ const initialState = {
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
-  multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
-  multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
-  multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   linkBankAccountStepTwoEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountStepTwoEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
@@ -222,9 +216,6 @@ export const appReducer = (
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
         cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
-        multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
-        multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
-        multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,

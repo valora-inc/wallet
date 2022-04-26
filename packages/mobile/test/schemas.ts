@@ -1208,6 +1208,36 @@ export const v46Schema = {
   },
 }
 
+export const v47Schema = {
+  ...v46Schema,
+  _persist: {
+    ...v46Schema._persist,
+    version: 47,
+  },
+  app: {
+    ..._.omit(
+      v46Schema.app,
+      'multiTokenUseSendFlow',
+      'multiTokenUseUpdatedFeed',
+      'multiTokenShowHomeBalances'
+    ),
+  },
+}
+
+export const v48Schema = {
+  ..._.omit(v47Schema, 'cloudFunctionsApi'),
+  _persist: {
+    ...v47Schema._persist,
+    version: 48,
+  },
+  supercharge: {
+    ...v47Schema.supercharge,
+    fetchAvailableRewardsLoading: false,
+    fetchAvailableRewardsError: false,
+    availableRewards: [],
+  },
+}
+
 export const v49Schema = {
   ...v48Schema,
   _persist: {

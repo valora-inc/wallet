@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Error while fetching pending Supercharge rewards. Please try again later.",
   "superchargeClaimSuccess": "Your Supercharge rewards have been added to your Total Balance.",
   "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
-  "superchargeNotificationBody": "Supercharge rewards are here! Claim them now.",
+  "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Claim rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
@@ -1211,5 +1211,6 @@
   "merchantPaymentSubmitFail": "Your payment failed to submit",
   "merchantPaymentSetup": "There was an error loading the merchant information, please try scanning the QRCode again",
   "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
-  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again"
+  "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
+  "noMoreTransactions": "There are no more transactions"
 }

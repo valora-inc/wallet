@@ -476,6 +476,16 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[47](v46Schema)
 
     const expectedSchema: any = _.cloneDeep(v46Schema)
+    delete expectedSchema.app.multiTokenUseSendFlow
+    delete expectedSchema.app.multiTokenUseUpdatedFeed
+    delete expectedSchema.app.multiTokenShowHomeBalances
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v48 to v49', () => {
+    const migratedSchema = migrations[49](v46Schema)
+
+    const expectedSchema: any = _.cloneDeep(v46Schema)
     delete expectedSchema.app.walletConnectV2Enabled
     delete expectedSchema.walletConnect.v2
 

@@ -584,7 +584,29 @@ export const migrations = {
     ...state,
     cloudFunctionsApi: undefined,
   }),
-  47: (state: any) => ({
+  47: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(
+        state.app,
+        'multiTokenUseSendFlow',
+        'multiTokenUseUpdatedFeed',
+        'multiTokenShowHomeBalances'
+      ),
+    }
+  },
+  48: (state: any) => {
+    return {
+      ...(_.omit(state, ['cloudFunctionsApi']) as any),
+      supercharge: {
+        ...state.supercharge,
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      },
+    }
+  },
+  49: (state: any) => ({
     ...state,
     walletConnect: {
       ..._.omit(state.walletConnect, ['v2']),

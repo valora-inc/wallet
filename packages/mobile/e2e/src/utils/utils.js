@@ -263,3 +263,14 @@ export function padTrailingZeros(num, size = 5) {
   while (s.length < size) s = s + '0'
   return s
 }
+
+export async function addComment(comment) {
+  await element(by.id('commentInput/send')).replaceText('')
+  await element(by.id('commentInput/send')).replaceText(`${comment}\n`)
+  await element(by.id('commentInput/send')).tapReturnKey()
+  if (device.getPlatform() === 'android') {
+    // Workaround keyboard remaining open on Android (tapReturnKey doesn't work there and just adds a new line)
+    // so we tap something else in the scrollview to hide the soft keyboard
+    await element(by.id('HeaderText')).tap()
+  }
+}
