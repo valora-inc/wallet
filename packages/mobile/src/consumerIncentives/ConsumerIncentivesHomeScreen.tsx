@@ -19,10 +19,6 @@ import {
   SuperchargeTokenConfig,
 } from 'src/consumerIncentives/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import {
-  useDefaultTokenToSupercharge,
-  useHasBalanceForSupercharge,
-} from 'src/hooks/consumerIncentives'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
