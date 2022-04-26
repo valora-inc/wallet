@@ -19,7 +19,7 @@ import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useHasBalanceForSupercharge } from 'src/consumerIncentives/hooks'
+import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'

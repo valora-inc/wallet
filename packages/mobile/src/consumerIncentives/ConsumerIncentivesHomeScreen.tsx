@@ -12,13 +12,17 @@ import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
+import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
+import {
+  SuperchargePendingReward,
+  SuperchargeToken,
+  SuperchargeTokenConfig,
+} from 'src/consumerIncentives/types'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
 import {
   useDefaultTokenToSupercharge,
   useHasBalanceForSupercharge,
-} from 'src/consumerIncentives/hooks'
-import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargePendingReward } from 'src/consumerIncentives/types'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
+} from 'src/hooks/consumerIncentives'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
@@ -26,15 +30,55 @@ import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
+import { useCountryFeatures } from 'src/utils/countryFeatures'
 
 const onLearnMore = () => {
   ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
   navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
+}
+
+export function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
+  const { superchargeTokens } = useSelector((state) => state.app)
+  const userCountry = useSelector(userLocationDataSelector)
+  const { IS_IN_EUROPE } = useCountryFeatures()
+
+  const tokenToSupercharge = IS_IN_EUROPE
+    ? SuperchargeToken.cEUR
+    : userCountry?.countryCodeAlpha2 === 'BR'
+    ? SuperchargeToken.cREAL
+    : SuperchargeToken.cUSD
+  return (
+    superchargeTokens.find((token) => token.token === tokenToSupercharge) ?? {
+      token: tokenToSupercharge,
+    }
+  )
+}
+
+export function useHasBalanceForSupercharge(): {
+  hasBalanceForSupercharge: boolean
+  superchargingToken?: SuperchargeTokenConfig
+  hasMaxBalance?: boolean
+} {
+  const { superchargeTokens } = useSelector((state) => state.app)
+  const tokens = useSelector(stablecoinsSelector)
+
+  for (const tokenConfig of superchargeTokens) {
+    const tokenUserInfo = tokens.find((t) => t.symbol === tokenConfig.token)
+    if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
+      return {
+        hasBalanceForSupercharge: true,
+        superchargingToken: tokenConfig,
+        hasMaxBalance: tokenUserInfo.balance.gte(tokenConfig.maxBalance),
+      }
+    }
+  }
+  return { hasBalanceForSupercharge: false }
 }
 
 function Header() {
