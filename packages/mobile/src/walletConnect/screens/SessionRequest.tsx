@@ -20,29 +20,20 @@ import {
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
 
 function acceptSession(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      return acceptSessionV1(params.session)
-  }
+  return acceptSessionV1(params.session)
 }
 
 function denySession(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      return denySessionV1(params.session)
-  }
+  return denySessionV1(params.session)
 }
 
 function getRequestInfo(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      const { peerMeta } = params.session.params[0]
-      return {
-        url: peerMeta.url,
-        name: peerMeta.name,
-        icon: peerMeta.icons[0],
-        methods: [],
-      }
+  const { peerMeta } = params.session.params[0]
+  return {
+    url: peerMeta.url,
+    name: peerMeta.name,
+    icon: peerMeta.icons[0],
+    methods: [],
   }
 }
 

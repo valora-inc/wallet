@@ -22,36 +22,24 @@ import {
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 
 function showRequestDetails(params: Props['route']['params'], infoString: string) {
-  switch (params.version) {
-    case 1:
-      return showRequestDetailsV1(params.peerId, params.action, infoString)
-  }
+  return showRequestDetailsV1(params.peerId, params.action, infoString)
 }
 
 function acceptRequest(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      return acceptRequestV1(params.peerId, params.action)
-  }
+  return acceptRequestV1(params.peerId, params.action)
 }
 
 function denyRequest(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      return denyRequestV1(params.peerId, params.action, 'User denied')
-  }
+  return denyRequestV1(params.peerId, params.action, 'User denied')
 }
 
 function getRequestInfo(params: Props['route']['params']) {
-  switch (params.version) {
-    case 1:
-      return {
-        url: params.dappUrl,
-        name: params.dappName,
-        icon: params.dappIcon,
-        method: params.action.method,
-        params: params.action.params,
-      }
+  return {
+    url: params.dappUrl,
+    name: params.dappName,
+    icon: params.dappIcon,
+    method: params.action.method,
+    params: params.action.params,
   }
 }
 function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
