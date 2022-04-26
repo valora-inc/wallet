@@ -42,10 +42,10 @@ const POLL_INTERVAL = 10000 // 10 secs
 
 function useDeduplicatedTransactions() {
   const [transactions, setTransactions] = useState<TokenTransaction[]>([])
-  const addTransactions = (transactions: TokenTransaction[]) => {
+  const addTransactions = (newTransactions: TokenTransaction[]) => {
     const currentHashes = new Set(transactions.map((tx) => tx.transactionHash))
     const transactionsWithoutDuplicatedHash = transactions.concat(
-      transactions.filter((tx) => !currentHashes.has(tx.transactionHash))
+      newTransactions.filter((tx) => !currentHashes.has(tx.transactionHash))
     )
     transactionsWithoutDuplicatedHash.sort((a, b) => {
       return b.timestamp - a.timestamp
