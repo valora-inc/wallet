@@ -1210,7 +1210,7 @@
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
   "merchantPaymentSubmitSuccess": "Pagamento inviato correttamente",
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo portafoglio, riprova",
-  "noMoreTransactions": "Non ci sono più transazioni",
+  "noMoreTransactions": "Non ci sono altre transazioni",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
