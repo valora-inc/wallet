@@ -2,20 +2,29 @@ import { toTransactionObject } from '@celo/connect'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga-test-plan/matchers'
-import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
-import { claimRewardsSaga } from 'src/consumerIncentives/saga'
+import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { claimRewardsSaga, fetchAvailableRewardsSaga } from 'src/consumerIncentives/saga'
 import {
   claimRewards,
   claimRewardsFailure,
   claimRewardsSuccess,
+  fetchAvailableRewards,
+  fetchAvailableRewardsFailure,
+  fetchAvailableRewardsSuccess,
+  setAvailableRewards,
 } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
+import config from 'src/geth/networkConfig'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { getContract } from 'src/web3/utils'
 import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
 
@@ -61,6 +70,52 @@ jest.mock('src/transactions/send', () => ({
   sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
 }))
 
+describe('fetchAvailableRewardsSaga', () => {
+  const userAddress = 'test'
+  const expectedRewards: SuperchargePendingReward[] = [
+    {
+      amount: '0x2386f26fc10000',
+      contractAddress: '0x7e87b603F816e6dE393c892565eEF051ce9Ce851',
+      createdAt: 1650635674453,
+      index: 0,
+      tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
+      proof: [],
+    },
+  ]
+  const mockResponse = {
+    json: () => {
+      return { availableRewards: expectedRewards }
+    },
+  }
+  const error = new Error('Unexpected error')
+
+  const availableRewardsUri = `${config.cloudFunctionsUrl}/fetchAvailableSuperchargeRewards?address=${userAddress}`
+
+  it('stores rewards after fetching them', async () => {
+    await expectSaga(fetchAvailableRewardsSaga)
+      .provide([
+        [select(walletAddressSelector), userAddress],
+        [call(fetchWithTimeout, availableRewardsUri), mockResponse],
+      ])
+      .put(setAvailableRewards(expectedRewards))
+      .put(fetchAvailableRewardsSuccess())
+      .run()
+  })
+
+  it('handles failures correctly', async () => {
+    await expectSaga(fetchAvailableRewardsSaga)
+      .provide([
+        [select(walletAddressSelector), userAddress],
+        [call(fetchWithTimeout, availableRewardsUri), error],
+      ])
+      .not.put(setAvailableRewards(expectedRewards))
+      .not.put(fetchAvailableRewardsSuccess())
+      .put(fetchAvailableRewardsFailure())
+      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+      .run()
+  })
+})
+
 describe('claimRewardsSaga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -95,6 +150,7 @@ describe('claimRewardsSaga', () => {
           transaction: { tokenAddress: mockCusdAddress.toLowerCase() },
         },
       })
+      .put(fetchAvailableRewards())
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
       .run()
@@ -150,6 +206,7 @@ describe('claimRewardsSaga', () => {
           transaction: { tokenAddress: mockCeurAddress.toLowerCase() },
         },
       })
+      .put(fetchAvailableRewards())
       .put(claimRewardsSuccess())
       .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
       .run()

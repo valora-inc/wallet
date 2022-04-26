@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/consts'
+import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import NotificationBox from 'src/home/NotificationBox'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
@@ -11,11 +12,6 @@ import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const RECENT_BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
-
-jest.mock('src/api/slice', () => ({
-  ...(jest.requireActual('src/api/slice') as any),
-  useFetchSuperchargeRewards: jest.fn(() => ({ superchargeRewards: [] })),
-}))
 
 const testNotification = {
   ctaUri: 'https://celo.org',
@@ -283,10 +279,13 @@ describe('NotificationBox', () => {
     expect(queryByText('Notification 2')).toBeTruthy()
     expect(queryByText('Notification 3')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([])
+    expect(store.getActions()).toEqual([fetchAvailableRewards()])
 
     fireEvent.press(getByText('Press Remote'))
-    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
+    expect(store.getActions()).toEqual([
+      fetchAvailableRewards(),
+      openUrl(testNotification.ctaUri, false, true),
+    ])
   })
 
   it('renders notifications that open URL internally or externally', () => {
@@ -326,12 +325,16 @@ describe('NotificationBox', () => {
     expect(queryByText('Notification 1')).toBeTruthy()
     expect(queryByText('Notification 2')).toBeTruthy()
 
-    expect(store.getActions()).toEqual([])
+    expect(store.getActions()).toEqual([fetchAvailableRewards()])
 
     fireEvent.press(getByText('Press Internal'))
-    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
+    expect(store.getActions()).toEqual([
+      fetchAvailableRewards(),
+      openUrl(testNotification.ctaUri, false, true),
+    ])
     fireEvent.press(getByText('Press External'))
     expect(store.getActions()).toEqual([
+      fetchAvailableRewards(),
       openUrl(testNotification.ctaUri, false, true),
       openUrl(testNotification.ctaUri, true, true),
     ])

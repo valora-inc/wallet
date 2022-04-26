@@ -2,7 +2,7 @@ import Analytics, { Analytics as analytics } from '@segment/analytics-react-nati
 import Adjust from '@segment/analytics-react-native-adjust'
 import CleverTapSegment from '@segment/analytics-react-native-clevertap'
 import Firebase from '@segment/analytics-react-native-firebase'
-import { sha256 } from 'ethereumjs-util'
+import { sha256FromString } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
@@ -72,14 +72,13 @@ class ValoraAnalytics {
       if (!SEGMENT_API_KEY) {
         throw Error('API Key not present, likely due to environment. Skipping enabling')
       }
-
       await Analytics.setup(SEGMENT_API_KEY, SEGMENT_OPTIONS)
 
       try {
         const deviceInfo = await getDeviceInfo()
         this.deviceInfo = deviceInfo
-        this.sessionId = sha256(
-          Buffer.from('0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now()), 'hex')
+        this.sessionId = sha256FromString(
+          '0x' + deviceInfo.UniqueID.split('-').join('') + String(Date.now())
         )
           .toString('hex')
           .slice(2)

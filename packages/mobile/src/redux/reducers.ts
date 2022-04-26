@@ -3,7 +3,6 @@ import { PersistState } from 'redux-persist'
 import { Actions } from 'src/account/actions'
 import { reducer as account, State as AccountState } from 'src/account/reducer'
 import { reducer as alert, State as AlertState } from 'src/alert/reducer'
-import { cloudFunctionsApi } from 'src/api/slice'
 import { appReducer as app, State as AppState } from 'src/app/reducers'
 import superchargeReducer, { State as SuperchargeState } from 'src/consumerIncentives/slice'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
@@ -54,7 +53,6 @@ const appReducer = combineReducers({
   walletConnect,
   tokens,
   supercharge: superchargeReducer,
-  [cloudFunctionsApi.reducerPath]: cloudFunctionsApi.reducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -103,7 +101,6 @@ export interface RootState {
   walletConnect: WalletConnectState
   tokens: TokensState
   supercharge: SuperchargeState
-  [cloudFunctionsApi.reducerPath]: unknown
 }
 
 export interface PersistedRootState {

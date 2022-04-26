@@ -2833,7 +2833,19 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "availableRewards": {
+                    "items": {
+                        "$ref": "#/definitions/SuperchargePendingReward"
+                    },
+                    "type": "array"
+                },
                 "error": {
+                    "type": "boolean"
+                },
+                "fetchAvailableRewardsError": {
+                    "type": "boolean"
+                },
+                "fetchAvailableRewardsLoading": {
                     "type": "boolean"
                 },
                 "loading": {
@@ -2841,7 +2853,10 @@
                 }
             },
             "required": [
+                "availableRewards",
                 "error",
+                "fetchAvailableRewardsError",
+                "fetchAvailableRewardsLoading",
                 "loading"
             ],
             "type": "object"
@@ -3217,6 +3232,41 @@
                 "PILL_SUPERCHARGE"
             ],
             "type": "string"
+        },
+        "SuperchargePendingReward": {
+            "additionalProperties": false,
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "contractAddress": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "number"
+                },
+                "index": {
+                    "type": "number"
+                },
+                "proof": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "tokenAddress": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "amount",
+                "contractAddress",
+                "createdAt",
+                "index",
+                "proof",
+                "tokenAddress"
+            ],
+            "type": "object"
         },
         "SuperchargeToken": {
             "enum": [
@@ -4011,7 +4061,6 @@
         "app": {
             "$ref": "#/definitions/State"
         },
-        "cloudFunctionsApi": {},
         "escrow": {
             "$ref": "#/definitions/State_15"
         },
@@ -4084,7 +4133,6 @@
         "account",
         "alert",
         "app",
-        "cloudFunctionsApi",
         "escrow",
         "exchange",
         "fees",

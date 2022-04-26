@@ -77,6 +77,13 @@ export function newTransactionContext(tag: string, description: string) {
   }
 }
 
+export interface PageInfo {
+  startCursor: string
+  endCursor: string
+  hasNextPage: boolean
+  hasPreviousPage: boolean
+}
+
 export enum TransactionStatus {
   Pending = 'Pending',
   Complete = 'Complete',
