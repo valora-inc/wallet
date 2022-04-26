@@ -159,9 +159,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
-    yield call(handleUpdateAccountRegistration, {
-      fcmToken,
-    })
+    yield call(handleUpdateAccountRegistration)
+
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)

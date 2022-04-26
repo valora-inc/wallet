@@ -6,7 +6,6 @@ import { dynamic } from 'redux-saga-test-plan/providers'
 import { call, delay, fork, select } from 'redux-saga/effects'
 import { initializeAccount, setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
-import { generateSignedMessage } from 'src/account/saga'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -71,7 +70,6 @@ describe('Import wallet saga', () => {
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), false],
         [call(uploadNameAndPicture)],
-        [call(generateSignedMessage), undefined],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
@@ -99,7 +97,6 @@ describe('Import wallet saga', () => {
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
-        [call(generateSignedMessage), undefined],
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), true],
         [call(uploadNameAndPicture)],
@@ -124,7 +121,6 @@ describe('Import wallet saga', () => {
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
-        [call(generateSignedMessage), undefined],
       ])
       .put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
       .put(importBackupPhraseFailure())
@@ -151,7 +147,6 @@ describe('Import wallet saga', () => {
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), false],
         [call(uploadNameAndPicture)],
-        [call(generateSignedMessage), undefined],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
@@ -170,7 +165,6 @@ describe('Import wallet saga', () => {
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
-        [call(generateSignedMessage), undefined],
       ])
       .put(
         showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
@@ -188,7 +182,6 @@ describe('Import wallet saga', () => {
         [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
-        [call(generateSignedMessage), undefined],
       ])
       .run()
 

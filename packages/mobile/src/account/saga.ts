@@ -196,12 +196,7 @@ export function* generateSignedMessage() {
 }
 
 export function* handleUpdateAccountRegistration(extraProperties: RegistrationProperties = {}) {
-  const address = yield select(walletAddressSelector)
   const signedMessage = yield select(signedMessageSelector)
-  const appVersion = DeviceInfo.getVersion()
-  const language = yield select(currentLanguageSelector)
-  const country = yield select(userLocationDataSelector)
-
   if (!signedMessage) {
     // ensures backwards compatibility - this should happen only for updating the
     // fcm token when an existing user updates the app and the signed message is
@@ -213,11 +208,24 @@ export function* handleUpdateAccountRegistration(extraProperties: RegistrationPr
     return
   }
 
+  const address = yield select(walletAddressSelector)
+  const appVersion = DeviceInfo.getVersion()
+  const language = yield select(currentLanguageSelector)
+  const country = yield select(userLocationDataSelector)
+
+  let fcmToken
+  try {
+    fcmToken = yield call([firebase.app().messaging(), 'getToken'])
+  } catch (error) {
+    Logger.error(`${TAG}@handleUpdateAccountRegistration`, 'Could not get fcm token', error)
+  }
+
   try {
     yield call(updateAccountRegistration, address, signedMessage, {
       appVersion,
       language,
       country: country?.countryCodeAlpha2,
+      fcmToken,
       ...extraProperties,
     })
   } catch (error) {
@@ -246,6 +254,11 @@ export function* watchFetchFinclusiveKYC() {
   yield takeLeading(Actions.FETCH_FINCLUSIVE_KYC, fetchFinclusiveKyc)
 }
 
+export function* watchSignedMessage() {
+  yield take(Actions.SAVE_SIGNED_MESSAGE)
+  yield call(handleUpdateAccountRegistration)
+}
+
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
@@ -254,4 +267,5 @@ export function* accountSaga() {
   yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
   yield spawn(watchFetchFinclusiveKYC)
+  yield spawn(watchSignedMessage)
 }

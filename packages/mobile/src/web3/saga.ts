@@ -6,7 +6,7 @@ import { RpcWalletErrors } from '@celo/wallet-rpc/lib/rpc-wallet'
 import * as bip39 from 'react-native-bip39'
 import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import { setAccountCreationTime, setPromptForno } from 'src/account/actions'
-import { generateSignedMessage, handleUpdateAccountRegistration } from 'src/account/saga'
+import { generateSignedMessage } from 'src/account/saga'
 import { promptFornoIfNeededSelector, signedMessageSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
@@ -355,7 +355,6 @@ export function* getConnectedUnlockedAccount() {
     if (!signedMessage) {
       try {
         yield call(generateSignedMessage)
-        yield call(handleUpdateAccountRegistration)
       } catch (error) {
         Logger.error(
           `${TAG}@getConnectedUnlockedAccount`,
