@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Ocorreu um erro ao resgatar recompensas de Supercharge pendentes. Tente novamente mais tarde.",
   "superchargeClaimSuccess": "Suas recompensas de Supercharge foram adicionadas ao seu saldo total.",
   "superchargeClaimFailure": "Ocorreu um erro ao resgatar suas recompensas de Supercharge.",
-  "superchargeNotificationBody": "As recompensas do Supercharge chegaram! Resgate-as agora mesmo.",
+  "superchargeNotificationBody": "As suas recompensas Supercharge chegaram! Resgate-as agora mesmo",
   "superchargeNotificationStart": "Resgatar recompensas",
   "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número",
@@ -1210,6 +1210,7 @@
   "merchantPaymentSetup": "Ocorreu um erro ao carregar as informações do comerciante, tente escanear o QRCode novamente",
   "merchantPaymentSubmitSuccess": "Seu pagamento foi enviado com sucesso",
   "merchantWalletUnlockError": "Algo deu errado ao desbloquear sua carteira, tente novamente",
+  "noMoreTransactions": "Não há mais transacções",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
