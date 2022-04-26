@@ -44,14 +44,18 @@ import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { removeAccountLocally } from 'src/pincode/authentication'
+import {
+  removeAccountLocally,
+  retrieveSignedMessage,
+  storeSignedMessage,
+} from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { finclusiveKycStatusSelector, signedMessageSelector } from './selectors'
+import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -187,16 +191,15 @@ export function* generateSignedMessage() {
       serializeSignature,
       signMessage('valora auth message', ensureLeading0x(privateKey), address)
     )
-    yield put(saveSignedMessage(signedMessage))
-
-    return signedMessage
+    yield call(storeSignedMessage, signedMessage)
+    yield put(saveSignedMessage())
   } catch (error) {
     throw error
   }
 }
 
 export function* handleUpdateAccountRegistration(extraProperties: RegistrationProperties = {}) {
-  const signedMessage = yield select(signedMessageSelector)
+  const signedMessage = yield call(retrieveSignedMessage)
   if (!signedMessage) {
     // ensures backwards compatibility - this should happen only for updating the
     // fcm token when an existing user updates the app and the signed message is

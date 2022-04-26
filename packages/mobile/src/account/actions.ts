@@ -197,7 +197,6 @@ export interface SetFinclusiveRegionSupported {
 
 export interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
-  signedMessage: string
 }
 
 export type ActionTypes =
@@ -417,7 +416,6 @@ export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => 
   type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED,
 })
 
-export const saveSignedMessage = (signedMessage: string): SaveSignedMessage => ({
+export const saveSignedMessage = (): SaveSignedMessage => ({
   type: Actions.SAVE_SIGNED_MESSAGE,
-  signedMessage,
 })

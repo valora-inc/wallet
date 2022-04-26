@@ -7,7 +7,7 @@ import * as bip39 from 'react-native-bip39'
 import { call, delay, put, race, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import { setAccountCreationTime, setPromptForno } from 'src/account/actions'
 import { generateSignedMessage } from 'src/account/saga'
-import { promptFornoIfNeededSelector, signedMessageSelector } from 'src/account/selectors'
+import { promptFornoIfNeededSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -21,7 +21,11 @@ import { gethSaga, waitForGethConnectivity } from 'src/geth/saga'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate, navigateToError } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CANCELLED_PIN_INPUT, getPasswordSaga } from 'src/pincode/authentication'
+import {
+  CANCELLED_PIN_INPUT,
+  getPasswordSaga,
+  retrieveSignedMessage,
+} from 'src/pincode/authentication'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import Logger from 'src/utils/Logger'
 import {
@@ -351,7 +355,7 @@ export function* getConnectedUnlockedAccount() {
   const account: string = yield call(getConnectedAccount)
   const result: UnlockResult = yield call(unlockAccount, account)
   if (result === UnlockResult.SUCCESS) {
-    const signedMessage = yield select(signedMessageSelector)
+    const signedMessage = yield call(retrieveSignedMessage)
     if (!signedMessage) {
       try {
         yield call(generateSignedMessage)

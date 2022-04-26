@@ -2460,12 +2460,6 @@
                 },
                 "retryVerificationWithForno": {
                     "type": "boolean"
-                },
-                "signedMessage": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
                 }
             },
             "required": [
@@ -2491,7 +2485,6 @@
                 "pincodeType",
                 "promptFornoIfNeeded",
                 "retryVerificationWithForno",
-                "signedMessage"
             ],
             "type": "object"
         },

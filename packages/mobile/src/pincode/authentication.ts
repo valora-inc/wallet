@@ -51,6 +51,7 @@ enum STORAGE_KEYS {
   PEPPER = 'PEPPER',
   PASSWORD_HASH = 'PASSWORD_HASH',
   PIN = 'PIN',
+  SIGNED_MESSAGE = 'SIGNED_MESSAGE',
 }
 
 const PEPPER_LENGTH = 64
@@ -186,6 +187,20 @@ function storePinWithBiometry(pin: string) {
       authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
     },
   })
+}
+
+export async function storeSignedMessage(message: string) {
+  return storeItem({
+    key: STORAGE_KEYS.SIGNED_MESSAGE,
+    value: message,
+    options: {
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    },
+  })
+}
+
+export async function retrieveSignedMessage() {
+  return retrieveStoredItem(STORAGE_KEYS.SIGNED_MESSAGE)
 }
 
 export function removeStoredPin() {

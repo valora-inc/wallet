@@ -8,9 +8,8 @@ import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
-import { call, select, take } from 'redux-saga/effects'
+import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
-import { signedMessageSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
@@ -20,6 +19,7 @@ import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
 
@@ -167,22 +167,22 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     }
   }
 
-  const signedMessage = yield select(signedMessageSelector)
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
   app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
 
-    if (signedMessage) {
-      try {
+    try {
+      const signedMessage = await retrieveSignedMessage()
+      if (signedMessage) {
         await updateAccountRegistration(address, signedMessage, { fcmToken })
-      } catch (error) {
-        Logger.error(
-          `${TAG}@initializeCloudMessaging`,
-          'Unable to update cloud messaging token',
-          error
-        )
       }
+    } catch (error) {
+      Logger.error(
+        `${TAG}@initializeCloudMessaging`,
+        'Unable to update cloud messaging token',
+        error
+      )
     }
 
     if (Platform.OS === 'android') {
