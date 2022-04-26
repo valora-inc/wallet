@@ -1225,7 +1225,7 @@ export const v47Schema = {
 }
 
 export const v48Schema = {
-  ...v47Schema,
+  ..._.omit(v47Schema, 'cloudFunctionsApi'),
   _persist: {
     ...v47Schema._persist,
     version: 48,

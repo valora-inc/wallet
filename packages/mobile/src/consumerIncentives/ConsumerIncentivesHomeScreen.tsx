@@ -12,9 +12,12 @@ import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useDefaultTokenToSupercharge } from 'src/consumerIncentives/hooks'
+import {
+  useDefaultTokenToSupercharge,
+  useHasBalanceForSupercharge,
+} from 'src/consumerIncentives/hooks'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -27,28 +30,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
-
-function useHasBalanceForSupercharge(): {
-  hasBalanceForSupercharge: boolean
-  superchargingToken?: SuperchargeTokenConfig
-  hasMaxBalance?: boolean
-} {
-  const { superchargeTokens } = useSelector((state) => state.app)
-  const tokens = useSelector(stablecoinsSelector)
-
-  for (const tokenConfig of superchargeTokens) {
-    const tokenUserInfo = tokens.find((t) => t.symbol === tokenConfig.token)
-    if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
-      return {
-        hasBalanceForSupercharge: true,
-        superchargingToken: tokenConfig,
-        hasMaxBalance: tokenUserInfo.balance.gte(tokenConfig.maxBalance),
-      }
-    }
-  }
-  return { hasBalanceForSupercharge: false }
-}
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 
 const onLearnMore = () => {
   ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
