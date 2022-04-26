@@ -455,5 +455,6 @@ export async function removeAccountLocally(account: string) {
     removeStoredItem(STORAGE_KEYS.PEPPER),
     removeStoredItem(passwordHashStorageKey(account)),
     removeStoredItem(STORAGE_KEYS.PIN),
+    removeStoredItem(STORAGE_KEYS.SIGNED_MESSAGE),
   ])
 }
