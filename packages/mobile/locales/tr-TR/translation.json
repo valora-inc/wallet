@@ -1210,7 +1210,7 @@
   "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
   "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
-  "noMoreTransactions": "There are no more transactions",
+  "noMoreTransactions": "Başka işlem yok",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
