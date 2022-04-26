@@ -197,7 +197,7 @@
   "superchargeFetchRewardsFailed": "Fehler beim Abrufen ausstehender Supercharge-Rewards. Bitte versuche es später erneut.",
   "superchargeClaimSuccess": "Deine Supercharge-Rewards wurden deinem Gesamtguthaben hinzugefügt.",
   "superchargeClaimFailure": "Es gab ein Problem bei der Inanspruchnahme deiner Supercharge-Rewards.",
-  "superchargeNotificationBody": "Die Supercharge-Belohnungen sind verfügbar! Nimm sie jetzt in Anspruch.",
+  "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
@@ -1210,6 +1210,7 @@
   "merchantPaymentSetup": "Beim Laden der Händlerinformation ist ein Fehler aufgetreten. Bitte versuche, den QR-Code erneut zu scannen",
   "merchantPaymentSubmitSuccess": "Deine Zahlung wurde erfolgreich übermittelt",
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
+  "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
