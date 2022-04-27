@@ -487,7 +487,6 @@ export const migrations = {
           'outgoingPaymentRequests',
           'dismissedInviteFriends',
           'dismissedEarnRewards',
-          'shouldSkipOnboardingEducationScreen',
         ]),
       },
       app: {

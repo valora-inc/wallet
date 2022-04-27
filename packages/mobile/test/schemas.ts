@@ -947,7 +947,6 @@ export const v32Schema = {
   account: {
     ...v31Schema.account,
     hasLinkedBankAccount: false,
-    shouldSkipOnboardingEducationScreen: undefined,
   },
 }
 
@@ -1064,7 +1063,6 @@ export const v40Schema = {
       'outgoingPaymentRequests',
       'dismissedInviteFriends',
       'dismissedEarnRewards',
-      'shouldSkipOnboardingEducationScreen',
     ]),
   },
   alert: null,
