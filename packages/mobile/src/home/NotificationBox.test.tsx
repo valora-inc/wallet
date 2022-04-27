@@ -4,7 +4,10 @@ import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
+import { SuperchargeToken } from 'src/consumerIncentives/types'
 import NotificationBox from 'src/home/NotificationBox'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/values'
@@ -63,6 +66,41 @@ const storeDataNotificationsDisabled = {
     },
   },
   verify: { komenci: { errorTimestamps: [] }, status: { komenci: false } },
+}
+
+const testReward = {
+  amount: '2',
+  contractAddress: 'contractAddress',
+  createdAt: Date.now(),
+  index: 0,
+  proof: [],
+  tokenAddress: 'tokenAddress',
+}
+
+const superchargeSetUp = {
+  web3: {
+    account: 'account',
+  },
+  app: {
+    numberVerified: true,
+    superchargeTokens: [
+      {
+        token: SuperchargeToken.cUSD,
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    ],
+  },
+  supercharge: {
+    availableRewards: [testReward],
+  },
+}
+
+const superchargeSetUpWithoutRewards = {
+  ...superchargeSetUp,
+  supercharge: {
+    availableRewards: [],
+  },
 }
 
 describe('NotificationBox', () => {
@@ -338,5 +376,167 @@ describe('NotificationBox', () => {
       openUrl(testNotification.ctaUri, false, true),
       openUrl(testNotification.ctaUri, true, true),
     ])
+  })
+
+  it('renders claim rewards notification when there are supercharge rewards', () => {
+    const store = createMockStore(superchargeSetUp)
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeTruthy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+
+    fireEvent.press(
+      getByTestId('claimSuperchargeRewards/CallToActions/superchargeNotificationStart/Button')
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
+  })
+
+  it('renders keep supercharging notification when expected', () => {
+    const store = createMockStore({
+      ...superchargeSetUpWithoutRewards,
+      tokens: {
+        tokenBalances: {
+          cUSD: {
+            isCoreToken: true,
+            balance: '100',
+            symbol: 'cUSD',
+          },
+        },
+      },
+    })
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeTruthy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+
+    fireEvent.press(
+      getByTestId('keepSupercharging/CallToActions/superchargingNotificationStart/Button')
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
+  })
+
+  it('does not renders keep supercharging because is dismissed', () => {
+    const store = createMockStore({
+      ...superchargeSetUpWithoutRewards,
+      tokens: {
+        tokenBalances: {
+          cUSD: {
+            isCoreToken: true,
+            balance: '100',
+            symbol: 'cUSD',
+          },
+        },
+      },
+      account: {
+        dismissedKeepSupercharging: true,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
+  })
+
+  it('renders start supercharging notification if number is not verified', () => {
+    const store = createMockStore({
+      ...superchargeSetUpWithoutRewards,
+      tokens: {
+        tokenBalances: {
+          cUSD: {
+            isCoreToken: true,
+            balance: '100',
+            symbol: 'cUSD',
+          },
+        },
+      },
+      app: {
+        numberVerified: false,
+      },
+    })
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+
+    fireEvent.press(
+      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
+  })
+
+  it('renders start supercharging notification if user does not have enough balance', () => {
+    const store = createMockStore({
+      ...superchargeSetUpWithoutRewards,
+      tokens: {
+        tokenBalances: {
+          cUSD: {
+            isCoreToken: true,
+            balance: '5',
+            symbol: 'cUSD',
+          },
+        },
+      },
+    })
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeTruthy()
+
+    fireEvent.press(
+      getByTestId('startSupercharging/CallToActions/startSuperchargingNotificationStart/Button')
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.ConsumerIncentivesHomeScreen)
+  })
+
+  it('does not renders start supercharging because is dismissed', () => {
+    const store = createMockStore({
+      ...superchargeSetUpWithoutRewards,
+      tokens: {
+        tokenBalances: {
+          cUSD: {
+            isCoreToken: true,
+            balance: '5',
+            symbol: 'cUSD',
+          },
+        },
+      },
+      account: {
+        dismissedStartSupercharging: true,
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/claimSuperchargeRewards')).toBeFalsy()
+    expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
+    expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
   })
 })

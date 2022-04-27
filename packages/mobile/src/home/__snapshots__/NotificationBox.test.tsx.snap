@@ -25,6 +25,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
+        testID="NotificationView/backup"
       >
         <View
           style={
@@ -55,6 +56,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
+          testID="backup"
         >
           <View
             style={
@@ -81,7 +83,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="undefined/Text"
+                testID="backup/Text"
               >
                 backupKeyNotification
               </Text>
@@ -93,7 +95,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="undefined/CallToActions"
+                testID="backup/CallToActions"
               >
                 <View
                   accessible={true}
@@ -112,7 +114,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/introPrimaryAction/Button"
+                  testID="backup/CallToActions/introPrimaryAction/Button"
                 >
                   <Text
                     style={
@@ -161,7 +163,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined/Icon"
+                testID="backup/Icon"
               />
             </View>
           </View>
@@ -175,6 +177,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
+        testID="NotificationView/incomingPaymentRequest"
       >
         <View
           style={
@@ -330,6 +333,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
+        testID="NotificationView/startSupercharging"
       >
         <View
           style={
@@ -360,6 +364,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
+          testID="startSupercharging"
         >
           <View
             style={
@@ -386,9 +391,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="undefined/Text"
+                testID="startSupercharging/Text"
               >
-                notification.body
+                startSuperchargingNotificationBody
               </Text>
               <View
                 style={
@@ -398,7 +403,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="undefined/CallToActions"
+                testID="startSupercharging/CallToActions"
               >
                 <View
                   accessible={true}
@@ -417,7 +422,201 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/notification.cta/Button"
+                  testID="startSupercharging/CallToActions/startSuperchargingNotificationStart/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    startSuperchargingNotificationStart
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="startSupercharging/CallToActions/dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../packages/mobile/src/images/boost-rewards.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="startSupercharging/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/getVerified"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="getVerified"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="getVerified/Text"
+              >
+                notification.body
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="getVerified/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="getVerified/CallToActions/notification.cta/Button"
                 >
                   <Text
                     style={
@@ -458,7 +657,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/dismiss/Button"
+                  testID="getVerified/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -508,7 +707,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined/Icon"
+                testID="getVerified/Icon"
               />
             </View>
           </View>
@@ -522,6 +721,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
+        testID="NotificationView/testNotification"
       >
         <View
           style={
@@ -552,6 +752,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
+          testID="testNotification"
         >
           <View
             style={
@@ -578,7 +779,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="undefined/Text"
+                testID="testNotification/Text"
               >
                 Body Text
               </Text>
@@ -590,7 +791,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="undefined/CallToActions"
+                testID="testNotification/CallToActions"
               >
                 <View
                   accessible={true}
@@ -609,7 +810,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/Start/Button"
+                  testID="testNotification/CallToActions/Start/Button"
                 >
                   <Text
                     style={
@@ -650,7 +851,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/Dismiss/Button"
+                  testID="testNotification/CallToActions/Dismiss/Button"
                 >
                   <Text
                     style={
@@ -688,6 +889,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             "width": 718,
           }
         }
+        testID="NotificationView/celoEducation"
       >
         <View
           style={
@@ -718,6 +920,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
               ],
             ]
           }
+          testID="celoEducation"
         >
           <View
             style={
@@ -744,7 +947,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "lineHeight": 24,
                   }
                 }
-                testID="undefined/Text"
+                testID="celoEducation/Text"
               >
                 whatIsGold
               </Text>
@@ -756,7 +959,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "justifyContent": "flex-start",
                   }
                 }
-                testID="undefined/CallToActions"
+                testID="celoEducation/CallToActions"
               >
                 <View
                   accessible={true}
@@ -775,7 +978,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/learnMore/Button"
+                  testID="celoEducation/CallToActions/learnMore/Button"
                 >
                   <Text
                     style={
@@ -816,7 +1019,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/dismiss/Button"
+                  testID="celoEducation/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -866,7 +1069,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined/Icon"
+                testID="celoEducation/Icon"
               />
             </View>
           </View>
@@ -892,6 +1095,18 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
       style={
         Object {
           "backgroundColor": "#2E3338",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
           "borderRadius": 5,
           "flex": 0,
           "height": 5,
