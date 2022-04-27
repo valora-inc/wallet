@@ -605,4 +605,14 @@ export const migrations = {
       },
     }
   },
+  49: (state: any) => {
+    return {
+      ...state,
+      account: {
+        ...state.account,
+        dismissedKeepSupercharging: false,
+        dismissedStartSupercharging: false,
+      },
+    }
+  },
 }
