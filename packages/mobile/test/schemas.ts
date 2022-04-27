@@ -1063,7 +1063,6 @@ export const v40Schema = {
       'outgoingPaymentRequests',
       'dismissedInviteFriends',
       'dismissedEarnRewards',
-      'shouldSkipOnboardingEducationScreen',
     ]),
   },
   alert: null,
