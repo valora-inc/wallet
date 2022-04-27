@@ -20,6 +20,9 @@
       groupName: 'devDependencies',
       // But exclude some specific packages from this group
       excludePackageNames: ['typescript'],
+      lockFileMaintenance: {
+        enabled: true,
+      },
     },
     {
       // Group updates for @celo packages
@@ -37,16 +40,25 @@
       // Group updates for @react-native-firebase packages
       matchPackagePatterns: ['^@react-native-firebase/'],
       groupName: 'react-native-firebase',
+      lockFileMaintenance: {
+        enabled: true,
+      },
     },
     {
       // Group updates for @segment packages
       matchPackagePatterns: ['^@segment/'],
       groupName: 'segment',
+      lockFileMaintenance: {
+        enabled: true,
+      },
     },
     {
       // Group updates for prettier packages
       matchPackagePatterns: ['^prettier'],
       groupName: 'prettier',
+      lockFileMaintenance: {
+        enabled: true,
+      },
     },
   ],
 }
