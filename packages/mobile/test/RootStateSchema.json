@@ -2492,7 +2492,7 @@
                 "pictureUri",
                 "pincodeType",
                 "promptFornoIfNeeded",
-                "retryVerificationWithForno",
+                "retryVerificationWithForno"
             ],
             "type": "object"
         },
