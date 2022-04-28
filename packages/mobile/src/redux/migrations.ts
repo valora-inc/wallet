@@ -606,7 +606,7 @@ export const migrations = {
       },
     }
   },
-  49: (state: any) => ({
+  50: (state: any) => ({
     ...state,
     walletConnect: {
       ..._.omit(state.walletConnect, ['v2']),

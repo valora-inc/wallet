@@ -1238,20 +1238,20 @@ export const v48Schema = {
   },
 }
 
-export const v49Schema = {
-  ...v48Schema,
+export const v50Schema = {
+  ...v49Schema,
   _persist: {
-    ...v48Schema._persist,
-    version: 49,
+    ...v49Schema._persist,
+    version: 50,
   },
   app: {
-    ..._.omit(v48Schema.app, ['walletConnectV2Enabled']),
+    ..._.omit(v49Schema.app, ['walletConnectV2Enabled']),
   },
   walletConnect: {
-    ..._.omit(v48Schema.walletConnect, ['v2']),
+    ..._.omit(v49Schema.walletConnect, ['v2']),
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v49Schema as Partial<RootState>
+  return v50Schema as Partial<RootState>
 }
