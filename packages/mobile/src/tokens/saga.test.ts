@@ -190,4 +190,14 @@ describe('watchAccountFundedOrLiquidated', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
   })
+
+  it('does not dispatch the account funded event for an account restore', async () => {
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([[select(totalTokenBalanceSelector), dynamic(balances(null, new BigNumber(10)))]])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+  })
 })

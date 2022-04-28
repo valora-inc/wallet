@@ -110,7 +110,7 @@ export const totalTokenBalanceSelector = createSelector(
   ],
   (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError) => {
     const usdRate = exchangeRate[Currency.Dollar]
-    if (!usdRate || Object.keys(tokensList).length === 0) {
+    if (!usdRate || tokensList.length === 0) {
       return null
     }
     let totalBalance = new BigNumber(0)
