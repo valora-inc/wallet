@@ -65,8 +65,6 @@ export enum SettingsEvents {
 }
 
 export enum OnboardingEvents {
-  onboarding_education_skipped = 'onboarding_education_skipped',
-  onboarding_education_not_skipped = 'onboarding_education_not_skipped',
   onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_complete = 'onboarding_education_complete',
