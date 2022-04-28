@@ -5,20 +5,19 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
-import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
+import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import { CeloExchangeEvents, OnboardingEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
@@ -30,7 +29,6 @@ import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
-import { isE2EEnv } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
@@ -113,7 +111,6 @@ import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsSc
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { getRandomByUUID } from 'src/utils/seedRandom'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
@@ -596,38 +593,23 @@ export function MainStackScreen() {
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
-    // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
-    // The randomization is hardcoded by device id here to achieve a 50/50 split, the value is written into the redux store so the same experience
-    // would persist.
-    // e2e tests cannot mock value with jest thus need to default to true
-    // This block of code should be removed when the experiment is done.
-    const _shouldSkipOnboardingEducationScreen = isE2EEnv ? true : getRandomByUUID() < 0.5
-
     let initialRoute: InitialRouteName
 
     if (!language) {
       initialRoute = Screens.Language
-    } else if (
-      !name ||
-      !acceptedTerms ||
-      pincodeType === PincodeType.Unset ||
-      (!account && !choseToRestoreAccount)
-    ) {
+    } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
-      if (_shouldSkipOnboardingEducationScreen) {
-        initialRoute = Screens.Welcome
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_skipped)
-      } else {
-        initialRoute = Screens.OnboardingEducationScreen
-        ValoraAnalytics.track(OnboardingEvents.onboarding_education_not_skipped)
-      }
-    } else if (!account && choseToRestoreAccount) {
-      initialRoute = Screens.ImportWallet
+      initialRoute = Screens.OnboardingEducationScreen
+    } else if (!account) {
+      initialRoute = choseToRestoreAccount
+        ? Screens.ImportWallet
+        : Screens.OnboardingEducationScreen
     } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
       initialRoute = Screens.DrawerNavigator
     }
+
     setInitialRoute(initialRoute)
     Logger.info(`${TAG}@MainStackScreen`, `Initial route: ${initialRoute}`)
 

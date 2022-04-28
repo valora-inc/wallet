@@ -16,6 +16,12 @@ export default RestoreAccountOnboarding = () => {
   // it('Language', async () => {
   //   await element(by.id('ChooseLanguage/en-US')).tap()
   // })
+  it('Onboarding Education', async () => {
+    // Onboarding education has 3 steps
+    for (let i = 0; i < 3; i++) {
+      await element(by.id('Education/progressButton')).tap()
+    }
+  })
 
   it('Welcome', async () => {
     await element(by.id('RestoreAccountButton')).tap()
