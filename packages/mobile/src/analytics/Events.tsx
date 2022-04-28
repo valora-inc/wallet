@@ -18,6 +18,9 @@ export enum AppEvents {
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
   request_tracking_permission_accepted = 'request_tracking_permission_accepted',
+
+  account_funded = 'account_funded',
+  account_liquidated = 'account_liquidated',
 }
 
 export enum HomeEvents {
@@ -62,8 +65,6 @@ export enum SettingsEvents {
 }
 
 export enum OnboardingEvents {
-  onboarding_education_skipped = 'onboarding_education_skipped',
-  onboarding_education_not_skipped = 'onboarding_education_not_skipped',
   onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_complete = 'onboarding_education_complete',

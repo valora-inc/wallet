@@ -14,6 +14,11 @@ export default NewAccountOnboarding = () => {
   })
 
   it('Create a new account', async () => {
+    // Onboarding education has 3 steps
+    for (let i = 0; i < 3; i++) {
+      await element(by.id('Education/progressButton')).tap()
+    }
+
     await element(by.id('CreateAccountButton')).tap()
 
     // Accept Terms

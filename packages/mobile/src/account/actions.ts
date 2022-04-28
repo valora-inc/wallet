@@ -41,6 +41,8 @@ export enum Actions {
   FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
   SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
+  DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
+  DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
 }
 
@@ -195,6 +197,14 @@ export interface SetFinclusiveRegionSupported {
   type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED
 }
 
+export interface DismissKeepSuperchargingAction {
+  type: Actions.DISMISS_KEEP_SUPERCHARGING
+}
+
+export interface DismissStartSuperchargingAction {
+  type: Actions.DISMISS_START_SUPERCHARGING
+}
+
 export interface SaveSignedMessage {
   type: Actions.SAVE_SIGNED_MESSAGE
 }
@@ -233,6 +243,8 @@ export type ActionTypes =
   | FetchFinclusiveKyc
   | SetFinclusiveKyc
   | SetFinclusiveRegionSupported
+  | DismissKeepSuperchargingAction
+  | DismissStartSuperchargingAction
   | SaveSignedMessage
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
@@ -414,6 +426,14 @@ export const setFinclusiveKyc = (finclusiveKycStatus: FinclusiveKycStatus): SetF
 
 export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => ({
   type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED,
+})
+
+export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({
+  type: Actions.DISMISS_KEEP_SUPERCHARGING,
+})
+
+export const dismissStartSupercharging = (): DismissStartSuperchargingAction => ({
+  type: Actions.DISMISS_START_SUPERCHARGING,
 })
 
 export const saveSignedMessage = (): SaveSignedMessage => ({
