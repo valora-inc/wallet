@@ -109,7 +109,7 @@ type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 
 const mapStateToProps = (state: RootState): StateProps => {
-  const { v1, v2 } = walletConnectEnabledSelector(state)
+  const { v1 } = walletConnectEnabledSelector(state)
   return {
     backupCompleted: state.account.backupCompleted,
     account: state.web3.account,
@@ -124,9 +124,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
-    connectedApplications:
-      state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
-    walletConnectEnabled: v1 || v2,
+    connectedApplications: state.walletConnect.v1.sessions.length,
+    walletConnectEnabled: v1,
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
     linkBankAccountEnabled: state.app.linkBankAccountEnabled,
