@@ -36,7 +36,6 @@ export interface State {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
-  walletConnectV2Enabled: boolean
   superchargeApy: number
   superchargeTokens: SuperchargeTokenConfig[]
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
@@ -87,7 +86,6 @@ const initialState = {
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
-  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokens: [],
   ranVerificationMigrationAt: null,
@@ -211,7 +209,6 @@ export const appReducer = (
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         dappListApiUrl: action.configValues.dappListApiUrl,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
-        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokens: action.configValues.superchargeTokens,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,

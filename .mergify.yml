@@ -13,7 +13,6 @@ queue_rules:
       # Keep this in sync with the github branch protection settings
       - check-success=Lint
       - check-success=Vulnerabilities
-      - check-success=General
       - check-success=Mobile
       - check-success=iOS
       - check-success=Android
