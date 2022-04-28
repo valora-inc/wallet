@@ -1,5 +1,6 @@
 import { generateKeys } from '@celo/utils/lib/account'
 import { serializeSignature } from '@celo/utils/lib/signatureUtils'
+import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -9,19 +10,21 @@ import {
   generateSignedMessage,
   handleUpdateAccountRegistration,
 } from 'src/account/saga'
-import { signedMessageSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { getStoredMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { getWalletAddress } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 import { saveSignedMessage, setFinclusiveKyc } from './actions'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+const mockedKeychain = mocked(Keychain)
 
 jest.mock('src/in-house-liquidity', () => ({
   ...(jest.requireActual('src/in-house-liquidity') as any),
@@ -55,7 +58,7 @@ describe('handleUpdateAccountRegistration', () => {
     await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
       .provide([
         [select(walletAddressSelector), '0xabc'],
-        [select(signedMessageSelector), 'someSignedMessage'],
+        [call(retrieveSignedMessage), 'someSignedMessage'],
         [call(generateSignedMessage), 'someSignedMessage'],
         [select(currentLanguageSelector), 'en-US'],
         [select(userLocationDataSelector), { countryCodeAlpha2: 'US' }],
@@ -73,7 +76,7 @@ describe('handleUpdateAccountRegistration', () => {
     await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
       .provide([
         [select(walletAddressSelector), '0xabc'],
-        [select(signedMessageSelector), 'someSignedMessage'],
+        [call(retrieveSignedMessage), 'someSignedMessage'],
         [select(currentLanguageSelector), 'en-US'],
         [select(userLocationDataSelector), { countryCodeAlpha2: 'US' }],
         [matchers.call.fn(updateAccountRegistration), throwError(new Error('some error'))],
@@ -99,6 +102,13 @@ describe('generateSignedMessage', () => {
   })
 
   it('generates and saves the signed message', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      username: 'some username',
+      password: 'someSignedMessage',
+      service: 'some service',
+      storage: 'some string',
+    })
+
     await expectSaga(generateSignedMessage)
       .provide([
         [select(walletAddressSelector), address],
@@ -106,7 +116,8 @@ describe('generateSignedMessage', () => {
         [matchers.call.fn(generateKeys), { privateKey }],
         [matchers.call.fn(serializeSignature), 'someSignedMessage'],
       ])
-      .put(saveSignedMessage('someSignedMessage'))
+      .put(saveSignedMessage())
+      .call(storeSignedMessage, 'someSignedMessage')
       .run()
   })
 
@@ -119,7 +130,8 @@ describe('generateSignedMessage', () => {
           [matchers.call.fn(generateKeys), { privateKey }],
           [matchers.call.fn(serializeSignature), throwError(new Error('some signature error'))],
         ])
-        .not.put(saveSignedMessage('someSignedMessage'))
+        .not.put(saveSignedMessage())
+        .not.call(storeSignedMessage)
         .run()
     ).rejects.toThrowError('some signature error')
   })
