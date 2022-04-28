@@ -49,6 +49,8 @@ export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
 export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 export const TOKEN_MIN_AMOUNT = 0.00000001
+// The minimum amount for a wallet to be considered as "funded"
+export const DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED = 0.01
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
