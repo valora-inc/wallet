@@ -2063,6 +2063,12 @@
                 "dismissedGoldEducation": {
                     "type": "boolean"
                 },
+                "dismissedKeepSupercharging": {
+                    "type": "boolean"
+                },
+                "dismissedStartSupercharging": {
+                    "type": "boolean"
+                },
                 "e164PhoneNumber": {
                     "type": [
                         "null",
@@ -2138,6 +2144,8 @@
                 "devModeClickCount",
                 "dismissedGetVerified",
                 "dismissedGoldEducation",
+                "dismissedKeepSupercharging",
+                "dismissedStartSupercharging",
                 "e164PhoneNumber",
                 "finclusiveKycStatus",
                 "finclusiveRegionSupported",

@@ -487,7 +487,6 @@ export const migrations = {
           'outgoingPaymentRequests',
           'dismissedInviteFriends',
           'dismissedEarnRewards',
-          'shouldSkipOnboardingEducationScreen',
         ]),
       },
       app: {
@@ -603,6 +602,16 @@ export const migrations = {
         fetchAvailableRewardsLoading: false,
         fetchAvailableRewardsError: false,
         availableRewards: [],
+      },
+    }
+  },
+  49: (state: any) => {
+    return {
+      ...state,
+      account: {
+        ...state.account,
+        dismissedKeepSupercharging: false,
+        dismissedStartSupercharging: false,
       },
     }
   },

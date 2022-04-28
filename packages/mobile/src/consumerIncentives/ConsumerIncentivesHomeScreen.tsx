@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SUPERCHARGE_T_AND_C } from 'src/brandingConfig'
+import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
@@ -34,7 +34,12 @@ import variables from 'src/styles/variables'
 import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 
-function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
+const onLearnMore = () => {
+  ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
+  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
+}
+
+export function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
   const { superchargeTokens } = useSelector((state) => state.app)
   const userCountry = useSelector(userLocationDataSelector)
   const { IS_IN_EUROPE } = useCountryFeatures()
@@ -51,7 +56,7 @@ function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
   )
 }
 
-function useHasBalanceForSupercharge(): {
+export function useHasBalanceForSupercharge(): {
   hasBalanceForSupercharge: boolean
   superchargingToken?: SuperchargeTokenConfig
   hasMaxBalance?: boolean
@@ -70,11 +75,6 @@ function useHasBalanceForSupercharge(): {
     }
   }
   return { hasBalanceForSupercharge: false }
-}
-
-const onLearnMore = () => {
-  ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
-  navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_T_AND_C })
 }
 
 function Header() {

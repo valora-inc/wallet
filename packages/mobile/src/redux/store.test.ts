@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 49,
+          "version": 50,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -113,6 +113,8 @@ describe('store state', () => {
           "devModeClickCount": 0,
           "dismissedGetVerified": false,
           "dismissedGoldEducation": false,
+          "dismissedKeepSupercharging": false,
+          "dismissedStartSupercharging": false,
           "e164PhoneNumber": "+14155556666",
           "finclusiveKycStatus": 0,
           "finclusiveRegionSupported": false,

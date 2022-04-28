@@ -947,7 +947,6 @@ export const v32Schema = {
   account: {
     ...v31Schema.account,
     hasLinkedBankAccount: false,
-    shouldSkipOnboardingEducationScreen: undefined,
   },
 }
 
@@ -1064,7 +1063,6 @@ export const v40Schema = {
       'outgoingPaymentRequests',
       'dismissedInviteFriends',
       'dismissedEarnRewards',
-      'shouldSkipOnboardingEducationScreen',
     ]),
   },
   alert: null,
@@ -1235,6 +1233,19 @@ export const v48Schema = {
     fetchAvailableRewardsLoading: false,
     fetchAvailableRewardsError: false,
     availableRewards: [],
+  },
+}
+
+export const v49Schema = {
+  ...v48Schema,
+  _persist: {
+    ...v48Schema._persist,
+    version: 49,
+  },
+  account: {
+    ...v48Schema.account,
+    dismissedKeepSupercharging: false,
+    dismissedStartSupercharging: false,
   },
 }
 

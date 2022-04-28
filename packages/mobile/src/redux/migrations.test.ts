@@ -23,6 +23,7 @@ import {
   v43Schema,
   v45Schema,
   v46Schema,
+  v49Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,

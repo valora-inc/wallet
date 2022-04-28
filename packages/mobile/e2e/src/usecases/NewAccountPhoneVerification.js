@@ -18,6 +18,11 @@ export default NewAccountPhoneVerification = () => {
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
 
+    // Proceed through education screens
+    for (let i = 0; i < 3; i++) {
+      await element(by.id('Education/progressButton')).tap()
+    }
+
     // Create new account
     await element(by.id('CreateAccountButton')).tap()
 
