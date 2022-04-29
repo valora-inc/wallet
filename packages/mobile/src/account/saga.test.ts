@@ -1,5 +1,3 @@
-import { generateKeys } from '@celo/utils/lib/account'
-import { serializeSignature } from '@celo/utils/lib/signatureUtils'
 import * as Keychain from 'react-native-keychain'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -11,15 +9,15 @@ import {
   handleUpdateAccountRegistration,
 } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
-import { getStoredMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { getWalletAddress } from 'src/web3/saga'
+import { getWallet } from 'src/web3/contracts'
+import { getWalletAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockWallet } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { saveSignedMessage, setFinclusiveKyc } from './actions'
 
@@ -94,7 +92,6 @@ describe('handleUpdateAccountRegistration', () => {
 })
 
 describe('generateSignedMessage', () => {
-  const privateKey = 'e991433ff31ed1e2fca92bc26e6ab869a4a1119e2f8bce42d8fcd638d9f8633b'
   const address = '0x3460806908173E6291960662c17592D423Fb22e5'
 
   beforeEach(() => {
@@ -112,9 +109,10 @@ describe('generateSignedMessage', () => {
     await expectSaga(generateSignedMessage)
       .provide([
         [select(walletAddressSelector), address],
-        [call(getStoredMnemonic, address), 'some phrase'],
-        [matchers.call.fn(generateKeys), { privateKey }],
-        [matchers.call.fn(serializeSignature), 'someSignedMessage'],
+        [call(getWallet), mockWallet],
+        [call(unlockAccount, address), UnlockResult.SUCCESS],
+        [matchers.call.fn(mockWallet.signPersonalMessage), 'someSignedMessage'],
+        [call(storeSignedMessage, 'someSignedMessage'), undefined],
       ])
       .put(saveSignedMessage())
       .call(storeSignedMessage, 'someSignedMessage')
@@ -126,13 +124,16 @@ describe('generateSignedMessage', () => {
       expectSaga(generateSignedMessage)
         .provide([
           [select(walletAddressSelector), address],
-          [call(getStoredMnemonic, address), 'some phrase'],
-          [matchers.call.fn(generateKeys), { privateKey }],
-          [matchers.call.fn(serializeSignature), throwError(new Error('some signature error'))],
+          [call(getWallet), mockWallet],
+          [call(unlockAccount, address), UnlockResult.FAILURE],
+          [
+            matchers.call.fn(mockWallet.signPersonalMessage),
+            throwError(new Error('could not generate signature')),
+          ],
         ])
         .not.put(saveSignedMessage())
         .not.call(storeSignedMessage)
         .run()
-    ).rejects.toThrowError('some signature error')
+    ).rejects.toThrowError('could not generate signature')
   })
 })

@@ -1,9 +1,7 @@
-import { generateKeys } from '@celo/utils/lib/account'
 import { ensureLeading0x } from '@celo/utils/lib/address'
-import { serializeSignature, signMessage } from '@celo/utils/lib/signatureUtils'
+import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
-import * as bip39 from 'react-native-bip39'
 import DeviceInfo from 'react-native-device-info'
 import {
   call,
@@ -34,7 +32,7 @@ import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { clearStoredMnemonic, getStoredMnemonic } from 'src/backup/utils'
+import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
@@ -52,8 +50,9 @@ import {
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
+import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector } from './selectors'
 
@@ -176,20 +175,14 @@ export function* watchKycStatus() {
 
 export function* generateSignedMessage() {
   try {
-    const address = yield select(walletAddressSelector)
-    const mnemonic = yield call(getStoredMnemonic, address)
-    const { privateKey } = yield call(
-      generateKeys,
-      mnemonic,
-      undefined,
-      undefined,
-      undefined,
-      bip39
-    )
+    const wallet: UnlockableWallet = yield call(getWallet)
+    const address: string = yield select(walletAddressSelector)
+    yield call(unlockAccount, address)
 
     const signedMessage = yield call(
-      serializeSignature,
-      signMessage('valora auth message', ensureLeading0x(privateKey), address)
+      [wallet, 'signPersonalMessage'],
+      address,
+      ensureLeading0x(Buffer.from('valora auth message').toString('hex'))
     )
     yield call(storeSignedMessage, signedMessage)
     yield put(saveSignedMessage())
