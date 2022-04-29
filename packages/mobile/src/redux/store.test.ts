@@ -129,7 +129,6 @@ describe('store state', () => {
           "promptFornoIfNeeded": false,
           "recoveringFromStoreWipe": false,
           "retryVerificationWithForno": true,
-          "signedMessage": null,
         },
         "alert": null,
         "app": Object {

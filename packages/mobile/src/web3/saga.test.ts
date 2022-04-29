@@ -4,10 +4,12 @@ import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, delay, select } from 'redux-saga/effects'
+import { generateSignedMessage } from 'src/account/saga'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { getPasswordSaga } from 'src/pincode/authentication'
+import { getPasswordSaga, retrieveSignedMessage } from 'src/pincode/authentication'
 import {
   completeWeb3Sync,
   setAccount,
@@ -18,10 +20,14 @@ import {
 import { getWeb3Async } from 'src/web3/contracts'
 import {
   checkWeb3SyncProgress,
+  getConnectedAccount,
+  getConnectedUnlockedAccount,
   getMTWAddress,
   getOrCreateAccount,
   getWalletAddress,
   SYNC_TIMEOUT,
+  unlockAccount,
+  UnlockResult,
   waitForWeb3Sync,
 } from 'src/web3/saga'
 import {
@@ -231,5 +237,44 @@ describe(checkWeb3SyncProgress, () => {
       .put(completeWeb3Sync(LAST_BLOCK_NUMBER)) // finished syncing the second time
       .returns(true)
       .run()
+  })
+})
+
+describe('getConnectedUnlockedAccount', () => {
+  it("should generate the signed message if it doesn't exist", async () => {
+    await expectSaga(getConnectedUnlockedAccount)
+      .provide([
+        [call(getConnectedAccount), mockAccount],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [call(retrieveSignedMessage), null],
+        [call(generateSignedMessage), null],
+      ])
+      .call(generateSignedMessage)
+      .run()
+  })
+
+  it('should not generate the signed message if it exists', async () => {
+    await expectSaga(getConnectedUnlockedAccount)
+      .provide([
+        [call(getConnectedAccount), mockAccount],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [call(retrieveSignedMessage), 'some signed message'],
+        [call(generateSignedMessage), null],
+      ])
+      .not.call(generateSignedMessage)
+      .run()
+  })
+
+  it('should throw an error if the account could not be unlocked', async () => {
+    await expect(
+      expectSaga(getConnectedUnlockedAccount)
+        .provide([
+          [call(getConnectedAccount), mockAccount],
+          [matchers.call.fn(unlockAccount), UnlockResult.FAILURE],
+          [call(retrieveSignedMessage), null],
+        ])
+        .not.call(generateSignedMessage)
+        .run()
+    ).rejects.toThrowError(ErrorMessages.INCORRECT_PIN)
   })
 })
