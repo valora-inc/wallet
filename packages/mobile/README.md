@@ -94,7 +94,7 @@ _If you are a Valora employee, please ask to be added to the Valora iOS developm
 
 Xcode is needed to build and deploy the mobile wallet to your iOS device. If you do not have an iOS device, Xcode can be used to emulate one.
 
-Install [Xcode 12.2](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
+Install [Xcode 13.2](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
 
 We do not recommend installing Xcode through the App Store as it can auto update and become incompatible with our projects.
 
@@ -116,9 +116,9 @@ bundle exec pod install
 
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
-1. Run `yarn install` in the monorepo root `/wallet`.
-2. Run `yarn build:wallet` from the monorepo root `/wallet`.
-3. Run `yarn dev:ios` in the `/wallet/packages/mobile` folder.
+1. Run `yarn install` in the repository root.
+2. Run `yarn build` from the repository root.
+3. Run `yarn dev:ios` in the `/packages/mobile` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -262,7 +262,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 **Note:** We've seen some issues running the metro bundler from iTerm
 
-1. If you haven't already, run `yarn` and then `yarn build` from the monorepo root to install and build dependencies.
+1. If you haven't already, run `yarn` and then `yarn build` from the repository root to install and build dependencies.
 
 2. Attach your device or start an emulated one.
 
@@ -369,8 +369,9 @@ See [`src/identity/verification.test.ts`] for an example.
 We use [Detox][detox] for E2E testing. In order to run the tests locally, you
 must have the proper emulator set up. Follow the instructions in [e2e/README.md][e2e readme].
 
-Once setup is done, you can run the tests with `yarn test:e2e:android` or `yarn test:e2e:ios`.
-If you want to run a single e2e test: `yarn test:e2e:ios -f Exchange.spec.js -t "Then Buy CELO"`
+Once setup is done, you can buil the tests with `yarn e2e:build:android-release` or `yarn e2e:build:ios-release`.
+Once test build is done, you can run the tests with `yarn e2e:test:android-release` or `yarn e2e:test:ios-release`.
+If you want to run a single e2e test: `yarn e2e:test:ios-release Exchange.spec.js -t "Then Buy CELO"`
 
 ## Building APKs / Bundles
 
