@@ -13,7 +13,8 @@
         "executionTimeWarningThreshold": 300,
         "includeFailureMsg": true,
         "styleOverridePath": "teststyle.css",
-        "logo": "valora-icon.png"
+        "logo": "valora-icon.png",
+        "append": true
       }
     ],
     [
