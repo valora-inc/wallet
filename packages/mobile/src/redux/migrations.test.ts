@@ -22,6 +22,8 @@ import {
   v41Schema,
   v43Schema,
   v45Schema,
+  v46Schema,
+  v49Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -468,6 +470,25 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(v45Schema)
     expectedSchema.cloudFunctionsApi = undefined
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v46 to v47', () => {
+    const migratedSchema = migrations[47](v46Schema)
+
+    const expectedSchema: any = _.cloneDeep(v46Schema)
+    delete expectedSchema.app.multiTokenUseSendFlow
+    delete expectedSchema.app.multiTokenUseUpdatedFeed
+    delete expectedSchema.app.multiTokenShowHomeBalances
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+  it('works for v49 to v50', () => {
+    const migratedSchema = migrations[50](v49Schema)
+
+    const expectedSchema: any = _.cloneDeep(v49Schema)
+    delete expectedSchema.app.walletConnectV2Enabled
+    delete expectedSchema.walletConnect.v2
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

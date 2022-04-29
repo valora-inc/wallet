@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ricevendo ricompense pari al/all' {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingDescription": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
@@ -197,8 +197,12 @@
   "superchargeFetchRewardsFailed": "Si è verificato un errore durante il recupero delle ricompense Supercharge. Riprova più tardi.",
   "superchargeClaimSuccess": "Le tue ricompense Supercharge sono state aggiunte al tuo saldo totale.",
   "superchargeClaimFailure": "Si è verificato un errore nel richiedere i tuoi premi ricompense Supercharge.",
-  "superchargeNotificationBody": "Le ricompense Supercharge sono arrivate! Richiedile ora.",
+  "superchargeNotificationBody": "Le tue ricompense Supercharge sono arrivate! Richiedile ora",
   "superchargeNotificationStart": "Richiedi ora",
+  "superchargingNotificationBody": "Stai ottenendo il 25% di ricompense con Supercharge ⚡",
+  "superchargingNotificationStart": "Scopri di più",
+  "startSuperchargingNotificationBody": "Ottieni ricompense settimanali in cripto. Inizia Supercharge!",
+  "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
   "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
@@ -266,6 +270,7 @@
   "withdrawScanQrTitle": "Inquadra",
   "tokenBalance": "Saldo {{token}}",
   "addFunds": "Aggiungi fondi",
+  "addFundsHeaderWithCurrency": "Aggiungi {{token}}",
   "addFundsSubtitle": "Aggiungi fondi al tuo conto Valora",
   "exchanges": "Exchange",
   "noExchanges": "Nella tua area non sono presenti exchange disponibili per {{digitalAsset}}.",
@@ -1209,6 +1214,7 @@
   "merchantPaymentSetup": "Si è verificato un errore durante il caricamento delle informazioni del commerciante, prova a inquadrare nuovamente il codice QR",
   "merchantPaymentSubmitSuccess": "Pagamento inviato correttamente",
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo portafoglio, riprova",
+  "noMoreTransactions": "Non ci sono altre transazioni",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

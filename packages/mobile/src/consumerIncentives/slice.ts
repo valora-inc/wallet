@@ -4,11 +4,17 @@ import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 export interface State {
   loading: boolean
   error: boolean
+  availableRewards: SuperchargePendingReward[]
+  fetchAvailableRewardsLoading: boolean
+  fetchAvailableRewardsError: boolean
 }
 
-export const initialState = {
+export const initialState: State = {
   loading: false,
   error: false,
+  fetchAvailableRewardsLoading: false,
+  fetchAvailableRewardsError: false,
+  availableRewards: [],
 }
 
 const slice = createSlice({
@@ -30,9 +36,36 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
+    fetchAvailableRewards: (state) => ({
+      ...state,
+      fetchAvailableRewardsLoading: true,
+      fetchAvailableRewardsError: false,
+    }),
+    fetchAvailableRewardsSuccess: (state) => ({
+      ...state,
+      fetchAvailableRewardsLoading: false,
+      fetchAvailableRewardsError: false,
+    }),
+    fetchAvailableRewardsFailure: (state) => ({
+      ...state,
+      fetchAvailableRewardsLoading: false,
+      fetchAvailableRewardsError: true,
+    }),
+    setAvailableRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
+      ...state,
+      availableRewards: action.payload,
+    }),
   },
 })
 
-export const { claimRewards, claimRewardsSuccess, claimRewardsFailure } = slice.actions
+export const {
+  claimRewards,
+  claimRewardsSuccess,
+  claimRewardsFailure,
+  fetchAvailableRewards,
+  fetchAvailableRewardsSuccess,
+  fetchAvailableRewardsFailure,
+  setAvailableRewards,
+} = slice.actions
 
 export default slice.reducer

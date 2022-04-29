@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { throwError } from 'redux-saga-test-plan/providers'
+import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,7 +10,9 @@ import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
+  watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
+import { totalTokenBalanceSelector } from 'src/tokens/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
@@ -40,6 +42,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: null,
+    isCoreToken: true,
     priceFetchedAt: mockTokenBalances[cUsdAddress].priceFetchedAt,
   },
   [cEurAddress]: {
@@ -51,6 +54,7 @@ const firebaseTokenInfo: StoredTokenBalances = {
     name: 'Celo Euro',
     decimals: 18,
     balance: null,
+    isCoreToken: true,
     priceFetchedAt: mockTokenBalances[cEurAddress].priceFetchedAt,
   },
 }
@@ -136,5 +140,64 @@ describe(tokenAmountInSmallestUnit, () => {
         .withState(createMockStore({}).getState())
         .run()
     ).rejects.toThrowError(`Couldnt find token info for address ${mockAddress}.`)
+  })
+})
+
+describe('watchAccountFundedOrLiquidated', () => {
+  beforeEach(() => {
+    // https://github.com/jfairbank/redux-saga-test-plan/issues/121
+    jest.useRealTimers()
+    jest.clearAllMocks()
+  })
+
+  const balances = (firstValue: BigNumber | null, restValue: BigNumber | null) => {
+    let callCount = 0
+    return () => {
+      callCount += 1
+
+      switch (callCount) {
+        case 2:
+        case 3:
+          return restValue
+        default:
+          return firstValue
+      }
+    }
+  }
+
+  it('dispatches the account funded event', async () => {
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([
+        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(0), new BigNumber(10)))],
+      ])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_funded)
+  })
+
+  it('dispatches the account liquidated event', async () => {
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([
+        [select(totalTokenBalanceSelector), dynamic(balances(new BigNumber(10), new BigNumber(0)))],
+      ])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.account_liquidated)
+  })
+
+  it('does not dispatch the account funded event for an account restore', async () => {
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([[select(totalTokenBalanceSelector), dynamic(balances(null, new BigNumber(10)))]])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
   })
 })

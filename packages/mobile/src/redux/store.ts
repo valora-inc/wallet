@@ -8,7 +8,6 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { cloudFunctionsApi } from 'src/api/slice'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer, { RootState } from 'src/redux/reducers'
@@ -24,10 +23,10 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration
-  version: 46,
+  version: 50,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'imports', 'supercharge', 'cloudFunctionsApi'],
+  blacklist: ['geth', 'networkInfo', 'alert', 'imports', 'supercharge'],
   stateReconciler: autoMergeLevel2,
   migrate: async (...args) => {
     const migrate = createMigrate(migrations)
@@ -131,8 +130,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
       })
     )
   }
-
-  middlewares.push(cloudFunctionsApi.middleware)
 
   const enhancers = []
 

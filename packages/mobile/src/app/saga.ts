@@ -178,9 +178,6 @@ export interface RemoteConfigValues {
   rewardPillText: string
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
-  multiTokenShowHomeBalances: boolean
-  multiTokenUseSendFlow: boolean
-  multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
   linkBankAccountEnabled: boolean
   linkBankAccountStepTwoEnabled: boolean
@@ -309,7 +306,7 @@ export function* handleOpenUrl(action: OpenUrlAction) {
 }
 
 export function* handleOpenDapp(action: DappSelected) {
-  const { dappUrl, name } = action.dapp
+  const { dappUrl } = action.dapp
   const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
 
   if (dappsWebViewEnabled) {
@@ -317,7 +314,7 @@ export function* handleOpenDapp(action: DappSelected) {
     if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
       yield call(handleDeepLink, openDeepLink(dappUrl, true))
     } else {
-      navigate(Screens.WebViewScreen, { uri: dappUrl, headerTitle: name })
+      navigate(Screens.WebViewScreen, { uri: dappUrl })
     }
   } else {
     yield call(handleOpenUrl, openUrl(dappUrl, true, true))

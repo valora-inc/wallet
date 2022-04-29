@@ -487,7 +487,6 @@ export const migrations = {
           'outgoingPaymentRequests',
           'dismissedInviteFriends',
           'dismissedEarnRewards',
-          'shouldSkipOnboardingEducationScreen',
         ]),
       },
       app: {
@@ -583,5 +582,43 @@ export const migrations = {
   46: (state: any) => ({
     ...state,
     cloudFunctionsApi: undefined,
+  }),
+  47: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(
+        state.app,
+        'multiTokenUseSendFlow',
+        'multiTokenUseUpdatedFeed',
+        'multiTokenShowHomeBalances'
+      ),
+    }
+  },
+  48: (state: any) => {
+    return {
+      ...(_.omit(state, ['cloudFunctionsApi']) as any),
+      supercharge: {
+        ...state.supercharge,
+        fetchAvailableRewardsLoading: false,
+        fetchAvailableRewardsError: false,
+        availableRewards: [],
+      },
+    }
+  },
+  49: (state: any) => {
+    return {
+      ...state,
+      account: {
+        ...state.account,
+        dismissedKeepSupercharging: false,
+        dismissedStartSupercharging: false,
+      },
+    }
+  },
+  50: (state: any) => ({
+    ...state,
+    walletConnect: {
+      ..._.omit(state.walletConnect, ['v2']),
+    },
   }),
 }

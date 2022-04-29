@@ -36,7 +36,6 @@ export interface State {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
-  walletConnectV2Enabled: boolean
   superchargeApy: number
   superchargeTokens: SuperchargeTokenConfig[]
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
@@ -51,9 +50,6 @@ export interface State {
   }
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
-  multiTokenShowHomeBalances: boolean
-  multiTokenUseSendFlow: boolean
-  multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
   linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
@@ -90,7 +86,6 @@ const initialState = {
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
-  walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokens: [],
   ranVerificationMigrationAt: null,
@@ -101,9 +96,6 @@ const initialState = {
   rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.cashInButtonExpEnabled,
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
-  multiTokenShowHomeBalances: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenShowHomeBalances,
-  multiTokenUseSendFlow: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseSendFlow,
-  multiTokenUseUpdatedFeed: REMOTE_CONFIG_VALUES_DEFAULTS.multiTokenUseUpdatedFeed,
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   linkBankAccountStepTwoEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountStepTwoEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
@@ -217,7 +209,6 @@ export const appReducer = (
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         dappListApiUrl: action.configValues.dappListApiUrl,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
-        walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokens: action.configValues.superchargeTokens,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
@@ -225,9 +216,6 @@ export const appReducer = (
         rewardPillText: JSON.parse(action.configValues.rewardPillText),
         cashInButtonExpEnabled: action.configValues.cashInButtonExpEnabled,
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
-        multiTokenShowHomeBalances: action.configValues.multiTokenShowHomeBalances,
-        multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
-        multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
         linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
