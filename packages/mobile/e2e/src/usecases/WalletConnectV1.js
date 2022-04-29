@@ -85,7 +85,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Verify WC page
-    await waitFor(element(by.text('WalletConnectV1 E2E would like to connect to Valora')))
+    await waitFor(element(by.id('SessionRequestHeader')))
       .toBeVisible()
       .withTimeout(30 * 1000)
 
