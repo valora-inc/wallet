@@ -13,7 +13,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
-import { getRandomByUUID } from 'src/utils/seedRandom'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.Language | Screens.LanguageModal>
 type Props = ScreenProps
@@ -29,12 +28,6 @@ function keyExtractor(item: Language) {
 
 function LanguageScreen({ route }: Props) {
   const changeLanguage = useChangeLanguage()
-
-  // Remove Onboarding Education Screen Experiment: Because remote configs are fetched after the initial route is launched,
-  // The randomization is hardcoded by device id here to achieve a 50/50 split, the value is written into the redux store so the same experience
-  // would persist. This block of code should be removed when the experiment is done.
-  const _shouldSkipOnboardingEducationScreen = getRandomByUUID() < 0.5
-
   const { t, i18n } = useTranslation()
   const nextScreen = route.params?.nextScreen
 
@@ -43,10 +36,7 @@ function LanguageScreen({ route }: Props) {
     // Wait for next frame before navigating
     // so the user can see the changed selection briefly
     requestAnimationFrame(() => {
-      const initialScreen = _shouldSkipOnboardingEducationScreen
-        ? Screens.Welcome
-        : Screens.OnboardingEducationScreen
-      navigate(nextScreen || initialScreen)
+      navigate(nextScreen || Screens.OnboardingEducationScreen)
     })
 
     ValoraAnalytics.track(SettingsEvents.language_select, { language: code })

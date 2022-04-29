@@ -1,22 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react'
+import * as React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
+import {
+  dismissGetVerified,
+  dismissGoldEducation,
+  dismissKeepSupercharging,
+  dismissStartSupercharging,
+} from 'src/account/actions'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { useFetchSuperchargeRewards } from 'src/api/slice'
 import { openUrl } from 'src/app/actions'
 import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import Pagination from 'src/components/Pagination'
 import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
-import {
-  RewardsScreenOrigin,
-  trackRewardsScreenOpenEvent,
-} from 'src/consumerIncentives/analyticsEventsTracker'
+import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
+import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
@@ -45,6 +49,7 @@ const INCOMING_PAYMENT_REQUESTS_PRIORITY = 900
 const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
+const SUPERCHARGE_INFO_PRIORITY = 440
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -57,6 +62,8 @@ export enum NotificationBannerTypes {
   backup_prompt = 'backup_prompt',
   supercharge_available = 'supercharge_available',
   remote_notification = 'remote_notification',
+  supercharging = 'supercharging',
+  start_supercharging = 'start_supercharging',
 }
 
 export enum NotificationBannerCTATypes {
@@ -76,14 +83,22 @@ interface Notification {
 }
 
 function useSimpleActions() {
-  const { backupCompleted, dismissedGetVerified, dismissedGoldEducation } = useSelector(
-    (state) => state.account
-  )
+  const {
+    backupCompleted,
+    dismissedGetVerified,
+    dismissedGoldEducation,
+    dismissedKeepSupercharging,
+    dismissedStartSupercharging,
+  } = useSelector((state) => state.account)
+
   const numberVerified = useSelector((state) => state.app.numberVerified)
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
   const verificationPossible = useSelector(verificationPossibleSelector)
+
+  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
+  const isSupercharging = numberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
@@ -91,7 +106,11 @@ function useSimpleActions() {
 
   const dispatch = useDispatch()
 
-  const { superchargeRewards } = useFetchSuperchargeRewards()
+  useEffect(() => {
+    dispatch(fetchAvailableRewards())
+  }, [])
+
+  const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
 
   const actions: SimpleMessagingCardProps[] = []
   if (!backupCompleted) {
@@ -123,28 +142,100 @@ function useSimpleActions() {
     })
   }
 
-  if (superchargeRewards.length > 0) {
-    actions.push({
-      id: 'supercharge',
-      text: t('superchargeNotificationBody'),
-      icon: boostRewards,
-      priority: SUPERCHARGE_AVAILABLE_PRIORITY,
-      callToActions: [
-        {
-          text: t('superchargeNotificationStart'),
-          onPress: () => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationBannerTypes.supercharge_available,
-              selectedAction: NotificationBannerCTATypes.accept,
-            })
-            navigate(Screens.ConsumerIncentivesHomeScreen)
-            ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-              origin: RewardsScreenOrigin.RewardAvailableNotification,
-            })
+  if (rewardsEnabled) {
+    if (superchargeRewards.length > 0) {
+      actions.push({
+        id: 'claimSuperchargeRewards',
+        text: t('superchargeNotificationBody'),
+        icon: boostRewards,
+        priority: SUPERCHARGE_AVAILABLE_PRIORITY,
+        callToActions: [
+          {
+            text: t('superchargeNotificationStart'),
+            onPress: () => {
+              ValoraAnalytics.track(HomeEvents.notification_select, {
+                notificationType: NotificationBannerTypes.supercharge_available,
+                selectedAction: NotificationBannerCTATypes.accept,
+              })
+              navigate(Screens.ConsumerIncentivesHomeScreen)
+              ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                origin: RewardsScreenOrigin.RewardAvailableNotification,
+              })
+            },
           },
-        },
-      ],
-    })
+        ],
+      })
+    } else {
+      if (isSupercharging && !dismissedKeepSupercharging) {
+        actions.push({
+          id: 'keepSupercharging',
+          text: t('superchargingNotificationBody'),
+          icon: boostRewards,
+          priority: SUPERCHARGE_INFO_PRIORITY,
+          callToActions: [
+            {
+              text: t('superchargingNotificationStart'),
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.accept,
+                })
+                navigate(Screens.ConsumerIncentivesHomeScreen)
+                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                  origin: RewardsScreenOrigin.SuperchargingNotification,
+                })
+              },
+            },
+            {
+              text: t('dismiss'),
+              isSecondary: true,
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.decline,
+                })
+                dispatch(dismissKeepSupercharging())
+              },
+            },
+          ],
+        })
+      }
+
+      if (!isSupercharging && !dismissedStartSupercharging) {
+        actions.push({
+          id: 'startSupercharging',
+          text: t('startSuperchargingNotificationBody'),
+          icon: boostRewards,
+          priority: SUPERCHARGE_INFO_PRIORITY,
+          callToActions: [
+            {
+              text: t('startSuperchargingNotificationStart'),
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.start_supercharging,
+                  selectedAction: NotificationBannerCTATypes.accept,
+                })
+                navigate(Screens.ConsumerIncentivesHomeScreen)
+                ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+                  origin: RewardsScreenOrigin.StartSuperchargingNotification,
+                })
+              },
+            },
+            {
+              text: t('dismiss'),
+              isSecondary: true,
+              onPress: () => {
+                ValoraAnalytics.track(HomeEvents.notification_select, {
+                  notificationType: NotificationBannerTypes.supercharging,
+                  selectedAction: NotificationBannerCTATypes.decline,
+                })
+                dispatch(dismissStartSupercharging())
+              },
+            },
+          ],
+        })
+      }
+    }
   }
 
   if (!dismissedGetVerified && !numberVerified && verificationPossible) {
@@ -189,12 +280,6 @@ function useSimpleActions() {
     if (!texts) {
       continue
     }
-    if (
-      notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) &&
-      (!rewardsEnabled || superchargeRewards.length > 0)
-    ) {
-      continue
-    }
 
     actions.push({
       id,
@@ -211,7 +296,6 @@ function useSimpleActions() {
               notificationId: id,
             })
             dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
-            trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
           },
         },
         {
@@ -307,7 +391,7 @@ function useNotifications() {
   const simpleActions = useSimpleActions()
   notifications.push(
     ...simpleActions.map((notification, i) => ({
-      element: <SimpleMessagingCard key={i} {...notification} />,
+      element: <SimpleMessagingCard key={i} testID={notification.id} {...notification} />,
       priority: notification.priority,
       id: notification.id,
     }))
@@ -349,6 +433,7 @@ function NotificationBox() {
     // No notifications, no slider
     return null
   }
+
   return (
     <View style={styles.body}>
       <ScrollView
@@ -359,7 +444,11 @@ function NotificationBox() {
         testID="CTA/ScrollContainer"
       >
         {notifications.map((notification) => (
-          <View key={notification.id} style={styles.notificationContainer}>
+          <View
+            testID={`NotificationView/${notification.id}`}
+            key={notification.id}
+            style={styles.notificationContainer}
+          >
             {notification.element}
           </View>
         ))}

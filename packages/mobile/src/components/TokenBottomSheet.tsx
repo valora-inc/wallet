@@ -119,16 +119,21 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   tokenNameContainer: {
+    flex: 3,
     alignItems: 'flex-start',
+    flexShrink: 1,
   },
   tokenBalanceContainer: {
-    flex: 1,
+    flex: 2,
+    flexShrink: 1,
     alignItems: 'flex-end',
   },
   localBalance: {
+    flexShrink: 1,
     ...fontStyles.regular,
   },
   currencyBalance: {
+    flexShrink: 1,
     ...fontStyles.small,
     color: colors.gray4,
   },
