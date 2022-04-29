@@ -197,8 +197,12 @@
   "superchargeFetchRewardsFailed": "Bekleyen Supercharge ödüllerini alırken bir hata oluştu. Lütfen tekrar deneyin.",
   "superchargeClaimSuccess": "Supercharge ödülleriniz Toplam Bakiyenize eklendi.",
   "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
-  "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et.",
+  "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et",
   "superchargeNotificationStart": "Ödüllerinizi alın",
+  "superchargingNotificationBody": "Supercharge'ı %25 alıyorsunuz ⚡",
+  "superchargingNotificationStart": "Daha fazla bilgi edinin",
+  "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
+  "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
   "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
@@ -1210,6 +1214,7 @@
   "merchantPaymentSetup": "Satıcı bilgileri yüklenirken bir hata oluştu, lütfen QRCode'u tekrar taramayı deneyin",
   "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
+  "noMoreTransactions": "Başka işlem yok",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
