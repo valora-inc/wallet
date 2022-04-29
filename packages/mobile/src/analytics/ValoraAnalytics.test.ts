@@ -29,7 +29,7 @@ jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 
 const mockDeviceId = 'abc-def-123' // mocked in __mocks__/react-native-device-info.ts (but importing from that file causes weird errors)
-const expectedSessionId = 'b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+const expectedSessionId = '205ac8350460ad427e35658006b409bbb0ee86c22c57648fe69f359c2da648'
 
 Date.now = jest.fn(() => 1482363367071)
 
@@ -219,6 +219,20 @@ describe('ValoraAnalytics', () => {
       ...defaultProperties,
       someProp: 'someValue',
       sCurrentScreenId: 'ScreenA',
+    })
+  })
+
+  it('returns a different sessionId if the time is different', async () => {
+    const timestamp = 1482363367070
+    Date.now = jest.fn(() => timestamp)
+    await ValoraAnalytics.init()
+    ValoraAnalytics.page('ScreenA')
+    expect(mockedAnalytics.screen).toHaveBeenCalledTimes(1)
+    expect(mockedAnalytics.screen).toHaveBeenCalledWith('ScreenA', {
+      ...defaultProperties,
+      sCurrentScreenId: 'ScreenA',
+      sessionId: '97250a67361e6d463a59b4baed530010befe1d234ef0446b6197fbe08d5471',
+      timestamp,
     })
   })
 })

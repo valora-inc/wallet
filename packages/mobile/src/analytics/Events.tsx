@@ -18,6 +18,9 @@ export enum AppEvents {
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
   request_tracking_permission_accepted = 'request_tracking_permission_accepted',
+
+  account_funded = 'account_funded',
+  account_liquidated = 'account_liquidated',
 }
 
 export enum HomeEvents {
@@ -28,6 +31,7 @@ export enum HomeEvents {
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   notification_scroll = 'notification_scroll',
+  notification_impression = 'notification_impression',
   notification_select = 'notification_select',
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
@@ -61,8 +65,6 @@ export enum SettingsEvents {
 }
 
 export enum OnboardingEvents {
-  onboarding_education_skipped = 'onboarding_education_skipped',
-  onboarding_education_not_skipped = 'onboarding_education_not_skipped',
   onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_complete = 'onboarding_education_complete',
@@ -255,6 +257,7 @@ export enum InviteEvents {
   invite_method_whatsapp = 'invite_method_whatsapp',
   invite_method_error = 'invite_method_error',
   invite_from_menu = 'invite_from_menu',
+  invite_banner_impression = 'invite_banner_impression',
 }
 
 export enum EscrowEvents {

@@ -61,7 +61,6 @@ export const numberVerifiedSelector = (state: RootState) => state.app.numberVeri
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
   v1: state?.app.walletConnectV1Enabled ?? false,
-  v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
@@ -101,12 +100,6 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
-
-export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
-  state.app.multiTokenShowHomeBalances
-export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
-export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
-  state.app.multiTokenUseUpdatedFeed
 
 export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
 

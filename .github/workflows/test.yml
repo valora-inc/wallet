@@ -15,37 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  general:
-    name: General
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-          check-latest: true
-      - uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn
-      - run: yarn build --ignore docs
-      - run: |
-          mkdir -p test-results/jest
-          yarn run lerna --ignore @celo/mobile run test
-      - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v2
-        with:
-          path: |
-            packages/notification-service/coverage/lcov-report
-            packages/react-components/coverage/lcov-report
-      - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
   mobile:
     name: Mobile
     runs-on: ubuntu-latest

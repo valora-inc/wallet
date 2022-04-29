@@ -947,7 +947,6 @@ export const v32Schema = {
   account: {
     ...v31Schema.account,
     hasLinkedBankAccount: false,
-    shouldSkipOnboardingEducationScreen: undefined,
   },
 }
 
@@ -1064,7 +1063,6 @@ export const v40Schema = {
       'outgoingPaymentRequests',
       'dismissedInviteFriends',
       'dismissedEarnRewards',
-      'shouldSkipOnboardingEducationScreen',
     ]),
   },
   alert: null,
@@ -1208,6 +1206,63 @@ export const v46Schema = {
   },
 }
 
+export const v47Schema = {
+  ...v46Schema,
+  _persist: {
+    ...v46Schema._persist,
+    version: 47,
+  },
+  app: {
+    ..._.omit(
+      v46Schema.app,
+      'multiTokenUseSendFlow',
+      'multiTokenUseUpdatedFeed',
+      'multiTokenShowHomeBalances'
+    ),
+  },
+}
+
+export const v48Schema = {
+  ..._.omit(v47Schema, 'cloudFunctionsApi'),
+  _persist: {
+    ...v47Schema._persist,
+    version: 48,
+  },
+  supercharge: {
+    ...v47Schema.supercharge,
+    fetchAvailableRewardsLoading: false,
+    fetchAvailableRewardsError: false,
+    availableRewards: [],
+  },
+}
+
+export const v49Schema = {
+  ...v48Schema,
+  _persist: {
+    ...v48Schema._persist,
+    version: 49,
+  },
+  account: {
+    ...v48Schema.account,
+    dismissedKeepSupercharging: false,
+    dismissedStartSupercharging: false,
+  },
+}
+
+export const v50Schema = {
+  ...v49Schema,
+  _persist: {
+    ...v49Schema._persist,
+    version: 50,
+  },
+  app: {
+    ..._.omit(v49Schema.app, ['walletConnectV2Enabled']),
+  },
+  walletConnect: {
+    ..._.omit(v49Schema.walletConnect, ['v2']),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v46Schema as Partial<RootState>
+  return v50Schema as Partial<RootState>
 }

@@ -135,9 +135,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tokenLabels: {
+    flexShrink: 1,
     flexDirection: 'column',
   },
   balances: {
+    flex: 2,
     flexDirection: 'column',
     alignItems: 'flex-end',
   },
@@ -146,12 +148,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   row: {
+    flex: 3,
     flexDirection: 'row',
   },
   tokenName: {
+    flexShrink: 1,
     ...fontStyles.large600,
   },
   subtext: {
+    flexShrink: 1,
     ...fontStyles.small,
     color: Colors.gray4,
   },

@@ -112,6 +112,8 @@ interface AppEventsProperties {
   [AppEvents.request_tracking_permission_accepted]: {
     newPermission: 'granted'
   }
+  [AppEvents.account_funded]: undefined
+  [AppEvents.account_liquidated]: undefined
 }
 
 interface HomeEventsProperties {
@@ -133,6 +135,9 @@ interface HomeEventsProperties {
     notificationType: NotificationBannerTypes
     selectedAction: NotificationBannerCTATypes
     notificationId?: string
+  }
+  [HomeEvents.notification_impression]: {
+    notificationId: string
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -170,8 +175,6 @@ interface SettingsEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_skipped]: undefined
-  [OnboardingEvents.onboarding_education_not_skipped]: undefined
   [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
@@ -580,6 +583,7 @@ interface InviteEventsProperties {
     error: string
   }
   [InviteEvents.invite_from_menu]: undefined
+  [InviteEvents.invite_banner_impression]: undefined
 }
 
 interface EscrowEventsProperties {

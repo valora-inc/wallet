@@ -15,13 +15,16 @@ import variables from 'src/styles/variables'
 import { WalletConnectSession } from 'src/walletConnect/types'
 import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actions'
 import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
-import { closeSession as closeSessionActionV2 } from 'src/walletConnect/v2/actions'
-import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
-import { AppMetadata, SessionTypes } from 'walletconnect-v2/types'
 
-type Session = WalletConnectSession | SessionTypes.Created
+type Session = WalletConnectSession
 
-const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () => void }) => {
+const App = ({
+  metadata,
+  onPress,
+}: {
+  metadata: WalletConnectSession['peerMeta'] | null
+  onPress: () => void
+}) => {
   const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
   const { t } = useTranslation()
 
@@ -41,7 +44,6 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () 
 function Sessions() {
   const { t } = useTranslation()
   const { sessions: sessionsV1 } = useSelector(selectSessionsV1)
-  const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
   const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
@@ -58,16 +60,11 @@ function Sessions() {
       return
     }
 
-    dispatch(
-      'topic' in highlighted ? closeSessionActionV2(highlighted) : closeSessionActionV1(highlighted)
-    )
+    dispatch(closeSessionActionV1(highlighted))
     closeModal()
   }
 
-  const dappName =
-    highlighted && 'topic' in highlighted
-      ? highlighted?.peer.metadata.name
-      : highlighted?.peerMeta?.name
+  const dappName = highlighted?.peerMeta?.name
   return (
     <ScrollView testID="WalletConnectSessionsView">
       <Dialog
@@ -91,9 +88,6 @@ function Sessions() {
       <View style={[styles.container, styles.appsContainer]}>
         {sessionsV1.map((s) => (
           <App key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
-        ))}
-        {sessionsV2.map((s) => (
-          <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
         ))}
       </View>
     </ScrollView>
