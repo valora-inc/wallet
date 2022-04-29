@@ -27,19 +27,19 @@ const MOCK_EXCHANGES_FETCH_RESPONSE: ExternalExchangeProvider[] = [
   {
     name: 'Bittrex',
     link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
-    currencies: ['celo', 'cusd'],
+    currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
   },
   {
     name: 'CoinList Pro',
     link: 'https://coinlist.co/asset/celo',
-    currencies: ['celo', 'cusd'],
+    currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
   },
   {
     name: 'OKCoin',
     link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
-    currencies: ['celo', 'cusd'],
+    currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
   },
 ]
