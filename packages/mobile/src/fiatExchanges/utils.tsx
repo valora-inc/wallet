@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import networkConfig from 'src/geth/networkConfig'
@@ -254,4 +255,29 @@ export const getAvailableLocalProviders = (
   return activeLocalProviders.filter((provider) =>
     provider[selectedCurrency === Currency.Dollar ? 'cusd' : 'celo'].countries.includes(userCountry)
   )
+}
+
+export async function fetchExchanges(
+  countryCodeAlpha2: string | null,
+  currency: string
+): Promise<ExternalExchangeProvider[] | undefined> {
+  // If user location data is not available, default fetching exchanges serving the US
+  if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
+  // Standardize cGLD to CELO
+  if (currency == Currency.Celo) currency = 'CELO'
+
+  try {
+    const resp = await fetch(
+      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`
+    )
+
+    if (!resp.ok) {
+      throw Error(`Fetch exchanges failed with status ${resp?.status}`)
+    }
+
+    return resp.json()
+  } catch (error) {
+    Logger.error(TAG, 'Failure fetching available exchanges', error)
+    throw error
+  }
 }

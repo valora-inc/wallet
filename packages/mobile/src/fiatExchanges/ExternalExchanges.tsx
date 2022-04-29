@@ -11,7 +11,7 @@ import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
 import TextButton from 'src/components/TextButton'
-import networkConfig from 'src/geth/networkConfig'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -48,31 +48,6 @@ export interface ExternalExchangeProvider {
 }
 
 type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
-
-async function fetchExchanges(
-  countryCodeAlpha2: string | null,
-  currency: string
-): Promise<ExternalExchangeProvider[] | undefined> {
-  // If user location data is not available, default fetching exchanges serving the US
-  if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
-  // Standardize cGLD to CELO
-  if (currency == Currency.Celo) currency = 'CELO'
-
-  try {
-    const resp = await fetch(
-      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`
-    )
-
-    if (!resp.ok) {
-      throw Error(`Fetch exchanges failed with status ${resp?.status}`)
-    }
-
-    return resp.json()
-  } catch (error) {
-    Logger.error(TAG, 'Failure fetching available exchanges', error)
-    throw error
-  }
-}
 
 function ExternalExchanges({ route }: Props) {
   const { t } = useTranslation()
@@ -120,7 +95,7 @@ function ExternalExchanges({ route }: Props) {
       {asyncProviders.loading && (
         <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
       )}
-      {asyncProviders.loading == false && providers?.length === 0 ? (
+      {!asyncProviders.loading && providers?.length === 0 ? (
         <View style={styles.noExchangesContainer}>
           <Text testID="NoExchanges" style={styles.noExchanges}>
             {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}
