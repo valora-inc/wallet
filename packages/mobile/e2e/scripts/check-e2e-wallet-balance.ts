@@ -1,8 +1,7 @@
-var consts = require('./consts.ts')
-var utils = require('./utils.ts')
-
+import { E2E_TEST_WALLET } from './consts'
+import { balanceError, getBalance } from './utils'
 ;(async () => {
-  console.log(consts.E2E_TEST_WALLET)
-  console.table(await utils.getBalance())
-  await utils.balanceError()
+  console.log(E2E_TEST_WALLET)
+  console.table(await getBalance())
+  await balanceError()
 })()
