@@ -163,7 +163,7 @@ export default offRamps = () => {
       it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
         await waitFor(element(by.id('provider-Binance')))
           .toBeVisible()
-          .withTimeout(20 * 1000)
+          .withTimeout(30 * 1000)
         await expect(element(by.id('provider-Binance'))).toBeVisible()
         await expect(element(by.id('provider-Bittrex'))).toBeVisible()
         await expect(element(by.id('provider-Coinbase (CELO as CGLD)'))).toBeVisible()
