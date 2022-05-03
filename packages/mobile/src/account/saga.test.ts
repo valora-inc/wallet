@@ -52,10 +52,6 @@ describe('fetchFinclusiveKyc', () => {
 })
 
 describe('handleUpdateAccountRegistration', () => {
-  const mockRegistrationProperties = {
-    fcmToken: 'someToken',
-  }
-
   beforeEach(() => {
     jest.clearAllMocks()
   })
