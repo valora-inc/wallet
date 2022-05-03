@@ -8,13 +8,22 @@ export interface SingleDigitInputProps {
   inputPlaceholder: string
   onInputChange: (value: string) => void
   testID?: string
+  forwardedRef: any
 }
 
 type Props = SingleDigitInputProps
 
-export function SingleDigitInput({ inputValue, inputPlaceholder, onInputChange, testID }: Props) {
+export function SingleDigitInput({
+  inputValue,
+  inputPlaceholder,
+  onInputChange,
+  testID,
+  forwardedRef,
+}: Props) {
   return (
     <TextInput
+      multiline={true}
+      textAlign={'center'}
       value={inputValue}
       placeholder={inputPlaceholder}
       onChangeText={onInputChange}
@@ -22,6 +31,7 @@ export function SingleDigitInput({ inputValue, inputPlaceholder, onInputChange, 
       showClearButton={false}
       style={styles.codeInput}
       testID={testID}
+      ref={forwardedRef}
     />
   )
 }

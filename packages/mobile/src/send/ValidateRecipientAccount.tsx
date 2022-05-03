@@ -52,6 +52,7 @@ interface State {
   inputValue: string
   singleDigitInputValueArr: string[]
   isModalVisible: boolean
+  digitsRefs: React.MutableRefObject<any>[]
 }
 
 interface DispatchProps {
@@ -131,6 +132,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     inputValue: '',
     singleDigitInputValueArr: [],
     isModalVisible: false,
+    digitsRefs: [React.createRef(), React.createRef(), React.createRef(), React.createRef()],
   }
 
   componentDidMount = () => {
@@ -179,7 +181,13 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   onSingleDigitInputChange = (value: string, index: number) => {
-    const { singleDigitInputValueArr } = this.state
+    const { singleDigitInputValueArr, digitsRefs } = this.state
+    if (value === ' ') return
+    if (value !== '') {
+      digitsRefs[index + 1]?.current?.focus()
+    } else {
+      digitsRefs[index - 1]?.current?.focus()
+    }
     singleDigitInputValueArr[index] = value
     this.setState({ singleDigitInputValueArr })
   }
@@ -204,7 +212,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   renderInstructionsAndInputField = () => {
     const { t, recipient, addressValidationType } = this.props
-    const { inputValue, singleDigitInputValueArr } = this.state
+    const { inputValue, singleDigitInputValueArr, digitsRefs } = this.state
 
     if (addressValidationType === AddressValidationType.FULL) {
       return (
@@ -231,6 +239,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
       (placeholderValue, index) => (
         <View style={styles.singleDigitInputWrapper} key={placeholderValue}>
           <SingleDigitInput
+            forwardedRef={digitsRefs[index]}
             inputValue={singleDigitInputValueArr[index]}
             inputPlaceholder={placeholderValue}
             onInputChange={(value) => this.onSingleDigitInputChange(value, index)}
