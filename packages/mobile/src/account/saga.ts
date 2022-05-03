@@ -217,7 +217,7 @@ export function* handleUpdateAccountRegistration() {
     yield call(updateAccountRegistration, address, signedMessage, {
       appVersion,
       ...(language && { language }),
-      ...(country && { country: country?.countryCodeAlpha2 }),
+      ...(country?.countryCodeAlpha2 && { country: country?.countryCodeAlpha2 }),
       ...(fcmToken && { fcmToken }),
     })
   } catch (error) {

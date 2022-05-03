@@ -29,6 +29,14 @@ jest.mock('src/in-house-liquidity', () => ({
   getFinclusiveComplianceStatus: jest.fn(() => Promise.resolve(2)),
 }))
 
+jest.mock('@react-native-firebase/app', () => ({
+  app: jest.fn(() => ({
+    messaging: () => ({
+      getToken: jest.fn().mockResolvedValue('someToken'),
+    }),
+  })),
+}))
+
 describe('fetchFinclusiveKyc', () => {
   beforeEach(() => {
     jest.useRealTimers()
@@ -53,7 +61,7 @@ describe('handleUpdateAccountRegistration', () => {
   })
 
   it('calls the account registration service with correct params', async () => {
-    await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
+    await expectSaga(handleUpdateAccountRegistration)
       .provide([
         [select(walletAddressSelector), '0xabc'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
@@ -65,25 +73,23 @@ describe('handleUpdateAccountRegistration', () => {
         appVersion: '0.0.1',
         language: 'en-US',
         country: 'US',
-        ...mockRegistrationProperties,
+        fcmToken: 'someToken',
       })
       .run()
   })
 
   it('logs an error if the account registration service fails', async () => {
-    await expectSaga(handleUpdateAccountRegistration, mockRegistrationProperties)
+    await expectSaga(handleUpdateAccountRegistration)
       .provide([
         [select(walletAddressSelector), '0xabc'],
         [call(retrieveSignedMessage), 'someSignedMessage'],
-        [select(currentLanguageSelector), 'en-US'],
-        [select(userLocationDataSelector), { countryCodeAlpha2: 'US' }],
+        [select(currentLanguageSelector), null],
+        [select(userLocationDataSelector), { countryCodeAlpha2: null }],
         [matchers.call.fn(updateAccountRegistration), throwError(new Error('some error'))],
       ])
       .call(updateAccountRegistration, '0xabc', 'someSignedMessage', {
         appVersion: '0.0.1',
-        language: 'en-US',
-        country: 'US',
-        ...mockRegistrationProperties,
+        fcmToken: 'someToken',
       })
       .run()
 
