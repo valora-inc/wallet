@@ -44,7 +44,7 @@ interface NetworkConfig {
   walletConnectEndpoint: string
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
-  setRegistrationProperties: string
+  setRegistrationPropertiesUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -116,7 +116,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
-    setRegistrationProperties: SET_REGISTRATION_PROPERTIES_ALFAJORES,
+    setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -144,7 +144,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
-    setRegistrationProperties: SET_REGISTRATION_PROPERTIES_MAINNET,
+    setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
   },
 }
 

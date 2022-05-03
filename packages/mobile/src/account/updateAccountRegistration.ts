@@ -16,7 +16,7 @@ export async function updateAccountRegistration(
     throw new Error('Missing address or signed message')
   }
 
-  const response = await fetch(networkConfig.setRegistrationProperties, {
+  const response = await fetch(networkConfig.setRegistrationPropertiesUrl, {
     method: 'POST',
     headers: {
       'content-Type': 'application/json',

@@ -24,10 +24,7 @@ import {
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
-import {
-  RegistrationProperties,
-  updateAccountRegistration,
-} from 'src/account/updateAccountRegistration'
+import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -191,7 +188,7 @@ export function* generateSignedMessage() {
   }
 }
 
-export function* handleUpdateAccountRegistration(extraProperties: RegistrationProperties = {}) {
+export function* handleUpdateAccountRegistration() {
   const signedMessage = yield call(retrieveSignedMessage)
   if (!signedMessage) {
     // ensures backwards compatibility - this should happen only for updating the
@@ -219,10 +216,9 @@ export function* handleUpdateAccountRegistration(extraProperties: RegistrationPr
   try {
     yield call(updateAccountRegistration, address, signedMessage, {
       appVersion,
-      language,
-      country: country?.countryCodeAlpha2,
-      fcmToken,
-      ...extraProperties,
+      ...(language && { language }),
+      ...(country && { country: country?.countryCodeAlpha2 }),
+      ...(fcmToken && { fcmToken }),
     })
   } catch (error) {
     Logger.error(
