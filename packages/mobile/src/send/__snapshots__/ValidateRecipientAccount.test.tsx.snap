@@ -725,6 +725,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -740,11 +741,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit0"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -780,6 +784,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -795,11 +800,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit1"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -835,6 +843,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -850,11 +859,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit2"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -890,6 +902,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -905,11 +918,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit3"
+                    textAlign="center"
                     value=""
                   />
                 </View>
