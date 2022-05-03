@@ -15,6 +15,8 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import fontStyles from 'src/styles/fonts'
 
+const AVATAR_SIZE = 64
+
 type Props = StackScreenProps<StackParamList, Screens.ValidateRecipientIntro>
 
 export const validateRecipientIntroScreenNavOptions = () => ({
@@ -57,7 +59,6 @@ const ValidateRecipientIntro = ({ route }: Props) => {
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
-  const AVATAR_SIZE = 64
   const { recipient } = transactionData
   const displayName = getDisplayName(recipient, t)
   const e164PhoneNumber = recipient.e164PhoneNumber
