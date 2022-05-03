@@ -94,7 +94,7 @@ _If you are a Valora employee, please ask to be added to the Valora iOS developm
 
 Xcode is needed to build and deploy the mobile wallet to your iOS device. If you do not have an iOS device, Xcode can be used to emulate one.
 
-Install [Xcode 13.2](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
+Install [Xcode 13](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
 
 We do not recommend installing Xcode through the App Store as it can auto update and become incompatible with our projects.
 
@@ -369,7 +369,7 @@ See [`src/identity/verification.test.ts`] for an example.
 We use [Detox][detox] for E2E testing. In order to run the tests locally, you
 must have the proper emulator set up. Follow the instructions in [e2e/README.md][e2e readme].
 
-Once setup is done, you can buil the tests with `yarn e2e:build:android-release` or `yarn e2e:build:ios-release`.
+Once setup is done, you can build the tests with `yarn e2e:build:android-release` or `yarn e2e:build:ios-release`.
 Once test build is done, you can run the tests with `yarn e2e:test:android-release` or `yarn e2e:test:ios-release`.
 If you want to run a single e2e test: `yarn e2e:test:ios-release Exchange.spec.js -t "Then Buy CELO"`
 
