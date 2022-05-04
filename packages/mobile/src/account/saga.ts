@@ -1,4 +1,5 @@
-import { ensureLeading0x } from '@celo/utils/lib/address'
+import { ContractKit } from '@celo/contractkit'
+import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
@@ -47,7 +48,7 @@ import {
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
-import { getWallet } from 'src/web3/contracts'
+import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -176,12 +177,30 @@ export function* generateSignedMessage() {
     const address: string = yield select(walletAddressSelector)
     yield call(unlockAccount, address)
 
-    const signedMessage = yield call(
-      [wallet, 'signPersonalMessage'],
-      address,
-      ensureLeading0x(Buffer.from('valora auth message').toString('hex'))
-    )
-    yield call(storeSignedMessage, signedMessage)
+    const kit: ContractKit = yield call(getContractKit)
+    const chainId = yield call([kit.connection, 'chainId'])
+    const payload: EIP712TypedData = {
+      types: {
+        EIP712Domain: [
+          { name: 'name', type: 'string' },
+          { name: 'version', type: 'string' },
+          { name: 'chainId', type: 'uint256' },
+        ],
+        Message: [{ name: 'content', type: 'string' }],
+      },
+      domain: {
+        name: 'Valora',
+        version: '1',
+        chainId,
+      },
+      message: {
+        content: 'valora auth message',
+      },
+      primaryType: 'Message',
+    }
+    const signedTypedMessage = yield call([wallet, 'signTypedData'], address, payload)
+
+    yield call(storeSignedMessage, signedTypedMessage)
     yield put(saveSignedMessage())
   } catch (error) {
     throw error
