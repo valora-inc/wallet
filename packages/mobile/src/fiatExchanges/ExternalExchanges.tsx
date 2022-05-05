@@ -136,14 +136,10 @@ function ExternalExchanges({ route }: Props) {
       )}
 
       <ScrollView style={styles.exchangesContainer}>
-        {providers?.map((provider) => {
+        {providers?.map((provider, index) => {
           return (
-            <ListItem
-              testID="exchange-provider"
-              key={provider.name}
-              onPress={goToExchange(provider)}
-            >
-              <View testID={`provider-${provider.name}`} style={styles.providerListItem}>
+            <ListItem key={provider.name} onPress={goToExchange(provider)}>
+              <View testID={`provider-${index}`} style={styles.providerListItem}>
                 <Text style={styles.optionTitle}>{provider.name}</Text>
                 <LinkArrow />
               </View>
