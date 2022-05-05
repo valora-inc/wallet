@@ -25743,7 +25743,7 @@ THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: workspace-aggregator-dd657b30-af1a-40c3-a15c-d12f82fb5007. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-bf0aeb7f-1138-4f9c-b6a3-7979b4399853. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
