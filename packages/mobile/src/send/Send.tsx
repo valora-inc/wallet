@@ -28,6 +28,7 @@ import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
+import useInviteRewardLimitDialog from 'src/send/useInviteRewardLimitDialog'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
@@ -65,6 +66,19 @@ function Send({ route }: Props) {
   const verificationPossible = useSelector(verificationPossibleSelector)
 
   const dispatch = useDispatch()
+
+  const onNavigateSendAmount = (recipient: Recipient) => {
+    navigate(Screens.SendAmount, {
+      recipient,
+      isOutgoingPaymentRequest,
+      origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
+      forceTokenAddress,
+    })
+  }
+
+  const { InviteRewardLimitDialog, onProceedSelectRecipient } = useInviteRewardLimitDialog(
+    onNavigateSendAmount
+  )
 
   const recentRecipientsFilter = useMemo(() => filterRecipientFactory(recentRecipients, false), [
     recentRecipients,
@@ -118,12 +132,7 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: isOutgoingPaymentRequest ? SendOrigin.AppRequestFlow : SendOrigin.AppSendFlow,
-        forceTokenAddress,
-      })
+      onProceedSelectRecipient(recipient)
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
@@ -177,6 +186,7 @@ function Send({ route }: Props) {
     <SafeAreaView style={styles.body} edges={['top']}>
       <SendHeader isOutgoingPaymentRequest={isOutgoingPaymentRequest} />
       <DisconnectBanner />
+      {InviteRewardLimitDialog}
       <SendSearchInput input={searchQuery} onChangeText={throttledSearch} />
       {inviteRewardsEnabled && numberVerified && hasGivenContactPermission && (
         <InviteRewardsBanner />

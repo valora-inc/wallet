@@ -23,6 +23,7 @@ export interface State {
   inviteRewardsEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
+  invitesWithRewardsSent: number
   lastUsedCurrency: Currency
   showSendToAddressWarning: boolean
 }
@@ -34,6 +35,7 @@ const initialState = {
   inviteRewardsEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsEnabled,
   inviteRewardCusd: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardCusd,
   inviteRewardWeeklyLimit: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardWeeklyLimit,
+  invitesWithRewardsSent: 0,
   lastUsedCurrency: Currency.Dollar,
   showSendToAddressWarning: true,
 }
@@ -90,6 +92,11 @@ export const sendReducer = (
       return {
         ...state,
         showSendToAddressWarning: action.showWarning,
+      }
+    case Actions.SEND_INVITE_WITH_REWARD_SUCCESS:
+      return {
+        ...state,
+        invitesWithRewardsSent: (state.invitesWithRewardsSent += 1),
       }
     default:
       return state

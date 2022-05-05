@@ -597,6 +597,12 @@
     "title": "Invite a friend to {{appName}} by sending them some crypto.",
     "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
   },
+  "inviteLimitDialog": {
+    "title": "You’ve sent 5 invitations!",
+    "body": "You can invite more friends but you’ll only get rewards on the first 5 completed invites.\n\nThanks for sharing {{appName}}!",
+    "button": "Invite Anyway",
+    "dismiss": "Dismiss"
+  },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
   "chooseCountryCode": "Country Code",

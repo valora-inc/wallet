@@ -20,6 +20,7 @@ export enum Actions {
   SEND_PAYMENT_OR_INVITE_LEGACY = 'SEND/SEND_PAYMENT_OR_INVITE_LEGACY',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
+  SEND_INVITE_WITH_REWARD_SUCCESS = 'SEND/SEND_INVITE_WITH_REWARD_SUCCESS',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
   SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
@@ -70,6 +71,10 @@ export interface SendPaymentOrInviteFailureAction {
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE
 }
 
+export interface SendInviteWithRewardSuccessAction {
+  type: Actions.SEND_INVITE_WITH_REWARD_SUCCESS
+}
+
 export interface UpdateLastUsedCurrencyAction {
   type: Actions.UPDATE_LAST_USED_CURRENCY
   currency: Currency
@@ -87,6 +92,7 @@ export type ActionTypes =
   | SendPaymentOrInviteActionLegacy
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
+  | SendInviteWithRewardSuccessAction
   | UpdateLastUsedCurrencyAction
   | SetShowWarningAction
 
@@ -159,6 +165,10 @@ export const sendPaymentOrInviteSuccess = (
 
 export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE,
+})
+
+export const sendInviteWithRewardSuccess = (): SendInviteWithRewardSuccessAction => ({
+  type: Actions.SEND_INVITE_WITH_REWARD_SUCCESS,
 })
 
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({

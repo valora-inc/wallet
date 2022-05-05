@@ -15,6 +15,9 @@ export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteR
 
 export const inviteRewardsActiveSelector = (state: RootState) => state.send.inviteRewardsEnabled
 
+export const invitesWithRewardsSentSelector = (state: RootState) =>
+  state.send.invitesWithRewardsSent
+
 export const canSendTokensSelector = createSelector(
   tokensWithTokenBalanceSelector,
   localCurrencyToUsdSelector,

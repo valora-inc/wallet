@@ -13,6 +13,7 @@ import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { sendInviteWithRewardSuccess } from 'src/send/actions'
 import { inviteRewardCusdSelector, inviteRewardsActiveSelector } from 'src/send/selectors'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
@@ -83,6 +84,7 @@ export function* sendInvite(
 
     yield call(initiateEscrowTransfer, e164Number, amount, tokenAddress, feeInfo)
     yield call(Share.share, { message })
+    yield put(sendInviteWithRewardSuccess())
     ValoraAnalytics.track(InviteEvents.invite_complete, {
       amount: amount.toString(),
       tokenAddress,
