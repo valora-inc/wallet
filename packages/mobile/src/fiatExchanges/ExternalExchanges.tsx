@@ -1,7 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,7 +11,7 @@ import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
 import TextButton from 'src/components/TextButton'
-import { EXCHANGE_PROVIDER_LINKS } from 'src/config'
+import { fetchExchanges } from 'src/fiatExchanges/utils'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -18,12 +19,16 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+
+const TAG = 'ExternalExchanges'
 
 export const externalExchangesScreenOptions = () => {
   const eventName = FiatExchangeEvents.cico_external_exchanges_back
@@ -39,12 +44,15 @@ export interface ExternalExchangeProvider {
   name: string
   link: string
   currencies: Currency[]
+  supportedRegions?: string[]
 }
 
 type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
 
 function ExternalExchanges({ route }: Props) {
+  const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
+  const userLocationData = useSelector(userLocationDataSelector)
   const isCashIn = route.params?.isCashIn ?? true
 
   const goToExchange = (provider: ExternalExchangeProvider) => {
@@ -58,6 +66,21 @@ function ExternalExchanges({ route }: Props) {
     }
   }
 
+  const asyncProviders = useAsync(async () => {
+    try {
+      const availableProviders = await fetchExchanges(
+        userLocationData.countryCodeAlpha2,
+        route.params.currency
+      )
+
+      return availableProviders
+    } catch (error) {
+      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
+      return []
+    }
+  }, [])
+  const providers = asyncProviders.result
+
   const supportOnPress = () => navigate(Screens.SupportContact)
 
   const switchCurrencyOnPress = () => navigate(Screens.FiatExchangeOptions, { isCashIn: false })
@@ -66,16 +89,13 @@ function ExternalExchanges({ route }: Props) {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
   }
-  const { t } = useTranslation()
-
-  // TODO Dynamically fetch exchange provider links so they can be updated between releases
-  const providers: ExternalExchangeProvider[] = EXCHANGE_PROVIDER_LINKS.filter(
-    (provider) => provider.currencies.indexOf(route.params.currency) >= 0
-  )
 
   return (
     <SafeAreaView style={styles.container}>
-      {providers.length === 0 ? (
+      {asyncProviders.loading && (
+        <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
+      )}
+      {!asyncProviders.loading && providers?.length === 0 ? (
         <View style={styles.noExchangesContainer}>
           <Text testID="NoExchanges" style={styles.noExchanges}>
             {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}
@@ -116,10 +136,10 @@ function ExternalExchanges({ route }: Props) {
       )}
 
       <ScrollView style={styles.exchangesContainer}>
-        {providers.map((provider) => {
+        {providers?.map((provider, index) => {
           return (
-            <ListItem key={provider.name} onPress={goToExchange(provider)}>
-              <View testID={provider.name} style={styles.providerListItem}>
+            <ListItem testID="provider" key={provider.name} onPress={goToExchange(provider)}>
+              <View testID={`provider-${index}`} style={styles.providerListItem}>
                 <Text style={styles.optionTitle}>{provider.name}</Text>
                 <LinkArrow />
               </View>
@@ -127,7 +147,7 @@ function ExternalExchanges({ route }: Props) {
           )
         })}
       </ScrollView>
-      {!isCashIn && providers.length ? (
+      {!isCashIn && providers?.length ? (
         route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
           <SendBar skipImport={true} selectedCurrency={route.params.currency} />
         ) : (

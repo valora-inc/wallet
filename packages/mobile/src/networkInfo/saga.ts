@@ -4,6 +4,7 @@ import { getIpAddress } from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, cancelled, put, select, spawn, take } from 'redux-saga/effects'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { isE2EEnv } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -25,6 +26,12 @@ function createNetworkStatusChannel() {
   return eventChannel((emit) => {
     return NetInfo.addEventListener((state) => emit(state))
   })
+}
+
+const MOCK_USER_LOCATION = {
+  countryCodeAlpha2: 'US',
+  region: 'CA',
+  ipAddress: '196.17.37.246',
 }
 
 const isConnected = (connectionInfo: NetInfoState) => {
@@ -84,7 +91,9 @@ export function* fetchUserLocationData() {
     userLocationData = { countryCodeAlpha2, region: null, ipAddress }
   }
 
-  yield put(updateUserLocationData(userLocationData))
+  yield isE2EEnv
+    ? put(updateUserLocationData(MOCK_USER_LOCATION))
+    : put(updateUserLocationData(userLocationData))
 }
 
 export function* networkInfoSaga() {
