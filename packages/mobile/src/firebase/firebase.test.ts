@@ -1,9 +1,11 @@
 import firebase from '@react-native-firebase/app'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
-import { initializeCloudMessaging, setRegistrationProperties } from 'src/firebase/firebase'
-import { currentLanguageSelector } from 'src/i18n/selectors'
+import { call } from 'redux-saga/effects'
+import { handleUpdateAccountRegistration } from 'src/account/saga'
+import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
+import { initializeCloudMessaging } from 'src/firebase/firebase'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { mockAccount2 } from 'test/values'
 
 const hasPermissionMock = jest.fn(() => null)
@@ -65,20 +67,18 @@ describe(initializeCloudMessaging, () => {
   })
 
   it('Firebase has permission', async () => {
-    const mockLanguage = 'en_US'
     await expectSaga(initializeCloudMessaging, app, address)
       .provide([
         [call([app.messaging(), 'hasPermission']), true],
         [call([app.messaging(), 'getToken']), mockFcmToken],
+        [call(handleUpdateAccountRegistration), null],
         [
-          call(setRegistrationProperties, address, {
+          call(updateAccountRegistration, address, 'someSignature', {
             fcmToken: mockFcmToken,
-            appVersion: '0.0.1',
-            language: mockLanguage,
           }),
           null,
         ],
-        [select(currentLanguageSelector), mockLanguage],
+        [call(retrieveSignedMessage), 'someSignature'],
         {
           spawn(effect, next) {
             // mock all spawns
@@ -86,11 +86,7 @@ describe(initializeCloudMessaging, () => {
           },
         },
       ])
-      .call(setRegistrationProperties, address, {
-        fcmToken: mockFcmToken,
-        appVersion: '0.0.1',
-        language: mockLanguage,
-      })
+      .call(handleUpdateAccountRegistration)
       .run()
   })
 })
