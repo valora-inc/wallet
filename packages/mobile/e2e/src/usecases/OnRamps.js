@@ -73,9 +73,14 @@ export default onRamps = () => {
 
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
-        let providerList = await element(by.id('provider')).getAttributes()
-        // Confirm at least 5 exchanges display
-        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
+        // Wait for https://github.com/wix/Detox/issues/3196 to be fixed to remove hack
+        if (device.getPlatform() === 'ios') {
+          let providerList = await element(by.id('provider')).getAttributes()
+          // Confirm at least 5 exchanges display
+          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
+        } else {
+          waitForElementId('provider-4')
+        }
       })
     })
   })
@@ -136,9 +141,13 @@ export default onRamps = () => {
 
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
-        let providerList = await element(by.id('provider')).getAttributes()
-        // Confirm at least 2 exchanges display
-        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(2)
+        if (device.getPlatform() === 'ios') {
+          let providerList = await element(by.id('provider')).getAttributes()
+          // Confirm at least 2 exchanges display
+          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(2)
+        } else {
+          waitForElementId('provider-1')
+        }
       })
     })
   })
@@ -206,9 +215,13 @@ export default onRamps = () => {
 
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
-        let providerList = await element(by.id('provider')).getAttributes()
-        // Confirm at least 18 exchanges display
-        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(18)
+        if (device.getPlatform() === 'ios') {
+          let providerList = await element(by.id('provider')).getAttributes()
+          // Confirm at least 18 exchanges display
+          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(18)
+        } else {
+          waitForElementId('provider-17')
+        }
       })
     })
   })
