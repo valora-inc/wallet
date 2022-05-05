@@ -7,18 +7,19 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
 import { Platform } from 'react-native'
-import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
-import { call, select, take } from 'redux-saga/effects'
+import { call, take } from 'redux-saga/effects'
+import { handleUpdateAccountRegistration } from 'src/account/saga'
+import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
 
@@ -158,11 +159,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
-    const appVersion = DeviceInfo.getVersion()
-    // First time setting the fcmToken also set the language selection
-    const language = yield select(currentLanguageSelector)
+    yield call(handleUpdateAccountRegistration)
 
-    yield call(setRegistrationProperties, address, { fcmToken, appVersion, language })
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
@@ -173,7 +171,20 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   app.messaging().onTokenRefresh(async (fcmToken) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
-    await setRegistrationProperties(address, { fcmToken })
+
+    try {
+      const signedMessage = await retrieveSignedMessage()
+      if (signedMessage) {
+        await updateAccountRegistration(address, signedMessage, { fcmToken })
+      }
+    } catch (error) {
+      Logger.error(
+        `${TAG}@initializeCloudMessaging`,
+        'Unable to update cloud messaging token',
+        error
+      )
+    }
+
     if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       CleverTap.setPushToken(fcmToken, CleverTap.FCM)
@@ -387,25 +398,4 @@ export async function readOnceFromFirebase(path: string) {
     .once('value')
     .then((snapshot) => snapshot.val())
   return Promise.race([timeout, fetchFromFirebase])
-}
-
-export async function setRegistrationProperties(
-  address: string,
-  properties: { language?: string | null; fcmToken?: string; appVersion?: string }
-) {
-  try {
-    Logger.info(TAG, 'Setting properties for Firebase Registrations')
-    const regRef = firebase.database().ref('registrations')
-    await regRef.child(address).update(properties)
-
-    Logger.info(
-      TAG,
-      `Firebase registrations for user ${address} updated successfully with properties ${JSON.stringify(
-        properties
-      )}`
-    )
-  } catch (error) {
-    Logger.error(TAG, 'Failed to update Firebase registrations', error)
-    throw error
-  }
 }

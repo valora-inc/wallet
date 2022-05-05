@@ -31,6 +31,9 @@
         "appVersion": {
           ".write": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
         },
+        "country": {
+          ".write": false
+        },
         "dailyLimitCusd": {
           ".write": false,
           ".validate": "newData.isNumber() && newData.val() >= 500"
