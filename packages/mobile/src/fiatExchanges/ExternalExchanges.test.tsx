@@ -88,11 +88,11 @@ describe('ExternalExchanges', () => {
     )
 
     await flushMicrotasksQueue()
-    expect(getByTestId('provider-Bittrex')).toBeTruthy()
-    expect(getByTestId('provider-CoinList Pro')).toBeTruthy()
-    expect(getByTestId('provider-OKCoin')).toBeTruthy()
-    await fireEvent.press(getByTestId('provider-Bittrex'))
-    expect(navigateToURI).toBeCalledWith('https://bittrex.com/Market/Index?MarketName=USD-CELO')
+    expect(getByTestId('provider-0')).toBeTruthy()
+    expect(getByTestId('provider-1')).toBeTruthy()
+    expect(getByTestId('provider-2')).toBeTruthy()
+    await fireEvent.press(getByTestId('provider-1'))
+    expect(navigateToURI).toBeCalledWith('https://coinlist.co/asset/celo')
   })
   it('shows the correct UI when request to fetch exchanges failed', async () => {
     mockFetch.mockReject(new Error('Failed to fetch exchanges'))
