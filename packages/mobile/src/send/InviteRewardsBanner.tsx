@@ -5,6 +5,7 @@ import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { notificationInvite } from 'src/images/Images'
 import useSelector from 'src/redux/useSelector'
+import { inviteRewardCusdSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
@@ -12,7 +13,7 @@ import { Currency } from 'src/utils/currencies'
 
 export function InviteRewardsBanner() {
   const { t } = useTranslation()
-  const rewardAmount = useSelector((state) => state.send.inviteRewardCusd)
+  const rewardAmount = useSelector(inviteRewardCusdSelector)
 
   const { IS_IN_EUROPE } = useCountryFeatures()
   const currency = IS_IN_EUROPE ? Currency.Euro : Currency.Dollar
