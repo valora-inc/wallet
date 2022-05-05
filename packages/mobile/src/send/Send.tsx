@@ -11,7 +11,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { numberVerifiedSelector, verificationPossibleSelector } from 'src/app/selectors'
 import ContactPermission from 'src/icons/ContactPermission'
 import VerifyPhone from 'src/icons/VerifyPhone'
 import { importContacts } from 'src/identity/actions'
@@ -24,6 +24,7 @@ import RecipientPicker from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
@@ -47,8 +48,8 @@ function Send({ route }: Props) {
   const { t } = useTranslation()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
-  const numberVerified = useSelector((state) => state.app.numberVerified)
-  const inviteRewardsEnabled = useSelector((state) => state.send.inviteRewardsEnabled)
+  const numberVerified = useSelector(numberVerifiedSelector)
+  const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
 
   const allRecipients = useSelector(phoneRecipientCacheSelector)
   const matchedContacts = useSelector((state) => state.identity.matchedContacts)
