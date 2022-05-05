@@ -119,16 +119,7 @@ export default onRamps = () => {
 
       jest.retryTimes(2)
       it('Then Should Display Exchanges & Account Address', async () => {
-        await waitFor(element(by.id('Binance')))
-          .toBeVisible()
-          .withTimeout(20 * 1000)
-        await expect(element(by.id('Binance'))).toBeVisible()
-        await expect(element(by.id('Bittrex'))).toBeVisible()
-        await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()
-        await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
-        await expect(element(by.id('CoinList Pro'))).toBeVisible()
-        await expect(element(by.id('OKCoin'))).toBeVisible()
-        await expect(element(by.id('OKEx'))).toBeVisible()
+        await waitForElementId('exchange-provider')
         await expect(element(by.id('accountBox'))).toBeVisible()
       })
     })
