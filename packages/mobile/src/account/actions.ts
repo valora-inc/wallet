@@ -43,6 +43,7 @@ export enum Actions {
   SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
   DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
+  SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
 }
 
 export interface ChooseCreateAccountAction {
@@ -204,6 +205,10 @@ export interface DismissStartSuperchargingAction {
   type: Actions.DISMISS_START_SUPERCHARGING
 }
 
+export interface SaveSignedMessage {
+  type: Actions.SAVE_SIGNED_MESSAGE
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -240,6 +245,7 @@ export type ActionTypes =
   | SetFinclusiveRegionSupported
   | DismissKeepSuperchargingAction
   | DismissStartSuperchargingAction
+  | SaveSignedMessage
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -428,4 +434,8 @@ export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({
 
 export const dismissStartSupercharging = (): DismissStartSuperchargingAction => ({
   type: Actions.DISMISS_START_SUPERCHARGING,
+})
+
+export const saveSignedMessage = (): SaveSignedMessage => ({
+  type: Actions.SAVE_SIGNED_MESSAGE,
 })
