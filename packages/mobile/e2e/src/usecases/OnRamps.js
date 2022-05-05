@@ -217,10 +217,10 @@ export default onRamps = () => {
         await waitForElementId('accountBox')
         if (device.getPlatform() === 'ios') {
           let providerList = await element(by.id('provider')).getAttributes()
-          // Confirm at least 18 exchanges display
-          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(18)
+          // Confirm at least 5 exchanges display
+          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
         } else {
-          waitForElementId('provider-17')
+          waitForElementId('provider-4')
         }
       })
     })
