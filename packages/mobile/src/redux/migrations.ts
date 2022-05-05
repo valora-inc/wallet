@@ -621,4 +621,5 @@ export const migrations = {
       ..._.omit(state.walletConnect, ['v2']),
     },
   }),
+  51: (state: any) => state,
 }

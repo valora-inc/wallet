@@ -2512,6 +2512,9 @@
                 "inviteRewardsEnabled": {
                     "type": "boolean"
                 },
+                "invitesWithRewardsSent": {
+                    "type": "number"
+                },
                 "isSending": {
                     "type": "boolean"
                 },
@@ -2609,6 +2612,7 @@
                 "inviteRewardCusd",
                 "inviteRewardWeeklyLimit",
                 "inviteRewardsEnabled",
+                "invitesWithRewardsSent",
                 "isSending",
                 "lastUsedCurrency",
                 "recentPayments",
