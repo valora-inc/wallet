@@ -40,8 +40,6 @@ jobs:
         run: yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
-      - name: Build mobile dependencies
-        run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - name: Make jest available
         working-directory: ${{env.working-directory}}
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
@@ -126,8 +124,6 @@ jobs:
         run: bundle exec pod install || bundle exec pod install --repo-update
       - name: Fail if someone forgot to commit "Podfile.lock"
         run: git diff --exit-code
-      - name: Build mobile dependencies
-        run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - name: Make jest available
         working-directory: ${{env.working-directory}}
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
