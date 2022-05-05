@@ -388,6 +388,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                         "lineHeight": 22,
                       }
                     }
+                    testID="ProviderFee/Simplex"
                   >
                     <Text
                       style={
@@ -550,6 +551,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                         "lineHeight": 22,
                       }
                     }
+                    testID="ProviderFee/Ramp"
                   >
                     free
                   </Text>
@@ -694,6 +696,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                         "lineHeight": 22,
                       }
                     }
+                    testID="ProviderFee/Moonpay"
                   >
                     <Text
                       style={
@@ -873,6 +876,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                         "lineHeight": 22,
                       }
                     }
+                    testID="ProviderFee/Transak"
                   >
                     <Text
                       style={
