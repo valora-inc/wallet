@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import Dialog from 'src/components/Dialog'
+import { MAX_NUM_INVITES_WITH_REWARDS } from 'src/config'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import {
   e164NumberToAddressSelector,
@@ -9,8 +10,6 @@ import {
 } from 'src/identity/selectors'
 import { Recipient } from 'src/recipients/recipient'
 import { inviteRewardsActiveSelector, invitesWithRewardsSentSelector } from 'src/send/selectors'
-
-const MAX_NUM_INVITES_WITH_REWARDS = 5
 
 const useInviteRewardLimitDialog = (onNavigateSendAmount: (recipient: Recipient) => void) => {
   const [isVisible, setIsVisible] = useState(false)

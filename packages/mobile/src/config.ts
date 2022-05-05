@@ -187,3 +187,4 @@ export const DEFAULT_SENTRY_NETWORK_ERRORS = [
   'network request failed',
   'The network connection was lost',
 ]
+export const MAX_NUM_INVITES_WITH_REWARDS = 5
