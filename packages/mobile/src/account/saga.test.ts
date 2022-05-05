@@ -14,7 +14,7 @@ import { getFinclusiveComplianceStatus } from 'src/in-house-liquidity'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { getWallet } from 'src/web3/contracts'
+import { getContractKit, getWallet } from 'src/web3/contracts'
 import { getWalletAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockWallet } from 'test/values'
@@ -95,6 +95,11 @@ describe('handleUpdateAccountRegistration', () => {
 
 describe('generateSignedMessage', () => {
   const address = '0x3460806908173E6291960662c17592D423Fb22e5'
+  const contractKit = {
+    connection: {
+      chainId: jest.fn(() => '12345'),
+    },
+  }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -113,7 +118,8 @@ describe('generateSignedMessage', () => {
         [select(walletAddressSelector), address],
         [call(getWallet), mockWallet],
         [call(unlockAccount, address), UnlockResult.SUCCESS],
-        [matchers.call.fn(mockWallet.signPersonalMessage), 'someSignedMessage'],
+        [call(getContractKit), contractKit],
+        [matchers.call.fn(mockWallet.signTypedData), 'someSignedMessage'],
         [call(storeSignedMessage, 'someSignedMessage'), undefined],
       ])
       .put(saveSignedMessage())
