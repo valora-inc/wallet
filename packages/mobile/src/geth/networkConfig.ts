@@ -45,7 +45,6 @@ interface NetworkConfig {
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
-  fetchExchangesUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -70,9 +69,6 @@ const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.or
 const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
-
-const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
-const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
 
 const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
 const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
@@ -121,7 +117,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
-    fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -150,7 +145,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
-    fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
   },
 }
 
