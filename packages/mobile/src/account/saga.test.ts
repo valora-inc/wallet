@@ -135,7 +135,7 @@ describe('generateSignedMessage', () => {
           [call(getWallet), mockWallet],
           [call(unlockAccount, address), UnlockResult.FAILURE],
           [
-            matchers.call.fn(mockWallet.signPersonalMessage),
+            matchers.call.fn(mockWallet.signTypedData),
             throwError(new Error('could not generate signature')),
           ],
         ])
