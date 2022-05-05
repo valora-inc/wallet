@@ -1,4 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
+import { waitForElementId } from '../utils/utils'
 
 export default onRamps = () => {
   beforeEach(async () => {

@@ -1,6 +1,6 @@
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 
 export default offRamps = () => {
   beforeEach(async () => {
@@ -62,12 +62,7 @@ export default offRamps = () => {
       })
 
       it('Then Should Display Exchanges', async () => {
-        await waitFor(element(by.id('provider-Bittrex')))
-          .toBeVisible()
-          .withTimeout(20 * 1000)
-        await expect(element(by.id('provider-Bittrex'))).toBeVisible()
-        await expect(element(by.id('provider-CoinList Pro'))).toBeVisible()
-        await expect(element(by.id('provider-OKCoin'))).toBeVisible()
+        await waitForElementId('exchange-provider')
       })
     })
   })
