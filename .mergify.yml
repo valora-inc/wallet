@@ -1,5 +1,8 @@
 queue_rules:
   - name: default
+    conditions:
+      # Conditions to get the queued pull request merged (on top of the branch protection rules from GitHub)
+      - '-merged'
 
 pull_request_rules:
   - name: Automatically merge on CI success and code review
