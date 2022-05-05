@@ -10,6 +10,12 @@
   // for all packages before opening the renovate PR.
   // We can relax this (using specific packageRules) as we catch up with package updates.
   dependencyDashboardApproval: true,
+  // Disable vulnerability updates for now
+  // Dependabot is handling them instead because Renovate is not yet able to update transitive dependencies
+  // See https://github.com/renovatebot/renovate/issues/3080
+  vulnerabilityAlerts: {
+    enabled: false,
+  },
   // The order of objects in the packageRules array does matter,
   // in the sense that rules declared later (towards the end of the array)
   // overwrite values of an also-matching rule declared earlier.
