@@ -276,7 +276,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                           {!provider.unavailable &&
                             !provider.restricted &&
                             !provider.paymentMethods.includes(paymentMethod) && (
-                              <Text style={styles.restrictedText}>
+                              <Text
+                                testID={`RestrictedText/${provider.name}`}
+                                style={styles.restrictedText}
+                              >
                                 {t('unsupportedPaymentMethod', {
                                   paymentMethod:
                                     paymentMethod === PaymentMethod.Bank
@@ -289,7 +292,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       </View>
                     </View>
                     <View style={styles.feeContainer}>
-                      <Text style={styles.text}>{renderFeeAmount(provider.quote)}</Text>
+                      <Text testID={`ProviderFee/${provider.name}`} style={styles.text}>
+                        {renderFeeAmount(provider.quote)}
+                      </Text>
                     </View>
                   </View>
                 </ListItem>
