@@ -322,8 +322,7 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
     await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
       .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedAccount), account],
-        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentAccountSelector), account],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
       ])
@@ -414,8 +413,7 @@ describe(sendPaymentOrInviteSaga, () => {
     await expectSaga(sendPaymentOrInviteSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedAccount), account],
-        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentAccountSelector), account],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
         [call(getERC20TokenContract, mockCusdAddress), mockContract],

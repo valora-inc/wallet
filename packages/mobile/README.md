@@ -36,6 +36,7 @@
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
   - [Attaching to the geth instance](#attaching-to-the-geth-instance)
   - [Helpful hints for development](#helpful-hints-for-development)
+  - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
   - [Troubleshooting](#troubleshooting)
     - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
 
@@ -94,7 +95,7 @@ _If you are a Valora employee, please ask to be added to the Valora iOS developm
 
 Xcode is needed to build and deploy the mobile wallet to your iOS device. If you do not have an iOS device, Xcode can be used to emulate one.
 
-Install [Xcode 12.2](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
+Install [Xcode 13](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
 
 We do not recommend installing Xcode through the App Store as it can auto update and become incompatible with our projects.
 
@@ -116,9 +117,9 @@ bundle exec pod install
 
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
-1. Run `yarn install` in the monorepo root `/wallet`.
-2. Run `yarn build:wallet` from the monorepo root `/wallet`.
-3. Run `yarn dev:ios` in the `/wallet/packages/mobile` folder.
+1. Run `yarn install` in the repository root.
+2. Run `yarn build` from the repository root.
+3. Run `yarn dev:ios` in the `/packages/mobile` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -262,7 +263,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 **Note:** We've seen some issues running the metro bundler from iTerm
 
-1. If you haven't already, run `yarn` and then `yarn build` from the monorepo root to install and build dependencies.
+1. If you haven't already, run `yarn` and then `yarn build` from the repository root to install and build dependencies.
 
 2. Attach your device or start an emulated one.
 
@@ -369,8 +370,9 @@ See [`src/identity/verification.test.ts`] for an example.
 We use [Detox][detox] for E2E testing. In order to run the tests locally, you
 must have the proper emulator set up. Follow the instructions in [e2e/README.md][e2e readme].
 
-Once setup is done, you can run the tests with `yarn test:e2e:android` or `yarn test:e2e:ios`.
-If you want to run a single e2e test: `yarn test:e2e:ios -f Exchange.spec.js -t "Then Buy CELO"`
+Once setup is done, you can build the tests with `yarn e2e:build:android-release` or `yarn e2e:build:ios-release`.
+Once test build is done, you can run the tests with `yarn e2e:test:android-release` or `yarn e2e:test:ios-release`.
+If you want to run a single e2e test: `yarn e2e:test:ios-release Exchange.spec.js -t "Then Buy CELO"`
 
 ## Building APKs / Bundles
 
@@ -525,6 +527,24 @@ We try to minimise the differences between running Valora in different modes and
 
 - Valora uses Crowdin Over-The-Air (OTA) content delivery to enable dynamic translation updates. The OTA translations are cached and used on subsequent app loads instead of the strings in the translation files of the app bundle. This means that during development, the app will not respond to manual changes of the translation.json files.
 - In development mode, analytics are disabled.
+
+### Vulnerabilities found in dependencies
+
+We have a script to [check for vulnerabilities](scripts/ci_check_vulnerabilities.sh) in our dependencies.
+
+In case vulnerabilities are reported, check to see if they apply to production and if they have fixes available.
+
+If they apply to production, start a discussion in our [#on-call](https://valora-app.slack.com/archives/C02N3AR2P2S) channel.
+
+Then if they have fixes available, update the dependencies using [Renovate](https://github.com/valora-inc/wallet/issues/1716) or manually:
+
+- If it's a direct dependency, update the dependency in `package.json`.
+- If it's a transitive dependency, you can manually remove the transitive dependency in `yarn.lock` and re-run `yarn install` to see if it can use the fixed version. If the sub dependency is pinned somewhere, you'll need to use a [yarn resolution](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) in `package.json` to get the fixed version. Be careful with this as it can break other dependencies depending on a specific version.
+
+If they do not have fixes and they do not apply to production, you may ignore them:
+
+1. run: `yarn audit --json --groups dependencies --level high | grep auditAdvisory > yarn-audit-known-issues`
+2. commit `yarn-audit-known-issues` and open a PR
 
 ### Troubleshooting
 

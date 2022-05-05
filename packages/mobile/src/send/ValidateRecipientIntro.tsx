@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
@@ -8,7 +8,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import ContactCircle from 'src/components/ContactCircle'
 import TextButton from 'src/components/TextButton'
-import { withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,17 +17,23 @@ import fontStyles from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
 
-type NavProps = StackScreenProps<StackParamList, Screens.ValidateRecipientIntro>
-type Props = WithTranslation & NavProps
+type Props = StackScreenProps<StackParamList, Screens.ValidateRecipientIntro>
 
 export const validateRecipientIntroScreenNavOptions = () => ({
   ...emptyHeader,
   headerLeft: () => <CancelButton eventName={SendEvents.send_secure_cancel} />,
 })
 
-class ValidateRecipientIntro extends React.Component<Props> {
-  onPressScanCode = () => {
-    const { isOutgoingPaymentRequest, transactionData, requesterAddress } = this.props.route.params
+const ValidateRecipientIntro = ({ route }: Props) => {
+  const { t } = useTranslation()
+  const {
+    addressValidationType,
+    transactionData,
+    isOutgoingPaymentRequest,
+    requesterAddress,
+    origin,
+  } = route.params
+  const onPressScanCode = () => {
     navigate(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       params: {
@@ -42,14 +47,7 @@ class ValidateRecipientIntro extends React.Component<Props> {
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
   }
 
-  onPressConfirmAccount = () => {
-    const {
-      addressValidationType,
-      transactionData,
-      isOutgoingPaymentRequest,
-      requesterAddress,
-      origin,
-    } = this.props.route.params
+  const onPressConfirmAccount = () => {
     navigate(Screens.ValidateRecipientAccount, {
       transactionData,
       addressValidationType,
@@ -61,45 +59,42 @@ class ValidateRecipientIntro extends React.Component<Props> {
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
-  render() {
-    const { t } = this.props
-    const { recipient } = this.props.route.params.transactionData
-    const displayName = getDisplayName(recipient, t)
-    const e164PhoneNumber = recipient.e164PhoneNumber
+  const { recipient } = transactionData
+  const displayName = getDisplayName(recipient, t)
+  const e164PhoneNumber = recipient.e164PhoneNumber
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.iconContainer}>
-            <ContactCircle size={AVATAR_SIZE} recipient={recipient} />
-          </View>
-          <Text style={styles.validationHeader}>
-            {!recipient.name
-              ? t('confirmAccount.headerNoDisplayName')
-              : t('confirmAccount.header', { displayName })}
-          </Text>
-          <Text style={styles.body}>
-            {!recipient.name
-              ? t('secureSendExplanation.body1NoDisplayName')
-              : t('secureSendExplanation.body1', { e164PhoneNumber, displayName })}
-          </Text>
-          <Text style={styles.body}>{t('secureSendExplanation.body2')}</Text>
-        </ScrollView>
-        <View style={styles.buttonContainer}>
-          <TextButton style={styles.button} onPress={this.onPressScanCode} testID={'scanQRCode'}>
-            {t('scanQRCode')}
-          </TextButton>
-          <TextButton
-            style={styles.button}
-            onPress={this.onPressConfirmAccount}
-            testID={'confirmAccountButton'}
-          >
-            {t('confirmAccount.button')}
-          </TextButton>
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.iconContainer}>
+          <ContactCircle size={AVATAR_SIZE} recipient={recipient} />
         </View>
-      </SafeAreaView>
-    )
-  }
+        <Text style={styles.validationHeader}>
+          {!recipient.name
+            ? t('confirmAccount.headerNoDisplayName')
+            : t('confirmAccount.header', { displayName })}
+        </Text>
+        <Text style={styles.body}>
+          {!recipient.name
+            ? t('secureSendExplanation.body1NoDisplayName')
+            : t('secureSendExplanation.body1', { e164PhoneNumber, displayName })}
+        </Text>
+        <Text style={styles.body}>{t('secureSendExplanation.body2')}</Text>
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <TextButton style={styles.button} onPress={onPressScanCode} testID={'scanQRCode'}>
+          {t('scanQRCode')}
+        </TextButton>
+        <TextButton
+          style={styles.button}
+          onPress={onPressConfirmAccount}
+          testID={'confirmAccountButton'}
+        >
+          {t('confirmAccount.button')}
+        </TextButton>
+      </View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -137,4 +132,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>()(ValidateRecipientIntro)
+export default ValidateRecipientIntro
