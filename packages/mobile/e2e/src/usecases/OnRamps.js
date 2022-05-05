@@ -73,11 +73,9 @@ export default onRamps = () => {
 
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
-        await expect(element(by.id('provider-KuCoin'))).toExist()
-        await expect(element(by.id('provider-Bittrex'))).toExist()
-        await expect(element(by.id('provider-CoinList Pro'))).toExist()
-        await expect(element(by.id('provider-OKCoin'))).toExist()
-        await expect(element(by.id('provider-Blockchain.com'))).toExist()
+        let providerList = await element(by.id('provider')).getAttributes()
+        // Confirm at least 5 exchanges display
+        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
       })
     })
   })
@@ -138,8 +136,9 @@ export default onRamps = () => {
 
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
-        await expect(element(by.id('provider-KuCoin'))).toExist()
-        await expect(element(by.id('provider-Blockchain.com'))).toExist()
+        let providerList = await element(by.id('provider')).getAttributes()
+        // Confirm at least 2 exchanges display
+        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(2)
       })
     })
   })
@@ -208,8 +207,8 @@ export default onRamps = () => {
       it('Then Should Display Exchanges & Account Address', async () => {
         await waitForElementId('accountBox')
         let providerList = await element(by.id('provider')).getAttributes()
-        // Confirm at least 3 exchanges display
-        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(3)
+        // Confirm at least 18 exchanges display
+        jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(18)
       })
     })
   })
