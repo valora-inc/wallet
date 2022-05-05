@@ -2,10 +2,8 @@ import { stringToBoolean } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { GethSyncMode } from 'src/geth/consts'
-import { Currency } from 'src/utils/currencies'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
@@ -108,44 +106,6 @@ export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'S
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
-
-export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
-  {
-    name: 'Binance',
-    link: 'https://www.binance.com/en/trade/CELO_USDT',
-    currencies: [Currency.Celo],
-  },
-  {
-    name: 'Bittrex',
-    link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
-    currencies: [Currency.Celo, Currency.Dollar],
-  },
-  {
-    name: 'Coinbase (CELO as CGLD)',
-    link: 'https://www.coinbase.com',
-    currencies: [Currency.Celo],
-  },
-  {
-    name: 'Coinbase Pro (CELO as CGLD)',
-    link: 'https://pro.coinbase.com/trade/CGLD-USD',
-    currencies: [Currency.Celo],
-  },
-  {
-    name: 'CoinList Pro',
-    link: 'https://coinlist.co/asset/celo',
-    currencies: [Currency.Celo, Currency.Dollar],
-  },
-  {
-    name: 'OKCoin',
-    link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
-    currencies: [Currency.Celo, Currency.Dollar],
-  },
-  {
-    name: 'OKEx',
-    link: 'https://www.okex.com/spot/trade/CELO-USDT',
-    currencies: [Currency.Celo],
-  },
-]
 
 export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
   {
