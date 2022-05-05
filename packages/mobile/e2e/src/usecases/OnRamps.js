@@ -120,7 +120,9 @@ export default onRamps = () => {
 
       jest.retryTimes(2)
       it('Then Should Display Exchanges & Account Address', async () => {
-        await waitForElementId('exchange-provider')
+        await waitForElementId('provider-1')
+        await expect(element(by.id('provider-2'))).toBeVisible()
+        await expect(element(by.id('provider-3'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
       })
     })

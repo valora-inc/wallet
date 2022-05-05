@@ -62,7 +62,9 @@ export default offRamps = () => {
       })
 
       it('Then Should Display Exchanges', async () => {
-        await waitForElementId('exchange-provider')
+        await waitForElementId('provider-1')
+        await expect(element(by.id('provider-2'))).toBeVisible()
+        await expect(element(by.id('provider-3'))).toBeVisible()
       })
     })
   })
@@ -85,24 +87,6 @@ export default offRamps = () => {
       // Most likely culprits is the internal webview we use not playing nice with detox
       it.skip('Then Display Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
-      })
-    })
-
-    describe('When Cryptocurrency Exchanges Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.id('GoToProviderButton')).tap()
-      })
-
-      it('Then Should Display No Exchanges Available Text', async () => {
-        // Check page elements
-        await expect(element(by.id('NoExchanges'))).toHaveText(
-          'There are no exchanges available for cEUR in your region.'
-        )
-
-        // Check presence of buttons
-        await expect(element(by.id('SwitchCurrency'))).toBeVisible()
-        await expect(element(by.id('ContactSupport'))).toBeVisible()
       })
     })
   })
@@ -156,7 +140,9 @@ export default offRamps = () => {
       })
 
       it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
-        await waitForElementId('exchange-provider')
+        await waitForElementId('provider-1')
+        await expect(element(by.id('provider-2'))).toBeVisible()
+        await expect(element(by.id('provider-3'))).toBeVisible()
         await expect(element(by.id('WithdrawCeloButton'))).toBeVisible()
       })
     })
