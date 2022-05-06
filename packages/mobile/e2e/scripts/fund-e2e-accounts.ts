@@ -1,9 +1,16 @@
-import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts'
-import { checkBalance, dotenv, getBalance, kit, web3 } from './utils'
-dotenv.config({ path: `${__dirname}/../.env` })
+import { newKitFromWeb3, StableToken } from '@celo/contractkit';
+import dotenv from 'dotenv';
+import Web3 from 'web3';
+import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts';
+import { checkBalance, getBalance } from './utils';
 
-const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
-;(async () => {
+dotenv.config({ path: `${__dirname}/../.env` });
+
+const web3 = new Web3('https://alfajores-forno.celo-testnet.org');
+const kit = newKitFromWeb3(web3);
+const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!;
+
+(async () => {
   // Get E2E Test Wallet Balance & Valora Faucet Balance
   const receivingBalance = await getBalance(E2E_TEST_WALLET)
   const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
@@ -17,10 +24,10 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   // Get Token Contract Wrappers
   const celoToken = await kit.contracts.getGoldToken()
   const cusdToken = await kit.contracts.getStableToken()
-  const ceurToken = await kit.contracts.getStableToken('cEUR')
+  const ceurToken = await kit.contracts.getStableToken(StableToken.cEUR)
   const celoExchange = await kit.contracts.getExchange()
-  const cusdExchange = await kit.contracts.getExchange('cUSD')
-  const ceurExchange = await kit.contracts.getExchange('cEUR')
+  const cusdExchange = await kit.contracts.getExchange(StableToken.cUSD)
+  const ceurExchange = await kit.contracts.getExchange(StableToken.cEUR)
 
   // Balance Faucet
   let targetTokenRegex = /[cusd|celo|ceur]/gi
