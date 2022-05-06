@@ -734,7 +734,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
-                    placeholder="k"
+                    placeholder="a"
                     style={
                       Array [
                         Object {

@@ -37,7 +37,7 @@ import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
-const PARTIAL_ADDRESS_PLACEHOLDER = ['k', '0', 'F', '4']
+const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
