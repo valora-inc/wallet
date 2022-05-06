@@ -1,4 +1,6 @@
-import { render } from '@testing-library/react-native'
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
@@ -7,7 +9,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ValidateRecipientAccount from 'src/send/ValidateRecipientAccount'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockE164NumberInvite, mockTransactionData } from 'test/values'
+import { mockCusdAddress, mockE164NumberInvite, mockTransactionData } from 'test/values'
+
+expect.extend({ toBeDisabled })
 
 describe('ValidateRecipientAccount', () => {
   it('renders correctly when full validation required', () => {
@@ -40,6 +44,27 @@ describe('ValidateRecipientAccount', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it('typing correct last four of account enables submit button', () => {
+    const store = createMockStore()
+    const tree = render(
+      <Provider store={store}>
+        <ValidateRecipientAccount
+          {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
+            transactionData: mockTransactionData,
+            addressValidationType: AddressValidationType.PARTIAL,
+            origin: SendOrigin.AppSendFlow,
+          })}
+        />
+      </Provider>
+    )
+    expect(tree.getByTestId('ConfirmAccountButton')).toBeDisabled()
+    fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit0'), mockCusdAddress[38])
+    fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit1'), mockCusdAddress[39])
+    fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit2'), mockCusdAddress[40])
+    fireEvent.changeText(tree.getByTestId('SingleDigitInput/digit3'), mockCusdAddress[41])
+    expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
   })
 
   it('navigates to send confirmation when validation successful for send flow', () => {

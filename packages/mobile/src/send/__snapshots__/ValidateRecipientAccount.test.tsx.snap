@@ -154,8 +154,13 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
-              focusable={true}
+              focusable={false}
               nativeBackgroundAndroid={
                 Object {
                   "attribute": "selectableItemBackground",
@@ -173,7 +178,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#1AB775",
+                  "backgroundColor": "#97DFC1",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
@@ -725,10 +730,11 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
-                    placeholder="k"
+                    placeholder="a"
                     style={
                       Array [
                         Object {
@@ -740,11 +746,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit0"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -780,6 +789,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -795,11 +805,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit1"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -835,6 +848,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -850,11 +864,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit2"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -890,6 +907,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 >
                   <TextInput
                     maxLength={1}
+                    multiline={true}
                     onBlur={[Function]}
                     onChangeText={[Function]}
                     onFocus={[Function]}
@@ -905,11 +923,14 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
+                        Object {
+                          "textAlignVertical": "top",
+                        },
                         undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit3"
+                    textAlign="center"
                     value=""
                   />
                 </View>
@@ -949,8 +970,13 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             }
           >
             <View
+              accessibilityState={
+                Object {
+                  "disabled": true,
+                }
+              }
               accessible={true}
-              focusable={true}
+              focusable={false}
               nativeBackgroundAndroid={
                 Object {
                   "attribute": "selectableItemBackground",
@@ -968,7 +994,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               style={
                 Object {
                   "alignItems": "center",
-                  "backgroundColor": "#1AB775",
+                  "backgroundColor": "#97DFC1",
                   "height": 48,
                   "justifyContent": "center",
                   "minWidth": 120,
