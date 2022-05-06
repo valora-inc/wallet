@@ -37,7 +37,7 @@ import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
-const PARTIAL_ADDRESS_PLACEHOLDER = ['k', '0', 'F', '4']
+const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
@@ -52,6 +52,7 @@ interface State {
   inputValue: string
   singleDigitInputValueArr: string[]
   isModalVisible: boolean
+  digitsRefs: React.MutableRefObject<any>[]
 }
 
 interface DispatchProps {
@@ -131,6 +132,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     inputValue: '',
     singleDigitInputValueArr: [],
     isModalVisible: false,
+    digitsRefs: [React.createRef(), React.createRef(), React.createRef(), React.createRef()],
   }
 
   componentDidMount = () => {
@@ -179,7 +181,13 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   onSingleDigitInputChange = (value: string, index: number) => {
-    const { singleDigitInputValueArr } = this.state
+    const { singleDigitInputValueArr, digitsRefs } = this.state
+    if (value === ' ') return
+    if (value !== '') {
+      digitsRefs[index + 1]?.current?.focus()
+    } else {
+      digitsRefs[index - 1]?.current?.focus()
+    }
     singleDigitInputValueArr[index] = value
     this.setState({ singleDigitInputValueArr })
   }
@@ -204,7 +212,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   renderInstructionsAndInputField = () => {
     const { t, recipient, addressValidationType } = this.props
-    const { inputValue, singleDigitInputValueArr } = this.state
+    const { inputValue, singleDigitInputValueArr, digitsRefs } = this.state
 
     if (addressValidationType === AddressValidationType.FULL) {
       return (
@@ -231,6 +239,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
       (placeholderValue, index) => (
         <View style={styles.singleDigitInputWrapper} key={placeholderValue}>
           <SingleDigitInput
+            forwardedRef={digitsRefs[index]}
             inputValue={singleDigitInputValueArr[index]}
             inputPlaceholder={placeholderValue}
             onInputChange={(value) => this.onSingleDigitInputChange(value, index)}
@@ -255,7 +264,10 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   render = () => {
     const { t, recipient, error } = this.props
+    const { singleDigitInputValueArr } = this.state
     const displayName = getDisplayName(recipient, t)
+    const isFilled =
+      singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
       <SafeAreaView style={styles.container}>
@@ -273,6 +285,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
               text={t('confirmAccountNumber.submit')}
               type={BtnTypes.PRIMARY}
               testID="ConfirmAccountButton"
+              disabled={!isFilled}
             />
           </View>
           <View style={styles.helpContainer}>
