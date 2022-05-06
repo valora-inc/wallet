@@ -1,16 +1,16 @@
-import { newKitFromWeb3, StableToken } from '@celo/contractkit';
-import dotenv from 'dotenv';
-import Web3 from 'web3';
-import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts';
-import { checkBalance, getBalance } from './utils';
+import { newKitFromWeb3, StableToken } from '@celo/contractkit'
+import dotenv from 'dotenv'
+import Web3 from 'web3'
+import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts'
+import { checkBalance, getBalance } from './utils'
 
-dotenv.config({ path: `${__dirname}/../.env` });
+dotenv.config({ path: `${__dirname}/../.env` })
 
-const web3 = new Web3('https://alfajores-forno.celo-testnet.org');
-const kit = newKitFromWeb3(web3);
-const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!;
+const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
+const kit = newKitFromWeb3(web3)
+const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
-(async () => {
+;(async () => {
   // Get E2E Test Wallet Balance & Valora Faucet Balance
   const receivingBalance = await getBalance(E2E_TEST_WALLET)
   const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
