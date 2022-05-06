@@ -161,7 +161,7 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   for (const coin in receivingBalance) {
     let tx: any
     // Add funds if balance is less than 100 add 100
-    if (receivingBalance[coin] < 100 && sendingBalance[coin] > 100) {
+    if (receivingBalance[coin] < 200 && sendingBalance[coin] > 100) {
       switch (coin) {
         case 'CELO':
           tx = await celoToken
