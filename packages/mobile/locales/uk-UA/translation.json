@@ -875,6 +875,7 @@
   "walletAddress": "Адреса гаманця",
   "inviteWithoutPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Легко спробувати, я хочу ще раз запросити вас відвідати це посилання: {{link}}",
   "inviteWithEscrowedPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Я щойно відправив вам {{amount}} {{token}}. Прошу, завантажте застосунок {{appName}} і отримайте {{token}} за допомогою цього посилання: {{link}}",
+  "inviteWithRewards": "Hey! I’ve been using and enjoying {{appname}} as a crypto wallet. If you download the app and connect your phone number, we’ll both get {{amount}} {{token}}. Use this link: {{link}}",
   "loadingContacts": "Пошук контактів",
   "myCode": "Мій код",
   "scanCode": "Сканувати",
