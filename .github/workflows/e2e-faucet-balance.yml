@@ -32,4 +32,4 @@ jobs:
         run: echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Run Balance and Fund
         working-directory: ${{env.working-directory}}
-        run: yarn ts-node ./e2e/scripts/fund-e2e-accounts.ts
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/fund-e2e-accounts.ts
