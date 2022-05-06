@@ -23,12 +23,14 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   const ceurExchange = await kit.contracts.getExchange('cEUR')
 
   // Balance Faucet
+  let targetTokenRegex = /[cusd|celo|ceur]/gi
   let balances = await getBalance(E2E_TEST_FAUCET)
   let sum = 0
-  const numOfTokens = 3 // Object.keys(balances).length
+  const numOfTokens = 3 // Only cusd, celo and ceur
   for (let balance in balances) {
-    console.log(balances[balance])
-    sum += balances[balance]
+    console.log(`${balance}: ${balances[balance]}`)
+    // Sum only the target balances
+    if (targetTokenRegex.test(balance)) sum += balances[balance]
   }
 
   for (let balance in balances) {

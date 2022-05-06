@@ -4,7 +4,7 @@ export const dotenv = require('dotenv')
 export const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
 export const kit = ContractKit.newKitFromWeb3(web3)
 
-export async function checkBalance(address, minBalance = 10) {
+export async function checkBalance(address: string, minBalance = 10) {
   let balanceObject = await getBalance(address)
   for (const balance in balanceObject) {
     if (balanceObject[balance as keyof typeof balanceObject] < minBalance) {
@@ -15,7 +15,7 @@ export async function checkBalance(address, minBalance = 10) {
   }
 }
 
-export async function getBalance(address) {
+export async function getBalance(address: string) {
   try {
     const balanceObj: Record<string, number> = {}
     // Get Balances
