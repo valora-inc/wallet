@@ -13,6 +13,9 @@ export interface SingleDigitInputProps {
 
 type Props = SingleDigitInputProps
 
+// Multiline enabled as to handle unexpected cursor behavior
+// https://github.com/facebook/react-native/issues/28794#issuecomment-877769852
+
 export function SingleDigitInput({
   inputValue,
   inputPlaceholder,
