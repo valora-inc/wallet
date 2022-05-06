@@ -159,7 +159,7 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
   // Loop through E2E Test Wallet Balance Object
   for (const coin in receivingBalance) {
-    let tx
+    let tx: any
     // Add funds if balance is less than 100 add 100
     if (receivingBalance[coin] < 100 && sendingBalance[coin] > 100) {
       switch (coin) {
