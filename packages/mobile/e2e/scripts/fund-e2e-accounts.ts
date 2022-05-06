@@ -1,11 +1,11 @@
 import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts'
-import { balanceError, dotenv, getBalance, kit, web3 } from './utils'
+import { checkBalance, dotenv, getBalance, kit, web3 } from './utils'
 dotenv.config({ path: `${__dirname}/../.env` })
 
 const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 ;(async () => {
   // Get E2E Test Wallet Balance & Valora Faucet Balance
-  const receivingBalance = await getBalance()
+  const receivingBalance = await getBalance(E2E_TEST_WALLET)
   const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
   console.table(await getBalance(E2E_TEST_FAUCET))
 
@@ -180,8 +180,8 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
   // Log Balances
   console.log('E2E Test Account:', E2E_TEST_WALLET)
-  console.table(await getBalance())
+  console.table(await getBalance(E2E_TEST_WALLET))
   console.log('Valora Test Facuet:', E2E_TEST_FAUCET)
   console.table(await getBalance(E2E_TEST_FAUCET))
-  await balanceError()
+  await checkBalance(E2E_TEST_WALLET)
 })()

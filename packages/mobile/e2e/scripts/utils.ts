@@ -1,21 +1,21 @@
-import { E2E_TEST_WALLET } from './consts'
 export const Web3 = require('web3')
 export const ContractKit = require('@celo/contractkit')
 export const dotenv = require('dotenv')
 export const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
 export const kit = ContractKit.newKitFromWeb3(web3)
 
-export const balanceError = async (address = E2E_TEST_WALLET, minBalance = 10) => {
+export async function checkBalance(address, minBalance = 10) {
   let balanceObject = await getBalance(address)
   for (const balance in balanceObject) {
     if (balanceObject[balance as keyof typeof balanceObject] < minBalance) {
       throw new Error(
-        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet 🙏`
+        `${balance} balance of ${address} is below ${minBalance}. Please refill from the faucet https://celo.org/developers/faucet or run ./fund-e2e-accounts.ts if a Valora Dev.`
       )
     }
   }
 }
-export const getBalance = async (address = E2E_TEST_WALLET) => {
+
+export async function getBalance(address) {
   try {
     const balanceObj: Record<string, number> = {}
     // Get Balances
