@@ -53,7 +53,6 @@ interface State {
   singleDigitInputValueArr: string[]
   isModalVisible: boolean
   digitsRefs: React.MutableRefObject<any>[]
-  isFilled: boolean
 }
 
 interface DispatchProps {
@@ -134,7 +133,6 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     singleDigitInputValueArr: [],
     isModalVisible: false,
     digitsRefs: [React.createRef(), React.createRef(), React.createRef(), React.createRef()],
-    isFilled: false,
   }
 
   componentDidMount = () => {
@@ -192,11 +190,6 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     }
     singleDigitInputValueArr[index] = value
     this.setState({ singleDigitInputValueArr })
-    if (singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4) {
-      this.setState({ isFilled: true })
-    } else {
-      this.setState({ isFilled: false })
-    }
   }
 
   toggleModal = () => {
@@ -271,8 +264,10 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   render = () => {
     const { t, recipient, error } = this.props
-    const { isFilled } = this.state
+    const { singleDigitInputValueArr } = this.state
     const displayName = getDisplayName(recipient, t)
+    const isFilled =
+      singleDigitInputValueArr.filter((entry) => /[a-f0-9]/gi.test(entry)).length === 4
 
     return (
       <SafeAreaView style={styles.container}>
