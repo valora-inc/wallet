@@ -1,0 +1,35 @@
+name: E2E Wallet Fund and Faucet Balance
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'E2E Wallet Fund and Faucet Balance'
+  # Cron job to run faucet fund and balance every 8th hour
+  schedule:
+    - cron: '0 */8 * * *'
+
+jobs:
+  balance-and-fund:
+    env:
+      working-directory: ./packages/mobile
+    name: balance-and-fund
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - name: Install package dependencies
+        run: yarn
+      - name: Create E2E Fund .env File
+        env:
+          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+        working-directory: ${{env.working-directory}}/e2e
+        run: echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+      - name: Run Balance and Fund
+        working-directory: ${{env.working-directory}}
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/fund-e2e-accounts.ts
