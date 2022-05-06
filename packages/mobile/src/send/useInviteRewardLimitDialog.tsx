@@ -12,8 +12,7 @@ import { Recipient } from 'src/recipients/recipient'
 import { inviteRewardsActiveSelector, invitesWithRewardsSentSelector } from 'src/send/selectors'
 
 const useInviteRewardLimitDialog = (onNavigateSendAmount: (recipient: Recipient) => void) => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [selectedRecipient, setSelectedRecipient] = useState<Recipient | null>(null)
+  const [invitee, setInvitee] = useState<Recipient | null>(null)
 
   const invitesWithRewardsSent = useSelector(invitesWithRewardsSentSelector)
   const inviteRewardsEnabled = useSelector(inviteRewardsActiveSelector)
@@ -23,13 +22,13 @@ const useInviteRewardLimitDialog = (onNavigateSendAmount: (recipient: Recipient)
   const { t } = useTranslation()
 
   const handleClose = () => {
-    setIsVisible(false)
+    setInvitee(null)
   }
 
   const handleInvite = () => {
-    if (selectedRecipient) {
-      setIsVisible(false)
-      onNavigateSendAmount(selectedRecipient)
+    if (invitee) {
+      onNavigateSendAmount(invitee)
+      setInvitee(null)
     }
   }
 
@@ -45,8 +44,7 @@ const useInviteRewardLimitDialog = (onNavigateSendAmount: (recipient: Recipient)
       const hasReachedRewardLimit = invitesWithRewardsSent === MAX_NUM_INVITES_WITH_REWARDS
 
       if (isInvite && hasReachedRewardLimit) {
-        setIsVisible(true)
-        setSelectedRecipient(recipient)
+        setInvitee(recipient)
         return
       }
     }
@@ -54,10 +52,10 @@ const useInviteRewardLimitDialog = (onNavigateSendAmount: (recipient: Recipient)
     onNavigateSendAmount(recipient)
   }
 
-  const InviteRewardLimitDialog = isVisible ? (
+  const InviteRewardLimitDialog = invitee ? (
     <Dialog
       title={t('inviteLimitDialog.title')}
-      isVisible={isVisible}
+      isVisible={!!invitee}
       actionText={t('inviteLimitDialog.button')}
       actionPress={handleInvite}
       secondaryActionText={t('inviteLimitDialog.dismiss')}
