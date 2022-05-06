@@ -45,7 +45,7 @@ jobs:
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
       - name: Check E2E wallet balance
         working-directory: ${{env.working-directory}}
-        run: yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
         working-directory: ${{env.working-directory}}
         run: |
@@ -129,7 +129,7 @@ jobs:
         run: cp ../../node_modules/.bin/jest node_modules/.bin/
       - name: Check E2E wallet balance
         working-directory: ${{env.working-directory}}
-        run: yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
         working-directory: ${{env.working-directory}}
         run: |
