@@ -12,6 +12,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
+import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -23,14 +24,12 @@ import {
   checkInitialNotification,
   initializeAuth,
   initializeCloudMessaging,
-  setRegistrationProperties,
   watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
 import { setLanguage } from 'src/i18n/slice'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'firebase/saga'
 const EXCHANGE_RATES = 'exchangeRates'
@@ -86,14 +85,9 @@ function* initializeFirebase() {
   }
 }
 
-export function* syncLanguageSelection(action: ReturnType<typeof setLanguage>) {
+export function* syncLanguageSelection() {
   yield call(waitForFirebaseAuth)
-  const address = yield select(currentAccountSelector)
-  try {
-    yield call(setRegistrationProperties, address, { language: action.payload })
-  } catch (error) {
-    Logger.error(TAG, 'Syncing language selection to Firebase failed', error)
-  }
+  yield call(handleUpdateAccountRegistration)
 }
 
 export function* watchLanguage() {

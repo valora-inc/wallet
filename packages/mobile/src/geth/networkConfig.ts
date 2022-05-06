@@ -44,6 +44,8 @@ interface NetworkConfig {
   walletConnectEndpoint: string
   personaEnvironment: PersonaEnvironment
   inHouseLiquidityURL: string
+  setRegistrationPropertiesUrl: string
+  fetchExchangesUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -69,6 +71,9 @@ const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 
+const FETCH_EXCHANGES_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getExchanges`
+const FETCH_EXCHANGES_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getExchanges`
+
 const PROVIDER_FETCH_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchProviders`
 const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 
@@ -83,6 +88,9 @@ const FETCH_USER_LOCATION_DATA_PROD = `${CLOUD_FUNCTIONS_MAINNET}/fetchUserLocat
 
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
+
+const SET_REGISTRATION_PROPERTIES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/setRegistrationProperties`
+const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegistrationProperties`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -112,6 +120,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.SANDBOX,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
+    setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
+    fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -139,6 +149,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     walletConnectEndpoint: 'wss://relay.walletconnect.org',
     personaEnvironment: PersonaEnvironment.PRODUCTION,
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
+    setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
+    fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
   },
 }
 
