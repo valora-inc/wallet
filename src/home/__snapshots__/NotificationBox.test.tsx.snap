@@ -154,7 +154,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   Object {
-                    "testUri": "../../../packages/mobile/src/images/backup-key.png",
+                    "testUri": "../../../src/images/backup-key.png",
                   }
                 }
                 style={
@@ -228,7 +228,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   Object {
-                    "testUri": "../../../packages/mobile/src/images/notification-incoming-request.png",
+                    "testUri": "../../../src/images/notification-incoming-request.png",
                   }
                 }
               />
@@ -504,7 +504,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   Object {
-                    "testUri": "../../../packages/mobile/src/images/boost-rewards.png",
+                    "testUri": "../../../src/images/boost-rewards.png",
                   }
                 }
                 style={
@@ -698,7 +698,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   Object {
-                    "testUri": "../../../packages/mobile/src/images/get-verified.png",
+                    "testUri": "../../../src/images/get-verified.png",
                   }
                 }
                 style={
@@ -1060,7 +1060,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 resizeMode="contain"
                 source={
                   Object {
-                    "testUri": "../../../packages/mobile/src/images/learn-celo.png",
+                    "testUri": "../../../src/images/learn-celo.png",
                   }
                 }
                 style={

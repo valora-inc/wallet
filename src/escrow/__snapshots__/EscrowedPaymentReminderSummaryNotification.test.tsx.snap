@@ -50,7 +50,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
         resizeMode="contain"
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/notification-invite.png",
+            "testUri": "../../../src/images/notification-invite.png",
           }
         }
       />
@@ -453,7 +453,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
         resizeMode="contain"
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/notification-invite.png",
+            "testUri": "../../../src/images/notification-invite.png",
           }
         }
       />

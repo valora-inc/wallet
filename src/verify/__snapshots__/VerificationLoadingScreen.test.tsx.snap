@@ -183,7 +183,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
           <Image
             source={
               Object {
-                "testUri": "../../../packages/mobile/src/images/circular-progress-big.png",
+                "testUri": "../../../src/images/circular-progress-big.png",
               }
             }
             style={
@@ -407,7 +407,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-1.png",
+                  "testUri": "../../../src/images/verification-education-1.png",
                 }
               }
             />
@@ -460,7 +460,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-2.png",
+                  "testUri": "../../../src/images/verification-education-2.png",
                 }
               }
             />
@@ -513,7 +513,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-3.png",
+                  "testUri": "../../../src/images/verification-education-3.png",
                 }
               }
             />
@@ -566,7 +566,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-4.png",
+                  "testUri": "../../../src/images/verification-education-4.png",
                 }
               }
             />
@@ -1044,7 +1044,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
           <Image
             source={
               Object {
-                "testUri": "../../../packages/mobile/src/images/circular-progress-big.png",
+                "testUri": "../../../src/images/circular-progress-big.png",
               }
             }
             style={
@@ -1268,7 +1268,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-1.png",
+                  "testUri": "../../../src/images/verification-education-1.png",
                 }
               }
             />
@@ -1321,7 +1321,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-2.png",
+                  "testUri": "../../../src/images/verification-education-2.png",
                 }
               }
             />
@@ -1374,7 +1374,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-3.png",
+                  "testUri": "../../../src/images/verification-education-3.png",
                 }
               }
             />
@@ -1427,7 +1427,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             <Image
               source={
                 Object {
-                  "testUri": "../../../packages/mobile/src/images/verification-education-4.png",
+                  "testUri": "../../../src/images/verification-education-4.png",
                 }
               }
             />

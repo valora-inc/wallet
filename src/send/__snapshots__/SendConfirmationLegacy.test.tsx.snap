@@ -384,7 +384,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                         resizeMode="contain"
                         source={
                           Object {
-                            "testUri": "../../../packages/mobile/src/images/invite-modal.png",
+                            "testUri": "../../../src/images/invite-modal.png",
                           }
                         }
                         style={

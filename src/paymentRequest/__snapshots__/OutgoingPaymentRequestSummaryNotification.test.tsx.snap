@@ -580,7 +580,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for multipl
         resizeMode="contain"
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/notification-outgoing-request.png",
+            "testUri": "../../../src/images/notification-outgoing-request.png",
           }
         }
       />

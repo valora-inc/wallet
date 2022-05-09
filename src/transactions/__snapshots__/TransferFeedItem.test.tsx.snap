@@ -46,7 +46,7 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={
@@ -182,7 +182,7 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={
@@ -995,7 +995,7 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={
@@ -1300,7 +1300,7 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={
@@ -1775,7 +1775,7 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={
@@ -2235,7 +2235,7 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/transaction-network.png",
+            "testUri": "../../../src/images/transaction-network.png",
           }
         }
         style={

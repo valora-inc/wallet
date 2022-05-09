@@ -558,7 +558,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
         resizeMode="contain"
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/notification-incoming-request.png",
+            "testUri": "../../../src/images/notification-incoming-request.png",
           }
         }
       />
