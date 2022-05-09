@@ -560,43 +560,58 @@ A successful `yarn postinstall` looks like:
 
 ```
 $ yarn postinstall
-yarn run v1.22.10
-$ yarn run lerna run postinstall && patch-package && yarn keys:decrypt
-$ /Users/michewong/development/wallet/node_modules/.bin/lerna run postinstall
-lerna notice cli v3.16.0
-lerna info versioning independent
-lerna info Executing command in 1 package: "yarn run postinstall"
-lerna info run Ran npm script 'postinstall' in '@valora/wallet' in 1.5s:
-$ ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh
-.
-~/development/wallet/branding/valora ~/development/wallet
-~/development/wallet
-Using branding/valora
-building file list ... done
-ios/
-
-sent 6907 bytes  received 26 bytes  13866.00 bytes/sec
-total size is 5736337  speedup is 827.40
-building file list ... done
-
-sent 96 bytes  received 20 bytes  232.00 bytes/sec
-total size is 2762108  speedup is 23811.28
-lerna success run Ran npm script 'postinstall' in 1 package in 1.5s:
-lerna success - @valora/wallet
+yarn run v1.22.17
+$ patch-package && yarn keys:decrypt && yarn run unzipCeloClient && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh
 patch-package 6.2.2
 Applying patches...
-@react-native-firebase/database@6.7.1 ✔
-@segment/analytics-react-native@1.3.2 ✔
+@react-native-community/netinfo@5.8.0 ✔
 bn.js@4.11.9 ✔
-react-native-reanimated@2.0.0-rc.1 ✔
-react-native-splash-screen@3.2.0 ✔
+clevertap-react-native@0.5.2 ✔
+react-native-fast-crypto@2.0.0 ✔
+react-native-keep-awake@4.0.0 ✔
+react-native-securerandom@1.0.0 ✔
+react-native-sms@1.11.0 ✔
+react-native-splash-screen@3.3.0 ✔
+react-native-svg@12.1.1 ✔
 react-native-tab-view@2.15.2 ✔
-tslint@5.20.0 ✔
+react-native-webview@11.6.5 ✔
 $ bash scripts/key_placer.sh decrypt
 Processing encrypted files
-
 Encrypted files decrypted
-✨  Done in 24.82s.
+$ cd node_modules/@celo/client/build/bin && yarn run postinstall
+$ rm -rf build/bin/Geth.framework && tar -xvf build/bin/Geth.framework.tgz -C build/bin && touch Empty.m && ln -sf build/bin/Geth.framework/Versions/A/Geth libGeth.a
+x Geth.framework/
+x Geth.framework/Geth
+x Geth.framework/Resources
+x Geth.framework/Versions/
+x Geth.framework/Headers
+x Geth.framework/Modules
+x Geth.framework/Versions/A/
+x Geth.framework/Versions/Current
+x Geth.framework/Versions/A/Geth
+x Geth.framework/Versions/A/Resources/
+x Geth.framework/Versions/A/Headers/
+x Geth.framework/Versions/A/Modules/
+x Geth.framework/Versions/A/Modules/module.modulemap
+x Geth.framework/Versions/A/Headers/Geth.objc.h
+x Geth.framework/Versions/A/Headers/Geth.h
+x Geth.framework/Versions/A/Headers/ref.h
+x Geth.framework/Versions/A/Headers/Universe.objc.h
+x Geth.framework/Versions/A/Resources/Info.plist
+.
+~/src/github.com/valora-inc/wallet/branding/valora ~/src/github.com/valora-inc/wallet
+HEAD is now at ec0637b fix: update valora forum link (#9)
+~/src/github.com/valora-inc/wallet
+Using branding/valora
+building file list ... done
+
+sent 7697 bytes  received 20 bytes  15434.00 bytes/sec
+total size is 8003608  speedup is 1037.14
+building file list ... done
+
+sent 91 bytes  received 20 bytes  222.00 bytes/sec
+total size is 1465080  speedup is 13198.92
+✨  Done in 12.77s.
 ```
 
 #### Google Cloud Setup (for cLabs employees only)
