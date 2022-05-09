@@ -1,15 +1,10 @@
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
-<<<<<<< HEAD:src/fiatExchanges/utils.tsx
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-=======
->>>>>>> 7c6005ca0 (initial):packages/mobile/src/fiatExchanges/utils.tsx
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 

@@ -48,6 +48,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import { roundDown, roundUp } from 'src/utils/formatting'
+import Logger from 'src/utils/Logger'
 import { CICOFlow } from './utils'
 
 const TAG = 'FiatExchangeAmount'
@@ -316,18 +317,6 @@ FiatExchangeAmount.navOptions = ({
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
-<<<<<<< HEAD:src/fiatExchanges/FiatExchangeAmount.tsx
-  headerTitle: () =>
-    route.params?.isCashIn ? (
-      <HeaderTitleWithSubtitle
-        title={i18n.t('addFundsHeaderWithCurrency', {
-          token: route.params.currency === Currency.Celo ? 'CELO' : route.params.currency,
-        })}
-      />
-    ) : (
-      <HeaderTitleWithBalance title={i18n.t('cashOut')} token={route.params.currency} />
-    ),
-=======
   headerTitle: () => (
     <HeaderTitleWithBalance
       title={i18n.t(`fiatExchangeFlow.${route.params.flow}.exchangeAmmountTitle`, {
@@ -336,7 +325,6 @@ FiatExchangeAmount.navOptions = ({
       token={route.params.currency}
     />
   ),
->>>>>>> 7c6005ca0 (initial):packages/mobile/src/fiatExchanges/FiatExchangeAmount.tsx
 })
 
 export default FiatExchangeAmount

@@ -1,6 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { SUPERCHARGE_LEARN_MORE } from 'branding/celo/src/brandingConfig'
-import Logo, { LogoTypes } from 'branding/celo/src/icons/Logo'
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -8,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
@@ -17,11 +16,12 @@ import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slic
 import {
   SuperchargePendingReward,
   SuperchargeToken,
-  SuperchargeTokenConfig
+  SuperchargeTokenConfig,
 } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import InfoIcon from 'src/icons/InfoIcon'
+import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
