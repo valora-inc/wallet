@@ -32,8 +32,8 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
         run: yarn || yarn
-      - name: Build Yarn packages
-        run: yarn build --ignore docs
+      - name: Build
+        run: yarn build
       - name: Update RootStateSchema if necessary
         run: yarn test:update-root-state-schema
       - name: Fail if someone forgot to commit "RootStateSchema.json"
