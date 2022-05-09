@@ -38,10 +38,10 @@ jobs:
         with:
           script: |
             const allowedUpdatedFiles = [
-              'packages/mobile/android/app/build.gradle',
-              'packages/mobile/android/gradle.properties',
-              'packages/mobile/ios/celo.xcodeproj/project.pbxproj',
-              'packages/mobile/package.json'
+              'android/app/build.gradle',
+              'android/gradle.properties',
+              'ios/celo.xcodeproj/project.pbxproj',
+              'package.json'
             ]
             const script = require('.github/scripts/automergePR.js')
             await script({github, context, core, allowedUpdatedFiles})

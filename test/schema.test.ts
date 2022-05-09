@@ -5,7 +5,7 @@ describe(getLatestSchema, () => {
   // TypeScript already ensures the latest test schema is compatible with RootState
   // but it doesn't find missing root properties and different enum values
   // The RootStateSchema allows checking that at runtime
-  // See https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration
+  // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
   it('validates against the RootState schema', async () => {
     const data = getLatestSchema()
 

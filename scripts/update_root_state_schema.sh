@@ -14,4 +14,4 @@ if git diff --exit-code "$root_state_schema"; then
   exit 0
 fi
 
-echo -e "$root_state_schema has been updated. Please review the changes, add the necessary redux migration and commit the changes.\nSee https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration"
+echo -e "$root_state_schema has been updated. Please review the changes, add the necessary redux migration and commit the changes.\nSee https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration"

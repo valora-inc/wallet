@@ -9,7 +9,7 @@
 # celo-mobile-alfajores
 # https://console.firebase.google.com/project/celo-mobile-alfajores/settings/cloudmessaging/ios:org.celo.mobile.alfajores
 FCM_SERVER_KEY=""
-# to get your token you can add a log in packages/mobile/src/firebase/firebase.ts registerTokenToDb
+# to get your token you can add a log in src/firebase/firebase.ts registerTokenToDb
 USER_FCM_TOKEN=""
 
 curl -X POST --header "Authorization: key=$FCM_SERVER_KEY" \

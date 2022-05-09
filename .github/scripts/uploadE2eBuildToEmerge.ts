@@ -58,8 +58,6 @@ function getGitHubInfo() {
   }
 }
 
-$.cd('packages/mobile')
-
 const { sha, baseSha, repoName, prNumber, branchName } = getGitHubInfo()
 
 const packageJson = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }))

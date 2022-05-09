@@ -55,7 +55,7 @@ describe('persistConfig', () => {
 describe('store state', () => {
   // This test ensures the vNeg1Schema can be successfully migrated to the latest version
   // and validates against the latest RootState schema
-  // See https://github.com/valora-inc/wallet/tree/main/packages/mobile#redux-state-migration
+  // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
   it('validates against the RootState schema after rehydration', async () => {
     const { store, persistor } = setupStore(undefined, {
       ..._persistConfig,

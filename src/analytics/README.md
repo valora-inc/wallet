@@ -7,7 +7,7 @@ The analytics module currently supports two primary use cases:
 
 ## Usage
 
-Only whitelisted properties (as declared [here](https://github.com/celo-org/celo-monorepo/blob/master/packages/mobile/src/analytics/constants.ts)) will be sent out to Segment. Any new properties that need to be tracked therefore need to be added to this list.
+Only whitelisted properties (as declared [here](./Properties.tsx)) will be sent out to Segment. Any new properties that need to be tracked therefore need to be added to this list.
 
 ## Custom Event Tracking
 

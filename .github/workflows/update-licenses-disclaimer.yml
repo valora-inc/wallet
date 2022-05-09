@@ -36,5 +36,5 @@ jobs:
         with:
           script: |
             const script = require('.github/scripts/automergePR.js')
-            const allowedUpdatedFiles = ['packages/mobile/src/account/LicenseDisclaimer.txt']
+            const allowedUpdatedFiles = ['src/account/LicenseDisclaimer.txt']
             await script({github, context, core, allowedUpdatedFiles})

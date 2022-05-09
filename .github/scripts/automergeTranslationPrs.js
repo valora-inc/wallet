@@ -11,7 +11,7 @@
 
 const AUTOMERGE_LABEL = 'automerge'
 const TRANSLATION_USERS = ['mpgaarciaa', 'lukasawagner']
-const BASE_TRANSLATION_FILENAME = 'packages/mobile/locales/base/translation.json'
+const BASE_TRANSLATION_FILENAME = 'locales/base/translation.json'
 
 /**
  * @param {Object} obj - An object.

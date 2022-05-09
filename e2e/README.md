@@ -23,9 +23,6 @@ Install [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils#install
 ## Running the tests
 
 ```sh
-# Navigate to the mobile folder
-cd packages/mobile
-
 # Create your detox build various options present in the package.json
 # Only needs to be built when app code changes - test code can be changed without a new build.
 yarn run e2e:build:android-release
@@ -212,7 +209,7 @@ If tests are failing for unknown reasons:
 - Rebuild, re-yarn and rerun. Sometimes the problem just goes away.
 - Delete snapshots in the emulator
 - Look at the emulator while the tests are running. Can you see anything obvious going wrong?
-- If running into issues building for iOS related to nvm try prefixing the build commands in `packages/mobile/package.json` with `unset PREFIX && ...`
+- If running into issues building for iOS related to nvm try prefixing the build commands in `package.json` with `unset PREFIX && ...`
 
 ### Sample `.zshrc` & `.bashrc`
 ```sh

@@ -23,7 +23,7 @@ fi
 
 echo
 echo Security vulnerabilities were found that were not ignored.
-echo See https://github.com/valora-inc/wallet/tree/main/packages/mobile#vulnerabilities-found-in-dependencies
+echo See https://github.com/valora-inc/wallet/tree/main/WALLET.md#vulnerabilities-found-in-dependencies
 echo
 echo "$output" | grep auditAdvisory | jq
 

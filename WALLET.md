@@ -81,7 +81,7 @@ To test your GCP access, try running `yarn keys:decrypt` from the wallet repo ro
 External contributors don't need to decrypt repository secrets and can successfully build and run the mobile application with the following differences:
 
 - the default branding will be used (some images/icons will appear in pink or will be missing)
-- Firebase related features needs to be disabled. You can do this by setting `FIREBASE_ENABLED=false` in the `packages/mobile/.env.*` files.
+- Firebase related features needs to be disabled. You can do this by setting `FIREBASE_ENABLED=false` in the `.env.*` files.
 
 ### iOS
 
@@ -118,8 +118,7 @@ bundle exec pod install
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
 1. Run `yarn install` in the repository root.
-2. Run `yarn build` from the repository root.
-3. Run `yarn dev:ios` in the `/packages/mobile` folder.
+2. Run `yarn dev:ios` in the repository root.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -273,7 +272,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 4. Build the project by pressing the play button in the top left corner or selecting `Product > Build` from the Xcode menu bar.
 
-5. From the `packages/mobile` directory run `yarn run dev:ios`.
+5. From the repository root directory run `yarn run dev:ios`.
 
 ### Android
 
@@ -283,7 +282,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 5. To confirm your device is properly connected, running `adb devices` from the terminal should reflect your connected device. If it lists a device as "unauthorized", make sure you've accepted the prompt or [troubleshoot here][device unauthorized].
 
-6. From the `packages/mobile` directory run `yarn run dev:android`.
+6. From the repository root directory run `yarn run dev:android`.
 
 ### Running on Mainnet
 
@@ -291,7 +290,7 @@ By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the
 
 ### Running in forno (data saver) mode
 
-By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in [wallet/packages/mobile](wallet/packages/mobile).
+By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in the repository root.
 
 To run the wallet in forno (Data Saver) mode, using a trusted node rather than the local geth node as a provider, turn it on from the Data Saver page in settings or update the `FORNO_ENABLED_INITIALLY` parameter in the .env file linked above. When forno mode is turned back off, the wallet will switch to the default sync mode as specified in the .env file. By default, the trusted node is `https://{TESTNET}-forno.celo-testnet.org`, however any trusted node can be used by updating `DEFAULT_FORNO_URL`. In forno mode, the wallet signs transactions locally in web3 then sends them to the trusted node.
 
@@ -420,7 +419,7 @@ The `main` branch of this repository is automatically synced with our Crowdin pr
 
 Translation process overview:
 
-1. Developers update the base strings in English (in `packages/mobile/locales/base`) in the branch they are working on.
+1. Developers update the base strings in English (in `locales/base`) in the branch they are working on.
 1. When the corresponding PR is merged into `main`, Crowdin integration automatically picks up changes to the base strings.
 1. Crowdin then auto translates the new strings and opens a PR with them from the `l10n/main` branch
 1. We can then manually check and edit the translated strings in the Crowdin UI. The changes will be reflected in the PR after 10 mins.
@@ -429,7 +428,7 @@ Translation process overview:
 When making a release, we should make sure there are no outstanding translation changes not yet merged into `main`.
 i.e. no Crowdin PR open and the translation status for all supported languages is at 100% and approved on Crowdin.
 
-Note that Crowdin Over-The-Air (OTA) content delivery is used to push live translation updates to the app. As only target languages are included in the Crowdin OTA distribution, English is set up as a target language as well as the source. This is a necessary implementation detail to prevent bi-directional sync between Crowdin and Github. The translated English strings (in `packages/mobile/locales/en`) are only to receive the OTA translations, and it is not necessary to consume or edit them otherwise within the app.
+Note that Crowdin Over-The-Air (OTA) content delivery is used to push live translation updates to the app. As only target languages are included in the Crowdin OTA distribution, English is set up as a target language as well as the source. This is a necessary implementation detail to prevent bi-directional sync between Crowdin and Github. The translated English strings (in `locales/en`) are only to receive the OTA translations, and it is not necessary to consume or edit them otherwise within the app.
 
 ### Configuring the SMS Retriever
 
@@ -570,8 +569,8 @@ lerna info Executing command in 1 package: "yarn run postinstall"
 lerna info run Ran npm script 'postinstall' in '@celo/mobile' in 1.5s:
 $ ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh
 .
-~/development/wallet/packages/mobile/branding/valora ~/development/wallet/packages/mobile
-~/development/wallet/packages/mobile
+~/development/wallet/branding/valora ~/development/wallet
+~/development/wallet
 Using branding/valora
 building file list ... done
 ios/
@@ -632,7 +631,7 @@ $ adb kill-server && adb start-server
 ```
 
 [celo platform]: https://celo.org
-[wallet]: https://github.com/celo-org/wallet
+[wallet]: https://github.com/valora-inc/wallet
 [celo-blockchain]: https://github.com/celo-org/celo-blockchain
 [apple developer program]: https://developer.apple.com/programs/
 [detox]: https://github.com/wix/Detox
