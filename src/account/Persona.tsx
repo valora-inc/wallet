@@ -1,3 +1,4 @@
+import pjson from '@valora/wallet/package.json'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -15,7 +16,6 @@ import networkConfig from 'src/geth/networkConfig'
 import { createPersonaAccount, verifyWalletAddress } from 'src/in-house-liquidity'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
-import pjson from '../../package.json'
 
 const TAG = 'PERSONA'
 
