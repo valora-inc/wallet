@@ -103,15 +103,15 @@ Note that using the method above, you can have multiple versions of Xcode instal
 
 #### Install Cocopods, Bundler, and download project dependencies
 
-Make sure you are in the `ios` directory of the `mobile` package before running the following:
+Make sure you are in the `ios` directory of the repository root before running the following:
 
 ```bash
 # install cocopods and bundler if you don't already have it
 gem install cocoapods
 gem install bundler
-# download the project dependencies in mobile/
+# download the project dependencies in repository root
 bundle install
-# run inside mobile/ios
+# run inside /ios
 bundle exec pod install
 ```
 
