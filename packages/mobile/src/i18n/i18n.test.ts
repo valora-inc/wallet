@@ -12,6 +12,9 @@ let enLoaded = false
 let esLoaded = false
 let ptLoaded = false
 
+// @ts-ignore
+global.__DEV__ = false
+
 const handleSetupTests = () => {
   enLoaded = false
   esLoaded = false
