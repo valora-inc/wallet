@@ -18,7 +18,9 @@ function getAvailableResources(cachedTranslations: Resource) {
     Object.defineProperty(resources, language, {
       get: () => {
         if (!translation) {
-          translation = _.merge(value!.strings.translation, cachedTranslations[language])
+          translation = __DEV__
+            ? _.merge(cachedTranslations[language], value!.strings.translation)
+            : _.merge(value!.strings.translation, cachedTranslations[language])
         }
         return { translation }
       },
