@@ -78,7 +78,7 @@ project.ext.react = [
         hermesFlagsRelease: ["-w", "-O", "-output-source-map"],
         hermesFlagsDebug: ["-w", "-O", "-output-source-map"],
         cliPath: "../../node_modules/react-native/cli.js",
-        hermesCommand: "../../../../node_modules/hermes-engine/%OS-BIN%/hermesc",
+        hermesCommand: "../../node_modules/hermes-engine/%OS-BIN%/hermesc",
         composeSourceMapsPath: "../../node_modules/react-native/scripts/compose-source-maps.js",
         entryFile: "index.js",
 ]
@@ -100,7 +100,7 @@ project.ext.sentryCli = [
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-apply from: "../../../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native/react.gradle"
 
 /**
  * Build for Detox should be minSdkVersion >= 18
@@ -109,7 +109,7 @@ apply from: "../../../../node_modules/react-native/react.gradle"
 def isDetoxTestBuild = Boolean.valueOf(project.properties['isDetoxBuild'] ?: 'false')
 
 if (!isDetoxTestBuild) {
-  apply from: "../../../../node_modules/@sentry/react-native/sentry.gradle"
+  apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 }
 
 /**
@@ -227,7 +227,7 @@ android {
             if (isDetoxTestBuild) {
               // Detox-specific additions to pro-guard
               // See https://wix.github.io/Detox/docs/introduction/android/#7-proguard-minification-obfuscation
-              proguardFile "../../../../node_modules/detox/android/detox/proguard-rules-app.pro"
+              proguardFile "../../node_modules/detox/android/detox/proguard-rules-app.pro"
               proguardFile "detox.pro"
             }
             signingConfig signingConfigs.release
@@ -332,7 +332,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     if (enableHermes) {
-        def hermesPath = "../../../../node_modules/hermes-engine/android/";
+        def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
         releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
@@ -356,4 +356,4 @@ if (enableFirebase.toBoolean()){
   println 'Info: Firebase is disabled in .env variable'
 }
 
-apply from: file("../../../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

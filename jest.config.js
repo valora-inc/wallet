@@ -19,11 +19,10 @@ module.exports = {
     defaultPlatform: 'android',
   },
   moduleNameMapper: {
-    '^crypto-js$': '<rootDir>/../../node_modules/crypto-js',
     // Jest isn't able to use the react-native field of package.json and tries to use the main field
     // which then causes other import errors
-    'react-native-bip39': '<rootDir>/../../node_modules/react-native-bip39/src',
-    'react-native-svg': '<rootDir>/../../node_modules/react-native-svg-mock',
+    'react-native-bip39': '<rootDir>/node_modules/react-native-bip39/src',
+    'react-native-svg': '<rootDir>/node_modules/react-native-svg-mock',
     // For some reason jest doesn't pick it up automatically from the __mocks__ folder
     // like the other modules, adding it here fixes it
     'secrets.json': '<rootDir>/__mocks__/secrets.json',
@@ -32,15 +31,15 @@ module.exports = {
   preset: 'react-native',
   setupFilesAfterEnv: [
     '<rootDir>/jest_setup.ts',
-    '<rootDir>/../../node_modules/react-native-gesture-handler/jestSetup.js',
+    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
     '@testing-library/jest-native/extend-expect',
   ],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e'],
   transform: {
     ...tsjPreset.transform,
-    '\\.js$': '<rootDir>/../../node_modules/react-native/jest/preprocessor.js',
+    '\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
     '^.+\\.(txt)$': require.resolve(
-      '<rootDir>/../../node_modules/react-native/jest/assetFileTransformer.js'
+      '<rootDir>/node_modules/react-native/jest/assetFileTransformer.js'
     ),
   },
   transformIgnorePatterns: [

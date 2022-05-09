@@ -20,16 +20,16 @@ $static_framework = [
   'Flipper-Fmt',
 ]
 
-require_relative "../../../node_modules/react-native/scripts/react_native_pods"
-require_relative "../../../node_modules/@react-native-community/cli-platform-ios/native_modules"
+require_relative "../node_modules/react-native/scripts/react_native_pods"
+require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
 
 platform :ios, '12.4'
 use_frameworks!
 
 target "celo" do
-  pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
+  pod "CeloBlockchain", :path => "../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
   # RNPermissions
-  permissions_path = '../../../node_modules/react-native-permissions/ios'
+  permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
