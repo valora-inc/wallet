@@ -1,5 +1,5 @@
-import { AppEvents } from '@celo/mobile/src/analytics/Events'
-import { AnalyticsPropertiesList } from '@celo/mobile/src/analytics/Properties'
+import { AppEvents } from '../../../src/analytics/Events'
+import { AnalyticsPropertiesList } from '../../../src/analytics/Properties'
 
 class ValoraAnalytics {
   startSession = jest.fn(

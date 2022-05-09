@@ -1,4 +1,3 @@
-import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
 import i18n, { Resource, ResourceLanguage } from 'i18next'
 import _ from 'lodash'
@@ -10,6 +9,7 @@ import {
 import DeviceInfo from 'react-native-device-info'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
 import { getOtaTranslations } from 'src/i18n/otaTranslations'
+import locales from '../../locales'
 
 function getAvailableResources(cachedTranslations: Resource) {
   const resources: Resource = {}
