@@ -41,7 +41,7 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoForward, setCanGoForward] = useState(false)
 
   const handleSetNavigationTitle = useCallback(
-    (url: string, title: string) => {
+    (url: string, title: string, loading: boolean) => {
       let hostname = ' '
       let displayedTitle = ' '
 
@@ -51,7 +51,9 @@ function WebViewScreen({ route, navigation }: Props) {
         // defaults to the url - display a loading placeholder in this case
         const parsedTitleUrl = parse(title)
         displayedTitle =
-          !title || (parsedTitleUrl.protocol && parsedTitleUrl.hostname) ? t('loading') : title
+          loading || !title || (parsedTitleUrl.protocol && parsedTitleUrl.hostname)
+            ? t('loading')
+            : title
       } catch (error) {
         Logger.error(
           'WebViewScreen',
@@ -149,7 +151,7 @@ function WebViewScreen({ route, navigation }: Props) {
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack)
           setCanGoForward(navState.canGoForward)
-          handleSetNavigationTitle(navState.url, navState.title)
+          handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
       />
       <View style={styles.navBar}>
