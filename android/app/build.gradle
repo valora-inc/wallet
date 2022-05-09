@@ -77,9 +77,6 @@ project.ext.react = [
         enableHermes: true,  // clean and rebuild if changing
         hermesFlagsRelease: ["-w", "-O", "-output-source-map"],
         hermesFlagsDebug: ["-w", "-O", "-output-source-map"],
-        cliPath: "../../node_modules/react-native/cli.js",
-        hermesCommand: "../../node_modules/hermes-engine/%OS-BIN%/hermesc",
-        composeSourceMapsPath: "../../node_modules/react-native/scripts/compose-source-maps.js",
         entryFile: "index.js",
 ]
 
