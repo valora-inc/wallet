@@ -30,8 +30,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn
-      - run: yarn build --ignore docs
+      - run: yarn || yarn
       - run: ./scripts/ci_check_vulnerabilities.sh
   lint:
     name: Lint
@@ -49,7 +48,7 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn
+      - run: yarn || yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
       - run: yarn tsc -p .github/scripts
@@ -69,5 +68,5 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn
+      - run: yarn || yarn
       - run: git diff --exit-code

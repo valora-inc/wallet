@@ -31,7 +31,7 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
-        run: yarn
+        run: yarn || yarn
       - name: Build Yarn packages
         run: yarn build --ignore docs
       - name: Update RootStateSchema if necessary

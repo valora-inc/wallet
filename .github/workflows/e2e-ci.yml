@@ -35,7 +35,7 @@ jobs:
           node-version: '12'
           check-latest: true
       - name: Install package dependencies
-        run: yarn
+        run: yarn || yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       - name: Check E2E wallet balance
@@ -102,7 +102,7 @@ jobs:
           node-version: '12'
           check-latest: true
       - name: Install package dependencies
-        run: yarn
+        run: yarn || yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       - name: Install Ruby dependencies
