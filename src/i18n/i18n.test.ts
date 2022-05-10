@@ -12,6 +12,10 @@ let enLoaded = false
 let esLoaded = false
 let ptLoaded = false
 
+// Disable __DEV__ so OTA translations override bundled translations
+// @ts-ignore
+global.__DEV__ = false
+
 const handleSetupTests = () => {
   enLoaded = false
   esLoaded = false

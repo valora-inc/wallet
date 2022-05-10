@@ -30,7 +30,11 @@ export function InviteRewardsBanner() {
           {t('inviteRewardsBanner.title', { amount: rewardAmount, currency })}
         </Text>
         <Text style={styles.bodyText}>
-          {t('inviteRewardsBanner.body', { amount: rewardAmount, currency })}
+          {t('inviteRewardsBanner.body', {
+            amount: rewardAmount,
+            maxAmount: 5 * rewardAmount,
+            currency,
+          })}
         </Text>
       </View>
     </View>
