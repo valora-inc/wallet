@@ -594,8 +594,8 @@
     "button": "Finish sending"
   },
   "inviteRewardsBanner": {
-    "title": "Invite a friend to {{appName}} by sending them some crypto.",
-    "body": "You'll both get {{amount}} {{currency}} once they finish setting up their account."
+    "title": "Send crypto to invite a friend (beta)",
+    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to {{maxAmount}} {{currency}}!"
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
