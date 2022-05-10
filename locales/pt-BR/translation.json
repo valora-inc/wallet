@@ -594,8 +594,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Convide um amigo para o {{appName}} enviando criptomoedas.",
-    "body": "Vocês dois receberão {{amount}} {{currency}} depois que a conta do seu amigo for configurada."
+    "title": "Enviar criptograma para convidar um amigo (beta)",
+    "body": "Uma vez que eles estabelecem o seu {{appName}} carteira, cada um recebe {{amount}} {{currency}} em recompensas. Ganham até {{maxAmount}} {{currency}}!"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
