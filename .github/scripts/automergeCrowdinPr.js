@@ -13,8 +13,8 @@ const CROWDIN_BRANCH = 'l10n/main'
 const CROWDIN_PR_USER = 'valora-bot-crowdin'
 const AUTOMERGE_LABEL = 'automerge'
 
-const ALLOWED_UPDATED_FILE_MATCHER = `packages\/mobile\/locales\/.*\/translation\.json`
-const DISALLOWED_UPDATED_FILE = 'packages/mobile/locales/base/translation.json'
+const ALLOWED_UPDATED_FILE_MATCHER = `locales\/.*\/translation\.json`
+const DISALLOWED_UPDATED_FILE = 'locales/base/translation.json'
 
 /**
  * @param {Object} obj - An object.
