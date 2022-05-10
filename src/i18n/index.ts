@@ -18,6 +18,8 @@ function getAvailableResources(cachedTranslations: Resource) {
     Object.defineProperty(resources, language, {
       get: () => {
         if (!translation) {
+          // prioritise bundled translations over OTA translations in dev mode
+          // so that copy updates can be surfaced
           translation = __DEV__
             ? _.merge(cachedTranslations[language], value!.strings.translation)
             : _.merge(value!.strings.translation, cachedTranslations[language])
