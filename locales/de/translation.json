@@ -594,8 +594,8 @@
     "button": "Senden"
   },
   "inviteRewardsBanner": {
-    "title": "Lade einen Freund zu {{appName}} ein, indem du ihm Krypto sendest.",
-    "body": "Ihr erhaltet beide {{amount}} {{currency}}, sobald dein Freund sein Konto eingerichtet hat."
+    "title": "Krypto senden, um einen Freund einzuladen (Beta)",
+    "body": "Sobald sie ihre {{appName}} Brieftasche eingerichtet haben, erhält jeder von euch {{amount}} {{currency}} Belohnungen. Verdiene bis zu {{maxAmount}} {{currency}}!"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
