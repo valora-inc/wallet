@@ -319,7 +319,7 @@ FiatExchangeAmount.navOptions = ({
   headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
   headerTitle: () => (
     <HeaderTitleWithBalance
-      title={i18n.t(`fiatExchangeFlow.${route.params.flow}.exchangeAmmountTitle`, {
+      title={i18n.t(`fiatExchangeFlow.${route.params.flow}.exchangeAmountTitle`, {
         currency: route.params.currency === Currency.Celo ? 'CELO' : route.params.currency,
       })}
       token={route.params.currency}

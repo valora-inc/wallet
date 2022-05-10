@@ -1244,14 +1244,14 @@
       "fiatExchangeTitle": "Add Funds",
       "fiatExchangeSubtitle": "Fund your Valora account from a bank, card or exchange.",
       "selectCurrencyTitle": "Add Funds",
-      "exchangeAmmountTitle": "Add {{currency}}",
+      "exchangeAmountTitle": "Add {{currency}}",
       "selectProviderHeader": "Select Payment Method"
     },
     "CashOut": {
       "fiatExchangeTitle": "Withdraw",
       "fiatExchangeSubtitle": "Get funds out of Valora and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
-      "exchangeAmmountTitle": "Withdraw {{currency}}",
+      "exchangeAmountTitle": "Withdraw {{currency}}",
       "selectProviderHeader": "Select Withdraw Method"
     },
     "Spend": {

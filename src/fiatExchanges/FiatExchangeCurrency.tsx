@@ -20,8 +20,7 @@ import variables from 'src/styles/variables'
 import { Currency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
-type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
-type Props = RouteProps
+type Props = StackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
 export const fiatExchangesOptionsScreenOptions = ({
   route,
@@ -37,7 +36,7 @@ export const fiatExchangesOptionsScreenOptions = ({
         eventProperties={{ flow }}
       />
     ),
-    headerTitle: i18n.t(`fiatExchangeFlow.${route.params.flow}.selectCurrencyTitle`),
+    headerTitle: i18n.t(`fiatExchangeFlow.${flow}.selectCurrencyTitle`),
     headerRightContainerStyle: { paddingRight: 16 },
   }
 }
@@ -101,45 +100,18 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     })
   }
 
-  const onSelectCurrency = (currency: Currency) => () => setSelectedCurrency(currency)
-
-  // TODO(jwaterman): https://github.com/valora-inc/wallet/issues/2394
-
-  // const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
-  // const onPressInfoIcon = () => {
-  //   setEducationDialogVisible(true)
-  //   // ValoraAnalytics.track(
-  //   //   isCashIn ? FiatExchangeEvents.cico_add_funds_info : FiatExchangeEvents.cico_cash_out_info
-  //   // )
-  // }
-
-  // const onPressDismissEducationDialog = () => {
-  //   setEducationDialogVisible(false)
-  //   ValoraAnalytics.track(
-  //     isCashIn
-  //       ? FiatExchangeEvents.cico_add_funds_info_cancel
-  //       : FiatExchangeEvents.cico_cash_out_info_cancel
-  //   )
-  // }
-
   return (
     <SafeAreaView style={styles.content}>
       <ScrollView style={styles.topContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.selectDigitalCurrency}>{t('selectDigitalCurrency')}</Text>
-          {
-            // TODO(jwaterman): https://github.com/valora-inc/wallet/issues/2394
-            // <Touchable onPress={onPressInfoIcon} hitSlop={variables.iconHitslop}>
-            //   <InfoIcon size={14} color={colors.gray3} />
-            // </Touchable>
-          }
         </View>
         <View style={styles.currenciesContainer}>
           <CurrencyRadioItem
             title={t('celoDollar')}
             body="(cUSD)"
             selected={selectedCurrency === Currency.Dollar}
-            onSelect={onSelectCurrency(Currency.Dollar)}
+            onSelect={() => setSelectedCurrency(Currency.Dollar)}
             containerStyle={{
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
@@ -151,7 +123,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             title={t('celoEuro')}
             body="(cEUR)"
             selected={selectedCurrency === Currency.Euro}
-            onSelect={onSelectCurrency(Currency.Euro)}
+            onSelect={() => setSelectedCurrency(Currency.Euro)}
             containerStyle={{
               borderTopWidth: 0.5,
               borderBottomWidth: 0.5,
@@ -161,7 +133,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
           <CurrencyRadioItem
             title="CELO"
             selected={selectedCurrency === Currency.Celo}
-            onSelect={onSelectCurrency(Currency.Celo)}
+            onSelect={() => setSelectedCurrency(Currency.Celo)}
             enabled={flow !== FiatExchangeFlow.Spend}
             containerStyle={{
               borderTopWidth: 0.5,
@@ -182,14 +154,6 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
           testID={'GoToProviderButton'}
         />
       </View>
-      {
-        // TODO(jwaterman): https://github.com/valora-inc/wallet/issues/2394
-        // <FundingEducationDialog
-        //   isVisible={isEducationDialogVisible}
-        //   onPressDismiss={onPressDismissEducationDialog}
-        //   isCashIn={true}
-        // />
-      }
     </SafeAreaView>
   )
 }

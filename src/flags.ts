@@ -22,9 +22,6 @@ export const countryFeatures = {
     SD: true,
     SY: true,
   },
-  FIAT_SPEND_ENABLED: {
-    PH: true,
-  },
   IS_IN_EUROPE: {
     // All european countries, taken from https://www.europeancuisines.com/Europe-European-Two-Letter-Country-Code-Abbreviations
     AL: true,
