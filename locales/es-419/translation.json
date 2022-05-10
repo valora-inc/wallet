@@ -871,7 +871,7 @@
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "Hola! He estado usando y disfrutando de {{appname}} como monedero de criptomonedas. Si te descargas la aplicación y conectas tu número de teléfono, ambos obtendremos {{amount}} {{token}}. Utiliza este enlace: {{link}}",
+  "inviteWithRewards": "¡Hola! Estoy usando la billetera cripto {{appname}} y me encanta. Si descargas la aplicación y conectas tu número de teléfono, ambos obtendremos {{amount}} {{token}}. Usa este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
