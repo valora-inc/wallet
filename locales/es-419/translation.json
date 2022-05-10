@@ -304,7 +304,7 @@
   },
   "cashOutEducationDialog": {
     "title": "Retira fondos de {{appName}}",
-    "body": "{{appName}} corre sobre la red Celo. {{appName}} fCelo Dollars (cUSD), Celo Euros y Celo Real, monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD, cEUR o cREAL a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dollars (cUSD), Celo Euros (cEUR) y Celo Real (cREAL), monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD, cEUR o cREAL a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -594,8 +594,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Invita a tus amigos a {{appName}} desde la app, solo debes enviarles cripto",
-    "body": "Ambos obtendrán {{amount}} {{currency}} una vez que termine de configurar su cuenta."
+    "title": "Enviar cripto para invitar a un amigo (beta)",
+    "body": "Una vez que configuren su monedero {{appName}} , cada uno de vosotros obtendrá {{amount}} {{currency}} en recompensas. ¡Gana hasta {{maxAmount}} {{currency}}!"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
