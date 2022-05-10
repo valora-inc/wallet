@@ -594,8 +594,8 @@
     "button": "Закінчити надсилання"
   },
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend (beta)",
-    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to {{maxAmount}} {{currency}}!"
+    "title": "Надіслати криптовалюту, щоб запросити друга (бета-версія)",
+    "body": "Щойно вони створять {{appName}} гаманець, ви отримаєте {{amount}} {{currency}} в нагородах. Заробіть до {{maxAmount}} {{currency}}!"
   },
   "getReward": "Отримати винагороду ${{reward}}",
   "welcomeCelo": "Ласкаво просимо до {{appName}}",
@@ -875,7 +875,7 @@
   "walletAddress": "Адреса гаманця",
   "inviteWithoutPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Легко спробувати, я хочу ще раз запросити вас відвідати це посилання: {{link}}",
   "inviteWithEscrowedPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Я щойно відправив вам {{amount}} {{token}}. Прошу, завантажте застосунок {{appName}} і отримайте {{token}} за допомогою цього посилання: {{link}}",
-  "inviteWithRewards": "Hey! I’ve been using and enjoying {{appname}} as a crypto wallet. If you download the app and connect your phone number, we’ll both get {{amount}} {{token}}. Use this link: {{link}}",
+  "inviteWithRewards": "Привіт! Я використовую та насолоджуюся {{appname}} як криптогаманцем. Якщо ви завантажите застосунок і під'єднаєте номер телефону, ми обоє отримаємо {{amount}} {{token}}. Скористайтеся цим посиланням: {{link}}",
   "loadingContacts": "Пошук контактів",
   "myCode": "Мій код",
   "scanCode": "Сканувати",
