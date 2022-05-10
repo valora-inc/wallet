@@ -1221,7 +1221,7 @@
   "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
-  "celoDollarAmount_1": "<0></0> Celo Dollars",
-  "celoDollarAmount_2": "<0></0> Celo Dollars",
+  "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Доллары Celo",
+  "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Доллары Celo",
   "celoDollarAmount_3": "<0></0> Celo Dollars"
 }
