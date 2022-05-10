@@ -79,7 +79,7 @@ interface RawSimplexQuote {
   valid_until: string
   supported_digital_currencies: string[]
 }
-export interface LocalCicoProvider {
+export interface LegacyMobileMoneyProvider {
   name: string
   celo: {
     cashIn: boolean
@@ -278,7 +278,7 @@ const typeCheckNestedProperties = (obj: any, property: string) =>
     (country: any) => typeof country === 'string' && country.length === 2
   )
 
-const isLocalCicoProvider = (obj: any): obj is LocalCicoProvider => {
+const isLegacyMobileMoneyProvider = (obj: any): obj is LegacyMobileMoneyProvider => {
   return (
     typeof obj.name === 'string' &&
     typeCheckNestedProperties(obj, 'celo') &&
@@ -286,7 +286,7 @@ const isLocalCicoProvider = (obj: any): obj is LocalCicoProvider => {
   )
 }
 
-export const fetchLocalCicoProviders = async () => {
+export const fetchLegacyMobileMoneyProviders = async () => {
   const firebaseLocalProviders: any[] = await firebase
     .database()
     .ref('localCicoProviders')
@@ -299,34 +299,34 @@ export const fetchLocalCicoProviders = async () => {
       }))
     )
 
-  const localCicoProviders: LocalCicoProvider[] = firebaseLocalProviders.filter((provider) =>
-    isLocalCicoProvider(provider)
+  const providers: LegacyMobileMoneyProvider[] = firebaseLocalProviders.filter((provider) =>
+    isLegacyMobileMoneyProvider(provider)
   )
 
-  return localCicoProviders
+  return providers
 }
 
-export const getAvailableLocalProviders = (
-  localCicoProviders: LocalCicoProvider[] | undefined,
+export const filterLegacyMobileMoneyProviders = (
+  providers: LegacyMobileMoneyProvider[] | undefined,
   flow: CICOFlow,
   userCountry: string | null,
   selectedCurrency: CiCoCurrency
 ) => {
   if (
-    !localCicoProviders ||
+    !providers ||
     !userCountry ||
     ![CiCoCurrency.CUSD, CiCoCurrency.CELO].includes(selectedCurrency)
   ) {
     return []
   }
 
-  const activeLocalProviders = localCicoProviders.filter(
+  const activeProviders = providers.filter(
     (provider) =>
       (flow === CICOFlow.CashIn && (provider.cusd.cashIn || provider.celo.cashIn)) ||
       (flow === CICOFlow.CashOut && (provider.cusd.cashOut || provider.celo.cashOut))
   )
 
-  return activeLocalProviders.filter((provider) =>
+  return activeProviders.filter((provider) =>
     provider[selectedCurrency === CiCoCurrency.CUSD ? 'cusd' : 'celo'].countries.includes(
       userCountry
     )

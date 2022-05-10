@@ -1,23 +1,23 @@
-import SelectProviderScreen, { PaymentMethodSection } from 'src/fiatExchanges/SelectProvider'
 import { render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
+import { Provider } from 'react-redux'
+import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
-import { Provider } from 'react-redux'
-import {
-  CICOFlow,
-  fetchLocalCicoProviders,
-  fetchProviders,
-  FetchProvidersOutput,
-  LocalCicoProvider,
-  PaymentMethod,
-} from './utils'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
+import {
+  CICOFlow,
+  fetchLegacyMobileMoneyProviders,
+  fetchProviders,
+  FetchProvidersOutput,
+  LegacyMobileMoneyProvider,
+  PaymentMethod,
+} from './utils'
 
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
@@ -25,7 +25,7 @@ const MOCK_IP_ADDRESS = '1.1.1.7'
 jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
   fetchProviders: jest.fn(),
-  fetchLocalCicoProviders: jest.fn(),
+  fetchLegacyMobileMoneyProviders: jest.fn(),
 }))
 
 const MOCK_SIMPLEX_QUOTE = {
@@ -124,7 +124,7 @@ const mockProviders: FetchProvidersOutput[] = [
   },
 ]
 
-const mockLocalProviders: LocalCicoProvider[] = [
+const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {
     name: 'CryptoProvider',
     celo: {
@@ -207,13 +207,13 @@ describe(SelectProviderScreen, () => {
   })
   it('shows the provider sections, mobile money, and exchange section', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLocalCicoProviders).mockResolvedValue(mockLocalProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchLocalCicoProviders).toHaveBeenCalled())
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
 
     expect(queryByText('selectProviderScreen.bank')).toBeTruthy()
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
@@ -225,53 +225,53 @@ describe(SelectProviderScreen, () => {
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
-    mocked(fetchLocalCicoProviders).mockResolvedValue(mockLocalProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchLocalCicoProviders).toHaveBeenCalled())
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     // Visible because there are no card providers
     expect(queryByText('selectProviderScreen.learnMore')).toBeTruthy()
   })
 })
 
-describe(PaymentMethodSection, () => {
+describe('PaymentMethodSection', () => {
   it('shows nothing if there are no available providers', async () => {
     mocked(fetchProviders).mockResolvedValue([])
-    mocked(fetchLocalCicoProviders).mockResolvedValue(mockLocalProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchLocalCicoProviders).toHaveBeenCalled())
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
 
     expect(queryByText('selectProviderScreen.bank')).toBeFalsy()
     expect(queryByText('selectProviderScreen.card')).toBeFalsy()
   })
   it('shows a non-expandable view if there is one provider available', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
-    mocked(fetchLocalCicoProviders).mockResolvedValue(mockLocalProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchLocalCicoProviders).toHaveBeenCalled())
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByTestId(`image-Ramp`)).toBeTruthy()
   })
   it('shows an expandable view if there is more than one provider available', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLocalCicoProviders).mockResolvedValue(mockLocalProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchLocalCicoProviders).toHaveBeenCalled())
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
 
     expect(queryByText('selectProviderScreen.card')).toBeTruthy()
     expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
