@@ -995,7 +995,7 @@
   "goBackButton": "Назад",
   "v2Unsupported": "Этот QR-код не поддерживается",
   "incomingPaymentRequests": "Запросы от других пользователей",
-  "incomingPaymentRequestsSummaryTitle": "{{count}} невыполненных запросов",
+  "incomingPaymentRequestsSummaryTitle": "Невыполненных запросов: {{count}}",
   "incomingPaymentRequestsSummaryDetails_exactly2Items": "Вас ждут <0></0> и <1></1>",
   "incomingPaymentRequestsSummaryDetails_exactly3Items": "Вас ждут <0></0>, <1></1> и еще один источник",
   "incomingPaymentRequestsSummaryDetails_moreThan3Items": "Вас ждут <0></0>, <1></1> и другие",
