@@ -31,21 +31,21 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Yarn dependencies
-        run: yarn
-      - name: Build Yarn packages
-        run: yarn build --ignore docs
+        run: yarn || yarn
+      - name: Build
+        run: yarn build
       - name: Update RootStateSchema if necessary
-        run: yarn --cwd packages/mobile test:update-root-state-schema
+        run: yarn test:update-root-state-schema
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
-          yarn --cwd packages/mobile test:ci
+          yarn test:ci
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
-          path: packages/mobile/coverage/lcov-report
+          path: coverage/lcov-report
       - name: 'Upload to Codecov'
         uses: codecov/codecov-action@v2
         with:

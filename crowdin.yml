@@ -1,6 +1,6 @@
 files:
-  - source: /packages/mobile/locales/base/*.json
-    translation: /packages/mobile/locales/%locale%/%original_file_name%
+  - source: /locales/base/*.json
+    translation: /locales/%locale%/%original_file_name%
     type: i18next_json
-  - source: /packages/mobile/ios/celo/Base.lproj/InfoPlist.strings
-    translation: /packages/mobile/ios/celo/%osx_code%/%original_file_name%
+  - source: /ios/celo/Base.lproj/InfoPlist.strings
+    translation: /ios/celo/%osx_code%/%original_file_name%
