@@ -788,7 +788,7 @@
     "resendMessages_0": "Повторно надіслати останнє повідомлення",
     "resendMessages_1": "Повторно надіслати повідомлення: {{count}}",
     "resendMessages_2": "Повторно надіслати повідомлення: {{count}}",
-    "resendMessages_3": "Повторно надіслати повідомлення: {{count}}"
+    "resendMessages_3": "Повторно надіслати {{count}} повідомлень"
   },
   "verificationInputHelpDialog": {
     "title": "Довідка",
