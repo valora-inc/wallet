@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { INVITE_REWARDS_TERMS_LINK } from 'src/config'
+import { INVITE_REWARDS_LEARN_MORE } from 'src/config'
 import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -26,7 +26,7 @@ export function InviteRewardsBanner() {
   }, [])
 
   const handleOpenInviteTerms = () => {
-    navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_TERMS_LINK })
+    navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_LEARN_MORE })
   }
 
   return (
