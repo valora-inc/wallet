@@ -594,8 +594,8 @@
     "button": "Terminer l'envoi"
   },
   "inviteRewardsBanner": {
-    "title": "Invitez un ami sur {{appName}} en lui envoyant des cryptomonnaies.",
-    "body": "Vous recevrez tous les deux {{amount}} {{currency}} une fois son compte configuré."
+    "title": "Envoie de la crypto pour inviter un ami (bêta)",
+    "body": "Une fois qu'ils ont configuré leur {{appName}} portefeuille, vous recevez chacun {{amount}} {{currency}} en récompenses. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",

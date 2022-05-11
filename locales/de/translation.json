@@ -594,8 +594,8 @@
     "button": "Senden"
   },
   "inviteRewardsBanner": {
-    "title": "Lade einen Freund zu {{appName}} ein, indem du ihm Krypto sendest.",
-    "body": "Ihr erhaltet beide {{amount}} {{currency}}, sobald dein Freund sein Konto eingerichtet hat."
+    "title": "Krypto senden, um einen Freund einzuladen (Beta)",
+    "body": "Sobald sie ihre {{appName}} Brieftasche eingerichtet haben, erhält jeder von euch {{amount}} {{currency}} Belohnungen. Verdiene bis zu <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -1071,7 +1071,7 @@
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
-  "feedItemInviteRewardReceivedTitle": "Celo-Netzwerk",
+  "feedItemInviteRewardReceivedTitle": "Supercharge",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
