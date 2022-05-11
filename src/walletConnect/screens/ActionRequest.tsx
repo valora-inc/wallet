@@ -83,7 +83,7 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
       : method === SupportedActions.personal_decrypt
       ? Buffer.from(params[1]).toString('hex')
       : method === SupportedActions.personal_sign
-      ? params[0]
+      ? Buffer.from(params[0].replace(/^0x/, ''), 'hex').toString()
       : null
 
   const onMoreInfo = () => {
