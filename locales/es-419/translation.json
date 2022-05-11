@@ -595,7 +595,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Enviar cripto para invitar a un amigo (beta)",
-    "body": "Una vez que configuren su monedero {{appName}} , cada uno de vosotros obtendrá {{amount}} {{currency}} en recompensas. ¡Gana hasta {{maxAmount}} {{currency}}!"
+    "body": "Una vez que configuren su monedero {{appName}} , cada uno de vosotros obtendrá {{amount}} {{currency}} en recompensas. ¡Gana hasta <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
