@@ -595,7 +595,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Invia crypto per invitare un amico (beta)",
-    "body": "Una volta impostato il loro {{appName}} portafoglio, ognuno di voi ottiene {{amount}} {{currency}} in premi. Guadagna fino a {{maxAmount}} {{currency}}!"
+    "body": "Una volta impostato il loro {{appName}} portafoglio, ognuno di voi ottiene {{amount}} {{currency}} in premi. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
