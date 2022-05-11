@@ -595,7 +595,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Enviar criptograma para convidar um amigo (beta)",
-    "body": "Uma vez que eles estabelecem o seu {{appName}} carteira, cada um recebe {{amount}} {{currency}} em recompensas. Ganham até {{maxAmount}} {{currency}}!"
+    "body": "Uma vez que eles estabelecem o seu {{appName}} carteira, cada um recebe {{amount}} {{currency}} em recompensas. Ganham até <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
