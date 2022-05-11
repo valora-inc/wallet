@@ -38,10 +38,13 @@ jobs:
         run: yarn test:update-root-state-schema
       - name: Fail if someone forgot to commit "RootStateSchema.json"
         run: git diff --exit-code
+      - name: Get number of CPU cores
+        id: cpu-cores
+        uses: SimenB/github-actions-cpu-cores@v1
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
-          yarn test:ci
+          yarn test:ci --max-workers ${{ steps.cpu-cores.outputs.count }}
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
