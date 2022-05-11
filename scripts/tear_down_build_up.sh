@@ -30,7 +30,7 @@ arch -x86_64 yarn --silent install
 
 echo "Building wallet from monorepo and hoisting RN packages..."
 # Build dependencies for cwd (wallet) using Yarn
-arch -x86_64 yarn --silent build:wallet
+arch -x86_64 yarn --silent build
 
 echo "Installing gems (e.g. cocoapods) ..."
 if [ -d "packages/mobile" ]; then
