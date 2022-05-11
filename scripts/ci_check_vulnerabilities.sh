@@ -22,17 +22,8 @@ if [ -f yarn-audit-known-issues ] && echo "$output" | grep auditAdvisory | diff 
 fi
 
 echo
-echo Security vulnerabilities were found that were not ignored
-echo
-echo Check to see if these vulnerabilities apply to production
-echo and/or if they have fixes available. If they do not have
-echo fixes and they do not apply to production, you may ignore them
-echo
-echo To ignore these vulnerabilities, run:
-echo
-echo "yarn audit --json --groups dependencies --level high | grep auditAdvisory > yarn-audit-known-issues"
-echo
-echo and commit the yarn-audit-known-issues file
+echo Security vulnerabilities were found that were not ignored.
+echo See https://github.com/valora-inc/wallet/tree/main/WALLET.md#vulnerabilities-found-in-dependencies
 echo
 echo "$output" | grep auditAdvisory | jq
 

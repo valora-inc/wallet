@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd packages/mobile
-
 # ensure that we are using ssh
 git remote set-url origin git@github.com:valora-inc/wallet.git
 
@@ -10,11 +8,7 @@ echo "Create version bump branch from main"
 git checkout -b $BRANCH_NAME
 
 echo "Bump app version"
-yarn pre-deploy --minor --no-licence-update
-
-# TODO: remove this step as part of https://github.com/valora-inc/wallet/issues/1856
-echo "Generate licences and disclaimer"
-yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh
+yarn pre-deploy --minor
 
 app_version="$(node -p "require('./package.json').version")"
 

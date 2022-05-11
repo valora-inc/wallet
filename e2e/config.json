@@ -1,0 +1,34 @@
+{
+  "globalSetup": "./global-setup.js",
+  "globalTeardown": "./global-teardown.js",
+  "setupFilesAfterEnv": ["./init.js"],
+  "testEnvironment": "./environment.js",
+  "reporters": [
+    "detox/runners/jest/streamlineReporter",
+    [
+      "jest-html-reporter",
+      {
+        "pageTitle": "E2E Test Report",
+        "outputPath": "e2e/test-results/index.html",
+        "executionTimeWarningThreshold": 300,
+        "includeFailureMsg": true,
+        "styleOverridePath": "teststyle.css",
+        "logo": "valora-icon.png",
+        "append": true
+      }
+    ],
+    [
+      "jest-junit",
+      {
+        "suiteName": "E2E Test Report",
+        "outputDirectory": "e2e/test-results",
+        "outputName": "junit.xml",
+        "reportTestSuiteErrors": true
+      }
+    ]
+  ],
+  "verbose": true,
+  "testMatch": ["**/*.spec.js"],
+  "testTimeout": 300000,
+  "testRunner": "jest-circus/runner"
+}

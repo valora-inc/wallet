@@ -1,0 +1,40 @@
+name: Update Licenses and Disclaimer
+
+on:
+  push:
+    # trigger only when the yarn.lock file is modified in main
+    branches:
+      - main
+    paths:
+      - 'yarn.lock'
+
+jobs:
+  update-licenses-and-disclaimer:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    env:
+      BRANCH_NAME: valora-bot/update-licenses-disclaimer
+    steps:
+      - name: Google Secrets
+        id: google-secrets
+        uses: google-github-actions/get-secretmanager-secrets@v0.2.2
+        with:
+          secrets: |-
+            BOT_SSH_KEY:projects/1027349420744/secrets/BOT_SSH_PRIVATE_KEY
+            VALORA_BOT_TOKEN:projects/1027349420744/secrets/VALORA_BOT_TOKEN
+          credentials: ${{ secrets.MAINNET_SERVICE_ACCOUNT_KEY }}
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
+      - uses: actions/checkout@v2
+      - run: yarn || yarn
+      - run: yarn ts-node .github/scripts/createLicenseDisclaimerPr.ts
+        env:
+          VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            const script = require('.github/scripts/automergePR.js')
+            const allowedUpdatedFiles = ['src/account/LicenseDisclaimer.txt']
+            await script({github, context, core, allowedUpdatedFiles})
