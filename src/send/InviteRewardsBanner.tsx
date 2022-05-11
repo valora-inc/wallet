@@ -33,7 +33,7 @@ export function InviteRewardsBanner() {
     <View style={styles.container} testID="InviteRewardsBanner">
       <Image source={notificationInvite} resizeMode="contain" />
       <View style={styles.textContainer}>
-        <Text style={fontStyles.small500}>
+        <Text style={fontStyles.small600}>
           {t('inviteRewardsBanner.title', { amount: rewardAmount, currency })}
         </Text>
         <Text style={styles.bodyText}>
