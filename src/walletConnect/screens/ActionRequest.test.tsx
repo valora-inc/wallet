@@ -67,5 +67,30 @@ describe('ActionRequest', () => {
         infoString: 'Message to sign',
       })
     })
+
+    it('dispatches request details with invalid message string if message cannot be decoded', async () => {
+      action.params[0] = 'invalid hex'
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
+              dappName: 'foo',
+              dappIcon: 'foo',
+              dappUrl: 'foo',
+              action,
+              version: 1,
+              peerId: 'peerId',
+            })}
+          />
+        </Provider>
+      )
+      await fireEvent.press(getByText('action.details'))
+      expect(store.dispatch).toHaveBeenLastCalledWith({
+        type: Actions.SHOW_REQUEST_DETAILS_V1,
+        request: action,
+        peerId: 'peerId',
+        infoString: 'action.invalidMessage',
+      })
+    })
   })
 })
