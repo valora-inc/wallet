@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais na sua stablecoin com o maior saldo (cUSD, cEUR ou cREAL) por tempo limitado:",
+  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe 12% em recompensas anuais na sua stablecoin com o maior saldo (cUSD, cEUR ou cREAL) por tempo limitado:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
@@ -177,7 +177,7 @@
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "superchargeTitle": "Entre no Supercharge",
-  "superchargeDescription": "Ganhe {{apy}}% em recompensas anuais no seus {{token}}. Veja como começar:",
+  "superchargeDescription": "Ganhe 12% em recompensas anuais no seus {{token}}. Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Obtenha o máximo de recompensas com até {{amount}} {{token}}",
@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingDescription": "Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Ocorreu um erro ao resgatar suas recompensas de Supercharge.",
   "superchargeNotificationBody": "As suas recompensas Supercharge chegaram! Resgate-as agora mesmo",
   "superchargeNotificationStart": "Resgatar recompensas",
-  "superchargingNotificationBody": "Você está recebendo 25% de recompensas com Supercharge ⚡",
+  "superchargingNotificationBody": "Você está recebendo recompensas com Supercharge ⚡",
   "superchargingNotificationStart": "Saiba mais",
   "startSuperchargingNotificationBody": "Ganhe recompensas semanalmente. Entre no Supercharge!",
   "startSuperchargingNotificationStart": "Ganhe recompensas",
