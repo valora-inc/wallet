@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Программа Supercharge",
-  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения 12% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
   "superchargeTitle": "Присоединяйтесь к программе Supercharge",
-  "superchargeDescription": "Получите вознаграждение {{apy}}% годовых на свой баланс {{token}}. Вот как начать:",
+  "superchargeDescription": "Получите вознаграждение 12% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
   "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingDescription": "По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Возникла проблема с заявкой на вознаграждения Supercharge.",
   "superchargeNotificationBody": "Вознаграждения Supercharge уже ждут вас! Получите их прямо сейчас",
   "superchargeNotificationStart": "Получить вознаграждения",
-  "superchargingNotificationBody": "Вы получаете 25% С Supercharge ⚡",
+  "superchargingNotificationBody": "Вы получаете 12% С Supercharge ⚡",
   "superchargingNotificationStart": "Дополнительно",
   "startSuperchargingNotificationBody": "Получайте еженедельные криптовознаграждения. Присоединяйтесь к Supercharge!",
   "startSuperchargingNotificationStart": "Начать",
