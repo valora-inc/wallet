@@ -594,7 +594,7 @@
     "button": "Terminer l'envoi"
   },
   "inviteRewardsBanner": {
-    "title": "Envoie de la crypto pour inviter un ami (bêta)",
+    "title": "Envoyez des crypto pour inviter un ami (bêta)",
     "body": "Une fois qu'ils ont configuré leur {{appName}} portefeuille, vous recevez chacun {{amount}} {{currency}} en récompenses. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
   },
   "getReward": "Obtenez {{reward}}$",
