@@ -289,6 +289,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const {
     type,
     address,
+    timestamp,
     metadata: { comment: rawComment, subtitle: defaultSubtitle },
   } = transfer
 
@@ -370,7 +371,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     subtitle = t('confirmingTransaction')
   }
 
-  return { title, subtitle, recipient }
+  return { title, subtitle, recipient, timestamp }
 }
 
 export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
