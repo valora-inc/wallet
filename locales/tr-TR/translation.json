@@ -285,7 +285,7 @@
   "onlyCelo": "Sadece CELO",
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Eurosu",
-  "celoDollars": "Celo Dollar",
+  "celoDollars": "Celo Dollars",
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
   "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
@@ -594,8 +594,8 @@
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Bir arkadaşınıza kripto para göndererek {{appName}} uygulamasına davet edin.",
-    "body": "Hesaplarını ayarlamayı bitirdiklerinden sonra ikiniz de {{amount}} {{currency}} alacaksınız."
+    "title": "Send crypto to invite a friend (beta)",
+    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
