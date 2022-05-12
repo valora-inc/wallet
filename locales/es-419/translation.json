@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Te damos la bienvenida a Supercharge! Obtén un {{percent}}% anual en recompensas sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
+  "consumerIncentivesSummary": "¡Te damos la bienvenida a Supercharge! Obtén un 12% anual en recompensas sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
   "superchargeTitle": "¡Súmate a Supercharge!",
-  "superchargeDescription": "Obtén un {{apy}}% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
+  "superchargeDescription": "Obtén un 12% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Maximiza las recompensas sumando hasta {{amount}} {{token}}",
@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingDescription": "Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Hubo un error al reclamar tus recompensas de Supercharge.",
   "superchargeNotificationBody": "¡Recibiste tus recompensas de Supercharge! Reclámalas hoy mismo",
   "superchargeNotificationStart": "Reclamar recompensas",
-  "superchargingNotificationBody": "Estás recibiendo un 25% en recompensas con Supercharge ⚡",
+  "superchargingNotificationBody": "Estás recibiendo recompensas con Supercharge ⚡",
   "superchargingNotificationStart": "Más información",
   "startSuperchargingNotificationBody": "Gana recompensas semanales. ¡Súmate a Supercharge!",
   "startSuperchargingNotificationStart": "Primeros pasos",
