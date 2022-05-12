@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
+import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
@@ -13,7 +14,7 @@ interface CommonProps {
   testID?: string
   onPress: () => void
   eventName?: AnalyticsEventType
-  eventProperties?: any
+  eventProperties?: AnalyticsPropertiesList[AnalyticsEventType]
   style?: StyleProp<ViewStyle>
 }
 

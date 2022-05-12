@@ -431,7 +431,7 @@ export enum FiatExchangeEvents {
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
   cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 
-  cico_select_currency_back = 'cico_select_currency_back',
+  cico_select_currency_back = 'cico_select_currency_back', // the back button in the select currency screen
 }
 
 export enum GethEvents {

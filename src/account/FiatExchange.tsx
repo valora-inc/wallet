@@ -71,24 +71,24 @@ function FiatExchange() {
         <View style={styles.optionsListContainer}>
           <ListItem onPress={goToAddFunds}>
             <Text testID="addFunds" style={styles.optionTitle}>
-              {t(`fiatExchangeFlow.CashIn.fiatExchangeTitle`)}
+              {t(`fiatExchangeFlow.cashIn.fiatExchangeTitle`)}
             </Text>
             <Text style={styles.optionSubtitle}>
-              {t(`fiatExchangeFlow.CashIn.fiatExchangeSubtitle`)}
+              {t(`fiatExchangeFlow.cashIn.fiatExchangeSubtitle`)}
             </Text>
           </ListItem>
           <ListItem onPress={goToSpend}>
-            <Text style={styles.optionTitle}>{t(`fiatExchangeFlow.Spend.fiatExchangeTitle`)}</Text>
+            <Text style={styles.optionTitle}>{t(`fiatExchangeFlow.spend.fiatExchangeTitle`)}</Text>
             <Text style={styles.optionSubtitle}>
-              {t(`fiatExchangeFlow.Spend.fiatExchangeSubtitle`)}
+              {t(`fiatExchangeFlow.spend.fiatExchangeSubtitle`)}
             </Text>
           </ListItem>
           <ListItem onPress={goToCashOut}>
             <Text testID="cashOut" style={styles.optionTitle}>
-              {t(`fiatExchangeFlow.CashOut.fiatExchangeTitle`)}
+              {t(`fiatExchangeFlow.cashOut.fiatExchangeTitle`)}
             </Text>
             <Text style={styles.optionSubtitle}>
-              {t(`fiatExchangeFlow.CashOut.fiatExchangeSubtitle`)}
+              {t(`fiatExchangeFlow.cashOut.fiatExchangeSubtitle`)}
             </Text>
           </ListItem>
         </View>

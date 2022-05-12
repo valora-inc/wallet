@@ -16,7 +16,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
-interface PaymentMethodSectionProps {
+export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethod
   cicoQuotes: CicoQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
@@ -44,6 +44,61 @@ export function PaymentMethodSection({
     setNoPaymentMethods(true)
     return null
   }
+
+  const renderExpandableSection = () => (
+    <>
+      <View style={styles.left}>
+        <Text style={styles.category}>
+          {paymentMethod === PaymentMethod.Card
+            ? t('selectProviderScreen.card')
+            : t('selectProviderScreen.bank')}
+        </Text>
+        {!expanded && (
+          <Text style={styles.fee}>
+            {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))}
+          </Text>
+        )}
+      </View>
+
+      <View style={styles.right}>
+        <Text style={styles.providerDropdown}>
+          {t('selectProviderScreen.numProviders', { count: sectionQuotes.length })}
+        </Text>
+      </View>
+    </>
+  )
+
+  const renderNonExpandableSection = () => (
+    <>
+      <View style={styles.left}>
+        <Text style={styles.category}>
+          {paymentMethod === PaymentMethod.Card
+            ? t('selectProviderScreen.card')
+            : t('selectProviderScreen.bank')}
+        </Text>
+        <Text style={styles.fee}>
+          {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.fee'))}
+        </Text>
+        <Text style={styles.topInfo}>{renderInfoText()}</Text>
+      </View>
+
+      <View style={styles.imageContainer}>
+        <Image
+          testID={`image-${sectionQuotes[0].provider.name}`}
+          source={{ uri: sectionQuotes[0].provider.logoWide }}
+          style={styles.providerImage}
+          resizeMode="center"
+        />
+      </View>
+    </>
+  )
+
+  const renderInfoText = () =>
+    `${t('selectProviderScreen.idRequired')} | ${
+      paymentMethod === PaymentMethod.Card
+        ? t('selectProviderScreen.oneHour')
+        : t('selectProviderScreen.numDays')
+    }`
   const renderFeeAmount = (quote: SimplexQuote | ProviderQuote, postFix: string) => {
     const feeAmount = getFeeValueFromQuotes(quote)
 
@@ -90,56 +145,7 @@ export function PaymentMethodSection({
             isExpandable={isExpandable}
             isExpanded={expanded}
           >
-            {isExpandable ? (
-              <>
-                <View style={styles.left}>
-                  <Text style={styles.category}>
-                    {paymentMethod === PaymentMethod.Card
-                      ? t('selectProviderScreen.card')
-                      : t('selectProviderScreen.bank')}
-                  </Text>
-                  {!expanded && (
-                    <Text style={styles.fee}>
-                      {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))}
-                    </Text>
-                  )}
-                </View>
-
-                <View style={styles.right}>
-                  <Text style={styles.providerDropdown}>
-                    {t('selectProviderScreen.numProviders', { count: sectionQuotes.length })}
-                  </Text>
-                </View>
-              </>
-            ) : (
-              <>
-                <View style={styles.left}>
-                  <Text style={styles.category}>
-                    {paymentMethod === PaymentMethod.Card
-                      ? t('selectProviderScreen.card')
-                      : t('selectProviderScreen.bank')}
-                  </Text>
-                  <Text style={styles.fee}>
-                    {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.fee'))}
-                  </Text>
-                  <Text style={styles.topInfo}>
-                    {t('selectProviderScreen.idRequired')} |{' '}
-                    {paymentMethod === PaymentMethod.Card
-                      ? t('selectProviderScreen.oneHour')
-                      : t('selectProviderScreen.numDays')}
-                  </Text>
-                </View>
-
-                <View style={styles.imageContainer}>
-                  <Image
-                    testID={`image-${sectionQuotes[0].provider.name}`}
-                    source={{ uri: sectionQuotes[0].provider.logoWide }}
-                    style={styles.providerImage}
-                    resizeMode="center"
-                  />
-                </View>
-              </>
-            )}
+            {isExpandable ? renderExpandableSection() : renderNonExpandableSection()}
           </Expandable>
         </View>
       </Touchable>
@@ -151,12 +157,7 @@ export function PaymentMethodSection({
                 <Text style={styles.expandedFee}>
                   {renderFeeAmount(cicoQuote.quote, t('selectProviderScreen.fee'))}
                 </Text>
-                <Text style={styles.expandedInfo}>
-                  {t('selectProviderScreen.idRequired')} |{' '}
-                  {paymentMethod === PaymentMethod.Card
-                    ? t('selectProviderScreen.oneHour')
-                    : t('selectProviderScreen.numDays')}
-                </Text>
+                <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
                 {index === 0 && (
                   <Text style={styles.expandedTag}>{t('selectProviderScreen.bestRate')}</Text>
                 )}

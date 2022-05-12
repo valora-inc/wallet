@@ -253,17 +253,9 @@ export const getFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote) => {
   return quote?.fiatFee
 }
 
-export const sortQuotes = ({ quote: quote1 }: CicoQuote, { quote: quote2 }: CicoQuote) => {
-  const providerFee1 = getFeeValueFromQuotes(quote1)
-  const providerFee2 = getFeeValueFromQuotes(quote2)
-
-  if (providerFee1 === undefined) {
-    return 1
-  }
-
-  if (providerFee2 === undefined) {
-    return -1
-  }
+export const sortQuotesByFee = ({ quote: quote1 }: CicoQuote, { quote: quote2 }: CicoQuote) => {
+  const providerFee1 = getFeeValueFromQuotes(quote1) ?? 0
+  const providerFee2 = getFeeValueFromQuotes(quote2) ?? 0
 
   return providerFee1 > providerFee2 ? 1 : -1
 }

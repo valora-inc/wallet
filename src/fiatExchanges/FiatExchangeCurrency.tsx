@@ -28,6 +28,17 @@ export const fiatExchangesOptionsScreenOptions = ({
   route: RouteProp<StackParamList, Screens.FiatExchangeCurrency>
 }) => {
   const { flow } = route.params
+
+  const headerTitle = () => {
+    switch (flow) {
+      case FiatExchangeFlow.CashIn:
+        return i18n.t(`fiatExchangeFlow.cashIn.selectCurrencyTitle`)
+      case FiatExchangeFlow.CashOut:
+        return i18n.t(`fiatExchangeFlow.cashOut.selectCurrencyTitle`)
+      case FiatExchangeFlow.Spend:
+        return i18n.t(`fiatExchangeFlow.spend.selectCurrencyTitle`)
+    }
+  }
   return {
     ...emptyHeader,
     headerLeft: () => (
@@ -36,7 +47,7 @@ export const fiatExchangesOptionsScreenOptions = ({
         eventProperties={{ flow }}
       />
     ),
-    headerTitle: i18n.t(`fiatExchangeFlow.${flow}.selectCurrencyTitle`),
+    headerTitle: headerTitle(),
     headerRightContainerStyle: { paddingRight: 16 },
   }
 }

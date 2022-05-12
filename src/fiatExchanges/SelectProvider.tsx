@@ -38,7 +38,7 @@ import {
   LegacyMobileMoneyProvider,
   PaymentMethod,
   ProviderQuote,
-  sortQuotes,
+  sortQuotesByFee,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -74,7 +74,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAssetAmount: route.params.amount.crypto,
         txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
       })
-
       const rawLegacyMobileMoneyProviders = await fetchLegacyMobileMoneyProviders()
       const legacyMobileMoneyProviders = filterLegacyMobileMoneyProviders(
         rawLegacyMobileMoneyProviders,
@@ -118,7 +117,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const cicoQuotes: CicoQuote[] =
     getQuotes(activeProviders)
       ?.filter(({ quote }) => (flow === CICOFlow.CashIn ? quote.cashIn : quote.cashOut))
-      .sort(sortQuotes) || []
+      .sort(sortQuotesByFee) || []
   return (
     <ScrollView>
       <PaymentMethodSection
@@ -300,5 +299,8 @@ SelectProviderScreen.navigationOptions = ({
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
-  headerTitle: i18n.t(`fiatExchangeFlow.${route.params.flow}.selectProviderHeader`),
+  headerTitle:
+    route.params.flow === CICOFlow.CashIn
+      ? i18n.t(`fiatExchangeFlow.cashIn.selectProviderHeader`)
+      : i18n.t(`fiatExchangeFlow.cashOut.selectProviderHeader`),
 })

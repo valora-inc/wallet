@@ -7,16 +7,13 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
-import { v4 as uuidv4 } from 'uuid'
 import {
   CICOFlow,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
-  FetchProvidersOutput,
   LegacyMobileMoneyProvider,
-  PaymentMethod,
 } from './utils'
 
 const AMOUNT_TO_CASH_IN = 100
@@ -27,102 +24,6 @@ jest.mock('./utils', () => ({
   fetchProviders: jest.fn(),
   fetchLegacyMobileMoneyProviders: jest.fn(),
 }))
-
-const MOCK_SIMPLEX_QUOTE = {
-  user_id: mockAccount,
-  quote_id: uuidv4(),
-  wallet_id: 'valorapp',
-  digital_money: {
-    currency: 'CUSD',
-    amount: 25,
-  },
-  fiat_money: {
-    currency: 'USD',
-    base_amount: 19,
-    total_amount: 6,
-  },
-  valid_until: new Date().toISOString(),
-  supported_digital_currencies: ['CUSD', 'CELO'],
-}
-
-const mockProviders: FetchProvidersOutput[] = [
-  {
-    name: 'Simplex',
-    restricted: false,
-    unavailable: false,
-    paymentMethods: [PaymentMethod.Card],
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: MOCK_SIMPLEX_QUOTE,
-  },
-  {
-    name: 'Moonpay',
-    restricted: false,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'https://www.moonpay.com/',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: [
-      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
-    ],
-  },
-  {
-    name: 'Ramp',
-    restricted: false,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    quote: [
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
-    ],
-    cashIn: true,
-    cashOut: false,
-  },
-  {
-    name: 'Xanpool',
-    restricted: true,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: true,
-    quote: [
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
-    ],
-  },
-  {
-    name: 'Transak',
-    restricted: false,
-    unavailable: true,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
-    logoWide:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    cashIn: true,
-    cashOut: false,
-    quote: [
-      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
-      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
-    ],
-  },
-]
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {
@@ -234,47 +135,5 @@ describe(SelectProviderScreen, () => {
     await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     // Visible because there are no card providers
     expect(queryByText('selectProviderScreen.learnMore')).toBeTruthy()
-  })
-})
-
-describe('PaymentMethodSection', () => {
-  it('shows nothing if there are no available providers', async () => {
-    mocked(fetchProviders).mockResolvedValue([])
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
-
-    expect(queryByText('selectProviderScreen.bank')).toBeFalsy()
-    expect(queryByText('selectProviderScreen.card')).toBeFalsy()
-  })
-  it('shows a non-expandable view if there is one provider available', async () => {
-    mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    const { queryByText, queryByTestId } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
-    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByTestId(`image-Ramp`)).toBeTruthy()
-  })
-  it('shows an expandable view if there is more than one provider available', async () => {
-    mocked(fetchProviders).mockResolvedValue(mockProviders)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    const { queryByText, queryByTestId } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
-
-    expect(queryByText('selectProviderScreen.card')).toBeTruthy()
-    expect(queryByText('selectProviderScreen.numProviders, {"count":3}')).toBeTruthy()
-    expect(queryByTestId(`image-Ramp`)).toBeFalsy()
   })
 })
