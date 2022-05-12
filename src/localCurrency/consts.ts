@@ -20,6 +20,7 @@ export enum LocalCurrencyCode {
   UAH = 'UAH',
   UGX = 'UGX',
   USD = 'USD',
+  ANG = 'ANG',
 }
 
 export enum LocalCurrencySymbol {
@@ -42,6 +43,7 @@ export enum LocalCurrencySymbol {
   UAH = '₴',
   UGX = 'USh',
   USD = '$',
+  ANG = 'ƒ',
 }
 
 export const LOCAL_CURRENCY_CODES = Object.values(LocalCurrencyCode)
