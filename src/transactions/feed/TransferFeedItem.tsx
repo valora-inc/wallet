@@ -15,6 +15,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
+import { timeDeltaInDays } from 'src/utils/time'
 
 const AVATAR_SIZE = 40
 
