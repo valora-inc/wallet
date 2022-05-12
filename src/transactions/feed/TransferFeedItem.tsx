@@ -15,6 +15,7 @@ import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
+import { timeDeltaInDays } from 'src/utils/time'
 
 const AVATAR_SIZE = 40
 
@@ -34,7 +35,7 @@ function TransferFeedItem({ transfer }: Props) {
 
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
-  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const { title, recipient, timestamp } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
@@ -47,7 +48,7 @@ function TransferFeedItem({ transfer }: Props) {
             {title}
           </Text>
           <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
-            {subtitle}
+            {`${timeDeltaInDays(Date.now(), timestamp, true)} days ago`}
           </Text>
         </View>
         <View style={styles.amountContainer}>
