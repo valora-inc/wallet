@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Beginne Supercharge",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte 12% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
     "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
   "superchargeTitle": "Supercharge starten",
-  "superchargeDescription": "Erhalte {{apy}}% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
+  "superchargeDescription": "Erhalte 12% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinde deine Telefonnummer",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
   "superchargeDisclaimer": "Maximiere die Rewards, indem du bis zu {{amount}} {{token}} hinzufügst",
@@ -189,7 +189,7 @@
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Dein {{token}} wird aufgeladen",
-  "superchargingDescription": "Du erhältst jährlich {{apy}} %. Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
+  "superchargingDescription": "Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
   "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Es gab ein Problem bei der Inanspruchnahme deiner Supercharge-Rewards.",
   "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
-  "superchargingNotificationBody": "Du erhältst 25% Rewards mit Supercharge ⚡",
+  "superchargingNotificationBody": "Du erhältst Rewards mit Supercharge ⚡",
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
