@@ -334,8 +334,9 @@ const ONE_MINUTE_IN_MILLIS = 60 * ONE_SECOND_IN_MILLIS
 export const ONE_HOUR_IN_MILLIS = 60 * ONE_MINUTE_IN_MILLIS
 export const ONE_DAY_IN_MILLIS = 24 * ONE_HOUR_IN_MILLIS
 
-export const timeDeltaInDays = (currTime: number, prevTime: number) => {
-  return timeDifference(currTime, prevTime) / ONE_DAY_IN_MILLIS
+export const timeDeltaInDays = (currTime: number, prevTime: number, round: boolean = false) => {
+  const result = timeDifference(currTime, prevTime) / ONE_DAY_IN_MILLIS
+  return round ? Math.round(result) : result
 }
 
 export const timeDeltaInHours = (currTime: number, prevTime: number) => {
