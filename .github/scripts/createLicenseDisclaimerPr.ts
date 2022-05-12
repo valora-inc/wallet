@@ -4,8 +4,6 @@ config.fatal = true
 
 const branchName = new ShellString(env.BRANCH_NAME)
 
-cd('packages/mobile')
-
 // ensure that we are using ssh
 exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
 

@@ -5,23 +5,18 @@ package.json
 **/privacy/*
 .git/
 
-dependency-graph.json
-
-packages/**/dist
-packages/**/lib
-
-packages/mobile/android/app/build
+android/app/build
 # Ignore Images.xcassets as Xcode reformats them anyway when saving
-packages/mobile/branding/celo/ios/celo/Images.xcassets
-packages/mobile/ios/celo/Images.xcassets
-packages/mobile/ios/Pods
+branding/celo/ios/celo/Images.xcassets
+ios/celo/Images.xcassets
+ios/Pods
 # Ignore Crowdin generated files (often they are written with no final newline)
-packages/mobile/locales/*/*.json
+locales/*/*.json
 # Except for the base lang which is maintained by hand
-!packages/mobile/locales/base/*.json
-packages/mobile/src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
-packages/mobile/src/verify/backgroundAnim.json
-packages/mobile/vendor
+!locales/base/*.json
+src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json
+src/verify/backgroundAnim.json
+vendor
 
 # Ignore generated RootState schema
-packages/mobile/test/RootStateSchema.json
+test/RootStateSchema.json

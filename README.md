@@ -19,19 +19,17 @@ send payments to their contacts.
 
 Integrate with Valora using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
 
-See also [deeplinks.md](./packages/mobile/docs/deeplinks.md) for integrating with Valora using deep links.
+See also [deeplinks.md](./docs/deeplinks.md) for integrating with Valora using deep links.
 
 ## Build Valora Locally
 
-To setup Valora locally, follow [setup instructions](https://github.com/valora-inc/wallet/tree/main/packages/mobile).
+To setup Valora locally, follow [setup instructions](./WALLET.md).
 
 ## Repo Structure
 
-The repository has the following packages (sub projects):
+The repository follows the default React Native Android and iOS app structure.
 
-- [mobile](packages/mobile) - React Native Android and iOS app
-
-Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
+Code owners can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
 ## Contributing
 

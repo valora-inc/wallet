@@ -26,8 +26,6 @@ concurrency:
 
 jobs:
   android:
-    env:
-      working-directory: ./packages/mobile
     name: Android
     runs-on: android-e2e-group
     steps:
@@ -37,22 +35,17 @@ jobs:
           node-version: '12'
           check-latest: true
       - name: Install package dependencies
-        run: yarn
+        run: yarn || yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
-      - name: Build mobile dependencies
-        run: yarn build --scope @celo/mobile --include-filtered-dependencies
-      - name: Make jest available
-        working-directory: ${{env.working-directory}}
-        run: cp ../../node_modules/.bin/jest node_modules/.bin/
+      - name: Check E2E wallet balance
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
-        working-directory: ${{env.working-directory}}
         run: |
           export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
       - name: Run Detox
-        working-directory: ${{env.working-directory}}
         run: >
           export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
@@ -74,22 +67,21 @@ jobs:
         uses: mikepenz/action-junit-report@v2
         with:
           check_name: Android e2e Test Report
-          report_paths: 'packages/mobile/e2e/test-results/junit.xml'
+          report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload Android E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: android-e2e-artifact
-          path: packages/mobile/e2e/artifacts
+          path: e2e/artifacts
       - name: 'Upload Android E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: android-e2e-test-report
-          path: packages/mobile/e2e/test-results
+          path: e2e/test-results
   ios:
     env:
-      working-directory: ./packages/mobile
       # `if` conditions can't directly access secrets, so we use a workaround
       # See https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
@@ -110,26 +102,21 @@ jobs:
           node-version: '12'
           check-latest: true
       - name: Install package dependencies
-        run: yarn
+        run: yarn || yarn
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       - name: Install Ruby dependencies
-        working-directory: ${{env.working-directory}}
         run: bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
       - name: Install CocoaPods dependencies
-        working-directory: ${{env.working-directory}}/ios
+        working-directory: ios
         run: bundle exec pod install || bundle exec pod install --repo-update
       - name: Fail if someone forgot to commit "Podfile.lock"
         run: git diff --exit-code
-      - name: Build mobile dependencies
-        run: yarn build --scope @celo/mobile --include-filtered-dependencies
-      - name: Make jest available
-        working-directory: ${{env.working-directory}}
-        run: cp ../../node_modules/.bin/jest node_modules/.bin/
+      - name: Check E2E wallet balance
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
       - name: Create Detox Build
-        working-directory: ${{env.working-directory}}
         run: |
           export CELO_TEST_CONFIG=e2e
           yarn detox build -c ios.release
@@ -142,7 +129,6 @@ jobs:
           EMERGE_API_TOKEN: ${{ steps.google-secrets.outputs.EMERGE_API_TOKEN }}
           DETOX_CONFIG: ios.release
       - name: Run Detox
-        working-directory: ${{env.working-directory}}
         run: >
           yarn detox test
           --configuration ios.release
@@ -160,16 +146,16 @@ jobs:
         uses: mikepenz/action-junit-report@v2
         with:
           check_name: iOS e2e Test Report
-          report_paths: 'packages/mobile/e2e/test-results/junit.xml'
+          report_paths: 'e2e/test-results/junit.xml'
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: ios-e2e-artifact
-          path: packages/mobile/e2e/artifacts
+          path: e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: ios-e2e-test-report
-          path: packages/mobile/e2e/test-results
+          path: e2e/test-results
