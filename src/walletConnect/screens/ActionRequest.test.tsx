@@ -11,9 +11,8 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 describe('ActionRequest', () => {
   const store = createMockStore({})
 
-  beforeEach(() => {
-    store.dispatch = jest.fn()
-    jest.clearAllMocks()
+  afterEach(() => {
+    store.clearActions()
   })
 
   describe('personal_sign', () => {
@@ -60,15 +59,17 @@ describe('ActionRequest', () => {
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
-      expect(store.dispatch).toHaveBeenLastCalledWith({
-        type: Actions.SHOW_REQUEST_DETAILS_V1,
-        request: action,
-        peerId: 'peerId',
-        infoString: 'Message to sign',
-      })
+      expect(store.getActions()).toEqual([
+        {
+          type: Actions.SHOW_REQUEST_DETAILS_V1,
+          request: action,
+          peerId: 'peerId',
+          infoString: 'Message to sign',
+        },
+      ])
     })
 
-    it('dispatches request details with invalid message string if message cannot be decoded', async () => {
+    it('dispatches request details with raw string if message cannot be decoded', async () => {
       action.params[0] = 'invalid hex'
       const { getByText } = render(
         <Provider store={store}>
@@ -85,12 +86,41 @@ describe('ActionRequest', () => {
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
-      expect(store.dispatch).toHaveBeenLastCalledWith({
-        type: Actions.SHOW_REQUEST_DETAILS_V1,
-        request: action,
-        peerId: 'peerId',
-        infoString: 'action.invalidMessage',
-      })
+      expect(store.getActions()).toEqual([
+        {
+          type: Actions.SHOW_REQUEST_DETAILS_V1,
+          request: action,
+          peerId: 'peerId',
+          infoString: 'invalid hex',
+        },
+      ])
+    })
+
+    it('dispatches request details with empty message', async () => {
+      action.params[0] = ''
+      const { getByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
+              dappName: 'foo',
+              dappIcon: 'foo',
+              dappUrl: 'foo',
+              action,
+              version: 1,
+              peerId: 'peerId',
+            })}
+          />
+        </Provider>
+      )
+      await fireEvent.press(getByText('action.details'))
+      expect(store.getActions()).toEqual([
+        {
+          type: Actions.SHOW_REQUEST_DETAILS_V1,
+          request: action,
+          peerId: 'peerId',
+          infoString: 'action.emptyMessage',
+        },
+      ])
     })
   })
 })
