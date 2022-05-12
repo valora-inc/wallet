@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
+  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık %12 ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
@@ -177,7 +177,7 @@
   },
   "conclusion": "İşte bu kadar basit. Kriptonuzu hemen Supercharge'layın!",
   "superchargeTitle": "Supercharge'lamaya başlayın",
-  "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
+  "superchargeDescription": "{{token}} bakiyeniz için yıllık %12 oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
   "superchargeDisclaimer": "Maksimum ödül kazanmak için {{amount}} {{token}}'a kadar ekleme yapabilirsiniz",
@@ -189,7 +189,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingDescription": "Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
   "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et",
   "superchargeNotificationStart": "Ödüllerinizi alın",
-  "superchargingNotificationBody": "Supercharge'ı %25 alıyorsunuz ⚡",
+  "superchargingNotificationBody": "Supercharge'ı %12 alıyorsunuz ⚡",
   "superchargingNotificationStart": "Daha fazla bilgi edinin",
   "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
   "startSuperchargingNotificationStart": " Ödül almak",
