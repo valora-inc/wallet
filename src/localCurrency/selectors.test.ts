@@ -18,6 +18,14 @@ describe(getLocalCurrencyCode, () => {
       expect(getLocalCurrencyCode(state)).toEqual('USD')
     })
 
+    it('returns ANG for Curacao phone numbers', () => {
+      const state: any = {
+        account: { e164PhoneNumber: '+59993330000' },
+        localCurrency: { preferredCurrencyCode: undefined },
+      }
+      expect(getLocalCurrencyCode(state)).toEqual('ANG')
+    })
+
     it('returns CAD for CA phone numbers', () => {
       const state: any = {
         account: { e164PhoneNumber: '+18192216929' },
