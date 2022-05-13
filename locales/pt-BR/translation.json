@@ -967,7 +967,8 @@
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Ler o seu Endereço de Conta da {{appName}}",
     "details": "Mostrar detalhes",
-    "computeSharedSecret": "Gerar segredos"
+    "computeSharedSecret": "Gerar segredos",
+    "emptyMessage": "Mensagem vazia"
   },
   "sessionInfo": "Este aplicativo pode pedir para executar as seguintes ações:",
   "description": {
