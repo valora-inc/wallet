@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    backgroundColor: colors.gray1,
   },
   topContainer: {
     paddingHorizontal: variables.contentPadding,
