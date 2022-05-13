@@ -967,7 +967,8 @@
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "Detayları göster",
-    "computeSharedSecret": "Gizli Kelime Oluştur"
+    "computeSharedSecret": "Gizli Kelime Oluştur",
+    "emptyMessage": "Empty message"
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
