@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
-  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili! Ottieni ricompense annue del {{percent}}% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
+  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili! Ottieni ricompense annue del 12% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Collega numero se non lo hai ancora collegato."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "superchargeTitle": "Inizia Supercharge",
-  "superchargeDescription": "Ottieni {{apy}}% di ricompense annuali sul tuo saldo {{token}}. Ecco come iniziare:",
+  "superchargeDescription": "Ottieni 12% di ricompense annuali sul tuo saldo {{token}}. Ecco come iniziare:",
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
   "superchargeDisclaimer": "Aggiungi fino a {{amount}} {{token}} per massimizzare le tue ricompense.",
@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Stai ricevendo ricompense pari al {{apy}}% annuo. Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingDescription": "Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Si è verificato un errore nel richiedere i tuoi premi ricompense Supercharge.",
   "superchargeNotificationBody": "Le tue ricompense Supercharge sono arrivate! Richiedile ora",
   "superchargeNotificationStart": "Richiedi ora",
-  "superchargingNotificationBody": "Stai ottenendo il 25% di ricompense con Supercharge ⚡",
+  "superchargingNotificationBody": "Stai ottenendo ricompense con Supercharge ⚡",
   "superchargingNotificationStart": "Scopri di più",
   "startSuperchargingNotificationBody": "Ottieni ricompense settimanali in cripto. Inizia Supercharge!",
   "startSuperchargingNotificationStart": "Inizia",
@@ -594,8 +594,8 @@
     "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
-    "title": "Invia crypto per invitare un amico (beta)",
-    "body": "Una volta impostato il loro {{appName}} portafoglio, ognuno di voi ottiene {{amount}} {{currency}} in premi. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Invia criptovalute per invitare un amico (beta)",
+    "body": "Dopo che avrà configurato il {{appName}} wallet, riceverete entrambi {{amount}} {{currency}} in ricompense. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
@@ -871,7 +871,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi, ho usato e mi piace {{appname}} come portafoglio di criptovalute. Se scarichi l'applicazione e colleghi il tuo numero di telefono, avremo entrambi {{amount}} {{token}}. Usa questo link: {{link}}",
+  "inviteWithRewards": "Ehi, sto usando e mi piace {{appname}} come portafoglio per criptovalute. Se scarichi l'app e colleghi il tuo numero telefonico, riceveremo entrambi {{amount}} {{token}}. Usa questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -967,7 +967,8 @@
     "decrypt": "Decrittografa un payload dati",
     "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
     "details": "Mostra dettagli",
-    "computeSharedSecret": "Genera segreti"
+    "computeSharedSecret": "Genera segreti",
+    "emptyMessage": "Messaggio vuoto"
   },
   "sessionInfo": "Questa applicazione potrebbe richiedere di eseguire le seguenti azioni:",
   "description": {
