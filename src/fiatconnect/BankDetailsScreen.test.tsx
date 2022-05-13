@@ -39,7 +39,7 @@ describe('BankDetailsScreen', () => {
     expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
-    expect(getByTestId('selectProviderButton')).toBeTruthy()
+    expect(getByTestId('selectedProviderButton')).toBeTruthy()
     expect(getByTestId('nextButton')).toBeTruthy()
   })
   it('shows validation error if the input field does not fulfill the requirement', () => {
@@ -74,7 +74,7 @@ describe('BankDetailsScreen', () => {
     const fakeAccountNumber = '1234567890'
     fireEvent.changeText(getByTestId('input-accountName'), fakeAccountName)
     fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
-    fireEvent.changeText(getByTestId('input-accountNumber'), '1234567890')
+    fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
       accountName: fakeAccountName,
