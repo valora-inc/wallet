@@ -1221,6 +1221,48 @@
   "merchantPaymentSubmitSuccess": "Ваш платеж успешно отправлен",
   "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в твоем регионе",
+    "learnMore": "Дополнительно.",
+    "whyMissingPayments": "Почему я не вижу больше способов оплаты?",
+    "dismiss": "Закрыть",
+    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой отдельной стране.\n\nЭто может быть связано с тем, что такой возможности не существует в данной стране или она заблокирована из-за местных правил.",
+    "cryptoExchange": "Криптовалютная биржа",
+    "feesVary": "Плата варьируется",
+    "viewExchanges": "Просмотреть биржи",
+    "card": "Кредитная / дебетовая карта",
+    "bank": "Банковский счет",
+    "mobileMoney": "Мобильные деньги",
+    "minFee": "Минимальная плата",
+    "numProviders": "{{count}} Провайдеры",
+    "fee": "Комиссия",
+    "idRequired": "ID Required",
+    "numDays": "1-3 Days",
+    "oneHour": "Less Than 1 Hour",
+    "bestRate": "Best Rate",
+    "header": "Select Payment Method"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Внести средства",
+      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "selectCurrencyTitle": "Внести средства",
+      "exchangeAmountTitle": "Внести {{currency}}",
+      "selectProviderHeader": "Select Payment Method"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Вывести",
+      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "selectCurrencyTitle": "Вывод средств",
+      "exchangeAmountTitle": "Вывести {{currency}}",
+      "selectProviderHeader": "Select Withdraw Method"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Потратить",
+      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
+      "selectCurrencyTitle": "Spend Funds"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
