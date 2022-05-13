@@ -1232,31 +1232,31 @@
     "minFee": "Frais minimum",
     "numProviders": "{{count}} Fournisseurs",
     "fee": "Frais",
-    "idRequired": "ID Required",
-    "numDays": "1-3 Days",
-    "oneHour": "Less Than 1 Hour",
-    "bestRate": "Best Rate",
-    "header": "Select Payment Method"
+    "idRequired": "ID requis",
+    "numDays": "1-3 jours",
+    "oneHour": "Moins d'une heure",
+    "bestRate": "Meilleur taux",
+    "header": "Sélectionne la méthode de paiement"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Ajouter des fonds",
-      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "fiatExchangeSubtitle": "Alimente ton compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Sélectionner la méthode de paiement"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer",
-      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "fiatExchangeSubtitle": "Fais sortir les fonds de {{appName}} et les déposer sur un compte bancaire, une carte, un échange de crypto-monnaies ou sur du mobile money.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Choisis la méthode de retrait"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser",
-      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
-      "selectCurrencyTitle": "Spend Funds"
+      "fiatExchangeSubtitle": "Dépense en cartes cadeaux et autres achats.",
+      "selectCurrencyTitle": "Dépenser les fonds"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
