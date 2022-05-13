@@ -594,8 +594,8 @@
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Enviar criptograma para convidar um amigo (beta)",
-    "body": "Uma vez que eles estabelecem o seu {{appName}} carteira, cada um recebe {{amount}} {{currency}} em recompensas. Ganham até <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Envie criptomoedas para convidar um amigo (beta)",
+    "body": "Depois que seu amigo configurar a carteira {{appName}} dele, vocês dois receberão {{amount}} {{currency}} em recompensas. Ganhe até <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -871,7 +871,7 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Tenho usado e apreciado {{appname}} como uma carteira criptográfica. Se descarregar a aplicação e ligar o seu número de telefone, ambos obteremos {{amount}} {{token}}. Utilize esta ligação: {{link}}",
+  "inviteWithRewards": "Olá! Estou usando e gostando do app {{appname}} como uma carteira de criptomoedas. Se você fizer o download do app e conectar o seu número de celular, nós dois ganharemos {{amount}} {{token}}. Use este link: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
