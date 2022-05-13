@@ -87,7 +87,7 @@ jest.mock('src/transactions/TransactionsList', () => 'TransactionsList')
 describe('WalletHome', () => {
   const mockFetch = fetch as FetchMock
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.useFakeTimers()
     jest.clearAllMocks()
     mockFetch.mockResponse(
@@ -228,25 +228,18 @@ describe('WalletHome', () => {
   })
 
   describe('recently used dapps', () => {
-    const store = createMockStore({
+    const rootStateOverride: RecursivePartial<RootState> = {
       app: {
         recentDapps,
         maxNumRecentDapps: 4,
       },
-    })
+    }
 
-    beforeEach(() => {
-      store.clearActions()
-    })
-
-    it('should show the open dapp confirmation on press of external dapp', () => {
-      const { getAllByTestId, getByText } = render(
-        <Provider store={store}>
-          <WalletHome />
-        </Provider>
-      )
-
+    it('should show the open dapp confirmation on press of external dapp', async () => {
+      const { store, getAllByTestId, getByText, debug } = renderScreen(rootStateOverride)
+      debug()
       const dapps = getAllByTestId('RecentDapp')
+
       fireEvent.press(dapps[0])
 
       expect(dapps).toHaveLength(2)
@@ -259,14 +252,12 @@ describe('WalletHome', () => {
       )
     })
 
-    it('should open the dapp directly if it is deep linked', () => {
-      const { getAllByTestId, queryByText } = render(
-        <Provider store={store}>
-          <WalletHome />
-        </Provider>
-      )
+    it('should open the dapp directly if it is deep linked', async () => {
+      const { store, getAllByTestId, queryByText } = renderScreen(rootStateOverride)
 
-      fireEvent.press(getAllByTestId('RecentDapp')[1])
+      const dapps = getAllByTestId('RecentDapp')
+
+      fireEvent.press(dapps[1])
 
       expect(
         queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
