@@ -1218,45 +1218,45 @@
   "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, inténtalo de nuevo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Some payment methods are unavailable in your region",
+    "somePaymentsUnavailable": "Algunos métodos de pago no están disponibles en tu región",
     "learnMore": "Más información.",
-    "whyMissingPayments": "Why don't I see more payment methods?",
+    "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
-    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
-    "cryptoExchange": "Cryptocurrency Exchange",
-    "feesVary": "Fees Vary",
-    "viewExchanges": "View Exchanges",
-    "card": "Credit / Debit Card",
-    "bank": "Bank Account",
-    "mobileMoney": "Mobile Money",
-    "minFee": "Min Fee",
-    "numProviders": "{{count}} Providers",
+    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en todos los países.\n\nEsto puede deberse a que la opción no existe en ese país, o está bloqueada debido a la normativa local.",
+    "cryptoExchange": "Intercambio de criptomonedas",
+    "feesVary": "Las tarifas varían",
+    "viewExchanges": "Ver intercambios",
+    "card": "Tarjeta de crédito/débito",
+    "bank": "Cuenta bancaria",
+    "mobileMoney": "Dinero móvil",
+    "minFee": "Tarifa mínima",
+    "numProviders": "{{count}} Proveedores",
     "fee": "Tarifas",
-    "idRequired": "ID Required",
-    "numDays": "1-3 Days",
-    "oneHour": "Less Than 1 Hour",
-    "bestRate": "Best Rate",
-    "header": "Select Payment Method"
+    "idRequired": "Identificación requerida",
+    "numDays": "1-3 días",
+    "oneHour": "Menos de 1 hora",
+    "bestRate": "Mejor tarifa",
+    "header": "Selecciona el método de pago"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Agregar fondos",
-      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "fiatExchangeSubtitle": "Deposita fondos en tu cuenta {{appName}} desde un banco, tarjeta o bolsa.",
       "selectCurrencyTitle": "Agregar fondos",
       "exchangeAmountTitle": "Agregar {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Selecciona el método de pago"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirar",
-      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "fiatExchangeSubtitle": "Saca fondos de {{appName}} y llévalos a una cuenta bancaria, a una tarjeta, a un intercambio de criptomonedas o a dinero móvil.",
       "selectCurrencyTitle": "Retirar fondos",
       "exchangeAmountTitle": "Retirar {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Selecciona el método de retirada"
     },
     "spend": {
       "fiatExchangeTitle": "Usar",
-      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
-      "selectCurrencyTitle": "Spend Funds"
+      "fiatExchangeSubtitle": "Gasta en tarjetas regalo y otras compras.",
+      "selectCurrencyTitle": "Gastar fondos"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
