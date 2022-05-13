@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Démarrez avec Supercharge",
-  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez {{percent}} % de récompenses annuelles sur votre stablecoin avec le solde le plus élevé (cUSD, cEUR, ou cREAL). Disponible pour une durée limitée :",
+  "consumerIncentivesSummary": "Le programme Supercharge est désormais disponible ! Obtenez 12 % de récompenses annuelles sur votre stablecoin avec le solde le plus élevé (cUSD, cEUR, ou cREAL). Disponible pour une durée limitée :",
   "earnWeekly": {
     "header": "Connectez votre numéro de téléphone",
     "text": "Appuyez sur Connecter le numéro si vous ne l'avez pas encore connecté."
@@ -177,7 +177,7 @@
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
   "superchargeTitle": "Commencez avec Supercharge !",
-  "superchargeDescription": "Obtenez {{apy}} % de récompenses annuelles sur votre solde de {{token}}. Voici comment commencer :",
+  "superchargeDescription": "Obtenez 12 % de récompenses annuelles sur votre solde de {{token}}. Voici comment commencer :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
   "superchargeDisclaimer": "Ajoutez jusqu'à {{maxBalance}} {{currency}} pour maximiser vos récompenses.",
@@ -189,7 +189,7 @@
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingDescription": "Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
   "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Une erreur s'est produite lors de la réclamation de vos récompenses Supercharge.",
   "superchargeNotificationBody": "Vos récompenses Supercharge sont là ! Demandez-les",
   "superchargeNotificationStart": "Réclamer des récompenses",
-  "superchargingNotificationBody": "Vous recevez 25 % de récompense avec Supercharge ⚡",
+  "superchargingNotificationBody": "Vous recevez des récompenses avec Supercharge ⚡",
   "superchargingNotificationStart": "En savoir plus",
   "startSuperchargingNotificationBody": "Obtenez des récompenses crypto chaque semaine. Commencez avec Supercharge !",
   "startSuperchargingNotificationStart": "Commencer",
@@ -595,7 +595,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Envoyez des crypto pour inviter un ami (bêta)",
-    "body": "Une fois qu'ils ont configuré leur {{appName}} portefeuille, vous recevez chacun {{amount}} {{currency}} en récompenses. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
+    "body": "Une fois qu'ils ont configuré leur portefeuille {{appName}}, vous recevrez chacun {{amount}} {{currency}}. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -871,7 +871,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Salut ! J'ai utilisé et apprécié {{appname}} comme porte-monnaie cryptographique. Si tu télécharges l'application et que tu connectes ton numéro de téléphone, nous aurons tous les deux {{amount}} {{token}}. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Salut ! J'ai utilisé le portefeuille crypto {{appname}}. Si vous téléchargez l'appli et connectez votre numéro de téléphone, nous aurons tous les deux {{amount}} {{token}}. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -967,7 +967,8 @@
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
     "details": "Afficher les détails",
-    "computeSharedSecret": "Générer des secrets"
+    "computeSharedSecret": "Générer des secrets",
+    "emptyMessage": "Message vide"
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
   "description": {
