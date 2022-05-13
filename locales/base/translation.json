@@ -1328,7 +1328,7 @@
   },
   "fiatDetailsScreen": {
     "header": "Enter Bank Details",
-    "selectPaymentOption": "Select payment option",
+    "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your fiat account has been added successfully"
   },
   "addFiatAccountResourceExist": "You already linked this fiat account",

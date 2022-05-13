@@ -52,7 +52,7 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
     {
       name: 'accountNumber',
       label: i18n.t('fiatAccountSchema.accountNumber.label'),
-      regex: /^\d{10}$/,
+      regex: /^\[0-9]{10}$/,
       placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
     },
@@ -64,7 +64,7 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
   const { providerURL, fiatAccountSchema } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
-  const [errors, setErrors] = useState(new Set())
+  const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
 
   const dispatch = useDispatch()
@@ -92,7 +92,7 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
 
     if (validInputs) {
-      const body: { [k: string]: string } = {}
+      const body: Record<string, string> = {}
       for (let i = 0; i < formFields.length; i++) {
         body[formFields[i].name] = inputRefs.current[i]
       }
@@ -114,7 +114,7 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
     }
   }
 
-  const onPressSelectPaymentOption = () => {
+  const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
     // todo: naviagte to select payment options screen
   }
@@ -134,16 +134,11 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
     })
 
     setErrors(newErrorSet)
-    if (newErrorSet.size > 0) {
-      return
-    } else {
-      setValidInputs(true)
-    }
+    setValidInputs(newErrorSet.size === 0)
   }
 
   const setInputValue = (value: string, index: number) => {
-    const inputs = inputRefs.current
-    inputs[index] = value
+    inputRefs.current[index] = value
     setTextValue(value)
 
     validateInput()
@@ -175,10 +170,10 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
 
       <View style={styles.footer}>
         <View style={styles.paymentOption}>
-          <BorderlessButton onPress={onPressSelectPaymentOption} testID="selectProviderButton">
+          <BorderlessButton onPress={onPressSelectedPaymentOption} testID="selectedProviderButton">
             <View style={styles.paymentOptionButton}>
               <Text style={styles.paymentOptionText}>
-                {t('bankDetailsScreen.selectPaymentOption')}
+                {t('bankDetailsScreen.selectedPaymentOption')}
               </Text>
               <ForwardChevron color={colors.gray4} />
               {/* TODO: This is a hardcoded logo, replace the logo uri with the uri from the payment provider selected */}
