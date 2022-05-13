@@ -967,7 +967,8 @@
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
     "details": "Details anzeigen",
-    "computeSharedSecret": "Geheimnisse generieren"
+    "computeSharedSecret": "Geheimnisse generieren",
+    "emptyMessage": "Leere Nachricht"
   },
   "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
