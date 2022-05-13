@@ -28,14 +28,14 @@ export default function SendOrRequestButtons() {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container} testID="SendOrRequestBar">
+    <View style={styles.container} testID="SendOrRequestButtons">
       <Button
         style={styles.button}
         size={BtnSizes.MEDIUM}
         text={t('send')}
         onPress={onPressSend}
         disabled={sendButtonsDisabled}
-        testID="SendOrRequestBar/SendButton"
+        testID="SendOrRequestButtons/SendButton"
       />
       <Button
         style={[styles.button, styles.requestButton]}
@@ -44,7 +44,7 @@ export default function SendOrRequestButtons() {
         text={t('request')}
         onPress={onPressRequest}
         disabled={requestButtonDisabled}
-        testID="SendOrRequestBar/RequestButton"
+        testID="SendOrRequestButtons/RequestButton"
       />
     </View>
   )
