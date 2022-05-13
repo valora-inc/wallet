@@ -133,7 +133,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         quoteOnPress={quoteOnPress}
       />
       <LegacyMobileMoneySection
-        provider={asyncProviders.result?.legacyMobileMoneyProviders[0]}
+        providers={asyncProviders.result?.legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
       />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
@@ -211,13 +211,21 @@ function ExchangesSection({
 }
 
 function LegacyMobileMoneySection({
-  provider,
+  providers,
   digitalAsset,
 }: {
-  provider: LegacyMobileMoneyProvider | undefined
+  providers: LegacyMobileMoneyProvider[]
   digitalAsset: CiCoCurrency
 }) {
   const { t } = useTranslation()
+
+  /**
+   *  This component assumes that there is only one legacy mobile money provider at a time. When we add FiatConnect mobile money providers this
+   * assumption will no longer be true and the UI will have to be updated to be more dynamic. Consider making PaymentMethodSection more
+   * flexible to be able to handle mobile money as well when we start adding FiatConnect support.
+   */
+  const provider = providers[0]
+
   if (!provider) {
     return null
   }
