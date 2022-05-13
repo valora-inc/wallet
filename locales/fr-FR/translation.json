@@ -967,7 +967,8 @@
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
     "details": "Afficher les détails",
-    "computeSharedSecret": "Générer des secrets"
+    "computeSharedSecret": "Générer des secrets",
+    "emptyMessage": "Message vide"
   },
   "sessionInfo": "Cette appli peut demander à effectuer les actions suivantes :",
   "description": {
