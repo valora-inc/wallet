@@ -1,4 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
+import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -81,6 +82,10 @@ export type StackParamList = {
   [Screens.BankAccounts]: {
     newPublicToken?: string
     fromSyncBankAccountScreen?: boolean
+  }
+  [Screens.BankDetailsScreen]: {
+    providerURL: string
+    fiatAccountSchema: FiatAccountSchema
   }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }

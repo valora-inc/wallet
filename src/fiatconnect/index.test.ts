@@ -1,6 +1,7 @@
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import { FiatConnectClientConfig, getFiatConnectProviders } from './index'
 import Logger from '../utils/Logger'
+import { addNewFiatAccount, FiatConnectClientConfig, getFiatConnectProviders } from './index'
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
@@ -27,6 +28,34 @@ describe('FiatConnect helpers', () => {
       const providers = await getFiatConnectProviders()
       expect(mockLogError).toHaveBeenCalled()
       expect(providers).toEqual([])
+    })
+  })
+
+  describe('addNewFiatAccount', () => {
+    it('returns a fiat account info with fiat account id on success', async () => {
+      const fakeFiatAccountReturned = {
+        fiatAccountId: 'ZAQWSX1234',
+        accountName: 'Fake Account Name',
+        institutionName: 'Fake Institution Name',
+        fiatAccountType: FiatAccountType.BankAccount,
+      }
+      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
+
+      const fakeProviderURL = 'superLegitCICOProvider.com'
+      const fiatAccountSchema = FiatAccountSchema.AccountNumber
+      const reqBody = {
+        accountName: 'Fake Account Name',
+        institutionName: 'Fake Institution Name',
+        accountNumber: '123456789',
+        country: 'NG',
+        fiatAccountType: FiatAccountType.BankAccount,
+      }
+      const newFiatAccountadded = await addNewFiatAccount(
+        fakeProviderURL,
+        fiatAccountSchema,
+        reqBody
+      )
+      expect(newFiatAccountadded).toMatchObject(fakeFiatAccountReturned)
     })
   })
 })

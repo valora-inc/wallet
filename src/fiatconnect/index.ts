@@ -1,3 +1,4 @@
+import { AddFiatAccountResponse } from '@fiatconnect/fiatconnect-types'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from '../utils/Logger'
 
@@ -26,4 +27,21 @@ export async function getFiatConnectProviders(): Promise<FiatConnectClientConfig
   }
   const { providers } = await response.json()
   return providers
+}
+
+export async function addNewFiatAccount(
+  providerURL: string,
+  fiatAccountSchema: string,
+  properties: any
+): Promise<AddFiatAccountResponse> {
+  const response = await fetch(`${providerURL}/accounts/${fiatAccountSchema}`, {
+    // todo: add auth?
+    method: 'POST',
+    headers: {
+      'content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...properties }),
+  })
+
+  return response.json()
 }
