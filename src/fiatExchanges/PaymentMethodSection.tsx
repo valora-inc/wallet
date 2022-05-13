@@ -55,8 +55,10 @@ export function PaymentMethodSection({
         </Text>
         {!expanded && (
           <Text style={styles.fee}>
-            // quotes assumed to be sorted ascending by fee
-            {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))}
+            {
+              // quotes assumed to be sorted ascending by fee
+              renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))
+            }
           </Text>
         )}
       </View>
