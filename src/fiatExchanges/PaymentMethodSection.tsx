@@ -47,7 +47,7 @@ export function PaymentMethodSection({
 
   const renderExpandableSection = () => (
     <>
-      <View style={styles.left}>
+      <View testID={`${paymentMethod}/section`} style={styles.left}>
         <Text style={styles.category}>
           {paymentMethod === PaymentMethod.Card
             ? t('selectProviderScreen.card')
@@ -61,7 +61,7 @@ export function PaymentMethodSection({
       </View>
 
       <View style={styles.right}>
-        <Text style={styles.providerDropdown}>
+        <Text testID={`${paymentMethod}/numProviders`} style={styles.providerDropdown}>
           {t('selectProviderScreen.numProviders', { count: sectionQuotes.length })}
         </Text>
       </View>
@@ -70,13 +70,13 @@ export function PaymentMethodSection({
 
   const renderNonExpandableSection = () => (
     <>
-      <View style={styles.left}>
+      <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
         <Text style={styles.category}>
           {paymentMethod === PaymentMethod.Card
             ? t('selectProviderScreen.card')
             : t('selectProviderScreen.bank')}
         </Text>
-        <Text style={styles.fee}>
+        <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
           {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.fee'))}
         </Text>
         <Text style={styles.topInfo}>{renderInfoText()}</Text>
@@ -151,7 +151,11 @@ export function PaymentMethodSection({
       </Touchable>
       {expanded &&
         sectionQuotes.map((cicoQuote, index) => (
-          <Touchable onPress={(quoteOnPress(cicoQuote) as unknown) as () => void}>
+          <Touchable
+            key={index}
+            testID={`${paymentMethod}/provider-${index}`}
+            onPress={(quoteOnPress(cicoQuote) as unknown) as () => void}
+          >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
                 <Text style={styles.expandedFee}>
@@ -159,7 +163,9 @@ export function PaymentMethodSection({
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
                 {index === 0 && (
-                  <Text style={styles.expandedTag}>{t('selectProviderScreen.bestRate')}</Text>
+                  <Text testID={`${paymentMethod}/bestRate`} style={styles.expandedTag}>
+                    {t('selectProviderScreen.bestRate')}
+                  </Text>
                 )}
               </View>
 

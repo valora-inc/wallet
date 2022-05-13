@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
+import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -279,6 +280,7 @@ const isLegacyMobileMoneyProvider = (obj: any): obj is LegacyMobileMoneyProvider
 }
 
 export const fetchLegacyMobileMoneyProviders = async () => {
+  if (!FIREBASE_ENABLED) return []
   const firebaseLocalProviders: any[] = await firebase
     .database()
     .ref('localCicoProviders')
