@@ -595,7 +595,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen (Beta)",
-    "body": "Sobald sie ihre {{appName}} Brieftasche eingerichtet haben, erhält jeder von euch {{amount}} {{currency}} Belohnungen. Verdiene bis zu <0>{{maxAmount}} {{currency}}</0>!"
+    "body": "Sobald sie ihre Brieftasche {{appName}} eingerichtet haben, erhaltet ihr jeweils {{amount}} {{currency}} Belohnungen. Verdiene bis zu <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -871,7 +871,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe {{appname}} als Krypto-Wallet benutzt und bin begeistert. Wenn du die App herunterlädst und deine Telefonnummer angibst, bekommen wir beide {{amount}} {{token}}. Verwende diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe {{appname}} als Krypto-Brieftasche benutzt und bin begeistert. Wenn du die App herunterlädst und deine Telefonnummer verknüpfst, erhalten wir beide {{amount}} {{token}}. Verwende diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
