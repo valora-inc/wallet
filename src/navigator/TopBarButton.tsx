@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
+import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
@@ -13,6 +14,7 @@ interface CommonProps {
   testID?: string
   onPress: () => void
   eventName?: AnalyticsEventType
+  eventProperties?: AnalyticsPropertiesList[AnalyticsEventType]
   style?: StyleProp<ViewStyle>
 }
 
@@ -20,10 +22,20 @@ type WrapperProps = CommonProps & {
   children: JSX.Element
 }
 
-function Wrapper({ eventName, onPress, disabled, testID, children, style }: WrapperProps) {
+function Wrapper({
+  eventName,
+  onPress,
+  disabled,
+  testID,
+  children,
+  style,
+  eventProperties,
+}: WrapperProps) {
   const onPressLocal = React.useCallback(() => {
     if (eventName) {
-      ValoraAnalytics.track(eventName)
+      eventProperties
+        ? ValoraAnalytics.track(eventName, eventProperties)
+        : ValoraAnalytics.track(eventName)
     }
     onPress()
   }, [onPress, eventName])

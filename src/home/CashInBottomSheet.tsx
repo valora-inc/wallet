@@ -8,7 +8,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
-import { fetchProviders } from 'src/fiatExchanges/utils'
+import { fetchProviders, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import Times from 'src/icons/Times'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -102,8 +102,8 @@ function CashInBottomSheet() {
   const goToAddFunds = () => {
     onDismissBottomSheet()
 
-    navigate(Screens.FiatExchangeOptions, {
-      isCashIn: true,
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_selected, {
       rampAvailable,

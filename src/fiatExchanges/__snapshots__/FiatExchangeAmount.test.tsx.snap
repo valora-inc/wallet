@@ -152,7 +152,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                   }
                 }
               >
-                invalidAmountDialog.minAmount, {"usdLimit":"$20","localLimit":" (€17.24)"}
+                invalidAmountDialog.maxAmount, {"usdLimit":"$5000","localLimit":" (€4310)"}
               </Text>
             </View>
           </RCTScrollView>
@@ -483,7 +483,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               }
             }
           >
-            amount 
+            amount
           </Text>
         </View>
         <TextInput
@@ -860,7 +860,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                   }
                 }
               >
-                invalidAmountDialog.minAmount, {"usdLimit":"$20","localLimit":""}
+                invalidAmountDialog.maxAmount, {"usdLimit":"$5000","localLimit":""}
               </Text>
             </View>
           </RCTScrollView>
@@ -1191,7 +1191,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               }
             }
           >
-            amount 
+            amount
           </Text>
         </View>
         <TextInput
