@@ -1232,31 +1232,31 @@
     "minFee": "Min Gebühr",
     "numProviders": "{{count}} Anbieter",
     "fee": "Gebühr",
-    "idRequired": "ID Required",
-    "numDays": "1-3 Days",
-    "oneHour": "Less Than 1 Hour",
-    "bestRate": "Best Rate",
-    "header": "Select Payment Method"
+    "idRequired": "ID erforderlich",
+    "numDays": "1-3 Tage",
+    "oneHour": "Weniger als 1 Stunde",
+    "bestRate": "Bester Tarif",
+    "header": "Zahlungsmethode auswählen"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Guthaben hinzufügen",
-      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "fiatExchangeSubtitle": "Lade dein {{appName}} Konto von einer Bank, einer Karte oder einer Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "Füge {{currency}} hinzu",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Zahlungsmethode auswählen"
     },
     "cashOut": {
       "fiatExchangeTitle": "Abheben",
-      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "fiatExchangeSubtitle": "Überweise Geld aus {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder auf mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Auszahlungsmethode auswählen"
     },
     "spend": {
       "fiatExchangeTitle": "Ausgeben",
-      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
-      "selectCurrencyTitle": "Spend Funds"
+      "fiatExchangeSubtitle": "Gib sie für Geschenkkarten und andere Einkäufe aus.",
+      "selectCurrencyTitle": "Mittel ausgeben"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
