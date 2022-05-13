@@ -11,7 +11,7 @@ import {
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
-  TransactionStatus,
+  TransactionStatus
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'
@@ -27,6 +27,7 @@ const MOCK_CONTACT = {
   address: MOCK_ADDRESS,
 }
 
+// eslint-disable-next-line jest/no-focused-tests
 describe('TransferFeedItem', () => {
   function renderScreen({
     storeOverrides = {},
@@ -119,7 +120,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -152,7 +153,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -172,7 +173,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -187,7 +188,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', MOCK_E164_NUMBER],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -206,7 +207,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', mockName],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -262,7 +263,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', 'Simplex'],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -426,7 +427,7 @@ describe('TransferFeedItem', () => {
     expectDisplay({
       getByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+₱15.00',
       expectedTokenAmount: '10.00 cUSD',
     })
@@ -454,7 +455,7 @@ describe('TransferFeedItem', () => {
       getByTestId,
       queryByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+10.00 TT',
       expectedTokenAmount: null,
     })
@@ -476,7 +477,7 @@ describe('TransferFeedItem', () => {
       getByTestId,
       queryByTestId,
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
-      expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
+      expectedSubtitleSections: ['feedItemSentInfo', 'noComment', 'daysAgo'],
       expectedAmount: '+€4.00',
       expectedTokenAmount: '10.00 CELO',
     })
