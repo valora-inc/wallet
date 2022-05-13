@@ -967,7 +967,8 @@
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
     "details": "Show details",
-    "computeSharedSecret": "Generate Secrets"
+    "computeSharedSecret": "Generate Secrets",
+    "emptyMessage": "Empty message"
   },
   "sessionInfo": "This application may ask to perform the following actions:",
   "description": {
