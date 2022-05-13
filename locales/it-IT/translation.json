@@ -1232,31 +1232,31 @@
     "minFee": "Tariffa minima",
     "numProviders": "{{count}} Fornitori",
     "fee": "Commissione",
-    "idRequired": "ID Required",
-    "numDays": "1-3 Days",
-    "oneHour": "Less Than 1 Hour",
-    "bestRate": "Best Rate",
-    "header": "Select Payment Method"
+    "idRequired": "ID richiesto",
+    "numDays": "1-3 giorni",
+    "oneHour": "Meno di 1 ora",
+    "bestRate": "Miglior tariffa",
+    "header": "Seleziona il metodo di pagamento"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Aggiungi fondi",
-      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "fiatExchangeSubtitle": "Finanzia il tuo conto {{appName}} con una banca, una carta o una borsa.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Seleziona il metodo di pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva",
-      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "fiatExchangeSubtitle": "Fai uscire i fondi da {{appName}} per trasferirli su un conto bancario, una carta, uno scambio di criptovalute o una moneta mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Seleziona il metodo di prelievo"
     },
     "spend": {
       "fiatExchangeTitle": "Spendi",
-      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
-      "selectCurrencyTitle": "Spend Funds"
+      "fiatExchangeSubtitle": "Spendi per carte regalo e altri acquisti.",
+      "selectCurrencyTitle": "Spendere i fondi"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
