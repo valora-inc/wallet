@@ -57,7 +57,7 @@ exports[`ProviderOptionsScreen renders correctly when there are not providers 1`
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -138,13 +138,13 @@ exports[`ProviderOptionsScreen renders correctly when there are not providers 2`
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 18,
                   "lineHeight": 24,
@@ -179,7 +179,7 @@ exports[`ProviderOptionsScreen renders correctly when there are not providers 2`
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -1090,7 +1090,7 @@ exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,

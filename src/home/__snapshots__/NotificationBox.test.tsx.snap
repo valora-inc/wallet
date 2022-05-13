@@ -120,7 +120,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -302,7 +302,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -428,7 +428,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -469,7 +469,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -622,7 +622,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -663,7 +663,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -816,7 +816,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -857,7 +857,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -984,7 +984,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -1025,7 +1025,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,

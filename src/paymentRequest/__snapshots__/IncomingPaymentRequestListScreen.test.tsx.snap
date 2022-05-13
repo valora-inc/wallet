@@ -245,7 +245,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -286,7 +286,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -507,7 +507,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -548,7 +548,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -769,7 +769,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -810,7 +810,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,

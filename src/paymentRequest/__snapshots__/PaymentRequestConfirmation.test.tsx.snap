@@ -162,7 +162,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               onBlur={[Function]}
               onChangeText={[Function]}
               placeholder="addDescription"
-              placeholderTextColor="#1AB775"
+              placeholderTextColor="#45ADA8"
               returnKeyType="done"
               style={
                 Object {
@@ -409,7 +409,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#E4825F",
                 "flexGrow": 1,
                 "height": 48,
                 "justifyContent": "center",

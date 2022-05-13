@@ -156,7 +156,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             style={
               Object {
                 "marginLeft": 16,
-                "width": "55%",
+                "width": "60%",
               }
             }
           >
@@ -186,6 +186,8 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
               testID="TransferFeedItem/subtitle"
             >
               feedItemReceivedInfo, {"context":"noComment"}
+               
+              daysAgo, {"days":1275}
             </Text>
           </View>
           <View
@@ -208,7 +210,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                     "textAlign": "right",
                   },
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                   },
                 ]
               }

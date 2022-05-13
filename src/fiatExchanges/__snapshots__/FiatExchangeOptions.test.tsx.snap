@@ -125,7 +125,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                     "borderTopRightRadius": 8,
                   },
                   Object {
-                    "borderColor": "#1AB775",
+                    "borderColor": "#45ADA8",
                   },
                 ]
               }
@@ -142,14 +142,14 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   cx="10"
                   cy="10"
                   r="9"
-                  stroke="#1AB775"
+                  stroke="#45ADA8"
                   strokeWidth={2}
                   style={Object {}}
                 />
                 <circle
                   cx="10"
                   cy="10"
-                  fill="#1AB775"
+                  fill="#45ADA8"
                   r="6"
                   style={Object {}}
                 />
@@ -415,14 +415,14 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 cx="10"
                 cy="10"
                 r="9"
-                stroke="#1AB775"
+                stroke="#45ADA8"
                 strokeWidth={2}
                 style={Object {}}
               />
               <circle
                 cx="10"
                 cy="10"
-                fill="#1AB775"
+                fill="#45ADA8"
                 r="6"
                 style={Object {}}
               />
@@ -684,7 +684,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#1AB775",
+              "backgroundColor": "#E4825F",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
@@ -862,7 +862,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   onPress={[Function]}
                   style={
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     }
                   }
                 />
@@ -901,7 +901,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1049,7 +1049,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                     "borderTopRightRadius": 8,
                   },
                   Object {
-                    "borderColor": "#1AB775",
+                    "borderColor": "#45ADA8",
                   },
                 ]
               }
@@ -1066,14 +1066,14 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   cx="10"
                   cy="10"
                   r="9"
-                  stroke="#1AB775"
+                  stroke="#45ADA8"
                   strokeWidth={2}
                   style={Object {}}
                 />
                 <circle
                   cx="10"
                   cy="10"
-                  fill="#1AB775"
+                  fill="#45ADA8"
                   r="6"
                   style={Object {}}
                 />
@@ -1339,14 +1339,14 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 cx="10"
                 cy="10"
                 r="9"
-                stroke="#1AB775"
+                stroke="#45ADA8"
                 strokeWidth={2}
                 style={Object {}}
               />
               <circle
                 cx="10"
                 cy="10"
-                fill="#1AB775"
+                fill="#45ADA8"
                 r="6"
                 style={Object {}}
               />
@@ -1608,7 +1608,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#1AB775",
+              "backgroundColor": "#E4825F",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
@@ -1786,7 +1786,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   onPress={[Function]}
                   style={
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     }
                   }
                 />
@@ -1825,7 +1825,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,

@@ -188,7 +188,7 @@ exports[`BackupIntroduction renders correctly when backup completed 1`] = `
           <Text
             style={
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -399,7 +399,7 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#E4825F",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,

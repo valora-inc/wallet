@@ -874,7 +874,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -913,7 +913,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }
@@ -925,7 +925,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -964,7 +964,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }
@@ -976,7 +976,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -1015,7 +1015,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }
@@ -1027,7 +1027,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -1066,7 +1066,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }
@@ -1078,7 +1078,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -1117,7 +1117,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }
@@ -1129,7 +1129,7 @@ exports[`BackupQuiz renders correctly 1`] = `
           <View
             style={
               Object {
-                "borderColor": "#1AB775",
+                "borderColor": "#45ADA8",
                 "borderRadius": 100,
                 "borderWidth": 1.5,
                 "marginHorizontal": 4,
@@ -1168,7 +1168,7 @@ exports[`BackupQuiz renders correctly 1`] = `
               <Text
                 style={
                   Object {
-                    "color": "#1AB775",
+                    "color": "#45ADA8",
                     "textAlign": "center",
                   }
                 }

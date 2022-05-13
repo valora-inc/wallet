@@ -117,7 +117,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#1AB775",
+              "backgroundColor": "#E4825F",
               "height": 48,
               "justifyContent": "center",
               "minWidth": 120,
@@ -266,7 +266,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#1AB775",
+              "backgroundColor": "#E4825F",
               "height": 48,
               "justifyContent": "center",
               "minWidth": 120,

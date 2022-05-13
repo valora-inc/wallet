@@ -198,7 +198,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                       onPress={[Function]}
                       style={
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                         }
                       }
                     >
@@ -239,7 +239,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -457,7 +457,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -777,7 +777,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         <Text
           style={
             Object {
-              "color": "#1AB775",
+              "color": "#45ADA8",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -915,7 +915,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#97DFC1",
+              "backgroundColor": "#F3C6B5",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",
@@ -1134,7 +1134,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                       onPress={[Function]}
                       style={
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                         }
                       }
                     >
@@ -1175,7 +1175,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -1393,7 +1393,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                     style={
                       Array [
                         Object {
-                          "color": "#1AB775",
+                          "color": "#45ADA8",
                           "fontFamily": "Inter-SemiBold",
                           "fontSize": 16,
                           "lineHeight": 22,
@@ -1713,7 +1713,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         <Text
           style={
             Object {
-              "color": "#1AB775",
+              "color": "#45ADA8",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1851,7 +1851,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           style={
             Object {
               "alignItems": "center",
-              "backgroundColor": "#97DFC1",
+              "backgroundColor": "#F3C6B5",
               "flexGrow": 1,
               "height": 48,
               "justifyContent": "center",

@@ -227,7 +227,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#E4825F",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,
@@ -486,7 +486,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#1AB775",
+                "backgroundColor": "#E4825F",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,

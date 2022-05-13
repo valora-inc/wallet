@@ -17,7 +17,7 @@ exports[`SyncBankAccountScreen calls createFinclusiveBankAccount and exchangePla
   <Text
     style={
       Object {
-        "color": "#1AB775",
+        "color": "#45ADA8",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": 18,
