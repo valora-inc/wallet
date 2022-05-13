@@ -594,8 +594,8 @@
     "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
-    "title": "Invia crypto per invitare un amico (beta)",
-    "body": "Una volta impostato il loro {{appName}} portafoglio, ognuno di voi ottiene {{amount}} {{currency}} in premi. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Invia criptovalute per invitare un amico (beta)",
+    "body": "Dopo che avrà configurato il {{appName}} wallet, riceverete entrambi {{amount}} {{currency}} in ricompense. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
@@ -871,7 +871,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi, ho usato e mi piace {{appname}} come portafoglio di criptovalute. Se scarichi l'applicazione e colleghi il tuo numero di telefono, avremo entrambi {{amount}} {{token}}. Usa questo link: {{link}}",
+  "inviteWithRewards": "Ehi, sto usando e mi piace {{appname}} come portafoglio per criptovalute. Se scarichi l'app e colleghi il tuo numero telefonico, riceveremo entrambi {{amount}} {{token}}. Usa questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
