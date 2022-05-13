@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { HomeTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
+import { FiatExchangeTokenBalance, HomeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
@@ -150,7 +150,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     )
 
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
@@ -189,7 +189,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     )
 
     expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
 
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
