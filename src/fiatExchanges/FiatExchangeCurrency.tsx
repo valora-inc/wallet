@@ -52,6 +52,7 @@ export const fiatExchangesOptionsScreenOptions = ({
   }
 }
 
+// pointerEvents="none" added for disabled testing - https://github.com/wix/Detox/issues/2821
 function CurrencyRadioItem({
   selected,
   onSelect,
@@ -72,6 +73,7 @@ function CurrencyRadioItem({
   return (
     <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
       <View
+        pointerEvents="none"
         style={[
           styles.currencyItemContainer,
           containerStyle,
