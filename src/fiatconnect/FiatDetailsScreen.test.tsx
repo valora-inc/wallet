@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { addNewFiatAccount } from 'src/fiatconnect'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import BankDetailsScreen from './BankDetailsScreen'
+import FiatDetailsScreen from '../FiatDetailsScreen'
 
 jest.mock('src/fiatconnect', () => ({
   ...(jest.requireActual('src/fiatconnect') as any),
@@ -14,11 +14,11 @@ jest.mock('src/fiatconnect', () => ({
 
 const store = createMockStore({})
 const providerURL = 'https://superLegitCICOProvider.com'
-const mockScreenProps = getMockStackScreenProps(Screens.BankDetailsScreen, {
+const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   providerURL,
   fiatAccountSchema: FiatAccountSchema.AccountNumber,
 })
-describe('BankDetailsScreen', () => {
+describe('FiatDetailsScreen', () => {
   beforeEach(() => {
     store.dispatch = jest.fn()
   })
@@ -30,7 +30,7 @@ describe('BankDetailsScreen', () => {
   it('can view a list of bank fields', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <BankDetailsScreen {...mockScreenProps} />
+        <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -45,7 +45,7 @@ describe('BankDetailsScreen', () => {
   it('shows validation error if the input field does not fulfill the requirement', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <BankDetailsScreen {...mockScreenProps} />
+        <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
@@ -65,7 +65,7 @@ describe('BankDetailsScreen', () => {
   it('sends a request to add new fiat account after pressing the next button', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
-        <BankDetailsScreen {...mockScreenProps} />
+        <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 

@@ -83,7 +83,7 @@ export type StackParamList = {
     newPublicToken?: string
     fromSyncBankAccountScreen?: boolean
   }
-  [Screens.BankDetailsScreen]: {
+  [Screens.FiatDetailsScreen]: {
     providerURL: string
     fiatAccountSchema: FiatAccountSchema
   }

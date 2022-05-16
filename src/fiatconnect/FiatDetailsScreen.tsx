@@ -19,8 +19,8 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
 
-const TAG = 'BankDetailsScreen'
-type ScreenProps = StackScreenProps<StackParamList, Screens.BankDetailsScreen>
+const TAG = 'FiatDetailsScreen'
+type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 
@@ -59,7 +59,7 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
   ],
 }
 
-const BankDetailsScreen = ({ route, navigation }: Props) => {
+const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { providerURL, fiatAccountSchema } = route.params
   const [validInputs, setValidInputs] = useState(false)
@@ -71,7 +71,7 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: i18n.t('bankDetailsScreen.header'),
+      headerTitle: i18n.t('fiatDetailsScreen.header'),
     })
   }, [navigation])
 
@@ -100,14 +100,14 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
       await addNewFiatAccount(providerURL, fiatAccountSchema, body)
         .then((data) => {
           // TODO Tracking here
-          dispatch(showMessage(t('bankDetailsScreen.addFiatAccountSuccess')))
+          dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
         })
         .catch((error) => {
           // TODO Tracking here
           if (error === FiatConnectError.ResourceExists) {
             dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
           }
-          Logger.error(TAG, `Error adding fiat account: ${errors}`)
+          Logger.error(TAG, `Error adding fiat account: ${error}`)
         })
 
       // TODO: navigate to the next screen
@@ -173,7 +173,7 @@ const BankDetailsScreen = ({ route, navigation }: Props) => {
           <BorderlessButton onPress={onPressSelectedPaymentOption} testID="selectedProviderButton">
             <View style={styles.paymentOptionButton}>
               <Text style={styles.paymentOptionText}>
-                {t('bankDetailsScreen.selectedPaymentOption')}
+                {t('fiatDetailsScreen.selectedPaymentOption')}
               </Text>
               <ForwardChevron color={colors.gray4} />
               {/* TODO: This is a hardcoded logo, replace the logo uri with the uri from the payment provider selected */}
@@ -267,4 +267,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
-export default BankDetailsScreen
+export default FiatDetailsScreen
