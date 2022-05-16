@@ -1241,21 +1241,21 @@
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Agregar fondos",
-      "fiatExchangeSubtitle": "Deposita fondos en tu cuenta {{appName}} desde un banco, tarjeta o bolsa.",
+      "fiatExchangeSubtitle": "Agrega fondos a tu cuenta de {{appName}} desde tu banco, tarjeta o exchange.",
       "selectCurrencyTitle": "Agregar fondos",
       "exchangeAmountTitle": "Agregar {{currency}}",
       "selectProviderHeader": "Selecciona el método de pago"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirar",
-      "fiatExchangeSubtitle": "Saca fondos de {{appName}} y llévalos a una cuenta bancaria, a una tarjeta, a un intercambio de criptomonedas o a dinero móvil.",
+      "fiatExchangeSubtitle": "Retira fondos de {{appName}} a tu cuenta bancaria, tarjeta, exchange de criptomonedas o cuenta de dinero digital.",
       "selectCurrencyTitle": "Retirar fondos",
       "exchangeAmountTitle": "Retirar {{currency}}",
-      "selectProviderHeader": "Selecciona el método de retirada"
+      "selectProviderHeader": "Selecciona el método de retiro"
     },
     "spend": {
       "fiatExchangeTitle": "Usar",
-      "fiatExchangeSubtitle": "Gasta en tarjetas regalo y otras compras.",
+      "fiatExchangeSubtitle": "Gasta tus fondos en tarjetas regalo y otras compras.",
       "selectCurrencyTitle": "Gastar fondos"
     }
   },
