@@ -1,10 +1,9 @@
 import { requestPhoneNumber } from '@celo/react-native-sms-retriever'
 import { Countries } from '@celo/utils/lib/countries'
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
-import { waitFor } from 'src/redux/sagas-helpers'
 import { flushMicrotasksQueue } from 'test/utils'
 
 jest.mock('@celo/react-native-sms-retriever', () => {
