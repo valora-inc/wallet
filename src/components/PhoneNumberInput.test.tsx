@@ -148,11 +148,9 @@ describe('PhoneNumberInput', () => {
       />
     )
 
-    waitFor(async () => {
-      expect(getByText('🇨🇮')).toBeTruthy()
-      expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
-      fireEvent.changeText(getByTestId('PhoneNumberField'), '21 23 4 56789')
-      expect(getByText('+255 21 23 4 56789')).toBeTruthy()
-    })
+    expect(getByText('🇨🇮')).toBeTruthy()
+    waitFor(() => expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000'))
+    fireEvent.changeText(getByTestId('PhoneNumberField'), '21 23 4 56789')
+    waitFor(() => expect(getByText('+255 21 23 4 56789')).toBeTruthy())
   })
 })
