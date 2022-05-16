@@ -708,6 +708,7 @@
     "Iris": "Iris recognition"
   },
   "useBiometryType": "Use {{biometryType}}",
+  "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
