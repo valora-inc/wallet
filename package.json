@@ -146,6 +146,7 @@
     "react-native-bip39": "https://github.com/celo-org/react-native-bip39#65facae",
     "react-native-blind-threshold-bls": "https://github.com/celo-org/react-native-blind-threshold-bls#d8c85bd",
     "react-native-camera": "^4.2.1",
+    "react-native-code-push": "^7.0.4",
     "react-native-config": "https://github.com/luggit/react-native-config#2f68b94",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#9940121",
     "react-native-device-info": "^8.3.1",
