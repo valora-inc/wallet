@@ -3,6 +3,24 @@ PODS:
     - Adjust/Core (= 4.29.6)
   - Adjust/Core (4.29.6)
   - Analytics (4.1.5)
+  - appcenter-analytics (4.4.4):
+    - AppCenter/Analytics (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-core (4.4.4):
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-crashes (4.4.4):
+    - AppCenter/Crashes (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - AppCenter/Analytics (4.4.2):
+    - AppCenter/Core
+  - AppCenter/Core (4.4.2)
+  - AppCenter/Crashes (4.4.2):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (4.4.4):
+    - AppCenter/Core (= 4.4.2)
   - boost (1.76.0)
   - CeloBlockchain (0.0.355)
   - CleverTap-iOS-SDK (3.9.3):
@@ -697,6 +715,9 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
+  - appcenter-core (from `../node_modules/appcenter/ios`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - "CeloBlockchain (from `../node_modules/@celo/client/CeloBlockchain.podspec`)"
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
@@ -813,6 +834,8 @@ SPEC REPOS:
   trunk:
     - Adjust
     - Analytics
+    - AppCenter
+    - AppCenterReactNativeShared
     - CleverTap-iOS-SDK
     - CocoaAsyncSocket
     - CTNotificationService
@@ -860,6 +883,12 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics/ios"
+  appcenter-core:
+    :path: "../node_modules/appcenter/ios"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes/ios"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   CeloBlockchain:
@@ -1036,6 +1065,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Adjust: 94f1c99429fb2a7ebe530294fd66a88d63a54922
   Analytics: 084a3edda6517e308007c1a7810b8f1e8f2925aa
+  AppCenter: b0eca112a27b71e97488ffa1949ee38c7abd4b79
+  appcenter-analytics: 4403fa85b98266f0672aa3676cb0416755ce2ff6
+  appcenter-core: 9b90e7b8581598cf4f61d2efe41581cc69631da8
+  appcenter-crashes: 02e9432ed23579e258af9742356d74271539fb85
+  AppCenterReactNativeShared: 0906af7a6bf95075d6c607189820a2e81fceb6fe
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
@@ -1170,4 +1204,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bb3e9028afd8ec5226f453db33fc4eff707d2bfe
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3
