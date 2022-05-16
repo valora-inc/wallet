@@ -1,3 +1,4 @@
+import { trimLeading0x } from '@celo/utils/lib/address'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -83,7 +84,9 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
       : method === SupportedActions.personal_decrypt
       ? Buffer.from(params[1]).toString('hex')
       : method === SupportedActions.personal_sign
-      ? params[0]
+      ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
+        params[0] ||
+        t('action.emptyMessage')
       : null
 
   const onMoreInfo = () => {

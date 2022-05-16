@@ -7,6 +7,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
+import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -532,3 +533,99 @@ export const emptyFees = {
   [FeeType.RECLAIM_ESCROW]: undefined,
   [FeeType.REGISTER_DEK]: undefined,
 }
+
+export const mockSimplexQuote = {
+  user_id: mockAccount,
+  quote_id: 'be976b14-0828-4834-bd24-e4193a225980',
+  wallet_id: 'valorapp',
+  digital_money: {
+    currency: 'CUSD',
+    amount: 25,
+  },
+  fiat_money: {
+    currency: 'USD',
+    base_amount: 19,
+    total_amount: 6,
+  },
+  valid_until: '2022-05-09T17:18:28.434Z',
+  supported_digital_currencies: ['CUSD', 'CELO'],
+}
+
+export const mockProviders: FetchProvidersOutput[] = [
+  {
+    name: 'Simplex',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Card],
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: mockSimplexQuote,
+  },
+  {
+    name: 'Moonpay',
+    restricted: false,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'https://www.moonpay.com/',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+    ],
+  },
+  {
+    name: 'Ramp',
+    restricted: false,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
+    ],
+    cashIn: true,
+    cashOut: false,
+  },
+  {
+    name: 'Xanpool',
+    restricted: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    cashIn: true,
+    cashOut: true,
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
+    ],
+  },
+  {
+    name: 'Transak',
+    restricted: false,
+    unavailable: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
+    ],
+  },
+]

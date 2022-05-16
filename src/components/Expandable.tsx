@@ -7,9 +7,16 @@ interface Props {
   isExpanded: boolean
   containerStyle?: ViewStyle
   children?: React.ReactNode
+  arrowColor?: string
 }
 
-export default function Expandable({ isExpandable, isExpanded, containerStyle, children }: Props) {
+export default function Expandable({
+  isExpandable,
+  isExpanded,
+  containerStyle,
+  children,
+  arrowColor,
+}: Props) {
   const anim = useRef(new Animated.Value(0)).current
   const firstRun = useRef(true)
 
@@ -35,7 +42,7 @@ export default function Expandable({ isExpandable, isExpanded, containerStyle, c
       {children}
       {isExpandable && (
         <Animated.View style={{ marginLeft: 7, transform: [{ rotate: arrowRotation }] }}>
-          <DownArrowIcon />
+          <DownArrowIcon color={arrowColor} />
         </Animated.View>
       )}
     </View>

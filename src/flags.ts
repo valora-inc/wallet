@@ -4,7 +4,6 @@ export const features = {
   DATA_SAVER: true,
   PHONE_NUM_METADATA_IN_TRANSFERS: true,
   VERIFICATION_FORNO_RETRY: true,
-  SHOW_CASH_OUT: true,
   PNP_USE_DEK_FOR_AUTH: true,
   SHOW_INVITE_MENU_ITEM: false,
 }
@@ -22,9 +21,6 @@ export const countryFeatures = {
     KP: true,
     SD: true,
     SY: true,
-  },
-  FIAT_SPEND_ENABLED: {
-    PH: true,
   },
   IS_IN_EUROPE: {
     // All european countries, taken from https://www.europeancuisines.com/Europe-European-Two-Letter-Country-Code-Abbreviations
