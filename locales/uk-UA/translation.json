@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Виникла проблема із запитом ваших нагород за надбавку.",
   "superchargeNotificationBody": "Винагорода Supercharge вже тут! Отримай зараз",
   "superchargeNotificationStart": "Запит винагороди",
-  "superchargingNotificationBody": "Ви отримуєте 12% за Supercharge ⚡",
+  "superchargingNotificationBody": "Ви отримуєте нагороди {{apy}}% з надбавкою ⚡",
   "superchargingNotificationStart": "Дізнатися більше",
   "startSuperchargingNotificationBody": "Отримайте винагороду в криптовалюті. Почати дію Supercharge!",
   "startSuperchargingNotificationStart": "Почати роботу",
