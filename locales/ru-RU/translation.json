@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Возникла проблема с заявкой на вознаграждения Supercharge.",
   "superchargeNotificationBody": "Вознаграждения Supercharge уже ждут вас! Получите их прямо сейчас",
   "superchargeNotificationStart": "Получить вознаграждения",
-  "superchargingNotificationBody": "Вы получаете 12% С Supercharge ⚡",
+  "superchargingNotificationBody": "Ты получаешь {{apy}}% вознаграждения с помощью Supercharge ⚡.",
   "superchargingNotificationStart": "Дополнительно",
   "startSuperchargingNotificationBody": "Получайте еженедельные криптовознаграждения. Присоединяйтесь к Supercharge!",
   "startSuperchargingNotificationStart": "Начать",
