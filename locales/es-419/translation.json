@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Hubo un error al reclamar tus recompensas de Supercharge.",
   "superchargeNotificationBody": "¡Recibiste tus recompensas de Supercharge! Reclámalas hoy mismo",
   "superchargeNotificationStart": "Reclamar recompensas",
-  "superchargingNotificationBody": "Estás recibiendo recompensas con Supercharge ⚡",
+  "superchargingNotificationBody": "Estás obteniendo {{apy}}% de recompensas con Supercarga ⚡",
   "superchargingNotificationStart": "Más información",
   "startSuperchargingNotificationBody": "Gana recompensas semanales. ¡Súmate a Supercharge!",
   "startSuperchargingNotificationStart": "Primeros pasos",
