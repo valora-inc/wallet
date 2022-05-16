@@ -199,7 +199,7 @@
   "superchargeClaimFailure": "Es gab ein Problem bei der Inanspruchnahme deiner Supercharge-Rewards.",
   "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
-  "superchargingNotificationBody": "Du erhältst Rewards mit Supercharge ⚡",
+  "superchargingNotificationBody": "Du bekommst {{apy}}% Belohnungen mit Supercharge ⚡.",
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
