@@ -52,6 +52,7 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
             "UAH",
             "UGX",
             "USD",
+            "ANG",
           ]
         }
         extraData="PHP"

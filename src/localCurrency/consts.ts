@@ -1,6 +1,7 @@
 // Supported local currency codes
 // Please keep it sorted alphabetically
 export enum LocalCurrencyCode {
+  ANG = 'ANG',
   AUD = 'AUD',
   BRL = 'BRL',
   CAD = 'CAD',
@@ -23,6 +24,7 @@ export enum LocalCurrencyCode {
 }
 
 export enum LocalCurrencySymbol {
+  ANG = 'ƒ',
   AUD = 'A$',
   BRL = 'R$',
   CAD = '$',

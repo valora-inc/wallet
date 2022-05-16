@@ -34,7 +34,7 @@ function TransferFeedItem({ transfer }: Props) {
 
   const tokenInfo = useTokenInfo(amount.tokenAddress)
   const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
-  const { title, subtitle, recipient } = useTransferFeedDetails(transfer)
+  const { title, subtitle, recipient, elapsed } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
@@ -47,7 +47,7 @@ function TransferFeedItem({ transfer }: Props) {
             {title}
           </Text>
           <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
-            {subtitle}
+            {subtitle} {elapsed}
           </Text>
         </View>
         <View style={styles.amountContainer}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     marginLeft: variables.contentPadding,
-    width: '55%',
+    width: '60%',
   },
   amountContainer: {
     marginLeft: variables.contentPadding,

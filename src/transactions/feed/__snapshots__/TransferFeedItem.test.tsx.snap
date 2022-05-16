@@ -76,7 +76,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
       style={
         Object {
           "marginLeft": 16,
-          "width": "55%",
+          "width": "60%",
         }
       }
     >
@@ -106,6 +106,8 @@ exports[`TransferFeedItem renders correctly 1`] = `
         testID="TransferFeedItem/subtitle"
       >
         feedItemSentInfo, {"context":"noComment"}
+         
+        daysAgo, {"days":19126}
       </Text>
     </View>
     <View
@@ -128,7 +130,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
               "textAlign": "right",
             },
             Object {
-              "color": "#1AB775",
+              "color": "#45ADA8",
             },
           ]
         }

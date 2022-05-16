@@ -196,7 +196,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -234,7 +234,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -606,7 +606,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -733,7 +733,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -1039,7 +1039,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1077,7 +1077,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1300,7 +1300,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1669,7 +1669,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -1796,7 +1796,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -2102,7 +2102,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -2140,7 +2140,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -2363,7 +2363,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -2732,7 +2732,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -2859,7 +2859,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -3165,7 +3165,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -3203,7 +3203,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -3426,7 +3426,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -3790,7 +3790,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -3917,7 +3917,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           style={
             Array [
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -4223,7 +4223,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -4261,7 +4261,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -4484,7 +4484,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,

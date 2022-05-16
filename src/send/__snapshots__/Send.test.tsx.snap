@@ -166,7 +166,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           <rect
             height={10}
             rx={3}
-            stroke="#1AB775"
+            stroke="#45ADA8"
             strokeWidth={2.75}
             style={Object {}}
             width={10}
@@ -176,7 +176,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           <rect
             height={10}
             rx={3}
-            stroke="#1AB775"
+            stroke="#45ADA8"
             strokeWidth={2.75}
             style={Object {}}
             width={10}
@@ -185,7 +185,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           />
           <path
             d="M18 25v1a2 2 0 002 2h1M28 21v-1a2 2 0 00-2-2h-1M21 18h-1a2 2 0 00-2 2v1M25 28h1a2 2 0 002-2v-1"
-            stroke="#1AB775"
+            stroke="#45ADA8"
             strokeLinecap="round"
             strokeWidth={2.75}
             style={Object {}}
@@ -193,7 +193,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           <rect
             height={10}
             rx={3}
-            stroke="#1AB775"
+            stroke="#45ADA8"
             strokeWidth={2.75}
             style={Object {}}
             width={10}
@@ -486,8 +486,8 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     }
                     thumbTintColor="#EDEEEF"
                     trackColorForFalse="#81868B"
-                    trackColorForTrue="#1AB775"
-                    trackTintColor="#1AB775"
+                    trackColorForTrue="#45ADA8"
+                    trackTintColor="#45ADA8"
                   />
                   <Text
                     style={
@@ -538,7 +538,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   style={
                     Array [
                       Object {
-                        "color": "#1AB775",
+                        "color": "#45ADA8",
                         "fontFamily": "Inter-SemiBold",
                         "fontSize": 16,
                         "lineHeight": 22,
@@ -574,7 +574,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 <Text
                   style={
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,

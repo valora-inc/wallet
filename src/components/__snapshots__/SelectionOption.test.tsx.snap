@@ -49,14 +49,14 @@ exports[`renders selected correctly 1`] = `
           cx="10"
           cy="10"
           r="9"
-          stroke="#1AB775"
+          stroke="#45ADA8"
           strokeWidth={2}
           style={Object {}}
         />
         <circle
           cx="10"
           cy="10"
-          fill="#1AB775"
+          fill="#45ADA8"
           r="6"
           style={Object {}}
         />

@@ -30,7 +30,7 @@ exports[`DelayButton renders button with text when backup not completed and not 
   <Text
     style={
       Object {
-        "color": "#1AB775",
+        "color": "#45ADA8",
         "fontFamily": "Inter-Regular",
         "fontSize": 16,
         "lineHeight": 22,

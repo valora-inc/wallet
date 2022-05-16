@@ -39,6 +39,7 @@ import {
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
 import { TokenTransactionTypeV2, TokenTransfer, TransactionStatus } from 'src/transactions/types'
+import { timeDeltaInDays } from 'src/utils/time'
 import { isPresent } from 'src/utils/typescript'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -289,6 +290,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const {
     type,
     address,
+    timestamp,
     metadata: { comment: rawComment, subtitle: defaultSubtitle },
   } = transfer
 
@@ -370,7 +372,9 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     subtitle = t('confirmingTransaction')
   }
 
-  return { title, subtitle, recipient }
+  const elapsed = t('daysAgo', { days: timeDeltaInDays(Date.now(), timestamp, true) })
+
+  return { title, subtitle, recipient, elapsed }
 }
 
 export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {

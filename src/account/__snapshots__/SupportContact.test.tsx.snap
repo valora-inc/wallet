@@ -128,8 +128,8 @@ exports[`Contact renders correctly 1`] = `
           testID="SwitchLogs"
           thumbTintColor="#EDEEEF"
           trackColorForFalse="#B4B9BD"
-          trackColorForTrue="#1AB775"
-          trackTintColor="#1AB775"
+          trackColorForTrue="#45ADA8"
+          trackTintColor="#45ADA8"
         />
         <Text
           style={
@@ -212,7 +212,7 @@ exports[`Contact renders correctly 1`] = `
             style={
               Object {
                 "alignItems": "center",
-                "backgroundColor": "#97DFC1",
+                "backgroundColor": "#F3C6B5",
                 "height": 48,
                 "justifyContent": "center",
                 "minWidth": 120,

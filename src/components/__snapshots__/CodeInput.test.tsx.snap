@@ -280,7 +280,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 3`] = `
         }
       >
         <ActivityIndicator
-          color="#1AB775"
+          color="#45ADA8"
           size="small"
         />
       </View>
@@ -374,7 +374,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 4`] = `
         }
       >
         <ActivityIndicator
-          color="#1AB775"
+          color="#45ADA8"
           size="small"
         />
       </View>
@@ -864,7 +864,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         }
       >
         <ActivityIndicator
-          color="#1AB775"
+          color="#45ADA8"
           size="small"
         />
       </View>
@@ -967,7 +967,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
         }
       >
         <ActivityIndicator
-          color="#1AB775"
+          color="#45ADA8"
           size="small"
         />
       </View>

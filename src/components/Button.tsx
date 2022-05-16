@@ -13,6 +13,7 @@ const DEBOUNCE_OPTIONS = {
 
 export enum BtnTypes {
   PRIMARY = 'Primary',
+  PRIMARY2 = 'Primary2',
   SECONDARY = 'Secondary',
   TERTIARY = 'Tertiary',
   ONBOARDING = 'Onboarding',
@@ -128,6 +129,10 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let opacity
   switch (type) {
     case BtnTypes.PRIMARY:
+      textColor = colors.light
+      backgroundColor = disabled ? colors.orangeFaint : colors.orangeUI
+      break
+    case BtnTypes.PRIMARY2:
       textColor = colors.light
       backgroundColor = disabled ? colors.greenFaint : colors.greenUI
       break

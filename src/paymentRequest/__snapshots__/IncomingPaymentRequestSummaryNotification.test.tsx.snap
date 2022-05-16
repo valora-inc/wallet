@@ -189,7 +189,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -230,7 +230,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -443,7 +443,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -484,7 +484,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,
@@ -632,7 +632,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for more th
             style={
               Array [
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
                   "lineHeight": 22,

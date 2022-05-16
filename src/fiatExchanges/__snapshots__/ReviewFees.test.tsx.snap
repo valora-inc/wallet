@@ -182,7 +182,7 @@ exports[`ReviewFees renders correctly 1`] = `
                   onPress={[Function]}
                   style={
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     }
                   }
                 >
@@ -223,7 +223,7 @@ exports[`ReviewFees renders correctly 1`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -445,7 +445,7 @@ exports[`ReviewFees renders correctly 1`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1048,7 +1048,7 @@ exports[`ReviewFees renders correctly 2`] = `
                   onPress={[Function]}
                   style={
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     }
                   }
                 >
@@ -1089,7 +1089,7 @@ exports[`ReviewFees renders correctly 2`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1307,7 +1307,7 @@ exports[`ReviewFees renders correctly 2`] = `
                 style={
                   Array [
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                       "fontFamily": "Inter-SemiBold",
                       "fontSize": 16,
                       "lineHeight": 22,
@@ -1627,7 +1627,7 @@ exports[`ReviewFees renders correctly 2`] = `
     <Text
       style={
         Object {
-          "color": "#1AB775",
+          "color": "#45ADA8",
           "fontFamily": "Inter-Regular",
           "fontSize": 16,
           "lineHeight": 22,

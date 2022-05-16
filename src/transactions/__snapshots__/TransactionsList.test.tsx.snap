@@ -571,11 +571,11 @@ exports[`ignores failed standby transactions 1`] = `
                         "width": "40%",
                       },
                       Object {
-                        "color": "#1AB775",
+                        "color": "#45ADA8",
                       },
                     ],
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     },
                   ]
                 }
@@ -1182,11 +1182,11 @@ exports[`ignores pending standby transactions that are completed in the response
                         "width": "40%",
                       },
                       Object {
-                        "color": "#1AB775",
+                        "color": "#45ADA8",
                       },
                     ],
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     },
                   ]
                 }
@@ -1887,11 +1887,11 @@ exports[`renders the received data along with the standby transactions 1`] = `
                         "width": "40%",
                       },
                       Object {
-                        "color": "#1AB775",
+                        "color": "#45ADA8",
                       },
                     ],
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     },
                   ]
                 }
@@ -2357,11 +2357,11 @@ exports[`renders the received data along with the standby transactions 1`] = `
                         "width": "40%",
                       },
                       Object {
-                        "color": "#1AB775",
+                        "color": "#45ADA8",
                       },
                     ],
                     Object {
-                      "color": "#1AB775",
+                      "color": "#45ADA8",
                     },
                   ]
                 }

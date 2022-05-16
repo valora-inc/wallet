@@ -39,7 +39,7 @@ const getDefaultLocalCurrencyCode = createSelector(
       }
     }
 
-    return LocalCurrencyCode.USD
+    return LocalCurrencyCode.ANG
   }
 )
 

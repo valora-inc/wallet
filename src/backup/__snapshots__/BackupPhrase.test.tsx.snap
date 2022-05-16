@@ -208,7 +208,7 @@ exports[`renders correctly with backup not completed 1`] = `
       testID="backupKeySavedSwitch"
       thumbTintColor="#EDEEEF"
       trackColorForFalse="#B4B9BD"
-      trackColorForTrue="#1AB775"
+      trackColorForTrue="#45ADA8"
       trackTintColor="#B4B9BD"
     />
     <Text

@@ -240,11 +240,11 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -410,11 +410,11 @@ exports[`transfer feed item renders correctly for known received cEUR 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -580,11 +580,11 @@ exports[`transfer feed item renders correctly for known received cUSD 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -1221,11 +1221,11 @@ exports[`transfer feed item renders correctly for received 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -1358,11 +1358,11 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -1528,11 +1528,11 @@ exports[`transfer feed item renders correctly for received with encrypted commen
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }
@@ -2447,11 +2447,11 @@ exports[`transfer feed item renders correctly for verification reward 1`] = `
                   "width": "40%",
                 },
                 Object {
-                  "color": "#1AB775",
+                  "color": "#45ADA8",
                 },
               ],
               Object {
-                "color": "#1AB775",
+                "color": "#45ADA8",
               },
             ]
           }

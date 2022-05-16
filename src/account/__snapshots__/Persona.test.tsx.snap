@@ -48,7 +48,7 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#97DFC1",
+          "backgroundColor": "#F3C6B5",
           "height": 48,
           "justifyContent": "center",
           "minWidth": 120,
