@@ -1,6 +1,7 @@
 // Supported local currency codes
 // Please keep it sorted alphabetically
 export enum LocalCurrencyCode {
+  ANG = 'ANG',
   AUD = 'AUD',
   BRL = 'BRL',
   CAD = 'CAD',
@@ -20,10 +21,10 @@ export enum LocalCurrencyCode {
   UAH = 'UAH',
   UGX = 'UGX',
   USD = 'USD',
-  ANG = 'ANG',
 }
 
 export enum LocalCurrencySymbol {
+  ANG = 'ƒ',
   AUD = 'A$',
   BRL = 'R$',
   CAD = '$',
@@ -43,7 +44,6 @@ export enum LocalCurrencySymbol {
   UAH = '₴',
   UGX = 'USh',
   USD = '$',
-  ANG = 'ƒ',
 }
 
 export const LOCAL_CURRENCY_CODES = Object.values(LocalCurrencyCode)
