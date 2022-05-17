@@ -192,7 +192,7 @@ function ExchangesSection({
     })
   }
   return (
-    <View style={styles.container}>
+    <View testID="Exchanges" style={styles.container}>
       <Touchable onPress={goToExchangesScreen}>
         <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
