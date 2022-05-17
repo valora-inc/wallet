@@ -132,7 +132,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       if (!fieldVal) {
         hasEmptyFields = true
       } else if (!field.regex.test(fieldVal)) {
-        console.log('lisa adding error', field.name)
         newErrorSet.add(field.name)
       }
     })
