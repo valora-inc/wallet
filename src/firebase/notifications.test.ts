@@ -1,3 +1,4 @@
+import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
@@ -90,14 +91,19 @@ describe(handleNotification, () => {
   })
 
   describe('with a payment received notification', () => {
-    const message = {
+    const message: FirebaseMessagingTypes.RemoteMessage = {
       notification: { title: 'My title', body: 'My Body' },
       data: {
         type: NotificationTypes.PAYMENT_RECEIVED,
         sender: '0xTEST',
         value: '10',
-        currency: 'cUSD',
-        timestamp: 1,
+        tokenAddress: '0xCUSD',
+        timestamp: '1',
+        blockNumber: '42',
+        txHash: '0xTXHASH',
+        comment: 'Tea',
+        name: 'Alice',
+        imageUrl: 'https://example.com/image.png',
       },
     }
 
@@ -109,22 +115,29 @@ describe(handleNotification, () => {
       expect(navigate).not.toHaveBeenCalled()
     })
 
-    it('navigates to the transaction review screen if the app is not already in the foreground', async () => {
+    it('navigates to the transaction details screen if the app is not already in the foreground', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.TransactionReview, {
-        confirmationProps: {
-          address: '0xtest',
-          amount: { currencyCode: 'cUSD', value: new BigNumber('1e-17') },
-          comment: undefined,
-          recipient: { address: '0xtest' },
+      expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
+        transaction: {
+          __typename: 'TokenTransferV2',
           type: 'RECEIVED',
-        },
-        reviewProps: {
+          transactionHash: '0xTXHASH',
           timestamp: 1,
-          type: 'RECEIVED',
+          block: '42',
+          address: '0xtest',
+          amount: {
+            value: '10',
+            tokenAddress: '0xCUSD',
+          },
+          metadata: {
+            title: 'Alice',
+            image: 'https://example.com/image.png',
+            comment: 'Tea',
+          },
+          fees: [],
         },
       })
     })

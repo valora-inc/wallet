@@ -10,6 +10,8 @@ import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import {
   NotificationReceiveState,
   NotificationTypes,
@@ -18,12 +20,9 @@ import {
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import {
-  navigateToPaymentTransferReview,
-  navigateToRequestedPaymentReview,
-} from 'src/transactions/actions'
-import { Currency, mapOldCurrencyToNew } from 'src/utils/currencies'
-import { divideByWei } from 'src/utils/formatting'
+import { navigateToRequestedPaymentReview } from 'src/transactions/actions'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'FirebaseNotifications'
@@ -59,28 +58,28 @@ function* handlePaymentReceived(
   notificationState: NotificationReceiveState
 ) {
   if (notificationState !== NotificationReceiveState.AppAlreadyOpen) {
-    const info: RecipientInfo = yield select(recipientInfoSelector)
     const address = transferNotification.sender.toLowerCase()
 
-    navigateToPaymentTransferReview(
-      TokenTransactionType.Received,
-      new BigNumber(transferNotification.timestamp).toNumber(),
-      {
-        amount: {
-          value: divideByWei(transferNotification.value),
-          currencyCode: mapOldCurrencyToNew(transferNotification.currency),
-        },
+    navigate(Screens.TransactionDetailsScreen, {
+      transaction: {
+        __typename: 'TokenTransferV2',
+        type: TokenTransactionTypeV2.Received,
+        transactionHash: transferNotification.txHash,
+        timestamp: new BigNumber(transferNotification.timestamp).toNumber(),
+        block: transferNotification.blockNumber,
         address,
-        comment: transferNotification.comment,
-        recipient: getRecipientFromAddress(
-          address,
-          info,
-          transferNotification.name,
-          transferNotification.imageUrl
-        ),
-        type: TokenTransactionType.Received,
-      }
-    )
+        amount: {
+          value: transferNotification.value,
+          tokenAddress: transferNotification.tokenAddress,
+        },
+        metadata: {
+          title: transferNotification.name,
+          image: transferNotification.imageUrl,
+          comment: transferNotification.comment,
+        },
+        fees: [], // TODO?
+      },
+    })
   }
 }
 
