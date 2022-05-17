@@ -27,7 +27,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useSelector from 'src/redux/useSelector'
+import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -93,6 +93,9 @@ function ExchangeHomeScreen({ navigation }: Props) {
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const currentExchangeRate = useDollarToCeloExchangeRate()
+  const shouldDisplayWithdrawCelo = useTypedSelector(
+    (state) => state.app.celoWithdrawalEnabledInExchange
+  )
 
   const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
   const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)
@@ -179,7 +182,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
           <ItemSeparator />
           <CeloGoldOverview testID="ExchangeAccountOverview" />
           <ItemSeparator />
-          {!RESTRICTED_CP_DOTO && (
+          {shouldDisplayWithdrawCelo && !RESTRICTED_CP_DOTO && (
             <SettingsItemTextValue
               title={t('withdrawCelo')}
               onPress={goToWithdrawCelo}
