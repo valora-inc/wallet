@@ -1,5 +1,3 @@
-import { Currency } from 'src/utils/currencies'
-
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
   PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
@@ -13,7 +11,7 @@ export interface TransferNotificationData {
   txHash: string
   timestamp: string
   comment: string
-  currency: Currency
+  tokenAddress: string
   type?: NotificationTypes.PAYMENT_RECEIVED
   name?: string
   imageUrl?: string
