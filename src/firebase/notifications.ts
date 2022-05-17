@@ -77,7 +77,7 @@ function* handlePaymentReceived(
           image: transferNotification.imageUrl,
           comment: transferNotification.comment,
         },
-        fees: [], // TODO?
+        fees: [],
       },
     })
   }
