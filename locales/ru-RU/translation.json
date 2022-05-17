@@ -709,6 +709,7 @@
     "Iris": "Распознавание по радужной оболочке глаза"
   },
   "useBiometryType": "Использовать {{biometryType}}",
+  "unlockWithBiometryPrompt": "Пройдите аутентификацию для разблокировки {{appName}}.",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
