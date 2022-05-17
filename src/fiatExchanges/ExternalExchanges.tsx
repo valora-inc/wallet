@@ -62,6 +62,7 @@ function ExternalExchanges({ route }: Props) {
       ValoraAnalytics.track(FiatExchangeEvents.external_exchange_link, {
         name,
         link,
+        isCashIn,
       })
       navigateToURI(link)
     }

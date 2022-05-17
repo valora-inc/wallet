@@ -199,7 +199,8 @@
   "superchargeClaimFailure": "There was an issue claiming your Supercharge rewards.",
   "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Claim rewards",
-  "superchargingNotificationBody": "You're getting {{apy}}% rewards with Supercharge ⚡",
+  "superchargingNotificationBody": "You're getting 25% rewards with Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "You're getting {{apy}}% rewards with Supercharge ⚡",
   "superchargingNotificationStart": "Learn more",
   "startSuperchargingNotificationBody": "Get rewarded with crypto weekly. Start Supercharging!",
   "startSuperchargingNotificationStart": "Get rewards",
@@ -708,6 +709,7 @@
     "Iris": "Iris recognition"
   },
   "useBiometryType": "Use {{biometryType}}",
+  "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
