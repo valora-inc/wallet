@@ -2,12 +2,12 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
+import { FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 
 const mockRampProvider = {
   name: 'Ramp',
@@ -65,8 +65,8 @@ describe('CashInBottomSheet', () => {
     )
 
     fireEvent.press(getByTestId('cashInBtn'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, {
-      isCashIn: true,
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
     })
   })
   it('Regular Version is visible when experiment is disabled even if ramp is available', async () => {

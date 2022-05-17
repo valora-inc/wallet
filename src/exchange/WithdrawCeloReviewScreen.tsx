@@ -17,6 +17,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
 import WithdrawCeloSummary from 'src/exchange/WithdrawCeloSummary'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import Times from 'src/icons/Times'
 import BackButton from 'src/navigator/BackButton'
@@ -94,7 +95,7 @@ WithdrawCeloReviewScreen.navigationOptions = ({
   const onCancel = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_cancel)
     if (isCashOut) {
-      navigate(Screens.FiatExchangeOptions, { isCashIn: false })
+      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
     } else {
       navigateToExchangeHome()
     }

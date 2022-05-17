@@ -29,9 +29,9 @@ function createNetworkStatusChannel() {
 }
 
 const MOCK_USER_LOCATION = {
-  countryCodeAlpha2: 'US',
-  region: 'CA',
-  ipAddress: '196.17.37.246',
+  countryCodeAlpha2: 'DE',
+  region: null,
+  ipAddress: '1.1.1.7',
 }
 
 const isConnected = (connectionInfo: NetInfoState) => {
