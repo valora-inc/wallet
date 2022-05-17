@@ -231,7 +231,9 @@ describe(startSaga, () => {
         [select(shouldUseKomenciSelector), false],
         [delay(BALANCE_CHECK_TIMEOUT), true],
       ])
-      .put(fail("startSaga - TypeError: Cannot read properties of undefined (reading \'stableToken\')"))
+      .put(
+        fail("startSaga - TypeError: Cannot read properties of undefined (reading 'stableToken')")
+      )
       .run()
   })
 
