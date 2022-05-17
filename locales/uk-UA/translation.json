@@ -709,6 +709,7 @@
     "Iris": "Розпізнавання райдужної оболонки"
   },
   "useBiometryType": "Використати {{biometryType}}",
+  "unlockWithBiometryPrompt": "Автентифікуйтесь для розблокування {{appName}}",
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
