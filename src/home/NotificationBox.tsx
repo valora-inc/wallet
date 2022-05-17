@@ -102,6 +102,8 @@ function useSimpleActions() {
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
+  const { superchargeApy } = useSelector((state) => state.app)
+
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
@@ -169,7 +171,7 @@ function useSimpleActions() {
       if (isSupercharging && !dismissedKeepSupercharging) {
         actions.push({
           id: 'keepSupercharging',
-          text: t('superchargingNotificationBody'),
+          text: t('superchargingNotificationBodyV1_33', { apy: superchargeApy }),
           icon: boostRewards,
           priority: SUPERCHARGE_INFO_PRIORITY,
           callToActions: [

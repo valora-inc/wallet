@@ -81,7 +81,9 @@ function FiatExchange() {
             </Text>
           </ListItem>
           <ListItem onPress={goToSpend}>
-            <Text style={styles.optionTitle}>{t(`fiatExchangeFlow.spend.fiatExchangeTitle`)}</Text>
+            <Text testID="spend" style={styles.optionTitle}>
+              {t(`fiatExchangeFlow.spend.fiatExchangeTitle`)}
+            </Text>
             <Text style={styles.optionSubtitle}>
               {t(`fiatExchangeFlow.spend.fiatExchangeSubtitle`)}
             </Text>
@@ -95,7 +97,7 @@ function FiatExchange() {
             </Text>
           </ListItem>
         </View>
-        <View style={styles.moreWaysContainer}>
+        <View testID="otherFundingOptions" style={styles.moreWaysContainer}>
           <Text style={styles.moreWays}>
             <Trans i18nKey="otherFundingOptions">
               <Text onPress={onOpenOtherFundingOptions} style={styles.fundingOptionsLink} />

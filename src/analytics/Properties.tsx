@@ -924,6 +924,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.external_exchange_link]: {
     name: string
     link: string
+    isCashIn: boolean
   }
   [FiatExchangeEvents.spend_merchant_link]: {
     name: string

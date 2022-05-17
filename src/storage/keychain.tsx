@@ -3,7 +3,11 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'storage/keychain'
 // the user cancelled error strings are OS specific
-const KEYCHAIN_USER_CANCELLED_ERRORS = ['user canceled the operation']
+const KEYCHAIN_USER_CANCELLED_ERRORS = [
+  'user canceled the operation',
+  'error: code: 13, msg: cancel',
+  'error: code: 10, msg: fingerprint operation canceled by the user',
+]
 
 interface SecureStorage {
   key: string
@@ -47,10 +51,11 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
   }
 }
 
-export async function retrieveStoredItem(key: string) {
+export async function retrieveStoredItem(key: string, options: Keychain.Options = {}) {
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
+      ...options,
     })
     if (!item) {
       return null
