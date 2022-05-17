@@ -34,14 +34,6 @@ export async function addNewFiatAccount(
   fiatAccountSchema: string,
   properties: any
 ): Promise<AddFiatAccountResponse> {
-  const response = await fetch(`${providerURL}/accounts/${fiatAccountSchema}`, {
-    // todo: add auth?
-    method: 'POST',
-    headers: {
-      'content-Type': 'application/json',
-    },
-    body: JSON.stringify({ ...properties }),
-  })
-
-  return response.json()
+  // TODO: use the SDK to make the request once SDK is published
+  throw new Error('Not implemented')
 }

@@ -52,7 +52,7 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
     {
       name: 'accountNumber',
       label: i18n.t('fiatAccountSchema.accountNumber.label'),
-      regex: /^\[0-9]{10}$/,
+      regex: /^[0-9]{10}$/,
       placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
     },
@@ -97,6 +97,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
+      // TODO: some schema requires additional fields in body in addition
+      // to the ones collected from the form, eg. country code
       await addNewFiatAccount(providerURL, fiatAccountSchema, body)
         .then((data) => {
           // TODO Tracking here
@@ -121,20 +123,22 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateInput = () => {
     setValidInputs(false)
-    const newErrorSet = new Set(errors)
+    const newErrorSet = new Set<string>()
 
+    let hasEmptyFields = false
     formFields.forEach((field, index) => {
       const fieldVal = inputRefs.current[index].trim()
 
-      if (fieldVal && !field.regex.test(fieldVal)) {
+      if (!fieldVal) {
+        hasEmptyFields = true
+      } else if (!field.regex.test(fieldVal)) {
+        console.log('lisa adding error', field.name)
         newErrorSet.add(field.name)
-      } else if (newErrorSet.has(field.name)) {
-        newErrorSet.delete(field.name)
       }
     })
 
     setErrors(newErrorSet)
-    setValidInputs(newErrorSet.size === 0)
+    setValidInputs(!hasEmptyFields && newErrorSet.size === 0)
   }
 
   const setInputValue = (value: string, index: number) => {
@@ -256,7 +260,7 @@ const styles = StyleSheet.create({
     paddingRight: 4,
   },
   iconImage: {
-    marginLeft: 24,
+    marginLeft: 16,
     height: 48,
     width: 48,
   },

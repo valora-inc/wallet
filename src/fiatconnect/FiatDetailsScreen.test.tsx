@@ -13,7 +13,7 @@ jest.mock('src/fiatconnect', () => ({
 }))
 
 const store = createMockStore({})
-const providerURL = 'https://superLegitCICOProvider.com'
+const providerURL = 'https://superLegitCICOProvider.valoraapp.com'
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   providerURL,
   fiatAccountSchema: FiatAccountSchema.AccountNumber,
