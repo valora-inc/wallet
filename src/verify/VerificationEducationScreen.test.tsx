@@ -286,4 +286,33 @@ describe('VerificationEducationScreen', () => {
     fireEvent.changeText(getByTestId('PhoneNumberField'), '51231234')
     expect(getByTestId('VerificationEducationContinue')).not.toBeDisabled()
   })
+
+  it("continue button enabled with Côte d'Ivoire number", () => {
+    const store = createMockStore({
+      account: {
+        e164PhoneNumber: '2123456789',
+        defaultCountryCode: '+255',
+      },
+      stableToken: {
+        balances: { [Currency.Dollar]: '0' },
+      },
+      verify: {
+        currentState: idle(),
+        status: { numAttestationsRemaining: 3 },
+        actionableAttestations: [],
+        komenciAvailable: KomenciAvailable.Yes,
+      },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <VerificationEducationScreen
+          {...getMockStackScreenProps(Screens.VerificationEducationScreen)}
+        />
+      </Provider>
+    )
+    fireEvent.changeText(getByTestId('PhoneNumberField'), '21234567')
+    expect(getByTestId('VerificationEducationContinue')).toBeDisabled()
+    fireEvent.changeText(getByTestId('PhoneNumberField'), '2123456789')
+    expect(getByTestId('VerificationEducationContinue')).not.toBeDisabled()
+  })
 })
