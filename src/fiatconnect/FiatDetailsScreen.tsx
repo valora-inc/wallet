@@ -59,7 +59,7 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
     {
       name: 'accountNumber',
       label: i18n.t('fiatAccountSchema.accountNumber.label'),
-      regex: /^\[0-9]{10}$/,
+      regex: /^[0-9]{10}$/,
       placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
     },
