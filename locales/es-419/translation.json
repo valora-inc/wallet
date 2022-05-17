@@ -709,6 +709,7 @@
     "Iris": "Reconocimiento de iris"
   },
   "useBiometryType": "Usar {{biometryType}}",
+  "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
