@@ -261,7 +261,7 @@ export function* initGethSaga() {
     // for it, the error will be misleading.
     default: {
       errorContext = 'Geth initializtion timed out. Will retry.'
-      Logger.error(TAG, errorContext)
+      Logger.warn(TAG, errorContext)
       yield put(setInitState(InitializationState.INITIALIZE_ERROR))
       restartAppAutomatically = true
     }
@@ -273,7 +273,7 @@ export function* initGethSaga() {
   })
 
   if (restartAppAutomatically) {
-    Logger.error(TAG, 'Geth initialization failed, restarting the app.')
+    Logger.warn(TAG, 'Geth initialization failed, restarting the app.')
     ValoraAnalytics.track(GethEvents.geth_restart_to_fix_init)
     deleteChainDataAndRestartApp()
   } else {
