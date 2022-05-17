@@ -1,6 +1,6 @@
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
-import ReactNativeLogger from 'src/services/ReactNativeLogger'
+import ReactNativeLogger from 'src/utils/ReactNativeLogger'
 
 class Logger extends ReactNativeLogger {
   getGethLogFilePath = () => {

@@ -1,13 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import WalletHome from 'src/home/WalletHome'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
 import { Settings } from 'src/icons/navigator/Settings'
 import { Screens } from 'src/navigator/Screens'
+import WalletServices from 'src/services/WalletServices'
 
 const TAG = 'NavigationService'
 
@@ -23,9 +23,9 @@ export default function TabNavigator() {
         options={{ title: t('home'), tabBarIcon: Home }}
       />
       <Tabs.Screen
-        name={Screens.Settings}
-        component={SettingsScreen}
-        options={{ title: t('settings'), tabBarIcon: Settings }}
+        name={Screens.WalletServices}
+        component={WalletServices}
+        options={{ title: t('services'), tabBarIcon: Settings }}
       />
       <Tabs.Screen
         name={Screens.Support}

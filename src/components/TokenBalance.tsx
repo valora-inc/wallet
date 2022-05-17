@@ -86,7 +86,7 @@ function useErrorMessageWithRefresh() {
       dispatch(
         showMessage(
           t('outOfSyncBanner.message'),
-          null,
+          5000,
           t('outOfSyncBanner.button'),
           refreshAllBalances(),
           t('outOfSyncBanner.title')
