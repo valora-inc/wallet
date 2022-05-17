@@ -116,9 +116,7 @@ describe(handleNotification, () => {
     })
 
     it('navigates to the transaction details screen if the app is not already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
-        .provide([[select(recipientInfoSelector), mockRecipientInfo]])
-        .run()
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart).run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
         transaction: {

@@ -60,7 +60,7 @@ function* handlePaymentReceived(
   if (notificationState !== NotificationReceiveState.AppAlreadyOpen) {
     const address = transferNotification.sender.toLowerCase()
 
-    navigate(Screens.TransactionDetailsScreen, {
+    yield call(navigate, Screens.TransactionDetailsScreen, {
       transaction: {
         __typename: 'TokenTransferV2',
         type: TokenTransactionTypeV2.Received,
