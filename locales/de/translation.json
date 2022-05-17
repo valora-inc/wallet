@@ -709,6 +709,7 @@
     "Iris": "Iris-Erkennung"
   },
   "useBiometryType": "{{biometryType}} verwenden",
+  "unlockWithBiometryPrompt": "Authentifizierung zum Entsperren {{appName}}",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
