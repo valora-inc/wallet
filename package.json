@@ -93,6 +93,7 @@
     "@react-native-firebase/remote-config": "11.5.0",
     "@react-native-firebase/storage": "11.5.0",
     "@react-native-masked-view/masked-view": "^0.2.6",
+    "@react-navigation/bottom-tabs": "^5.0.0",
     "@react-navigation/compat": "^5.3.20",
     "@react-navigation/core": "^6.2.1",
     "@react-navigation/drawer": "^5.12.9",
