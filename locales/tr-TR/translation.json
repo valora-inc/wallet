@@ -709,6 +709,7 @@
     "Iris": "İris tanıma"
   },
   "useBiometryType": "{{biometryType}} kullan",
+  "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
