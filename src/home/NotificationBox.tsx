@@ -171,7 +171,7 @@ function useSimpleActions() {
       if (isSupercharging && !dismissedKeepSupercharging) {
         actions.push({
           id: 'keepSupercharging',
-          text: t('superchargingNotificationDesscription', { apy: superchargeApy }),
+          text: t('superchargingNotificationBodyV1_33', { apy: superchargeApy }),
           icon: boostRewards,
           priority: SUPERCHARGE_INFO_PRIORITY,
           callToActions: [
