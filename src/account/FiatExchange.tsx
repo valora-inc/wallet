@@ -28,9 +28,6 @@ function FiatExchange() {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
       Logger.debug('Time Elapsed', String(timeElapsed))
-      ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info_return, {
-        timeElapsed,
-      })
       setTimestamp(null)
     }
   }, [appState])
@@ -39,24 +36,30 @@ function FiatExchange() {
     navigate(Screens.FiatExchangeCurrency, {
       flow: FiatExchangeFlow.CashIn,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
+      flow: FiatExchangeFlow.CashIn,
+    })
   }
 
   function goToCashOut() {
     navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_selected)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
+      flow: FiatExchangeFlow.CashOut,
+    })
   }
 
   function goToSpend() {
     navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_spend_selected)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
+      flow: FiatExchangeFlow.Spend,
+    })
   }
 
   const { t } = useTranslation()
 
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
     setTimestamp(Date.now())
   }
 

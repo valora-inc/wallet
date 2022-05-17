@@ -42,10 +42,7 @@ export const fiatExchangesOptionsScreenOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => (
-      <BackButton
-        eventName={FiatExchangeEvents.cico_select_currency_back}
-        eventProperties={{ flow }}
-      />
+      <BackButton eventName={FiatExchangeEvents.cico_currency_back} eventProperties={{ flow }} />
     ),
     headerTitle: headerTitle(),
     headerRightContainerStyle: { paddingRight: 16 },
@@ -96,7 +93,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.Dollar)
 
   const goToProvider = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_option_chosen, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
       flow,
       currency: selectedCurrency,
     })

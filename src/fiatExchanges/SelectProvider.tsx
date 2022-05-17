@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -34,10 +34,8 @@ import {
   fetchProviders,
   filterLegacyMobileMoneyProviders,
   getQuotes,
-  isSimplexQuote,
   LegacyMobileMoneyProvider,
   PaymentMethod,
-  ProviderQuote,
   sortQuotesByFee,
 } from './utils'
 
@@ -88,23 +86,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [])
 
-  const quoteOnPress = ({ quote, provider }: CicoQuote) => () => {
-    ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
-      flow,
-      provider: provider.name,
-    })
-
-    if (quote && userLocation?.ipAddress && isSimplexQuote(quote)) {
-      navigate(Screens.Simplex, {
-        simplexQuote: quote,
-        userIpAddress: userLocation.ipAddress,
-      })
-      return
-    }
-
-    ;(quote as ProviderQuote).url && navigateToURI((quote as ProviderQuote).url)
-  }
-
   if (asyncProviders.loading) {
     return (
       <View style={styles.activityIndicatorContainer}>
@@ -124,33 +105,45 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cicoQuotes={cicoQuotes}
         paymentMethod={PaymentMethod.Card}
         setNoPaymentMethods={setNoPaymentMethods}
-        quoteOnPress={quoteOnPress}
+        flow={flow}
       />
       <PaymentMethodSection
         cicoQuotes={cicoQuotes}
         paymentMethod={PaymentMethod.Bank}
         setNoPaymentMethods={setNoPaymentMethods}
-        quoteOnPress={quoteOnPress}
+        flow={flow}
       />
       <LegacyMobileMoneySection
         providers={asyncProviders.result?.legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
+        flow={flow}
       />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
-      <LimitedPaymentMethods visible={noPaymentMethods} />
+      <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>
   )
 }
 
-function LimitedPaymentMethods({ visible }: { visible: boolean }) {
+function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICOFlow }) {
   const { t } = useTranslation()
   const [isDialogVisible, setIsDialogVisible] = useState(false)
   const dismissDialog = () => {
     setIsDialogVisible(false)
   }
   const openDialog = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_selected, {
+      flow,
+    })
     setIsDialogVisible(true)
   }
+
+  useEffect(() => {
+    if (visible) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_unavailable_impression, {
+        flow,
+      })
+    }
+  }, [])
   return (
     <>
       {visible && (
@@ -186,11 +179,15 @@ function ExchangesSection({
 }) {
   const { t } = useTranslation()
   const goToExchangesScreen = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
+      flow,
+    })
     navigate(Screens.ExternalExchanges, {
       currency: selectedCurrency,
       isCashIn: flow === CICOFlow.CashIn,
     })
   }
+
   return (
     <View style={styles.container}>
       <Touchable onPress={goToExchangesScreen}>
@@ -213,9 +210,11 @@ function ExchangesSection({
 function LegacyMobileMoneySection({
   providers,
   digitalAsset,
+  flow,
 }: {
   providers: LegacyMobileMoneyProvider[]
   digitalAsset: CiCoCurrency
+  flow: CICOFlow
 }) {
   const { t } = useTranslation()
 
@@ -226,11 +225,28 @@ function LegacyMobileMoneySection({
    */
   const provider = providers[0]
 
+  useEffect(() => {
+    if (provider) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
+        flow,
+        paymentMethod: PaymentMethod.MobileMoney,
+        quoteCount: 1,
+        providers: [provider.name],
+      })
+    }
+  }, [])
+
+  const goToProviderSite = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+      flow,
+      paymentMethod: PaymentMethod.MobileMoney,
+      provider: provider.name,
+    })
+    navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)
+  }
+
   if (!provider) {
     return null
-  }
-  const goToProviderSite = () => {
-    navigateToURI(provider[digitalAsset === CiCoCurrency.CUSD ? 'cusd' : 'celo'].url)
   }
   return (
     <View style={styles.container}>
@@ -306,7 +322,12 @@ SelectProviderScreen.navigationOptions = ({
   route: RouteProp<StackParamList, Screens.SelectProvider>
 }) => ({
   ...emptyHeader,
-  headerLeft: () => <BackButton />,
+  headerLeft: () => (
+    <BackButton
+      eventName={FiatExchangeEvents.cico_providers_back}
+      eventProperties={{ flow: route.params.flow }}
+    />
+  ),
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatExchangeFlow.cashIn.selectProviderHeader`)

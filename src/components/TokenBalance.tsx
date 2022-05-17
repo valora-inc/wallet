@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showMessage } from 'src/alert/actions'
-import { HomeEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -157,7 +157,7 @@ export function FiatExchangeTokenBalance() {
   const tokenBalances = useSelector(tokensWithTokenBalanceSelector)
 
   const onViewBalances = () => {
-    ValoraAnalytics.track(HomeEvents.view_token_balances, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
     navigate(Screens.TokenBalances)
