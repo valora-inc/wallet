@@ -51,7 +51,7 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
   }
 }
 
-export async function retrieveStoredItem(key: string, options = {}) {
+export async function retrieveStoredItem(key: string, options: Keychain.Options = {}) {
   try {
     const item = await Keychain.getGenericPassword({
       service: key,
