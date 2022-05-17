@@ -920,10 +920,6 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
 
-interface QuoteProperties {
-  provider: string
-}
-
 interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.external_exchange_link]: {
     name: string
