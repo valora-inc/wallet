@@ -921,6 +921,7 @@ interface CeloExchangeEventsProperties {
 }
 
 interface FiatExchangeEventsProperties {
+  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
   [FiatExchangeEvents.external_exchange_link]: {
     name: string
     link: string
