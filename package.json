@@ -118,7 +118,6 @@
     "form-data": "^4.0.0",
     "fp-ts": "2.1.1",
     "fuzzysort": "^1.1.4",
-    "google-libphonenumber": "^3.2.27",
     "graphql": "^14.1.1",
     "hermes-engine": "0.9.0",
     "i18next": "^19.4.3",
@@ -293,6 +292,7 @@
     "typescript-json-schema": "^0.53.0"
   },
   "resolutions": {
+    "google-libphonenumber": "^3.2.27",
     "ethers": "5.0.5",
     "**/truffle/mocha": "^6.2.2",
     "**/truffle-security/mocha": "^6.2.2",
