@@ -19,6 +19,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Face from 'src/icons/biometry/Face'
 import FaceID from 'src/icons/biometry/FaceID'
 import Fingerprint from 'src/icons/biometry/Fingerprint'
+import { Iris } from 'src/icons/biometry/Iris'
 import TouchID from 'src/icons/biometry/TouchID'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -43,7 +44,7 @@ const biometryImageMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.TOUCH_ID]: <TouchID />,
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
   [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
-  [Keychain.BIOMETRY_TYPE.IRIS]: <Face />,
+  [Keychain.BIOMETRY_TYPE.IRIS]: <Iris />,
 }
 
 export default function EnableBiometry({ navigation }: Props) {

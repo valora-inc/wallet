@@ -21,6 +21,11 @@ const keychainMock = {
     FACE: 'Face',
     IRIS: 'Iris',
   },
+  SECURITY_LEVEL: {
+    SECURE_SOFTWARE: 'SECURE_SOFTWARE',
+    SECURE_HARDWARE: 'SECURE_HARDWARE',
+    ANY: 'ANY',
+  },
   setGenericPassword: jest.fn(),
   getGenericPassword: jest.fn(),
   resetGenericPassword: jest.fn(),
