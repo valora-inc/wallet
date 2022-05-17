@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { addNewFiatAccount } from 'src/fiatconnect'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import FiatDetailsScreen from '../FiatDetailsScreen'
+import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/fiatconnect', () => ({
   ...(jest.requireActual('src/fiatconnect') as any),
