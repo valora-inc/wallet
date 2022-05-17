@@ -318,6 +318,8 @@ export async function getPincodeWithBiometry() {
   try {
     ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_start)
     const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
+      // only displayed on Android - would be displayed on iOS too if we allow
+      // device pincode fallback
       authenticationPrompt: {
         title: i18n.t('unlockWithBiometryPrompt'),
       },
