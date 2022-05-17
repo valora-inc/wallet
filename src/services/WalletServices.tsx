@@ -8,17 +8,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
-import { appStateSelector, maxNumRecentDappsSelector } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET } from 'src/config'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { CoreServices } from 'src/services/Services'
 import fontStyles from 'src/styles/fonts'
-import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -27,14 +23,8 @@ const numColumns = 3
 function WalletServices() {
   const { t } = useTranslation()
 
-  const appState = useSelector(appStateSelector)
+
   const isLoading = useSelector((state) => state.home.loading)
-  const recipientCache = useSelector(phoneRecipientCacheSelector)
-  const isNumberVerified = useSelector((state) => state.app.numberVerified)
-  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
-  const coreTokenBalances = useSelector(coreTokensSelector)
-  const celoAddress = useSelector(celoAddressSelector)
-  const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
 
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
