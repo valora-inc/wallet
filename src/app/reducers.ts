@@ -220,7 +220,7 @@ export const appReducer = (
         linkBankAccountStepTwoEnabled: action.configValues.linkBankAccountStepTwoEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
-        biometryEnabled: action.configValues.biometryEnabled && Platform.OS === 'ios',
+        biometryEnabled: action.configValues.biometryEnabled,
         superchargeButtonType: action.configValues.superchargeButtonType,
         maxNumRecentDapps: action.configValues.maxNumRecentDapps,
         skipVerification: action.configValues.skipVerification,

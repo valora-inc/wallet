@@ -141,7 +141,12 @@ describe(getPincode, () => {
 
     expect(pin).toEqual(mockPin)
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
-    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
+    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      authenticationPrompt: {
+        title: 'unlockWithBiometryPrompt',
+      },
+      service: 'PIN',
+    })
   })
   it('logs an error if biometry fails, and requests pincode input', async () => {
     mockStore.getState.mockImplementationOnce(() =>
@@ -154,7 +159,12 @@ describe(getPincode, () => {
     const pin = await getPincode()
 
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
-    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
+    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      authenticationPrompt: {
+        title: 'unlockWithBiometryPrompt',
+      },
+      service: 'PIN',
+    })
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       'storage/keychain',
       'Error retrieving stored item',
@@ -175,7 +185,12 @@ describe(getPincode, () => {
     const pin = await getPincode()
 
     expect(mockedKeychain.getGenericPassword).toHaveBeenCalledTimes(1)
-    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({ service: 'PIN' })
+    expect(mockedKeychain.getGenericPassword).toHaveBeenCalledWith({
+      authenticationPrompt: {
+        title: 'unlockWithBiometryPrompt',
+      },
+      service: 'PIN',
+    })
     expect(loggerErrorSpy).not.toHaveBeenCalled()
     expectPincodeEntered()
     expect(pin).toEqual(mockPin)
