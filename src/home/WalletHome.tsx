@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, maxNumRecentDappsSelector } from 'src/app/selectors'
+import { appStateSelector } from 'src/app/selectors'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -16,11 +16,9 @@ import {
   SHOW_TESTNET_BANNER,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
-import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
 import SendOrRequestButtons from 'src/home/SendOrRequestButtons'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
@@ -42,7 +40,6 @@ function WalletHome() {
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector((state) => state.app.numberVerified)
-  const maxNumRecentDapps = useSelector(maxNumRecentDappsSelector)
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
@@ -51,8 +48,6 @@ function WalletHome() {
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
   const dispatch = useDispatch()
-
-  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
   const showTestnetBanner = () => {
     dispatch(
@@ -143,13 +138,6 @@ function WalletHome() {
     renderItem: () => <SendOrRequestButtons key={'SendOrRequestButtons'} />,
   })
 
-  if (maxNumRecentDapps > 0) {
-    sections.push({
-      data: [{}],
-      renderItem: () => <RecentlyUsedDapps key={'RecentlyUsedDapps'} onSelectDapp={onSelectDapp} />,
-    })
-  }
-
   sections.push({
     data: [{}],
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
@@ -169,7 +157,6 @@ function WalletHome() {
         keyExtractor={keyExtractor}
       />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
-      {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )
 }

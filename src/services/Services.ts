@@ -1,30 +1,31 @@
 import WalletHome from 'src/home/WalletHome'
-import Gift from 'src/icons/Gift'
+import RewardIcon from 'src/icons/RewardIcon'
+import SwapInput from 'src/icons/SwapInput'
 
 export const CoreServices = [
   {
     title: 'servicesList.buy',
-    icon: Gift,
+    icon: RewardIcon,
     component: WalletHome,
   },
   {
     title: 'servicesList.cico',
-    icon: Gift,
+    icon: RewardIcon,
     component: WalletHome,
   },
   {
     title: 'servicesList.swap',
-    icon: Gift,
+    icon: SwapInput,
     component: WalletHome,
   },
   {
     title: 'servicesList.invest',
-    icon: Gift,
+    icon: RewardIcon,
     component: WalletHome,
   },
   {
     title: 'servicesList.bills',
-    icon: Gift,
+    icon: RewardIcon,
     component: WalletHome,
   },
   // {

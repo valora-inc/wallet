@@ -2,9 +2,10 @@ import _ from 'lodash'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList, StyleSheet, Text, View } from 'react-native'
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { FlatGrid } from 'react-native-super-grid'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { appStateSelector, maxNumRecentDappsSelector } from 'src/app/selectors'
@@ -16,14 +17,12 @@ import { Screens } from 'src/navigator/Screens'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { CoreServices } from 'src/services/Services'
+import fontStyles from 'src/styles/fonts'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 const numColumns = 3
-const threeColumnList = {
-  numColumns: numColumns,
-}
 
 function WalletServices() {
   const { t } = useTranslation()
@@ -54,6 +53,8 @@ function WalletServices() {
     )
   }
 
+  showTestnetBanner()
+
   const keyExtractor = (_item: any, index: number) => {
     return index.toString()
   }
@@ -64,12 +65,12 @@ function WalletServices() {
 
   const renderFlatListItem = ({ item, index }: any) => {
     return (
-      <View style={styles.flexRow}>
+      <View style={styles.tile}>
         <TouchableOpacity onPress={() => navigate(Screens.WalletHome)}>
-          <View style={[styles.row]}>
-            <Logo height={50} />
+          <View style={styles.icon}>
+            <item.icon height={30} />
           </View>
-          <Text>{t(item.title)}</Text>
+          <Text style={[styles.textcenter, styles.title]}>{t(item.title)}</Text>
         </TouchableOpacity>
       </View>
     )
@@ -87,13 +88,14 @@ function WalletServices() {
   sections.push({
     data: [{}],
     renderItem: () => (
-      <FlatList
-        style={styles.container}
+      <FlatGrid
+        style={[styles.container]}
         key={'Services/WalletServices'}
         data={walletSection}
+        itemDimension={90}
         keyExtractor={flatKeyExtractor}
         renderItem={renderFlatListItem}
-        {...threeColumnList}
+        maxItemsPerRow={numColumns}
       />
     ),
   })
@@ -122,24 +124,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+    backgroundColor: '#fff',
   },
-  flexRow: {
-    // backgroundColor: 'blue',
+  icon: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-around',
-    flexGrow: 1,
+    justifyContent: 'center',
+    marginHorizontal: 'auto',
+  },
+  textcenter: {
+    textAlign: 'center',
+  },
+  title: {
+    ...fontStyles.regular500,
+  },
+  tile: {
     marginVertical: 30,
-  },
-  row: {
-    // backgroundColor: 'red',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexGrow: 1,
-    marginVertical: 10,
   },
 })
 

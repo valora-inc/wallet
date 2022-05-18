@@ -5,7 +5,7 @@ import Support from 'src/account/Support'
 import WalletHome from 'src/home/WalletHome'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
-import { Settings } from 'src/icons/navigator/Settings'
+import Services from 'src/icons/Services'
 import { Screens } from 'src/navigator/Screens'
 import WalletServices from 'src/services/WalletServices'
 
@@ -25,7 +25,7 @@ export default function TabNavigator() {
       <Tabs.Screen
         name={Screens.WalletServices}
         component={WalletServices}
-        options={{ title: t('services'), tabBarIcon: Settings }}
+        options={{ title: t('services'), tabBarIcon: Services }}
       />
       <Tabs.Screen
         name={Screens.Support}
