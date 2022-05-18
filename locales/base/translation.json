@@ -1302,8 +1302,8 @@
     },
   "daysAgo": "{{days}} days ago",
   "servicesList": {
-    "buy": "Buy cGuilder",
-    "cico": "Cash Out",
+    "buy": "Deposit",
+    "cico": "Withdraw",
     "swap": "Swap",
     "invest": "Invest",
     "bills": "Pay Bills"
