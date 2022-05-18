@@ -200,6 +200,7 @@
   "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
   "superchargingNotificationBody": "Du erhältst Rewards mit Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "Du bekommst {{apy}}% Belohnungen mit Supercharge ⚡.",
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
@@ -708,6 +709,7 @@
     "Iris": "Iris-Erkennung"
   },
   "useBiometryType": "{{biometryType}} verwenden",
+  "unlockWithBiometryPrompt": "Authentifizierung zum Entsperren {{appName}}",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
@@ -1217,6 +1219,48 @@
   "merchantPaymentSubmitSuccess": "Deine Zahlung wurde erfolgreich übermittelt",
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Einige Zahlungsarten sind in deiner Region nicht verfügbar",
+    "learnMore": "Mehr Infos.",
+    "whyMissingPayments": "Warum sehe ich nicht mehr Zahlungsmöglichkeiten?",
+    "dismiss": "Verwerfen",
+    "missingPaymentsExplained": "Nicht alle Zahlungsmethoden sind in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass die Option in diesem Land nicht existiert oder aufgrund lokaler Vorschriften blockiert ist.",
+    "cryptoExchange": "Kryptowährungsbörse",
+    "feesVary": "Gebühren variieren",
+    "viewExchanges": "Tauschbörsen ansehen",
+    "card": "Kredit-/Debitkarte",
+    "bank": "Bankkonto",
+    "mobileMoney": "Mobiles Geld",
+    "minFee": "Min Gebühr",
+    "numProviders": "{{count}} Anbieter",
+    "fee": "Gebühr",
+    "idRequired": "ID erforderlich",
+    "numDays": "1-3 Tage",
+    "oneHour": "Weniger als 1 Stunde",
+    "bestRate": "Bester Tarif",
+    "header": "Zahlungsmethode auswählen"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Guthaben hinzufügen",
+      "fiatExchangeSubtitle": "Lade dein {{appName}} Konto von einer Bank, einer Karte oder einer Börse auf.",
+      "selectCurrencyTitle": "Guthaben hinzufügen",
+      "exchangeAmountTitle": "Füge {{currency}} hinzu",
+      "selectProviderHeader": "Zahlungsmethode auswählen"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Abheben",
+      "fiatExchangeSubtitle": "Überweise Geld aus {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder auf mobiles Geld.",
+      "selectCurrencyTitle": "Guthaben abheben",
+      "exchangeAmountTitle": "{{currency}} abheben",
+      "selectProviderHeader": "Auszahlungsmethode auswählen"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Ausgeben",
+      "fiatExchangeSubtitle": "Gib sie für Geschenkkarten und andere Einkäufe aus.",
+      "selectCurrencyTitle": "Mittel ausgeben"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
