@@ -5,7 +5,7 @@ import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
-import { getQuotes, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, getQuotes, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
@@ -23,7 +23,7 @@ describe('PaymentMethodSection', () => {
       paymentMethod: PaymentMethod.Card,
       cicoQuotes: getQuotes(mockProviders),
       setNoPaymentMethods: jest.fn(),
-      quoteOnPress: jest.fn(),
+      flow: CICOFlow.CashIn,
     }
   })
   it('shows nothing if there are no available providers', async () => {
