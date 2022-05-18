@@ -1231,26 +1231,26 @@
     "card": "Carta di credito/debito",
     "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
-    "minFee": "Tariffa minima",
-    "numProviders": "{{count}} Fornitori",
+    "minFee": "Commissione minima",
+    "numProviders": "{{count}} provider",
     "fee": "Commissione",
     "idRequired": "ID richiesto",
     "numDays": "1-3 giorni",
-    "oneHour": "Meno di 1 ora",
-    "bestRate": "Miglior tariffa",
+    "oneHour": "Meno di un'ora",
+    "bestRate": "Miglior tasso",
     "header": "Seleziona il metodo di pagamento"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Aggiungi fondi",
-      "fiatExchangeSubtitle": "Finanzia il tuo conto {{appName}} con una banca, una carta o una borsa.",
+      "fiatExchangeSubtitle": "Aggiunta di fondi in il tuo conto {{appName}} con una banca, una carta o un exchange.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
       "selectProviderHeader": "Seleziona il metodo di pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva",
-      "fiatExchangeSubtitle": "Fai uscire i fondi da {{appName}} per trasferirli su un conto bancario, una carta, uno scambio di criptovalute o una moneta mobile.",
+      "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
       "selectProviderHeader": "Seleziona il metodo di prelievo"
