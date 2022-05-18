@@ -7,7 +7,7 @@ interface Props {
   color?: string
 }
 
-const Refresh = ({ color, height }: Props) => (
+const Refresh = ({ color, height = 24 }: Props) => (
   <Svg
     width={height}
     height={height}

@@ -14,8 +14,8 @@ function ProgressArrowIcon({ color = colors.dark, style, height = 12, width = 8 
   return (
     <View style={style}>
       <Svg
-        width={width.toString()}
-        height={height.toString()}
+        width={width}
+        height={height}
         viewBox="0 0 8 12"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

@@ -45,7 +45,6 @@ import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
-import WalletHome from 'src/home/WalletHome'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
@@ -62,6 +61,7 @@ import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
+import TabNavigator from 'src/navigator/TabNavigator'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -204,7 +204,7 @@ export default function DrawerNavigator() {
 
   return (
     <Drawer.Navigator
-      initialRouteName={Screens.WalletHome}
+      initialRouteName={Screens.TabNavigation}
       drawerContent={drawerContent}
       backBehavior={'initialRoute'}
       drawerContentOptions={{
@@ -213,8 +213,8 @@ export default function DrawerNavigator() {
       }}
     >
       <Drawer.Screen
-        name={Screens.WalletHome}
-        component={WalletHome}
+        name={Screens.TabNavigation}
+        component={TabNavigator}
         options={{ title: t('home'), drawerIcon: Home }}
       />
       {(isCeloEducationComplete && (

@@ -1218,5 +1218,13 @@
   "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
   "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
   "noMoreTransactions": "There are no more transactions",
-  "daysAgo": "{{days}} days ago"
+  "daysAgo": "{{days}} days ago",
+  "servicesList": {
+    "buy": "Deposit",
+    "cico": "Withdraw",
+    "swap": "Swap",
+    "invest": "Invest",
+    "bills": "Pay Bills"
+  },
+  "services": "Services"
 }
