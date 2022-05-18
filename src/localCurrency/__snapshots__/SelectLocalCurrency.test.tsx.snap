@@ -33,6 +33,7 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
       <RCTScrollView
         data={
           Array [
+            "ANG",
             "AUD",
             "BRL",
             "CAD",
@@ -52,7 +53,6 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
             "UAH",
             "UGX",
             "USD",
-            "ANG",
           ]
         }
         extraData="PHP"
@@ -78,6 +78,88 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
         viewabilityConfigCallbackPairs={Array []}
       >
         <View>
+          <View
+            onLayout={[Function]}
+            style={null}
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
+              }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderBottomWidth": 1,
+                    "borderColor": "#EDEEEF",
+                    "flexDirection": "row",
+                    "marginLeft": 16,
+                    "paddingVertical": 14,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "marginRight": 16,
+                    }
+                  }
+                >
+                  <svg
+                    height={20}
+                    style={Object {}}
+                    viewBox="0 0 20 20"
+                    width={20}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="9"
+                      stroke="#B4B9BD"
+                      strokeWidth={2}
+                      style={Object {}}
+                    />
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="6"
+                      style={Object {}}
+                    />
+                  </svg>
+                </View>
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Object {
+                      "color": "#2E3338",
+                      "flex": 1,
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "marginRight": 16,
+                    }
+                  }
+                >
+                  ANG
+                </Text>
+              </View>
+            </View>
+          </View>
           <View
             onLayout={[Function]}
             style={null}
@@ -812,88 +894,6 @@ exports[`SelectLocalCurrency renders correctly 1`] = `
                   }
                 >
                   KES
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            onLayout={[Function]}
-            style={null}
-          >
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-            >
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "borderBottomWidth": 1,
-                    "borderColor": "#EDEEEF",
-                    "flexDirection": "row",
-                    "marginLeft": 16,
-                    "paddingVertical": 14,
-                  }
-                }
-              >
-                <View
-                  style={
-                    Object {
-                      "marginRight": 16,
-                    }
-                  }
-                >
-                  <svg
-                    height={20}
-                    style={Object {}}
-                    viewBox="0 0 20 20"
-                    width={20}
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="9"
-                      stroke="#B4B9BD"
-                      strokeWidth={2}
-                      style={Object {}}
-                    />
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="6"
-                      style={Object {}}
-                    />
-                  </svg>
-                </View>
-                <Text
-                  numberOfLines={1}
-                  style={
-                    Object {
-                      "color": "#2E3338",
-                      "flex": 1,
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                      "marginRight": 16,
-                    }
-                  }
-                >
-                  LRD
                 </Text>
               </View>
             </View>
