@@ -279,7 +279,7 @@
   "cashOut": "Retirer des fonds",
   "cashOutSubtitle": "Achetez des cartes-cadeaux et d'autres articles ou virez des fonds vers un échange de cryptomonnaies",
   "cashOutComingSoon": "Encaisser (bientôt disponible)",
-  "spend": "Dépenser",
+  "spend": "Dépenser des fonds",
   "spendSubtitle": "Utilisez votre solde auprès des vendeurs prenant en charge ces monnaies",
   "amountCelo": "Montant (CELO)",
   "onlyCeloDollars": "cUSD seulement",
@@ -1250,15 +1250,15 @@
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
-      "fiatExchangeSubtitle": "Fais sortir les fonds de {{appName}} et les déposer sur un compte bancaire, une carte, un échange de crypto-monnaies ou sur du mobile money.",
+      "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Choisis la méthode de retrait"
+      "selectProviderHeader": "Sélectionnez le mode de retrait"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
-      "fiatExchangeSubtitle": "Dépense en cartes cadeaux et autres achats.",
-      "selectCurrencyTitle": "Dépenser les fonds"
+      "fiatExchangeSubtitle": "Dépensez en cartes-cadeaux et autres achats.",
+      "selectCurrencyTitle": "Dépenser des fonds"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
