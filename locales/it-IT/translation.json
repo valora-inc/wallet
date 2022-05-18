@@ -279,7 +279,7 @@
   "cashOut": "Preleva fondi",
   "cashOutSubtitle": "Investi in buoni regalo, ricarica il credito del tuo cellulare e fai altri acquisti o invia fondi a un exchange",
   "cashOutComingSoon": "Preleva (presto disponibile)",
-  "spend": "Spendi",
+  "spend": "Spendi fondi",
   "spendSubtitle": "Usa il tuo saldo con commercianti che lo supportano",
   "amountCelo": "Importo (CELO)",
   "onlyCeloDollars": "Solo cUSD",
@@ -1256,9 +1256,9 @@
       "selectProviderHeader": "Seleziona il metodo di prelievo"
     },
     "spend": {
-      "fiatExchangeTitle": "Spendi",
-      "fiatExchangeSubtitle": "Spendi per carte regalo e altri acquisti.",
-      "selectCurrencyTitle": "Spendere i fondi"
+      "fiatExchangeTitle": "Spendi fondi",
+      "fiatExchangeSubtitle": "Spendi in buoni regalo e altri acquisti.",
+      "selectCurrencyTitle": "Spendi fondi"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
