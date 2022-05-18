@@ -1,42 +1,91 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
 import {
+  CICOFlow,
   CicoQuote,
   getFeeValueFromQuotes,
+  isSimplexQuote,
   PaymentMethod,
   ProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { navigateToURI } from 'src/utils/linking'
 
 export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethod
   cicoQuotes: CicoQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
-  quoteOnPress: (cicoQuote: CicoQuote) => void
+  flow: CICOFlow
 }
 
 export function PaymentMethodSection({
   paymentMethod,
   cicoQuotes,
   setNoPaymentMethods,
-  quoteOnPress,
+  flow,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
   const sectionQuotes = cicoQuotes.filter(({ quote }) => quote.paymentMethod === paymentMethod)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const userLocation = useSelector(userLocationDataSelector)
 
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(false)
 
+  useEffect(() => {
+    if (sectionQuotes.length) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_impression, {
+        flow,
+        paymentMethod,
+        quoteCount: sectionQuotes.length,
+        providers: sectionQuotes.map(({ provider }) => provider.name),
+      })
+    }
+  }, [])
+
+  const quoteOnPress = ({ quote, provider }: CicoQuote) => () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+      flow,
+      paymentMethod,
+      provider: provider.name,
+    })
+
+    if (quote && userLocation?.ipAddress && isSimplexQuote(quote)) {
+      navigate(Screens.Simplex, {
+        simplexQuote: quote,
+        userIpAddress: userLocation.ipAddress,
+      })
+      return
+    }
+
+    ;(quote as ProviderQuote).url && navigateToURI((quote as ProviderQuote).url)
+  }
+
   const toggleExpanded = () => {
+    if (expanded) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_collapse, {
+        flow,
+        paymentMethod,
+      })
+    } else {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_section_expand, {
+        flow,
+        paymentMethod,
+      })
+    }
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
   }
