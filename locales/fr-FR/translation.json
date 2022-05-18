@@ -1232,21 +1232,21 @@
     "bank": "Compte bancaire",
     "mobileMoney": "Argent digital",
     "minFee": "Frais min",
-    "numProviders": "{{count}} Fournisseurs",
+    "numProviders": "{{count}} prestataires",
     "fee": "Frais",
     "idRequired": "ID requis",
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
     "bestRate": "Meilleur taux",
-    "header": "Sélectionne la méthode de paiement"
+    "header": "Sélectionnez le mode de paiement"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Ajouter des fonds",
-      "fiatExchangeSubtitle": "Alimente ton compte {{appName}} depuis une banque, une carte ou un échange.",
+      "fiatExchangeSubtitle": "Créditer votre compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Sélectionner la méthode de paiement"
+      "selectProviderHeader": "Sélectionnez le mode de paiement"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
