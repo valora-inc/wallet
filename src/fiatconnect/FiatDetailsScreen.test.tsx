@@ -3,8 +3,10 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { addNewFiatAccount } from 'src/fiatconnect'
+import { getQuotes } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockProviders } from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/fiatconnect', () => ({
@@ -17,6 +19,7 @@ const providerURL = 'https://superLegitCICOProvider.valoraapp.com'
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   providerURL,
   fiatAccountSchema: FiatAccountSchema.AccountNumber,
+  cicoQuote: getQuotes(mockProviders)[2],
 })
 describe('FiatDetailsScreen', () => {
   beforeEach(() => {

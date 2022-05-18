@@ -1,4 +1,9 @@
-import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
+import {
+  AccountNumber,
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatConnectError,
+} from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +20,8 @@ import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -34,7 +41,7 @@ interface Fields {
 
 // This is a mapping between different fiat account schema to the metadata of the fields that need to be rendered on the bank details screen
 const SCHEMA_TO_FIELD_METADATA_MAP = {
-  AccountNumber: [
+  [FiatAccountSchema.AccountNumber]: [
     {
       name: 'accountName',
       label: i18n.t('fiatAccountSchema.accountName.label'),
@@ -59,13 +66,34 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
   ],
 }
 
+// This is a helper function that returns a dummy object of FiatAccountSchema to iterate over
+const getSchemaObjectByType = (fiatAccountSchema: FiatAccountSchema) => {
+  let newSchema: AccountNumber | undefined
+  switch (fiatAccountSchema) {
+    case 'AccountNumber':
+      newSchema = {
+        accountName: '',
+        institutionName: '',
+        accountNumber: '',
+        country: '',
+        fiatAccountType: FiatAccountType.BankAccount,
+      }
+    default:
+      newSchema = undefined
+  }
+
+  console.log('lisa newSchema', newSchema)
+  return newSchema
+}
+
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema } = route.params
+  const { providerURL, fiatAccountSchema, allowedValues, cicoQuote } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
+  const userCountry = useSelector(userLocationDataSelector)
 
   const dispatch = useDispatch()
 
@@ -76,6 +104,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }, [navigation])
 
   const getFieldsBySchema = (fiatAccountSchema: FiatAccountSchema): Fields[] => {
+    console.log('lisa fiatAccountSchema', fiatAccountSchema)
     return SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
   }
 
@@ -97,9 +126,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      // TODO: some schema requires additional fields in body in addition
-      // to the ones collected from the form, eg. country code
-      await addNewFiatAccount(providerURL, fiatAccountSchema, body)
+      const validatedBody = validateAndCompleteSchema(
+        body,
+        getSchemaObjectByType(fiatAccountSchema)
+      )
+
+      console.log('lisa validatedBody', validatedBody)
+      await addNewFiatAccount(providerURL, fiatAccountSchema, validatedBody)
         .then((data) => {
           // TODO Tracking here
           dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -108,6 +141,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           // TODO Tracking here
           if (error === FiatConnectError.ResourceExists) {
             dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+          } else {
+            dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
           }
           Logger.error(TAG, `Error adding fiat account: ${error}`)
         })
@@ -116,9 +151,39 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     }
   }
 
+  const validateAndCompleteSchema = (
+    body: Record<string, string>,
+    fiatAccountSchema: FiatAccountSchema | undefined
+  ): Record<string, string> | undefined => {
+    if (!fiatAccountSchema) {
+      Logger.error(TAG, 'Cannot create a schema object, check the schema passed from the Prop')
+      return
+    }
+
+    console.log('lisa fiatAccountSchema', fiatAccountSchema)
+    for (const key of fiatAccountSchema) {
+      console.log('lisa key', key)
+      if (!body[key]) {
+        console.log('lisa key 2', key)
+        if (key === 'country') {
+          console.log('lisa key === country')
+          if (!userCountry) {
+            Logger.error(TAG, 'User country is not available from redux')
+            return
+          }
+          body[key] = userCountry.countryCodeAlpha2 || ''
+          console.log('lisa body[country]', body.country)
+        } else if (key === 'fiatAccountType') {
+          body[key] = FiatAccountType.BankAccount
+          console.log('lisa body fiatAccountType', body.fiatAccountType)
+        }
+      }
+    }
+  }
+
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
-    // todo: naviagte to select payment options screen
+    // TODO: navigate to SelectProvider screen
   }
 
   const validateInput = () => {
@@ -179,11 +244,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                 {t('fiatDetailsScreen.selectedPaymentOption')}
               </Text>
               <ForwardChevron color={colors.gray4} />
-              {/* TODO: This is a hardcoded logo, replace the logo uri with the uri from the payment provider selected */}
               <Image
                 source={{
-                  uri:
-                    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+                  uri: cicoQuote.provider.logo,
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"
