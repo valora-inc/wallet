@@ -1283,7 +1283,7 @@
     },
     "accountNumber": {
       "label": "Account Number",
-      "placeholderText": "Enter your 10 digits account number",
+      "placeholderText": "Enter your 10 digit account number",
       "errorMessage": "Account number should be 10 digit long and only contain numbers"
     }
   }

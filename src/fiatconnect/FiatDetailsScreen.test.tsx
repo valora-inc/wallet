@@ -83,6 +83,8 @@ describe('FiatDetailsScreen', () => {
       accountName: fakeAccountName,
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
+      country: 'US',
+      fiatAccountType: 'BankAccount',
     }
     await fireEvent.press(getByTestId('nextButton'))
     expect(addNewFiatAccount).toHaveBeenCalledWith(

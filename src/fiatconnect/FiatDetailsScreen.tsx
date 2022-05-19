@@ -41,7 +41,7 @@ interface Fields {
 
 // This is a mapping between different fiat account schema to the metadata of the fields that need to be rendered on the bank details screen
 const SCHEMA_TO_FIELD_METADATA_MAP = {
-  [FiatAccountSchema.AccountNumber]: [
+  AccountNumber: [
     {
       name: 'accountName',
       label: i18n.t('fiatAccountSchema.accountName.label'),
@@ -66,11 +66,12 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
   ],
 }
 
+// We need to compare the body collected from form to the Interface of the fiat account schema
 // This is a helper function that returns a dummy object of FiatAccountSchema to iterate over
 const getSchemaObjectByType = (fiatAccountSchema: FiatAccountSchema) => {
   let newSchema: AccountNumber | undefined
   switch (fiatAccountSchema) {
-    case 'AccountNumber':
+    case FiatAccountSchema.AccountNumber:
       newSchema = {
         accountName: '',
         institutionName: '',
@@ -78,11 +79,11 @@ const getSchemaObjectByType = (fiatAccountSchema: FiatAccountSchema) => {
         country: '',
         fiatAccountType: FiatAccountType.BankAccount,
       }
+      break
     default:
       newSchema = undefined
   }
 
-  console.log('lisa newSchema', newSchema)
   return newSchema
 }
 
@@ -104,7 +105,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }, [navigation])
 
   const getFieldsBySchema = (fiatAccountSchema: FiatAccountSchema): Fields[] => {
-    console.log('lisa fiatAccountSchema', fiatAccountSchema)
     return SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
   }
 
@@ -131,7 +131,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         getSchemaObjectByType(fiatAccountSchema)
       )
 
-      console.log('lisa validatedBody', validatedBody)
       await addNewFiatAccount(providerURL, fiatAccountSchema, validatedBody)
         .then((data) => {
           // TODO Tracking here
@@ -153,32 +152,27 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const validateAndCompleteSchema = (
     body: Record<string, string>,
-    fiatAccountSchema: FiatAccountSchema | undefined
+    schemaObject: AccountNumber | undefined
   ): Record<string, string> | undefined => {
-    if (!fiatAccountSchema) {
+    if (!schemaObject) {
       Logger.error(TAG, 'Cannot create a schema object, check the schema passed from the Prop')
       return
     }
 
-    console.log('lisa fiatAccountSchema', fiatAccountSchema)
-    for (const key of fiatAccountSchema) {
-      console.log('lisa key', key)
+    for (const [key, val] of Object.entries(schemaObject)) {
       if (!body[key]) {
-        console.log('lisa key 2', key)
         if (key === 'country') {
-          console.log('lisa key === country')
           if (!userCountry) {
             Logger.error(TAG, 'User country is not available from redux')
             return
           }
           body[key] = userCountry.countryCodeAlpha2 || ''
-          console.log('lisa body[country]', body.country)
         } else if (key === 'fiatAccountType') {
           body[key] = FiatAccountType.BankAccount
-          console.log('lisa body fiatAccountType', body.fiatAccountType)
         }
       }
     }
+    return body
   }
 
   const onPressSelectedPaymentOption = () => {
