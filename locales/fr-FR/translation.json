@@ -590,8 +590,8 @@
   },
   "sendAndInvite": "Envoyer et inviter",
   "inviteAndSendDialog": {
-    "title": "Nous conservons votre paiement au bénéfice de {{name}}",
-    "body": "Envoyez un message d'invitation à {{name}} pour lui faire rejoindre Valora. Une fois sur Valora et son numéro de téléphone connecté, votre paiement lui sera transféré.",
+    "title": "Finir d'inviter {{name}} à Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Terminer l'envoi"
   },
   "inviteRewardsBanner": {
@@ -853,7 +853,7 @@
   "amountSent": "Montant envoyé",
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
-  "inviteMoneyEscrow": "Nous inviterons ce contact et garderons ses fonds en sécurité jusqu'à ce que son compte soit confirmé.",
+  "inviteMoneyEscrow": "Envoie un message d'invitation à ce contact et il recevra les fonds une fois qu'il aura connecté son numéro.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander un paiement",
   "max": "MAX.",
@@ -873,7 +873,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Salut ! J'ai utilisé le portefeuille crypto {{appname}}. Si vous téléchargez l'appli et connectez votre numéro de téléphone, nous aurons tous les deux {{amount}} {{token}}. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Salut ! Je viens de t'envoyer de la crypto avec mon portefeuille {{appname}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux une {{amount}} {{token}} récompense. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
