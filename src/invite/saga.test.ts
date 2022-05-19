@@ -77,6 +77,7 @@ describe(sendInvite, () => {
     expect(i18n.t).toHaveBeenCalledWith('inviteWithEscrowedPayment', {
       amount: AMOUNT_TO_SEND.toFixed(2).toString(),
       token: 'cUSD',
+      appName: 'Celo Wallet',
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'inviteWithEscrowedPayment' })
