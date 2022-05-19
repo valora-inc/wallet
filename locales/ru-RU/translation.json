@@ -591,8 +591,9 @@
   "sendAndInvite": "Отправить и пригласить",
   "inviteAndSendDialog": {
     "title": "Закончите приглашение {{name}} в Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Завершить отправку"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Поделись с {{name}} сообщением с приглашением присоединиться к {{appName}}. Как только они присоединятся",
+    "button": "Приглашение к финишу"
   },
   "inviteRewardsBanner": {
     "title": "Отправьте криптовалюту, чтобы пригласить друга/подруги (бета-версия)",
@@ -877,7 +878,7 @@
   "walletAddress": "Адрес кошелька",
   "inviteWithoutPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Это просто! Ознакомиться с этим способом можно по ссылке: {{link}}",
   "inviteWithEscrowedPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Я уже отправил(а) тебе {{amount}} {{token}}. Скачай приложение {{appName}} и приобрети {{token}} по этой ссылке: {{link}}",
-  "inviteWithRewards": "Привет! Я только что отправил тебе криптовалюту со своего кошелька {{appname}} . Как только ты скачаешь приложение и подключишь свой номер телефона, мы оба получим вознаграждение {{amount}} {{token}} . Используй эту ссылку: {{link}}",
+  "inviteWithRewards": "Привет! Я только что отправил тебе криптовалюту со своего кошелька {{appName}} . Как только ты скачаешь приложение и подключишь свой номер телефона, мы оба получим вознаграждение {{amount}} {{token}} . Используй эту ссылку: {{link}}",
   "loadingContacts": "Поиск контактов",
   "myCode": "Мой код",
   "scanCode": "Сканировать",
@@ -1078,7 +1079,7 @@
   "feedItemCeloRewardReceivedTitle": "Заработано CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Еженедельные вознаграждения",
-  "feedItemInviteRewardReceivedTitle": "Celo Network",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Вознаграждение получено",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
