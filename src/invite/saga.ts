@@ -7,7 +7,7 @@ import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedSelector } from 'src/app/selectors'
-import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { APP_NAME, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
@@ -74,11 +74,13 @@ export function* sendInvite(
           amount: rewardAmount,
           token: Currency.Dollar,
           link: DYNAMIC_DOWNLOAD_LINK,
+          appName: APP_NAME,
         })
       : i18n.t('inviteWithEscrowedPayment', {
           amount: amount.toFixed(2),
           token: tokenInfo.symbol,
           link: DYNAMIC_DOWNLOAD_LINK,
+          appName: APP_NAME,
         })
 
     yield call(initiateEscrowTransfer, e164Number, amount, tokenAddress, feeInfo)
