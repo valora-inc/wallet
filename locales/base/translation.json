@@ -591,7 +591,7 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
-    "body": "Once they join & connect a phone number, you both receive 5 cUSD. Click below to send and customize your invite.",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Finish sending"
   },
   "inviteRewardsBanner": {
