@@ -52,6 +52,7 @@ function SelectLocalCurrency() {
           {t('selectCurrency')}
         </Text>
         <FlatList
+          initialNumToRender={30}
           style={styles.container}
           data={LOCAL_CURRENCY_CODES}
           extraData={selectedCurrencyCode}
