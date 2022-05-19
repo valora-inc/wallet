@@ -43,7 +43,7 @@ import {
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
-import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -921,69 +921,76 @@ interface CeloExchangeEventsProperties {
 }
 
 interface FiatExchangeEventsProperties {
+  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
   [FiatExchangeEvents.external_exchange_link]: {
     name: string
     link: string
+    isCashIn: boolean
   }
   [FiatExchangeEvents.spend_merchant_link]: {
     name: string
     link: string
   }
-  [FiatExchangeEvents.cico_option_chosen]: {
-    flow: FiatExchangeFlow
-    currency: Currency
-  }
-  [FiatExchangeEvents.provider_chosen]: {
-    flow: CICOFlow
-    provider: string
-  }
   [FiatExchangeEvents.cash_in_success]: {
     provider: string | undefined
   }
-  [FiatExchangeEvents.cico_add_funds_selected]: undefined
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: {
     rampAvailable: boolean
   }
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_selected]: undefined
   [FiatExchangeEvents.cico_add_funds_bottom_sheet_ramp_available]: undefined
-  [FiatExchangeEvents.cico_cash_out_selected]: undefined
-  [FiatExchangeEvents.cico_spend_selected]: undefined
-  [FiatExchangeEvents.cico_fund_info]: undefined
-  [FiatExchangeEvents.cico_fund_info_return]: {
-    timeElapsed: number
-  }
-  [FiatExchangeEvents.cico_add_funds_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_info]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
-  [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
-  [FiatExchangeEvents.cico_add_funds_amount_continue]: {
-    amount: number
-    currency: Currency
-    flow: CICOFlow
-  }
-  [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
-    amount: number
-    currency: Currency
-  }
-  [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
-  [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_select_provider_info]: undefined
-  [FiatExchangeEvents.cico_add_funds_select_provider_info_cancel]: undefined
-  [FiatExchangeEvents.cico_cash_out_back]: undefined
-  [FiatExchangeEvents.cico_cash_out_info]: undefined
-  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
-  [FiatExchangeEvents.cico_cash_out_info_cancel]: undefined
-  [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
   [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
   [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
-  [FiatExchangeEvents.cico_select_currency_back]: {
+  [FiatExchangeEvents.cico_landing_token_balance]: { totalBalance?: string }
+  [FiatExchangeEvents.cico_landing_select_flow]: { flow: FiatExchangeFlow }
+  [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
+  [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
+    currency: Currency
   }
+  [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
+  [FiatExchangeEvents.cico_amount_chosen]: {
+    amount: number
+    currency: Currency
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_amount_chosen_invalid]: {
+    amount: number
+    currency: Currency
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_amount_back]: {
+    currency: Currency
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_providers_section_impression]: {
+    paymentMethod: PaymentMethod
+    quoteCount: number
+    flow: CICOFlow
+    providers: string[]
+  }
+  [FiatExchangeEvents.cico_providers_section_expand]: {
+    paymentMethod: PaymentMethod
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_providers_section_collapse]: {
+    paymentMethod: PaymentMethod
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_providers_quote_selected]: {
+    paymentMethod: PaymentMethod
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_providers_back]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
 }
 
 interface GethEventsProperties {

@@ -70,7 +70,6 @@ function FiatExchangeAmount({ route }: Props) {
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
     setShowingInvalidAmountDialog(false)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_dialog_cancel)
   }
   const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
 
@@ -153,7 +152,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: currencyAmountRequested.toNumber(),
       currency,
       flow,
@@ -175,9 +174,10 @@ function FiatExchangeAmount({ route }: Props) {
     if (flow === CICOFlow.CashIn) {
       if (localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)
-        ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_invalid_amount, {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: currencyAmountRequested.toNumber(),
           currency,
+          flow,
         })
         return
       }
@@ -316,7 +316,7 @@ FiatExchangeAmount.navOptions = ({
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => ({
   ...emptyHeader,
-  headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
+  headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
   headerTitle: () => (
     <HeaderTitleWithBalance
       title={i18n.t(
