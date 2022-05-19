@@ -590,8 +590,8 @@
   },
   "sendAndInvite": "Invia e invita",
   "inviteAndSendDialog": {
-    "title": "Rimarremo in attesa del tuo pagamento a {{name}}",
-    "body": "Condividi con {{name}} un messaggio di invito a far parte di Valora. Dopo avere accettato e collegato un numero telefonico, riceverà il tuo pagamento. ",
+    "title": "Finisci di invitare {{name}} a Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Completa l’invio"
   },
   "inviteRewardsBanner": {
@@ -853,7 +853,7 @@
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
   "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione, per supportare la rete e il suo funzionamento ottimale.",
-  "inviteMoneyEscrow": "Inviteremo questo contatto e manterremo i suoi fondi al sicuro fino a quando non avrà confermato il suo conto.",
+  "inviteMoneyEscrow": "Invia a questo contatto un messaggio di invito e riceverà i fondi una volta collegato il suo numero.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
@@ -873,7 +873,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi, sto usando e mi piace {{appname}} come portafoglio per criptovalute. Se scarichi l'app e colleghi il tuo numero telefonico, riceveremo entrambi {{amount}} {{token}}. Usa questo collegamento: {{link}}",
+  "inviteWithRewards": "Ehi! Ti ho appena inviato delle criptovalute con il mio portafoglio {{appname}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo una ricompensa {{amount}} {{token}} . Usa questo link: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
