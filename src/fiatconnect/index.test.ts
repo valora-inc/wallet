@@ -1,7 +1,9 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import Logger from '../utils/Logger'
+import Logger from 'src/utils/Logger'
 import { addNewFiatAccount, FiatConnectClientConfig, getFiatConnectProviders } from './index'
+
+const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
@@ -22,19 +24,17 @@ describe('FiatConnect helpers', () => {
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
-      const mockLogError = jest.fn()
-      jest.spyOn(Logger, 'error').mockImplementation(mockLogError)
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
       const providers = await getFiatConnectProviders()
-      expect(mockLogError).toHaveBeenCalled()
       expect(providers).toEqual([])
+      expect(loggerErrorSpy).toHaveBeenCalled()
     })
   })
 
   describe('addNewFiatAccount', () => {
     // TODO: unskip after integration with FC SDK
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('returns a fiat account info with fiat account id on success', async () => {
+    it('returns a fiat account info with fiat account id on success', async () => {
       const fakeFiatAccountReturned = {
         fiatAccountId: 'ZAQWSX1234',
         accountName: 'Fake Account Name',
@@ -52,12 +52,10 @@ describe('FiatConnect helpers', () => {
         country: 'NG',
         fiatAccountType: FiatAccountType.BankAccount,
       }
-      const newFiatAccountadded = await addNewFiatAccount(
-        fakeProviderURL,
-        fiatAccountSchema,
-        reqBody
-      )
-      expect(newFiatAccountadded).toMatchObject(fakeFiatAccountReturned)
+
+      await expect(
+        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
+      ).rejects.toThrowError('Not implemented')
     })
   })
 })

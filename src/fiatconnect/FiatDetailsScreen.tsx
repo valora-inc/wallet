@@ -1,5 +1,4 @@
 import {
-  AccountNumber,
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
@@ -18,12 +17,14 @@ import TextInput from 'src/components/TextInput'
 import { addNewFiatAccount } from 'src/fiatconnect'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'FiatDetailsScreen'
@@ -66,30 +67,9 @@ const SCHEMA_TO_FIELD_METADATA_MAP = {
   ],
 }
 
-// We need to compare the body collected from form to the Interface of the fiat account schema
-// This is a helper function that returns a dummy object of FiatAccountSchema to iterate over
-const getSchemaObjectByType = (fiatAccountSchema: FiatAccountSchema) => {
-  let newSchema: AccountNumber | undefined
-  switch (fiatAccountSchema) {
-    case FiatAccountSchema.AccountNumber:
-      newSchema = {
-        accountName: '',
-        institutionName: '',
-        accountNumber: '',
-        country: '',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-      break
-    default:
-      newSchema = undefined
-  }
-
-  return newSchema
-}
-
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema, cicoQuote } = route.params
+  const { providerURL, fiatAccountSchema, cicoQuote, flow } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -117,6 +97,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return fields
   }, [fiatAccountSchema])
 
+  const implicitFields = (fiatAccountSchema: FiatAccountSchema) => {
+    switch (fiatAccountSchema) {
+      case FiatAccountSchema.AccountNumber:
+        return {
+          country: userCountry.countryCodeAlpha2,
+          fiatAccountType: FiatAccountType.BankAccount,
+        }
+        break
+      default:
+        return {}
+    }
+  }
+
   const onPressNext = async () => {
     validateInput()
 
@@ -126,12 +119,12 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      const validatedBody = validateAndCompleteSchema(
-        body,
-        getSchemaObjectByType(fiatAccountSchema)
-      )
+      const completeBody = {
+        ...body,
+        ...implicitFields(fiatAccountSchema),
+      }
 
-      await addNewFiatAccount(providerURL, fiatAccountSchema, validatedBody)
+      await addNewFiatAccount(providerURL, fiatAccountSchema, completeBody)
         .then((data) => {
           // TODO Tracking here
           dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -150,34 +143,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     }
   }
 
-  const validateAndCompleteSchema = (
-    body: Record<string, string>,
-    schemaObject: AccountNumber | undefined
-  ): Record<string, string> | undefined => {
-    if (!schemaObject) {
-      Logger.error(TAG, 'Cannot create a schema object, check the schema passed from the Prop')
-      return
-    }
-
-    for (const [key] of Object.entries(schemaObject)) {
-      if (!body[key]) {
-        if (key === 'country') {
-          if (!userCountry) {
-            Logger.error(TAG, 'User country is not available from redux')
-            return
-          }
-          body[key] = userCountry.countryCodeAlpha2 || ''
-        } else if (key === 'fiatAccountType') {
-          body[key] = FiatAccountType.BankAccount
-        }
-      }
-    }
-    return body
-  }
-
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
-    // TODO: navigate to SelectProvider screen
+
+    navigate(Screens.SelectProvider, {
+      flow,
+      selectedCrypto: cicoQuote.quote.cryptoType.toUpperCase() as Currency,
+      amount: {
+        crypto: parseInt(cicoQuote.quote.cryptoAmount),
+        fiat: parseInt(cicoQuote.quote.fiatAmount),
+      },
+    })
   }
 
   const validateInput = () => {
