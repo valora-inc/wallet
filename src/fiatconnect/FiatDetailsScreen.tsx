@@ -41,7 +41,7 @@ interface Fields {
 
 // This is a mapping between different fiat account schema to the metadata of the fields that need to be rendered on the bank details screen
 const SCHEMA_TO_FIELD_METADATA_MAP = {
-  [FiatAccountSchema.AccountNumber]: [
+  AccountNumber: [
     {
       name: 'accountName',
       label: i18n.t('fiatAccountSchema.accountName.label'),
@@ -105,7 +105,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }, [navigation])
 
   const getFieldsBySchema = (fiatAccountSchema: FiatAccountSchema): Fields[] => {
-    console.log('lisa fiatAccountSchema', fiatAccountSchema)
     return SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
   }
 
