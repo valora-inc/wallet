@@ -591,8 +591,9 @@
   "sendAndInvite": "Invia e invita",
   "inviteAndSendDialog": {
     "title": "Finisci di invitare {{name}} a Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Completa l’invio"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Condividi un messaggio di invito con {{name}} per unirti a {{appName}}. Una volta che si sono uniti",
+    "button": "Finitura invitante"
   },
   "inviteRewardsBanner": {
     "title": "Invia criptovalute per invitare un amico (beta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi! Ti ho appena inviato delle criptovalute con il mio portafoglio {{appname}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo una ricompensa {{amount}} {{token}} . Usa questo link: {{link}}",
+  "inviteWithRewards": "Ehi! Ti ho appena inviato delle criptovalute con il mio portafoglio {{appName}} . Una volta scaricata l'applicazione e collegato il tuo numero di telefono, entrambi riceveremo una ricompensa {{amount}} {{token}} . Usa questo link: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "CELO guadagnati",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Ricompense settimanali",
-  "feedItemInviteRewardReceivedTitle": "Rete Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Ricompensa ricevuta",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
