@@ -593,7 +593,7 @@
     "title": "Finish inviting {{name}} to Valora",
     "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
-    "button": "Finish sending"
+    "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
     "title": "Send crypto to invite a friend (beta)",
