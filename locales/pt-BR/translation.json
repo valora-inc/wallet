@@ -591,8 +591,9 @@
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Convite final {{name}} a Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Enviar"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Partilhar uma mensagem de convite com {{name}} para aderir {{appName}}. Uma vez que eles se juntem",
+    "button": "Acabar de convidar"
   },
   "inviteRewardsBanner": {
     "title": "Envie criptomoedas para convidar um amigo (beta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Ei! acabei de vos enviar criptograma com a minha {{appname}} carteira. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos um {{amount}} {{token}} recompensa. Utilize esta ligação: {{link}}",
+  "inviteWithRewards": "Ei! acabei de vos enviar criptograma com a minha {{appName}} carteira. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos uma {{amount}} {{token}} recompensa. Utilize esta ligação: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Ganho de CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Recompensas semanais",
-  "feedItemInviteRewardReceivedTitle": "Rede Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Recompensa recebida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
