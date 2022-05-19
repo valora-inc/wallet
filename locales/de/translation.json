@@ -591,8 +591,9 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Beende das Einladen von {{name}} nach Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Senden"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Teile eine Einladungsnachricht mit {{name}} , um {{appName}}beizutreten. Sobald sie beitreten",
+    "button": "Fertig einladend"
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen (Beta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Krypto mit meiner {{appname}} Brieftasche geschickt. Wenn du die App herunterlädst und deine Telefonnummer verbindest, bekommen wir beide eine {{amount}} {{token}} Belohnung. Benutze diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Krypto mit meiner {{appName}} Brieftasche geschickt. Wenn du die App herunterlädst und deine Telefonnummer angibst, bekommen wir beide eine {{amount}} {{token}} Belohnung. Benutze diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
-  "feedItemInviteRewardReceivedTitle": "Supercharge",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
