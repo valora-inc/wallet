@@ -154,13 +154,12 @@ describe('PhoneNumberInput', () => {
     )
 
     expect(getByText('🇨🇮')).toBeTruthy()
-    // TODO: investigate failing assertion - works in App
-    // expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
+    expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
     fireEvent.press(getByTestId('CountrySelectionButton'))
     await flushMicrotasksQueue()
     expect(onPressCountry).toHaveBeenCalled()
 
     fireEvent.changeText(getByTestId('PhoneNumberField'), '2123456789')
-    expect(onChange).toHaveBeenCalledWith('2123456789', '+225')
+    expect(onChange).toHaveBeenCalledWith('21 23 4 56789', '+225')
   })
 })
