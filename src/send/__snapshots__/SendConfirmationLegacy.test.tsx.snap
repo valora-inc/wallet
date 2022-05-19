@@ -407,7 +407,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.title, {"name":"Jane Doe"}
+                        inviteAndSendDialog.title, {"name":"Jane Doe","appName":"Celo Wallet"}
                       </Text>
                       <Text
                         style={
@@ -421,7 +421,7 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.body, {"name":"Jane Doe"}
+                        inviteAndSendDialog.body, {"name":"Jane Doe","amount":1,"currency":"cUSD"}
                       </Text>
                     </View>
                   </RCTScrollView>
