@@ -1,5 +1,7 @@
 import { FetchMock } from 'jest-fetch-mock'
-import { FiatConnectClientConfig, getFiatConnectProviders } from './index'
+import { getFiatConnectProviders } from './index'
+import { FiatConnectClientConfig } from '@fiatconnect/fiatconnect-sdk'
+import { Network } from '@fiatconnect/fiatconnect-types'
 import Logger from '../utils/Logger'
 
 describe('FiatConnect helpers', () => {
@@ -15,6 +17,8 @@ describe('FiatConnect helpers', () => {
         baseUrl: 'https://fake-provider.valoraapp.com',
         providerName: 'fake provider name',
         iconUrl: 'https://fake-icon.valoraapp.com',
+        network: Network.Alfajores,
+        accountAddress: 'fake-address',
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
       const providers = await getFiatConnectProviders()
@@ -29,4 +33,5 @@ describe('FiatConnect helpers', () => {
       expect(providers).toEqual([])
     })
   })
+  describe('loginWithFiatConnectProvider', () => {})
 })
