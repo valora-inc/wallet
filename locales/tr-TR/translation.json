@@ -591,8 +591,9 @@
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Gönderimi tamamla"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
+    "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
     "title": "Bir arkadaş davet etmek için kripto gönderin (beta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appname}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Kazanılan CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Haftalık Ödüller",
-  "feedItemInviteRewardReceivedTitle": "CELO Ağı",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Ödül Alındı",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
