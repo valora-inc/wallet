@@ -200,6 +200,7 @@
   "superchargeNotificationBody": "Your Supercharge rewards are here! Claim them now.",
   "superchargeNotificationStart": "Claim rewards",
   "superchargingNotificationBody": "You're getting rewards with Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "You're getting {{apy}}% rewards with Supercharge ⚡",
   "superchargingNotificationStart": "Learn more",
   "startSuperchargingNotificationBody": "Get rewarded with crypto weekly. Start Supercharging!",
   "startSuperchargingNotificationStart": "Get rewards",
@@ -589,8 +590,8 @@
   },
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
-    "title": "We'll hold on to your payment to {{name}}",
-    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive your payment.",
+    "title": "Finish inviting {{name}} to Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Finish sending"
   },
   "inviteRewardsBanner": {
@@ -708,6 +709,7 @@
     "Iris": "Iris recognition"
   },
   "useBiometryType": "Use {{biometryType}}",
+  "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
@@ -851,7 +853,7 @@
   "amountSent": "Amount Sent",
   "amountCeloWithdrawn": "Amount (CELO)",
   "feeEducation": "The Celo Blockchain collects a transaction fee to keep the network supported and running smoothly.",
-  "inviteMoneyEscrow": "We’ll invite this contact and keep their funds safe until they confirm their account.",
+  "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",
@@ -871,7 +873,7 @@
   "walletAddress": "Wallet Address",
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
-  "inviteWithRewards": "Hey! I’ve been using and enjoying {{appname}} as a crypto wallet. If you download the app and connect your phone number, we’ll both get {{amount}} {{token}}. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appname}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1217,6 +1219,48 @@
   "merchantPaymentSubmitSuccess": "Your payment successfully submitted",
   "merchantWalletUnlockError": "Something went wrong when unlocking your wallet, please try again",
   "noMoreTransactions": "There are no more transactions",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Some payment methods are unavailable in your region",
+    "learnMore": "Learn more.",
+    "whyMissingPayments": "Why don't I see more payment methods?",
+    "dismiss": "Dismiss",
+    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
+    "cryptoExchange": "Cryptocurrency Exchange",
+    "feesVary": "Fees Vary",
+    "viewExchanges": "View Exchanges",
+    "card": "Credit / Debit Card",
+    "bank": "Bank Account",
+    "mobileMoney": "Mobile Money",
+    "minFee": "Min Fee",
+    "numProviders": "{{count}} Providers",
+    "fee": "Fee",
+    "idRequired": "ID Required",
+    "numDays": "1-3 Days",
+    "oneHour": "Less Than 1 Hour",
+    "bestRate": "Best Rate",
+    "header": "Select Payment Method"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Add Funds",
+      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "selectCurrencyTitle": "Add Funds",
+      "exchangeAmountTitle": "Add {{currency}}",
+      "selectProviderHeader": "Select Payment Method"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Withdraw",
+      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "selectCurrencyTitle": "Withdraw Funds",
+      "exchangeAmountTitle": "Withdraw {{currency}}",
+      "selectProviderHeader": "Select Withdraw Method"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Spend",
+      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
+      "selectCurrencyTitle": "Spend Funds"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
