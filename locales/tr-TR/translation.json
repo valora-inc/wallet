@@ -590,8 +590,8 @@
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
-    "title": "{{name}} için olan gönderiminizi saklayacağız",
-    "body": "Valora'ya katılmak için {{name}} ile bir davet mesajı paylaşın. Bir telefon numarası ile katılıp bağlandıklarında, gönderdiğiniz miktarı alacaklardır.",
+    "title": "Finish inviting {{name}} to Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
@@ -853,7 +853,7 @@
   "amountSent": "Gönderilen Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
-  "inviteMoneyEscrow": "Bu kişiyi davet edeceğiz ve hesabını onaylayana kadar bakiyelerini güvenli bir şekilde saklayacağız.",
+  "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -873,7 +873,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! Ben kripto cüzdanı olarak {{appname}} kullanıyorum ve çok memnunum. Uygulamayı indirip telefonunu bağlarsan her ikimiz de {{amount}}{{token}} alacağız. Bu bağlantıyı kullan: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appname}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",

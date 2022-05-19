@@ -590,8 +590,8 @@
   },
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Wir bewahren deine Zahlung an {{name}}",
-    "body": "Teile eine Einladungsnachricht an {{name}}. Sobald dein Freund beitritt und seine Telefonnummer verbindet, erhält er die Zahlung.",
+    "title": "Beende das Einladen von {{name}} nach Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Senden"
   },
   "inviteRewardsBanner": {
@@ -853,7 +853,7 @@
   "amountSent": "Betrag gesendet",
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
-  "inviteMoneyEscrow": "Wir werden diesen Kontakt einladen und ihr Guthaben sicher halten, bis sie ihr Konto bestätigen.",
+  "inviteMoneyEscrow": "Sende diesem Kontakt eine Einladungsnachricht und er erhält das Geld, sobald er seine Nummer verbindet.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -873,7 +873,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe {{appname}} als Krypto-Brieftasche benutzt und bin begeistert. Wenn du die App herunterlädst und deine Telefonnummer verknüpfst, erhalten wir beide {{amount}} {{token}}. Verwende diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Krypto mit meiner {{appname}} Brieftasche geschickt. Wenn du die App herunterlädst und deine Telefonnummer verbindest, bekommen wir beide eine {{amount}} {{token}} Belohnung. Benutze diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
