@@ -590,8 +590,8 @@
   },
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
-    "title": "Nós manteremos o seu pagamento para {{name}}",
-    "body": "Compartilhe uma mensagem de convite para {{name}}. Uma vez que ele se inscrever na {{appName}} e conectar seu número de celular, ele receberá o pagamento.",
+    "title": "Convite final {{name}} a Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
@@ -853,7 +853,7 @@
   "amountSent": "Quantia enviada",
   "amountCeloWithdrawn": "Quantia (CELO)",
   "feeEducation": "O blockchain da Celo coleta uma taxa de transação para manter o suporte e o bom funcionamento da sua rede.",
-  "inviteMoneyEscrow": "Convidaremos este contato e manteremos seus fundos seguros até que ele confirme a conta.",
+  "inviteMoneyEscrow": "Envie este contacto uma mensagem de convite e eles receberão os fundos assim que ligarem o seu número.",
   "reviewPayment": "Revisar pagamento",
   "requestPayment": "Solicitar pagamento",
   "max": "MAX",
@@ -873,7 +873,7 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Olá! Estou usando e gostando do app {{appname}} como uma carteira de criptomoedas. Se você fizer o download do app e conectar o seu número de celular, nós dois ganharemos {{amount}} {{token}}. Use este link: {{link}}",
+  "inviteWithRewards": "Ei! acabei de vos enviar criptograma com a minha {{appname}} carteira. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos um {{amount}} {{token}} recompensa. Utilize esta ligação: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
