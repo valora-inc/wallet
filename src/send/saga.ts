@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
 import { showErrorOrFallback } from 'src/alert/actions'
-import { SendEvents } from 'src/analytics/Events'
+import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { calculateFee, currencyToFeeCurrency, FeeInfo } from 'src/fees/saga'
@@ -386,6 +386,7 @@ export function* sendPaymentOrInviteSaga({
   feeInfo,
   fromModal,
 }: SendPaymentOrInviteAction) {
+  const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
   try {
     yield call(getConnectedUnlockedAccount)
     if (recipient.address) {
@@ -403,6 +404,11 @@ export function* sendPaymentOrInviteSaga({
     }
 
     yield put(sendPaymentOrInviteSuccess(amount))
+    if (tokenInfo?.symbol === 'CELO') {
+      ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
+        amount: amount.toString(),
+      })
+    }
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
     yield put(sendPaymentOrInviteFailure())
