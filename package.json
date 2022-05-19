@@ -292,7 +292,6 @@
     "typescript-json-schema": "^0.53.0"
   },
   "resolutions": {
-    "google-libphonenumber": "^3.2.27",
     "ethers": "5.0.5",
     "**/truffle/mocha": "^6.2.2",
     "**/truffle-security/mocha": "^6.2.2",
