@@ -386,9 +386,9 @@ export function* sendPaymentOrInviteSaga({
   feeInfo,
   fromModal,
 }: SendPaymentOrInviteAction) {
-  const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
   try {
     yield call(getConnectedUnlockedAccount)
+    const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
     if (recipient.address) {
       yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
     } else if (recipientHasNumber(recipient)) {
