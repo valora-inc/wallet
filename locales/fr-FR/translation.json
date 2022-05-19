@@ -591,8 +591,9 @@
   "sendAndInvite": "Envoyer et inviter",
   "inviteAndSendDialog": {
     "title": "Finir d'inviter {{name}} à Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Terminer l'envoi"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Partage un message d'invitation avec {{name}} pour rejoindre {{appName}}. Une fois qu'ils ont rejoint",
+    "button": "Finition invitant"
   },
   "inviteRewardsBanner": {
     "title": "Envoyez des crypto pour inviter un ami (bêta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Salut ! Je viens de t'envoyer de la crypto avec mon portefeuille {{appname}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux une {{amount}} {{token}} récompense. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Salut ! Je viens de t'envoyer de la crypto avec mon portefeuille {{appName}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux une {{amount}} {{token}} récompense. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
-  "feedItemInviteRewardReceivedTitle": "Réseau Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Récompense reçue",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
