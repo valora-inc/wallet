@@ -89,7 +89,7 @@ const getSchemaObjectByType = (fiatAccountSchema: FiatAccountSchema) => {
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema, allowedValues, cicoQuote } = route.params
+  const { providerURL, fiatAccountSchema, cicoQuote } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -159,7 +159,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       return
     }
 
-    for (const [key, val] of Object.entries(schemaObject)) {
+    for (const [key] of Object.entries(schemaObject)) {
       if (!body[key]) {
         if (key === 'country') {
           if (!userCountry) {
