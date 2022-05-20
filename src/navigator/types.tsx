@@ -6,7 +6,7 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -87,8 +87,9 @@ export type StackParamList = {
     providerURL: string
     fiatAccountSchema: FiatAccountSchema
     allowedValues?: Record<string, string[]>
-    cicoQuote: QuoteResponse
+    cicoQuote?: QuoteResponse
     flow: CICOFlow
+    provider: ProviderInfo
   }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }

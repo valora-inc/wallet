@@ -1267,10 +1267,10 @@
   "fiatDetailsScreen": {
     "header": "Enter Bank Details",
     "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora."
+    "addFiatAccountSuccess": "Your account has been linked to Valora.",
+    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
+    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
   },
-  "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-  "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
   "fiatAccountSchema": {
     "accountName": {
       "label": "Account Name",

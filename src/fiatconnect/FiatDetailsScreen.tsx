@@ -1,4 +1,5 @@
 import {
+  AccountNumber,
   FiatAccountSchema,
   FiatAccountType,
   FiatConnectError,
@@ -32,44 +33,57 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 
-interface Fields {
+interface FormFieldParam {
   name: string
   label: string
   regex: RegExp
   placeholderText: string
   errorMessage: string
 }
+interface ImplicitFormFieldParam<T> {
+  value: T
+}
+
+interface SchemaMetadata {
+  [FiatAccountSchema.AccountNumber]: {
+    [Property in keyof AccountNumber]:
+      | FormFieldParam
+      | ImplicitFormFieldParam<AccountNumber[Property]>
+  }
+}
 
 // This is a mapping between different fiat account schema to the metadata of the fields that need to be rendered on the bank details screen
-const SCHEMA_TO_FIELD_METADATA_MAP = {
-  [FiatAccountSchema.AccountNumber]: [
-    {
+const SCHEMA_TO_FIELD_METADATA_MAP: SchemaMetadata = {
+  [FiatAccountSchema.AccountNumber]: {
+    accountName: {
       name: 'accountName',
       label: i18n.t('fiatAccountSchema.accountName.label'),
       regex: /.*?/,
       placeholderText: i18n.t('fiatAccountSchema.accountName.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.accountName.errorMessage'),
     },
-    {
+    institutionName: {
       name: 'institutionName',
       label: i18n.t('fiatAccountSchema.institutionName.label'),
       regex: /.*?/,
       placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.institutionName.errorMessage'),
     },
-    {
+    accountNumber: {
       name: 'accountNumber',
       label: i18n.t('fiatAccountSchema.accountNumber.label'),
       regex: /^[0-9]{10}$/,
       placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
       errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
     },
-  ],
+    country: { value: 'US' },
+    fiatAccountType: { value: FiatAccountType.BankAccount },
+  },
 }
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema, cicoQuote, flow } = route.params
+  const { providerURL, fiatAccountSchema, cicoQuote, flow, provider } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -84,13 +98,15 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     })
   }, [navigation])
 
-  const getFieldsBySchema = (fiatAccountSchema: FiatAccountSchema): Fields[] => {
-    return SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
-  }
-
   const formFields = useMemo(() => {
-    const fields = getFieldsBySchema(fiatAccountSchema)
+    const fields: FormFieldParam[] = Object.values(
+      SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
+    ).filter((field): field is FormFieldParam => {
+      // filter only the fields that are not implicit
+      return 'errorMessage' in field
+    })
 
+    console.log('lisa fields', fields)
     for (let i = 0; i < fields.length; i++) {
       inputRefs.current.push('')
     }
@@ -146,14 +162,16 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
 
-    navigate(Screens.SelectProvider, {
-      flow,
-      selectedCrypto: cicoQuote.quote.cryptoType.toUpperCase() as Currency,
-      amount: {
-        crypto: parseInt(cicoQuote.quote.cryptoAmount),
-        fiat: parseInt(cicoQuote.quote.fiatAmount),
-      },
-    })
+    if (cicoQuote) {
+      navigate(Screens.SelectProvider, {
+        flow,
+        selectedCrypto: cicoQuote.quote.cryptoType.toUpperCase() as Currency,
+        amount: {
+          crypto: parseInt(cicoQuote.quote.cryptoAmount),
+          fiat: parseInt(cicoQuote.quote.fiatAmount),
+        },
+      })
+    }
   }
 
   const validateInput = () => {
@@ -216,7 +234,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <ForwardChevron color={colors.gray4} />
               <Image
                 source={{
-                  uri: cicoQuote.provider.logo,
+                  uri: 'jghgjhfk',
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"

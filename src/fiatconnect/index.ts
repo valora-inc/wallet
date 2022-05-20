@@ -1,4 +1,4 @@
-import { AddFiatAccountResponse } from '@fiatconnect/fiatconnect-types'
+import { AccountNumber, AddFiatAccountResponse } from '@fiatconnect/fiatconnect-types'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from '../utils/Logger'
 
@@ -32,7 +32,9 @@ export async function getFiatConnectProviders(): Promise<FiatConnectClientConfig
 export async function addNewFiatAccount(
   providerURL: string,
   fiatAccountSchema: string,
-  properties: any
+  properties: {
+    [Property in keyof AccountNumber]: any
+  }
 ): Promise<AddFiatAccountResponse> {
   // TODO: use the SDK to make the request once SDK is published
   throw new Error('Not implemented')
