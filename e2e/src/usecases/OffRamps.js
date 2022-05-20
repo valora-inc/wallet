@@ -2,146 +2,120 @@ import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
 
+const jestExpect = require('expect')
+
 export default offRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
-    await waitForElementId('cashOut')
-    await element(by.id('cashOut')).tap()
   })
 
-  describe('cUSD', () => {
+  describe('When on Add & Withdraw', () => {
+    it('Then should have support link', async () => {
+      await waitForElementId('otherFundingOptions')
+    })
+
+    it('Then should display total balance and navigate back', async () => {
+      await waitForElementId('ViewBalances')
+      await element(by.id('ViewBalances')).tap()
+      await expect(element(by.text('Assets'))).toBeVisible()
+      await element(by.id('BackChevron')).tap()
+      await expect(element(by.text('Assets'))).not.toBeVisible()
+      await waitForElementId('ViewBalances')
+    })
+  })
+
+  describe('When Spend selected', () => {
     beforeEach(async () => {
+      await waitForElementId('spend')
+      await element(by.id('spend')).tap()
+    })
+
+    it('Then should be able to spend cUSD', async () => {
       await waitForElementId('radio/cUSD')
       await element(by.id('radio/cUSD')).tap()
+      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId('RNWebView')
+      await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
-    describe('When Bank Account Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('receiveWithBank')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Be Display No Providers Message', async () => {
-        await waitForElementId('FiatExchangeInput')
-        // Enter Amount to Exchange
-        await element(by.id('FiatExchangeInput')).replaceText('2')
-        // Got To Exchanges
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Check Page Elements
-        await waitForElementId('noProviders')
-        await waitForElementId('ContactSupport')
-      })
-    })
-
-    describe('When Gift Cards and Mobile Top Up Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('receiveWithBidali')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Bidali Should Display', async () => {
-        await waitForElementId('RNWebView')
-        await expect(element(by.text('Bidali'))).toBeVisible()
-      })
-    })
-
-    describe('When Cryptocurrency Exchanges Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.id('GoToProviderButton')).tap()
-      })
-
-      it('Then Should Display Exchanges', async () => {
-        await waitForElementId('provider-0')
-        await expect(element(by.id('provider-1'))).toBeVisible()
-        await expect(element(by.id('provider-2'))).toBeVisible()
-      })
-    })
-  })
-
-  describe('cEUR', () => {
-    beforeEach(async () => {
+    it('Then should be able to spend cEUR', async () => {
       await waitForElementId('radio/cEUR')
       await element(by.id('radio/cEUR')).tap()
+      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId('RNWebView')
+      await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
-    describe('When Gift Cards and Mobile Top Up Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('receiveWithBidali')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Bidali Should Display', async () => {
-        await waitForElementId('RNWebView')
-        await expect(element(by.text('Bidali'))).toBeVisible()
-      })
-    })
-
-    describe('When Cryptocurrency Exchanges Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.id('GoToProviderButton')).tap()
-      })
-
-      it('Then Should Display Exchanges', async () => {
-        await waitForElementId('provider-0')
-        await expect(element(by.id('provider-1'))).toExist()
-      })
+    // TODO(tomm) debug why this is failing on Android
+    it(':ios: Then should not be able to spend CELO', async () => {
+      await waitForElementId('radio/CELO')
+      let celoRadioButton = await element(by.id('radio/CELO')).getAttributes()
+      jestExpect(celoRadioButton.enabled).toBeFalsy()
     })
   })
 
-  describe('CELO', () => {
+  describe('When Withdraw Selected', () => {
     beforeEach(async () => {
+      await waitForElementId('cashOut')
+      await element(by.id('cashOut')).tap()
+    })
+
+    it.each`
+      token     | amount | exchanges
+      ${'cUSD'} | ${'2'} | ${{ total: 5, minExpected: 2 }}
+      ${'cEUR'} | ${'2'} | ${{ total: 2, minExpected: 1 }}
+      ${'CELO'} | ${'2'} | ${{ total: 19, minExpected: 5 }}
+    `(
+      'Then should display $token provider(s) for $$amount',
+      async ({ token, amount, exchanges }) => {
+        await waitForElementId(`radio/${token}`)
+        await element(by.id(`radio/${token}`)).tap()
+        await element(by.text('Next')).tap()
+        await waitForElementId('FiatExchangeInput')
+        await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
+        await element(by.id('FiatExchangeNextButton')).tap()
+        await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
+        await waitForElementId('Exchanges')
+        await element(by.id('Exchanges')).tap()
+        // Exchanges start at index 0
+        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
+      }
+    )
+
+    it('Then Send To Address', async () => {
+      const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
       await waitForElementId('radio/CELO')
       await element(by.id('radio/CELO')).tap()
-    })
-
-    describe('When Address Selected', () => {
-      const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-
-      beforeEach(async () => {
-        await element(by.id('receiveOnAddress')).tap()
-        await element(by.text('Next')).tap()
-        await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-        await element(by.id('CeloAmount')).replaceText(randomAmount)
-        //TODO: Investigate why sleep is needed
-        await sleep(1000)
-        await element(by.id('WithdrawReviewButton')).tap()
-      })
-
-      it('Then Send To Address', async () => {
-        // Confirm withdrawal for randomAmount
-        await element(by.id('ConfirmWithdrawButton')).tap()
-        // Enter PIN if necessary
-        await enterPinUiIfNecessary()
-        // Assert we've arrived at the home screen
-        await waitForElementId('SendOrRequestBar')
-        // Failing due to alfajores blockscout issues
-        // Assert send transaction is present in feed
-        // const target = element(
-        //   by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
-        // ).atIndex(0)
-        // await waitFor(target)
-        //   .toBeVisible()
-        //   .withTimeout(30 * 1000)
-        // await expect(target).toBeVisible()
-      })
-    })
-
-    describe('When Cryptocurrency Exchanges Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.id('GoToProviderButton')).tap()
-      })
-
-      it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
-        await waitForElementId('provider-0')
-        await expect(element(by.id('provider-1'))).toBeVisible()
-        await expect(element(by.id('provider-2'))).toBeVisible()
-        await expect(element(by.id('WithdrawCeloButton'))).toBeVisible()
-      })
+      await element(by.text('Next')).tap()
+      await waitForElementId('FiatExchangeInput')
+      await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)
+      await element(by.id('FiatExchangeNextButton')).tap()
+      await waitForElementId('Exchanges')
+      await element(by.id('Exchanges')).tap()
+      await element(by.id('WithdrawCeloButton')).tap()
+      await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
+      await element(by.id('CeloAmount')).replaceText(randomAmount)
+      //TODO: Investigate why sleep is needed
+      await sleep(1000)
+      await element(by.id('WithdrawReviewButton')).tap()
+      // Confirm withdrawal for randomAmount
+      await element(by.id('ConfirmWithdrawButton')).tap()
+      // Enter PIN if necessary
+      await enterPinUiIfNecessary()
+      // Assert we've arrived at the home screen
+      await waitForElementId('SendOrRequestBar')
+      // flakey due to alfajores blockscout issues
+      // We might want to fix to make the transaction feed { tx receipts } ∪ { blockscout txs }
+      // Assert send transaction is present in feed
+      // const target = element(
+      //   by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))
+      // ).atIndex(0)
+      // await waitFor(target)
+      //   .toBeVisible()
+      //   .withTimeout(30 * 1000)
+      // await expect(target).toBeVisible()
     })
   })
 }

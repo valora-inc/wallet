@@ -185,6 +185,7 @@ function storePinWithBiometry(pin: string) {
       accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
       authenticationType: Keychain.AUTHENTICATION_TYPE.BIOMETRICS,
+      securityLevel: Keychain.SECURITY_LEVEL.SECURE_SOFTWARE,
     },
   })
 }
@@ -316,7 +317,13 @@ export async function setPincodeWithBiometry() {
 export async function getPincodeWithBiometry() {
   try {
     ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_start)
-    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN)
+    const retrievedPin = await retrieveStoredItem(STORAGE_KEYS.PIN, {
+      // only displayed on Android - would be displayed on iOS too if we allow
+      // device pincode fallback
+      authenticationPrompt: {
+        title: i18n.t('unlockWithBiometryPrompt'),
+      },
+    })
     if (retrievedPin) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_biometry_complete)
       setCachedPin(DEFAULT_CACHE_ACCOUNT, retrievedPin)

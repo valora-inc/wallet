@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Программа Supercharge",
-  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения {{percent}}% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
+  "consumerIncentivesSummary": "Воспользуйтесь программой Supercharge! Получите в качестве вознаграждения 12% годовых на ваш максимальный остаток в стейблкоинах (cUSD, cEUR или cREAL). Предложение действует в течение ограниченного времени. Вот как это работает.",
   "earnWeekly": {
     "header": "Подключить номер телефона",
     "text": "Нажмите \"Подключить номер\", если подключение еще не выполнено."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Все просто. Повысьте свои доходы от криптовалюты за счет программы Supercharge!",
   "superchargeTitle": "Присоединяйтесь к программе Supercharge",
-  "superchargeDescription": "Получите вознаграждение {{apy}}% годовых на свой баланс {{token}}. Вот как начать:",
+  "superchargeDescription": "Получите вознаграждение 12% годовых на свой баланс {{token}}. Вот как начать:",
   "superchargeConnectNumber": "Подключите свой номер телефона",
   "superchargeMinimumBalance": "Внесите минимальную сумму {{amount}} {{token}}",
   "superchargeDisclaimer": "Получите максимальное вознаграждение, внеся до {{amount}} {{token}}",
@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingDescription": "По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -199,7 +199,8 @@
   "superchargeClaimFailure": "Возникла проблема с заявкой на вознаграждения Supercharge.",
   "superchargeNotificationBody": "Вознаграждения Supercharge уже ждут вас! Получите их прямо сейчас",
   "superchargeNotificationStart": "Получить вознаграждения",
-  "superchargingNotificationBody": "Вы получаете 25% С Supercharge ⚡",
+  "superchargingNotificationBody": "Вы получаете 12% С Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "Ты получаешь {{apy}}% вознаграждения с помощью Supercharge ⚡.",
   "superchargingNotificationStart": "Дополнительно",
   "startSuperchargingNotificationBody": "Получайте еженедельные криптовознаграждения. Присоединяйтесь к Supercharge!",
   "startSuperchargingNotificationStart": "Начать",
@@ -589,13 +590,13 @@
   },
   "sendAndInvite": "Отправить и пригласить",
   "inviteAndSendDialog": {
-    "title": "Мы сохраним ваш платеж для {{name}}",
-    "body": "Поделитесь с {{name}} сообщением с приглашением присоединиться к Valora. Как только пользователь присоединится и привяжет свой номер телефона, то получит ваш платеж.",
+    "title": "Закончите приглашение {{name}} в Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Завершить отправку"
   },
   "inviteRewardsBanner": {
-    "title": "Отправь криптовалюту, чтобы пригласить друга (бета-версия)",
-    "body": "Как только они создадут свой {{appName}} кошелек, каждый из вас получит {{amount}} {{currency}} в виде вознаграждений. Зарабатывай до <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Отправьте криптовалюту, чтобы пригласить друга/подруги (бета-версия)",
+    "body": "Как только они создадут свой {{appName}} кошелек, каждый из вас получит по {{amount}} {{currency}} в виде вознаграждения. Заработайте до <0>{{maxAmount}} {{currency}}</0>!"
   },
   "getReward": "Получить ${{reward}}",
   "welcomeCelo": "Добро пожаловать в {{appName}}",
@@ -708,6 +709,7 @@
     "Iris": "Распознавание по радужной оболочке глаза"
   },
   "useBiometryType": "Использовать {{biometryType}}",
+  "unlockWithBiometryPrompt": "Пройдите аутентификацию для разблокировки {{appName}}.",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
@@ -855,7 +857,7 @@
   "amountSent": "Отправленная сумма",
   "amountCeloWithdrawn": "Сумма (CELO)",
   "feeEducation": "Блокчейн Celo взимает комиссию за транзакцию для обеспечения поддержки и бесперебойной работы сообщества.",
-  "inviteMoneyEscrow": "Мы пригласим этот контакт и обеспечим сохранность его средств до подтверждения им своего аккаунта.",
+  "inviteMoneyEscrow": "Отправь этому контакту сообщение с приглашением, и он получит средства, как только подключит свой номер.",
   "reviewPayment": "Проверить платеж",
   "requestPayment": "Запросить платеж",
   "max": "МАКС.",
@@ -875,7 +877,7 @@
   "walletAddress": "Адрес кошелька",
   "inviteWithoutPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Это просто! Ознакомиться с этим способом можно по ссылке: {{link}}",
   "inviteWithEscrowedPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Я уже отправил(а) тебе {{amount}} {{token}}. Скачай приложение {{appName}} и приобрети {{token}} по этой ссылке: {{link}}",
-  "inviteWithRewards": "Привет! Я использовал и наслаждался {{appname}} в качестве криптокошелька. Если ты скачаешь приложение и подключишь свой номер телефона, мы оба получим {{amount}} {{token}}. Используй эту ссылку: {{link}}.",
+  "inviteWithRewards": "Привет! Я только что отправил тебе криптовалюту со своего кошелька {{appname}} . Как только ты скачаешь приложение и подключишь свой номер телефона, мы оба получим вознаграждение {{amount}} {{token}} . Используй эту ссылку: {{link}}",
   "loadingContacts": "Поиск контактов",
   "myCode": "Мой код",
   "scanCode": "Сканировать",
@@ -971,7 +973,8 @@
     "decrypt": "Расшифровка загруженных данных",
     "accounts": "Прочитать адрес аккаунта {{appName}}",
     "details": "Подробнее",
-    "computeSharedSecret": "Генерировать учетные данные"
+    "computeSharedSecret": "Генерировать учетные данные",
+    "emptyMessage": "Пустое сообщение"
   },
   "sessionInfo": "Это приложение может запросить выполнение следующих действий:",
   "description": {
@@ -1220,6 +1223,48 @@
   "merchantPaymentSubmitSuccess": "Ваш платеж успешно отправлен",
   "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в твоем регионе",
+    "learnMore": "Дополнительно.",
+    "whyMissingPayments": "Почему я не вижу больше способов оплаты?",
+    "dismiss": "Закрыть",
+    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой отдельной стране.\n\nЭто может быть связано с тем, что такой возможности не существует в данной стране или она заблокирована из-за местных правил.",
+    "cryptoExchange": "Криптовалютная биржа",
+    "feesVary": "Плата варьируется",
+    "viewExchanges": "Просмотреть биржи",
+    "card": "Кредитная / дебетовая карта",
+    "bank": "Банковский счет",
+    "mobileMoney": "Мобильные деньги",
+    "minFee": "Минимальная плата",
+    "numProviders": "{{count}} Провайдеры",
+    "fee": "Комиссия",
+    "idRequired": "Требуется удостоверение личности",
+    "numDays": "1-3 дня",
+    "oneHour": "Менее 1 часа",
+    "bestRate": "Лучшая ставка",
+    "header": "Выберите способ оплаты"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Внести средства",
+      "fiatExchangeSubtitle": "Пополни свой счет {{appName}} из банка, с карты или биржи.",
+      "selectCurrencyTitle": "Внести средства",
+      "exchangeAmountTitle": "Внести {{currency}}",
+      "selectProviderHeader": "Выберите способ оплаты"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Вывести",
+      "fiatExchangeSubtitle": "Выведи средства из {{appName}} и переведи на банковский счет, карту, криптовалютную биржу или на мобильные деньги.",
+      "selectCurrencyTitle": "Вывод средств",
+      "exchangeAmountTitle": "Вывести {{currency}}",
+      "selectProviderHeader": "Выберите способ вывода средств"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Потратить",
+      "fiatExchangeSubtitle": "Трать на подарочные карты и другие покупки.",
+      "selectCurrencyTitle": "Расходовать средства"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

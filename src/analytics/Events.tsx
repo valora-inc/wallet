@@ -384,52 +384,54 @@ export enum CeloExchangeEvents {
 }
 
 export enum FiatExchangeEvents {
-  external_exchange_link = 'external_exchange_link',
-  spend_merchant_link = 'spend_merchant_link',
+  // The CICO landing page accessible from the Settings Menu
+  cico_landing_token_balance = 'cico_landing_token_balance', // User taps to view detailed token balance
+  cico_landing_select_flow = 'cico_landing_select_flow', // User taps which CICO flow they want (Cash in, cash out, spend)
+  cico_landing_how_to_fund = 'cico_landing_how_to_fund', // User taps help article link at the bottom
 
-  cico_option_chosen = 'cico_option_chosen',
-  provider_chosen = 'provider_chosen',
-  cash_in_success = 'cash_in_success',
+  // The CICO Currency screen where the user selects their digital currency
+  cico_currency_chosen = 'cico_currency_chosen', // User selects a currency and taps next
+  cico_currency_back = 'cico_currency_back', // User presses the back button from the currency screen
 
-  cico_add_funds_selected = 'cico_add_funds_selected',
+  // The CICO Amount screen where the user selects the amount of money
+  cico_amount_chosen = 'cico_amount_chosen', // User selects a valid amount and taps next
+  cico_amount_chosen_invalid = 'cico_amount_chosen_invalid', // User attempts to click next but the amount is invalid
+  cico_amount_back = 'cico_amount_back', // User presses the back button from the amount screen
+
+  // Select Provider Screen
+  cico_providers_section_impression = 'cico_providers_section_impression', // User sees a category of providers
+  cico_providers_section_expand = 'cico_providers_section_expand', // User expands a category of providers
+  cico_providers_section_collapse = 'cico_providers_section_collapse', // User collapses a category of providers
+  cico_providers_quote_selected = 'cico_providers_quote_selected', // User selects a quote
+  cico_providers_exchanges_selected = 'cico_providers_exchanges_selected', // User taps the External Exchanges section
+
+  cico_providers_back = 'cico_providers_back', // User presses the back button from the Select Providers screen
+  cico_providers_unavailable_impression = 'cico_providers_unavailable_impression', // User sees a blurb about providers unavailable
+  cico_providers_unavailable_selected = 'cico_providers_unavailable_selected', // User taps a blurb about providers unavalable
+
+  // Cash In Success Screen
+  cash_in_success = 'cash_in_success', // Screen users are (most of the time) redirected to after cash in with external providers
+
   // Add fund flow entered through home screen cash in bottom sheet
   cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
   cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
   cico_add_funds_bottom_sheet_ramp_selected = 'cico_add_funds_bottom_sheet_ramp_selected',
   cico_add_funds_bottom_sheet_ramp_available = 'cico_add_funds_bottom_sheet_ramp_available',
 
-  cico_cash_out_selected = 'cico_cash_out_selected',
-  cico_spend_selected = 'cico_spend_selected',
-  cico_fund_info = 'cico_fund_info',
-  cico_fund_info_return = 'cico_fund_info_return',
-
-  cico_add_funds_back = 'cico_add_funds_back',
-  cico_add_funds_info = 'cico_add_funds_info',
+  // Funding Education Dialog Screen
   cico_add_funds_info_support = 'cico_add_funds_info_support',
-  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel',
-
-  cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
-  cico_add_funds_amount_back = 'cico_add_funds_amount_back',
-  cico_add_funds_invalid_amount = 'cico_add_funds_invalid_amount',
-  cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
-
-  cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
-  cico_add_funds_select_provider_info = 'cico_add_funds_select_provider_info',
-  cico_add_funds_select_provider_info_cancel = 'cico_add_funds_select_provider_info_cancel',
-
-  cico_cash_out_back = 'cico_cash_out_back',
-  cico_cash_out_info = 'cico_cash_out_info',
   cico_cash_out_info_support = 'cico_cash_out_info_support',
-  cico_cash_out_info_cancel = 'cico_cash_out_info_cancel',
 
-  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back',
-
+  // External Exchanges Screen
+  external_exchange_link = 'external_exchange_link',
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
+  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 
+  // Spend Flow
+  spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
-  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 }
 
 export enum GethEvents {

@@ -1,5 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import { waitForElementId } from '../utils/utils'
+import { isElementVisible, waitForElementId } from '../utils/utils'
 const jestExpect = require('expect')
 
 export default onRamps = () => {
@@ -7,222 +7,96 @@ export default onRamps = () => {
     await reloadReactNative()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
+    await waitForElementId('addFunds')
     await element(by.id('addFunds')).tap()
   })
 
-  describe('cUSD', () => {
-    beforeEach(async () => {
-      await waitForElementId('radio/cUSD')
-      await element(by.id('radio/cUSD')).tap()
-    })
-
-    describe('When Debt Card Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithCard')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toHaveText('$1.46')
-        // Simplex displays with fee
-        await waitForElementId('Provider/Simplex')
-        await waitForElementId('Icon/Simplex')
-        await expect(element(by.id('ProviderFee/Simplex'))).toHaveText('$10.00')
-        // Transak, Moonpay, Xanpool should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-      })
-    })
-
-    describe('When Bank Account Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithBank')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toHaveText('$1.46')
-        // Simplex displays restricted with fee
-        await waitForElementId('Provider/Simplex')
-        await waitForElementId('Icon/Simplex')
-        await expect(element(by.id('ProviderFee/Simplex'))).toHaveText('$10.00')
-        await expect(element(by.id('RestrictedText/Simplex'))).toBeVisible()
-        // Transak, Moonpay, Xanpool should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-      })
-    })
-
-    describe('When Cryptocurrency Exchange Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Exchanges & Account Address', async () => {
-        await waitForElementId('accountBox')
-        // Wait for https://github.com/wix/Detox/issues/3196 to be fixed to remove hack
-        if (device.getPlatform() === 'ios') {
-          let providerList = await element(by.id('provider')).getAttributes()
-          // Confirm at least 5 exchanges display
-          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
-        } else {
-          waitForElementId('provider-4')
+  describe('When Add Funds selected', () => {
+    it.each`
+      token     | amount
+      ${'cUSD'} | ${'20'}
+      ${'cUSD'} | ${'2'}
+      ${'cEUR'} | ${'20'}
+      ${'cEUR'} | ${'2'}
+      ${'CELO'} | ${'20'}
+      ${'CELO'} | ${'2'}
+    `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
+      await waitForElementId(`radio/${token}`)
+      await element(by.id(`radio/${token}`)).tap()
+      await element(by.text('Next')).tap()
+      await waitForElementId('FiatExchangeInput')
+      await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
+      await element(by.id('FiatExchangeNextButton')).tap()
+      await expect(element(by.text('Select Payment Method'))).toBeVisible()
+      // Check IF Single Card Provider
+      if (await isElementVisible('Card/singleProvider')) {
+        await expect(element(by.id('Card/provider-0'))).toExist()
+        await expect(element(by.id('Card/provider-1'))).not.toExist()
+      }
+      // Check IF Multiple Card Providers
+      if (await isElementVisible('Card/numProviders')) {
+        let cardProviders = await element(by.id('Card/numProviders')).getAttributes()
+        numCardProviders =
+          device.getPlatform() === 'ios'
+            ? cardProviders.label.split(' ')[0]
+            : cardProviders.text.split(' ')[0]
+        await element(by.id('Card/section')).tap()
+        // Check that best rate is displayed first
+        await expect(
+          element(by.id('Card/provider-0').withDescendant(by.id('Card/bestRate')))
+        ).toExist()
+        // Check that the expected number of providers show
+        for (let i = 0; i < numCardProviders; i++) {
+          await expect(element(by.id(`Card/provider-${i}`))).toExist()
         }
-      })
-    })
-  })
-
-  describe('cEUR', () => {
-    beforeEach(async () => {
-      await waitForElementId('radio/cEUR')
-      await element(by.id('radio/cEUR')).tap()
-    })
-
-    describe('When Debit Card Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithCard')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toExist()
-        // Transak, Moonpay, Xanpool, Simplex should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-        await expect(element(by.id('Provider/Simplex'))).not.toExist()
-      })
-    })
-
-    describe('When Bank Account Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithBank')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toExist()
-        // Transak, Moonpay, Xanpool, Simplex should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-        await expect(element(by.id('Provider/Simplex'))).not.toExist()
-      })
-    })
-
-    describe('When Cryptocurrency Exchange Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Exchanges & Account Address', async () => {
-        await waitForElementId('accountBox')
-        if (device.getPlatform() === 'ios') {
-          let providerList = await element(by.id('provider')).getAttributes()
-          // Confirm at least 2 exchanges display
-          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(2)
-        } else {
-          waitForElementId('provider-1')
+      }
+      // Check IF Single Bank Provider
+      if (await isElementVisible('Bank/singleProvider')) {
+        await expect(element(by.id('Bank/provider-0'))).toExist()
+        await expect(element(by.id('Bank/provider-1'))).not.toExist()
+      }
+      // Check IF Multiple Bank Providers
+      if (await isElementVisible('Bank/numProviders')) {
+        let bankProviders = await element(by.id('Card/numProviders')).getAttributes()
+        numBankProviders =
+          device.getPlatform() === 'ios'
+            ? bankProviders.label.split(' ')[0]
+            : bankProviders.text.split(' ')[0]
+        await element(by.id('Bank/section')).tap()
+        // Check that best rate is displayed first
+        await expect(
+          element(by.id('Bank/provider-0').withDescendant(by.id('Bank/bestRate')))
+        ).toExist()
+        // Check that the expected number of providers show
+        for (let i = 0; i < numBankProviders; i++) {
+          await expect(element(by.id(`Bank/provider-${i}`))).toExist()
         }
-      })
-    })
-  })
-
-  describe('CELO', () => {
-    beforeEach(async () => {
-      await waitForElementId('radio/CELO')
-      await element(by.id('radio/CELO')).tap()
+      }
     })
 
-    describe('When Debit Card Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithCard')).tap()
+    // Verify that some exchanges are displayed not the exact total as this could change
+    // Maybe use total in the future
+    it.each`
+      token     | exchanges
+      ${'cUSD'} | ${{ total: 5, minExpected: 2 }}
+      ${'cEUR'} | ${{ total: 2, minExpected: 1 }}
+      ${'CELO'} | ${{ total: 19, minExpected: 5 }}
+    `(
+      'Then should display at least $exchanges.minExpected $token exchange(s)',
+      async ({ token, exchanges }) => {
+        await waitForElementId(`radio/${token}`)
+        await element(by.id(`radio/${token}`)).tap()
         await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
+        await waitForElementId('FiatExchangeInput')
+        await element(by.id('FiatExchangeInput')).replaceText('20')
         await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toExist()
-        // Simplex displays with fee
-        await waitForElementId('Provider/Simplex')
-        await waitForElementId('Icon/Simplex')
-        await expect(element(by.id('ProviderFee/Simplex'))).toHaveText('$10.00')
-        // Transak, Moonpay, Xanpool should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-      })
-    })
-
-    describe('When Bank Account Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('payWithBank')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Providers', async () => {
-        await element(by.id('FiatExchangeInput')).replaceText('50')
-        await element(by.id('FiatExchangeNextButton')).tap()
-        // Ramp displays with with fee
-        await waitForElementId('Provider/Ramp')
-        await waitForElementId('Icon/Ramp')
-        await expect(element(by.id('ProviderFee/Ramp'))).toExist()
-        // Simplex displays restricted with fee
-        await waitForElementId('Provider/Simplex')
-        await waitForElementId('Icon/Simplex')
-        await expect(element(by.id('ProviderFee/Simplex'))).toHaveText('$10.00')
-        await expect(element(by.id('RestrictedText/Simplex'))).toBeVisible()
-        // Transak, Moonpay, Xanpool should not displayed
-        await expect(element(by.id('Provider/Transak'))).not.toExist()
-        await expect(element(by.id('Provider/Moonpay'))).not.toExist()
-        await expect(element(by.id('Provider/Xanpool'))).not.toExist()
-      })
-    })
-
-    describe('When Cryptocurrency Exchange Selected', () => {
-      beforeEach(async () => {
-        await element(by.id('withExchange')).tap()
-        await element(by.text('Next')).tap()
-      })
-
-      it('Then Should Display Exchanges & Account Address', async () => {
+        await expect(element(by.text('Select Payment Method'))).toBeVisible()
+        await waitForElementId('Exchanges')
+        await element(by.id('Exchanges')).tap()
         await waitForElementId('accountBox')
-        if (device.getPlatform() === 'ios') {
-          let providerList = await element(by.id('provider')).getAttributes()
-          // Confirm at least 5 exchanges display
-          jestExpect(providerList.elements.length).toBeGreaterThanOrEqual(5)
-        } else {
-          waitForElementId('provider-4')
-        }
-      })
-    })
+        // Exchanges start at index 0
+        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
+      }
+    )
   })
 }

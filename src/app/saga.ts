@@ -45,6 +45,7 @@ import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -266,7 +267,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      navigate(Screens.FiatExchangeOptions, { isCashIn: true })
+      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {

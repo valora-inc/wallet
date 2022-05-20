@@ -27,6 +27,7 @@ import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { FiatExchangeFlow } from './utils'
 
 const TAG = 'ExternalExchanges'
 
@@ -61,6 +62,7 @@ function ExternalExchanges({ route }: Props) {
       ValoraAnalytics.track(FiatExchangeEvents.external_exchange_link, {
         name,
         link,
+        isCashIn,
       })
       navigateToURI(link)
     }
@@ -83,7 +85,10 @@ function ExternalExchanges({ route }: Props) {
 
   const supportOnPress = () => navigate(Screens.SupportContact)
 
-  const switchCurrencyOnPress = () => navigate(Screens.FiatExchangeOptions, { isCashIn: false })
+  const switchCurrencyOnPress = () =>
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+    })
 
   const goToCashOut = () => {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })

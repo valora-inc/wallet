@@ -19,6 +19,10 @@ import {
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
+<<<<<<< HEAD
+=======
+import RecentlyUsedDapps from 'src/home/RecentlyUsedDapps'
+>>>>>>> valora-inc-main
 import SendOrRequestButtons from 'src/home/SendOrRequestButtons'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'

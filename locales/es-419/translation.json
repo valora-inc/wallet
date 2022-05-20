@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Te damos la bienvenida a Supercharge! Obtén un {{percent}}% anual en recompensas sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
+  "consumerIncentivesSummary": "¡Te damos la bienvenida a Supercharge! Obtén un 12% anual en recompensas sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
@@ -177,7 +177,7 @@
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
   "superchargeTitle": "¡Súmate a Supercharge!",
-  "superchargeDescription": "Obtén un {{apy}}% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
+  "superchargeDescription": "Obtén un 12% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
   "superchargeDisclaimer": "Maximiza las recompensas sumando hasta {{amount}} {{token}}",
@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingDescription": "Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -199,7 +199,8 @@
   "superchargeClaimFailure": "Hubo un error al reclamar tus recompensas de Supercharge.",
   "superchargeNotificationBody": "¡Recibiste tus recompensas de Supercharge! Reclámalas hoy mismo",
   "superchargeNotificationStart": "Reclamar recompensas",
-  "superchargingNotificationBody": "Estás recibiendo un 25% en recompensas con Supercharge ⚡",
+  "superchargingNotificationBody": "Estás recibiendo recompensas con Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "Estás recibiendo un {{apy}}% en recompensas con Supercharge ⚡",
   "superchargingNotificationStart": "Más información",
   "startSuperchargingNotificationBody": "Gana recompensas semanales. ¡Súmate a Supercharge!",
   "startSuperchargingNotificationStart": "Primeros pasos",
@@ -589,13 +590,13 @@
   },
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
-    "title": "Guardaremos tu pago a {{name}}",
-    "body": "Envía un mensaje de invitación a {{name}}. Una vez que se una a {{appname}} y conecte su número de teléfono, recibirá el pago.",
+    "title": "Termina de invitar a {{name}} a Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Enviar cripto para invitar a un amigo (beta)",
-    "body": "Una vez que configuren su monedero {{appName}} , cada uno de vosotros obtendrá {{amount}} {{currency}} en recompensas. ¡Gana hasta <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Envía cripto e invita a un amigo (beta)",
+    "body": "Ambos obtendrán <0>{{amount}} {{currency}}</0> una vez que configure su cuenta."
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
@@ -708,6 +709,7 @@
     "Iris": "Reconocimiento de iris"
   },
   "useBiometryType": "Usar {{biometryType}}",
+  "unlockWithBiometryPrompt": "Autenticar para desbloquear {{appName}}",
   "welcome": {
     "title": "Entra de lleno al futuro de las criptomonedas con {{appName}}.",
     "createAccount": "Crear una cuenta",
@@ -851,7 +853,7 @@
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
-  "inviteMoneyEscrow": "Invitaremos a este contacto y mantendremos seguros tus fondos hasta que confirme su cuenta.",
+  "inviteMoneyEscrow": "Envía a este contacto un mensaje de invitación y recibirá los fondos una vez que conecte su número.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -871,7 +873,7 @@
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "¡Hola! Estoy usando la billetera cripto {{appname}} y me encanta. Si descargas la aplicación y conectas tu número de teléfono, ambos obtendremos {{amount}} {{token}}. Usa este enlace: {{link}}",
+  "inviteWithRewards": "Acabo de enviarte cripto con mi monedero {{appname}} . Una vez que descargues la aplicación y conectes tu número de teléfono, ambos obtendremos una recompensa {{amount}} {{token}} . Utiliza este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -967,7 +969,8 @@
     "decrypt": "Descifrar un payload de datos",
     "accounts": "Tu Dirección de cuenta de {{appName}}",
     "details": "Mostrar detalles",
-    "computeSharedSecret": "Generar secretos"
+    "computeSharedSecret": "Generar secretos",
+    "emptyMessage": "Mensaje vacío"
   },
   "sessionInfo": "Esta aplicación puede solicitar realizar las siguientes acciones:",
   "description": {
@@ -1216,6 +1219,48 @@
   "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
   "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, inténtalo de nuevo",
   "noMoreTransactions": "No hay más transacciones",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Algunos métodos de pago no están disponibles en tu región",
+    "learnMore": "Más información.",
+    "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
+    "dismiss": "Ignorar",
+    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en todos los países.\n\nEsto puede deberse a que la opción no existe en ese país, o está bloqueada debido a la normativa local.",
+    "cryptoExchange": "Exchange de criptomonedas",
+    "feesVary": "Las tarifas varían",
+    "viewExchanges": "Ver exchanges",
+    "card": "Tarjeta de crédito/débito",
+    "bank": "Cuenta bancaria",
+    "mobileMoney": "Dinero digital",
+    "minFee": "Tarifa mínima",
+    "numProviders": "{{count}} proveedores",
+    "fee": "Tarifas",
+    "idRequired": "Requiere identificación",
+    "numDays": "1-3 días",
+    "oneHour": "Menos de 1 hora",
+    "bestRate": "Mejor tarifa",
+    "header": "Selecciona el método de pago"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Agregar fondos",
+      "fiatExchangeSubtitle": "Agrega fondos a tu cuenta de {{appName}} desde tu banco, tarjeta o exchange.",
+      "selectCurrencyTitle": "Agregar fondos",
+      "exchangeAmountTitle": "Agregar {{currency}}",
+      "selectProviderHeader": "Selecciona el método de pago"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Retirar",
+      "fiatExchangeSubtitle": "Retira fondos de {{appName}} a tu cuenta bancaria, tarjeta, exchange de criptomonedas o cuenta de dinero digital.",
+      "selectCurrencyTitle": "Retirar fondos",
+      "exchangeAmountTitle": "Retirar {{currency}}",
+      "selectProviderHeader": "Selecciona el método de retiro"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Usar",
+      "fiatExchangeSubtitle": "Gasta tus fondos en tarjetas regalo y otras compras.",
+      "selectCurrencyTitle": "Gastar fondos"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

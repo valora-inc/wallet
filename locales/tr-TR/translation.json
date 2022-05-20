@@ -161,7 +161,7 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
+  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık %12 ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
@@ -177,7 +177,7 @@
   },
   "conclusion": "İşte bu kadar basit. Kriptonuzu hemen Supercharge'layın!",
   "superchargeTitle": "Supercharge'lamaya başlayın",
-  "superchargeDescription": "{{token}} bakiyeniz için yıllık %{{apy}} oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
+  "superchargeDescription": "{{token}} bakiyeniz için yıllık %12 oranında ödül kazanın. Başlamak için şunları yapmanız yeterli:",
   "superchargeConnectNumber": "Telefon numaranı bağla",
   "superchargeMinimumBalance": "En az {{amount}} {{token}} olacak şekilde bakiye ekleyin",
   "superchargeDisclaimer": "Maksimum ödül kazanmak için {{amount}} {{token}}'a kadar ekleme yapabilirsiniz",
@@ -189,7 +189,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingDescription": "Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
@@ -199,7 +199,8 @@
   "superchargeClaimFailure": "Supercharge ödüllerinizi alırken bir hata oluştu.",
   "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et",
   "superchargeNotificationStart": "Ödüllerinizi alın",
-  "superchargingNotificationBody": "Supercharge'ı %25 alıyorsunuz ⚡",
+  "superchargingNotificationBody": "Supercharge'ı %12 alıyorsunuz ⚡",
+  "superchargingNotificationBodyV1_33": "You're getting {{apy}}% rewards with Supercharge ⚡",
   "superchargingNotificationStart": "Daha fazla bilgi edinin",
   "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
   "startSuperchargingNotificationStart": " Ödül almak",
@@ -589,13 +590,13 @@
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
-    "title": "{{name}} için olan gönderiminizi saklayacağız",
-    "body": "Valora'ya katılmak için {{name}} ile bir davet mesajı paylaşın. Bir telefon numarası ile katılıp bağlandıklarında, gönderdiğiniz miktarı alacaklardır.",
+    "title": "Finish inviting {{name}} to Valora",
+    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "button": "Gönderimi tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend (beta)",
-    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Bir arkadaş davet etmek için kripto gönderin (beta)",
+    "body": "{{appName}} cüzdanlarını oluşturduklarında, her biriniz {{amount}}{{currency}} ödül alırsınız. <0>{{maxAmount}}{{currency}}</0> tutarına kadar kazanın!"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -708,6 +709,7 @@
     "Iris": "İris tanıma"
   },
   "useBiometryType": "{{biometryType}} kullan",
+  "unlockWithBiometryPrompt": "Authenticate to unlock {{appName}}",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
@@ -851,7 +853,7 @@
   "amountSent": "Gönderilen Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
-  "inviteMoneyEscrow": "Bu kişiyi davet edeceğiz ve hesabını onaylayana kadar bakiyelerini güvenli bir şekilde saklayacağız.",
+  "inviteMoneyEscrow": "Send this contact an invite message and they’ll receive the funds once they connect their number.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -871,7 +873,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! I’ve been using and enjoying {{appname}} as a crypto wallet. If you download the app and connect your phone number, we’ll both get {{amount}} {{token}}. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appname}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -967,7 +969,8 @@
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "Detayları göster",
-    "computeSharedSecret": "Gizli Kelime Oluştur"
+    "computeSharedSecret": "Gizli Kelime Oluştur",
+    "emptyMessage": "Empty message"
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
@@ -1216,6 +1219,48 @@
   "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Some payment methods are unavailable in your region",
+    "learnMore": "Daha fazla bilgi edinin.",
+    "whyMissingPayments": "Why don't I see more payment methods?",
+    "dismiss": "Yoksay",
+    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
+    "cryptoExchange": "Cryptocurrency Exchange",
+    "feesVary": "Fees Vary",
+    "viewExchanges": "View Exchanges",
+    "card": "Credit / Debit Card",
+    "bank": "Bank Account",
+    "mobileMoney": "Mobile Money",
+    "minFee": "Min Fee",
+    "numProviders": "{{count}} Providers",
+    "fee": "Ücret",
+    "idRequired": "ID Required",
+    "numDays": "1-3 Days",
+    "oneHour": "Less Than 1 Hour",
+    "bestRate": "Best Rate",
+    "header": "Select Payment Method"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Bakiye Ekle",
+      "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
+      "selectCurrencyTitle": "Bakiye Ekle",
+      "exchangeAmountTitle": "{{currency}} ekle",
+      "selectProviderHeader": "Select Payment Method"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Çek",
+      "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
+      "selectCurrencyTitle": "Bakiye Çek",
+      "exchangeAmountTitle": "{{currency}} çek",
+      "selectProviderHeader": "Select Withdraw Method"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Harcama",
+      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
+      "selectCurrencyTitle": "Spend Funds"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

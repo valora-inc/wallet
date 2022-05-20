@@ -15,6 +15,7 @@ import {
   getRequirePinOnAppOpen,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate, replace } from 'src/navigator/NavigationService'
@@ -74,7 +75,9 @@ describe('App saga', () => {
   it('Handles cash in deep link', async () => {
     const deepLink = 'celo://wallet/cashIn'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, { isCashIn: true })
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
+      flow: FiatExchangeFlow.CashIn,
+    })
   })
 
   it('Handles Bidali deep link', async () => {
@@ -96,16 +99,16 @@ describe('App saga', () => {
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeOptions}&isCashIn=true`
+    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, true)).run()
     expect(navigate).toHaveBeenCalledWith(
-      Screens.FiatExchangeOptions,
-      expect.objectContaining({ isCashIn: true })
+      Screens.FiatExchangeCurrency,
+      expect.objectContaining({ flow: FiatExchangeFlow.CashIn })
     )
   })
 
   it('Handles openScreen deep link without safe origin', async () => {
-    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeOptions}&isCashIn=true`
+    const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false)).run()
     expect(navigate).not.toHaveBeenCalled()
   })

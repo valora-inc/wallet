@@ -34,12 +34,21 @@ export function* initializeSentry() {
   }
 
   const tracesSampleRate = yield select(sentryTracesSampleRateSelector)
+  // tracingOrigins is an array of regexes to match domain names against:
+  //   https://docs.sentry.io/platforms/javascript/performance/instrumentation/automatic-instrumentation/#tracingorigins
+  // If you want to match against a specific domain (which we do) make sure to
+  // use the domain name (not the URL).
   const tracingOrigins = [
     DEFAULT_FORNO_URL,
     networkConfig.blockchainApiUrl,
     networkConfig.cloudFunctionsUrl,
     networkConfig.inHouseLiquidityURL,
-  ]
+  ].map((url) => {
+    // hostname does not include the port (while host does include the port).
+    // Use hostname because it will match agaist a request to the host on any
+    // port.
+    return new URL(url).hostname
+  })
 
   Sentry.init({
     dsn: SENTRY_CLIENT_URL,
