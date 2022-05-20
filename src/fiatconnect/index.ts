@@ -9,6 +9,7 @@ export interface FiatConnectClientConfig {
   baseUrl: string
   providerName: string
   iconUrl: string
+  id: string
 }
 
 /**
@@ -48,11 +49,8 @@ export async function getFiatConnectQuotes(params: QuotesInput) {
   }).toString()
   const response = await fetch(`${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`)
   if (!response.ok) {
-    const { errorMessage } = await response.json()
-    Logger.error(
-      TAG,
-      `Failure response fetching FiatConnect quotes: ${errorMessage} , returning empty list`
-    )
+    const err = await response.json()
+    Logger.error(TAG, `Failure response fetching FiatConnect quotes: ${err} , returning empty list`)
     return []
   }
   const { quotes } = await response.json()

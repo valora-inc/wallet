@@ -1,3 +1,4 @@
+import { CryptoType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
@@ -12,6 +13,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
+import { getFiatConnectProviders, getFiatConnectQuotes } from 'src/fiatconnect'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -63,6 +65,18 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       return
     }
     try {
+      const fiatConnectProviders = await getFiatConnectProviders(account)
+      console.debug('FC PROVIDERS', fiatConnectProviders)
+
+      const fiatConnectQuotes = await getFiatConnectQuotes({
+        providers: 'test-provider',
+        fiatType: FiatType.USD,
+        cryptoType: CryptoType.cUSD,
+        fiatAmount: route.params.amount.fiat.toString(),
+        country: userLocation?.countryCodeAlpha2 || 'US',
+        flow,
+      })
+      console.debug('FC QUOTES', JSON.stringify(fiatConnectQuotes, null, 2))
       const providers = await fetchProviders({
         userLocation,
         walletAddress: account,
@@ -82,6 +96,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
       return { providers, legacyMobileMoneyProviders }
     } catch (error) {
+      console.debug('ERROR ', error)
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [])
