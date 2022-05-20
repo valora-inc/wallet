@@ -40,46 +40,43 @@ interface FormFieldParam {
   placeholderText: string
   errorMessage: string
 }
-interface ImplicitFormFieldParam<T> {
-  value: T
+interface ImplicitParam<T, K extends keyof T> {
+  name: string
+  value: T[K]
 }
 
-interface SchemaMetadata {
-  [FiatAccountSchema.AccountNumber]: {
-    [Property in keyof AccountNumber]:
-      | FormFieldParam
-      | ImplicitFormFieldParam<AccountNumber[Property]>
-  }
+type AccountNumberSchema = {
+  [Property in keyof AccountNumber]: FormFieldParam | ImplicitParam<AccountNumber, Property>
 }
 
-// This is a mapping between different fiat account schema to the metadata of the fields that need to be rendered on the bank details screen
-const SCHEMA_TO_FIELD_METADATA_MAP: SchemaMetadata = {
-  [FiatAccountSchema.AccountNumber]: {
-    accountName: {
-      name: 'accountName',
-      label: i18n.t('fiatAccountSchema.accountName.label'),
-      regex: /.*?/,
-      placeholderText: i18n.t('fiatAccountSchema.accountName.placeholderText'),
-      errorMessage: i18n.t('fiatAccountSchema.accountName.errorMessage'),
-    },
-    institutionName: {
-      name: 'institutionName',
-      label: i18n.t('fiatAccountSchema.institutionName.label'),
-      regex: /.*?/,
-      placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
-      errorMessage: i18n.t('fiatAccountSchema.institutionName.errorMessage'),
-    },
-    accountNumber: {
-      name: 'accountNumber',
-      label: i18n.t('fiatAccountSchema.accountNumber.label'),
-      regex: /^[0-9]{10}$/,
-      placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
-      errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
-    },
-    country: { value: 'US' },
-    fiatAccountType: { value: FiatAccountType.BankAccount },
+const getAccountNumberSchema = (implicitParams: {
+  country: string
+  fiatAccountType: FiatAccountType
+}): AccountNumberSchema => ({
+  accountName: {
+    name: 'accountName',
+    label: i18n.t('fiatAccountSchema.accountName.label'),
+    regex: /.*?/,
+    placeholderText: i18n.t('fiatAccountSchema.accountName.placeholderText'),
+    errorMessage: i18n.t('fiatAccountSchema.accountName.errorMessage'),
   },
-}
+  institutionName: {
+    name: 'institutionName',
+    label: i18n.t('fiatAccountSchema.institutionName.label'),
+    regex: /.*?/,
+    placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
+    errorMessage: i18n.t('fiatAccountSchema.institutionName.errorMessage'),
+  },
+  accountNumber: {
+    name: 'accountNumber',
+    label: i18n.t('fiatAccountSchema.accountNumber.label'),
+    regex: /^[0-9]{10}$/,
+    placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
+    errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
+  },
+  country: { name: 'country', value: implicitParams.country },
+  fiatAccountType: { name: 'fiatAccountType', value: implicitParams.fiatAccountType },
+})
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
@@ -98,32 +95,40 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     })
   }, [navigation])
 
-  const formFields = useMemo(() => {
-    const fields: FormFieldParam[] = Object.values(
-      SCHEMA_TO_FIELD_METADATA_MAP[fiatAccountSchema]
-    ).filter((field): field is FormFieldParam => {
-      // filter only the fields that are not implicit
-      return 'errorMessage' in field
-    })
+  const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
+    switch (fiatAccountSchema) {
+      case FiatAccountSchema.AccountNumber:
+        return getAccountNumberSchema({
+          country: userCountry.countryCodeAlpha2 || 'US',
+          fiatAccountType: FiatAccountType.BankAccount,
+        })
+    }
+  }
 
+  function isFormFieldParam<T, K extends keyof T>(
+    item: FormFieldParam | ImplicitParam<T, K>
+  ): item is FormFieldParam {
+    return 'errorMessage' in item
+  }
+  function isImplicitParam<T, K extends keyof T>(
+    item: FormFieldParam | ImplicitParam<T, K>
+  ): item is ImplicitParam<T, K> {
+    return 'value' in item
+  }
+
+  const schema = getSchema(fiatAccountSchema)
+
+  const formFields = useMemo(() => {
+    const fields = Object.values(schema).filter(isFormFieldParam)
     for (let i = 0; i < fields.length; i++) {
       inputRefs.current.push('')
     }
     return fields
   }, [fiatAccountSchema])
 
-  const implicitFields = (fiatAccountSchema: FiatAccountSchema) => {
-    switch (fiatAccountSchema) {
-      case FiatAccountSchema.AccountNumber:
-        return {
-          country: userCountry.countryCodeAlpha2,
-          fiatAccountType: FiatAccountType.BankAccount,
-        }
-        break
-      default:
-        return {}
-    }
-  }
+  const implicitParameters = useMemo(() => {
+    return Object.values(schema).filter(isImplicitParam)
+  }, [fiatAccountSchema])
 
   const onPressNext = async () => {
     validateInput()
@@ -136,7 +141,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const completeBody = {
         ...body,
-        ...implicitFields(fiatAccountSchema),
+        ...implicitParameters.reduce(
+          (prev, current) => ({ ...prev, [current.name]: current.value }),
+          {}
+        ),
       }
 
       await addNewFiatAccount(providerURL, fiatAccountSchema, completeBody)
