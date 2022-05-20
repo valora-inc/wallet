@@ -41,7 +41,7 @@
   },
   "promptConfirmRevokeModal": {
     "header": "Are you sure you want to revoke your Valora account?",
-    "body": "Once revoked, this account will not be able to reconnect. Only revoke if you are sure you will never need this account again.",
+    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
     "revoke": "Revoke"
   },
   "testFaqLink": "{{appName}} FAQ",
@@ -652,7 +652,7 @@
     "skip": "Skip For Now"
   },
   "verificationLoading": {
-    "confirming": "Connecting phone number…",
+    "confirming": "Confirming phone number…",
     "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
     "learnMore": "Learn more",
     "card1": "To make sure your phone number is really yours, we're sending you three messages.",
@@ -751,7 +751,7 @@
     "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
     "start": "Start",
     "resume": "Resume",
-    "doINeedToConfirm": "Do I need to connect?",
+    "doINeedToConfirm": "Do I need to confirm?",
     "skipForNow": "Skip for now",
     "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
