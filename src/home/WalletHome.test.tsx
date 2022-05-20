@@ -255,7 +255,6 @@ describe('WalletHome', () => {
     // it.todo('should open the dapp directly if it is deep linked', async () => {
     //   const { store, getAllByTestId, queryByText } = renderScreen(rootStateOverride)
 
-<<<<<<< HEAD
     //   const dapps = getAllByTestId('RecentDapp')
 
     //   fireEvent.press(dapps[1])
@@ -269,23 +268,5 @@ describe('WalletHome', () => {
     //     ])
     //   )
     // })
-=======
-    it('should open the dapp directly if it is deep linked', async () => {
-      const { store, getAllByTestId, queryByText } = renderScreen(rootStateOverride)
-
-      const dapps = getAllByTestId('RecentDapp')
-
-      fireEvent.press(dapps[1])
-
-      expect(
-        queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
-      ).toBeFalsy()
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([
-          dappSelected({ ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed }),
-        ])
-      )
-    })
->>>>>>> valora-inc-main
   })
 })
