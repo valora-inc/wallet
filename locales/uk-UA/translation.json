@@ -1229,40 +1229,40 @@
     "learnMore": "Дізнатися більше.",
     "whyMissingPayments": "Чому я не бачу більше способів оплати?",
     "dismiss": "Відхилити",
-    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nЦе може бути тому, що параметр не існує в цій країні або заблокований через локальні норми.",
-    "cryptoExchange": "Криптовалютний Обмін",
-    "feesVary": "Вартість оплати",
+    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nЦе може бути пов’язано з тим, що такого параметра немає в цій країні або його заблоковано відповідно до місцевих правил.",
+    "cryptoExchange": "Біржа криптовалют",
+    "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
-    "card": "Кредитна / Дебетова картка",
+    "card": "Кредитна/дебетова картка",
     "bank": "Банківський рахунок",
     "mobileMoney": "Мобільні гроші",
     "minFee": "Мінімальна комісія",
     "numProviders": "{{count}} Провайдери",
     "fee": "Комісія",
-    "idRequired": "Потрібен код",
-    "numDays": "1-3 Днів",
-    "oneHour": "Менше 1 години",
-    "bestRate": "Найвищий курс",
+    "idRequired": "Потрібен ідентифікатор",
+    "numDays": "1—3 дні",
+    "oneHour": "Менш як 1 година",
+    "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Додати кошти",
-      "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або обміну.",
+      "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або біржі.",
       "selectCurrencyTitle": "Додати кошти",
       "exchangeAmountTitle": "Додати {{currency}}",
       "selectProviderHeader": "Виберіть спосіб оплати"
     },
     "cashOut": {
       "fiatExchangeTitle": "Зняти",
-      "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} і на банківський рахунок, картку, крипто обміняти або на мобільні гроші.",
+      "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} на банківський рахунок, картку, біржу криптовалют або на мобільні гроші.",
       "selectCurrencyTitle": "Вивести кошти",
       "exchangeAmountTitle": "Зняти {{currency}}",
-      "selectProviderHeader": "Виберіть метод зняття"
+      "selectProviderHeader": "Виберіть спосіб зняття"
     },
     "spend": {
       "fiatExchangeTitle": "Витратити",
-      "fiatExchangeSubtitle": "Витрати на подарункові картки та інші покупки.",
+      "fiatExchangeSubtitle": "Витрачайте на подарункові картки та інші придбання.",
       "selectCurrencyTitle": "Витратити кошти"
     }
   },
