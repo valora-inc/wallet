@@ -1,6 +1,6 @@
 import { AddFiatAccountResponse } from '@fiatconnect/fiatconnect-types'
 import networkConfig from 'src/geth/networkConfig'
-import Logger from '../utils/Logger'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'FIATCONNECT'
 
