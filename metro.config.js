@@ -11,6 +11,16 @@ const defaultSourceExts = require('metro-config/src/defaults/defaults').sourceEx
 const defaultAssetExts = require('metro-config/src/defaults/defaults').assetExts
 
 module.exports = {
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        // This is important! We got a weird import error without it: `Error: Unknown named module: "tslib"`
+        // See https://valora-app.slack.com/archives/C025V1D6F3J/p1652971548361499
+        inlineRequires: true,
+      },
+    }),
+  },
   resolver: {
     assetExts: [...defaultAssetExts, 'txt'],
     blacklistRE: exclusionList(
