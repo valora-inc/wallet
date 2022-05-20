@@ -1243,20 +1243,30 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Payment Method",
+    "transactionDetails": "Transaction Details"
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Add Funds",
       "fiatExchangeSubtitle": "Fund your {{appName}} account from a bank, card or exchange.",
       "selectCurrencyTitle": "Add Funds",
       "exchangeAmountTitle": "Add {{currency}}",
-      "selectProviderHeader": "Select Payment Method"
+      "selectProviderHeader": "Select Payment Method",
+      "fiatConnectReviewHeader": "Review Add Funds",
+      "fiatConnectReviewButton": "Buy Now",
+      "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {
       "fiatExchangeTitle": "Withdraw",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectProviderHeader": "Select Withdraw Method",
+      "fiatConnectReviewHeader": "Review Withdraw",
+      "fiatConnectReviewButton": "Withdraw Funds",
+      "transactionDetailsAmount": "Withdraw Amount"
     },
     "spend": {
       "fiatExchangeTitle": "Spend",

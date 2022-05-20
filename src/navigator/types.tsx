@@ -126,6 +126,14 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.FiatConnectReview]: {
+    flow: CICOFlow
+    selectedCrypto: Currency
+    amount: {
+      crypto: number
+      fiat: number
+    }
+  }
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
