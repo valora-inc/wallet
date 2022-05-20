@@ -187,7 +187,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
             >
               feedItemReceivedInfo, {"context":"noComment"}
                
-              daysAgo, {"days":1280}
+              daysAgo, {"days":1282}
             </Text>
           </View>
           <View

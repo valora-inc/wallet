@@ -107,7 +107,7 @@ exports[`TransferFeedItem renders correctly 1`] = `
       >
         feedItemSentInfo, {"context":"noComment"}
          
-        daysAgo, {"days":19131}
+        daysAgo, {"days":19133}
       </Text>
     </View>
     <View
