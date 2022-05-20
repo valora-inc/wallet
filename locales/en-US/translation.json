@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Current Daily Send Limit",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Unlimited",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity.  Please confirm your phone number before continuing.",
+  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please confirm your phone number before continuing.",
   "verifyIdentityToRaiseLimit": "You can increase your send limit by verifying your identity.  Please be ready to provide some details in the following process.",
   "dailyLimitApplicationStatus": "Application Status",
   "applicationInReview": "In Review",
