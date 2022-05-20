@@ -134,12 +134,12 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
 
     if (validInputs) {
-      const body: Record<string, string> = {}
+      const body: Record<string, any> = {}
       for (let i = 0; i < formFields.length; i++) {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      const implicitBody: Record<string, string> = {}
+      const implicitBody: Record<string, any> = {}
       implicitParameters.forEach((param) => {
         implicitBody[param.name] = param.value
       })
