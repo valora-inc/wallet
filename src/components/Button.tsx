@@ -21,6 +21,7 @@ export enum BtnTypes {
 }
 
 export enum BtnSizes {
+  TINY = 'tiny',
   SMALL = 'small',
   MEDIUM = 'medium',
   FULL = 'full',
@@ -106,8 +107,14 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonPadding: {
     paddingVertical: 5,
     paddingHorizontal: 24,
+  },
+  tiny: {
+    height: 40,
+    minWidth: 40,
   },
   small: {
     height: 40,
@@ -165,12 +172,26 @@ function getStyle(
   opacity: number | undefined
 ) {
   switch (size) {
+    case BtnSizes.TINY:
+      return { ...styles.button, ...styles.buttonPadding, ...styles.tiny, backgroundColor, opacity }
     case BtnSizes.SMALL:
-      return { ...styles.button, ...styles.small, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.small,
+        backgroundColor,
+        opacity,
+      }
     case BtnSizes.FULL:
-      return { ...styles.button, ...styles.full, backgroundColor, opacity }
+      return { ...styles.button, ...styles.buttonPadding, ...styles.full, backgroundColor, opacity }
     default:
-      return { ...styles.button, ...styles.medium, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.medium,
+        backgroundColor,
+        opacity,
+      }
   }
 }
 

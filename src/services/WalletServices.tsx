@@ -66,7 +66,7 @@ function WalletServices() {
   const renderFlatListItem = ({ item, index }: any) => {
     return (
       <View style={styles.tile}>
-        <TouchableOpacity onPress={() => navigate(Screens.WalletHome)}>
+        <TouchableOpacity onPress={() => navigate(item.screen)}>
           <View style={styles.icon}>
             <item.icon height={30} />
           </View>

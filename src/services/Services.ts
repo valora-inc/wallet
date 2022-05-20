@@ -1,32 +1,32 @@
-import WalletHome from 'src/home/WalletHome'
 import RewardIcon from 'src/icons/RewardIcon'
 import SwapInput from 'src/icons/SwapInput'
+import { Screens } from 'src/navigator/Screens'
 
 export const CoreServices = [
   {
     title: 'servicesList.buy',
     icon: RewardIcon,
-    component: WalletHome,
+    screen: Screens.Swap,
   },
   {
     title: 'servicesList.cico',
     icon: RewardIcon,
-    component: WalletHome,
+    screen: Screens.Swap,
   },
   {
     title: 'servicesList.swap',
     icon: SwapInput,
-    component: WalletHome,
+    screen: Screens.Swap,
   },
   {
     title: 'servicesList.invest',
     icon: RewardIcon,
-    component: WalletHome,
+    screen: Screens.Swap,
   },
   {
     title: 'servicesList.bills',
     icon: RewardIcon,
-    component: WalletHome,
+    screen: Screens.Swap,
   },
   // {
   //   title: 'serviceCICO',

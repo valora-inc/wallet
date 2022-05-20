@@ -256,6 +256,7 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
+  [Screens.Swap]: undefined
   [Screens.Sync]: undefined
   [Screens.SyncBankAccountScreen]: {
     publicToken: string
