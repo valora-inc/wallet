@@ -4,7 +4,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
-import { waitFor } from 'src/redux/sagas-helpers'
 import { flushMicrotasksQueue } from 'test/utils'
 
 jest.mock('@celo/react-native-sms-retriever', () => {
@@ -138,22 +137,29 @@ describe('PhoneNumberInput', () => {
     expect(onChange).toHaveBeenCalledWith('(415) 426-5200', '+1')
   })
 
-  it('can read Côte d’Ivoire phone numbers', async () => {
+  it('renders and behaves correctly with Côte d’Ivoire phone numbers', async () => {
+    // mock
+    Platform.OS = 'ios'
+
+    const onChange = jest.fn()
+    const onPressCountry = jest.fn()
     const { getByTestId, getByText } = render(
       <PhoneNumberInput
         label="Phone number"
         country={countries.getCountryByCodeAlpha2('CI')}
         internationalPhoneNumber=""
-        onChange={jest.fn()}
-        onPressCountry={jest.fn()}
+        onChange={onChange}
+        onPressCountry={onPressCountry}
       />
     )
 
-    waitFor(async () => {
-      expect(getByText('🇨🇮')).toBeTruthy()
-      expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
-      fireEvent.changeText(getByTestId('PhoneNumberField'), '21 23 4 56789')
-      expect(getByText('+255 21 23 4 56789')).toBeTruthy()
-    })
+    expect(getByText('🇨🇮')).toBeTruthy()
+    expect(getByTestId('PhoneNumberField').props.placeholder).toBe('00 00 0 00000')
+    fireEvent.press(getByTestId('CountrySelectionButton'))
+    await flushMicrotasksQueue()
+    expect(onPressCountry).toHaveBeenCalled()
+
+    fireEvent.changeText(getByTestId('PhoneNumberField'), '2123456789')
+    expect(onChange).toHaveBeenCalledWith('21 23 4 56789', '+225')
   })
 })
