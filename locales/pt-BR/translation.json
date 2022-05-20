@@ -1254,12 +1254,12 @@
       "fiatExchangeSubtitle": "Obter fundos a partir de {{appName}} e para uma conta bancária, cartão, câmbio criptográfico ou para dinheiro móvel.",
       "selectCurrencyTitle": "Sacar Fundos",
       "exchangeAmountTitle": "Transferir {{currency}}",
-      "selectProviderHeader": "Seleccionar Método de Retirada"
+      "selectProviderHeader": "Selecione o método de saque"
     },
     "spend": {
       "fiatExchangeTitle": "Gastos",
       "fiatExchangeSubtitle": "Gastar em cartões de oferta e outras compras.",
-      "selectCurrencyTitle": "Fundos de despesas"
+      "selectCurrencyTitle": "Gastar fundos"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
