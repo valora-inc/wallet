@@ -106,7 +106,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       return 'errorMessage' in field
     })
 
-    console.log('lisa fields', fields)
     for (let i = 0; i < fields.length; i++) {
       inputRefs.current.push('')
     }
@@ -234,7 +233,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <ForwardChevron color={colors.gray4} />
               <Image
                 source={{
-                  uri: 'jghgjhfk',
+                  uri: provider.logo,
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"
