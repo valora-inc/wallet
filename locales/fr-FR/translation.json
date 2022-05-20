@@ -874,7 +874,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux une récompense de {{amount}} {{token}}. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une récompense de {{amount}} {{token}}. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
