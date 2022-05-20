@@ -1,9 +1,9 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import Logger from '../utils/Logger'
+import Logger from 'src/utils/Logger'
 import { addNewFiatAccount, FiatConnectClientConfig, getFiatConnectProviders } from './index'
 
-jest.mock('../utils/Logger', () => ({
+jest.mock('src/utils/Logger', () => ({
   __esModule: true,
   namedExport: jest.fn(),
   default: {

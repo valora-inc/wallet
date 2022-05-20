@@ -139,12 +139,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
+      const implicitBody: Record<string, string> = {}
+      implicitParameters.forEach((param) => {
+        implicitBody[param.name] = param.value
+      })
+
       const completeBody = {
         ...body,
-        ...implicitParameters.reduce(
-          (prev, current) => ({ ...prev, [current.name]: current.value }),
-          {}
-        ),
+        ...implicitBody,
       }
 
       await addNewFiatAccount(providerURL, fiatAccountSchema, completeBody)

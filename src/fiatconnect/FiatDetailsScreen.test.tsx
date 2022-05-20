@@ -69,7 +69,7 @@ describe('FiatDetailsScreen', () => {
     expect(getByTestId('errorMessage')).toBeTruthy()
     expect(getByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
   })
-  it('sends a request to add new fiat account after pressing the next button', async () => {
+  it('sends a request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
