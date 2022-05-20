@@ -590,7 +590,7 @@
   },
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
-    "title": "Termina de invitar a {{name}} a Valora",
+    "title": "Completa la invitación de {{name}} a Valora",
     "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "body": "Comparte un mensaje de invitación con {{name}} para unirse a {{appName}}. Una vez que se unan",
     "button": "Terminar invitando"
