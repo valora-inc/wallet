@@ -40,15 +40,13 @@ interface FormFieldParam {
   placeholderText: string
   errorMessage: string
 }
-interface ImplicitFormFieldParam<T, K extends keyof T> {
+interface ImplicitParam<T, K extends keyof T> {
   name: string
   value: T[K]
 }
 
 type AccountNumberSchema = {
-  [Property in keyof AccountNumber]:
-    | FormFieldParam
-    | ImplicitFormFieldParam<AccountNumber, Property>
+  [Property in keyof AccountNumber]: FormFieldParam | ImplicitParam<AccountNumber, Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
@@ -108,13 +106,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   function isFormFieldParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitFormFieldParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K>
   ): item is FormFieldParam {
     return 'errorMessage' in item
   }
   function isImplicitParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitFormFieldParam<T, K>
-  ): item is ImplicitFormFieldParam<T, K> {
+    item: FormFieldParam | ImplicitParam<T, K>
+  ): item is ImplicitParam<T, K> {
     return 'value' in item
   }
 
@@ -128,7 +126,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return fields
   }, [fiatAccountSchema])
 
-  const implicitFields = useMemo(() => {
+  const implicitParameters = useMemo(() => {
     return Object.values(schema).filter(isImplicitParam)
   }, [fiatAccountSchema])
 
@@ -143,7 +141,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const completeBody = {
         ...body,
-        ...implicitFields.reduce(
+        ...implicitParameters.reduce(
           (prev, current) => ({ ...prev, [current.name]: current.value }),
           {}
         ),
