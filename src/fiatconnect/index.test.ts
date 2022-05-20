@@ -31,7 +31,6 @@ describe('FiatConnect helpers', () => {
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
-      const loggerErrorSpy = jest.spyOn(Logger, 'error')
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
       const providers = await getFiatConnectProviders()
       expect(providers).toEqual([])
