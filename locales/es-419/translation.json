@@ -591,9 +591,9 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Completa la invitación de {{name}} a Valora",
-    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "body": "Comparte un mensaje de invitación con {{name}} para unirse a {{appName}}. Una vez que se unan",
-    "button": "Terminar invitando"
+    "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán {{amount}} {{currency}}. Toca abajo para enviar una invitación personalizada.",
+    "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que tu destinatario descargue la app y conecte su número de teléfono, recibirá tu pago.",
+    "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
     "title": "Envía cripto e invita a un amigo (beta)",
