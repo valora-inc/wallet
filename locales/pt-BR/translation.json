@@ -1239,7 +1239,7 @@
     "numDays": "1-3 dias",
     "oneHour": "Menos de 1 hora",
     "bestRate": "Melhor taxa",
-    "header": "Select Payment Method"
+    "header": "Selecione o método de pagamento"
   },
   "fiatExchangeFlow": {
     "cashIn": {
@@ -1247,7 +1247,7 @@
       "fiatExchangeSubtitle": "Financie a sua conta {{appName}} a partir de um banco, cartão ou troca.",
       "selectCurrencyTitle": "Adicionar Fundos",
       "exchangeAmountTitle": "Adicione {{currency}}",
-      "selectProviderHeader": "Seleccione o método de pagamento"
+      "selectProviderHeader": "Selecione o método de pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Sacar",
