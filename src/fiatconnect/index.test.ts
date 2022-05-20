@@ -3,8 +3,6 @@ import { FetchMock } from 'jest-fetch-mock'
 import Logger from 'src/utils/Logger'
 import { addNewFiatAccount, FiatConnectClientConfig, getFiatConnectProviders } from './index'
 
-const loggerErrorSpy = jest.spyOn(Logger, 'error')
-
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
 
@@ -24,6 +22,7 @@ describe('FiatConnect helpers', () => {
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
+      const loggerErrorSpy = jest.spyOn(Logger, 'error')
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
       const providers = await getFiatConnectProviders()
       expect(providers).toEqual([])
