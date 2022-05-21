@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
+import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -26,9 +28,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   return (
     <SafeAreaView style={styles.content}>
       <View>
-        <View style={styles.amountContainer}>
-          <Text style={styles.amountText}>20.01 cUSD</Text>
-        </View>
+        <Amount flow={flow} />
         <TransactionDetails flow={flow} />
         <PaymentMethod />
       </View>
@@ -38,12 +38,36 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         size={BtnSizes.FULL}
         text={
           flow === CICOFlow.CashIn
-            ? t('fiatExchangeFlow.cashIn.fiatConnectReviewButton')
-            : t('fiatExchangeFlow.cashOut.fiatConnectReviewButton')
+            ? t('fiatConnectReviewScreen.cashIn.reviewButton')
+            : t('fiatConnectReviewScreen.cashOut.reviewButton')
         }
         onPress={() => {}}
       />
     </SafeAreaView>
+  )
+}
+
+function Amount({ flow }: { flow: CICOFlow }) {
+  return (
+    <View style={styles.amountContainer}>
+      {flow === CICOFlow.CashIn ? (
+        <TokenDisplay
+          amount="20.01000"
+          tokenAddress="0x874069fa1eb16d44d622f2e0ca25eea172369bc1"
+          style={styles.amountText}
+          showLocalAmount={false}
+        />
+      ) : (
+        <CurrencyDisplay
+          style={styles.amountText}
+          amount={{
+            value: 20,
+            currencyCode: 'USD',
+            localAmount: { value: 20, currencyCode: 'USD', exchangeRate: 1 },
+          }}
+        />
+      )}
+    </View>
   )
 }
 
@@ -59,10 +83,18 @@ function TransactionDetails({ flow }: { flow: CICOFlow }) {
         textStyle={styles.sectionMainText}
         title={
           flow === CICOFlow.CashIn
-            ? t('fiatExchangeFlow.cashIn.transactionDetailsAmount')
-            : t('fiatExchangeFlow.cashOut.transactionDetailsAmount')
+            ? t('fiatConnectReviewScreen.cashIn.transactionDetailsAmount')
+            : t('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')
         }
-        amount="$20.00"
+        amount={
+          <CurrencyDisplay
+            amount={{
+              value: 20,
+              currencyCode: 'USD',
+              localAmount: { value: 20, currencyCode: 'USD', exchangeRate: 2 },
+            }}
+          />
+        }
       />
       <LineItemRow
         title="25 cUSD @ $1.00"
@@ -98,7 +130,7 @@ function PaymentMethod() {
           <Image
             source={{
               uri:
-                'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+                'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp-wide.png?alt=media',
             }}
             style={styles.paymentImage}
             resizeMode="center"
@@ -158,7 +190,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   imageContainer: {
-    width: 40,
+    width: 80,
     height: 40,
   },
   paymentImage: {
@@ -175,6 +207,6 @@ FiatConnectReviewScreen.navigationOptions = ({
   headerLeft: () => <BackButton />,
   headerTitle:
     route.params.flow === CICOFlow.CashIn
-      ? i18n.t(`fiatExchangeFlow.cashIn.fiatConnectReviewHeader`)
-      : i18n.t(`fiatExchangeFlow.cashOut.fiatConnectReviewHeader`),
+      ? i18n.t(`fiatConnectReviewScreen.cashIn.reviewHeader`)
+      : i18n.t(`fiatConnectReviewScreen.cashOut.reviewHeader`),
 })

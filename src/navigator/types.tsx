@@ -1,4 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
+import { AccountNumber, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -128,11 +129,8 @@ export type StackParamList = {
   }
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
-    selectedCrypto: Currency
-    amount: {
-      crypto: number
-      fiat: number
-    }
+    quote: QuoteResponse
+    fiatAccount: AccountNumber
   }
   [Screens.MoonPayScreen]: {
     localAmount: number
