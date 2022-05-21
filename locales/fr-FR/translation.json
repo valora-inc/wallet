@@ -1278,12 +1278,12 @@
     "institutionName": {
       "label": "Nom de la banque",
       "placeholderText": "Saisis le nom de la banque",
-      "errorMessage": "A bank name is required"
+      "errorMessage": "Un nom de banque est nécessaire"
     },
     "accountNumber": {
-      "label": "Account Number",
-      "placeholderText": "Enter your 10 digit account number",
-      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+      "label": "Numéro de compte",
+      "placeholderText": "Sais de ton numéro de compte à 10 chiffres",
+      "errorMessage": "Le numéro de compte doit être composé de 10 chiffres et ne doit contenir que des chiffres."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
