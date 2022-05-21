@@ -1276,5 +1276,29 @@
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
     }
+  },
+  "fiatDetailsScreen": {
+    "header": "Enter Bank Details",
+    "selectedPaymentOption": "Selected payment option",
+    "addFiatAccountSuccess": "Your account has been linked to Valora.",
+    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
+    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Account Name",
+      "placeholderText": "A name for the account",
+      "errorMessage": "An account name is required"
+    },
+    "institutionName": {
+      "label": "Bank Name",
+      "placeholderText": "Enter Bank Name",
+      "errorMessage": "A bank name is required"
+    },
+    "accountNumber": {
+      "label": "Account Number",
+      "placeholderText": "Enter your 10 digit account number",
+      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+    }
   }
 }

@@ -102,7 +102,7 @@ interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-interface ProviderInfo {
+export interface ProviderInfo {
   name: string
   logoWide: string
   logo: string
