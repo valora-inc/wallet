@@ -1262,6 +1262,30 @@
       "selectCurrencyTitle": "Gastar fondos"
     }
   },
+  "fiatDetailsScreen": {
+    "header": "Ingresa los datos bancarios",
+    "selectedPaymentOption": "Opción de pago seleccionada",
+    "addFiatAccountSuccess": "Tu cuenta ha sido vinculada a Valora.",
+    "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
+    "addFiatAccountFailed": "Tu cuenta no ha sido vinculada, por favor, inténtalo de nuevo o ponte en contacto con el servicio de asistencia."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Nombre de la cuenta",
+      "placeholderText": "Un nombre para la cuenta",
+      "errorMessage": "Se requiere un nombre de cuenta"
+    },
+    "institutionName": {
+      "label": "Nombre del banco",
+      "placeholderText": "Introduce el nombre del banco",
+      "errorMessage": "Se requiere un nombre de banco"
+    },
+    "accountNumber": {
+      "label": "Número de cuenta",
+      "placeholderText": "Introduce tu número de cuenta de 10 dígitos",
+      "errorMessage": "El número de cuenta debe tener 10 dígitos y sólo contener números"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
