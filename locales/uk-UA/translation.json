@@ -1266,6 +1266,30 @@
       "selectCurrencyTitle": "Витратити кошти"
     }
   },
+  "fiatDetailsScreen": {
+    "header": "Введіть банківські реквізити",
+    "selectedPaymentOption": "Вибраний спосіб оплати",
+    "addFiatAccountSuccess": "Ваш обліковий запис був пов'язаний з Valora.",
+    "addFiatAccountResourceExist": "Ви вже прив'язали цей обліковий запис до Valora.",
+    "addFiatAccountFailed": "Ваш обліковий запис не об’єднано. Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Назва рахунку",
+      "placeholderText": "Ім'я для облікового запису",
+      "errorMessage": "Потрібен обліковий запис"
+    },
+    "institutionName": {
+      "label": "Найменування банку",
+      "placeholderText": "Введіть назву банку",
+      "errorMessage": "Необхідно вказати назву банку"
+    },
+    "accountNumber": {
+      "label": "Номер рахунку",
+      "placeholderText": "Введіть свій 10-значний рахунок",
+      "errorMessage": "Номер рахунку має складатися з 10 цифр і містити лише цифри"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
