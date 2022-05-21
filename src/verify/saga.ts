@@ -715,7 +715,7 @@ export function* resetSaga() {
 }
 
 export function* stopSaga() {
-  Logger.error(TAG, `@stopSaga called`)
+  Logger.warn(TAG, `@stopSaga called`)
   // TODO: Move this out of saga
   yield call(navigate, Screens.VerificationEducationScreen, {})
 }
