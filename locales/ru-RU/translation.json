@@ -1266,6 +1266,30 @@
       "selectCurrencyTitle": "Потратить средства"
     }
   },
+  "fiatDetailsScreen": {
+    "header": "Введите банковские реквизиты",
+    "selectedPaymentOption": "Выбранный вариант оплаты",
+    "addFiatAccountSuccess": "Твоя учетная запись была привязана к Valora.",
+    "addFiatAccountResourceExist": "Ты уже привязал этот счет к Valora.",
+    "addFiatAccountFailed": "Твой аккаунт не был связан, пожалуйста, попробуй еще раз или обратись в службу поддержки."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Название счета",
+      "placeholderText": "Имя для аккаунта",
+      "errorMessage": "Имя учетной записи обязательно"
+    },
+    "institutionName": {
+      "label": "Название банка",
+      "placeholderText": "Введите название банка",
+      "errorMessage": "Необходимо указать название банка"
+    },
+    "accountNumber": {
+      "label": "Номер счета",
+      "placeholderText": "Введите свой 10-значный номер счета",
+      "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
