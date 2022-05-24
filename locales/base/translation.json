@@ -1230,7 +1230,10 @@
     "invest": "Invest",
     "bills": "Pay Bills"
   },
-  "swap": "Swap",
+  "swap": {
+    "title": "Swap",
+    "select": "Choose"
+  },
   "services": "Services",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Some payment methods are unavailable in your region",
