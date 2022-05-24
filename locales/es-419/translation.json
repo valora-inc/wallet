@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
-    "title": "Termina de invitar a {{name}} a Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Enviar"
+    "title": "Completa la invitación de {{name}} a Valora",
+    "bodyWithRewards": "Una vez que tu destinatario descargue la app y conecte su número de teléfono, ambos recibirán {{amount}} {{currency}}. Toca abajo para enviar una invitación personalizada.",
+    "body": "Comparte un mensaje de invitación con {{name}} para que se una a {{appName}}. Una vez que tu destinatario descargue la app y conecte su número de teléfono, recibirá tu pago.",
+    "button": "Completar invitación"
   },
   "inviteRewardsBanner": {
     "title": "Envía cripto e invita a un amigo (beta)",
@@ -853,7 +854,7 @@
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
   "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
-  "inviteMoneyEscrow": "Envía a este contacto un mensaje de invitación y recibirá los fondos una vez que conecte su número.",
+  "inviteMoneyEscrow": "Envía un mensaje de invitación a este contacto y recibirá los fondos una vez que conecte su número.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -873,7 +874,7 @@
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
-  "inviteWithRewards": "Acabo de enviarte cripto con mi monedero {{appname}} . Una vez que descargues la aplicación y conectes tu número de teléfono, ambos obtendremos una recompensa {{amount}} {{token}} . Utiliza este enlace: {{link}}",
+  "inviteWithRewards": "¡Hola! Te acabo de mandar cripto con mi billetera de {{appName}}. Si descargas la app y conectas tu número de teléfono, ambos obtendremos una recompensa de {{amount}} {{token}}. Usa este enlace: {{link}}",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "CELO ganados",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Recompensas semanales",
-  "feedItemInviteRewardReceivedTitle": "Red Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Recompensa recibida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1259,6 +1260,30 @@
       "fiatExchangeTitle": "Usar",
       "fiatExchangeSubtitle": "Gasta tus fondos en tarjetas regalo y otras compras.",
       "selectCurrencyTitle": "Gastar fondos"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Ingresa los datos bancarios",
+    "selectedPaymentOption": "Opción de pago seleccionada",
+    "addFiatAccountSuccess": "Tu cuenta ha sido vinculada a Valora.",
+    "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
+    "addFiatAccountFailed": "Tu cuenta no ha sido vinculada, por favor, inténtalo de nuevo o ponte en contacto con el servicio de asistencia."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Nombre de la cuenta",
+      "placeholderText": "Un nombre para la cuenta",
+      "errorMessage": "Se requiere un nombre de cuenta"
+    },
+    "institutionName": {
+      "label": "Nombre del banco",
+      "placeholderText": "Introduce el nombre del banco",
+      "errorMessage": "Se requiere un nombre de banco"
+    },
+    "accountNumber": {
+      "label": "Número de cuenta",
+      "placeholderText": "Introduce tu número de cuenta de 10 dígitos",
+      "errorMessage": "El número de cuenta debe tener 10 dígitos y sólo contener números"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
