@@ -1267,23 +1267,23 @@
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Tu cuenta está vinculada a Valora.",
     "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
-    "addFiatAccountFailed": "Tu cuenta no ha sido vinculada, por favor, inténtalo de nuevo o ponte en contacto con el servicio de asistencia."
+    "addFiatAccountFailed": "No fue posible vincular tu cuenta, inténtalo de nuevo o comunícate con el equipo de soporte."
   },
   "fiatAccountSchema": {
     "accountName": {
       "label": "Nombre de la cuenta",
-      "placeholderText": "Un nombre para la cuenta",
-      "errorMessage": "Se requiere un nombre de cuenta"
+      "placeholderText": "Ingresa un nombre de cuenta",
+      "errorMessage": "El nombre de cuenta es obligatorio"
     },
     "institutionName": {
       "label": "Nombre del banco",
-      "placeholderText": "Introduce el nombre del banco",
-      "errorMessage": "Se requiere un nombre de banco"
+      "placeholderText": "Ingresa el nombre del banco",
+      "errorMessage": "El nombre del banco es obligatorio"
     },
     "accountNumber": {
       "label": "Número de cuenta",
-      "placeholderText": "Introduce tu número de cuenta de 10 dígitos",
-      "errorMessage": "El número de cuenta debe tener 10 dígitos y sólo contener números"
+      "placeholderText": "Ingresa tu número de cuenta de 10 dígitos",
+      "errorMessage": "El número de cuenta debe tener 10 dígitos y solo debe contener números."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
