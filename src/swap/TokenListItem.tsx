@@ -28,7 +28,7 @@ const TokenListItem = ({ token, onClick }: Props) => {
       </View>
       <View style={styles.right}>
         <TouchableOpacity onPress={() => setShowDialog(true)} hitSlop={variables.iconHitslop}>
-          <InfoIcon size={15} color={Colors.gray3} />
+          <InfoIcon size={17} color={Colors.gray3} />
         </TouchableOpacity>
       </View>
       <Dialog
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   right: {
-    paddingHorizontal: 5,
+    paddingRight: 30,
     flexDirection: 'column',
     justifyContent: 'center',
   },
