@@ -46,7 +46,7 @@ export interface FetchProvidersOutput {
   url?: string
   logoWide: string
   logo: string
-  quote?: RawSimplexQuote | RawProviderQuote[]
+  quote?: SimplexQuote | RawProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -62,23 +62,6 @@ interface RawProviderQuote {
   digitalAsset: string
   returnedAmount: number
   fiatFee: number
-}
-
-interface RawSimplexQuote {
-  user_id: string
-  quote_id: string
-  wallet_id: string
-  digital_money: {
-    currency: string
-    amount: number
-  }
-  fiat_money: {
-    currency: string
-    base_amount: number
-    total_amount: number
-  }
-  valid_until: string
-  supported_digital_currencies: string[]
 }
 export interface LegacyMobileMoneyProvider {
   name: string
@@ -102,7 +85,7 @@ interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-interface ProviderInfo {
+export interface ProviderInfo {
   name: string
   logoWide: string
   logo: string
@@ -114,10 +97,21 @@ export type ProviderQuote = RawProviderQuote & {
   url: string
 }
 
-export type SimplexQuote = RawSimplexQuote & {
-  cashIn: boolean
-  cashOut: boolean
-  paymentMethod: PaymentMethod
+export type SimplexQuote = {
+  user_id: string
+  quote_id: string
+  wallet_id: string
+  digital_money: {
+    currency: string
+    amount: number
+  }
+  fiat_money: {
+    currency: string
+    base_amount: number
+    total_amount: number
+  }
+  valid_until: string
+  supported_digital_currencies: string[]
 }
 
 export interface CicoQuote {
@@ -239,13 +233,8 @@ export const fetchSimplexPaymentData = async (
   }
 }
 
-export const isSimplexQuote = (
-  quote?: SimplexQuote | ProviderQuote | RawProviderQuote | RawSimplexQuote
-): quote is SimplexQuote => !!quote && 'wallet_id' in quote
-
-export const isProviderQuote = (
-  quote?: SimplexQuote | ProviderQuote | RawProviderQuote | RawSimplexQuote
-): quote is ProviderQuote => !!quote && 'returnedAmount' in quote
+export const isSimplexQuote = (quote: RawProviderQuote[] | SimplexQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 
 export const getFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote) => {
   if (isSimplexQuote(quote)) {

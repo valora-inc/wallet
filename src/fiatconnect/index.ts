@@ -47,6 +47,7 @@ export async function getFiatConnectQuotes(params: QuotesInput) {
     ...otherParams,
     quoteType: flow === CICOFlow.CashIn ? 'in' : 'out',
   }).toString()
+  console.debug('QUERY PARAMS', queryParams)
   const response = await fetch(`${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`)
   if (!response.ok) {
     const err = await response.json()
