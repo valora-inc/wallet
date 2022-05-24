@@ -20,34 +20,9 @@ import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
-import { useAsync } from 'react-async-hook'
-import { getContractKitAsync } from 'src/web3/contracts'
-import { UnlockableWallet } from '@celo/wallet-base'
-import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { Network } from '@fiatconnect/fiatconnect-types'
-import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
-import { getSigningFunction, loginWithFiatConnectProvider } from 'src/fiatconnect/index'
-
 function FiatExchange() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
-
-  useAsync(async () => {
-    const kit = await getContractKitAsync()
-    const wallet = (kit.getWallet()! as UnlockableWallet) as GethNativeBridgeWallet
-    const [account] = wallet.getAccounts()
-    const fiatConnectClient = new FiatConnectClient(
-      {
-        baseUrl: 'localhost:8080',
-        providerName: 'test',
-        iconUrl: 'N/A',
-        network: Network.Alfajores,
-        accountAddress: account,
-      },
-      getSigningFunction(wallet)
-    )
-    await loginWithFiatConnectProvider(wallet, fiatConnectClient)
-  }, [])
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {

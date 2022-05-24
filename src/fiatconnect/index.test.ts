@@ -112,7 +112,4 @@ describe('FiatConnect helpers', () => {
       await expect(loginWithFiatConnectProvider(wallet, fiatConnectClient)).rejects.toThrow()
     })
   })
-  describe('getSigningFunction', () => {
-    it('Does not attempt to login if already logged in', async () => {})
-  })
 })

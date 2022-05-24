@@ -56,7 +56,6 @@ export function getSigningFunction(
   return async function (message: string): Promise<string> {
     const [account] = wallet.getAccounts()
     const signedMessage = await wallet.signPersonalMessage(account, message)
-    Logger.info(TAG, signedMessage)
     return signedMessage
   }
 }
