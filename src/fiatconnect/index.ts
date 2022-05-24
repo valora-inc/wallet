@@ -1,9 +1,10 @@
+import { AddFiatAccountResponse } from '@fiatconnect/fiatconnect-types'
 import networkConfig from 'src/geth/networkConfig'
-import Logger from '../utils/Logger'
 import { FiatConnectApiClient, FiatConnectClientConfig } from '@fiatconnect/fiatconnect-sdk'
 import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
 import { UNLOCK_DURATION } from 'src/geth/consts'
 import { getPassword } from 'src/pincode/authentication'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'FIATCONNECT'
 
@@ -58,4 +59,13 @@ export function getSigningFunction(
     const signedMessage = await wallet.signPersonalMessage(account, message)
     return signedMessage
   }
+}
+
+export async function addNewFiatAccount(
+  providerURL: string,
+  fiatAccountSchema: string,
+  properties: any
+): Promise<AddFiatAccountResponse> {
+  // TODO: use the SDK to make the request once SDK is published
+  throw new Error('Not implemented')
 }

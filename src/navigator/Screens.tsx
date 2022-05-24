@@ -8,6 +8,7 @@ export enum Screens {
   BackupPhrase = 'BackupPhrase',
   BackupQuiz = 'BackupQuiz',
   BankAccounts = 'BankAccounts',
+  FiatDetailsScreen = 'FiatDetailsScreen',
   BidaliScreen = 'BidaliScreen',
   CashInSuccess = 'CashInSuccess',
   ConnectPhoneNumberScreen = 'ConnectPhoneNumberScreen',

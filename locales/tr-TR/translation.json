@@ -200,6 +200,7 @@
   "superchargeNotificationBody": "Ödüller burada! Şimdi onları talep et",
   "superchargeNotificationStart": "Ödüllerinizi alın",
   "superchargingNotificationBody": "Supercharge'ı %12 alıyorsunuz ⚡",
+  "superchargingNotificationBodyV1_33": "Supercharge ile %{{apy}} ödül alıyorsunuz ⚡",
   "superchargingNotificationStart": "Daha fazla bilgi edinin",
   "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
   "startSuperchargingNotificationStart": " Ödül almak",
@@ -589,9 +590,10 @@
   },
   "sendAndInvite": "Gönder & Davet Et",
   "inviteAndSendDialog": {
-    "title": "{{name}} için olan gönderiminizi saklayacağız",
-    "body": "Valora'ya katılmak için {{name}} ile bir davet mesajı paylaşın. Bir telefon numarası ile katılıp bağlandıklarında, gönderdiğiniz miktarı alacaklardır.",
-    "button": "Gönderimi tamamla"
+    "title": "{{name}} adlı kişiyi Valora'ya davet işlemini tamamlayın",
+    "bodyWithRewards": "Katılıp bir telefon numarasını bağlandıklarında, ikiniz de {{amount}} {{currency}} alırsınız. Davetinizi göndermek ve özelleştirmek için aşağıya tıklayın.",
+    "body": "{{appName}} uygulamasına katılması için {{name}} adlı kişiye bir davet mesajı gönderin. Katılıp bir telefon numarasını bağladığında ödemenizi alacaktır.",
+    "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
     "title": "Bir arkadaş davet etmek için kripto gönderin (beta)",
@@ -708,6 +710,7 @@
     "Iris": "İris tanıma"
   },
   "useBiometryType": "{{biometryType}} kullan",
+  "unlockWithBiometryPrompt": "{{appName}} uygulamasının kilidini açmak için kimlik doğrulaması yapın",
   "welcome": {
     "title": "{{appName}} ile kriptonun geleceğine adım atın",
     "createAccount": "Yeni hesap oluştur",
@@ -851,7 +854,7 @@
   "amountSent": "Gönderilen Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
   "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
-  "inviteMoneyEscrow": "Bu kişiyi davet edeceğiz ve hesabını onaylayana kadar bakiyelerini güvenli bir şekilde saklayacağız.",
+  "inviteMoneyEscrow": "Bu kişiye bir davet mesajı gönderin, numarasını bağladığında parayı alacaktır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -871,7 +874,7 @@
   "walletAddress": "Cüzdan Adresi",
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
-  "inviteWithRewards": "Hey! Ben kripto cüzdanı olarak {{appname}} kullanıyorum ve çok memnunum. Uygulamayı indirip telefonunu bağlarsan her ikimiz de {{amount}}{{token}} alacağız. Bu bağlantıyı kullan: {{link}}",
+  "inviteWithRewards": "Merhaba! Az önce size {{appName}} uygulamamla kripto para gönderdim. Uygulamayı indirip telefon numaranızı bağladığınızda, ikimiz de {{amount}} {{token}} ödül alacağız. Bu bağlantıyı kullanın: {{link}}",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -968,7 +971,7 @@
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "Detayları göster",
     "computeSharedSecret": "Gizli Kelime Oluştur",
-    "emptyMessage": "Empty message"
+    "emptyMessage": "Boş mesaj"
   },
   "sessionInfo": "Bu uygulama aşağıdaki eylemleri gerçekleştirmek isteyebilir:",
   "description": {
@@ -1072,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Kazanılan CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Haftalık Ödüller",
-  "feedItemInviteRewardReceivedTitle": "CELO Ağı",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Ödül Alındı",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1217,6 +1220,72 @@
   "merchantPaymentSubmitSuccess": "Ödemeniz başarıyla gönderildi",
   "merchantWalletUnlockError": "Cüzdanınızın kilidini açarken bir şeyler ters gitti, lütfen tekrar deneyin",
   "noMoreTransactions": "Başka işlem yok",
+  "selectProviderScreen": {
+    "somePaymentsUnavailable": "Bazı ödeme yöntemleri bölgenizde kullanılamıyor",
+    "learnMore": "Daha fazla bilgi edinin.",
+    "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
+    "dismiss": "Yoksay",
+    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nBunun nedeni, seçeneğin o ülkede bulunmaması veya yerel düzenlemeler nedeniyle engellenmiş olması olabilir.",
+    "cryptoExchange": "Kripto Para Borsası",
+    "feesVary": "Ücret Değişkendir",
+    "viewExchanges": "Borsaları Görüntüle",
+    "card": "Kredi / Banka Kartı",
+    "bank": "Banka Hesabı",
+    "mobileMoney": "Mobil Para",
+    "minFee": "Minimum Ücret",
+    "numProviders": "{{count}} Sağlayıcı",
+    "fee": "Ücret",
+    "idRequired": "Kimlik Gerekir",
+    "numDays": "1-3 Gün",
+    "oneHour": "1 Saatten Az",
+    "bestRate": "En İyi Oran",
+    "header": "Ödeme Yöntemi Seç"
+  },
+  "fiatExchangeFlow": {
+    "cashIn": {
+      "fiatExchangeTitle": "Bakiye Ekle",
+      "fiatExchangeSubtitle": "{{appName}} hesabınıza bir bankadan, karttan veya borsadan para yatırın.",
+      "selectCurrencyTitle": "Bakiye Ekle",
+      "exchangeAmountTitle": "{{currency}} ekle",
+      "selectProviderHeader": "Ödeme Yöntemi Seç"
+    },
+    "cashOut": {
+      "fiatExchangeTitle": "Çek",
+      "fiatExchangeSubtitle": "{{appName}} uygulamasından bir banka hesabına, karta, kripto borsasına veya mobil paraya para aktarın.",
+      "selectCurrencyTitle": "Bakiye Çek",
+      "exchangeAmountTitle": "{{currency}} çek",
+      "selectProviderHeader": "Para Çekme Yöntemi Seç"
+    },
+    "spend": {
+      "fiatExchangeTitle": "Harcama",
+      "fiatExchangeSubtitle": "Hediye kartları ve diğer satın alma işlemleri için harcayın.",
+      "selectCurrencyTitle": "Para Harcama"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Banka Bilgilerini Girin",
+    "selectedPaymentOption": "Selected payment option",
+    "addFiatAccountSuccess": "Your account has been linked to Valora.",
+    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
+    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Account Name",
+      "placeholderText": "A name for the account",
+      "errorMessage": "An account name is required"
+    },
+    "institutionName": {
+      "label": "Bank Name",
+      "placeholderText": "Enter Bank Name",
+      "errorMessage": "A bank name is required"
+    },
+    "accountNumber": {
+      "label": "Account Number",
+      "placeholderText": "Enter your 10 digit account number",
+      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

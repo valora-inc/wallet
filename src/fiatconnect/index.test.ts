@@ -1,5 +1,6 @@
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import { getFiatConnectProviders, loginWithFiatConnectProvider } from './index'
+import { addNewFiatAccount, getFiatConnectProviders, loginWithFiatConnectProvider } from './index'
 import { FiatConnectClient, FiatConnectClientConfig } from '@fiatconnect/fiatconnect-sdk'
 import { Network } from '@fiatconnect/fiatconnect-types'
 import Logger from '../utils/Logger'
@@ -8,6 +9,15 @@ import { mocked } from 'ts-jest/utils'
 import { getPassword } from 'src/pincode/authentication'
 
 jest.mock('src/pincode/authentication')
+
+jest.mock('src/utils/Logger', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: {
+    info: jest.fn(),
+    error: jest.fn(),
+  },
+}))
 
 jest.mock('src/geth/GethNativeBridgeWallet', () => {
   return {
@@ -52,12 +62,36 @@ describe('FiatConnect helpers', () => {
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
-      const mockLogError = jest.fn()
-      jest.spyOn(Logger, 'error').mockImplementation(mockLogError)
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
       const providers = await getFiatConnectProviders()
-      expect(mockLogError).toHaveBeenCalled()
       expect(providers).toEqual([])
+      expect(Logger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('addNewFiatAccount', () => {
+    it('returns a fiat account info with fiat account id on success', async () => {
+      const fakeFiatAccountReturned = {
+        fiatAccountId: 'ZAQWSX1234',
+        accountName: 'Fake Account Name',
+        institutionName: 'Fake Institution Name',
+        fiatAccountType: FiatAccountType.BankAccount,
+      }
+      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
+
+      const fakeProviderURL = 'superLegitCICOProvider.valoraapp.com'
+      const fiatAccountSchema = FiatAccountSchema.AccountNumber
+      const reqBody = {
+        accountName: 'Fake Account Name',
+        institutionName: 'Fake Institution Name',
+        accountNumber: '123456789',
+        country: 'NG',
+        fiatAccountType: FiatAccountType.BankAccount,
+      }
+
+      await expect(
+        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
+      ).rejects.toThrowError('Not implemented')
     })
   })
   describe('loginWithFiatConnectProvider', () => {
