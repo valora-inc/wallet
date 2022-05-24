@@ -38,8 +38,8 @@ function FiatExchange() {
     const [account] = wallet.getAccounts()
     const fiatConnectClient = new FiatConnectClient(
       {
-        baseUrl: 'https://alfajores.fc.alphafortress.com',
-        providerName: 'Bitssa',
+        baseUrl: 'localhost:8080',
+        providerName: 'test',
         iconUrl: 'N/A',
         network: Network.Alfajores,
         accountAddress: account,

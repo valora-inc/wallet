@@ -45,6 +45,7 @@ export async function loginWithFiatConnectProvider(
 
   const response = await fiatConnectClient.login()
   if (!response.ok) {
+    Logger.error(TAG, `Failure logging in with FiatConnect provider: ${response}, throwing`)
     throw new Error(response.val.error)
   }
 }
