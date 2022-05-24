@@ -200,7 +200,7 @@
   "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
   "superchargingNotificationBody": "Du erhältst Rewards mit Supercharge ⚡",
-  "superchargingNotificationBodyV1_33": "Du bekommst {{apy}}% Belohnungen mit Supercharge ⚡.",
+  "superchargingNotificationBodyV1_33": "Du erhältst {{apy}} % als Belohnung mit Supercharge ⚡",
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Beende das Einladen von {{name}} nach Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Senden"
+    "title": "Beende die Einladung von {{name}} zu Valora",
+    "bodyWithRewards": "Sobald sie beitreten und eine Telefonnummer verbinden, erhaltet ihr beide {{amount}} {{currency}}. Klicke unten, um eine Einladung zu senden und zu personalisieren.",
+    "body": "Teile eine Einladungsnachricht mit {{name}}, um {{appName}} beizutreten. Sobald sie beigetreten sind und eine Telefonnummer verbunden haben, erhalten sie ihre Zahlung.",
+    "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen (Beta)",
@@ -709,7 +710,7 @@
     "Iris": "Iris-Erkennung"
   },
   "useBiometryType": "{{biometryType}} verwenden",
-  "unlockWithBiometryPrompt": "Authentifizierung zum Entsperren {{appName}}",
+  "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
@@ -853,7 +854,7 @@
   "amountSent": "Betrag gesendet",
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
-  "inviteMoneyEscrow": "Sende diesem Kontakt eine Einladungsnachricht und er erhält das Geld, sobald er seine Nummer verbindet.",
+  "inviteMoneyEscrow": "Sende diesen Kontakten eine Einladungsnachricht, damit sie Guthaben erhalten, sobald sie ihre Telefonnummern verbunden haben.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -873,7 +874,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Krypto mit meiner {{appname}} Brieftasche geschickt. Wenn du die App herunterlädst und deine Telefonnummer verbindest, bekommen wir beide eine {{amount}} {{token}} Belohnung. Benutze diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide {{amount}} {{token}} als Reward. Verwende diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
-  "feedItemInviteRewardReceivedTitle": "Supercharge",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1220,22 +1221,22 @@
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Einige Zahlungsarten sind in deiner Region nicht verfügbar",
+    "somePaymentsUnavailable": "Einige der Zahlungsmethoden sind in deiner Region nicht verfügbar",
     "learnMore": "Mehr Infos.",
-    "whyMissingPayments": "Warum sehe ich nicht mehr Zahlungsmöglichkeiten?",
+    "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
-    "missingPaymentsExplained": "Nicht alle Zahlungsmethoden sind in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass die Option in diesem Land nicht existiert oder aufgrund lokaler Vorschriften blockiert ist.",
-    "cryptoExchange": "Kryptowährungsbörse",
+    "missingPaymentsExplained": "Es sind nicht alle Zahlungsmethoden in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass diese Option in diesem Land nicht verfügbar ist oder aufgrund der regionalen Bestimmungen blockiert wurde.",
+    "cryptoExchange": "Kryptobörse",
     "feesVary": "Gebühren variieren",
-    "viewExchanges": "Tauschbörsen ansehen",
+    "viewExchanges": "Kryptobörsen ansehen",
     "card": "Kredit-/Debitkarte",
     "bank": "Bankkonto",
     "mobileMoney": "Mobiles Geld",
-    "minFee": "Min Gebühr",
+    "minFee": "Mindestgebühr",
     "numProviders": "{{count}} Anbieter",
     "fee": "Gebühr",
     "idRequired": "ID erforderlich",
-    "numDays": "1-3 Tage",
+    "numDays": "1–3 Tage",
     "oneHour": "Weniger als 1 Stunde",
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
@@ -1243,22 +1244,46 @@
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Guthaben hinzufügen",
-      "fiatExchangeSubtitle": "Lade dein {{appName}} Konto von einer Bank, einer Karte oder einer Börse auf.",
+      "fiatExchangeSubtitle": "Lade dein {{appName}}-Konto über eine Bank, eine Karte oder eine Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "Füge {{currency}} hinzu",
       "selectProviderHeader": "Zahlungsmethode auswählen"
     },
     "cashOut": {
       "fiatExchangeTitle": "Abheben",
-      "fiatExchangeSubtitle": "Überweise Geld aus {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder auf mobiles Geld.",
+      "fiatExchangeSubtitle": "Überweise Guthaben von {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder erhalte es als mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
       "selectProviderHeader": "Auszahlungsmethode auswählen"
     },
     "spend": {
       "fiatExchangeTitle": "Ausgeben",
-      "fiatExchangeSubtitle": "Gib sie für Geschenkkarten und andere Einkäufe aus.",
-      "selectCurrencyTitle": "Mittel ausgeben"
+      "fiatExchangeSubtitle": "Gib es für Geschenkkarten und andere Einkäufe aus.",
+      "selectCurrencyTitle": "Guthaben ausgeben"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Bankdaten eingeben",
+    "selectedPaymentOption": "Ausgewählte Zahlungsoption",
+    "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Konto Name",
+      "placeholderText": "Ein Name für das Konto",
+      "errorMessage": "Ein Kontoname ist erforderlich"
+    },
+    "institutionName": {
+      "label": "Bank Name",
+      "placeholderText": "Bankname eingeben",
+      "errorMessage": "Ein Bankname ist erforderlich"
+    },
+    "accountNumber": {
+      "label": "Kontonummer",
+      "placeholderText": "Gib deine 10-stellige Kontonummer ein",
+      "errorMessage": "Die Kontonummer sollte 10 Ziffern lang sein und nur Zahlen enthalten"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
