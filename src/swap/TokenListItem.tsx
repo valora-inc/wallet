@@ -1,26 +1,26 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Dialog from 'src/components/Dialog'
 import InfoIcon from 'src/icons/InfoIcon'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { StoredTokenBalance } from 'src/tokens/reducer'
+import { UbeswapExprimentalToken } from 'src/tokens/reducer'
 
 type OwnProps = {
-  token: StoredTokenBalance | undefined
+  token: UbeswapExprimentalToken | undefined
   onClick: (payload: string) => void
 }
 
 type Props = OwnProps
 const TokenListItem = ({ token, onClick }: Props) => {
   const [showDialog, setShowDialog] = React.useState(false)
-  const { address, name, symbol, imageUrl } = token || {}
+  const { address, name, symbol, logoURI } = token || {}
   return (
-    <TouchableOpacity style={styles.row} onPress={() => onClick(address || '')}>
+    <TouchableOpacity style={styles.row} onPress={() => onClick('' || '')}>
       <View style={styles.left}>
-        <Text>$</Text>
+        <Image source={{ uri: logoURI }} style={styles.tokenIcon} />
       </View>
       <View style={styles.center}>
         <Text style={styles.name}>{name}</Text>
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
   },
   center: {
     flexGrow: 1,
+    borderBottomColor: Colors.gray2,
+    paddingBottom: 5,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   right: {
     paddingRight: 30,
@@ -67,8 +70,14 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
   },
   symbol: {
-    ...fontStyles.small500,
+    ...fontStyles.small400,
     color: Colors.gray5,
+  },
+  tokenIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
   },
 })
 

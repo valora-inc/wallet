@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView } from 'react-native-gesture-handler'
 import { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -9,7 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TokenListItem from 'src/swap/TokenListItem'
 import { SwapDirection } from 'src/swap/types'
-import { e2eTokens } from 'src/tokens/e2eTokens'
+import AlfajoresTokens from 'src/tokens/tokenList'
 
 type OwnProps = {
   direction: SwapDirection
@@ -21,7 +21,7 @@ type Props = ScreenProps & WithTranslation
 
 const SwapTokenList = ({ direction }: Props) => {
   // @todo Replace this; get an actual list of all tokens
-  const tokens = Object.entries(e2eTokens())
+  const tokens = Object.entries(AlfajoresTokens)
 
   const selectToken = (payload: string) => {
     // @todo Navigate to swap and set the tokens to be used.
@@ -34,7 +34,7 @@ const SwapTokenList = ({ direction }: Props) => {
       return <TokenListItem token={info} onClick={selectToken} />
     })
 
-  return <SafeAreaView>{tokens ? Tokens() : null}</SafeAreaView>
+  return <ScrollView>{tokens ? Tokens() : null}</ScrollView>
 }
 
 SwapTokenList.navigationOptions = () => {
