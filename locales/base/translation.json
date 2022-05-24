@@ -1249,7 +1249,7 @@
     "paymentMethodVia": "Connected via {{providerName}}",
     "cashIn": {
       "header": "Review Add Funds",
-      "button": "Buy Now",
+      "button": "Add Funds",
       "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {

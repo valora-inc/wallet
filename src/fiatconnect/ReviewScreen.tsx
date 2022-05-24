@@ -333,6 +333,7 @@ FiatConnectReviewScreen.navigationOptions = ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   headerTitle:
+    // NOTE: copies for cash in not final
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
