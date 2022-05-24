@@ -1246,14 +1246,15 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Connected via {{providerName}}",
     "cashIn": {
-      "reviewHeader": "Review Add Funds",
-      "reviewButton": "Buy Now",
+      "header": "Review Add Funds",
+      "button": "Buy Now",
       "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {
-      "reviewHeader": "Review Withdraw",
-      "reviewButton": "Withdraw Funds",
+      "header": "Review Withdraw",
+      "button": "Withdraw Funds",
       "transactionDetailsAmount": "Withdraw Amount"
     }
   },

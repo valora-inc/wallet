@@ -211,8 +211,6 @@ function FiatExchangeAmount({ route }: Props) {
     navigate(Screens.SupportContact, { prefilledText: t('dailyLimitRequest') })
   }
 
-  console.log('----token info----', tokenInfo)
-
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <Dialog
