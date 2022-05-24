@@ -138,9 +138,10 @@ export type StackParamList = {
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
     cicoQuote: QuoteResponse
-    fiatAccountSchema: FiatAccountSchema
-    fiatAccount: AccountNumber
     provider: ProviderInfo
+    fiatAccountSchema: FiatAccountSchema
+    fiatAccount: AccountNumber // TODO(any): use a more generic type here when wiring this with other screens
+    fiatAccountLogo?: string
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

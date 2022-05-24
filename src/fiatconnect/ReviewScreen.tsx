@@ -33,7 +33,14 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
 
-  const { flow, cicoQuote, provider, fiatAccount, fiatAccountSchema } = route.params
+  const {
+    flow,
+    cicoQuote,
+    provider,
+    fiatAccount,
+    fiatAccountSchema,
+    fiatAccountLogo,
+  } = route.params
 
   const tokenInfo = useTokenInfoBySymbol(cicoQuote.quote.cryptoType)
 
@@ -51,6 +58,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           provider={provider}
           fiatAccount={fiatAccount}
           fiatAccountSchema={fiatAccountSchema}
+          fiatAccountLogo={fiatAccountLogo}
         />
       </View>
       <Button
@@ -89,6 +97,7 @@ function Amount({
           tokenAddress={tokenAddress}
           style={styles.amountText}
           showLocalAmount={false}
+          testID="amount-crypto"
         />
       ) : (
         <CurrencyDisplay
@@ -102,6 +111,7 @@ function Amount({
               exchangeRate: 1,
             },
           }}
+          testID="amount-fiat"
         />
       )}
     </View>
@@ -153,6 +163,7 @@ function TransactionDetails({
                 exchangeRate: 1,
               },
             }}
+            testID="txDetails-fiat"
           />
         }
       />
@@ -171,13 +182,14 @@ function TransactionDetails({
             amount={cicoQuote.quote.cryptoAmount}
             tokenAddress={tokenAddress}
             showLocalAmount={false}
+            testID="txDetails-crypto"
           />
         }
         style={styles.sectionSubTextContainer}
         textStyle={styles.sectionSubText}
       />
       {!!cicoQuote.fiatAccount.BankAccount?.fee && (
-        // TODO(satish): consider using FeeDrawer
+        // TODO(any): consider using FeeDrawer if we want to show fee type / frequency
         <LineItemRow
           title={t('feeEstimate')}
           amount={
@@ -191,6 +203,7 @@ function TransactionDetails({
                   exchangeRate: 1,
                 },
               }}
+              testID="txDetails-fee"
             />
           }
           style={styles.sectionSubTextContainer}
@@ -205,15 +218,17 @@ function PaymentMethod({
   provider,
   fiatAccount,
   fiatAccountSchema,
+  fiatAccountLogo,
 }: {
   provider: ProviderInfo
   fiatAccount: any
   fiatAccountSchema: FiatAccountSchema
+  fiatAccountLogo?: string
 }) {
   const { t } = useTranslation()
 
   // TODO(any): consider merging this with other schema specific stuff in a generic
-  // type and create via factory
+  // type and create via a factory
   let displayText: string
   switch (fiatAccountSchema) {
     case FiatAccountSchema.AccountNumber:
@@ -228,20 +243,23 @@ function PaymentMethod({
       <View style={styles.paymentMethodContainer}>
         <View style={styles.paymentMethodDetails}>
           <View style={styles.sectionMainTextContainer}>
-            <Text style={styles.sectionMainText}>{displayText}</Text>
+            <Text style={styles.sectionMainText} testID="paymentMethod-text">
+              {displayText}
+            </Text>
           </View>
           <View style={styles.sectionSubTextContainer}>
-            <Text style={styles.sectionSubText}>
+            <Text style={styles.sectionSubText} testID="paymentMethod-via">
               {t('fiatConnectReviewScreen.paymentMethodVia', { providerName: provider.name })}
             </Text>
           </View>
         </View>
-        {!!provider.logoWide && (
+        {!!fiatAccountLogo && (
           <View style={styles.imageContainer}>
             <Image
-              source={{ uri: provider.logoWide }}
+              source={{ uri: fiatAccountLogo }}
               style={styles.paymentImage}
               resizeMode="center"
+              testID="paymentMethod-image"
             />
           </View>
         )}
