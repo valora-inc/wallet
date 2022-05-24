@@ -103,7 +103,7 @@ WithdrawCeloReviewScreen.navigationOptions = ({
   const onEdit = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_edit)
     const canGoBack = navigation
-      .dangerouslyGetState()
+      .getState()
       .routes.some((screen) => screen.name === Screens.WithdrawCeloScreen)
     if (canGoBack) {
       navigateBack()

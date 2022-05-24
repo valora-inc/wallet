@@ -1,7 +1,8 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
 
-import { NavigationActions, StackActions } from '@react-navigation/compat'
-import { CommonActions, NavigationContainerRef, NavigationState } from '@react-navigation/native'
+import { NavigationActions } from '@react-navigation/compat'
+import { CommonActions, StackActions } from '@react-navigation/core'
+import { NavigationContainerRef, NavigationState } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
@@ -49,12 +50,7 @@ export const replace: SafeNavigate = (...args) => {
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@replace`, `Dispatch ${routeName}`)
-      navigationRef.current?.dispatch(
-        StackActions.replace({
-          routeName,
-          params,
-        })
-      )
+      navigationRef.current?.dispatch(StackActions.replace(routeName, params))
     })
     .catch((reason) => {
       Logger.error(`${TAG}@replace`, 'Navigation failure', reason)
@@ -67,12 +63,7 @@ export const pushToStack: SafeNavigate = (...args) => {
   ensureNavigator()
     .then(() => {
       Logger.debug(`${TAG}@pushToStack`, `Dispatch ${routeName}`)
-      navigationRef.current?.dispatch(
-        StackActions.push({
-          routeName,
-          params,
-        })
-      )
+      navigationRef.current?.dispatch(StackActions.push(routeName, params))
     })
     .catch((reason) => {
       Logger.error(`${TAG}@pushToStack`, 'Navigation failure', reason)
