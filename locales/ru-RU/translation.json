@@ -200,7 +200,7 @@
   "superchargeNotificationBody": "Вознаграждения Supercharge уже ждут вас! Получите их прямо сейчас",
   "superchargeNotificationStart": "Получить вознаграждения",
   "superchargingNotificationBody": "Вы получаете 12% С Supercharge ⚡",
-  "superchargingNotificationBodyV1_33": "Ты получаешь {{apy}}% вознаграждения с помощью Supercharge ⚡.",
+  "superchargingNotificationBodyV1_33": "Вы получаете {{apy}}% вознаграждений по системе Supercharge ⚡",
   "superchargingNotificationStart": "Дополнительно",
   "startSuperchargingNotificationBody": "Получайте еженедельные криптовознаграждения. Присоединяйтесь к Supercharge!",
   "startSuperchargingNotificationStart": "Начать",
@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Отправить и пригласить",
   "inviteAndSendDialog": {
-    "title": "Закончите приглашение {{name}} в Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Завершить отправку"
+    "title": "Завершить приглашение {{name}} в Valora",
+    "bodyWithRewards": "Как только пользователь присоединится и подключит свой номер телефона, вы оба получите {{amount}} {{currency}}. Нажмите ниже, чтобы отправить и настроить свое приглашение.",
+    "body": "Поделитесь с {{name}} сообщением с приглашением присоединиться к {{appName}}. Как только пользователь присоединится и подключит свой номер телефона, то получит ваш платеж.",
+    "button": "Завершить приглашение"
   },
   "inviteRewardsBanner": {
     "title": "Отправьте криптовалюту, чтобы пригласить друга/подруги (бета-версия)",
@@ -709,7 +710,7 @@
     "Iris": "Распознавание по радужной оболочке глаза"
   },
   "useBiometryType": "Использовать {{biometryType}}",
-  "unlockWithBiometryPrompt": "Пройдите аутентификацию для разблокировки {{appName}}.",
+  "unlockWithBiometryPrompt": "Авторизуйтесь для разблокировки {{appName}}",
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
@@ -857,7 +858,7 @@
   "amountSent": "Отправленная сумма",
   "amountCeloWithdrawn": "Сумма (CELO)",
   "feeEducation": "Блокчейн Celo взимает комиссию за транзакцию для обеспечения поддержки и бесперебойной работы сообщества.",
-  "inviteMoneyEscrow": "Отправь этому контакту сообщение с приглашением, и он получит средства, как только подключит свой номер.",
+  "inviteMoneyEscrow": "Отправьте этому контакту сообщение с приглашением, и он получит средства, как только подключит свой номер телефона.",
   "reviewPayment": "Проверить платеж",
   "requestPayment": "Запросить платеж",
   "max": "МАКС.",
@@ -877,7 +878,7 @@
   "walletAddress": "Адрес кошелька",
   "inviteWithoutPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Это просто! Ознакомиться с этим способом можно по ссылке: {{link}}",
   "inviteWithEscrowedPayment": "Привет! Я использую {{appName}} для отправки криптовалют по всему миру. Я уже отправил(а) тебе {{amount}} {{token}}. Скачай приложение {{appName}} и приобрети {{token}} по этой ссылке: {{link}}",
-  "inviteWithRewards": "Привет! Я только что отправил тебе криптовалюту со своего кошелька {{appname}} . Как только ты скачаешь приложение и подключишь свой номер телефона, мы оба получим вознаграждение {{amount}} {{token}} . Используй эту ссылку: {{link}}",
+  "inviteWithRewards": "Привет! Я только что отправил вам криптовалюту со своего кошелька {{appName}}. Как только вы скачаете приложение и подключите свой номер телефона, мы оба получим вознаграждение {{amount}} {{token}}. Используйте эту ссылку: {{link}}",
   "loadingContacts": "Поиск контактов",
   "myCode": "Мой код",
   "scanCode": "Сканировать",
@@ -1078,7 +1079,7 @@
   "feedItemCeloRewardReceivedTitle": "Заработано CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Еженедельные вознаграждения",
-  "feedItemInviteRewardReceivedTitle": "Celo Network",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Вознаграждение получено",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1224,45 +1225,69 @@
   "merchantWalletUnlockError": "Что-то пошло не так при разблокировке кошелька, повторите попытку",
   "noMoreTransactions": "Больше транзакций нет",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в твоем регионе",
+    "somePaymentsUnavailable": "Некоторые способы оплаты недоступны в вашем регионе",
     "learnMore": "Дополнительно.",
-    "whyMissingPayments": "Почему я не вижу больше способов оплаты?",
+    "whyMissingPayments": "Почему я не вижу и другие способы оплаты?",
     "dismiss": "Закрыть",
-    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой отдельной стране.\n\nЭто может быть связано с тем, что такой возможности не существует в данной стране или она заблокирована из-за местных правил.",
+    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой отдельной стране.\n\nВозможно, такого способа не существует в данной стране, или он заблокирован в соответствии с местными правилами.",
     "cryptoExchange": "Криптовалютная биржа",
-    "feesVary": "Плата варьируется",
-    "viewExchanges": "Просмотреть биржи",
-    "card": "Кредитная / дебетовая карта",
+    "feesVary": "Комиссии варьируются",
+    "viewExchanges": "Просмотр обменников",
+    "card": "Кредитная/дебетовая карта",
     "bank": "Банковский счет",
-    "mobileMoney": "Мобильные деньги",
-    "minFee": "Минимальная плата",
-    "numProviders": "{{count}} Провайдеры",
+    "mobileMoney": "Мобильный банк",
+    "minFee": "Мин. комиссия",
+    "numProviders": "Поставщики: {{count}}",
     "fee": "Комиссия",
-    "idRequired": "Требуется удостоверение личности",
-    "numDays": "1-3 дня",
+    "idRequired": "Требуется ID",
+    "numDays": "1–3 дня",
     "oneHour": "Менее 1 часа",
-    "bestRate": "Лучшая ставка",
+    "bestRate": "Лучший курс",
     "header": "Выберите способ оплаты"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Внести средства",
-      "fiatExchangeSubtitle": "Пополни свой счет {{appName}} из банка, с карты или биржи.",
+      "fiatExchangeSubtitle": "Пополните свой счет {{appName}} из банка, с карты или биржи.",
       "selectCurrencyTitle": "Внести средства",
       "exchangeAmountTitle": "Внести {{currency}}",
       "selectProviderHeader": "Выберите способ оплаты"
     },
     "cashOut": {
       "fiatExchangeTitle": "Вывести",
-      "fiatExchangeSubtitle": "Выведи средства из {{appName}} и переведи на банковский счет, карту, криптовалютную биржу или на мобильные деньги.",
+      "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
       "selectCurrencyTitle": "Вывод средств",
       "exchangeAmountTitle": "Вывести {{currency}}",
       "selectProviderHeader": "Выберите способ вывода средств"
     },
     "spend": {
       "fiatExchangeTitle": "Потратить",
-      "fiatExchangeSubtitle": "Трать на подарочные карты и другие покупки.",
-      "selectCurrencyTitle": "Расходовать средства"
+      "fiatExchangeSubtitle": "Потратить на подарочные сертификаты и другие покупки.",
+      "selectCurrencyTitle": "Потратить средства"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Введите банковские реквизиты",
+    "selectedPaymentOption": "Выбранный вариант оплаты",
+    "addFiatAccountSuccess": "Твоя учетная запись была привязана к Valora.",
+    "addFiatAccountResourceExist": "Ты уже привязал этот счет к Valora.",
+    "addFiatAccountFailed": "Твой аккаунт не был связан, пожалуйста, попробуй еще раз или обратись в службу поддержки."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Название счета",
+      "placeholderText": "Имя для аккаунта",
+      "errorMessage": "Имя учетной записи обязательно"
+    },
+    "institutionName": {
+      "label": "Название банка",
+      "placeholderText": "Введите название банка",
+      "errorMessage": "Необходимо указать название банка"
+    },
+    "accountNumber": {
+      "label": "Номер счета",
+      "placeholderText": "Введите свой 10-значный номер счета",
+      "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",

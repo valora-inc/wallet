@@ -200,7 +200,7 @@
   "superchargeNotificationBody": "Винагорода Supercharge вже тут! Отримай зараз",
   "superchargeNotificationStart": "Запит винагороди",
   "superchargingNotificationBody": "Ви отримуєте 12% за Supercharge ⚡",
-  "superchargingNotificationBodyV1_33": "Ви отримуєте нагороди {{apy}}% з надбавкою ⚡",
+  "superchargingNotificationBodyV1_33": "Ви отримуєте {{apy}}% нагороди із Supercharge ⚡",
   "superchargingNotificationStart": "Дізнатися більше",
   "startSuperchargingNotificationBody": "Отримайте винагороду в криптовалюті. Почати дію Supercharge!",
   "startSuperchargingNotificationStart": "Почати роботу",
@@ -591,8 +591,9 @@
   "sendAndInvite": "Надіслати та запросити",
   "inviteAndSendDialog": {
     "title": "Завершення запрошення {{name}} до Valora",
-    "body": "Як тільки вони приєднаються і підключать номер телефону, ви обидва отримаєте {{amount}} {{currency}}. Натисніть нижче, щоб надіслати і налаштувати ваше запрошення.",
-    "button": "Закінчити надсилання"
+    "bodyWithRewards": "Як тільки вони приєднаються та під’єднають номер телефону, ви обидва отримаєте {{amount}} {{currency}}. Натисніть нижче, щоб надіслати й налаштувати ваше запрошення.",
+    "body": "Надішліть запрошення {{name}}, щоб приєднатися до {{appName}}. Як тільки вони приєднаються та під'єднають номер телефону, вони отримають ваш платіж.",
+    "button": "Завершення запрошення"
   },
   "inviteRewardsBanner": {
     "title": "Надіслати криптовалюту, щоб запросити друга (бета-версія)",
@@ -709,7 +710,7 @@
     "Iris": "Розпізнавання райдужної оболонки"
   },
   "useBiometryType": "Використати {{biometryType}}",
-  "unlockWithBiometryPrompt": "Автентифікуйтесь для розблокування {{appName}}",
+  "unlockWithBiometryPrompt": "Автентифікуйтеся для розблокування {{appName}}",
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
@@ -857,7 +858,7 @@
   "amountSent": "Відправлена сума",
   "amountCeloWithdrawn": "Сума (CELO)",
   "feeEducation": "Блокчейн Celo збирає плату за транзакцію для підтримки та нормального функціонування мережі.",
-  "inviteMoneyEscrow": "Надішліть це повідомлення із запрошенням, і вони отримають кошти, коли приєднають їх номер.",
+  "inviteMoneyEscrow": "Надішліть це повідомлення із запрошенням, і вони отримають кошти, коли під'єднають свій номер.",
   "reviewPayment": "Переглянути платіж",
   "requestPayment": "Запросити платіж",
   "max": "МАКС.",
@@ -877,7 +878,7 @@
   "walletAddress": "Адреса гаманця",
   "inviteWithoutPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Легко спробувати, я хочу ще раз запросити вас відвідати це посилання: {{link}}",
   "inviteWithEscrowedPayment": "Привіт! Я використовую {{appName}}, щоб надсилати криптовалюту по всьому світові. Я щойно відправив вам {{amount}} {{token}}. Прошу, завантажте застосунок {{appName}} і отримайте {{token}} за допомогою цього посилання: {{link}}",
-  "inviteWithRewards": "Гей! Я щойно відправив тобі крипто з моїм гаманцем {{appname}} . Як тільки ви завантажите додаток і під'єднаєте ваш номер телефону, ми обоє отримаємо нагороду {{amount}} {{token}} . Використовуйте це посилання: {{link}}",
+  "inviteWithRewards": "Привіт! Я щойно відправив вам криптовалюту в гаманці {{appName}}. Як тільки ви завантажите застосунок і під'єднаєте номер телефону, ми обоє отримаємо нагороду {{amount}} {{token}}. Скористайтеся цим посиланням: {{link}}",
   "loadingContacts": "Пошук контактів",
   "myCode": "Мій код",
   "scanCode": "Сканувати",
@@ -1078,7 +1079,7 @@
   "feedItemCeloRewardReceivedTitle": "Зароблено CELO",
   "feedItemRewardReceivedTitle": "Надбавка",
   "feedItemRewardReceivedInfo": "Щотижнева винагорода",
-  "feedItemInviteRewardReceivedTitle": "Мережа Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Отримано винагороду",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1224,45 +1225,69 @@
   "merchantWalletUnlockError": "Під час розблокування гаманця сталася помилка, спробуйте ще раз",
   "noMoreTransactions": "Більше немає Операції",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Деякі методи оплати недоступні в вашому регіоні",
+    "somePaymentsUnavailable": "Деякі методи оплати недоступні у вашому регіоні",
     "learnMore": "Дізнатися більше.",
     "whyMissingPayments": "Чому я не бачу більше способів оплати?",
     "dismiss": "Відхилити",
-    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nЦе може бути тому, що параметр не існує в цій країні або заблокований через локальні норми.",
-    "cryptoExchange": "Криптовалютний Обмін",
-    "feesVary": "Вартість оплати",
+    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nЦе може бути пов’язано з тим, що такого параметра немає в цій країні або його заблоковано відповідно до місцевих правил.",
+    "cryptoExchange": "Біржа криптовалют",
+    "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
-    "card": "Кредитна / Дебетова картка",
+    "card": "Кредитна/дебетова картка",
     "bank": "Банківський рахунок",
     "mobileMoney": "Мобільні гроші",
     "minFee": "Мінімальна комісія",
     "numProviders": "{{count}} Провайдери",
     "fee": "Комісія",
-    "idRequired": "Потрібен код",
-    "numDays": "1-3 Днів",
-    "oneHour": "Менше 1 години",
-    "bestRate": "Найвищий курс",
+    "idRequired": "Потрібен ідентифікатор",
+    "numDays": "1—3 дні",
+    "oneHour": "Менш як 1 година",
+    "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Додати кошти",
-      "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або обміну.",
+      "fiatExchangeSubtitle": "Поповніть ваш рахунок {{appName}} з банку, картки або біржі.",
       "selectCurrencyTitle": "Додати кошти",
       "exchangeAmountTitle": "Додати {{currency}}",
       "selectProviderHeader": "Виберіть спосіб оплати"
     },
     "cashOut": {
       "fiatExchangeTitle": "Зняти",
-      "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} і на банківський рахунок, картку, крипто обміняти або на мобільні гроші.",
+      "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} на банківський рахунок, картку, біржу криптовалют або на мобільні гроші.",
       "selectCurrencyTitle": "Вивести кошти",
       "exchangeAmountTitle": "Зняти {{currency}}",
-      "selectProviderHeader": "Виберіть метод зняття"
+      "selectProviderHeader": "Виберіть спосіб зняття"
     },
     "spend": {
       "fiatExchangeTitle": "Витратити",
-      "fiatExchangeSubtitle": "Витрати на подарункові картки та інші покупки.",
+      "fiatExchangeSubtitle": "Витрачайте на подарункові картки та інші придбання.",
       "selectCurrencyTitle": "Витратити кошти"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Введіть банківські реквізити",
+    "selectedPaymentOption": "Вибраний спосіб оплати",
+    "addFiatAccountSuccess": "Ваш обліковий запис був пов'язаний з Valora.",
+    "addFiatAccountResourceExist": "Ви вже прив'язали цей обліковий запис до Valora.",
+    "addFiatAccountFailed": "Ваш обліковий запис не об’єднано. Будь ласка, спробуйте ще раз або зверніться до служби підтримки."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Назва рахунку",
+      "placeholderText": "Ім'я для облікового запису",
+      "errorMessage": "Потрібен обліковий запис"
+    },
+    "institutionName": {
+      "label": "Найменування банку",
+      "placeholderText": "Введіть назву банку",
+      "errorMessage": "Необхідно вказати назву банку"
+    },
+    "accountNumber": {
+      "label": "Номер рахунку",
+      "placeholderText": "Введіть свій 10-значний рахунок",
+      "errorMessage": "Номер рахунку має складатися з 10 цифр і містити лише цифри"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
