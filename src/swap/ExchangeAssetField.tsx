@@ -36,7 +36,7 @@ const ExchangeAssetField = ({ asset, testID, direction, style }: ExchangeFieldPr
         </View>
       </View>
       <View style={styles.assetButton}>
-        <TokenSelectionButton asset={asset} />
+        <TokenSelectionButton asset={asset} direction={direction} />
       </View>
     </View>
   )

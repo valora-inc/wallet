@@ -15,6 +15,7 @@ import {
   CurrencyInfo,
   TransactionDataInput as TransactionDataInputLegacy,
 } from 'src/send/SendConfirmationLegacy'
+import { SwapDirection } from 'src/swap/types'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
@@ -257,6 +258,9 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Swap]: undefined
+  [Screens.SwapTokenList]: {
+    direction: SwapDirection
+  }
   [Screens.Sync]: undefined
   [Screens.SyncBankAccountScreen]: {
     publicToken: string
