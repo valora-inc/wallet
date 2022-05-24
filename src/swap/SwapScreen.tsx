@@ -1,24 +1,21 @@
 import { take } from 'lodash'
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import ExchangeModal from 'src/swap/ExchangeModal'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
-interface OwnProps {
-  testID: string
-}
+interface OwnProps {}
 
 type Props = WithTranslation & OwnProps
 
-function SwapScreen({ t, testID }: Props) {
+function SwapScreen({ t }: Props) {
   // useBalanceAutoRefresh()
   // @todo get list of tokens from symmetric (name, symbol, address, imgUrl)
   const tokens = useSelector(tokensListSelector)
@@ -28,10 +25,8 @@ function SwapScreen({ t, testID }: Props) {
   const celoBalanceAmount = celoBalance ? { value: celoBalance, currencyCode: Currency.Celo } : null
 
   return (
-    <View style={styles.container} testID={testID}>
-      <Text>{JSON.stringify(tokens)}</Text>
-      {/* <SwapToken token={currentTokens[0]} />
-      <SwapToken token={currentTokens[1]} /> */}
+    <View style={styles.container} testID={'Swap/Main'}>
+      <ExchangeModal defaultInputAsset={null} defaultOutputAsset={null} type={'Swap'} />
     </View>
   )
 }
@@ -39,7 +34,7 @@ function SwapScreen({ t, testID }: Props) {
 SwapScreen.navigationOptions = () => {
   return {
     ...headerWithBackButton,
-    headerTitle: () => <HeaderTitleWithSubtitle title={i18n.t('swap')} />,
+    headerTitle: () => <HeaderTitleWithSubtitle title={i18n.t('swap.title')} />,
   }
 }
 
@@ -47,19 +42,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: variables.contentPadding,
     marginVertical: 16,
-  },
-  title: {
-    ...fontStyles.h2,
-    marginBottom: 8,
-  },
-  balance: {
-    ...fontStyles.mediumNumber,
-    color: colors.dark,
-    marginBottom: 8,
-  },
-  localBalance: {
-    ...fontStyles.regular,
-    color: colors.gray4,
   },
 })
 
