@@ -1299,7 +1299,8 @@
       "label": "Account Number",
       "placeholderText": "Enter your 10 digit account number",
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
-    },
+    }
+  },
   "daysAgo": "{{days}} days ago",
   "servicesList": {
     "buy": "Deposit",
