@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 
-interface BaseToken {
+export interface BaseToken {
   address: string
   decimals: number
   imageUrl: string
@@ -13,6 +13,13 @@ interface BaseToken {
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
   isCoreToken?: boolean
+}
+
+export type UbeswapExprimentalToken = Omit<
+  BaseToken,
+  'imageUrl' | 'priceFetchedAt' | 'isCoreToken'
+> & {
+  logoURI: string
 }
 
 interface HistoricalUsdPrices {
@@ -33,6 +40,10 @@ export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
   historicalUsdPrices?: HistoricalUsdPrices
+}
+
+export interface BaseTokens {
+  [address: string]: UbeswapExprimentalToken
 }
 
 export interface StoredTokenBalances {
