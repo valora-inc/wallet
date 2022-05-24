@@ -27,7 +27,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
+import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -93,7 +93,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
   const localCurrencyCode = null
   const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const currentExchangeRate = useDollarToCeloExchangeRate()
-  const shouldDisplayWithdrawCelo = useTypedSelector(
+  const shouldDisplayWithdrawCelo = useSelector(
     (state) => state.app.celoWithdrawalEnabledInExchange
   )
 
