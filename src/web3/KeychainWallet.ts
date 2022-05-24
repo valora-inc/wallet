@@ -2,9 +2,8 @@ import { normalizeAddressWith0x, privateKeyToAddress } from '@celo/utils/lib/add
 import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { listStoredItems } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
-import { ACCOUNT_STORAGE_KEY_PREFIX, KeychainSigner } from 'src/web3/KeychainSigner'
+import { KeychainSigner, listStoredAccounts } from 'src/web3/KeychainSigner'
 
 const TAG = 'web3/KeychainWallet'
 
@@ -17,23 +16,11 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
   }
 
   async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
-    let accounts: string[]
+    const accounts = await listStoredAccounts()
     const addressToSigner = new Map<string, KeychainSigner>()
 
-    try {
-      const storedItems = await listStoredItems()
-      Logger.info(`${TAG}@loadAccountSigners`, storedItems)
-      accounts = storedItems
-        .filter((item) => item.startsWith(ACCOUNT_STORAGE_KEY_PREFIX))
-        .map((item) => item.slice(ACCOUNT_STORAGE_KEY_PREFIX.length))
-    } catch (e) {
-      Logger.error(`${TAG}@loadAccountSigners`, 'Error listing accounts', e)
-      throw new Error(ErrorMessages.GETH_FETCH_ACCOUNTS)
-    }
-
-    accounts.forEach((address) => {
-      const cleanAddress = normalizeAddressWith0x(address)
-      addressToSigner.set(cleanAddress, new KeychainSigner(cleanAddress))
+    accounts.forEach((account) => {
+      addressToSigner.set(account.address, new KeychainSigner(account))
     })
     return addressToSigner
   }
@@ -46,7 +33,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
     if (this.hasAccount(address)) {
       throw new Error(ErrorMessages.GETH_ACCOUNT_ALREADY_EXISTS)
     }
-    const signer = new KeychainSigner(address)
+    const signer = new KeychainSigner({ address, createdAt: new Date() })
     await signer.init(normalizedPrivateKey, passphrase)
     this.addSigner(address, signer)
     return address

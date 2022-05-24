@@ -1,9 +1,10 @@
 import { RLPEncodedTx, Signer } from '@celo/connect'
-import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
+import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import CryptoJS from 'crypto-js'
-import { retrieveStoredItem, storeItem } from 'src/storage/keychain'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { listStoredItems, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
 // const INCORRECT_PASSWORD_ERROR = 'could not decrypt key with given password'
@@ -11,13 +12,21 @@ const currentTimeInSeconds = () => Math.floor(Date.now() / 1000)
 
 const TAG = 'web3/KeychainSigner'
 
-export const ACCOUNT_STORAGE_KEY_PREFIX = 'account-'
+export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
-function accountStorageKey(account: string) {
-  if (!isValidAddress(account)) {
+interface KeychainAccount {
+  address: string
+  createdAt: Date
+}
+
+// Produces a storage key that looks like this: "account--2022-05-24T13:55:47.117Z--2d936b3ada6142b4248de1847c14fa2f4c5b63c3"
+function accountStorageKey(account: KeychainAccount) {
+  if (!isValidAddress(account.address)) {
     throw new Error('Expecting valid address for computing storage key')
   }
-  return `${ACCOUNT_STORAGE_KEY_PREFIX}${normalizeAddress(account)}`
+  return `${ACCOUNT_STORAGE_KEY_PREFIX}${account.createdAt.toISOString()}--${normalizeAddress(
+    account.address
+  )}`
 }
 
 async function encryptPrivateKey(privateKey: string, password: string) {
@@ -29,7 +38,7 @@ async function decryptPrivateKey(encryptedPrivateKey: string, password: string) 
   return bytes.toString(CryptoJS.enc.Utf8)
 }
 
-async function storePrivateKey(privateKey: string, account: string, password: string) {
+async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
   const encryptedPrivateKey = await encryptPrivateKey(privateKey, password)
   return storeItem({ key: accountStorageKey(account), value: encryptedPrivateKey })
 }
@@ -38,7 +47,10 @@ async function storePrivateKey(privateKey: string, account: string, password: st
 //   await removeStoredItem(MNEMONIC_STORAGE_KEY)
 // }
 
-async function getStoredPrivateKey(account: string, password: string): Promise<string | null> {
+async function getStoredPrivateKey(
+  account: KeychainAccount,
+  password: string
+): Promise<string | null> {
   try {
     Logger.debug(TAG, `Checking keystore for private key for account ${account}`)
     const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
@@ -46,11 +58,37 @@ async function getStoredPrivateKey(account: string, password: string): Promise<s
       throw new Error('No private key found in storage')
     }
 
-    return decryptPrivateKey(encryptedPrivateKey, password)
+    return await decryptPrivateKey(encryptedPrivateKey, password)
   } catch (error) {
     Logger.error(TAG, 'Failed to retrieve private key', error)
     return null
   }
+}
+
+// Returns accounts that have been stored in the keychain, sorted by creation date
+// The ordering is important: Geth KeyStore does this and some parts of the code base rely on it.
+export async function listStoredAccounts() {
+  let accounts: KeychainAccount[]
+  try {
+    const storedItems = await listStoredItems()
+    Logger.info(`${TAG}@listStoredAccounts`, 'Keychain items:', storedItems)
+    accounts = storedItems
+      .filter((item) => item.startsWith(ACCOUNT_STORAGE_KEY_PREFIX))
+      .map((item) => {
+        const [isoDate, rawAddress] = item.slice(ACCOUNT_STORAGE_KEY_PREFIX.length).split('--')
+        const address = normalizeAddressWith0x(rawAddress)
+        const createdAt = new Date(isoDate)
+        return {
+          address,
+          createdAt,
+        }
+      })
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+  } catch (e) {
+    Logger.error(`${TAG}@listStoredAccounts`, 'Error listing accounts', e)
+    throw new Error(ErrorMessages.GETH_FETCH_ACCOUNTS)
+  }
+  return accounts
 }
 
 /**
@@ -69,7 +107,7 @@ export class KeychainSigner implements Signer {
    * @param unlockDuration Number of seconds that the signer was last unlocked for
    */
   constructor(
-    protected account: string,
+    protected account: KeychainAccount,
     protected unlockBufferSeconds = 5,
     protected unlockTime?: number,
     protected unlockDuration?: number
@@ -111,7 +149,9 @@ export class KeychainSigner implements Signer {
     return this.localSigner.signTypedData(typedData)
   }
 
-  getNativeKey = () => this.account
+  getNativeKey() {
+    return this.account.address
+  }
 
   async unlock(passphrase: string, duration: number): Promise<boolean> {
     const privateKey = await getStoredPrivateKey(this.account, passphrase)
