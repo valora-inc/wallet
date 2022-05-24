@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
-import { sessionIdSelector } from 'src/app/selectors'
+import { numberVerifiedSelector, sessionIdSelector } from 'src/app/selectors'
 import { APP_NAME } from 'src/brandingConfig'
 import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -33,6 +33,7 @@ function SupportContact({ route }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
+  const numberVerified = useSelector(numberVerifiedSelector)
   const dispatch = useDispatch()
 
   const prefilledText = route.params?.prefilledText
@@ -56,6 +57,7 @@ function SupportContact({ route }: Props) {
       deviceId: DeviceInfo.getDeviceId(),
       address: currentAccount,
       sessionId,
+      numberVerified,
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')

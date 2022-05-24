@@ -1,4 +1,4 @@
-import { QuoteRequestQuery } from '@fiatconnect/fiatconnect-types'
+import { AddFiatAccountResponse, QuoteRequestQuery } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import Logger from '../utils/Logger'
@@ -56,4 +56,12 @@ export async function getFiatConnectQuotes(params: QuotesInput) {
   }
   const { quotes } = await response.json()
   return quotes
+}
+export async function addNewFiatAccount(
+  providerURL: string,
+  fiatAccountSchema: string,
+  properties: any
+): Promise<AddFiatAccountResponse> {
+  // TODO: use the SDK to make the request once SDK is published
+  throw new Error('Not implemented')
 }

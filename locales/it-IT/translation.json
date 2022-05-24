@@ -200,7 +200,7 @@
   "superchargeNotificationBody": "Le tue ricompense Supercharge sono arrivate! Richiedile ora",
   "superchargeNotificationStart": "Richiedi ora",
   "superchargingNotificationBody": "Stai ottenendo ricompense con Supercharge ⚡",
-  "superchargingNotificationBodyV1_33": "Stai ottenendo {{apy}}% ricompense con Supercharge ⚡",
+  "superchargingNotificationBodyV1_33": "Stai ottenendo il {{apy}}% con Supercharge ⚡",
   "superchargingNotificationStart": "Scopri di più",
   "startSuperchargingNotificationBody": "Ottieni ricompense settimanali in cripto. Inizia Supercharge!",
   "startSuperchargingNotificationStart": "Inizia",
@@ -279,7 +279,7 @@
   "cashOut": "Preleva fondi",
   "cashOutSubtitle": "Investi in buoni regalo, ricarica il credito del tuo cellulare e fai altri acquisti o invia fondi a un exchange",
   "cashOutComingSoon": "Preleva (presto disponibile)",
-  "spend": "Spendi",
+  "spend": "Spendi fondi",
   "spendSubtitle": "Usa il tuo saldo con commercianti che lo supportano",
   "amountCelo": "Importo (CELO)",
   "onlyCeloDollars": "Solo cUSD",
@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Invia e invita",
   "inviteAndSendDialog": {
-    "title": "Rimarremo in attesa del tuo pagamento a {{name}}",
-    "body": "Condividi con {{name}} un messaggio di invito a far parte di Valora. Dopo avere accettato e collegato un numero telefonico, riceverà il tuo pagamento. ",
-    "button": "Completa l’invio"
+    "title": "Completa l'invito di {{name}} in Valora",
+    "bodyWithRewards": "Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverete entrambi {{amount}} {{currency}}. Fai clic di seguito per inviare e personalizzare il tuo invito.",
+    "body": "Condividi con {{name}} un messaggio di invito per entrare a far parte di {{appName}}. Dopo che avrà accettato e che avrà collegato un numero telefonico, riceverà il tuo pagamento.",
+    "button": "Completa l'invito"
   },
   "inviteRewardsBanner": {
     "title": "Invia criptovalute per invitare un amico (beta)",
@@ -853,7 +854,7 @@
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
   "feeEducation": "La Blockchain Celo addebita una commissione sulla transazione, per supportare la rete e il suo funzionamento ottimale.",
-  "inviteMoneyEscrow": "Inviteremo questo contatto e manterremo i suoi fondi al sicuro fino a quando non avrà confermato il suo conto.",
+  "inviteMoneyEscrow": "Invia un messaggio di invito a questo contatto, riceverà i fondi dopo aver collegato il suo numero telefonico.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
@@ -873,7 +874,7 @@
   "walletAddress": "Indirizzo del wallet",
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
-  "inviteWithRewards": "Ehi, sto usando e mi piace {{appname}} come portafoglio per criptovalute. Se scarichi l'app e colleghi il tuo numero telefonico, riceveremo entrambi {{amount}} {{token}}. Usa questo collegamento: {{link}}",
+  "inviteWithRewards": "Ehi! Ti ho appena inviato criptovalute con il mio portafoglio {{appName}}. Dopo che avrai scaricato l'applicazione e che avrai collegato il tuo numero telefonico, riceveremo entrambi una ricompensa di {{amount}} {{token}}. Usa questo collegamento: {{link}}",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "CELO guadagnati",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Ricompense settimanali",
-  "feedItemInviteRewardReceivedTitle": "Rete Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Ricompensa ricevuta",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1220,45 +1221,69 @@
   "merchantWalletUnlockError": "Si è verificato un errore durante lo sbloccaggio del tuo portafoglio, riprova",
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Alcuni metodi di pagamento non sono disponibili nella tua regione",
+    "somePaymentsUnavailable": "Alcuni metodi di pagamento non sono disponibili nella tua area",
     "learnMore": "Scopri di più.",
-    "whyMissingPayments": "Perché non vedo altri metodi di pagamento?",
+    "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
-    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i Paesi.\n\nQuesto potrebbe essere dovuto al fatto che l'opzione non esiste in quel paese o è bloccata a causa delle normative locali.",
-    "cryptoExchange": "Scambio di criptovalute",
-    "feesVary": "Le tariffe variano",
-    "viewExchanges": "Visualizza gli scambi",
+    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i paesi.\n\nQuesto potrebbe essere dovuto al fatto che l'opzione non esiste in quel paese o è bloccata a causa delle normative locali.",
+    "cryptoExchange": "Exchange di criptovalute",
+    "feesVary": "Le commissioni variano",
+    "viewExchanges": "Visualizza gli exchange",
     "card": "Carta di credito/debito",
-    "bank": "Conto corrente bancario",
+    "bank": "Conto bancario",
     "mobileMoney": "Denaro mobile",
-    "minFee": "Tariffa minima",
-    "numProviders": "{{count}} Fornitori",
+    "minFee": "Commissione minima",
+    "numProviders": "{{count}} provider",
     "fee": "Commissione",
     "idRequired": "ID richiesto",
     "numDays": "1-3 giorni",
-    "oneHour": "Meno di 1 ora",
-    "bestRate": "Miglior tariffa",
+    "oneHour": "Meno di un'ora",
+    "bestRate": "Miglior tasso",
     "header": "Seleziona il metodo di pagamento"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Aggiungi fondi",
-      "fiatExchangeSubtitle": "Finanzia il tuo conto {{appName}} con una banca, una carta o una borsa.",
+      "fiatExchangeSubtitle": "Aggiunta di fondi in il tuo conto {{appName}} con una banca, una carta o un exchange.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
       "selectProviderHeader": "Seleziona il metodo di pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva",
-      "fiatExchangeSubtitle": "Fai uscire i fondi da {{appName}} per trasferirli su un conto bancario, una carta, uno scambio di criptovalute o una moneta mobile.",
+      "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
       "selectProviderHeader": "Seleziona il metodo di prelievo"
     },
     "spend": {
-      "fiatExchangeTitle": "Spendi",
-      "fiatExchangeSubtitle": "Spendi per carte regalo e altri acquisti.",
-      "selectCurrencyTitle": "Spendere i fondi"
+      "fiatExchangeTitle": "Spendi fondi",
+      "fiatExchangeSubtitle": "Spendi in buoni regalo e altri acquisti.",
+      "selectCurrencyTitle": "Spendi fondi"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Immetti i dettagli della banca",
+    "selectedPaymentOption": "Opzione di pagamento selezionata",
+    "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
+    "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
+    "addFiatAccountFailed": "Il tuo account non è stato collegato, riprova o contatta l'assistenza."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Nome del conto",
+      "placeholderText": "Un nome per l'account",
+      "errorMessage": "È richiesto il nome dell'account"
+    },
+    "institutionName": {
+      "label": "Nome della banca",
+      "placeholderText": "Inserisci il nome della banca",
+      "errorMessage": "È necessario indicare il nome della banca"
+    },
+    "accountNumber": {
+      "label": "Numero di conto",
+      "placeholderText": "Inserisci il tuo numero di conto a 10 cifre",
+      "errorMessage": "Il numero di conto deve essere di 10 cifre e contenere solo numeri."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
