@@ -53,6 +53,7 @@ export function* initializeSentry() {
   Sentry.init({
     dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
+    release: `valora@${DeviceInfo.getVersion()}`,
     enableAutoSessionTracking: true,
     integrations: [
       new Sentry.ReactNativeTracing({
