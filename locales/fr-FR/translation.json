@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Envoyer et inviter",
   "inviteAndSendDialog": {
-    "title": "Finir d'inviter {{name}} à Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Terminer l'envoi"
+    "title": "Valider l'invitation de {{name}} sur Valora",
+    "bodyWithRewards": "Une fois que votre invité aura rejoint Valora et aura connecté son numéro de téléphone, vous recevez tous les deux {{amount}} {{currency}}. Cliquez ci-dessous pour envoyer et personnaliser votre invitation.",
+    "body": "Partagez un message avec {{name}} pour l'inviter à rejoindre {{appName}}. Après son inscription et avoir connecté son numéro de téléphone, votre ami recevra votre paiement.",
+    "button": "Valider l'invitation"
   },
   "inviteRewardsBanner": {
     "title": "Envoyez des crypto pour inviter un ami (bêta)",
@@ -853,7 +854,7 @@
   "amountSent": "Montant envoyé",
   "amountCeloWithdrawn": "Montant (CELO)",
   "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
-  "inviteMoneyEscrow": "Envoie un message d'invitation à ce contact et il recevra les fonds une fois qu'il aura connecté son numéro.",
+  "inviteMoneyEscrow": "Envoyez à ce contact un message d'invitation pour lui permettre de recevoir les fonds après avoir connecté son numéro.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander un paiement",
   "max": "MAX.",
@@ -873,7 +874,7 @@
   "walletAddress": "Adresse du portefeuille",
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
-  "inviteWithRewards": "Salut ! Je viens de t'envoyer de la crypto avec mon portefeuille {{appname}} . Une fois que tu auras téléchargé l'application et connecté ton numéro de téléphone, nous recevrons tous les deux une {{amount}} {{token}} récompense. Utilise ce lien : {{link}}",
+  "inviteWithRewards": "Bonjour ! Je viens de t'envoyer de la crypto depuis mon portefeuille {{appName}}. Une fois que tu auras téléchargé l'appli et connecté ton numéro de téléphone, nous recevrons tous les deux une récompense de {{amount}} {{token}}. Utilise ce lien : {{link}}",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
-  "feedItemInviteRewardReceivedTitle": "Réseau Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Récompense reçue",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1259,6 +1260,30 @@
       "fiatExchangeTitle": "Dépenser des fonds",
       "fiatExchangeSubtitle": "Dépensez en cartes-cadeaux et autres achats.",
       "selectCurrencyTitle": "Dépenser des fonds"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Saisir les coordonnées bancaires",
+    "selectedPaymentOption": "Option de paiement sélectionnée",
+    "addFiatAccountSuccess": "Ton compte a été lié à Valora.",
+    "addFiatAccountResourceExist": "Tu as déjà lié ce compte à Valora.",
+    "addFiatAccountFailed": "Ton compte n'a pas été lié, essaie à nouveau ou contacte l'assistance."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Nom du compte",
+      "placeholderText": "Un nom pour le compte",
+      "errorMessage": "Un nom de compte est nécessaire"
+    },
+    "institutionName": {
+      "label": "Nom de la banque",
+      "placeholderText": "Saisis le nom de la banque",
+      "errorMessage": "Un nom de banque est nécessaire"
+    },
+    "accountNumber": {
+      "label": "Numéro de compte",
+      "placeholderText": "Sais de ton numéro de compte à 10 chiffres",
+      "errorMessage": "Le numéro de compte doit être composé de 10 chiffres et ne doit contenir que des chiffres."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
-    "title": "Convite final {{name}} a Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Enviar"
+    "title": "Termine de convidar {{name}} para o Valora",
+    "bodyWithRewards": "Depois que seu amigo entrar e conectar um número de celular, vocês dois recebem {{amount}} {{currency}}. Clique abaixo para enviar e personalizar seu convite.",
+    "body": "Envie uma mensagem de convite para que {{name}} entre no {{appName}}. Depois que seu amigo entrar e conectar um número de celular, ele receberá o pagamento.",
+    "button": "Termine de convidar"
   },
   "inviteRewardsBanner": {
     "title": "Envie criptomoedas para convidar um amigo (beta)",
@@ -853,7 +854,7 @@
   "amountSent": "Quantia enviada",
   "amountCeloWithdrawn": "Quantia (CELO)",
   "feeEducation": "O blockchain da Celo coleta uma taxa de transação para manter o suporte e o bom funcionamento da sua rede.",
-  "inviteMoneyEscrow": "Envie este contacto uma mensagem de convite e eles receberão os fundos assim que ligarem o seu número.",
+  "inviteMoneyEscrow": "Envie uma mensagem de convite a esse contato e ele receberá os fundos quando conectar seu número.",
   "reviewPayment": "Revisar pagamento",
   "requestPayment": "Solicitar pagamento",
   "max": "MAX",
@@ -873,7 +874,7 @@
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
-  "inviteWithRewards": "Ei! acabei de vos enviar criptograma com a minha {{appname}} carteira. Uma vez descarregada a aplicação e ligado o seu número de telefone, ambos recebemos um {{amount}} {{token}} recompensa. Utilize esta ligação: {{link}}",
+  "inviteWithRewards": "Oi! Acabei de enviar criptomoedas para você com minha carteira {{appName}}. É só baixar o app e conectar seu número de celular, e nós dois recebemos uma recompensa de {{amount}} {{token}}. Use este link: {{link}}",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Ganho de CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Recompensas semanais",
-  "feedItemInviteRewardReceivedTitle": "Rede Celo",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Recompensa recebida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1238,27 +1239,51 @@
     "numDays": "1-3 dias",
     "oneHour": "Menos de 1 hora",
     "bestRate": "Melhor taxa",
-    "header": "Select Payment Method"
+    "header": "Selecione o método de pagamento"
   },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Adicionar Fundos",
-      "fiatExchangeSubtitle": "Financie a sua conta {{appName}} a partir de um banco, cartão ou troca.",
+      "fiatExchangeSubtitle": "Adicione fundos à sua conta {{appName}} de um banco, cartão ou exchange.",
       "selectCurrencyTitle": "Adicionar Fundos",
       "exchangeAmountTitle": "Adicione {{currency}}",
-      "selectProviderHeader": "Seleccione o método de pagamento"
+      "selectProviderHeader": "Selecione o método de pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Sacar",
-      "fiatExchangeSubtitle": "Obter fundos a partir de {{appName}} e para uma conta bancária, cartão, câmbio criptográfico ou para dinheiro móvel.",
+      "fiatExchangeSubtitle": "Saque fundos do {{appName}} para uma conta bancária, cartão, exchange de criptos ou dinheiro móvel.",
       "selectCurrencyTitle": "Sacar Fundos",
       "exchangeAmountTitle": "Transferir {{currency}}",
-      "selectProviderHeader": "Seleccionar Método de Retirada"
+      "selectProviderHeader": "Selecione o método de saque"
     },
     "spend": {
       "fiatExchangeTitle": "Gastos",
       "fiatExchangeSubtitle": "Gastar em cartões de oferta e outras compras.",
-      "selectCurrencyTitle": "Fundos de despesas"
+      "selectCurrencyTitle": "Gastar fundos"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Insira os dados bancários",
+    "selectedPaymentOption": "Opção de pagamento seleccionada",
+    "addFiatAccountSuccess": "A sua conta foi ligada à Valora.",
+    "addFiatAccountResourceExist": "Já ligou esta conta à Valora.",
+    "addFiatAccountFailed": "A sua conta não foi ligada, por favor tente novamente ou contacte o suporte."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Nome da conta",
+      "placeholderText": "Um nome para a conta",
+      "errorMessage": "É necessário um nome de conta"
+    },
+    "institutionName": {
+      "label": "Nome do Banco",
+      "placeholderText": "Introduza o nome do banco",
+      "errorMessage": "É necessário um nome de banco"
+    },
+    "accountNumber": {
+      "label": "Número de conta",
+      "placeholderText": "Introduza o seu número de conta de 10 dígitos",
+      "errorMessage": "O número de conta deve ter 10 dígitos e conter apenas números"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

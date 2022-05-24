@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Current Daily Send Limit",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Unlimited",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity.  Please confirm your phone number before continuing.",
+  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please confirm your phone number before continuing.",
   "verifyIdentityToRaiseLimit": "You can increase your send limit by verifying your identity.  Please be ready to provide some details in the following process.",
   "dailyLimitApplicationStatus": "Application Status",
   "applicationInReview": "In Review",
@@ -591,8 +591,9 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "Finish inviting {{name}} to Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Finish sending"
+    "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
+    "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
+    "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
     "title": "Send crypto to invite a friend (beta)",
@@ -873,7 +874,7 @@
   "walletAddress": "Wallet Address",
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
-  "inviteWithRewards": "Hey! I just sent you crypto with my {{appname}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
+  "inviteWithRewards": "Hey! I just sent you crypto with my {{appName}} wallet. Once you download the app and connect your phone number, we both get a {{amount}} {{token}} reward. Use this link: {{link}}",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Earned CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Weekly Rewards",
-  "feedItemInviteRewardReceivedTitle": "Celo Network",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Reward Received",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1259,6 +1260,30 @@
       "fiatExchangeTitle": "Spend",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Enter Bank Details",
+    "selectedPaymentOption": "Selected payment option",
+    "addFiatAccountSuccess": "Your account has been linked to Valora.",
+    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
+    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Account Name",
+      "placeholderText": "A name for the account",
+      "errorMessage": "An account name is required"
+    },
+    "institutionName": {
+      "label": "Bank Name",
+      "placeholderText": "Enter Bank Name",
+      "errorMessage": "A bank name is required"
+    },
+    "accountNumber": {
+      "label": "Account Number",
+      "placeholderText": "Enter your 10 digit account number",
+      "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
