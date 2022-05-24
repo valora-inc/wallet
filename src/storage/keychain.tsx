@@ -80,3 +80,12 @@ export async function removeStoredItem(key: string) {
     throw error
   }
 }
+
+export async function listStoredItems() {
+  try {
+    return Keychain.getAllGenericPasswordServices()
+  } catch (error) {
+    Logger.error(TAG, 'Error listing items', error, true)
+    throw error
+  }
+}
