@@ -40,10 +40,6 @@ async function storePrivateKey(privateKey: string, account: KeychainAccount, pas
   return storeItem({ key: accountStorageKey(account), value: encryptedPrivateKey })
 }
 
-// async function clearStoredMnemonic() {
-//   await removeStoredItem(MNEMONIC_STORAGE_KEY)
-// }
-
 async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
