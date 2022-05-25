@@ -126,7 +126,13 @@ export class KeychainSigner implements Signer {
       `Signing transaction: ${JSON.stringify(encodedTx.transaction)}`
     )
     const { gasPrice } = encodedTx.transaction
-    if (gasPrice === '0x0' || gasPrice === '0x' || gasPrice === '0' || !gasPrice) {
+    if (
+      gasPrice === '0x0' ||
+      gasPrice === '0x' ||
+      gasPrice === '0x0NaN' ||
+      gasPrice === '0' ||
+      !gasPrice
+    ) {
       // Make sure we don't sign and send transactions with 0 gas price
       // This resulted in those TXs being stuck in the txpool for nodes running geth < v1.5.0
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
@@ -141,7 +147,6 @@ export class KeychainSigner implements Signer {
   }
 
   async signTypedData(typedData: EIP712TypedData): Promise<{ v: number; r: Buffer; s: Buffer }> {
-    // Logger.info(`${TAG}@signTypedData`, `Signing typed data`)
     Logger.info(
       `${TAG}@signTypedData`,
       `Signing typed DATA: ${JSON.stringify({ address: this.account, typedData })}`
@@ -176,7 +181,7 @@ export class KeychainSigner implements Signer {
    * Get the local signer. Throws if not unlocked.
    */
   get localSigner(): LocalSigner {
-    if (!this.isUnlocked) {
+    if (!this.isUnlocked()) {
       this.unlockedLocalSigner = null
     }
     if (!this.unlockedLocalSigner) {
