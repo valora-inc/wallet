@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -46,7 +45,6 @@ function useStep() {
 export default function OnboardingEducationScreen() {
   const { t } = useTranslation()
 
-  const headerHeight = useHeaderHeight()
   const stepInfo = useStep()
 
   useEffect(() => {
@@ -60,7 +58,7 @@ export default function OnboardingEducationScreen() {
 
   return (
     <Education
-      style={[styles.container, headerHeight ? { paddingTop: headerHeight } : undefined]}
+      style={[styles.container]}
       edges={['bottom']}
       embeddedNavBar={null}
       stepInfo={stepInfo}
