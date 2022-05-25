@@ -88,7 +88,7 @@ function CustomDrawerItemList({
   state,
   navigation,
   descriptors,
-  itemStyle,
+  // itemStyle,
   protectedRoutes,
   ...passThroughProps
 }: CustomDrawerItemListProps) {
@@ -140,7 +140,8 @@ function CustomDrawerItemList({
         label={drawerLabel !== undefined ? drawerLabel : title !== undefined ? title : route.name}
         icon={drawerIcon}
         focused={focused}
-        style={itemStyle}
+        // TODO(tomm): Investigate drawer styles
+        // style={itemStyle}
         to={buildLink(route.name, route.params)}
         onPress={onPress}
       />
@@ -229,17 +230,17 @@ export default function DrawerNavigator() {
           }}
         />
       )) || (
-          <Drawer.Screen
-            name={Screens.GoldEducation}
-            component={GoldEducation}
-            options={{
-              title: t('celoGold'),
-              drawerIcon: Gold,
-              ...TransitionPresets.ModalTransition,
-              headerShown: false,
-            }}
-          />
-        )}
+        <Drawer.Screen
+          name={Screens.GoldEducation}
+          component={GoldEducation}
+          options={{
+            title: t('celoGold'),
+            drawerIcon: Gold,
+            ...TransitionPresets.ModalTransition,
+            headerShown: false,
+          }}
+        />
+      )}
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
