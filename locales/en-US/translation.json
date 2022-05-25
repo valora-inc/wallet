@@ -40,8 +40,8 @@
     "resetNow": "Reset Now"
   },
   "promptConfirmRevokeModal": {
-    "header": "Are you sure you want to revoke your Valora account?",
-    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
+    "header": "Are you sure you want to disconnect your phone number?",
+    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
     "revoke": "Revoke"
   },
   "testFaqLink": "{{appName}} FAQ",
