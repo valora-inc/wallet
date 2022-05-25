@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
-import { ScrollPager } from 'react-native-tab-view'
 import { useDispatch } from 'react-redux'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -21,7 +20,6 @@ import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
-import { ExtractProps } from 'src/utils/typescript'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -29,7 +27,7 @@ const width = Dimensions.get('window').width
 const initialLayout = { width }
 
 type AnimatedScannerSceneProps = StackScreenProps<QRTabParamList, Screens.QRScanner> & {
-  position: Animated.Value<number>
+  position: any
 }
 
 // Component doing our custom transition for the QR scanner
@@ -120,10 +118,6 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   )
 }
 
-// Use ScrollPager on iOS as it gives a better native feeling
-const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
-  Platform.OS === 'ios' ? (props) => <ScrollPager {...props} /> : undefined
-
 export default function QRNavigator() {
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
@@ -133,11 +127,9 @@ export default function QRNavigator() {
 
   return (
     <Tab.Navigator
-      position={position}
       tabBar={tabBar}
       // Trick to position the tabs floating on top
       tabBarPosition="bottom"
-      pager={pager}
       style={styles.container}
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}

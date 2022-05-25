@@ -28,12 +28,12 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
     [state, descriptors]
   )
 
-  const shareOpacity = Animated.interpolateNode(position, {
+  const shareOpacity = Animated.interpolateNode(position as any, {
     inputRange: [0, 0.1],
     outputRange: [1, 0],
   })
 
-  const color = Animated.interpolateColors(position, {
+  const color = Animated.interpolateColors(position as any, {
     inputRange: [0.9, 1],
     outputColorRange: [colors.dark, colors.light],
   })

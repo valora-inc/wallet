@@ -11,7 +11,7 @@ const HEIGHT = 24
 interface Props {
   values: string[]
   selectedIndex?: number
-  position: Animated.Node<number>
+  position: any
   onChange?: (value: string, selectedIndex: number) => void
 }
 
