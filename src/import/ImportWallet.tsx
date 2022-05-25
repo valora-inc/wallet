@@ -1,4 +1,5 @@
-import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
+import { HeaderHeightContext } from '@react-navigation/elements'
+import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'

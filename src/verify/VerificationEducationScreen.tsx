@@ -1,6 +1,7 @@
 import { Countries } from '@celo/utils/lib/countries'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { useFocusEffect } from '@react-navigation/native'
-import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
+import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'

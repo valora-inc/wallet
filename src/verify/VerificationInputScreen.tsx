@@ -3,7 +3,8 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
-import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
+import { HeaderHeightContext } from '@react-navigation/elements'
+import { StackScreenProps } from '@react-navigation/stack'
 import dotProp from 'dot-prop-immutable'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
