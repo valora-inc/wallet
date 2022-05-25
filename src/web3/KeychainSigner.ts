@@ -7,9 +7,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { listStoredItems, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
-// const INCORRECT_PASSWORD_ERROR = 'could not decrypt key with given password'
-const currentTimeInSeconds = () => Math.floor(Date.now() / 1000)
-
 const TAG = 'web3/KeychainSigner'
 
 export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
@@ -96,22 +93,17 @@ export async function listStoredAccounts() {
  */
 export class KeychainSigner implements Signer {
   protected unlockedLocalSigner: LocalSigner | null = null
+  // Timestamp in milliseconds when the signer was last unlocked
+  protected unlockTime?: number
+  // Number of seconds that the signer was last unlocked for
+  protected unlockDuration?: number
 
   /**
    * Construct a new instance of the Keychain signer
    *
    * @param account Account address derived from the private key to be called in init
-   * @param unlockBufferSeconds Number of seconds to shrink the unlocked duration by to account for
-   * latency and timing inconsistencies on the node
-   * @param unlockTime Timestamp in seconds when the signer was last unlocked
-   * @param unlockDuration Number of seconds that the signer was last unlocked for
    */
-  constructor(
-    protected account: KeychainAccount,
-    protected unlockBufferSeconds = 5,
-    protected unlockTime?: number,
-    protected unlockDuration?: number
-  ) {}
+  constructor(protected account: KeychainAccount) {}
 
   async init(privateKey: string, passphrase: string) {
     await storePrivateKey(privateKey, this.account, passphrase)
@@ -165,7 +157,7 @@ export class KeychainSigner implements Signer {
     }
 
     this.unlockedLocalSigner = new LocalSigner(privateKey)
-    this.unlockTime = currentTimeInSeconds()
+    this.unlockTime = Date.now()
     this.unlockDuration = duration
     return true
   }
@@ -174,7 +166,7 @@ export class KeychainSigner implements Signer {
     if (this.unlockDuration === undefined || this.unlockTime === undefined) {
       return false
     }
-    return this.unlockTime + this.unlockDuration - this.unlockBufferSeconds > currentTimeInSeconds()
+    return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 
   /**

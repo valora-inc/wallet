@@ -55,7 +55,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
    * Unlocks an account for a given duration
    * @param account String the account to unlock
    * @param passphrase String the passphrase of the account
-   * @param duration Number the duration of the unlock period
+   * @param duration Number the duration of the unlock period in seconds
    */
   async unlockAccount(account: string, passphrase: string, duration: number) {
     Logger.info(`${TAG}@unlockAccount`, `Unlocking ${account}`)

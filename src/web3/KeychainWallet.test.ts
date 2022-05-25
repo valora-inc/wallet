@@ -8,6 +8,8 @@ import {
 import { Encrypt } from '@celo/utils/lib/ecies'
 import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
+import MockDate from 'mockdate'
+import { UNLOCK_DURATION } from 'src/geth/consts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
 
@@ -80,6 +82,10 @@ describe('KeychainWallet', () => {
     await wallet.init()
   })
 
+  afterEach(() => {
+    MockDate.reset()
+  })
+
   it('starts with no accounts', () => {
     expect(wallet.getAccounts().length).toBe(0)
   })
@@ -101,11 +107,8 @@ describe('KeychainWallet', () => {
   })
 
   it('persists added accounts in the keychain', async () => {
-    const mockDate = new Date(1482363367071)
-    // @ts-ignore
-    const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+    MockDate.set(1482363367071)
     await wallet.addAccount(PRIVATE_KEY1, 'password')
-    spy.mockRestore()
 
     expect(mockedKeychain.getAllKeys()).toEqual([
       'account--2016-12-21T23:36:07.071Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb',
@@ -142,6 +145,38 @@ describe('KeychainWallet', () => {
 
     it('can retrieve all addresses sorted by creation date', () => {
       expect(wallet.getAccounts()).toMatchObject([ACCOUNT_ADDRESS1, ACCOUNT_ADDRESS2])
+    })
+
+    describe('update account password', () => {
+      it('succeeds when providing the right password', async () => {
+        await expect(wallet.updateAccount(knownAddress, 'password', 'newPassword')).resolves.toBe(
+          true
+        )
+
+        // Check we cannot unlock using the old password
+        await expect(wallet.unlockAccount(knownAddress, 'password', UNLOCK_DURATION)).resolves.toBe(
+          false
+        )
+        // Check we can unlock using the new password
+        await expect(
+          wallet.unlockAccount(knownAddress, 'newPassword', UNLOCK_DURATION)
+        ).resolves.toBe(true)
+      })
+
+      it('fails when providing a wrong password', async () => {
+        await expect(
+          wallet.updateAccount(knownAddress, 'incorrectPassword', 'newPassword')
+        ).resolves.toBe(false)
+
+        // Check we can unlock using the old password
+        await expect(wallet.unlockAccount(knownAddress, 'password', UNLOCK_DURATION)).resolves.toBe(
+          true
+        )
+        // Check we cannot unlock using the new password
+        await expect(
+          wallet.unlockAccount(knownAddress, 'newPassword', UNLOCK_DURATION)
+        ).resolves.toBe(false)
+      })
     })
 
     describe('when not unlocked', () => {
@@ -191,12 +226,20 @@ describe('KeychainWallet', () => {
     })
 
     describe('when unlocked', () => {
+      const mockDate = new Date(1482363367071)
+
       beforeEach(async () => {
-        await wallet.unlockAccount(knownAddress, 'password', 999999999)
+        MockDate.set(mockDate)
+        await wallet.unlockAccount(knownAddress, 'password', UNLOCK_DURATION)
       })
 
       it('confirms it is unlocked', () => {
         expect(wallet.isAccountUnlocked(knownAddress)).toBeTruthy()
+      })
+
+      it('locks again after the duration', async () => {
+        MockDate.set(mockDate.getTime() + UNLOCK_DURATION * 1000)
+        expect(wallet.isAccountUnlocked(knownAddress)).toBeFalsy()
       })
 
       describe('signing', () => {
@@ -323,7 +366,4 @@ describe('KeychainWallet', () => {
       })
     })
   })
-
-  it.todo('updateAccount')
-  it.todo('unlock relocking')
 })
