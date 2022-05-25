@@ -1,12 +1,15 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
 
-import { NavigationActions, StackActions } from '@react-navigation/compat'
-import { CommonActions, NavigationContainerRef, NavigationState } from '@react-navigation/native'
+import { CommonActions } from '@react-navigation/core'
+import {
+  createNavigationContainerRef,
+  NavigationState,
+  StackActions,
+} from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
-import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
+import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -21,62 +24,30 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
 
-const NAVIGATOR_INIT_RETRIES = 10
-
 type SafeNavigate = typeof navigate
 
-export const navigationRef = createRef<NavigationContainerRef>()
+export const navigationRef = createNavigationContainerRef()
 export const navigatorIsReadyRef: MutableRefObject<boolean | null> = createRef()
-navigatorIsReadyRef.current = false
-
-async function ensureNavigator() {
-  let retries = 0
-  while (
-    (!navigationRef.current || !navigatorIsReadyRef.current) &&
-    retries < NAVIGATOR_INIT_RETRIES
-  ) {
-    await sleep(200)
-    retries++
-  }
-  if (!navigationRef.current || !navigatorIsReadyRef.current) {
-    ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
-    throw new Error('navigator is not initialized')
-  }
-}
 
 export const replace: SafeNavigate = (...args) => {
   const [routeName, params] = args
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@replace`, `Dispatch ${routeName}`)
-      navigationRef.current?.dispatch(
-        StackActions.replace({
-          routeName,
-          params,
-        })
-      )
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@replace`, 'Navigation failure', reason)
-    })
+  try {
+    Logger.debug(`${TAG}@replace`, `Dispatch ${routeName}`)
+    navigationRef.current?.dispatch(StackActions.replace(routeName, params))
+  } catch (reason) {
+    Logger.error(`${TAG}@replace`, 'Navigation failure', reason as Error)
+  }
 }
 
 // for when a screen should be pushed onto stack even if it already exists in it.
 export const pushToStack: SafeNavigate = (...args) => {
   const [routeName, params] = args
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@pushToStack`, `Dispatch ${routeName}`)
-      navigationRef.current?.dispatch(
-        StackActions.push({
-          routeName,
-          params,
-        })
-      )
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@pushToStack`, 'Navigation failure', reason)
-    })
+  try {
+    Logger.debug(`${TAG}@pushToStack`, `Dispatch ${routeName}`)
+    navigationRef.current?.dispatch(StackActions.push(routeName, params))
+  } catch (reason) {
+    Logger.error(`${TAG}@pushToStack`, 'Navigation failure', reason as Error)
+  }
 }
 
 export function navigate<RouteName extends keyof StackParamList>(
@@ -85,37 +56,27 @@ export function navigate<RouteName extends keyof StackParamList>(
     : [RouteName, StackParamList[RouteName]]
 ) {
   const [routeName, params] = args
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
-      navigationRef.current?.dispatch(
-        NavigationActions.navigate({
-          routeName,
-          params,
-        })
-      )
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@navigate`, 'Navigation failure', reason)
-    })
+  try {
+    Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
+    navigationRef.current?.dispatch(CommonActions.navigate(routeName, params))
+  } catch (reason) {
+    Logger.error(`${TAG}@navigate`, 'Navigation failure', reason as Error)
+  }
 }
 
 export const navigateClearingStack: SafeNavigate = (...args) => {
   const [routeName, params] = args
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@navigateClearingStack`, `Dispatch ${routeName}`)
-
-      navigationRef.current?.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: routeName, params }],
-        })
-      )
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@navigateClearingStack`, 'Navigation failure', reason)
-    })
+  try {
+    Logger.debug(`${TAG}@navigateClearingStack`, `Dispatch ${routeName}`)
+    navigationRef.current?.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: routeName, params }],
+      })
+    )
+  } catch (reason) {
+    Logger.error(`${TAG}@navigateClearingStack`, 'Navigation failure', reason as Error)
+  }
 }
 
 export async function ensurePincode(): Promise<boolean> {
@@ -139,7 +100,7 @@ export async function ensurePincode(): Promise<boolean> {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_complete)
       return true
     } catch (error) {
-      if (!isUserCancelledError(error)) {
+      if (!isUserCancelledError(error as Error)) {
         Logger.warn(`${TAG}@ensurePincode`, `Retrieve PIN by biometry error`, error)
       }
       // do not return here, the pincode input is the user's fallback if
@@ -155,7 +116,7 @@ export async function ensurePincode(): Promise<boolean> {
     if (error === CANCELLED_PIN_INPUT) {
       Logger.warn(`${TAG}@ensurePincode`, `PIN entering cancelled`, error)
     } else {
-      Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error)
+      Logger.error(`${TAG}@ensurePincode`, `PIN entering error`, error as Error)
     }
     ValoraAnalytics.track(AuthenticationEvents.get_pincode_error)
     return false
@@ -170,16 +131,14 @@ export function navigateToExchangeHome() {
   }
 }
 
-export function navigateBack(params?: object) {
-  ensureNavigator()
-    .then(() => {
-      Logger.debug(`${TAG}@navigateBack`, `Dispatch navigate back`)
-      // @ts-ignore
-      navigationRef.current?.dispatch(NavigationActions.back(params))
-    })
-    .catch((reason) => {
-      Logger.error(`${TAG}@navigateBack`, 'Navigation failure', reason)
-    })
+export function navigateBack() {
+  try {
+    Logger.debug(`${TAG}@navigateBack`, `Dispatch navigate back`)
+    // @ts-ignore
+    navigationRef.current?.dispatch(CommonActions.goBack())
+  } catch (reason) {
+    Logger.error(`${TAG}@navigateBack`, 'Navigation failure', reason as Error)
+  }
 }
 
 const getActiveRouteState = function (route: NavigationState): NavigationState {
@@ -194,7 +153,6 @@ const getActiveRouteState = function (route: NavigationState): NavigationState {
 }
 
 export async function isScreenOnForeground(screen: Screens) {
-  await ensureNavigator()
   const state = navigationRef.current?.getRootState()
   if (!state) {
     return false
