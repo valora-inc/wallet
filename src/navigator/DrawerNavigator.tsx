@@ -1,10 +1,6 @@
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer'
 import {
-  createDrawerNavigator,
   DrawerContentComponentProps,
-  DrawerContentOptions,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer'
-import {
   DrawerDescriptorMap,
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types'
@@ -72,7 +68,10 @@ const TAG = 'NavigationService'
 
 const Drawer = createDrawerNavigator()
 
-type CustomDrawerItemListProps = Omit<DrawerContentOptions, 'contentContainerStyle' | 'style'> & {
+type CustomDrawerItemListProps = Omit<
+  DrawerContentComponentProps,
+  'contentContainerStyle' | 'style'
+> & {
   state: DrawerNavigationState<ParamListBase>
   navigation: DrawerNavigationHelpers
   descriptors: DrawerDescriptorMap
@@ -149,7 +148,7 @@ function CustomDrawerItemList({
   }) as React.ReactNode) as React.ReactElement
 }
 
-function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOptions>) {
+function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { t } = useTranslation()
   const displayName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
@@ -198,42 +197,49 @@ export default function DrawerNavigator() {
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
   const dispatch = useDispatch()
 
-  const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
-    <CustomDrawerContent {...props} />
-  )
+  const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
   return (
     <Drawer.Navigator
       initialRouteName={Screens.WalletHome}
       drawerContent={drawerContent}
       backBehavior={'initialRoute'}
-      drawerContentOptions={{
-        labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
-        activeBackgroundColor: colors.gray2,
+      screenOptions={{
+        drawerLabelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
+        drawerActiveBackgroundColor: colors.gray2,
       }}
     >
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home }}
+        options={{
+          title: t('home'),
+          drawerIcon: Home,
+          headerShown: false,
+        }}
       />
       {(isCeloEducationComplete && (
         <Drawer.Screen
           name={Screens.ExchangeHomeScreen}
           component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
           options={{
             title: t('celoGold'),
             drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
+            headerShown: false,
           }}
         />
-      )}
+      )) || (
+          <Drawer.Screen
+            name={Screens.GoldEducation}
+            component={GoldEducation}
+            options={{
+              title: t('celoGold'),
+              drawerIcon: Gold,
+              ...TransitionPresets.ModalTransition,
+              headerShown: false,
+            }}
+          />
+        )}
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
@@ -246,6 +252,7 @@ export default function DrawerNavigator() {
             // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
             // but here it's the right expectation
             unmountOnBlur: true,
+            headerShown: false,
           }}
         />
       )}
@@ -253,25 +260,43 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
+          options={{
+            title: t('rewards'),
+            drawerIcon: MenuRings,
+            unmountOnBlur: true,
+            headerShown: false,
+          }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
+          options={{
+            title: t('supercharge'),
+            drawerIcon: MenuSupercharge,
+            unmountOnBlur: true,
+            headerShown: false,
+          }}
         />
       )}
       <Drawer.Screen
         name={Screens.BackupIntroduction}
         component={BackupIntroduction}
-        options={{ title: t('accountKey'), drawerIcon: AccountKey }}
+        options={{
+          title: t('accountKey'),
+          drawerIcon: AccountKey,
+          headerShown: false,
+        }}
       />
       <Drawer.Screen
         name={Screens.FiatExchange}
         component={FiatExchange}
-        options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
+        options={{
+          title: t('addAndWithdraw'),
+          drawerIcon: AddWithdraw,
+          headerShown: false,
+        }}
       />
       {features.SHOW_INVITE_MENU_ITEM && (
         <Drawer.Screen
@@ -280,18 +305,30 @@ export default function DrawerNavigator() {
           initialParams={{
             onPress: () => dispatch(toggleInviteModal(true)),
           }}
-          options={{ title: t('invite'), drawerIcon: Invite }}
+          options={{
+            title: t('invite'),
+            drawerIcon: Invite,
+            headerShown: false,
+          }}
         />
       )}
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}
-        options={{ title: t('settings'), drawerIcon: Settings }}
+        options={{
+          title: t('settings'),
+          drawerIcon: Settings,
+          headerShown: false,
+        }}
       />
       <Drawer.Screen
         name={Screens.Support}
         component={Support}
-        options={{ title: t('help'), drawerIcon: Help }}
+        options={{
+          title: t('help'),
+          drawerIcon: Help,
+          headerShown: false,
+        }}
       />
     </Drawer.Navigator>
   )
