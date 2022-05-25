@@ -34,12 +34,15 @@ export function useBackToWelcomeScreen({ backAnalyticsEvents }: Props) {
         // Find Welcome screen
         let routes = state.routes
         const index = routes.findIndex((r) => r.name === Screens.Welcome)
-        routes =
-          index === -1
-            ? // Welcome screen was not in the stack, add it before this screen
-              [{ key: Screens.Welcome, name: Screens.Welcome }, routes[routes.length - 1]]
-            : // Make the Welcome screen the previous screen (discard intermediary screens)
-              [...routes.slice(0, index + 1), routes[routes.length - 1]]
+        // Make the Welcome screen the previous screen (discard intermediary screens)
+        routes = [...routes.slice(0, index + 1), routes[routes.length - 1]]
+        // TODO(Tomm): Investigate removal
+        // routes =
+        // index === -1
+        //   ? // Welcome screen was not in the stack, add it before this screen
+        //   [{ key: Screens.Welcome, name: Screens.Welcome }, routes[routes.length - 1]]
+        //   : // Make the Welcome screen the previous screen (discard intermediary screens)
+        //   [...routes.slice(0, index + 1), routes[routes.length - 1]]
 
         return CommonActions.reset({
           ...state,
