@@ -35,7 +35,7 @@ export enum Colors2 {
 
 export enum Colors {
   // greenFaint = '#97DFC1', // green disabled
-  greenBrand = '#42D689',
+  // greenBrand = '#42D689',
   // greenUI = '#1AB775',
   goldFaint = '#E3C376', // gold disabled
   goldBrand = '#FBCC5C',
@@ -70,9 +70,11 @@ export enum Colors {
   // @todo orangeFaint color for disabled primary buttons
   orangeFaint = '#F3C6B5',
   orangeUI = '#E4825F',
+  orangeBrand = '#CC6248',
   // @todo greenFaint color for disabled primary2 buttons
   greenFaint = '#A9D9D7',
   greenUI = '#45ADA8',
+  greenBrand = '#45ADA8',
 }
 
 export default Colors

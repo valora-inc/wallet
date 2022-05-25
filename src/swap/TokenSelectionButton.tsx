@@ -22,8 +22,8 @@ const TokenSelectionButton = ({ asset, direction }: Props) => {
     <Fragment>
       <Button
         onPress={openSwapTokenList}
+        type={direction === SwapDirection.IN ? BtnTypes.BRAND_PRIMARY : BtnTypes.BRAND_SECONDARY}
         text={!asset ? t('swap.select') : asset.symbol}
-        type={BtnTypes.PRIMARY}
       />
     </Fragment>
   )

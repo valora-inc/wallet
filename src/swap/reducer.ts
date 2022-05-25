@@ -5,7 +5,6 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/swap/actions'
 import { SwapDirection } from 'src/swap/types'
 import { UbeswapExprimentalToken } from 'src/tokens/reducer'
-import Logger from 'src/utils/Logger'
 
 export interface State {
   isLoading: boolean
@@ -48,12 +47,6 @@ export const reducer = (
       }
     }
     case Actions.SET_ASSET: {
-      Logger.debug(
-        'SWAP/REDUCER',
-        '@ SET_ASSET',
-        action.direction,
-        JSON.stringify(action.currentAsset)
-      )
       if (action.direction === SwapDirection.IN) {
         return {
           ...state,

@@ -1,24 +1,35 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useDispatch } from 'react-redux'
 import Dialog from 'src/components/Dialog'
 import InfoIcon from 'src/icons/InfoIcon'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { setSwapAsset } from 'src/swap/actions'
+import { SwapDirection } from 'src/swap/types'
 import { UbeswapExprimentalToken } from 'src/tokens/reducer'
 
 type OwnProps = {
   token: UbeswapExprimentalToken | undefined
-  onClick: (payload: string) => void
+  direction: SwapDirection
+  onClick: () => void
 }
 
 type Props = OwnProps
-const TokenListItem = ({ token, onClick }: Props) => {
+const TokenListItem = ({ token, direction, onClick }: Props) => {
+  const dispatch = useDispatch()
   const [showDialog, setShowDialog] = React.useState(false)
   const { address, name, symbol, logoURI } = token || {}
+
+  const handleClick = () => {
+    dispatch(setSwapAsset(token!, direction))
+    onClick()
+  }
+
   return (
-    <TouchableOpacity style={styles.row} onPress={() => onClick('' || '')}>
+    <TouchableOpacity style={styles.row} onPress={handleClick}>
       <View style={styles.left}>
         <Image source={{ uri: logoURI }} style={styles.tokenIcon} />
       </View>
@@ -62,7 +73,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   right: {
-    paddingRight: 30,
+    paddingHorizontal: 30,
     flexDirection: 'column',
     justifyContent: 'center',
   },

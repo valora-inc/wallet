@@ -8,30 +8,28 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TokenListItem from 'src/swap/TokenListItem'
-import { SwapDirection } from 'src/swap/types'
 import AlfajoresTokens from 'src/tokens/tokenList'
 
-type OwnProps = {
-  direction: SwapDirection
-}
+type OwnProps = {}
 
 type ScreenProps = OwnProps & StackScreenProps<StackParamList, Screens.SwapTokenList>
 
 type Props = ScreenProps & WithTranslation
 
-const SwapTokenList = ({ direction }: Props) => {
+const SwapTokenList = ({ route }: Props) => {
+  const { direction } = route.params
   // @todo Replace this; get an actual list of all tokens
   const tokens = Object.entries(AlfajoresTokens)
 
-  const selectToken = (payload: string) => {
+  const selectToken = () => {
     // @todo Navigate to swap and set the tokens to be used.
     navigate(Screens.Swap)
   }
 
   const Tokens = () =>
     tokens.map((token, index) => {
-      const [addr, info] = token
-      return <TokenListItem token={info} onClick={selectToken} />
+      const [address, info] = token
+      return <TokenListItem token={info} direction={direction} onClick={selectToken} />
     })
 
   return <ScrollView>{tokens ? Tokens() : null}</ScrollView>
