@@ -60,7 +60,6 @@ import {
 } from 'src/identity/verification'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import { waitFor } from 'src/redux/sagas-helpers'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import Logger from 'src/utils/Logger'
@@ -278,8 +277,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
     const walletAddress = yield call(getConnectedUnlockedAccount)
 
     Logger.debug(TAG, '@startSaga', walletAddress)
-    // we want to reset password before force unlock account
-    clearPasswordCaches()
+
     const result: UnlockResult = yield call(unlockAccount, walletAddress, true)
     if (result !== UnlockResult.SUCCESS) {
       // This navigateBack has no effect if part of onboarding and returns to home or
