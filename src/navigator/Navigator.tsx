@@ -694,7 +694,7 @@ const mainScreenNavOptions = (navOptions: NavigationOptions) => ({
 
 function RootStackScreen() {
   return (
-    <RootStack.Navigator mode="modal">
+    <RootStack.Navigator>
       <RootStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
