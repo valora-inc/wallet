@@ -106,7 +106,7 @@ export const NavigatorWrapper = () => {
 
           setInitialState(state)
         } catch (e) {
-          Logger.error('NavigatorWrapper', 'Error getting nav state', e)
+          Logger.error('NavigatorWrapper', 'Error getting nav state', e as Error)
         }
       }
       setIsReady(true)
