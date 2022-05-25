@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@valora/eslint-config-typescript'],
+  extends: ['@valora/eslint-config-typescript', 'plugin:react-hooks/recommended'],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
