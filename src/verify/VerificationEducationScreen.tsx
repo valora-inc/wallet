@@ -1,4 +1,5 @@
 import { Countries } from '@celo/utils/lib/countries'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
@@ -70,6 +71,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const headerHeight = useHeaderHeight()
   const insets = useSafeAreaInsets()
   const numberVerified = useSelector(numberVerifiedSelector)
   const partOfOnboarding = !route.params?.hideOnboardingStep
@@ -355,6 +357,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   return (
     <View style={styles.container}>
       <ScrollView
+        style={headerHeight ? { marginTop: headerHeight } : undefined}
         contentContainerStyle={[styles.scrollContainer, insets && { marginBottom: insets.bottom }]}
       >
         <Text style={styles.header} testID="VerificationEducationHeader">
