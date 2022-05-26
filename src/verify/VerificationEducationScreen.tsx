@@ -384,7 +384,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           titleStyle={[
             {
               marginTop: insets.top,
-              height: headerHeight - insets.top,
+              height: insets.top,
             },
             styles.recaptchaClose,
           ]}
