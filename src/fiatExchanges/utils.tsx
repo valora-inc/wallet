@@ -119,49 +119,6 @@ export interface CicoQuote {
   provider: ProviderInfo
 }
 
-export const getQuotes = (providers: FetchProvidersOutput[] | undefined): CicoQuote[] => {
-  if (!providers) {
-    return []
-  }
-  const cicoQuotes: CicoQuote[] = []
-  providers.forEach((provider) => {
-    if (!provider.quote || provider.restricted || provider.unavailable) return
-    if (Array.isArray(provider.quote)) {
-      provider.quote.forEach((quote) => {
-        cicoQuotes.push({
-          quote: {
-            ...quote,
-            cashIn: provider.cashIn,
-            cashOut: provider.cashOut,
-            url: provider.url || '',
-          },
-          provider: {
-            name: provider.name,
-            logo: provider.logo,
-            logoWide: provider.logoWide,
-          },
-        })
-      })
-    } else {
-      // Simplex
-      cicoQuotes.push({
-        quote: {
-          ...provider.quote,
-          cashIn: provider.cashIn,
-          cashOut: provider.cashOut,
-          paymentMethod: provider.paymentMethods[0],
-        },
-        provider: {
-          name: provider.name,
-          logo: provider.logo,
-          logoWide: provider.logoWide,
-        },
-      })
-    }
-  })
-  return cicoQuotes
-}
-
 const composePostObject = (body: any) => ({
   method: 'POST',
   headers: {
@@ -235,20 +192,6 @@ export const fetchSimplexPaymentData = async (
 
 export const isSimplexQuote = (quote: RawProviderQuote[] | SimplexQuote): quote is SimplexQuote =>
   !!quote && 'wallet_id' in quote
-
-export const getFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote) => {
-  if (isSimplexQuote(quote)) {
-    return quote.fiat_money.total_amount - quote.fiat_money.base_amount
-  }
-  return quote?.fiatFee
-}
-
-export const sortQuotesByFee = ({ quote: quote1 }: CicoQuote, { quote: quote2 }: CicoQuote) => {
-  const providerFee1 = getFeeValueFromQuotes(quote1) ?? 0
-  const providerFee2 = getFeeValueFromQuotes(quote2) ?? 0
-
-  return providerFee1 > providerFee2 ? 1 : -1
-}
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
   obj[property] &&

@@ -1,15 +1,26 @@
-import { AddFiatAccountResponse, QuoteRequestQuery } from '@fiatconnect/fiatconnect-types'
+import {
+  AddFiatAccountResponse,
+  QuoteErrorResponse,
+  QuoteRequestQuery,
+  QuoteResponse,
+} from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
+import { Result } from 'ts-results'
 import Logger from '../utils/Logger'
+
 const TAG = 'FIATCONNECT'
 
-export interface FiatConnectClientConfig {
-  // todo eventually: get from SDK (once it is published to NPM)
-  baseUrl: string
-  providerName: string
-  iconUrl: string
+export interface FiatConnectProviderInfo {
   id: string
+  providerName: string
+  imageUrl: string
+  baseUrl: string
+}
+
+export type FiatConnectQuote = QuoteResponse & {
+  provider: FiatConnectProviderInfo
+  ok: boolean
 }
 
 /**
@@ -20,7 +31,7 @@ export interface FiatConnectClientConfig {
 export async function getFiatConnectProviders(
   address: string,
   providerList?: string
-): Promise<FiatConnectClientConfig[]> {
+): Promise<FiatConnectProviderInfo[]> {
   const response = await fetch(
     `${networkConfig.getFiatConnectProvidersUrl}?address=${address}&providers=${providerList}`
   )
@@ -36,26 +47,40 @@ export async function getFiatConnectProviders(
 }
 
 type QuotesInput = QuoteRequestQuery & {
-  providers: string
+  fiatConnectProviders: FiatConnectProviderInfo[]
   flow: CICOFlow
 }
 
-export async function getFiatConnectQuotes(params: QuotesInput) {
-  const { flow, ...otherParams } = params
+type GetFiatConnectQuotesResponse = {
+  quotes: (Result<QuoteResponse, QuoteErrorResponse | { error: string }> & { id: string })[]
+}
 
+export async function getFiatConnectQuotes(params: QuotesInput): Promise<FiatConnectQuote[]> {
+  const { flow, fiatConnectProviders, ...otherParams } = params
+  const providers = fiatConnectProviders.map((provider) => provider.id).join(',')
   const queryParams = new URLSearchParams({
     ...otherParams,
+    providers,
     quoteType: flow === CICOFlow.CashIn ? 'in' : 'out',
   }).toString()
-  console.debug('QUERY PARAMS', queryParams)
   const response = await fetch(`${networkConfig.getFiatConnectQuotesUrl}?${queryParams}`)
   if (!response.ok) {
     const err = await response.json()
     Logger.error(TAG, `Failure response fetching FiatConnect quotes: ${err} , returning empty list`)
     return []
   }
-  const { quotes } = await response.json()
-  return quotes
+  const results: GetFiatConnectQuotesResponse = await response.json()
+  const quotes = results.quotes
+    .filter((quote) => quote.ok)
+    .map((result) => ({
+      ...result.val,
+      ok: result.ok,
+      provider: fiatConnectProviders.find(
+        (provider) => provider.id === result.id
+      ) as FiatConnectProviderInfo,
+    }))
+  // Only return quotes that don't have errors
+  return quotes.filter((quote): quote is FiatConnectQuote => quote.ok)
 }
 export async function addNewFiatAccount(
   providerURL: string,

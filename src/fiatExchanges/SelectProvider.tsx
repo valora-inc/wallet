@@ -14,6 +14,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
 import { getFiatConnectProviders, getFiatConnectQuotes } from 'src/fiatconnect'
+import { normalizeQuotes } from 'src/fiatExchanges/normalizeQuotes'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -31,14 +32,11 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
-  CicoQuote,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
-  getQuotes,
   LegacyMobileMoneyProvider,
   PaymentMethod,
-  sortQuotesByFee,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -65,28 +63,34 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       return
     }
     try {
-      const fiatConnectProviders = await getFiatConnectProviders(account)
-      console.debug('FC PROVIDERS', fiatConnectProviders)
+      const [
+        fiatConnectQuotes,
+        externalProviders,
+        rawLegacyMobileMoneyProviders,
+      ] = await Promise.all([
+        (async () => {
+          const fiatConnectProviders = await getFiatConnectProviders(account)
+          return getFiatConnectQuotes({
+            fiatConnectProviders,
+            fiatType: FiatType.USD,
+            cryptoType: CryptoType.cUSD,
+            fiatAmount: route.params.amount.fiat.toString(),
+            country: userLocation?.countryCodeAlpha2 || 'US',
+            flow,
+          })
+        })(),
+        fetchProviders({
+          userLocation,
+          walletAddress: account,
+          fiatCurrency: localCurrency,
+          digitalAsset,
+          fiatAmount: route.params.amount.fiat,
+          digitalAssetAmount: route.params.amount.crypto,
+          txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
+        }),
+        fetchLegacyMobileMoneyProviders(),
+      ])
 
-      const fiatConnectQuotes = await getFiatConnectQuotes({
-        providers: 'test-provider',
-        fiatType: FiatType.USD,
-        cryptoType: CryptoType.cUSD,
-        fiatAmount: route.params.amount.fiat.toString(),
-        country: userLocation?.countryCodeAlpha2 || 'US',
-        flow,
-      })
-      console.debug('FC QUOTES', JSON.stringify(fiatConnectQuotes, null, 2))
-      const providers = await fetchProviders({
-        userLocation,
-        walletAddress: account,
-        fiatCurrency: localCurrency,
-        digitalAsset,
-        fiatAmount: route.params.amount.fiat,
-        digitalAssetAmount: route.params.amount.crypto,
-        txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-      })
-      const rawLegacyMobileMoneyProviders = await fetchLegacyMobileMoneyProviders()
       const legacyMobileMoneyProviders = filterLegacyMobileMoneyProviders(
         rawLegacyMobileMoneyProviders,
         flow,
@@ -94,9 +98,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset
       )
 
-      return { providers, legacyMobileMoneyProviders }
+      return { externalProviders, legacyMobileMoneyProviders, fiatConnectQuotes }
     } catch (error) {
-      console.debug('ERROR ', error)
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [])
@@ -108,22 +111,22 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       </View>
     )
   }
-  const activeProviders = asyncProviders.result?.providers
+  const normalizedQuotes = normalizeQuotes(
+    flow,
+    asyncProviders.result?.fiatConnectQuotes,
+    asyncProviders.result?.externalProviders
+  )
 
-  const cicoQuotes: CicoQuote[] =
-    getQuotes(activeProviders)
-      ?.filter(({ quote }) => (flow === CICOFlow.CashIn ? quote.cashIn : quote.cashOut))
-      .sort(sortQuotesByFee) || []
   return (
     <ScrollView>
       <PaymentMethodSection
-        cicoQuotes={cicoQuotes}
+        normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Card}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
       />
       <PaymentMethodSection
-        cicoQuotes={cicoQuotes}
+        normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Bank}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}

@@ -1,6 +1,7 @@
-import { QuoteResponse } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FiatConnectQuote } from 'src/fiatconnect'
 import {
   CICOFlow,
   FetchProvidersOutput,
@@ -13,13 +14,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 
-interface FiatConnectProviderInfo {
-  id: string
-  providerName: string
-  imageUrl: string
-  baseUrl: string
-}
-
 export interface NormalizedQuote {
   quote: QuoteInfo
   provider: ProviderInfo
@@ -27,8 +21,8 @@ export interface NormalizedQuote {
 
 export interface QuoteInfo {
   paymentMethod: PaymentMethod
-  fee: number
-  kycInfo: string
+  fee: number | null
+  kycInfo: string | null
   timeEstimation: string
   onPress: () => void
 }
@@ -36,6 +30,7 @@ export interface QuoteInfo {
 export interface ProviderInfo {
   name: string
   logo: string
+  id: string
 }
 
 const strings = {
@@ -44,28 +39,88 @@ const strings = {
   idRequired: i18n.t('selectProviderScreen.idRequired'),
 }
 
+function getSettlementEstimation(lower: string | undefined, upper: string | undefined) {
+  // TODO: Dynamically generate time estimation strings
+  //
+  return strings.numDays
+}
+
+export function normalizeQuotes(
+  flow: CICOFlow,
+  fiatConnectQuotes: FiatConnectQuote[] | undefined,
+  externalProviders: FetchProvidersOutput[] | undefined
+): NormalizedQuote[] {
+  return [
+    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
+    ...normalizeExternalProviders(flow, externalProviders),
+  ].sort(sortQuotesByFee)
+}
+
+export const sortQuotesByFee = (
+  { quote: quote1 }: NormalizedQuote,
+  { quote: quote2 }: NormalizedQuote
+) => {
+  const providerFee1 = quote1.fee ?? 0
+  const providerFee2 = quote2.fee ?? 0
+
+  return providerFee1 > providerFee2 ? 1 : -1
+}
+
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
-  quotes: (QuoteResponse & { provider: FiatConnectProviderInfo })[]
+  quotes: FiatConnectQuote[] | undefined
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
-  quotes.forEach((quote) => {
-    if (!quote.fiatAccount.BankAccount) {
-    }
+  quotes?.forEach((quote) => {
+    // Only supporting FiatConnect quotes with the AccountNumber fiat schema
+    if (
+      !quote.fiatAccount.BankAccount ||
+      Object.keys(quote.fiatAccount.BankAccount.fiatAccountSchemas).includes(
+        FiatAccountSchema.AccountNumber
+      )
+    )
+      return
     normalizedQuotes.push({
-      quote: {},
+      quote: {
+        paymentMethod: PaymentMethod.Bank,
+        fee:
+          quote.fiatAccount.BankAccount.fee !== undefined
+            ? parseFloat(quote.fiatAccount.BankAccount.fee)
+            : null,
+        kycInfo: quote.kyc.kycRequired ? strings.idRequired : null,
+        timeEstimation: getSettlementEstimation(
+          quote.fiatAccount.BankAccount.settlementTimeLowerBound,
+          quote.fiatAccount.BankAccount.settlementTimeUpperBound
+        ),
+        onPress: () => {
+          ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+            flow,
+            paymentMethod: PaymentMethod.Bank,
+            provider: quote.provider.id,
+          })
+          navigate(Screens.FiatDetailsScreen, {
+            quote,
+          })
+        },
+      },
+      provider: {
+        id: quote.provider.id,
+        name: quote.provider.providerName,
+        logo: quote.provider.imageUrl,
+      },
     })
   })
+  return normalizedQuotes
 }
 
 export function normalizeExternalProviders(
   flow: CICOFlow,
-  input: FetchProvidersOutput[]
+  input: FetchProvidersOutput[] | undefined
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
-  input.forEach((provider) => {
+  input?.forEach((provider) => {
     if (
       !provider.quote ||
       provider.restricted ||
@@ -94,6 +149,7 @@ export function normalizeExternalProviders(
           },
         },
         provider: {
+          id: provider.name,
           name: provider.name,
           logo: provider.logoWide,
         },
@@ -117,6 +173,7 @@ export function normalizeExternalProviders(
             },
           },
           provider: {
+            id: provider.name,
             name: provider.name,
             logo: provider.logoWide,
           },
