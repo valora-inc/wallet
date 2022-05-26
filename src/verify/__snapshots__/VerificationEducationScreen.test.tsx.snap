@@ -93,7 +93,16 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
       swipeThreshold={100}
       testID="VerificationSkipDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -936,7 +945,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       swipeThreshold={100}
       testID="VerificationSkipDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -1178,7 +1196,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       swipeThreshold={100}
       testID="VerificationLearnMoreDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -1999,7 +2026,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       swipeThreshold={100}
       testID="VerificationSkipDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -2241,7 +2277,16 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       swipeThreshold={100}
       testID="VerificationLearnMoreDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -3062,7 +3107,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       swipeThreshold={100}
       testID="VerificationSkipDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -3304,7 +3358,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       swipeThreshold={100}
       testID="VerificationLearnMoreDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -4120,7 +4183,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       swipeThreshold={100}
       testID="VerificationSkipDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -4362,7 +4434,16 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       swipeThreshold={100}
       testID="VerificationLearnMoreDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
