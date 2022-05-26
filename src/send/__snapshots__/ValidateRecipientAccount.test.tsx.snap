@@ -2,6 +2,14 @@
 
 exports[`ValidateRecipientAccount renders correctly when full validation required 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -351,7 +359,16 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [
@@ -632,6 +649,14 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
 
 exports[`ValidateRecipientAccount renders correctly when partial validation required 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -1167,7 +1192,16 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
       }
       swipeThreshold={100}
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [

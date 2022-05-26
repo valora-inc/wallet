@@ -2,6 +2,14 @@
 
 exports[`Support renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,

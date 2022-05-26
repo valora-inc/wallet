@@ -32,6 +32,14 @@ exports[`VerificationInputScreen renders correctly 1`] = `
     >
       <View>
         <RNCSafeAreaView
+          edges={
+            Array [
+              "bottom",
+              "left",
+              "right",
+              "top",
+            ]
+          }
           style={
             Object {
               "height": 35,
@@ -489,7 +497,16 @@ exports[`VerificationInputScreen renders correctly 1`] = `
       swipeThreshold={100}
       testID="VerificationInputHelpDialog"
     >
-      <RNCSafeAreaView>
+      <RNCSafeAreaView
+        edges={
+          Array [
+            "bottom",
+            "left",
+            "right",
+            "top",
+          ]
+        }
+      >
         <View
           style={
             Array [

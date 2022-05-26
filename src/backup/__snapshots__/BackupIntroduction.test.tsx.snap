@@ -2,6 +2,14 @@
 
 exports[`BackupIntroduction renders correctly when backup completed 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "backgroundColor": "#FFFFFF",
@@ -206,6 +214,14 @@ exports[`BackupIntroduction renders correctly when backup completed 1`] = `
 
 exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "backgroundColor": "#FFFFFF",

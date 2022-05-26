@@ -2,6 +2,14 @@
 
 exports[`RegulatoryTermsScreen renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -9,6 +17,14 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
   }
 >
   <RNCSafeAreaView
+    edges={
+      Array [
+        "bottom",
+        "left",
+        "right",
+        "top",
+      ]
+    }
     style={
       Object {
         "height": 35,

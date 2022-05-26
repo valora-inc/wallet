@@ -2,6 +2,14 @@
 
 exports[`renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   onFinish={[Function]}
   style={
     Array [

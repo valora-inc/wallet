@@ -2,6 +2,14 @@
 
 exports[`SendConfirmationLegacy renders correctly 1`] = `
 <RNCSafeAreaView
+  edges={
+    Array [
+      "bottom",
+      "left",
+      "right",
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
@@ -340,7 +348,16 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               swipeThreshold={100}
               testID="InviteAndSendModal"
             >
-              <RNCSafeAreaView>
+              <RNCSafeAreaView
+                edges={
+                  Array [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top",
+                  ]
+                }
+              >
                 <View
                   style={
                     Array [
@@ -595,7 +612,16 @@ exports[`SendConfirmationLegacy renders correctly 1`] = `
               }
               swipeThreshold={100}
             >
-              <RNCSafeAreaView>
+              <RNCSafeAreaView
+                edges={
+                  Array [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top",
+                  ]
+                }
+              >
                 <View
                   style={
                     Array [
