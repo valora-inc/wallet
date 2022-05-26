@@ -75,7 +75,7 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [])
 
   const asyncSimplexPaymentData = useAsync(async () => {
-    if (!account) {
+    if (!account || !userIpAddress) {
       return
     }
     try {

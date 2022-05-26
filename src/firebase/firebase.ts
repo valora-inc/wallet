@@ -294,6 +294,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
     finclusiveUnsupportedStates: flags.finclusiveUnsupportedStates.asString().split(','),
+    fiatConnectEnabled: flags.fiatConnectEnabled.asBoolean(),
   }
 }
 

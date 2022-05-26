@@ -33,6 +33,12 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 
+export const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
+
+export const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
+  FiatAccountSchema.AccountNumber,
+])
+
 interface FormFieldParam {
   name: string
   label: string
@@ -80,7 +86,7 @@ const getAccountNumberSchema = (implicitParams: {
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema, cicoQuote, flow, provider } = route.params
+  const { quote, fiatAccountType, fiatAccountSchema, flow } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -95,13 +101,15 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     })
   }, [navigation])
 
-  const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
+  const getSchema = (fiatAccountSchema: FiatAccountSchema | undefined) => {
     switch (fiatAccountSchema) {
       case FiatAccountSchema.AccountNumber:
         return getAccountNumberSchema({
           country: userCountry.countryCodeAlpha2 || 'US',
-          fiatAccountType: FiatAccountType.BankAccount,
+          fiatAccountType,
         })
+      default:
+        return []
     }
   }
 
@@ -149,7 +157,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         ...implicitBody,
       }
 
-      await addNewFiatAccount(providerURL, fiatAccountSchema, completeBody)
+      await addNewFiatAccount(quote.provider.baseUrl, fiatAccountSchema, completeBody)
         .then((data) => {
           // TODO Tracking here
           dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -171,16 +179,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
 
-    if (cicoQuote) {
-      navigate(Screens.SelectProvider, {
-        flow,
-        selectedCrypto: cicoQuote.quote.cryptoType.toUpperCase() as Currency,
-        amount: {
-          crypto: parseInt(cicoQuote.quote.cryptoAmount),
-          fiat: parseInt(cicoQuote.quote.fiatAmount),
-        },
-      })
-    }
+    navigate(Screens.SelectProvider, {
+      flow,
+      selectedCrypto: quote.quote.cryptoType.toUpperCase() as Currency,
+      amount: {
+        crypto: parseInt(quote.quote.cryptoAmount),
+        fiat: parseInt(quote.quote.fiatAmount),
+      },
+    })
   }
 
   const validateInput = () => {
@@ -243,7 +249,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <ForwardChevron color={colors.gray4} />
               <Image
                 source={{
-                  uri: provider.logo,
+                  uri: quote.provider.imageUrl,
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"

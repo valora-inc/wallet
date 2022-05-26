@@ -1,7 +1,11 @@
-import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType, FiatAccountTypeQuoteData } from '@fiatconnect/fiatconnect-types'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuote } from 'src/fiatconnect'
+import {
+  SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
+  SUPPORTED_FIAT_ACCOUNT_TYPES,
+} from 'src/fiatconnect/FiatDetailsScreen'
 import {
   CICOFlow,
   FetchProvidersOutput,
@@ -73,43 +77,48 @@ export function normalizeFiatConnectQuotes(
   const normalizedQuotes: NormalizedQuote[] = []
 
   quotes?.forEach((quote) => {
-    // Only supporting FiatConnect quotes with the AccountNumber fiat schema
-    if (
-      !quote.fiatAccount.BankAccount ||
-      Object.keys(quote.fiatAccount.BankAccount.fiatAccountSchemas).includes(
-        FiatAccountSchema.AccountNumber
-      )
+    // Iterate through every FiatAccountType. A single quote can have multiple
+    Object.entries(quote.fiatAccount).forEach(
+      ([key, value]: [string, FiatAccountTypeQuoteData | undefined]) => {
+        // Check if we support the FiatAccountType and at least one of the FiatAccountSchemas
+        // We choose the first FiatAccountSchema that is supported
+        const schema = value?.fiatAccountSchemas.find((schema) =>
+          SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema.fiatAccountSchema)
+        )
+        if (SUPPORTED_FIAT_ACCOUNT_TYPES.has(key as FiatAccountType) && schema) {
+          normalizedQuotes.push({
+            quote: {
+              paymentMethod: PaymentMethod.Bank,
+              fee: value?.fee !== undefined ? parseFloat(value.fee) : null,
+              kycInfo: quote.kyc.kycRequired ? strings.idRequired : null,
+              timeEstimation: getSettlementEstimation(
+                value?.settlementTimeLowerBound,
+                value?.settlementTimeUpperBound
+              ),
+              onPress: () => {
+                ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+                  flow,
+                  paymentMethod: PaymentMethod.Bank,
+                  provider: quote.provider.id,
+                })
+                navigate(Screens.FiatDetailsScreen, {
+                  quote,
+                  fiatAccountType: key as FiatAccountType,
+                  fiatAccountSchema: schema.fiatAccountSchema,
+                  allowedValues: schema.allowedValues,
+                  flow,
+                })
+              },
+            },
+            provider: {
+              id: quote.provider.id,
+              name: quote.provider.providerName,
+              logo: quote.provider.imageUrl,
+            },
+          })
+        }
+      }
     )
-      return
-    normalizedQuotes.push({
-      quote: {
-        paymentMethod: PaymentMethod.Bank,
-        fee:
-          quote.fiatAccount.BankAccount.fee !== undefined
-            ? parseFloat(quote.fiatAccount.BankAccount.fee)
-            : null,
-        kycInfo: quote.kyc.kycRequired ? strings.idRequired : null,
-        timeEstimation: getSettlementEstimation(
-          quote.fiatAccount.BankAccount.settlementTimeLowerBound,
-          quote.fiatAccount.BankAccount.settlementTimeUpperBound
-        ),
-        onPress: () => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-            flow,
-            paymentMethod: PaymentMethod.Bank,
-            provider: quote.provider.id,
-          })
-          navigate(Screens.FiatDetailsScreen, {
-            quote,
-          })
-        },
-      },
-      provider: {
-        id: quote.provider.id,
-        name: quote.provider.providerName,
-        logo: quote.provider.imageUrl,
-      },
-    })
   })
   return normalizedQuotes
 }

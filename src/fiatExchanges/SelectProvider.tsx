@@ -10,6 +10,7 @@ import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fiatConnectEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
@@ -48,6 +49,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const fiatConnectEnabled = useSelector(fiatConnectEnabledSelector)
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
 
@@ -69,15 +71,18 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         rawLegacyMobileMoneyProviders,
       ] = await Promise.all([
         (async () => {
-          const fiatConnectProviders = await getFiatConnectProviders(account)
-          return getFiatConnectQuotes({
-            fiatConnectProviders,
-            fiatType: FiatType.USD,
-            cryptoType: CryptoType.cUSD,
-            fiatAmount: route.params.amount.fiat.toString(),
-            country: userLocation?.countryCodeAlpha2 || 'US',
-            flow,
-          })
+          if (fiatConnectEnabled) {
+            const fiatConnectProviders = await getFiatConnectProviders(account)
+            return getFiatConnectQuotes({
+              fiatConnectProviders,
+              fiatType: FiatType.USD,
+              cryptoType: CryptoType.cUSD,
+              fiatAmount: route.params.amount.fiat.toString(),
+              country: userLocation?.countryCodeAlpha2 || 'US',
+              flow,
+            })
+          }
+          return []
         })(),
         fetchProviders({
           userLocation,

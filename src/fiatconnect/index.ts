@@ -4,6 +4,7 @@ import {
   QuoteRequestQuery,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
+import pickBy from 'lodash.pickby'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import { Result } from 'ts-results'
@@ -57,9 +58,10 @@ type GetFiatConnectQuotesResponse = {
 
 export async function getFiatConnectQuotes(params: QuotesInput): Promise<FiatConnectQuote[]> {
   const { flow, fiatConnectProviders, ...otherParams } = params
+  const cleanParams = pickBy(otherParams, (v) => v !== undefined)
   const providers = fiatConnectProviders.map((provider) => provider.id).join(',')
   const queryParams = new URLSearchParams({
-    ...otherParams,
+    ...(cleanParams as Record<string, string>),
     providers,
     quoteType: flow === CICOFlow.CashIn ? 'in' : 'out',
   }).toString()

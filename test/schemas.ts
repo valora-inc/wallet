@@ -1263,6 +1263,18 @@ export const v50Schema = {
   },
 }
 
+export const v51Schema = {
+  ...v50Schema,
+  _persist: {
+    ...v50Schema._persist,
+    version: 50,
+  },
+  app: {
+    ...v50Schema.app,
+    fiatConnectEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v50Schema as Partial<RootState>
+  return v51Schema as Partial<RootState>
 }

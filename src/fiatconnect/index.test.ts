@@ -1,7 +1,8 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
 import Logger from 'src/utils/Logger'
-import { addNewFiatAccount, FiatConnectClientConfig, getFiatConnectProviders } from './index'
+import { mockAccount } from 'test/values'
+import { addNewFiatAccount, FiatConnectProviderInfo, getFiatConnectProviders } from './index'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -21,18 +22,19 @@ describe('FiatConnect helpers', () => {
   })
   describe('getFiatConnectProviders', () => {
     it('Gives list of providers on success', async () => {
-      const fakeProviderInfo: FiatConnectClientConfig = {
+      const fakeProviderInfo: FiatConnectProviderInfo = {
+        id: 'fake-provider',
         baseUrl: 'https://fake-provider.valoraapp.com',
         providerName: 'fake provider name',
-        iconUrl: 'https://fake-icon.valoraapp.com',
+        imageUrl: 'https://fake-icon.valoraapp.com',
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
-      const providers = await getFiatConnectProviders()
+      const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
-      const providers = await getFiatConnectProviders()
+      const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toEqual([])
       expect(Logger.error).toHaveBeenCalled()
     })
