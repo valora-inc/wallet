@@ -6,6 +6,6 @@ beforeAll(async () => {
   await device.installApp()
   await launchApp({
     newInstance: false,
-    permissions: { notifications: 'YES', contacts: 'YES' },
+    permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
   })
 })

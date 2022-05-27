@@ -69,7 +69,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   }
 
   const submitModal = () => {
-    onBarCodeDetected({ type: '', data: value })
+    onBarCodeDetected({ type: '', data: handleAddressOnly(value) })
     closeModal()
   }
 
@@ -78,7 +78,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   }
 
   const cameraScanInfo = (
-    <Text style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
+    <Text testID="CameraScanInfo" style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
   )
 
   return (
