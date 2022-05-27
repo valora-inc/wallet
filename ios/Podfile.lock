@@ -665,7 +665,7 @@ PODS:
     - Sentry (= 7.5.4)
   - RNShare (7.3.2):
     - React-Core
-  - RNSVG (12.1.1):
+  - RNSVG (12.3.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1157,7 +1157,7 @@ SPEC CHECKSUMS:
   RNSecureRandom: b0b479d7b934a3e6deea9cb986a9c40cb5f1b360
   RNSentry: fe878ca3982d7871e502ccbb90072fe764c8d07d
   RNShare: d76b8c9c6e6ffb38fc18f40b4338c9d867592ed3
-  RNSVG: 0ff39850623301a540e69b0ccd9aabb2061812e3
+  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Segment-Adjust: 7646c502b087a153d89a42059dd53e6d1d143737
   Segment-CleverTap: a0e74aee844bcf859cbbf30dfe3d2ae25d67d9cc
