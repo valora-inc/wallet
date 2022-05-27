@@ -439,7 +439,7 @@
   "importContactsFailed": "Error al importar contactos",
   "sendPaymentFailed": "Error en el envío del pago",
   "paymentRequestFailed": "No se pudo enviar la solicitud de pago",
-  "escrowTransferFailed": "No se pudo completar la transferencia de garantía",
+  "escrowTransferFailed": "Error al completar la transferencia de garantía",
   "escrowWithdrawalFailed": "No se pudo retirar el saldo de garantía",
   "reclaimingEscrowedPaymentFailed": "No se pudo recuperar el pago",
   "connectingToCelo": "Conectando…",
@@ -459,7 +459,7 @@
   "qrFailedNoPhoneNumber": "El código QR no está asociado al número de teléfono de tu contacto.",
   "corruptedChainDeleted": "Se ha borrado información corrupta, reinicia la aplicación.",
   "contractKitInitFailed": "Hubo un error al inicializar el kit de contrato, intenta reiniciar la aplicación o enviar un correo electrónico al equipo de soporte.",
-  "web3FailedToSync": "Error de sincronización, verifica tu conexión.",
+  "web3FailedToSync": "Error de sincronización, verifica tu conexión",
   "errorDuringSync": "Error de sincronización, vuelve a intentarlo más tarde.",
   "accountUnlockFailed": "Error al desbloquear tu cuenta",
   "calculateFeeFailed": "No se pudo calcular la tarifa",
@@ -537,12 +537,12 @@
   "currentBalance": "Tu saldo actual (cUSD)",
   "restore": "Restaurar",
   "commentUnavailable": "Comentario no disponible",
-  "accountClearFailed": "Hubo un error al borrar tu Frase de recuperación. Podrías tener que reinstalar la app para poder usar todas las funcionalidades.",
+  "accountClearFailed": "Hubo un error al borrar tu Frase de recuperación. Es posible que debas reinstalar la app para usar todas las funcionalidades.",
   "withdraw": "Transferir",
   "countryNotAvailable": "{{appName}} no está disponible en tu país.",
   "fetchFailed": "Error de conexión con el servidor",
   "pictureLoadFailed": "Hubo un error al cargar la imagen.",
-  "simplexPurchaseFetchFailed": "Hubo un error al recuperar la cotización de Simplex. Vuelve a intentarlo más tarde.",
+  "simplexPurchaseFetchFailed": "Hubo un error al obtener la cotización de Simplex. Vuelve a intentarlo más tarde.",
   "providerFetchFailed": "No pudimos conectarnos con el servicio. Comunícate con el equipo de soporte.",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{balance}} {{currency}}.",
@@ -620,7 +620,7 @@
     "title": "Ingresa tu PIN"
   },
   "goToSystemSecuritySettingsActionLabel": "Dirígete a Seguridad",
-  "enableSystemScreenLockFailedMessage": "Error al intentar habilitar el bloqueo de pantalla",
+  "enableSystemScreenLockFailedMessage": "Hubo un error al habilitar el bloqueo de pantalla",
   "initKeystoreFailureMessage": "Error al recuperar la clave",
   "pinLostForeverMessage": "Eliminaste el bloqueo de pantalla, el PIN se perdió",
   "importContactsPermission": {
@@ -661,12 +661,12 @@
     "card4": "Necesitamos tres mensajes de texto para conectar tu número de teléfono de forma segura."
   },
   "skipModal": {
-    "header": "Estas seguro",
+    "header": "¿Quieres omitir este paso?",
     "body1": "Conectar tu número te permite enviar y recibir fondos más fácilmente, y te pone un paso más cerca de las recompensas Supercharge."
   },
   "failModal": {
     "header": "Error de conexión",
-    "body1": "Se produjo un error al conectar tu número de teléfono.",
+    "body1": "Hubo un error al conectar tu número de teléfono.",
     "body2": "Puedes omitir la conexión y completarla más tarde.",
     "body1InsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de conexión.",
     "body2InsufficientBalance": "Agrega fondos a tu cuenta y vuelve a intentarlo.",
@@ -757,9 +757,9 @@
     "bodyAlreadyVerified": "¡Tu número ya está conectado!"
   },
   "verificationSkipDialog": {
-    "title": "Estas seguro",
+    "title": "¿Quieres omitir este paso?",
     "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta Celo o códigos QR.",
-    "cancel": "Regresa",
+    "cancel": "Regresar",
     "confirm": "Omitir por ahora"
   },
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
@@ -1215,7 +1215,7 @@
   "merchant": "Pago a comerciante",
   "merchantMoneyEscrow": "Estás a punto de enviar un pago directo a un comerciante.",
   "merchantPaymentNumberVerificationMessage": "Debes conectar tu número",
-  "merchantPaymentSubmitFail": "No se pudo completar el pago",
+  "merchantPaymentSubmitFail": "Hubo un error al completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
   "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
   "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, vuelve a intentarlo",
