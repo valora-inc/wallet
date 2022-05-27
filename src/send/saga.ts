@@ -391,6 +391,11 @@ export function* sendPaymentOrInviteSaga({
     const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
     if (recipient.address) {
       yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
+      if (tokenInfo?.symbol === 'CELO') {
+        ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
+          amount: amount.toString(),
+        })
+      }
     } else if (recipientHasNumber(recipient)) {
       yield call(sendInvite, recipient.e164PhoneNumber, amount, usdAmount, tokenAddress, feeInfo)
     } else {
@@ -404,11 +409,6 @@ export function* sendPaymentOrInviteSaga({
     }
 
     yield put(sendPaymentOrInviteSuccess(amount))
-    if (tokenInfo?.symbol === 'CELO') {
-      ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
-        amount: amount.toString(),
-      })
-    }
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
     yield put(sendPaymentOrInviteFailure())
