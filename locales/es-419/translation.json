@@ -658,7 +658,7 @@
     "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
     "card2": "Una vez que se conecte tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
     "card3": "Conectar tu número de teléfono también te permite ver quiénes de tus amigos están en {{appName}}.",
-    "card4": "Necesitamos tres mensajes SMS para conectar de forma segura tu número de teléfono."
+    "card4": "Necesitamos tres mensajes de texto para conectar tu número de teléfono de forma segura."
   },
   "skipModal": {
     "header": "Estas seguro",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Error de conexión",
-    "body1": "Se ha producido un problema al conectar tu número de teléfono.",
-    "body2": "Puedes omitir la conexión por ahora e intentarlo más tarde.",
-    "body1InsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de conexión.",
+    "body1": "Se produjo un error al conectar tu número de teléfono.",
+    "body2": "Puedes omitir la conexión y volver a intentarlo más tarde.",
+    "body1InsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de conexión.",
     "body2InsufficientBalance": "Agrega fondos a tu cuenta e inténtalo nuevamente.",
     "body1SaltQuotaExceeded": "Llegaste al límite de búsqueda de números de teléfono.",
     "body2SaltQuotaExceeded": "Compra más búsquedas e inténtalo nuevamente.",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Ingresar códigos"
   },
   "retryWithFornoModal": {
-    "header": "¿Reintentar la conexión con el Economizador de Datos?",
-    "body1": "Se ha producido un problema al conectar tu número de teléfono. Te recomendamos que lo intentes de nuevo con el modo de ahorro de datos activado.",
+    "header": "¿Quieres volver a intentarlo en modo de Ahorro de datos?",
+    "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo en modo Ahorro de datos.",
     "body2": "El modo de Ahorro de datos te permite comunicarte con la red Celo de manera más consistente a través de una conexión confiable.",
     "retryButton": "Reintentar con Ahorro de datos"
   },
-  "congratsVerified": "Enhorabuena, ¡tu número de teléfono ya está conectado!",
+  "congratsVerified": "¡Felicitaciones! tu número de teléfono está conectado.",
   "notification": {
     "body": "Recibe pagos directamente a tu número de teléfono",
     "cta": "Conectar"
@@ -747,8 +747,8 @@
   "verificationEducation": {
     "title": "Número de Teléfono",
     "header": "Conecta tu número de teléfono",
-    "body": "Para asegurarte de que tu número es realmente tuyo, recibirás tres mensajes SMS que costarán unos 0,05 cUSD cada uno.\n\nLa conexión dura unos tres minutos.",
-    "feelessBody": "Recibirás tres mensajes para ayudar a conectar de forma segura tu número de teléfono. La conexión tarda unos tres minutos.",
+    "body": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto que costarán alrededor de 0,05 cUSD cada uno.\n\nConectar tu número tomará unos tres minutos.",
+    "feelessBody": "Recibirás tres mensajes para conectar tu número de teléfono de forma segura. Conectar tu número tomará unos tres minutos.",
     "start": "Comenzar",
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito conectar mi número?",
@@ -758,14 +758,14 @@
   },
   "verificationSkipDialog": {
     "title": "Estas seguro",
-    "body": "La conexión te permite enviar y recibir fondos a cualquier número de teléfono.\n\nLas cuentas que no están conectadas sólo pueden enviar pagos utilizando direcciones Celo o códigos QR.",
+    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta Celo o códigos QR.",
     "cancel": "Regresa",
     "confirm": "Saltar por ahora"
   },
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
     "title": "Números de teléfono y {{appName}}",
-    "body": "La conexión te permite enviar y recibir fondos con tu número de teléfono.\n\n<0>¿Puedo hacerlo después?</0>\n\nSí, pero los monederos que no están conectados sólo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\nValora utiliza criptografía de última generación para mantener la privacidad de tu número de teléfono.",
+    "body": "Conectar tu número de teléfono hace que interactuar con tus amigos sea aún más fácil, y te permite enviar y recibir fondos con tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSí, pero las cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta o códigos QR.\n\n<1>Seguridad y privacidad</1>\n\nValora utiliza la criptografía más moderna para mantener tu número de teléfono privado.",
     "dismiss": "Omitir"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La conexión del número de teléfono no está disponible en este momento. Por favor, introduce tu número de teléfono y te avisaremos cuando sea posible conectar de nuevo.\n\nMientras tanto, puedes seguir utilizando {{appName}} con los códigos QR o las direcciones de cuenta. No te preocupes, los pagos enviados a tu número de teléfono te esperarán hasta que lo conectes a tu cuenta.",
+  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando {{appName}} con direcciones de cuenta o códigos QR. Pero no te preocupes, los fondos enviados a tu número de teléfono te estarán esperando hasta que completes la conexión.",
   "requests": "Solicitudes",
   "empty": "No tienes solicitudes de pago",
   "celoDollarBalance": "Saldo en Celo Dollars",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "Solicitud de {{name}}",
   "outgoingPaymentRequestNotificationTitle": "Esperando a {{name}}",
   "requestUnavailableHeader": "La cuenta de {{displayName}} no está confirmada",
-  "requestUnavailableNoDisplayNameHeader": "El número de teléfono de tu contacto no está conectado a una dirección de cuenta.",
+  "requestUnavailableNoDisplayNameHeader": "El número de teléfono de tu contacto no está conectado a una Dirección de cuenta.",
   "requestUnavailableBody": "El número {{e164PhoneNumber}} no tiene una cuenta o no se ha conectado. Solo es posible enviar solicitudes a números conectados.",
   "requestUnavailableNoNumberBody": "Tu contacto no tiene una cuenta o aún no ha conectado su número de teléfono. Solo es posible enviar solicitudes a números conectados.",
   "requesting": "Solicitando",
@@ -889,7 +889,7 @@
   "reminderSent": "Recordatorio enviado",
   "reclaimPayment": "Recuperar pago",
   "totalRefunded": "Total reembolsado",
-  "loadingVerificationStatus": "Comprobar si el destinatario está conectado…",
+  "loadingVerificationStatus": "Comprobando que el destinatario tenga un número conectado…",
   "askForContactsPermissionAction": "Acceder a mis contactos",
   "newAccountBalance": "Nuevo saldo de cuenta: ",
   "estimatingFee": "Estimando tarifa ",
