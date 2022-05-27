@@ -40,8 +40,8 @@
     "resetNow": "Сбросить сейчас"
   },
   "promptConfirmRevokeModal": {
-    "header": "Are you sure you want to disconnect your phone number?",
-    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
+    "header": "Ты уверен, что хочешь отключить свой номер телефона?",
+    "body": "После отключения ты не сможешь снова подключить свой номер телефона к этому кошельку.",
     "revoke": "Отключить"
   },
   "testFaqLink": "Часто задаваемые вопросы по {{appName}}",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Текущий лимит на ежедневную отправку",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Неограниченный",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
+  "verifyNumberToRaiseLimit": "Ты можешь увеличить свой лимит отправки, подтвердив свою личность. Пожалуйста, подключи свой номер телефона, прежде чем продолжить.",
   "verifyIdentityToRaiseLimit": "Вы можете увеличить лимит отправки путем подтверждения своей личности. Подготовьтесь к предоставлению определенной информации во время следующей процедуры.",
   "dailyLimitApplicationStatus": "Состояние заявки",
   "applicationInReview": "Проверяется",
@@ -396,9 +396,9 @@
   "invalidPhone": "Недопустимый номер телефона",
   "cantSelectInvalidPhone": "Не удается выбрать контакт: недопустимый номер телефона",
   "needMoreFundsToSend": "Для выполнения этой транзакции у вас должно быть {{currencySymbol}}{{amountNeeded}}. Внесите средства или попробуйте отправить меньшую сумму.",
-  "maxEscrowTransferExceeded": "The maximum amount transferrable to users without a connected number is {{symbol}}{{maxAmount}}.",
+  "maxEscrowTransferExceeded": "Максимальная сумма, перечисляемая пользователям без подключенного номера, составляет {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Недопустимая сумма",
-  "invalidCode": "Invalid Code",
+  "invalidCode": "Неверный код",
   "confirm": "Подтвердить",
   "readCodesAuto": "Считывать коды автоматически",
   "enterManually": "Ввести вручную",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} по курсу <0></0>",
   "oops": "Ой!",
   "somethingWrong": "Что-то пошло не так.",
-  "verifyFailed": "Failed to connect",
+  "verifyFailed": "Не удалось подключиться",
   "canNotRequestFromUnverified": "Не удается запросить у неподтвержденных пользователей",
   "restartApp": "Перезапустить приложение",
   "quitApp": "Выйти",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Не удалось получить секрет номера телефона",
   "saltQuotaExceededError": "Квота поиска номера телефона исчерпана",
   "maxActionableAttestationsExceededError": "Сбой при повторной отправке сообщений",
-  "odisInsufficientBalance": "Please connect your number",
+  "odisInsufficientBalance": "Пожалуйста, подключите свой номер",
   "matchmakingQuotaExceededError": "Подбор соответствий можно выполнить только один раз",
   "paymentLimitReached": "Ежедневный лимит составляет {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) осталось",
   "requestLimitError": "Не удастся запросить больше {{limit}} cUSD в рамках дневного лимита.",
@@ -630,35 +630,35 @@
     "enable": "Включить доступ к контактам",
     "loading": "Поиск друзей в {{appName}}..."
   },
-  "getVerified": "Connect Phone Number",
+  "getVerified": "Номер телефона для связи",
   "notReadyForCode": "Еще не готово для ввода кода",
-  "emptyVerificationCode": "No Code in Clipboard",
-  "invalidVerificationCode": "Invalid Code",
-  "repeatVerificationCode": "Repeated Code",
+  "emptyVerificationCode": "Отсутствие кода в буфере обмена",
+  "invalidVerificationCode": "Неверный код",
+  "repeatVerificationCode": "Повторяющийся код",
   "revealAttestationFailure": "Ошибка при запросе SMS-сообщения",
-  "verificationFailure": "Connection Failed",
+  "verificationFailure": "Не удалось установить соединение",
   "cantVerifyRevokedAccount": "Этот аккаунт был ранее отозван. Создайте новый аккаунт и повторите попытку.",
-  "verificationTimeout": "Connection Timed Out",
+  "verificationTimeout": "Соединение прервано по времени",
   "errorRequestCode": "Сбой при запросе кодов.",
   "errorRedeemingCode": "Сбой активации кода.",
-  "pleaseRetry": "Please try connecting again.",
-  "retryVerification": "Retry connection",
+  "pleaseRetry": "Пожалуйста, попробуй подключиться снова.",
+  "retryVerification": "Повторное соединение",
   "education": {
-    "header": "Connect Your Phone",
-    "body1": "Next, please connect your phone number.",
+    "header": "Подключи свой телефон",
+    "body1": "Далее, пожалуйста, подключи свой номер телефона.",
     "body2": "Подключение телефона упрощает отправку и получение сообщений друзьями. Можно также пропустить этот шаг и вернуться к нему позже.",
-    "learnMore": "Learn more about phone connection",
-    "start": "Connect Phone Number",
+    "learnMore": "Узнайте больше о телефонной связи",
+    "start": "Номер телефона для связи",
     "skip": "Пропустить"
   },
   "verificationLoading": {
-    "confirming": "Connecting phone number…",
+    "confirming": "Подключение телефонного номера…",
     "pleaseKeepAppOpen": "Не закрывайте этот экран, иначе придется выполнить перезагрузку",
     "learnMore": "Подробнее",
     "card1": "Чтобы убедиться, что номер телефона действительно принадлежит вам, мы отправим вам три сообщения.",
-    "card2": "Once your number is connected, you can send and receive funds easily to your phone number.",
-    "card3": "Connecting your number also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three SMS messages to securely connect your phone number."
+    "card2": "Как только твой номер будет подключен, ты сможешь легко отправлять и получать средства на свой номер телефона.",
+    "card3": "Подключение твоего номера также позволяет тебе видеть, кто из твоих друзей находится на {{appName}}.",
+    "card4": "Нам требуется три SMS-сообщения для надежного подключения твоего номера телефона."
   },
   "skipModal": {
     "header": "Вы уверены?",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Ошибка подтверждения",
-    "body1": "An issue has occurred while connecting your phone number.",
-    "body2": "You can skip connecting for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the connection process.",
+    "body1": "При подключении твоего номера телефона возникла проблема.",
+    "body2": "Ты можешь пока пропустить подключение и повторить попытку позже.",
+    "body1InsufficientBalance": "Твой текущий баланс недостаточно высок для завершения процесса подключения.",
     "body2InsufficientBalance": "После внесения средств в кошелек, повторите попытку.",
     "body1SaltQuotaExceeded": "Квота поиска номера телефона исчерпана",
     "body2SaltQuotaExceeded": "После приобретения дополнительных попыток поиска повторите попытку",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Ввести коды"
   },
   "retryWithFornoModal": {
-    "header": "Retry Connection with Data Saver?",
-    "body1": "An issue has occurred while connecting your phone number. We recommend trying again with Data Saver mode enabled.",
+    "header": "Повторить подключение с помощью Data Saver?",
+    "body1": "При подключении твоего телефонного номера возникла проблема. Мы рекомендуем повторить попытку с включенным режимом Data Saver.",
     "body2": "Режим экономии данных обеспечивает бесперебойное взаимодействие с сообществом Celo Network с помощью доверенного соединения.",
     "retryButton": "Повторить в режиме экономии данных"
   },
-  "congratsVerified": "Congratulations, your phone number is now connected!",
+  "congratsVerified": "Поздравляю, твой телефонный номер теперь подключен!",
   "notification": {
     "body": "Получать платежи непосредственно на номер телефона",
     "cta": "Подключить сейчас"
@@ -747,25 +747,25 @@
   "verificationEducation": {
     "title": "Номер телефона",
     "header": "Подключить номер телефона",
-    "body": "To make sure your number is really yours, you’ll receive three SMS messages that will cost about 0.05 cUSD each.\n\nConnection takes about three minutes.",
-    "feelessBody": "You will receive three messages to help securely connect your phone number. Connection takes about three minutes.",
+    "body": "Чтобы убедиться, что номер действительно твой, ты получишь три SMS-сообщения, стоимость каждого из которых составит около 0,05 cUSD.\n\nПодключение занимает около трех минут.",
+    "feelessBody": "Ты получишь три сообщения, которые помогут надежно подключить твой номер телефона. Подключение занимает около трех минут.",
     "start": "Начать",
     "resume": "Возобновить",
-    "doINeedToConfirm": "Do I need to connect?",
+    "doINeedToConfirm": "Нужно ли мне подключаться?",
     "skipForNow": "Пропустить",
     "bodyInsufficientBalance": "На вашем текущем счету недостаточно средств для завершения процесса подтверждения.\n\nПосле внесения средств в кошелек, повторите попытку.",
-    "bodyAlreadyVerified": "Your number is already connected!"
+    "bodyAlreadyVerified": "Твой номер уже подключен!"
   },
   "verificationSkipDialog": {
     "title": "Вы уверены?",
-    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using Celo addresses or QR codes.",
+    "body": "Подключение позволяет тебе отправлять и получать средства на любой телефонный номер.\n\nСчета, которые не подключены, могут отправлять платежи только с помощью Celo-адресов или QR-кодов.",
     "cancel": "Назад",
     "confirm": "Пропустить"
   },
   "verificationPrematureRevealMessage": "Подождите минуту перед повторной отправкой",
   "verificationLearnMoreDialog": {
     "title": "Номера телефонов и {{appName}}",
-    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Подключение позволяет тебе отправлять и получать средства с помощью номера телефона.\n\n<0>Могу ли я сделать это позже? </0>\n\nДа, но кошельки, которые не подключены, могут отправлять платежи только с помощью QR-кодов или адресов счетов.\n\n<1>Безопасность и приватность</1>\n\nValora использует современную криптографию, чтобы сохранить твой номер телефона в тайне.",
     "dismiss": "Закрыть"
   },
   "importExistingKey": {
@@ -820,7 +820,7 @@
   "success": {
     "message": "Все готово!"
   },
-  "verificationUnavailable": "Phone number connection is currently unavailable. Please enter your phone number and we will notify you when it is possible to connect again.\n\nIn the meantime, you can continue to use {{appName}} with QR codes or Account Addresses. Don't worry, payments sent to your phone number will be waiting for you until you connect it to your account.",
+  "verificationUnavailable": "Подключение телефонного номера в настоящее время недоступно. Пожалуйста, введи свой номер телефона, и мы уведомим тебя, когда соединение снова станет возможным.\n\nТем временем ты можешь продолжать использовать {{appName}} с QR-кодами или Адресами счетов. Не волнуйся, платежи, отправленные на твой номер телефона, будут ждать тебя, пока ты не подключишь его к своему аккаунту.",
   "requests": "Запросы",
   "empty": "У вас нет запросов на платеж",
   "celoDollarBalance": "Остаток в Celo Dollars",
@@ -830,7 +830,7 @@
   "incomingPaymentRequestNotificationTitle": "Запрошено {{name}}",
   "outgoingPaymentRequestNotificationTitle": "Ожидание {{name}}",
   "requestUnavailableHeader": "Аккаунт {{displayName}} еще не подключен.",
-  "requestUnavailableNoDisplayNameHeader": "Your contact’s phone number is not connected to an Account Address.",
+  "requestUnavailableNoDisplayNameHeader": "Телефонный номер твоего собеседника не связан с адресом аккаунта.",
   "requestUnavailableBody": "Номер {{e164PhoneNumber}} не связан с аккаунтом или еще не подключен к нему. Запросы можно отправлять только на подключенные номера.",
   "requestUnavailableNoNumberBody": "Ваш контакт не связан с аккаунтом или еще не подключен к нему. Запросы можно отправлять только на подключенные номера.",
   "requesting": "Производится запрос",
@@ -893,7 +893,7 @@
   "reminderSent": "Напоминание отправлено",
   "reclaimPayment": "Восстановить платеж",
   "totalRefunded": "Всего возвращено",
-  "loadingVerificationStatus": "Checking if recipient is connected…",
+  "loadingVerificationStatus": "Проверка того, подключен ли получатель…",
   "askForContactsPermissionAction": "Получить мои контакты",
   "newAccountBalance": "Новый остаток на счете: ",
   "estimatingFee": "Расчет комиссии ",
@@ -903,8 +903,8 @@
   "selectToken": "Выберите актив",
   "verificationCta": {
     "header": "Отправляем другу?",
-    "body": "Connect your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Connect Phone Number"
+    "body": "Подключи свой телефон и синхронизируй контакты, чтобы быстро отправить друзьям.",
+    "cta": "Номер телефона для связи"
   },
   "importContactsCta": {
     "header": "Импортировать контакты",
@@ -1012,7 +1012,7 @@
   "sent": "Отправлено",
   "received": "Получено",
   "viewAll": "Просмотреть все",
-  "thanksForVerifying": "Thanks for connecting",
+  "thanksForVerifying": "Спасибо за связь",
   "goldIsWhereYouSave": "CELO позволяет сэкономить стейблкоины Celo",
   "dinner": "Обед",
   "bikeParts": "Запчасти к велосипедам",
