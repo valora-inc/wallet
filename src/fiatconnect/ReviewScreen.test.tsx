@@ -39,7 +39,7 @@ function getProps(flow: CICOFlow, fee?: string, image?: string) {
     },
     fiatAccount: {
       accountName: 'MyAccount',
-      institutionName: '',
+      institutionName: 'Chase',
       accountNumber: '12345',
       country: 'US',
       fiatAccountType: FiatAccountType.BankAccount,
@@ -67,7 +67,7 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('txDetails-crypto')?.children).toEqual(['', '25.02', ' cUSD'])
       expect(queryByTestId('txDetails-fee/value')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.paymentMethod')).toBeTruthy()
-      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['MyAccount (...2345)'])
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
@@ -88,7 +88,7 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('txDetails-crypto')?.children).toEqual(['', '25.02', ' cUSD'])
       expect(queryByTestId('txDetails-fee/value')).toBeFalsy()
       expect(queryByText('fiatConnectReviewScreen.paymentMethod')).toBeTruthy()
-      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['MyAccount (...2345)'])
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
@@ -111,7 +111,7 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('txDetails-crypto')?.children).toEqual(['', '25.02', ' cUSD'])
       expect(queryByTestId('txDetails-fee/value')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.paymentMethod')).toBeTruthy()
-      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['MyAccount (...2345)'])
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
@@ -132,7 +132,7 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('txDetails-crypto')?.children).toEqual(['', '25.02', ' cUSD'])
       expect(queryByTestId('txDetails-fee/value')).toBeFalsy()
       expect(queryByText('fiatConnectReviewScreen.paymentMethod')).toBeTruthy()
-      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['MyAccount (...2345)'])
+      expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])

@@ -233,7 +233,7 @@ function PaymentMethod({
   switch (fiatAccountSchema) {
     case FiatAccountSchema.AccountNumber:
       const account: AccountNumber = fiatAccount
-      displayText = `${account.accountName} (...${account.accountNumber.slice(-4)})`
+      displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
       break
   }
 
