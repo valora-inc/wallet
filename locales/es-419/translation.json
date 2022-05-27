@@ -96,7 +96,7 @@
   "raiseLimitEmailSubject": "Solicitar aumento del límite de envío de la cuenta",
   "raiseLimitEmailBody": "Me gustaría solicitar un aumento del límite diario de {{dailyLimit}} de {{appName}} para la dirección {{address}}.",
   "raiseLimitEmailSuccess": "Tu solicitud se envió con éxito. Espera una respuesta por correo electrónico pronto.",
-  "raiseLimitEmailNotSent": "Tu solicitud no fue enviada. Por favor, inténtalo de nuevo.",
+  "raiseLimitEmailNotSent": "Tu solicitud no fue enviada. Vuelve a intentarlo.",
   "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta.",
   "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
   "storeRecoveryButton": "Restaurar cuenta",
@@ -126,7 +126,7 @@
   "savedConfirmation": "Sí, ya anoté mi frase.",
   "backupQuizWordCount": "¿Cuál es la <0>{{ordinal}}</0> palabra de tu Frase de recuperación?",
   "importBackupFailed": "No se pudo importar la cuenta",
-  "backupQuizFailed": "La Frase de recuperación ingresada es incorrecta. Inténtalo de nuevo.",
+  "backupQuizFailed": "La Frase de recuperación ingresada es incorrecta. Vuelve a intentarlo.",
   "invalidBackupPhrase": "La Frase de recuperación no es válida.",
   "invalidWordsInBackupPhrase": "Algunas palabras en la Frase de recuperación no son válidas: {{ invalidWords }}",
   "backupComplete": {
@@ -403,7 +403,7 @@
   "readCodesAuto": "Leer códigos automáticamente",
   "enterManually": "Ingresar manualmente",
   "incorrectPin": "PIN incorrecto",
-  "pinInputCanceled": "Debes ingresar un PIN. Inténtalo nuevamente.",
+  "pinInputCanceled": "Debes ingresar un PIN. Vuelve a intentarlo.",
   "setPinFailed": "Error de configuración del PIN",
   "optIn": "Suscribirse",
   "invalidInvite": "Código de invitación inválido",
@@ -899,8 +899,8 @@
   "selectToken": "Seleccionar activo",
   "verificationCta": {
     "header": "¿Quieres enviar saldo a un amigo?",
-    "body": "Conecta tu teléfono y sincroniza tus contactos para enviar rápidamente a tus amigos.",
-    "cta": "Conectar número de teléfono"
+    "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar fondos rápidamente.",
+    "cta": "Conecta tu número"
   },
   "importContactsCta": {
     "header": "Importar contactos",
@@ -1008,7 +1008,7 @@
   "sent": "Enviados",
   "received": "Recibidos",
   "viewAll": "Ver todo",
-  "thanksForVerifying": "Gracias por conectar",
+  "thanksForVerifying": "Gracias por completar la conexión",
   "goldIsWhereYouSave": "Convierte tus Celo Dollars en CELO",
   "dinner": "Cena",
   "bikeParts": "Repuestos de bicicleta",
