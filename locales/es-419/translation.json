@@ -363,7 +363,7 @@
   "save": "Guardar",
   "scan": "Escanear",
   "next": "Siguiente",
-  "skip": "Saltar",
+  "skip": "Omitir",
   "copy": "Copiar",
   "goBack": "Regresar",
   "reset": "Restablecer",
@@ -519,7 +519,7 @@
   "addressValidationError": "La información de cuenta ingresada es inválida",
   "addressValidationNoMatch": "La información de cuenta ingresada no coincide con ninguna cuenta asociada a tu contacto",
   "addressValidationFullPoorlyFormatted": "Las direcciones de cuenta comienzan con \"0x\", contienen solo números y letras, y tienen 42 caracteres de longitud. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialPoorlyFormatted": "Las direcciones de cuenta contienen solo números y letras, introduce los últimos 4 dígitos. Sigue el enlace a continuación para obtener ayuda.",
+  "addressValidationPartialPoorlyFormatted": "Las direcciones de cuenta contienen solo números y letras, ingresa los últimos 4 dígitos. Sigue el enlace a continuación para obtener ayuda.",
   "addressValidationFullOwnAddress": "Ingresa la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
   "addressValidationPartialOwnAddress": "Ingresa los últimos 4 dígitos de la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
@@ -576,7 +576,7 @@
   "redeemFailed": "No pudimos canjear el código de invitación",
   "redeemInviteTimeout": "El canje de invitación ha expirado",
   "accountSetupFailed": "Error al crear la cuenta",
-  "accountSetupFailedDescription": "Elimina {{appName}} de tu dispositivo e inténtalo de nuevo. Si sigues teniendo problemas, ponte en contacto con el equipo de soporte técnico.",
+  "accountSetupFailedDescription": "Elimina {{appName}} de tu dispositivo y vuelve a intentarlo. Si sigues teniendo problemas, ponte en contacto con el equipo de soporte técnico.",
   "closeApp": "Cerrar app",
   "emptyInviteCode": "El código de invitación no tiene fondos",
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
@@ -667,11 +667,11 @@
   "failModal": {
     "header": "Error de conexión",
     "body1": "Se produjo un error al conectar tu número de teléfono.",
-    "body2": "Puedes omitir la conexión y volver a intentarlo más tarde.",
+    "body2": "Puedes omitir la conexión y completarla más tarde.",
     "body1InsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de conexión.",
-    "body2InsufficientBalance": "Agrega fondos a tu cuenta e inténtalo nuevamente.",
+    "body2InsufficientBalance": "Agrega fondos a tu cuenta y vuelve a intentarlo.",
     "body1SaltQuotaExceeded": "Llegaste al límite de búsqueda de números de teléfono.",
-    "body2SaltQuotaExceeded": "Compra más búsquedas e inténtalo nuevamente.",
+    "body2SaltQuotaExceeded": "Compra más búsquedas y vuelve a intentarlo.",
     "enterCodesBody": "Si ya recibiste tres códigos por SMS, aún puedes ingresarlos.",
     "enterCodesButton": "Ingresar códigos"
   },
@@ -752,15 +752,15 @@
     "start": "Comenzar",
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito conectar mi número?",
-    "skipForNow": "Saltar por ahora",
-    "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
+    "skipForNow": "Omitir por ahora",
+    "bodyInsufficientBalance": "Tu saldo actual no es suficiente para completar el proceso de confirmación.\n\nVuelve a intentarlo cuando hayas agregado fondos a tu billetera.",
     "bodyAlreadyVerified": "¡Tu número ya está conectado!"
   },
   "verificationSkipDialog": {
     "title": "Estas seguro",
     "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta Celo o códigos QR.",
     "cancel": "Regresa",
-    "confirm": "Saltar por ahora"
+    "confirm": "Omitir por ahora"
   },
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
@@ -799,13 +799,13 @@
     },
     "bodySection2": {
       "title": "¿No te llegó alguno de los mensajes?",
-      "defaultContent": "Si tienes problemas para recibir mensajes, puedes omitir este paso por ahora e intentarlo más tarde. A veces los mensajes pueden tardar unos minutos en llegar.",
+      "defaultContent": "Si tienes problemas para recibir mensajes, puedes omitir este paso por ahora e completarlo más tarde. A veces los mensajes pueden tardar unos minutos en llegar.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La siguiente opción de omisión estará disponible en {{count}} segundo.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La siguiente opción de omisión estará disponible en {{count}} segundos."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La opción de omisión estará disponible en {{count}} segundo.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La opción de omisión estará disponible en {{count}} segundos."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
-    "skip": "Saltar por ahora",
+    "skip": "Omitir por ahora",
     "back": "Regresar"
   },
   "emptyAccount": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando {{appName}} con direcciones de cuenta o códigos QR. Pero no te preocupes, los fondos enviados a tu número de teléfono te estarán esperando hasta que completes la conexión.",
+  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. ingresa tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando {{appName}} con direcciones de cuenta o códigos QR. No te preocupes, los fondos enviados a tu número de teléfono te estarán esperando hasta que completes la conexión.",
   "requests": "Solicitudes",
   "empty": "No tienes solicitudes de pago",
   "celoDollarBalance": "Saldo en Celo Dollars",
@@ -991,7 +991,7 @@
   "connectionSuccess": "¡Lo hiciste! Vuelve a {{dappName}} para continuar",
   "inAppConnectionSuccess": "¡La conexión con {{dappName}} fue un éxito!",
   "timeoutTitle": "¡Se agotó el tiempo!",
-  "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.",
+  "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet y vuelve a intentarlo.",
   "goBackButton": "Regresar",
   "v2Unsupported": "Este código QR no es compatible",
   "incomingPaymentRequests": "Solicitudes de otros",
@@ -1163,7 +1163,7 @@
       "cta": "Vincular cuenta bancaria",
       "error": {
         "title": "Error al vincular la cuenta bancaria.",
-        "description": "Inténtalo de nuevo o ponte en contacto con el servicio de soporte técnico.",
+        "description": "Vuelve a intentarlo o ponte en contacto con el servicio de soporte técnico.",
         "contactSupportPrefill": "No he podido vincular mi cuenta bancaria a Valora."
       }
     }
@@ -1218,7 +1218,7 @@
   "merchantPaymentSubmitFail": "No se pudo completar el pago",
   "merchantPaymentSetup": "Hubo un error al cargar la información del comerciante, intenta escanear el código QR de nuevo",
   "merchantPaymentSubmitSuccess": "Tu pago se ha enviado correctamente",
-  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, inténtalo de nuevo",
+  "merchantWalletUnlockError": "Algo salió mal al desbloquear tu billetera, vuelve a intentarlo",
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Algunos métodos de pago no están disponibles en tu región",
@@ -1267,7 +1267,7 @@
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Tu cuenta está vinculada a Valora.",
     "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
-    "addFiatAccountFailed": "No fue posible vincular tu cuenta, inténtalo de nuevo o comunícate con el equipo de soporte."
+    "addFiatAccountFailed": "No fue posible vincular tu cuenta, vuelve a intentarlo o comunícate con el equipo de soporte."
   },
   "fiatAccountSchema": {
     "accountName": {
