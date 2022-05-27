@@ -39,7 +39,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
   })
 
   const onPressClose = () => {
-    navigation.dangerouslyGetParent()?.goBack()
+    navigation.getParent()?.goBack()
   }
 
   const onPressShare = () => {
