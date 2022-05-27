@@ -40,9 +40,9 @@
     "resetNow": "Jetzt zurücksetzen"
   },
   "promptConfirmRevokeModal": {
-    "header": "Bist du sicher, dass du dein Valora-Konto widerrufen möchtest?",
-    "body": "Einmal widerrufen, kann dieses Konto nicht erneut bestätigt werden. Nur widerrufen, wenn du sicher bist, dass du dieses Konto nie mehr benötigst.",
-    "revoke": "Widerrufen"
+    "header": "Bist du sicher, dass du deine Telefonnummer abschalten willst?",
+    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
+    "revoke": "Verbindung trennen"
   },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Aktuelles tägliches Sendelimit",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Unbegrenzt",
-  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte bestätige deine Nummer, bevor du fortfährst.",
+  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
   "verifyIdentityToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität bestätigst. Bitte gib im folgenden Prozess einige Details an.",
   "dailyLimitApplicationStatus": "Bewerbungsstatus",
   "applicationInReview": "Wird geprüft",
@@ -396,9 +396,9 @@
   "invalidPhone": "Ungültige Telefonnummer",
   "cantSelectInvalidPhone": "Kontakt kann nicht ausgewählt werden: ungültige Telefonnummer",
   "needMoreFundsToSend": "Du solltest {{currencySymbol}}{{amountNeeded}} haben, um diese Transaktion durchzuführen. Bitte füge Guthaben hinzu oder versuche, weniger zu senden.",
-  "maxEscrowTransferExceeded": "Der maximale Betrag für die Überweisung an unbestätigte Benutzer beträgt {{symbol}}{{maxAmount}}",
+  "maxEscrowTransferExceeded": "The maximum amount transferrable to users without a connected number is {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Ungültiger Betrag",
-  "invalidCode": "Ungültiger Verbindungscode",
+  "invalidCode": "Invalid Code",
   "confirm": "Bestätigen",
   "readCodesAuto": "Codes automatisch lesen",
   "enterManually": "Manuell eingeben",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Huch!",
   "somethingWrong": "Etwas ist schief gelaufen.",
-  "verifyFailed": "Bestätigung fehlgeschlagen",
+  "verifyFailed": "Failed to connect",
   "canNotRequestFromUnverified": "Kann nicht von unbestätigten Benutzern anfordern",
   "restartApp": "App neu starten",
   "quitApp": "Beenden",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
-  "odisInsufficientBalance": "Bitte bestätige deine Nummer",
+  "odisInsufficientBalance": "Please connect your number",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
   "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
@@ -630,35 +630,35 @@
     "enable": "Kontaktzugriff aktivieren",
     "loading": "Freunde auf {{appName}} werden gefunden..."
   },
-  "getVerified": "Bestätige Telefonnummer",
+  "getVerified": "Connect Phone Number",
   "notReadyForCode": "Noch nicht bereit für Codeeintrag",
-  "emptyVerificationCode": "Kein Verbindungscode in der Zwischenablage",
-  "invalidVerificationCode": "Ungültiger Verbindungscode",
-  "repeatVerificationCode": "Wiederholter Verbindungscode",
+  "emptyVerificationCode": "No Code in Clipboard",
+  "invalidVerificationCode": "Invalid Code",
+  "repeatVerificationCode": "Repeated Code",
   "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
-  "verificationFailure": "Bestätigung fehlgeschlagen",
+  "verificationFailure": "Connection Failed",
   "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstelle ein neues Konto und versuche es erneut.",
-  "verificationTimeout": "Zeitüberschreitung der Bestätigung",
+  "verificationTimeout": "Connection Timed Out",
   "errorRequestCode": "Fehler beim Abfragen der Codes.",
   "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
-  "pleaseRetry": "Bitte versuche es erneut.",
-  "retryVerification": "Bestätigung wiederholen",
+  "pleaseRetry": "Please try connecting again.",
+  "retryVerification": "Retry connection",
   "education": {
-    "header": "Bestätige dein Telefon",
-    "body1": "Als nächstes bestätigst du bitte deine Telefonnummer.",
+    "header": "Connect Your Phone",
+    "body1": "Next, please connect your phone number.",
     "body2": "Verbinden macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
-    "learnMore": "Erfahre mehr über die Telefonbestätigung",
-    "start": "Startbestätigung",
+    "learnMore": "Learn more about phone connection",
+    "start": "Connect Phone Number",
     "skip": "Vorerst überspringen"
   },
   "verificationLoading": {
-    "confirming": "Bestätige Telefonnummer…",
+    "confirming": "Connecting phone number…",
     "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder du musst neu starten",
     "learnMore": "Mehr Infos",
     "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
-    "card2": "Sobald deine Nummer bestätigt ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
-    "card3": "Bestätigen erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
-    "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
+    "card2": "Once your number is connected, you can send and receive funds easily to your phone number.",
+    "card3": "Connecting your number also allows you to see which of your friends are on {{appName}}.",
+    "card4": "We require three SMS messages to securely connect your phone number."
   },
   "skipModal": {
     "header": "Bist du sicher?",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Bestätigungsfehler",
-    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Problem aufgetreten.",
-    "body2": "Du kannst jetzt die Bestätigung überspringen und später erneut versuchen.",
-    "body1InsufficientBalance": "Dein aktueller Guthaben ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
+    "body1": "An issue has occurred while connecting your phone number.",
+    "body2": "You can skip connecting for now and try again later.",
+    "body1InsufficientBalance": "Your current balance is not high enough to complete the connection process.",
     "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "body1SaltQuotaExceeded": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
     "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn du mehr Lookups gekauft hast",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Codes eingeben"
   },
   "retryWithFornoModal": {
-    "header": "Bestätigung mit Datensparer wiederholen?",
-    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Datensparmodus aktiviert ist.",
+    "header": "Retry Connection with Data Saver?",
+    "body1": "An issue has occurred while connecting your phone number. We recommend trying again with Data Saver mode enabled.",
     "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
     "retryButton": "Mit Datensparmodus wiederholen"
   },
-  "congratsVerified": "Herzlichen Glückwunsch, du bist jetzt bestätigt!",
+  "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
     "body": "Zahlungen direkt an deine Telefonnummer erhalten",
     "cta": "Jetzt verbinden"
@@ -747,25 +747,25 @@
   "verificationEducation": {
     "title": "Telefonnummer",
     "header": "Verbinde deine Telefonnummer",
-    "body": "Um sicherzustellen, dass deine Nummer wirklich deine ist, senden wir dir drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
-    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst du drei Nachrichten.",
+    "body": "To make sure your number is really yours, you’ll receive three SMS messages that will cost about 0.05 cUSD each.\n\nConnection takes about three minutes.",
+    "feelessBody": "You will receive three messages to help securely connect your phone number. Connection takes about three minutes.",
     "start": "Start",
     "resume": "Fortfahren",
-    "doINeedToConfirm": "Muss ich bestätigen?",
+    "doINeedToConfirm": "Muss ich verbinden?",
     "skipForNow": "Vorerst überspringen",
     "bodyInsufficientBalance": "Dein aktueller Guthaben ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
-    "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
+    "bodyAlreadyVerified": "Your number is already connected!"
   },
   "verificationSkipDialog": {
     "title": "Bist du sicher?",
-    "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using Celo addresses or QR codes.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
   "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Guthaben an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
+    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "Du bist fertig!"
   },
-  "verificationUnavailable": "Die Telefonnummernbestätigung ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, sobald die Bestätigung wieder möglich ist.\n\nIn der Zwischenzeit kannst du Valora weiter nutzen! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher aufbewahrt, bis du sie einlöst, indem du deine Telefonnummer bestätigst.",
+  "verificationUnavailable": "Phone number connection is currently unavailable. Please enter your phone number and we will notify you when it is possible to connect again.\n\nIn the meantime, you can continue to use {{appName}} with QR codes or Account Addresses. Don't worry, payments sent to your phone number will be waiting for you until you connect it to your account.",
   "requests": "Anfragen",
   "empty": "Du hast keine Zahlungsanfragen",
   "celoDollarBalance": "Celo Dollar Guthaben",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} angefordert",
   "outgoingPaymentRequestNotificationTitle": "Warte auf {{name}}",
   "requestUnavailableHeader": "Das Konto von {{displayName}} ist noch nicht verbunden.",
-  "requestUnavailableNoDisplayNameHeader": "Das Konto deines Kontakts ist nicht bestätigt",
+  "requestUnavailableNoDisplayNameHeader": "Your contact’s phone number is not connected to an Account Address.",
   "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an bestätigte Nummern gesendet werden.",
   "requestUnavailableNoNumberBody": "Dein Kontakt hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an verbundene Nummern gesendet werden.",
   "requesting": "Wird angefordert",
@@ -889,7 +889,7 @@
   "reminderSent": "Erinnerung gesendet",
   "reclaimPayment": "Zahlung zurückfordern",
   "totalRefunded": "Insgesamt erstattet",
-  "loadingVerificationStatus": "Überprüfe Empfängerbestätigung",
+  "loadingVerificationStatus": "Checking if recipient is connected…",
   "askForContactsPermissionAction": "Meine Kontakte erhalten",
   "newAccountBalance": "Neuer Guthaben: ",
   "estimatingFee": "Kostenvoranschlag ",
@@ -899,8 +899,8 @@
   "selectToken": "Vermögen auswählen",
   "verificationCta": {
     "header": "An einen Freund senden?",
-    "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
-    "cta": "Startbestätigung"
+    "body": "Connect your phone and sync your contacts to quickly send to your friends.",
+    "cta": "Connect Phone Number"
   },
   "importContactsCta": {
     "header": "Kontakte importieren",
@@ -1008,7 +1008,7 @@
   "sent": "Versendet",
   "received": "Erhalten",
   "viewAll": "Alle anzeigen",
-  "thanksForVerifying": "Vielen Dank für deine Bestätigung",
+  "thanksForVerifying": "Thanks for connecting",
   "goldIsWhereYouSave": "CELO ist der Ort, an dem du Celo Dollar sparen kannst",
   "dinner": "Abendessen",
   "bikeParts": "Fahrradteile",
