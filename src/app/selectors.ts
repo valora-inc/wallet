@@ -4,7 +4,6 @@ import {
   e164NumberSelector,
   recoveringFromStoreWipeSelector,
 } from 'src/account/selectors'
-import { isE2EEnv } from 'src/config'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -82,10 +81,9 @@ export const showRaiseDailyLimitSelector = createSelector(
   }
 )
 
-// Added isE2EEnv to test supercharge behavior in E2E tests
 export const rewardsEnabledSelector = createSelector(
   [accountAddressSelector, (state) => state.app.superchargeTokens],
-  (address, superchargeTokens) => isE2EEnv || (!!address && superchargeTokens.length > 0)
+  (address, superchargeTokens) => !!address && superchargeTokens.length > 0
 )
 
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
