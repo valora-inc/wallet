@@ -1,5 +1,6 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
 
+import { sleep } from '@celo/utils/lib/async'
 import { CommonActions } from '@react-navigation/core'
 import {
   createNavigationContainerRef,
@@ -9,7 +10,7 @@ import {
 import { createRef, MutableRefObject } from 'react'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { AuthenticationEvents, OnboardingEvents } from 'src/analytics/Events'
+import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -22,6 +23,8 @@ import { store } from 'src/redux/store'
 import { isUserCancelledError } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
+const NAVIGATOR_INIT_RETRIES = 10
+
 const TAG = 'NavigationService'
 
 type SafeNavigate = typeof navigate
@@ -29,9 +32,22 @@ type SafeNavigate = typeof navigate
 export const navigationRef = createNavigationContainerRef()
 export const navigatorIsReadyRef: MutableRefObject<boolean | null> = createRef()
 
-export const replace: SafeNavigate = (...args) => {
+const ensureNavigator = async () => {
+  let retries = 0
+  while (!navigationRef.isReady() && retries < NAVIGATOR_INIT_RETRIES) {
+    sleep(200)
+    retries++
+  }
+  if (!navigationRef.current || !navigatorIsReadyRef.current) {
+    ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
+    throw new Error('navigator is not initialized')
+  }
+}
+
+export const replace: SafeNavigate = async (...args) => {
   const [routeName, params] = args
   try {
+    await ensureNavigator()
     Logger.debug(`${TAG}@replace`, `Dispatch ${routeName}`)
     navigationRef.current?.dispatch(StackActions.replace(routeName, params))
   } catch (reason) {
@@ -40,9 +56,10 @@ export const replace: SafeNavigate = (...args) => {
 }
 
 // for when a screen should be pushed onto stack even if it already exists in it.
-export const pushToStack: SafeNavigate = (...args) => {
+export const pushToStack: SafeNavigate = async (...args) => {
   const [routeName, params] = args
   try {
+    await ensureNavigator()
     Logger.debug(`${TAG}@pushToStack`, `Dispatch ${routeName}`)
     navigationRef.current?.dispatch(StackActions.push(routeName, params))
   } catch (reason) {
@@ -50,13 +67,14 @@ export const pushToStack: SafeNavigate = (...args) => {
   }
 }
 
-export function navigate<RouteName extends keyof StackParamList>(
+export async function navigate<RouteName extends keyof StackParamList>(
   ...args: undefined extends StackParamList[RouteName]
     ? [RouteName] | [RouteName, StackParamList[RouteName]]
     : [RouteName, StackParamList[RouteName]]
 ) {
   const [routeName, params] = args
   try {
+    await ensureNavigator()
     Logger.debug(`${TAG}@navigate`, `Dispatch ${routeName}`)
     navigationRef.current?.dispatch(CommonActions.navigate(routeName, params))
   } catch (reason) {
@@ -64,9 +82,10 @@ export function navigate<RouteName extends keyof StackParamList>(
   }
 }
 
-export const navigateClearingStack: SafeNavigate = (...args) => {
+export const navigateClearingStack: SafeNavigate = async (...args) => {
   const [routeName, params] = args
   try {
+    await ensureNavigator()
     Logger.debug(`${TAG}@navigateClearingStack`, `Dispatch ${routeName}`)
     navigationRef.current?.dispatch(
       CommonActions.reset({
@@ -131,8 +150,9 @@ export function navigateToExchangeHome() {
   }
 }
 
-export function navigateBack() {
+export async function navigateBack() {
   try {
+    await ensureNavigator()
     Logger.debug(`${TAG}@navigateBack`, `Dispatch navigate back`)
     // @ts-ignore
     navigationRef.current?.dispatch(CommonActions.goBack())
@@ -153,6 +173,7 @@ const getActiveRouteState = function (route: NavigationState): NavigationState {
 }
 
 export async function isScreenOnForeground(screen: Screens) {
+  await ensureNavigator()
   const state = navigationRef.current?.getRootState()
   if (!state) {
     return false
