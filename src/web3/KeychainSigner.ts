@@ -166,19 +166,6 @@ export class KeychainSigner implements Signer {
   }
 
   /**
-   * Get the local signer. Throws if not unlocked.
-   */
-  get localSigner(): LocalSigner {
-    if (!this.isUnlocked()) {
-      this.unlockedLocalSigner = null
-    }
-    if (!this.unlockedLocalSigner) {
-      throw new Error('authentication needed: password or unlock')
-    }
-    return this.unlockedLocalSigner
-  }
-
-  /**
    * Updates the passphrase of an account
    * @param oldPassphrase - the passphrase currently associated with the account
    * @param newPassphrase - the new passphrase to use with the account
@@ -199,5 +186,18 @@ export class KeychainSigner implements Signer {
 
   async computeSharedSecret(publicKey: string): Promise<Buffer> {
     return this.localSigner.computeSharedSecret(publicKey)
+  }
+
+  /**
+   * Get the local signer. Throws if not unlocked.
+   */
+  protected get localSigner(): LocalSigner {
+    if (!this.isUnlocked()) {
+      this.unlockedLocalSigner = null
+    }
+    if (!this.unlockedLocalSigner) {
+      throw new Error('authentication needed: password or unlock')
+    }
+    return this.unlockedLocalSigner
   }
 }
