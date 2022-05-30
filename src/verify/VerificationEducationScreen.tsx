@@ -374,7 +374,11 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         />
         {firstButton}
         <View style={styles.spacer} />
-        <TextButton style={styles.doINeedToConfirmButton} onPress={onPressLearnMore}>
+        <TextButton
+          testID="doINeedToConfirm"
+          style={styles.doINeedToConfirmButton}
+          onPress={onPressLearnMore}
+        >
           {t('verificationEducation.doINeedToConfirm')}
         </TextButton>
       </ScrollView>

@@ -1522,6 +1522,9 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
+                "celoWithdrawalEnabledInExchange": {
+                    "type": "boolean"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -1675,6 +1678,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
+                "celoWithdrawalEnabledInExchange",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
                 "finclusiveUnsupportedStates",
