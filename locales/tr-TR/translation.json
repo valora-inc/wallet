@@ -40,8 +40,8 @@
     "resetNow": "Resetle"
   },
   "promptConfirmRevokeModal": {
-    "header": "Are you sure you want to disconnect your phone number?",
-    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
+    "header": "Telefon numaranızın bağlantısını kesmek istediğinizden emin misiniz?",
+    "body": "Bağlantı kesildiğinde, telefon numaranızı bu cüzdana tekrar bağlayamazsınız.",
     "revoke": "Bağlantıyı kes"
   },
   "testFaqLink": "{{appName}} SSS",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Mevcut Günlük Gönderim Limiti",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Sınırsız",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
+  "verifyNumberToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Devam etmeden önce lütfen telefon numaranızı bağlayın.",
   "verifyIdentityToRaiseLimit": "Kimliğinizi doğrulayarak gönderme limitinizi artırabilirsiniz. Lütfen süreç içerisinde talep edilen ayrıntıları paylaşmaya hazır olun.",
   "dailyLimitApplicationStatus": "Uygulama Durumu",
   "applicationInReview": "İnceleniyor",
@@ -396,9 +396,9 @@
   "invalidPhone": "Geçersiz telefon numarası",
   "cantSelectInvalidPhone": "Kişi seçilemedi: geçersiz telefon numarası",
   "needMoreFundsToSend": "Bu işlemi yapabilmek için {{currencySymbol}}{{amountNeeded}} gerekiyor. Lütfen bakiye ekleyin veya daha az göndermeyi deneyin.",
-  "maxEscrowTransferExceeded": "The maximum amount transferrable to users without a connected number is {{symbol}}{{maxAmount}}.",
+  "maxEscrowTransferExceeded": "Bağlı numarası olmayan kullanıcılara aktarılabilecek maksimum tutar: {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Geçersiz miktar",
-  "invalidCode": "Invalid Code",
+  "invalidCode": "Geçersiz Kod",
   "confirm": "Onayla",
   "readCodesAuto": "Kodu Otomatik Olarak Oku",
   "enterManually": "Kendin Gir",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Pardon!",
   "somethingWrong": "Bir şeyler ters gitti.",
-  "verifyFailed": "Failed to connect",
+  "verifyFailed": "Bağlanamadı",
   "canNotRequestFromUnverified": "Onaylanmamış kullanıcılardan istekte bulunulamaz",
   "restartApp": "Uygulamayı Yeniden Başlat",
   "quitApp": "Çıkış",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Telefon numarası kodu alınamadı",
   "saltQuotaExceededError": "Telefon numarası adresi araması kotanız doldu",
   "maxActionableAttestationsExceededError": "Mesajlar yeniden gönderilemedi",
-  "odisInsufficientBalance": "Please connect your number",
+  "odisInsufficientBalance": "Lütfen numaranızı bağlayın",
   "matchmakingQuotaExceededError": "Eşleştirme sadece bir kez yapılabilir",
   "paymentLimitReached": "Günlük limitiniz {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} kalan cUSD ({{currencySymbol}}{{dailyRemaining}})",
   "requestLimitError": "Günlük limitiniz olan {{limit}} cUSD'den daha fazla talep edilemez.",
@@ -630,35 +630,35 @@
     "enable": "Kişi Erişimine İzin Ver",
     "loading": "{{appName}} üzerinde arkadaşlarınızı bulmak..."
   },
-  "getVerified": "Connect Phone Number",
+  "getVerified": "Telefon Numarasını Bağla",
   "notReadyForCode": "Kod girişi için henüz hazır değil",
-  "emptyVerificationCode": "No Code in Clipboard",
-  "invalidVerificationCode": "Invalid Code",
-  "repeatVerificationCode": "Repeated Code",
+  "emptyVerificationCode": "Panoda Kod Yok",
+  "invalidVerificationCode": "Geçersiz Kod",
+  "repeatVerificationCode": "Tekrarlanan Kod",
   "revealAttestationFailure": "SMS mesajı istenirken hata oluştu",
-  "verificationFailure": "Connection Failed",
+  "verificationFailure": "Bağlantı Başarısız",
   "cantVerifyRevokedAccount": "Bu hesap daha önce iptal edilmiş. Lütfen yeni bir hesap oluşturun ve tekrar deneyin.",
-  "verificationTimeout": "Connection Timed Out",
+  "verificationTimeout": "Bağlantı Zaman Aşımına Uğradı",
   "errorRequestCode": "Kodlar istenirken bir hata oluştu.",
   "errorRedeemingCode": "Kod kullanılırken bir hata oluştu.",
-  "pleaseRetry": "Please try connecting again.",
-  "retryVerification": "Retry connection",
+  "pleaseRetry": "Lütfen tekrar bağlanmayı deneyin.",
+  "retryVerification": "Bağlantıyı yeniden dene",
   "education": {
-    "header": "Connect Your Phone",
-    "body1": "Next, please connect your phone number.",
+    "header": "Telefonunuzu Bağlayın",
+    "body1": "Ardından lütfen telefon numaranızı bağlayın.",
     "body2": "Telefonunuzu bağlamak, arkadaşlarınızla göndermeyi ve almayı kolaylaştırır. Bu adımı atlayabilir, daha sonra geri dönerek tamamlayabilirsiniz.",
-    "learnMore": "Learn more about phone connection",
-    "start": "Connect Phone Number",
+    "learnMore": "Telefon bağlantısı hakkında daha fazla bilgi edinin",
+    "start": "Telefon Numarasını Bağla",
     "skip": "Şimdilik Atla"
   },
   "verificationLoading": {
-    "confirming": "Connecting phone number…",
+    "confirming": "Telefon numarası bağlanıyor…",
     "pleaseKeepAppOpen": "Lütfen bu ekrandan ayrılmayın yoksa yeniden başlamanız gerekir",
     "learnMore": "Daha fazla bilgi edinin",
     "card1": "Telefon numaranızın gerçekten size ait olduğundan emin olmak için size üç mesaj gönderiyoruz.",
-    "card2": "Once your number is connected, you can send and receive funds easily to your phone number.",
-    "card3": "Connecting your number also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three SMS messages to securely connect your phone number."
+    "card2": "Numaranız bağlandıktan sonra, telefon numaranıza kolayca para gönderip alabilirsiniz.",
+    "card3": "Numaranızı bağladığınızda, hangi arkadaşlarınızın {{appName}} uygulamasında olduğunu da görebilirsiniz.",
+    "card4": "Telefon numaranızı güvenli bir şekilde bağlamak için üç SMS mesajı kullanmamız gerekiyor."
   },
   "skipModal": {
     "header": "Emin misiniz?",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Onaylama Hatası",
-    "body1": "An issue has occurred while connecting your phone number.",
-    "body2": "You can skip connecting for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the connection process.",
+    "body1": "Telefon numaranız bağlanırken bir sorun oluştu.",
+    "body2": "Şimdilik bağlanmayı atlayabilir ve daha sonra tekrar deneyebilirsiniz.",
+    "body1InsufficientBalance": "Mevcut bakiyeniz bağlantı işlemini tamamlamaya yetmiyor.",
     "body2InsufficientBalance": "Cüzdanınıza bakiye eklediğinizde lütfen tekrar deneyin.",
     "body1SaltQuotaExceeded": "Telefon numarası adres kotanız doldu",
     "body2SaltQuotaExceeded": "Daha fazla arama satın aldığınızda lütfen tekrar deneyin",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Kodları girin"
   },
   "retryWithFornoModal": {
-    "header": "Retry Connection with Data Saver?",
-    "body1": "An issue has occurred while connecting your phone number. We recommend trying again with Data Saver mode enabled.",
+    "header": "Veri Tasarrufu ile Bağlantı Yeniden Denesin mi?",
+    "body1": "Telefon numaranız bağlanırken bir sorun oluştu. Veri Tasarrufu modu etkin olarak tekrar denemenizi öneririz.",
     "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak Celo Ağı ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
     "retryButton": "Veri Tasarrufu modu ile tekrar dene"
   },
-  "congratsVerified": "Congratulations, your phone number is now connected!",
+  "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
   "notification": {
     "body": "Telefon numaranıza doğrudan ödeme alın",
     "cta": "Şimdi Bağlan"
@@ -747,25 +747,25 @@
   "verificationEducation": {
     "title": "Telefon Numarası",
     "header": "Telefon numaranızı bağlayın",
-    "body": "To make sure your number is really yours, you’ll receive three SMS messages that will cost about 0.05 cUSD each.\n\nConnection takes about three minutes.",
-    "feelessBody": "You will receive three messages to help securely connect your phone number. Connection takes about three minutes.",
+    "body": "Numaranızın gerçekten size ait olduğundan emin olmak için, her birinin ücreti yaklaşık 0,05 cUSD olan üç SMS mesajı alacaksınız.\n\nBağlantı yaklaşık üç dakika sürer.",
+    "feelessBody": "Telefon numaranızı güvenli bir şekilde bağlamanıza yardımcı olacak üç mesaj alacaksınız. Bağlantı yaklaşık üç dakika sürer.",
     "start": "Başla",
     "resume": "Devam Et",
-    "doINeedToConfirm": "Do I need to connect?",
+    "doINeedToConfirm": "Bağlanmam gerekiyor mu?",
     "skipForNow": "Şimdilik atla",
     "bodyInsufficientBalance": "Mevcut bakiyeniz, onay sürecini tamamlayacak kadar yüksek değil.\n\nLütfen cüzdanınıza bakiye ekleyerek tekrar deneyin.",
-    "bodyAlreadyVerified": "Your number is already connected!"
+    "bodyAlreadyVerified": "Numaranız zaten bağlı!"
   },
   "verificationSkipDialog": {
     "title": "Emin misiniz?",
-    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using Celo addresses or QR codes.",
+    "body": "Bağlanmak, herhangi bir telefon numarasına para gönderip almanıza olanak tanır.\n\nBağlı olmayan hesaplar yalnızca Celo adreslerini veya QR kodlarını kullanarak ödeme gönderebilir.",
     "cancel": "Geri Dön",
     "confirm": "Şimdilik Atla"
   },
   "verificationPrematureRevealMessage": "Lütfen yeniden göndermeden önce bir dakika bekleyin",
   "verificationLearnMoreDialog": {
     "title": "Telefon Numaraları ve {{appName}}",
-    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Bağlanmak, telefon numaranızla para gönderip almanıza olanak tanır.\n\n<0>Bunu daha sonra yapabilir miyim?</0>\n\nEvet, ancak bağlı olmayan cüzdanlar yalnızca QR kodları veya Hesap Adresleri ile ödeme gönderebilir.\n\n<1>Güvenli ve Gizli</1>\n\nValora, telefon numaranızı gizli tutmak için son teknoloji şifreleme tekniği kullanır.",
     "dismiss": "Yoksay"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "Her şey tamam, hazırsınız!"
   },
-  "verificationUnavailable": "Phone number connection is currently unavailable. Please enter your phone number and we will notify you when it is possible to connect again.\n\nIn the meantime, you can continue to use {{appName}} with QR codes or Account Addresses. Don't worry, payments sent to your phone number will be waiting for you until you connect it to your account.",
+  "verificationUnavailable": "Telefon numarası bağlantısı şu anda kullanılamıyor. Lütfen telefon numaranızı girin, tekrar bağlanmak mümkün olduğunda sizi bilgilendireceğiz.\n\nBu arada {{appName}} uygulamasını QR kodları veya Hesap Adresleri ile kullanmaya devam edebilirsiniz. Endişelenmeyin, telefon numaranıza gönderilen ödemeler siz numarayı hesabınıza bağlayana kadar sizi bekliyor olacak.",
   "requests": "İstekler",
   "empty": "Ödeme İsteğiniz bulunmuyor",
   "celoDollarBalance": "Celo Dollar Bakiyesi",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} talep edildi",
   "outgoingPaymentRequestNotificationTitle": "{{name}} bekleniyor",
   "requestUnavailableHeader": "{{displayName}} kullanıcısına ait hesap henüz bağlanmadı.",
-  "requestUnavailableNoDisplayNameHeader": "Your contact’s phone number is not connected to an Account Address.",
+  "requestUnavailableNoDisplayNameHeader": "Kişinizin telefon numarası bir Hesap Adresine bağlı değil.",
   "requestUnavailableBody": "{{e164PhoneNumber}} numarasının hesabı yok veya henüz bağlanmadı. İstekler yalnızca bağlı numaralara gönderilebilir.",
   "requestUnavailableNoNumberBody": "Kişinizin bir hesabı yok veya hesabı henüz bağlamadı. İstekler yalnızca bağlı numaralara gönderilebilir.",
   "requesting": "İsteniyor",
@@ -889,7 +889,7 @@
   "reminderSent": "Hatırlatıcı Gönderildi",
   "reclaimPayment": "Ödemeyi Al",
   "totalRefunded": "Toplam İade",
-  "loadingVerificationStatus": "Checking if recipient is connected…",
+  "loadingVerificationStatus": "Alıcının bağlı olup olmadığı kontrol ediliyor…",
   "askForContactsPermissionAction": "Kişilerimi al",
   "newAccountBalance": "Yeni hesap bakiyesi: ",
   "estimatingFee": "Tahmini ücret hesaplanıyor ",
@@ -899,8 +899,8 @@
   "selectToken": "Varlık seçin",
   "verificationCta": {
     "header": "Bir arkadaşınıza mı gönderiyorsunuz?",
-    "body": "Connect your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Connect Phone Number"
+    "body": "Telefonunuzu bağlayın ve arkadaşlarınıza hızlı bir şekilde göndermek için kişilerinizi senkronize edin.",
+    "cta": "Telefon Numarasını Bağla"
   },
   "importContactsCta": {
     "header": "Kişileri Aktar",
@@ -1008,7 +1008,7 @@
   "sent": "Gönderildi",
   "received": "Alındı",
   "viewAll": "Tümünü Göster",
-  "thanksForVerifying": "Thanks for connecting",
+  "thanksForVerifying": "Bağlandığınız için teşekkürler",
   "goldIsWhereYouSave": "Celo, sahip olduğunuz Celo Dollar'larını biriktirebileceğiniz yerdir",
   "dinner": "Akşam Yemeği",
   "bikeParts": "Bisiklet Parçaları",
@@ -1264,26 +1264,26 @@
   },
   "fiatDetailsScreen": {
     "header": "Banka Bilgilerini Girin",
-    "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+    "selectedPaymentOption": "Seçili ödeme yöntemi",
+    "addFiatAccountSuccess": "Hesabınız Valora'ya bağlandı.",
+    "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
+    "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun."
   },
   "fiatAccountSchema": {
     "accountName": {
-      "label": "Account Name",
-      "placeholderText": "A name for the account",
-      "errorMessage": "An account name is required"
+      "label": "Hesap Adı",
+      "placeholderText": "Hesap için bir ad",
+      "errorMessage": "Hesap adı gereklidir"
     },
     "institutionName": {
-      "label": "Bank Name",
-      "placeholderText": "Enter Bank Name",
-      "errorMessage": "A bank name is required"
+      "label": "Banka Adı",
+      "placeholderText": "Banka Adını Girin",
+      "errorMessage": "Banka gereklidir"
     },
     "accountNumber": {
-      "label": "Account Number",
-      "placeholderText": "Enter your 10 digit account number",
-      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+      "label": "Hesap Numarası",
+      "placeholderText": "10 haneli hesap numaranızı girin",
+      "errorMessage": "Hesap numarası 10 haneli olmalı ve sadece rakamlardan oluşmalıdır"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
