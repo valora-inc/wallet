@@ -71,6 +71,11 @@ const CURRENCY_ADDRESS = ACCOUNT_ADDRESS2
 
 const UNKNOWN_ADDRESS = '0x1234567890123456789012345678901234567890'
 
+const NULL_MNEMONIC_ACCOUNT = {
+  address: null,
+  createdAt: new Date(0),
+}
+
 // This test suite was based on
 // https://github.com/celo-org/celo-monorepo/blob/325b4e3ce10912478330cae6cf793aabfdb2816a/packages/sdk/wallets/wallet-local/src/local-wallet.test.ts
 describe('KeychainWallet', () => {
@@ -78,7 +83,7 @@ describe('KeychainWallet', () => {
 
   beforeEach(async () => {
     mockedKeychain.clearAllItems()
-    wallet = new KeychainWallet()
+    wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
     await wallet.init()
   })
 
@@ -115,6 +120,57 @@ describe('KeychainWallet', () => {
     ])
   })
 
+  // This tests migration from a Geth KeyStore account
+  describe('with an existing Geth account', () => {
+    const ENGLISH_MNEMONIC =
+      'there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise invest'
+    const GETH_ACCOUNT_ADDRESS = '0x0be03211499a654f0c00d8148b074c5d574654e4'
+    const EXISTING_GETH_ACCOUNT = {
+      address: GETH_ACCOUNT_ADDRESS,
+      createdAt: new Date(0),
+    }
+    beforeEach(async () => {
+      // Setup mocked keychain content
+      // created using:
+      // await wallet.addAccount(PRIVATE_KEY2, 'password2')
+      // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
+      mockedKeychain.setItems({
+        'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
+          password:
+            'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+        },
+        // This will be ignored
+        'unrelated item': {
+          password: 'unrelated password',
+        },
+        mnemonic: {
+          password:
+            'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy',
+        },
+      })
+
+      wallet = new KeychainWallet(EXISTING_GETH_ACCOUNT)
+      await wallet.init()
+    })
+
+    it('can retrieve all addresses sorted by creation date', () => {
+      expect(wallet.getAccounts()).toEqual([GETH_ACCOUNT_ADDRESS, ACCOUNT_ADDRESS2])
+    })
+
+    it('imports the geth account private key from the mnemonic into the keychain on the first unlock', async () => {
+      await expect(
+        wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
+      ).resolves.toBe(true)
+
+      expect(mockedKeychain.getAllKeys()).toEqual([
+        'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0',
+        'unrelated item',
+        'mnemonic',
+        'account--1970-01-01T00:00:00.000Z--0be03211499a654f0c00d8148b074c5d574654e4',
+      ])
+    })
+  })
+
   describe('with persisted accounts', () => {
     const knownAddress = ACCOUNT_ADDRESS1
     const otherAddress = ACCOUNT_ADDRESS2
@@ -139,7 +195,7 @@ describe('KeychainWallet', () => {
         },
       })
 
-      wallet = new KeychainWallet()
+      wallet = new KeychainWallet(NULL_MNEMONIC_ACCOUNT)
       await wallet.init()
     })
 

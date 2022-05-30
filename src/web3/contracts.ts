@@ -7,6 +7,7 @@ import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
 import { call, delay, select } from 'redux-saga/effects'
+import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -15,9 +16,10 @@ import { isProviderConnectionError } from 'src/geth/geth'
 import { waitForGethInitialized, waitForGethSync, waitForGethSyncAsync } from 'src/geth/saga'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
+import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider, getIpcProvider } from 'src/web3/providers'
-import { fornoSelector } from 'src/web3/selectors'
+import { fornoSelector, walletAddressSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
@@ -30,9 +32,9 @@ let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
 
-async function initWallet() {
+async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet()
+  const newWallet = new KeychainWallet(importMnemonicAccount)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
@@ -72,9 +74,21 @@ export function* initContractKit() {
       const fornoMode = yield select(fornoSelector)
 
       Logger.info(`${TAG}@initContractKit`, `Initializing contractkit, forno mode: ${fornoMode}`)
-      Logger.info(`${TAG}@initContractKit`, 'Initializing wallet')
 
-      wallet = yield call(initWallet)
+      const walletAddress: string | null = yield select(walletAddressSelector)
+      const accountCreationTime: number = yield select(accountCreationTimeSelector)
+
+      const importMnemonicAccount = {
+        address: walletAddress,
+        createdAt: new Date(accountCreationTime),
+      }
+      Logger.info(
+        `${TAG}@initContractKit`,
+        'Initializing wallet',
+        JSON.stringify(importMnemonicAccount)
+      )
+
+      wallet = yield call(initWallet, importMnemonicAccount)
       const web3 = yield call(initWeb3)
 
       Logger.info(

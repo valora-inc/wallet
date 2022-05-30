@@ -1,9 +1,17 @@
 import { RLPEncodedTx, Signer } from '@celo/connect'
-import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
+import { generateKeys } from '@celo/utils/lib/account'
+import {
+  isValidAddress,
+  normalizeAddress,
+  normalizeAddressWith0x,
+  privateKeyToAddress,
+} from '@celo/utils/lib/address'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
 import CryptoJS from 'crypto-js'
+import * as bip39 from 'react-native-bip39'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { getStoredMnemonic } from 'src/backup/utils'
 import { listStoredItems, retrieveStoredItem, storeItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
@@ -13,6 +21,12 @@ export const ACCOUNT_STORAGE_KEY_PREFIX = 'account--'
 
 interface KeychainAccount {
   address: string
+  createdAt: Date
+  importFromMnemonic?: boolean
+}
+
+export interface ImportMnemonicAccount {
+  address: string | null
   createdAt: Date
 }
 
@@ -45,22 +59,36 @@ async function getStoredPrivateKey(
   password: string
 ): Promise<string | null> {
   try {
-    Logger.debug(TAG, `Checking keystore for private key for account ${account}`)
+    Logger.debug(
+      `${TAG}@getStoredPrivateKey`,
+      `Checking keychain for private key for account ${JSON.stringify(account)}`
+    )
     const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
     if (!encryptedPrivateKey) {
+      if (account.importFromMnemonic) {
+        Logger.info(
+          `${TAG}@getStoredPrivateKey`,
+          `Private key for existing account ${account.address} not found in keychain, importing from mnemonic now`
+        )
+        return await importAndStorePrivateKeyFromMnemonic(account, password)
+      }
+
       throw new Error('No private key found in storage')
     }
 
     return await decryptPrivateKey(encryptedPrivateKey, password)
   } catch (error) {
-    Logger.error(TAG, 'Failed to retrieve private key', error)
+    Logger.error(`${TAG}@getStoredPrivateKey`, 'Failed to retrieve private key', error)
     return null
   }
 }
 
-// Returns accounts that have been stored in the keychain, sorted by creation date
-// The ordering is important: Geth KeyStore does this and some parts of the code base rely on it.
-export async function listStoredAccounts() {
+/**
+ * Returns accounts that have been stored in the keychain, sorted by creation date
+ * The ordering is important: Geth KeyStore did this and some parts of the code base rely on it.
+ * @param importMnemonicAccount ImportMnemonicAccount the existing account to import from the mnemonic, if not already present in the keychain
+ */
+export async function listStoredAccounts(importMnemonicAccount: ImportMnemonicAccount) {
   let accounts: KeychainAccount[]
   try {
     const storedItems = await listStoredItems()
@@ -77,11 +105,66 @@ export async function listStoredAccounts() {
         }
       })
       .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+
+    // Check if we need to migrate the existing Geth KeyStore based account into the keychain, by importing it from the mnemonic
+    if (importMnemonicAccount.address) {
+      const normalizedMnemonicAccountAddress = normalizeAddressWith0x(importMnemonicAccount.address)
+      const account = accounts.find((a) => a.address === normalizedMnemonicAccountAddress)
+      if (!account) {
+        Logger.info(
+          `${TAG}@listStoredAccounts`,
+          `Existing account ${importMnemonicAccount.address} not found in the keychain, will import from the stored mnemonic on next unlock`
+        )
+        const maxCreationTime = accounts[0]?.createdAt.getTime() ?? Date.now()
+        // Ensure the imported account is always first in the list
+        const createdAt =
+          importMnemonicAccount.createdAt.getTime() < maxCreationTime
+            ? importMnemonicAccount.createdAt
+            : new Date(maxCreationTime - 1)
+        accounts = [
+          { address: normalizedMnemonicAccountAddress, createdAt, importFromMnemonic: true },
+          ...accounts,
+        ]
+      }
+    }
   } catch (e) {
     Logger.error(`${TAG}@listStoredAccounts`, 'Error listing accounts', e)
     throw new Error(ErrorMessages.GETH_FETCH_ACCOUNTS)
   }
   return accounts
+}
+
+async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, password: string) {
+  try {
+    const mnemonic = await getStoredMnemonic(account.address, password)
+    if (!mnemonic) {
+      throw new Error('No mnemonic found in storage')
+    }
+
+    const { privateKey } = await generateKeys(mnemonic, undefined, undefined, undefined, bip39)
+    if (!privateKey) {
+      throw new Error('Failed to generate private key from mnemonic')
+    }
+
+    const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(privateKey))
+    if (accountFromPrivateKey !== account.address) {
+      throw new Error(
+        `Generated private key address (${accountFromPrivateKey}) does not match the existing account address (${account.address})`
+      )
+    }
+
+    await storePrivateKey(privateKey, account, password)
+
+    return privateKey
+  } catch (error) {
+    // This should never happen
+    Logger.error(
+      `${TAG}@importAndStorePrivateKeyFromMnemonic`,
+      'Failed to import private key from mnemonic',
+      error
+    )
+    return null
+  }
 }
 
 /**
