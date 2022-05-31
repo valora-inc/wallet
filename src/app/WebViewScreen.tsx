@@ -63,7 +63,13 @@ function WebViewScreen({ route, navigation }: Props) {
       }
 
       navigation.setOptions({
-        headerTitle: () => <HeaderTitleWithSubtitle title={displayedTitle} subTitle={hostname} />,
+        headerTitle: () => (
+          <HeaderTitleWithSubtitle
+            testID="WebViewTitle"
+            title={displayedTitle}
+            subTitle={hostname}
+          />
+        ),
       })
     },
     [navigation]
