@@ -12,7 +12,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-function getProps(flow: CICOFlow, fee?: string, image?: string) {
+function getProps(flow: CICOFlow, fee?: string) {
   return getMockStackScreenProps(Screens.FiatConnectReview, {
     flow,
     cicoQuote: {
@@ -45,7 +45,6 @@ function getProps(flow: CICOFlow, fee?: string, image?: string) {
       fiatAccountType: FiatAccountType.BankAccount,
     },
     fiatAccountSchema: FiatAccountSchema.AccountNumber,
-    fiatAccountLogo: image,
   })
 }
 
@@ -71,10 +70,9 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
-      expect(queryByTestId('paymentMethod-image')).toBeTruthy()
     })
 
-    it('shows crypto amount, transaction details and payment method without fee and image', () => {
+    it('shows crypto amount, transaction details and payment method without fee', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn)} />
@@ -92,7 +90,6 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
-      expect(queryByTestId('paymentMethod-image')).toBeFalsy()
     })
   })
 
@@ -109,16 +106,15 @@ describe('ReviewScreen', () => {
       expect(queryByText('fiatConnectReviewScreen.cashOut.transactionDetailsAmount')).toBeTruthy()
       expect(queryByTestId('txDetails-fiat/value')?.children).toEqual(['', '$', '20.00'])
       expect(queryByTestId('txDetails-crypto')?.children).toEqual(['', '25.02', ' cUSD'])
-      expect(queryByTestId('txDetails-fee/value')).toBeTruthy()
+      expect(queryByTestId('txDetails-fee')).toBeTruthy()
       expect(queryByText('fiatConnectReviewScreen.paymentMethod')).toBeTruthy()
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
-      expect(queryByTestId('paymentMethod-image')).toBeTruthy()
     })
 
-    it('shows fiat amount, transaction details and payment method without fee and image', () => {
+    it('shows fiat amount, transaction details and payment method without fee', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut)} />
@@ -136,7 +132,6 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider1"}',
       ])
-      expect(queryByTestId('paymentMethod-image')).toBeFalsy()
     })
   })
 })

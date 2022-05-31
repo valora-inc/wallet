@@ -2,6 +2,7 @@ import {
   AccountNumber,
   CryptoType,
   FiatAccountSchema,
+  FiatAccountType,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
@@ -9,7 +10,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -19,7 +20,7 @@ import { CICOFlow, ProviderInfo } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { FiatAccount, StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -33,14 +34,7 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
 
-  const {
-    flow,
-    cicoQuote,
-    provider,
-    fiatAccount,
-    fiatAccountSchema,
-    fiatAccountLogo,
-  } = route.params
+  const { flow, cicoQuote, provider, fiatAccount, fiatAccountSchema } = route.params
 
   const tokenInfo = useTokenInfoBySymbol(cicoQuote.quote.cryptoType)
 
@@ -53,12 +47,16 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     <SafeAreaView style={styles.content}>
       <View>
         <Amount flow={flow} cicoQuote={cicoQuote} tokenAddress={tokenInfo.address} />
-        <TransactionDetails flow={flow} cicoQuote={cicoQuote} tokenAddress={tokenInfo.address} />
+        <TransactionDetails
+          flow={flow}
+          cicoQuote={cicoQuote}
+          tokenAddress={tokenInfo.address}
+          fiatAccountType={fiatAccount.fiatAccountType}
+        />
         <PaymentMethod
           provider={provider}
           fiatAccount={fiatAccount}
           fiatAccountSchema={fiatAccountSchema}
-          fiatAccountLogo={fiatAccountLogo}
         />
       </View>
       <Button
@@ -122,10 +120,12 @@ function TransactionDetails({
   flow,
   cicoQuote,
   tokenAddress,
+  fiatAccountType,
 }: {
   flow: CICOFlow
   cicoQuote: QuoteResponse
   tokenAddress: string
+  fiatAccountType: FiatAccountType
 }) {
   const { t } = useTranslation()
   let tokenDisplay: string
@@ -139,6 +139,10 @@ function TransactionDetails({
     default:
       tokenDisplay = t('total')
   }
+
+  // TODO(satish): update amount / fee based on final designs
+  const fee = cicoQuote.fiatAccount[fiatAccountType]?.fee
+
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>
@@ -155,8 +159,11 @@ function TransactionDetails({
         amount={
           <CurrencyDisplay
             amount={{
-              value: cicoQuote.quote.cryptoAmount,
-              currencyCode: cicoQuote.quote.cryptoType,
+              // NOTE: since local amount is set, those would be displayed
+              // directly instead of the outer value / currency below which are
+              // ignored
+              value: 0,
+              currencyCode: cicoQuote.quote.fiatType,
               localAmount: {
                 value: cicoQuote.quote.fiatAmount,
                 currencyCode: cicoQuote.quote.fiatType,
@@ -188,23 +195,32 @@ function TransactionDetails({
         style={styles.sectionSubTextContainer}
         textStyle={styles.sectionSubText}
       />
-      {!!cicoQuote.fiatAccount.BankAccount?.fee && (
+      {!!fee && (
         // TODO(any): consider using FeeDrawer if we want to show fee type / frequency
         <LineItemRow
           title={t('feeEstimate')}
           amount={
-            <CurrencyDisplay
-              amount={{
-                value: 0,
-                currencyCode: cicoQuote.quote.fiatType,
-                localAmount: {
-                  value: cicoQuote.fiatAccount.BankAccount?.fee,
+            flow === CICOFlow.CashIn ? (
+              <CurrencyDisplay
+                amount={{
+                  value: 0,
                   currencyCode: cicoQuote.quote.fiatType,
-                  exchangeRate: 1,
-                },
-              }}
-              testID="txDetails-fee"
-            />
+                  localAmount: {
+                    value: fee,
+                    currencyCode: cicoQuote.quote.fiatType,
+                    exchangeRate: 1,
+                  },
+                }}
+                testID="txDetails-fee"
+              />
+            ) : (
+              <TokenDisplay
+                amount={fee}
+                tokenAddress={tokenAddress}
+                showLocalAmount={false}
+                testID="txDetails-fee"
+              />
+            )
           }
           style={styles.sectionSubTextContainer}
           textStyle={styles.sectionSubText}
@@ -218,12 +234,10 @@ function PaymentMethod({
   provider,
   fiatAccount,
   fiatAccountSchema,
-  fiatAccountLogo,
 }: {
   provider: ProviderInfo
-  fiatAccount: any
+  fiatAccount: FiatAccount
   fiatAccountSchema: FiatAccountSchema
-  fiatAccountLogo?: string
 }) {
   const { t } = useTranslation()
 
@@ -235,34 +249,22 @@ function PaymentMethod({
       const account: AccountNumber = fiatAccount
       displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
       break
+    default:
+      throw new Error('Unsupported schema type')
   }
 
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
-      <View style={styles.paymentMethodContainer}>
-        <View style={styles.paymentMethodDetails}>
-          <View style={styles.sectionMainTextContainer}>
-            <Text style={styles.sectionMainText} testID="paymentMethod-text">
-              {displayText}
-            </Text>
-          </View>
-          <View style={styles.sectionSubTextContainer}>
-            <Text style={styles.sectionSubText} testID="paymentMethod-via">
-              {t('fiatConnectReviewScreen.paymentMethodVia', { providerName: provider.name })}
-            </Text>
-          </View>
-        </View>
-        {!!fiatAccountLogo && (
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: fiatAccountLogo }}
-              style={styles.paymentImage}
-              resizeMode="center"
-              testID="paymentMethod-image"
-            />
-          </View>
-        )}
+      <View style={styles.sectionMainTextContainer}>
+        <Text style={styles.sectionMainText} testID="paymentMethod-text">
+          {displayText}
+        </Text>
+      </View>
+      <View style={styles.sectionSubTextContainer}>
+        <Text style={styles.sectionSubText} testID="paymentMethod-via">
+          {t('fiatConnectReviewScreen.paymentMethodVia', { providerName: provider.name })}
+        </Text>
       </View>
     </View>
   )
@@ -305,23 +307,10 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
   },
-  paymentMethodContainer: {
-    flexDirection: 'row',
-  },
-  paymentMethodDetails: {
-    flex: 1,
-  },
   submitBtn: {
     flexDirection: 'column',
     paddingHorizontal: variables.contentPadding,
     marginBottom: 24,
-  },
-  imageContainer: {
-    width: 80,
-    height: 40,
-  },
-  paymentImage: {
-    flex: 1,
   },
 })
 

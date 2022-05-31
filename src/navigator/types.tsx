@@ -51,6 +51,9 @@ interface SendConfirmationLegacyParams {
   currencyInfo?: CurrencyInfo
 }
 
+// List of supported fiat accounts
+export type FiatAccount = AccountNumber
+
 export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
@@ -140,8 +143,7 @@ export type StackParamList = {
     cicoQuote: QuoteResponse
     provider: ProviderInfo
     fiatAccountSchema: FiatAccountSchema
-    fiatAccount: AccountNumber // TODO(any): use a more generic type here when wiring this with other screens
-    fiatAccountLogo?: string
+    fiatAccount: FiatAccount
   }
   [Screens.MoonPayScreen]: {
     localAmount: number
