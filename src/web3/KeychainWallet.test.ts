@@ -451,6 +451,33 @@ describe('KeychainWallet', () => {
 
             expect(loggerErrorSpy).not.toHaveBeenCalled()
           })
+
+          it('signs transactions successfully', async () => {
+            let celoTransaction: CeloTx = {
+              from: GETH_ACCOUNT_ADDRESS,
+              to: ACCOUNT_ADDRESS2,
+              chainId: CHAIN_ID,
+              value: ONE_CELO_IN_WEI,
+              nonce: 0,
+              gas: '10',
+              gasPrice: '99',
+              feeCurrency: '0x',
+              gatewayFeeRecipient: FEE_ADDRESS,
+              gatewayFee: '0x5678',
+              data: '0xabcdef',
+            }
+
+            await expect(
+              wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
+            ).resolves.toBe(true)
+            const signedTx: EncodedTransaction = await wallet.signTransaction(celoTransaction)
+
+            // Check the signer is correct
+            const [, recoveredSigner] = recoverTransaction(signedTx.raw)
+            expect(normalizeAddressWith0x(recoveredSigner)).toBe(
+              normalizeAddressWith0x(GETH_ACCOUNT_ADDRESS)
+            )
+          })
         })
 
         describe('when the geth account was created in the future', () => {

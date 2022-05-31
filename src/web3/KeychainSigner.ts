@@ -148,16 +148,18 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
       throw new Error('Failed to generate private key from mnemonic')
     }
 
-    const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(privateKey))
+    // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
+    const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
+    const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
     if (accountFromPrivateKey !== account.address) {
       throw new Error(
         `Generated private key address (${accountFromPrivateKey}) does not match the existing account address (${account.address})`
       )
     }
 
-    await storePrivateKey(privateKey, account, password)
+    await storePrivateKey(normalizedPrivateKey, account, password)
 
-    return privateKey
+    return normalizedPrivateKey
   } catch (error) {
     // This should never happen in normal conditions
     Logger.error(
