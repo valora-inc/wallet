@@ -5,6 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
 import { SuperchargeButtonType } from 'src/app/types'
 import Pill from 'src/components/Pill'
+import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import Rings from 'src/icons/Rings'
 import Supercharge from 'src/icons/Supercharge'
@@ -23,10 +24,11 @@ function RewardsPill() {
   }
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
+  const showRewardsPill = isE2EEnv || rewardsEnabled
   const superchargeButton = useSelector(superchargeButtonTypeSelector)
 
   if (
-    !rewardsEnabled ||
+    !showRewardsPill ||
     ![SuperchargeButtonType.PillRewards, SuperchargeButtonType.PillSupercharge].includes(
       superchargeButton
     )
