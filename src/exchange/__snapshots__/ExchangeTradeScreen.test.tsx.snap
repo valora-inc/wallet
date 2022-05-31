@@ -79,6 +79,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 "maxWidth": 450,
               }
             }
+            testID="HeaderTitle"
           >
             <Text
               style={
@@ -109,6 +110,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 "color": "#9CA4A9",
               }
             }
+            testID="HeaderSubTitle"
           >
             <View
               style={
