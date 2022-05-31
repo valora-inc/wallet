@@ -16,6 +16,7 @@ import { isProviderConnectionError } from 'src/geth/geth'
 import { waitForGethInitialized, waitForGethSync, waitForGethSyncAsync } from 'src/geth/saga'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
+import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider, getIpcProvider } from 'src/web3/providers'
@@ -78,6 +79,7 @@ export function* initContractKit() {
       const walletAddress: string | null = yield select(walletAddressSelector)
       const accountCreationTime: number = yield select(accountCreationTimeSelector)
 
+      // This is to migrate the existing account that used to be stored in the geth keystore
       const importMnemonicAccount = {
         address: walletAddress,
         createdAt: new Date(accountCreationTime),
@@ -89,6 +91,17 @@ export function* initContractKit() {
       )
 
       wallet = yield call(initWallet, importMnemonicAccount)
+
+      try {
+        // This is to migrate the existing DEK that used to be stored in the geth keystore
+        // Note that the DEK is also currently in the redux store, but it should change at some point
+        if (walletAddress) {
+          yield call(importDekIfNecessary, wallet)
+        }
+      } catch (error) {
+        Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
+      }
+
       const web3 = yield call(initWeb3)
 
       Logger.info(

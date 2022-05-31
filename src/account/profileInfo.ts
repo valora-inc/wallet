@@ -1,7 +1,6 @@
-import { Address, ensureLeading0x, normalizeAddressWith0x } from '@celo/base'
+import { Address, normalizeAddressWith0x } from '@celo/base'
 import { PrivateNameAccessor } from '@celo/identity/lib/offchain/accessors/name'
 import { PrivatePictureAccessor } from '@celo/identity/lib/offchain/accessors/pictures'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { toChecksumAddress } from 'ethereumjs-util'
 import RNFS from 'react-native-fs'
@@ -11,12 +10,11 @@ import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/ac
 import UploadServiceDataWrapper from 'src/account/UploadServiceDataWrapper'
 import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
-import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
+import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
 import { getAccountAddress } from 'src/web3/saga'
-import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'account/profileInfo'
 
@@ -160,23 +158,11 @@ export function* getProfileInfo(address: string) {
 }
 
 export function* getOffchainWrapper(addAccount = false) {
-  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
-  if (!privateDataKey) {
-    throw new Error('No data key in store. Should never happen.')
-  }
-  const dataKeyAddress = normalizeAddressWith0x(
-    privateKeyToAddress(ensureLeading0x(privateDataKey))
-  )
   const wallet: UnlockableWallet = yield call(getWallet)
-  // directly using pepper because we don't want to set a PIN for the DEK
-  const pepper: string = yield call(retrieveOrGeneratePepper, DEK)
-  if (addAccount) {
-    try {
-      yield call([wallet, wallet.addAccount], privateDataKey, pepper)
-    } catch (error) {
-      Logger.warn('Unable to add DEK to geth wallet', error)
-    }
-  }
+  const { dataKeyAddress, pepper } = yield call(
+    importDekIfNecessary,
+    addAccount ? wallet : undefined
+  )
   yield call([wallet, wallet.unlockAccount], dataKeyAddress, pepper, 0)
 
   const contractKit = yield call(getContractKit)
