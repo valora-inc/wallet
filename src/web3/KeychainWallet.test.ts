@@ -453,7 +453,7 @@ describe('KeychainWallet', () => {
           })
 
           it('signs transactions successfully', async () => {
-            let celoTransaction: CeloTx = {
+            const celoTransaction: CeloTx = {
               from: GETH_ACCOUNT_ADDRESS,
               to: ACCOUNT_ADDRESS2,
               chainId: CHAIN_ID,
