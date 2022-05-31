@@ -8,9 +8,7 @@ import variables from 'src/styles/variables'
 import ExchangeModal from 'src/swap/ExchangeModal'
 import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 
-interface OwnProps {}
-
-type Props = WithTranslation & OwnProps
+type Props = WithTranslation
 
 function SwapScreen({ t }: Props) {
   // useBalanceAutoRefresh()

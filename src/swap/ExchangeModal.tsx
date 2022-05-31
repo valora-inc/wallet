@@ -12,8 +12,6 @@ type Props = {
 }
 
 function ExchangeModal({ defaultInputAsset, defaultOutputAsset, type }: Props) {
-  const testID = `ExchangeModal/${type}`
-
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -22,13 +20,11 @@ function ExchangeModal({ defaultInputAsset, defaultOutputAsset, type }: Props) {
             style={styles.assetRow}
             asset={defaultInputAsset}
             direction={SwapDirection.IN}
-            testID={`${testID}/Input`}
           />
           <ExchangeAssetField
             style={styles.assetRow}
             asset={defaultOutputAsset}
             direction={SwapDirection.OUT}
-            testID={`${testID}/Output`}
           />
         </View>
       </View>

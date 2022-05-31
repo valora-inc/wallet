@@ -4,9 +4,10 @@ import Button, { BtnTypes } from 'src/components/Button'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapDirection } from 'src/swap/types'
+import { UbeswapExprimentalToken } from 'src/tokens/reducer'
 
 type OwnProps = {
-  asset: any
+  asset: UbeswapExprimentalToken
   direction: SwapDirection
 }
 
@@ -21,9 +22,10 @@ const TokenSelectionButton = ({ asset, direction }: Props) => {
   return (
     <Fragment>
       <Button
+        testID={`${direction}/Button`}
         onPress={openSwapTokenList}
         type={direction === SwapDirection.IN ? BtnTypes.BRAND_PRIMARY : BtnTypes.BRAND_SECONDARY}
-        text={!asset ? t('swap.select') : asset.symbol}
+        text={!asset.address ? t('swap.select') : asset.symbol}
       />
     </Fragment>
   )
