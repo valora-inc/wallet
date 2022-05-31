@@ -115,12 +115,14 @@ export async function listStoredAccounts(importMnemonicAccount: ImportMnemonicAc
           `${TAG}@listStoredAccounts`,
           `Existing account ${importMnemonicAccount.address} not found in the keychain, will import from the stored mnemonic on next unlock`
         )
-        const maxCreationTime = accounts[0]?.createdAt.getTime() ?? Date.now()
+        const now = Date.now()
         // Ensure the imported account is always first in the list
-        const createdAt =
-          importMnemonicAccount.createdAt.getTime() < maxCreationTime
-            ? importMnemonicAccount.createdAt
-            : new Date(maxCreationTime - 1)
+        const maxCreationTime = Math.min(
+          importMnemonicAccount.createdAt.getTime(),
+          (accounts[0]?.createdAt.getTime() ?? now) - 1,
+          now
+        )
+        const createdAt = new Date(maxCreationTime)
         accounts = [
           { address: normalizedMnemonicAccountAddress, createdAt, importFromMnemonic: true },
           ...accounts,
@@ -157,7 +159,7 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
 
     return privateKey
   } catch (error) {
-    // This should never happen
+    // This should never happen in normal conditions
     Logger.error(
       `${TAG}@importAndStorePrivateKeyFromMnemonic`,
       'Failed to import private key from mnemonic',
