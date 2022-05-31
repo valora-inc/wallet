@@ -11,6 +11,8 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -69,7 +71,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          Logger.debug(TAG, 'Button clicked')
+          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
           // TODO(any): submit the transfer
         }}

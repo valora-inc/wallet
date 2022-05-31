@@ -55,7 +55,7 @@ describe('ReviewScreen', () => {
     it('shows crypto amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
-          <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, '2.00', 'http://logo')} />
+          <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, '2.00')} />
         </Provider>
       )
 
@@ -97,7 +97,7 @@ describe('ReviewScreen', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
         <Provider store={store}>
-          <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, '2.00', 'http://logo')} />
+          <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, '2.00')} />
         </Provider>
       )
 
