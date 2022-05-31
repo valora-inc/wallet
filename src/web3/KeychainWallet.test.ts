@@ -66,8 +66,12 @@ const TYPED_DATA = {
 
 const PRIVATE_KEY1 = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
 const PUBLIC_KEY1 = privateKeyToPublicKey(PRIVATE_KEY1)
+const KEYCHAIN_ENCRYPTED_PRIVATE_KEY1 =
+  'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx'
 const ACCOUNT_ADDRESS1 = normalizeAddressWith0x(privateKeyToAddress(PRIVATE_KEY1))
 const PRIVATE_KEY2 = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890fdeccc'
+const KEYCHAIN_ENCRYPTED_PRIVATE_KEY2 =
+  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN'
 const ACCOUNT_ADDRESS2 = normalizeAddressWith0x(privateKeyToAddress(PRIVATE_KEY2))
 
 const FEE_ADDRESS = ACCOUNT_ADDRESS1
@@ -136,16 +140,14 @@ describe('KeychainWallet', () => {
       // await wallet.addAccount(PRIVATE_KEY2, 'password2')
       mockedKeychain.setItems({
         'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-          password:
-            'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+          password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
         },
         // This will be ignored
         'unrelated item': {
           password: 'unrelated password',
         },
         'account--2021-01-10T11:14:50.298Z--1be31a94361a391bbafb2a4ccd704f57dc04d4bb': {
-          password:
-            'U2FsdGVkX1+4Da/3VE98t6m9FNs+Q0fqJlckHnL2+XctJPyvhZY+b0TSAB9oGiAMNDow1bjA3NYyzA3aKhFhHwAySzPOArFI/RpPlArT2/IGZ/IxKtKzKnd1pa4+q4fx',
+          password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY1,
         },
       })
 
@@ -382,9 +384,13 @@ describe('KeychainWallet', () => {
     // @ts-expect-error
     const ENGLISH_MNEMONIC =
       'there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise invest'
+    const KEYCHAIN_ENCRYPTED_MNEMONIC =
+      'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy'
     // @ts-expect-error
     const ANOTHER_MNEMONIC =
       'invest there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise'
+    const KEYCHAIN_ENCRYPTED_ANOTHER_MNEMONIC =
+      'U2FsdGVkX19InM66laG10l00IRRoIMzT90IwmRbEqOHL7HE/ZQSypxB/z9BTRfqXdoZR6g1S9YE59Scx2XopowHhi0grFYvrgQsWtX9kt5DCcGNPM7izATvXu74i18sMt/t5uedZnMxL54968Axt7Yw7Zcp5fjhT9iX8s798Q+dddGTeqJKINkn/A4UulDxo2IiXsALA4sSEeNuq5gsyH3MTy3WK/joDpglpy/8etsa6RN8Na8La9+ZI71TJq6BJ'
     const GETH_ACCOUNT_ADDRESS = '0x0be03211499a654f0c00d8148b074c5d574654e4'
     const EXISTING_GETH_ACCOUNT = {
       address: GETH_ACCOUNT_ADDRESS,
@@ -400,8 +406,7 @@ describe('KeychainWallet', () => {
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-                password:
-                  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+                password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
               },
               // This will be ignored
               'unrelated item': {
@@ -409,8 +414,7 @@ describe('KeychainWallet', () => {
               },
               // Mnemonic for 0x0be03211499a654f0c00d8148b074c5d574654e4
               mnemonic: {
-                password:
-                  'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy',
+                password: KEYCHAIN_ENCRYPTED_MNEMONIC,
               },
             })
 
@@ -458,8 +462,7 @@ describe('KeychainWallet', () => {
             // await storeMnemonic(ENGLISH_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
             mockedKeychain.setItems({
               'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-                password:
-                  'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+                password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
               },
               // This will be ignored
               'unrelated item': {
@@ -467,8 +470,7 @@ describe('KeychainWallet', () => {
               },
               // Mnemonic for 0x0be03211499a654f0c00d8148b074c5d574654e4
               mnemonic: {
-                password:
-                  'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy',
+                password: KEYCHAIN_ENCRYPTED_MNEMONIC,
               },
             })
 
@@ -510,8 +512,7 @@ describe('KeychainWallet', () => {
           // await storeMnemonic(ANOTHER_MNEMONIC, GETH_ACCOUNT_ADDRESS, 'password')
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-              password:
-                'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+              password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
             },
             // This will be ignored
             'unrelated item': {
@@ -519,8 +520,7 @@ describe('KeychainWallet', () => {
             },
             // Another mnemonic
             mnemonic: {
-              password:
-                'U2FsdGVkX19InM66laG10l00IRRoIMzT90IwmRbEqOHL7HE/ZQSypxB/z9BTRfqXdoZR6g1S9YE59Scx2XopowHhi0grFYvrgQsWtX9kt5DCcGNPM7izATvXu74i18sMt/t5uedZnMxL54968Axt7Yw7Zcp5fjhT9iX8s798Q+dddGTeqJKINkn/A4UulDxo2IiXsALA4sSEeNuq5gsyH3MTy3WK/joDpglpy/8etsa6RN8Na8La9+ZI71TJq6BJ',
+              password: KEYCHAIN_ENCRYPTED_ANOTHER_MNEMONIC,
             },
           })
 
@@ -562,8 +562,7 @@ describe('KeychainWallet', () => {
           // await wallet.addAccount(PRIVATE_KEY2, 'password2')
           mockedKeychain.setItems({
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-              password:
-                'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+              password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
             },
             // This will be ignored
             'unrelated item': {
@@ -609,8 +608,7 @@ describe('KeychainWallet', () => {
         // await wallet.addAccount(GETH_ACCOUNT_ADDRESS, 'password')
         mockedKeychain.setItems({
           'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0': {
-            password:
-              'U2FsdGVkX18191f7q1dS0CCvSGNjJ9PkcBGKaf+u1LVpuoBw2xSJe17hLW8QRXyKCtwvMknW2uTeWUeMRSfg/O1UdsEwdhMPxzqtOUTwT9evQri80JMGBImihFXKDdgN',
+            password: KEYCHAIN_ENCRYPTED_PRIVATE_KEY2,
           },
           // This will be ignored
           'unrelated item': {
@@ -618,8 +616,7 @@ describe('KeychainWallet', () => {
           },
           // Mnemonic for 0x0be03211499a654f0c00d8148b074c5d574654e4
           mnemonic: {
-            password:
-              'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy',
+            password: KEYCHAIN_ENCRYPTED_MNEMONIC,
           },
           'account--2016-12-21T23:36:07.071Z--0be03211499a654f0c00d8148b074c5d574654e4': {
             password:
