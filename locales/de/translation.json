@@ -40,8 +40,8 @@
     "resetNow": "Jetzt zurücksetzen"
   },
   "promptConfirmRevokeModal": {
-    "header": "Bist du sicher, dass du deine Telefonnummer abschalten willst?",
-    "body": "Sobald die Verbindung getrennt wurde, kannst du deine Telefonnummer nicht mehr mit dieser Brieftasche verbinden.",
+    "header": "Bist du sicher, dass du die Verbindung zu deiner Telefonnummer trennen möchtest?",
+    "body": "Sobald die Verbindung getrennt wurde, kannst du deine Telefonnummer nicht mehr mit dieser Wallet verbinden.",
     "revoke": "Verbindung trennen"
   },
   "testFaqLink": "{{appName}} FAQ",
@@ -630,7 +630,7 @@
     "enable": "Kontaktzugriff aktivieren",
     "loading": "Freunde auf {{appName}} werden gefunden..."
   },
-  "getVerified": "Rufnummer verbinden",
+  "getVerified": "Telefonnummer verbinden",
   "notReadyForCode": "Noch nicht bereit für Codeeintrag",
   "emptyVerificationCode": "Kein Code in der Zwischenablage",
   "invalidVerificationCode": "Ungültiger Code",
@@ -638,26 +638,26 @@
   "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
   "verificationFailure": "Verbindung fehlgeschlagen",
   "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstelle ein neues Konto und versuche es erneut.",
-  "verificationTimeout": "Zeitüberschreitung der Verbindung",
+  "verificationTimeout": "Verbindungs-Zeitüberschreitung",
   "errorRequestCode": "Fehler beim Abfragen der Codes.",
   "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
-  "pleaseRetry": "Bitte versuche, dich erneut zu verbinden.",
+  "pleaseRetry": "Bitte versuche erneut, eine Verbindung herzustellen.",
   "retryVerification": "Verbindung erneut versuchen",
   "education": {
     "header": "Verbinde dein Telefon",
-    "body1": "Als Nächstes musst du deine Telefonnummer angeben.",
+    "body1": "Als nächstes verknüpfst du bitte deine Telefonnummer.",
     "body2": "Verbinden macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
     "learnMore": "Erfahre mehr über die Telefonverbindung",
-    "start": "Rufnummer verbinden",
+    "start": "Telefonnummer verbinden",
     "skip": "Vorerst überspringen"
   },
   "verificationLoading": {
-    "confirming": "Rufnummer verbinden…",
+    "confirming": "Telefonnummer wird verbunden…",
     "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder du musst neu starten",
     "learnMore": "Mehr Infos",
     "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
-    "card2": "Sobald deine Nummer verbunden ist, kannst du ganz einfach Geld an deine Telefonnummer senden und empfangen.",
-    "card3": "Wenn du deine Nummer verbindest, kannst du auch sehen, welche deiner Freunde auf {{appName}}sind.",
+    "card2": "Sobald deine Nummer verbunden ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
+    "card3": "Verbinden erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
     "card4": "Wir benötigen drei SMS-Nachrichten, um deine Telefonnummer sicher zu verbinden."
   },
   "skipModal": {
@@ -666,8 +666,8 @@
   },
   "failModal": {
     "header": "Bestätigungsfehler",
-    "body1": "Beim Verbinden deiner Rufnummer ist ein Problem aufgetreten.",
-    "body2": "Du kannst die Verbindung vorerst überspringen und es später noch einmal versuchen.",
+    "body1": "Beim Verbinden deiner Telefonnummer ist ein Problem aufgetreten.",
+    "body2": "Du kannst jetzt die Verbindung überspringen und später erneut versuchen.",
     "body1InsufficientBalance": "Dein aktuelles Guthaben ist nicht hoch genug, um den Verbindungsprozess abzuschließen.",
     "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "body1SaltQuotaExceeded": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
@@ -677,11 +677,11 @@
   },
   "retryWithFornoModal": {
     "header": "Verbindung mit Data Saver wiederholen?",
-    "body1": "Beim Verbinden deiner Rufnummer ist ein Problem aufgetreten. Wir empfehlen, es noch einmal mit aktiviertem Datensparmodus zu versuchen.",
+    "body1": "Beim Verbinden deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Data Saver aktiviert ist.",
     "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
     "retryButton": "Mit Datensparmodus wiederholen"
   },
-  "congratsVerified": "Herzlichen Glückwunsch, deine Rufnummer ist jetzt verbunden!",
+  "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
   "notification": {
     "body": "Zahlungen direkt an deine Telefonnummer erhalten",
     "cta": "Jetzt verbinden"
@@ -747,8 +747,8 @@
   "verificationEducation": {
     "title": "Telefonnummer",
     "header": "Verbinde deine Telefonnummer",
-    "body": "Um sicherzugehen, dass deine Nummer auch wirklich dir gehört, erhältst du drei SMS-Nachrichten, die jeweils etwa 0,05 cUSD kosten.\n\nDie Verbindung dauert etwa drei Minuten.",
-    "feelessBody": "Du erhältst drei Nachrichten, die dir helfen, deine Telefonnummer sicher zu verbinden. Die Verbindung dauert etwa drei Minuten.",
+    "body": "Um sicherzugehen, dass deine Nummer auch wirklich dir gehört, erhältst du drei SMS-Benachrichtigungen, die jeweils etwa 0,05 cUSD kosten.\n\nDie Verbindung dauert etwa drei Minuten.",
+    "feelessBody": "Du erhältst drei Benachrichtigungen, die dir helfen, deine Telefonnummer sicher zu verbinden. Die Verbindung dauert etwa drei Minuten.",
     "start": "Start",
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich verbinden?",
@@ -758,14 +758,14 @@
   },
   "verificationSkipDialog": {
     "title": "Bist du sicher?",
-    "body": "Wenn du dich verbindest, kannst du Geld an jede Telefonnummer senden und empfangen.\n\nKonten, die nicht verbunden sind, können nur Zahlungen über Celo-Adressen oder QR-Codes senden.",
+    "body": "Das Verbinden ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nNicht verbundene Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
   "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Wenn du dich verbindest, kannst du mit deiner Telefonnummer Geld senden und empfangen.\n\n<0>Kann ich das später machen?</0>\n\nJa, aber Wallets, die nicht verbunden sind, können nur Zahlungen mit QR-Codes oder Kontoadressen senden.\n\n<1>Sicher und privat</1>\n\nValora nutzt modernste Kryptografie, um deine Telefonnummer geheim zu halten.",
+    "body": "Das Verbinden ermöglicht es, Guthaben mit deiner Telefonnummer zu versenden und zu empfangen.\n\n<0>Kann ich das später machen? </0>\n\nJa, aber nicht verbundene Wallets können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "Du bist fertig!"
   },
-  "verificationUnavailable": "Die Rufnummernverbindung ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, sobald die Verbindung wieder möglich ist.\n\nIn der Zwischenzeit kannst du weiterhin {{appName}} mit QR-Codes oder Kontoadressen verwenden. Keine Sorge, Zahlungen, die an deine Telefonnummer gesendet werden, warten auf dich, bis du sie mit deinem Konto verbindest.",
+  "verificationUnavailable": "Die Verbindung der Telefonnummer ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, wenn eine Verbindung erneut möglich ist.\n\nIn der Zwischenzeit kannst du {{appName}} weiter verwenden! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher getätigt, bis du diese durch Verbindung deines Kontos einlöst.",
   "requests": "Anfragen",
   "empty": "Du hast keine Zahlungsanfragen",
   "celoDollarBalance": "Celo Dollar Guthaben",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} angefordert",
   "outgoingPaymentRequestNotificationTitle": "Warte auf {{name}}",
   "requestUnavailableHeader": "Das Konto von {{displayName}} ist noch nicht verbunden.",
-  "requestUnavailableNoDisplayNameHeader": "Die Telefonnummer deines Kontakts ist nicht mit einer Kontoadresse verbunden.",
+  "requestUnavailableNoDisplayNameHeader": "Die Telefonnummer deines Kontakts ist nicht mit einer Konto-Adresse verbunden.",
   "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an bestätigte Nummern gesendet werden.",
   "requestUnavailableNoNumberBody": "Dein Kontakt hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an verbundene Nummern gesendet werden.",
   "requesting": "Wird angefordert",
@@ -889,7 +889,7 @@
   "reminderSent": "Erinnerung gesendet",
   "reclaimPayment": "Zahlung zurückfordern",
   "totalRefunded": "Insgesamt erstattet",
-  "loadingVerificationStatus": "Prüfen, ob der Empfänger verbunden ist…",
+  "loadingVerificationStatus": "Prüfe, ob der Empfänger verbunden ist…",
   "askForContactsPermissionAction": "Meine Kontakte erhalten",
   "newAccountBalance": "Neuer Guthaben: ",
   "estimatingFee": "Kostenvoranschlag ",
@@ -900,7 +900,7 @@
   "verificationCta": {
     "header": "An einen Freund senden?",
     "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
-    "cta": "Rufnummer verbinden"
+    "cta": "Telefonnummer verbinden"
   },
   "importContactsCta": {
     "header": "Kontakte importieren",
@@ -1008,7 +1008,7 @@
   "sent": "Versendet",
   "received": "Erhalten",
   "viewAll": "Alle anzeigen",
-  "thanksForVerifying": "Danke für die Verbindung",
+  "thanksForVerifying": "Vielen Dank für deine Verbindung",
   "goldIsWhereYouSave": "CELO ist der Ort, an dem du Celo Dollar sparen kannst",
   "dinner": "Abendessen",
   "bikeParts": "Fahrradteile",
@@ -1264,26 +1264,26 @@
   },
   "fiatDetailsScreen": {
     "header": "Bankdaten eingeben",
-    "selectedPaymentOption": "Ausgewählte Zahlungsoption",
+    "selectedPaymentOption": "Gewählte Zahlungsoption",
     "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
     "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support."
   },
   "fiatAccountSchema": {
     "accountName": {
-      "label": "Konto Name",
+      "label": "Kontoname",
       "placeholderText": "Ein Name für das Konto",
       "errorMessage": "Ein Kontoname ist erforderlich"
     },
     "institutionName": {
-      "label": "Bank Name",
+      "label": "Bankname",
       "placeholderText": "Bankname eingeben",
       "errorMessage": "Ein Bankname ist erforderlich"
     },
     "accountNumber": {
       "label": "Kontonummer",
       "placeholderText": "Gib deine 10-stellige Kontonummer ein",
-      "errorMessage": "Die Kontonummer sollte 10 Ziffern lang sein und nur Zahlen enthalten"
+      "errorMessage": "Die Kontonummer muss zehn Ziffern lang sein und darf nur Zahlen enthalten"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
