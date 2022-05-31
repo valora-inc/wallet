@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CodePushDeploymentKey</key>
-  <string>$(CODE_PUSH_DEPLOYMENT_KEY)</string>
-	<key>CleverTapAccountID</key>
-	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
-	<key>CleverTapToken</key>
-	<string>$(CLEVERTAP_TOKEN)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -41,6 +35,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CleverTapAccountID</key>
+	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
+	<key>CleverTapToken</key>
+	<string>$(CLEVERTAP_TOKEN)</string>
+	<key>CodePushDeploymentKey</key>
+	<string>$(CODE_PUSH_DEPLOYMENT_KEY)</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://l.celo.org</string>
