@@ -1241,6 +1241,21 @@
     "bestRate": "Miglior tasso",
     "header": "Seleziona il metodo di pagamento"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Metodo di pagamento",
+    "transactionDetails": "Dettagli della transazione",
+    "paymentMethodVia": "Collegato via {{providerName}}",
+    "cashIn": {
+      "header": "Revisione Aggiungi fondi",
+      "button": "Aggiungi fondi",
+      "transactionDetailsAmount": "Prezzo totale"
+    },
+    "cashOut": {
+      "header": "Recensione Ritiro",
+      "button": "Preleva fondi",
+      "transactionDetailsAmount": "Importo del prelievo"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Aggiungi fondi",
