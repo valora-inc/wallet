@@ -51,7 +51,7 @@ interface SendConfirmationLegacyParams {
   currencyInfo?: CurrencyInfo
 }
 
-// List of supported fiat accounts
+// Union type of supported fiat accounts
 export type FiatAccount = AccountNumber
 
 export type StackParamList = {
