@@ -159,6 +159,11 @@ export class KeychainSigner implements Signer {
     if (this.unlockDuration === undefined || this.unlockTime === undefined) {
       return false
     }
+
+    if (this.unlockDuration === 0) {
+      return true
+    }
+
     return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 

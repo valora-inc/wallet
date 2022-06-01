@@ -71,6 +71,8 @@ const CURRENCY_ADDRESS = ACCOUNT_ADDRESS2
 
 const UNKNOWN_ADDRESS = '0x1234567890123456789012345678901234567890'
 
+const mockDate = new Date(1482363367071)
+
 // This test suite was based on
 // https://github.com/celo-org/celo-monorepo/blob/325b4e3ce10912478330cae6cf793aabfdb2816a/packages/sdk/wallets/wallet-local/src/local-wallet.test.ts
 describe('KeychainWallet', () => {
@@ -107,7 +109,7 @@ describe('KeychainWallet', () => {
   })
 
   it('persists added accounts in the keychain', async () => {
-    MockDate.set(1482363367071)
+    MockDate.set(mockDate)
     await wallet.addAccount(PRIVATE_KEY1, 'password')
 
     expect(mockedKeychain.getAllKeys()).toEqual([
@@ -154,6 +156,14 @@ describe('KeychainWallet', () => {
         ).resolves.toBe(false)
         expect(wallet.isAccountUnlocked(knownAddress)).toBe(false)
       }
+    })
+
+    it('can unlock indefinitely when the duration is 0', async () => {
+      MockDate.set(mockDate)
+      await expect(wallet.unlockAccount(knownAddress, 'password', 0)).resolves.toBe(true)
+      expect(wallet.isAccountUnlocked(knownAddress)).toBe(true)
+      MockDate.set(new Date(2100, 1, 1)) // Date in the far future
+      expect(wallet.isAccountUnlocked(knownAddress)).toBe(true)
     })
 
     describe('update account password', () => {
@@ -235,8 +245,6 @@ describe('KeychainWallet', () => {
     })
 
     describe('when unlocked', () => {
-      const mockDate = new Date(1482363367071)
-
       beforeEach(async () => {
         MockDate.set(mockDate)
         await wallet.unlockAccount(knownAddress, 'password', UNLOCK_DURATION)
