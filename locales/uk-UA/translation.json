@@ -1246,18 +1246,18 @@
     "header": "Виберіть спосіб оплати"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Payment Method",
-    "transactionDetails": "Transaction Details",
-    "paymentMethodVia": "Connected via {{providerName}}",
+    "paymentMethod": "Спосіб оплати",
+    "transactionDetails": "Деталі операції",
+    "paymentMethodVia": "Підключено через {{providerName}}",
     "cashIn": {
-      "header": "Review Add Funds",
+      "header": "Відгук додає кошти",
       "button": "Додати кошти",
-      "transactionDetailsAmount": "Total Price"
+      "transactionDetailsAmount": "Загальна ціна"
     },
     "cashOut": {
-      "header": "Review Withdraw",
+      "header": "Перегляд зняття",
       "button": "Вивести кошти",
-      "transactionDetailsAmount": "Withdraw Amount"
+      "transactionDetailsAmount": "Сума зняття"
     }
   },
   "fiatExchangeFlow": {
