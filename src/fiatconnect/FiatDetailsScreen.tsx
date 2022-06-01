@@ -86,7 +86,8 @@ const getAccountNumberSchema = (implicitParams: {
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { quote, fiatAccountType, fiatAccountSchema, flow } = route.params
+  const { quote, fiatAccountType, flow } = route.params
+  const fiatAccountSchema = quote.fiatAccount[fiatAccountType]
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())

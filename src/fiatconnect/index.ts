@@ -19,7 +19,7 @@ export interface FiatConnectProviderInfo {
   baseUrl: string
 }
 
-export type FiatConnectQuote = QuoteResponse & {
+export type FiatConnectQuoteData = QuoteResponse & {
   provider: FiatConnectProviderInfo
   ok: boolean
 }

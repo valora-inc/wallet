@@ -57,7 +57,7 @@ export interface UserAccountCreationData {
   userAgent: string
 }
 
-interface RawProviderQuote {
+export interface RawProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
   returnedAmount: number
@@ -97,7 +97,7 @@ export type ProviderQuote = RawProviderQuote & {
   url: string
 }
 
-export type SimplexQuote = {
+export type RawSimplexQuote = {
   user_id: string
   quote_id: string
   wallet_id: string
@@ -115,7 +115,7 @@ export type SimplexQuote = {
 }
 
 export interface CicoQuote {
-  quote: ProviderQuote | SimplexQuote
+  quote: ProviderQuote | RawSimplexQuote
   provider: ProviderInfo
 }
 
@@ -152,7 +152,7 @@ export const fetchSimplexPaymentData = async (
   userAddress: string,
   phoneNumber: string | null,
   phoneNumberVerified: boolean,
-  simplexQuote: SimplexQuote,
+  simplexQuote: RawSimplexQuote,
   currentIpAddress: string
 ) => {
   try {
@@ -190,8 +190,9 @@ export const fetchSimplexPaymentData = async (
   }
 }
 
-export const isSimplexQuote = (quote: RawProviderQuote[] | SimplexQuote): quote is SimplexQuote =>
-  !!quote && 'wallet_id' in quote
+export const isSimplexQuote = (
+  quote: RawProviderQuote[] | RawSimplexQuote
+): quote is RawSimplexQuote => !!quote && 'wallet_id' in quote
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
   obj[property] &&
