@@ -279,7 +279,7 @@
   "cashOut": "Sacar Fundos",
   "cashOutSubtitle": "Adquira vales-presente, faça compras ou envie fundos para um exchange de criptomoedas.",
   "cashOutComingSoon": "Sacar fundos (em breve)",
-  "spend": "Gastos",
+  "spend": "Gastar fundos",
   "spendSubtitle": "Use seu saldo com comerciantes apoiadores",
   "amountCelo": "Quantia (CELO)",
   "onlyCeloDollars": "Somente cUSD",
@@ -1257,7 +1257,7 @@
       "selectProviderHeader": "Selecione o método de saque"
     },
     "spend": {
-      "fiatExchangeTitle": "Gastos",
+      "fiatExchangeTitle": "Gastar fundos",
       "fiatExchangeSubtitle": "Gastar em cartões de oferta e outras compras.",
       "selectCurrencyTitle": "Gastar fundos"
     }
