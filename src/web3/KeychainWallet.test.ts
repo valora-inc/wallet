@@ -147,6 +147,15 @@ describe('KeychainWallet', () => {
       expect(wallet.getAccounts()).toMatchObject([ACCOUNT_ADDRESS1, ACCOUNT_ADDRESS2])
     })
 
+    it('fails to unlock using incorrect passwords', async () => {
+      for (const incorrectPassword of ['incorrect', 'password2', '', ' ', '!']) {
+        await expect(
+          wallet.unlockAccount(knownAddress, incorrectPassword, UNLOCK_DURATION)
+        ).resolves.toBe(false)
+        expect(wallet.isAccountUnlocked(knownAddress)).toBe(false)
+      }
+    })
+
     describe('update account password', () => {
       it('succeeds when providing the right password', async () => {
         await expect(wallet.updateAccount(knownAddress, 'password', 'newPassword')).resolves.toBe(

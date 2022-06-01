@@ -31,8 +31,14 @@ async function encryptPrivateKey(privateKey: string, password: string) {
 }
 
 async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
-  const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
-  return bytes.toString(CryptoJS.enc.Utf8)
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
+    return bytes.toString(CryptoJS.enc.Utf8)
+  } catch (e) {
+    // decrypt can sometimes throw if the inputs are incorrect (encryptedPrivateKey or password)
+    Logger.warn(TAG, 'Failed to decrypt private key', e)
+    return null
+  }
 }
 
 async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
@@ -44,18 +50,13 @@ async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
 ): Promise<string | null> {
-  try {
-    Logger.debug(TAG, `Checking keystore for private key for account ${account}`)
-    const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
-    if (!encryptedPrivateKey) {
-      throw new Error('No private key found in storage')
-    }
-
-    return await decryptPrivateKey(encryptedPrivateKey, password)
-  } catch (error) {
-    Logger.error(TAG, 'Failed to retrieve private key', error)
-    return null
+  Logger.debug(TAG, `Checking keystore for private key for account ${account}`)
+  const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
+  if (!encryptedPrivateKey) {
+    throw new Error('No private key found in storage')
   }
+
+  return await decryptPrivateKey(encryptedPrivateKey, password)
 }
 
 // Returns accounts that have been stored in the keychain, sorted by creation date
