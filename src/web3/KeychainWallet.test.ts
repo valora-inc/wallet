@@ -395,14 +395,12 @@ describe('KeychainWallet', () => {
 
   // This tests migration from a Geth KeyStore account
   describe('migration from an existing geth account', () => {
-    // @ts-expect-error
-    const ENGLISH_MNEMONIC =
-      'there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise invest'
+    // const ENGLISH_MNEMONIC =
+    //   'there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise invest'
     const KEYCHAIN_ENCRYPTED_MNEMONIC =
       'U2FsdGVkX1/GarslRKQ/3jzdu+tuwnlsSEtyPcIzHzqElP21cPnReaxy1lAdqQONxv8BWAnqSs/4MH7qCzP/Z4TbAwmtQAkPyLsNu00i5be+WlG9upOG/N+/RaeJHjS2TJ/qJ+YkgmEBG3juUCfUTVJFmsuxpUxY3N1hucQ9ba8qIdCy+ziuJFlpLTXZPqnEoUrlzWxC5JhMwTrf2i2iSRUYLpVMb4tDbljpM8uHxrqh7ElKMyuarYIMvF5EUIiy'
-    // @ts-expect-error
-    const ANOTHER_MNEMONIC =
-      'invest there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise'
+    // const ANOTHER_MNEMONIC =
+    //   'invest there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise'
     const KEYCHAIN_ENCRYPTED_ANOTHER_MNEMONIC =
       'U2FsdGVkX19InM66laG10l00IRRoIMzT90IwmRbEqOHL7HE/ZQSypxB/z9BTRfqXdoZR6g1S9YE59Scx2XopowHhi0grFYvrgQsWtX9kt5DCcGNPM7izATvXu74i18sMt/t5uedZnMxL54968Axt7Yw7Zcp5fjhT9iX8s798Q+dddGTeqJKINkn/A4UulDxo2IiXsALA4sSEeNuq5gsyH3MTy3WK/joDpglpy/8etsa6RN8Na8La9+ZI71TJq6BJ'
     const GETH_ACCOUNT_ADDRESS = '0x0be03211499a654f0c00d8148b074c5d574654e4'
