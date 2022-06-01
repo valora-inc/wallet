@@ -621,4 +621,12 @@ export const migrations = {
       ..._.omit(state.walletConnect, ['v2']),
     },
   }),
+  51: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      celoWithdrawalEnabledInExchange:
+        REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+    },
+  }),
 }
