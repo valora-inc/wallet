@@ -12,6 +12,8 @@ const DEBOUNCE_OPTIONS = {
 }
 
 export enum BtnTypes {
+  BRAND_PRIMARY = 'BrandPrimary',
+  BRAND_SECONDARY = 'BrandSecondary',
   PRIMARY = 'Primary',
   PRIMARY2 = 'Primary2',
   SECONDARY = 'Secondary',
@@ -21,6 +23,7 @@ export enum BtnTypes {
 }
 
 export enum BtnSizes {
+  TINY = 'tiny',
   SMALL = 'small',
   MEDIUM = 'medium',
   FULL = 'full',
@@ -106,8 +109,14 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonPadding: {
     paddingVertical: 5,
     paddingHorizontal: 24,
+  },
+  tiny: {
+    height: 40,
+    minWidth: 40,
   },
   small: {
     height: 40,
@@ -128,6 +137,14 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let backgroundColor
   let opacity
   switch (type) {
+    case BtnTypes.BRAND_PRIMARY:
+      textColor = colors.light
+      backgroundColor = disabled ? colors.orangeFaint : colors.orangeBrand
+      break
+    case BtnTypes.BRAND_SECONDARY:
+      textColor = colors.light
+      backgroundColor = disabled ? colors.greenFaint : colors.greenBrand
+      break
     case BtnTypes.PRIMARY:
       textColor = colors.light
       backgroundColor = disabled ? colors.orangeFaint : colors.orangeUI
@@ -165,12 +182,26 @@ function getStyle(
   opacity: number | undefined
 ) {
   switch (size) {
+    case BtnSizes.TINY:
+      return { ...styles.button, ...styles.buttonPadding, ...styles.tiny, backgroundColor, opacity }
     case BtnSizes.SMALL:
-      return { ...styles.button, ...styles.small, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.small,
+        backgroundColor,
+        opacity,
+      }
     case BtnSizes.FULL:
-      return { ...styles.button, ...styles.full, backgroundColor, opacity }
+      return { ...styles.button, ...styles.buttonPadding, ...styles.full, backgroundColor, opacity }
     default:
-      return { ...styles.button, ...styles.medium, backgroundColor, opacity }
+      return {
+        ...styles.button,
+        ...styles.buttonPadding,
+        ...styles.medium,
+        backgroundColor,
+        opacity,
+      }
   }
 }
 

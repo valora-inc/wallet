@@ -4,6 +4,7 @@ import { ExchangeRate } from 'src/exchange/reducer'
 import { Currency } from 'src/utils/currencies'
 
 export enum Actions {
+  FETCH_SYMMETRIC_RATE = 'EXCHANGE/FETCH_SYMMETRIC_RATE',
   FETCH_EXCHANGE_RATE = 'EXCHANGE/FETCH_EXCHANGE_RATE',
   SET_EXCHANGE_RATE = 'EXCHANGE/SET_EXCHANGE_RATE',
   UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY = 'EXCHANGE/UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY',
@@ -21,6 +22,12 @@ export interface FetchExchangeRateAction {
   type: Actions.FETCH_EXCHANGE_RATE
   makerToken?: Currency
   makerAmount?: BigNumber
+}
+
+export interface FetchSymmetricRateAction {
+  type: Actions.FETCH_SYMMETRIC_RATE
+  assetIn?: Currency
+  assetOut?: Currency
 }
 
 export interface SetExchangeRateAction {
@@ -80,6 +87,15 @@ export const fetchExchangeRate = (
   type: Actions.FETCH_EXCHANGE_RATE,
   makerToken,
   makerAmount,
+})
+
+export const fetchSymmetricRate = (
+  assetIn?: Currency,
+  assetOut?: Currency
+): FetchSymmetricRateAction => ({
+  type: Actions.FETCH_SYMMETRIC_RATE,
+  assetIn,
+  assetOut,
 })
 
 export const setExchangeRate = (

@@ -6,7 +6,7 @@ import {
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, scrollIntoView, sleep } from '../utils/utils'
+import { enterPinUi, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
@@ -162,50 +162,25 @@ export default NewAccountPhoneVerification = () => {
     })
   }
 
-  // TODO(tomm): use translations file instead of hardcoded strings
   // Assert correct content is visible on the phone verification screen
-  jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
     await expect(element(by.text('Connect your phone number'))).toBeVisible()
     let skipAttributes = await element(by.text('Skip')).getAttributes()
     jestExpect(skipAttributes.enabled).toBe(true)
-    await waitFor(element(by.text('Do I need to confirm?')))
-      .toBeVisible()
-      .withTimeout(10000)
+    await waitForElementId('doINeedToConfirm')
 
-    // Tap 'Do I need to confirm?' button
-    await element(by.text('Do I need to confirm?')).tap()
+    // Tap 'Do I need to connect?' button
+    await element(by.id('doINeedToConfirm')).tap()
 
     // Assert modal content is visible
-    await waitFor(element(by.id('VerificationLearnMoreDialog')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-    // TODO(tomm): use translations file to grab expected text
-    // await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
-    // await expect(
-    //   element(
-    //     by.text(
-    //       'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
-    //     )
-    //   )
-    // ).toBeVisible()
+    await waitForElementId('VerificationLearnMoreDialog')
 
     // Assert able to dismiss modal and skip
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
     // Assert VerificationSkipDialog modal visible
-    await waitFor(element(by.id('VerificationSkipDialog')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-    // await expect(element(by.text('Are you sure?'))).toBeVisible()
-    // await expect(
-    //   element(
-    //     by.text(
-    //       'Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
-    //     )
-    //   )
-    // ).toBeVisible()
+    await waitForElementId('VerificationSkipDialog')
 
     // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
@@ -215,16 +190,12 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Skip for now')).tap()
 
     // Assert we've arrived at the home screen
-    await waitFor(element(by.id('SendOrRequestBar')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
+    await waitForElementId('SendOrRequestBar')
 
     // Assert that 'Connect phone number' is present in settings
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitFor(element(by.id('Settings')))
-      .toBeVisible()
-      .withTimeout(30000)
+    await waitForElementId('Settings')
     await element(by.id('Settings')).tap()
     await waitFor(element(by.text('Connect phone number')))
       .toBeVisible()

@@ -113,7 +113,7 @@ function CustomDrawerItemList({
       })
     }
     const onPress = () => {
-      const activeRouteName = getActiveRouteName(navigation.dangerouslyGetState())
+      const activeRouteName = getActiveRouteName(navigation.getState())
       if (protectedRoutes.includes(route.name) && activeRouteName !== route.name) {
         // Route should be protected by PIN code
         ensurePincode()

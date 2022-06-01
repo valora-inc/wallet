@@ -87,6 +87,7 @@ const fontStyles = StyleSheet.create({
   large500: { ...standards.large, fontFamily: Inter.Medium },
   regular500: { ...standards.regular, fontFamily: Inter.Medium },
   small500: { ...standards.small, fontFamily: Inter.Medium },
+  small400: { ...standards.small, fontFamily: Inter.Regular },
   center: {
     textAlign: 'center',
   },

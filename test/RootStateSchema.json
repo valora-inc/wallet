@@ -1340,6 +1340,7 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
@@ -1521,6 +1522,9 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
+                "celoWithdrawalEnabledInExchange": {
+                    "type": "boolean"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -1674,6 +1678,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
+                "celoWithdrawalEnabledInExchange",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
                 "finclusiveUnsupportedStates",
@@ -2269,22 +2274,29 @@
                         "AUD",
                         "BRL",
                         "CAD",
+                        "CNY",
                         "COP",
                         "CVE",
                         "EUR",
                         "GBP",
                         "GHS",
+                        "GNF",
+                        "INR",
                         "KES",
                         "LRD",
                         "MXN",
                         "NGN",
                         "PHP",
                         "RUB",
+                        "RWF",
                         "SLL",
                         "TRY",
                         "UAH",
                         "UGX",
-                        "USD"
+                        "USD",
+                        "XAF",
+                        "XOF",
+                        "ZAR"
                     ],
                     "type": "string"
                 },
@@ -2299,22 +2311,29 @@
                         "AUD",
                         "BRL",
                         "CAD",
+                        "CNY",
                         "COP",
                         "CVE",
                         "EUR",
                         "GBP",
                         "GHS",
+                        "GNF",
+                        "INR",
                         "KES",
                         "LRD",
                         "MXN",
                         "NGN",
                         "PHP",
                         "RUB",
+                        "RWF",
                         "SLL",
                         "TRY",
                         "UAH",
                         "UGX",
-                        "USD"
+                        "USD",
+                        "XAF",
+                        "XOF",
+                        "ZAR"
                     ],
                     "type": "string"
                 }
@@ -3613,6 +3632,7 @@
                                         "failedFetchMnemonic",
                                         "failedToSwitchSyncModes",
                                         "fetchFailed",
+                                        "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",

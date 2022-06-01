@@ -601,6 +601,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        testID="doINeedToConfirm"
       >
         <Text
           style={
@@ -1664,6 +1665,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        testID="doINeedToConfirm"
       >
         <Text
           style={
@@ -2727,6 +2729,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        testID="doINeedToConfirm"
       >
         <Text
           style={
@@ -3785,6 +3788,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        testID="doINeedToConfirm"
       >
         <Text
           style={
