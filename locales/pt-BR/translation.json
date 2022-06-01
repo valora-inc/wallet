@@ -1241,6 +1241,21 @@
     "bestRate": "Melhor taxa",
     "header": "Selecione o método de pagamento"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Forma de pagamento",
+    "transactionDetails": "Detalhes da transacção",
+    "paymentMethodVia": "Ligado via {{providerName}}",
+    "cashIn": {
+      "header": "Revisão Adicionar fundos",
+      "button": "Adicionar Fundos",
+      "transactionDetailsAmount": "Preço total"
+    },
+    "cashOut": {
+      "header": "Retirada de revisão",
+      "button": "Sacar Fundos",
+      "transactionDetailsAmount": "Montante de Retirada"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Adicionar Fundos",
