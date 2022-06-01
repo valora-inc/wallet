@@ -139,38 +139,28 @@ export async function listStoredAccounts(importMnemonicAccount: ImportMnemonicAc
 }
 
 async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, password: string) {
-  try {
-    const mnemonic = await getStoredMnemonic(account.address, password)
-    if (!mnemonic) {
-      throw new Error('No mnemonic found in storage')
-    }
-
-    const { privateKey } = await generateKeys(mnemonic, undefined, undefined, undefined, bip39)
-    if (!privateKey) {
-      throw new Error('Failed to generate private key from mnemonic')
-    }
-
-    // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
-    const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
-    const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
-    if (accountFromPrivateKey !== account.address) {
-      throw new Error(
-        `Generated private key address (${accountFromPrivateKey}) does not match the existing account address (${account.address})`
-      )
-    }
-
-    await storePrivateKey(normalizedPrivateKey, account, password)
-
-    return normalizedPrivateKey
-  } catch (error) {
-    // This should never happen in normal conditions
-    Logger.error(
-      `${TAG}@importAndStorePrivateKeyFromMnemonic`,
-      'Failed to import private key from mnemonic',
-      error
-    )
-    return null
+  const mnemonic = await getStoredMnemonic(account.address, password)
+  if (!mnemonic) {
+    throw new Error('No mnemonic found in storage')
   }
+
+  const { privateKey } = await generateKeys(mnemonic, undefined, undefined, undefined, bip39)
+  if (!privateKey) {
+    throw new Error('Failed to generate private key from mnemonic')
+  }
+
+  // Prefix 0x here or else the signed transaction produces dramatically different signer!!!
+  const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
+  const accountFromPrivateKey = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
+  if (accountFromPrivateKey !== account.address) {
+    throw new Error(
+      `Generated private key address (${accountFromPrivateKey}) does not match the existing account address (${account.address})`
+    )
+  }
+
+  await storePrivateKey(normalizedPrivateKey, account, password)
+
+  return normalizedPrivateKey
 }
 
 /**

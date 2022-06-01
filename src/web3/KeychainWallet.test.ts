@@ -11,14 +11,11 @@ import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-ba
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
 import { UNLOCK_DURATION } from 'src/geth/consts'
-import Logger from 'src/utils/Logger'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
 
 // Use real encryption
 jest.unmock('crypto-js')
-
-const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
 const CHAIN_ID = 44378
 
@@ -465,8 +462,6 @@ describe('KeychainWallet', () => {
 
             // Check that the private key is not imported again
             expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(1)
-
-            expect(loggerErrorSpy).not.toHaveBeenCalled()
           })
 
           it('signs transactions successfully', async () => {
@@ -580,7 +575,9 @@ describe('KeychainWallet', () => {
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
           await expect(
             wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
-          ).resolves.toBe(false)
+          ).rejects.toThrowError(
+            'Generated private key address (0x652e61b1f42e37f0d101252161cbce07a0af30fa) does not match the existing account address (0x0be03211499a654f0c00d8148b074c5d574654e4)'
+          )
 
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
 
@@ -589,14 +586,6 @@ describe('KeychainWallet', () => {
             'unrelated item',
             'mnemonic',
           ])
-
-          expect(loggerErrorSpy).toHaveBeenCalledWith(
-            'web3/KeychainSigner@importAndStorePrivateKeyFromMnemonic',
-            'Failed to import private key from mnemonic',
-            new Error(
-              'Generated private key address (0x652e61b1f42e37f0d101252161cbce07a0af30fa) does not match the existing account address (0x0be03211499a654f0c00d8148b074c5d574654e4)'
-            )
-          )
         })
       })
 
@@ -626,7 +615,7 @@ describe('KeychainWallet', () => {
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
           await expect(
             wallet.unlockAccount(GETH_ACCOUNT_ADDRESS, 'password', UNLOCK_DURATION)
-          ).resolves.toBe(false)
+          ).rejects.toThrowError('No mnemonic found in storage')
 
           expect(Keychain.setGenericPassword).toHaveBeenCalledTimes(0)
 
@@ -634,12 +623,6 @@ describe('KeychainWallet', () => {
             'account--2022-05-25T11:14:50.292Z--588e4b68193001e4d10928660ab4165b813717c0',
             'unrelated item',
           ])
-
-          expect(loggerErrorSpy).toHaveBeenCalledWith(
-            'web3/KeychainSigner@importAndStorePrivateKeyFromMnemonic',
-            'Failed to import private key from mnemonic',
-            new Error('No mnemonic found in storage')
-          )
         })
       })
     })
