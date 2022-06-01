@@ -2,6 +2,7 @@ import { RLPEncodedTx, Signer } from '@celo/connect'
 import { isValidAddress, normalizeAddress, normalizeAddressWith0x } from '@celo/utils/lib/address'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
+import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { listStoredItems, retrieveStoredItem, storeItem } from 'src/storage/keychain'
@@ -115,13 +116,8 @@ export class KeychainSigner implements Signer {
       `Signing transaction: ${JSON.stringify(encodedTx.transaction)}`
     )
     const { gasPrice } = encodedTx.transaction
-    if (
-      gasPrice === '0x0' ||
-      gasPrice === '0x' ||
-      gasPrice === '0x0NaN' ||
-      gasPrice === '0' ||
-      !gasPrice
-    ) {
+    const gasPriceBN = new BigNumber((gasPrice || 0).toString())
+    if (gasPriceBN.isNaN() || gasPriceBN.isLessThanOrEqualTo(0)) {
       // Make sure we don't sign and send transactions with 0 gas price
       // This resulted in those TXs being stuck in the txpool for nodes running geth < v1.5.0
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)

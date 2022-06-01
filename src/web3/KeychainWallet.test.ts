@@ -322,7 +322,7 @@ describe('KeychainWallet', () => {
             })
 
             it('fails when trying to sign a tx with an invalid gas price', async () => {
-              for (const gasPrice of ['0x0', '0x', '0', '']) {
+              for (const gasPrice of [0, '0x0', '0x', '0', '']) {
                 const testTx = { ...celoTransaction, gasPrice }
                 await expect(wallet.signTransaction(testTx)).rejects.toThrowError(
                   /Preventing sign tx with 'gasPrice'/
