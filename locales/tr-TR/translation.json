@@ -1241,6 +1241,21 @@
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Payment Method",
+    "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Connected via {{providerName}}",
+    "cashIn": {
+      "header": "Review Add Funds",
+      "button": "Bakiye Ekle",
+      "transactionDetailsAmount": "Total Price"
+    },
+    "cashOut": {
+      "header": "Review Withdraw",
+      "button": "Bakiye Çek",
+      "transactionDetailsAmount": "Withdraw Amount"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Bakiye Ekle",
