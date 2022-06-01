@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Tippe, um deine {{appName}} cUSD-Adresse zu kopieren",
   "disclaimerFiat": "{{currency}}-Werte sind Geschätzt.",
   "dollarsNotYetEnabledNote": "Celo Dollar sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollar zu erhalten, erwerbe CELO und tausche diese gegen Celo Dollar im CELO Tab.",
-  "selectDigitalCurrency": "Eine Digitalvermögen auswählen",
+  "selectDigitalCurrency": "Wähle ein Asset",
   "selectPaymentMethod": "Methode auswählen:",
   "payWithBank": "Bankkonto",
   "payWithCard": "Bankkarte",
@@ -1225,7 +1225,7 @@
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
-    "missingPaymentsExplained": "Es sind nicht alle Zahlungsmethoden in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass diese Option in diesem Land nicht verfügbar ist oder aufgrund der regionalen Bestimmungen blockiert wurde.",
+    "missingPaymentsExplained": "Nicht alle Zahlungsarten sind in jedem Land verfügbar.\n\nDie Verfügbarkeit hängt von der geografischen Abdeckung des jeweiligen Anbieters ab.",
     "cryptoExchange": "Kryptobörse",
     "feesVary": "Gebühren variieren",
     "viewExchanges": "Kryptobörsen ansehen",
@@ -1265,14 +1265,14 @@
       "selectProviderHeader": "Zahlungsmethode auswählen"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Abheben",
+      "fiatExchangeTitle": "Guthaben abheben",
       "fiatExchangeSubtitle": "Überweise Guthaben von {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder erhalte es als mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
       "selectProviderHeader": "Auszahlungsmethode auswählen"
     },
     "spend": {
-      "fiatExchangeTitle": "Ausgeben",
+      "fiatExchangeTitle": "Guthaben ausgeben",
       "fiatExchangeSubtitle": "Gib es für Geschenkkarten und andere Einkäufe aus.",
       "selectCurrencyTitle": "Guthaben ausgeben"
     }
