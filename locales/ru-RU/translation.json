@@ -1245,6 +1245,21 @@
     "bestRate": "Лучший курс",
     "header": "Выберите способ оплаты"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Способ оплаты",
+    "transactionDetails": "Детали сделки",
+    "paymentMethodVia": "Подключился через {{providerName}}.",
+    "cashIn": {
+      "header": "Обзор Добавить средства",
+      "button": "Внести средства",
+      "transactionDetailsAmount": "Общая цена"
+    },
+    "cashOut": {
+      "header": "Отзыв Отзыв",
+      "button": "Вывод средств",
+      "transactionDetailsAmount": "Сумма снятия"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Внести средства",
