@@ -65,6 +65,7 @@ import TabNavigator from 'src/navigator/TabNavigator'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import TransactionHistory from 'src/transactions/TransactionHistory'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -292,6 +293,11 @@ export default function DrawerNavigator() {
         name={Screens.Support}
         component={Support}
         options={{ title: t('help'), drawerIcon: Help }}
+      />
+      <Drawer.Screen
+        name={Screens.TransactionHistory}
+        component={TransactionHistory}
+        options={{ title: t('history'), drawerIcon: Home }}
       />
     </Drawer.Navigator>
   )
