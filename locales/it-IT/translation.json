@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Tocca per copiare il tuo indirizzo cUSD {{appName}}",
   "disclaimerFiat": "I valori {{currency}} sono stime.",
   "dollarsNotYetEnabledNote": "I Celo Dollar non sono ancora disponibili presso alcun provider. Per ottenere Celo Dollar, acquista CELO e cambiali in Celo Dollar nella scheda CELO.",
-  "selectDigitalCurrency": "Seleziona un asset digitale",
+  "selectDigitalCurrency": "Seleziona un'attività",
   "selectPaymentMethod": "Seleziona il metodo:",
   "payWithBank": "Conto bancario",
   "payWithCard": "Carta di debito",
@@ -1225,7 +1225,7 @@
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
-    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i paesi.\n\nQuesto potrebbe essere dovuto al fatto che l'opzione non esiste in quel paese o è bloccata a causa delle normative locali.",
+    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i paesi.\n\nLa disponibilità dipende dalla copertura geografica di ciascun fornitore.",
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
@@ -1265,7 +1265,7 @@
       "selectProviderHeader": "Seleziona il metodo di pagamento"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Preleva",
+      "fiatExchangeTitle": "Preleva fondi",
       "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
