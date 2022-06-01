@@ -277,6 +277,7 @@ export type StackParamList = {
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
+  [Screens.TransactionHistory]: undefined
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps
     confirmationProps: TransferConfirmationCardProps | ExchangeConfirmationCardProps

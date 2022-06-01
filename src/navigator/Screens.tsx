@@ -84,6 +84,7 @@ export enum Screens {
   TabNavigation = 'TabNavigator',
   TokenBalances = 'TokenBalances',
   TransactionDetailsScreen = 'TransactionDetailsScreen',
+  TransactionHistory = 'TransactionHistory',
   TransactionReview = 'TransactionReview',
   TransakScreen = 'TransakScreen',
   UpgradeScreen = 'UpgradeScreen',
