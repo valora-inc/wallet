@@ -8,6 +8,7 @@ import {
 } from '@celo/utils/lib/address'
 import { EIP712TypedData } from '@celo/utils/lib/sign-typed-data-utils'
 import { LocalSigner } from '@celo/wallet-local'
+import BigNumber from 'bignumber.js'
 import CryptoJS from 'crypto-js'
 import * as bip39 from 'react-native-bip39'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -45,8 +46,14 @@ async function encryptPrivateKey(privateKey: string, password: string) {
 }
 
 async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
-  const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
-  return bytes.toString(CryptoJS.enc.Utf8)
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
+    return bytes.toString(CryptoJS.enc.Utf8)
+  } catch (e) {
+    // decrypt can sometimes throw if the inputs are incorrect (encryptedPrivateKey or password)
+    Logger.warn(TAG, 'Failed to decrypt private key', e)
+    return null
+  }
 }
 
 async function storePrivateKey(privateKey: string, account: KeychainAccount, password: string) {
@@ -58,29 +65,24 @@ async function getStoredPrivateKey(
   account: KeychainAccount,
   password: string
 ): Promise<string | null> {
-  try {
-    Logger.debug(
-      `${TAG}@getStoredPrivateKey`,
-      `Checking keychain for private key for account ${JSON.stringify(account)}`
-    )
-    const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
-    if (!encryptedPrivateKey) {
-      if (account.importFromMnemonic) {
-        Logger.info(
-          `${TAG}@getStoredPrivateKey`,
-          `Private key for existing account ${account.address} not found in keychain, importing from mnemonic now`
-        )
-        return await importAndStorePrivateKeyFromMnemonic(account, password)
-      }
-
-      throw new Error('No private key found in storage')
+  Logger.debug(
+    `${TAG}@getStoredPrivateKey`,
+    `Checking keychain for private key for account ${JSON.stringify(account)}`
+  )
+  const encryptedPrivateKey = await retrieveStoredItem(accountStorageKey(account))
+  if (!encryptedPrivateKey) {
+    if (account.importFromMnemonic) {
+      Logger.info(
+        `${TAG}@getStoredPrivateKey`,
+        `Private key for existing account ${account.address} not found in keychain, importing from mnemonic now`
+      )
+      return await importAndStorePrivateKeyFromMnemonic(account, password)
     }
 
-    return await decryptPrivateKey(encryptedPrivateKey, password)
-  } catch (error) {
-    Logger.error(`${TAG}@getStoredPrivateKey`, 'Failed to retrieve private key', error)
-    return null
+    throw new Error('No private key found in storage')
   }
+
+  return await decryptPrivateKey(encryptedPrivateKey, password)
 }
 
 /**
@@ -201,13 +203,8 @@ export class KeychainSigner implements Signer {
       `Signing transaction: ${JSON.stringify(encodedTx.transaction)}`
     )
     const { gasPrice } = encodedTx.transaction
-    if (
-      gasPrice === '0x0' ||
-      gasPrice === '0x' ||
-      gasPrice === '0x0NaN' ||
-      gasPrice === '0' ||
-      !gasPrice
-    ) {
+    const gasPriceBN = new BigNumber((gasPrice || 0).toString())
+    if (gasPriceBN.isNaN() || gasPriceBN.isLessThanOrEqualTo(0)) {
       // Make sure we don't sign and send transactions with 0 gas price
       // This resulted in those TXs being stuck in the txpool for nodes running geth < v1.5.0
       throw new Error(`Preventing sign tx with 'gasPrice' set to '${gasPrice}'`)
@@ -249,6 +246,11 @@ export class KeychainSigner implements Signer {
     if (this.unlockDuration === undefined || this.unlockTime === undefined) {
       return false
     }
+
+    if (this.unlockDuration === 0) {
+      return true
+    }
+
     return this.unlockTime + this.unlockDuration * 1000 > Date.now()
   }
 

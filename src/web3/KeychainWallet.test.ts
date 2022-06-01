@@ -84,6 +84,8 @@ const NULL_MNEMONIC_ACCOUNT = {
   createdAt: new Date(0),
 }
 
+const MOCK_DATE = new Date(1482363367071)
+
 // This test suite was based on
 // https://github.com/celo-org/celo-monorepo/blob/325b4e3ce10912478330cae6cf793aabfdb2816a/packages/sdk/wallets/wallet-local/src/local-wallet.test.ts
 describe('KeychainWallet', () => {
@@ -121,7 +123,7 @@ describe('KeychainWallet', () => {
   })
 
   it('persists added accounts in the keychain', async () => {
-    MockDate.set(1482363367071)
+    MockDate.set(MOCK_DATE)
     await wallet.addAccount(PRIVATE_KEY1, 'password')
 
     expect(mockedKeychain.getAllKeys()).toEqual([
@@ -157,6 +159,23 @@ describe('KeychainWallet', () => {
 
     it('lists all addresses sorted by creation date', () => {
       expect(wallet.getAccounts()).toMatchObject([ACCOUNT_ADDRESS1, ACCOUNT_ADDRESS2])
+    })
+
+    it('fails to unlock using incorrect passwords', async () => {
+      for (const incorrectPassword of ['incorrect', 'password2', '', ' ', '!']) {
+        await expect(
+          wallet.unlockAccount(knownAddress, incorrectPassword, UNLOCK_DURATION)
+        ).resolves.toBe(false)
+        expect(wallet.isAccountUnlocked(knownAddress)).toBe(false)
+      }
+    })
+
+    it('can unlock indefinitely when the duration is 0', async () => {
+      MockDate.set(MOCK_DATE)
+      await expect(wallet.unlockAccount(knownAddress, 'password', 0)).resolves.toBe(true)
+      expect(wallet.isAccountUnlocked(knownAddress)).toBe(true)
+      MockDate.set(new Date(2100, 1, 1)) // Date in the far future
+      expect(wallet.isAccountUnlocked(knownAddress)).toBe(true)
     })
 
     describe('update account password', () => {
@@ -238,10 +257,8 @@ describe('KeychainWallet', () => {
     })
 
     describe('when unlocked', () => {
-      const mockDate = new Date(1482363367071)
-
       beforeEach(async () => {
-        MockDate.set(mockDate)
+        MockDate.set(MOCK_DATE)
         await wallet.unlockAccount(knownAddress, 'password', UNLOCK_DURATION)
       })
 
@@ -250,7 +267,7 @@ describe('KeychainWallet', () => {
       })
 
       it('locks again after the duration', async () => {
-        MockDate.set(mockDate.getTime() + UNLOCK_DURATION * 1000)
+        MockDate.set(MOCK_DATE.getTime() + UNLOCK_DURATION * 1000)
         expect(wallet.isAccountUnlocked(knownAddress)).toBeFalsy()
       })
 
@@ -325,7 +342,7 @@ describe('KeychainWallet', () => {
             })
 
             it('fails when trying to sign a tx with an invalid gas price', async () => {
-              for (const gasPrice of ['0x0', '0x', '0', '']) {
+              for (const gasPrice of [0, '0x0', '0x', '0', '']) {
                 const testTx = { ...celoTransaction, gasPrice }
                 await expect(wallet.signTransaction(testTx)).rejects.toThrowError(
                   /Preventing sign tx with 'gasPrice'/

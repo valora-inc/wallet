@@ -40,9 +40,9 @@
     "resetNow": "Jetzt zurücksetzen"
   },
   "promptConfirmRevokeModal": {
-    "header": "Bist du sicher, dass du dein Valora-Konto widerrufen möchtest?",
-    "body": "Einmal widerrufen, kann dieses Konto nicht erneut bestätigt werden. Nur widerrufen, wenn du sicher bist, dass du dieses Konto nie mehr benötigst.",
-    "revoke": "Widerrufen"
+    "header": "Bist du sicher, dass du die Verbindung zu deiner Telefonnummer trennen möchtest?",
+    "body": "Sobald die Verbindung getrennt wurde, kannst du deine Telefonnummer nicht mehr mit dieser Wallet verbinden.",
+    "revoke": "Verbindung trennen"
   },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Aktuelles tägliches Sendelimit",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Unbegrenzt",
-  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte bestätige deine Nummer, bevor du fortfährst.",
+  "verifyNumberToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität überprüfst. Bitte verbinde deine Telefonnummer, bevor du fortfährst.",
   "verifyIdentityToRaiseLimit": "Du kannst dein Sendelimit erhöhen, indem du deine Identität bestätigst. Bitte gib im folgenden Prozess einige Details an.",
   "dailyLimitApplicationStatus": "Bewerbungsstatus",
   "applicationInReview": "Wird geprüft",
@@ -119,7 +119,7 @@
   "writeDownKey": "Bitte schreibe deine Phrase auf",
   "completeEducation": "Ich verstehe",
   "yourAccountKey": "Deine Wiederherstellungsphrase",
-  "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte jetzt deine Wiederherstellungsphrase ein.",
+  "backupKeyNotification": "Verwahre dein Guthaben sicher. Richte deine Wiederherstellungsphrase ein.",
   "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere sie an einem sicheren Ort. Speichere sie nicht in deinem Telefon.",
   "copied": "Phrase in die Zwischenablage kopiert",
   "moreInfo": "Weitere Infos",
@@ -200,7 +200,7 @@
   "superchargeNotificationBody": "Deine Supercharge-Rewards sind verfügbar! Hol sie dir jetzt",
   "superchargeNotificationStart": "Rewards beanspruchen",
   "superchargingNotificationBody": "Du erhältst Rewards mit Supercharge ⚡",
-  "superchargingNotificationBodyV1_33": "Du bekommst {{apy}}% Belohnungen mit Supercharge ⚡.",
+  "superchargingNotificationBodyV1_33": "Du erhältst {{apy}} % als Belohnung mit Supercharge ⚡",
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
@@ -396,9 +396,9 @@
   "invalidPhone": "Ungültige Telefonnummer",
   "cantSelectInvalidPhone": "Kontakt kann nicht ausgewählt werden: ungültige Telefonnummer",
   "needMoreFundsToSend": "Du solltest {{currencySymbol}}{{amountNeeded}} haben, um diese Transaktion durchzuführen. Bitte füge Guthaben hinzu oder versuche, weniger zu senden.",
-  "maxEscrowTransferExceeded": "Der maximale Betrag für die Überweisung an unbestätigte Benutzer beträgt {{symbol}}{{maxAmount}}",
+  "maxEscrowTransferExceeded": "Der maximale Betrag, der an Nutzer ohne verbundene Nummer übertragen werden kann, ist {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Ungültiger Betrag",
-  "invalidCode": "Ungültiger Verbindungscode",
+  "invalidCode": "Ungültiger Code",
   "confirm": "Bestätigen",
   "readCodesAuto": "Codes automatisch lesen",
   "enterManually": "Manuell eingeben",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Huch!",
   "somethingWrong": "Etwas ist schief gelaufen.",
-  "verifyFailed": "Bestätigung fehlgeschlagen",
+  "verifyFailed": "Verbindung fehlgeschlagen",
   "canNotRequestFromUnverified": "Kann nicht von unbestätigten Benutzern anfordern",
   "restartApp": "App neu starten",
   "quitApp": "Beenden",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Fehler beim Abrufen der geheimen Telefonnummer",
   "saltQuotaExceededError": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
   "maxActionableAttestationsExceededError": "Fehler beim erneuten Senden der Nachricht",
-  "odisInsufficientBalance": "Bitte bestätige deine Nummer",
+  "odisInsufficientBalance": "Bitte verbinde deine Nummer",
   "matchmakingQuotaExceededError": "Matchmaking kann nur einmal durchgeführt werden",
   "paymentLimitReached": "Das Tageslimit beträgt {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) verbleibend",
   "requestLimitError": "Kann nicht mehr als {{limit}} cUSD Tageslimit anfordern.",
@@ -590,9 +590,10 @@
   },
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Beende das Einladen von {{name}} nach Valora",
-    "body": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
-    "button": "Senden"
+    "title": "Beende die Einladung von {{name}} zu Valora",
+    "bodyWithRewards": "Sobald sie beitreten und eine Telefonnummer verbinden, erhaltet ihr beide {{amount}} {{currency}}. Klicke unten, um eine Einladung zu senden und zu personalisieren.",
+    "body": "Teile eine Einladungsnachricht mit {{name}}, um {{appName}} beizutreten. Sobald sie beigetreten sind und eine Telefonnummer verbunden haben, erhalten sie ihre Zahlung.",
+    "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
     "title": "Krypto senden, um einen Freund einzuladen (Beta)",
@@ -629,35 +630,35 @@
     "enable": "Kontaktzugriff aktivieren",
     "loading": "Freunde auf {{appName}} werden gefunden..."
   },
-  "getVerified": "Bestätige Telefonnummer",
+  "getVerified": "Telefonnummer verbinden",
   "notReadyForCode": "Noch nicht bereit für Codeeintrag",
-  "emptyVerificationCode": "Kein Verbindungscode in der Zwischenablage",
-  "invalidVerificationCode": "Ungültiger Verbindungscode",
-  "repeatVerificationCode": "Wiederholter Verbindungscode",
+  "emptyVerificationCode": "Kein Code in der Zwischenablage",
+  "invalidVerificationCode": "Ungültiger Code",
+  "repeatVerificationCode": "Wiederholter Code",
   "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
-  "verificationFailure": "Bestätigung fehlgeschlagen",
+  "verificationFailure": "Verbindung fehlgeschlagen",
   "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstelle ein neues Konto und versuche es erneut.",
-  "verificationTimeout": "Zeitüberschreitung der Bestätigung",
+  "verificationTimeout": "Verbindungs-Zeitüberschreitung",
   "errorRequestCode": "Fehler beim Abfragen der Codes.",
   "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
-  "pleaseRetry": "Bitte versuche es erneut.",
-  "retryVerification": "Bestätigung wiederholen",
+  "pleaseRetry": "Bitte versuche erneut, eine Verbindung herzustellen.",
+  "retryVerification": "Verbindung erneut versuchen",
   "education": {
-    "header": "Bestätige dein Telefon",
-    "body1": "Als nächstes bestätigst du bitte deine Telefonnummer.",
+    "header": "Verbinde dein Telefon",
+    "body1": "Als nächstes verknüpfst du bitte deine Telefonnummer.",
     "body2": "Verbinden macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
-    "learnMore": "Erfahre mehr über die Telefonbestätigung",
-    "start": "Startbestätigung",
+    "learnMore": "Erfahre mehr über die Telefonverbindung",
+    "start": "Telefonnummer verbinden",
     "skip": "Vorerst überspringen"
   },
   "verificationLoading": {
-    "confirming": "Bestätige Telefonnummer…",
+    "confirming": "Telefonnummer wird verbunden…",
     "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder du musst neu starten",
     "learnMore": "Mehr Infos",
     "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
-    "card2": "Sobald deine Nummer bestätigt ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
-    "card3": "Bestätigen erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
-    "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
+    "card2": "Sobald deine Nummer verbunden ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
+    "card3": "Verbinden erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
+    "card4": "Wir benötigen drei SMS-Nachrichten, um deine Telefonnummer sicher zu verbinden."
   },
   "skipModal": {
     "header": "Bist du sicher?",
@@ -665,9 +666,9 @@
   },
   "failModal": {
     "header": "Bestätigungsfehler",
-    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Problem aufgetreten.",
-    "body2": "Du kannst jetzt die Bestätigung überspringen und später erneut versuchen.",
-    "body1InsufficientBalance": "Dein aktueller Guthaben ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
+    "body1": "Beim Verbinden deiner Telefonnummer ist ein Problem aufgetreten.",
+    "body2": "Du kannst jetzt die Verbindung überspringen und später erneut versuchen.",
+    "body1InsufficientBalance": "Dein aktuelles Guthaben ist nicht hoch genug, um den Verbindungsprozess abzuschließen.",
     "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "body1SaltQuotaExceeded": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
     "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn du mehr Lookups gekauft hast",
@@ -675,12 +676,12 @@
     "enterCodesButton": "Codes eingeben"
   },
   "retryWithFornoModal": {
-    "header": "Bestätigung mit Datensparer wiederholen?",
-    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Datensparmodus aktiviert ist.",
+    "header": "Verbindung mit Data Saver wiederholen?",
+    "body1": "Beim Verbinden deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Data Saver aktiviert ist.",
     "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
     "retryButton": "Mit Datensparmodus wiederholen"
   },
-  "congratsVerified": "Herzlichen Glückwunsch, du bist jetzt bestätigt!",
+  "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
   "notification": {
     "body": "Zahlungen direkt an deine Telefonnummer erhalten",
     "cta": "Jetzt verbinden"
@@ -709,7 +710,7 @@
     "Iris": "Iris-Erkennung"
   },
   "useBiometryType": "{{biometryType}} verwenden",
-  "unlockWithBiometryPrompt": "Authentifizierung zum Entsperren {{appName}}",
+  "unlockWithBiometryPrompt": "Authentifizieren, um {{appName}} zu entsperren",
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
@@ -746,25 +747,25 @@
   "verificationEducation": {
     "title": "Telefonnummer",
     "header": "Verbinde deine Telefonnummer",
-    "body": "Um sicherzustellen, dass deine Nummer wirklich deine ist, senden wir dir drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
-    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst du drei Nachrichten.",
+    "body": "Um sicherzugehen, dass deine Nummer auch wirklich dir gehört, erhältst du drei SMS-Benachrichtigungen, die jeweils etwa 0,05 cUSD kosten.\n\nDie Verbindung dauert etwa drei Minuten.",
+    "feelessBody": "Du erhältst drei Benachrichtigungen, die dir helfen, deine Telefonnummer sicher zu verbinden. Die Verbindung dauert etwa drei Minuten.",
     "start": "Start",
     "resume": "Fortfahren",
-    "doINeedToConfirm": "Muss ich bestätigen?",
+    "doINeedToConfirm": "Muss ich verbinden?",
     "skipForNow": "Vorerst überspringen",
     "bodyInsufficientBalance": "Dein aktueller Guthaben ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
-    "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
+    "bodyAlreadyVerified": "Deine Nummer ist bereits verbunden!"
   },
   "verificationSkipDialog": {
     "title": "Bist du sicher?",
-    "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "body": "Das Verbinden ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nNicht verbundene Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
   "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Guthaben an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
+    "body": "Das Verbinden ermöglicht es, Guthaben mit deiner Telefonnummer zu versenden und zu empfangen.\n\n<0>Kann ich das später machen? </0>\n\nJa, aber nicht verbundene Wallets können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
@@ -815,7 +816,7 @@
   "success": {
     "message": "Du bist fertig!"
   },
-  "verificationUnavailable": "Die Telefonnummernbestätigung ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, sobald die Bestätigung wieder möglich ist.\n\nIn der Zwischenzeit kannst du Valora weiter nutzen! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher aufbewahrt, bis du sie einlöst, indem du deine Telefonnummer bestätigst.",
+  "verificationUnavailable": "Die Verbindung der Telefonnummer ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, wenn eine Verbindung erneut möglich ist.\n\nIn der Zwischenzeit kannst du {{appName}} weiter verwenden! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher getätigt, bis du diese durch Verbindung deines Kontos einlöst.",
   "requests": "Anfragen",
   "empty": "Du hast keine Zahlungsanfragen",
   "celoDollarBalance": "Celo Dollar Guthaben",
@@ -825,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} angefordert",
   "outgoingPaymentRequestNotificationTitle": "Warte auf {{name}}",
   "requestUnavailableHeader": "Das Konto von {{displayName}} ist noch nicht verbunden.",
-  "requestUnavailableNoDisplayNameHeader": "Das Konto deines Kontakts ist nicht bestätigt",
+  "requestUnavailableNoDisplayNameHeader": "Die Telefonnummer deines Kontakts ist nicht mit einer Konto-Adresse verbunden.",
   "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an bestätigte Nummern gesendet werden.",
   "requestUnavailableNoNumberBody": "Dein Kontakt hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an verbundene Nummern gesendet werden.",
   "requesting": "Wird angefordert",
@@ -853,7 +854,7 @@
   "amountSent": "Betrag gesendet",
   "amountCeloWithdrawn": "Betrag (CELO)",
   "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
-  "inviteMoneyEscrow": "Sende diesem Kontakt eine Einladungsnachricht und er erhält das Geld, sobald er seine Nummer verbindet.",
+  "inviteMoneyEscrow": "Sende diesen Kontakten eine Einladungsnachricht, damit sie Guthaben erhalten, sobald sie ihre Telefonnummern verbunden haben.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -873,7 +874,7 @@
   "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
-  "inviteWithRewards": "Hey! Ich habe dir gerade Krypto mit meiner {{appname}} Brieftasche geschickt. Wenn du die App herunterlädst und deine Telefonnummer verbindest, bekommen wir beide eine {{amount}} {{token}} Belohnung. Benutze diesen Link: {{link}}",
+  "inviteWithRewards": "Hey! Ich habe dir gerade Kryptos mit meiner {{appName}}-Wallet überwiesen. Sobald du die App heruntergeladen und deine Telefonnummer verbunden hast, erhalten wir beide {{amount}} {{token}} als Reward. Verwende diesen Link: {{link}}",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -888,7 +889,7 @@
   "reminderSent": "Erinnerung gesendet",
   "reclaimPayment": "Zahlung zurückfordern",
   "totalRefunded": "Insgesamt erstattet",
-  "loadingVerificationStatus": "Überprüfe Empfängerbestätigung",
+  "loadingVerificationStatus": "Prüfe, ob der Empfänger verbunden ist…",
   "askForContactsPermissionAction": "Meine Kontakte erhalten",
   "newAccountBalance": "Neuer Guthaben: ",
   "estimatingFee": "Kostenvoranschlag ",
@@ -899,7 +900,7 @@
   "verificationCta": {
     "header": "An einen Freund senden?",
     "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
-    "cta": "Startbestätigung"
+    "cta": "Telefonnummer verbinden"
   },
   "importContactsCta": {
     "header": "Kontakte importieren",
@@ -1007,7 +1008,7 @@
   "sent": "Versendet",
   "received": "Erhalten",
   "viewAll": "Alle anzeigen",
-  "thanksForVerifying": "Vielen Dank für deine Bestätigung",
+  "thanksForVerifying": "Vielen Dank für deine Verbindung",
   "goldIsWhereYouSave": "CELO ist der Ort, an dem du Celo Dollar sparen kannst",
   "dinner": "Abendessen",
   "bikeParts": "Fahrradteile",
@@ -1074,7 +1075,7 @@
   "feedItemCeloRewardReceivedTitle": "Verdiente CELO",
   "feedItemRewardReceivedTitle": "Supercharge",
   "feedItemRewardReceivedInfo": "Wöchentliche Rewards",
-  "feedItemInviteRewardReceivedTitle": "Supercharge",
+  "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Rewards erhalten",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -1220,22 +1221,22 @@
   "merchantWalletUnlockError": "Beim Entsperren deines Wallets ist etwas schief gelaufen, bitte versuche es erneut",
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "selectProviderScreen": {
-    "somePaymentsUnavailable": "Einige Zahlungsarten sind in deiner Region nicht verfügbar",
+    "somePaymentsUnavailable": "Einige der Zahlungsmethoden sind in deiner Region nicht verfügbar",
     "learnMore": "Mehr Infos.",
-    "whyMissingPayments": "Warum sehe ich nicht mehr Zahlungsmöglichkeiten?",
+    "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
-    "missingPaymentsExplained": "Nicht alle Zahlungsmethoden sind in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass die Option in diesem Land nicht existiert oder aufgrund lokaler Vorschriften blockiert ist.",
-    "cryptoExchange": "Kryptowährungsbörse",
+    "missingPaymentsExplained": "Es sind nicht alle Zahlungsmethoden in jedem einzelnen Land verfügbar.\n\nDas kann daran liegen, dass diese Option in diesem Land nicht verfügbar ist oder aufgrund der regionalen Bestimmungen blockiert wurde.",
+    "cryptoExchange": "Kryptobörse",
     "feesVary": "Gebühren variieren",
-    "viewExchanges": "Tauschbörsen ansehen",
+    "viewExchanges": "Kryptobörsen ansehen",
     "card": "Kredit-/Debitkarte",
     "bank": "Bankkonto",
     "mobileMoney": "Mobiles Geld",
-    "minFee": "Min Gebühr",
+    "minFee": "Mindestgebühr",
     "numProviders": "{{count}} Anbieter",
     "fee": "Gebühr",
     "idRequired": "ID erforderlich",
-    "numDays": "1-3 Tage",
+    "numDays": "1–3 Tage",
     "oneHour": "Weniger als 1 Stunde",
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
@@ -1243,22 +1244,46 @@
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Guthaben hinzufügen",
-      "fiatExchangeSubtitle": "Lade dein {{appName}} Konto von einer Bank, einer Karte oder einer Börse auf.",
+      "fiatExchangeSubtitle": "Lade dein {{appName}}-Konto über eine Bank, eine Karte oder eine Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
       "exchangeAmountTitle": "Füge {{currency}} hinzu",
       "selectProviderHeader": "Zahlungsmethode auswählen"
     },
     "cashOut": {
       "fiatExchangeTitle": "Abheben",
-      "fiatExchangeSubtitle": "Überweise Geld aus {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder auf mobiles Geld.",
+      "fiatExchangeSubtitle": "Überweise Guthaben von {{appName}} auf ein Bankkonto, eine Karte, eine Kryptobörse oder erhalte es als mobiles Geld.",
       "selectCurrencyTitle": "Guthaben abheben",
       "exchangeAmountTitle": "{{currency}} abheben",
       "selectProviderHeader": "Auszahlungsmethode auswählen"
     },
     "spend": {
       "fiatExchangeTitle": "Ausgeben",
-      "fiatExchangeSubtitle": "Gib sie für Geschenkkarten und andere Einkäufe aus.",
-      "selectCurrencyTitle": "Mittel ausgeben"
+      "fiatExchangeSubtitle": "Gib es für Geschenkkarten und andere Einkäufe aus.",
+      "selectCurrencyTitle": "Guthaben ausgeben"
+    }
+  },
+  "fiatDetailsScreen": {
+    "header": "Bankdaten eingeben",
+    "selectedPaymentOption": "Gewählte Zahlungsoption",
+    "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
+    "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
+    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support."
+  },
+  "fiatAccountSchema": {
+    "accountName": {
+      "label": "Kontoname",
+      "placeholderText": "Ein Name für das Konto",
+      "errorMessage": "Ein Kontoname ist erforderlich"
+    },
+    "institutionName": {
+      "label": "Bankname",
+      "placeholderText": "Bankname eingeben",
+      "errorMessage": "Ein Bankname ist erforderlich"
+    },
+    "accountNumber": {
+      "label": "Kontonummer",
+      "placeholderText": "Gib deine 10-stellige Kontonummer ein",
+      "errorMessage": "Die Kontonummer muss zehn Ziffern lang sein und darf nur Zahlen enthalten"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
