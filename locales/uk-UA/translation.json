@@ -1245,6 +1245,21 @@
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Payment Method",
+    "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Connected via {{providerName}}",
+    "cashIn": {
+      "header": "Review Add Funds",
+      "button": "Додати кошти",
+      "transactionDetailsAmount": "Total Price"
+    },
+    "cashOut": {
+      "header": "Review Withdraw",
+      "button": "Вивести кошти",
+      "transactionDetailsAmount": "Withdraw Amount"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Додати кошти",
