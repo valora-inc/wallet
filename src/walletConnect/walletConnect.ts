@@ -4,10 +4,10 @@ import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { ActiveDapp } from 'src/app/reducers'
-import { activeDappSelector, activeScreenSelector } from 'src/app/selectors'
+import { activeDappSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
 import i18n from 'src/i18n'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
@@ -62,15 +62,16 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletConnectLoading]) {
-  yield call(navigate, Screens.WalletConnectLoading, params)
+export function* handleLoadingWithTimeout(
+  params: Partial<StackParamList[Screens.WalletConnectRequest]>
+) {
+  yield call(navigate, Screens.WalletConnectRequest, { ...params, loading: true })
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
+    // TODO: figure out a new condition for this
     appNavigation: take(
-      (action: AppActionTypes) =>
-        action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
-        action.activeScreen !== Screens.WalletConnectLoading
+      (action: AppActionTypes) => action.type === AppActions.ACTIVE_SCREEN_CHANGED
     ),
   })
 
@@ -80,6 +81,8 @@ export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletC
       dappRequestOrigin: getDappRequestOrigin(activeDapp),
       error: 'timed out while waiting for a session',
     })
+
+    // TODO: bring this into redux
     yield call(handleWalletConnectNavigate, Screens.WalletConnectResult, {
       title: i18n.t('timeoutTitle'),
       subtitle: i18n.t('timeoutSubtitle'),
@@ -87,13 +90,9 @@ export function* handleLoadingWithTimeout(params: StackParamList[Screens.WalletC
   }
 }
 
+// TODO: remove
 export function* handleWalletConnectNavigate(...args: Parameters<typeof navigate>) {
   // prevent wallet connect loading screen from remaining on the navigation
   // stack and being navigated back to
-  const activeScreen = yield select(activeScreenSelector)
-  if (activeScreen === Screens.WalletConnectLoading) {
-    replace(...args)
-  } else {
-    navigate(...args)
-  }
+  navigate(...args)
 }

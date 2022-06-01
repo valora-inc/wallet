@@ -15,7 +15,7 @@ import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -398,10 +398,7 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...defaultSessionTrackedProperties,
   })
 
-  yield call(handleWalletConnectNavigate, Screens.WalletConnectSessionRequest, {
-    version: 1,
-    session,
-  })
+  yield call(navigate, Screens.WalletConnectRequest, { loading: false })
 }
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {

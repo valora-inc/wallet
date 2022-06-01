@@ -11,6 +11,10 @@ export function selectPendingActions(state: RootState) {
   return state.walletConnect.v1.pendingActions
 }
 
+export function selectPendingSessions(state: RootState) {
+  return state.walletConnect.v1.pendingSessions
+}
+
 export function selectHasPendingState(state: RootState) {
   return (
     state.walletConnect.v1.pendingSessions.length > 0 ||

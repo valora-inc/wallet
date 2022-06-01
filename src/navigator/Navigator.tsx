@@ -5,18 +5,18 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import BankAccounts from 'src/account/BankAccounts'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -116,10 +116,9 @@ import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
-import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
-import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
@@ -163,19 +162,14 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={DappKitTxDataScreen.navigationOptions}
       />
       <Navigator.Screen
-        name={Screens.WalletConnectLoading}
-        component={WalletConnectLoading}
-        options={WalletConnectLoading.navigationOptions}
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={headerWithBackButton}
       />
       <Navigator.Screen
         name={Screens.WalletConnectResult}
         component={WalletConnectResult}
         options={WalletConnectResult.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectSessionRequest}
-        component={WalletConnectSessionRequestScreen}
-        options={WalletConnectSessionRequestScreen.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.WalletConnectActionRequest}
