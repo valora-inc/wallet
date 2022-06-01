@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Натисніть, щоб скопіювати свою {{appName}} адресу CUSD",
   "disclaimerFiat": "Значення {{currency}} є оцінюваними.",
   "dollarsNotYetEnabledNote": "Celo Dollars поки що не доступні ні для кого з постачальників. Щоб отримати Celo Dollars, придбайте CELO й обміняйте його на Celo Dollars у вкладці CELO.",
-  "selectDigitalCurrency": "Виберіть цифровий актив",
+  "selectDigitalCurrency": "Виберіть медіафайл",
   "selectPaymentMethod": "Виберіть спосіб:",
   "payWithBank": "Банківський рахунок",
   "payWithCard": "Дебетова картка",
@@ -1229,7 +1229,7 @@
     "learnMore": "Дізнатися більше.",
     "whyMissingPayments": "Чому я не бачу більше способів оплати?",
     "dismiss": "Відхилити",
-    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nЦе може бути пов’язано з тим, що такого параметра немає в цій країні або його заблоковано відповідно до місцевих правил.",
+    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nДоступність залежить від географічного покриття кожного постачальника.",
     "cryptoExchange": "Біржа криптовалют",
     "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
@@ -1269,14 +1269,14 @@
       "selectProviderHeader": "Виберіть спосіб оплати"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Зняти",
+      "fiatExchangeTitle": "Вивести кошти",
       "fiatExchangeSubtitle": "Виведіть кошти з {{appName}} на банківський рахунок, картку, біржу криптовалют або на мобільні гроші.",
       "selectCurrencyTitle": "Вивести кошти",
       "exchangeAmountTitle": "Зняти {{currency}}",
       "selectProviderHeader": "Виберіть спосіб зняття"
     },
     "spend": {
-      "fiatExchangeTitle": "Витратити",
+      "fiatExchangeTitle": "Витратити кошти",
       "fiatExchangeSubtitle": "Витрачайте на подарункові картки та інші придбання.",
       "selectCurrencyTitle": "Витратити кошти"
     }
