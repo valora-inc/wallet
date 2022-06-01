@@ -991,6 +991,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
 }
 
 interface GethEventsProperties {
