@@ -58,7 +58,7 @@ export async function resetStateOnInvalidStoredAccount(state: RootState | undefi
       }
       if (!passwordHash) {
         // No password hash present, we need to reset the redux state and remove existing accounts from the keychain
-        // which we can't be unlocked without the password hash
+        // which we can't unlock without the password hash
         ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, { walletAddress })
         await clearStoredAccounts()
         Logger.info(TAG, `State reset`)
