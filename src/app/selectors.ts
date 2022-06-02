@@ -81,6 +81,7 @@ export const showRaiseDailyLimitSelector = createSelector(
   }
 )
 
+// Added isE2EEnv to test supercharge behavior in E2E tests
 export const rewardsEnabledSelector = createSelector(
   [accountAddressSelector, (state) => state.app.superchargeTokens],
   (address, superchargeTokens) => !!address && superchargeTokens.length > 0

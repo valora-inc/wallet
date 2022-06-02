@@ -66,6 +66,7 @@ export interface State {
   activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
+  celoWithdrawalEnabledInExchange: boolean
   fiatConnectEnabled: boolean
 }
 
@@ -114,6 +115,7 @@ const initialState = {
   activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
+  celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
   fiatConnectEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectEnabled,
 }
 
@@ -231,6 +233,7 @@ export const appReducer = (
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
         skipProfilePicture: action.configValues.skipProfilePicture,
         finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
+        celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
         fiatConnectEnabled: action.configValues.fiatConnectEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:

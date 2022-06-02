@@ -193,6 +193,7 @@ export interface RemoteConfigValues {
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
+  celoWithdrawalEnabledInExchange: boolean
   fiatConnectEnabled: boolean
 }
 

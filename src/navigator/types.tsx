@@ -1,5 +1,10 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import {
+  AccountNumber,
+  FiatAccountSchema,
+  FiatAccountType,
+  QuoteResponse,
+} from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -7,7 +12,7 @@ import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow, FiatExchangeFlow, RawSimplexQuote } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, ProviderInfo, RawSimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -51,6 +56,9 @@ interface SendConfirmationLegacyParams {
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
 }
+
+// Union type of supported fiat accounts
+export type FiatAccount = AccountNumber
 
 export type StackParamList = {
   [Screens.BackupComplete]:
@@ -132,6 +140,13 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
+  }
+  [Screens.FiatConnectReview]: {
+    flow: CICOFlow
+    cicoQuote: QuoteResponse
+    provider: ProviderInfo
+    fiatAccountSchema: FiatAccountSchema
+    fiatAccount: FiatAccount
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

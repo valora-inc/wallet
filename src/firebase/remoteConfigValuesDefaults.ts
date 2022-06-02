@@ -69,5 +69,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsWebViewEnabled: false,
   skipProfilePicture: false,
   finclusiveUnsupportedStates: 'NY,TX',
+  celoWithdrawalEnabledInExchange: true,
   fiatConnectEnabled: false,
 }

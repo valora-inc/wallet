@@ -1267,14 +1267,26 @@ export const v51Schema = {
   ...v50Schema,
   _persist: {
     ...v50Schema._persist,
-    version: 50,
+    version: 51,
   },
   app: {
     ...v50Schema.app,
+    celoWithdrawalEnabledInExchange: true,
+  },
+}
+
+export const v52Schema = {
+  ...v51Schema,
+  _persist: {
+    ...v51Schema._persist,
+    version: 52,
+  },
+  app: {
+    ...v51Schema.app,
     fiatConnectEnabled: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v51Schema as Partial<RootState>
+  return v52Schema as Partial<RootState>
 }

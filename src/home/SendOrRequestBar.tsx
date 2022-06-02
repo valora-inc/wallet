@@ -53,7 +53,7 @@ export default function SendOrRequestBar() {
         disabled={requestButtonDisabled}
         testID="SendOrRequestBar/RequestButton"
       />
-      <Touchable borderless={true} onPress={onPressQrCode}>
+      <Touchable borderless={true} onPress={onPressQrCode} testID="SendOrRequestBar/QRCode">
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
     </View>
