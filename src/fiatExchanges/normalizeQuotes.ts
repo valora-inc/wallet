@@ -66,16 +66,16 @@ export function normalizeExternalProviders(
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
-  input?.forEach((provider) => {
+  input.forEach((provider) => {
     try {
-      // Sometimes the quote is an array and sometimes its a single quote
-      const quotes = Array.isArray(provider.quote) ? provider.quote : [provider.quote]
-      quotes.forEach((quote) => {
-        if (quote) {
+      if (provider.quote) {
+        // Sometimes the quote is an array and sometimes its a single quote
+        const quotes = Array.isArray(provider.quote) ? provider.quote : [provider.quote]
+        quotes.forEach((quote) => {
           const normalizedQuote = new ExternalQuote({ quote, provider, flow })
           normalizedQuotes.push(normalizedQuote)
-        }
-      })
+        })
+      }
     } catch (err) {
       Logger.warn(TAG, err)
     }
