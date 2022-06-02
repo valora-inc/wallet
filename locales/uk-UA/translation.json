@@ -1229,7 +1229,7 @@
     "learnMore": "Дізнатися більше.",
     "whyMissingPayments": "Чому я не бачу більше способів оплати?",
     "dismiss": "Відхилити",
-    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nДоступність залежить від географічного покриття кожного постачальника.",
+    "missingPaymentsExplained": "Не всі методи оплати доступні в кожній країні.\n\nДоступність залежить від географічного охоплення кожного постачальника.",
     "cryptoExchange": "Біржа криптовалют",
     "feesVary": "Комісія є різною",
     "viewExchanges": "Переглянути біржі",
@@ -1248,16 +1248,16 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі операції",
-    "paymentMethodVia": "Підключено через {{providerName}}",
+    "paymentMethodVia": "Підключення через {{providerName}}",
     "cashIn": {
-      "header": "Відгук додає кошти",
+      "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
-      "transactionDetailsAmount": "Загальна ціна"
+      "transactionDetailsAmount": "Сума"
     },
     "cashOut": {
-      "header": "Перегляд зняття",
+      "header": "Перегляд - Вивести кошти",
       "button": "Вивести кошти",
-      "transactionDetailsAmount": "Сума зняття"
+      "transactionDetailsAmount": "Сума виведення"
     }
   },
   "fiatExchangeFlow": {
