@@ -1225,7 +1225,7 @@
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
-    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nYalnızca ülkenizde coğrafi kapsama alanı olan sağlayıcıları göreceksiniz.",
+    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nYalnızca ülkenizde geçerli sağlayıcıları göreceksiniz.",
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
@@ -1243,7 +1243,7 @@
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
-    "transactionDetails": "İşlemler detayları",
+    "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
