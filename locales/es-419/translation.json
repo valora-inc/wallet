@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
   "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
   "dollarsNotYetEnabledNote": "Los Celo Dollars aún no están disponibles en ningún proveedor. Para obtener Celo Dollars, compra CELO y cámbialos por Celo Dollars directamente en Valora, desde la pestaña CELO.",
-  "selectDigitalCurrency": "Selecciona un activo digital",
+  "selectDigitalCurrency": "Selecciona un activo",
   "selectPaymentMethod": "Seleccionar método:",
   "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
@@ -1225,7 +1225,7 @@
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
-    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en todos los países.\n\nEsto puede deberse a que la opción no existe en ese país, o está bloqueada debido a la normativa local.",
+    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en tu país.\n\nSolo verás los proveedores que tengan cobertura geográfica en tu región.",
     "cryptoExchange": "Exchange de criptomonedas",
     "feesVary": "Las tarifas varían",
     "viewExchanges": "Ver exchanges",
@@ -1241,6 +1241,21 @@
     "bestRate": "Mejor tarifa",
     "header": "Selecciona el método de pago"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Método de pago",
+    "transactionDetails": "Detalles de transacción",
+    "paymentMethodVia": "Conexión de {{providerName}}",
+    "cashIn": {
+      "header": "Revisión - Agregar fondos",
+      "button": "Agregar fondos",
+      "transactionDetailsAmount": "Precio total"
+    },
+    "cashOut": {
+      "header": "Revisión - Retirar fondos",
+      "button": "Retirar fondos",
+      "transactionDetailsAmount": "Monto a retirar"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Agregar fondos",
@@ -1250,14 +1265,14 @@
       "selectProviderHeader": "Selecciona el método de pago"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Retirar",
+      "fiatExchangeTitle": "Retirar fondos",
       "fiatExchangeSubtitle": "Retira fondos de {{appName}} a tu cuenta bancaria, tarjeta, exchange de criptomonedas o cuenta de dinero digital.",
       "selectCurrencyTitle": "Retirar fondos",
       "exchangeAmountTitle": "Retirar {{currency}}",
       "selectProviderHeader": "Selecciona el método de retiro"
     },
     "spend": {
-      "fiatExchangeTitle": "Usar",
+      "fiatExchangeTitle": "Gastar fondos",
       "fiatExchangeSubtitle": "Gasta tus fondos en tarjetas regalo y otras compras.",
       "selectCurrencyTitle": "Gastar fondos"
     }
