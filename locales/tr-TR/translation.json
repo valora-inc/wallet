@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
   "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
-  "selectDigitalCurrency": "Select an asset",
+  "selectDigitalCurrency": "Bir varlık seçin",
   "selectPaymentMethod": "Yöntem seçin:",
   "payWithBank": "Banka hesabı",
   "payWithCard": "Banka kartı",
@@ -1225,7 +1225,7 @@
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
-    "missingPaymentsExplained": "Not all payment methods are available in every country.\n\nAvailability depends on each provider's geographical coverage.",
+    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nYalnızca ülkenizde coğrafi kapsama alanı olan sağlayıcıları göreceksiniz.",
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
@@ -1242,18 +1242,18 @@
     "header": "Ödeme Yöntemi Seç"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Payment Method",
-    "transactionDetails": "Transaction Details",
+    "paymentMethod": "Ödeme yöntemi",
+    "transactionDetails": "İşlemler detayları",
     "paymentMethodVia": "Connected via {{providerName}}",
     "cashIn": {
-      "header": "Review Add Funds",
+      "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
       "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {
-      "header": "Review Withdraw",
+      "header": "Gözden Geçir - Bakiye Çek",
       "button": "Bakiye Çek",
-      "transactionDetailsAmount": "Withdraw Amount"
+      "transactionDetailsAmount": "Tutar"
     }
   },
   "fiatExchangeFlow": {
