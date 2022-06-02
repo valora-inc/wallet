@@ -1244,16 +1244,16 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlemler detayları",
-    "paymentMethodVia": "Connected via {{providerName}}",
+    "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
-      "transactionDetailsAmount": "Total Price"
+      "transactionDetailsAmount": "Toplam fiyat"
     },
     "cashOut": {
       "header": "Gözden Geçir - Bakiye Çek",
       "button": "Bakiye Çek",
-      "transactionDetailsAmount": "Tutar"
+      "transactionDetailsAmount": "Para çekme tutar"
     }
   },
   "fiatExchangeFlow": {
@@ -1272,7 +1272,7 @@
       "selectProviderHeader": "Para Çekme Yöntemi Seç"
     },
     "spend": {
-      "fiatExchangeTitle": "Para Harcama",
+      "fiatExchangeTitle": "Harcama Çek",
       "fiatExchangeSubtitle": "Hediye kartları ve diğer satın alma işlemleri için harcayın.",
       "selectCurrencyTitle": "Para Harcama"
     }
