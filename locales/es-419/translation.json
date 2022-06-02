@@ -1243,17 +1243,17 @@
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pago",
-    "transactionDetails": "Detalles de la transacción",
-    "paymentMethodVia": "Conectado a través de {{providerName}}",
+    "transactionDetails": "Detalles de transacción",
+    "paymentMethodVia": "Conexión de {{providerName}}",
     "cashIn": {
-      "header": "Revisar la adición de fondos",
+      "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
       "transactionDetailsAmount": "Precio total"
     },
     "cashOut": {
-      "header": "Revisión Retirada",
+      "header": "Revisión - Retirar fondos",
       "button": "Retirar fondos",
-      "transactionDetailsAmount": "Retirar el importe"
+      "transactionDetailsAmount": "Monto a retirar"
     }
   },
   "fiatExchangeFlow": {
