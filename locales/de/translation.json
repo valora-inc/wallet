@@ -1225,7 +1225,7 @@
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
-    "missingPaymentsExplained": "Nicht alle Zahlungsarten sind in jedem Land verfügbar.\n\nDie Verfügbarkeit hängt von der geografischen Abdeckung des jeweiligen Anbieters ab.",
+    "missingPaymentsExplained": "Es sind nicht alle Zahlungsmethoden in jedem einzelnen Land verfügbar.\n\nDie Verfügbarkeit hängt von der geografischen Abdeckung des jeweiligen Anbieters ab.",
     "cryptoExchange": "Kryptobörse",
     "feesVary": "Gebühren variieren",
     "viewExchanges": "Kryptobörsen ansehen",
@@ -1243,17 +1243,17 @@
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Zahlungsmethode",
-    "transactionDetails": "Transaktionsdetails",
-    "paymentMethodVia": "Verbunden über {{providerName}}",
+    "transactionDetails": "Transaktiondetails",
+    "paymentMethodVia": "Über {{providerName}} verbunden",
     "cashIn": {
-      "header": "Überprüfung Fonds hinzufügen",
+      "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
       "transactionDetailsAmount": "Gesamtpreis"
     },
     "cashOut": {
-      "header": "Überprüfung Zurückziehen",
+      "header": "Guthaben abheben überprüfen",
       "button": "Guthaben abheben",
-      "transactionDetailsAmount": "Betrag abheben"
+      "transactionDetailsAmount": "Abheben-Betrag"
     }
   },
   "fiatExchangeFlow": {
