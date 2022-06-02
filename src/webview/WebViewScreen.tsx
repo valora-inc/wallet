@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActionSheetIOS, ActivityIndicator, Platform, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import WebView, { WebViewRef } from 'src/components/WebView'
 import BackChevron from 'src/icons/BackChevron'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import Refresh from 'src/icons/Refresh'
+import TripleDotVertical from 'src/icons/TripleDotVertical'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -21,9 +22,11 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
+import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import useBackHandler from 'src/utils/useBackHandler'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { WebViewAndroidBottomSheet } from 'src/webview/WebViewAndroidBottomSheet'
 import { parse } from 'url'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
@@ -39,6 +42,8 @@ function WebViewScreen({ route, navigation }: Props) {
   const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
+  const [showingBottomSheet, setShowingBottomSheet] = useState(false)
+  const [bottomSheetResult, setBottomSheetResults] = useState('')
 
   const handleSetNavigationTitle = useCallback(
     (url: string, title: string, loading: boolean) => {
@@ -145,6 +150,29 @@ function WebViewScreen({ route, navigation }: Props) {
     webViewRef.current?.goBack()
   }
 
+  // iOS Action sheet
+  const OpenActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [t('webView.openExternal'), t('dismiss')],
+        cancelButtonIndex: 1,
+      },
+      (buttonIndex: number) => {
+        switch (buttonIndex) {
+          case 0:
+            navigateToURI(uri)
+            break
+          default:
+          case 1:
+            break
+        }
+      }
+    )
+  }
+
+  // Toggle for Android Bottom Sheet - passed to WebViewAndroidBottomSheet
+  const toggleBottomSheet = () => setShowingBottomSheet((value: boolean) => !value)
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
@@ -160,6 +188,14 @@ function WebViewScreen({ route, navigation }: Props) {
           handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
       />
+      {Platform.OS === 'android' && (
+        <WebViewAndroidBottomSheet
+          targetUrl={uri}
+          isVisible={showingBottomSheet}
+          onClose={() => toggleBottomSheet()}
+          toggleBottomSheet={toggleBottomSheet}
+        />
+      )}
       <View style={styles.navBar}>
         <Touchable
           onPress={handleGoBack}
@@ -179,6 +215,9 @@ function WebViewScreen({ route, navigation }: Props) {
         </Touchable>
         <Touchable onPress={handleRefresh} hitSlop={iconHitslop} testID="WebViewScreen/Refresh">
           <Refresh height={20} color={colors.dark} />
+        </Touchable>
+        <Touchable onPress={Platform.OS === 'ios' ? OpenActionSheet : toggleBottomSheet}>
+          <TripleDotVertical color={colors.dark} />
         </Touchable>
       </View>
     </SafeAreaView>

@@ -11,11 +11,12 @@ interface Props {
   isVisible: boolean
   onBackgroundPress?: () => void
   children?: JSX.Element
+  style?: {}
 }
 
 const MIN_EMPTY_SPACE = 100
 
-function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
+function BottomSheet({ children, isVisible, onBackgroundPress, style }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
   const safeAreaInsets = useSafeAreaInsets()
@@ -66,7 +67,12 @@ function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
         />
       </Animated.View>
       <Animated.ScrollView
-        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
+        style={[
+          styles.contentContainer,
+          { paddingBottom, maxHeight },
+          animatedPickerPosition,
+          style,
+        ]}
         contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
         onLayout={onLayout}
       >
