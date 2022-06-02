@@ -276,9 +276,9 @@
   "exchanges": "Криптобиржа",
   "noExchanges": "В вашем регионе отсутствуют доступные Криптобиржа для {{digitalAsset}}.",
   "buySellOnExchanges": "Покупка/продажа на Криптобиржа",
-  "cashOut": "Вывод средств",
+  "cashOut": "Вывод средства",
   "cashOutSubtitle": "Потратьте средства на подарочные сертификаты и другие покупки или отправьте их на Криптобиржа",
-  "cashOutComingSoon": "Вывод средств (скоро)",
+  "cashOutComingSoon": "Вывод средства (скоро)",
   "spend": "Потратить",
   "spendSubtitle": "Воспользуйтесь своим остатком у торговцев, обеспечивающих такую возможность",
   "amountCelo": "Сумма (CELO)",
@@ -1251,7 +1251,7 @@
     "paymentMethodVia": "Подключился через {{providerName}}.",
     "cashIn": {
       "header": "Обзор Добавить средства",
-      "button": "Внести средства",
+      "button": "Внести средств",
       "transactionDetailsAmount": "Общая цена"
     },
     "cashOut": {
@@ -1264,7 +1264,7 @@
     "cashIn": {
       "fiatExchangeTitle": "Внести средства",
       "fiatExchangeSubtitle": "Пополните свой счет {{appName}} из банка, с карты или биржи.",
-      "selectCurrencyTitle": "Внести средства",
+      "selectCurrencyTitle": "Внести средств",
       "exchangeAmountTitle": "Внести {{currency}}",
       "selectProviderHeader": "Выберите способ оплаты"
     },
@@ -1276,9 +1276,9 @@
       "selectProviderHeader": "Выберите способ вывода средств"
     },
     "spend": {
-      "fiatExchangeTitle": "Потратить средства",
+      "fiatExchangeTitle": "Потратить средств",
       "fiatExchangeSubtitle": "Потратить на подарочные сертификаты и другие покупки.",
-      "selectCurrencyTitle": "Потратить средства"
+      "selectCurrencyTitle": "Потратить средств"
     }
   },
   "fiatDetailsScreen": {
