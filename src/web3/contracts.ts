@@ -7,6 +7,7 @@ import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
 import { call, delay, select } from 'redux-saga/effects'
+import { accountCreationTimeSelector } from 'src/account/selectors'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -15,9 +16,11 @@ import { isProviderConnectionError } from 'src/geth/geth'
 import { waitForGethInitialized, waitForGethSync, waitForGethSyncAsync } from 'src/geth/saga'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
+import { importDekIfNecessary } from 'src/web3/dataEncryptionKey'
+import { ImportMnemonicAccount } from 'src/web3/KeychainSigner'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider, getIpcProvider } from 'src/web3/providers'
-import { fornoSelector } from 'src/web3/selectors'
+import { fornoSelector, walletAddressSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
 
 const TAG = 'web3/contracts'
@@ -30,9 +33,9 @@ let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
 
-async function initWallet() {
+async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new KeychainWallet()
+  const newWallet = new KeychainWallet(importMnemonicAccount)
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
@@ -72,9 +75,33 @@ export function* initContractKit() {
       const fornoMode = yield select(fornoSelector)
 
       Logger.info(`${TAG}@initContractKit`, `Initializing contractkit, forno mode: ${fornoMode}`)
-      Logger.info(`${TAG}@initContractKit`, 'Initializing wallet')
 
-      wallet = yield call(initWallet)
+      const walletAddress: string | null = yield select(walletAddressSelector)
+      const accountCreationTime: number = yield select(accountCreationTimeSelector)
+
+      // This is to migrate the existing account that used to be stored in the geth keystore
+      const importMnemonicAccount = {
+        address: walletAddress,
+        createdAt: new Date(accountCreationTime),
+      }
+      Logger.info(
+        `${TAG}@initContractKit`,
+        'Initializing wallet',
+        JSON.stringify(importMnemonicAccount)
+      )
+
+      wallet = yield call(initWallet, importMnemonicAccount)
+
+      try {
+        // This is to migrate the existing DEK that used to be stored in the geth keystore
+        // Note that the DEK is also currently in the redux store, but it should change at some point
+        if (walletAddress) {
+          yield call(importDekIfNecessary, wallet)
+        }
+      } catch (error) {
+        Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
+      }
+
       const web3 = yield call(initWeb3)
 
       Logger.info(
