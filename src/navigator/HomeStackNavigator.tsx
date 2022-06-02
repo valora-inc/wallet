@@ -5,8 +5,6 @@ import { headerWithBackButton, noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 
-const TAG = 'HomeStackNavigatorService'
-
 const Home = createStackNavigator()
 
 export default function HomeStackNavigator() {

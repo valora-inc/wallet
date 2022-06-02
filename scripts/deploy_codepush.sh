@@ -7,7 +7,7 @@ help () {
   echo "\t-e Environment: Environment to deploy to"
   echo "\nUseful scripts:"
   echo "Usage: Get the deployment key before deploying to codepush."
-  echo "\tappcenter codepush deployments list --displayKeys --app <appname>"
+  echo "\tappcenter codepush deployment list --displayKeys --app <appname>"
   exit 1
 }
 

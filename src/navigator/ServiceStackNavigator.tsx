@@ -7,8 +7,6 @@ import WalletServices from 'src/services/WalletServices'
 import SwapScreen from 'src/swap/SwapScreen'
 import VendorsScreen from 'src/vendors/VendorsScreen'
 
-const TAG = 'ServiceStackNavigatorService'
-
 const Service = createStackNavigator()
 
 export default function ServiceStackNavigator() {

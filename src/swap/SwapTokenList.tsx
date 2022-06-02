@@ -28,7 +28,7 @@ const SwapTokenList = ({ route }: Props) => {
 
   const Tokens = () =>
     tokens.map((token, index) => {
-      const [address, info] = token
+      const [, info] = token
       return <TokenListItem token={info} direction={direction} onClick={selectToken} />
     })
 

@@ -14,7 +14,7 @@ type Props = {
 }
 
 export default function VendorListItem({ vendor, key, onPress }: Props) {
-  const { title, description, siteURI, logoURI } = vendor
+  const { title, logoURI } = vendor
   return (
     <TouchableOpacity key={key} onPress={onPress}>
       <View style={styles.vendorItem}>
@@ -23,7 +23,11 @@ export default function VendorListItem({ vendor, key, onPress }: Props) {
           <Text style={styles.title}>{title}</Text>
         </View>
         <View style={styles.right}>
-          <TouchableOpacity onPress={() => {}} hitSlop={variables.iconHitslop}>
+          <TouchableOpacity
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            onPress={() => {}}
+            hitSlop={variables.iconHitslop}
+          >
             <Pin size={17} color={Colors.gray3} />
           </TouchableOpacity>
         </View>

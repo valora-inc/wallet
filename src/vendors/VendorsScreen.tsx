@@ -1,5 +1,5 @@
 import { map } from 'lodash'
-import React, { useRef } from 'react'
+import React from 'react'
 import { StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
@@ -12,8 +12,6 @@ import { CuracaoVendors } from 'src/vendors/vendors'
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 export default function VendorsScreen() {
-  const scrollPosition = useRef(new Animated.Value(0)).current
-
   const sections = map(CuracaoVendors, (vendor: Vendor) => {
     return vendor
   })
