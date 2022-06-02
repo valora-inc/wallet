@@ -1225,7 +1225,7 @@
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
-    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en todos los países.\n\nLa disponibilidad depende de la cobertura geográfica de cada proveedor.",
+    "missingPaymentsExplained": "No todos los métodos de pago están disponibles en tu país.\n\nSolo verás los proveedores que tengan cobertura geográfica en tu región.",
     "cryptoExchange": "Exchange de criptomonedas",
     "feesVary": "Las tarifas varían",
     "viewExchanges": "Ver exchanges",
@@ -1242,7 +1242,7 @@
     "header": "Selecciona el método de pago"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Forma de pago",
+    "paymentMethod": "Método de pago",
     "transactionDetails": "Detalles de la transacción",
     "paymentMethodVia": "Conectado a través de {{providerName}}",
     "cashIn": {
