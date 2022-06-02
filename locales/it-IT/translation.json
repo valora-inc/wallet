@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Tocca per copiare il tuo indirizzo cUSD {{appName}}",
   "disclaimerFiat": "I valori {{currency}} sono stime.",
   "dollarsNotYetEnabledNote": "I Celo Dollar non sono ancora disponibili presso alcun provider. Per ottenere Celo Dollar, acquista CELO e cambiali in Celo Dollar nella scheda CELO.",
-  "selectDigitalCurrency": "Seleziona un'attività",
+  "selectDigitalCurrency": "Seleziona un asset",
   "selectPaymentMethod": "Seleziona il metodo:",
   "payWithBank": "Conto bancario",
   "payWithCard": "Carta di debito",
@@ -1225,7 +1225,7 @@
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
-    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i paesi.\n\nLa disponibilità dipende dalla copertura geografica di ciascun fornitore.",
+    "missingPaymentsExplained": "Non tutti i metodi di pagamento sono disponibili in tutti i paesi.\n\nLa disponibilità dipende dalla copertura geografica di ciascun provider.",
     "cryptoExchange": "Exchange di criptovalute",
     "feesVary": "Le commissioni variano",
     "viewExchanges": "Visualizza gli exchange",
@@ -1246,7 +1246,7 @@
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegato via {{providerName}}",
     "cashIn": {
-      "header": "Revisione Aggiungi fondi",
+      "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
       "transactionDetailsAmount": "Prezzo totale"
     },
