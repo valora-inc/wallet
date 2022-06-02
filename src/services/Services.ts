@@ -28,6 +28,11 @@ export const CoreServices = [
     icon: RewardIcon,
     screen: Screens.Swap,
   },
+  {
+    title: 'servicesList.vendors',
+    icon: RewardIcon,
+    screen: Screens.VendorsScreen,
+  },
   // {
   //   title: 'serviceCICO',
   //   icon: null,

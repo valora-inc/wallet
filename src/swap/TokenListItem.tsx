@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: {
-    ...fontStyles.regular,
+    ...fontStyles.displayName,
   },
   symbol: {
     ...fontStyles.small400,
