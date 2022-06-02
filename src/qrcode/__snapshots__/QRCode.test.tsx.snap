@@ -141,6 +141,7 @@ exports[`QRCode renders correctly 1`] = `
         "paddingTop": 16,
       }
     }
+    testID="QRCode"
   >
     <svg
       height={375}

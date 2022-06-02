@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
   "disclaimerFiat": "{{currency}} values are estimates.",
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
-  "selectDigitalCurrency": "Select a digital asset",
+  "selectDigitalCurrency": "Select an asset",
   "selectPaymentMethod": "Select method:",
   "payWithBank": "Bank account",
   "payWithCard": "Debit card",
@@ -1227,7 +1227,7 @@
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
-    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
+    "missingPaymentsExplained": "Not all payment methods are available in every country.\n\nAvailability depends on each provider's geographical coverage.",
     "cryptoExchange": "Cryptocurrency Exchange",
     "feesVary": "Fees Vary",
     "viewExchanges": "View Exchanges",
@@ -1243,6 +1243,21 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Payment Method",
+    "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Connected via {{providerName}}",
+    "cashIn": {
+      "header": "Review Add Funds",
+      "button": "Add Funds",
+      "transactionDetailsAmount": "Total Price"
+    },
+    "cashOut": {
+      "header": "Review Withdraw",
+      "button": "Withdraw Funds",
+      "transactionDetailsAmount": "Withdraw Amount"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Add Funds",
@@ -1252,14 +1267,14 @@
       "selectProviderHeader": "Select Payment Method"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Withdraw",
+      "fiatExchangeTitle": "Withdraw Funds",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
       "selectProviderHeader": "Select Withdraw Method"
     },
     "spend": {
-      "fiatExchangeTitle": "Spend",
+      "fiatExchangeTitle": "Spend Funds",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
     }
