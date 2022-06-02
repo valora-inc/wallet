@@ -1251,7 +1251,7 @@
       "transactionDetailsAmount": "Prezzo totale"
     },
     "cashOut": {
-      "header": "Recensione Ritiro",
+      "header": "Rivedi - Preleva fondi",
       "button": "Preleva fondi",
       "transactionDetailsAmount": "Importo del prelievo"
     }
