@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Натисніть, щоб скопіювати свою {{appName}} адресу CUSD",
   "disclaimerFiat": "Значення {{currency}} є оцінюваними.",
   "dollarsNotYetEnabledNote": "Celo Dollars поки що не доступні ні для кого з постачальників. Щоб отримати Celo Dollars, придбайте CELO й обміняйте його на Celo Dollars у вкладці CELO.",
-  "selectDigitalCurrency": "Виберіть медіафайл",
+  "selectDigitalCurrency": "Виберіть актив",
   "selectPaymentMethod": "Виберіть спосіб:",
   "payWithBank": "Банківський рахунок",
   "payWithCard": "Дебетова картка",
