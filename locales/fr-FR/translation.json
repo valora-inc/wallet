@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse cUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
   "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
-  "selectDigitalCurrency": "Sélectionne un actif",
+  "selectDigitalCurrency": "Sélectionnez un actif",
   "selectPaymentMethod": "Sélectionnez la méthode :",
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
@@ -1225,7 +1225,7 @@
     "learnMore": "En savoir plus.",
     "whyMissingPayments": "Pourquoi ne vois-je pas plus de modes de paiement ?",
     "dismiss": "Ignorer",
-    "missingPaymentsExplained": "Tous les modes de paiement ne sont pas disponibles dans tous les pays.\n\nLa disponibilité dépend de la couverture géographique de chaque fournisseur.",
+    "missingPaymentsExplained": "Certaines modes de paiement ne sont pas disponibles dans tous les pays.\n\nLeur disponibilité dépend de la couverture géographique de chaque prestataire.",
     "cryptoExchange": "Échange de cryptomonnaie",
     "feesVary": "Les frais varient",
     "viewExchanges": "Voir les échanges",
@@ -1243,15 +1243,15 @@
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
-    "transactionDetails": "Détails de la transaction",
-    "paymentMethodVia": "Connecté via {{providerName}}",
+    "transactionDetails": "Détails de transaction",
+    "paymentMethodVia": "Connexion du {{providerName}}",
     "cashIn": {
-      "header": "Révision Ajouter des fonds",
+      "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
       "transactionDetailsAmount": "Prix total"
     },
     "cashOut": {
-      "header": "Revue Retirer",
+      "header": "Vérifier - Retirer des fonds",
       "button": "Retirer des fonds",
       "transactionDetailsAmount": "Montant du retrait"
     }
