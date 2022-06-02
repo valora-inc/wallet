@@ -8,9 +8,10 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
+import { Spacing } from 'src/styles/styles'
+import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
-import { selectPendingActions, selectPendingSessions } from 'src/walletConnect/v1/selectors'
+import { selectPendingSessions } from 'src/walletConnect/v1/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
@@ -19,8 +20,7 @@ function WalletConnectRequest({ navigation, route }: Props) {
   const fromScan = route.params?.origin === WalletConnectPairingOrigin.Scan
 
   const pendingSessions = useSelector(selectPendingSessions)
-  const pendingActions = useSelector(selectPendingActions)
-  const loading = route.params.loading
+  const { loading, pendingAction } = route.params
 
   return (
     <View style={styles.container}>
@@ -35,14 +35,14 @@ function WalletConnectRequest({ navigation, route }: Props) {
 
       {pendingSessions.length > 0 && <SessionRequest navigation={navigation} />}
 
-      {pendingActions.length > 0 && <Text> Pending action </Text>}
+      {pendingAction && <ActionRequest navigation={navigation} pendingAction={pendingAction} />}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: variables.contentPadding,
+    paddingHorizontal: Spacing.Thick24,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

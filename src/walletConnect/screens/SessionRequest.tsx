@@ -9,10 +9,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
-import {
-  acceptSession as acceptSessionV1,
-  denySession as denySessionV1,
-} from 'src/walletConnect/v1/actions'
+import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
 import { selectPendingSessions } from 'src/walletConnect/v1/selectors'
 
 type Props = {
@@ -32,12 +29,12 @@ function SessionRequest({ navigation }: Props) {
 
   const confirm = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptSessionV1(session)))
+    setIsAccepting(true, () => dispatch(acceptSession(session)))
   }
 
   const deny = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denySessionV1(session)))
+    setIsDenying(true, () => dispatch(denySession(session)))
   }
 
   const isLoading = isAccepting || isDenying

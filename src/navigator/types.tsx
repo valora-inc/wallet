@@ -316,17 +316,16 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectRequest]: { loading: boolean; origin?: WalletConnectPairingOrigin }
+  [Screens.WalletConnectRequest]: {
+    loading: boolean
+    origin?: WalletConnectPairingOrigin
+    pendingAction?: PendingAction
+  }
   [Screens.WalletConnectResult]: {
     title: string
     subtitle: string
   }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: PendingAction & {
-    dappName: string
-    dappUrl: string
-    dappIcon: string
-  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
