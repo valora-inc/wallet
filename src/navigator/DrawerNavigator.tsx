@@ -88,7 +88,6 @@ function CustomDrawerItemList({
   state,
   navigation,
   descriptors,
-  // itemStyle,
   protectedRoutes,
   ...passThroughProps
 }: CustomDrawerItemListProps) {
@@ -140,8 +139,10 @@ function CustomDrawerItemList({
         label={drawerLabel !== undefined ? drawerLabel : title !== undefined ? title : route.name}
         icon={drawerIcon}
         focused={focused}
-        // TODO(tomm): Investigate drawer styles
-        // style={itemStyle}
+        labelStyle={{
+          color: colors.dark,
+        }}
+        activeBackgroundColor={colors.gray2}
         to={buildLink(route.name, route.params)}
         onPress={onPress}
       />
