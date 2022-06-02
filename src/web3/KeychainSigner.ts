@@ -13,7 +13,12 @@ import CryptoJS from 'crypto-js'
 import * as bip39 from 'react-native-bip39'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { getStoredMnemonic } from 'src/backup/utils'
-import { listStoredItems, retrieveStoredItem, storeItem } from 'src/storage/keychain'
+import {
+  listStoredItems,
+  removeStoredItem,
+  retrieveStoredItem,
+  storeItem,
+} from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'web3/KeychainSigner'
@@ -90,7 +95,7 @@ async function getStoredPrivateKey(
  * The ordering is important: Geth KeyStore did this and some parts of the code base rely on it.
  * @param importMnemonicAccount ImportMnemonicAccount the existing account to import from the mnemonic, if not already present in the keychain
  */
-export async function listStoredAccounts(importMnemonicAccount: ImportMnemonicAccount) {
+export async function listStoredAccounts(importMnemonicAccount?: ImportMnemonicAccount) {
   let accounts: KeychainAccount[]
   try {
     const storedItems = await listStoredItems()
@@ -109,7 +114,7 @@ export async function listStoredAccounts(importMnemonicAccount: ImportMnemonicAc
       .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
 
     // Check if we need to migrate the existing Geth KeyStore based account into the keychain, by importing it from the mnemonic
-    if (importMnemonicAccount.address) {
+    if (importMnemonicAccount?.address) {
       const normalizedMnemonicAccountAddress = normalizeAddressWith0x(importMnemonicAccount.address)
       const account = accounts.find((a) => a.address === normalizedMnemonicAccountAddress)
       if (!account) {
@@ -161,6 +166,12 @@ async function importAndStorePrivateKeyFromMnemonic(account: KeychainAccount, pa
   await storePrivateKey(normalizedPrivateKey, account, password)
 
   return normalizedPrivateKey
+}
+
+export async function clearStoredAccounts() {
+  Logger.info(`${TAG}@clearStoredAccounts`, 'Clearing all accounts from keychain')
+  const accounts = await listStoredAccounts()
+  await Promise.all(accounts.map((account) => removeStoredItem(accountStorageKey(account))))
 }
 
 /**
