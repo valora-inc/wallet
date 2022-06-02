@@ -6,7 +6,7 @@ import {
   FetchProvidersOutput,
   PaymentMethod,
   RawProviderQuote,
-  RawSimplexQuote,
+  SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
@@ -19,18 +19,17 @@ const strings = {
   idRequired: i18n.t('selectProviderScreen.idRequired'),
 }
 
-export const isSimplexQuote = (
-  quote: RawProviderQuote | RawSimplexQuote
-): quote is RawSimplexQuote => !!quote && 'wallet_id' in quote
+export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 export default class ExternalQuote extends NormalizedQuote {
-  quote: RawProviderQuote | RawSimplexQuote
+  quote: RawProviderQuote | SimplexQuote
   provider: FetchProvidersOutput
   constructor({
     quote,
     provider,
     flow,
   }: {
-    quote: RawProviderQuote | RawSimplexQuote
+    quote: RawProviderQuote | SimplexQuote
     provider: FetchProvidersOutput
     flow: CICOFlow
   }) {

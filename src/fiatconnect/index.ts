@@ -1,12 +1,15 @@
 import {
   AddFiatAccountResponse,
+  CryptoType,
+  FiatType,
   QuoteErrorResponse,
   QuoteRequestQuery,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
-import { pickBy } from 'lodash'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from '../utils/Logger'
 
 const TAG = 'FIATCONNECT'
@@ -16,6 +19,17 @@ export interface FiatConnectProviderInfo {
   providerName: string
   imageUrl: string
   baseUrl: string
+}
+
+// A bit hacky. This function returns the currency code if localCurrency is in
+// FiatType and otherwise returns undefined
+function convertToFiatConnectFiatCurrency(localCurrency: LocalCurrencyCode): FiatType | undefined {
+  return FiatType[(localCurrency as unknown) as FiatType]
+}
+// A bit hacky. This function returns the crypto type if cicoCurrency is in
+// CryptoType and otherwise returns undefined
+function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType | undefined {
+  return CryptoType[(cicoCurrency as unknown) as CryptoType]
 }
 
 /**
@@ -41,9 +55,13 @@ export async function getFiatConnectProviders(
   return providers
 }
 
-type QuotesInput = QuoteRequestQuery & {
+type QuotesInput = {
   fiatConnectProviders: FiatConnectProviderInfo[]
   flow: CICOFlow
+  localCurrency: LocalCurrencyCode
+  digitalAsset: CiCoCurrency
+  cryptoAmount: number
+  country: string
 }
 
 type GetFiatConnectQuotesResponse = {
@@ -65,11 +83,19 @@ export type FiatConnectQuoteSuccess = {
 export async function getFiatConnectQuotes(
   params: QuotesInput
 ): Promise<(FiatConnectQuoteSuccess | FiatConnectQuoteError)[]> {
-  const { flow, fiatConnectProviders, ...otherParams } = params
-  const cleanParams = pickBy(otherParams, (v) => v !== undefined)
+  const { fiatConnectProviders, localCurrency, digitalAsset, cryptoAmount, country, flow } = params
+  const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
+  const cryptoType = convertToFiatConnectCryptoCurrency(digitalAsset)
+  if (!fiatType || !cryptoType) return []
+  const quoteParams: QuoteRequestQuery = {
+    fiatType,
+    cryptoType,
+    cryptoAmount: cryptoAmount.toString(),
+    country,
+  }
   const providers = fiatConnectProviders.map((provider) => provider.id).join(',')
   const queryParams = new URLSearchParams({
-    ...(cleanParams as Record<string, string>),
+    ...(quoteParams as Record<string, string>),
     providers,
     quoteType: flow === CICOFlow.CashIn ? 'in' : 'out',
   }).toString()

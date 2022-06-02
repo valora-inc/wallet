@@ -1535,6 +1535,9 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
+                "fiatConnectEnabled": {
+                    "type": "boolean"
+                },
                 "finclusiveUnsupportedStates": {
                     "items": {
                         "type": "string"
@@ -1682,6 +1685,7 @@
                 "celoWithdrawalEnabledInExchange",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
+                "fiatConnectEnabled",
                 "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",

@@ -1,8 +1,8 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { addNewFiatAccount, FiatConnectQuote } from 'src/fiatconnect'
+import { addNewFiatAccount } from 'src/fiatconnect'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -16,18 +16,14 @@ jest.mock('src/fiatconnect', () => ({
 const store = createMockStore({})
 const providerURL = 'https://superLegitCICOProvider.valoraapp.com'
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+  providerURL,
   fiatAccountSchema: FiatAccountSchema.AccountNumber,
   flow: CICOFlow.CashIn,
-  allowedValues: {},
-  fiatAccountType: FiatAccountType.BankAccount,
-  quote: {
-    provider: {
-      id: 'fake-id',
-      providerName: 'Fake Provider',
-      baseUrl: 'https://fake.url',
-      imageUrl: 'https://fake.logo.wide.url',
-    },
-  } as FiatConnectQuote,
+  provider: {
+    name: 'Fake Provider',
+    logo: 'https://fake.logo.url',
+    logoWide: 'https://fake.logo.wide.url',
+  },
 })
 describe('FiatDetailsScreen', () => {
   beforeEach(() => {

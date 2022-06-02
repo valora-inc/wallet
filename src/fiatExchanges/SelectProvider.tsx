@@ -1,4 +1,3 @@
-import { CryptoType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
@@ -75,9 +74,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
             const fiatConnectProviders = await getFiatConnectProviders(account)
             return getFiatConnectQuotes({
               fiatConnectProviders,
-              fiatType: FiatType.USD,
-              cryptoType: CryptoType.cUSD,
-              fiatAmount: route.params.amount.fiat.toString(),
+              localCurrency,
+              digitalAsset,
+              cryptoAmount: route.params.amount.crypto,
               country: userLocation?.countryCodeAlpha2 || 'US',
               flow,
             })

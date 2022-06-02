@@ -3,11 +3,17 @@ import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { CICOFlow, FetchProvidersOutput } from 'src/fiatExchanges/utils'
+import {
+  CICOFlow,
+  FetchProvidersOutput,
+  RawProviderQuote,
+  SimplexQuote,
+} from 'src/fiatExchanges/utils'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
 
+// Take FiatConnect Quotes and External Provider Quotes and return NormalizedQuote class instances
 export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
@@ -16,10 +22,10 @@ export function normalizeQuotes(
   return [
     ...normalizeFiatConnectQuotes(fiatConnectQuotes),
     ...normalizeExternalProviders(flow, externalProviders),
-  ].sort(sortQuotesByFee)
+  ].sort(quotesByFeeComparator)
 }
 
-export const sortQuotesByFee = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
+export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
   const providerFee1 = quote1.getFee() ?? 0
   const providerFee2 = quote2.getFee() ?? 0
 
@@ -71,7 +77,7 @@ export function normalizeExternalProviders(
       if (provider.quote) {
         // Sometimes the quote is an array and sometimes its a single quote
         const quotes = Array.isArray(provider.quote) ? provider.quote : [provider.quote]
-        quotes.forEach((quote) => {
+        quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
           const normalizedQuote = new ExternalQuote({ quote, provider, flow })
           normalizedQuotes.push(normalizedQuote)
         })

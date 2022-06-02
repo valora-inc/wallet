@@ -1,18 +1,12 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import {
-  AccountNumber,
-  FiatAccountSchema,
-  FiatAccountType,
-  QuoteResponse,
-} from '@fiatconnect/fiatconnect-types'
+import { AccountNumber, FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow, FiatExchangeFlow, ProviderInfo, RawSimplexQuote } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -93,9 +87,12 @@ export type StackParamList = {
     fromSyncBankAccountScreen?: boolean
   }
   [Screens.FiatDetailsScreen]: {
-    quote: FiatConnectQuote
-    fiatAccountType: FiatAccountType
+    providerURL: string
+    fiatAccountSchema: FiatAccountSchema
+    allowedValues?: Record<string, string[]>
+    cicoQuote?: QuoteResponse
     flow: CICOFlow
+    provider: ProviderInfo
   }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
@@ -169,7 +166,7 @@ export type StackParamList = {
     currencyToBuy: CiCoCurrency
   }
   [Screens.Simplex]: {
-    simplexQuote: RawSimplexQuote
+    simplexQuote: SimplexQuote
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
