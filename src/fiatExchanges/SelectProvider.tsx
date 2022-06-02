@@ -13,7 +13,7 @@ import { fiatConnectEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
-import { getFiatConnectProviders, getFiatConnectQuotes } from 'src/fiatconnect'
+import { fetchFiatConnectQuotes } from 'src/fiatconnect'
 import { normalizeQuotes } from 'src/fiatExchanges/normalizeQuotes'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import i18n from 'src/i18n'
@@ -69,20 +69,15 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         externalProviders,
         rawLegacyMobileMoneyProviders,
       ] = await Promise.all([
-        (async () => {
-          if (fiatConnectEnabled) {
-            const fiatConnectProviders = await getFiatConnectProviders(account)
-            return getFiatConnectQuotes({
-              fiatConnectProviders,
-              localCurrency,
-              digitalAsset,
-              cryptoAmount: route.params.amount.crypto,
-              country: userLocation?.countryCodeAlpha2 || 'US',
-              flow,
-            })
-          }
-          return []
-        })(),
+        fetchFiatConnectQuotes({
+          account,
+          localCurrency,
+          digitalAsset,
+          cryptoAmount: route.params.amount.crypto,
+          country: userLocation?.countryCodeAlpha2 || 'US',
+          flow,
+          fiatConnectEnabled,
+        }),
         fetchProviders({
           userLocation,
           walletAddress: account,

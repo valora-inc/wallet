@@ -116,6 +116,21 @@ export async function getFiatConnectQuotes(
       ) as FiatConnectProviderInfo,
     }))
 }
+type FetchQuotesInput = QuotesInput & {
+  fiatConnectEnabled: boolean
+  account: string
+}
+
+export async function fetchFiatConnectQuotes(params: FetchQuotesInput) {
+  const { account, fiatConnectEnabled, ...quotesInput } = params
+  if (!fiatConnectEnabled) return []
+  const fiatConnectProviders = await getFiatConnectProviders(account)
+  return getFiatConnectQuotes({
+    fiatConnectProviders,
+    ...quotesInput,
+  })
+}
+
 export async function addNewFiatAccount(
   providerURL: string,
   fiatAccountSchema: string,
