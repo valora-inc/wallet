@@ -115,7 +115,6 @@ import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
-import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 const TAG = 'Navigator'
@@ -164,11 +163,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.WalletConnectRequest}
         component={WalletConnectRequest}
         options={headerWithBackButton}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectResult}
-        component={WalletConnectResult}
-        options={WalletConnectResult.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen

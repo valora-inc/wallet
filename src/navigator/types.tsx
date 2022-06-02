@@ -320,10 +320,7 @@ export type StackParamList = {
     loading: boolean
     origin?: WalletConnectPairingOrigin
     pendingAction?: PendingAction
-  }
-  [Screens.WalletConnectResult]: {
-    title: string
-    subtitle: string
+    timedOut?: boolean
   }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined

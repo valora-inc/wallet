@@ -49,7 +49,6 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
-import { handleWalletConnectNavigate } from 'src/walletConnect/walletConnect'
 import { getWalletAddress } from 'src/web3/saga'
 import { showWalletConnectionSuccessMessage } from '../saga'
 
@@ -205,7 +204,7 @@ function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails
 
   // TODO: this is a short lived alternative to proper
   // transaction decoding.
-  yield call(handleWalletConnectNavigate, Screens.DappKitTxDataScreen, {
+  yield call(navigate, Screens.DappKitTxDataScreen, {
     dappKitData: infoString,
   })
 }

@@ -10,6 +10,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
+import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
 import { selectPendingSessions } from 'src/walletConnect/v1/selectors'
 
@@ -20,7 +21,7 @@ function WalletConnectRequest({ navigation, route }: Props) {
   const fromScan = route.params?.origin === WalletConnectPairingOrigin.Scan
 
   const pendingSessions = useSelector(selectPendingSessions)
-  const { loading, pendingAction } = route.params
+  const { loading, pendingAction, timedOut } = route.params
 
   return (
     <View style={styles.container}>
@@ -36,6 +37,8 @@ function WalletConnectRequest({ navigation, route }: Props) {
       {pendingSessions.length > 0 && <SessionRequest navigation={navigation} />}
 
       {pendingAction && <ActionRequest navigation={navigation} pendingAction={pendingAction} />}
+
+      {timedOut && <ConnectionTimedOut />}
     </View>
   )
 }

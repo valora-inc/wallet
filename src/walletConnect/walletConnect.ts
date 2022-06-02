@@ -2,16 +2,15 @@ import { call, delay, fork, race, select, take } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import { ActiveDapp } from 'src/app/reducers'
 import { activeDappSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
-import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
+import { Actions, WalletConnectActions } from 'src/walletConnect/v1/actions'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
@@ -69,9 +68,10 @@ export function* handleLoadingWithTimeout(
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    // TODO: figure out a new condition for this
-    appNavigation: take(
-      (action: AppActionTypes) => action.type === AppActions.ACTIVE_SCREEN_CHANGED
+    wcConnection: take(
+      // @ts-ignore why is this being complained about??
+      (action: WalletConnectActions) =>
+        action.type === Actions.SESSION_V1 || action.type === Actions.PAYLOAD_V1
     ),
   })
 
@@ -82,17 +82,6 @@ export function* handleLoadingWithTimeout(
       error: 'timed out while waiting for a session',
     })
 
-    // TODO: bring this into redux
-    yield call(handleWalletConnectNavigate, Screens.WalletConnectResult, {
-      title: i18n.t('timeoutTitle'),
-      subtitle: i18n.t('timeoutSubtitle'),
-    })
+    yield call(navigate, Screens.WalletConnectRequest, { loading: false, timedOut: true })
   }
-}
-
-// TODO: remove
-export function* handleWalletConnectNavigate(...args: Parameters<typeof navigate>) {
-  // prevent wallet connect loading screen from remaining on the navigation
-  // stack and being navigated back to
-  navigate(...args)
 }

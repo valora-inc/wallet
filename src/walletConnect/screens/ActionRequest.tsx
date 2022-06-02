@@ -89,6 +89,7 @@ function ActionRequest({ navigation, pendingAction }: Props) {
     if (!moreInfoString) {
       return
     }
+    // TODO: remove this as a separate screen
     dispatch(showRequestDetails(peerId, action, moreInfoString))
   }
 

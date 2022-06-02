@@ -91,7 +91,6 @@ export enum Screens {
   VerificationLoadingScreen = 'VerificationLoadingScreen',
   WalletHome = 'WalletHome',
   WalletConnectRequest = 'WalletConnectRequest',
-  WalletConnectResult = 'WalletConnectResult',
   WalletConnectSessions = 'WalletConnectSessions',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
