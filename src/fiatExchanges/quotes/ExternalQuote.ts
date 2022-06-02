@@ -6,8 +6,11 @@ import {
   FetchProvidersOutput,
   PaymentMethod,
   RawProviderQuote,
+  RawSimplexQuote,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -16,21 +19,48 @@ const strings = {
   idRequired: i18n.t('selectProviderScreen.idRequired'),
 }
 
-export class ExternalQuote extends NormalizedQuote {
-  quote: RawProviderQuote
+export const isSimplexQuote = (
+  quote: RawProviderQuote | RawSimplexQuote
+): quote is RawSimplexQuote => !!quote && 'wallet_id' in quote
+export default class ExternalQuote extends NormalizedQuote {
+  quote: RawProviderQuote | RawSimplexQuote
   provider: FetchProvidersOutput
-  constructor({ quote, provider }: { quote: RawProviderQuote; provider: FetchProvidersOutput }) {
+  constructor({
+    quote,
+    provider,
+    flow,
+  }: {
+    quote: RawProviderQuote | RawSimplexQuote
+    provider: FetchProvidersOutput
+    flow: CICOFlow
+  }) {
     super()
+    if (provider.restricted) {
+      throw new Error(`Error: ${provider.name}. Quote is restricted`)
+    }
+    if (provider.unavailable) {
+      throw new Error(`Error: ${provider.name}. Quote is unavailable`)
+    }
+    if (
+      (flow === CICOFlow.CashIn && !provider.cashIn) ||
+      (flow === CICOFlow.CashOut && !provider.cashOut)
+    ) {
+      throw new Error(
+        `Error: ${provider.name}. Quote not processed because it does not support the ${flow} CICO flow`
+      )
+    }
     this.quote = quote
     this.provider = provider
   }
 
   getPaymentMethod(): PaymentMethod {
-    return this.quote.paymentMethod
+    return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
   }
 
   getFee(): number | null {
-    return this.quote.fiatFee
+    return isSimplexQuote(this.quote)
+      ? this.quote.fiat_money.total_amount - this.quote.fiat_money.base_amount
+      : this.quote.fiatFee
   }
 
   getKycInfo(): string | null {
@@ -38,17 +68,23 @@ export class ExternalQuote extends NormalizedQuote {
   }
 
   getTimeEstimation(): string | null {
-    return this.quote.paymentMethod === PaymentMethod.Bank ? strings.numDays : strings.oneHour
+    return this.getPaymentMethod() === PaymentMethod.Bank ? strings.numDays : strings.oneHour
   }
 
-  getOnPressFunction(): (flow: CICOFlow) => void {
-    return (flow: CICOFlow) => {
+  onPress(flow: CICOFlow): () => void {
+    return () => {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
         flow,
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderName(),
       })
-      this.provider.url && navigateToURI(this.provider.url)
+      if (isSimplexQuote(this.quote)) {
+        navigate(Screens.Simplex, {
+          simplexQuote: this.quote,
+        })
+      } else {
+        this.provider.url && navigateToURI(this.provider.url)
+      }
     }
   }
 

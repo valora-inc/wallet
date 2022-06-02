@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
-import { NormalizedQuote } from 'src/fiatExchanges/normalizeQuotes'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
@@ -28,7 +28,7 @@ export function PaymentMethodSection({
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
   const sectionQuotes = normalizedQuotes.filter(
-    ({ quote }) => quote.paymentMethod === paymentMethod
+    (quote) => quote.getPaymentMethod() === paymentMethod
   )
   const localCurrency = useSelector(getLocalCurrencyCode)
 
@@ -41,7 +41,7 @@ export function PaymentMethodSection({
         flow,
         paymentMethod,
         quoteCount: sectionQuotes.length,
-        providers: sectionQuotes.map(({ provider }) => provider.name),
+        providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
     }
   }, [])
@@ -78,7 +78,7 @@ export function PaymentMethodSection({
           <Text style={styles.fee}>
             {
               // quotes assumed to be sorted ascending by fee
-              renderFeeAmount(sectionQuotes[0].quote.fee, t('selectProviderScreen.minFee'))
+              renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.minFee'))
             }
           </Text>
         )}
@@ -101,15 +101,15 @@ export function PaymentMethodSection({
             : t('selectProviderScreen.bank')}
         </Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderFeeAmount(sectionQuotes[0].quote.fee, t('selectProviderScreen.fee'))}
+          {renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.fee'))}
         </Text>
         <Text style={styles.topInfo}>{renderInfoText()}</Text>
       </View>
 
       <View style={styles.imageContainer}>
         <Image
-          testID={`image-${sectionQuotes[0].provider.name}`}
-          source={{ uri: sectionQuotes[0].provider.logo }}
+          testID={`image-${sectionQuotes[0].getProviderName()}`}
+          source={{ uri: sectionQuotes[0].getProviderLogo() }}
           style={styles.providerImage}
           resizeMode="center"
         />
@@ -150,7 +150,7 @@ export function PaymentMethodSection({
   }
   return (
     <View style={styles.container}>
-      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].quote.onPress}>
+      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow)}>
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -170,12 +170,12 @@ export function PaymentMethodSection({
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={normalizedQuote.quote.onPress}
+            onPress={normalizedQuote.onPress(flow)}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
                 <Text style={styles.expandedFee}>
-                  {renderFeeAmount(normalizedQuote.quote.fee, t('selectProviderScreen.fee'))}
+                  {renderFeeAmount(normalizedQuote.getFee(), t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
                 {index === 0 && (
@@ -187,8 +187,8 @@ export function PaymentMethodSection({
 
               <View style={styles.imageContainer}>
                 <Image
-                  testID={`image-${normalizedQuote.provider.name}`}
-                  source={{ uri: normalizedQuote.provider.logo }}
+                  testID={`image-${normalizedQuote.getProviderName()}`}
+                  source={{ uri: normalizedQuote.getProviderLogo() }}
                   style={styles.providerImage}
                   resizeMode="center"
                 />

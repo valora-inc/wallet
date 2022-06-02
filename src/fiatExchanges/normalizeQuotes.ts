@@ -1,193 +1,83 @@
 import { FiatAccountType, FiatAccountTypeQuoteData } from '@fiatconnect/fiatconnect-types'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatConnectQuote } from 'src/fiatconnect'
-import {
-  SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
-  SUPPORTED_FIAT_ACCOUNT_TYPES,
-} from 'src/fiatconnect/FiatDetailsScreen'
-import {
-  CICOFlow,
-  FetchProvidersOutput,
-  isSimplexQuote,
-  PaymentMethod,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
-import i18n from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { navigateToURI } from 'src/utils/linking'
+import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { CICOFlow, FetchProvidersOutput } from 'src/fiatExchanges/utils'
+import Logger from 'src/utils/Logger'
 
-export interface NormalizedQuote {
-  quote: QuoteInfo
-  provider: ProviderInfo
-}
-
-export interface QuoteInfo {
-  paymentMethod: PaymentMethod
-  fee: number | null
-  kycInfo: string | null
-  timeEstimation: string
-  onPress: () => void
-}
-
-export interface ProviderInfo {
-  name: string
-  logo: string
-  id: string
-}
-
-const strings = {
-  oneHour: i18n.t('selectProviderScreen.oneHour'),
-  numDays: i18n.t('selectProviderScreen.numDays'),
-  idRequired: i18n.t('selectProviderScreen.idRequired'),
-}
-
-function getSettlementEstimation(lower: string | undefined, upper: string | undefined) {
-  // TODO: Dynamically generate time estimation strings
-  //
-  return strings.numDays
-}
+const TAG = 'NormalizeQuotes'
 
 export function normalizeQuotes(
   flow: CICOFlow,
-  fiatConnectQuotes: FiatConnectQuote[] | undefined,
-  externalProviders: FetchProvidersOutput[] | undefined
+  fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
+  externalProviders: FetchProvidersOutput[] = []
 ): NormalizedQuote[] {
   return [
-    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
+    ...normalizeFiatConnectQuotes(fiatConnectQuotes),
     ...normalizeExternalProviders(flow, externalProviders),
   ].sort(sortQuotesByFee)
 }
 
-export const sortQuotesByFee = (
-  { quote: quote1 }: NormalizedQuote,
-  { quote: quote2 }: NormalizedQuote
-) => {
-  const providerFee1 = quote1.fee ?? 0
-  const providerFee2 = quote2.fee ?? 0
+export const sortQuotesByFee = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
+  const providerFee1 = quote1.getFee() ?? 0
+  const providerFee2 = quote2.getFee() ?? 0
 
   return providerFee1 > providerFee2 ? 1 : -1
 }
 
+const quoteHasErrors = (
+  quote: FiatConnectQuoteSuccess | FiatConnectQuoteError
+): quote is FiatConnectQuoteError => {
+  return !quote.ok
+}
+
 export function normalizeFiatConnectQuotes(
-  flow: CICOFlow,
-  quotes: FiatConnectQuote[] | undefined
+  quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
   quotes?.forEach((quote) => {
-    // Iterate through every FiatAccountType. A single quote can have multiple
-    Object.entries(quote.fiatAccount).forEach(
-      ([key, value]: [string, FiatAccountTypeQuoteData | undefined]) => {
-        // Check if we support the FiatAccountType and at least one of the FiatAccountSchemas
-        // We choose the first FiatAccountSchema that is supported
-        const schema = value?.fiatAccountSchemas.find((schema) =>
-          SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema.fiatAccountSchema)
-        )
-        if (SUPPORTED_FIAT_ACCOUNT_TYPES.has(key as FiatAccountType) && schema) {
-          normalizedQuotes.push({
-            quote: {
-              paymentMethod: PaymentMethod.Bank,
-              fee: value?.fee !== undefined ? parseFloat(value.fee) : null,
-              kycInfo: quote.kyc.kycRequired ? strings.idRequired : null,
-              timeEstimation: getSettlementEstimation(
-                value?.settlementTimeLowerBound,
-                value?.settlementTimeUpperBound
-              ),
-              onPress: () => {
-                ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-                  flow,
-                  paymentMethod: PaymentMethod.Bank,
-                  provider: quote.provider.id,
-                })
-                navigate(Screens.FiatDetailsScreen, {
-                  quote,
-                  fiatAccountType: key as FiatAccountType,
-                  fiatAccountSchema: schema.fiatAccountSchema,
-                  allowedValues: schema.allowedValues,
-                  flow,
-                })
-              },
-            },
-            provider: {
-              id: quote.provider.id,
-              name: quote.provider.providerName,
-              logo: quote.provider.imageUrl,
-            },
-          })
+    if (quoteHasErrors(quote)) {
+      Logger.warn(TAG, `Error with quote for ${quote.provider.id}. ${quote.error}`)
+    } else {
+      // Iterate through every FiatAccountType. A single quote can have multiple
+      Object.entries(quote.fiatAccount).forEach(
+        ([key, value]: [string, FiatAccountTypeQuoteData | undefined]) => {
+          try {
+            const normalizedQuote = new FiatConnectQuote({
+              quote,
+              fiatAccountType: key as FiatAccountType,
+            })
+            normalizedQuotes.push(normalizedQuote)
+          } catch (err) {
+            Logger.warn(TAG, err)
+          }
         }
-      }
-    )
+      )
+    }
   })
   return normalizedQuotes
 }
 
 export function normalizeExternalProviders(
   flow: CICOFlow,
-  input: FetchProvidersOutput[] | undefined
+  input: FetchProvidersOutput[]
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
   input?.forEach((provider) => {
-    if (
-      !provider.quote ||
-      provider.restricted ||
-      provider.unavailable ||
-      (flow === CICOFlow.CashIn && !provider.cashIn) ||
-      (flow === CICOFlow.CashOut && !provider.cashOut)
-    )
-      return
-    if (isSimplexQuote(provider.quote)) {
-      const paymentMethod = provider.paymentMethods[0]
-      normalizedQuotes.push({
-        quote: {
-          paymentMethod,
-          fee: provider.quote.fiat_money.total_amount - provider.quote.fiat_money.base_amount,
-          kycInfo: strings.idRequired,
-          timeEstimation: paymentMethod === PaymentMethod.Bank ? strings.numDays : strings.oneHour,
-          onPress: () => {
-            ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-              flow,
-              paymentMethod,
-              provider: provider.name,
-            })
-            navigate(Screens.Simplex, {
-              simplexQuote: provider.quote as SimplexQuote,
-            })
-          },
-        },
-        provider: {
-          id: provider.name,
-          name: provider.name,
-          logo: provider.logoWide,
-        },
+    try {
+      // Sometimes the quote is an array and sometimes its a single quote
+      const quotes = Array.isArray(provider.quote) ? provider.quote : [provider.quote]
+      quotes.forEach((quote) => {
+        if (quote) {
+          const normalizedQuote = new ExternalQuote({ quote, provider, flow })
+          normalizedQuotes.push(normalizedQuote)
+        }
       })
-    } else {
-      provider.quote.forEach((quote) => {
-        normalizedQuotes.push({
-          quote: {
-            paymentMethod: quote.paymentMethod,
-            fee: quote.fiatFee,
-            kycInfo: strings.idRequired,
-            timeEstimation:
-              quote.paymentMethod === PaymentMethod.Bank ? strings.numDays : strings.oneHour,
-            onPress: () => {
-              ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-                flow,
-                paymentMethod: quote.paymentMethod,
-                provider: provider.name,
-              })
-              provider.url && navigateToURI(provider.url)
-            },
-          },
-          provider: {
-            id: provider.name,
-            name: provider.name,
-            logo: provider.logoWide,
-          },
-        })
-      })
+    } catch (err) {
+      Logger.warn(TAG, err)
     }
   })
   return normalizedQuotes

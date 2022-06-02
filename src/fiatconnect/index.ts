@@ -4,10 +4,9 @@ import {
   QuoteRequestQuery,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
-import pickBy from 'lodash.pickby'
+import { pickBy } from 'lodash'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
-import { Result } from 'ts-results'
 import Logger from '../utils/Logger'
 
 const TAG = 'FIATCONNECT'
@@ -17,11 +16,6 @@ export interface FiatConnectProviderInfo {
   providerName: string
   imageUrl: string
   baseUrl: string
-}
-
-export type FiatConnectQuoteData = QuoteResponse & {
-  provider: FiatConnectProviderInfo
-  ok: boolean
 }
 
 /**
@@ -53,10 +47,24 @@ type QuotesInput = QuoteRequestQuery & {
 }
 
 type GetFiatConnectQuotesResponse = {
-  quotes: (Result<QuoteResponse, QuoteErrorResponse | { error: string }> & { id: string })[]
+  id: string
+  ok: boolean
+  val: QuoteResponse | QuoteErrorResponse | { error: string }
 }
 
-export async function getFiatConnectQuotes(params: QuotesInput): Promise<FiatConnectQuote[]> {
+export type FiatConnectQuoteError = {
+  provider: FiatConnectProviderInfo
+  ok: boolean
+} & (QuoteErrorResponse | { error: string })
+
+export type FiatConnectQuoteSuccess = {
+  provider: FiatConnectProviderInfo
+  ok: boolean
+} & QuoteResponse
+
+export async function getFiatConnectQuotes(
+  params: QuotesInput
+): Promise<(FiatConnectQuoteSuccess | FiatConnectQuoteError)[]> {
   const { flow, fiatConnectProviders, ...otherParams } = params
   const cleanParams = pickBy(otherParams, (v) => v !== undefined)
   const providers = fiatConnectProviders.map((provider) => provider.id).join(',')
@@ -71,8 +79,8 @@ export async function getFiatConnectQuotes(params: QuotesInput): Promise<FiatCon
     Logger.error(TAG, `Failure response fetching FiatConnect quotes: ${err} , returning empty list`)
     return []
   }
-  const results: GetFiatConnectQuotesResponse = await response.json()
-  const quotes = results.quotes
+  const results: { quotes: GetFiatConnectQuotesResponse[] } = await response.json()
+  return results.quotes
     .filter((quote) => quote.ok)
     .map((result) => ({
       ...result.val,
@@ -81,8 +89,6 @@ export async function getFiatConnectQuotes(params: QuotesInput): Promise<FiatCon
         (provider) => provider.id === result.id
       ) as FiatConnectProviderInfo,
     }))
-  // Only return quotes that don't have errors
-  return quotes.filter((quote): quote is FiatConnectQuote => quote.ok)
 }
 export async function addNewFiatAccount(
   providerURL: string,

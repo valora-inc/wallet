@@ -6,8 +6,8 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { FiatConnectQuote } from 'src/fiatconnect'
-import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow, FiatExchangeFlow, RawSimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -154,7 +154,7 @@ export type StackParamList = {
     currencyToBuy: CiCoCurrency
   }
   [Screens.Simplex]: {
-    simplexQuote: SimplexQuote
+    simplexQuote: RawSimplexQuote
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:

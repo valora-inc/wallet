@@ -18,14 +18,13 @@ import TextInput from 'src/components/TextInput'
 import { addNewFiatAccount } from 'src/fiatconnect'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'FiatDetailsScreen'
@@ -86,8 +85,9 @@ const getAccountNumberSchema = (implicitParams: {
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { quote, fiatAccountType, flow } = route.params
-  const fiatAccountSchema = quote.fiatAccount[fiatAccountType]
+  const { quote, fiatAccountType } = route.params
+  const fiatAccountSchema = quote.getFiatAccountSchema()
+
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -102,15 +102,16 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     })
   }, [navigation])
 
-  const getSchema = (fiatAccountSchema: FiatAccountSchema | undefined) => {
+  const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
+    // There may be multiple supported schemas
+    // Later we may support multiple, but for now just get the first one we support
+
     switch (fiatAccountSchema) {
       case FiatAccountSchema.AccountNumber:
         return getAccountNumberSchema({
           country: userCountry.countryCodeAlpha2 || 'US',
           fiatAccountType,
         })
-      default:
-        return []
     }
   }
 
@@ -128,7 +129,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const schema = getSchema(fiatAccountSchema)
 
   const formFields = useMemo(() => {
-    const fields = Object.values(schema).filter(isFormFieldParam)
+    const fields = (schema && Object.values(schema).filter(isFormFieldParam)) || []
     for (let i = 0; i < fields.length; i++) {
       inputRefs.current.push('')
     }
@@ -136,7 +137,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }, [fiatAccountSchema])
 
   const implicitParameters = useMemo(() => {
-    return Object.values(schema).filter(isImplicitParam)
+    return (schema && Object.values(schema).filter(isImplicitParam)) || []
   }, [fiatAccountSchema])
 
   const onPressNext = async () => {
@@ -158,7 +159,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         ...implicitBody,
       }
 
-      await addNewFiatAccount(quote.provider.baseUrl, fiatAccountSchema, completeBody)
+      await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
         .then((data) => {
           // TODO Tracking here
           dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -179,15 +180,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
-
-    navigate(Screens.SelectProvider, {
-      flow,
-      selectedCrypto: quote.quote.cryptoType.toUpperCase() as Currency,
-      amount: {
-        crypto: parseInt(quote.quote.cryptoAmount),
-        fiat: parseInt(quote.quote.fiatAmount),
-      },
-    })
+    navigateBack()
   }
 
   const validateInput = () => {
@@ -250,7 +243,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <ForwardChevron color={colors.gray4} />
               <Image
                 source={{
-                  uri: quote.provider.imageUrl,
+                  uri: quote.getProviderLogo(),
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"

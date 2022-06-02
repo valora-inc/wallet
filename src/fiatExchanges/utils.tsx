@@ -46,7 +46,7 @@ export interface FetchProvidersOutput {
   url?: string
   logoWide: string
   logo: string
-  quote?: SimplexQuote | RawProviderQuote[]
+  quote?: RawSimplexQuote | RawProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
