@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Коснитесь, чтобы скопировать свой адрес CUSD {{appName}}",
   "disclaimerFiat": "Суммы {{currency}} являются приблизительными.",
   "dollarsNotYetEnabledNote": "Celo Dollars пока недоступны для поставщиков. Чтобы получить Celo Dollars, приобретите CELO и обменяйте их на Celo Dollars на вкладке CELO.",
-  "selectDigitalCurrency": "Выберите актив",
+  "selectDigitalCurrency": "Выбрать актив",
   "selectPaymentMethod": "Выберите способ",
   "payWithBank": "Банковский счет",
   "payWithCard": "Дебетовая карта",
@@ -1229,7 +1229,7 @@
     "learnMore": "Дополнительно.",
     "whyMissingPayments": "Почему я не вижу и другие способы оплаты?",
     "dismiss": "Закрыть",
-    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой стране.\n\nДоступность зависит от географического покрытия каждого провайдера.",
+    "missingPaymentsExplained": "Не все способы оплаты доступны в каждой отдельной стране.\n\nДоступность зависит от географического покрытия каждого провайдера.",
     "cryptoExchange": "Криптовалютная биржа",
     "feesVary": "Комиссии варьируются",
     "viewExchanges": "Просмотр обменников",
@@ -1247,16 +1247,16 @@
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Способ оплаты",
-    "transactionDetails": "Детали сделки",
-    "paymentMethodVia": "Подключился через {{providerName}}.",
+    "transactionDetails": "Детали транзакции",
+    "paymentMethodVia": "Соединение через {{providerName}}",
     "cashIn": {
-      "header": "Обзор Добавить средства",
-      "button": "Внести средств",
+      "header": "Проверить - Внести средства",
+      "button": "Внести средства",
       "transactionDetailsAmount": "Общая цена"
     },
     "cashOut": {
-      "header": "Отзыв Отзыв",
-      "button": "Вывод средств",
+      "header": "Проверить - Вывод средства",
+      "button": "Вывод средства",
       "transactionDetailsAmount": "Сумма снятия"
     }
   },
@@ -1264,21 +1264,21 @@
     "cashIn": {
       "fiatExchangeTitle": "Внести средства",
       "fiatExchangeSubtitle": "Пополните свой счет {{appName}} из банка, с карты или биржи.",
-      "selectCurrencyTitle": "Внести средств",
+      "selectCurrencyTitle": "Внести средства",
       "exchangeAmountTitle": "Внести {{currency}}",
       "selectProviderHeader": "Выберите способ оплаты"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Вывод средств",
+      "fiatExchangeTitle": "Вывод средства",
       "fiatExchangeSubtitle": "Выведите средства из {{appName}} и переведите на банковский счет, карту, криптовалютную биржу или в мобильный банк.",
-      "selectCurrencyTitle": "Вывод средств",
+      "selectCurrencyTitle": "Вывод средства",
       "exchangeAmountTitle": "Вывести {{currency}}",
       "selectProviderHeader": "Выберите способ вывода средств"
     },
     "spend": {
-      "fiatExchangeTitle": "Потратить средств",
+      "fiatExchangeTitle": "Потратить средства",
       "fiatExchangeSubtitle": "Потратить на подарочные сертификаты и другие покупки.",
-      "selectCurrencyTitle": "Потратить средств"
+      "selectCurrencyTitle": "Потратить средства"
     }
   },
   "fiatDetailsScreen": {
