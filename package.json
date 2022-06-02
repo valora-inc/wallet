@@ -98,7 +98,6 @@
     "@react-navigation/drawer": "^5.12.9",
     "@react-navigation/material-top-tabs": "^5.3.19",
     "@react-navigation/native": "^5.9.8",
-    "@react-navigation/bottom-tabs": "5.11.15",
     "@react-navigation/stack": "^5.14.9",
     "@reduxjs/toolkit": "^1.6.2",
     "@segment/analytics-react-native": "^1.5.0",
