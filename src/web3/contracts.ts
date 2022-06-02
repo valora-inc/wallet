@@ -6,17 +6,16 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
-import GethBridge from 'react-native-geth'
 import { call, delay, select } from 'redux-saga/effects'
 import { ContractKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
 import { isProviderConnectionError } from 'src/geth/geth'
-import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
 import { waitForGethInitialized, waitForGethSync, waitForGethSyncAsync } from 'src/geth/saga'
 import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getHttpProvider, getIpcProvider } from 'src/web3/providers'
 import { fornoSelector } from 'src/web3/selectors'
 import Web3 from 'web3'
@@ -26,14 +25,14 @@ const KIT_INIT_RETRY_DELAY = 2000
 const CONTRACT_KIT_RETRIES = 3
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
-let wallet: GethNativeBridgeWallet | undefined
+let wallet: KeychainWallet | undefined
 let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()
 
 async function initWallet() {
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_start)
-  const newWallet = new GethNativeBridgeWallet(GethBridge)
+  const newWallet = new KeychainWallet()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_get_wallet_finish)
   await newWallet.init()
   ValoraAnalytics.track(ContractKitEvents.init_contractkit_init_wallet_finish)
