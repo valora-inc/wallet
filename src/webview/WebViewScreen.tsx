@@ -43,7 +43,7 @@ function WebViewScreen({ route, navigation }: Props) {
   const [canGoBack, setCanGoBack] = useState(false)
   const [canGoForward, setCanGoForward] = useState(false)
   const [showingBottomSheet, setShowingBottomSheet] = useState(false)
-  const [bottomSheetResult, setBottomSheetResults] = useState('')
+  const [currentUrl, setCurrentUrl] = useState('')
 
   const handleSetNavigationTitle = useCallback(
     (url: string, title: string, loading: boolean) => {
@@ -51,6 +51,7 @@ function WebViewScreen({ route, navigation }: Props) {
       let displayedTitle = ' '
 
       try {
+        setCurrentUrl(url)
         hostname = parse(url).hostname ?? ' '
         // when first loading, the title of the webpage is unknown and the title
         // defaults to the url - display a loading placeholder in this case
@@ -152,12 +153,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const openActionSheet = () => {
     Platform.OS === 'ios' ? OpenActionSheetiOS() : toggleBottomSheet()
-    ValoraAnalytics.track(DappExplorerEvents.dapp_webview_more_options, {
-      categoryId: activeDapp.categoryId,
-      dappId: activeDapp.id,
-      dappName: activeDapp.name,
-      section: activeDapp.openedFrom,
-    })
+    ValoraAnalytics.track(DappExplorerEvents.dapp_webview_more_options, { currentUrl: currentUrl })
   }
 
   // iOS Action sheet
@@ -170,7 +166,10 @@ function WebViewScreen({ route, navigation }: Props) {
       (buttonIndex: number) => {
         switch (buttonIndex) {
           case 0:
-            navigateToURI(uri)
+            navigateToURI(currentUrl)
+            ValoraAnalytics.track(DappExplorerEvents.dapp_webview_open_in_browser, {
+              currentUrl: currentUrl,
+            })
             break
           default:
           case 1:
@@ -200,7 +199,7 @@ function WebViewScreen({ route, navigation }: Props) {
       />
       {Platform.OS === 'android' && (
         <WebViewAndroidBottomSheet
-          targetUrl={uri}
+          url={currentUrl}
           isVisible={showingBottomSheet}
           onClose={() => toggleBottomSheet()}
           toggleBottomSheet={toggleBottomSheet}

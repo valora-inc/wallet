@@ -2,28 +2,26 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { DappExplorerEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet from 'src/components/BottomSheet'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
-  targetUrl: string
+  url: string
   isVisible: boolean
   onClose(): void
   toggleBottomSheet(): void
 }
 
-export function WebViewAndroidBottomSheet({
-  targetUrl,
-  isVisible,
-  onClose,
-  toggleBottomSheet,
-}: Props) {
+export function WebViewAndroidBottomSheet({ url, isVisible, onClose, toggleBottomSheet }: Props) {
   const { t } = useTranslation()
-  const openExternalLink = (uri: string) => {
-    navigateToURI(uri)
+  const openExternalLink = () => {
+    navigateToURI(url)
     toggleBottomSheet()
+    ValoraAnalytics.track(DappExplorerEvents.dapp_webview_open_in_browser, { currentUrl: url })
   }
 
   return (
@@ -36,7 +34,7 @@ export function WebViewAndroidBottomSheet({
         <View style={styles.centerContainer}>
           <Pressable
             style={styles.pressable}
-            onPress={() => openExternalLink(targetUrl)}
+            onPress={() => openExternalLink()}
             android_ripple={{ color: Colors.gray2, borderless: false }}
           >
             <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>
