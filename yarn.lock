@@ -16145,6 +16145,10 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-animated-to-reanimated@satya164/animated-to-reanimated:
+  version "0.1.0"
+  resolved "https://codeload.github.com/satya164/animated-to-reanimated/tar.gz/0fee246da1a1d4bba630baa9caabddc5f8206a57"
+
 "react-native-bip39@https://github.com/celo-org/react-native-bip39#65facae":
   version "2.2.0"
   resolved "https://github.com/celo-org/react-native-bip39#65facae0b0d30484ca314a18a0eff77742e97df6"
