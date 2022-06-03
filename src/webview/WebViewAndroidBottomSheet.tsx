@@ -11,18 +11,23 @@ import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
-  url: string
+  currentUrl: string
   isVisible: boolean
   onClose(): void
   toggleBottomSheet(): void
 }
 
-export function WebViewAndroidBottomSheet({ url, isVisible, onClose, toggleBottomSheet }: Props) {
+export function WebViewAndroidBottomSheet({
+  currentUrl,
+  isVisible,
+  onClose,
+  toggleBottomSheet,
+}: Props) {
   const { t } = useTranslation()
   const openExternalLink = () => {
-    navigateToURI(url)
+    navigateToURI(currentUrl)
     toggleBottomSheet()
-    ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl: url })
+    ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
   }
 
   return (
@@ -38,7 +43,7 @@ export function WebViewAndroidBottomSheet({ url, isVisible, onClose, toggleBotto
       <View style={styles.centerContainer}>
         <Pressable
           style={styles.pressable}
-          onPress={() => openExternalLink()}
+          onPress={openExternalLink}
           android_ripple={{ color: Colors.gray2, borderless: false }}
         >
           <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>

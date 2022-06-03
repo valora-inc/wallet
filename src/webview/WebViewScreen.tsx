@@ -152,12 +152,12 @@ function WebViewScreen({ route, navigation }: Props) {
   }
 
   const openActionSheet = () => {
-    Platform.OS === 'ios' ? OpenActionSheetiOS() : toggleBottomSheet()
-    ValoraAnalytics.track(WebViewEvents.webview_more_options, { currentUrl: currentUrl })
+    Platform.OS === 'ios' ? openActionSheetiOS() : toggleBottomSheet()
+    ValoraAnalytics.track(WebViewEvents.webview_more_options, { currentUrl })
   }
 
   // iOS Action sheet
-  const OpenActionSheetiOS = () => {
+  const openActionSheetiOS = () => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: [t('webView.openExternal'), t('dismiss')],
@@ -167,9 +167,7 @@ function WebViewScreen({ route, navigation }: Props) {
         switch (buttonIndex) {
           case 0:
             navigateToURI(currentUrl)
-            ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, {
-              currentUrl: currentUrl,
-            })
+            ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, { currentUrl })
             break
           default:
           case 1:
@@ -199,9 +197,9 @@ function WebViewScreen({ route, navigation }: Props) {
       />
       {Platform.OS === 'android' && (
         <WebViewAndroidBottomSheet
-          url={currentUrl}
+          currentUrl={currentUrl}
           isVisible={showingBottomSheet}
-          onClose={() => toggleBottomSheet()}
+          onClose={() => setShowingBottomSheet(false)}
           toggleBottomSheet={toggleBottomSheet}
         />
       )}
