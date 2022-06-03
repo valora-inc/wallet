@@ -1,0 +1,60 @@
+diff --git a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m b/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
+index 2e42567..686e84f 100644
+--- a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
++++ b/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
+@@ -1,29 +1,46 @@
+ #import <React/RCTViewManager.h>
+ 
+-@interface AnimatedToReanimatedViewManager : UIView
++@interface AnimatedToReanimatedViewManager : RCTViewManager
++
++@end
++
++@interface AnimatedToReanimatedView : UIView
+ 
+ @property (nonatomic) NSNumber* value;
+ @property (nonatomic, copy) RCTBubblingEventBlock onValueChange;
+ 
+ @end
+ 
++@implementation AnimatedToReanimatedView
++
++- (void)setValue:(NSNumber*)value{
++  _value = value;
++    
++  if (!self.onValueChange || !value) {
++    return;
++  }
++
++  // Dispatch async to avoid deadlock, this likely causes the
++  // listened value to be 1 frame behind
++  dispatch_async(dispatch_get_main_queue(), ^(void){
++    self.onValueChange(@{
++     @"value": value
++    });
++  });
++}
++
++@end
++
+ @implementation AnimatedToReanimatedViewManager
+ 
+ RCT_EXPORT_MODULE(AnimatedToReanimatedView)
+ 
+ - (UIView *)view
+ {
+-  return [[UIView alloc] init];
++  return [[AnimatedToReanimatedView alloc] init];
+ }
+ 
+ RCT_EXPORT_VIEW_PROPERTY(onValueChange, RCTBubblingEventBlock)
+ RCT_EXPORT_VIEW_PROPERTY(value, NSNumber)
+ 
+-- (void) setValue:(NSNumber*)value{
+-  self.value = value;
+-  self.onValueChange(@{
+-    @"value": value
+-  });
+-}
+-
+ @end

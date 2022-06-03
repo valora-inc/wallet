@@ -1,6 +1,7 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { AnimatedToReanimated } from 'react-native-animated-to-reanimated'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -15,6 +16,9 @@ type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
+// Rewrap using reanimated so reanimated events work
+const AnimatedToReanimated2 = Animated.createAnimatedComponent(AnimatedToReanimated)
+
 export default function QRTabBar({ state, descriptors, navigation, position, qrSvgRef }: Props) {
   const dispatch = useDispatch()
 
@@ -28,12 +32,15 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
     [state, descriptors]
   )
 
-  const shareOpacity = Animated.interpolateNode(position as any, {
+  const reanimatedPosition = useRef(new Animated.Value(0)).current
+  const onValueChange = Animated.event([{ nativeEvent: { value: reanimatedPosition } }])
+
+  const shareOpacity = Animated.interpolateNode(reanimatedPosition, {
     inputRange: [0, 0.1],
     outputRange: [1, 0],
   })
 
-  const color = Animated.interpolateColors(position as any, {
+  const color = Animated.interpolateColors(reanimatedPosition, {
     inputRange: [0.9, 1],
     outputColorRange: [colors.dark, colors.light],
   })
@@ -69,7 +76,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
       <SegmentedControl
         values={values}
         selectedIndex={state.index}
-        position={position}
+        position={reanimatedPosition}
         onChange={onChange}
       />
       <Animated.View
@@ -78,6 +85,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
       >
         <TopBarIconButton icon={<Share />} onPress={onPressShare} />
       </Animated.View>
+      <AnimatedToReanimated2 value={position} onValueChange={onValueChange} />
     </SafeAreaView>
   )
 }

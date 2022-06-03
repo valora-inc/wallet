@@ -430,6 +430,8 @@ PODS:
   - React-jsinspector (0.66.4)
   - React-logger (0.66.4):
     - glog
+  - react-native-animated-to-reanimated (0.1.0):
+    - React-Core
   - react-native-blind-threshold-bls (1.0.0):
     - React-Core
   - react-native-camera (4.2.1):
@@ -750,6 +752,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-animated-to-reanimated (from `../node_modules/react-native-animated-to-reanimated`)
   - react-native-blind-threshold-bls (from `../node_modules/react-native-blind-threshold-bls`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-config (from `../node_modules/react-native-config`)
@@ -912,6 +915,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-animated-to-reanimated:
+    :path: "../node_modules/react-native-animated-to-reanimated"
   react-native-blind-threshold-bls:
     :path: "../node_modules/react-native-blind-threshold-bls"
   react-native-camera:
@@ -1104,6 +1109,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
+  react-native-animated-to-reanimated: e3b5775b36b7a6f864f58d48800db30bc5fc7c6d
   react-native-blind-threshold-bls: 96b94b001aca9386ab033b26741614046044e80d
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: e8c71f602c92ddd2f5c24b0b7a90d239ecab8d9f
