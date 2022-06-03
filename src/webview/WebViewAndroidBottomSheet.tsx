@@ -40,11 +40,12 @@ export function WebViewAndroidBottomSheet({
       onBackdropPress={onClose}
       onSwipeComplete={onClose}
     >
-      <View style={styles.centerContainer}>
+      <View style={styles.centerContainer} testID="WebViewAndroidBottomSheet">
         <Pressable
           style={styles.pressable}
           onPress={openExternalLink}
           android_ripple={{ color: Colors.gray2, borderless: false }}
+          testID="OpenInExternalBrowser"
         >
           <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>
         </Pressable>
