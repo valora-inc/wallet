@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dimensions, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -11,12 +11,11 @@ interface Props {
   isVisible: boolean
   onBackgroundPress?: () => void
   children?: JSX.Element
-  style?: StyleProp<ViewStyle>
 }
 
 const MIN_EMPTY_SPACE = 100
 
-function BottomSheet({ children, isVisible, onBackgroundPress, style }: Props) {
+function BottomSheet({ children, isVisible, onBackgroundPress }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
   const safeAreaInsets = useSafeAreaInsets()
@@ -67,12 +66,7 @@ function BottomSheet({ children, isVisible, onBackgroundPress, style }: Props) {
         />
       </Animated.View>
       <Animated.ScrollView
-        style={[
-          styles.contentContainer,
-          { paddingBottom, maxHeight },
-          animatedPickerPosition,
-          style,
-        ]}
+        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
         contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
         onLayout={onLayout}
       >
