@@ -1246,7 +1246,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
-    "paymentMethodVia": "Connected via {{providerName}}",
+    "paymentMethodVia": "Linked via {{providerName}}",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
