@@ -150,8 +150,18 @@ function WebViewScreen({ route, navigation }: Props) {
     webViewRef.current?.goBack()
   }
 
+  const openActionSheet = () => {
+    Platform.OS === 'ios' ? OpenActionSheetiOS() : toggleBottomSheet()
+    ValoraAnalytics.track(DappExplorerEvents.dapp_webview_more_options, {
+      categoryId: activeDapp.categoryId,
+      dappId: activeDapp.id,
+      dappName: activeDapp.name,
+      section: activeDapp.openedFrom,
+    })
+  }
+
   // iOS Action sheet
-  const OpenActionSheet = () => {
+  const OpenActionSheetiOS = () => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: [t('webView.openExternal'), t('dismiss')],
@@ -217,7 +227,7 @@ function WebViewScreen({ route, navigation }: Props) {
           <Refresh height={20} color={colors.dark} />
         </Touchable>
         <Touchable
-          onPress={Platform.OS === 'ios' ? OpenActionSheet : toggleBottomSheet}
+          onPress={openActionSheet}
           hitSlop={iconHitslop}
           testID="WebViewScreen/OpenBottomSheet"
         >
