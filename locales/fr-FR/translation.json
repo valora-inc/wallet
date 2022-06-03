@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
-    "paymentMethodVia": "Connexion du {{providerName}}",
+    "paymentMethodVia": "Relié par {{providerName}}",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
