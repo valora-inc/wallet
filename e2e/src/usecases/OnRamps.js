@@ -57,7 +57,7 @@ export default onRamps = () => {
       }
       // Check IF Multiple Bank Providers
       if (await isElementVisible('Bank/numProviders')) {
-        let bankProviders = await element(by.id('Card/numProviders')).getAttributes()
+        let bankProviders = await element(by.id('Bank/numProviders')).getAttributes()
         numBankProviders =
           device.getPlatform() === 'ios'
             ? bankProviders.label.split(' ')[0]
