@@ -173,12 +173,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 24,
   },
-  scrollContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: '15%',
-  },
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',

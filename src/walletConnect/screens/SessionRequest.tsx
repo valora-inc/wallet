@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
@@ -97,20 +96,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 16,
     paddingBottom: 24,
-  },
-  subHeader: {
-    ...fontStyles.regular,
-    color: colors.gray5,
-    textAlign: 'center',
-  },
-  content: {
-    paddingTop: 16,
-    paddingBottom: 24,
-  },
-  actionItem: {
-    ...fontStyles.regular,
-    color: colors.gray5,
-    paddingBottom: 8,
   },
   actionContainer: {
     display: 'flex',
