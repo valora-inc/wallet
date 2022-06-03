@@ -68,6 +68,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           "paddingBottom": 24,
         },
         undefined,
+        undefined,
       ]
     }
   >
