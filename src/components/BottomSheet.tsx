@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native'
+import { Dimensions, LayoutChangeEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -11,7 +11,7 @@ interface Props {
   isVisible: boolean
   onBackgroundPress?: () => void
   children?: JSX.Element
-  style?: {}
+  style?: StyleProp<ViewStyle>
 }
 
 const MIN_EMPTY_SPACE = 100
