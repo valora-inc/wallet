@@ -564,8 +564,11 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
-  dapp_webview_more_options = 'dapp_webview_more_options', // when user taps "triple dot icon" from the dapp webview
-  dapp_webview_open_in_browser = 'dapp_webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
+}
+
+export enum WebViewEvents {
+  webview_more_options = 'webview_more_options', // when user taps "triple dot icon" from the webview
+  webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
 }
 
 export type AnalyticsEventType =
@@ -593,3 +596,4 @@ export type AnalyticsEventType =
   | DappKitEvents
   | CICOEvents
   | DappExplorerEvents
+  | WebViewEvents

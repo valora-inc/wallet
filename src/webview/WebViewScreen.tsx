@@ -5,7 +5,7 @@ import { ActionSheetIOS, ActivityIndicator, Platform, StyleSheet, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
-import { DappExplorerEvents } from 'src/analytics/Events'
+import { DappExplorerEvents, WebViewEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { dappSessionEnded, openDeepLink } from 'src/app/actions'
 import { activeDappSelector } from 'src/app/selectors'
@@ -153,7 +153,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const openActionSheet = () => {
     Platform.OS === 'ios' ? OpenActionSheetiOS() : toggleBottomSheet()
-    ValoraAnalytics.track(DappExplorerEvents.dapp_webview_more_options, { currentUrl: currentUrl })
+    ValoraAnalytics.track(WebViewEvents.webview_more_options, { currentUrl: currentUrl })
   }
 
   // iOS Action sheet
@@ -167,7 +167,7 @@ function WebViewScreen({ route, navigation }: Props) {
         switch (buttonIndex) {
           case 0:
             navigateToURI(currentUrl)
-            ValoraAnalytics.track(DappExplorerEvents.dapp_webview_open_in_browser, {
+            ValoraAnalytics.track(WebViewEvents.webview_open_in_browser, {
               currentUrl: currentUrl,
             })
             break
