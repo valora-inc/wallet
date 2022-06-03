@@ -216,7 +216,11 @@ function WebViewScreen({ route, navigation }: Props) {
         <Touchable onPress={handleRefresh} hitSlop={iconHitslop} testID="WebViewScreen/Refresh">
           <Refresh height={20} color={colors.dark} />
         </Touchable>
-        <Touchable onPress={Platform.OS === 'ios' ? OpenActionSheet : toggleBottomSheet}>
+        <Touchable
+          onPress={Platform.OS === 'ios' ? OpenActionSheet : toggleBottomSheet}
+          hitSlop={iconHitslop}
+          testID="WebViewScreen/OpenBottomSheet"
+        >
           <TripleDotVertical color={colors.dark} />
         </Touchable>
       </View>

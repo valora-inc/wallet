@@ -25,5 +25,6 @@ describe('WebViewScreen', () => {
     expect(getByTestId('WebViewScreen/Refresh')).toBeTruthy()
     expect(getByTestId('WebViewScreen/GoBack')).toBeDisabled()
     expect(getByTestId('WebViewScreen/GoForward')).toBeDisabled()
+    expect(getByTestId('WebViewScreen/OpenBottomSheet')).toBeTruthy()
   })
 })
