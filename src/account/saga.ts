@@ -50,6 +50,7 @@ import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
+import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { finclusiveKycStatusSelector } from './selectors'
@@ -65,6 +66,7 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
       yield call(clearStoredMnemonic)
       yield call(ValoraAnalytics.reset)
       yield call(deleteNodeData)
+      yield call(clearStoredAccounts)
 
       // Ignore error if it was caused by Firebase.
       try {
