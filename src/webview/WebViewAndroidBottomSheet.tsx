@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomSheetText: {
-    ...fontStyles.h2,
+    ...fontStyles.regular,
     textAlign: 'left',
     padding: variables.contentPadding,
   },
