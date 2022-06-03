@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import Modal from 'react-native-modal'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { WebViewEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheet from 'src/components/BottomSheet'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
@@ -25,32 +26,38 @@ export function WebViewAndroidBottomSheet({ url, isVisible, onClose, toggleBotto
   }
 
   return (
-    <BottomSheet
-      style={{ borderTopRightRadius: 0, borderTopLeftRadius: 0 }}
+    <Modal
       isVisible={isVisible}
-      onBackgroundPress={onClose}
+      animationIn="slideInUp"
+      animationInTiming={400}
+      swipeDirection="down"
+      style={styles.overlay}
+      onBackdropPress={onClose}
+      onSwipeComplete={onClose}
     >
-      <View>
-        <View style={styles.centerContainer}>
-          <Pressable
-            style={styles.pressable}
-            onPress={() => openExternalLink()}
-            android_ripple={{ color: Colors.gray2, borderless: false }}
-          >
-            <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>
-          </Pressable>
-          <Pressable onPress={onClose} android_ripple={{ color: Colors.gray2, borderless: false }}>
-            <Text style={styles.bottomSheetText}>{t('dismiss')}</Text>
-          </Pressable>
-        </View>
+      <View style={styles.centerContainer}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => openExternalLink()}
+          android_ripple={{ color: Colors.gray2, borderless: false }}
+        >
+          <Text style={styles.bottomSheetText}>{t('webView.openExternal')}</Text>
+        </Pressable>
+        <Pressable onPress={onClose} android_ripple={{ color: Colors.gray2, borderless: false }}>
+          <Text style={styles.bottomSheetText}>{t('dismiss')}</Text>
+        </Pressable>
       </View>
-    </BottomSheet>
+    </Modal>
   )
 }
 
 const styles = StyleSheet.create({
+  overlay: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
   centerContainer: {
-    flex: 1,
+    backgroundColor: colors.light,
   },
   // Needed to add icons in the pressable buttons
   pressable: {
