@@ -1,6 +1,7 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
+// @ts-ignore
 import { AnimatedToReanimated } from 'react-native-animated-to-reanimated'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -85,6 +86,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
       >
         <TopBarIconButton icon={<Share />} onPress={onPressShare} />
       </Animated.View>
+      {/* @ts-ignore */}
       <AnimatedToReanimated2 value={position} onValueChange={onValueChange} />
     </SafeAreaView>
   )
