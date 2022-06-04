@@ -3,7 +3,7 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { RemoteWallet } from '@celo/wallet-remote'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Logger from 'src/utils/Logger'
-import { KeychainSigner, listStoredAccounts } from 'src/web3/KeychainSigner'
+import { ImportMnemonicAccount, KeychainSigner, listStoredAccounts } from 'src/web3/KeychainSigner'
 
 const TAG = 'web3/KeychainWallet'
 
@@ -11,12 +11,16 @@ const TAG = 'web3/KeychainWallet'
  * A wallet which uses the OS keychain to store private keys
  */
 export class KeychainWallet extends RemoteWallet<KeychainSigner> implements UnlockableWallet {
-  constructor() {
+  /**
+   * Construct a new instance of the Keychain wallet
+   * @param importMnemonicAccount ImportMnemonicAccount the existing account to import from the mnemonic, if not already present in the keychain
+   */
+  constructor(protected importMnemonicAccount: ImportMnemonicAccount) {
     super()
   }
 
   async loadAccountSigners(): Promise<Map<string, KeychainSigner>> {
-    const accounts = await listStoredAccounts()
+    const accounts = await listStoredAccounts(this.importMnemonicAccount)
     const addressToSigner = new Map<string, KeychainSigner>()
 
     accounts.forEach((account) => {
