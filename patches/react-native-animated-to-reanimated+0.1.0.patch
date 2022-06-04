@@ -1,3 +1,16 @@
+diff --git a/node_modules/react-native-animated-to-reanimated/android/src/main/java/com/reactnativeanimatedtoreanimated/AnimatedToReanimatedViewManager.kt b/node_modules/react-native-animated-to-reanimated/android/src/main/java/com/reactnativeanimatedtoreanimated/AnimatedToReanimatedViewManager.kt
+index d329c03..f86f566 100644
+--- a/node_modules/react-native-animated-to-reanimated/android/src/main/java/com/reactnativeanimatedtoreanimated/AnimatedToReanimatedViewManager.kt
++++ b/node_modules/react-native-animated-to-reanimated/android/src/main/java/com/reactnativeanimatedtoreanimated/AnimatedToReanimatedViewManager.kt
+@@ -26,7 +26,7 @@ class AnimatedToReanimatedViewManager : SimpleViewManager<View>() {
+   @ReactProp(name = "value")
+   fun setValue(view: View, value: Double) {
+     val reactContext = view.context as ReactContext;
+-    val dispatcher = reactContext.getNativeModule(UIManagerModule::class.java).eventDispatcher
++    val dispatcher = reactContext.getNativeModule(UIManagerModule::class.java)!!.eventDispatcher
+ 
+     dispatcher.dispatchEvent(ValueChangeEvent(view.id, value))
+   }
 diff --git a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m b/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
 index 2e42567..686e84f 100644
 --- a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
