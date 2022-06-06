@@ -28,11 +28,12 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
     <Modal
       animationIn="slideInUp"
       animationInTiming={800}
-      isVisible={true}
+      isVisible={!!vendor}
       swipeDirection="down"
       style={styles.overlay}
       onBackdropPress={onDismissBottomSheet}
       onSwipeComplete={onDismissBottomSheet}
+      testID={`Vendors/DetailSheet`}
     >
       <View style={styles.container}>
         <Touchable

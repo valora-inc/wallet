@@ -29,15 +29,14 @@ export default function VendorsScreen() {
   return (
     <SafeAreaView>
       <AnimatedFlatList
+        testID={'Vendors/List'}
         scrollEventThrottle={16}
         style={styles.container}
         data={sections}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
       />
-      {currentVendor && (
-        <VendorDetailBottomSheet vendor={currentVendor} dismiss={() => setCurrentVendor(null)} />
-      )}
+      <VendorDetailBottomSheet vendor={currentVendor} dismiss={() => setCurrentVendor(null)} />
     </SafeAreaView>
   )
 }

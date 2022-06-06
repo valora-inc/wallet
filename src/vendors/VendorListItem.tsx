@@ -16,7 +16,7 @@ type Props = {
 export default function VendorListItem({ vendor, key, onPress }: Props) {
   const { title, logoURI } = vendor
   return (
-    <TouchableOpacity key={key} onPress={onPress}>
+    <TouchableOpacity key={key} onPress={onPress} testID={`Vendors/VendorItem`}>
       <View style={styles.vendorItem}>
         <Image source={{ uri: logoURI }} style={styles.vendorIcon} />
         <View style={styles.vendorDetails}>
