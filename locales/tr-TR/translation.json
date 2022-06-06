@@ -1301,6 +1301,9 @@
       "errorMessage": "Hesap numarası 10 haneli olmalı ve sadece rakamlardan oluşmalıdır"
     }
   },
+  "webView": {
+    "openExternal": "Open in External Browser"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
