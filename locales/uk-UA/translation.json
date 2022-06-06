@@ -1248,7 +1248,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі операції",
-    "paymentMethodVia": "З’єднано через {{providerName}}",
+    "paymentMethodVia": "Пов'язані через {{providerName}}",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
