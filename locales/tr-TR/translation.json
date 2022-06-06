@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
-    "paymentMethodVia": "Linked via {{providerName}}",
+    "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
@@ -1302,7 +1302,7 @@
     }
   },
   "webView": {
-    "openExternal": "Open in External Browser"
+    "openExternal": "Harici tarayıcıda aç"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
