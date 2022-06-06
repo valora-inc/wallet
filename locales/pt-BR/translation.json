@@ -1301,6 +1301,9 @@
       "errorMessage": "O número da conta deve ter 10 dígitos e conter apenas números"
     }
   },
+  "webView": {
+    "openExternal": "Aberto em Navegador Externo"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
