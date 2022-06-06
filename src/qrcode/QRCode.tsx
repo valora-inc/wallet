@@ -32,7 +32,7 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
-      <View style={styles.qrContainer}>
+      <View testID="QRCode" style={styles.qrContainer}>
         <QRCode value={qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
       </View>
     </SafeAreaView>

@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -265,6 +265,7 @@
     "jest-snapshot": "^26.1.0",
     "metro-react-native-babel-preset": "^0.66.2",
     "mocha": "^7.1.1",
+    "mockdate": "^3.0.5",
     "patch-package": "^6.2.2",
     "pixelmatch": "^5.2.1",
     "postinstall-prepare": "^1.0.1",

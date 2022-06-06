@@ -5,24 +5,23 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
+import BankAccounts from 'src/account/BankAccounts'
 import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
-import BankAccounts from 'src/account/BankAccounts'
+import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
+import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
-import WebViewScreen from 'src/app/WebViewScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
@@ -40,6 +39,7 @@ import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
+import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import ExternalExchanges, {
@@ -120,6 +120,7 @@ import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import WebViewScreen from 'src/webview/WebViewScreen'
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
@@ -535,6 +536,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={SelectProviderScreen.navigationOptions}
       name={Screens.SelectProvider}
       component={SelectProviderScreen}
+    />
+    <Navigator.Screen
+      options={FiatConnectReviewScreen.navigationOptions}
+      name={Screens.FiatConnectReview}
+      component={FiatConnectReviewScreen}
     />
     <Navigator.Screen
       options={BidaliScreen.navigationOptions}

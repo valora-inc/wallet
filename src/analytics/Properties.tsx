@@ -27,6 +27,7 @@ import {
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
+  WebViewEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -991,6 +992,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
 }
 
 interface GethEventsProperties {
@@ -1246,6 +1248,15 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
 }
 
+interface WebViewEventsProperties {
+  [WebViewEvents.webview_more_options]: {
+    currentUrl: string
+  }
+  [WebViewEvents.webview_open_in_browser]: {
+    currentUrl: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1270,4 +1281,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   WalletConnectProperties &
   DappKitProperties &
   CICOEventsProperties &
-  DappExplorerEventsProperties
+  DappExplorerEventsProperties &
+  WebViewEventsProperties
