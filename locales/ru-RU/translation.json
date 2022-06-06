@@ -1305,6 +1305,9 @@
       "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
     }
   },
+  "webView": {
+    "openExternal": "Открыть во внешнем браузере"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
