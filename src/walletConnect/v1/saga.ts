@@ -397,7 +397,7 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...defaultSessionTrackedProperties,
   })
 
-  yield call(navigate, Screens.WalletConnectRequest, { loading: false })
+  yield call(navigate, Screens.WalletConnectRequest, { pendingSession: session })
 }
 
 function* showActionRequest({ action, peerId }: PendingAction) {
@@ -422,7 +422,6 @@ function* showActionRequest({ action, peerId }: PendingAction) {
   })
 
   yield call(navigate, Screens.WalletConnectRequest, {
-    loading: false,
     pendingAction: {
       version: 1,
       action,

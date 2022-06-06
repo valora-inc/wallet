@@ -64,7 +64,7 @@ export function isWalletConnectDeepLink(deepLink: string) {
 export function* handleLoadingWithTimeout(
   params: Partial<StackParamList[Screens.WalletConnectRequest]>
 ) {
-  yield call(navigate, Screens.WalletConnectRequest, { ...params, loading: true })
+  yield call(navigate, Screens.WalletConnectRequest, params)
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
@@ -79,6 +79,6 @@ export function* handleLoadingWithTimeout(
       error: 'timed out while waiting for a session',
     })
 
-    yield call(navigate, Screens.WalletConnectRequest, { loading: false, timedOut: true })
+    yield call(navigate, Screens.WalletConnectRequest, { timedOut: true })
   }
 }

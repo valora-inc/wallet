@@ -20,7 +20,7 @@ import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction } from 'src/walletConnect/types'
+import { PendingAction, WalletConnectSessionRequest } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -327,9 +327,9 @@ export type StackParamList = {
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]: {
-    loading: boolean
     origin?: WalletConnectPairingOrigin
     pendingAction?: PendingAction
+    pendingSession?: WalletConnectSessionRequest
     timedOut?: boolean
   }
   [Screens.WalletConnectSessions]: undefined

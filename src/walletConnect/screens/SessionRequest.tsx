@@ -2,38 +2,34 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
+import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
-import { selectPendingSessions } from 'src/walletConnect/v1/selectors'
 
 type Props = {
   navigation: StackNavigationProp<StackParamList, Screens.WalletConnectRequest>
+  pendingSession: WalletConnectSessionRequest
 }
 
-function SessionRequest({ navigation }: Props) {
+function SessionRequest({ navigation, pendingSession }: Props) {
   const { t } = useTranslation()
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
-  const pendingSessions = useSelector(selectPendingSessions)
-  // there should only be one pending session at a time, the most recent
-  // request is the last item in the array
-  const session = pendingSessions[pendingSessions.length - 1]
-
   const confirm = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptSession(session)))
+    setIsAccepting(true, () => dispatch(acceptSession(pendingSession)))
   }
 
   const deny = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denySession(session)))
+    setIsDenying(true, () => dispatch(denySession(pendingSession)))
   }
 
   const isLoading = isAccepting || isDenying
@@ -47,10 +43,10 @@ function SessionRequest({ navigation }: Props) {
         e.preventDefault()
         deny()
       }),
-    [navigation, session, isLoading]
+    [navigation, pendingSession, isLoading]
   )
 
-  const { url, name, icons } = session.params[0].peerMeta
+  const { url, name, icons } = pendingSession.params[0].peerMeta
   const fallbackIcon = icons[0] ?? `${url}/favicon.ico`
 
   return (

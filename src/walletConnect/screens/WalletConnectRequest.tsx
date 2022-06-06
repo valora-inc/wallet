@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -12,20 +11,33 @@ import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
-import { selectPendingSessions } from 'src/walletConnect/v1/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
+enum ContentType {
+  Loading,
+  ConnectionRequest,
+  ActionRequest,
+  TimeOut,
+}
+
 function WalletConnectRequest({ navigation, route }: Props) {
   const { t } = useTranslation()
-  const fromScan = route.params?.origin === WalletConnectPairingOrigin.Scan
+  const { pendingAction, timedOut, pendingSession, origin } = route.params
+  const fromScan = origin === WalletConnectPairingOrigin.Scan
 
-  const pendingSessions = useSelector(selectPendingSessions)
-  const { loading, pendingAction, timedOut } = route.params
+  let displayContent: ContentType = ContentType.Loading
+  if (timedOut) {
+    displayContent = ContentType.TimeOut
+  } else if (pendingSession) {
+    displayContent = ContentType.ConnectionRequest
+  } else if (pendingAction) {
+    displayContent = ContentType.ActionRequest
+  }
 
   return (
     <View style={styles.container}>
-      {loading && (
+      {displayContent === ContentType.Loading && (
         <>
           <ActivityIndicator size="small" color={colors.greenBrand} />
           <Text style={styles.connecting}>
@@ -34,11 +46,15 @@ function WalletConnectRequest({ navigation, route }: Props) {
         </>
       )}
 
-      {pendingSessions.length > 0 && <SessionRequest navigation={navigation} />}
+      {displayContent === ContentType.ConnectionRequest && pendingSession && (
+        <SessionRequest navigation={navigation} pendingSession={pendingSession} />
+      )}
 
-      {pendingAction && <ActionRequest navigation={navigation} pendingAction={pendingAction} />}
+      {displayContent === ContentType.ActionRequest && pendingAction && (
+        <ActionRequest navigation={navigation} pendingAction={pendingAction} />
+      )}
 
-      {timedOut && <ConnectionTimedOut />}
+      {displayContent === ContentType.TimeOut && <ConnectionTimedOut />}
     </View>
   )
 }

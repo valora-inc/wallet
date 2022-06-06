@@ -145,10 +145,8 @@ describe('App saga', () => {
 
       expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
         origin: WalletConnectPairingOrigin.Deeplink,
-        loading: true,
       })
       expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
-        loading: false,
         timedOut: true,
       })
     })
@@ -171,7 +169,6 @@ describe('App saga', () => {
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
           origin: WalletConnectPairingOrigin.Deeplink,
-          loading: true,
         })
       })
 
@@ -216,7 +213,6 @@ describe('App saga', () => {
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
           origin: WalletConnectPairingOrigin.Deeplink,
-          loading: true,
         })
       })
 
