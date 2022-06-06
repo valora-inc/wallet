@@ -8,7 +8,6 @@ import { DappSection } from 'src/app/reducers'
 import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import {
   activeDappSelector,
-  activeScreenSelector,
   dappsWebViewEnabledSelector,
   getAppLocked,
   getLastTimeBackgrounded,
@@ -18,7 +17,7 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { navigate, replace } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
@@ -132,11 +131,10 @@ describe('App saga', () => {
       },
     ]
 
-    it('handles loading time out', async () => {
+    it('handles loading time out for a deep link', async () => {
       await expectSaga(handleDeepLink, openDeepLink(connectionLinks[0].link))
         .provide([
           [select(selectHasPendingState), false],
-          [select(activeScreenSelector), Screens.WalletConnectLoading],
           [select(activeDappSelector), null],
           {
             race: () => ({ timedOut: true }),
@@ -145,12 +143,13 @@ describe('App saga', () => {
         .call(handleWalletConnectDeepLink, connectionLinks[0].link)
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+      expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
         origin: WalletConnectPairingOrigin.Deeplink,
+        loading: true,
       })
-      expect(replace).toHaveBeenCalledWith(Screens.WalletConnectResult, {
-        subtitle: 'timeoutSubtitle',
-        title: 'timeoutTitle',
+      expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
+        loading: false,
+        timedOut: true,
       })
     })
 
@@ -170,8 +169,9 @@ describe('App saga', () => {
             WalletConnectPairingOrigin.Deeplink
           )
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
           origin: WalletConnectPairingOrigin.Deeplink,
+          loading: true,
         })
       })
 
@@ -214,8 +214,9 @@ describe('App saga', () => {
           .call(handleWalletConnectDeepLink, link)
           .not.call(initialiseWalletConnect)
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
           origin: WalletConnectPairingOrigin.Deeplink,
+          loading: true,
         })
       })
 
