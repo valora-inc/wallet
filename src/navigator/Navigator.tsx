@@ -163,7 +163,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WalletConnectRequest}
         component={WalletConnectRequest}
-        options={headerWithBackButton}
+        options={noHeader}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen

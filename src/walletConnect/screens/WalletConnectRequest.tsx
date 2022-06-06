@@ -1,8 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { headerWithBackButton, noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -34,6 +35,11 @@ function WalletConnectRequest({ navigation, route }: Props) {
   } else if (pendingAction) {
     displayContent = ContentType.ActionRequest
   }
+
+  useEffect(() => {
+    const isLoading = !timedOut && !pendingSession && !pendingAction
+    navigation.setOptions(isLoading ? headerWithBackButton : noHeader)
+  }, [navigation, route])
 
   return (
     <View style={styles.container}>
