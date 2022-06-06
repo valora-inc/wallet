@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "{{appName}} cUSD adresinizi kopyalamak için dokunun",
   "disclaimerFiat": "{{currency}} değerleri tahminidir.",
   "dollarsNotYetEnabledNote": "Celo Dollar henüz hiçbir sağlayıcıda mevcut değil. Celo Dollar almak için CELO satın alın ve CELO sekmesinde Celo Dollar'a dönüştürün.",
-  "selectDigitalCurrency": "Bir dijital varlık seçin",
+  "selectDigitalCurrency": "Bir varlık seçin",
   "selectPaymentMethod": "Yöntem seçin:",
   "payWithBank": "Banka hesabı",
   "payWithCard": "Banka kartı",
@@ -1225,7 +1225,7 @@
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
-    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nBunun nedeni, seçeneğin o ülkede bulunmaması veya yerel düzenlemeler nedeniyle engellenmiş olması olabilir.",
+    "missingPaymentsExplained": "Tüm ödeme yöntemleri her ülkede mevcut değildir.\n\nYalnızca ülkenizde geçerli sağlayıcıları göreceksiniz.",
     "cryptoExchange": "Kripto Para Borsası",
     "feesVary": "Ücret Değişkendir",
     "viewExchanges": "Borsaları Görüntüle",
@@ -1241,6 +1241,21 @@
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Ödeme yöntemi",
+    "transactionDetails": "İşlem detayları",
+    "paymentMethodVia": "Linked via {{providerName}}",
+    "cashIn": {
+      "header": "Gözden Geçir - Bakiye Ekle",
+      "button": "Bakiye Ekle",
+      "transactionDetailsAmount": "Toplam fiyat"
+    },
+    "cashOut": {
+      "header": "Gözden Geçir - Bakiye Çek",
+      "button": "Bakiye Çek",
+      "transactionDetailsAmount": "Para çekme tutar"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Bakiye Ekle",
@@ -1250,14 +1265,14 @@
       "selectProviderHeader": "Ödeme Yöntemi Seç"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Çek",
+      "fiatExchangeTitle": "Bakiye Çek",
       "fiatExchangeSubtitle": "{{appName}} uygulamasından bir banka hesabına, karta, kripto borsasına veya mobil paraya para aktarın.",
       "selectCurrencyTitle": "Bakiye Çek",
       "exchangeAmountTitle": "{{currency}} çek",
       "selectProviderHeader": "Para Çekme Yöntemi Seç"
     },
     "spend": {
-      "fiatExchangeTitle": "Harcama",
+      "fiatExchangeTitle": "Harcama Çek",
       "fiatExchangeSubtitle": "Hediye kartları ve diğer satın alma işlemleri için harcayın.",
       "selectCurrencyTitle": "Para Harcama"
     }

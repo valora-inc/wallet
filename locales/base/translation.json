@@ -1246,7 +1246,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
-    "paymentMethodVia": "Connected via {{providerName}}",
+    "paymentMethodVia": "Linked via {{providerName}}",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
@@ -1302,5 +1302,8 @@
       "placeholderText": "Enter your 10 digit account number",
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
+  },
+  "webView": {
+    "openExternal": "Open in External Browser"
   }
 }
