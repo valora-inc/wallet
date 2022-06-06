@@ -1,3 +1,5 @@
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 
 export default abstract class NormalizedQuote {
@@ -5,8 +7,19 @@ export default abstract class NormalizedQuote {
   abstract getFee(): number | null
   abstract getKycInfo(): string | null
   abstract getTimeEstimation(): string | null
-  abstract onPress(flow: CICOFlow): () => void
   abstract getProviderName(): string
   abstract getProviderLogo(): string
   abstract getProviderId(): string
+
+  abstract navigate(): void
+  onPress(flow: CICOFlow) {
+    return () => {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
+        flow,
+        paymentMethod: this.getPaymentMethod(),
+        provider: this.getProviderId(),
+      })
+      this.navigate()
+    }
+  }
 }

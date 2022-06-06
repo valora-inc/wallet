@@ -1,5 +1,14 @@
 /* Shared mock values to facilitate testing */
 import { UnlockableWallet } from '@celo/wallet-base'
+import {
+  CryptoType,
+  FeeFrequency,
+  FeeType as QuoteFeeType,
+  FiatAccountSchema,
+  FiatConnectError,
+  FiatType,
+  KycSchema,
+} from '@fiatconnect/fiatconnect-types'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
@@ -7,6 +16,12 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/reducer'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+  GetFiatConnectQuotesResponse,
+} from 'src/fiatconnect'
 import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
@@ -627,5 +642,100 @@ export const mockProviders: FetchProvidersOutput[] = [
       { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
       { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
     ],
+  },
+]
+
+export const mockFiatConnectProviderInfo: FiatConnectProviderInfo = {
+  id: 'provider-two',
+  providerName: 'Provider Two',
+  imageUrl:
+    'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+  baseUrl: 'fakewebsite.valoraapp.com',
+}
+
+export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse = {
+  id: 'provider-two',
+  ok: true,
+  val: {
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_in_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+    },
+    kyc: {
+      kycRequired: false,
+      kycSchemas: [],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: {},
+          },
+        ],
+        fee: '0.53',
+        feeType: QuoteFeeType.PlatformFee,
+        feeFrequency: FeeFrequency.OneTime,
+        settlementTimeLowerBound: `300`, // Five minutes
+        settlementTimeUpperBound: `7200`, // Two hours
+      },
+    },
+  },
+}
+
+export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [
+  {
+    provider: {
+      id: 'provider-two',
+      providerName: 'Provider Two',
+      imageUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      baseUrl: 'fakewebsite.valoraapp.com',
+    },
+    ok: false,
+    error: FiatConnectError.FiatAmountTooHigh,
+    maximumFiatAmount: '100',
+  },
+  {
+    provider: mockFiatConnectProviderInfo,
+    ok: true,
+    ...mockGetFiatConnectQuotesResponse.val,
+  },
+  {
+    provider: {
+      id: 'provider-three',
+      providerName: 'Provider Three',
+      imageUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      baseUrl: 'fakewebsite.valoraapp.com',
+    },
+    ok: true,
+    quote: {
+      fiatType: FiatType.USD,
+      cryptoType: CryptoType.cUSD,
+      fiatAmount: '100',
+      cryptoAmount: '100',
+      quoteId: 'mock_quote_in_id',
+      guaranteedUntil: '2099-04-27T19:22:36.000Z',
+    },
+    kyc: {
+      kycRequired: true,
+      kycSchemas: [{ kycSchema: KycSchema.PersonalDataAndDocuments, allowedValues: {} }],
+    },
+    fiatAccount: {
+      BankAccount: {
+        fiatAccountSchemas: [
+          {
+            fiatAccountSchema: FiatAccountSchema.AccountNumber,
+            allowedValues: {},
+          },
+        ],
+        fee: '4.22',
+      },
+    },
   },
 ]

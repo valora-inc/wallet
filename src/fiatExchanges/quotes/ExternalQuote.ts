@@ -1,5 +1,3 @@
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   CICOFlow,
@@ -70,20 +68,13 @@ export default class ExternalQuote extends NormalizedQuote {
     return this.getPaymentMethod() === PaymentMethod.Bank ? strings.numDays : strings.oneHour
   }
 
-  onPress(flow: CICOFlow): () => void {
-    return () => {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-        flow,
-        paymentMethod: this.getPaymentMethod(),
-        provider: this.getProviderName(),
+  navigate(): void {
+    if (isSimplexQuote(this.quote)) {
+      navigate(Screens.Simplex, {
+        simplexQuote: this.quote,
       })
-      if (isSimplexQuote(this.quote)) {
-        navigate(Screens.Simplex, {
-          simplexQuote: this.quote,
-        })
-      } else {
-        this.provider.url && navigateToURI(this.provider.url)
-      }
+    } else {
+      navigateToURI(this.provider.url!)
     }
   }
 

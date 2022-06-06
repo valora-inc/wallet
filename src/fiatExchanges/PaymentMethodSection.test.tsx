@@ -1,11 +1,11 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { normalizeQuotes } from 'src/fiatExchanges/normalizeQuotes'
 import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'

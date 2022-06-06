@@ -43,7 +43,7 @@ export function normalizeFiatConnectQuotes(
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 
-  quotes?.forEach((quote) => {
+  quotes.forEach((quote) => {
     if (quoteHasErrors(quote)) {
       Logger.warn(TAG, `Error with quote for ${quote.provider.id}. ${quote.error}`)
     } else {

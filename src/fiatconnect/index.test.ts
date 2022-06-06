@@ -1,8 +1,24 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { mockAccount } from 'test/values'
-import { addNewFiatAccount, FiatConnectProviderInfo, getFiatConnectProviders } from './index'
+import {
+  mockAccount,
+  mockFiatConnectProviderInfo,
+  mockFiatConnectQuotes,
+  mockGetFiatConnectQuotesResponse,
+} from 'test/values'
+import {
+  addNewFiatAccount,
+  fetchFiatConnectQuotes,
+  FetchQuotesInput,
+  FiatConnectProviderInfo,
+  getFiatConnectProviders,
+  getFiatConnectQuotes,
+  QuotesInput,
+} from './index'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -37,6 +53,54 @@ describe('FiatConnect helpers', () => {
       const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toEqual([])
       expect(Logger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('fetchFiatConnectQuotes', () => {
+    const fetchQuotesInput: FetchQuotesInput = {
+      fiatConnectEnabled: false,
+      account: mockAccount,
+      flow: CICOFlow.CashIn,
+      localCurrency: LocalCurrencyCode.USD,
+      digitalAsset: CiCoCurrency.CUSD,
+      cryptoAmount: 100,
+      country: 'US',
+    }
+    it('returns an empty array if fiatConnectEnabled is false', async () => {
+      const quotes = await fetchFiatConnectQuotes(fetchQuotesInput)
+      expect(quotes).toHaveLength(0)
+    })
+  })
+
+  describe('getFiatConnectQuotes', () => {
+    const getQuotesInput: QuotesInput = {
+      flow: CICOFlow.CashIn,
+      localCurrency: LocalCurrencyCode.USD,
+      digitalAsset: CiCoCurrency.CUSD,
+      cryptoAmount: 100,
+      country: 'US',
+      fiatConnectProviders: [mockFiatConnectProviderInfo],
+    }
+    it('returns an empty array if fiatType is not supported', async () => {
+      const quotes = await getFiatConnectQuotes({
+        ...getQuotesInput,
+        localCurrency: LocalCurrencyCode.CAD,
+      })
+      expect(quotes).toHaveLength(0)
+    })
+    it('returns an empty array if fetch fails', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: [] }), { status: 500 })
+      const quotes = await getFiatConnectQuotes(getQuotesInput)
+      expect(quotes).toEqual([])
+      expect(Logger.error).toHaveBeenCalled()
+    })
+    it('returns quotes', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: [mockGetFiatConnectQuotesResponse] }), {
+        status: 200,
+      })
+      const quotes = await getFiatConnectQuotes(getQuotesInput)
+      expect(quotes).toEqual([mockFiatConnectQuotes[1]])
+      expect(Logger.error).not.toHaveBeenCalled()
     })
   })
 

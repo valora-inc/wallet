@@ -1,13 +1,11 @@
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
 } from 'src/fiatconnect/FiatDetailsScreen'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 
 const strings = {
@@ -57,7 +55,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   // TODO: Dynamically generate time estimation strings
-  private getSettlementEstimation(lower: string | undefined, upper: string | undefined) {
+  private getSettlementEstimation(lower?: string, upper?: string) {
     return strings.numDays
   }
 
@@ -85,21 +83,13 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  onPress(flow: CICOFlow): () => void {
-    return () => {
-      ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-        flow,
-        paymentMethod: this.getPaymentMethod(),
-        provider: this.getProviderId(),
-      })
-      // TODO: Integrate the FiatConnectQuote class into the FiatDetailsScreen
-
-      // navigate(Screens.FiatDetailsScreen, {
-      //   quote: this,
-      //   fiatAccountType: this.fiatAccountType,
-      //   flow,
-      // })
-    }
+  // TODO: Integrate the FiatConnectQuote class into the FiatDetailsScreen
+  navigate(): void {
+    // navigate(Screens.FiatDetailsScreen, {
+    //   quote: this,
+    //   fiatAccountType: this.fiatAccountType,
+    //   flow,
+    // })
   }
 
   getProviderName(): string {

@@ -10,7 +10,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
-import Logger from '../utils/Logger'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'FIATCONNECT'
 
@@ -26,10 +26,14 @@ export interface FiatConnectProviderInfo {
 function convertToFiatConnectFiatCurrency(localCurrency: LocalCurrencyCode): FiatType | undefined {
   return FiatType[(localCurrency as unknown) as FiatType]
 }
-// A bit hacky. This function returns the crypto type if cicoCurrency is in
-// CryptoType and otherwise returns undefined
-function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType | undefined {
-  return CryptoType[(cicoCurrency as unknown) as CryptoType]
+
+function convertToFiatConnectCryptoCurrency(cicoCurrency: CiCoCurrency): CryptoType {
+  return {
+    [CiCoCurrency.CELO]: CryptoType.CELO,
+    [CiCoCurrency.CEUR]: CryptoType.cEUR,
+    [CiCoCurrency.CUSD]: CryptoType.cUSD,
+    [CiCoCurrency.CREAL]: CryptoType.cREAL,
+  }[cicoCurrency]
 }
 
 /**
@@ -55,7 +59,7 @@ export async function getFiatConnectProviders(
   return providers
 }
 
-type QuotesInput = {
+export type QuotesInput = {
   fiatConnectProviders: FiatConnectProviderInfo[]
   flow: CICOFlow
   localCurrency: LocalCurrencyCode
@@ -64,7 +68,7 @@ type QuotesInput = {
   country: string
 }
 
-type GetFiatConnectQuotesResponse = {
+export type GetFiatConnectQuotesResponse = {
   id: string
   ok: boolean
   val: QuoteResponse | QuoteErrorResponse | { error: string }
@@ -85,8 +89,8 @@ export async function getFiatConnectQuotes(
 ): Promise<(FiatConnectQuoteSuccess | FiatConnectQuoteError)[]> {
   const { fiatConnectProviders, localCurrency, digitalAsset, cryptoAmount, country, flow } = params
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
+  if (!fiatType) return []
   const cryptoType = convertToFiatConnectCryptoCurrency(digitalAsset)
-  if (!fiatType || !cryptoType) return []
   const quoteParams: QuoteRequestQuery = {
     fiatType,
     cryptoType,
@@ -111,12 +115,10 @@ export async function getFiatConnectQuotes(
     .map((result) => ({
       ...result.val,
       ok: result.ok,
-      provider: fiatConnectProviders.find(
-        (provider) => provider.id === result.id
-      ) as FiatConnectProviderInfo,
+      provider: fiatConnectProviders.find((provider) => provider.id === result.id)!,
     }))
 }
-type FetchQuotesInput = QuotesInput & {
+export type FetchQuotesInput = Omit<QuotesInput, 'fiatConnectProviders'> & {
   fiatConnectEnabled: boolean
   account: string
 }
@@ -126,8 +128,8 @@ export async function fetchFiatConnectQuotes(params: FetchQuotesInput) {
   if (!fiatConnectEnabled) return []
   const fiatConnectProviders = await getFiatConnectProviders(account)
   return getFiatConnectQuotes({
-    fiatConnectProviders,
     ...quotesInput,
+    fiatConnectProviders,
   })
 }
 
