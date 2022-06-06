@@ -1340,6 +1340,7 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectReview",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",

@@ -1,5 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import { FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
+import { AccountNumber, FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -50,6 +50,9 @@ interface SendConfirmationLegacyParams {
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
 }
+
+// Union type of supported fiat accounts
+export type FiatAccount = AccountNumber
 
 export type StackParamList = {
   [Screens.BackupComplete]:
@@ -134,6 +137,13 @@ export type StackParamList = {
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
+  }
+  [Screens.FiatConnectReview]: {
+    flow: CICOFlow
+    cicoQuote: QuoteResponse
+    provider: ProviderInfo
+    fiatAccountSchema: FiatAccountSchema
+    fiatAccount: FiatAccount
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

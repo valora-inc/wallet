@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Toque para copiar seu endereço cUSD da {{appName}} ",
   "disclaimerFiat": "Os valores de {{currency}} são estimativos.",
   "dollarsNotYetEnabledNote": "Os Celo Dollars ainda não estão disponíveis em nenhum fornecedor. Para obter Celo Dollars, adquira o CELO e troque por Celo Dollars na aba CELO.",
-  "selectDigitalCurrency": "Selecione um ativo digital",
+  "selectDigitalCurrency": "Selecione um ativo",
   "selectPaymentMethod": "Selecionar método:",
   "payWithBank": "Conta bancária",
   "payWithCard": "Cartão de débito",
@@ -1225,7 +1225,7 @@
     "learnMore": "Saiba mais.",
     "whyMissingPayments": "Porque não vejo mais métodos de pagamento?",
     "dismiss": "Ignorar",
-    "missingPaymentsExplained": "Nem todos os métodos de pagamento estão disponíveis em todos os países.\n\nIsto pode ser porque a opção não existe nesse país, ou está bloqueada devido a regulamentos locais.",
+    "missingPaymentsExplained": "Nem todos os métodos de pagamento estão disponíveis em todos os países.\n\nA disponibilidade depende da cobertura geográfica de cada fornecedor.",
     "cryptoExchange": "Exchange de criptomoedas",
     "feesVary": "As taxas variam",
     "viewExchanges": "Ver exchanges",
@@ -1241,6 +1241,21 @@
     "bestRate": "Melhor taxa",
     "header": "Selecione o método de pagamento"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Método de pagamento",
+    "transactionDetails": "Detalhes de transação",
+    "paymentMethodVia": "Ligado via {{providerName}}",
+    "cashIn": {
+      "header": "Revisão - Adicionar Fundos",
+      "button": "Adicionar Fundos",
+      "transactionDetailsAmount": "Preço total"
+    },
+    "cashOut": {
+      "header": "Revisão - Sacar Fundos",
+      "button": "Sacar Fundos",
+      "transactionDetailsAmount": "Quantia de saque"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Adicionar Fundos",
@@ -1250,14 +1265,14 @@
       "selectProviderHeader": "Selecione o método de pagamento"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Sacar",
+      "fiatExchangeTitle": "Sacar Fundos",
       "fiatExchangeSubtitle": "Saque fundos do {{appName}} para uma conta bancária, cartão, exchange de criptos ou dinheiro móvel.",
       "selectCurrencyTitle": "Sacar Fundos",
       "exchangeAmountTitle": "Transferir {{currency}}",
       "selectProviderHeader": "Selecione o método de saque"
     },
     "spend": {
-      "fiatExchangeTitle": "Gastar fundos",
+      "fiatExchangeTitle": "Gastar Fundos",
       "fiatExchangeSubtitle": "Gastar em cartões de oferta e outras compras.",
       "selectCurrencyTitle": "Gastar fundos"
     }

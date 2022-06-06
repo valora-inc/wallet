@@ -432,6 +432,9 @@ export enum FiatExchangeEvents {
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+
+  // Fiat connect review screen
+  cico_submit_transfer = 'cico_submit_transfer',
 }
 
 export enum GethEvents {

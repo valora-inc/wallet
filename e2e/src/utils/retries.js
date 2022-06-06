@@ -3,7 +3,7 @@ import { retry } from 'ts-retry-promise'
 export const launchApp = async (
   launchArgs = {
     newInstance: true,
-    permissions: { notifications: 'YES', contacts: 'YES' },
+    permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
     launchArgs: {
       detoxPrintBusyIdleResources: 'YES',
     },
