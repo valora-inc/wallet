@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
-    "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
+    "paymentMethodVia": "Linked via {{providerName}}",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",

@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
-    "paymentMethodVia": "Über {{providerName}} verbunden",
+    "paymentMethodVia": "Verknüpft über {{providerName}}",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
