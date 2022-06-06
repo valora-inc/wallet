@@ -510,7 +510,8 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[52](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.app.fiatConnectEnabled = false
+    expectedSchema.app.fiatConnectCashInEnabled = false
+    expectedSchema.app.fiatConnectCashOutEnabled = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

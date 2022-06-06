@@ -70,5 +70,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   skipProfilePicture: false,
   finclusiveUnsupportedStates: 'NY,TX',
   celoWithdrawalEnabledInExchange: true,
-  fiatConnectEnabled: false,
+  fiatConnectCashInEnabled: false,
+  fiatConnectCashOutEnabled: false,
 }

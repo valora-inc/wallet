@@ -119,13 +119,15 @@ export async function getFiatConnectQuotes(
     }))
 }
 export type FetchQuotesInput = Omit<QuotesInput, 'fiatConnectProviders'> & {
-  fiatConnectEnabled: boolean
+  fiatConnectCashInEnabled: boolean
+  fiatConnectCashOutEnabled: boolean
   account: string
 }
 
 export async function fetchFiatConnectQuotes(params: FetchQuotesInput) {
-  const { account, fiatConnectEnabled, ...quotesInput } = params
-  if (!fiatConnectEnabled) return []
+  const { account, fiatConnectCashInEnabled, fiatConnectCashOutEnabled, ...quotesInput } = params
+  if (!fiatConnectCashInEnabled && params.flow === CICOFlow.CashIn) return []
+  if (!fiatConnectCashOutEnabled && params.flow === CICOFlow.CashOut) return []
   const fiatConnectProviders = await getFiatConnectProviders(account)
   return getFiatConnectQuotes({
     ...quotesInput,

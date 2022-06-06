@@ -295,7 +295,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
     finclusiveUnsupportedStates: flags.finclusiveUnsupportedStates.asString().split(','),
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
-    fiatConnectEnabled: flags.fiatConnectEnabled.asBoolean(),
+    fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
+    fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
   }
 }
 

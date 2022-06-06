@@ -143,7 +143,8 @@ describe('store state', () => {
           "celoWithdrawalEnabledInExchange": true,
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
-          "fiatConnectEnabled": false,
+          "fiatConnectCashInEnabled": false,
+          "fiatConnectCashOutEnabled": false,
           "finclusiveUnsupportedStates": Array [
             "NY",
             "TX",

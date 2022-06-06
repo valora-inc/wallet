@@ -633,7 +633,8 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      fiatConnectEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectEnabled,
+      fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+      fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
     },
   }),
 }

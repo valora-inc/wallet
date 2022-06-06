@@ -1283,7 +1283,8 @@ export const v52Schema = {
   },
   app: {
     ...v51Schema.app,
-    fiatConnectEnabled: false,
+    fiatConnectCashInEnabled: false,
+    fiatConnectCashOutEnabled: false,
   },
 }
 

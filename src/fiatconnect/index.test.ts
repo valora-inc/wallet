@@ -58,7 +58,8 @@ describe('FiatConnect helpers', () => {
 
   describe('fetchFiatConnectQuotes', () => {
     const fetchQuotesInput: FetchQuotesInput = {
-      fiatConnectEnabled: false,
+      fiatConnectCashInEnabled: false,
+      fiatConnectCashOutEnabled: false,
       account: mockAccount,
       flow: CICOFlow.CashIn,
       localCurrency: LocalCurrencyCode.USD,
@@ -66,8 +67,12 @@ describe('FiatConnect helpers', () => {
       cryptoAmount: 100,
       country: 'US',
     }
-    it('returns an empty array if fiatConnectEnabled is false', async () => {
+    it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
       const quotes = await fetchFiatConnectQuotes(fetchQuotesInput)
+      expect(quotes).toHaveLength(0)
+    })
+    it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
+      const quotes = await fetchFiatConnectQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
       expect(quotes).toHaveLength(0)
     })
   })

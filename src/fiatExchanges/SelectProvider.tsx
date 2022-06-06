@@ -9,7 +9,10 @@ import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { fiatConnectEnabledSelector } from 'src/app/selectors'
+import {
+  fiatConnectCashInEnabledSelector,
+  fiatConnectCashOutEnabledSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
@@ -48,7 +51,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const fiatConnectEnabled = useSelector(fiatConnectEnabledSelector)
+  const fiatConnectCashInEnabled = useSelector(fiatConnectCashInEnabledSelector)
+  const fiatConnectCashOutEnabled = useSelector(fiatConnectCashOutEnabledSelector)
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
 
@@ -76,7 +80,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           cryptoAmount: route.params.amount.crypto,
           country: userLocation?.countryCodeAlpha2 || 'US',
           flow,
-          fiatConnectEnabled,
+          fiatConnectCashInEnabled,
+          fiatConnectCashOutEnabled,
         }),
         fetchProviders({
           userLocation,

@@ -194,7 +194,8 @@ export interface RemoteConfigValues {
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
-  fiatConnectEnabled: boolean
+  fiatConnectCashInEnabled: boolean
+  fiatConnectCashOutEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
