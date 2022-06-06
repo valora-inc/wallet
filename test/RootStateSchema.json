@@ -1539,8 +1539,8 @@
                     "type": "boolean"
                 },
                 "fiatConnectCashOutEnabled": {
-                  "type": "boolean"
-              },
+                    "type": "boolean"
+                },
                 "finclusiveUnsupportedStates": {
                     "items": {
                         "type": "string"
