@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Metodo di pagamento",
     "transactionDetails": "Dettagli della transazione",
-    "paymentMethodVia": "Collegato via {{providerName}}",
+    "paymentMethodVia": "Collegati via {{providerName}}",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
@@ -1302,7 +1302,7 @@
     }
   },
   "webView": {
-    "openExternal": "Apri in un browser esterno"
+    "openExternal": "Apri nel browser esterno"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
