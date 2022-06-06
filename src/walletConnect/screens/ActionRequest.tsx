@@ -10,6 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
@@ -56,6 +57,10 @@ function ActionRequest({ navigation, pendingAction }: Props) {
 
   if (!activeSession) {
     // should never happen
+    Logger.error(
+      'WalletConnectRequest/ActionRequest',
+      'No active WallectConnect session could be found'
+    )
     return null
   }
 

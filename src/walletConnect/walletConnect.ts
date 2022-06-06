@@ -10,7 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
-import { Actions, WalletConnectActions } from 'src/walletConnect/v1/actions'
+import { Actions } from 'src/walletConnect/v1/actions'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
@@ -68,11 +68,8 @@ export function* handleLoadingWithTimeout(
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    wcConnection: take(
-      // @ts-ignore why is this being complained about??
-      (action: WalletConnectActions) =>
-        action.type === Actions.SESSION_V1 || action.type === Actions.PAYLOAD_V1
-    ),
+    sessionRequestRecieved: take(Actions.SESSION_V1),
+    actionRequestRecieved: take(Actions.PAYLOAD_V1),
   })
 
   if (timedOut) {
