@@ -1305,6 +1305,9 @@
       "errorMessage": "Номер рахунку має складатися з 10 цифр і містити лише цифри"
     }
   },
+  "webView": {
+    "openExternal": "Відкрити у зовнішньому браузері"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
