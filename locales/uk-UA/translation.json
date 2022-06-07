@@ -1248,7 +1248,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі операції",
-    "paymentMethodVia": "З’єднано через {{providerName}}",
+    "paymentMethodVia": "Пов'язані через {{providerName}}",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
@@ -1304,6 +1304,9 @@
       "placeholderText": "Уведіть свій 10-значний номер рахунку",
       "errorMessage": "Номер рахунку має складатися з 10 цифр і містити лише цифри"
     }
+  },
+  "webView": {
+    "openExternal": "Відкрити у зовнішньому браузері"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
