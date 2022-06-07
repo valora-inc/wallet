@@ -1340,6 +1340,7 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectReview",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -1522,6 +1523,9 @@
                 "celoEuroEnabled": {
                     "type": "boolean"
                 },
+                "celoWithdrawalEnabledInExchange": {
+                    "type": "boolean"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -1675,6 +1679,7 @@
                 "cashInButtonExpEnabled",
                 "celoEducationUri",
                 "celoEuroEnabled",
+                "celoWithdrawalEnabledInExchange",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
                 "finclusiveUnsupportedStates",

@@ -40,9 +40,9 @@
     "resetNow": "Reset Now"
   },
   "promptConfirmRevokeModal": {
-    "header": "Are you sure you want to revoke your Valora account?",
-    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
-    "revoke": "Revoke"
+    "header": "Are you sure you want to disconnect your phone number?",
+    "body": "Once disconnected, you will not be able to reconnect your phone number to this wallet again.",
+    "revoke": "Disconnect"
   },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Current Daily Send Limit",
   "dailyLimitValue": "${{dailyLimit}}",
   "noDailyLimit": "Unlimited",
-  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please confirm your phone number before continuing.",
+  "verifyNumberToRaiseLimit": "You can increase your send limit by verifying your identity. Please connect your phone number before continuing.",
   "verifyIdentityToRaiseLimit": "You can increase your send limit by verifying your identity.  Please be ready to provide some details in the following process.",
   "dailyLimitApplicationStatus": "Application Status",
   "applicationInReview": "In Review",
@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
   "disclaimerFiat": "{{currency}} values are estimates.",
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
-  "selectDigitalCurrency": "Select a digital asset",
+  "selectDigitalCurrency": "Select an asset",
   "selectPaymentMethod": "Select method:",
   "payWithBank": "Bank account",
   "payWithCard": "Debit card",
@@ -396,9 +396,9 @@
   "invalidPhone": "Invalid phone number",
   "cantSelectInvalidPhone": "Cannot select contact: invalid phone number",
   "needMoreFundsToSend": "You should have {{currencySymbol}}{{amountNeeded}} to make this transaction. Please add funds or try sending less.",
-  "maxEscrowTransferExceeded": "The maximum amount to transfer to unconfirmed users is {{symbol}}{{maxAmount}}",
+  "maxEscrowTransferExceeded": "The maximum amount transferrable to users without a connected number is {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Invalid amount",
-  "invalidCode": "Invalid Confirmation Code",
+  "invalidCode": "Invalid Code",
   "confirm": "Confirm",
   "readCodesAuto": "Read Codes Automatically",
   "enterManually": "Enter Manually",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
-  "verifyFailed": "Failed to confirm",
+  "verifyFailed": "Failed to connect",
   "canNotRequestFromUnverified": "Cannot request from unconfirmed users",
   "restartApp": "Restart App",
   "quitApp": "Quit",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Failed to retrieve phone number secret",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
-  "odisInsufficientBalance": "Please confirm your number",
+  "odisInsufficientBalance": "Please connect your number",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
   "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
   "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
@@ -630,35 +630,35 @@
     "enable": "Enable Contact Access",
     "loading": "Finding friends on {{appName}}..."
   },
-  "getVerified": "Confirm Phone Number",
+  "getVerified": "Connect Phone Number",
   "notReadyForCode": "Not yet ready for code entry",
-  "emptyVerificationCode": "No Confirmation Code in Clipboard",
-  "invalidVerificationCode": "Invalid Confirmation Code",
-  "repeatVerificationCode": "Repeated Confirmation Code",
+  "emptyVerificationCode": "No Code in Clipboard",
+  "invalidVerificationCode": "Invalid Code",
+  "repeatVerificationCode": "Repeated Code",
   "revealAttestationFailure": "Error requesting SMS message",
-  "verificationFailure": "Confirmation Failed",
+  "verificationFailure": "Connection Failed",
   "cantVerifyRevokedAccount": "This account has been previously revoked. Please create a new account and try again.",
-  "verificationTimeout": "Confirmation Timed Out",
+  "verificationTimeout": "Connection Timed Out",
   "errorRequestCode": "Failed to request codes.",
   "errorRedeemingCode": "Failed to redeem code.",
-  "pleaseRetry": "Please retry confirmation.",
-  "retryVerification": "Retry Confirmation",
+  "pleaseRetry": "Please try connecting again.",
+  "retryVerification": "Retry connection",
   "education": {
-    "header": "Confirm Your Phone",
-    "body1": "Next, please confirm your phone number.",
+    "header": "Connect Your Phone",
+    "body1": "Next, please connect your phone number.",
     "body2": "Connecting your phone makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone confirmation",
-    "start": "Start Confirmation",
+    "learnMore": "Learn more about phone connection",
+    "start": "Connect Phone Number",
     "skip": "Skip For Now"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
+    "confirming": "Connecting phone number…",
     "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
     "learnMore": "Learn more",
     "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "card2": "Once your number is connected, you can send and receive funds easily to your phone number.",
+    "card3": "Connecting your number also allows you to see which of your friends are on {{appName}}.",
+    "card4": "We require three SMS messages to securely connect your phone number."
   },
   "skipModal": {
     "header": "Are you sure?",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Confirmation Error",
-    "body1": "An issue has occurred while confirming your phone number.",
-    "body2": "You can skip confirmation for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the confirmation process.",
+    "body1": "An issue has occurred while connecting your phone number.",
+    "body2": "You can skip connecting for now and try again later.",
+    "body1InsufficientBalance": "Your current balance is not high enough to complete the connection process.",
     "body2InsufficientBalance": "Please try again when you have added funds to your wallet.",
     "body1SaltQuotaExceeded": "Your phone number lookup quota is used up",
     "body2SaltQuotaExceeded": "Please try again when you have purchased more lookups",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Enter Codes"
   },
   "retryWithFornoModal": {
-    "header": "Retry Confirmation with Data Saver?",
-    "body1": "An issue has occurred while confirming your phone number. We recommend trying again with Data Saver mode enabled.",
+    "header": "Retry Connection with Data Saver?",
+    "body1": "An issue has occurred while connecting your phone number. We recommend trying again with Data Saver mode enabled.",
     "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
     "retryButton": "Retry with Data Saver"
   },
-  "congratsVerified": "Congratulations you are now confirmed!",
+  "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
     "body": "Receive payments directly to your phone number",
     "cta": "Connect Now"
@@ -747,25 +747,25 @@
   "verificationEducation": {
     "title": "Phone Number",
     "header": "Connect your phone number",
-    "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
-    "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
+    "body": "To make sure your number is really yours, you’ll receive three SMS messages that will cost about 0.05 cUSD each.\n\nConnection takes about three minutes.",
+    "feelessBody": "You will receive three messages to help securely connect your phone number. Connection takes about three minutes.",
     "start": "Start",
     "resume": "Resume",
-    "doINeedToConfirm": "Do I need to confirm?",
+    "doINeedToConfirm": "Do I need to connect?",
     "skipForNow": "Skip for now",
     "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
-    "bodyAlreadyVerified": "Your number is already confirmed!"
+    "bodyAlreadyVerified": "Your number is already connected!"
   },
   "verificationSkipDialog": {
     "title": "Are you sure?",
-    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
+    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using Celo addresses or QR codes.",
     "cancel": "Go Back",
     "confirm": "Skip for now"
   },
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "You're all set!"
   },
-  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora! Payments sent to your phone number will be safely held until you redeem them by confirming your phone number.",
+  "verificationUnavailable": "Phone number connection is currently unavailable. Please enter your phone number and we will notify you when it is possible to connect again.\n\nIn the meantime, you can continue to use {{appName}} with QR codes or Account Addresses. Don't worry, payments sent to your phone number will be waiting for you until you connect it to your account.",
   "requests": "Requests",
   "empty": "You have no Payment Requests",
   "celoDollarBalance": "Celo Dollar Balance",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} requested",
   "outgoingPaymentRequestNotificationTitle": "Waiting for {{name}}",
   "requestUnavailableHeader": "{{displayName}}'s account is not connected yet.",
-  "requestUnavailableNoDisplayNameHeader": "Your contact's account is unconfirmed",
+  "requestUnavailableNoDisplayNameHeader": "Your contact’s phone number is not connected to an Account Address.",
   "requestUnavailableBody": "The number {{e164PhoneNumber}} doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
   "requestUnavailableNoNumberBody": "Your contact doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
   "requesting": "Requesting",
@@ -889,7 +889,7 @@
   "reminderSent": "Reminder Sent",
   "reclaimPayment": "Reclaim Payment",
   "totalRefunded": "Total Refunded",
-  "loadingVerificationStatus": "Checking recipient confirmation",
+  "loadingVerificationStatus": "Checking if recipient is connected…",
   "askForContactsPermissionAction": "Get my Contacts",
   "newAccountBalance": "New account balance: ",
   "estimatingFee": "Estimating fee ",
@@ -899,8 +899,8 @@
   "selectToken": "Select Asset",
   "verificationCta": {
     "header": "Sending to a friend?",
-    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
-    "cta": "Start Confirmation"
+    "body": "Connect your phone and sync your contacts to quickly send to your friends.",
+    "cta": "Connect Phone Number"
   },
   "importContactsCta": {
     "header": "Import Contacts",
@@ -1008,7 +1008,7 @@
   "sent": "Sent",
   "received": "Received",
   "viewAll": "View All",
-  "thanksForVerifying": "Thanks for confirming",
+  "thanksForVerifying": "Thanks for connecting",
   "goldIsWhereYouSave": "CELO is where you can save Celo Dollars you have",
   "dinner": "Dinner",
   "bikeParts": "Bike Parts",
@@ -1225,7 +1225,7 @@
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
-    "missingPaymentsExplained": "Not all payment methods are available in every single country.\n\nThis could be because the option does not exist in that country, or is blocked due to local regulations.",
+    "missingPaymentsExplained": "Not all payment methods are available in every country.\n\nAvailability depends on each provider's geographical coverage.",
     "cryptoExchange": "Cryptocurrency Exchange",
     "feesVary": "Fees Vary",
     "viewExchanges": "View Exchanges",
@@ -1241,6 +1241,21 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Payment Method",
+    "transactionDetails": "Transaction Details",
+    "paymentMethodVia": "Linked via {{providerName}}",
+    "cashIn": {
+      "header": "Review Add Funds",
+      "button": "Add Funds",
+      "transactionDetailsAmount": "Total Price"
+    },
+    "cashOut": {
+      "header": "Review Withdraw",
+      "button": "Withdraw Funds",
+      "transactionDetailsAmount": "Withdraw Amount"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Add Funds",
@@ -1250,14 +1265,14 @@
       "selectProviderHeader": "Select Payment Method"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Withdraw",
+      "fiatExchangeTitle": "Withdraw Funds",
       "fiatExchangeSubtitle": "Get funds out of {{appName}} and into a bank account, card, crypto exchange or to mobile money.",
       "selectCurrencyTitle": "Withdraw Funds",
       "exchangeAmountTitle": "Withdraw {{currency}}",
       "selectProviderHeader": "Select Withdraw Method"
     },
     "spend": {
-      "fiatExchangeTitle": "Spend",
+      "fiatExchangeTitle": "Spend Funds",
       "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
       "selectCurrencyTitle": "Spend Funds"
     }
@@ -1285,6 +1300,9 @@
       "placeholderText": "Enter your 10 digit account number",
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
+  },
+  "webView": {
+    "openExternal": "Open in External Browser"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

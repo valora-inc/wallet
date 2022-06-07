@@ -16,8 +16,10 @@ import {
   eqAddress,
   hexToBuffer,
   normalizeAddressWith0x,
+  privateKeyToAddress,
 } from '@celo/utils/lib/address'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
+import { UnlockableWallet } from '@celo/wallet-base'
 import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
 import * as bip39 from 'react-native-bip39'
@@ -35,6 +37,7 @@ import {
 } from 'src/identity/actions'
 import { WalletToAccountAddressType } from 'src/identity/reducer'
 import { walletToAccountAddressSelector } from 'src/identity/selectors'
+import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -50,6 +53,7 @@ import {
   mtwAddressSelector,
 } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
+
 const TAG = 'web3/dataEncryptionKey'
 const PLACEHOLDER_DEK = '0x02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
 
@@ -388,4 +392,24 @@ export function* getAuthSignerForAccount(accountAddress: string, walletAddress: 
     contractKit,
   }
   return walletKeySigner
+}
+
+export function* importDekIfNecessary(wallet: UnlockableWallet | undefined) {
+  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+  if (!privateDataKey) {
+    throw new Error('No data key in store. Should never happen.')
+  }
+  const dataKeyAddress = normalizeAddressWith0x(
+    privateKeyToAddress(ensureLeading0x(privateDataKey))
+  )
+  // directly using pepper because we don't want to set a PIN for the DEK
+  const pepper: string = yield call(retrieveOrGeneratePepper, DEK)
+  if (wallet && !wallet.hasAccount(dataKeyAddress)) {
+    try {
+      yield call([wallet, wallet.addAccount], privateDataKey, pepper)
+    } catch (error) {
+      Logger.warn('Unable to add DEK to wallet', error)
+    }
+  }
+  return { dataKeyAddress, pepper }
 }

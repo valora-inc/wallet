@@ -40,9 +40,9 @@
     "resetNow": "Réinitialiser maintenant"
   },
   "promptConfirmRevokeModal": {
-    "header": "Êtes-vous sûr de vouloir révoquer votre compte Valora ?",
-    "body": "Une fois révoqué, ce compte ne pourra plus être confirmé à nouveau. Révoquez votre compte uniquement si vous êtes sûr de ne plus jamais en avoir besoin.",
-    "revoke": "Révoquer"
+    "header": "Confirmez-vous vouloir déconnecter votre numéro de téléphone ?",
+    "body": "Une fois déconnecté, vous ne pourrez plus reconnecter votre numéro de téléphone à ce portefeuille.",
+    "revoke": "Déconnecter"
   },
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
@@ -79,7 +79,7 @@
   "dailyLimitLabel": "Limite de virement quotidienne actuelle",
   "dailyLimitValue": "{{dailyLimit}}$",
   "noDailyLimit": "Illimité",
-  "verifyNumberToRaiseLimit": "Vous pouvez augmenter votre limite de virement en vérifiant votre identité. Veuillez confirmer votre numéro de téléphone avant de continuer.",
+  "verifyNumberToRaiseLimit": "Vous pouvez augmenter votre limite de virement en vérifiant votre identité. Veuillez connecter votre numéro de téléphone avant de continuer.",
   "verifyIdentityToRaiseLimit": "Vous pouvez augmenter votre limite de virement par la vérification de votre identité. Veuillez préparer certaines informations vous concernant pour le processus suivant..",
   "dailyLimitApplicationStatus": "Statut de l'appli",
   "applicationInReview": "En cours de vérification",
@@ -119,7 +119,7 @@
   "writeDownKey": "Veuillez noter votre phrase",
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
-  "backupKeyNotification": "Gardez vos fonds en sécurité. Configurez votre Phrase de récupération maintenant.",
+  "backupKeyNotification": "Sécurisez vos fonds. Configurez votre Phrase de récupération.",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
   "copied": "Phrase copiée dans le presse-papiers",
   "moreInfo": "Plus d'informations",
@@ -290,7 +290,7 @@
   "tapToCopyCeloDollarsAddress": "Appuyez pour copier votre adresse cUSD {{appName}}",
   "disclaimerFiat": "Les valeurs {{currency}} sont des estimations.",
   "dollarsNotYetEnabledNote": "Les Celo Dollars ne sont pas encore disponibles chez aucun des fournisseurs. Pour obtenir des Celo Dollars, achetez des CELO et échangez-les contre des Celo Dollars dans l'onglet CELO.",
-  "selectDigitalCurrency": "Sélectionnez un actif digital",
+  "selectDigitalCurrency": "Sélectionnez un actif",
   "selectPaymentMethod": "Sélectionnez la méthode :",
   "payWithBank": "Compte bancaire",
   "payWithCard": "Carte de débit",
@@ -396,9 +396,9 @@
   "invalidPhone": "Numéro de téléphone non valide",
   "cantSelectInvalidPhone": "Impossible de sélectionner le contact : numéro de téléphone invalide",
   "needMoreFundsToSend": "Vous devez avoir {{currencySymbol}}{{amountNeeded}} pour effectuer cette transaction. Veuillez ajouter des fonds ou essayer d'envoyer un montant inférieur.",
-  "maxEscrowTransferExceeded": "Le montant maximum que vous pouvez transférer aux utilisateurs non confirmés est de {{maxAmount}} {{symbol}}",
+  "maxEscrowTransferExceeded": "Le montant maximal transférable aux utilisateurs sans numéro connecté est de {{symbol}}{{maxAmount}}.",
   "invalidAmount": "Montant non valide",
-  "invalidCode": "Code de confirmation non valide",
+  "invalidCode": "Code non valide",
   "confirm": "Valider",
   "readCodesAuto": "Lire les codes automatiquement",
   "enterManually": "Saisir manuellement",
@@ -429,7 +429,7 @@
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
   "oops": "Oups !",
   "somethingWrong": "Une erreur s'est produite.",
-  "verifyFailed": "Échec de la confirmation",
+  "verifyFailed": "Impossible de se connecter",
   "canNotRequestFromUnverified": "Impossible de faire des demandes à des utilisateurs non confirmés",
   "restartApp": "Redémarrer l'appli",
   "quitApp": "Quitter",
@@ -479,7 +479,7 @@
   "saltFetchFailure": "Impossible de récupérer le numéro de téléphone secret",
   "saltQuotaExceededError": "Le quota de recherches de votre numéro de téléphone est épuisé",
   "maxActionableAttestationsExceededError": "Impossible de renvoyer les messages",
-  "odisInsufficientBalance": "Merci de confirmer votre numéro",
+  "odisInsufficientBalance": "Veuillez connecter votre numéro de téléphone",
   "matchmakingQuotaExceededError": "La recherche de groupe ne peut être effectuée qu'une seule fois",
   "paymentLimitReached": "La limite quotidienne est de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restants",
   "requestLimitError": "Impossible de demander plus que la limite quotidienne de {{limit}} cUSD.",
@@ -630,35 +630,35 @@
     "enable": "Activer l'accès aux contacts",
     "loading": "Rechercher des amis sur {{appName}}..."
   },
-  "getVerified": "Confirmer le numéro de téléphone",
+  "getVerified": "Connecter le numéro de téléphone",
   "notReadyForCode": "Pas encore prêt pour la saisie du code",
-  "emptyVerificationCode": "Aucun code de confirmation dans le presse-papiers",
-  "invalidVerificationCode": "Code de confirmation invalide",
-  "repeatVerificationCode": "Code de confirmation répété",
+  "emptyVerificationCode": "Aucun code dans le presse-papier",
+  "invalidVerificationCode": "Code non valide",
+  "repeatVerificationCode": "Code répété",
   "revealAttestationFailure": "Erreur lors de la demande de SMS",
-  "verificationFailure": "Échec de la confirmation",
+  "verificationFailure": "La connexion a échoué",
   "cantVerifyRevokedAccount": "Ce compte a été précédemment révoqué. Veuillez créer un nouveau compte et réessayer.",
-  "verificationTimeout": "Délai de confirmation dépassé",
+  "verificationTimeout": "La connexion a expiré",
   "errorRequestCode": "Impossible de demander des codes.",
   "errorRedeemingCode": "Impossible d'échanger le code.",
-  "pleaseRetry": "Réessayez de procéder à la confirmation.",
-  "retryVerification": "Retentez la confirmation",
+  "pleaseRetry": "Veuillez réessayer de vous connecter.",
+  "retryVerification": "Retenter la connexion",
   "education": {
-    "header": "Confirmez votre téléphone",
-    "body1": "Ensuite, veuillez confirmer votre numéro de téléphone.",
+    "header": "Connecter votre téléphone",
+    "body1": "Ensuite, connectez votre numéro de téléphone.",
     "body2": "Relier votre numéro de téléphone facilite l'envoi et la réception de fonds avec des amis. Vous pouvez également sauter cette étape et y revenir plus tard.",
-    "learnMore": "En savoir plus sur la confirmation du téléphone",
-    "start": "Commencer la confirmation",
+    "learnMore": "En savoir plus sur comment connecter votre téléphone",
+    "start": "Connecter le numéro de téléphone",
     "skip": "Ignorer pour l'instant"
   },
   "verificationLoading": {
-    "confirming": "Confirmer le numéro de téléphone…",
+    "confirming": "Connexion du numéro de téléphone…",
     "pleaseKeepAppOpen": "Veuillez ne pas quitter cet écran, sinon vous devriez redémarrer",
     "learnMore": "En savoir plus",
     "card1": "Pour vous assurer que votre numéro de téléphone est bien le vôtre, nous allons vous envoyer trois messages.",
-    "card2": "Une fois votre numéro confirmé, vous pourrez envoyer et recevoir facilement des fonds directement sur votre numéro de téléphone.",
-    "card3": "La confirmation vous permet également de voir lesquels de vos amis sont présents sur {{appName}}.",
-    "card4": "Nous avons besoin de trois messages de confirmation pour que votre compte soit plus sécurisé."
+    "card2": "Une fois que votre numéro sera connecté, vous pourrez envoyer et recevoir facilement des fonds depuis et vers votre numéro de téléphone.",
+    "card3": "La connexion à votre numéro vous permet également de voir vos amis présents sur {{appName}}.",
+    "card4": "Nous avons besoin de vous envoyer trois SMS pour connecter votre numéro de téléphone de façon sécurisée."
   },
   "skipModal": {
     "header": "Êtes-vous sûr ?",
@@ -666,9 +666,9 @@
   },
   "failModal": {
     "header": "Erreur de confirmation",
-    "body1": "Un problème est survenu lors de la confirmation de votre numéro de téléphone.",
-    "body2": "Vous pouvez ignorer la confirmation pour le moment et réessayer plus tard.",
-    "body1InsufficientBalance": "Votre solde actuel n'est pas assez élevé pour finaliser le processus de confirmation.",
+    "body1": "Un problème est survenu lors de la connexion de votre numéro de téléphone.",
+    "body2": "Vous pouvez ignorer la connexion pour le moment et réessayer plus tard.",
+    "body1InsufficientBalance": "Votre solde actuel n'est pas assez élevé pour terminer le processus de connexion.",
     "body2InsufficientBalance": "Veuillez réessayer lorsque vous aurez ajouté des fonds à votre portefeuille.",
     "body1SaltQuotaExceeded": "Le quota de recherches de votre numéro de téléphone est épuisé",
     "body2SaltQuotaExceeded": "Veuillez réessayer lorsque vous aurez acheté plus de recherches",
@@ -676,12 +676,12 @@
     "enterCodesButton": "Saisir les codes"
   },
   "retryWithFornoModal": {
-    "header": "Réessayer la confirmation avec l'économiseur de données ?",
-    "body1": "Un problème est survenu lors de la confirmation de votre numéro de téléphone. Nous vous recommandons de réessayer avec le mode Économiseur de données activé.",
+    "header": "Réessayer la connexion avec l'économiseur de données ?",
+    "body1": "Un problème est survenu lors de la connexion de votre numéro de téléphone. Nous vous recommandons d'essayer à nouveau avec le mode Économiseur de données activé.",
     "body2": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo de façon plus stable en utilisant une connexion fiable.",
     "retryButton": "Réessayer avec l'économiseur de données"
   },
-  "congratsVerified": "Félicitations, votre confirmation est maintenant faite !",
+  "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
   "notification": {
     "body": "Recevez des paiements directement grâce à votre numéro de téléphone",
     "cta": "Connecter maintenant"
@@ -747,25 +747,25 @@
   "verificationEducation": {
     "title": "Numéro de téléphone",
     "header": "Connectez votre numéro de téléphone",
-    "body": "Pour vous assurer que ce numéro est bien le vôtre, nous allons vous envoyer trois messages qui vous coûteront environ 0,5 cUSD chacun.\n\nLa confirmation de votre numéro prend environ trois minutes.",
-    "feelessBody": "La connexion prend environ trois minutes. Pour confirmer votre numéro, vous recevrez trois messages.",
+    "body": "Pour nous assurer que ce numéro est bien le vôtre, vous allez recevoir trois messages qui vous coûteront environ 0,05 cUSD chacun.\n\nLa connexion de votre numéro prend environ trois minutes.",
+    "feelessBody": "Vous recevrez trois messages qui permettront de connecter votre numéro de téléphone en toute sécurité. Cette opération de connexion prend environ trois minutes.",
     "start": "Commencer",
     "resume": "Reprendre",
-    "doINeedToConfirm": "Dois-je confirmer ?",
+    "doINeedToConfirm": "Dois-je connecter mon numéro ?",
     "skipForNow": "Ignorer pour l'instant",
     "bodyInsufficientBalance": "Votre solde actuel n'est pas assez élevé pour finaliser le processus de confirmation.\n\nVeuillez réessayer lorsque vous aurez ajouté des fonds à votre portefeuille.",
-    "bodyAlreadyVerified": "Votre numéro est déjà confirmé !"
+    "bodyAlreadyVerified": "Votre numéro est déjà connecté !"
   },
   "verificationSkipDialog": {
     "title": "Êtes-vous sûr ?",
-    "body": "La confirmation vous permet d'envoyer et de recevoir facilement des fonds vers votre numéro de téléphone.\n\nLes comptes non confirmés peuvent uniquement envoyer des paiements en utilisant des adresses Celo ou des codes QR.",
+    "body": "La connexion de votre numéro vous permet d'envoyer et de recevoir facilement des fonds vers votre numéro de téléphone.\n\nLes comptes non connectés peuvent uniquement envoyer des paiements en utilisant des adresses Celo ou des codes QR.",
     "cancel": "Retour en arrière",
     "confirm": "Ignorer pour l'instant"
   },
   "verificationPrematureRevealMessage": "Veuillez patienter une minute avant de renvoyer",
   "verificationLearnMoreDialog": {
     "title": "Numéros de téléphone et {{appName}}",
-    "body": "La confirmation vous permet de vous mettre facilement en contact avec vos amis, d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les comptes non confirmés peuvent uniquement envoyer des paiements avec des codes QR ou des Adresses du compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
+    "body": "La connexion vous permet d'envoyer et de recevoir des fonds via votre numéro de téléphone.\n\n<0>Puis-je faire cela plus tard ?</0>\n\nOui, mais les portefeuilles non connectés peuvent uniquement envoyer des paiements avec des codes QR ou des Adresses de compte.\n\n<1>Sécurisé et privé</1>\n\nValora utilise un chiffrement de pointe pour assurer la confidentialité de votre numéro de téléphone.",
     "dismiss": "Ignorer"
   },
   "importExistingKey": {
@@ -816,7 +816,7 @@
   "success": {
     "message": "Tout est prêt !"
   },
-  "verificationUnavailable": "La confirmation du numéro de téléphone est actuellement indisponible. Veuillez saisir votre numéro de téléphone et nous vous informerons quand il sera possible de le confirmer à nouveau.\n\nEn attendant, vous pouvez continuer à utiliser Valora ! Les paiements envoyés vers votre numéro de téléphone seront conservés en toute sécurité jusqu'à ce que vous puissiez les utiliser après avoir confirmé votre numéro de téléphone.",
+  "verificationUnavailable": "La connexion du numéro de téléphone est actuellement indisponible. Veuillez saisir votre numéro de téléphone et nous vous informerons quand il sera possible de le connecter à nouveau.\n\nEn attendant, vous pouvez continuer à utiliser {{appName}} avec des QR codes et des Adresses de compte. Ne vous inquiétez pas, les paiements envoyés vers votre numéro de téléphone seront conservés jusqu'à ce que vous connectiez votre numéro de téléphone.",
   "requests": "Demandes",
   "empty": "Vous n'avez pas de demandes de paiement",
   "celoDollarBalance": "Solde en Celo Dollars",
@@ -826,7 +826,7 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} demandé",
   "outgoingPaymentRequestNotificationTitle": "En attente de {{name}}",
   "requestUnavailableHeader": "Le compte de {{displayName}} n'est pas encore connecté.",
-  "requestUnavailableNoDisplayNameHeader": "Le compte de votre contact n'est pas confirmé",
+  "requestUnavailableNoDisplayNameHeader": "Le numéro de téléphone de votre contact n'est pas connecté à une Adresse de compte.",
   "requestUnavailableBody": "Le numéro {{e164PhoneNumber}} n'a pas de compte ou n'est pas encore connecté. Les demandes ne peuvent être envoyées qu'aux numéros connectés.",
   "requestUnavailableNoNumberBody": "Votre contact n'a pas de compte ou ne s'est pas encore connecté. Les demandes ne peuvent être envoyées qu'aux numéros connectés.",
   "requesting": "Demander à",
@@ -889,7 +889,7 @@
   "reminderSent": "Rappel envoyé",
   "reclaimPayment": "Récupérer le paiement",
   "totalRefunded": "Total remboursé",
-  "loadingVerificationStatus": "Vérification de la confirmation du destinataire",
+  "loadingVerificationStatus": "Nous vérifions si le destinataire est connecté…",
   "askForContactsPermissionAction": "Obtenir mes contacts",
   "newAccountBalance": "Nouveau solde du compte : ",
   "estimatingFee": "Estimation des frais ",
@@ -899,8 +899,8 @@
   "selectToken": "Sélectionner l'actif",
   "verificationCta": {
     "header": "Envoyer à un ami ?",
-    "body": "Confirmez votre téléphone et synchronisez vos contacts pour envoyer des valeurs rapidement à vos amis.",
-    "cta": "Commencer la confirmation"
+    "body": "Connectez votre téléphone et synchronisez vos contacts pour envoyer des fonds rapidement à vos amis.",
+    "cta": "Connecter un numéro de téléphone"
   },
   "importContactsCta": {
     "header": "Importer des contacts",
@@ -1008,7 +1008,7 @@
   "sent": "Envoyé",
   "received": "Reçu",
   "viewAll": "Voir tout",
-  "thanksForVerifying": "Merci de votre confirmation",
+  "thanksForVerifying": "Merci d'avoir connecté votre numéro",
   "goldIsWhereYouSave": "CELO vous permet de conserver les Celo Dollars et Celo Euro que vous avez",
   "dinner": "Dîner",
   "bikeParts": "Pièces de vélo",
@@ -1225,7 +1225,7 @@
     "learnMore": "En savoir plus.",
     "whyMissingPayments": "Pourquoi ne vois-je pas plus de modes de paiement ?",
     "dismiss": "Ignorer",
-    "missingPaymentsExplained": "Certaines modes de paiement ne sont pas disponibles dans tous les pays.\n\nCela peut être dû au fait que l'option n'existe pas dans ce pays, ou qu'elle est bloquée en raison de la réglementation locale.",
+    "missingPaymentsExplained": "Certaines modes de paiement ne sont pas disponibles dans tous les pays.\n\nLeur disponibilité dépend de la couverture géographique de chaque prestataire.",
     "cryptoExchange": "Échange de cryptomonnaie",
     "feesVary": "Les frais varient",
     "viewExchanges": "Voir les échanges",
@@ -1240,6 +1240,21 @@
     "oneHour": "Moins d'une heure",
     "bestRate": "Meilleur taux",
     "header": "Sélectionnez le mode de paiement"
+  },
+  "fiatConnectReviewScreen": {
+    "paymentMethod": "Mode de paiement",
+    "transactionDetails": "Détails de transaction",
+    "paymentMethodVia": "Relié(e) par {{providerName}}",
+    "cashIn": {
+      "header": "Vérifier - Ajouter des fonds",
+      "button": "Ajouter des fonds",
+      "transactionDetailsAmount": "Prix total"
+    },
+    "cashOut": {
+      "header": "Vérifier - Retirer des fonds",
+      "button": "Retirer des fonds",
+      "transactionDetailsAmount": "Montant du retrait"
+    }
   },
   "fiatExchangeFlow": {
     "cashIn": {
@@ -1265,26 +1280,29 @@
   "fiatDetailsScreen": {
     "header": "Saisir les coordonnées bancaires",
     "selectedPaymentOption": "Option de paiement sélectionnée",
-    "addFiatAccountSuccess": "Ton compte a été lié à Valora.",
-    "addFiatAccountResourceExist": "Tu as déjà lié ce compte à Valora.",
-    "addFiatAccountFailed": "Ton compte n'a pas été lié, essaie à nouveau ou contacte l'assistance."
+    "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
+    "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
+    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support."
   },
   "fiatAccountSchema": {
     "accountName": {
       "label": "Nom du compte",
       "placeholderText": "Un nom pour le compte",
-      "errorMessage": "Un nom de compte est nécessaire"
+      "errorMessage": "Un nom de compte est obligatoire"
     },
     "institutionName": {
       "label": "Nom de la banque",
-      "placeholderText": "Saisis le nom de la banque",
-      "errorMessage": "Un nom de banque est nécessaire"
+      "placeholderText": "Saisissez le nom de la banque",
+      "errorMessage": "Un nom de banque est obligatoire"
     },
     "accountNumber": {
       "label": "Numéro de compte",
-      "placeholderText": "Sais de ton numéro de compte à 10 chiffres",
-      "errorMessage": "Le numéro de compte doit être composé de 10 chiffres et ne doit contenir que des chiffres."
+      "placeholderText": "Saisissez votre numéro de compte à 10 chiffres",
+      "errorMessage": "Le numéro de compte doit comporter 10 chiffres et ne contenir que des chiffres"
     }
+  },
+  "webView": {
+    "openExternal": "Ouvrir dans un navigateur externe"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

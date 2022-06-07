@@ -66,6 +66,7 @@ export interface State {
   activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
+  celoWithdrawalEnabledInExchange: boolean
 }
 
 const initialState = {
@@ -113,6 +114,7 @@ const initialState = {
   activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
+  celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
 }
 
 export const appReducer = (
@@ -229,6 +231,7 @@ export const appReducer = (
         dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
         skipProfilePicture: action.configValues.skipProfilePicture,
         finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
+        celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

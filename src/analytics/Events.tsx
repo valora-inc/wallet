@@ -432,6 +432,9 @@ export enum FiatExchangeEvents {
   spend_merchant_link = 'spend_merchant_link',
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+
+  // Fiat connect review screen
+  cico_submit_transfer = 'cico_submit_transfer',
 }
 
 export enum GethEvents {
@@ -563,6 +566,11 @@ export enum DappExplorerEvents {
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
 }
 
+export enum WebViewEvents {
+  webview_more_options = 'webview_more_options', // when user taps "triple dot icon" from the webview
+  webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -588,3 +596,4 @@ export type AnalyticsEventType =
   | DappKitEvents
   | CICOEvents
   | DappExplorerEvents
+  | WebViewEvents
