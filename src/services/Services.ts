@@ -1,16 +1,16 @@
-import RewardIcon from 'src/icons/RewardIcon'
+import Logo from 'src/icons/Logo'
 import SwapInput from 'src/icons/SwapInput'
 import { Screens } from 'src/navigator/Screens'
 
 export const CoreServices = [
   {
     title: 'servicesList.buy',
-    icon: RewardIcon,
+    icon: Logo,
     screen: Screens.Swap,
   },
   {
     title: 'servicesList.cico',
-    icon: RewardIcon,
+    icon: Logo,
     screen: Screens.Swap,
   },
   {
@@ -20,17 +20,17 @@ export const CoreServices = [
   },
   {
     title: 'servicesList.invest',
-    icon: RewardIcon,
+    icon: Logo,
     screen: Screens.Swap,
   },
   {
     title: 'servicesList.bills',
-    icon: RewardIcon,
+    icon: Logo,
     screen: Screens.Swap,
   },
   {
     title: 'servicesList.vendors',
-    icon: RewardIcon,
+    icon: Logo,
     screen: Screens.VendorsScreen,
   },
   // {
