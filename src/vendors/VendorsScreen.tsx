@@ -1,5 +1,5 @@
 import { map } from 'lodash'
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
@@ -16,7 +16,7 @@ export default function VendorsScreen() {
     return vendor
   })
 
-  const [currentVendor, setCurrentVendor] = React.useState(null)
+  const [currentVendor, setCurrentVendor] = useState<Vendor | null>(sections[0])
 
   const renderItem = ({ item, index }: any) => (
     <VendorListItem vendor={item} key={index} onPress={() => setCurrentVendor(item)} />

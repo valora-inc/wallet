@@ -1,13 +1,12 @@
 import { map } from 'lodash'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
 import Times from 'src/icons/Times'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
 import { Vendor } from 'src/vendors/types'
 
 type OwnProps = {
@@ -18,7 +17,7 @@ type OwnProps = {
 type Props = OwnProps
 
 function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
-  const { title, tags } = vendor || {}
+  const { title, tags, logoURI } = vendor || {}
 
   const onDismissBottomSheet = () => {
     dismiss()
@@ -36,14 +35,27 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
       testID={`Vendors/DetailSheet`}
     >
       <View style={styles.container}>
-        <Touchable
-          style={styles.dismissButton}
-          onPress={onDismissBottomSheet}
-          borderless={true}
-          hitSlop={variables.iconHitslop}
-        >
-          <Times />
-        </Touchable>
+        <View style={styles.sheetHeader}>
+          <View style={styles.sheetIcon}>
+            <Image source={{ uri: logoURI }} style={styles.vendorIcon} />
+          </View>
+          <Touchable style={styles.sheetClose} onPress={onDismissBottomSheet}>
+            <Times />
+          </Touchable>
+        </View>
+        {/* <View style={styles.sheetIcon}>
+          <Image source={{ uri: logoURI }} style={styles.vendorIcon} />
+        </View>
+        <View style={styles.}>
+          <Touchable
+            style={styles.dismissButton}
+            onPress={onDismissBottomSheet}
+            borderless={true}
+            hitSlop={variables.iconHitslop}
+          >
+            <Times />
+          </Touchable>
+        </View> */}
         <>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{'Curacao Vendor'}</Text>
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
   },
   container: {
     minHeight: '30%',
-    paddingTop: 12,
+    paddingBottom: 50,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: 'white',
@@ -88,11 +100,29 @@ const styles = StyleSheet.create({
     color: colors.gray5,
     paddingHorizontal: 36,
   },
-  dismissButton: {
-    backgroundColor: 'transparent',
-    marginVertical: 26,
-    marginRight: 26,
-    alignItems: 'flex-end',
+  sheetHeader: {
+    flexDirection: 'row',
+    paddingBottom: 16,
+  },
+  sheetIcon: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  sheetClose: {
+    padding: 13,
+    position: 'absolute',
+    right: 0,
+  },
+  vendorIcon: {
+    marginTop: -35,
+    resizeMode: 'contain',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderColor: Colors.gray4,
+    borderWidth: StyleSheet.hairlineWidth,
+    backgroundColor: 'white',
   },
   tags: {
     flexDirection: 'row',

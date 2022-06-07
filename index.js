@@ -13,6 +13,7 @@ import Config from 'react-native-config'
 import { stringToBoolean } from '@celo/utils/lib/parsing'
 import App from 'src/app/App'
 import * as Sentry from '@sentry/react-native'
+import codePush from 'react-native-code-push'
 import 'react-native-gesture-handler'
 import { Text, TextInput } from 'react-native'
 
@@ -44,4 +45,5 @@ TextInput.defaultProps = {
   adjustsFontSizeToFit: true,
 }
 
-AppRegistry.registerComponent('celo', () => App)
+const CPOptions = { updateDialog: true, installMode: codePush.InstallMode.ON_NEXT_RESTART }
+AppRegistry.registerComponent('celo', () => CodePush(CPOptions)(App))
