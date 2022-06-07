@@ -12,10 +12,10 @@ index d329c03..f86f566 100644
      dispatcher.dispatchEvent(ValueChangeEvent(view.id, value))
    }
 diff --git a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m b/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
-index 2e42567..686e84f 100644
+index 2e42567..4b4b86c 100644
 --- a/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
 +++ b/node_modules/react-native-animated-to-reanimated/ios/AnimatedToReanimatedViewManager.m
-@@ -1,29 +1,46 @@
+@@ -1,29 +1,47 @@
  #import <React/RCTViewManager.h>
  
 -@interface AnimatedToReanimatedViewManager : UIView
@@ -32,10 +32,11 @@ index 2e42567..686e84f 100644
  
 +@implementation AnimatedToReanimatedView
 +
-+- (void)setValue:(NSNumber*)value{
++- (void)setValue:(NSNumber*)value
++{
 +  _value = value;
 +    
-+  if (!self.onValueChange || !value) {
++  if (!self.onValueChange) {
 +    return;
 +  }
 +
@@ -43,7 +44,7 @@ index 2e42567..686e84f 100644
 +  // listened value to be 1 frame behind
 +  dispatch_async(dispatch_get_main_queue(), ^(void){
 +    self.onValueChange(@{
-+     @"value": value
++      @"value": (value ?: [NSNull null])
 +    });
 +  });
 +}
