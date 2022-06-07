@@ -1248,7 +1248,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Способ оплаты",
     "transactionDetails": "Детали транзакции",
-    "paymentMethodVia": "Связана через {{providerName}}.",
+    "paymentMethodVia": "связь через {{providerName}}.",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
@@ -1304,6 +1304,9 @@
       "placeholderText": "Введите 10-значный номер счета",
       "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
     }
+  },
+  "webView": {
+    "openExternal": "Открыть во внешнем браузере"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

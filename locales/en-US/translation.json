@@ -1301,6 +1301,9 @@
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
   },
+  "webView": {
+    "openExternal": "Open in External Browser"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
