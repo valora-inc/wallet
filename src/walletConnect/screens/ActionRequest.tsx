@@ -6,7 +6,9 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import QuitIcon from 'src/icons/QuitIcon'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -102,6 +104,7 @@ function ActionRequest({ navigation, pendingAction }: Props) {
 
   return (
     <>
+      <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={onDeny} />
       <View style={styles.center}>
         <Image style={styles.logo} source={{ uri }} />
       </View>
@@ -191,6 +194,9 @@ const styles = StyleSheet.create({
   },
   underLine: {
     textDecorationLine: 'underline',
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
   },
 })
 

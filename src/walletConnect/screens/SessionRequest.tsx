@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import QuitIcon from 'src/icons/QuitIcon'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
@@ -51,6 +53,7 @@ function SessionRequest({ navigation, pendingSession }: Props) {
 
   return (
     <>
+      <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={deny} />
       <View>
         <View style={styles.center}>
           <Image style={styles.logo} source={{ uri: fallbackIcon }} />
@@ -99,6 +102,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelButton: { marginRight: 8 },
+  closeButton: {
+    alignSelf: 'flex-end',
+  },
 })
 
 export default SessionRequest

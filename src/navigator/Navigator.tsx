@@ -1,5 +1,5 @@
 import { RouteProp } from '@react-navigation/core'
-import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -123,9 +123,7 @@ const TAG = 'Navigator'
 const Stack = createStackNavigator<StackParamList>()
 const RootStack = createStackNavigator<StackParamList>()
 
-type NavigationOptions = StackScreenProps<StackParamList, keyof StackParamList>
-
-export const modalScreenOptions = ({ route, navigation }: NavigationOptions) =>
+export const modalScreenOptions = () =>
   Platform.select({
     // iOS 13 modal presentation
     ios: {
@@ -163,7 +161,11 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WalletConnectRequest}
         component={WalletConnectRequest}
-        options={noHeader}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
@@ -675,8 +677,8 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const mainScreenNavOptions = (navOptions: NavigationOptions) => ({
-  ...modalScreenOptions(navOptions),
+const mainScreenNavOptions = () => ({
+  ...modalScreenOptions(),
   headerShown: false,
 })
 
