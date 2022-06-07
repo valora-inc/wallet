@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
+import { DrawerActions, useNavigation } from '@react-navigation/native'
 import { processColor, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { cond, greaterThan } from 'react-native-reanimated'
 import { HomeEvents } from 'src/analytics/Events'
@@ -33,8 +33,7 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
 
   const onPressHamburger = () => {
     ValoraAnalytics.track(HomeEvents.hamburger_tapped)
-    // @ts-ignore Only used in a drawer
-    return navigation.toggleDrawer()
+    navigation.dispatch(DrawerActions.toggleDrawer())
   }
 
   return (
