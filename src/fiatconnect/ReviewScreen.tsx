@@ -338,7 +338,11 @@ FiatConnectReviewScreen.navigationOptions = ({
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
-  headerTitle: i18n.t(`fiatConnectReviewScreen.header`),
+  // NOTE: copies for cash in not final
+  headerTitle:
+    route.params.flow === CICOFlow.CashIn
+      ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
+      : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
   // TODO(any): when tying this component to the flow, add `onCancel` prop to
   // navigate to correct screen.
   headerRight: () => <CancelButton style={styles.cancelBtn} />,
