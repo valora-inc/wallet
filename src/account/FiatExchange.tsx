@@ -20,14 +20,42 @@ import variables from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
+import { useAsync } from 'react-async-hook'
+import { getContractKitAsync } from 'src/web3/contracts'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { Network } from '@fiatconnect/fiatconnect-types'
+import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
+import { getSigningFunction, loginWithFiatConnectProvider } from 'src/fiatconnect/index'
+
 function FiatExchange() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
+
+  useAsync(async () => {
+    const kit = await getContractKitAsync()
+    const wallet = (kit.getWallet()! as UnlockableWallet) as GethNativeBridgeWallet
+    const [account] = wallet.getAccounts()
+    const fiatConnectClient = new FiatConnectClient(
+      {
+        baseUrl: 'localhost:8080',
+        providerName: 'test',
+        iconUrl: 'N/A',
+        network: Network.Alfajores,
+        accountAddress: account,
+      },
+      getSigningFunction(wallet)
+    )
+    await loginWithFiatConnectProvider(wallet, fiatConnectClient)
+  }, [])
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
       Logger.debug('Time Elapsed', String(timeElapsed))
+      ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info_return, {
+        timeElapsed,
+      })
       setTimestamp(null)
     }
   }, [appState])
@@ -36,30 +64,24 @@ function FiatExchange() {
     navigate(Screens.FiatExchangeCurrency, {
       flow: FiatExchangeFlow.CashIn,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected)
   }
 
   function goToCashOut() {
     navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
-      flow: FiatExchangeFlow.CashOut,
-    })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_selected)
   }
 
   function goToSpend() {
     navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
-      flow: FiatExchangeFlow.Spend,
-    })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_spend_selected)
   }
 
   const { t } = useTranslation()
 
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_landing_how_to_fund)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info)
     setTimestamp(Date.now())
   }
 

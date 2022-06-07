@@ -2260,6 +2260,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@badrap/result@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.12.tgz#ab5690ae04ee474ef6c912210b4126c56e7a0a9d"
+  integrity sha512-tSFeaiqM9p/2AtB0XNiTaZ0l+8icGxNTmF+v6sYBeV+JrFgoxhGn4BaM/SfP54Hc0eM3d8TwY0Q2k5AdSRaHIw==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
@@ -3318,23 +3323,26 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.2.1":
+"@fiatconnect/fiatconnect-sdk@../../fiatconnect/fiatconnect-sdk":
   version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.2.1.tgz#e9bf52fb6b7a6472090ccf856feefd09e9c6f503"
-  integrity sha512-0/81DNkbLgjf91EemTHJYm/bO73Hk/gWlPb3EOwHBNRiau0mxYAvNc4NRxX0ppXU60xHX77IKNcMVxQV+9DGBQ==
   dependencies:
-    "@fiatconnect/fiatconnect-types" "^3.2.0"
+    "@badrap/result" "^0.2.12"
+    "@fiatconnect/fiatconnect-types" "^4.0.0"
     ethers "^5.6.4"
     fetch-cookie "^2.0.3"
     node-fetch "^2.6.6"
     siwe "^1.1.6"
-    ts-results "^3.3.0"
     tslib "^2.4.0"
 
 "@fiatconnect/fiatconnect-types@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-3.2.0.tgz#36eb018d22160ab114ee842dd843a659bbc53213"
   integrity sha512-OP4LJkEXPb+0WeUhO4iWf+X2EQuLWAGyWikRpyf74gLQZvPuV8hFN9TArCJYGqNuJHPvZ2VBOuzosTroSW5STg==
+
+"@fiatconnect/fiatconnect-types@^4.0.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-4.1.0.tgz#fe17da51d993fc36f68af66ceb442472e146a455"
+  integrity sha512-WVSCcS6XKAkJkRBAl+MZVa6gRbI3h5pyhpdyn9d6EOiuSnKtr661lTCOk+7P/cmWVAwhq6j9EcQerdFzxdbJ0g==
 
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
@@ -18746,11 +18754,6 @@ ts-node@^8, ts-node@^8.4.1:
     make-error "^1.1.1"
     source-map-support "^0.5.6"
     yn "^3.0.0"
-
-ts-results@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/ts-results/-/ts-results-3.3.0.tgz#68623a6c18e65556287222dab76498a28154922f"
-  integrity sha512-FWqxGX2NHp5oCyaMd96o2y2uMQmSu8Dey6kvyuFdRJ2AzfmWo3kWa4UsPlCGlfQ/qu03m09ZZtppMoY8EMHuiA==
 
 ts-retry-promise@^0.6.0:
   version "0.6.0"
