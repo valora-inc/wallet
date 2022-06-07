@@ -139,6 +139,11 @@ export const activeDappSelector = (state: RootState) =>
 export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
   state.app.finclusiveUnsupportedStates
 
+export const fiatConnectCashInEnabledSelector = (state: RootState) =>
+  state.app.fiatConnectCashInEnabled
+export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
+  state.app.fiatConnectCashOutEnabled
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

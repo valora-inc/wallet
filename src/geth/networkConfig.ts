@@ -38,6 +38,7 @@ interface NetworkConfig {
   CIP8MetadataUrl: string
   providerFetchUrl: string
   getFiatConnectProvidersUrl: string
+  getFiatConnectQuotesUrl: string
   simplexApiUrl: string
   fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
@@ -80,6 +81,9 @@ const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 const GET_FIAT_CONNECT_PROVIDERS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getFiatConnectProviders`
 const GET_FIAT_CONNECT_PROVIDERS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getFiatConnectProviders`
 
+const GET_FIAT_CONNECT_QUOTES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getQuotes`
+const GET_FIAT_CONNECT_QUOTES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getQuotes`
+
 const SIMPLEX_API_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/processSimplexRequest`
 const SIMPLEX_API_URL_PROD = `${CLOUD_FUNCTIONS_MAINNET}/processSimplexRequest`
 
@@ -114,6 +118,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_ALFAJORES,
+    getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
@@ -143,6 +148,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_MAINNET,
+    getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
