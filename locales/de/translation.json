@@ -1301,6 +1301,9 @@
       "errorMessage": "Die Kontonummer muss zehn Ziffern lang sein und darf nur Zahlen enthalten"
     }
   },
+  "webView": {
+    "openExternal": "In externen Browser öffnen"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
