@@ -84,7 +84,7 @@ describe('FiatConnect helpers', () => {
       digitalAsset: CiCoCurrency.CUSD,
       cryptoAmount: 100,
       country: 'US',
-      fiatConnectProviders: [mockFiatConnectProviderInfo],
+      fiatConnectProviders: mockFiatConnectProviderInfo,
     }
     it('returns an empty array if fiatType is not supported', async () => {
       const quotes = await getFiatConnectQuotes({
@@ -100,11 +100,11 @@ describe('FiatConnect helpers', () => {
       expect(Logger.error).toHaveBeenCalled()
     })
     it('returns quotes', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({ quotes: [mockGetFiatConnectQuotesResponse] }), {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
         status: 200,
       })
       const quotes = await getFiatConnectQuotes(getQuotesInput)
-      expect(quotes).toEqual([mockFiatConnectQuotes[1]])
+      expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
       expect(Logger.error).not.toHaveBeenCalled()
     })
   })

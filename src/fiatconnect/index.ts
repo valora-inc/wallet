@@ -23,6 +23,7 @@ export interface FiatConnectProviderInfo {
 
 // A bit hacky. This function returns the currency code if localCurrency is in
 // FiatType and otherwise returns undefined
+// This assumes that the enum values match which is a fairly safe assumption since they both use ISO 4217
 function convertToFiatConnectFiatCurrency(localCurrency: LocalCurrencyCode): FiatType | undefined {
   return FiatType[(localCurrency as unknown) as FiatType]
 }
@@ -110,13 +111,11 @@ export async function getFiatConnectQuotes(
     return []
   }
   const results: { quotes: GetFiatConnectQuotesResponse[] } = await response.json()
-  return results.quotes
-    .filter((quote) => quote.ok)
-    .map((result) => ({
-      ...result.val,
-      ok: result.ok,
-      provider: fiatConnectProviders.find((provider) => provider.id === result.id)!,
-    }))
+  return results.quotes.map((result) => ({
+    ...result.val,
+    ok: result.ok,
+    provider: fiatConnectProviders.find((provider) => provider.id === result.id)!,
+  }))
 }
 export type FetchQuotesInput = Omit<QuotesInput, 'fiatConnectProviders'> & {
   fiatConnectCashInEnabled: boolean

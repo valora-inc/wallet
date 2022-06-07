@@ -37,7 +37,7 @@ describe('normalizeFiatConnectQuotes', () => {
     const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes([mockFiatConnectQuotes[0]])
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
-      'Error with quote for provider-two. FiatAmountTooHigh'
+      'Error with quote for provider-one. FiatAmountTooHigh'
     )
     expect(normalizedFiatConnectQuotes).toHaveLength(0)
   })

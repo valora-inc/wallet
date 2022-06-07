@@ -30,7 +30,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     const isFiatAccountTypeSupported = SUPPORTED_FIAT_ACCOUNT_TYPES.has(fiatAccountType)
     if (!isFiatAccountTypeSupported) {
       throw new Error(
-        `Error: ${quote.provider.id}. FiatAccouuntType: ${fiatAccountType} is not supported in the app`
+        `Error: ${quote.provider.id}. FiatAccountType: ${fiatAccountType} is not supported in the app`
       )
     }
     // Check if at least one of the FiatAccountSchemas is supported
