@@ -1535,6 +1535,12 @@
                 "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
+                "fiatConnectCashInEnabled": {
+                    "type": "boolean"
+                },
+                "fiatConnectCashOutEnabled": {
+                    "type": "boolean"
+                },
                 "finclusiveUnsupportedStates": {
                     "items": {
                         "type": "string"
@@ -1682,6 +1688,8 @@
                 "celoWithdrawalEnabledInExchange",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
+                "fiatConnectCashInEnabled",
+                "fiatConnectCashOutEnabled",
                 "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",

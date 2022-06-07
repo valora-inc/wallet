@@ -30,6 +30,11 @@ const mockStore = createMockStore({
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
   },
+  networkInfo: {
+    userLocationData: {
+      ipAddress: mockUserIpAddress,
+    },
+  },
 })
 
 const MOCK_SIMPLEX_QUOTE = {
@@ -52,7 +57,6 @@ const MOCK_SIMPLEX_QUOTE = {
 const mockScreenProps = () =>
   getMockStackScreenProps(Screens.Simplex, {
     simplexQuote: MOCK_SIMPLEX_QUOTE as SimplexQuote,
-    userIpAddress: mockUserIpAddress,
   })
 
 describe('SimplexScreen', () => {

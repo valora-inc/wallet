@@ -25,6 +25,7 @@ import {
   v46Schema,
   v49Schema,
   v50Schema,
+  v51Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -500,6 +501,17 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.celoWithdrawalEnabledInExchange = true
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v51 to v52', () => {
+    const oldSchema = v51Schema
+    const migratedSchema = migrations[52](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.fiatConnectCashInEnabled = false
+    expectedSchema.app.fiatConnectCashOutEnabled = false
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
