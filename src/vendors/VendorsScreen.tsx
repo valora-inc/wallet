@@ -16,7 +16,7 @@ export default function VendorsScreen() {
     return vendor
   })
 
-  const [currentVendor, setCurrentVendor] = useState<Vendor | null>(sections[0])
+  const [currentVendor, setCurrentVendor] = useState<Vendor | null>(null)
 
   const renderItem = ({ item, index }: any) => (
     <VendorListItem vendor={item} key={index} onPress={() => setCurrentVendor(item)} />
