@@ -1244,7 +1244,7 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pagamento",
     "transactionDetails": "Detalhes de transação",
-    "paymentMethodVia": "Ligado via {{providerName}}",
+    "paymentMethodVia": "Vínculo de {{providerName}}",
     "cashIn": {
       "header": "Revisão - Adicionar Fundos",
       "button": "Adicionar Fundos",
@@ -1300,6 +1300,9 @@
       "placeholderText": "Insira seu número da conta de 10 dígitos",
       "errorMessage": "O número da conta deve ter 10 dígitos e conter apenas números"
     }
+  },
+  "webView": {
+    "openExternal": "Abrir no navegador externo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
