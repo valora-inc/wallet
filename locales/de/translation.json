@@ -1245,7 +1245,7 @@
     "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Verknüpft über {{providerName}}",
-    "receiveAmount": "Du erhältst",
+    "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
@@ -1254,8 +1254,8 @@
     "cashOut": {
       "header": "Überprüfen",
       "button": "Guthaben abheben",
-      "transactionDetailsAmount": "Gesamt Rückzug",
-      "transactionDetailsAmountConverted": "Zurückgezogener Betrag"
+      "transactionDetailsAmount": "Gesamt abgehoben",
+      "transactionDetailsAmountConverted": "Betrag abgehoben"
     }
   },
   "fiatExchangeFlow": {
