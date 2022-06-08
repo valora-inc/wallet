@@ -1,16 +1,7 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
-import {
-  BIDALI_URL,
-  DEFAULT_SYNC_MODE,
-  DEFAULT_TESTNET,
-  FORNO_ENABLED_INITIALLY,
-  GETH_USE_FULL_NODE_DISCOVERY,
-  GETH_USE_STATIC_NODES,
-  RECAPTCHA_SITE_KEY,
-} from 'src/config'
-import { GethSyncMode } from 'src/web3/consts'
+import { BIDALI_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 export enum Testnets {
@@ -20,14 +11,9 @@ export enum Testnets {
 
 interface NetworkConfig {
   networkId: string
-  nodeDir: string
-  syncMode: GethSyncMode
-  initiallyForno: boolean
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
-  useDiscovery: boolean
-  useStaticNodes: boolean
   komenciUrl: string
   cloudFunctionsUrl: string
   allowedMtwImplementations: string[]
@@ -99,15 +85,10 @@ const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegis
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
-    nodeDir: `.${Testnets.alfajores}`,
-    syncMode: DEFAULT_SYNC_MODE,
-    initiallyForno: FORNO_ENABLED_INITIALLY,
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
-    useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
-    useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
@@ -130,14 +111,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
   [Testnets.mainnet]: {
     networkId: '42220',
-    nodeDir: `.${Testnets.mainnet}`,
-    syncMode: DEFAULT_SYNC_MODE,
-    initiallyForno: FORNO_ENABLED_INITIALLY,
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
-    useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
-    useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,

@@ -14,7 +14,6 @@
 - [Running the mobile wallet](#running-the-mobile-wallet)
   - [iOS](#ios-1)
   - [Android](#android-1)
-  - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
 - [Debugging & App Profiling](#debugging--app-profiling)
   - [Debugging](#debugging)
     - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
@@ -32,9 +31,7 @@
   - [Redux state migration](#redux-state-migration)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
   - [Generating GraphQL Types](#generating-graphql-types)
-  - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
-  - [Attaching to the geth instance](#attaching-to-the-geth-instance)
   - [Helpful hints for development](#helpful-hints-for-development)
   - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
   - [Troubleshooting](#troubleshooting)
@@ -47,7 +44,7 @@ Valora is a self-sovereign wallet that enables anyone to onboard onto the Celo n
 
 ## Architecture
 
-The app uses [React Native][react native] and a geth [light node][light node].
+The app uses [React Native][react native].
 
 ## Setup
 
@@ -288,14 +285,6 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`.
 
-### Running in forno (data saver) mode
-
-By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in the repository root.
-
-To run the wallet in forno (Data Saver) mode, using a trusted node rather than the local geth node as a provider, turn it on from the Data Saver page in settings or update the `FORNO_ENABLED_INITIALLY` parameter in the .env file linked above. When forno mode is turned back off, the wallet will switch to the default sync mode as specified in the .env file. By default, the trusted node is `https://{TESTNET}-forno.celo-testnet.org`, however any trusted node can be used by updating `DEFAULT_FORNO_URL`. In forno mode, the wallet signs transactions locally in web3 then sends them to the trusted node.
-
-To debug network requests in forno mode, we use Charles, a proxy for monitoring network traffic to see Celo JSON RPC calls and responses. Follow instructions [here](https://community.tealiumiq.com/t5/Tealium-for-Android/Setting-up-Charles-to-Proxy-your-Android-Device/ta-p/5121) to configure Charles to proxy a test device.
-
 ## Debugging & App Profiling
 
 ### Debugging
@@ -477,48 +466,9 @@ If you're deleting or updating existing properties, please implement the appropr
 6. Optional: if the migration is not trivial, add a test for it in [src/redux/migrations.test.ts](src/redux/migrations.test.ts)
 7. Commit the changes
 
-### How we handle Geth crashes in wallet app on Android
-
-Our Celo app has three types of codes.
-
-1. Javascript code - generated from Typescript, this runs in Javascript interpreter.
-2. Java bytecode - this runs on Dalvik/Art Virtual Machine.
-3. Native code - Geth code is written in Golang which compiles to native code, this runs directly on the CPU, no virtual machines involved.
-
-One should note that, on iOS, there is no byte code and therefore, there are only two layers, one is the Javascript code, and the other is the Native code. Till now, we have been blind towards native crashes except Google Playstore logs.
-
-Sentry, the crash logging mechanism we use, can catch both Javascript Errors as well as unhandled Java exceptions. It, however, does not catch Native crashes. There are quite a few tools to catch native crashes like [Bugsnag](https://www.bugsnag.com) and [Crashlytics](https://firebase.google.com/products/crashlytics). They would have worked for us under normal circumstances. However, the Geth code produced by the Gomobile library and Go compiler logs a major chunk of information about the crash at Error level and not at the Fatal level. We hypothesize that this leads to incomplete stack traces showing up in Google Play store health checks. This issue is [publicly known](https://github.com/golang/go/issues/25035) but has not been fixed.
-
-We cannot use libraries like [Bugsnag](https://www.bugsnag.com) since they do not allow us to extract logcat logs immediately after the crash. Therefore, We use [jndcrash](https://github.com/ivanarh/jndcrash), which uses [ndcrash](https://github.com/ivanarh/ndcrash) and enable us to log the logcat logs immediately after a native crash. We capture the results into a file and on next restart Sentry reads it. We need to do this two-step setup because once a native crash happens, running code to upload the data would be fragile. An error in sentry looks like [this](https://sentry.io/organizations/celo/issues/918120991/events/48285729031/)
-
-There are two major differences in Forno mode:
-
-1.  Geth won't run at all. Instead, web3 connects to <testnet>-forno.celo-testnet.org using an https provider, for example, [https://integration-forno.celo-testnet.org](https://integration-forno.celo-testnet.org).
-2.  Transactions will be signed locally by contractkit.
-
 ### Why do we use http(s) provider?
 
 Websockets (`ws`) would have been a better choice but we cannot use unencrypted `ws` provider since it would be bad to send plain-text data from a privacy perspective. Geth does not support `wss` by [default](https://github.com/ethereum/go-ethereum/issues/16423). And Kubernetes does not support it either. This forced us to use https provider.
-
-### Attaching to the geth instance
-
-#### Android
-
-1. Start geth's HTTP RPC server by setting the config variable `GETH_START_HTTP_RPC_SERVER` to true. This is meant for development purposes only and can be a serious vulnerability if used in production.
-2. Forward traffic from your computer's port 8545 to the android device's: `adb forward tcp:8545 tcp:8545`
-3. Using a geth binary on your computer, run `geth attach http://localhost:8545`
-
-#### iOS
-
-We need the IP address of the iOS device. If it is being run in a simulator, the IP address is `127.0.0.1`. If not running in a simulator:
-
-1. Ensure the iOS device is on the same network as your computer.
-2. Find the device's local IP address by going to the Settings app, Wi-Fi, and tapping the 'i' next to the network.
-
-To attach:
-
-1. Start geth's HTTP RPC server by setting the config variable `GETH_START_HTTP_RPC_SERVER` to true. This is meant for development purposes only and can be a serious vulnerability if used in production.
-2. Using a geth binary on your computer, run `geth attach http://<DEVICE_IP_ADDRESS>:8545`
 
 ### Helpful hints for development
 
@@ -632,7 +582,6 @@ $ adb kill-server && adb start-server
 [detox]: https://github.com/wix/Detox
 [e2e readme]: ./e2e/README.md
 [graphql code generator]: https://github.com/dotansimha/graphql-code-generator
-[light node]: https://docs.celo.org/overview#ultralight-synchronization
 [protocol readme]: ../protocol/README.md
 [react native]: https://facebook.github.io/react-native/
 [flipper]: https://fbflipper.com
