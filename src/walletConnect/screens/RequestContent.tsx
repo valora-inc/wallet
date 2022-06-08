@@ -9,6 +9,7 @@ import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
+import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
 import ValoraDappIcon from 'src/walletConnect/ValoraDappIcon'
 
 interface Props {
@@ -16,8 +17,9 @@ interface Props {
   onDeny(): void
   dappImageUrl: string
   title: string
-  description?: string
+  description: string
   testId: string
+  requestDetails?: RequestDetail[]
   children?: React.ReactNode
 }
 
@@ -30,6 +32,7 @@ function RequestContent({
   title,
   description,
   testId,
+  requestDetails,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -70,9 +73,17 @@ function RequestContent({
         <Image style={styles.logo} source={{ uri: dappImageUrl }} />
       </View>
       <Text style={styles.header}>{title}</Text>
-      {description && <Text style={styles.share}>{description}</Text>}
+      {description && <Text style={styles.description}>{description}</Text>}
 
       {children}
+
+      {requestDetails && (
+        <View style={styles.detailsContainer}>
+          {requestDetails.map((requestDetail) => (
+            <RequestContentRow key={requestDetail.label} {...requestDetail} />
+          ))}
+        </View>
+      )}
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
         <Button
@@ -104,13 +115,16 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     justifyContent: 'center',
-    marginTop: Spacing.Thick24,
+    marginVertical: Spacing.Thick24,
     flexDirection: 'row-reverse',
+  },
+  detailsContainer: {
+    paddingVertical: Spacing.Regular16,
   },
   header: {
     ...fontStyles.h2,
     textAlign: 'center',
-    paddingVertical: 16,
+    paddingBottom: Spacing.Regular16,
   },
   logo: {
     height: DAPP_IMAGE_SIZE,
@@ -120,8 +134,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray2,
     marginRight: -Spacing.Small12,
   },
-  share: {
-    ...fontStyles.regular,
+  description: {
+    ...fontStyles.small,
     color: colors.gray4,
   },
   buttonWithSpace: {
