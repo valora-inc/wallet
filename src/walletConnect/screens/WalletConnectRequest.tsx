@@ -32,11 +32,11 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
       )}
 
       {params.type === WalletConnectRequestType.Session && (
-        <SessionRequest navigation={navigation} pendingSession={params.pendingSession} />
+        <SessionRequest pendingSession={params.pendingSession} />
       )}
 
       {params.type === WalletConnectRequestType.Action && (
-        <ActionRequest navigation={navigation} pendingAction={params.pendingAction} />
+        <ActionRequest pendingAction={params.pendingAction} />
       )}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}

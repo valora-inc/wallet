@@ -1,33 +1,22 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
-import { StackNavigationProp } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import QuitIcon from 'src/icons/QuitIcon'
-import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import { StackParamList } from 'src/navigator/types'
-import colors, { Colors } from 'src/styles/colors'
+import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
+import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
 import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
 import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
-import ValoraDappIcon from 'src/walletConnect/ValoraDappIcon'
 
 type Props = {
-  navigation: StackNavigationProp<StackParamList, Screens.WalletConnectRequest>
   pendingAction: PendingAction
 }
-
-const DAPP_IMAGE_SIZE = 60
 
 function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: WalletConnectSession) {
   return {
@@ -38,38 +27,12 @@ function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: Wal
     params: pendingAction.params,
   }
 }
-function ActionRequest({ navigation, pendingAction }: Props) {
+function ActionRequest({ pendingAction }: Props) {
   const { t } = useTranslation()
-  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
-  const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
-
-  const isLoading = isAccepting || isDenying
-
-  const onAccept = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptRequest(peerId, action)))
-  }
-
-  const onDeny = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denyRequest(peerId, action, 'User denied')))
-  }
-
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (isLoading) {
-          return
-        }
-        e.preventDefault()
-        onDeny()
-      }),
-    [navigation, onDeny, isLoading]
-  )
 
   if (!activeSession) {
     // should never happen
@@ -107,19 +70,18 @@ function ActionRequest({ navigation, pendingAction }: Props) {
   const uri = icon ?? `${url}/favicon.ico`
 
   return (
-    <View style={styles.container}>
-      <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={onDeny} />
-      <View style={styles.logoContainer}>
-        <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
-        <Image style={styles.logo} source={{ uri }} />
-      </View>
-      <Text style={styles.header}>
-        {t('walletConnect.confirmTransaction.title', { dappName: name })}
-      </Text>
-      <Text style={styles.share}>
-        {t('walletConnect.confirmTransaction.description', { dappName: name })}
-      </Text>
-
+    <RequestContent
+      onAccept={() => {
+        dispatch(acceptRequest(peerId, action))
+      }}
+      onDeny={() => {
+        dispatch(denyRequest(peerId, action, 'User denied'))
+      }}
+      dappImageUrl={uri}
+      title={t('walletConnect.confirmTransaction.title', { dappName: name })}
+      description={t('walletConnect.confirmTransaction.description', { dappName: name })}
+      testId="WalletConnectAction"
+    >
       <View style={styles.sectionDivider}>
         <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
         <Text style={styles.bodyText}>
@@ -135,58 +97,11 @@ function ActionRequest({ navigation, pendingAction }: Props) {
           </>
         )}
       </View>
-
-      <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
-        <Button
-          style={styles.buttonWithSpace}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.MEDIUM}
-          text={t('cancel')}
-          showLoading={isDenying}
-          onPress={onDeny}
-          testID="WalletConnectActionCancel"
-        />
-        <Button
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.MEDIUM}
-          text={t('allow')}
-          showLoading={isAccepting}
-          onPress={onAccept}
-          testID="WalletConnectActionAllow"
-        />
-      </View>
-    </View>
+    </RequestContent>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    marginTop: Spacing.Thick24,
-    flexDirection: 'row-reverse',
-  },
-  header: {
-    ...fontStyles.h2,
-    textAlign: 'center',
-    paddingVertical: 16,
-  },
-  logo: {
-    height: DAPP_IMAGE_SIZE,
-    width: DAPP_IMAGE_SIZE,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-    marginRight: -Spacing.Small12,
-  },
-  share: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    textAlign: 'center',
-  },
   sectionDivider: {
     alignItems: 'center',
   },
@@ -195,17 +110,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 4,
   },
-  buttonWithSpace: {
-    marginRight: Spacing.Small12,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: Spacing.Regular16,
-    paddingVertical: Spacing.Small12,
-    marginTop: 'auto',
-  },
   bodyText: {
     ...fontStyles.regular,
     color: colors.gray4,
@@ -213,9 +117,6 @@ const styles = StyleSheet.create({
   },
   underLine: {
     textDecorationLine: 'underline',
-  },
-  closeButton: {
-    alignSelf: 'flex-end',
   },
 })
 
