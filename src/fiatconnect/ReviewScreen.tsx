@@ -1,9 +1,4 @@
-import {
-  AccountNumber,
-  CryptoType,
-  FiatAccountSchema,
-  FiatAccountType,
-} from '@fiatconnect/fiatconnect-types'
+import { AccountNumber, CryptoType, FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -57,7 +52,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           flow={flow}
           normalizedQuote={normalizedQuote}
           tokenAddress={tokenInfo.address}
-          fiatAccountType={fiatAccount.fiatAccountType}
         />
         <PaymentMethod
           normalizedQuote={normalizedQuote}
@@ -133,12 +127,10 @@ function TransactionDetails({
   flow,
   normalizedQuote,
   tokenAddress,
-  fiatAccountType,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   tokenAddress: string
-  fiatAccountType: FiatAccountType
 }) {
   if (flow === CICOFlow.CashIn) {
     // TODO: update below implementation to support CashIn
