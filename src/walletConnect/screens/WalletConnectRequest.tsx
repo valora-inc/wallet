@@ -61,9 +61,8 @@ function WalletConnectRequest({ navigation, route }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Spacing.Thick24,
+    padding: Spacing.Thick24,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   connecting: {

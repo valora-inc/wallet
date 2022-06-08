@@ -207,6 +207,15 @@
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "walletConnect": {
+    "confirmTransaction": {
+      "title": "{{dappName}} would like to confirm a transaction",
+      "description": "{{dappName}} is asking to perform the following:",
+      "transactionType": "Transaction",
+      "transactionAddress": "{{dappName}}'s address",
+      "viewTransactionData": "View transaction data"
+    }
+  },
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",

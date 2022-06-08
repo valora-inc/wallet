@@ -10,8 +10,9 @@ import QuitIcon from 'src/icons/QuitIcon'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
@@ -19,11 +20,14 @@ import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletCon
 import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
 import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
+import ValoraDappIcon from 'src/walletConnect/ValoraDappIcon'
 
 type Props = {
   navigation: StackNavigationProp<StackParamList, Screens.WalletConnectRequest>
   pendingAction: PendingAction
 }
+
+const DAPP_IMAGE_SIZE = 60
 
 function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: WalletConnectSession) {
   return {
@@ -103,13 +107,18 @@ function ActionRequest({ navigation, pendingAction }: Props) {
   const uri = icon ?? `${url}/favicon.ico`
 
   return (
-    <>
+    <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={onDeny} />
-      <View style={styles.center}>
+      <View style={styles.logoContainer}>
+        <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
         <Image style={styles.logo} source={{ uri }} />
       </View>
-      <Text style={styles.header}>{t('connectToWallet', { dappName: name })}</Text>
-      <Text style={styles.share}>{t('action.asking')}:</Text>
+      <Text style={styles.header}>
+        {t('walletConnect.confirmTransaction.title', { dappName: name })}
+      </Text>
+      <Text style={styles.share}>
+        {t('walletConnect.confirmTransaction.description', { dappName: name })}
+      </Text>
 
       <View style={styles.sectionDivider}>
         <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
@@ -129,7 +138,7 @@ function ActionRequest({ navigation, pendingAction }: Props) {
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
         <Button
-          style={styles.button}
+          style={styles.buttonWithSpace}
           type={BtnTypes.SECONDARY}
           size={BtnSizes.MEDIUM}
           text={t('cancel')}
@@ -138,7 +147,6 @@ function ActionRequest({ navigation, pendingAction }: Props) {
           testID="WalletConnectActionCancel"
         />
         <Button
-          style={styles.button}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.MEDIUM}
           text={t('allow')}
@@ -147,22 +155,32 @@ function ActionRequest({ navigation, pendingAction }: Props) {
           testID="WalletConnectActionAllow"
         />
       </View>
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  center: {
-    alignItems: 'center',
+  container: {
+    flex: 1,
+    width: '100%',
+  },
+  logoContainer: {
+    justifyContent: 'center',
+    marginTop: Spacing.Thick24,
+    flexDirection: 'row-reverse',
   },
   header: {
-    ...fontStyles.h1,
+    ...fontStyles.h2,
     textAlign: 'center',
     paddingVertical: 16,
   },
   logo: {
-    height: 80,
-    width: 80,
+    height: DAPP_IMAGE_SIZE,
+    width: DAPP_IMAGE_SIZE,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.gray2,
+    marginRight: -Spacing.Small12,
   },
   share: {
     ...fontStyles.regular,
@@ -171,21 +189,22 @@ const styles = StyleSheet.create({
   },
   sectionDivider: {
     alignItems: 'center',
-    width: 200,
   },
   sectionHeaderText: {
     ...fontStyles.label,
     marginTop: 16,
     marginBottom: 4,
   },
-  button: {
-    marginTop: 24,
+  buttonWithSpace: {
+    marginRight: Spacing.Small12,
   },
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    width: '100%',
+    justifyContent: 'center',
+    paddingHorizontal: Spacing.Regular16,
+    paddingVertical: Spacing.Small12,
+    marginTop: 'auto',
   },
   bodyText: {
     ...fontStyles.regular,
