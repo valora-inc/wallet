@@ -578,26 +578,6 @@ react-native-webview@11.6.5 ✔
 $ bash scripts/key_placer.sh decrypt
 Processing encrypted files
 Encrypted files decrypted
-$ cd node_modules/@celo/client/build/bin && yarn run postinstall
-$ rm -rf build/bin/Geth.framework && tar -xvf build/bin/Geth.framework.tgz -C build/bin && touch Empty.m && ln -sf build/bin/Geth.framework/Versions/A/Geth libGeth.a
-x Geth.framework/
-x Geth.framework/Geth
-x Geth.framework/Resources
-x Geth.framework/Versions/
-x Geth.framework/Headers
-x Geth.framework/Modules
-x Geth.framework/Versions/A/
-x Geth.framework/Versions/Current
-x Geth.framework/Versions/A/Geth
-x Geth.framework/Versions/A/Resources/
-x Geth.framework/Versions/A/Headers/
-x Geth.framework/Versions/A/Modules/
-x Geth.framework/Versions/A/Modules/module.modulemap
-x Geth.framework/Versions/A/Headers/Geth.objc.h
-x Geth.framework/Versions/A/Headers/Geth.h
-x Geth.framework/Versions/A/Headers/ref.h
-x Geth.framework/Versions/A/Headers/Universe.objc.h
-x Geth.framework/Versions/A/Resources/Info.plist
 .
 ~/src/github.com/valora-inc/wallet/branding/valora ~/src/github.com/valora-inc/wallet
 HEAD is now at ec0637b fix: update valora forum link (#9)

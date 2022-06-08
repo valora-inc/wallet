@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'

@@ -4,7 +4,6 @@ PODS:
   - Adjust/Core (4.29.6)
   - Analytics (4.1.5)
   - boost (1.76.0)
-  - CeloBlockchain (0.0.355)
   - CleverTap-iOS-SDK (3.9.3):
     - SDWebImage (~> 5.1)
   - clevertap-react-native (0.5.2):
@@ -451,9 +450,6 @@ PODS:
     - React-Core
   - react-native-flipper (0.127.0):
     - React-Core
-  - react-native-geth (1.0.0):
-    - CeloBlockchain
-    - React-Core
   - react-native-keep-awake (4.0.0):
     - React-Core
   - react-native-mail (6.0.0):
@@ -698,7 +694,6 @@ PODS:
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
-  - "CeloBlockchain (from `../node_modules/@celo/client/CeloBlockchain.podspec`)"
   - clevertap-react-native (from `../node_modules/clevertap-react-native`)
   - CTNotificationService
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -751,7 +746,6 @@ DEPENDENCIES:
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-fast-crypto (from `../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../node_modules/react-native-flipper`)
-  - react-native-geth (from `../node_modules/react-native-geth`)
   - react-native-keep-awake (from `../node_modules/react-native-keep-awake`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -862,8 +856,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
-  CeloBlockchain:
-    :path: "../node_modules/@celo/client/CeloBlockchain.podspec"
   clevertap-react-native:
     :path: "../node_modules/clevertap-react-native"
   DoubleConversion:
@@ -918,8 +910,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-crypto"
   react-native-flipper:
     :path: "../node_modules/react-native-flipper"
-  react-native-geth:
-    :path: "../node_modules/react-native-geth"
   react-native-keep-awake:
     :path: "../node_modules/react-native-keep-awake"
   react-native-mail:
@@ -1037,7 +1027,6 @@ SPEC CHECKSUMS:
   Adjust: 94f1c99429fb2a7ebe530294fd66a88d63a54922
   Analytics: 084a3edda6517e308007c1a7810b8f1e8f2925aa
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  CeloBlockchain: 0bb44b288f8fc19528d2be951e2844575d4408d4
   CleverTap-iOS-SDK: 38f386d9aed648de7ef3ca0e7e2c8531b4cf58e9
   clevertap-react-native: f28f984e24a77559d82bb05786a8c1a7f58c2ce8
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -1102,7 +1091,6 @@ SPEC CHECKSUMS:
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
-  react-native-geth: b64bf7962e345c3c2cc437756ae01d854f508230
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
@@ -1168,6 +1156,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: bb3e9028afd8ec5226f453db33fc4eff707d2bfe
+PODFILE CHECKSUM: 15b498550f43d211df783f5f27241f1717498358
 
 COCOAPODS: 1.10.1

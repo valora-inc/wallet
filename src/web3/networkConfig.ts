@@ -10,7 +10,7 @@ import {
   GETH_USE_STATIC_NODES,
   RECAPTCHA_SITE_KEY,
 } from 'src/config'
-import { GethSyncMode } from 'src/geth/consts'
+import { GethSyncMode } from 'src/web3/consts'
 import Logger from 'src/utils/Logger'
 
 export enum Testnets {

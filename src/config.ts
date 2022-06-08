@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
-import { GethSyncMode } from 'src/geth/consts'
+import { GethSyncMode } from 'src/web3/consts'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'

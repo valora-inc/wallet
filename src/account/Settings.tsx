@@ -54,17 +54,15 @@ import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { toggleFornoMode } from 'src/web3/actions'
 
 interface DispatchProps {
   revokeVerification: typeof revokeVerification
@@ -75,7 +73,6 @@ interface DispatchProps {
   devModeTriggerClicked: typeof devModeTriggerClicked
   setRequirePinOnAppOpen: typeof setRequirePinOnAppOpen
   setPincodeSuccess: typeof setPincodeSuccess
-  toggleFornoMode: typeof toggleFornoMode
   setSessionId: typeof setSessionId
   clearStoredAccount: typeof clearStoredAccount
 }
@@ -90,8 +87,6 @@ interface StateProps {
   pincodeType: PincodeType
   backupCompleted: boolean
   requirePinOnAppOpen: boolean
-  fornoEnabled: boolean
-  gethStartedThisSession: boolean
   preferredCurrencyCode: LocalCurrencyCode
   sessionId: string
   connectedApplications: number
@@ -120,8 +115,6 @@ const mapStateToProps = (state: RootState): StateProps => {
     verificationPossible: verificationPossibleSelector(state),
     pincodeType: pincodeTypeSelector(state),
     requirePinOnAppOpen: state.app.requirePinOnAppOpen,
-    fornoEnabled: state.web3.fornoMode,
-    gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
     connectedApplications: state.walletConnect.v1.sessions.length,
@@ -144,13 +137,11 @@ const mapDispatchToProps = {
   devModeTriggerClicked,
   setRequirePinOnAppOpen,
   setPincodeSuccess,
-  toggleFornoMode,
   setSessionId,
   clearStoredAccount,
 }
 
 interface State {
-  fornoSwitchOffWarning: boolean
   showAccountKeyModal: boolean
   showRevokeModal: boolean
 }
@@ -321,40 +312,6 @@ export class Account extends React.Component<Props, State> {
     })
   }
 
-  disableFornoMode = () => {
-    this.props.toggleFornoMode(false)
-    this.hideFornoSwitchOffWarning()
-    setTimeout(() => restartApp(), 2000)
-  }
-
-  handleFornoToggle = (fornoMode: boolean) => {
-    if (!fornoMode && this.props.gethStartedThisSession) {
-      // Starting geth a second time this app session which will
-      // require an app restart, so show restart modal
-      this.showFornoSwitchOffWarning()
-    } else {
-      this.props.toggleFornoMode(fornoMode)
-    }
-  }
-
-  showFornoSwitchOffWarning = () => {
-    this.setState({ fornoSwitchOffWarning: true })
-  }
-
-  hideFornoSwitchOffWarning = () => {
-    this.setState({ fornoSwitchOffWarning: false })
-  }
-
-  onPressPromptModal = () => {
-    this.props.toggleFornoMode(true)
-    navigateBack()
-  }
-
-  hidePromptModal = () => {
-    this.props.toggleFornoMode(false)
-    navigateBack()
-  }
-
   onTermsPress() {
     navigateToURI(TOS_LINK)
     ValoraAnalytics.track(SettingsEvents.tos_view)
@@ -483,7 +440,6 @@ export class Account extends React.Component<Props, State> {
 
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
-    const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
     const promptConfirmRemovalModal = this.props.route.params?.promptConfirmRemovalModal ?? false
     const currentLanguage = locales[i18n.language]
 
@@ -547,13 +503,6 @@ export class Account extends React.Component<Props, State> {
               testID="requirePinOnAppOpenToggle"
             />
             <SectionHead text={t('data')} style={styles.sectionTitle} />
-            {/* For now disable the option to use the light client
-            <SettingsItemSwitch
-              title={t('enableDataSaver')}
-              value={this.props.fornoEnabled}
-              onValueChange={this.handleFornoToggle}
-              details={t('dataSaverDetail')}
-            /> */}
             <SettingsItemSwitch
               title={t('shareAnalytics')}
               value={this.props.analyticsEnabled}
@@ -573,26 +522,6 @@ export class Account extends React.Component<Props, State> {
             />
           </View>
           {this.getDevSettingsComp()}
-          <Dialog
-            isVisible={this.state?.fornoSwitchOffWarning}
-            title={t('restartModalSwitchOff.header')}
-            actionText={t('restartModalSwitchOff.restart')}
-            actionPress={this.disableFornoMode}
-            secondaryActionText={t('cancel')}
-            secondaryActionPress={this.hideFornoSwitchOffWarning}
-          >
-            {t('restartModalSwitchOff.body')}
-          </Dialog>
-          <Dialog
-            isVisible={promptFornoModal}
-            title={t('promptFornoModal.header')}
-            actionText={t('promptFornoModal.switchToDataSaver')}
-            actionPress={this.onPressPromptModal}
-            secondaryActionText={t('goBack')}
-            secondaryActionPress={this.hidePromptModal}
-          >
-            {t('promptFornoModal.body')}
-          </Dialog>
           <Dialog
             isVisible={this.state?.showAccountKeyModal}
             title={t('accountKeyModal.header')}

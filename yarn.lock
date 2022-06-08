@@ -2290,11 +2290,6 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.5.2.tgz#168ab5e4e30b374079d8d139fafc52ca6bfd4100"
   integrity sha512-KGf6Dl9E6D01vAfkgkjL2sG+zqAjspAogILIpWstljWdG5ifyA75jihrnDEHaMCoQS0KxHvTdP1XYS/GS6BEyQ==
 
-"@celo/client@0.0.355":
-  version "0.0.355"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.355.tgz#a3ef723c94e94cef3a8a4a98cebe7ee5ce123475"
-  integrity sha512-ibdhIHi8t5+mbAUheuBW4GkFXHYxDfsorDe4MyeLa2TADor173jpV23e4Ie9N1lI6/H83azK9EHeTnxDyvItLA==
-
 "@celo/connect@1.2.0", "@celo/connect@^1.2.0", "@celo/connect@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@celo/connect/-/connect-1.2.0.tgz#d68edf89b0d590547f7218d219d8ca566adf3e91"
@@ -16088,10 +16083,6 @@ react-native-gesture-handler@^1.9.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
     prop-types "^15.7.2"
-
-"react-native-geth@https://github.com/celo-org/react-native-geth#121202b":
-  version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-geth#121202b2b7b2470291a31310401bb9b2037fdb78"
 
 "react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
   version "1.0.0"

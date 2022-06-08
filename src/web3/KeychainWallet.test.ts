@@ -10,7 +10,7 @@ import { verifySignature } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction, verifyEIP712TypedDataSigner } from '@celo/wallet-base'
 import MockDate from 'mockdate'
 import * as Keychain from 'react-native-keychain'
-import { UNLOCK_DURATION } from 'src/geth/consts'
+import { UNLOCK_DURATION } from 'src/web3/consts'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
 import * as mockedKeychain from 'test/mockedKeychain'
 
