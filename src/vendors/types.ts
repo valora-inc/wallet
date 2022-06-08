@@ -5,6 +5,7 @@ export type Coordinates = {
 
 export type Vendor = {
   title: string
+  subtitle?: string
   logoURI: string
   siteURI: string
   description: string

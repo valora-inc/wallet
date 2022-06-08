@@ -17,7 +17,7 @@ type OwnProps = {
 type Props = OwnProps
 
 function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
-  const { title, tags, logoURI } = vendor || {}
+  const { title, subtitle, tags, logoURI } = vendor || {}
 
   const onDismissBottomSheet = () => {
     dismiss()
@@ -43,22 +43,9 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
             <Times />
           </Touchable>
         </View>
-        {/* <View style={styles.sheetIcon}>
-          <Image source={{ uri: logoURI }} style={styles.vendorIcon} />
-        </View>
-        <View style={styles.}>
-          <Touchable
-            style={styles.dismissButton}
-            onPress={onDismissBottomSheet}
-            borderless={true}
-            hitSlop={variables.iconHitslop}
-          >
-            <Times />
-          </Touchable>
-        </View> */}
         <>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{'Curacao Vendor'}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
           <View style={styles.tags}>
             {map(tags, (tag) => (
               <Button
@@ -126,6 +113,7 @@ const styles = StyleSheet.create({
   },
   tags: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-evenly',
   },
 })
