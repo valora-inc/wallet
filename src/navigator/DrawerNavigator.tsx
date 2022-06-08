@@ -36,6 +36,7 @@ import {
 } from 'src/app/selectors'
 import { SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
+import Bridge from 'src/bridge/Bridge'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
@@ -272,6 +273,11 @@ export default function DrawerNavigator() {
         name={Screens.FiatExchange}
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
+      />
+      <Drawer.Screen
+        name={Screens.Bridge}
+        component={Bridge}
+        options={{ title: t('bridge'), drawerIcon: AddWithdraw }}
       />
       {features.SHOW_INVITE_MENU_ITEM && (
         <Drawer.Screen
