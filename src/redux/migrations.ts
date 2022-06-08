@@ -638,7 +638,7 @@ export const migrations = {
     },
   }),
   53: (state: any) => ({
-    ..._.omit(state, 'geth'),
+    ...(_.omit(state, 'geth') as any),
     account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
     web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
   }),
