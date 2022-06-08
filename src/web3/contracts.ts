@@ -38,10 +38,6 @@ async function initWallet(importMnemonicAccount: ImportMnemonicAccount) {
   return newWallet
 }
 
-function* initWeb3() {
-  return new Web3(getHttpProvider(DEFAULT_FORNO_URL))
-}
-
 export function* initContractKit() {
   try {
     ValoraAnalytics.track(ContractKitEvents.init_contractkit_start)
@@ -78,7 +74,7 @@ export function* initContractKit() {
       Logger.error(`${TAG}@initContractKit`, `Failed to import data encryption key`, error)
     }
 
-    const web3 = yield call(initWeb3)
+    const web3 = new Web3(getHttpProvider(DEFAULT_FORNO_URL))
 
     Logger.info(
       `${TAG}@initContractKit`,
