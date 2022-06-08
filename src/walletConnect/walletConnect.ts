@@ -7,9 +7,9 @@ import { activeDappSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { Actions } from 'src/walletConnect/v1/actions'
 
 const WC_PREFIX = 'wc:'
@@ -44,7 +44,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
-    yield fork(handleLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Deeplink })
+    yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Deeplink)
   }
 
   // connection request
@@ -61,15 +61,16 @@ export function isWalletConnectDeepLink(deepLink: string) {
   )
 }
 
-export function* handleLoadingWithTimeout(
-  params: Partial<StackParamList[Screens.WalletConnectRequest]>
-) {
-  yield call(navigate, Screens.WalletConnectRequest, params)
+export function* handleLoadingWithTimeout(origin: WalletConnectPairingOrigin) {
+  yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Loading,
+    origin,
+  })
 
   const { timedOut } = yield race({
     timedOut: delay(CONNECTION_TIMEOUT),
-    sessionRequestRecieved: take(Actions.SESSION_V1),
-    actionRequestRecieved: take(Actions.PAYLOAD_V1),
+    sessionRequestReceived: take(Actions.SESSION_V1),
+    actionRequestReceived: take(Actions.PAYLOAD_V1),
   })
 
   if (timedOut) {
@@ -79,6 +80,6 @@ export function* handleLoadingWithTimeout(
       error: 'timed out while waiting for a session',
     })
 
-    yield call(navigate, Screens.WalletConnectRequest, { timedOut: true })
+    yield call(navigate, Screens.WalletConnectRequest, { type: WalletConnectRequestType.TimeOut })
   }
 }

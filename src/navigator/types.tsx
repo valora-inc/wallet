@@ -20,7 +20,11 @@ import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction, WalletConnectSessionRequest } from 'src/walletConnect/types'
+import {
+  PendingAction,
+  WalletConnectRequestType,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -325,12 +329,11 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectRequest]: {
-    origin?: WalletConnectPairingOrigin
-    pendingAction?: PendingAction
-    pendingSession?: WalletConnectSessionRequest
-    timedOut?: boolean
-  }
+  [Screens.WalletConnectRequest]:
+    | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
+    | { type: WalletConnectRequestType.Action; pendingAction: PendingAction }
+    | { type: WalletConnectRequestType.Session; pendingSession: WalletConnectSessionRequest }
+    | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }

@@ -23,6 +23,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { mocked } from 'ts-jest/utils'
 
@@ -144,10 +145,11 @@ describe('App saga', () => {
         .run()
 
       expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
+        type: WalletConnectRequestType.Loading,
         origin: WalletConnectPairingOrigin.Deeplink,
       })
       expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
-        timedOut: true,
+        type: WalletConnectRequestType.TimeOut,
       })
     })
 
@@ -168,6 +170,7 @@ describe('App saga', () => {
           )
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+          type: WalletConnectRequestType.Loading,
           origin: WalletConnectPairingOrigin.Deeplink,
         })
       })
@@ -212,6 +215,7 @@ describe('App saga', () => {
           .not.call(initialiseWalletConnect)
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+          type: WalletConnectRequestType.Loading,
           origin: WalletConnectPairingOrigin.Deeplink,
         })
       })

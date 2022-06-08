@@ -12,55 +12,41 @@ import { Spacing } from 'src/styles/styles'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import ConnectionTimedOut from 'src/walletConnect/screens/ConnectionTimedOut'
 import SessionRequest from 'src/walletConnect/screens/SessionRequest'
+import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-enum ContentType {
-  Loading,
-  ConnectionRequest,
-  ActionRequest,
-  TimeOut,
-}
-
-function WalletConnectRequest({ navigation, route }: Props) {
+function WalletConnectRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation()
-  const { pendingAction, timedOut, pendingSession, origin } = route.params
-  const fromScan = origin === WalletConnectPairingOrigin.Scan
-
-  let displayContent: ContentType = ContentType.Loading
-  if (timedOut) {
-    displayContent = ContentType.TimeOut
-  } else if (pendingSession) {
-    displayContent = ContentType.ConnectionRequest
-  } else if (pendingAction) {
-    displayContent = ContentType.ActionRequest
-  }
 
   useEffect(() => {
-    const isLoading = !timedOut && !pendingSession && !pendingAction
-    navigation.setOptions(isLoading ? headerWithBackButton : noHeader)
-  }, [navigation, route])
+    navigation.setOptions(
+      params.type === WalletConnectRequestType.Loading ? headerWithBackButton : noHeader
+    )
+  }, [navigation, params])
 
   return (
     <View style={styles.container}>
-      {displayContent === ContentType.Loading && (
+      {params.type === WalletConnectRequestType.Loading && (
         <>
           <ActivityIndicator size="small" color={colors.greenBrand} />
           <Text style={styles.connecting}>
-            {fromScan ? t('loadingFromScan') : t('loadingFromDeeplink')}
+            {params.origin === WalletConnectPairingOrigin.Scan
+              ? t('loadingFromScan')
+              : t('loadingFromDeeplink')}
           </Text>
         </>
       )}
 
-      {displayContent === ContentType.ConnectionRequest && pendingSession && (
-        <SessionRequest navigation={navigation} pendingSession={pendingSession} />
+      {params.type === WalletConnectRequestType.Session && (
+        <SessionRequest navigation={navigation} pendingSession={params.pendingSession} />
       )}
 
-      {displayContent === ContentType.ActionRequest && pendingAction && (
-        <ActionRequest navigation={navigation} pendingAction={pendingAction} />
+      {params.type === WalletConnectRequestType.Action && (
+        <ActionRequest navigation={navigation} pendingAction={params.pendingAction} />
       )}
 
-      {displayContent === ContentType.TimeOut && <ConnectionTimedOut />}
+      {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
     </View>
   )
 }

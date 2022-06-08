@@ -22,6 +22,7 @@ import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   WalletConnectPayloadRequest,
+  WalletConnectRequestType,
   WalletConnectSession,
   WalletConnectSessionRequest,
 } from 'src/walletConnect/types'
@@ -397,7 +398,10 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
     ...defaultSessionTrackedProperties,
   })
 
-  yield call(navigate, Screens.WalletConnectRequest, { pendingSession: session })
+  yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Session,
+    pendingSession: session,
+  })
 }
 
 function* showActionRequest({ action, peerId }: PendingAction) {
@@ -422,6 +426,7 @@ function* showActionRequest({ action, peerId }: PendingAction) {
   })
 
   yield call(navigate, Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Action,
     pendingAction: {
       version: 1,
       action,
