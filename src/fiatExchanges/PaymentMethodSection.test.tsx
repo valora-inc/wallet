@@ -5,7 +5,8 @@ import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
-import { CICOFlow, getQuotes, PaymentMethod } from 'src/fiatExchanges/utils'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
@@ -21,13 +22,13 @@ describe('PaymentMethodSection', () => {
   beforeEach(() => {
     props = {
       paymentMethod: PaymentMethod.Card,
-      cicoQuotes: getQuotes(mockProviders),
+      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders),
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
     }
   })
   it('shows nothing if there are no available providers', async () => {
-    props.cicoQuotes = []
+    props.normalizedQuotes = []
     const { queryByText } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />
@@ -38,7 +39,7 @@ describe('PaymentMethodSection', () => {
     expect(queryByText('selectProviderScreen.card')).toBeFalsy()
   })
   it('shows a non-expandable view if there is one provider available', async () => {
-    props.cicoQuotes = getQuotes([mockProviders[2]])
+    props.normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, [], [mockProviders[2]])
     const { queryByText, queryByTestId } = render(
       <Provider store={mockStore}>
         <PaymentMethodSection {...props} />

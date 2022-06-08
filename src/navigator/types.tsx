@@ -167,7 +167,6 @@ export type StackParamList = {
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
-    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:

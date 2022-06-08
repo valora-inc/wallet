@@ -1245,15 +1245,17 @@
     "paymentMethod": "Método de pago",
     "transactionDetails": "Detalles de transacción",
     "paymentMethodVia": "Vinculada vía {{providerName}}",
+    "receiveAmount": "Recibirás",
     "cashIn": {
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
       "transactionDetailsAmount": "Precio total"
     },
     "cashOut": {
-      "header": "Revisión - Retirar fondos",
+      "header": "Revisar",
       "button": "Retirar fondos",
-      "transactionDetailsAmount": "Monto a retirar"
+      "transactionDetailsAmount": "Retirada total",
+      "transactionDetailsAmountConverted": "Cantidad retirada"
     }
   },
   "fiatExchangeFlow": {

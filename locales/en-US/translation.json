@@ -1245,15 +1245,17 @@
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Linked via {{providerName}}",
+    "receiveAmount": "You will receive",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
       "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {
-      "header": "Review Withdraw",
+      "header": "Review",
       "button": "Withdraw Funds",
-      "transactionDetailsAmount": "Withdraw Amount"
+      "transactionDetailsAmount": "Total Withdraw",
+      "transactionDetailsAmountConverted": "Amount Withdrawn"
     }
   },
   "fiatExchangeFlow": {

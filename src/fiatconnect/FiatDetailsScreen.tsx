@@ -33,6 +33,12 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
 
+export const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
+// TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
+export const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
+  FiatAccountSchema.AccountNumber,
+])
+
 interface FormFieldParam {
   name: string
   label: string

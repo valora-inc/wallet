@@ -1245,15 +1245,17 @@
     "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
     "paymentMethodVia": "Relié(e) par {{providerName}}",
+    "receiveAmount": "Tu recevras",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
       "transactionDetailsAmount": "Prix total"
     },
     "cashOut": {
-      "header": "Vérifier - Retirer des fonds",
+      "header": "Vérifier",
       "button": "Retirer des fonds",
-      "transactionDetailsAmount": "Montant du retrait"
+      "transactionDetailsAmount": "Retrait total",
+      "transactionDetailsAmountConverted": "Montant retiré"
     }
   },
   "fiatExchangeFlow": {
