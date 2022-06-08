@@ -49,6 +49,16 @@ function ActionRequest({ navigation, pendingAction }: Props) {
 
   const isLoading = isAccepting || isDenying
 
+  const onAccept = () => {
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsAccepting(true, () => dispatch(acceptRequest(peerId, action)))
+  }
+
+  const onDeny = () => {
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsDenying(true, () => dispatch(denyRequest(peerId, action, 'User denied')))
+  }
+
   useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
@@ -58,7 +68,7 @@ function ActionRequest({ navigation, pendingAction }: Props) {
         e.preventDefault()
         onDeny()
       }),
-    [navigation, activeSession, pendingAction, isLoading]
+    [navigation, onDeny, isLoading]
   )
 
   if (!activeSession) {
@@ -68,16 +78,6 @@ function ActionRequest({ navigation, pendingAction }: Props) {
       'No active WallectConnect session could be found'
     )
     return null
-  }
-
-  const onAccept = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptRequest(peerId, action)))
-  }
-
-  const onDeny = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denyRequest(peerId, action, 'User denied')))
   }
 
   const { url, name, icon, method, params } = getRequestInfo(action, activeSession)

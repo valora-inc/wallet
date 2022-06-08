@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 51,
+          "version": 52,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -143,6 +143,8 @@ describe('store state', () => {
           "celoWithdrawalEnabledInExchange": true,
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
+          "fiatConnectCashInEnabled": false,
+          "fiatConnectCashOutEnabled": false,
           "finclusiveUnsupportedStates": Array [
             "NY",
             "TX",
