@@ -15,7 +15,7 @@ export async function getContractKitAsync() {
   return contractKit
 }
 
-const mockGethWallet = {
+const mockWallet = {
   addAccount: jest.fn(async (privateKey: string, passphrase: string) =>
     privateKeyToAddress(privateKey)
   ),
@@ -26,11 +26,11 @@ const mockGethWallet = {
 }
 
 export function* getWallet() {
-  return mockGethWallet
+  return mockWallet
 }
 
 export async function getWalletAsync() {
-  return mockGethWallet
+  return mockWallet
 }
 
 const web3 = new Web3()

@@ -1,4 +1,4 @@
-// TODO: TX feed + QR scanner + Geth
+// TODO: TX feed + QR scanner
 
 export enum AppEvents {
   app_launched = 'app_launched',
@@ -9,7 +9,7 @@ export enum AppEvents {
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
-  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in geth
+  redux_keychain_mismatch = 'redux_keychain_mismatch', // when the redux state doesn't contain the account found in the keychain
   redux_store_recovery_success = 'redux_store_recovery_success',
   redux_no_matching_keychain_account = 'redux_no_matching_keychain_account', // when account in redux has no matching password hash in the keychain
   push_notification_opened = 'push_notification_opened',
@@ -436,20 +436,6 @@ export enum FiatExchangeEvents {
   cico_submit_transfer = 'cico_submit_transfer',
 }
 
-export enum GethEvents {
-  blockchain_corruption = 'blockchain_corruption',
-  geth_init_start = 'geth_init_start',
-  geth_init_success = 'geth_init_success',
-  geth_init_failure = 'geth_init_failure',
-  geth_restart_to_fix_init = 'geth_restart_to_fix_init',
-  prompt_forno = 'prompt_forno',
-  create_geth_start = 'create_geth_start',
-  create_geth_finish = 'create_geth_finish',
-  create_geth_error = 'create_geth_error',
-  start_geth_start = 'start_geth_start',
-  start_geth_finish = 'start_geth_finish',
-}
-
 export enum ContractKitEvents {
   init_contractkit_start = 'init_contractkit_start',
   init_contractkit_get_wallet_start = 'init_contractkit_get_wallet_start',
@@ -566,7 +552,6 @@ export type AnalyticsEventType =
   | FeeEvents
   | TransactionEvents
   | CeloExchangeEvents
-  | GethEvents
   | PerformanceEvents
   | NavigationEvents
   | RewardsEvents

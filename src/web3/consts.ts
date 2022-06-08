@@ -7,6 +7,3 @@ export const WEI_PER_TOKEN = new BigNumber(10).pow(WEI_DECIMALS)
 
 // Whenever the user enters their PIN, leave the account unlocked for 10 minutes.
 export const UNLOCK_DURATION = 600
-
-// 25 is react native geth default
-export const SYNCING_MAX_PEERS = 25
