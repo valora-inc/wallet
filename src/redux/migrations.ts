@@ -637,4 +637,9 @@ export const migrations = {
       fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
     },
   }),
+  53: (state: any) => ({
+    ..._.omit(state, 'geth'),
+    account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+    web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
+  }),
 }
