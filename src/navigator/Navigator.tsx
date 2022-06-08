@@ -39,6 +39,7 @@ import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
+import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
@@ -521,6 +522,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={fiatExchangesOptionsScreenOptions}
       name={Screens.FiatExchangeCurrency}
       component={FiatExchangeCurrency}
+    />
+    <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.FiatDetailsScreen}
+      component={FiatDetailsScreen}
     />
     <Navigator.Screen
       options={CashInSuccess.navigationOptions}

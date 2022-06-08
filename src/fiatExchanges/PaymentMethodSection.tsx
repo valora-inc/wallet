@@ -7,40 +7,30 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
-import {
-  CICOFlow,
-  CicoQuote,
-  getFeeValueFromQuotes,
-  isSimplexQuote,
-  PaymentMethod,
-  ProviderQuote,
-  SimplexQuote,
-} from 'src/fiatExchanges/utils'
+import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { navigateToURI } from 'src/utils/linking'
 
 export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethod
-  cicoQuotes: CicoQuote[]
+  normalizedQuotes: NormalizedQuote[]
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
 }
 
 export function PaymentMethodSection({
   paymentMethod,
-  cicoQuotes,
+  normalizedQuotes,
   setNoPaymentMethods,
   flow,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
-  const sectionQuotes = cicoQuotes.filter(({ quote }) => quote.paymentMethod === paymentMethod)
+  const sectionQuotes = normalizedQuotes.filter(
+    (quote) => quote.getPaymentMethod() === paymentMethod
+  )
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const userLocation = useSelector(userLocationDataSelector)
 
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(false)
@@ -51,28 +41,10 @@ export function PaymentMethodSection({
         flow,
         paymentMethod,
         quoteCount: sectionQuotes.length,
-        providers: sectionQuotes.map(({ provider }) => provider.name),
+        providers: sectionQuotes.map((quote) => quote.getProviderId()),
       })
     }
   }, [])
-
-  const quoteOnPress = ({ quote, provider }: CicoQuote) => () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
-      flow,
-      paymentMethod,
-      provider: provider.name,
-    })
-
-    if (quote && userLocation?.ipAddress && isSimplexQuote(quote)) {
-      navigate(Screens.Simplex, {
-        simplexQuote: quote,
-        userIpAddress: userLocation.ipAddress,
-      })
-      return
-    }
-
-    ;(quote as ProviderQuote).url && navigateToURI((quote as ProviderQuote).url)
-  }
 
   const toggleExpanded = () => {
     if (expanded) {
@@ -106,7 +78,7 @@ export function PaymentMethodSection({
           <Text style={styles.fee}>
             {
               // quotes assumed to be sorted ascending by fee
-              renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.minFee'))
+              renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.minFee'))
             }
           </Text>
         )}
@@ -129,15 +101,15 @@ export function PaymentMethodSection({
             : t('selectProviderScreen.bank')}
         </Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderFeeAmount(sectionQuotes[0].quote, t('selectProviderScreen.fee'))}
+          {renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.fee'))}
         </Text>
         <Text style={styles.topInfo}>{renderInfoText()}</Text>
       </View>
 
       <View style={styles.imageContainer}>
         <Image
-          testID={`image-${sectionQuotes[0].provider.name}`}
-          source={{ uri: sectionQuotes[0].provider.logoWide }}
+          testID={`image-${sectionQuotes[0].getProviderName()}`}
+          source={{ uri: sectionQuotes[0].getProviderLogo() }}
           style={styles.providerImage}
           resizeMode="center"
         />
@@ -151,10 +123,8 @@ export function PaymentMethodSection({
         ? t('selectProviderScreen.oneHour')
         : t('selectProviderScreen.numDays')
     }`
-  const renderFeeAmount = (quote: SimplexQuote | ProviderQuote, postFix: string) => {
-    const feeAmount = getFeeValueFromQuotes(quote)
-
-    if (feeAmount === undefined) {
+  const renderFeeAmount = (feeAmount: number | null, postFix: string) => {
+    if (feeAmount === null) {
       return null
     }
 
@@ -180,13 +150,7 @@ export function PaymentMethodSection({
   }
   return (
     <View style={styles.container}>
-      <Touchable
-        onPress={
-          isExpandable
-            ? toggleExpanded
-            : ((quoteOnPress(sectionQuotes[0]) as unknown) as () => void)
-        }
-      >
+      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow)}>
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -202,16 +166,16 @@ export function PaymentMethodSection({
         </View>
       </Touchable>
       {expanded &&
-        sectionQuotes.map((cicoQuote, index) => (
+        sectionQuotes.map((normalizedQuote, index) => (
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={(quoteOnPress(cicoQuote) as unknown) as () => void}
+            onPress={normalizedQuote.onPress(flow)}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
                 <Text style={styles.expandedFee}>
-                  {renderFeeAmount(cicoQuote.quote, t('selectProviderScreen.fee'))}
+                  {renderFeeAmount(normalizedQuote.getFee(), t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
                 {index === 0 && (
@@ -223,8 +187,8 @@ export function PaymentMethodSection({
 
               <View style={styles.imageContainer}>
                 <Image
-                  testID={`image-${cicoQuote.provider.name}`}
-                  source={{ uri: cicoQuote.provider.logoWide }}
+                  testID={`image-${normalizedQuote.getProviderName()}`}
+                  source={{ uri: normalizedQuote.getProviderLogo() }}
                   style={styles.providerImage}
                   resizeMode="center"
                 />

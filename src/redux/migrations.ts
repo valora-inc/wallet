@@ -629,4 +629,12 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
     },
   }),
+  52: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+      fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+    },
+  }),
 }
