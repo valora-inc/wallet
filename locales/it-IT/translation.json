@@ -1254,7 +1254,7 @@
     "cashOut": {
       "header": "Rivedi",
       "button": "Preleva fondi",
-      "transactionDetailsAmount": "Totale prelievi",
+      "transactionDetailsAmount": "Prelievo totale",
       "transactionDetailsAmountConverted": "Importo prelevato"
     }
   },

@@ -1254,8 +1254,8 @@
     "cashOut": {
       "header": "Revisar",
       "button": "Retirar fondos",
-      "transactionDetailsAmount": "Retirada total",
-      "transactionDetailsAmountConverted": "Cantidad retirada"
+      "transactionDetailsAmount": "Total a retirar",
+      "transactionDetailsAmountConverted": "Monto retirado"
     }
   },
   "fiatExchangeFlow": {
