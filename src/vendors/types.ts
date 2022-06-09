@@ -12,6 +12,7 @@ export type Vendor = {
   tags: Array<string>
   currencies: Array<string>
   location: Coordinates
+  address?: String
 }
 
 export type Vendors = {

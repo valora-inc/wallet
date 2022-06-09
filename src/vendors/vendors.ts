@@ -31,6 +31,7 @@ export const CuracaoVendors: Vendors = {
   },
   ['Weber & Weber']: {
     title: 'Weber & Weber',
+    subtitle: 'Locksmith',
     logoURI: '',
     siteURI: 'https://www.weberenweberbeheer.com',
     description:

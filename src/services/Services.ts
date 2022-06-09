@@ -33,21 +33,6 @@ export const CoreServices = [
     icon: Logo,
     screen: Screens.VendorsScreen,
   },
-  // {
-  //   title: 'serviceCICO',
-  //   icon: null,
-  //   component: null,
-  // },
-  // {
-  //   title: 'serviceSwap',
-  //   icon: null,
-  //   component: null,
-  // },
-  // {
-  //   title: 'serviceInvest',
-  //   icon: null,
-  //   component: null,
-  // },
 ]
 
 // @note This solution is not scalable to countries
