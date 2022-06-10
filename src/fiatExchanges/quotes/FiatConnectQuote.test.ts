@@ -1,4 +1,9 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import {
+  CryptoType,
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatType,
+} from '@fiatconnect/fiatconnect-types'
 import _ from 'lodash'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -153,6 +158,46 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getProviderId()).toEqual('provider-two')
+    })
+  })
+
+  describe('.getFiatAmount', () => {
+    it('returns fiat amount', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAmount()).toEqual('100')
+    })
+  })
+
+  describe('.getFiatType', () => {
+    it('returns fiat type', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatType()).toEqual(FiatType.USD)
+    })
+  })
+
+  describe('.getCryptoAmount', () => {
+    it('returns crypto amount', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getCryptoAmount()).toEqual('100')
+    })
+  })
+
+  describe('.getCryptoType', () => {
+    it('returns crypto type', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getCryptoType()).toEqual(CryptoType.cUSD)
     })
   })
 })
