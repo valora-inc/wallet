@@ -11,7 +11,7 @@ import {
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
-  TransactionStatus
+  TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import { mockCeloAddress, mockCusdAddress, mockName, mockTestTokenAddress } from 'test/values'

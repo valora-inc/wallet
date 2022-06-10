@@ -23,7 +23,6 @@ const numColumns = 3
 function WalletServices() {
   const { t } = useTranslation()
 
-
   const isLoading = useSelector((state) => state.home.loading)
 
   const scrollPosition = useRef(new Animated.Value(0)).current

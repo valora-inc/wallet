@@ -10,7 +10,7 @@ describe('VendorScreen', () => {
     jest.clearAllMocks()
   })
 
-  function renderScreen (overrideState: RecursivePartial<RootState>) {
+  function renderScreen(overrideState: RecursivePartial<RootState>) {
     const store = createMockStore({
       ...overrideState,
     })
@@ -21,13 +21,13 @@ describe('VendorScreen', () => {
       </Provider>
     )
 
-    return {store, tree, ...tree}
+    return { store, tree, ...tree }
   }
 
   it("renders correctly on user's first visit", async () => {
-    const { getByTestId, queryAllByTestId } = renderScreen({});
-    expect(getByTestId('Vendors/List')).toBeTruthy();
+    const { getByTestId, queryAllByTestId } = renderScreen({})
+    expect(getByTestId('Vendors/List')).toBeTruthy()
     expect(queryAllByTestId('Vendors/VendorItem').length).toBeGreaterThan(0)
     // expect(getByTestId('Vendors/DetailSheet')).toHaveProp('isVisible', false);
-  });
+  })
 })
