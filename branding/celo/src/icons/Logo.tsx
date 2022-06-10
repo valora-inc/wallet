@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function Logo({ style, height = 25, type = LogoTypes.COLOR }: Props) {
-  let mainColor
+  let mainColor = 'none'
   switch (type) {
     case LogoTypes.DARK:
       mainColor = colors.dark
@@ -30,7 +30,7 @@ export default function Logo({ style, height = 25, type = LogoTypes.COLOR }: Pro
   }
 
   return (
-    <Svg width={height} height={height} viewBox="0 0 171 171" fill="none">
+    <Svg width={height} height={height} viewBox="0 0 171 171" fill={mainColor}>
       <Path
         d="M121.121 8.14463L85.3815 43.884V60.8231L132.009 14.1953C128.547 11.9246 124.909 9.89942 121.121 8.14463Z"
         fill="#547980"
