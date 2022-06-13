@@ -4,7 +4,7 @@
  */
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation, WithTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthenticationEvents } from 'src/analytics/Events'
@@ -19,11 +19,9 @@ import Pincode from 'src/pincode/Pincode'
 import useSelector from 'src/redux/useSelector'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type OwnProps = StackScreenProps<StackParamList, Screens.PincodeEnter>
+type Props = StackScreenProps<StackParamList, Screens.PincodeEnter>
 
-type Props = WithTranslation & OwnProps
-
-const PincodeEnter = ({ route }: Props) => {
+export const PincodeEnter = ({ route }: Props) => {
   const { t } = useTranslation()
   const [pin, setPin] = useState('')
   const [errorText, setErrorText] = useState(undefined)
@@ -92,13 +90,11 @@ const PincodeEnter = ({ route }: Props) => {
   )
 }
 
-PincodeEnter.navigationOptions = (navOptions: Props) => {
-  return {
-    ...modalScreenOptions(navOptions),
-    ...headerWithBackButton,
-    gestureEnabled: false,
-  }
-}
+PincodeEnter.navigationOptions = (navOptions: Props) => ({
+  ...modalScreenOptions(navOptions),
+  ...headerWithBackButton,
+  gestureEnabled: false,
+})
 
 const styles = StyleSheet.create({
   container: {
