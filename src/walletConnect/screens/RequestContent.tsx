@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Logo from 'src/icons/Logo'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors, { Colors } from 'src/styles/colors'
@@ -11,7 +12,6 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
-import ValoraDappIcon from 'src/walletConnect/ValoraDappIcon'
 
 interface Props {
   onAccept(): void
@@ -71,8 +71,10 @@ function RequestContent({
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
         <View style={styles.logoContainer}>
-          <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
-          <Image style={styles.logo} source={{ uri: dappImageUrl }} />
+          <View style={styles.logoBackground}>
+            <Logo />
+          </View>
+          <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
         </View>
         <Text style={styles.header} testID={`${testId}Header`}>
           {title}
@@ -133,13 +135,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingBottom: Spacing.Regular16,
   },
-  logo: {
+  logoBackground: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: DAPP_IMAGE_SIZE,
+    width: DAPP_IMAGE_SIZE,
+    borderRadius: 100,
+    backgroundColor: Colors.gray1,
+  },
+  dappImage: {
     height: DAPP_IMAGE_SIZE,
     width: DAPP_IMAGE_SIZE,
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: Colors.gray2,
+    borderColor: Colors.gray1,
     marginRight: -Spacing.Small12,
+    backgroundColor: Colors.light,
   },
   description: {
     ...fontStyles.small,
