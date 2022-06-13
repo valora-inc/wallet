@@ -6,6 +6,7 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -144,8 +145,7 @@ export type StackParamList = {
   }
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
-    cicoQuote: QuoteResponse
-    provider: ProviderInfo
+    normalizedQuote: FiatConnectQuote
     fiatAccountSchema: FiatAccountSchema
     fiatAccount: FiatAccount
   }

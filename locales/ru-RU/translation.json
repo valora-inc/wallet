@@ -1258,8 +1258,8 @@
     "cashOut": {
       "header": "Проверить",
       "button": "Вывод средства",
-      "transactionDetailsAmount": "Общий вывод средств",
-      "transactionDetailsAmountConverted": "Сумма снятия"
+      "transactionDetailsAmount": "Всего выведено",
+      "transactionDetailsAmountConverted": "Сумма выведено"
     }
   },
   "fiatExchangeFlow": {

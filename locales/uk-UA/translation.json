@@ -1259,7 +1259,7 @@
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
-      "transactionDetailsAmountConverted": "Виведена сума"
+      "transactionDetailsAmountConverted": "Знята сума"
     }
   },
   "fiatExchangeFlow": {
