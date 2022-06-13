@@ -1,4 +1,4 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { CryptoType, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
@@ -102,5 +102,21 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getProviderId(): string {
     return this.quote.provider.id
+  }
+
+  getFiatAmount(): string {
+    return this.quote.quote.fiatAmount
+  }
+
+  getFiatType(): FiatType {
+    return this.quote.quote.fiatType
+  }
+
+  getCryptoAmount(): string {
+    return this.quote.quote.cryptoAmount
+  }
+
+  getCryptoType(): CryptoType {
+    return this.quote.quote.cryptoType
   }
 }
