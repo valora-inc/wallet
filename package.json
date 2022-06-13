@@ -180,7 +180,6 @@
     "react-native-svg": "^12.3.0",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^2.16.0",
-    "react-native-tcp": "https://github.com/celo-org/react-native-tcp#44502be",
     "react-native-udp": "git+https://github.com/celo-org/react-native-udp#7cbf51f",
     "react-native-url-polyfill": "^1.2.0",
     "react-native-webview": "^11.6.4",

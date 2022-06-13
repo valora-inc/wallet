@@ -28,7 +28,6 @@ module.exports = {
       ...nodeLibs,
       fs: require.resolve('react-native-fs'),
       'isomorphic-fetch': require.resolve('cross-fetch'),
-      net: require.resolve('react-native-tcp'),
       vm: require.resolve('vm-browserify'),
     },
     sourceExts: isE2E ? ['e2e.ts', 'e2e.js'].concat(defaultSourceExts) : defaultSourceExts,

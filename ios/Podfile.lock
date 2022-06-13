@@ -472,8 +472,6 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-tcp (3.3.0):
-    - React-Core
   - react-native-udp (2.6.1):
     - React-Core
   - react-native-webview (11.6.5):
@@ -756,7 +754,6 @@ DEPENDENCIES:
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-sms (from `../node_modules/react-native-sms`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
-  - react-native-tcp (from `../node_modules/react-native-tcp`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -930,8 +927,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-sms"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
-  react-native-tcp:
-    :path: "../node_modules/react-native-tcp"
   react-native-udp:
     :path: "../node_modules/react-native-udp"
   react-native-webview:
@@ -1101,7 +1096,6 @@ SPEC CHECKSUMS:
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
   react-native-sms: 9e317eb8712d2f73a0da36953f15239fa535b0c0
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-tcp: 97bb57dd886806263ab6a734a208e29de040e5d5
   react-native-udp: f2c3b982aaef764b3c9bb333938f78136906a515
   react-native-webview: 2e8fe70dc32b50d3231c23043f8e8b5a5525d346
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
