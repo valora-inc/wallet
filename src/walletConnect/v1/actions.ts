@@ -91,7 +91,6 @@ export type UserActions =
   | SessionDeleted
   | StoreSession
   | CloseSession
-  | ShowRequestDetails
   | AcceptRequest
   | DenyRequest
 

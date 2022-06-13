@@ -4,9 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import { SupportedActions } from 'src/walletConnect/constants'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
-import { Actions } from 'src/walletConnect/v1/actions'
 import { createMockStore } from 'test/utils'
-import { mockNavigation } from 'test/values'
 
 describe('ActionRequest', () => {
   const peerId = 'c49968fd-9607-4a43-ac66-703402400ffa'
@@ -59,7 +57,7 @@ describe('ActionRequest', () => {
     it('renders the correct elements', () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
+          <ActionRequest pendingAction={{ action, peerId }} />
         </Provider>
       )
 
@@ -70,57 +68,36 @@ describe('ActionRequest', () => {
       expect(getByText('cancel')).toBeTruthy()
     })
 
-    it('dispatches request details with correct string on clicking details', async () => {
+    it('shows request details with correct string on clicking details', async () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
+          <ActionRequest pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
-      expect(store.getActions()).toEqual([
-        {
-          type: Actions.SHOW_REQUEST_DETAILS_V1,
-          request: action,
-          peerId,
-          infoString: 'Message to sign',
-        },
-      ])
+      expect(getByText('Message to sign')).toBeTruthy()
     })
 
-    it('dispatches request details with raw string if message cannot be decoded', async () => {
+    it('shows request details with raw string if message cannot be decoded', async () => {
       action.params[0] = 'invalid hex'
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
+          <ActionRequest pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
-      expect(store.getActions()).toEqual([
-        {
-          type: Actions.SHOW_REQUEST_DETAILS_V1,
-          request: action,
-          peerId,
-          infoString: 'invalid hex',
-        },
-      ])
+      expect(getByText('invalid hex')).toBeTruthy()
     })
 
-    it('dispatches request details with empty message', async () => {
+    it('shows request details with empty message', async () => {
       action.params[0] = ''
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
+          <ActionRequest pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
-      expect(store.getActions()).toEqual([
-        {
-          type: Actions.SHOW_REQUEST_DETAILS_V1,
-          request: action,
-          peerId,
-          infoString: 'action.emptyMessage',
-        },
-      ])
+      expect(getByText('action.emptyMessage')).toBeTruthy()
     })
   })
 })
