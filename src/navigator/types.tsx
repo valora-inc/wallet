@@ -1,4 +1,4 @@
-import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
+import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
 import { AccountNumber, FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
@@ -107,9 +107,6 @@ export type StackParamList = {
   }
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
-  }
-  [Screens.DappKitTxDataScreen]: {
-    dappKitData: TxToSignParam['txData']
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined

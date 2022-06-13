@@ -31,7 +31,6 @@ import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
-import DappKitTxDataScreen from 'src/dappkit/DappKitTxDataScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import ExchangeReview from 'src/exchange/ExchangeReview'
@@ -161,11 +160,6 @@ const commonScreens = (Navigator: typeof Stack) => {
           ...noHeader,
           gestureEnabled: false,
         }}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitTxDataScreen}
-        component={DappKitTxDataScreen}
-        options={DappKitTxDataScreen.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.WalletConnectRequest}

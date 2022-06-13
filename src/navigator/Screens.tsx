@@ -15,7 +15,6 @@ export enum Screens {
   ConsumerIncentivesHomeScreen = 'ConsumerIncentivesHomeScreen',
   DappKitAccountScreen = 'DappKitAccountScreen',
   DappKitSignTxScreen = 'DappKitSignTxScreen',
-  DappKitTxDataScreen = 'DappKitTxDataScreen',
   DAppsExplorerScreen = 'DAppsExplorerScreen',
   Debug = 'Debug',
   DrawerNavigator = 'DrawerNavigator',
