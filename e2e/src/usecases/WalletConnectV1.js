@@ -85,7 +85,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Verify WC page
-    await waitFor(element(by.id('SessionRequestHeader')))
+    await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
       .toBeVisible()
       .withTimeout(30 * 1000)
 

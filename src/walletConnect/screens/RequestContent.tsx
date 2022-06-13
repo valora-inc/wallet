@@ -74,7 +74,9 @@ function RequestContent({
           <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
           <Image style={styles.logo} source={{ uri: dappImageUrl }} />
         </View>
-        <Text style={styles.header}>{title}</Text>
+        <Text style={styles.header} testID={`${testId}Header`}>
+          {title}
+        </Text>
         {description && <Text style={styles.description}>{description}</Text>}
 
         {requestDetails && (

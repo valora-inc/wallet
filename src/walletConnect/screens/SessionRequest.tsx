@@ -43,7 +43,7 @@ function SessionRequest({ pendingSession }: Props) {
           tapToCopy: true,
         },
       ]}
-      testId="WalletConnectSession"
+      testId="WalletConnectSessionRequest"
     />
   )
 }

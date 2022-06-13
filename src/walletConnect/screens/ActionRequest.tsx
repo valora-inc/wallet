@@ -82,7 +82,7 @@ function ActionRequest({ pendingAction }: Props) {
       dappImageUrl={uri}
       title={t('connectToWallet', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
-      testId="WalletConnectAction"
+      testId="WalletConnectActionRequest"
       requestDetails={requestDetails}
     >
       {moreInfoString && (
