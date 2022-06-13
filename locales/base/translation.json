@@ -210,10 +210,7 @@
   "walletConnect": {
     "confirmTransaction": {
       "title": "{{dappName}} would like to confirm a transaction",
-      "description": "{{dappName}} is asking to perform the following:",
-      "transactionType": "Transaction",
-      "transactionAddress": "{{dappName}}'s address",
-      "viewTransactionData": "View transaction data"
+      "description": "{{dappName}} is asking to perform the following:"
     }
   },
   "allow": "Allow",
@@ -980,7 +977,7 @@
     "sendTransaction": "Send a Celo TX",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
-    "details": "Show details",
+    "details": "View transaction data",
     "computeSharedSecret": "Generate Secrets",
     "emptyMessage": "Empty message"
   },
