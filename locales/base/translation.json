@@ -206,13 +206,7 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
-  "walletConnect": {
-    "confirmTransaction": {
-      "title": "{{dappName}} would like to confirm a transaction",
-      "description": "{{dappName}} is asking to perform the following:"
-    }
-  },
+  "connectToWallet": "{{dappName}} would like to confirm a transaction",
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",
@@ -970,6 +964,7 @@
   "loadingFromDeeplink": "Connecting",
   "action": {
     "asking": "This application is asking to perform the following action",
+    "askingV1_35": "{{dappName}} is asking to perform the following:",
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",

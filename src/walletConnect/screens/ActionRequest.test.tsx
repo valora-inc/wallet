@@ -62,7 +62,7 @@ describe('ActionRequest', () => {
       )
 
       expect(getByText('connectToWallet, {"dappName":"WalletConnect Example"}')).toBeTruthy()
-      expect(getByText('action.asking:')).toBeTruthy()
+      expect(getByText('action.askingV1_35, {"dappName":"WalletConnect Example"}')).toBeTruthy()
       expect(getByText('action.sign')).toBeTruthy()
       expect(getByText('allow')).toBeTruthy()
       expect(getByText('cancel')).toBeTruthy()
