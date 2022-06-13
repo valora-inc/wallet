@@ -1328,7 +1328,7 @@
                 "ConnectPhoneNumberScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
-                "DappKitAccountAuth",
+                "DappKitAccountScreen",
                 "DappKitSignTxScreen",
                 "DappKitTxDataScreen",
                 "Debug",

@@ -16,7 +16,7 @@ import ValoraDappIcon from 'src/walletConnect/ValoraDappIcon'
 interface Props {
   onAccept(): void
   onDeny(): void
-  dappImageUrl: string
+  dappImageUrl?: string
   title: string
   description: string
   testId: string
@@ -70,10 +70,13 @@ function RequestContent({
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
-        <View style={styles.logoContainer}>
-          <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
-          <Image style={styles.logo} source={{ uri: dappImageUrl }} />
-        </View>
+        {dappImageUrl && (
+          <View style={styles.logoContainer}>
+            <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
+            <Image style={styles.logo} source={{ uri: dappImageUrl }} resizeMode="cover" />
+          </View>
+        )}
+
         <Text style={styles.header} testID={`${testId}Header`}>
           {title}
         </Text>

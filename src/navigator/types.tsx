@@ -102,7 +102,7 @@ export type StackParamList = {
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
-  [Screens.DappKitAccountAuth]: {
+  [Screens.DappKitAccountScreen]: {
     dappKitRequest: AccountAuthRequest
   }
   [Screens.DappKitSignTxScreen]: {

@@ -13,7 +13,7 @@ export enum Screens {
   CashInSuccess = 'CashInSuccess',
   ConnectPhoneNumberScreen = 'ConnectPhoneNumberScreen',
   ConsumerIncentivesHomeScreen = 'ConsumerIncentivesHomeScreen',
-  DappKitAccountAuth = 'DappKitAccountAuth',
+  DappKitAccountScreen = 'DappKitAccountScreen',
   DappKitSignTxScreen = 'DappKitSignTxScreen',
   DappKitTxDataScreen = 'DappKitTxDataScreen',
   DAppsExplorerScreen = 'DAppsExplorerScreen',

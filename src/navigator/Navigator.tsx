@@ -145,9 +145,13 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen
-        name={Screens.DappKitAccountAuth}
+        name={Screens.DappKitAccountScreen}
         component={DappKitAccountScreen}
-        options={DappKitAccountScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen
         name={Screens.DappKitSignTxScreen}
