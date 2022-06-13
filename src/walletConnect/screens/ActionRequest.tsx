@@ -88,6 +88,7 @@ function ActionRequest({ pendingAction }: Props) {
       {moreInfoString && (
         <>
           <Touchable
+            testID="ShowTransactionDetailsButton"
             onPress={() => {
               setShowTransactionDetails((prev) => !prev)
             }}
@@ -98,7 +99,7 @@ function ActionRequest({ pendingAction }: Props) {
           </Touchable>
 
           {showTransactionDetails && (
-            <Text testID="Dapp-Data" style={styles.bodyText}>
+            <Text testID="DappData" style={styles.bodyText}>
               {moreInfoString}
             </Text>
           )}
