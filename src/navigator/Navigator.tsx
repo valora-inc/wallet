@@ -156,7 +156,11 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.DappKitSignTxScreen}
         component={DappKitSignTxScreen}
-        options={DappKitSignTxScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen
         name={Screens.DappKitTxDataScreen}
