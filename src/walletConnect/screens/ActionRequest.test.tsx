@@ -2,14 +2,45 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import { Screens } from 'src/navigator/Screens'
 import { SupportedActions } from 'src/walletConnect/constants'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { Actions } from 'src/walletConnect/v1/actions'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
+import { mockNavigation } from 'test/values'
 
 describe('ActionRequest', () => {
-  const store = createMockStore({})
+  const peerId = 'c49968fd-9607-4a43-ac66-703402400ffa'
+  const store = createMockStore({
+    walletConnect: {
+      v1: {
+        sessions: [
+          {
+            bridge: 'https://t.bridge.walletconnect.org',
+            clientMeta: {
+              url: 'https://valoraapp.com/',
+              name: 'Valora',
+              description: 'A mobile payments wallet that works worldwide',
+              icons: ['https://valoraapp.com//favicon.ico'],
+            },
+            peerId: 'c49968fd-9607-4a43-ac66-703402400ffa',
+            accounts: ['0x4ecadc898984191949aeedafe7248ebc2e276a71'],
+            chainId: 44787,
+            handshakeTopic: '70af5154-38fd-49a3-81b1-41386a0b065f',
+            connected: true,
+            clientId: 'd4c7cb51-5856-4233-afc2-7b70f697101e',
+            key: 'db6d54e8d53fc6fd64a1c15c1dd480449f07c2d435ad0c375cb58f7afab7e83c',
+            handshakeId: 1654504215867825,
+            peerMeta: {
+              url: 'https://celo-walletconnect.vercel.app',
+              icons: ['https://celo-walletconnect.vercel.app/favicon.ico'],
+              description: '',
+              name: 'WalletConnect Example',
+            },
+          },
+        ],
+      },
+    },
+  })
 
   afterEach(() => {
     store.clearActions()
@@ -25,37 +56,24 @@ describe('ActionRequest', () => {
         '0xe17becad62a0a1225473bb52e620ae29728b55a0',
       ],
     }
-    it('renders correctly', () => {
-      const { toJSON } = render(
+    it('renders the correct elements', () => {
+      const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest
-            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
-              dappName: 'foo',
-              dappIcon: 'foo',
-              dappUrl: 'foo',
-              action,
-              version: 1,
-              peerId: 'peerId',
-            })}
-          />
+          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
         </Provider>
       )
-      expect(toJSON()).toMatchSnapshot()
+
+      expect(getByText('connectToWallet, {"dappName":"WalletConnect Example"}')).toBeTruthy()
+      expect(getByText('action.asking:')).toBeTruthy()
+      expect(getByText('action.sign')).toBeTruthy()
+      expect(getByText('allow')).toBeTruthy()
+      expect(getByText('cancel')).toBeTruthy()
     })
 
     it('dispatches request details with correct string on clicking details', async () => {
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest
-            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
-              dappName: 'foo',
-              dappIcon: 'foo',
-              dappUrl: 'foo',
-              action,
-              version: 1,
-              peerId: 'peerId',
-            })}
-          />
+          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
@@ -63,7 +81,7 @@ describe('ActionRequest', () => {
         {
           type: Actions.SHOW_REQUEST_DETAILS_V1,
           request: action,
-          peerId: 'peerId',
+          peerId,
           infoString: 'Message to sign',
         },
       ])
@@ -73,16 +91,7 @@ describe('ActionRequest', () => {
       action.params[0] = 'invalid hex'
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest
-            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
-              dappName: 'foo',
-              dappIcon: 'foo',
-              dappUrl: 'foo',
-              action,
-              version: 1,
-              peerId: 'peerId',
-            })}
-          />
+          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
@@ -90,7 +99,7 @@ describe('ActionRequest', () => {
         {
           type: Actions.SHOW_REQUEST_DETAILS_V1,
           request: action,
-          peerId: 'peerId',
+          peerId,
           infoString: 'invalid hex',
         },
       ])
@@ -100,16 +109,7 @@ describe('ActionRequest', () => {
       action.params[0] = ''
       const { getByText } = render(
         <Provider store={store}>
-          <ActionRequest
-            {...getMockStackScreenProps(Screens.WalletConnectActionRequest, {
-              dappName: 'foo',
-              dappIcon: 'foo',
-              dappUrl: 'foo',
-              action,
-              version: 1,
-              peerId: 'peerId',
-            })}
-          />
+          <ActionRequest navigation={mockNavigation} pendingAction={{ action, peerId }} />
         </Provider>
       )
       await fireEvent.press(getByText('action.details'))
@@ -117,7 +117,7 @@ describe('ActionRequest', () => {
         {
           type: Actions.SHOW_REQUEST_DETAILS_V1,
           request: action,
-          peerId: 'peerId',
+          peerId,
           infoString: 'action.emptyMessage',
         },
       ])

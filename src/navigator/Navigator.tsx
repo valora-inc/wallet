@@ -116,11 +116,8 @@ import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
-import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
-import WalletConnectLoading from 'src/walletConnect/screens/Loading'
-import WalletConnectResult from 'src/walletConnect/screens/Result'
-import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
 const TAG = 'Navigator'
 
@@ -165,24 +162,9 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={DappKitTxDataScreen.navigationOptions}
       />
       <Navigator.Screen
-        name={Screens.WalletConnectLoading}
-        component={WalletConnectLoading}
-        options={WalletConnectLoading.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectResult}
-        component={WalletConnectResult}
-        options={WalletConnectResult.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectSessionRequest}
-        component={WalletConnectSessionRequestScreen}
-        options={WalletConnectSessionRequestScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectActionRequest}
-        component={WalletConnectActionRequestScreen}
-        options={WalletConnectActionRequestScreen.navigationOptions}
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={noHeader}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen

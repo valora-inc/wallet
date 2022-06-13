@@ -1,65 +1,57 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackNavigationProp } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import Logger from 'src/utils/Logger'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
-import {
-  acceptRequest as acceptRequestV1,
-  denyRequest as denyRequestV1,
-  showRequestDetails as showRequestDetailsV1,
-} from 'src/walletConnect/v1/actions'
+import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
+import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/v1/actions'
+import { PendingAction } from 'src/walletConnect/v1/reducer'
+import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
 
-type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
-
-function showRequestDetails(params: Props['route']['params'], infoString: string) {
-  return showRequestDetailsV1(params.peerId, params.action, infoString)
+type Props = {
+  navigation: StackNavigationProp<StackParamList, Screens.WalletConnectRequest>
+  pendingAction: PendingAction
 }
 
-function acceptRequest(params: Props['route']['params']) {
-  return acceptRequestV1(params.peerId, params.action)
-}
-
-function denyRequest(params: Props['route']['params']) {
-  return denyRequestV1(params.peerId, params.action, 'User denied')
-}
-
-function getRequestInfo(params: Props['route']['params']) {
+function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: WalletConnectSession) {
   return {
-    url: params.dappUrl,
-    name: params.dappName,
-    icon: params.dappIcon,
-    method: params.action.method,
-    params: params.action.params,
+    url: session.peerMeta!.url,
+    name: session.peerMeta!.name,
+    icon: session.peerMeta!.icons[0],
+    method: pendingAction.method,
+    params: pendingAction.params,
   }
 }
-function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
+function ActionRequest({ navigation, pendingAction }: Props) {
   const { t } = useTranslation()
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
+  const { action, peerId } = pendingAction
+  const activeSession = useSelector(selectSessionFromPeerId(peerId))
+
+  const isLoading = isAccepting || isDenying
+
   const onAccept = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptRequest(routeParams)))
+    setIsAccepting(true, () => dispatch(acceptRequest(peerId, action)))
   }
 
   const onDeny = () => {
     // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denyRequest(routeParams)))
+    setIsDenying(true, () => dispatch(denyRequest(peerId, action, 'User denied')))
   }
-
-  const isLoading = isAccepting || isDenying
 
   useEffect(
     () =>
@@ -70,10 +62,19 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
         e.preventDefault()
         onDeny()
       }),
-    [navigation, routeParams, isLoading]
+    [navigation, onDeny, isLoading]
   )
 
-  const { url, name, icon, method, params } = getRequestInfo(routeParams)
+  if (!activeSession) {
+    // should never happen
+    Logger.error(
+      'WalletConnectRequest/ActionRequest',
+      'No active WallectConnect session could be found'
+    )
+    return null
+  }
+
+  const { url, name, icon, method, params } = getRequestInfo(action, activeSession)
   const moreInfoString =
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
@@ -93,68 +94,61 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
     if (!moreInfoString) {
       return
     }
-
-    dispatch(showRequestDetails(routeParams, moreInfoString))
+    // TODO: remove this as a separate screen
+    dispatch(showRequestDetails(peerId, action, moreInfoString))
   }
 
   const uri = icon ?? `${url}/favicon.ico`
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri }} />
-        </View>
-        <Text style={styles.header}>{t('connectToWallet', { dappName: name })}</Text>
-        <Text style={styles.share}>{t('action.asking')}:</Text>
+    <>
+      <View style={styles.center}>
+        <Image style={styles.logo} source={{ uri }} />
+      </View>
+      <Text style={styles.header}>{t('connectToWallet', { dappName: name })}</Text>
+      <Text style={styles.share}>{t('action.asking')}:</Text>
 
-        <View style={styles.sectionDivider}>
-          <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
-          <Text style={styles.bodyText}>
-            {getTranslationFromAction(t, method as SupportedActions)}
-          </Text>
+      <View style={styles.sectionDivider}>
+        <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
+        <Text style={styles.bodyText}>
+          {getTranslationFromAction(t, method as SupportedActions)}
+        </Text>
 
-          {moreInfoString && (
-            <>
-              <Text style={styles.sectionHeaderText}>{t('action.data')}</Text>
-              <TouchableOpacity onPress={onMoreInfo}>
-                <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </View>
+        {moreInfoString && (
+          <>
+            <Text style={styles.sectionHeaderText}>{t('action.data')}</Text>
+            <TouchableOpacity onPress={onMoreInfo}>
+              <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
 
-        <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
-          <Button
-            style={styles.button}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-            text={t('cancel')}
-            showLoading={isDenying}
-            onPress={onDeny}
-            testID="WalletConnectActionCancel"
-          />
-          <Button
-            style={styles.button}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.MEDIUM}
-            text={t('allow')}
-            showLoading={isAccepting}
-            onPress={onAccept}
-            testID="WalletConnectActionAllow"
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
+        <Button
+          style={styles.button}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.MEDIUM}
+          text={t('cancel')}
+          showLoading={isDenying}
+          onPress={onDeny}
+          testID="WalletConnectActionCancel"
+        />
+        <Button
+          style={styles.button}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.MEDIUM}
+          text={t('allow')}
+          showLoading={isAccepting}
+          onPress={onAccept}
+          testID="WalletConnectActionAllow"
+        />
+      </View>
+    </>
   )
 }
 
-ActionRequest.navigationOptions = headerWithCloseButton
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   center: {
     alignItems: 'center',
   },
@@ -183,12 +177,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 24,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: '15%',
   },
   buttonContainer: {
     flexDirection: 'row',
