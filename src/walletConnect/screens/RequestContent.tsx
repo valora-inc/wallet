@@ -19,7 +19,7 @@ interface Props {
   title: string
   description: string
   testId: string
-  requestDetails?: RequestDetail[]
+  requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   children?: React.ReactNode
 }
 
@@ -79,9 +79,11 @@ function RequestContent({
 
       {requestDetails && (
         <View style={styles.detailsContainer}>
-          {requestDetails.map((requestDetail) => (
-            <RequestContentRow key={requestDetail.label} {...requestDetail} />
-          ))}
+          {requestDetails.map(({ label, value, tapToCopy }) =>
+            value ? (
+              <RequestContentRow key={label} label={label} value={value} tapToCopy={tapToCopy} />
+            ) : null
+          )}
         </View>
       )}
 

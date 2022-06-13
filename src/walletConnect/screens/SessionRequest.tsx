@@ -35,11 +35,11 @@ function SessionRequest({ pendingSession }: Props) {
       requestDetails={[
         {
           label: t('phoneNumber'),
-          value: phoneNumber || '',
+          value: phoneNumber,
         },
         {
           label: t('address'),
-          value: address || '',
+          value: address,
           tapToCopy: true,
         },
       ]}
