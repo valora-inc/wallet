@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -68,24 +69,26 @@ function RequestContent({
   return (
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
-      <View style={styles.logoContainer}>
-        <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
-        <Image style={styles.logo} source={{ uri: dappImageUrl }} />
-      </View>
-      <Text style={styles.header}>{title}</Text>
-      {description && <Text style={styles.description}>{description}</Text>}
-
-      {children}
-
-      {requestDetails && (
-        <View style={styles.detailsContainer}>
-          {requestDetails.map(({ label, value, tapToCopy }) =>
-            value ? (
-              <RequestContentRow key={label} label={label} value={value} tapToCopy={tapToCopy} />
-            ) : null
-          )}
+      <ScrollView>
+        <View style={styles.logoContainer}>
+          <ValoraDappIcon size={DAPP_IMAGE_SIZE} />
+          <Image style={styles.logo} source={{ uri: dappImageUrl }} />
         </View>
-      )}
+        <Text style={styles.header}>{title}</Text>
+        {description && <Text style={styles.description}>{description}</Text>}
+
+        {requestDetails && (
+          <View style={styles.detailsContainer}>
+            {requestDetails.map(({ label, value, tapToCopy }) =>
+              value ? (
+                <RequestContentRow key={label} label={label} value={value} tapToCopy={tapToCopy} />
+              ) : null
+            )}
+          </View>
+        )}
+
+        {children}
+      </ScrollView>
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
         <Button

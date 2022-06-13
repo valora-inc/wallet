@@ -1,16 +1,18 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import Expandable from 'src/components/Expandable'
+import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
-import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/v1/actions'
+import { acceptRequest, denyRequest } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
 import { selectSessionFromPeerId } from 'src/walletConnect/v1/selectors'
 
@@ -30,6 +32,7 @@ function getRequestInfo(pendingAction: WalletConnectPayloadRequest, session: Wal
 function ActionRequest({ pendingAction }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false)
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
@@ -59,15 +62,14 @@ function ActionRequest({ pendingAction }: Props) {
         t('action.emptyMessage')
       : null
 
-  const onMoreInfo = () => {
-    if (!moreInfoString) {
-      return
-    }
-    // TODO: remove this as a separate screen
-    dispatch(showRequestDetails(peerId, action, moreInfoString))
-  }
-
   const uri = icon ?? `${url}/favicon.ico`
+
+  const requestDetails = [
+    {
+      label: t('action.operation'),
+      value: getTranslationFromAction(t, method as SupportedActions),
+    },
+  ]
 
   return (
     <RequestContent
@@ -81,39 +83,36 @@ function ActionRequest({ pendingAction }: Props) {
       title={t('walletConnect.confirmTransaction.title', { dappName: name })}
       description={t('walletConnect.confirmTransaction.description', { dappName: name })}
       testId="WalletConnectAction"
+      requestDetails={requestDetails}
     >
-      <View style={styles.sectionDivider}>
-        <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
-        <Text style={styles.bodyText}>
-          {getTranslationFromAction(t, method as SupportedActions)}
-        </Text>
-
-        {moreInfoString && (
-          <>
-            <Text style={styles.sectionHeaderText}>{t('action.data')}</Text>
-            <TouchableOpacity onPress={onMoreInfo}>
+      {moreInfoString && (
+        <>
+          <Touchable
+            onPress={() => {
+              setShowTransactionDetails((prev) => !prev)
+            }}
+          >
+            <Expandable isExpandable isExpanded={showTransactionDetails}>
               <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
+            </Expandable>
+          </Touchable>
+
+          {showTransactionDetails && (
+            <Text testID="Dapp-Data" style={styles.bodyText}>
+              {moreInfoString}
+            </Text>
+          )}
+        </>
+      )}
     </RequestContent>
   )
 }
 
 const styles = StyleSheet.create({
-  sectionDivider: {
-    alignItems: 'center',
-  },
-  sectionHeaderText: {
-    ...fontStyles.label,
-    marginTop: 16,
-    marginBottom: 4,
-  },
   bodyText: {
-    ...fontStyles.regular,
+    ...fontStyles.small,
     color: colors.gray4,
-    textAlign: 'center',
+    marginBottom: Spacing.Smallest8,
   },
   underLine: {
     textDecorationLine: 'underline',

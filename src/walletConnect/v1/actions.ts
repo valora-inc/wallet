@@ -15,7 +15,6 @@ export enum Actions {
   DENY_SESSION_V1 = 'WALLETCONNECT/DENY_SESSION_V1',
   CLOSE_SESSION_V1 = 'WALLETCONNECT/CLOSE_SESSION_V1',
 
-  SHOW_REQUEST_DETAILS_V1 = 'WALLETCONNECT/SHOW_REQUEST_DETAILS_V1',
   ACCEPT_REQUEST_V1 = 'WALLETCONNECT/ACCEPT_REQUEST_V1',
   DENY_REQUEST_V1 = 'WALLETCONNECT/DENY_REQUEST_V1',
   REQUEST_HANDLED_V1 = 'WALLETCONNECT/REQUEST_HANDLED_V1',
@@ -56,12 +55,6 @@ export interface CloseSession {
 export interface StoreSession {
   type: Actions.STORE_SESSION_V1
   session: WalletConnectSession
-}
-export interface ShowRequestDetails {
-  type: Actions.SHOW_REQUEST_DETAILS_V1
-  request: WalletConnectPayloadRequest
-  peerId: string
-  infoString: string
 }
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST_V1
@@ -130,16 +123,6 @@ export const storeSession = (session: WalletConnectSession) => ({
   session,
 })
 
-export const showRequestDetails = (
-  peerId: string,
-  request: WalletConnectPayloadRequest,
-  infoString: string
-): ShowRequestDetails => ({
-  type: Actions.SHOW_REQUEST_DETAILS_V1,
-  request,
-  peerId,
-  infoString,
-})
 export const acceptRequest = (
   peerId: string,
   request: WalletConnectPayloadRequest
