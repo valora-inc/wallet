@@ -17,8 +17,8 @@ import {
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
-import config from 'src/geth/networkConfig'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
+import config from 'src/web3/networkConfig'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { TokenBalances } from 'src/tokens/reducer'

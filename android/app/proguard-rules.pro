@@ -20,7 +20,6 @@
 -keep class com.segment.analytics.** { *; }
 -keep class androidx.lifecycle.DefaultLifecycleObserver
 
--keep class org.ethereum.geth.** { *; }
 -keep class org.celo.mobile.BuildConfig { *; }
 -keep public class com.horcrux.svg.** {*;}
 -keep class com.rt2zz.reactnativecontacts.** {*;}

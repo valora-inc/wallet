@@ -22,8 +22,6 @@ import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { firebaseSaga } from 'src/firebase/saga'
-import { Actions as GethActions } from 'src/geth/actions'
-import { gethSaga } from 'src/geth/saga'
 import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { i18nSaga } from 'src/i18n/saga'
@@ -53,8 +51,6 @@ const loggerBlocklist = [
   REHYDRATE,
   AccountActions.SET_PHONE_NUMBER,
   ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
-  GethActions.SET_CHAIN_HEAD,
-  GethActions.SET_GETH_CONNECTED,
   ImportActions.IMPORT_BACKUP_PHRASE,
   setPhoneRecipientCache.toString(),
   updateValoraRecipientCache.toString(),
@@ -112,7 +108,6 @@ export function* rootSaga() {
     yield spawn(i18nSaga)
     yield spawn(sentrySaga)
     yield spawn(networkInfoSaga)
-    yield spawn(gethSaga)
     yield spawn(web3Saga)
     yield spawn(accountSaga)
     yield spawn(firebaseSaga)

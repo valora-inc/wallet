@@ -20,10 +20,10 @@ export function* checkAccountExistenceSaga() {
   if (!wallet) {
     return
   }
-  const gethAccounts: string[] = yield wallet.getAccounts()
+  const keychainAccounts: string[] = yield wallet.getAccounts()
   const walletAddress: string = yield select(walletAddressSelector)
-  if (!walletAddress && gethAccounts.length > 0) {
-    const account = gethAccounts[0]
+  if (!walletAddress && keychainAccounts.length > 0) {
+    const account = keychainAccounts[0]
     ValoraAnalytics.track(AppEvents.redux_keychain_mismatch, {
       account,
     })

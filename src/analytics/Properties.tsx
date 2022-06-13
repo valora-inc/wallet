@@ -12,12 +12,10 @@ import {
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
-  GethEvents,
   HomeEvents,
   IdentityEvents,
   InviteEvents,
   NavigationEvents,
-  NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
   RequestEvents,
@@ -153,9 +151,6 @@ interface SettingsEventsProperties {
   }
   [SettingsEvents.settings_verify_number]: undefined
   [SettingsEvents.pin_require_on_load]: {
-    enabled: boolean
-  }
-  [SettingsEvents.forno_toggle]: {
     enabled: boolean
   }
   [SettingsEvents.licenses_view]: undefined
@@ -995,69 +990,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
 }
 
-interface GethEventsProperties {
-  [GethEvents.blockchain_corruption]: undefined
-  [GethEvents.geth_init_success]: undefined
-  [GethEvents.geth_init_failure]: {
-    error: string
-    context: string
-  }
-  [GethEvents.geth_restart_to_fix_init]: undefined
-  [GethEvents.prompt_forno]: {
-    error?: string
-    context: string
-  }
-  [GethEvents.geth_init_start]: {
-    shouldStartNode: boolean
-  }
-  [GethEvents.create_geth_start]: undefined
-  [GethEvents.create_geth_finish]: undefined
-  [GethEvents.create_geth_error]: {
-    error: string
-  }
-  [GethEvents.start_geth_start]: undefined
-  [GethEvents.start_geth_finish]: undefined
-}
-
-interface NetworkEventsProperties {
-  [NetworkEvents.network_connected]: {
-    fornoMode: boolean
-  }
-  [NetworkEvents.network_disconnected]: {
-    fornoMode: boolean
-  }
-  [NetworkEvents.network_sync_lost]: {
-    latestBlock: number
-    latestTimestamp: number
-  }
-  [NetworkEvents.network_sync_restored]: {
-    latestBlock: number
-    latestTimestamp: number
-  }
-  [NetworkEvents.network_sync_waiting]: {
-    latestBlock?: number
-  }
-  [NetworkEvents.network_sync_start]: {
-    startingBlock: number
-    currentBlock: number
-    highestBlock: number
-  }
-  [NetworkEvents.network_sync_finish]: {
-    latestBlock: number
-  }
-  [NetworkEvents.network_sync_error]: {
-    error: string
-  }
-}
-
 interface ContractKitEventsProperties {
   [ContractKitEvents.init_contractkit_start]: undefined
-  [ContractKitEvents.init_contractkit_geth_init_start]: {
-    retries: number
-  }
-  [ContractKitEvents.init_contractkit_geth_init_finish]: undefined
-  [ContractKitEvents.init_contractkit_get_ipc_start]: undefined
-  [ContractKitEvents.init_contractkit_get_ipc_finish]: undefined
   [ContractKitEvents.init_contractkit_get_wallet_start]: undefined
   [ContractKitEvents.init_contractkit_get_wallet_finish]: undefined
   [ContractKitEvents.init_contractkit_init_wallet_finish]: undefined
@@ -1272,8 +1206,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   TransactionEventsProperties &
   CeloExchangeEventsProperties &
   FiatExchangeEventsProperties &
-  GethEventsProperties &
-  NetworkEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
