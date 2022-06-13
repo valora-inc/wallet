@@ -293,7 +293,7 @@ export default function ConsumerIncentivesHomeScreen() {
               ? t('cashIn', { currency: tokenToSupercharge.token })
               : t('connectNumber')
           }
-          icon={canClaimRewards && <Logo style={styles.logo} height={24} type={LogoTypes.LIGHT} />}
+          icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
           showLoading={showLoadingIndicator || claimRewardsLoading}
           disabled={showLoadingIndicator || claimRewardsLoading}
           onPress={onPressCTA}
@@ -371,9 +371,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderTopColor: colors.gray2,
     borderTopWidth: 1,
-  },
-  logo: {
-    position: 'absolute',
-    left: 36,
   },
 })
