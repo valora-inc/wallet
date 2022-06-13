@@ -113,7 +113,6 @@ export default WalletConnect = () => {
     // View and assert on Data - TODO Move to Component Tests
     await element(by.id('ShowTransactionDetailsButton')).tap()
     await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
-    await element(by.id('BackChevron')).tap()
 
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()
