@@ -19,7 +19,12 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
+      ]}
+    >
       {params.type === WalletConnectRequestType.Loading && (
         <>
           <ActivityIndicator size="small" color={colors.greenBrand} />
