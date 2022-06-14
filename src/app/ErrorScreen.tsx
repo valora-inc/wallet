@@ -7,7 +7,7 @@ import { withTranslation } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
-import { deleteChainDataAndRestartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
+import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
 
 interface OwnProps {
   errorMessage?: string
@@ -29,7 +29,7 @@ class ErrorScreen extends React.Component<Props> {
     return (
       <FullscreenCTA
         CTAText={t(RESTART_APP_I18N_KEY)}
-        CTAHandler={deleteChainDataAndRestartApp}
+        CTAHandler={restartApp}
         title={t('oops')}
         subtitle={t('somethingWrong')}
       >

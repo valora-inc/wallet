@@ -4,23 +4,19 @@ import { StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
-import { isAppConnected, isAppSynced } from 'src/redux/selectors'
+import { isAppConnected } from 'src/redux/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface StateProps {
-  fornoEnabled: boolean
   appConnected: boolean
-  appSynced: boolean
 }
 
 type Props = StateProps & WithTranslation
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
-    fornoEnabled: state.web3.fornoMode,
     appConnected: isAppConnected(state),
-    appSynced: isAppSynced(state),
   }
 }
 
@@ -28,28 +24,18 @@ class DisconnectBanner extends React.PureComponent<Props> {
   // This component is used in many screens but needs to remember when the app  been conneted.
   // This flag tracks that. Could move to redux but no need yet as it's the only consumer
   static hasAppConnected = false
-  static hasAppSynced = false
 
   componentDidUpdate() {
     if (this.props.appConnected && !DisconnectBanner.hasAppConnected) {
       DisconnectBanner.hasAppConnected = true
     }
-    if (this.props.appSynced && !DisconnectBanner.hasAppSynced) {
-      DisconnectBanner.hasAppSynced = true
-    }
   }
 
   render() {
-    const { t, appConnected, appSynced, fornoEnabled } = this.props
-    const appSyncedIfNecessary = appSynced || fornoEnabled
+    const { t, appConnected } = this.props
 
     // App's connected: show nothing
-    if (appConnected && appSyncedIfNecessary) {
-      return null
-    }
-
-    // App's connected, was synced, and now resyncing to new blocks: show nothing
-    if (appConnected && !appSyncedIfNecessary && DisconnectBanner.hasAppSynced) {
+    if (appConnected) {
       return null
     }
 

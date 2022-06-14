@@ -42,7 +42,7 @@ import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 
 const TAG = 'import/saga'
 
@@ -51,7 +51,6 @@ export const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
 
 export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
-  yield call(waitWeb3LastBlock)
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
     const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
