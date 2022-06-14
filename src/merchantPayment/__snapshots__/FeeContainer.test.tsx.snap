@@ -120,6 +120,7 @@ exports[`FeeContainer renders correctly 1`] = `
                   undefined,
                 ]
               }
+              testID="LineItemRowTitle/undefined"
             >
               
             </Text>
@@ -197,6 +198,7 @@ exports[`FeeContainer renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         total
       </Text>
@@ -270,6 +272,7 @@ exports[`FeeContainer renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         <Text
           style={

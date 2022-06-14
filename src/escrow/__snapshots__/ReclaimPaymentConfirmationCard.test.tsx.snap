@@ -179,6 +179,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             undefined,
           ]
         }
+        testID="LineItemRowTitle/ReclaimAmount"
       >
         amount
       </Text>
@@ -238,6 +239,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             undefined,
           ]
         }
+        testID="LineItemRowTitle/SecurityFee"
       >
         securityFee
       </Text>
@@ -575,6 +577,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         totalRefunded
       </Text>
@@ -648,6 +651,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         <Text
           style={

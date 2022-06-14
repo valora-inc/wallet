@@ -552,6 +552,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                 },
               ]
             }
+            testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
             <Text
@@ -588,7 +589,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
               },
             ]
           }
-          testID="LineItemRow/undefined"
+          testID="LineItemRow/subtotal"
         >
           <Text>
             
@@ -1260,6 +1261,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                 },
               ]
             }
+            testID="LineItemRowTitle/subtotal"
           >
             celoDollar @ 
             <Text
@@ -1296,7 +1298,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
               },
             ]
           }
-          testID="LineItemRow/undefined"
+          testID="LineItemRow/subtotal"
         >
           <Text>
             

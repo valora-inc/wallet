@@ -230,6 +230,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -303,6 +304,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <Text
               style={
