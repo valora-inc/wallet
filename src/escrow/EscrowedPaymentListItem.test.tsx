@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, flushMicrotasksQueue, getElementText } from 'test/utils'
 import { mockCeurAddress, mockEscrowedPayment } from 'test/values'
 

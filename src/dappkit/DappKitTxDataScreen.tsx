@@ -24,7 +24,7 @@ class DappKitTxDataScreen extends React.Component<Props> {
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Text style={styles.header}>{t('data')}</Text>
-          <Text testID="Dapp-Data" style={styles.bodyText}>
+          <Text testID="DappData" style={styles.bodyText}>
             {dappKitData}
           </Text>
         </ScrollView>

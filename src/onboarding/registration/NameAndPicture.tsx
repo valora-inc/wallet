@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { setName, setPicture, setPromptForno } from 'src/account/actions'
+import { setName, setPicture } from 'src/account/actions'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -78,7 +78,6 @@ function NameAndPicture({ navigation }: Props) {
       return
     }
 
-    dispatch(setPromptForno(true)) // Allow forno prompt after Welcome screen
     ValoraAnalytics.track(OnboardingEvents.name_and_picture_set, {
       includesPhoto: false,
       profilePictureSkipped: shouldSkipProfilePicture,

@@ -35,7 +35,7 @@ export class KeychainWallet extends RemoteWallet<KeychainSigner> implements Unlo
     const normalizedPrivateKey = normalizeAddressWith0x(privateKey)
     const address = normalizeAddressWith0x(privateKeyToAddress(normalizedPrivateKey))
     if (this.hasAccount(address)) {
-      throw new Error(ErrorMessages.GETH_ACCOUNT_ALREADY_EXISTS)
+      throw new Error(ErrorMessages.KEYCHAIN_ACCOUNT_ALREADY_EXISTS)
     }
     const signer = new KeychainSigner({ address, createdAt: new Date() })
     await signer.init(normalizedPrivateKey, passphrase)

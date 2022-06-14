@@ -1,5 +1,5 @@
 import { FinclusiveKycStatus } from 'src/account/reducer'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 
 interface RequiredParams {
   walletAddress: string

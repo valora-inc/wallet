@@ -17,7 +17,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
   fetchTokenBalances,
@@ -33,6 +32,7 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -70,7 +70,7 @@ export function* convertToContractDecimals(value: BigNumber, token: Currency) {
 
 export async function getTokenContract(token: Currency) {
   Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   switch (token) {
     case Currency.Celo:
       return contractKit.contracts.getGoldToken()
@@ -85,7 +85,7 @@ export async function getTokenContract(token: Currency) {
 
 export async function getTokenContractFromAddress(tokenAddress: string) {
   Logger.debug(TAG + '@getTokenContract', `Fetching contract for address ${tokenAddress}`)
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   const contracts = await Promise.all([
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
@@ -98,7 +98,7 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
 // addresses in the redux store. We will have to do this while working on multi-token support, so that
 // is a good moment to clean this up.
 export async function getStableCurrencyFromAddress(tokenAddress: string): Promise<Currency | null> {
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   const [celoContract, cUsdContract, cEurContract] = await Promise.all([
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
@@ -255,7 +255,7 @@ export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) 
 }
 
 export async function getCurrencyAddress(currency: Currency) {
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   switch (currency) {
     case Currency.Celo:
       return contractKit.registry.addressFor(CeloContract.GoldToken)
@@ -267,13 +267,13 @@ export async function getCurrencyAddress(currency: Currency) {
 }
 
 export async function getERC20TokenContract(tokenAddress: string) {
-  const kit = await getContractKitAsync(false)
+  const kit = await getContractKitAsync()
   //@ts-ignore
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
 export async function getStableTokenContract(tokenAddress: string) {
-  const kit = await getContractKitAsync(false)
+  const kit = await getContractKitAsync()
   //@ts-ignore
   return new kit.web3.eth.Contract(stableToken.abi, tokenAddress)
 }

@@ -38,7 +38,7 @@ function FiatExchange() {
     const [account] = wallet.getAccounts()
     const fiatConnectClient = new FiatConnectClient(
       {
-        baseUrl: 'localhost:8080',
+        baseUrl: 'https://c303-72-70-49-136.ngrok.io',
         providerName: 'test',
         iconUrl: 'N/A',
         network: Network.Alfajores,

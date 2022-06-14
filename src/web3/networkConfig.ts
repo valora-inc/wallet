@@ -1,16 +1,7 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
-import {
-  BIDALI_URL,
-  DEFAULT_SYNC_MODE,
-  DEFAULT_TESTNET,
-  FORNO_ENABLED_INITIALLY,
-  GETH_USE_FULL_NODE_DISCOVERY,
-  GETH_USE_STATIC_NODES,
-  RECAPTCHA_SITE_KEY,
-} from 'src/config'
-import { GethSyncMode } from 'src/geth/consts'
+import { BIDALI_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 export enum Testnets {
@@ -20,14 +11,9 @@ export enum Testnets {
 
 interface NetworkConfig {
   networkId: string
-  nodeDir: string
-  syncMode: GethSyncMode
-  initiallyForno: boolean
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
-  useDiscovery: boolean
-  useStaticNodes: boolean
   komenciUrl: string
   cloudFunctionsUrl: string
   allowedMtwImplementations: string[]
@@ -38,6 +24,7 @@ interface NetworkConfig {
   CIP8MetadataUrl: string
   providerFetchUrl: string
   getFiatConnectProvidersUrl: string
+  getFiatConnectQuotesUrl: string
   simplexApiUrl: string
   fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
@@ -80,6 +67,9 @@ const PROVIDER_FETCH_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchProviders`
 const GET_FIAT_CONNECT_PROVIDERS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getFiatConnectProviders`
 const GET_FIAT_CONNECT_PROVIDERS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getFiatConnectProviders`
 
+const GET_FIAT_CONNECT_QUOTES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getQuotes`
+const GET_FIAT_CONNECT_QUOTES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getQuotes`
+
 const SIMPLEX_API_URL_STAGING = `${CLOUD_FUNCTIONS_STAGING}/processSimplexRequest`
 const SIMPLEX_API_URL_PROD = `${CLOUD_FUNCTIONS_MAINNET}/processSimplexRequest`
 
@@ -95,15 +85,10 @@ const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegis
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
-    nodeDir: `.${Testnets.alfajores}`,
-    syncMode: DEFAULT_SYNC_MODE,
-    initiallyForno: FORNO_ENABLED_INITIALLY,
     // blockchainApiUrl: 'http://127.0.0.1:8080',
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
-    useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
-    useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
@@ -114,6 +99,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_ALFAJORES,
+    getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
@@ -125,14 +111,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
   [Testnets.mainnet]: {
     networkId: '42220',
-    nodeDir: `.${Testnets.mainnet}`,
-    syncMode: DEFAULT_SYNC_MODE,
-    initiallyForno: FORNO_ENABLED_INITIALLY,
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
-    useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
-    useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
     cloudFunctionsUrl: CLOUD_FUNCTIONS_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
@@ -143,6 +124,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     getFiatConnectProvidersUrl: GET_FIAT_CONNECT_PROVIDERS_MAINNET,
+    getFiatConnectQuotesUrl: GET_FIAT_CONNECT_QUOTES_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,

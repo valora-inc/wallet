@@ -1,16 +1,14 @@
 import { StableToken } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga/effects'
 import { TokenTransactionType } from 'src/apollo/types'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { fetchStableBalances, setBalance, transferStableToken } from 'src/stableToken/actions'
 import { stableTokenTransfer, watchFetchStableBalances } from 'src/stableToken/saga'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
-import { waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 
@@ -59,7 +57,6 @@ describe('stableToken saga', () => {
       new BigNumber(CEUR_BALANCE).multipliedBy(WEI_PER_TOKEN)
     )
     await expectSaga(watchFetchStableBalances)
-      .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(fetchStableBalances())
       .put(setBalance({ [Currency.Dollar]: CUSD_BALANCE, [Currency.Euro]: CEUR_BALANCE }))
@@ -69,7 +66,6 @@ describe('stableToken saga', () => {
   it('should not update the balance if it is too large', async () => {
     await mockStableBalance(StableToken.cUSD, new BigNumber(10000001))
     await expectSaga(watchFetchStableBalances)
-      .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(fetchStableBalances())
       .run()
@@ -77,7 +73,6 @@ describe('stableToken saga', () => {
 
   it('should add a standby transaction and dispatch a sendAndMonitorTransaction', async () => {
     await expectSaga(stableTokenTransfer)
-      .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(TRANSFER_ACTION)
       .put(
@@ -97,7 +92,6 @@ describe('stableToken saga', () => {
 
   it('should add a standby transaction', async () => {
     await expectSaga(stableTokenTransfer)
-      .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(TRANSFER_ACTION)
       .put(
@@ -119,7 +113,6 @@ describe('stableToken saga', () => {
     unlockAccount.mockImplementationOnce(async () => false)
 
     await expectSaga(stableTokenTransfer)
-      .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(TRANSFER_ACTION)
       .put(removeStandbyTransaction(TX_ID))

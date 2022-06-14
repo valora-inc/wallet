@@ -1,14 +1,33 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import { addNewFiatAccount, getFiatConnectProviders, loginWithFiatConnectProvider } from './index'
+
+jest.mock('src/pincode/authentication')
+
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
+import {
+  mockAccount,
+  mockFiatConnectProviderInfo,
+  mockFiatConnectQuotes,
+  mockGetFiatConnectQuotesResponse,
+} from 'test/values'
+import {
+  addNewFiatAccount,
+  fetchFiatConnectQuotes,
+  FetchQuotesInput,
+  FiatConnectProviderInfo,
+  getFiatConnectProviders,
+  getFiatConnectQuotes,
+  QuotesInput,
+  loginWithFiatConnectProvider,
+} from './index'
 import { FiatConnectClient, FiatConnectClientConfig } from '@fiatconnect/fiatconnect-sdk'
 import { Network } from '@fiatconnect/fiatconnect-types'
-import Logger from '../utils/Logger'
 import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
 import { mocked } from 'ts-jest/utils'
 import { getPassword } from 'src/pincode/authentication'
-
-jest.mock('src/pincode/authentication')
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -50,22 +69,74 @@ describe('FiatConnect helpers', () => {
   })
   describe('getFiatConnectProviders', () => {
     it('Gives list of providers on success', async () => {
-      const fakeProviderInfo: FiatConnectClientConfig = {
+      const fakeProviderInfo: FiatConnectProviderInfo = {
+        id: 'fake-provider',
         baseUrl: 'https://fake-provider.valoraapp.com',
         providerName: 'fake provider name',
-        iconUrl: 'https://fake-icon.valoraapp.com',
-        network: Network.Alfajores,
-        accountAddress: 'fake-address',
+        imageUrl: 'https://fake-icon.valoraapp.com',
       }
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [fakeProviderInfo] }), { status: 200 })
-      const providers = await getFiatConnectProviders()
+      const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toMatchObject([fakeProviderInfo])
     })
     it('Gives empty list and logs error on failure', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
-      const providers = await getFiatConnectProviders()
+      const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toEqual([])
       expect(Logger.error).toHaveBeenCalled()
+    })
+  })
+
+  describe('fetchFiatConnectQuotes', () => {
+    const fetchQuotesInput: FetchQuotesInput = {
+      fiatConnectCashInEnabled: false,
+      fiatConnectCashOutEnabled: false,
+      account: mockAccount,
+      flow: CICOFlow.CashIn,
+      localCurrency: LocalCurrencyCode.USD,
+      digitalAsset: CiCoCurrency.CUSD,
+      cryptoAmount: 100,
+      country: 'US',
+    }
+    it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
+      const quotes = await fetchFiatConnectQuotes(fetchQuotesInput)
+      expect(quotes).toHaveLength(0)
+    })
+    it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
+      const quotes = await fetchFiatConnectQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
+      expect(quotes).toHaveLength(0)
+    })
+  })
+
+  describe('getFiatConnectQuotes', () => {
+    const getQuotesInput: QuotesInput = {
+      flow: CICOFlow.CashIn,
+      localCurrency: LocalCurrencyCode.USD,
+      digitalAsset: CiCoCurrency.CUSD,
+      cryptoAmount: 100,
+      country: 'US',
+      fiatConnectProviders: mockFiatConnectProviderInfo,
+    }
+    it('returns an empty array if fiatType is not supported', async () => {
+      const quotes = await getFiatConnectQuotes({
+        ...getQuotesInput,
+        localCurrency: LocalCurrencyCode.CAD,
+      })
+      expect(quotes).toHaveLength(0)
+    })
+    it('returns an empty array if fetch fails', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: [] }), { status: 500 })
+      const quotes = await getFiatConnectQuotes(getQuotesInput)
+      expect(quotes).toEqual([])
+      expect(Logger.error).toHaveBeenCalled()
+    })
+    it('returns quotes', async () => {
+      mockFetch.mockResponseOnce(JSON.stringify({ quotes: mockGetFiatConnectQuotesResponse }), {
+        status: 200,
+      })
+      const quotes = await getFiatConnectQuotes(getQuotesInput)
+      expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
+      expect(Logger.error).not.toHaveBeenCalled()
     })
   })
 

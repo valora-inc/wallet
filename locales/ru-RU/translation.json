@@ -1249,15 +1249,17 @@
     "paymentMethod": "Способ оплаты",
     "transactionDetails": "Детали транзакции",
     "paymentMethodVia": "связь через {{providerName}}.",
+    "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
       "transactionDetailsAmount": "Общая цена"
     },
     "cashOut": {
-      "header": "Проверить - Вывод средства",
+      "header": "Проверить",
       "button": "Вывод средства",
-      "transactionDetailsAmount": "Сумма снятия"
+      "transactionDetailsAmount": "Всего выведено",
+      "transactionDetailsAmountConverted": "Сумма выведено"
     }
   },
   "fiatExchangeFlow": {

@@ -9,10 +9,16 @@ import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  fiatConnectCashInEnabledSelector,
+  fiatConnectCashOutEnabledSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
+import { fetchFiatConnectQuotes } from 'src/fiatconnect'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
+import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -29,14 +35,11 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
-  CicoQuote,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
-  getQuotes,
   LegacyMobileMoneyProvider,
   PaymentMethod,
-  sortQuotesByFee,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -48,6 +51,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const fiatConnectCashInEnabled = useSelector(fiatConnectCashInEnabledSelector)
+  const fiatConnectCashOutEnabled = useSelector(fiatConnectCashOutEnabledSelector)
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
 
@@ -63,16 +68,33 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       return
     }
     try {
-      const providers = await fetchProviders({
-        userLocation,
-        walletAddress: account,
-        fiatCurrency: localCurrency,
-        digitalAsset,
-        fiatAmount: route.params.amount.fiat,
-        digitalAssetAmount: route.params.amount.crypto,
-        txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-      })
-      const rawLegacyMobileMoneyProviders = await fetchLegacyMobileMoneyProviders()
+      const [
+        fiatConnectQuotes,
+        externalProviders,
+        rawLegacyMobileMoneyProviders,
+      ] = await Promise.all([
+        fetchFiatConnectQuotes({
+          account,
+          localCurrency,
+          digitalAsset,
+          cryptoAmount: route.params.amount.crypto,
+          country: userLocation?.countryCodeAlpha2 || 'US',
+          flow,
+          fiatConnectCashInEnabled,
+          fiatConnectCashOutEnabled,
+        }),
+        fetchProviders({
+          userLocation,
+          walletAddress: account,
+          fiatCurrency: localCurrency,
+          digitalAsset,
+          fiatAmount: route.params.amount.fiat,
+          digitalAssetAmount: route.params.amount.crypto,
+          txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
+        }),
+        fetchLegacyMobileMoneyProviders(),
+      ])
+
       const legacyMobileMoneyProviders = filterLegacyMobileMoneyProviders(
         rawLegacyMobileMoneyProviders,
         flow,
@@ -80,7 +102,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset
       )
 
-      return { providers, legacyMobileMoneyProviders }
+      return { externalProviders, legacyMobileMoneyProviders, fiatConnectQuotes }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
@@ -93,22 +115,22 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       </View>
     )
   }
-  const activeProviders = asyncProviders.result?.providers
+  const normalizedQuotes = normalizeQuotes(
+    flow,
+    asyncProviders.result?.fiatConnectQuotes,
+    asyncProviders.result?.externalProviders
+  )
 
-  const cicoQuotes: CicoQuote[] =
-    getQuotes(activeProviders)
-      ?.filter(({ quote }) => (flow === CICOFlow.CashIn ? quote.cashIn : quote.cashOut))
-      .sort(sortQuotesByFee) || []
   return (
     <ScrollView>
       <PaymentMethodSection
-        cicoQuotes={cicoQuotes}
+        normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Card}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
       />
       <PaymentMethodSection
-        cicoQuotes={cicoQuotes}
+        normalizedQuotes={normalizedQuotes}
         paymentMethod={PaymentMethod.Bank}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}

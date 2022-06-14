@@ -629,4 +629,17 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
     },
   }),
+  52: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+      fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+    },
+  }),
+  53: (state: any) => ({
+    ...(_.omit(state, 'geth') as any),
+    account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+    web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
+  }),
 }

@@ -1245,15 +1245,17 @@
     "paymentMethod": "Metodo di pagamento",
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegati via {{providerName}}",
+    "receiveAmount": "Riceverai",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
       "transactionDetailsAmount": "Prezzo totale"
     },
     "cashOut": {
-      "header": "Rivedi - Preleva fondi",
+      "header": "Rivedi",
       "button": "Preleva fondi",
-      "transactionDetailsAmount": "Importo del prelievo"
+      "transactionDetailsAmount": "Prelievo totale",
+      "transactionDetailsAmountConverted": "Importo prelevato"
     }
   },
   "fiatExchangeFlow": {

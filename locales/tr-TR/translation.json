@@ -1245,15 +1245,17 @@
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
+    "receiveAmount": "Alacağınız",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
       "transactionDetailsAmount": "Toplam fiyat"
     },
     "cashOut": {
-      "header": "Gözden Geçir - Bakiye Çek",
+      "header": "Gözden Geçir",
       "button": "Bakiye Çek",
-      "transactionDetailsAmount": "Para çekme tutar"
+      "transactionDetailsAmount": "Çekilen Toplam Tutar",
+      "transactionDetailsAmountConverted": "Çekilen Tutar"
     }
   },
   "fiatExchangeFlow": {

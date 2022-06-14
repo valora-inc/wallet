@@ -1249,15 +1249,17 @@
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі операції",
     "paymentMethodVia": "Пов'язані через {{providerName}}",
+    "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
       "transactionDetailsAmount": "Сума"
     },
     "cashOut": {
-      "header": "Перегляд - Вивести кошти",
+      "header": "Перегляд",
       "button": "Вивести кошти",
-      "transactionDetailsAmount": "Сума виведення"
+      "transactionDetailsAmount": "Всього Зняття",
+      "transactionDetailsAmountConverted": "Знята сума"
     }
   },
   "fiatExchangeFlow": {
