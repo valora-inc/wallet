@@ -2290,11 +2290,6 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.5.2.tgz#168ab5e4e30b374079d8d139fafc52ca6bfd4100"
   integrity sha512-KGf6Dl9E6D01vAfkgkjL2sG+zqAjspAogILIpWstljWdG5ifyA75jihrnDEHaMCoQS0KxHvTdP1XYS/GS6BEyQ==
 
-"@celo/client@0.0.355":
-  version "0.0.355"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.355.tgz#a3ef723c94e94cef3a8a4a98cebe7ee5ce123475"
-  integrity sha512-ibdhIHi8t5+mbAUheuBW4GkFXHYxDfsorDe4MyeLa2TADor173jpV23e4Ie9N1lI6/H83azK9EHeTnxDyvItLA==
-
 "@celo/connect@1.2.0", "@celo/connect@^1.2.0", "@celo/connect@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@celo/connect/-/connect-1.2.0.tgz#d68edf89b0d590547f7218d219d8ca566adf3e91"
@@ -7124,7 +7119,7 @@ buffer@^4.3.0, buffer@^4.9.1:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.0.0, buffer@^5.0.5, buffer@^5.0.6, buffer@^5.0.8, buffer@^5.4.3, buffer@^5.5.0, buffer@^5.6.0:
+buffer@^5.0.5, buffer@^5.0.6, buffer@^5.0.8, buffer@^5.4.3, buffer@^5.5.0, buffer@^5.6.0:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
   integrity sha512-/gDYp/UtU0eA1ys8bOs9J6a+E/KWIY+DZ+Q2WESNUA0jFRsJOc0SNUO6xJ5SGA1xueg3NL65W6s+NY5l9cunuw==
@@ -15593,7 +15588,7 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-process@^0.11.0, process@^0.11.10, process@^0.11.9:
+process@^0.11.0, process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
@@ -16089,10 +16084,6 @@ react-native-gesture-handler@^1.9.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-"react-native-geth@https://github.com/celo-org/react-native-geth#121202b":
-  version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-geth#121202b2b7b2470291a31310401bb9b2037fdb78"
-
 "react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
   version "1.0.0"
   resolved "https://github.com/celo-org/react-native-google-safetynet#8a0355f38123182533b7fc559951a82af59f68a9"
@@ -16324,17 +16315,6 @@ react-native-tab-view@^2.16.0:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.16.0.tgz#cae72c7084394bd328fac5fefb86cd966df37a86"
   integrity sha512-ac2DmT7+l13wzIFqtbfXn4wwfgtPoKzWjjZyrK1t+T8sdemuUvD4zIt+UImg03fu3s3VD8Wh/fBrIdcqQyZJWg==
-
-"react-native-tcp@https://github.com/celo-org/react-native-tcp#44502be":
-  version "3.3.0"
-  resolved "https://github.com/celo-org/react-native-tcp#44502be087fc628481e045f20b91c95fc1c3373b"
-  dependencies:
-    base64-js "0.0.8"
-    buffer "^5.0.0"
-    events "^1.0.2"
-    ip-regex "^1.0.3"
-    process "^0.11.9"
-    util "^0.10.3"
 
 "react-native-udp@git+https://github.com/celo-org/react-native-udp#7cbf51f":
   version "2.6.1"

@@ -1288,6 +1288,22 @@ export const v52Schema = {
   },
 }
 
+export const v53Schema = {
+  ..._.omit(v52Schema, 'geth'),
+  _persist: {
+    ...v52Schema._persist,
+    version: 53,
+  },
+  account: _.omit(v52Schema.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+  web3: _.omit(
+    v52Schema.web3,
+    'syncProgress',
+    'latestBlockNumber',
+    'fornoMode',
+    'hadFornoDisabled'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v52Schema as Partial<RootState>
+  return v53Schema as Partial<RootState>
 }

@@ -8,7 +8,7 @@ import {
   getFinclusiveComplianceStatus,
 } from 'src/in-house-liquidity'
 import { FetchMock } from 'jest-fetch-mock/types'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { mockE164Number, mockAccount } from 'test/values'
 
 const MOCK_USER = {

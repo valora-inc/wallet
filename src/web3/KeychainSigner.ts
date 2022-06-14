@@ -138,7 +138,7 @@ export async function listStoredAccounts(importMnemonicAccount?: ImportMnemonicA
     }
   } catch (e) {
     Logger.error(`${TAG}@listStoredAccounts`, 'Error listing accounts', e)
-    throw new Error(ErrorMessages.GETH_FETCH_ACCOUNTS)
+    throw new Error(ErrorMessages.KEYCHAIN_FETCH_ACCOUNTS)
   }
   return accounts
 }

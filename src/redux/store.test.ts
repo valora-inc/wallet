@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 52,
+          "version": 53,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -126,9 +126,7 @@ describe('store state', () => {
           "pictureUri": null,
           "pincodeType": "Unset",
           "profileUploaded": false,
-          "promptFornoIfNeeded": false,
           "recoveringFromStoreWipe": false,
-          "retryVerificationWithForno": true,
         },
         "alert": null,
         "app": Object {
@@ -212,12 +210,6 @@ describe('store state', () => {
         "fiatExchanges": Object {
           "providerLogos": Object {},
           "txHashToProvider": Object {},
-        },
-        "geth": Object {
-          "chainHead": null,
-          "connected": true,
-          "gethStartedThisSession": false,
-          "initialized": "INITIALIZED",
         },
         "goldToken": Object {
           "balance": null,
@@ -375,16 +367,8 @@ describe('store state', () => {
           "account": "0x0000000000000000000000000000000000007E57",
           "accountInWeb3Keystore": "0x0000000000000000000000000000000000007E57",
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
-          "fornoMode": true,
-          "hadFornoDisabled": true,
           "isDekRegistered": false,
-          "latestBlockNumber": 0,
           "mtwAddress": null,
-          "syncProgress": Object {
-            "currentBlock": 0,
-            "highestBlock": 0,
-            "startingBlock": 0,
-          },
         },
       }
     `)

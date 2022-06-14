@@ -13,7 +13,7 @@ import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 // Use targetted import otherwise the RN FormData gets used which doesn't support Buffer related functionality
 import FormData from 'form-data/lib/form_data'
 import * as t from 'io-ts'
-import config from 'src/geth/networkConfig'
+import config from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'UploadServiceDataWrapper'

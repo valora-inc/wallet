@@ -1,5 +1,5 @@
 import { useAsync } from 'react-async-hook'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'verify/hooks'
