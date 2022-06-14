@@ -85,7 +85,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Verify WC page
-    await waitFor(element(by.id('SessionRequestHeader')))
+    await waitFor(element(by.id('WalletConnectSessionRequestHeader')))
       .toBeVisible()
       .withTimeout(30 * 1000)
 
@@ -111,9 +111,8 @@ export default WalletConnect = () => {
       .withTimeout(15 * 1000)
 
     // View and assert on Data - TODO Move to Component Tests
-    await element(by.text('Show details')).tap()
-    await expect(element(by.id('Dapp-Data'))).toHaveText(`[${JSON.stringify(tx)}]`)
-    await element(by.id('BackChevron')).tap()
+    await element(by.id('ShowTransactionDetailsButton')).tap()
+    await expect(element(by.id('DappData'))).toHaveText(`[${JSON.stringify(tx)}]`)
 
     // Accept and verify UI behavior
     await element(by.text('Allow')).tap()

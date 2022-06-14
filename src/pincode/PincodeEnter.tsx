@@ -90,8 +90,8 @@ export const PincodeEnter = ({ route }: Props) => {
   )
 }
 
-PincodeEnter.navigationOptions = (navOptions: Props) => ({
-  ...modalScreenOptions(navOptions),
+PincodeEnter.navigationOptions = () => ({
+  ...modalScreenOptions(),
   ...headerWithBackButton,
   gestureEnabled: false,
 })
