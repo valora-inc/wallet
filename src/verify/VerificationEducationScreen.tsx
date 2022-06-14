@@ -384,6 +384,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       <Modal
         isVisible={currentState.type === StateType.EnsuringRealHumanUser}
         style={styles.recaptchaModal}
+        useNativeDriverForBackdrop={true}
+        useNativeDriver={true}
+        backdropTransitionOutTiming={0}
       >
         <TopBarTextButton
           onPress={cancelCaptcha}
