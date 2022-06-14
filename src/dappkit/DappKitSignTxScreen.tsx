@@ -70,7 +70,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappImageUrl={activeDapp?.iconUrl}
-        title={t('connectToWallet', { dappName })}
+        title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
         testId="WalletConnectActionRequest"
         requestDetails={requestDetails}

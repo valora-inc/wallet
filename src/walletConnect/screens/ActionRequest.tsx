@@ -80,7 +80,7 @@ function ActionRequest({ pendingAction }: Props) {
         dispatch(denyRequest(peerId, action, 'User denied'))
       }}
       dappImageUrl={uri}
-      title={t('connectToWallet', { dappName: name })}
+      title={t('confirmTransaction', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
       testId="WalletConnectActionRequest"
       requestDetails={requestDetails}
