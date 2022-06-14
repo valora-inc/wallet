@@ -1,4 +1,4 @@
-# Valora Mobile App
+# Kolektivo Mobile Wallet
 
 ![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
 ![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
@@ -10,18 +10,18 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/valora-inc/wallet)
 [![GitHub](https://img.shields.io/github/license/valora-inc/wallet?color=blue)](https://github.com/valora-inc/wallet/blob/master/LICENSE)
 
-Valora is a mobile wallet focused on making global peer-to-peer
-payments simple and accessible to anyone. It supports the Celo
+Kolektivo is a mobile wallet focused on making Curacao peer-to-peer
+payments simple and accessible to anyone. It does not yet support the Celo
 Identity Protocol which allows users to verify their phone number and
 send payments to their contacts.
 
-## Integrate with Valora
+## Integrate with Kolektivo
 
-Integrate with Valora using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
+Integrate with Kolektivo using [WalletConnect v1](https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1).
 
 See also [deeplinks.md](./docs/deeplinks.md) for integrating with Valora using deep links.
 
-## Build Valora Locally
+## Build Kolektivo Locally
 
 To setup Valora locally, follow [setup instructions](./WALLET.md).
 
@@ -29,12 +29,6 @@ To setup Valora locally, follow [setup instructions](./WALLET.md).
 
 The repository follows the default React Native Android and iOS app structure.
 
-Code owners can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
-
 ## Contributing
 
 We welcome contributions in the form of Issues and PRs. See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Community
-
-Have questions or need help? Join our [Discord Community](https://discord.com/invite/J5XMtMkwC4).
