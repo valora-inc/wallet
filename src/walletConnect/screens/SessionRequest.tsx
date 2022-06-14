@@ -1,104 +1,51 @@
-import { StackNavigationProp } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { useDispatch } from 'react-redux'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
-import useStateWithCallback from 'src/utils/useStateWithCallback'
+import { useDispatch, useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/verify/reducer'
+import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = {
-  navigation: StackNavigationProp<StackParamList, Screens.WalletConnectRequest>
   pendingSession: WalletConnectSessionRequest
 }
 
-function SessionRequest({ navigation, pendingSession }: Props) {
+function SessionRequest({ pendingSession }: Props) {
   const { t } = useTranslation()
-  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
-  const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
-  const confirm = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, () => dispatch(acceptSession(pendingSession)))
-  }
-
-  const deny = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, () => dispatch(denySession(pendingSession)))
-  }
-
-  const isLoading = isAccepting || isDenying
-
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (isLoading) {
-          return
-        }
-        e.preventDefault()
-        deny()
-      }),
-    [navigation, pendingSession, isLoading]
-  )
+  const phoneNumber = useSelector(e164NumberSelector)
+  const address = useSelector(currentAccountSelector)
 
   const { url, name, icons } = pendingSession.params[0].peerMeta
   const fallbackIcon = icons[0] ?? `${url}/favicon.ico`
 
   return (
-    <>
-      <View>
-        <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri: fallbackIcon }} />
-        </View>
-        <Text style={styles.header} testID="SessionRequestHeader">
-          {t('connectToWallet', { dappName: name })}
-        </Text>
-      </View>
-
-      <View style={styles.actionContainer} pointerEvents={isLoading ? 'none' : undefined}>
-        <Button
-          style={styles.cancelButton}
-          type={BtnTypes.SECONDARY}
-          size={BtnSizes.MEDIUM}
-          text={t('cancel')}
-          showLoading={isDenying}
-          onPress={deny}
-        />
-        <Button
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.MEDIUM}
-          text={t('allow')}
-          showLoading={isAccepting}
-          onPress={confirm}
-        />
-      </View>
-    </>
+    <RequestContent
+      onAccept={() => {
+        dispatch(acceptSession(pendingSession))
+      }}
+      onDeny={() => {
+        dispatch(denySession(pendingSession))
+      }}
+      dappImageUrl={fallbackIcon}
+      title={t('connectToWallet', { dappName: name })}
+      description={t('shareInfo')}
+      requestDetails={[
+        {
+          label: t('phoneNumber'),
+          value: phoneNumber,
+        },
+        {
+          label: t('address'),
+          value: address,
+          tapToCopy: true,
+        },
+      ]}
+      testId="WalletConnectSessionRequest"
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  logo: {
-    height: 80,
-    width: 80,
-  },
-  center: { display: 'flex', alignItems: 'center' },
-  header: {
-    ...fontStyles.h1,
-    textAlign: 'center',
-    paddingTop: 16,
-    paddingBottom: 24,
-  },
-  actionContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  cancelButton: { marginRight: 8 },
-})
 
 export default SessionRequest

@@ -35,8 +35,8 @@ type RouteProps = StackScreenProps<StackParamList, Screens.PincodeEnter>
 type Props = StateProps & WithTranslation & RouteProps
 
 class PincodeEnter extends React.Component<Props, State> {
-  static navigationOptions = (navOptions: RouteProps) => ({
-    ...modalScreenOptions(navOptions),
+  static navigationOptions = () => ({
+    ...modalScreenOptions(),
     ...headerWithBackButton,
     gestureEnabled: false,
   })
