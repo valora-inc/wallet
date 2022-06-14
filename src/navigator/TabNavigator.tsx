@@ -9,8 +9,6 @@ import HomeStackNavigator from 'src/navigator/HomeStackNavigator'
 import { Screens } from 'src/navigator/Screens'
 import ServiceStackNavigator from 'src/navigator/ServiceStackNavigator'
 
-const TAG = 'NavigationService'
-
 const Tabs = createBottomTabNavigator()
 
 export default function TabNavigator() {

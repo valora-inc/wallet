@@ -1228,7 +1228,8 @@
     "cico": "Withdraw",
     "swap": "Swap",
     "invest": "Invest",
-    "bills": "Pay Bills"
+    "bills": "Pay Bills",
+    "vendors": "Vendors"
   },
   "swap": {
     "title": "Swap",
@@ -1301,5 +1302,7 @@
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
   },
-  "transactionHistory": "Transaction History"
+  "transactionHistory": "Transaction History",
+  "vendors": "Vendors",
+  "payVendor": "Pay Now"
 }

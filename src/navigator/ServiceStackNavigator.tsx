@@ -5,8 +5,7 @@ import { headerWithBackButton, noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import WalletServices from 'src/services/WalletServices'
 import SwapScreen from 'src/swap/SwapScreen'
-
-const TAG = 'ServiceStackNavigatorService'
+import VendorsScreen from 'src/vendors/VendorsScreen'
 
 const Service = createStackNavigator()
 
@@ -19,6 +18,11 @@ export default function ServiceStackNavigator() {
         name={Screens.Swap}
         component={SwapScreen}
         options={{ ...headerWithBackButton, headerTitle: t('Swap') }}
+      />
+      <Service.Screen
+        name={Screens.VendorsScreen}
+        component={VendorsScreen}
+        options={{ ...headerWithBackButton, headerTitle: t('Vendors') }}
       />
     </Service.Navigator>
   )

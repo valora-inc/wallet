@@ -40,7 +40,7 @@
 	<key>CleverTapToken</key>
 	<string>$(CLEVERTAP_TOKEN)</string>
 	<key>CodePushDeploymentKey</key>
-	<string>$(CODE_PUSH_DEPLOYMENT_KEY)</string>
+	<string>Ijkke5lN0tH1Cb1fxWoUeDmtf8tp5CzAics2F</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://l.celo.org</string>
