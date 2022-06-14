@@ -119,6 +119,7 @@ function CashInBottomSheet() {
       style={styles.overlay}
       onBackdropPress={onDismissBottomSheet}
       onSwipeComplete={onDismissBottomSheet}
+      useNativeDriverForBackdrop={true}
     >
       <View style={styles.container}>
         <Touchable
