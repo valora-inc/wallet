@@ -1,9 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import { headerWithBackButton, noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -19,14 +18,13 @@ type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 function WalletConnectRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation()
 
-  useEffect(() => {
-    navigation.setOptions(
-      params.type === WalletConnectRequestType.Loading ? headerWithBackButton : noHeader
-    )
-  }, [navigation, params])
-
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
+      ]}
+    >
       {params.type === WalletConnectRequestType.Loading && (
         <>
           <ActivityIndicator size="small" color={colors.greenBrand} />
@@ -39,11 +37,11 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
       )}
 
       {params.type === WalletConnectRequestType.Session && (
-        <SessionRequest navigation={navigation} pendingSession={params.pendingSession} />
+        <SessionRequest pendingSession={params.pendingSession} />
       )}
 
       {params.type === WalletConnectRequestType.Action && (
-        <ActionRequest navigation={navigation} pendingAction={params.pendingAction} />
+        <ActionRequest pendingAction={params.pendingAction} />
       )}
 
       {params.type === WalletConnectRequestType.TimeOut && <ConnectionTimedOut />}
@@ -53,9 +51,8 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: Spacing.Thick24,
+    padding: Spacing.Thick24,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   connecting: {

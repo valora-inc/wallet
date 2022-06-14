@@ -40,7 +40,6 @@ import {
   sessionDeleted,
   SessionRequest,
   sessionRequest,
-  ShowRequestDetails,
   storeSession,
   WalletConnectActions,
 } from 'src/walletConnect/v1/actions'
@@ -186,28 +185,6 @@ function* closeSession({ session }: CloseSession) {
       error: e.message,
     })
   }
-}
-
-function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails): any {
-  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
-  if (!session) {
-    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
-    return
-  }
-  const defaultSessionTrackedProperties: WalletConnect1Properties = yield call(
-    getDefaultSessionTrackedProperties,
-    session
-  )
-  ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
-    ...defaultSessionTrackedProperties,
-    ...getDefaultRequestTrackedProperties(request, session.chainId),
-  })
-
-  // TODO: this is a short lived alternative to proper
-  // transaction decoding.
-  yield call(navigate, Screens.DappKitTxDataScreen, {
-    dappKitData: infoString,
-  })
 }
 
 function* acceptRequest(r: AcceptRequest) {
@@ -521,7 +498,6 @@ export function* walletConnectV1Saga() {
   yield takeEvery(Actions.ACCEPT_SESSION_V1, acceptSession)
   yield takeEvery(Actions.DENY_SESSION_V1, denySession)
   yield takeEvery(Actions.CLOSE_SESSION_V1, closeSession)
-  yield takeEvery(Actions.SHOW_REQUEST_DETAILS_V1, showRequestDetails)
   yield takeEvery(Actions.ACCEPT_REQUEST_V1, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST_V1, denyRequest)
 

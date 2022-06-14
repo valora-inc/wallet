@@ -61,7 +61,7 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
   navOptions.route.name === Screens.SendConfirmationModal
     ? {
         ...noHeader,
-        ...modalScreenOptions(navOptions),
+        ...modalScreenOptions(),
       }
     : noHeader
 
