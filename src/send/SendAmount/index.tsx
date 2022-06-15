@@ -18,9 +18,8 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { useFeeCurrency } from 'src/fees/hooks'
-import { estimateFee, FeeType } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
+import { useEstimatedFee } from 'src/fees/hooks'
+import { FeeType } from 'src/fees/reducer'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
@@ -42,16 +41,10 @@ import {
   useLocalToTokenAmount,
   useTokenInfo,
   useTokenToLocalAmount,
-  useUsdToTokenAmount,
 } from 'src/tokens/hooks'
 import { fetchTokenBalances } from 'src/tokens/reducer'
-import {
-  celoAddressSelector,
-  defaultTokenToSendSelector,
-  stablecoinsSelector,
-} from 'src/tokens/selectors'
+import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
-import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 const LOCAL_CURRENCY_MAX_DECIMALS = 2
@@ -116,32 +109,6 @@ function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {
   ).toFormat()
 }
 
-// The value in |inputTokenAddress| that needs to be reduced from the user balance to send
-// when the MAX button is pressed.
-function useFeeToReduceFromMaxButtonInToken(
-  inputTokenAddress: string,
-  recipientVerificationStatus: RecipientVerificationStatus
-) {
-  const feeEstimates = useSelector(feeEstimatesSelector)
-  const celoAddress = useSelector(celoAddressSelector)
-
-  // feeTokenAddress is undefined if the fee currency is CELO, we still want to
-  // use the fee estimate if that is the case
-  const feeTokenAddress = useFeeCurrency() ?? celoAddress
-
-  const feeType =
-    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-      ? FeeType.SEND
-      : FeeType.INVITE
-  const usdFeeEstimate = feeEstimates[inputTokenAddress]?.[feeType]?.usdFee
-  const feeEstimate = useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), inputTokenAddress)
-
-  if (inputTokenAddress !== feeTokenAddress) {
-    return new BigNumber(0)
-  }
-  return feeEstimate ?? new BigNumber(0)
-}
-
 function SendAmount(props: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -161,12 +128,14 @@ function SendAmount(props: Props) {
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
-  const feeEstimates = useSelector(feeEstimatesSelector)
-
-  const feeEstimate = useFeeToReduceFromMaxButtonInToken(
-    transferTokenAddress,
-    recipientVerificationStatus
-  )
+  const feeType =
+    recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
+      ? FeeType.SEND
+      : FeeType.INVITE
+  const shouldFetchNewFee =
+    !(recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) ||
+    !isOutgoingPaymentRequest
+  const feeEstimate = useEstimatedFee(transferTokenAddress, feeType, shouldFetchNewFee)
   const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
@@ -260,29 +229,6 @@ function SendAmount(props: Props) {
       setReviewButtonPressed(false)
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
-
-  useEffect(() => {
-    if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
-      // Wait until the recipient status is fetched.
-      return
-    }
-    if (isOutgoingPaymentRequest) {
-      // Don't calculate fees on outgoing payment requests
-      return
-    }
-    const feeType =
-      recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
-        ? FeeType.SEND
-        : FeeType.INVITE
-    const feeEstimate = feeEstimates[transferTokenAddress]?.[feeType]
-    if (
-      !feeEstimate ||
-      feeEstimate.error ||
-      feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS
-    ) {
-      dispatch(estimateFee({ feeType, tokenAddress: transferTokenAddress }))
-    }
-  }, [recipientVerificationStatus, transferTokenAddress])
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
