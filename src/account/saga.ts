@@ -33,7 +33,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
 import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
-import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house-liquidity'
@@ -65,7 +64,6 @@ function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccount
       yield call(removeAccountLocally, account)
       yield call(clearStoredMnemonic)
       yield call(ValoraAnalytics.reset)
-      yield call(deleteNodeData)
       yield call(clearStoredAccounts)
 
       // Ignore error if it was caused by Firebase.

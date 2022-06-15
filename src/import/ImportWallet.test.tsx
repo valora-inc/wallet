@@ -2,16 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import mockButton from 'src/components/Button'
 import { Actions } from 'src/import/actions'
 import ImportWallet from 'src/import/ImportWallet'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockMnemonic } from 'test/values'
-
-jest.mock('src/geth/GethAwareButton', () => {
-  return mockButton
-})
 
 const mockScreenProps = getMockStackScreenProps(Screens.ImportWallet, { clean: true })
 

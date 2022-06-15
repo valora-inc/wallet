@@ -2,7 +2,6 @@ import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
-import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -23,8 +22,6 @@ export interface State {
   backupRequiredTime: number | null
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
-  promptFornoIfNeeded: boolean
-  retryVerificationWithForno: boolean
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
@@ -97,9 +94,7 @@ export const initialState: State = {
   backupCompleted: false,
   dismissedGetVerified: false,
   dismissedGoldEducation: false,
-  promptFornoIfNeeded: false,
   acceptedTerms: false,
-  retryVerificationWithForno: features.VERIFICATION_FORNO_RETRY,
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
   profileUploaded: false,
@@ -246,16 +241,6 @@ export const reducer = (
           contactId: action.contactId,
           thumbnailPath: action.thumbnailPath,
         },
-      }
-    case Actions.SET_PROMPT_FORNO:
-      return {
-        ...state,
-        promptFornoIfNeeded: action.promptIfNeeded,
-      }
-    case Actions.SET_RETRY_VERIFICATION_WITH_FORNO:
-      return {
-        ...state,
-        retryVerificationWithForno: action.retry,
       }
     case Actions.ACCEPT_TERMS: {
       return { ...state, acceptedTerms: true }

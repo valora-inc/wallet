@@ -43,8 +43,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     e164Number: state.account.e164PhoneNumber,
     verificationStatus: state.identity.verificationStatus,
-    retryWithForno: state.account.retryVerificationWithForno,
-    fornoMode: state.web3.fornoMode,
   }
 }
 
@@ -52,10 +50,7 @@ type Props = StackScreenProps<StackParamList, Screens.VerificationLoadingScreen>
 
 export default function VerificationLoadingScreen({ route }: Props) {
   const verificationStatusRef = useRef<VerificationStatus | undefined>()
-  const { fornoMode, retryWithForno, verificationStatus } = useSelector(
-    mapStateToProps,
-    shallowEqual
-  )
+  const { verificationStatus } = useSelector(mapStateToProps, shallowEqual)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -247,11 +242,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
           items={items}
         />
       </Animated.ScrollView>
-      <VerificationFailedModal
-        verificationStatus={verificationStatus}
-        retryWithForno={retryWithForno}
-        fornoMode={fornoMode}
-      />
+      <VerificationFailedModal verificationStatus={verificationStatus} />
     </View>
   )
 }

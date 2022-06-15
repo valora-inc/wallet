@@ -25,7 +25,7 @@
     "dev:clean-android": "cd android && ./gradlew clean",
     "dev:send-text": "adb shell input text",
     "dev:reload": "adb shell input text \"RR\"",
-    "dev:pidcat": "pidcat org.celo.mobile.dev -t GoLog -t RNGeth -t ReactNativeJs -t ReactNativeJS",
+    "dev:pidcat": "pidcat org.celo.mobile.dev -t ReactNativeJs -t ReactNativeJS",
     "dev:emulator:list": "$ANDROID_HOME/emulator/emulator -list-avds",
     "dev:emulator:run": "$ANDROID_HOME/emulator/emulator -avd",
     "test": "export TZ=UTC && ./scripts/sync_branding.sh -b celo && jest --silent",
@@ -46,8 +46,7 @@
     "e2e:test:ios-release": "detox test -c ios.release -l verbose",
     "pre-deploy": "./scripts/pre-deploy.sh",
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
-    "postinstall": "patch-package && yarn keys:decrypt && yarn run unzipCeloClient && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh",
-    "unzipCeloClient": "cd node_modules/@celo/client/build/bin && yarn run postinstall",
+    "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt"
   },
@@ -63,7 +62,6 @@
     ]
   },
   "dependencies": {
-    "@celo/client": "0.0.355",
     "@celo/connect": "~1.2.0",
     "@celo/contractkit": "~1.2.0",
     "@celo/identity": "~1.2.0",
@@ -151,7 +149,6 @@
     "react-native-flag-secure-android": "https://github.com/kristiansorens/react-native-flag-secure-android#e234251",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#04669ac",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-geth": "https://github.com/celo-org/react-native-geth#121202b",
     "react-native-google-safetynet": "https://github.com/celo-org/react-native-google-safetynet#8a0355f",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-inappbrowser-reborn": "^3.5.1",
@@ -183,7 +180,6 @@
     "react-native-svg": "^12.3.0",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^2.16.0",
-    "react-native-tcp": "https://github.com/celo-org/react-native-tcp#44502be",
     "react-native-udp": "git+https://github.com/celo-org/react-native-udp#7cbf51f",
     "react-native-url-polyfill": "^1.2.0",
     "react-native-webview": "^11.6.4",

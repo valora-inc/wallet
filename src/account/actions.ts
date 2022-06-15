@@ -28,8 +28,6 @@ export enum Actions {
   DISMISS_GET_VERIFIED = 'ACCOUNT/DISMISS_GET_VERIFIED',
   DISMISS_GOLD_EDUCATION = 'ACCOUNT/DISMISS_GOLD_EDUCATION',
   SET_USER_CONTACT_DETAILS = 'ACCOUNT/SET_USER_CONTACT_DETAILS',
-  SET_PROMPT_FORNO = 'ACCOUNT/SET_PROMPT_FORNO',
-  SET_RETRY_VERIFICATION_WITH_FORNO = 'ACCOUNT/SET_RETRY_VERIFICATION_WITH_FORNO',
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
@@ -145,16 +143,6 @@ export interface SetContactDetailsAction {
   thumbnailPath: string | null
 }
 
-interface SetPromptFornoAction {
-  type: Actions.SET_PROMPT_FORNO
-  promptIfNeeded: boolean
-}
-
-export interface SetRetryVerificationWithFornoAction {
-  type: Actions.SET_RETRY_VERIFICATION_WITH_FORNO
-  retry: boolean
-}
-
 export interface ClearStoredAccountAction {
   type: Actions.CLEAR_STORED_ACCOUNT
   account: string
@@ -231,8 +219,6 @@ export type ActionTypes =
   | DismissGetVerifiedAction
   | DismissGoldEducationAction
   | SetContactDetailsAction
-  | SetPromptFornoAction
-  | SetRetryVerificationWithFornoAction
   | AcceptTermsAction
   | ClearStoredAccountAction
   | ProfileUploadedAction
@@ -360,18 +346,6 @@ export const dismissGetVerified = (): DismissGetVerifiedAction => ({
 
 export const dismissGoldEducation = (): DismissGoldEducationAction => ({
   type: Actions.DISMISS_GOLD_EDUCATION,
-})
-
-export const setPromptForno = (promptIfNeeded: boolean): SetPromptFornoAction => ({
-  type: Actions.SET_PROMPT_FORNO,
-  promptIfNeeded,
-})
-
-export const setRetryVerificationWithForno = (
-  retry: boolean
-): SetRetryVerificationWithFornoAction => ({
-  type: Actions.SET_RETRY_VERIFICATION_WITH_FORNO,
-  retry,
 })
 
 export const setUserContactDetails = (

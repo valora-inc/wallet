@@ -7,7 +7,7 @@ import {
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'

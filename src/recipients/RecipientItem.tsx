@@ -49,7 +49,7 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
           {recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
         </View>
         <View style={styles.rightIconContainer}>
-          {recipient.address ? <Logo style={styles.logo} type={LogoTypes.GREEN} /> : null}
+          {recipient.address ? <Logo type={LogoTypes.GREEN} /> : null}
         </View>
       </View>
     </Touchable>
@@ -79,9 +79,6 @@ const styles = StyleSheet.create({
   rightIconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  logo: {
-    marginRight: 16,
   },
 })
 

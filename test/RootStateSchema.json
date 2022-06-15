@@ -234,26 +234,6 @@
             ],
             "type": "object"
         },
-        "ChainHead": {
-            "additionalProperties": false,
-            "properties": {
-                "hash": {
-                    "type": "string"
-                },
-                "number": {
-                    "type": "number"
-                },
-                "timestamp": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "hash",
-                "number",
-                "timestamp"
-            ],
-            "type": "object"
-        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -888,16 +868,6 @@
             ],
             "type": "number"
         },
-        "InitializationState": {
-            "enum": [
-                "DATA_CONNECTION_MISSING_ERROR",
-                "INITIALIZED",
-                "INITIALIZE_ERROR",
-                "INITIALIZING",
-                "NOT_YET_INITIALIZED"
-            ],
-            "type": "string"
-        },
         "InviteTransactions": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -1404,10 +1374,7 @@
                 "VerificationEducationScreen",
                 "VerificationInputScreen",
                 "VerificationLoadingScreen",
-                "WalletConnectActionRequest",
-                "WalletConnectLoading",
-                "WalletConnectResult",
-                "WalletConnectSessionRequest",
+                "WalletConnectRequest",
                 "WalletConnectSessions",
                 "WalletHome",
                 "WebViewScreen",
@@ -1773,36 +1740,21 @@
                         "string"
                     ]
                 },
-                "fornoMode": {
-                    "type": "boolean"
-                },
-                "hadFornoDisabled": {
-                    "type": "boolean"
-                },
                 "isDekRegistered": {
                     "type": "boolean"
-                },
-                "latestBlockNumber": {
-                    "type": "number"
                 },
                 "mtwAddress": {
                     "type": [
                         "null",
                         "string"
                     ]
-                },
-                "syncProgress": {
-                    "$ref": "#/definitions/Web3SyncProgress"
                 }
             },
             "required": [
                 "account",
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
-                "fornoMode",
-                "latestBlockNumber",
-                "mtwAddress",
-                "syncProgress"
+                "mtwAddress"
             ],
             "type": "object"
         },
@@ -2136,13 +2088,7 @@
                 "profileUploaded": {
                     "type": "boolean"
                 },
-                "promptFornoIfNeeded": {
-                    "type": "boolean"
-                },
                 "recoveringFromStoreWipe": {
-                    "type": "boolean"
-                },
-                "retryVerificationWithForno": {
                     "type": "boolean"
                 }
             },
@@ -2168,44 +2114,11 @@
                 "name",
                 "photosNUXClicked",
                 "pictureUri",
-                "pincodeType",
-                "promptFornoIfNeeded",
-                "retryVerificationWithForno"
+                "pincodeType"
             ],
             "type": "object"
         },
         "State_14": {
-            "additionalProperties": false,
-            "properties": {
-                "chainHead": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ChainHead"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
-                "connected": {
-                    "type": "boolean"
-                },
-                "gethStartedThisSession": {
-                    "type": "boolean"
-                },
-                "initialized": {
-                    "$ref": "#/definitions/InitializationState"
-                }
-            },
-            "required": [
-                "chainHead",
-                "connected",
-                "gethStartedThisSession",
-                "initialized"
-            ],
-            "type": "object"
-        },
-        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "isReclaiming": {
@@ -2224,7 +2137,7 @@
             ],
             "type": "object"
         },
-        "State_16": {
+        "State_15": {
             "additionalProperties": false,
             "properties": {
                 "estimates": {
@@ -2239,7 +2152,7 @@
             ],
             "type": "object"
         },
-        "State_17": {
+        "State_16": {
             "additionalProperties": false,
             "properties": {
                 "inviteRewardsSenders": {
@@ -2269,7 +2182,7 @@
             ],
             "type": "object"
         },
-        "State_18": {
+        "State_17": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2353,7 +2266,7 @@
             ],
             "type": "object"
         },
-        "State_19": {
+        "State_18": {
             "additionalProperties": false,
             "properties": {
                 "isImportingWallet": {
@@ -2362,6 +2275,28 @@
             },
             "required": [
                 "isImportingWallet"
+            ],
+            "type": "object"
+        },
+        "State_19": {
+            "additionalProperties": false,
+            "properties": {
+                "incomingPaymentRequests": {
+                    "items": {
+                        "$ref": "#/definitions/PaymentRequest"
+                    },
+                    "type": "array"
+                },
+                "outgoingPaymentRequests": {
+                    "items": {
+                        "$ref": "#/definitions/PaymentRequest"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "incomingPaymentRequests",
+                "outgoingPaymentRequests"
             ],
             "type": "object"
         },
@@ -2388,28 +2323,6 @@
         "State_20": {
             "additionalProperties": false,
             "properties": {
-                "incomingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                },
-                "outgoingPaymentRequests": {
-                    "items": {
-                        "$ref": "#/definitions/PaymentRequest"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "incomingPaymentRequests",
-                "outgoingPaymentRequests"
-            ],
-            "type": "object"
-        },
-        "State_21": {
-            "additionalProperties": false,
-            "properties": {
                 "providerLogos": {
                     "$ref": "#/definitions/ProviderLogos"
                 },
@@ -2423,11 +2336,11 @@
             ],
             "type": "object"
         },
-        "State_22": {
+        "State_21": {
             "additionalProperties": false,
             "properties": {
                 "v1": {
-                    "$ref": "#/definitions/State_23"
+                    "$ref": "#/definitions/State_22"
                 }
             },
             "required": [
@@ -2435,7 +2348,7 @@
             ],
             "type": "object"
         },
-        "State_23": {
+        "State_22": {
             "additionalProperties": false,
             "properties": {
                 "pendingActions": {
@@ -2477,7 +2390,7 @@
             ],
             "type": "object"
         },
-        "State_24": {
+        "State_23": {
             "additionalProperties": false,
             "properties": {
                 "error": {
@@ -2497,7 +2410,7 @@
             ],
             "type": "object"
         },
-        "State_25": {
+        "State_24": {
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
@@ -3395,26 +3308,6 @@
             },
             "type": "object"
         },
-        "Web3SyncProgress": {
-            "additionalProperties": false,
-            "properties": {
-                "currentBlock": {
-                    "type": "number"
-                },
-                "highestBlock": {
-                    "type": "number"
-                },
-                "startingBlock": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "currentBlock",
-                "highestBlock",
-                "startingBlock"
-            ],
-            "type": "object"
-        },
         "default": {
             "additionalProperties": false,
             "properties": {
@@ -3639,16 +3532,12 @@
                                         "exchangeFailed",
                                         "exchangeRateChange",
                                         "failedFetchMnemonic",
-                                        "failedToSwitchSyncModes",
                                         "fetchFailed",
                                         "fiatDetailsScreen.addFiatAccountResourceExist",
                                         "firebaseDisabled",
                                         "firebaseFailed",
                                         "gasPriceUpdateFailed",
                                         "getBankAccountsFail",
-                                        "gethAccountAlreadyExists",
-                                        "gethFetchAccounts",
-                                        "gethUnexpectedAddressOnAdd",
                                         "importBackupFailed",
                                         "importContactsFailed",
                                         "incorrectPin",
@@ -3662,6 +3551,8 @@
                                         "invalidWordsInBackupPhrase",
                                         "inviteFailed",
                                         "inviteOpenAppFailed",
+                                        "keychainAccountAlreadyExists",
+                                        "keychainFetchAccounts",
                                         "keychainStorageError",
                                         "matchmakingQuotaExceededError",
                                         "maxActionableAttestationsExceededError",
@@ -3729,19 +3620,16 @@
             "$ref": "#/definitions/State"
         },
         "escrow": {
-            "$ref": "#/definitions/State_15"
+            "$ref": "#/definitions/State_14"
         },
         "exchange": {
             "$ref": "#/definitions/State_8"
         },
         "fees": {
-            "$ref": "#/definitions/State_16"
+            "$ref": "#/definitions/State_15"
         },
         "fiatExchanges": {
-            "$ref": "#/definitions/State_21"
-        },
-        "geth": {
-            "$ref": "#/definitions/State_14"
+            "$ref": "#/definitions/State_20"
         },
         "goldToken": {
             "$ref": "#/definitions/State_5"
@@ -3756,19 +3644,19 @@
             "$ref": "#/definitions/State_11"
         },
         "imports": {
-            "$ref": "#/definitions/State_19"
+            "$ref": "#/definitions/State_18"
         },
         "localCurrency": {
-            "$ref": "#/definitions/State_18"
+            "$ref": "#/definitions/State_17"
         },
         "networkInfo": {
             "$ref": "#/definitions/State_2"
         },
         "paymentRequest": {
-            "$ref": "#/definitions/State_20"
+            "$ref": "#/definitions/State_19"
         },
         "recipients": {
-            "$ref": "#/definitions/State_17"
+            "$ref": "#/definitions/State_16"
         },
         "send": {
             "$ref": "#/definitions/State_4"
@@ -3777,10 +3665,10 @@
             "$ref": "#/definitions/State_6"
         },
         "supercharge": {
-            "$ref": "#/definitions/State_25"
+            "$ref": "#/definitions/State_24"
         },
         "tokens": {
-            "$ref": "#/definitions/State_24"
+            "$ref": "#/definitions/State_23"
         },
         "transactions": {
             "$ref": "#/definitions/State_9"
@@ -3789,7 +3677,7 @@
             "$ref": "#/definitions/State_12"
         },
         "walletConnect": {
-            "$ref": "#/definitions/State_22"
+            "$ref": "#/definitions/State_21"
         },
         "web3": {
             "$ref": "#/definitions/State_10"
@@ -3804,7 +3692,6 @@
         "exchange",
         "fees",
         "fiatExchanges",
-        "geth",
         "goldToken",
         "home",
         "i18n",

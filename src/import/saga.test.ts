@@ -20,7 +20,7 @@ import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/Nav
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
-import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 
 const mockPhraseValid =
   'oil please secret math suffer mesh retreat prosper quit traffic special creek educate rate weasel wide swing crystal day swim frost oxygen course expire'
@@ -63,7 +63,6 @@ describe('Import wallet saga', () => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, phrase, mockAccount), true],
@@ -93,7 +92,6 @@ describe('Import wallet saga', () => {
       useEmptyWallet: false,
     })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
@@ -117,7 +115,6 @@ describe('Import wallet saga', () => {
       useEmptyWallet: false,
     })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
@@ -134,7 +131,6 @@ describe('Import wallet saga', () => {
       useEmptyWallet: false,
     })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
         // Respond only to the true correct address with a positive balance.
         [
@@ -161,7 +157,6 @@ describe('Import wallet saga', () => {
       useEmptyWallet: false,
     })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
@@ -179,7 +174,6 @@ describe('Import wallet saga', () => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, { phrase: mockPhraseValid, useEmptyWallet: false })
       .provide([
-        [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
       ])
