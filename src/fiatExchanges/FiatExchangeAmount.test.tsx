@@ -18,7 +18,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
+import { mockFee } from 'test/values'
 import { CICOFlow } from './utils'
+
+jest.mock('src/fees/hooks', () => ({
+  useEstimatedFee: () => mockFee,
+}))
 
 expect.extend({ toBeDisabled })
 
@@ -411,6 +416,25 @@ describe('FiatExchangeAmount cashOut', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '1001')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(storeWithUSD.getActions()).toEqual(
+      expect.arrayContaining([
+        showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
+          balance: '1000.00',
+          currency: 'cUSD',
+        }),
+      ])
+    )
+  })
+
+  it('shows an error banner if the user balance minus estimated transaction fee is less than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '999.99999')
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(storeWithUSD.getActions()).toEqual(
       expect.arrayContaining([

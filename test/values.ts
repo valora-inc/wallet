@@ -758,3 +758,5 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     },
   },
 ]
+
+export const mockFee = new BigNumber(0.00005)
