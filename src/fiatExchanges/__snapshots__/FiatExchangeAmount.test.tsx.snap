@@ -16,12 +16,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
 >
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -67,12 +71,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -98,7 +106,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -211,12 +218,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -262,12 +273,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -293,7 +308,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="DailyLimitDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -725,12 +739,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
 >
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -776,12 +794,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -807,7 +829,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -920,12 +941,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
   </Modal>
   <Modal
     animationType="none"
+    deviceHeight={null}
+    deviceWidth={null}
     hardwareAccelerated={false}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
     onRequestClose={[Function]}
+    panResponderThreshold={4}
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
@@ -971,12 +996,16 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
     />
     <View
       collapsable={false}
+      deviceHeight={null}
+      deviceWidth={null}
       forwardedRef={[Function]}
       hideModalContentWhileAnimating={false}
       nativeID="animatedComponent"
+      onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
       onModalWillShow={[Function]}
+      panResponderThreshold={4}
       pointerEvents="box-none"
       scrollHorizontal={false}
       scrollOffset={0}
@@ -1002,7 +1031,6 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         ]
       }
       swipeThreshold={100}
-      testID="DailyLimitDialog"
     >
       <RNCSafeAreaView>
         <View
