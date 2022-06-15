@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
+  "connectToWallet": "{{dappName}} would like to confirm a transaction",
   "allow": "İzin ver",
   "address": "Hesap Adresi",
   "phoneNumber": "Telefon Numarası",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Bağlanıyor",
   "action": {
     "asking": "Bu uygulama aşağıdaki eylemi gerçekleştirmek istiyor",
+    "askingV1_35": "{{dappName}} is asking to perform the following:",
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
@@ -969,7 +970,7 @@
     "sendTransaction": "Celo işlemi gönderin",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
-    "details": "Detayları göster",
+    "details": "View transaction data",
     "computeSharedSecret": "Gizli Kelime Oluştur",
     "emptyMessage": "Boş mesaj"
   },

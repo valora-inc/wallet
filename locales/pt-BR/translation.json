@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Ganhe recompensas",
   "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número",
-  "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
+  "connectToWallet": "{{dappName}} gostaria de confirmar uma transacção",
   "allow": "Permitir",
   "address": "Endereço de Conta",
   "phoneNumber": "Número de celular",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Este aplicativo está pedindo para executar a seguinte ação",
+    "askingV1_35": "{{dappName}} está a pedir para realizar o seguinte:",
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
@@ -969,7 +970,7 @@
     "sendTransaction": "Enviar uma transação Celo",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Ler o seu Endereço de Conta da {{appName}}",
-    "details": "Mostrar detalhes",
+    "details": "Ver dados da transacção",
     "computeSharedSecret": "Gerar segredos",
     "emptyMessage": "Mensagem vazia"
   },
