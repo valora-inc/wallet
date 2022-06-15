@@ -1,4 +1,4 @@
-const { echo, cd, exec, ShellString, env, config } = require('shelljs')
+const { echo, exec, ShellString, env, config } = require('shelljs')
 
 config.fatal = true
 
@@ -30,3 +30,5 @@ exec(
   -d '{ "head": "'${branchName}'", "base": "main", "title": "Bump app version to '${appVersion}'" }'
 `
 )
+
+export {}
