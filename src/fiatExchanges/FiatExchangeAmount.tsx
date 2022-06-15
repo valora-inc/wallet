@@ -132,7 +132,7 @@ function FiatExchangeAmount({ route }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
-  const tokenInfo = useTokenInfoBySymbol(currency == Currency.Celo ? 'CELO' : currency)
+  const tokenInfo = useTokenInfoBySymbol(currency === Currency.Celo ? 'CELO' : currency)
   if (!tokenInfo) {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
