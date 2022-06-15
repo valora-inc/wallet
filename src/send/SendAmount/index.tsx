@@ -133,8 +133,7 @@ function SendAmount(props: Props) {
       ? FeeType.SEND
       : FeeType.INVITE
   const shouldFetchNewFee =
-    !(recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) ||
-    !isOutgoingPaymentRequest
+    recipientVerificationStatus !== RecipientVerificationStatus.UNKNOWN && !isOutgoingPaymentRequest
   const feeEstimate = useEstimatedFee(transferTokenAddress, feeType, shouldFetchNewFee)
   const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
