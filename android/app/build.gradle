@@ -298,7 +298,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation 'com.clevertap.android:clevertap-android-sdk:4.1.1'
+    implementation 'com.clevertap.android:clevertap-android-sdk:4.4.0'
     implementation 'com.google.android.gms:play-services-base:17.4.0'
     implementation "com.google.firebase:firebase-messaging:21.0.0"
     implementation 'com.google.android.exoplayer:exoplayer:2.11.5'

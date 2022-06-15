@@ -7511,10 +7511,10 @@ clean-stack@^2.0.0:
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.1.0.tgz#9e7fec7f3f8340a2ab4f127c80273085e8fbbdd0"
   integrity sha512-uQWrpRm+iZZUCAp7ZZJQbd4Za9I3AjR/3YTjmcnAtkauaIm/T5CT6U8zVI6e60T6OANqBFAzuR9/HB3NzuZCRA==
 
-clevertap-react-native@^0.5.0:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.5.2.tgz#075a5d5001e845ce2064a9d106fb5383b5851e8f"
-  integrity sha512-1EV7AXp4Fqfz/VRsL1GgqnNEnsjtmCzaQZCuYUSq4YTzxI9IsHs16NUxB2VJVOC2oqbi8w5gsj1kwKMISC5WCw==
+clevertap-react-native@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.8.1.tgz#168a4d421e20157aea2f4cf4fdd6515a2549b8b4"
+  integrity sha512-Ierz74Vi9oY7ZgTLBRkDOLb8i7t5Qn+lMThgQE0IWYRY1fK3XbxmQlP3oKZcYRL5rqOrCfRqHDOk2IbVDVn4tQ==
   dependencies:
     extract-zip "^1.6.6"
 
