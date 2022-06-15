@@ -31,8 +31,6 @@
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
-      // Exclude @celo/client from this group, as we want to update it separately
-      excludePackageNames: ['@celo/client'],
     },
     {
       // Group updates for @testing-library packages

@@ -113,7 +113,7 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield fork(handleLoadingWithTimeout, { origin: WalletConnectPairingOrigin.Scan })
+    yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }

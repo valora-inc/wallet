@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
+  "connectToWallet": "{{dappName}} would like to confirm a transaction",
   "allow": "İzin ver",
   "address": "Hesap Adresi",
   "phoneNumber": "Telefon Numarası",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Bağlanıyor",
   "action": {
     "asking": "Bu uygulama aşağıdaki eylemi gerçekleştirmek istiyor",
+    "askingV1_35": "{{dappName}} is asking to perform the following:",
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
@@ -969,7 +970,7 @@
     "sendTransaction": "Celo işlemi gönderin",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
-    "details": "Detayları göster",
+    "details": "View transaction data",
     "computeSharedSecret": "Gizli Kelime Oluştur",
     "emptyMessage": "Boş mesaj"
   },
@@ -1244,16 +1245,18 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
-    "paymentMethodVia": "Linked via {{providerName}}",
+    "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
+    "receiveAmount": "Alacağınız",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
       "transactionDetailsAmount": "Toplam fiyat"
     },
     "cashOut": {
-      "header": "Gözden Geçir - Bakiye Çek",
+      "header": "Gözden Geçir",
       "button": "Bakiye Çek",
-      "transactionDetailsAmount": "Para çekme tutar"
+      "transactionDetailsAmount": "Çekilen Toplam Tutar",
+      "transactionDetailsAmountConverted": "Çekilen Tutar"
     }
   },
   "fiatExchangeFlow": {
@@ -1300,6 +1303,9 @@
       "placeholderText": "10 haneli hesap numaranızı girin",
       "errorMessage": "Hesap numarası 10 haneli olmalı ve sadece rakamlardan oluşmalıdır"
     }
+  },
+  "webView": {
+    "openExternal": "Harici tarayıcıda aç"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -9,7 +9,6 @@ import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reduce
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
 import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
-import { gethReducer as geth, State as GethState } from 'src/geth/reducer'
 import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
@@ -42,7 +41,6 @@ const appReducer = combineReducers({
   identity,
   verify,
   account,
-  geth,
   escrow,
   fees,
   recipients,
@@ -90,7 +88,6 @@ export interface RootState {
   identity: IdentityState
   verify: VerifyState
   account: AccountState
-  geth: GethState
   escrow: EscrowState
   fees: FeesState
   recipients: RecipientsState

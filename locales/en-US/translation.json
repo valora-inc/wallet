@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "connectToWallet": "{{dappName}} would like to confirm a transaction",
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Connecting",
   "action": {
     "asking": "This application is asking to perform the following action",
+    "askingV1_35": "{{dappName}} is asking to perform the following:",
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",
@@ -969,7 +970,7 @@
     "sendTransaction": "Send a Celo TX",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
-    "details": "Show details",
+    "details": "View transaction data",
     "computeSharedSecret": "Generate Secrets",
     "emptyMessage": "Empty message"
   },
@@ -1245,15 +1246,17 @@
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Linked via {{providerName}}",
+    "receiveAmount": "You will receive",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
       "transactionDetailsAmount": "Total Price"
     },
     "cashOut": {
-      "header": "Review Withdraw",
+      "header": "Review",
       "button": "Withdraw Funds",
-      "transactionDetailsAmount": "Withdraw Amount"
+      "transactionDetailsAmount": "Total Withdraw",
+      "transactionDetailsAmountConverted": "Amount Withdrawn"
     }
   },
   "fiatExchangeFlow": {
@@ -1300,6 +1303,9 @@
       "placeholderText": "Enter your 10 digit account number",
       "errorMessage": "Account number should be 10 digits long and only contain numbers"
     }
+  },
+  "webView": {
+    "openExternal": "Open in External Browser"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
+  "connectToWallet": "{{dappName}} souhaite confirmer une transaction",
   "allow": "Autoriser",
   "address": "Adresse du compte",
   "phoneNumber": "Numéro de téléphone",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Connexion",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante",
+    "askingV1_35": "{{dappName}} demande d'effectuer ce qui suit :",
     "operation": "Transaction",
     "data": "Données",
     "sign": "Signer une charge utile de données",
@@ -969,7 +970,7 @@
     "sendTransaction": "Envoyer un Celo TX",
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
-    "details": "Afficher les détails",
+    "details": "Afficher les données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },
@@ -1244,16 +1245,18 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
-    "paymentMethodVia": "Relié par {{providerName}}",
+    "paymentMethodVia": "Relié(e) par {{providerName}}",
+    "receiveAmount": "Vous recevrez",
     "cashIn": {
       "header": "Vérifier - Ajouter des fonds",
       "button": "Ajouter des fonds",
       "transactionDetailsAmount": "Prix total"
     },
     "cashOut": {
-      "header": "Vérifier - Retirer des fonds",
+      "header": "Vérifier",
       "button": "Retirer des fonds",
-      "transactionDetailsAmount": "Montant du retrait"
+      "transactionDetailsAmount": "Retrait total",
+      "transactionDetailsAmountConverted": "Montant du retrait"
     }
   },
   "fiatExchangeFlow": {
@@ -1300,6 +1303,9 @@
       "placeholderText": "Saisissez votre numéro de compte à 10 chiffres",
       "errorMessage": "Le numéro de compte doit comporter 10 chiffres et ne contenir que des chiffres"
     }
+  },
+  "webView": {
+    "openExternal": "Ouvrir dans un navigateur externe"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

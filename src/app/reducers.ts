@@ -67,6 +67,8 @@ export interface State {
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
+  fiatConnectCashInEnabled: boolean
+  fiatConnectCashOutEnabled: boolean
 }
 
 const initialState = {
@@ -115,6 +117,8 @@ const initialState = {
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+  fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
+  fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
 }
 
 export const appReducer = (
@@ -232,6 +236,8 @@ export const appReducer = (
         skipProfilePicture: action.configValues.skipProfilePicture,
         finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
+        fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
+        fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

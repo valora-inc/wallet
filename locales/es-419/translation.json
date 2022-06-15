@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Primeros pasos",
   "cashIn": "Agregar {{currency}}",
   "connectNumber": "Conecta tu número",
-  "connectToWallet": "{{dappName}} desea conectarse a {{appName}}",
+  "connectToWallet": "{{dappName}} desea confirmar una transacción",
   "allow": "Permitir",
   "address": "Dirección de cuenta",
   "phoneNumber": "Número de teléfono",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Esta aplicación está pidiendo realizar la siguiente acción",
+    "askingV1_35": "{{dappName}} pide que se realice lo siguiente:",
     "operation": "Operación",
     "data": "Datos",
     "sign": "Firmar un payload de datos",
@@ -969,7 +970,7 @@
     "sendTransaction": "Enviar una transacción en Celo",
     "decrypt": "Descifrar un payload de datos",
     "accounts": "Tu Dirección de cuenta de {{appName}}",
-    "details": "Mostrar detalles",
+    "details": "Ver los datos de la transacción",
     "computeSharedSecret": "Generar secretos",
     "emptyMessage": "Mensaje vacío"
   },
@@ -1244,16 +1245,18 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pago",
     "transactionDetails": "Detalles de transacción",
-    "paymentMethodVia": "Vinculado a través de {{providerName}}",
+    "paymentMethodVia": "Vinculada vía {{providerName}}",
+    "receiveAmount": "Recibirás",
     "cashIn": {
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
       "transactionDetailsAmount": "Precio total"
     },
     "cashOut": {
-      "header": "Revisión - Retirar fondos",
+      "header": "Revisar",
       "button": "Retirar fondos",
-      "transactionDetailsAmount": "Monto a retirar"
+      "transactionDetailsAmount": "Total a retirar",
+      "transactionDetailsAmountConverted": "Monto retirado"
     }
   },
   "fiatExchangeFlow": {
@@ -1300,6 +1303,9 @@
       "placeholderText": "Ingresa tu número de cuenta de 10 dígitos",
       "errorMessage": "El número de cuenta debe tener 10 dígitos y solo debe contener números."
     }
+  },
+  "webView": {
+    "openExternal": "Abrir en navegador externo"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Начать",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
-  "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
+  "connectToWallet": "{{dappName}} хотел бы подтвердить транзакцию",
   "allow": "Разрешить",
   "address": "Адрес аккаунта",
   "phoneNumber": "Номер телефона",
@@ -966,6 +966,7 @@
   "loadingFromDeeplink": "Подключение",
   "action": {
     "asking": "Это приложение запрашивает выполнение следующего действия",
+    "askingV1_35": "{{dappName}} просит выполнить следующее:",
     "operation": "Операция",
     "data": "Данные",
     "sign": "Подписать загрузку данных",
@@ -973,7 +974,7 @@
     "sendTransaction": "Выполнить передачу Celo",
     "decrypt": "Расшифровка загруженных данных",
     "accounts": "Прочитать адрес аккаунта {{appName}}",
-    "details": "Подробнее",
+    "details": "Просмотр данных о транзакциях",
     "computeSharedSecret": "Генерировать учетные данные",
     "emptyMessage": "Пустое сообщение"
   },
@@ -1248,16 +1249,18 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Способ оплаты",
     "transactionDetails": "Детали транзакции",
-    "paymentMethodVia": "Связана через {{providerName}}.",
+    "paymentMethodVia": "связь через {{providerName}}.",
+    "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
       "transactionDetailsAmount": "Общая цена"
     },
     "cashOut": {
-      "header": "Проверить - Вывод средства",
+      "header": "Проверить",
       "button": "Вывод средства",
-      "transactionDetailsAmount": "Сумма снятия"
+      "transactionDetailsAmount": "Всего выведено",
+      "transactionDetailsAmountConverted": "Сумма выведено"
     }
   },
   "fiatExchangeFlow": {
@@ -1304,6 +1307,9 @@
       "placeholderText": "Введите 10-значный номер счета",
       "errorMessage": "Номер счета должен состоять из 10 цифр и содержать только цифры"
     }
+  },
+  "webView": {
+    "openExternal": "Открыть во внешнем браузере"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

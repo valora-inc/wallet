@@ -25,6 +25,8 @@ import {
   v46Schema,
   v49Schema,
   v50Schema,
+  v51Schema,
+  v52Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -500,6 +502,33 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.celoWithdrawalEnabledInExchange = true
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v51 to v52', () => {
+    const oldSchema = v51Schema
+    const migratedSchema = migrations[52](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.fiatConnectCashInEnabled = false
+    expectedSchema.app.fiatConnectCashOutEnabled = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v52 to v53', () => {
+    const oldSchema = v52Schema
+    const migratedSchema = migrations[53](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.geth
+    delete expectedSchema.account.promptFornoIfNeeded
+    delete expectedSchema.account.retryVerificationWithForno
+    delete expectedSchema.web3.fornoMode
+    delete expectedSchema.web3.hadFornoDisabled
+    delete expectedSchema.web3.latestBlockNumber
+    delete expectedSchema.web3.syncProgress
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
