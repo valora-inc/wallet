@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/core'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -119,10 +120,11 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
-const RootStack = createStackNavigator<StackParamList>()
+const RootStack = createBottomSheetNavigator<StackParamList>()
 
 export const modalScreenOptions = () =>
   Platform.select({
@@ -629,74 +631,70 @@ export function MainStackScreen() {
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
+      {modalAnimatedScreens(Stack)}
     </Stack.Navigator>
   )
 }
-
-const modalAnimatedScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.PincodeEnter}
-      component={PincodeEnter}
-      options={PincodeEnter.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.QRNavigator}
-      component={QRNavigator}
-      options={QRNavigator.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.RegulatoryTerms}
-      component={RegulatoryTerms}
-      options={RegulatoryTerms.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.GoldEducation}
-      component={GoldEducation}
-      options={GoldEducation.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.AccountKeyEducation}
-      component={AccountKeyEducation}
-      options={AccountKeyEducation.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.LanguageModal}
-      component={Language}
-      options={Language.navigationOptions(true)}
-    />
-    <Navigator.Screen
-      name={Screens.SelectCountry}
-      component={SelectCountry}
-      options={SelectCountry.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationModal}
-      component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationLegacyModal}
-      component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
-    />
-  </>
-)
 
 const mainScreenNavOptions = () => ({
   ...modalScreenOptions(),
   headerShown: false,
 })
 
+const modalAnimatedScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.PincodeEnter}
+      component={PincodeEnter}
+      options={{ ...mainScreenNavOptions(), ...PincodeEnter.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.QRNavigator}
+      component={QRNavigator}
+      options={{ ...mainScreenNavOptions(), ...QRNavigator.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.RegulatoryTerms}
+      component={RegulatoryTerms}
+      options={{ ...mainScreenNavOptions(), ...RegulatoryTerms.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.GoldEducation}
+      component={GoldEducation}
+      options={{ ...mainScreenNavOptions(), ...GoldEducation.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.AccountKeyEducation}
+      component={AccountKeyEducation}
+      options={{ ...mainScreenNavOptions(), ...AccountKeyEducation.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.LanguageModal}
+      component={Language}
+      options={{ ...mainScreenNavOptions(), ...Language.navigationOptions(true) }}
+    />
+    <Navigator.Screen
+      name={Screens.SelectCountry}
+      component={SelectCountry}
+      options={{ ...mainScreenNavOptions(), ...SelectCountry.navigationOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationModal}
+      component={SendConfirmation}
+      options={{ ...mainScreenNavOptions(), ...sendConfirmationScreenNavOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationLegacyModal}
+      component={SendConfirmationLegacy}
+      options={{ ...mainScreenNavOptions(), ...sendConfirmationLegacyScreenNavOptions }}
+    />
+  </>
+)
+
 function RootStackScreen() {
   return (
-    <RootStack.Navigator mode="modal">
-      <RootStack.Screen
-        name={Screens.Main}
-        component={MainStackScreen}
-        options={mainScreenNavOptions}
-      />
-      {modalAnimatedScreens(RootStack)}
+    <RootStack.Navigator screenOptions={{ snapPoints: ['100%'] }}>
+      <RootStack.Screen name={Screens.Main} component={MainStackScreen} />
     </RootStack.Navigator>
   )
 }
