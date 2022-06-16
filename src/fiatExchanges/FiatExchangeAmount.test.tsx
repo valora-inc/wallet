@@ -18,11 +18,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
-import { mockFee } from 'test/values'
+import { mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
 
 jest.mock('src/fees/hooks', () => ({
-  useEstimatedFee: () => mockFee,
+  useMaxSendAmount: () => mockMaxSendAmount,
 }))
 
 expect.extend({ toBeDisabled })

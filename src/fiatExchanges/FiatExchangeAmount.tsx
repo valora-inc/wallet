@@ -27,7 +27,7 @@ import {
   DOLLAR_ADD_FUNDS_MAX_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { useEstimatedFee } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
@@ -43,7 +43,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -83,7 +82,6 @@ function FiatExchangeAmount({ route }: Props) {
   const inputConvertedToLocalCurrency =
     useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
-  const balances = useSelector(balancesSelector)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
@@ -96,7 +94,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
   const { address } = useTokenInfoBySymbol(cryptoSymbol)!
-  const estimatedFee = useEstimatedFee(address, FeeType.SEND)
+  const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
@@ -169,8 +167,6 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    const maxWithdrawAmount = balances[currency]?.minus(estimatedFee) || new BigNumber(0)
-
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)

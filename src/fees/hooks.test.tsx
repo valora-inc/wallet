@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { useEstimatedFee } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { estimateFee, FeeType } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
@@ -21,10 +21,10 @@ interface ComponentProps {
   shouldRefresh: boolean
 }
 function TestComponent({ feeType, tokenAddress, shouldRefresh }: ComponentProps) {
-  const fee = useEstimatedFee(tokenAddress, feeType, shouldRefresh)
+  const max = useMaxSendAmount(tokenAddress, feeType, shouldRefresh)
   return (
     <View>
-      <Text testID="estimatedFee">{fee.toString()}</Text>
+      <Text testID="maxSendAmount">{max.toString()}</Text>
     </View>
   )
 }
@@ -47,7 +47,7 @@ const mockFeeEstimates = (error: boolean = false, lastUpdated: number = Date.now
   },
 })
 
-describe('useEstimatedFee', () => {
+describe('useMaxSendAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -107,19 +107,19 @@ describe('useEstimatedFee', () => {
     }
   }
 
-  it('returns 0 when feeCurrency is not the specified token', () => {
+  it('returns balance when feeCurrency is not the specified token', () => {
     const { getByTestId } = renderComponent(
       {},
       { feeType: FeeType.SEND, tokenAddress: mockCusdAddress, shouldRefresh: true }
     )
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('200')
   })
-  it('returns a fee estimate when the feeCurrency matches the specified token', () => {
+  it('returns a balance minus fee estimate when the feeCurrency matches the specified token', () => {
     const { getByTestId } = renderComponent(
       {},
       { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: true }
     )
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0.004')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
   })
   it('calls dispatch(estimateFee) when there is a feeEstimate error for the token', () => {
     const { getByTestId, store } = renderComponent(
@@ -137,7 +137,7 @@ describe('useEstimatedFee', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
     )
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('200')
   })
   it('calls dispatch(estimateFee) when the feeEstimate is more than an hour old', () => {
     const twoHoursAgo = Date.now() - ONE_HOUR_IN_MILLIS * 2
@@ -156,7 +156,7 @@ describe('useEstimatedFee', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
     )
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('200')
   })
   it('does not call dispatch(estimateFee) when the feeEstimate is less than an hour old', () => {
     const halfHourAgo = Date.now() - ONE_HOUR_IN_MILLIS / 2
@@ -173,7 +173,7 @@ describe('useEstimatedFee', () => {
       { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: true }
     )
     expect(store.dispatch).not.toHaveBeenCalled()
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0.004')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
   })
   it('does not call dispatch(estimateFee) when the shouldRefresh is false', () => {
     const twoHoursAgo = Date.now() - ONE_HOUR_IN_MILLIS * 2
@@ -190,6 +190,6 @@ describe('useEstimatedFee', () => {
       { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: false }
     )
     expect(store.dispatch).not.toHaveBeenCalled()
-    expect(getElementText(getByTestId('estimatedFee'))).toBe('0.004')
+    expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
   })
 })

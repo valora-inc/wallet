@@ -5,7 +5,7 @@ import { estimateFee, FeeType } from 'src/fees/reducer'
 import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
-import { useUsdToTokenAmount } from 'src/tokens/hooks'
+import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
 import {
   celoAddressSelector,
   tokensByCurrencySelector,
@@ -43,15 +43,15 @@ export function usePaidFees(fees: Fee[]) {
   }
 }
 
-// Returns the estimated fee for a SEND or INVITE transaction
+// Returns the maximum amount a user can send, taking into acount gas fees required for the transaction
 // also optionally fetches new fee estimations if the current ones are missing or out of date
-export function useEstimatedFee(
+export function useMaxSendAmount(
   tokenAddress: string,
   feeType: FeeType.SEND | FeeType.INVITE,
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()
-
+  const { balance } = useTokenInfo(tokenAddress)!
   const feeEstimates = useSelector(feeEstimatesSelector)
 
   // Optionally Keep Fees Up to Date
@@ -80,7 +80,7 @@ export function useEstimatedFee(
 
   // For example, if you are sending cUSD but you have more CELO this will be true
   if (tokenAddress !== feeTokenAddress) {
-    return new BigNumber(0)
+    return balance
   }
-  return feeEstimate
+  return balance.minus(feeEstimate)
 }

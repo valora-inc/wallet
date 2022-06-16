@@ -18,7 +18,7 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { useEstimatedFee } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -134,8 +134,7 @@ function SendAmount(props: Props) {
       : FeeType.INVITE
   const shouldFetchNewFee =
     recipientVerificationStatus !== RecipientVerificationStatus.UNKNOWN && !isOutgoingPaymentRequest
-  const feeEstimate = useEstimatedFee(transferTokenAddress, feeType, shouldFetchNewFee)
-  const maxBalance = tokenInfo?.balance.minus(feeEstimate) ?? ''
+  const maxBalance = useMaxSendAmount(transferTokenAddress, feeType, shouldFetchNewFee)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenAddress)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()
