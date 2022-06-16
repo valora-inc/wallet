@@ -963,7 +963,7 @@
   "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Esta aplicación está pidiendo realizar la siguiente acción",
-    "askingV1_35": "{{dappName}} pide que se realice lo siguiente:",
+    "askingV1_35": "{{dappName}} está pidiendo realizar lo siguiente:",
     "operation": "Operación",
     "data": "Datos",
     "sign": "Firmar un payload de datos",
