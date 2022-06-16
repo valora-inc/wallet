@@ -963,7 +963,7 @@
   "loadingFromDeeplink": "Connexion",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante",
-    "askingV1_35": "{{dappName}} demande d'effectuer ce qui suit :",
+    "askingV1_35": "{{dappName}} demande d'effectuer cette action :",
     "operation": "Transaction",
     "data": "Données",
     "sign": "Signer une charge utile de données",
