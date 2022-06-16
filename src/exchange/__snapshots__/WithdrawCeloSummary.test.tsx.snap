@@ -41,6 +41,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         withdrawCeloAmount
       </Text>
@@ -192,6 +193,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
                   undefined,
                 ]
               }
+              testID="LineItemRowTitle/undefined"
             >
               
             </Text>
@@ -269,6 +271,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         total
       </Text>
@@ -350,6 +353,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         <View
           accessibilityState={
