@@ -115,6 +115,7 @@ exports[`renders correctly 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 Subtotal @
                  
@@ -277,6 +278,7 @@ exports[`renders correctly 1`] = `
                           undefined,
                         ]
                       }
+                      testID="LineItemRowTitle/undefined"
                     >
                       
                     </Text>
@@ -366,6 +368,7 @@ exports[`renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 total
               </Text>
@@ -447,6 +450,7 @@ exports[`renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 <View
                   accessibilityState={
@@ -658,6 +662,7 @@ exports[`renders correctly when local amount is null 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 Subtotal @
                  
@@ -819,6 +824,7 @@ exports[`renders correctly when local amount is null 1`] = `
                           undefined,
                         ]
                       }
+                      testID="LineItemRowTitle/undefined"
                     >
                       
                     </Text>
@@ -908,6 +914,7 @@ exports[`renders correctly when local amount is null 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 total
               </Text>
@@ -989,6 +996,7 @@ exports[`renders correctly when local amount is null 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 <View
                   accessibilityState={
@@ -1200,6 +1208,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                     undefined,
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 Subtotal @
                  
@@ -1360,6 +1369,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                           undefined,
                         ]
                       }
+                      testID="LineItemRowTitle/undefined"
                     >
                       
                     </Text>
@@ -1448,6 +1458,7 @@ exports[`renders correctly when local amount is null and no local exchange rate 
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 total
               </Text>
@@ -1609,6 +1620,7 @@ exports[`renders correctly with giant numbers 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 Subtotal @
                  
@@ -1771,6 +1783,7 @@ exports[`renders correctly with giant numbers 1`] = `
                           undefined,
                         ]
                       }
+                      testID="LineItemRowTitle/undefined"
                     >
                       
                     </Text>
@@ -1860,6 +1873,7 @@ exports[`renders correctly with giant numbers 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 total
               </Text>
@@ -1941,6 +1955,7 @@ exports[`renders correctly with giant numbers 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 <View
                   accessibilityState={
