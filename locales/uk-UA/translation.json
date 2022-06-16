@@ -207,7 +207,7 @@
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Під’єднати номер",
   "connectToWallet": "Застосунок {{dappName}} хоче під’єднатися до {{appName}}",
-  "confirmTransaction": "{{dappName}} хоче підтвердити транзакцію",
+  "confirmTransaction": "{{dappName}} бажає підтвердити операцію",
   "allow": "Дозволити",
   "address": "Адреса рахунку",
   "phoneNumber": "Номер телефону",
@@ -967,7 +967,7 @@
   "loadingFromDeeplink": "Під’єднання",
   "action": {
     "asking": "Цей застосунок запрошує виконати такі дії",
-    "askingV1_35": "{{dappName}} просить виконати такі дії:",
+    "askingV1_35": "{{dappName}} запрошує виконати такі дії:",
     "operation": "Операція",
     "data": "Дані",
     "sign": "Підписати корисне навантаження даних",
@@ -975,7 +975,7 @@
     "sendTransaction": "Надіслати Celo TX",
     "decrypt": "Розшифрувати корисне завантаження даних",
     "accounts": "Переглянути адресу облікового запису {{appName}}",
-    "details": "Переглянути дані операції",
+    "details": "Переглянути дані транзакції",
     "computeSharedSecret": "Генерувати секрети",
     "emptyMessage": "Порожнє повідомлення"
   },
