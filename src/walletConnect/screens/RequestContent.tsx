@@ -16,7 +16,7 @@ import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/Requ
 interface Props {
   onAccept(): void
   onDeny(): void
-  dappImageUrl: string
+  dappImageUrl?: string
   title: string
   description: string
   testId: string
@@ -70,12 +70,14 @@ function RequestContent({
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
-        <View style={styles.logoContainer}>
-          <View style={styles.logoBackground}>
-            <Logo />
+        {dappImageUrl && (
+          <View style={styles.logoContainer}>
+            <View style={styles.logoBackground}>
+              <Logo />
+            </View>
+            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
           </View>
-          <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-        </View>
+        )}
         <Text style={styles.header} testID={`${testId}Header`}>
           {title}
         </Text>
