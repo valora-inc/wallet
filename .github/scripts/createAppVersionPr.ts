@@ -1,8 +1,8 @@
-const { echo, exec, ShellString, env, config } = require('shelljs')
+import { config, echo, env, exec, ShellString } from 'shelljs'
 
 config.fatal = true
 
-const branchName = new ShellString(env.BRANCH_NAME)
+const branchName = new ShellString(env.BRANCH_NAME ?? '')
 
 // ensure that we are using ssh
 exec('git remote set-url origin git@github.com:valora-inc/wallet.git')
@@ -30,5 +30,3 @@ exec(
   -d '{ "head": "'${branchName}'", "base": "main", "title": "Bump app version to '${appVersion}'" }'
 `
 )
-
-export {}
