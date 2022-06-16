@@ -41,6 +41,7 @@ Array [
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         total
       </Text>
@@ -122,6 +123,7 @@ Array [
             },
           ]
         }
+        testID="LineItemRowTitle/undefined"
       >
         <View
           accessibilityState={

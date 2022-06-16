@@ -120,6 +120,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     undefined,
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 Subtotal @ 
                 <Text
@@ -281,6 +282,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                           undefined,
                         ]
                       }
+                      testID="LineItemRowTitle/undefined"
                     >
                       
                     </Text>
@@ -370,6 +372,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 total
               </Text>
@@ -451,6 +454,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="LineItemRowTitle/undefined"
               >
                 <View
                   accessibilityState={

@@ -35,16 +35,19 @@ function Pincode({
 
     const newPin = pin + digit
     onChangePin(newPin)
-    if (newPin.length === maxLength) {
-      // Wait for next frame so we the user can see the last digit
-      // displayed before acting on it
-      requestAnimationFrame(() => onCompletePin(newPin))
-    }
   }
 
   const onBackspacePress = () => {
-    onChangePin(pin.substr(0, pin.length - 1))
+    onChangePin(pin.substring(0, pin.length - 1))
   }
+
+  useEffect(() => {
+    // Wait for next frame so we the user can see the last digit
+    // displayed before acting on it
+    if (pin.length === maxLength) {
+      requestAnimationFrame(() => onCompletePin(pin))
+    }
+  }, [pin])
 
   useEffect(() => {
     Keyboard.dismiss()
