@@ -963,7 +963,7 @@
   "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Este aplicativo está pedindo para executar a seguinte ação",
-    "askingV1_35": "{{dappName}} está a pedir para realizar o seguinte:",
+    "askingV1_35": "{{dappName}} está pedindo para executar o seguinte:",
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
@@ -971,7 +971,7 @@
     "sendTransaction": "Enviar uma transação Celo",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Ler o seu Endereço de Conta da {{appName}}",
-    "details": "Ver dados da transacção",
+    "details": "Ver dados da transação",
     "computeSharedSecret": "Gerar segredos",
     "emptyMessage": "Mensagem vazia"
   },
