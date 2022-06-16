@@ -69,14 +69,16 @@ export function useEstimatedFee(
 
   const celoAddress = useSelector(celoAddressSelector)
 
-  // feeTokenAddress is undefined if the fee currency is CELO, we still want to
-  // use the fee estimate if that is the case
+  // useFeeCurrency chooses which crypto will be used to pay gas fees. It looks at the valid fee currencies (cUSD, cEUR, CELO)
+  // in order of highest balance and selects the first one that has more than a minimum threshhold of balance
+  // if CELO is selected then it actually returns undefined
   const feeTokenAddress = useFeeCurrency() ?? celoAddress
 
   const usdFeeEstimate = feeEstimates[tokenAddress]?.[feeType]?.usdFee
   const feeEstimate =
     useUsdToTokenAmount(new BigNumber(usdFeeEstimate ?? 0), tokenAddress) ?? new BigNumber(0)
 
+  // For example, if you are sending cUSD but you have more CELO this will be true
   if (tokenAddress !== feeTokenAddress) {
     return new BigNumber(0)
   }
