@@ -68,7 +68,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
             tapToCopy: true,
           },
         ]}
-        testId="WalletConnectSessionRequest"
+        testId="DappKitSessionRequest"
       />
     </View>
   )

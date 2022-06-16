@@ -72,7 +72,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
         dappImageUrl={activeDapp?.iconUrl}
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
-        testId="DappKitSign"
+        testId="DappKitSignRequest"
         requestDetails={requestDetails}
       >
         <Touchable testID="ShowTransactionDetailsButton" onPress={handleShowTransactionDetails}>
