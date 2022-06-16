@@ -207,7 +207,7 @@
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
-  "confirmTransaction": "{{dappName}} würde gerne eine Transaktion bestätigen",
+  "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
   "allow": "Erlauben",
   "address": "Konto-Adresse",
   "phoneNumber": "Telefonnummer",
