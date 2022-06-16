@@ -29,7 +29,7 @@ jobs:
           ssh-private-key: ${{ steps.google-secrets.outputs.BOT_SSH_KEY }}
       - uses: actions/checkout@v2
         with:
-          ref: kathy/fix-auto-bump
+          ref: main
       - run: yarn || yarn
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
