@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
+  "connectToWallet": "{{dappName}} souhaite confirmer une transaction",
   "allow": "Autoriser",
   "address": "Adresse du compte",
   "phoneNumber": "Numéro de téléphone",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Connexion",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante",
+    "askingV1_35": "{{dappName}} demande d'effectuer ce qui suit :",
     "operation": "Transaction",
     "data": "Données",
     "sign": "Signer une charge utile de données",
@@ -969,7 +970,7 @@
     "sendTransaction": "Envoyer un Celo TX",
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
-    "details": "Afficher les détails",
+    "details": "Afficher les données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },

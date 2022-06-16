@@ -3,17 +3,22 @@
 exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[MockFunction]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
   onSwipeComplete={[MockFunction]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -23,6 +28,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
   swipeDirection="down"
   swipeThreshold={100}
   transparent={true}
+  useNativeDriverForBackdrop={true}
   visible={false}
 >
   <View
@@ -54,9 +60,12 @@ exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
   />
   <View
     collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
     nativeID="animatedComponent"
+    onBackdropPress={[MockFunction]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
@@ -73,11 +82,13 @@ exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
     onStartShouldSetResponder={[Function]}
     onStartShouldSetResponderCapture={[Function]}
     onSwipeComplete={[MockFunction]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -100,6 +111,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
     }
     swipeDirection="down"
     swipeThreshold={100}
+    useNativeDriverForBackdrop={true}
   >
     <View
       style={
@@ -182,17 +194,22 @@ exports[`WebViewAndroidBottomSheet renders correctly when not visible 1`] = `
 exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[MockFunction]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
   onSwipeComplete={[MockFunction]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -202,6 +219,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
   swipeDirection="down"
   swipeThreshold={100}
   transparent={true}
+  useNativeDriverForBackdrop={true}
   visible={true}
 >
   <View
@@ -230,8 +248,11 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
     }
   />
   <View
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[MockFunction]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
@@ -248,11 +269,13 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
     onStartShouldSetResponder={[Function]}
     onStartShouldSetResponderCapture={[Function]}
     onSwipeComplete={[MockFunction]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -275,6 +298,7 @@ exports[`WebViewAndroidBottomSheet renders correctly when visible 1`] = `
     }
     swipeDirection="down"
     swipeThreshold={100}
+    useNativeDriverForBackdrop={true}
   >
     <View
       style={

@@ -236,6 +236,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
