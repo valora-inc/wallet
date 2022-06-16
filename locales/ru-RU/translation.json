@@ -207,7 +207,7 @@
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
   "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
-  "confirmTransaction": "{{dappName}} хотел бы подтвердить транзакцию",
+  "confirmTransaction": "{{dappName}} запрашивает подтвердить транзакцию",
   "allow": "Разрешить",
   "address": "Адрес аккаунта",
   "phoneNumber": "Номер телефона",
