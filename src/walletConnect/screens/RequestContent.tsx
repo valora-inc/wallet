@@ -5,8 +5,6 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo from 'src/icons/Logo'
-import QuitIcon from 'src/icons/QuitIcon'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -54,21 +52,28 @@ function RequestContent({
     setIsDenying(true, onDeny)
   }
 
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (isLoading) {
-          return
-        }
-        e.preventDefault()
-        handleDeny()
-      }),
-    [navigation, handleDeny, isLoading]
-  )
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      console.log('=====hello!')
+      if (isLoading) {
+        return
+      }
+      e.preventDefault()
+      handleDeny()
+    })
+
+    return unsubscribe
+  }, [navigation, handleDeny, isLoading])
+
+  useEffect(() => {
+    console.log('====i am mounted')
+    return () => {
+      console.log('====i am unmounted')
+    }
+  }, [])
 
   return (
-    <View style={styles.container}>
-      <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
+    <>
       <ScrollView>
         <View style={styles.logoContainer}>
           <View style={styles.logoBackground}>
@@ -113,15 +118,11 @@ function RequestContent({
           testID={`${testId}/Allow`}
         />
       </View>
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-  },
   logoContainer: {
     justifyContent: 'center',
     marginVertical: Spacing.Thick24,
@@ -165,10 +166,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
-    marginTop: 'auto',
-  },
-  closeButton: {
-    alignSelf: 'flex-end',
   },
 })
 

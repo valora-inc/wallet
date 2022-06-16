@@ -16,6 +16,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
 function WalletConnectRequest({ navigation, route: { params } }: Props) {
+export const WALLET_CONNECT_BOTTOM_SHEET_HEIGHT = 600
   const { t } = useTranslation()
 
   return (
@@ -52,7 +53,8 @@ function WalletConnectRequest({ navigation, route: { params } }: Props) {
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Thick24,
-    flex: 1,
+    // 24 is the width of the bottom sheet handle
+    height: WALLET_CONNECT_BOTTOM_SHEET_HEIGHT - 24,
     alignItems: 'center',
   },
   connecting: {
