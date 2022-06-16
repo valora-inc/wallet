@@ -963,7 +963,7 @@
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
-    "askingV1_35": "{{dappName}} bittet darum, das Folgende auszuführen:",
+    "askingV1_35": "{{dappName}} möchte Folgendes ausführen:",
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere eine Daten-Nutzlast",
