@@ -135,10 +135,11 @@ export const DEFAULT_SENTRY_NETWORK_ERRORS = [
   'The network connection was lost',
 ]
 
-export const LOGGER_LEVEL =
-  {
-    debug: LoggerLevel.debug,
-    info: LoggerLevel.info,
-    warn: LoggerLevel.warn,
-    error: LoggerLevel.error,
-  }[Config.LOGGER_LEVEL] || LoggerLevel.debug
+const configLoggerLevels: { [key: string]: LoggerLevel } = {
+  debug: LoggerLevel.debug,
+  info: LoggerLevel.info,
+  warn: LoggerLevel.warn,
+  error: LoggerLevel.error,
+}
+
+export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.debug
