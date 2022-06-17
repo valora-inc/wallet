@@ -3,7 +3,7 @@
  * when we need to fetch a PIN from a user.
  */
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -27,6 +27,7 @@ export const PincodeEnter = ({ route }: Props) => {
   const [errorText, setErrorText] = useState(undefined)
   const [pinIsCorrect, setPinIsCorrect] = useState(false)
   const currentAccount = useSelector(currentAccountSelector)
+  const pinRef = useRef<string>('')
 
   useEffect(() => {
     ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_start)
@@ -37,6 +38,10 @@ export const PincodeEnter = ({ route }: Props) => {
       }
     }
   }, [])
+
+  useEffect(() => {
+    pinRef.current = pin
+  }, [pin])
 
   const onChangePin = (pin: string) => {
     setPin(pin)
@@ -62,13 +67,13 @@ export const PincodeEnter = ({ route }: Props) => {
     const withVerification = route.params.withVerification
     const account = currentAccount ?? route.params.account
     if (withVerification && account) {
-      if (await checkPin(pin, account)) {
-        onCorrectPin(pin)
+      if (await checkPin(pinRef.current, account)) {
+        onCorrectPin(pinRef.current)
       } else {
         onWrongPin()
       }
     } else {
-      onCorrectPin(pin)
+      onCorrectPin(pinRef.current)
     }
   }
 
