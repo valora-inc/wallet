@@ -172,15 +172,16 @@ export default NewAccountPhoneVerification = () => {
     // Tap 'Do I need to connect?' button
     await element(by.id('doINeedToConfirm')).tap()
 
-    // Assert modal content is visible
-    await waitForElementId('VerificationLearnMoreDialog')
+    // Assert modal action is visible
+    await waitForElementId('VerificationLearnMoreDialog/PrimaryAction')
 
     // Assert able to dismiss modal and skip
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
-    // Assert VerificationSkipDialog modal visible
-    await waitForElementId('VerificationSkipDialog')
+    // Assert VerificationSkipDialog modal actions are visible
+    await waitForElementId('VerificationSkipDialog/PrimaryAction')
+    await waitForElementId('VerificationSkipDialog/SecondaryAction')
 
     // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()

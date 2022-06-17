@@ -1199,12 +1199,16 @@ exports[`Account renders correctly 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1250,12 +1254,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1281,7 +1289,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -1449,12 +1456,16 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1500,12 +1511,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1531,7 +1546,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -1695,12 +1709,16 @@ exports[`Account renders correctly 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -1746,12 +1764,16 @@ exports[`Account renders correctly 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -1777,7 +1799,6 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -3464,12 +3485,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -3515,12 +3540,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -3546,7 +3575,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -3714,12 +3742,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -3765,12 +3797,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -3796,7 +3832,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -3960,12 +3995,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -4011,12 +4050,16 @@ exports[`Account renders correctly when dev mode active 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -4042,7 +4085,6 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -5328,12 +5370,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -5379,12 +5425,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -5410,7 +5460,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -5578,12 +5627,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -5629,12 +5682,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -5660,7 +5717,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -5824,12 +5880,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -5875,12 +5935,16 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -5906,7 +5970,6 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7192,12 +7255,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </View>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -7243,12 +7310,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -7274,7 +7345,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7442,12 +7512,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -7493,12 +7567,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -7524,7 +7602,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7688,12 +7765,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
       </Modal>
       <Modal
         animationType="none"
+        deviceHeight={null}
+        deviceWidth={null}
         hardwareAccelerated={false}
         hideModalContentWhileAnimating={false}
+        onBackdropPress={[Function]}
         onModalHide={[Function]}
         onModalWillHide={[Function]}
         onModalWillShow={[Function]}
         onRequestClose={[Function]}
+        panResponderThreshold={4}
         scrollHorizontal={false}
         scrollOffset={0}
         scrollOffsetMax={0}
@@ -7739,12 +7820,16 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         />
         <View
           collapsable={false}
+          deviceHeight={null}
+          deviceWidth={null}
           forwardedRef={[Function]}
           hideModalContentWhileAnimating={false}
           nativeID="animatedComponent"
+          onBackdropPress={[Function]}
           onModalHide={[Function]}
           onModalWillHide={[Function]}
           onModalWillShow={[Function]}
+          panResponderThreshold={4}
           pointerEvents="box-none"
           scrollHorizontal={false}
           scrollOffset={0}
@@ -7770,7 +7855,6 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
-          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
