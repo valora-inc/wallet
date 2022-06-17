@@ -24,6 +24,15 @@ export default ChangePIN = () => {
     // Then we enter the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
     await sleep(500)
+    // Enter an invalid pin and check that we get the correct error and start over
+    // https://github.com/valora-inc/wallet/pull/2608
+    await enterPinUi('902100')
+    await expect(element(by.text("The PINs didn't match"))).toBeVisible()
+
+    // Then we enter the new PIN
+    await enterPinUi(ALTERNATIVE_PIN)
+    await sleep(500)
+
     // Then confirm the new PIN
     await enterPinUi(ALTERNATIVE_PIN)
     await sleep(500)

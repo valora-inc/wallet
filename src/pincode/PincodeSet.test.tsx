@@ -173,7 +173,8 @@ describe('Pincode', () => {
     expect(getByText('pincodeSet.invalidPin')).toBeDefined()
   })
 
-  it("displays an error text when the pins don't match", async () => {
+  // TODO: Fix this test as it is incorrectly passing
+  it.skip("displays an error text when the pins don't match", async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
 
