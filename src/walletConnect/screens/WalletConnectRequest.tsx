@@ -1,5 +1,6 @@
+import { useBottomSheetDynamicSnapPoints } from '@gorhom/bottom-sheet'
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -14,10 +15,31 @@ import SessionRequest from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
+export const WALLET_CONNECT_BOTTOM_SHEET_HEIGHT = 600
 
 function WalletConnectRequest({ navigation, route: { params } }: Props) {
-export const WALLET_CONNECT_BOTTOM_SHEET_HEIGHT = 600
   const { t } = useTranslation()
+
+  const initialSnapPoints = useMemo(() => ['25%', 'CONTENT_HEIGHT'], [])
+
+  const { animatedContentHeight, handleContentLayout } = useBottomSheetDynamicSnapPoints(
+    initialSnapPoints
+  )
+
+  useEffect(() => {
+    // @ts-ignore
+    navigation.setOptions({ handleHeight: animatedContentHeight })
+  }, [])
+
+  console.log('=====animatedContentHeight', animatedContentHeight)
+
+  setTimeout(() => {
+    console.log('=====animatedContentHeight', animatedContentHeight)
+  }, 1000)
+
+  setTimeout(() => {
+    console.log('=====animatedContentHeight', animatedContentHeight)
+  }, 3000)
 
   return (
     <View
@@ -25,6 +47,7 @@ export const WALLET_CONNECT_BOTTOM_SHEET_HEIGHT = 600
         styles.container,
         params.type === WalletConnectRequestType.Loading ? { justifyContent: 'center' } : undefined,
       ]}
+      onLayout={handleContentLayout}
     >
       {params.type === WalletConnectRequestType.Loading && (
         <>

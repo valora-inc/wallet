@@ -119,9 +119,7 @@ import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
-import WalletConnectRequest, {
-  WALLET_CONNECT_BOTTOM_SHEET_HEIGHT,
-} from 'src/walletConnect/screens/WalletConnectRequest'
+import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
 
 const TAG = 'Navigator'
@@ -691,7 +689,7 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.WalletConnectRequest}
         component={WalletConnectRequest}
-        options={{ snapPoints: [WALLET_CONNECT_BOTTOM_SHEET_HEIGHT] }}
+        options={{ snapPoints: ['60%', '100%'] }}
       />
     </>
   )
