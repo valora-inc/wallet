@@ -140,7 +140,7 @@ Currently it is not possible to install the wallet natively. There are a few pro
 
 1. Make sure all necessary software (VS Code, Terminal/iTerm2, XCode, Simulator) is running with Rosetta. You can verify this by typing `arch` in your terminal.
 
-```shell
+```bash
 $ arch
 -> i386
 ```
@@ -160,12 +160,12 @@ alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
 
 4. Install [`rbenv`](https://github.com/rbenv/rbenv) on Intel architecture:
 
-```shell
+```bash
 ibrew install rbenv
 ```
 4.1. Add rbenv initialization to your `.zshrc`:
 
-```shell
+```bash
 eval "$(rbenv init - zsh)"
 ```
 
@@ -193,7 +193,7 @@ node -e 'console.log(process.arch)'
 
 7. The build script will fail if `node` + `npm` and `yarn` have been installed through `brew`. Please uninstall them through brew (the nvm installations will still be there) and install them through `nvm`:
 
-```shell
+```bash
 
 brew uninstall npm yarn node
 
@@ -212,7 +212,7 @@ npm install -g yarn
 
 8. Now verify that everything is correct for the build:
 
-```shell
+```bash
 which ruby
 -> /opt/homebrew/opt/rbenv/shims/ruby
 
