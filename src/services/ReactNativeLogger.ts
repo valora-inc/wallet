@@ -159,11 +159,7 @@ export default class ReactNativeLogger {
     const logFilePath = this.getReactNativeLogsFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
 
-    const oldDebug = console.debug
-    const oldLog = console.log
-    const oldInfo = console.info
-
-    const consoleFns = {
+    const consoleFns: { [key: string]: (message?: any, ...optionalParams: any[]) => void } = {
       debug: console.debug,
       log: console.log,
       info: console.info,
