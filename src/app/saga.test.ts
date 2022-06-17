@@ -4,7 +4,6 @@ import { select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/app/actions'
-import { DappSection } from 'src/app/reducers'
 import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import {
   activeDappSelector,
@@ -14,6 +13,7 @@ import {
   getRequirePinOnAppOpen,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { DappSection } from 'src/dapps/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
