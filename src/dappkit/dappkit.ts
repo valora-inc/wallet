@@ -184,7 +184,7 @@ export function* handleDappkitDeepLink(deeplink: string) {
           DappKitEvents.dappkit_request_propose,
           getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
-        navigate(Screens.DappKitAccountAuth, { dappKitRequest })
+        navigate(Screens.DappKitAccountScreen, { dappKitRequest })
         break
       case DappKitRequestTypes.SIGN_TX:
         ValoraAnalytics.track(
