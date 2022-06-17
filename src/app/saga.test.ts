@@ -3,17 +3,13 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { appLock, dappSelected, openDeepLink, openUrl, setAppState } from 'src/app/actions'
-import { handleDeepLink, handleOpenDapp, handleOpenUrl, handleSetAppState } from 'src/app/saga'
-import {
-  activeDappSelector,
-  dappsWebViewEnabledSelector,
-  getAppLocked,
-  getLastTimeBackgrounded,
-  getRequirePinOnAppOpen,
-} from 'src/app/selectors'
+import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
+import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
+import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { DappSection } from 'src/dapps/slice'
+import { handleOpenDapp } from 'src/dapps/saga'
+import { activeDappSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
+import { DappSection, dappSelected } from 'src/dapps/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -354,7 +350,10 @@ describe('App saga', () => {
     }
 
     it('opens a web view', async () => {
-      await expectSaga(handleOpenDapp, dappSelected({ ...baseDapp, openedFrom: DappSection.All }))
+      await expectSaga(
+        handleOpenDapp,
+        dappSelected({ dapp: { ...baseDapp, openedFrom: DappSection.All } })
+      )
         .provide([[select(dappsWebViewEnabledSelector), true]])
         .run()
 
@@ -367,9 +366,11 @@ describe('App saga', () => {
       await expectSaga(
         handleOpenDapp,
         dappSelected({
-          ...baseDapp,
-          dappUrl: 'celo://wallet/bidali',
-          openedFrom: DappSection.All,
+          dapp: {
+            ...baseDapp,
+            dappUrl: 'celo://wallet/bidali',
+            openedFrom: DappSection.All,
+          },
         })
       )
         .provide([[select(dappsWebViewEnabledSelector), true]])

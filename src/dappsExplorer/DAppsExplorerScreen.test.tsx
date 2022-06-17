@@ -53,7 +53,7 @@ const mockResponseWithFeaturedDapp = {
 }
 
 const store = createMockStore({
-  app: { dappListApiUrl: 'http://url.com' },
+  dapps: { dappListApiUrl: 'http://url.com' },
 })
 
 describe(DAppsExplorerScreen, () => {

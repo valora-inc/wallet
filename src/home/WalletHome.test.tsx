@@ -228,7 +228,7 @@ describe('WalletHome', () => {
 
   describe('recently used dapps', () => {
     const store = createMockStore({
-      app: {
+      dapps: {
         recentDapps,
         maxNumRecentDapps: 4,
       },
@@ -254,7 +254,9 @@ describe('WalletHome', () => {
       fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
 
       expect(store.getActions()).toEqual(
-        expect.arrayContaining([dappSelected({ ...dapp, openedFrom: DappSection.RecentlyUsed })])
+        expect.arrayContaining([
+          dappSelected({ dapp: { ...dapp, openedFrom: DappSection.RecentlyUsed } }),
+        ])
       )
     })
 
@@ -272,7 +274,7 @@ describe('WalletHome', () => {
       ).toBeFalsy()
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
-          dappSelected({ ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed }),
+          dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
         ])
       )
     })

@@ -44,7 +44,7 @@ const useOpenDapp = () => {
 
   const openDapp = (dapp: ActiveDapp) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_open, getEventProperties(dapp))
-    dispatch(dappSelected(dapp))
+    dispatch(dappSelected({ dapp }))
   }
 
   const onOpenDapp = () => {
