@@ -7,6 +7,7 @@
     - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
     - [Install Xcode](#install-xcode)
     - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
+    - [Install on an M1](#install-on-an-m1)
   - [Android](#android)
     - [Install Java](#install-java)
     - [Install Android Dev Tools](#install-android-dev-tools)
@@ -100,6 +101,8 @@ Note that using the method above, you can have multiple versions of Xcode instal
 
 #### Install Cocopods, Bundler, and download project dependencies
 
+If you are on an M1, please read [how to setup the environment on an M1](#install-on-an-m1) before you continue.
+
 Make sure you are in the `ios` directory of the repository root before running the following:
 
 ```bash
@@ -119,6 +122,114 @@ If your machine does not recognize the `gem` command, you may need to [download 
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
+#### Install on an M1
+
+Currently it is not possible to install the wallet natively. There are a few problems that need to be addressed before being able to run the repo on an M1:
+
+1. The M1 comes with a preinstalled version of Ruby that doesn't work with this repository.
+
+2. The build process that gets executed with `yarn dev:ios` is not able to finish with `nvm` installed.
+
+3. Running the necessary scripts with an M1-native node version will not wor.
+
+4. It is currently not possible to run the repository in the integrated VSCode terminal.
+
+5. It is not possible to run the repository when the containing folder is located anywhere within `Documents` or `Desktop`.
+
+##### Solution
+
+1. Make sure all necessary software (VS Code, Terminal/iTerm2, XCode, Simulator) is running with Rosetta. You can verify this by typing `arch` in your terminal.
+
+```shell
+$ arch
+-> i386
+```
+
+2. Reinstall `brew` with x86_64 architecture:
+
+```bash
+arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+3. (optional) add your different brew installation paths as aliases to your `.zshrc`:
+
+```bash
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
+alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
+```
+
+4. Install [`rbenv`](https://github.com/rbenv/rbenv) on Intel architecture:
+
+```shell
+ibrew install rbenv
+```
+4.1. Add rbenv initialization to your `.zshrc`:
+
+```shell
+eval "$(rbenv init - zsh)"
+```
+
+5. Install ruby version 2.7.6 with `rbenv` and set it as the main version:
+
+```bash
+rbenv install 2.7.6
+rbenv global 2.7.6
+```
+
+6. Install the required node version from [`.nvmrc`](/.nvmrc) with Intel architecture (If you have it installed under M1 architecture already, uninstall):
+
+```bash
+(nvm uninstall 16.5.0)
+nvm install 16.5.0
+nvm use
+```
+
+Verify that node is using x64 architecture:
+
+```bash
+node -e 'console.log(process.arch)'
+-> x64
+```
+
+7. The build script will fail if `node` + `npm` and `yarn` have been installed through `brew`. Please uninstall them through brew (the nvm installations will still be there) and install them through `nvm`:
+
+```shell
+
+brew uninstall npm yarn node
+
+which node
+-> which node
+/Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
+
+nvm install-latest-npm
+which npm
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
+
+npm install -g yarn
+ which yarn
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
+```
+
+8. Now verify that everything is correct for the build:
+
+```shell
+which ruby
+-> /opt/homebrew/opt/rbenv/shims/ruby
+
+which node
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
+
+node -e 'console.log(process.arch)'
+-> x64
+
+which npm
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
+
+which yarn
+-> /Users/simo/.nvm/versions/node/v16.15.0/bin/yarn
+
+```
+Now follow [the steps for iOS installation](#install-cocopods-bundler-and-download-project-dependencies).
 ### Android
 
 #### Install Java
