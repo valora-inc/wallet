@@ -3,13 +3,7 @@ import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS } from 'src/config'
-
-export enum LoggerLevel {
-  debug = 3,
-  info = 2,
-  warn = 1,
-  error = 0,
-}
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 
 export default class ReactNativeLogger {
   isNetworkConnected: boolean

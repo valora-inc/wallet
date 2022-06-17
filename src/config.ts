@@ -6,7 +6,7 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-import { LoggerLevel } from 'src/services/ReactNativeLogger'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 
 export * from 'src/brandingConfig'
 
