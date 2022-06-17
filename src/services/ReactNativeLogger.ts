@@ -4,10 +4,20 @@ import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS } from 'src/config'
 
+export enum LoggerLevel {
+  debug = 3,
+  info = 2,
+  warn = 1,
+  error = 0,
+}
+
 export default class ReactNativeLogger {
   isNetworkConnected: boolean
   networkErrors: string[]
-  constructor() {
+  level: LoggerLevel
+
+  constructor({ level }: { level: LoggerLevel } = { level: LoggerLevel.debug }) {
+    this.level = level
     this.isNetworkConnected = true
     this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS || []
   }
@@ -19,14 +29,23 @@ export default class ReactNativeLogger {
    * For example, `send/actions/refreshGasPrice` since there are many actions.ts files.
    */
   debug = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.debug) {
+      return
+    }
     console.debug(`${tag}/${messages.join(', ')}`)
   }
 
   info = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.info) {
+      return
+    }
     console.info(`${tag}/${messages.join(', ')}`)
   }
 
   warn = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.warn) {
+      return
+    }
     // console.warn would display yellow box, therefore, we will log to console.info instead.
     console.info(`${tag}/${messages.join(', ')}`)
   }
