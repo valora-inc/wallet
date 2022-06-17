@@ -16,7 +16,7 @@ import {
 } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
-import config from 'src/geth/networkConfig'
+import config from 'src/web3/networkConfig'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'

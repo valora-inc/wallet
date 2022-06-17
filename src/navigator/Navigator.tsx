@@ -1,5 +1,5 @@
 import { RouteProp } from '@react-navigation/core'
-import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -31,7 +31,6 @@ import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
-import DappKitTxDataScreen from 'src/dappkit/DappKitTxDataScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import ExchangeReview from 'src/exchange/ExchangeReview'
@@ -39,6 +38,7 @@ import ExchangeTradeScreen from 'src/exchange/ExchangeTradeScreen'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
+import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
@@ -115,20 +115,15 @@ import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
-import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
-import WalletConnectLoading from 'src/walletConnect/screens/Loading'
-import WalletConnectResult from 'src/walletConnect/screens/Result'
-import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
 const RootStack = createStackNavigator<StackParamList>()
 
-type NavigationOptions = StackScreenProps<StackParamList, keyof StackParamList>
-
-export const modalScreenOptions = ({ route, navigation }: NavigationOptions) =>
+export const modalScreenOptions = () =>
   Platform.select({
     // iOS 13 modal presentation
     ios: {
@@ -149,39 +144,31 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen
-        name={Screens.DappKitAccountAuth}
+        name={Screens.DappKitAccountScreen}
         component={DappKitAccountScreen}
-        options={DappKitAccountScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen
         name={Screens.DappKitSignTxScreen}
         component={DappKitSignTxScreen}
-        options={DappKitSignTxScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen
-        name={Screens.DappKitTxDataScreen}
-        component={DappKitTxDataScreen}
-        options={DappKitTxDataScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectLoading}
-        component={WalletConnectLoading}
-        options={WalletConnectLoading.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectResult}
-        component={WalletConnectResult}
-        options={WalletConnectResult.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectSessionRequest}
-        component={WalletConnectSessionRequestScreen}
-        options={WalletConnectSessionRequestScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectActionRequest}
-        component={WalletConnectActionRequestScreen}
-        options={WalletConnectActionRequestScreen.navigationOptions}
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
@@ -523,6 +510,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatExchangeCurrency}
     />
     <Navigator.Screen
+      options={headerWithBackButton}
+      name={Screens.FiatDetailsScreen}
+      component={FiatDetailsScreen}
+    />
+    <Navigator.Screen
       options={CashInSuccess.navigationOptions}
       name={Screens.CashInSuccess}
       component={CashInSuccess}
@@ -693,8 +685,8 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const mainScreenNavOptions = (navOptions: NavigationOptions) => ({
-  ...modalScreenOptions(navOptions),
+const mainScreenNavOptions = () => ({
+  ...modalScreenOptions(),
   headerShown: false,
 })
 

@@ -253,12 +253,16 @@ exports[`SendConfirmation renders correctly 1`] = `
           </View>
           <Modal
             animationType="none"
+            deviceHeight={null}
+            deviceWidth={null}
             hardwareAccelerated={false}
             hideModalContentWhileAnimating={false}
+            onBackdropPress={[Function]}
             onModalHide={[Function]}
             onModalWillHide={[Function]}
             onModalWillShow={[Function]}
             onRequestClose={[Function]}
+            panResponderThreshold={4}
             scrollHorizontal={false}
             scrollOffset={0}
             scrollOffsetMax={0}
@@ -304,12 +308,16 @@ exports[`SendConfirmation renders correctly 1`] = `
             />
             <View
               collapsable={false}
+              deviceHeight={null}
+              deviceWidth={null}
               forwardedRef={[Function]}
               hideModalContentWhileAnimating={false}
               nativeID="animatedComponent"
+              onBackdropPress={[Function]}
               onModalHide={[Function]}
               onModalWillHide={[Function]}
               onModalWillShow={[Function]}
+              panResponderThreshold={4}
               pointerEvents="box-none"
               scrollHorizontal={false}
               scrollOffset={0}
@@ -335,7 +343,6 @@ exports[`SendConfirmation renders correctly 1`] = `
                 ]
               }
               swipeThreshold={100}
-              testID="InviteAndSendModal"
             >
               <RNCSafeAreaView
                 edges={
@@ -523,12 +530,16 @@ exports[`SendConfirmation renders correctly 1`] = `
           </Modal>
           <Modal
             animationType="none"
+            deviceHeight={null}
+            deviceWidth={null}
             hardwareAccelerated={false}
             hideModalContentWhileAnimating={false}
+            onBackdropPress={[Function]}
             onModalHide={[Function]}
             onModalWillHide={[Function]}
             onModalWillShow={[Function]}
             onRequestClose={[Function]}
+            panResponderThreshold={4}
             scrollHorizontal={false}
             scrollOffset={0}
             scrollOffsetMax={0}
@@ -573,12 +584,16 @@ exports[`SendConfirmation renders correctly 1`] = `
             />
             <View
               collapsable={false}
+              deviceHeight={null}
+              deviceWidth={null}
               forwardedRef={[Function]}
               hideModalContentWhileAnimating={false}
               nativeID="animatedComponent"
+              onBackdropPress={[Function]}
               onModalHide={[Function]}
               onModalWillHide={[Function]}
               onModalWillShow={[Function]}
+              panResponderThreshold={4}
               pointerEvents="box-none"
               scrollHorizontal={false}
               scrollOffset={0}
@@ -858,6 +873,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                       undefined,
                     ]
                   }
+                  testID="LineItemRowTitle/undefined"
                 >
                   
                 </Text>
@@ -935,6 +951,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -1008,6 +1025,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <Text
               style={

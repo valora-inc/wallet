@@ -3,10 +3,10 @@ import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { CachesDirectoryPath } from 'react-native-fs'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
-import { GethSyncMode } from 'src/geth/consts'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 
 export * from 'src/brandingConfig'
 
@@ -83,20 +83,6 @@ export const APP_BUNDLE_ID = Config.APP_BUNDLE_ID
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
 export const SHOW_TESTNET_BANNER = stringToBoolean(Config.SHOW_TESTNET_BANNER || 'false')
 export const SHOW_GET_INVITE_LINK = stringToBoolean(Config.SHOW_GET_INVITE_LINK || 'false')
-export const FORNO_ENABLED_INITIALLY = Config.FORNO_ENABLED_INITIALLY
-  ? stringToBoolean(Config.FORNO_ENABLED_INITIALLY)
-  : false
-export const DEFAULT_SYNC_MODE: GethSyncMode = Config.DEFAULT_SYNC_MODE
-  ? new BigNumber(Config.DEFAULT_SYNC_MODE).toNumber()
-  : GethSyncMode.Lightest
-export const GETH_USE_FULL_NODE_DISCOVERY = stringToBoolean(
-  Config.GETH_USE_FULL_NODE_DISCOVERY || 'true'
-)
-export const GETH_USE_STATIC_NODES = stringToBoolean(Config.GETH_USE_STATIC_NODES || 'true')
-// NOTE: Development purposes only
-export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
-  Config.GETH_START_HTTP_RPC_SERVER || 'false'
-)
 export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
@@ -142,8 +128,18 @@ export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 export const DEFAULT_APP_LANGUAGE = 'en-US'
 
+// Logging and monitoring
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2
 export const DEFAULT_SENTRY_NETWORK_ERRORS = [
   'network request failed',
   'The network connection was lost',
 ]
+
+const configLoggerLevels: { [key: string]: LoggerLevel } = {
+  debug: LoggerLevel.Debug,
+  info: LoggerLevel.Info,
+  warn: LoggerLevel.Warn,
+  error: LoggerLevel.Error,
+}
+
+export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug

@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Почати роботу",
   "cashIn": "Додати {{currency}}",
   "connectNumber": "Під’єднати номер",
-  "connectToWallet": "Застосунок {{dappName}} хоче під’єднатися до {{appName}}",
+  "connectToWallet": "{{dappName}} хоче підтвердити транзакцію",
   "allow": "Дозволити",
   "address": "Адреса рахунку",
   "phoneNumber": "Номер телефону",
@@ -966,6 +966,7 @@
   "loadingFromDeeplink": "Під’єднання",
   "action": {
     "asking": "Цей застосунок запрошує виконати такі дії",
+    "askingV1_35": "{{dappName}} просить виконати такі дії:",
     "operation": "Операція",
     "data": "Дані",
     "sign": "Підписати корисне навантаження даних",
@@ -973,7 +974,7 @@
     "sendTransaction": "Надіслати Celo TX",
     "decrypt": "Розшифрувати корисне завантаження даних",
     "accounts": "Переглянути адресу облікового запису {{appName}}",
-    "details": "Показати деталі",
+    "details": "Переглянути дані операції",
     "computeSharedSecret": "Генерувати секрети",
     "emptyMessage": "Порожнє повідомлення"
   },
@@ -1249,15 +1250,17 @@
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі операції",
     "paymentMethodVia": "Пов'язані через {{providerName}}",
+    "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
       "transactionDetailsAmount": "Сума"
     },
     "cashOut": {
-      "header": "Перегляд - Вивести кошти",
+      "header": "Перегляд",
       "button": "Вивести кошти",
-      "transactionDetailsAmount": "Сума виведення"
+      "transactionDetailsAmount": "Всього Зняття",
+      "transactionDetailsAmountConverted": "Знята сума"
     }
   },
   "fiatExchangeFlow": {

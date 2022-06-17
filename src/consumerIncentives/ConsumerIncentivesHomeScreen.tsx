@@ -19,7 +19,7 @@ import {
   SuperchargeTokenConfig,
 } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
@@ -293,7 +293,7 @@ export default function ConsumerIncentivesHomeScreen() {
               ? t('cashIn', { currency: tokenToSupercharge.token })
               : t('connectNumber')
           }
-          icon={canClaimRewards && <Logo style={styles.logo} height={24} type={LogoTypes.LIGHT} />}
+          icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
           showLoading={showLoadingIndicator || claimRewardsLoading}
           disabled={showLoadingIndicator || claimRewardsLoading}
           onPress={onPressCTA}
@@ -371,9 +371,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderTopColor: colors.gray2,
     borderTopWidth: 1,
-  },
-  logo: {
-    position: 'absolute',
-    left: 36,
   },
 })

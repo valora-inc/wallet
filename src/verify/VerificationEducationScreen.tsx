@@ -26,7 +26,7 @@ import Button, { BtnTypes } from 'src/components/Button'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
+import networkConfig from 'src/web3/networkConfig'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -385,6 +385,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       <Modal
         isVisible={currentState.type === StateType.EnsuringRealHumanUser}
         style={styles.recaptchaModal}
+        useNativeDriverForBackdrop={true}
+        useNativeDriver={true}
+        backdropTransitionOutTiming={0}
       >
         <TopBarTextButton
           onPress={cancelCaptcha}

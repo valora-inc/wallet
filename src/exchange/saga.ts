@@ -106,7 +106,7 @@ export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxActio
 
 export async function getExchangeContract(token: StableCurrency) {
   Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
-  const contractKit = await getContractKitAsync(false)
+  const contractKit = await getContractKitAsync()
   switch (token) {
     case Currency.Dollar:
       return contractKit.contracts.getExchange(StableToken.cUSD)

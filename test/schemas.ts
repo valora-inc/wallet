@@ -1275,6 +1275,35 @@ export const v51Schema = {
   },
 }
 
+export const v52Schema = {
+  ...v51Schema,
+  _persist: {
+    ...v51Schema._persist,
+    version: 52,
+  },
+  app: {
+    ...v51Schema.app,
+    fiatConnectCashInEnabled: false,
+    fiatConnectCashOutEnabled: false,
+  },
+}
+
+export const v53Schema = {
+  ..._.omit(v52Schema, 'geth'),
+  _persist: {
+    ...v52Schema._persist,
+    version: 53,
+  },
+  account: _.omit(v52Schema.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
+  web3: _.omit(
+    v52Schema.web3,
+    'syncProgress',
+    'latestBlockNumber',
+    'fornoMode',
+    'hadFornoDisabled'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v51Schema as Partial<RootState>
+  return v53Schema as Partial<RootState>
 }

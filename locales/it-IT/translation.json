@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
   "connectNumber": "Collega numero",
-  "connectToWallet": "{{dappName}} desidera collegarsi a {{appName}}",
+  "connectToWallet": "{{dappName}} desidera confermare una transazione",
   "allow": "Consenti",
   "address": "Indirizzo del conto",
   "phoneNumber": "Numero telefonico",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Connessione in corso",
   "action": {
     "asking": "Questa applicazione richiede di eseguire la seguente azione",
+    "askingV1_35": "{{dappName}} chiede di eseguire quanto segue:",
     "operation": "Operazione",
     "data": "Dati",
     "sign": "Firma un payload dati",
@@ -969,7 +970,7 @@
     "sendTransaction": "Invia una transazione Celo",
     "decrypt": "Decrittografa un payload dati",
     "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
-    "details": "Mostra dettagli",
+    "details": "Visualizza i dati delle transazioni",
     "computeSharedSecret": "Genera segreti",
     "emptyMessage": "Messaggio vuoto"
   },
@@ -1245,15 +1246,17 @@
     "paymentMethod": "Metodo di pagamento",
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegati via {{providerName}}",
+    "receiveAmount": "Riceverai",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
       "transactionDetailsAmount": "Prezzo totale"
     },
     "cashOut": {
-      "header": "Rivedi - Preleva fondi",
+      "header": "Rivedi",
       "button": "Preleva fondi",
-      "transactionDetailsAmount": "Importo del prelievo"
+      "transactionDetailsAmount": "Prelievo totale",
+      "transactionDetailsAmountConverted": "Importo prelevato"
     }
   },
   "fiatExchangeFlow": {

@@ -1,4 +1,4 @@
-import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
+import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
 import { AccountNumber, FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
@@ -6,6 +6,7 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -20,7 +21,11 @@ import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction, PendingSession } from 'src/walletConnect/types'
+import {
+  PendingAction,
+  WalletConnectRequestType,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -97,14 +102,11 @@ export type StackParamList = {
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
-  [Screens.DappKitAccountAuth]: {
+  [Screens.DappKitAccountScreen]: {
     dappKitRequest: AccountAuthRequest
   }
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
-  }
-  [Screens.DappKitTxDataScreen]: {
-    dappKitData: TxToSignParam['txData']
   }
   [Screens.DAppsExplorerScreen]: undefined
   [Screens.Debug]: undefined
@@ -140,8 +142,7 @@ export type StackParamList = {
   }
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
-    cicoQuote: QuoteResponse
-    provider: ProviderInfo
+    normalizedQuote: FiatConnectQuote
     fiatAccountSchema: FiatAccountSchema
     fiatAccount: FiatAccount
   }
@@ -167,7 +168,6 @@ export type StackParamList = {
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
-    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -264,9 +264,7 @@ export type StackParamList = {
   [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
   [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.SetClock]: undefined
-  [Screens.Settings]:
-    | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
-    | undefined
+  [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
@@ -326,18 +324,12 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectLoading]: { origin: WalletConnectPairingOrigin }
-  [Screens.WalletConnectResult]: {
-    title: string
-    subtitle: string
-  }
-  [Screens.WalletConnectSessionRequest]: PendingSession
+  [Screens.WalletConnectRequest]:
+    | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
+    | { type: WalletConnectRequestType.Action; pendingAction: PendingAction }
+    | { type: WalletConnectRequestType.Session; pendingSession: WalletConnectSessionRequest }
+    | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: PendingAction & {
-    dappName: string
-    dappUrl: string
-    dappIcon: string
-  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined

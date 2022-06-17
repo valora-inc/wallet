@@ -402,6 +402,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 undefined,
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             amountCeloWithdrawn
           </Text>
@@ -546,6 +547,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                       undefined,
                     ]
                   }
+                  testID="LineItemRowTitle/undefined"
                 >
                   
                 </Text>
@@ -623,6 +625,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -703,6 +706,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -860,6 +864,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -941,6 +946,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -1425,6 +1431,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -1506,6 +1513,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -1966,6 +1974,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -2047,6 +2056,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -2507,6 +2517,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -2588,6 +2599,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -3084,6 +3096,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 undefined,
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             amountSent
           </Text>
@@ -3228,6 +3241,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                       undefined,
                     ]
                   }
+                  testID="LineItemRowTitle/undefined"
                 >
                   
                 </Text>
@@ -3305,6 +3319,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -3385,6 +3400,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -3880,6 +3896,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 undefined,
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             amountSent
           </Text>
@@ -4024,6 +4041,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                       undefined,
                     ]
                   }
+                  testID="LineItemRowTitle/undefined"
                 >
                   
                 </Text>
@@ -4101,6 +4119,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -4181,6 +4200,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={
@@ -4338,6 +4358,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             total
           </Text>
@@ -4418,6 +4439,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 },
               ]
             }
+            testID="LineItemRowTitle/undefined"
           >
             <View
               accessibilityState={

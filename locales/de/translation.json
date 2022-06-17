@@ -206,7 +206,7 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
+  "connectToWallet": "{{dappName}} würde gerne eine Transaktion bestätigen",
   "allow": "Erlauben",
   "address": "Konto-Adresse",
   "phoneNumber": "Telefonnummer",
@@ -962,6 +962,7 @@
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
+    "askingV1_35": "{{dappName}} bittet darum, das Folgende auszuführen:",
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere eine Daten-Nutzlast",
@@ -969,7 +970,7 @@
     "sendTransaction": "Senden eine Celo TX",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
-    "details": "Details anzeigen",
+    "details": "Transaktionsdaten anzeigen",
     "computeSharedSecret": "Geheimnisse generieren",
     "emptyMessage": "Leere Nachricht"
   },
@@ -1245,15 +1246,17 @@
     "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Verknüpft über {{providerName}}",
+    "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
       "transactionDetailsAmount": "Gesamtpreis"
     },
     "cashOut": {
-      "header": "Guthaben abheben überprüfen",
+      "header": "Überprüfen",
       "button": "Guthaben abheben",
-      "transactionDetailsAmount": "Abheben-Betrag"
+      "transactionDetailsAmount": "Gesamt abgehoben",
+      "transactionDetailsAmountConverted": "Betrag abgehoben"
     }
   },
   "fiatExchangeFlow": {
