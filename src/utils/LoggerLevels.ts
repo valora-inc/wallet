@@ -1,6 +1,6 @@
 export enum LoggerLevel {
-  debug = 3,
-  info = 2,
-  warn = 1,
-  error = 0,
+  Debug = 3,
+  Info = 2,
+  Warn = 1,
+  Error = 0,
 }

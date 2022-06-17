@@ -136,10 +136,10 @@ export const DEFAULT_SENTRY_NETWORK_ERRORS = [
 ]
 
 const configLoggerLevels: { [key: string]: LoggerLevel } = {
-  debug: LoggerLevel.debug,
-  info: LoggerLevel.info,
-  warn: LoggerLevel.warn,
-  error: LoggerLevel.error,
+  debug: LoggerLevel.Debug,
+  info: LoggerLevel.Info,
+  warn: LoggerLevel.Warn,
+  error: LoggerLevel.Error,
 }
 
-export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.debug
+export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug

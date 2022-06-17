@@ -10,7 +10,7 @@ export default class ReactNativeLogger {
   networkErrors: string[]
   level: LoggerLevel
 
-  constructor({ level }: { level: LoggerLevel } = { level: LoggerLevel.debug }) {
+  constructor({ level }: { level: LoggerLevel } = { level: LoggerLevel.Debug }) {
     this.level = level
     this.isNetworkConnected = true
     this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS || []
@@ -23,21 +23,21 @@ export default class ReactNativeLogger {
    * For example, `send/actions/refreshGasPrice` since there are many actions.ts files.
    */
   debug = (tag: string, ...messages: any[]) => {
-    if (this.level < LoggerLevel.debug) {
+    if (this.level < LoggerLevel.Debug) {
       return
     }
     console.debug(`${tag}/${messages.join(', ')}`)
   }
 
   info = (tag: string, ...messages: any[]) => {
-    if (this.level < LoggerLevel.info) {
+    if (this.level < LoggerLevel.Info) {
       return
     }
     console.info(`${tag}/${messages.join(', ')}`)
   }
 
   warn = (tag: string, ...messages: any[]) => {
-    if (this.level < LoggerLevel.warn) {
+    if (this.level < LoggerLevel.Warn) {
       return
     }
     // console.warn would display yellow box, therefore, we will log to console.info instead.
