@@ -758,3 +758,5 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     },
   },
 ]
+
+export const mockMaxSendAmount = new BigNumber(999.99995)
