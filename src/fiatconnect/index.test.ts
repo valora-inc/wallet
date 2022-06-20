@@ -25,6 +25,7 @@ import {
 } from './index'
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { mocked } from 'ts-jest/utils'
 import { getPassword } from 'src/pincode/authentication'
 
 jest.mock('src/utils/Logger', () => ({
@@ -161,16 +162,17 @@ describe('FiatConnect helpers', () => {
     })
   })
   describe('loginWithFiatConnectProvider', () => {
-    let wallet: KeychainWallet
-    let fiatConnectClient: FiatConnectClient
+    const wallet = (mocked(KeychainWallet, true) as unknown) as jest.Mocked<KeychainWallet>
+    const fiatConnectClient = (mocked(
+      FiatConnectClient,
+      true
+    ) as unknown) as jest.Mocked<FiatConnectClient>
 
     beforeEach(() => {
-      wallet = new KeychainWallet()
       wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
       wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
       wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
 
-      fiatConnectClient = new FiatConnectClient()
       fiatConnectClient.isLoggedIn = jest.fn().mockReturnValue(true)
       fiatConnectClient.login = jest.fn().mockResolvedValue({ ok: true })
     })
