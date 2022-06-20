@@ -23,10 +23,8 @@ import {
   QuotesInput,
   loginWithFiatConnectProvider,
 } from './index'
-import { FiatConnectClient, FiatConnectClientConfig } from '@fiatconnect/fiatconnect-sdk'
-import { Network } from '@fiatconnect/fiatconnect-types'
-import { GethNativeBridgeWallet } from 'src/geth/GethNativeBridgeWallet'
-import { mocked } from 'ts-jest/utils'
+import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 import { getPassword } from 'src/pincode/authentication'
 
 jest.mock('src/utils/Logger', () => ({
@@ -38,9 +36,9 @@ jest.mock('src/utils/Logger', () => ({
   },
 }))
 
-jest.mock('src/geth/GethNativeBridgeWallet', () => {
+jest.mock('src/web3/KeychainWallet', () => {
   return {
-    GethNativeBridgeWallet: () => {
+    KeychainWallet: () => {
       return jest.fn(() => {
         return {}
       })
@@ -57,9 +55,6 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => {
     },
   }
 })
-
-const MockGethNativeBridgeWallet = mocked(GethNativeBridgeWallet)
-const MockFiatConnectClient = mocked(FiatConnectClient)
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
@@ -166,16 +161,16 @@ describe('FiatConnect helpers', () => {
     })
   })
   describe('loginWithFiatConnectProvider', () => {
-    let wallet: GethNativeBridgeWallet
+    let wallet: KeychainWallet
     let fiatConnectClient: FiatConnectClient
 
     beforeEach(() => {
-      wallet = new MockGethNativeBridgeWallet()
+      wallet = new KeychainWallet()
       wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
       wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
-      wallet.unlockAccount = jest.fn().mockResolvedValue()
+      wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
 
-      fiatConnectClient = new MockFiatConnectClient()
+      fiatConnectClient = new FiatConnectClient()
       fiatConnectClient.isLoggedIn = jest.fn().mockReturnValue(true)
       fiatConnectClient.login = jest.fn().mockResolvedValue({ ok: true })
     })
