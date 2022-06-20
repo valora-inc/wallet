@@ -3,11 +3,15 @@ import * as Sentry from '@sentry/react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS } from 'src/config'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 
 export default class ReactNativeLogger {
   isNetworkConnected: boolean
   networkErrors: string[]
-  constructor() {
+  level: LoggerLevel
+
+  constructor({ level }: { level: LoggerLevel } = { level: LoggerLevel.Debug }) {
+    this.level = level
     this.isNetworkConnected = true
     this.networkErrors = DEFAULT_SENTRY_NETWORK_ERRORS || []
   }
@@ -19,14 +23,23 @@ export default class ReactNativeLogger {
    * For example, `send/actions/refreshGasPrice` since there are many actions.ts files.
    */
   debug = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.Debug) {
+      return
+    }
     console.debug(`${tag}/${messages.join(', ')}`)
   }
 
   info = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.Info) {
+      return
+    }
     console.info(`${tag}/${messages.join(', ')}`)
   }
 
   warn = (tag: string, ...messages: any[]) => {
+    if (this.level < LoggerLevel.Warn) {
+      return
+    }
     // console.warn would display yellow box, therefore, we will log to console.info instead.
     console.info(`${tag}/${messages.join(', ')}`)
   }
@@ -159,54 +172,55 @@ export default class ReactNativeLogger {
     const logFilePath = this.getReactNativeLogsFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
 
-    const oldDebug = console.debug
-    const oldLog = console.log
-    const oldInfo = console.info
+    const consoleFns: { [key: string]: (message?: any, ...optionalParams: any[]) => void } = {
+      debug: console.debug,
+      log: console.log,
+      info: console.info,
+      // console.error displays a red box, therefore, we console.info instead
+      error: console.info,
+      // console.warn displays a yellow box, therefore, we console.info instead
+      warn: console.info,
+    }
 
     const writeLog = (level: string, message: string) => {
       const timestamp = new Date().toISOString()
       RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8').catch(
         (error) => {
-          oldDebug(`Failed to write to ${logFilePath}`, error)
+          consoleFns.debug(`Failed to write to ${logFilePath}`, error)
         }
       )
     }
 
-    console.log = (message?: any, ...optionalParams: any[]) => {
-      optionalParams.length ? oldLog(message, optionalParams) : oldLog(message)
+    const log = (level: string, message?: any, ...optionalParams: any[]) => {
       if (typeof message === 'string') {
-        writeLog('Log', message)
+        const timestamp = Date.now()
+        const consoleMessage = `[${timestamp}] ${message}`
+
+        consoleFns[level](consoleMessage, ...optionalParams)
+        writeLog(level, message)
+      } else {
+        consoleFns[level](message, ...optionalParams)
       }
+    }
+
+    console.log = (message?: any, ...optionalParams: any[]) => {
+      log('log', message, ...optionalParams)
     }
 
     console.debug = (message?: any, ...optionalParams: any[]) => {
-      optionalParams.length ? oldDebug(message, optionalParams) : oldDebug(message)
-      if (typeof message === 'string') {
-        writeLog('Debug', message)
-      }
+      log('debug', message, ...optionalParams)
     }
 
     console.info = (message?: any, ...optionalParams: any[]) => {
-      optionalParams.length ? oldInfo(message, optionalParams) : oldInfo(message)
-      if (typeof message === 'string') {
-        writeLog('Info', message)
-      }
+      log('info', message, ...optionalParams)
     }
 
     console.warn = (message?: any, ...optionalParams: any[]) => {
-      // console.warn would display yellow box, therefore, we will log to console.info instead.
-      optionalParams.length ? oldInfo(message, optionalParams) : oldInfo(message)
-      if (typeof message === 'string') {
-        writeLog('Warn', message)
-      }
+      log('warn', message, ...optionalParams)
     }
 
     console.error = (message?: any, ...optionalParams: any[]) => {
-      // console.error would display red box, therefore, we will log to console.info instead.
-      optionalParams.length ? oldInfo(message, optionalParams) : oldInfo(message)
-      if (typeof message === 'string') {
-        writeLog('Error', message)
-      }
+      log('error', message, ...optionalParams)
     }
   }
 }

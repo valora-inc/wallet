@@ -29,7 +29,9 @@ export default function LineItemRow({
   return (
     <View style={[styles.container, style]}>
       <View style={styles.description}>
-        <Text style={textStyle}>{title}</Text>
+        <Text testID={`LineItemRowTitle/${testID}`} style={textStyle}>
+          {title}
+        </Text>
         {titleIcon}
       </View>
       {!!amount && (
