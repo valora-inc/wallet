@@ -15,7 +15,7 @@ import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import { getPassword } from 'src/pincode/authentication'
-import { ensureLeading0x, trimLeading0x } from '@celo/utils/lib/address'
+import { ensureLeading0x } from '@celo/utils/lib/address'
 
 const TAG = 'FIATCONNECT'
 
