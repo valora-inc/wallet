@@ -76,8 +76,8 @@ export function DAppsExplorerScreen() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
   useEffect(() => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
     dispatch(fetchDappsList())
+    ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
 
   useEffect(() => {
