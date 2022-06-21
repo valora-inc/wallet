@@ -66,6 +66,7 @@ export const slice = createSlice({
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
+          state.dappListApiUrl = action.configValues.dappListApiUrl
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
