@@ -23,6 +23,15 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'DappsSaga'
 
+interface Application {
+  categoryId: string
+  description: string
+  id: string
+  logoUrl: string
+  name: string
+  url: string
+}
+
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
   const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
@@ -37,15 +46,6 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   } else {
     yield call(handleOpenUrl, openUrl(dappUrl, true, true))
   }
-}
-
-interface Application {
-  categoryId: string
-  description: string
-  id: string
-  logoUrl: string
-  name: string
-  url: string
 }
 
 export function* handleFetchDappsList() {
