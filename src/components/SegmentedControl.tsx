@@ -1,6 +1,6 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import React from 'react'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { LayoutChangeEvent, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
@@ -11,11 +11,22 @@ const HEIGHT = 24
 interface Props {
   values: string[]
   selectedIndex?: number
+  colorRange: string[]
+  invertedColorRange: string[]
   position: Animated.Node<number>
   onChange?: (value: string, selectedIndex: number) => void
+  containerStyle?: ViewStyle
 }
 
-export default function SegmentedControl({ position, values, selectedIndex = 0, onChange }: Props) {
+export default function SegmentedControl({
+  position,
+  values,
+  colorRange,
+  invertedColorRange,
+  selectedIndex = 0,
+  onChange,
+  containerStyle,
+}: Props) {
   const [segmentWidth, setSegmentWidth] = React.useState(0)
 
   const handleChange = (index: number) => {
@@ -34,14 +45,14 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
   // https://github.com/software-mansion/react-native-reanimated/issues/1354
   const color = Animated.interpolateColors(position, {
     inputRange: [0.5, 1],
-    outputColorRange: [colors.greenUI, colors.light],
+    outputColorRange: colorRange, // [colors.greenUI, colors.light],
   }) as any
 
   // TODO: remove 'as any' when this is released:
   // https://github.com/software-mansion/react-native-reanimated/issues/1354
   const colorInverted = Animated.interpolateColors(position, {
     inputRange: [0.5, 1],
-    outputColorRange: [colors.light, colors.dark],
+    outputColorRange: invertedColorRange, // [colors.light, colors.dark],
   }) as any
 
   const onLayout = ({
@@ -56,7 +67,10 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
   }
 
   return (
-    <Animated.View style={[styles.container, { borderColor: color }]} onLayout={onLayout}>
+    <Animated.View
+      style={[styles.container, { borderColor: color, marginHorizontal: 30 }, containerStyle]}
+      onLayout={onLayout}
+    >
       {selectedIndex != null && !!segmentWidth && (
         <Animated.View
           style={[
@@ -132,7 +146,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.greenUI,
     overflow: 'hidden',
-    marginHorizontal: 30,
   },
   slider: {
     position: 'absolute',

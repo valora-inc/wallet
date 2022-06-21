@@ -1,3 +1,7 @@
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps,
+} from '@react-navigation/material-top-tabs'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
@@ -17,7 +21,12 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  tokensWithTokenBalanceSelector,
+  totalTokenBalanceSelector,
+  visualizeNFTsEnabledInHomeAssetsPageSelector,
+} from 'src/tokens/selectors'
+import TokenBalancesTabBar from 'src/tokens/TokenBalancesTabBar'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { sortByUsdBalance } from './utils'
 
@@ -28,17 +37,33 @@ function TokenBalancesScreen({ navigation }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
+  const Tab = createMaterialTopTabNavigator()
+  const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
+    visualizeNFTsEnabledInHomeAssetsPageSelector
+  )
 
   const header = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
-        <Text style={styles.subtext}>
-          {localCurrencySymbol}
-          {totalBalance?.toFormat(2)}
-        </Text>
-      </View>
-    )
+    if (shouldVisualizeNFTsInHomeAssetsPage) {
+      return (
+        <View style={styles.header}>
+          <Text style={fontStyles.navigationHeader}>{t('portfolio')}</Text>
+          <Text style={styles.subtext}>
+            {localCurrencySymbol}
+            {totalBalance?.toFormat(2)} {t('total')}
+          </Text>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.header}>
+          <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
+          <Text style={styles.subtext}>
+            {localCurrencySymbol}
+            {totalBalance?.toFormat(2)}
+          </Text>
+        </View>
+      )
+    }
   }
 
   useLayoutEffect(() => {
@@ -98,18 +123,47 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
-  return (
-    <>
-      {showPriceChangeIndicatorInBalances && (
-        <View style={styles.lastDayLabel}>
-          <Text style={styles.lastDayText}>{t('lastDay')}</Text>
-        </View>
-      )}
-      <ScrollView style={styles.scrollContainer}>
-        {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
-      </ScrollView>
-    </>
-  )
+  function TokensPage() {
+    return (
+      <>
+        <ScrollView style={[styles.scrollContainer, { marginTop: Spacing.Thickest32 }]}>
+          {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+        </ScrollView>
+      </>
+    )
+  }
+
+  const tabBar = (props: MaterialTopTabBarProps) => <TokenBalancesTabBar {...props} />
+
+  if (shouldVisualizeNFTsInHomeAssetsPage) {
+    return (
+      <Tab.Navigator
+        tabBar={tabBar}
+        // Trick to position the tabs floating on top
+        tabBarPosition="bottom"
+      >
+        <Tab.Screen name={t('tokens')} options={{ title: t('tokens') }}>
+          {() => <TokensPage />}
+        </Tab.Screen>
+        <Tab.Screen name={t('nfts')} options={{ title: t('nfts') }}>
+          {() => <></>}
+        </Tab.Screen>
+      </Tab.Navigator>
+    )
+  } else {
+    return (
+      <>
+        {showPriceChangeIndicatorInBalances && (
+          <View style={styles.lastDayLabel}>
+            <Text style={styles.lastDayText}>{t('lastDay')}</Text>
+          </View>
+        )}
+        <ScrollView style={styles.scrollContainer}>
+          {tokens.sort(sortByUsdBalance).map(getTokenDisplay)}
+        </ScrollView>
+      </>
+    )
+  }
 }
 
 TokenBalancesScreen.navigationOptions = {

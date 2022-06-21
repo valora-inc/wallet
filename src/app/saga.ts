@@ -194,6 +194,7 @@ export interface RemoteConfigValues {
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

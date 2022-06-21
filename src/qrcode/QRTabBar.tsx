@@ -71,6 +71,8 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
         selectedIndex={state.index}
         position={position}
         onChange={onChange}
+        colorRange={[colors.greenUI, colors.light]}
+        invertedColorRange={[colors.light, colors.dark]}
       />
       <Animated.View
         style={[styles.rightContainer, { opacity: shareOpacity }]}

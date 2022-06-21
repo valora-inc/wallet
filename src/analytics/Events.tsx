@@ -36,6 +36,7 @@ export enum HomeEvents {
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
+  view_nft_home_assets = 'view_nft_home_assets', // When "NFTs" is clicked in Home Assets Pages
 }
 
 export enum SettingsEvents {
@@ -564,6 +565,7 @@ export enum DappExplorerEvents {
   dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
   dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all', // when user taps "view all dapps" from recently used dapps section
+  dapp_nft_viewer = 'dapp_nft_viewer', // When the dapp "NFT Viewer" is opened in Dapps page
 }
 
 export enum WebViewEvents {

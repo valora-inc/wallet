@@ -53,6 +53,11 @@ const useOpenDapp = () => {
       Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
+
+    if (selectedDapp.id === 'nftviewer') {
+      ValoraAnalytics.track(DappExplorerEvents.dapp_nft_viewer)
+    }
+
     openDapp(selectedDapp)
     setShowOpenDappConfirmation(false)
   }

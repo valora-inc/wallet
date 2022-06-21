@@ -67,6 +67,7 @@ export interface State {
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
 }
 
 const initialState = {
@@ -115,6 +116,8 @@ const initialState = {
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
+  visualizeNFTsEnabledInHomeAssetsPage:
+    REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
 }
 
 export const appReducer = (
@@ -232,6 +235,8 @@ export const appReducer = (
         skipProfilePicture: action.configValues.skipProfilePicture,
         finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
+        visualizeNFTsEnabledInHomeAssetsPage:
+          action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

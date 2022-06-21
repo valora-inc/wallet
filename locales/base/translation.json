@@ -1116,6 +1116,9 @@
     "titleRamp": "Add {{currency}} to start using Valora",
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
+  "portfolio": "Portfolio",
+  "tokens": "Tokens",
+  "nfts": "NFTs",
   "balances": "Assets",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",

@@ -2,6 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import Animated from 'react-native-reanimated'
 import SegmentedControl from 'src/components/SegmentedControl'
+import colors from 'src/styles/colors'
 
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
 
@@ -15,6 +16,8 @@ describe(SegmentedControl, () => {
         selectedIndex={1}
         onChange={onChange}
         position={position}
+        colorRange={[colors.greenUI, colors.greenUI]}
+        invertedColorRange={[colors.greenUI, colors.greenUI]}
       />
     )
 

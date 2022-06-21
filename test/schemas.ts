@@ -1275,6 +1275,18 @@ export const v51Schema = {
   },
 }
 
+export const v52Schema = {
+  ...v51Schema,
+  _persist: {
+    ...v51Schema._persist,
+    version: 52,
+  },
+  app: {
+    ...v51Schema.app,
+    visualizeNFTsEnabledInHomeAssetsPage: true,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v51Schema as Partial<RootState>
+  return v52Schema as Partial<RootState>
 }

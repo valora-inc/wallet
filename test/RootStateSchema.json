@@ -1526,6 +1526,9 @@
                 "celoWithdrawalEnabledInExchange": {
                     "type": "boolean"
                 },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                  "type": "boolean"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -1680,6 +1683,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
                 "finclusiveUnsupportedStates",
