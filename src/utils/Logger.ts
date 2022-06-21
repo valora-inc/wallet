@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import ReactNativeLogger from 'src/services/ReactNativeLogger'
+import { LOGGER_LEVEL } from 'src/config'
 
 class Logger extends ReactNativeLogger {
   getGethLogFilePath = () => {
@@ -65,4 +66,4 @@ class Logger extends ReactNativeLogger {
   }
 }
 
-export default new Logger()
+export default new Logger({ level: LOGGER_LEVEL })
