@@ -1,7 +1,7 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
@@ -89,7 +89,7 @@ function ActionRequest({ pendingAction }: Props) {
       requestDetails={requestDetails}
     >
       {moreInfoString && (
-        <>
+        <View style={styles.transactionDetails}>
           <Touchable
             testID="ShowTransactionDetailsButton"
             onPress={() => {
@@ -106,7 +106,7 @@ function ActionRequest({ pendingAction }: Props) {
               {moreInfoString}
             </Text>
           )}
-        </>
+        </View>
       )}
     </RequestContent>
   )
@@ -120,6 +120,9 @@ const styles = StyleSheet.create({
   },
   underLine: {
     textDecorationLine: 'underline',
+  },
+  transactionDetails: {
+    marginBottom: Spacing.Regular16,
   },
 })
 
