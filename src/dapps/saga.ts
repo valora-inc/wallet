@@ -1,14 +1,27 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, select, spawn, takeLatest } from 'redux-saga/effects'
+import { call, put, select, spawn, takeEvery, takeLatest } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { dappsWebViewEnabledSelector } from 'src/dapps/selectors'
-import { dappSelected, DappSelectedAction } from 'src/dapps/slice'
+import { Dapp } from 'src/app/types'
+import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
+import {
+  DappCategory,
+  dappSelected,
+  DappSelectedAction,
+  fetchDappsList,
+  fetchDappsListCompleted,
+  fetchDappsListFailed,
+} from 'src/dapps/slice'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { isWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { walletAddressSelector } from 'src/web3/selectors'
+
+const TAG = 'DappsSaga'
 
 export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   const { dappUrl } = action.payload.dapp
@@ -26,10 +39,73 @@ export function* handleOpenDapp(action: PayloadAction<DappSelectedAction>) {
   }
 }
 
+interface Application {
+  categoryId: string
+  description: string
+  id: string
+  logoUrl: string
+  name: string
+  url: string
+}
+
+export function* handleFetchDappsList() {
+  const dappsListApiUrl = yield select(dappsListApiUrlSelector)
+  const address = yield select(walletAddressSelector)
+  const language = yield select(currentLanguageSelector)
+  const shortLanguage = language.split('-')[0]
+
+  const response = yield call(
+    fetch,
+    `${dappsListApiUrl}?language=${shortLanguage}&address=${address}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
+  )
+
+  if (response.ok) {
+    try {
+      const result: {
+        applications: Application[]
+        categories: DappCategory[]
+        featured: Application
+      } = yield call([response, 'json'])
+
+      const dappsList: Dapp[] = result.applications.map((application) => {
+        return {
+          id: application.id,
+          categoryId: application.categoryId,
+          name: application.name,
+          iconUrl: application.logoUrl,
+          description: application.description,
+          dappUrl: application.url.replace('{{address}}', address ?? ''),
+          isFeatured: application.id === result.featured.id,
+        }
+      })
+
+      yield put(fetchDappsListCompleted({ dapps: dappsList, categories: result.categories }))
+    } catch (error) {
+      Logger.error(TAG, 'Could not parse dapps response', error)
+      yield put(fetchDappsListFailed({ error: 'Could not parse dapps' }))
+    }
+  } else {
+    yield put(fetchDappsListFailed({ error: 'Could not fetch dapps' }))
+  }
+}
+
 export function* watchDappSelected() {
   yield takeLatest(dappSelected.type, handleOpenDapp)
 }
 
+export function* watchFetchDappsList() {
+  yield takeEvery(fetchDappsList.type, handleFetchDappsList)
+}
+
 export function* dappsSaga() {
   yield spawn(watchDappSelected)
+  yield spawn(watchFetchDappsList)
+  yield put(fetchDappsList())
 }
