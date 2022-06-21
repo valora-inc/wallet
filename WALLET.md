@@ -130,7 +130,7 @@ Currently it is not possible to install the wallet natively. There are a few pro
 
 2. The build process that gets executed with `yarn dev:ios` is not able to finish with `nvm` installed.
 
-3. Running the necessary scripts with an M1-native node version will not wor.
+3. Running the necessary scripts with an M1-native node version will not work.
 
 4. It is currently not possible to run the repository in the integrated VSCode terminal.
 
@@ -140,14 +140,14 @@ Currently it is not possible to install the wallet natively. There are a few pro
 
 1. Make sure all necessary software (VS Code, Terminal/iTerm2, XCode, Simulator) is running with Rosetta. You can verify this by typing `arch` in your terminal.
 
-```bash
+```console
 $ arch
 -> i386
 ```
 
 2. Reinstall `brew` with x86_64 architecture:
 
-```bash
+```console
 arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
 
@@ -160,7 +160,7 @@ alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
 
 4. Install [`rbenv`](https://github.com/rbenv/rbenv) on Intel architecture:
 
-```bash
+```console
 ibrew install rbenv
 ```
 4.1. Add rbenv initialization to your `.zshrc`:
@@ -171,14 +171,14 @@ eval "$(rbenv init - zsh)"
 
 5. Install ruby version 2.7.6 with `rbenv` and set it as the main version:
 
-```bash
+```console
 rbenv install 2.7.6
 rbenv global 2.7.6
 ```
 
 6. Install the required node version from [`.nvmrc`](/.nvmrc) with Intel architecture (If you have it installed under M1 architecture already, uninstall):
 
-```bash
+```console
 (nvm uninstall 16.5.0)
 nvm install 16.5.0
 nvm use
@@ -186,20 +186,19 @@ nvm use
 
 Verify that node is using x64 architecture:
 
-```bash
+```console
 node -e 'console.log(process.arch)'
 -> x64
 ```
 
 7. The build script will fail if `node` + `npm` and `yarn` have been installed through `brew`. Please uninstall them through brew (the nvm installations will still be there) and install them through `nvm`:
 
-```bash
+```console
 
 brew uninstall npm yarn node
 
 which node
--> which node
-/Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
+->  /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/node
 
 nvm install-latest-npm
 which npm
@@ -212,7 +211,7 @@ npm install -g yarn
 
 8. Now verify that everything is correct for the build:
 
-```bash
+```console
 which ruby
 -> /opt/homebrew/opt/rbenv/shims/ruby
 
