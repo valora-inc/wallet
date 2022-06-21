@@ -14,6 +14,7 @@ import { StackParamList } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
@@ -21,13 +22,14 @@ const TAG = 'dappkit/DappKitAccountScreen'
 type Props = StackScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
 const DappKitAccountScreen = ({ route }: Props) => {
+  const { dappKitRequest } = route.params
+
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
+  const isDappListed = useIsDappListed(dappKitRequest.dappName)
   const dispatch = useDispatch()
   const { t } = useTranslation()
-
-  const { dappKitRequest } = route.params
 
   const handleAllow = () => {
     if (!dappKitRequest) {
@@ -68,6 +70,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
             tapToCopy: true,
           },
         ]}
+        isDappListed={isDappListed}
         testId="DappKitSessionRequest"
       />
     </View>

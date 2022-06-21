@@ -1309,5 +1309,6 @@
   },
   "webView": {
     "openExternal": "Open in External Browser"
-  }
+  },
+  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk."
 }
