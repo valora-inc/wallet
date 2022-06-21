@@ -7,9 +7,7 @@ import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { handleOpenDapp } from 'src/dapps/saga'
-import { activeDappSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
-import { DappSection, dappSelected } from 'src/dapps/slice'
+import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -336,47 +334,5 @@ describe('App saga', () => {
         [select(getRequirePinOnAppOpen), true],
       ])
       .run()
-  })
-
-  describe('Handles opening a dapp', () => {
-    const baseDapp = {
-      id: 'dapp',
-      categoryId: 'some category',
-      iconUrl: 'https://someIcon.url',
-      name: 'Dapp',
-      description: 'some description',
-      dappUrl: 'https://someDapp.url',
-      isFeatured: false,
-    }
-
-    it('opens a web view', async () => {
-      await expectSaga(
-        handleOpenDapp,
-        dappSelected({ dapp: { ...baseDapp, openedFrom: DappSection.All } })
-      )
-        .provide([[select(dappsWebViewEnabledSelector), true]])
-        .run()
-
-      expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: baseDapp.dappUrl,
-      })
-    })
-
-    it('opens a deep link', async () => {
-      await expectSaga(
-        handleOpenDapp,
-        dappSelected({
-          dapp: {
-            ...baseDapp,
-            dappUrl: 'celo://wallet/bidali',
-            openedFrom: DappSection.All,
-          },
-        })
-      )
-        .provide([[select(dappsWebViewEnabledSelector), true]])
-        .run()
-
-      expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
-    })
   })
 })
