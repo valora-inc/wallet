@@ -334,7 +334,8 @@
     "async": "^3.2.2",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "@celo/utils/bn.js": "4.11.9",
-    "json-schema": "^0.4.0"
+    "json-schema": "^0.4.0",
+    "@celo/utils": "^1.2.0"
   },
   "detox": {
     "test-runner": "jest",
