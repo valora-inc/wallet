@@ -185,7 +185,6 @@ describe('store state', () => {
         },
         "dapps": Object {
           "activeDapp": null,
-          "allDapps": Array [],
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
           "maxNumRecentDapps": 0,

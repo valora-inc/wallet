@@ -1316,7 +1316,6 @@ export const v54Schema = {
     maxNumRecentDapps: v53Schema.app.maxNumRecentDapps,
     recentDapps: v53Schema.app.recentDapps,
     dappListApiUrl: v53Schema.app.dappListApiUrl,
-    allDapps: [],
   },
   app: _.omit(
     v53Schema.app,

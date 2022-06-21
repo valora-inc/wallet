@@ -2420,12 +2420,6 @@
                         }
                     ]
                 },
-                "allDapps": {
-                    "items": {
-                        "$ref": "#/definitions/Dapp"
-                    },
-                    "type": "array"
-                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -2447,7 +2441,6 @@
             },
             "required": [
                 "activeDapp",
-                "allDapps",
                 "dappListApiUrl",
                 "dappsWebViewEnabled",
                 "maxNumRecentDapps",

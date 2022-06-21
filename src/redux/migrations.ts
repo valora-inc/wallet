@@ -650,7 +650,6 @@ export const migrations = {
       maxNumRecentDapps: state.app.maxNumRecentDapps,
       recentDapps: state.app.recentDapps,
       dappListApiUrl: state.app.dappListApiUrl,
-      allDapps: [],
     },
     app: _.omit(
       state.app,

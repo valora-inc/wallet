@@ -20,7 +20,6 @@ export interface State {
   maxNumRecentDapps: number
   recentDapps: Dapp[]
   dappListApiUrl: string | null
-  allDapps: Dapp[]
 }
 
 const initialState: State = {
@@ -29,15 +28,10 @@ const initialState: State = {
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
   dappListApiUrl: null,
-  allDapps: [],
 }
 
 export interface DappSelectedAction {
   dapp: ActiveDapp
-}
-
-export interface FetchedAllDappsAction {
-  allDapps: Dapp[]
 }
 
 export const slice = createSlice({
@@ -53,9 +47,6 @@ export const slice = createSlice({
     },
     dappSessionEnded: (state) => {
       state.activeDapp = null
-    },
-    fetchedAllDapps: (state, action: PayloadAction<FetchedAllDappsAction>) => {
-      state.allDapps = action.payload.allDapps
     },
   },
   extraReducers: (builder) => {
@@ -77,6 +68,6 @@ export const slice = createSlice({
   },
 })
 
-export const { dappSelected, dappSessionEnded, fetchedAllDapps } = slice.actions
+export const { dappSelected, dappSessionEnded } = slice.actions
 
 export default slice.reducer

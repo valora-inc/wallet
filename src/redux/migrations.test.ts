@@ -567,10 +567,7 @@ describe('Redux persist migrations', () => {
     delete expectedSchema.app.maxNumRecentDapps
     delete expectedSchema.app.recentDapps
     delete expectedSchema.app.dappListApiUrl
-    expectedSchema.dapps = {
-      allDapps: [],
-      ...dappsInfo,
-    }
+    expectedSchema.dapps = dappsInfo
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

@@ -10,5 +10,3 @@ export const activeDappSelector = (state: RootState) =>
   state.dapps.dappsWebViewEnabled ? state.dapps.activeDapp : null
 
 export const dappsWebViewEnabledSelector = (state: RootState) => state.dapps.dappsWebViewEnabled
-
-export const allDappsSelector = (state: RootState) => state.dapps.allDapps
