@@ -645,8 +645,8 @@ export const migrations = {
   54: (state: any) => ({
     ...state,
     dapps: {
-      dappsWebViewEnabled: state.app.dappsWebViewEnabled,
-      activeDapp: state.app.activeDapp,
+      dappsWebViewEnabled: state.app.dappsWebViewEnabled ?? false,
+      activeDapp: state.app.activeDapp ?? null,
       maxNumRecentDapps: state.app.maxNumRecentDapps,
       recentDapps: state.app.recentDapps,
       dappListApiUrl: state.app.dappListApiUrl,
@@ -655,10 +655,10 @@ export const migrations = {
     app: _.omit(
       state.app,
       'dappsWebViewEnabled',
-      'activeDapp',
       'maxNumRecentDapps',
       'recentDapps',
-      'dappListApiUrl'
+      'dappListApiUrl',
+      'activeDapp'
     ),
   }),
 }

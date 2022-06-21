@@ -71,6 +71,7 @@ export const slice = createSlice({
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
         ...state,
         ...getRehydratePayload(action, 'dapps'),
+        activeDapp: null,
       }))
   },
 })

@@ -105,6 +105,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
       createDebugger({
         stateWhitelist: [
           'app',
+          'dapps',
           'i18n',
           'networkInfo',
           'alert',

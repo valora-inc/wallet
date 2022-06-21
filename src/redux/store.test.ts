@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 53,
+          "version": 54,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -130,7 +130,6 @@ describe('store state', () => {
         },
         "alert": null,
         "app": Object {
-          "activeDapp": null,
           "activeScreen": "Main",
           "analyticsEnabled": true,
           "appState": "Active",
@@ -139,8 +138,6 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoWithdrawalEnabledInExchange": true,
-          "dappListApiUrl": null,
-          "dappsWebViewEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "finclusiveUnsupportedStates": Array [
@@ -157,14 +154,12 @@ describe('store state', () => {
           "locked": false,
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
-          "maxNumRecentDapps": 0,
           "minVersion": null,
           "numberVerified": false,
           "paymentDeepLinkHandler": "",
           "pincodeUseExpandedBlocklist": false,
           "rampCashInButtonExpEnabled": false,
           "ranVerificationMigrationAt": null,
-          "recentDapps": Array [],
           "requirePinOnAppOpen": false,
           "rewardPillText": Object {
             "de": "Belohnungen",
@@ -187,6 +182,14 @@ describe('store state', () => {
           "superchargeTokens": Array [],
           "supportedBiometryType": null,
           "walletConnectV1Enabled": true,
+        },
+        "dapps": Object {
+          "activeDapp": null,
+          "allDapps": Array [],
+          "dappListApiUrl": null,
+          "dappsWebViewEnabled": false,
+          "maxNumRecentDapps": 0,
+          "recentDapps": Array [],
         },
         "escrow": Object {
           "isReclaiming": false,
