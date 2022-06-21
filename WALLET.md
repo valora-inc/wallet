@@ -163,10 +163,10 @@ alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
 ```console
 ibrew install rbenv
 ```
-4.1. Add rbenv initialization to your `.zshrc`:
+4.1. Add rbenv initialization to your shell. For instance in `.zshrc` or `.bashrc`:
 
 ```bash
-eval "$(rbenv init - zsh)"
+eval "$(rbenv init -)"
 ```
 
 5. Install ruby version 2.7.6 with `rbenv` and set it as the main version:
@@ -225,7 +225,7 @@ which npm
 -> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/npm
 
 which yarn
--> /Users/simo/.nvm/versions/node/v16.15.0/bin/yarn
+-> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
 
 ```
 Now follow [the steps for iOS installation](#install-cocopods-bundler-and-download-project-dependencies).
