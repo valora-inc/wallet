@@ -1482,9 +1482,6 @@
               "celoWithdrawalEnabledInExchange": {
                   "type": "boolean"
               },
-              "visualizeNFTsEnabledInHomeAssetsPage": {
-                "type": "boolean"
-              },
               "fiatConnectCashInEnabled": {
                   "type": "boolean"
               },
@@ -1612,6 +1609,9 @@
                           "type": "null"
                       }
                   ]
+              },
+              "visualizeNFTsEnabledInHomeAssetsPage": {
+                "type": "boolean"
               },
               "walletConnectV1Enabled": {
                   "type": "boolean"
