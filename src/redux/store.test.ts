@@ -139,6 +139,7 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoWithdrawalEnabledInExchange": true,
+          "visualizeNFTsEnabledInHomeAssetsPage": false,
           "dappListApiUrl": null,
           "dappsWebViewEnabled": false,
           "fiatConnectCashInEnabled": false,

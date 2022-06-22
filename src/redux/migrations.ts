@@ -642,4 +642,12 @@ export const migrations = {
     account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
     web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
   }),
+  54: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      visualizeNFTsEnabledInHomeAssetsPage:
+        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    },
+  }),
 }

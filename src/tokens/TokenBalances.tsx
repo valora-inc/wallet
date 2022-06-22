@@ -2,12 +2,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -17,8 +20,13 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  tokensWithTokenBalanceSelector,
+  totalTokenBalanceSelector,
+  visualizeNFTsEnabledInHomeAssetsPageSelector,
+} from 'src/tokens/selectors'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
@@ -28,6 +36,10 @@ function TokenBalancesScreen({ navigation }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
+  const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
+    visualizeNFTsEnabledInHomeAssetsPageSelector
+  )
+  const walletAddress = useSelector(walletAddressSelector)
 
   const header = () => {
     return (
@@ -35,7 +47,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
         <Text style={styles.subtext}>
           {localCurrencySymbol}
-          {totalBalance?.toFormat(2)}
+          {totalBalance?.toFormat(2)} {t('total')}
         </Text>
       </View>
     )
@@ -98,9 +110,27 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
+  const onPressNFTsBanner = () => {
+    ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
+    navigation.navigate(Screens.WebViewScreen, {
+      uri: `https://nfts.valoraapp.com/?address=${walletAddress}&hide-header=true`,
+    })
+  }
+
   return (
     <>
-      {showPriceChangeIndicatorInBalances && (
+      {shouldVisualizeNFTsInHomeAssetsPage && (
+        <TouchableOpacity onPress={onPressNFTsBanner} style={styles.bannerContainer}>
+          <View style={styles.leftInnerContainer}>
+            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
+          </View>
+          <View style={styles.rightInnerContainer}>
+            <Text style={styles.bannerText}>{t('open')}</Text>
+            <OpenLinkIcon />
+          </View>
+        </TouchableOpacity>
+      )}
+      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
         <View style={styles.lastDayLabel}>
           <Text style={styles.lastDayText}>{t('lastDay')}</Text>
         </View>
@@ -171,6 +201,30 @@ const styles = StyleSheet.create({
   lastDayLabel: {
     marginTop: Spacing.Regular16,
     flexDirection: 'row-reverse',
+  },
+  bannerContainer: {
+    marginTop: Spacing.Smallest8,
+    marginBottom: Spacing.Smallest8,
+    height: 40,
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: Colors.greenUI,
+    flexDirection: 'row',
+  },
+  bannerText: {
+    ...fontStyles.displayName,
+    color: Colors.light,
+  },
+  leftInnerContainer: {
+    marginLeft: Spacing.Thick24,
+    alignItems: 'flex-start',
+    flex: 5,
+  },
+  rightInnerContainer: {
+    marginRight: Spacing.Thick24,
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    flex: 1,
   },
 })
 
