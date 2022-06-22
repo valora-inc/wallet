@@ -98,7 +98,7 @@
     "@segment/analytics-react-native-adjust": "^1.5.3",
     "@segment/analytics-react-native-clevertap": "^1.5.3",
     "@segment/analytics-react-native-firebase": "^1.5.3",
-    "@sentry/react-native": "^3.2.8",
+    "@sentry/react-native": "^3.4.3",
     "@ungap/url-search-params": "^0.1.2",
     "@walletconnect/client": "^1.6.5",
     "@walletconnect/types": "^1.6.5",
