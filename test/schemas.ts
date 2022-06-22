@@ -1304,6 +1304,29 @@ export const v53Schema = {
   ),
 }
 
+export const v54Schema = {
+  ...v53Schema,
+  _persist: {
+    ...v53Schema._persist,
+    version: 54,
+  },
+  dapps: {
+    dappsWebViewEnabled: v53Schema.app.dappsWebViewEnabled,
+    activeDapp: v53Schema.app.activeDapp,
+    maxNumRecentDapps: v53Schema.app.maxNumRecentDapps,
+    recentDapps: v53Schema.app.recentDapps,
+    dappListApiUrl: v53Schema.app.dappListApiUrl,
+  },
+  app: _.omit(
+    v53Schema.app,
+    'dappsWebViewEnabled',
+    'activeDapp',
+    'maxNumRecentDapps',
+    'recentDapps',
+    'dappListApiUrl'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v53Schema as Partial<RootState>
+  return v54Schema as Partial<RootState>
 }
