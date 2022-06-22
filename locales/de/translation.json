@@ -1124,8 +1124,8 @@
     "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
-  "supportExportLogsStart": "Protokolle exportieren...",
-  "supportExportLogsFailed": "Der Export der Logs ist fehlgeschlagen: {{error}}",
+  "supportExportLogsStart": "Protokolle werden exportiert...",
+  "supportExportLogsFailed": "Exportprotokoll fehlgeschlagen: {{error}}",
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
