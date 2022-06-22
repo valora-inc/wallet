@@ -9,11 +9,10 @@ import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnect1Properties } from 'src/analytics/Properties'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ActiveDapp } from 'src/app/reducers'
-import { activeDappSelector } from 'src/app/selectors'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
-import networkConfig from 'src/web3/networkConfig'
+import { activeDappSelector } from 'src/dapps/selectors'
+import { ActiveDapp } from 'src/dapps/slice'
 import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -49,6 +48,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
+import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import { showWalletConnectionSuccessMessage } from '../saga'
 
