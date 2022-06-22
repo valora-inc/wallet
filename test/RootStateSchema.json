@@ -1485,15 +1485,6 @@
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "dappsWebViewEnabled": {
-                    "type": "boolean"
-                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -1635,8 +1626,6 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
-                "dappListApiUrl",
-                "dappsWebViewEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "finclusiveUnsupportedStates",
