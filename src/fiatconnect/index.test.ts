@@ -1,6 +1,6 @@
 import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-
+import { Network } from '@fiatconnect/fiatconnect-types'
 jest.mock('src/pincode/authentication')
 
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -25,7 +25,6 @@ import {
 } from './index'
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
-import { mocked } from 'ts-jest/utils'
 import { getPassword } from 'src/pincode/authentication'
 
 jest.mock('src/utils/Logger', () => ({
@@ -162,11 +161,17 @@ describe('FiatConnect helpers', () => {
     })
   })
   describe('loginWithFiatConnectProvider', () => {
-    const wallet = (mocked(KeychainWallet, true) as unknown) as jest.Mocked<KeychainWallet>
-    const fiatConnectClient = (mocked(
-      FiatConnectClient,
-      true
-    ) as unknown) as jest.Mocked<FiatConnectClient>
+    const wallet = new KeychainWallet({
+      address: 'someaddress',
+      createdAt: new Date(),
+    })
+    const fiatConnectClient = new FiatConnectClient({
+      baseUrl: 'some url',
+      providerName: 'some name',
+      iconUrl: 'some url',
+      network: Network.Alfajores,
+      accountAddress: 'some address',
+    })
 
     beforeEach(() => {
       wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
@@ -174,7 +179,7 @@ describe('FiatConnect helpers', () => {
       wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
 
       fiatConnectClient.isLoggedIn = jest.fn().mockReturnValue(true)
-      fiatConnectClient.login = jest.fn().mockResolvedValue({ ok: true })
+      fiatConnectClient.login = jest.fn().mockResolvedValue({ isOk: true, value: 'success' })
     })
     it('Does not attempt to login if already logged in', async () => {
       await expect(loginWithFiatConnectProvider(wallet, fiatConnectClient)).resolves.toBeUndefined()
@@ -206,10 +211,8 @@ describe('FiatConnect helpers', () => {
       wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
       fiatConnectClient.isLoggedIn = jest.fn().mockReturnValue(false)
       fiatConnectClient.login = jest.fn().mockResolvedValue({
-        ok: false,
-        val: {
-          error: 'error',
-        },
+        isOk: false,
+        error: new Error('some error'),
       })
       await expect(loginWithFiatConnectProvider(wallet, fiatConnectClient)).rejects.toThrow()
     })
