@@ -165,13 +165,18 @@ describe('FiatConnect helpers', () => {
       address: 'someaddress',
       createdAt: new Date(),
     })
-    const fiatConnectClient = new FiatConnectClient({
-      baseUrl: 'some url',
-      providerName: 'some name',
-      iconUrl: 'some url',
-      network: Network.Alfajores,
-      accountAddress: 'some address',
-    })
+    const fiatConnectClient = new FiatConnectClient(
+      {
+        baseUrl: 'some url',
+        providerName: 'some name',
+        iconUrl: 'some url',
+        network: Network.Alfajores,
+        accountAddress: 'some address',
+      },
+      (message: string): Promise<string> => {
+        return Promise.resolve(message)
+      }
+    )
 
     beforeEach(() => {
       wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
