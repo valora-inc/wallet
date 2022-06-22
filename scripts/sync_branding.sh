@@ -44,6 +44,7 @@ if [[ "$branding" == "kolektivo" ]]; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else
+    branding=celo
     pushd "branding/$branding"
     git pull
     popd
