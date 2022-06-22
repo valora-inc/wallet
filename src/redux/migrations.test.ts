@@ -28,6 +28,7 @@ import {
   v51Schema,
   v52Schema,
   v53Schema,
+  v54Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -535,8 +536,46 @@ describe('Redux persist migrations', () => {
   })
 
   it('works for v53 to v54', () => {
-    const oldSchema = v53Schema
+    const dapp = {
+      name: 'Ubeswap',
+      description: 'Swap any token, enter a pool, or farm your crypto',
+      dappUrl: 'https://app.ubeswap.org/',
+      categoryId: 'exchanges',
+      iconUrl: 'https://raw.githubusercontent.com/valora-inc/dapp-list/main/assets/ubeswap.png',
+      isFeatured: false,
+      id: 'ubeswap',
+    }
+    const dappsInfo = {
+      dappsWebViewEnabled: true,
+      activeDapp: dapp,
+      maxNumRecentDapps: 8,
+      recentDapps: [dapp],
+      dappListApiUrl: 'https://www.dapplist.com',
+    }
+
+    const oldSchema = {
+      ...v53Schema,
+      app: {
+        ...v53Schema.app,
+        ...dappsInfo,
+      },
+    }
     const migratedSchema = migrations[54](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.app.dappsWebViewEnabled
+    delete expectedSchema.app.activeDapp
+    delete expectedSchema.app.maxNumRecentDapps
+    delete expectedSchema.app.recentDapps
+    delete expectedSchema.app.dappListApiUrl
+    expectedSchema.dapps = dappsInfo
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v54 to v55', () => {
+    const oldSchema = v54Schema
+    const migratedSchema = migrations[55](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.visualizeNFTsEnabledInHomeAssetsPage = false

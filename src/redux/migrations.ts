@@ -644,6 +644,24 @@ export const migrations = {
   }),
   54: (state: any) => ({
     ...state,
+    dapps: {
+      dappsWebViewEnabled: state.app.dappsWebViewEnabled ?? false,
+      activeDapp: state.app.activeDapp ?? null,
+      maxNumRecentDapps: state.app.maxNumRecentDapps,
+      recentDapps: state.app.recentDapps,
+      dappListApiUrl: state.app.dappListApiUrl,
+    },
+    app: _.omit(
+      state.app,
+      'dappsWebViewEnabled',
+      'maxNumRecentDapps',
+      'recentDapps',
+      'dappListApiUrl',
+      'activeDapp'
+    ),
+  }),
+  55: (state: any) => ({
+    ...state,
     app: {
       ...state.app,
       visualizeNFTsEnabledInHomeAssetsPage:
