@@ -572,7 +572,7 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
-
+  
   it('works for v54 to v55', () => {
     const oldSchema = v54Schema
     const migratedSchema = migrations[55](oldSchema)

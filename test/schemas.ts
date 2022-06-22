@@ -1335,10 +1335,8 @@ export const v55Schema = {
   },
   app: {
     ...v54Schema.app,
-    visualizeNFTsEnabledInHomeAssetsPage: true,
+    visualizeNFTsEnabledInHomeAssetsPage: false,
   },
 }
 
-export function getLatestSchema(): Partial<RootState> {
-  return v55Schema as Partial<RootState>
 }
