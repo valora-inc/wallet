@@ -1,5 +1,11 @@
 import { createSelector } from 'reselect'
+import { Dapp } from 'src/app/types'
+import { DappCategory } from 'src/dapps/slice'
 import { RootState } from 'src/redux/reducers'
+
+export interface CategoryWithDapps extends DappCategory {
+  dapps: Dapp[]
+}
 
 export const dappsListApiUrlSelector = (state: RootState) => state.dapps.dappListApiUrl
 
@@ -23,3 +29,27 @@ export const dappsListErrorSelector = (state: RootState) => state.dapps.dappsLis
 export const featuredDappSelector = createSelector(dappsListSelector, (dapps) => {
   return dapps.find((dapp) => dapp.isFeatured)
 })
+
+export const dappCategoriesByIdSelector = createSelector(
+  dappsListSelector,
+  dappsCategoriesSelector,
+  (dapps, categories) => {
+    const mappedCategories: {
+      [id: string]: CategoryWithDapps
+    } = {}
+
+    categories.forEach((cat: any) => {
+      mappedCategories[cat.id] = {
+        id: cat.id,
+        name: cat.name,
+        fontColor: cat.fontColor,
+        backgroundColor: cat.backgroundColor,
+        dapps: [],
+      }
+    })
+    dapps.forEach((dapp) => {
+      mappedCategories[dapp.categoryId].dapps.push(dapp)
+    })
+    return Object.values(mappedCategories)
+  }
+)

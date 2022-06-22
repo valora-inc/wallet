@@ -20,13 +20,13 @@ import Card from 'src/components/Card'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
 import {
-  dappsCategoriesSelector,
+  CategoryWithDapps,
+  dappCategoriesByIdSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsListSelector,
   featuredDappSelector,
 } from 'src/dapps/selectors'
-import { ActiveDapp, DappCategory, DappSection, fetchDappsList } from 'src/dapps/slice'
+import { ActiveDapp, DappSection, fetchDappsList } from 'src/dapps/slice'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'
@@ -45,10 +45,6 @@ const AnimatedSectionList = Animated.createAnimatedComponent<SectionListProps<It
 
 const SECTION_HEADER_MARGIN_TOP = 32
 
-interface CategoryWithDapps extends DappCategory {
-  dapps: Dapp[]
-}
-
 interface DappProps {
   dapp: Dapp
   onPressDapp: (dapp: ActiveDapp) => void
@@ -66,12 +62,10 @@ export function DAppsExplorerScreen() {
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
   const dispatch = useDispatch()
-  const dappsList = useSelector(dappsListSelector)
-  const dappsCategories = useSelector(dappsCategoriesSelector)
   const featuredDapp = useSelector(featuredDappSelector)
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
-  const [categoriesById, setCategoriesById] = useState<CategoryWithDapps[]>([])
+  const categoriesById = useSelector(dappCategoriesByIdSelector)
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
 
@@ -79,23 +73,6 @@ export function DAppsExplorerScreen() {
     dispatch(fetchDappsList())
     ValoraAnalytics.track(DappExplorerEvents.dapp_screen_open)
   }, [])
-
-  useEffect(() => {
-    const mappedCategories: { [id: string]: CategoryWithDapps } = {}
-    dappsCategories.forEach((cat: any) => {
-      mappedCategories[cat.id] = {
-        id: cat.id,
-        name: cat.name,
-        fontColor: cat.fontColor,
-        backgroundColor: cat.backgroundColor,
-        dapps: [],
-      }
-    })
-    dappsList.forEach((dapp: Dapp) => {
-      mappedCategories[dapp.categoryId].dapps.push(dapp)
-    })
-    setCategoriesById(Object.values(mappedCategories))
-  }, [dappsList, dappsCategories])
 
   useEffect(() => {
     if (featuredDapp) {
