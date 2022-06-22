@@ -1,5 +1,4 @@
 import { BIOMETRY_TYPE } from 'react-native-keychain'
-import { ActiveDapp } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
 import { Screens } from 'src/navigator/Screens'
 
@@ -33,8 +32,6 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
-  DAPP_SELECTED = 'APP/DAPP_SELECTED',
-  DAPP_SESSION_ENDED = 'APP/DAPP_SESSION_ENDED',
 }
 
 export interface SetAppState {
@@ -138,15 +135,6 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
-export interface DappSelected {
-  type: Actions.DAPP_SELECTED
-  dapp: ActiveDapp
-}
-
-interface DappSessionEnded {
-  type: Actions.DAPP_SESSION_ENDED
-}
-
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -168,8 +156,6 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
-  | DappSelected
-  | DappSessionEnded
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -286,13 +272,4 @@ export const androidMobileServicesAvailabilityChecked = (
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
   googleIsAvailable,
   huaweiIsAvailable,
-})
-
-export const dappSelected = (dapp: ActiveDapp) => ({
-  type: Actions.DAPP_SELECTED,
-  dapp,
-})
-
-export const dappSessionEnded = () => ({
-  type: Actions.DAPP_SESSION_ENDED,
 })

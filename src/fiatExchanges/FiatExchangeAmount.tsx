@@ -27,6 +27,8 @@ import {
   DOLLAR_ADD_FUNDS_MAX_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
+import { useMaxSendAmount } from 'src/fees/hooks'
+import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -41,7 +43,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { balancesSelector } from 'src/stableToken/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -81,7 +82,6 @@ function FiatExchangeAmount({ route }: Props) {
   const inputConvertedToLocalCurrency =
     useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
-  const balances = useSelector(balancesSelector)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
@@ -93,7 +93,8 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const balanceCryptoAmount = balances[currency] || new BigNumber(0)
+  const { address } = useTokenInfoBySymbol(cryptoSymbol)!
+  const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
@@ -183,10 +184,10 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingDailyLimitDialog(true)
         return
       }
-    } else if (balanceCryptoAmount.isLessThan(inputCryptoAmount)) {
+    } else if (maxWithdrawAmount.isLessThan(inputCryptoAmount)) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
-          balance: balanceCryptoAmount.toFixed(2),
+          balance: maxWithdrawAmount.toFixed(2),
           currency: cryptoSymbol,
         })
       )
