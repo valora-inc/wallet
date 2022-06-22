@@ -68,7 +68,7 @@
     "@celo/network-utils": "~1.2.0",
     "@celo/payments-sdk": "0.0.11",
     "@celo/react-native-sms-retriever": "git+https://github.com/celo-org/react-native-sms-retriever#11e078e",
-    "@celo/utils": "~1.2.4",
+    "@celo/utils": "^1.2.4",
     "@celo/wallet-rpc": "~1.2.0",
     "@crowdin/ota-client": "^0.4.0",
     "@fiatconnect/fiatconnect-types": "^3.2.0",
@@ -335,7 +335,7 @@
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "@celo/utils/bn.js": "4.11.9",
     "json-schema": "^0.4.0",
-    "@celo/utils": "^1.2.0"
+    "@celo/utils": "^1.2.4"
   },
   "detox": {
     "test-runner": "jest",
