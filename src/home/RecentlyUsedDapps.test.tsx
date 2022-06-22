@@ -60,7 +60,7 @@ describe('RecentlyUsedDapps', () => {
     const { queryByTestId } = render(
       <Provider
         store={createMockStore({
-          app: {
+          dapps: {
             recentDapps: [],
           },
         })}
@@ -74,7 +74,7 @@ describe('RecentlyUsedDapps', () => {
 
   it('renders correctly with all recently used dapps', () => {
     const store = createMockStore({
-      app: {
+      dapps: {
         recentDapps,
       },
     })
@@ -103,7 +103,7 @@ describe('RecentlyUsedDapps', () => {
     const { getAllByTestId } = render(
       <Provider
         store={createMockStore({
-          app: {
+          dapps: {
             recentDapps,
           },
         })}
@@ -122,7 +122,7 @@ describe('RecentlyUsedDapps', () => {
     const { getByText } = render(
       <Provider
         store={createMockStore({
-          app: {
+          dapps: {
             recentDapps,
           },
         })}
@@ -147,7 +147,7 @@ describe('RecentlyUsedDapps', () => {
       render(
         <Provider
           store={createMockStore({
-            app: {
+            dapps: {
               recentDapps,
             },
           })}
@@ -184,7 +184,7 @@ describe('RecentlyUsedDapps', () => {
       const { getByTestId } = render(
         <Provider
           store={createMockStore({
-            app: {
+            dapps: {
               recentDapps,
             },
           })}
