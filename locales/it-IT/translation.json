@@ -1124,6 +1124,8 @@
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
     "dismiss": "Ignora"
   },
+  "supportExportLogsStart": "Esportazione dei log...",
+  "supportExportLogsFailed": "Esportazione dei log fallita: {{error}}",
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
   "plaidCreateLinkTokenFail": "Impossibile collegare il conto bancario. Riprova più tardi.",
