@@ -9,6 +9,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -1342,6 +1343,21 @@ export const v55Schema = {
   },
 }
 
+export const v56Schema = {
+  ...v55Schema,
+  _persist: {
+    ...v55Schema._persist,
+    version: 56,
+  },
+  walletConnect: {
+    ...v55Schema.walletConnect,
+    v1: {
+      ...v55Schema.walletConnect.v1,
+      walletConnectDisplayedInfo: WalletConnectDisplayedInfo.None,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v55Schema as Partial<RootState>
+  return v56Schema as Partial<RootState>
 }

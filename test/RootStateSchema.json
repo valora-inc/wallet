@@ -2371,12 +2371,16 @@
                         "$ref": "#/definitions/IWalletConnectSession"
                     },
                     "type": "array"
+                },
+                "walletConnectDisplayedInfo": {
+                    "$ref": "#/definitions/WalletConnectDisplayedInfo"
                 }
             },
             "required": [
                 "pendingActions",
                 "pendingSessions",
-                "sessions"
+                "sessions",
+                "walletConnectDisplayedInfo"
             ],
             "type": "object"
         },
@@ -3307,6 +3311,14 @@
                 6
             ],
             "type": "number"
+        },
+        "WalletConnectDisplayedInfo": {
+            "enum": [
+                "basic",
+                "full",
+                "none"
+            ],
+            "type": "string"
         },
         "WalletConnectSessionRequest": {
             "additionalProperties": false,

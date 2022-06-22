@@ -57,6 +57,7 @@ import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
@@ -193,6 +194,7 @@ export interface RemoteConfigValues {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  walletConnectDisplayedInfo: WalletConnectDisplayedInfo
 }
 
 export function* appRemoteFeatureFlagSaga() {

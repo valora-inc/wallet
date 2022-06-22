@@ -23,3 +23,6 @@ export function selectHasPendingState(state: RootState) {
     state.walletConnect.v1.pendingActions.length > 0
   )
 }
+
+export const walletConnectDisplayedInfoSelector = (state: RootState) =>
+  state.walletConnect.v1.walletConnectDisplayedInfo

@@ -22,6 +22,7 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 
 const TAG = 'firebase/firebase'
 
@@ -297,6 +298,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
+    walletConnectDisplayedInfo: flags.walletConnectDisplayedInfo.asString() as WalletConnectDisplayedInfo,
   }
 }
 

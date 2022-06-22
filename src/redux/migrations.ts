@@ -13,6 +13,7 @@ import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Currency } from 'src/utils/currencies'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 
 export const migrations = {
   0: (state: any) => {
@@ -668,6 +669,18 @@ export const migrations = {
       dappsListLoading: false,
       dappsListError: null,
       dappsCategories: [],
+    },
+  }),
+  56: (state: any) => ({
+    ...state,
+    walletConnect: {
+      ...state.walletConnect,
+      v1: {
+        pendingActions: state.walletConnect.v1.pendingActions ?? [],
+        sessions: state.walletConnect.v1.sessions ?? [],
+        pendingSessions: state.walletConnect.v1.pendingSessions ?? [],
+        walletConnectDisplayedInfo: WalletConnectDisplayedInfo.None,
+      },
     },
   }),
 }

@@ -1,6 +1,7 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -72,4 +73,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
+  walletConnectDisplayedInfo: WalletConnectDisplayedInfo.Basic,
 }
