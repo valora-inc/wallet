@@ -72,7 +72,7 @@ function RequestContent({
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
-        {isDappListed && dappImageUrl && (
+        {dappImageUrl && (
           <View style={styles.logoContainer}>
             <View style={styles.logoBackground}>
               <Logo />

@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, put, select, spawn, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
 import { Dapp } from 'src/app/types'
@@ -101,7 +101,7 @@ export function* watchDappSelected() {
 }
 
 export function* watchFetchDappsList() {
-  yield takeEvery(fetchDappsList.type, handleFetchDappsList)
+  yield takeLeading(fetchDappsList.type, handleFetchDappsList)
 }
 
 export function* dappsSaga() {

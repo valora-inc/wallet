@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { e164NumberSelector } from 'src/verify/reducer'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
@@ -21,7 +20,6 @@ function SessionRequest({ pendingSession }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const phoneNumber = useSelector(e164NumberSelector)
   const address = useSelector(currentAccountSelector)
   const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
   const isDappListed = useIsDappListed(name)
@@ -30,10 +28,6 @@ function SessionRequest({ pendingSession }: Props) {
     walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
       ? []
       : [
-          {
-            label: t('phoneNumber'),
-            value: phoneNumber,
-          },
           {
             label: t('address'),
             value: address,
