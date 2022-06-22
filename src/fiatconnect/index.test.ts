@@ -168,8 +168,6 @@ describe('FiatConnect helpers', () => {
     const fiatConnectClient = new FiatConnectClient(
       {
         baseUrl: 'some url',
-        providerName: 'some name',
-        iconUrl: 'some url',
         network: Network.Alfajores,
         accountAddress: 'some address',
       },
