@@ -51,13 +51,13 @@
   "confirmNumber": "Podłącz numer telefonu",
   "cancel": "Anuluj",
   "changeProfilePhoto": "Zmień zdjęcie profilowe",
-  "name": "Nazwa użytkownika",
-  "editName": "Edytuj imię i nazwisko",
+  "name": "Nazwa",
+  "editName": "Edytuj nazwę",
   "submit": "Prześlij",
   "selectLanguage": "Wybierz język",
   "selectCurrency": "Wybierz walutę",
   "continue": "Kontynuuj",
-  "yourName": "Twoje imię i nazwisko",
+  "yourName": "Twoja nazwa",
   "version": "Wersja {{appVersion}}",
   "addressCopied": "Adres skopiowany do schowka",
   "support": "Wsparcie",
@@ -70,7 +70,7 @@
   "attachLogs": "Załącz dzienniki",
   "supportLegalCheckbox": "Przesyłając zgłoszenie, wyrażam zgodę na udostępnienie powyższych informacji oraz wszelkich załączonych danych z dziennika aplikacji Działowi wsparcia aplikacji {{appName}}.",
   "contactSuccess": "Twój problem został pomyślnie zgłoszony. Wkrótce otrzymasz wiadomość e-mail z odpowiedzią!",
-  "namePictureSaved": "Twoje imię i nazwisko oraz zdjęcie zostały pomyślnie zapisane.",
+  "namePictureSaved": "Twoja nazwa oraz zdjęcie zostały pomyślnie zapisane.",
   "addPhoto": "Dodaj zdjęcie",
   "chooseFromLibrary": "Wybierz z Biblioteki",
   "takePhoto": "Zrób zdjęcie",
@@ -375,7 +375,7 @@
   "wallet": "Portfel",
   "send": "Wyślij",
   "search": "Szukaj",
-  "namePhoneAddress": "Nazwisko, telefon lub adres",
+  "namePhoneAddress": "Nazwa, telefon lub adres",
   "payments": "Płatności",
   "activity": "Operacje",
   "earnRewards": "Zdobywaj nagrody",
@@ -477,7 +477,7 @@
   },
   "message": "Wiadomość",
   "addressLookupFailure": "Nie udało się znaleźć adresu numeru telefonu",
-  "saltFetchFailure": "Nie udało się odzyskać klucza tajnego należącego do numeru telefonu",
+  "saltFetchFailure": "Nie udało się odzyskać tajnego kodu przypisanego do numeru telefonu",
   "saltQuotaExceededError": "Wykorzystano limit na wyszukiwanie numerów telefonów",
   "maxActionableAttestationsExceededError": "Nie udało się ponownie wysłać wiadomości",
   "odisInsufficientBalance": "Podłącz swój numer",
@@ -485,37 +485,37 @@
   "paymentLimitReached": "Dzienny limit wynosi {{dailyLimitcUSD}} cUSD ({{dailyLimit}}{{currencySymbol}})\nPozostało {{dailyRemainingcUSD}} cUSD ({{dailyRemaining}}{{currencySymbol}})",
   "requestLimitError": "Twój dzienny limit nie może wynosić więcej niż {{limit}} cUSD.",
   "ordinals": [
-    "zerowy",
-    "pierwszy",
-    "drugi",
-    "trzeci",
-    "czwarty",
-    "piąty",
-    "szósty",
-    "siódmy",
-    "ósmy",
-    "dziewiąty",
-    "dziesiąty",
-    "jedenasty",
-    "dwunasty",
-    "trzynasty",
-    "czternasty",
-    "piętnasty",
-    "szesnasty",
-    "siedemnasty",
-    "osiemnasty",
-    "dziewiętnasty",
-    "dwudziesty",
-    "dwudziesty pierwszy",
-    "dwudziesty drugi",
-    "dwudziesty trzeci",
-    "dwudziesty czwarty",
-    "dwudziesty piąty",
-    "dwudziesty szósty",
-    "dwudziesty siódmy",
-    "dwudziesty ósmy",
-    "dwudziesty dziewiąty",
-    "trzydziesty"
+    "zerowe",
+    "pierwsze",
+    "drugie",
+    "trzecie",
+    "czwarte",
+    "piąte",
+    "szóste",
+    "siódme",
+    "ósme",
+    "dziewiąte",
+    "dziesiąte",
+    "jedenaste",
+    "dwunaste",
+    "trzynaste",
+    "czternaste",
+    "piętnaste",
+    "szesnaste",
+    "siedemnaste",
+    "osiemnaste",
+    "dziewiętnaste",
+    "dwudzieste",
+    "dwudzieste pierwsze",
+    "dwudzieste drugie",
+    "dwudzieste trzecie",
+    "dwudzieste czwarte",
+    "dwudzieste piąte",
+    "dwudzieste szóste",
+    "dwudzieste siódme",
+    "dwudzieste ósme",
+    "dwudzieste dziewiąte",
+    "trzydzieste"
   ],
   "addressValidationError": "Wprowadzone dane konta są nieprawidłowe",
   "addressValidationNoMatch": "Wprowadzone dane konta nie pokrywają się z informacjami dotyczącymi Twojego kontaktu",
@@ -610,7 +610,7 @@
     "heading1": "Dane i prywatność",
     "heading2": "Aktywa Celo i konto {{appName}}",
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
-    "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje imię i nazwisko, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
+    "privacy": "Dołączając do tej sieci, zezwalasz nam na gromadzenie anonimowych informacji na temat sposobu, w jaki korzystasz z naszej aplikacji. Dodatkowo, jeśli podłączysz swój numer telefonu, jego zaszyfrowana kopia będzie przechowywana w Celo Network. Jeśli udzielisz aplikacji Valora dostępu do swojej listy kontaktów, aplikacja Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom komunikowanie się przez aplikację Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te dane, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Zakładając „konto” w aplikacji Valora, tworzysz cyfrowy portfel, do którego klucz dostępu posiadasz tylko Ty. Żadna inna osoba ani żaden podmiot, w tym cLabs czy Valora, nie mogą odzyskać Twojego klucza, zmodyfikować lub cofnąć transakcji ani odzyskać utraconych środków. Należy pamiętać, że CELO, cUSD i cEUR są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe. Za pośrednictwem aplikacji Valora możesz wysyłać maksymalnie {{dailyLimitCUSD}} cUSD dziennie („Limit dzienny”). Aby wnioskować o zwiększenie Limitu dziennego, musisz skontaktować się z support@valoraapp.com i podać dodatkowe dane osobowe. Wnioski mogą być akceptowane z pewnym opóźnieniem."
   },
   "fullName": "Nazwa",
@@ -720,7 +720,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Importuj kontakty",
-      "body": "Valora chce zaimportować Twoje kontakty. Naciskając przycisk poniżej, zezwalasz na dostęp do numerów telefonów, nazwisk i zdjęć swoich kontaktów w celu nawiązania z nimi kontaktu przez aplikację Valora"
+      "body": "Valora chce zaimportować Twoje kontakty. Naciskając przycisk poniżej, zezwalasz na dostęp do numerów telefonów, nazw i zdjęć swoich kontaktów w celu nawiązania z nimi kontaktu przez aplikację Valora"
     }
   },
   "createAccount": "Utwórz konto",
@@ -828,7 +828,7 @@
   "requestDeclined": "Żądanie odrzucone",
   "requestPaid": "Żądanie wypłacone",
   "paymentRequestUpdateFailed": "Nie można zaktualizować żądania płatności",
-  "incomingPaymentRequestNotificationTitle": "{{name}} zażądał(a)",
+  "incomingPaymentRequestNotificationTitle": "{{name}} przesłał(a) żądanie",
   "outgoingPaymentRequestNotificationTitle": "Oczekiwanie na {{name}}",
   "requestUnavailableHeader": "Konto należące do {{displayName}} nie jest jeszcze podłączone.",
   "requestUnavailableNoDisplayNameHeader": "Numer telefonu Twojego kontaktu nie jest połączony z adresem konta.",
@@ -1107,7 +1107,7 @@
   "transactionHeaderInviteReceived": "$t(inviteReceived)",
   "transactionHeaderSent": "Przesłano płatność",
   "transactionHeaderWithdrewCelo": "Wypłata CELO",
-  "transactionHeaderEscrowSent": "Wysłano płatność Escrow",
+  "transactionHeaderEscrowSent": "Przesłano płatność Escrow",
   "transactionHeaderReceived": "Otrzymano płatność",
   "transactionHeaderCeloDeposit": "Otrzymano wpłatę",
   "transactionHeaderCeloReward": "Otrzymano nagrodę",
@@ -1252,67 +1252,67 @@
   "fiatConnectReviewScreen": {
     "paymentMethod": "Metoda płatności",
     "transactionDetails": "Szczegóły transakcji",
-    "paymentMethodVia": "Linked via {{providerName}}",
+    "paymentMethodVia": "Powiązana przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "cashIn": {
-      "header": "Review Add Funds",
-      "button": "Add Funds",
-      "transactionDetailsAmount": "Total Price"
+      "header": "Analizuj – Dodaj środki",
+      "button": "Dodaj środki",
+      "transactionDetailsAmount": "Cena całkowita"
     },
     "cashOut": {
-      "header": "Review",
-      "button": "Withdraw Funds",
-      "transactionDetailsAmount": "Total Withdraw",
-      "transactionDetailsAmountConverted": "Amount Withdrawn"
+      "header": "Analizuj",
+      "button": "Wypłać środki",
+      "transactionDetailsAmount": "Całkowita wypłata",
+      "transactionDetailsAmountConverted": "Wypłacona kwota"
     }
   },
   "fiatExchangeFlow": {
     "cashIn": {
-      "fiatExchangeTitle": "Add Funds",
+      "fiatExchangeTitle": "Dodaj środki",
       "fiatExchangeSubtitle": "Zasil swoje konto w aplikacji {{appName}} z banku, karty lub giełdy.",
-      "selectCurrencyTitle": "Add Funds",
-      "exchangeAmountTitle": "Add {{currency}}",
+      "selectCurrencyTitle": "Dodaj środki",
+      "exchangeAmountTitle": "Dodaj {{currency}}",
       "selectProviderHeader": "Wybierz metodę płatności"
     },
     "cashOut": {
-      "fiatExchangeTitle": "Withdraw Funds",
+      "fiatExchangeTitle": "Wypłać środki",
       "fiatExchangeSubtitle": "Wypłać środki z aplikacji {{appName}} na konto bankowe, kartę, giełdę kryptowalut lub do mobilnego portfela.",
-      "selectCurrencyTitle": "Withdraw Funds",
-      "exchangeAmountTitle": "Withdraw {{currency}}",
-      "selectProviderHeader": "Select Withdraw Method"
+      "selectCurrencyTitle": "Wypłać środki",
+      "exchangeAmountTitle": "Wypłać {{currency}}",
+      "selectProviderHeader": "Wybierz metodę wypłaty"
     },
     "spend": {
-      "fiatExchangeTitle": "Spend Funds",
-      "fiatExchangeSubtitle": "Spend on gift cards and other purchases.",
-      "selectCurrencyTitle": "Spend Funds"
+      "fiatExchangeTitle": "Wykorzystaj środki",
+      "fiatExchangeSubtitle": "Wydawaj na karty podarunkowe i inne zakupy.",
+      "selectCurrencyTitle": "Wykorzystaj środki"
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Details",
-    "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+    "header": "Wprowadź dane banku",
+    "selectedPaymentOption": "Wybrana opcja płatności",
+    "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
+    "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
+    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia."
   },
   "fiatAccountSchema": {
     "accountName": {
-      "label": "Account Name",
-      "placeholderText": "A name for the account",
-      "errorMessage": "An account name is required"
+      "label": "Nazwa konta",
+      "placeholderText": "Nazwa konta",
+      "errorMessage": "Wymagane jest podanie nazwy konta"
     },
     "institutionName": {
-      "label": "Bank Name",
-      "placeholderText": "Enter Bank Name",
-      "errorMessage": "A bank name is required"
+      "label": "Nazwa banku",
+      "placeholderText": "Wpisz nazwę banku",
+      "errorMessage": "Wymagane jest podanie nazwy banku"
     },
     "accountNumber": {
-      "label": "Account Number",
-      "placeholderText": "Enter your 10 digit account number",
-      "errorMessage": "Account number should be 10 digits long and only contain numbers"
+      "label": "Numer konta",
+      "placeholderText": "Wpisz 10-cyfrowy numer konta",
+      "errorMessage": "Numer konta powinien składać się z 10 cyfr i zawierać tylko cyfry"
     }
   },
   "webView": {
-    "openExternal": "Open in External Browser"
+    "openExternal": "Otwórz w zewnętrznej przeglądarce"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
