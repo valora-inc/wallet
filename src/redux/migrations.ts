@@ -642,4 +642,22 @@ export const migrations = {
     account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
     web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
   }),
+  54: (state: any) => ({
+    ...state,
+    dapps: {
+      dappsWebViewEnabled: state.app.dappsWebViewEnabled ?? false,
+      activeDapp: state.app.activeDapp ?? null,
+      maxNumRecentDapps: state.app.maxNumRecentDapps,
+      recentDapps: state.app.recentDapps,
+      dappListApiUrl: state.app.dappListApiUrl,
+    },
+    app: _.omit(
+      state.app,
+      'dappsWebViewEnabled',
+      'maxNumRecentDapps',
+      'recentDapps',
+      'dappListApiUrl',
+      'activeDapp'
+    ),
+  }),
 }
