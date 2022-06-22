@@ -15,6 +15,8 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
+import { walletConnectDisplayedInfoSelector } from 'src/walletConnect/v1/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
@@ -27,6 +29,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
+  const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
   const isDappListed = useIsDappListed(dappKitRequest.dappName)
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -57,7 +60,12 @@ const DappKitAccountScreen = ({ route }: Props) => {
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappImageUrl={activeDapp?.iconUrl}
-        title={t('connectToWallet', { dappName: dappKitRequest.dappName })}
+        title={t(
+          walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
+            ? 'confirmTransaction'
+            : 'connectToWallet',
+          { dappName: dappKitRequest.dappName }
+        )}
         description={t('shareInfo')}
         requestDetails={[
           {

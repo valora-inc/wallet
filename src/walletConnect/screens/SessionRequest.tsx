@@ -6,6 +6,8 @@ import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
+import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
+import { walletConnectDisplayedInfoSelector } from 'src/walletConnect/v1/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = {
@@ -21,7 +23,23 @@ function SessionRequest({ pendingSession }: Props) {
 
   const phoneNumber = useSelector(e164NumberSelector)
   const address = useSelector(currentAccountSelector)
+  const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
   const isDappListed = useIsDappListed(name)
+
+  const requestDetails =
+    walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
+      ? []
+      : [
+          {
+            label: t('phoneNumber'),
+            value: phoneNumber,
+          },
+          {
+            label: t('address'),
+            value: address,
+            tapToCopy: true,
+          },
+        ]
 
   return (
     <RequestContent
@@ -32,20 +50,15 @@ function SessionRequest({ pendingSession }: Props) {
         dispatch(denySession(pendingSession))
       }}
       dappImageUrl={fallbackIcon}
-      title={t('connectToWallet', { dappName: name })}
+      title={t(
+        walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
+          ? 'confirmTransaction'
+          : 'connectToWallet',
+        { dappName: name }
+      )}
       description={t('shareInfo')}
       isDappListed={isDappListed}
-      requestDetails={[
-        {
-          label: t('phoneNumber'),
-          value: phoneNumber,
-        },
-        {
-          label: t('address'),
-          value: address,
-          tapToCopy: true,
-        },
-      ]}
+      requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     />
   )
