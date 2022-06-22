@@ -22,6 +22,7 @@ import {
   getFiatConnectQuotes,
   QuotesInput,
   loginWithFiatConnectProvider,
+  getSigningFunction,
 } from './index'
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
@@ -160,9 +161,25 @@ describe('FiatConnect helpers', () => {
       ).rejects.toThrowError('Not implemented')
     })
   })
+  describe('getSigningFunction', () => {
+    const wallet = new KeychainWallet({
+      address: 'some address',
+      createdAt: new Date(),
+    })
+    beforeEach(() => {
+      wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
+      wallet.signPersonalMessage = jest.fn().mockResolvedValue('some signed message')
+    })
+    it('returns a signing function that signs a message', async () => {
+      const signingFunction = getSigningFunction(wallet)
+      const signedMessage = await signingFunction('test')
+      expect(wallet.signPersonalMessage).toHaveBeenCalled()
+      expect(signedMessage).toEqual('some signed message')
+    })
+  })
   describe('loginWithFiatConnectProvider', () => {
     const wallet = new KeychainWallet({
-      address: 'someaddress',
+      address: 'some address',
       createdAt: new Date(),
     })
     const fiatConnectClient = new FiatConnectClient(
