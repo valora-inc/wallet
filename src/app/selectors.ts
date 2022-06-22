@@ -118,23 +118,12 @@ export const biometryEnabledSelector = (state: RootState) =>
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
-export const dappsListApiUrlSelector = (state: RootState) => state.app.dappListApiUrl
-
-export const maxNumRecentDappsSelector = (state: RootState) => state.app.maxNumRecentDapps
-
-export const recentDappsSelector = (state: RootState) => state.app.recentDapps
-
 export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
   state.app.showPriceChangeIndicatorInBalances
 
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
-
-export const dappsWebViewEnabledSelector = (state: RootState) => state.app.dappsWebViewEnabled
-
-export const activeDappSelector = (state: RootState) =>
-  state.app.dappsWebViewEnabled ? state.app.activeDapp : null
 
 export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
   state.app.finclusiveUnsupportedStates
