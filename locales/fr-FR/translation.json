@@ -1124,7 +1124,7 @@
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
     "dismiss": "Ignorer"
   },
-  "supportExportLogsStart": "Exporter les journaux...",
+  "supportExportLogsStart": "Exportation en cours...",
   "supportExportLogsFailed": "Échec de l'exportation des journaux : {{error}}",
   "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
