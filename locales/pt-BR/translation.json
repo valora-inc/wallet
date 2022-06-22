@@ -1124,8 +1124,8 @@
     "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns ativos não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
     "dismiss": "Ignorar"
   },
-  "supportExportLogsStart": "Exportação de troncos...",
-  "supportExportLogsFailed": "Falha na exportação de registos: {{error}}",
+  "supportExportLogsStart": "Exportando registros...",
+  "supportExportLogsFailed": "Falha ao exportar os registos: {{error}}",
   "supportEmailSubject": "Suporte da {{appName}} para {{user}}",
   "personaAccountEndpointFail": "A verificação da identidade não está disponível no momento. Tente novamente mais tarde.",
   "plaidCreateLinkTokenFail": "Não foi possível vincular a conta bancária. Tente novamente mais tarde.",
