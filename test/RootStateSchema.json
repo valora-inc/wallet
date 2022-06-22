@@ -1635,6 +1635,8 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "dappListApiUrl",
+                "dappsWebViewEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "finclusiveUnsupportedStates",

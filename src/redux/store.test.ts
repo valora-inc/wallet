@@ -138,6 +138,8 @@ describe('store state', () => {
           "celoEducationUri": null,
           "celoEuroEnabled": true,
           "celoWithdrawalEnabledInExchange": true,
+          "dappListApiUrl": null,
+          "dappsWebViewEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "finclusiveUnsupportedStates": Array [
