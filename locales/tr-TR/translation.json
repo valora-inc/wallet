@@ -1124,6 +1124,8 @@
     "body": "Toplam Bakiyeniz, tüm Valora varlıklarınızın yaklaşık bir toplamıdır. Fiyatlar dalgalandıkça Toplam Bakiyeniz değişecektir. Her 10 dakikada bir güncellenir.\nBazı varlıklar, hesaplama sırasında fiyat mevcut olmadığı için Toplam Bakiyede gösterilmeyebilir.",
     "dismiss": "Yoksay"
   },
+  "supportExportLogsStart": "Exporting logs...",
+  "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{user}} kullanıcısı için {{appName}} desteği",
   "personaAccountEndpointFail": "Kimlik doğrulama şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyiniz",
   "plaidCreateLinkTokenFail": "Banka hesabı bağlanamıyor. Lütfen daha sonra tekrar deneyiniz",
