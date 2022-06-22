@@ -1,32 +1,22 @@
-import {
-  AccountNumber,
-  FiatAccountSchema,
-  FiatAccountType,
-  FiatConnectError,
-} from '@fiatconnect/fiatconnect-types'
+import { AccountNumber, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { showError, showMessage } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput from 'src/components/TextInput'
-import { addNewFiatAccount } from 'src/fiatconnect'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Currency } from 'src/utils/currencies'
-import Logger from 'src/utils/Logger'
 
 const TAG = 'FiatDetailsScreen'
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
@@ -59,13 +49,6 @@ const getAccountNumberSchema = (implicitParams: {
   country: string
   fiatAccountType: FiatAccountType
 }): AccountNumberSchema => ({
-  accountName: {
-    name: 'accountName',
-    label: i18n.t('fiatAccountSchema.accountName.label'),
-    regex: /.*?/,
-    placeholderText: i18n.t('fiatAccountSchema.accountName.placeholderText'),
-    errorMessage: i18n.t('fiatAccountSchema.accountName.errorMessage'),
-  },
   institutionName: {
     name: 'institutionName',
     label: i18n.t('fiatAccountSchema.institutionName.label'),
@@ -82,18 +65,23 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: implicitParams.fiatAccountType },
+  accountName: { name: 'accountNAme', value: 'n/a' },
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
-  const { providerURL, fiatAccountSchema, cicoQuote, flow, provider } = route.params
+  const { flow, quote } = route.params
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
   const userCountry = useSelector(userLocationDataSelector)
 
+  console.debug(quote.quote)
+
   const dispatch = useDispatch()
+
+  const fiatAccountSchema = quote.getFiatAccountSchema()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -106,7 +94,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       case FiatAccountSchema.AccountNumber:
         return getAccountNumberSchema({
           country: userCountry.countryCodeAlpha2 || 'US',
-          fiatAccountType: FiatAccountType.BankAccount,
+          fiatAccountType: quote.getFiatAccountType(),
         })
     }
   }
@@ -155,38 +143,35 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         ...implicitBody,
       }
 
-      await addNewFiatAccount(providerURL, fiatAccountSchema, completeBody)
-        .then((data) => {
-          // TODO Tracking here
-          dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
-        })
-        .catch((error) => {
-          // TODO Tracking here
-          if (error === FiatConnectError.ResourceExists) {
-            dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
-          } else {
-            dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
-          }
-          Logger.error(TAG, `Error adding fiat account: ${error}`)
-        })
+      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
+      //   .then((data) => {
+      //     // TODO Tracking here
+      //     dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+      //   })
+      //   .catch((error) => {
+      //     // TODO Tracking here
+      //     if (error === FiatConnectError.ResourceExists) {
+      //       dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+      //     } else {
+      //       dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
+      //     }
+      //     Logger.error(TAG, `Error adding fiat account: ${error}`)
+      //   })
 
       // TODO: navigate to the next screen
+      console.debug(completeBody)
+      navigate(Screens.FiatConnectReview, {
+        flow,
+        normalizedQuote: quote,
+        fiatAccount: completeBody as AccountNumber,
+      })
     }
   }
 
   const onPressSelectedPaymentOption = () => {
     // TODO: tracking here
 
-    if (cicoQuote) {
-      navigate(Screens.SelectProvider, {
-        flow,
-        selectedCrypto: cicoQuote.quote.cryptoType.toUpperCase() as Currency,
-        amount: {
-          crypto: parseInt(cicoQuote.quote.cryptoAmount),
-          fiat: parseInt(cicoQuote.quote.fiatAmount),
-        },
-      })
-    }
+    navigateBack()
   }
 
   const validateInput = () => {
@@ -249,7 +234,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <ForwardChevron color={colors.gray4} />
               <Image
                 source={{
-                  uri: provider.logo,
+                  uri: quote.getProviderLogo(),
                 }}
                 style={styles.iconImage}
                 resizeMode="contain"

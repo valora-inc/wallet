@@ -31,7 +31,7 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
 
-  const { flow, normalizedQuote, fiatAccount, fiatAccountSchema } = route.params
+  const { flow, normalizedQuote, fiatAccount } = route.params
 
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
 
@@ -56,7 +56,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         <PaymentMethod
           normalizedQuote={normalizedQuote}
           fiatAccount={fiatAccount}
-          fiatAccountSchema={fiatAccountSchema}
+          fiatAccountSchema={normalizedQuote.getFiatAccountSchema()}
         />
       </View>
       <Button

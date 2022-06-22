@@ -1,12 +1,19 @@
-import { CryptoType, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
+import {
+  CryptoType,
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatType,
+} from '@fiatconnect/fiatconnect-types'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
 } from 'src/fiatconnect/FiatDetailsScreen'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -46,10 +53,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     }
 
     // Check if at least one of the KYC schemas is supported
-    const isKycSchemaSupported = !quote.kyc.kycRequired // Currently we don't support kyc
-    if (!isKycSchemaSupported) {
-      throw new Error(`Error: ${quote.provider.id}. We don't support KYC for fiatconnect yet`)
-    }
+    // const isKycSchemaSupported = !quote.kyc.kycRequired // Currently we don't support kyc
+    // if (!isKycSchemaSupported) {
+    //   throw new Error(`Error: ${quote.provider.id}. We don't support KYC for fiatconnect yet`)
+    // }
     this.quote = quote
     this.fiatAccountType = fiatAccountType
   }
@@ -84,12 +91,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   // TODO: Integrate the FiatConnectQuote class into the FiatDetailsScreen
-  navigate(): void {
-    // navigate(Screens.FiatDetailsScreen, {
-    //   quote: this,
-    //   fiatAccountType: this.fiatAccountType,
-    //   flow,
-    // })
+  navigate(flow: CICOFlow): void {
+    navigate(Screens.FiatDetailsScreen, {
+      quote: this,
+      flow,
+    })
   }
 
   getProviderName(): string {
@@ -102,6 +108,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getProviderId(): string {
     return this.quote.provider.id
+  }
+
+  getProviderBaseUrl(): string {
+    return this.quote.provider.baseUrl
   }
 
   getFiatAmount(): string {
@@ -118,5 +128,18 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getCryptoType(): CryptoType {
     return this.quote.quote.cryptoType
+  }
+
+  getFiatAccountType(): FiatAccountType {
+    return this.fiatAccountType
+  }
+
+  getFiatAccountSchema(): FiatAccountSchema {
+    const fiatAccountSchemas = this.quote.fiatAccount[this.fiatAccountType]?.fiatAccountSchemas.map(
+      ({ fiatAccountSchema }) => fiatAccountSchema
+    )
+    return fiatAccountSchemas?.find((schema) =>
+      SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema)
+    ) as FiatAccountSchema
   }
 }
