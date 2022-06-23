@@ -7,7 +7,7 @@ import {
   DEFAULT_SENTRY_NETWORK_ERRORS,
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 } from 'src/config'
-import { DappConnectInfo } from 'src/dapps/slice'
+import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'

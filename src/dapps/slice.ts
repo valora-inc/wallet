@@ -1,32 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { Dapp } from 'src/app/types'
+import { ActiveDapp, Dapp, DappCategory, DappConnectInfo } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
-
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
-
-export interface DappCategory {
-  backgroundColor: string
-  fontColor: string
-  id: string
-  name: string
-}
-
-// used for the dapp connect request bottom sheet
-export enum DappConnectInfo {
-  None = 'none', // display the same content as before app version 1.35
-  Basic = 'basic', // display more correct title for connection request, indicate if dapp is in dappsList, display dapp logo for dappkit requests
-  Full = 'full', // display detailed transaction data (future feature)
-}
 export interface State {
   dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
