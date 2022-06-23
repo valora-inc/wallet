@@ -75,7 +75,7 @@ export class PinBlocklist {
   private readonly buffer: Buffer
 
   constructor() {
-    this.buffer = new Buffer(require(PIN_BLOCKLIST_PATH) as string, 'base64')
+    this.buffer = Buffer.from(require(PIN_BLOCKLIST_PATH) as string, 'base64')
   }
 
   public size(): number {
