@@ -46,7 +46,7 @@ describe('dappCategoriesByIdSelector', () => {
           },
         })
       )
-    ).toBe([
+    ).toEqual([
       {
         ...dappsCategories[0],
         dapps: [dapp1],

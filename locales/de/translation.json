@@ -206,7 +206,8 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "{{dappName}} würde gerne eine Transaktion bestätigen",
+  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
+  "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
   "allow": "Erlauben",
   "address": "Konto-Adresse",
   "phoneNumber": "Telefonnummer",
@@ -962,7 +963,7 @@
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
-    "askingV1_35": "{{dappName}} bittet darum, das Folgende auszuführen:",
+    "askingV1_35": "{{dappName}} möchte Folgendes ausführen:",
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere eine Daten-Nutzlast",
@@ -1123,6 +1124,8 @@
     "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
+  "supportExportLogsStart": "Protokolle exportieren...",
+  "supportExportLogsFailed": "Der Export der Logs ist fehlgeschlagen: {{error}}",
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
