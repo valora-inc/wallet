@@ -317,6 +317,14 @@
             ],
             "type": "object"
         },
+        "DappConnectInfo": {
+            "enum": [
+                "basic",
+                "default",
+                "full"
+            ],
+            "type": "string"
+        },
         "DappSection": {
             "enum": [
                 "all",
@@ -2444,6 +2452,9 @@
                         }
                     ]
                 },
+                "dappConnectInfo": {
+                    "$ref": "#/definitions/DappConnectInfo"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -2486,6 +2497,7 @@
             },
             "required": [
                 "activeDapp",
+                "dappConnectInfo",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",

@@ -15,7 +15,6 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Dapp } from 'src/app/types'
 import Card from 'src/components/Card'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
@@ -26,7 +25,8 @@ import {
   dappsListLoadingSelector,
   featuredDappSelector,
 } from 'src/dapps/selectors'
-import { ActiveDapp, DappSection, fetchDappsList } from 'src/dapps/slice'
+import { fetchDappsList } from 'src/dapps/slice'
+import { ActiveDapp, Dapp, DappSection } from 'src/dapps/types'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import LinkArrow from 'src/icons/LinkArrow'
 import Help from 'src/icons/navigator/Help'

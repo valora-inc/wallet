@@ -1,8 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { Dapp } from 'src/app/types'
-import { DappCategory, DappSection, dappSelected, fetchDappsList } from 'src/dapps/slice'
+import { dappSelected, fetchDappsList } from 'src/dapps/slice'
+import { Dapp, DappCategory, DappSection } from 'src/dapps/types'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { createMockStore } from 'test/utils'
 

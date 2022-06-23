@@ -3,12 +3,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { handleFetchDappsList, handleOpenDapp } from 'src/dapps/saga'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
-import {
-  DappSection,
-  dappSelected,
-  fetchDappsListCompleted,
-  fetchDappsListFailed,
-} from 'src/dapps/slice'
+import { dappSelected, fetchDappsListCompleted, fetchDappsListFailed } from 'src/dapps/slice'
+import { DappSection } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
