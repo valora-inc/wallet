@@ -92,7 +92,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  // TODO: Integrate the FiatConnectQuote class into the FiatDetailsScreen
   navigate(flow: CICOFlow): void {
     navigate(Screens.FiatDetailsScreen, {
       quote: this,
@@ -137,6 +136,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   getFiatAccountSchema(): FiatAccountSchema {
+    // NOTE: since we only support 1 fiat account schema right now, this is hardcoded to use a single fiat account.
+    // (Providers might support multiple fiat account schemas for the same quote.)
     const fiatAccountSchemas = this.quote.fiatAccount[this.fiatAccountType]?.fiatAccountSchemas.map(
       ({ fiatAccountSchema }) => fiatAccountSchema
     )
