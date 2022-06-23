@@ -59,7 +59,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
-        dappName={dappKitRequest.dappName}
+        dappUrl={dappKitRequest.callback}
         title={t(
           dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
           { dappName: dappKitRequest.dappName }

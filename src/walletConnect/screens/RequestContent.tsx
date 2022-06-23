@@ -25,7 +25,7 @@ interface Props {
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   isDappListed: boolean
-  dappName: string
+  dappUrl: string
   children?: React.ReactNode
 }
 
@@ -40,7 +40,7 @@ function RequestContent({
   testId,
   requestDetails,
   isDappListed,
-  dappName,
+  dappUrl,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -83,15 +83,11 @@ function RequestContent({
             <View style={styles.logoBackground}>
               <Logo />
             </View>
-            {dappImageUrl ? (
-              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-            ) : (
-              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
-                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
-                  {dappName.charAt(0).toUpperCase()}
-                </Text>
-              </View>
-            )}
+            <Image
+              style={styles.dappImage}
+              source={{ uri: dappImageUrl ?? `${dappUrl}/favicon.ico` }}
+              resizeMode="cover"
+            />
           </View>
         )}
         <Text style={styles.header} testID={`${testId}Header`}>
@@ -190,16 +186,6 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     alignSelf: 'flex-end',
-  },
-  placeholderLogoBackground: {
-    backgroundColor: Colors.light,
-    marginRight: -Spacing.Small12,
-    borderWidth: 1,
-    borderColor: Colors.gray2,
-  },
-  placeholderLogoText: {
-    ...fontStyles.h2,
-    color: Colors.gray4,
   },
 })
 
