@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -28,6 +28,7 @@ import {
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
+import Touchable from 'src/components/Touchable'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
@@ -120,15 +121,17 @@ function TokenBalancesScreen({ navigation }: Props) {
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
-        <TouchableOpacity onPress={onPressNFTsBanner} style={styles.bannerContainer}>
-          <View style={styles.leftInnerContainer}>
-            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
+        <Touchable borderless={true} onPress={onPressNFTsBanner}>
+          <View style={[styles.bannerContainer]}>
+            <View style={styles.leftInnerContainer}>
+              <Text style={styles.bannerText}>{t('nftViewer')}</Text>
+            </View>
+            <View style={styles.rightInnerContainer}>
+              <Text style={styles.bannerText}>{t('open')}</Text>
+              <OpenLinkIcon />
+            </View>
           </View>
-          <View style={styles.rightInnerContainer}>
-            <Text style={styles.bannerText}>{t('open')}</Text>
-            <OpenLinkIcon />
-          </View>
-        </TouchableOpacity>
+        </Touchable>
       )}
       {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
         <View style={styles.lastDayLabel}>
