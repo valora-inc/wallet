@@ -3,7 +3,10 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/slice'
 import Logo from 'src/icons/Logo'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -22,6 +25,7 @@ interface Props {
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   isDappListed: boolean
+  dappName: string
   children?: React.ReactNode
 }
 
@@ -36,6 +40,7 @@ function RequestContent({
   testId,
   requestDetails,
   isDappListed,
+  dappName,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -43,6 +48,7 @@ function RequestContent({
 
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
 
   const isLoading = isAccepting || isDenying
 
@@ -72,12 +78,20 @@ function RequestContent({
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
-        {dappImageUrl && (
+        {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
           <View style={styles.logoContainer}>
             <View style={styles.logoBackground}>
               <Logo />
             </View>
-            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            {dappImageUrl ? (
+              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            ) : (
+              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
+                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
+                  {dappName.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            )}
           </View>
         )}
         <Text style={styles.header} testID={`${testId}Header`}>
@@ -176,6 +190,15 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     alignSelf: 'flex-end',
+  },
+  placeholderLogoBackground: {
+    backgroundColor: Colors.light,
+    marginRight: -Spacing.Small12,
+    borderColor: Colors.gray2,
+  },
+  placeholderLogoText: {
+    ...fontStyles.h2,
+    color: Colors.gray4,
   },
 })
 
