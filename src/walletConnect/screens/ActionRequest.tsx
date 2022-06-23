@@ -1,7 +1,7 @@
 import { trimLeading0x } from '@celo/utils/lib/address'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
@@ -11,6 +11,7 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
@@ -36,6 +37,7 @@ function ActionRequest({ pendingAction }: Props) {
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
+  const isDappListed = useIsDappListed(activeSession?.peerMeta?.url)
 
   if (!activeSession) {
     // should never happen
@@ -83,10 +85,11 @@ function ActionRequest({ pendingAction }: Props) {
       title={t('confirmTransaction', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
       testId="WalletConnectActionRequest"
+      isDappListed={isDappListed}
       requestDetails={requestDetails}
     >
       {moreInfoString && (
-        <>
+        <View style={styles.transactionDetails}>
           <Touchable
             testID="ShowTransactionDetailsButton"
             onPress={() => {
@@ -103,7 +106,7 @@ function ActionRequest({ pendingAction }: Props) {
               {moreInfoString}
             </Text>
           )}
-        </>
+        </View>
       )}
     </RequestContent>
   )
@@ -117,6 +120,9 @@ const styles = StyleSheet.create({
   },
   underLine: {
     textDecorationLine: 'underline',
+  },
+  transactionDetails: {
+    marginBottom: Spacing.Regular16,
   },
 })
 
