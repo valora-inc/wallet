@@ -53,7 +53,8 @@ const DappKitAccountScreen = ({ route }: Props) => {
     navigateBack()
   }
 
-  const dappImageUrl = activeDapp?.iconUrl ?? `${dappKitRequest.callback}/favicon.ico`
+  const dappImageUrl =
+    activeDapp?.iconUrl ?? `${new URL(dappKitRequest.callback).origin}/favicon.ico`
 
   return (
     <View style={styles.container}>

@@ -68,7 +68,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     },
   ]
 
-  const dappImageUrl = activeDapp?.iconUrl ?? `${callback}/favicon.ico`
+  const dappImageUrl = activeDapp?.iconUrl ?? `${new URL(callback).origin}/favicon.ico`
 
   return (
     <View style={styles.container}>
