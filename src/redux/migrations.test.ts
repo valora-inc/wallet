@@ -28,7 +28,7 @@ import {
   v51Schema,
   v52Schema,
   v53Schema,
-  v54Schema,
+  v56Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -573,9 +573,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
 
-  it('works for v54 to v55', () => {
-    const oldSchema = v54Schema
-    const migratedSchema = migrations[55](oldSchema)
+  it('works for v56 to v57', () => {
+    const oldSchema = v56Schema
+    const migratedSchema = migrations[57](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.visualizeNFTsEnabledInHomeAssetsPage = false
