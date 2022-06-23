@@ -35,7 +35,7 @@ export const dappCategoriesByIdSelector = createSelector(
   dappsCategoriesSelector,
   (dapps, categories) => {
     const mappedCategories: {
-      [id: string]: CategoryWithDapps
+      [id: string]: CategoryWithDapps | undefined
     } = {}
 
     categories.forEach((cat: any) => {
@@ -48,7 +48,7 @@ export const dappCategoriesByIdSelector = createSelector(
       }
     })
     dapps.forEach((dapp) => {
-      mappedCategories[dapp.categoryId].dapps.push(dapp)
+      mappedCategories[dapp.categoryId]?.dapps.push(dapp)
     })
     return Object.values(mappedCategories)
   }
