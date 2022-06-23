@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operacja",
     "data": "Dane",
-    "signTX": "Zatwierdź transakcję",
+    "signTX": "Podpisz transakcję",
     "details": "Pokaż szczegóły"
   },
   "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
@@ -971,8 +971,8 @@
     "operation": "Operacja",
     "data": "Dane",
     "sign": "Podpisz ładunek danych",
-    "signTransaction": "Podpisz transakcję Celo",
-    "sendTransaction": "Wyślij transakcję Celo",
+    "signTransaction": "Podpisz transakcję w Celo",
+    "sendTransaction": "Wyślij transakcję do Celo",
     "decrypt": "Odszyfruj ładunek danych",
     "accounts": "Odczytaj swój adres konta w {{appName}}",
     "details": "Zobacz dane transakcji",
@@ -1314,6 +1314,7 @@
   "webView": {
     "openExternal": "Otwórz w zewnętrznej przeglądarce"
   },
+  "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Mapy są aplikacjami stron trzecich. Używaj ich na własne ryzyko.",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
