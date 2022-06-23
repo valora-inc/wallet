@@ -22,7 +22,7 @@ function SessionRequest({ pendingSession }: Props) {
 
   const address = useSelector(currentAccountSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  const isDappListed = useIsDappListed(name, url)
+  const isDappListed = useIsDappListed(url)
 
   const requestDetails =
     dappConnectInfo === DappConnectInfo.Basic
