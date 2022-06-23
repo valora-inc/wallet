@@ -1,4 +1,3 @@
-import { UpdateConfigValuesAction } from 'src/app/actions'
 import {
   WalletConnectPayloadRequest,
   WalletConnectSession,
@@ -22,7 +21,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: WalletConnectActions | UserActions | UpdateConfigValuesAction
+  action: WalletConnectActions | UserActions
 ): State => {
   switch (action.type) {
     case Actions.SESSION_V1:
