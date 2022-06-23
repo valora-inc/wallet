@@ -17,19 +17,22 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 const TAG = 'dappkit/DappKitSignTxScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
 const DappKitSignTxScreen = ({ route }: Props) => {
+  const { dappKitRequest } = route.params
+  const { dappName, txs, callback } = dappKitRequest
+
   const activeDapp = useSelector(activeDappSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-
-  const { dappKitRequest } = route.params
+  const isDappListed = useIsDappListed(callback)
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
@@ -56,7 +59,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     navigateBack()
   }
 
-  const { dappName, txs } = dappKitRequest
   const requestDetails = [
     {
       label: t('action.operation'),
@@ -73,6 +75,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
         testId="DappKitSignRequest"
+        isDappListed={isDappListed}
         requestDetails={requestDetails}
       >
         <Touchable testID="ShowTransactionDetailsButton" onPress={handleShowTransactionDetails}>
