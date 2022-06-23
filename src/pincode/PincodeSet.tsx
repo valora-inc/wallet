@@ -58,6 +58,7 @@ interface State {
   pin2: string
   errorText: string | undefined
   blocklist: PinBlocklist | undefined
+  isVerifying: boolean
 }
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.PincodeSet>
@@ -111,6 +112,7 @@ export class PincodeSet extends React.Component<Props, State> {
     pin2: '',
     errorText: undefined,
     blocklist: undefined,
+    isVerifying: false,
   }
 
   componentDidMount = () => {
@@ -188,7 +190,7 @@ export class PincodeSet extends React.Component<Props, State> {
 
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
-      this.props.navigation.setParams({ isVerifying: true })
+      this.setState({ isVerifying: true })
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
       }
@@ -228,9 +230,9 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
-      this.props.navigation.setParams({ isVerifying: false })
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
       this.setState({
+        isVerifying: false,
         pin1: '',
         pin2: '',
         errorText: this.props.t('pincodeSet.pinsDontMatch'),
@@ -239,11 +241,9 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   render() {
-    const { route, t } = this.props
-    const isVerifying = route.params?.isVerifying
+    const { t } = this.props
     const changingPin = this.isChangingPin()
-
-    const { pin1, pin2, errorText } = this.state
+    const { errorText, isVerifying, pin1, pin2 } = this.state
 
     return (
       <SafeAreaView style={changingPin ? styles.changePinContainer : styles.container}>

@@ -8,7 +8,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
-import { activeDappSelector } from 'src/dapps/selectors'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/types'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -23,13 +24,15 @@ const TAG = 'dappkit/DappKitSignTxScreen'
 type Props = StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
 const DappKitSignTxScreen = ({ route }: Props) => {
+  const { dappKitRequest } = route.params
+  const { dappName, txs, callback } = dappKitRequest
+
   const activeDapp = useSelector(activeDappSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-
-  const { dappKitRequest } = route.params
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
@@ -56,7 +59,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     navigateBack()
   }
 
-  const { dappName, txs } = dappKitRequest
   const requestDetails = [
     {
       label: t('action.operation'),
@@ -69,10 +71,11 @@ const DappKitSignTxScreen = ({ route }: Props) => {
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
-        dappImageUrl={activeDapp?.iconUrl}
+        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
         testId="DappKitSignRequest"
+        dappUrl={callback}
         requestDetails={requestDetails}
       >
         <Touchable testID="ShowTransactionDetailsButton" onPress={handleShowTransactionDetails}>
