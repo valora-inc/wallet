@@ -1,10 +1,13 @@
-import { AccountNumber, FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountSchemas,
+  FiatAccountType,
+} from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput from 'src/components/TextInput'
@@ -12,13 +15,12 @@ import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
+import { FiatAccount, StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
-const TAG = 'FiatDetailsScreen'
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
@@ -42,7 +44,9 @@ interface ImplicitParam<T, K extends keyof T> {
 }
 
 type AccountNumberSchema = {
-  [Property in keyof AccountNumber]: FormFieldParam | ImplicitParam<AccountNumber, Property>
+  [Property in keyof FiatAccountSchemas[FiatAccountSchema.AccountNumber]]:
+    | FormFieldParam
+    | ImplicitParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
@@ -64,8 +68,8 @@ const getAccountNumberSchema = (implicitParams: {
     errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
   },
   country: { name: 'country', value: implicitParams.country },
-  fiatAccountType: { name: 'fiatAccountType', value: implicitParams.fiatAccountType },
-  accountName: { name: 'accountNAme', value: 'n/a' },
+  fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
+  accountName: { name: 'accountName', value: 'n/a' },
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
@@ -76,10 +80,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
   const userCountry = useSelector(userLocationDataSelector)
-
-  console.debug(quote.quote)
-
-  const dispatch = useDispatch()
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
 
@@ -96,6 +96,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           country: userCountry.countryCodeAlpha2 || 'US',
           fiatAccountType: quote.getFiatAccountType(),
         })
+      default:
+        throw new Error('Unsupported schema type')
     }
   }
 
@@ -158,12 +160,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       //     Logger.error(TAG, `Error adding fiat account: ${error}`)
       //   })
 
-      // TODO: navigate to the next screen
-      console.debug(completeBody)
       navigate(Screens.FiatConnectReview, {
         flow,
         normalizedQuote: quote,
-        fiatAccount: completeBody as AccountNumber,
+        fiatAccount: completeBody as FiatAccount,
       })
     }
   }

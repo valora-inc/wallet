@@ -1,5 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
-import { AccountNumber } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -57,7 +57,7 @@ interface SendConfirmationLegacyParams {
 }
 
 // Union type of supported fiat accounts
-export type FiatAccount = AccountNumber
+export type FiatAccount = FiatAccountSchemas[FiatAccountSchema.AccountNumber]
 
 export type StackParamList = {
   [Screens.BackupComplete]:

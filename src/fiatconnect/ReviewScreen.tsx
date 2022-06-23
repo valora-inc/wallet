@@ -1,4 +1,4 @@
-import { AccountNumber, CryptoType, FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
+import { CryptoType, FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -258,7 +258,7 @@ function PaymentMethod({
   let displayText: string
   switch (fiatAccountSchema) {
     case FiatAccountSchema.AccountNumber:
-      const account: AccountNumber = fiatAccount
+      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
       displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
       break
     default:

@@ -53,10 +53,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     }
 
     // Check if at least one of the KYC schemas is supported
-    // const isKycSchemaSupported = !quote.kyc.kycRequired // Currently we don't support kyc
-    // if (!isKycSchemaSupported) {
-    //   throw new Error(`Error: ${quote.provider.id}. We don't support KYC for fiatconnect yet`)
-    // }
+    const isKycSchemaSupported = !quote.kyc.kycRequired // Currently we don't support kyc
+    if (!isKycSchemaSupported) {
+      throw new Error(`Error: ${quote.provider.id}. We don't support KYC for fiatconnect yet`)
+    }
     this.quote = quote
     this.fiatAccountType = fiatAccountType
   }
@@ -69,6 +69,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getPaymentMethod(): PaymentMethod {
     const fiatAccountToPaymentMethodMap = {
       [FiatAccountType.BankAccount]: PaymentMethod.Bank,
+      [FiatAccountType.MobileMoney]: PaymentMethod.MobileMoney,
+      [FiatAccountType.DuniaWallet]: PaymentMethod.MobileMoney,
     }
     return fiatAccountToPaymentMethodMap[this.fiatAccountType]
   }

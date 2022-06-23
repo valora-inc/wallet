@@ -1,7 +1,7 @@
 import {
-  AddFiatAccountResponse,
   CryptoType,
   FiatType,
+  PostFiatAccountResponse,
   QuoteErrorResponse,
   QuoteRequestQuery,
   QuoteResponse,
@@ -138,7 +138,7 @@ export async function addNewFiatAccount(
   providerURL: string,
   fiatAccountSchema: string,
   properties: any
-): Promise<AddFiatAccountResponse> {
+): Promise<PostFiatAccountResponse> {
   // TODO: use the SDK to make the request once SDK is published
   throw new Error('Not implemented')
 }
