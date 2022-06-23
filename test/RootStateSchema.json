@@ -317,6 +317,14 @@
             ],
             "type": "object"
         },
+        "DappConnectInfo": {
+            "enum": [
+                "basic",
+                "full",
+                "none"
+            ],
+            "type": "string"
+        },
         "DappSection": {
             "enum": [
                 "all",
@@ -2371,16 +2379,12 @@
                         "$ref": "#/definitions/IWalletConnectSession"
                     },
                     "type": "array"
-                },
-                "walletConnectDisplayedInfo": {
-                    "$ref": "#/definitions/WalletConnectDisplayedInfo"
                 }
             },
             "required": [
                 "pendingActions",
                 "pendingSessions",
-                "sessions",
-                "walletConnectDisplayedInfo"
+                "sessions"
             ],
             "type": "object"
         },
@@ -2448,6 +2452,9 @@
                         }
                     ]
                 },
+                "dappConnectInfo": {
+                    "$ref": "#/definitions/DappConnectInfo"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -2490,6 +2497,7 @@
             },
             "required": [
                 "activeDapp",
+                "dappConnectInfo",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
@@ -3311,14 +3319,6 @@
                 6
             ],
             "type": "number"
-        },
-        "WalletConnectDisplayedInfo": {
-            "enum": [
-                "basic",
-                "full",
-                "none"
-            ],
-            "type": "string"
         },
         "WalletConnectSessionRequest": {
             "additionalProperties": false,

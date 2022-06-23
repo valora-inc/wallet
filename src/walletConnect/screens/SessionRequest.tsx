@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import { dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/slice'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
-import { walletConnectDisplayedInfoSelector } from 'src/walletConnect/v1/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = {
@@ -21,19 +21,19 @@ function SessionRequest({ pendingSession }: Props) {
   const dispatch = useDispatch()
 
   const address = useSelector(currentAccountSelector)
-  const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(name, url)
 
   const requestDetails =
-    walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
-      ? []
-      : [
+    dappConnectInfo === DappConnectInfo.Basic
+      ? [
           {
             label: t('address'),
             value: address,
             tapToCopy: true,
           },
         ]
+      : []
 
   return (
     <RequestContent
@@ -45,9 +45,7 @@ function SessionRequest({ pendingSession }: Props) {
       }}
       dappImageUrl={fallbackIcon}
       title={t(
-        walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
-          ? 'confirmTransaction'
-          : 'connectToWallet',
+        dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
         { dappName: name }
       )}
       description={t('shareInfo')}

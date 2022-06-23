@@ -7,7 +7,8 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
-import { activeDappSelector } from 'src/dapps/selectors'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/slice'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -15,8 +16,6 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
-import { walletConnectDisplayedInfoSelector } from 'src/walletConnect/v1/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
@@ -29,7 +28,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
-  const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappKitRequest.dappName, dappKitRequest.callback)
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -61,9 +60,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
         onDeny={handleCancel}
         dappImageUrl={activeDapp?.iconUrl}
         title={t(
-          walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None
-            ? 'confirmTransaction'
-            : 'connectToWallet',
+          dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
           { dappName: dappKitRequest.dappName }
         )}
         description={t('shareInfo')}

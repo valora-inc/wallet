@@ -42,6 +42,7 @@ import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { DappConnectInfo } from 'src/dapps/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -57,7 +58,6 @@ import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { isWalletConnectEnabled } from 'src/walletConnect/saga'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
@@ -194,7 +194,7 @@ export interface RemoteConfigValues {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
-  walletConnectDisplayedInfo: WalletConnectDisplayedInfo
+  dappConnectInfo: DappConnectInfo
 }
 
 export function* appRemoteFeatureFlagSaga() {

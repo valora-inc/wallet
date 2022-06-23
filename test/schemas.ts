@@ -4,12 +4,12 @@ import { AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/slice'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 import {
   mockCeloAddress,
   mockCeurAddress,
@@ -1349,12 +1349,9 @@ export const v56Schema = {
     ...v55Schema._persist,
     version: 56,
   },
-  walletConnect: {
-    ...v55Schema.walletConnect,
-    v1: {
-      ...v55Schema.walletConnect.v1,
-      walletConnectDisplayedInfo: WalletConnectDisplayedInfo.None,
-    },
+  dapps: {
+    ...v55Schema.dapps,
+    dappConnectInfo: DappConnectInfo.None,
   },
 }
 

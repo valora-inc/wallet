@@ -15,6 +15,7 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
+import { DappConnectInfo } from 'src/dapps/slice'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -22,7 +23,6 @@ import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 
 const TAG = 'firebase/firebase'
 
@@ -298,7 +298,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
-    walletConnectDisplayedInfo: flags.walletConnectDisplayedInfo.asString() as WalletConnectDisplayedInfo,
+    dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
   }
 }
 

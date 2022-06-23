@@ -21,6 +21,12 @@ export interface DappCategory {
   name: string
 }
 
+// used for the dapp connect request bottom sheet
+export enum DappConnectInfo {
+  None = 'none', // display the same content as before app version 1.35
+  Basic = 'basic', // display more descriptive title and indicate if dapp is in dappsList
+  Full = 'full', // display detailed transaction data (future feature)
+}
 export interface State {
   dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
@@ -32,6 +38,7 @@ export interface State {
   dappsListLoading: boolean
   dappsListError: string | null
   dappsCategories: DappCategory[]
+  dappConnectInfo: DappConnectInfo
 }
 
 const initialState: State = {
@@ -44,6 +51,7 @@ const initialState: State = {
   dappsListLoading: false,
   dappsListError: null,
   dappsCategories: [],
+  dappConnectInfo: DappConnectInfo.None,
 }
 
 export interface DappSelectedAction {
@@ -97,6 +105,7 @@ export const slice = createSlice({
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.dappListApiUrl = action.configValues.dappListApiUrl
+          state.dappConnectInfo = action.configValues.dappConnectInfo
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

@@ -1,4 +1,4 @@
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
+import { UpdateConfigValuesAction } from 'src/app/actions'
 import {
   WalletConnectPayloadRequest,
   WalletConnectSession,
@@ -8,24 +8,16 @@ import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/v1
 
 export type PendingAction = { action: WalletConnectPayloadRequest; peerId: string }
 
-export enum WalletConnectDisplayedInfo {
-  None = 'none',
-  Basic = 'basic',
-  Full = 'full',
-}
-
 export interface State {
   pendingActions: PendingAction[]
   sessions: WalletConnectSession[]
   pendingSessions: WalletConnectSessionRequest[]
-  walletConnectDisplayedInfo: WalletConnectDisplayedInfo
 }
 
 const initialState: State = {
   pendingActions: [],
   sessions: [],
   pendingSessions: [],
-  walletConnectDisplayedInfo: WalletConnectDisplayedInfo.None,
 }
 
 export const reducer = (
@@ -76,11 +68,6 @@ export const reducer = (
       return {
         ...state,
         pendingActions: state.pendingActions.filter((a) => a.action !== action.request),
-      }
-    case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
-      return {
-        ...state,
-        walletConnectDisplayedInfo: action.configValues.walletConnectDisplayedInfo,
       }
     default:
       return state

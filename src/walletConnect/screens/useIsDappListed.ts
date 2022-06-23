@@ -1,14 +1,13 @@
 import { useSelector } from 'react-redux'
-import { dappsListSelector } from 'src/dapps/selectors'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
-import { walletConnectDisplayedInfoSelector } from 'src/walletConnect/v1/selectors'
+import { dappConnectInfoSelector, dappsListSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/slice'
 
 export const useIsDappListed = (dappName?: string, dappUrl?: string) => {
   const dappsList = useSelector(dappsListSelector)
-  const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
 
   return (
-    walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None ||
+    dappConnectInfo === DappConnectInfo.None ||
     (!!dappName &&
       !!dappUrl &&
       !!dappsList.find(

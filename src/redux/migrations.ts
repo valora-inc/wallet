@@ -7,13 +7,13 @@ import {
   DEFAULT_SENTRY_NETWORK_ERRORS,
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/slice'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Currency } from 'src/utils/currencies'
-import { WalletConnectDisplayedInfo } from 'src/walletConnect/v1/reducer'
 
 export const migrations = {
   0: (state: any) => {
@@ -679,7 +679,7 @@ export const migrations = {
         pendingActions: state.walletConnect.v1.pendingActions ?? [],
         sessions: state.walletConnect.v1.sessions ?? [],
         pendingSessions: state.walletConnect.v1.pendingSessions ?? [],
-        walletConnectDisplayedInfo: WalletConnectDisplayedInfo.None,
+        dappConnectInfo: DappConnectInfo.None,
       },
     },
   }),

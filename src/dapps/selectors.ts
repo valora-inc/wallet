@@ -53,3 +53,5 @@ export const dappCategoriesByIdSelector = createSelector(
     return Object.values(mappedCategories)
   }
 )
+
+export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
