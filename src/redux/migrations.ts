@@ -673,14 +673,9 @@ export const migrations = {
   }),
   56: (state: any) => ({
     ...state,
-    walletConnect: {
-      ...state.walletConnect,
-      v1: {
-        pendingActions: state.walletConnect.v1.pendingActions ?? [],
-        sessions: state.walletConnect.v1.sessions ?? [],
-        pendingSessions: state.walletConnect.v1.pendingSessions ?? [],
-        dappConnectInfo: DappConnectInfo.None,
-      },
+    dapps: {
+      ...state.dapps,
+      dappConnectInfo: DappConnectInfo.None,
     },
   }),
 }

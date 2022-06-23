@@ -185,6 +185,7 @@ describe('store state', () => {
         },
         "dapps": Object {
           "activeDapp": null,
+          "dappConnectInfo": "none",
           "dappListApiUrl": null,
           "dappsCategories": Array [],
           "dappsList": Array [],
@@ -367,7 +368,6 @@ describe('store state', () => {
             "pendingActions": Array [],
             "pendingSessions": Array [],
             "sessions": Array [],
-            "walletConnectDisplayedInfo": "none",
           },
         },
         "web3": Object {
