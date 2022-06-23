@@ -32,7 +32,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   const { t } = useTranslation()
 
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-  const isDappListed = useIsDappListed(dappName, callback)
+  const isDappListed = useIsDappListed(callback)
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')
