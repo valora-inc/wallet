@@ -15,6 +15,7 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { SuperchargeToken } from 'src/consumerIncentives/types'
+import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
@@ -297,6 +298,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
+    dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
   }
 }

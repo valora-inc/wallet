@@ -40,7 +40,7 @@ import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
-import { DappSection } from 'src/dapps/slice'
+import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'

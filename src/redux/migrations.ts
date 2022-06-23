@@ -7,6 +7,7 @@ import {
   DEFAULT_SENTRY_NETWORK_ERRORS,
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
@@ -662,10 +663,19 @@ export const migrations = {
   }),
   55: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
-      visualizeNFTsEnabledInHomeAssetsPage:
-        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    dapps: {
+      ...state.dapps,
+      dappsList: [],
+      dappsListLoading: false,
+      dappsListError: null,
+      dappsCategories: [],
+    },
+  }),
+  56: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappConnectInfo: DappConnectInfo.Default,
     },
   }),
 }
