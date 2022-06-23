@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operazione",
     "data": "Dati",
-    "signTX": "Firma TX",
+    "signTX": "Firma la transazione",
     "details": "Mostra dettagli"
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
@@ -1124,7 +1124,7 @@
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
     "dismiss": "Ignora"
   },
-  "supportExportLogsStart": "Esportazione dei log...",
+  "supportExportLogsStart": "Esportazione in corso...",
   "supportExportLogsFailed": "Esportazione dei log fallita: {{error}}",
   "supportEmailSubject": "Supporto {{appName}} per {{user}}",
   "personaAccountEndpointFail": "La funzione di verifica dell’identità non è attualmente disponibile. Riprova più tardi.",
@@ -1310,6 +1310,7 @@
   "webView": {
     "openExternal": "Apri nel browser esterno"
   },
+  "dappNotListed": "Questa dapp non è elencata in {{appName}}. Le dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

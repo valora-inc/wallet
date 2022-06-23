@@ -11,6 +11,11 @@ import networkConfig from 'src/web3/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { UNLOCK_DURATION } from 'src/web3/consts'
+import { getPassword } from 'src/pincode/authentication'
+import { ensureLeading0x } from '@celo/utils/lib/address'
 
 const TAG = 'FIATCONNECT'
 
@@ -58,6 +63,43 @@ export async function getFiatConnectProviders(
   }
   const { providers } = await response.json()
   return providers
+}
+
+/**
+ * Logs in with a FiatConnect provider. Will not attempt to log in if an
+ * unexpired session already exists, unless the `forceLogin` flag is set to `true`.
+ * If the user's wallet is currently locked, will prompt for PIN entry.
+ */
+export async function loginWithFiatConnectProvider(
+  wallet: UnlockableWallet,
+  fiatConnectClient: FiatConnectApiClient,
+  forceLogin: boolean = false
+): Promise<void> {
+  if (fiatConnectClient.isLoggedIn() && !forceLogin) {
+    return
+  }
+
+  const [account] = wallet.getAccounts()
+  if (!wallet.isAccountUnlocked(account)) {
+    await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
+  }
+
+  const response = await fiatConnectClient.login()
+  if (!response.isOk) {
+    Logger.error(TAG, `Failure logging in with FiatConnect provider: ${response.error}, throwing`)
+    throw response.error
+  }
+}
+
+export function getSigningFunction(wallet: UnlockableWallet): (message: string) => Promise<string> {
+  return async function (message: string): Promise<string> {
+    const [account] = wallet.getAccounts()
+    if (!wallet.isAccountUnlocked(account)) {
+      await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
+    }
+    const encodedMessage = ensureLeading0x(Buffer.from(message, 'utf8').toString('hex'))
+    return await wallet.signPersonalMessage(account, encodedMessage)
+  }
 }
 
 export type QuotesInput = {
