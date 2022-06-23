@@ -29,12 +29,16 @@ export const featuredDappSelector = createSelector(dappsListSelector, (dapps) =>
   return dapps.find((dapp) => dapp.isFeatured)
 })
 
+const isCategoryWithDapps = (
+  category: CategoryWithDapps | undefined
+): category is CategoryWithDapps => typeof category !== undefined
+
 export const dappCategoriesByIdSelector = createSelector(
   dappsListSelector,
   dappsCategoriesSelector,
   (dapps, categories) => {
     const mappedCategories: {
-      [id: string]: CategoryWithDapps
+      [id: string]: CategoryWithDapps | undefined
     } = {}
 
     categories.forEach((cat: any) => {
@@ -47,9 +51,9 @@ export const dappCategoriesByIdSelector = createSelector(
       }
     })
     dapps.forEach((dapp) => {
-      mappedCategories[dapp.categoryId].dapps.push(dapp)
+      mappedCategories[dapp.categoryId]?.dapps.push(dapp)
     })
-    return Object.values(mappedCategories)
+    return Object.values(mappedCategories).filter(isCategoryWithDapps)
   }
 )
 

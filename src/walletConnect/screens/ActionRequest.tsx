@@ -11,7 +11,6 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
-import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectPayloadRequest, WalletConnectSession } from 'src/walletConnect/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/v1/actions'
 import { PendingAction } from 'src/walletConnect/v1/reducer'
@@ -37,7 +36,6 @@ function ActionRequest({ pendingAction }: Props) {
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
-  const isDappListed = useIsDappListed(activeSession?.peerMeta?.name, activeSession?.peerMeta?.url)
 
   if (!activeSession) {
     // should never happen
@@ -86,7 +84,7 @@ function ActionRequest({ pendingAction }: Props) {
       title={t('confirmTransaction', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
       testId="WalletConnectActionRequest"
-      isDappListed={isDappListed}
+      dappUrl={activeSession?.peerMeta?.url}
       requestDetails={requestDetails}
     >
       {moreInfoString && (

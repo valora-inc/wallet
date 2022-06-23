@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/slice'
+import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -15,6 +15,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 interface Props {
   onAccept(): void
@@ -24,8 +25,8 @@ interface Props {
   description?: string
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
-  isDappListed: boolean
   dappName: string
+  dappUrl?: string
   children?: React.ReactNode
 }
 
@@ -39,8 +40,8 @@ function RequestContent({
   description,
   testId,
   requestDetails,
-  isDappListed,
   dappName,
+  dappUrl,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -49,6 +50,7 @@ function RequestContent({
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
+  const isDappListed = useIsDappListed(dappUrl)
 
   const isLoading = isAccepting || isDenying
 
@@ -111,7 +113,9 @@ function RequestContent({
 
         {children}
 
-        {!isDappListed && <Text style={styles.description}>{t('dappNotListed')}</Text>}
+        {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
+          <Text style={styles.description}>{t('dappNotListed')}</Text>
+        )}
       </ScrollView>
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
