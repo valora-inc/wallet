@@ -27,7 +27,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
-  const isDappListed = useIsDappListed(dappKitRequest.dappName)
+  const isDappListed = useIsDappListed(dappKitRequest.dappName, dappKitRequest.callback)
   const dispatch = useDispatch()
   const { t } = useTranslation()
 

@@ -19,7 +19,7 @@ function SessionRequest({ pendingSession }: Props) {
   const dispatch = useDispatch()
 
   const address = useSelector(currentAccountSelector)
-  const isDappListed = useIsDappListed(name)
+  const isDappListed = useIsDappListed(name, url)
 
   return (
     <RequestContent
