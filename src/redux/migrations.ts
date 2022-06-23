@@ -660,4 +660,12 @@ export const migrations = {
       'activeDapp'
     ),
   }),
+  55: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      visualizeNFTsEnabledInHomeAssetsPage:
+        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    },
+  }),
 }

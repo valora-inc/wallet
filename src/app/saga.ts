@@ -193,6 +193,7 @@ export interface RemoteConfigValues {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

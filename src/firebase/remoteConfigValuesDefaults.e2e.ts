@@ -72,4 +72,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
+  visualizeNFTsEnabledInHomeAssetsPage: false,
 }

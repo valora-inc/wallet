@@ -141,6 +141,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
+  [HomeEvents.view_nft_home_assets]: undefined
 }
 
 interface SettingsEventsProperties {
@@ -1180,6 +1181,7 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_select]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
+  [DappExplorerEvents.dapp_nft_viewer]: undefined
 }
 
 interface WebViewEventsProperties {

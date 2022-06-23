@@ -54,6 +54,7 @@ export interface State {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
 }
 
 const initialState = {
@@ -99,6 +100,8 @@ const initialState = {
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
+  visualizeNFTsEnabledInHomeAssetsPage:
+    REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
 }
 
 export const appReducer = (
@@ -214,6 +217,8 @@ export const appReducer = (
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
+        visualizeNFTsEnabledInHomeAssetsPage:
+          action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
