@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
-import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -22,7 +21,6 @@ function SessionRequest({ pendingSession }: Props) {
 
   const address = useSelector(currentAccountSelector)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  const isDappListed = useIsDappListed(url)
 
   const requestDetails =
     dappConnectInfo === DappConnectInfo.Basic
@@ -50,7 +48,7 @@ function SessionRequest({ pendingSession }: Props) {
           : t('confirmTransaction', { dappName: name })
       }
       description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
-      isDappListed={isDappListed}
+      dappUrl={url}
       requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     />
