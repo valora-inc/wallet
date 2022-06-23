@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { RootState } from 'src/redux/reducers'
@@ -1304,6 +1305,56 @@ export const v53Schema = {
   ),
 }
 
+export const v54Schema = {
+  ...v53Schema,
+  _persist: {
+    ...v53Schema._persist,
+    version: 54,
+  },
+  dapps: {
+    dappsWebViewEnabled: v53Schema.app.dappsWebViewEnabled,
+    activeDapp: v53Schema.app.activeDapp,
+    maxNumRecentDapps: v53Schema.app.maxNumRecentDapps,
+    recentDapps: v53Schema.app.recentDapps,
+    dappListApiUrl: v53Schema.app.dappListApiUrl,
+  },
+  app: _.omit(
+    v53Schema.app,
+    'dappsWebViewEnabled',
+    'activeDapp',
+    'maxNumRecentDapps',
+    'recentDapps',
+    'dappListApiUrl'
+  ),
+}
+
+export const v55Schema = {
+  ...v54Schema,
+  _persist: {
+    ...v54Schema._persist,
+    version: 55,
+  },
+  dapps: {
+    ...v54Schema.dapps,
+    dappsList: [],
+    dappsListLoading: false,
+    dappsListError: null,
+    dappsCategories: [],
+  },
+}
+
+export const v56Schema = {
+  ...v55Schema,
+  _persist: {
+    ...v55Schema._persist,
+    version: 56,
+  },
+  dapps: {
+    ...v55Schema.dapps,
+    dappConnectInfo: DappConnectInfo.Default,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v53Schema as Partial<RootState>
+  return v56Schema as Partial<RootState>
 }

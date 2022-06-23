@@ -206,14 +206,15 @@
   "startSuperchargingNotificationStart": "Erste Schritte",
   "cashIn": "Füge {{currency}} hinzu",
   "connectNumber": "Nummer verbinden",
-  "connectToWallet": "{{dappName}} würde gerne eine Transaktion bestätigen",
+  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
+  "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
   "allow": "Erlauben",
   "address": "Konto-Adresse",
   "phoneNumber": "Telefonnummer",
   "transaction": {
     "operation": "Operation",
     "data": "Daten",
-    "signTX": "Signieren eine TX",
+    "signTX": "Transaktion unterschreiben",
     "details": "Details anzeigen"
   },
   "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
@@ -962,12 +963,12 @@
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
-    "askingV1_35": "{{dappName}} bittet darum, das Folgende auszuführen:",
+    "askingV1_35": "{{dappName}} möchte Folgendes ausführen:",
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere eine Daten-Nutzlast",
-    "signTransaction": "Signieren eine Celo TX",
-    "sendTransaction": "Senden eine Celo TX",
+    "signTransaction": "Unterschreibe eine Celo-Transaktion",
+    "sendTransaction": "Eine Celo-Transaktion senden",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
     "details": "Transaktionsdaten anzeigen",
@@ -1123,6 +1124,8 @@
     "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   },
+  "supportExportLogsStart": "Protokolle werden exportiert...",
+  "supportExportLogsFailed": "Exportprotokoll fehlgeschlagen: {{error}}",
   "supportEmailSubject": "{{appName}}-Support für {{user}}",
   "personaAccountEndpointFail": "Identitätsprüfung ist derzeit nicht verfügbar. Bitte versuche es später erneut",
   "plaidCreateLinkTokenFail": "Du kannst dein Bankkonto nicht verknüpfen. Versuche es später noch einmal.",
@@ -1307,6 +1310,7 @@
   "webView": {
     "openExternal": "In externen Browser öffnen"
   },
+  "dappNotListed": "Diese Dapp ist nicht in {{appName}}aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

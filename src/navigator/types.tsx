@@ -206,7 +206,6 @@ export type StackParamList = {
   }
   [Screens.PincodeSet]:
     | {
-        isVerifying?: boolean
         changePin?: boolean
         komenciAvailable?: boolean
         choseToRestoreAccount?: boolean

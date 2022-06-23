@@ -363,7 +363,6 @@ export class Account extends React.Component<Props, State> {
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
         navigate(Screens.PincodeSet, {
-          isVerifying: false,
           changePin: true,
         })
       }

@@ -29,11 +29,7 @@ import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
-import {
-  dappsListApiUrlSelector,
-  rewardsEnabledSelector,
-  superchargeButtonTypeSelector,
-} from 'src/app/selectors'
+import { rewardsEnabledSelector, superchargeButtonTypeSelector } from 'src/app/selectors'
 import { SuperchargeButtonType } from 'src/app/types'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
@@ -41,6 +37,7 @@ import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'

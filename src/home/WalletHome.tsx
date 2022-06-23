@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { AppState } from 'src/app/actions'
-import { appStateSelector, maxNumRecentDappsSelector } from 'src/app/selectors'
+import { appStateSelector } from 'src/app/selectors'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
   ALERT_BANNER_DURATION,
@@ -16,6 +16,7 @@ import {
   SHOW_TESTNET_BANNER,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
+import { maxNumRecentDappsSelector } from 'src/dapps/selectors'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
