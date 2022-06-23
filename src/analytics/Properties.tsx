@@ -1181,7 +1181,6 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_select]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
-  [DappExplorerEvents.dapp_nft_viewer]: undefined
 }
 
 interface WebViewEventsProperties {

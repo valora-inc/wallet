@@ -55,10 +55,6 @@ const useOpenDapp = () => {
       return
     }
 
-    if (selectedDapp.id === 'nftviewer') {
-      ValoraAnalytics.track(DappExplorerEvents.dapp_nft_viewer)
-    }
-
     openDapp(selectedDapp)
     setShowOpenDappConfirmation(false)
   }
