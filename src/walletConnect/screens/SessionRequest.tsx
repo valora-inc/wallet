@@ -48,7 +48,7 @@ function SessionRequest({ pendingSession }: Props) {
         dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
         { dappName: name }
       )}
-      description={t('shareInfo')}
+      description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
       isDappListed={isDappListed}
       requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"

@@ -18,7 +18,7 @@ interface Props {
   onDeny(): void
   dappImageUrl?: string
   title: string
-  description: string
+  description?: string
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   isDappListed: boolean
