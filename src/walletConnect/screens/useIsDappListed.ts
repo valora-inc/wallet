@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { dappConnectInfoSelector, dappsListSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/slice'
+import { DappConnectInfo } from 'src/dapps/types'
 
 export const useIsDappListed = (dappName?: string, dappUrl?: string) => {
   const dappsList = useSelector(dappsListSelector)
