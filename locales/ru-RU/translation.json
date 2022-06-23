@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Операция",
     "data": "Данные",
-    "signTX": "Подписать TX",
+    "signTX": "Транзакция подписи",
     "details": "Подробнее"
   },
   "shareInfo": "Это приложение сможет получить доступ к следующей информации:",
@@ -971,8 +971,8 @@
     "operation": "Операция",
     "data": "Данные",
     "sign": "Подписать загрузку данных",
-    "signTransaction": "Подписать передачу Celo",
-    "sendTransaction": "Выполнить передачу Celo",
+    "signTransaction": "Заключите сделку с Celo",
+    "sendTransaction": "Отправить транзакцию Celo",
     "decrypt": "Расшифровка загруженных данных",
     "accounts": "Прочитать адрес аккаунта {{appName}}",
     "details": "Просмотр данных о транзакциях",
@@ -1314,6 +1314,7 @@
   "webView": {
     "openExternal": "Открыть во внешнем браузере"
   },
+  "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps - это сторонние приложения. Используй их на свой страх и риск.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
