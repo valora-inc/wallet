@@ -73,5 +73,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
-  dappConnectInfo: DappConnectInfo.None,
+  dappConnectInfo: DappConnectInfo.Default,
 }

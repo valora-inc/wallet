@@ -1351,7 +1351,7 @@ export const v56Schema = {
   },
   dapps: {
     ...v55Schema.dapps,
-    dappConnectInfo: DappConnectInfo.None,
+    dappConnectInfo: DappConnectInfo.Default,
   },
 }
 

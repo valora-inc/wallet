@@ -28,7 +28,7 @@ const initialState: State = {
   dappsListLoading: false,
   dappsListError: null,
   dappsCategories: [],
-  dappConnectInfo: DappConnectInfo.None,
+  dappConnectInfo: DappConnectInfo.Default,
 }
 
 export interface DappSelectedAction {

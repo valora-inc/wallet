@@ -7,7 +7,7 @@ export const useIsDappListed = (dappUrl?: string) => {
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
 
   return (
-    dappConnectInfo === DappConnectInfo.None ||
+    dappConnectInfo === DappConnectInfo.Default ||
     (!!dappUrl &&
       !!dappsList.find((dapp) => new URL(dapp.dappUrl).origin === new URL(dappUrl).origin))
   )

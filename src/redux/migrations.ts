@@ -675,7 +675,7 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappConnectInfo: DappConnectInfo.None,
+      dappConnectInfo: DappConnectInfo.Default,
     },
   }),
 }
