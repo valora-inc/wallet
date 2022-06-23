@@ -43,7 +43,6 @@ function SessionRequest({ pendingSession }: Props) {
       onDeny={() => {
         dispatch(denySession(pendingSession))
       }}
-      dappUrl={url}
       dappImageUrl={fallbackIcon}
       title={t(
         dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',

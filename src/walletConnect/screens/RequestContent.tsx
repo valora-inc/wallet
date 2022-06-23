@@ -3,10 +3,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/slice'
 import Logo from 'src/icons/Logo'
 import QuitIcon from 'src/icons/QuitIcon'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -25,7 +22,6 @@ interface Props {
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
   isDappListed: boolean
-  dappUrl: string
   children?: React.ReactNode
 }
 
@@ -40,7 +36,6 @@ function RequestContent({
   testId,
   requestDetails,
   isDappListed,
-  dappUrl,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -48,7 +43,6 @@ function RequestContent({
 
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
 
   const isLoading = isAccepting || isDenying
 
@@ -78,16 +72,12 @@ function RequestContent({
     <View style={styles.container}>
       <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
       <ScrollView>
-        {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
+        {dappImageUrl && (
           <View style={styles.logoContainer}>
             <View style={styles.logoBackground}>
               <Logo />
             </View>
-            <Image
-              style={styles.dappImage}
-              source={{ uri: dappImageUrl ?? `${dappUrl}/favicon.ico` }}
-              resizeMode="cover"
-            />
+            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
           </View>
         )}
         <Text style={styles.header} testID={`${testId}Header`}>

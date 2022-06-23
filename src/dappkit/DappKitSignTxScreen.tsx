@@ -68,13 +68,14 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     },
   ]
 
+  const dappImageUrl = activeDapp?.iconUrl ?? `${callback}/favicon.ico`
+
   return (
     <View style={styles.container}>
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
-        dappUrl={callback}
-        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? dappImageUrl : undefined}
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
         testId="DappKitSignRequest"

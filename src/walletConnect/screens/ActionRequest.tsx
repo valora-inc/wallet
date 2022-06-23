@@ -81,7 +81,6 @@ function ActionRequest({ pendingAction }: Props) {
       onDeny={() => {
         dispatch(denyRequest(peerId, action, 'User denied'))
       }}
-      dappUrl={url}
       dappImageUrl={uri}
       title={t('confirmTransaction', { dappName: name })}
       description={t('action.askingV1_35', { dappName: name })}
