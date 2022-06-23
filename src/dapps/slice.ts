@@ -14,12 +14,24 @@ export interface ActiveDapp extends Dapp {
   openedFrom: DappSection
 }
 
+export interface DappCategory {
+  backgroundColor: string
+  fontColor: string
+  id: string
+  name: string
+}
+
 export interface State {
   dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
   maxNumRecentDapps: number
   recentDapps: Dapp[]
   dappListApiUrl: string | null
+  // TODO: update type of recentDapps and activeDapp to be string
+  dappsList: Dapp[]
+  dappsListLoading: boolean
+  dappsListError: string | null
+  dappsCategories: DappCategory[]
 }
 
 const initialState: State = {
@@ -28,10 +40,23 @@ const initialState: State = {
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
   dappListApiUrl: null,
+  dappsList: [],
+  dappsListLoading: false,
+  dappsListError: null,
+  dappsCategories: [],
 }
 
 export interface DappSelectedAction {
   dapp: ActiveDapp
+}
+
+export interface FetchDappsListCompletedAction {
+  dapps: Dapp[]
+  categories: DappCategory[]
+}
+
+export interface FetchDappsListErrorAction {
+  error: string
 }
 
 export const slice = createSlice({
@@ -47,6 +72,20 @@ export const slice = createSlice({
     },
     dappSessionEnded: (state) => {
       state.activeDapp = null
+    },
+    fetchDappsList: (state) => {
+      state.dappsListLoading = true
+      state.dappsListError = null
+    },
+    fetchDappsListCompleted: (state, action: PayloadAction<FetchDappsListCompletedAction>) => {
+      state.dappsListLoading = false
+      state.dappsListError = null
+      state.dappsList = action.payload.dapps
+      state.dappsCategories = action.payload.categories
+    },
+    fetchDappsListFailed: (state, action: PayloadAction<FetchDappsListErrorAction>) => {
+      state.dappsListLoading = false
+      state.dappsListError = action.payload.error
     },
   },
   extraReducers: (builder) => {
@@ -68,6 +107,12 @@ export const slice = createSlice({
   },
 })
 
-export const { dappSelected, dappSessionEnded } = slice.actions
+export const {
+  dappSelected,
+  dappSessionEnded,
+  fetchDappsList,
+  fetchDappsListCompleted,
+  fetchDappsListFailed,
+} = slice.actions
 
 export default slice.reducer

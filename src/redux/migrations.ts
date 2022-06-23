@@ -660,4 +660,14 @@ export const migrations = {
       'activeDapp'
     ),
   }),
+  55: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsList: [],
+      dappsListLoading: false,
+      dappsListError: null,
+      dappsCategories: [],
+    },
+  }),
 }

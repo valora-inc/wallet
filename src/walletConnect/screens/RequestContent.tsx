@@ -21,6 +21,7 @@ interface Props {
   description: string
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
+  isDappListed: boolean
   children?: React.ReactNode
 }
 
@@ -34,6 +35,7 @@ function RequestContent({
   description,
   testId,
   requestDetails,
+  isDappListed,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -94,6 +96,8 @@ function RequestContent({
         )}
 
         {children}
+
+        {!isDappListed && <Text style={styles.description}>{t('dappNotListed')}</Text>}
       </ScrollView>
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     justifyContent: 'center',
-    marginVertical: Spacing.Thick24,
+    marginTop: Spacing.Thick24,
     flexDirection: 'row-reverse',
   },
   detailsContainer: {
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
   header: {
     ...fontStyles.h2,
     textAlign: 'center',
+    paddingTop: Spacing.Thick24,
     paddingBottom: Spacing.Regular16,
   },
   logoBackground: {
