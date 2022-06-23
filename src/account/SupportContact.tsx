@@ -1,9 +1,11 @@
 import { anonymizedPhone } from '@celo/utils/lib/phoneNumbers'
 import { StackScreenProps } from '@react-navigation/stack'
+import path from 'path'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import * as RNFS from 'react-native-fs'
 import { useDispatch, useSelector } from 'react-redux'
 import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -15,6 +17,7 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
 import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
+import i18n from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -24,6 +27,28 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SupportContact>
+
+async function exportLogs() {
+  try {
+    Logger.showMessage(i18n.t('supportExportLogsStart'))
+    const logsPath = Logger.getReactNativeLogsFilePath()
+
+    // For now we need to export to a world-readable directory on Android
+    // TODO: use the FileProvider approach so we don't need to do this.
+    // See https://developer.android.com/reference/androidx/core/content/FileProvider
+    // and https://github.com/chirag04/react-native-mail/blame/340618e4ef7f21a29d739d4180c2a267a14093d3/android/src/main/java/com/chirag/RNMail/RNMailModule.java#L106
+    if (Platform.OS === 'android') {
+      const publicPath = `${RNFS.ExternalDirectoryPath}/${path.basename(logsPath)}`
+      await RNFS.copyFile(logsPath, publicPath)
+      return publicPath
+    }
+
+    return logsPath
+  } catch (e) {
+    Logger.showError(i18n.t('supportExportLogsError', { error: e }))
+    return false
+  }
+}
 
 function SupportContact({ route }: Props) {
   const { t } = useTranslation()
@@ -67,13 +92,13 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    let combinedLogsPath: string | false = false
+    let logsPath: string | false = false
     if (attachLogs) {
-      combinedLogsPath = await Logger.createCombinedLogs()
-      if (combinedLogsPath) {
+      logsPath = await exportLogs()
+      if (logsPath) {
         email.attachments = [
           {
-            path: combinedLogsPath, // The absolute path of the file from which to read data.
+            path: logsPath, // The absolute path of the file from which to read data.
             type: 'text', // Mime Type: jpg, png, doc, ppt, html, pdf, csv
             name: '', // Optional: Custom filename for attachment
           },
@@ -83,7 +108,7 @@ function SupportContact({ route }: Props) {
     }
     setInProgress(false)
     try {
-      await sendEmail(email, deviceInfo, combinedLogsPath)
+      await sendEmail(email, deviceInfo, logsPath)
       navigateBackAndToast()
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)
