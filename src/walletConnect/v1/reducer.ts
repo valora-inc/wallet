@@ -68,7 +68,6 @@ export const reducer = (
         ...state,
         pendingActions: state.pendingActions.filter((a) => a.action !== action.request),
       }
-
     default:
       return state
   }

@@ -106,7 +106,7 @@ export default WalletConnect = () => {
     let result = walletConnector.sendTransaction(tx)
 
     // Verify transaction type text
-    await waitFor(element(by.text('Send a Celo TX')))
+    await waitFor(element(by.text('Send a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
 
@@ -142,7 +142,7 @@ export default WalletConnect = () => {
   it('Then is able to sign a transaction', async () => {
     // Save result and await for it later
     let result = walletConnector.signTransaction(tx)
-    await waitFor(element(by.text('Sign a Celo TX')))
+    await waitFor(element(by.text('Sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
@@ -308,7 +308,7 @@ export default WalletConnect = () => {
     }
 
     let result = walletConnector.sendCustomRequest(customRequest)
-    await waitFor(element(by.text('Sign a Celo TX')))
+    await waitFor(element(by.text('Sign a Celo transaction')))
       .toBeVisible()
       .withTimeout(15 * 1000)
     await element(by.text('Allow')).tap()
