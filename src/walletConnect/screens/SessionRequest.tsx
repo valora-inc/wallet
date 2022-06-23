@@ -22,7 +22,7 @@ function SessionRequest({ pendingSession }: Props) {
 
   const address = useSelector(currentAccountSelector)
   const walletConnectDisplayedInfo = useSelector(walletConnectDisplayedInfoSelector)
-  const isDappListed = useIsDappListed(name)
+  const isDappListed = useIsDappListed(name, url)
 
   const requestDetails =
     walletConnectDisplayedInfo === WalletConnectDisplayedInfo.None

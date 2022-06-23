@@ -25,14 +25,14 @@ type Props = StackScreenProps<StackParamList, Screens.DappKitSignTxScreen>
 
 const DappKitSignTxScreen = ({ route }: Props) => {
   const { dappKitRequest } = route.params
-  const { dappName, txs } = dappKitRequest
+  const { dappName, txs, callback } = dappKitRequest
 
   const activeDapp = useSelector(activeDappSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-  const isDappListed = useIsDappListed(dappName)
+  const isDappListed = useIsDappListed(dappName, callback)
 
   if (!dappKitRequest) {
     Logger.error(TAG, 'No request found in navigation props')

@@ -37,7 +37,7 @@ function ActionRequest({ pendingAction }: Props) {
 
   const { action, peerId } = pendingAction
   const activeSession = useSelector(selectSessionFromPeerId(peerId))
-  const isDappListed = useIsDappListed(activeSession?.peerMeta?.name)
+  const isDappListed = useIsDappListed(activeSession?.peerMeta?.name, activeSession?.peerMeta?.url)
 
   if (!activeSession) {
     // should never happen
