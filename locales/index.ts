@@ -108,6 +108,17 @@ const locales: Locales = {
       return require('date-fns/locale/tr')
     },
   },
+  'pl-PL': {
+    name: 'Polski',
+    get strings() {
+      return {
+        translation: require('./pl-PL/translation.json'),
+      }
+    },
+    get dateFns() {
+      return require('date-fns/locale/pl')
+    },
+  },
 }
 
 export default locales

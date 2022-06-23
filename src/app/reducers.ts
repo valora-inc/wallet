@@ -1,22 +1,12 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { Dapp, SuperchargeButtonType } from 'src/app/types'
+import { SuperchargeButtonType } from 'src/app/types'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
-
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
 
 export interface State {
   loggedIn: boolean
@@ -30,7 +20,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  dappListApiUrl: string | null
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
@@ -57,13 +46,9 @@ export interface State {
   supportedBiometryType: BIOMETRY_TYPE | null
   biometryEnabled: boolean
   superchargeButtonType: SuperchargeButtonType
-  maxNumRecentDapps: number
-  recentDapps: Dapp[]
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
   paymentDeepLinkHandler: PaymentDeepLinkHandler
-  dappsWebViewEnabled: boolean
-  activeDapp: ActiveDapp | null
   skipProfilePicture: boolean
   finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
@@ -83,7 +68,6 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
-  dappListApiUrl: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: REMOTE_CONFIG_VALUES_DEFAULTS.hideVerification,
@@ -106,14 +90,10 @@ const initialState = {
   supportedBiometryType: null,
   biometryEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.biometryEnabled,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
-  maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
-  recentDapps: [],
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
-  dappsWebViewEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.dappsWebViewEnabled,
-  activeDapp: null,
   skipProfilePicture: REMOTE_CONFIG_VALUES_DEFAULTS.skipProfilePicture,
   finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(','),
   celoWithdrawalEnabledInExchange: REMOTE_CONFIG_VALUES_DEFAULTS.celoWithdrawalEnabledInExchange,
@@ -135,7 +115,6 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        activeDapp: null,
       }
     }
     case Actions.SET_APP_STATE:
@@ -213,7 +192,6 @@ export const appReducer = (
         showRaiseDailyLimitTarget: action.configValues.showRaiseDailyLimitTarget,
         celoEducationUri: action.configValues.celoEducationUri,
         celoEuroEnabled: action.configValues.celoEuroEnabled,
-        dappListApiUrl: action.configValues.dappListApiUrl,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokens: action.configValues.superchargeTokens,
@@ -228,11 +206,9 @@ export const appReducer = (
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         biometryEnabled: action.configValues.biometryEnabled,
         superchargeButtonType: action.configValues.superchargeButtonType,
-        maxNumRecentDapps: action.configValues.maxNumRecentDapps,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
-        dappsWebViewEnabled: action.configValues.dappsWebViewEnabled,
         skipProfilePicture: action.configValues.skipProfilePicture,
         finclusiveUnsupportedStates: action.configValues.finclusiveUnsupportedStates,
         celoWithdrawalEnabledInExchange: action.configValues.celoWithdrawalEnabledInExchange,
@@ -265,20 +241,6 @@ export const appReducer = (
       return {
         ...state,
         supportedBiometryType: action.supportedBiometryType,
-      }
-    case Actions.DAPP_SELECTED:
-      return {
-        ...state,
-        recentDapps: [
-          action.dapp,
-          ...state.recentDapps.filter((recentDapp) => recentDapp.id !== action.dapp.id),
-        ].slice(0, state.maxNumRecentDapps),
-        activeDapp: action.dapp,
-      }
-    case Actions.DAPP_SESSION_ENDED:
-      return {
-        ...state,
-        activeDapp: null,
       }
     default:
       return state

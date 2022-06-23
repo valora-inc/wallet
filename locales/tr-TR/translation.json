@@ -206,7 +206,8 @@
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
   "connectNumber": "Telefon Numarası Bağla",
-  "connectToWallet": "{{dappName}} would like to confirm a transaction",
+  "connectToWallet": "{{dappName}}, {{appName}} uygulamasına bağlanmak istiyor",
+  "confirmTransaction": "{{dappName}} bir işlemi onaylamak istiyor",
   "allow": "İzin ver",
   "address": "Hesap Adresi",
   "phoneNumber": "Telefon Numarası",
@@ -962,7 +963,7 @@
   "loadingFromDeeplink": "Bağlanıyor",
   "action": {
     "asking": "Bu uygulama aşağıdaki eylemi gerçekleştirmek istiyor",
-    "askingV1_35": "{{dappName}} is asking to perform the following:",
+    "askingV1_35": "{{dappName}} aşağıdaki eylemi gerçekleştirmek istiyor:",
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
@@ -970,7 +971,7 @@
     "sendTransaction": "Celo işlemi gönderin",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
-    "details": "View transaction data",
+    "details": "İşlem verilerini görüntüle",
     "computeSharedSecret": "Gizli Kelime Oluştur",
     "emptyMessage": "Boş mesaj"
   },
@@ -1123,6 +1124,8 @@
     "body": "Toplam Bakiyeniz, tüm Valora varlıklarınızın yaklaşık bir toplamıdır. Fiyatlar dalgalandıkça Toplam Bakiyeniz değişecektir. Her 10 dakikada bir güncellenir.\nBazı varlıklar, hesaplama sırasında fiyat mevcut olmadığı için Toplam Bakiyede gösterilmeyebilir.",
     "dismiss": "Yoksay"
   },
+  "supportExportLogsStart": "Exporting logs...",
+  "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{user}} kullanıcısı için {{appName}} desteği",
   "personaAccountEndpointFail": "Kimlik doğrulama şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyiniz",
   "plaidCreateLinkTokenFail": "Banka hesabı bağlanamıyor. Lütfen daha sonra tekrar deneyiniz",

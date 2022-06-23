@@ -21,11 +21,9 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
-  DappSelected,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
-  openUrl,
   OpenUrlAction,
   SetAppState,
   setAppState,
@@ -33,7 +31,6 @@ import {
   updateRemoteConfigValues,
 } from 'src/app/actions'
 import {
-  dappsWebViewEnabledSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
@@ -309,28 +306,8 @@ export function* handleOpenUrl(action: OpenUrlAction) {
   }
 }
 
-export function* handleOpenDapp(action: DappSelected) {
-  const { dappUrl } = action.dapp
-  const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
-
-  if (dappsWebViewEnabled) {
-    const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
-    if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
-      yield call(handleDeepLink, openDeepLink(dappUrl, true))
-    } else {
-      navigate(Screens.WebViewScreen, { uri: dappUrl })
-    }
-  } else {
-    yield call(handleOpenUrl, openUrl(dappUrl, true, true))
-  }
-}
-
 export function* watchOpenUrl() {
   yield takeEvery(Actions.OPEN_URL, handleOpenUrl)
-}
-
-export function* watchDappSelected() {
-  yield takeLatest(Actions.DAPP_SELECTED, handleOpenDapp)
 }
 
 function createAppStateChannel() {
@@ -376,7 +353,6 @@ export function* handleSetAppState(action: SetAppState) {
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
-  yield spawn(watchDappSelected)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
