@@ -94,6 +94,9 @@ export async function loginWithFiatConnectProvider(
 export function getSigningFunction(wallet: UnlockableWallet): (message: string) => Promise<string> {
   return async function (message: string): Promise<string> {
     const [account] = wallet.getAccounts()
+    if (!wallet.isAccountUnlocked(account)) {
+      await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
+    }
     const encodedMessage = ensureLeading0x(Buffer.from(message, 'utf8').toString('hex'))
     return await wallet.signPersonalMessage(account, encodedMessage)
   }
