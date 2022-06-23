@@ -59,10 +59,11 @@ const DappKitAccountScreen = ({ route }: Props) => {
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
-        title={t(
-          dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
-          { dappName: dappKitRequest.dappName }
-        )}
+        title={
+          dappConnectInfo === DappConnectInfo.Basic
+            ? t('connectToWallet', { dappName: dappKitRequest.dappName })
+            : t('confirmTransaction', { dappName: dappKitRequest.dappName })
+        }
         description={t('shareInfo')}
         requestDetails={[
           {

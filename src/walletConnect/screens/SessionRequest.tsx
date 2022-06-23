@@ -44,10 +44,11 @@ function SessionRequest({ pendingSession }: Props) {
         dispatch(denySession(pendingSession))
       }}
       dappImageUrl={fallbackIcon}
-      title={t(
-        dappConnectInfo === DappConnectInfo.Basic ? 'connectToWallet' : 'confirmTransaction',
-        { dappName: name }
-      )}
+      title={
+        dappConnectInfo === DappConnectInfo.Basic
+          ? t('connectToWallet', { dappName: name })
+          : t('confirmTransaction', { dappName: name })
+      }
       description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : undefined}
       isDappListed={isDappListed}
       requestDetails={requestDetails}
