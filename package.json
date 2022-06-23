@@ -119,7 +119,6 @@
     "fp-ts": "2.1.1",
     "fuzzysort": "^1.1.4",
     "graphql": "^14.1.1",
-    "hermes-engine": "0.9.0",
     "i18next": "^19.4.3",
     "io-ts": "2.0.1",
     "js-sha3": "^0.8.0",
@@ -337,7 +336,8 @@
     "@celo/utils/bn.js": "4.11.9",
     "json-schema": "^0.4.0",
     "@celo/utils": "^1.2.4",
-    "shell-quote": "^1.7.3"
+    "shell-quote": "^1.7.3",
+    "hermes-engine": "^0.10.0"
   },
   "detox": {
     "test-runner": "jest",
