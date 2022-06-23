@@ -7,14 +7,14 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
-import { activeDappSelector } from 'src/dapps/selectors'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/types'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
-import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'dappkit/DappKitAccountScreen'
@@ -27,7 +27,8 @@ const DappKitAccountScreen = ({ route }: Props) => {
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
-  const isDappListed = useIsDappListed(dappKitRequest.callback)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
@@ -56,8 +57,12 @@ const DappKitAccountScreen = ({ route }: Props) => {
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
-        dappImageUrl={activeDapp?.iconUrl}
-        title={t('connectToWallet', { dappName: dappKitRequest.dappName })}
+        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        title={
+          dappConnectInfo === DappConnectInfo.Basic
+            ? t('connectToWallet', { dappName: dappKitRequest.dappName })
+            : t('confirmTransaction', { dappName: dappKitRequest.dappName })
+        }
         description={t('shareInfo')}
         requestDetails={[
           {
@@ -70,7 +75,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
             tapToCopy: true,
           },
         ]}
-        isDappListed={isDappListed}
+        dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
     </View>
