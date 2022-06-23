@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operação",
     "data": "Dados",
-    "signTX": "Assinar TX",
+    "signTX": "Transacção de sinais",
     "details": "Mostrar detalhes"
   },
   "shareInfo": "Este aplicativo poderá acessar as seguintes informações:",
@@ -967,8 +967,8 @@
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
-    "signTransaction": "Assinar uma transação Celo",
-    "sendTransaction": "Enviar uma transação Celo",
+    "signTransaction": "Assinar uma transacção Celo",
+    "sendTransaction": "Enviar uma transacção Celo",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Ler o seu Endereço de Conta da {{appName}}",
     "details": "Ver dados da transação",
@@ -1310,6 +1310,7 @@
   "webView": {
     "openExternal": "Abrir no navegador externo"
   },
+  "dappNotListed": "Esta dapp não está listada em {{appName}}. As dapps são aplicações de terceiros. Utilizados por sua conta e risco.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
