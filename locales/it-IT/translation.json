@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operazione",
     "data": "Dati",
-    "signTX": "Firma TX",
+    "signTX": "Firma la transazione",
     "details": "Mostra dettagli"
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
@@ -1310,6 +1310,7 @@
   "webView": {
     "openExternal": "Apri nel browser esterno"
   },
+  "dappNotListed": "Questa dapp non è elencata in {{appName}}. Le dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
