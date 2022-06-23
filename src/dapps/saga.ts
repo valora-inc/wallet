@@ -2,16 +2,15 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, select, spawn, takeLatest, takeLeading } from 'redux-saga/effects'
 import { openDeepLink, openUrl } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl } from 'src/app/saga'
-import { Dapp } from 'src/app/types'
 import { dappsListApiUrlSelector, dappsWebViewEnabledSelector } from 'src/dapps/selectors'
 import {
-  DappCategory,
   dappSelected,
   DappSelectedAction,
   fetchDappsList,
   fetchDappsListCompleted,
   fetchDappsListFailed,
 } from 'src/dapps/slice'
+import { Dapp, DappCategory } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'

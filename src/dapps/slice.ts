@@ -1,25 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { Dapp } from 'src/app/types'
+import { ActiveDapp, Dapp, DappCategory, DappConnectInfo } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
-
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
-
-export interface DappCategory {
-  backgroundColor: string
-  fontColor: string
-  id: string
-  name: string
-}
 
 export interface State {
   dappsWebViewEnabled: boolean
@@ -32,6 +15,7 @@ export interface State {
   dappsListLoading: boolean
   dappsListError: string | null
   dappsCategories: DappCategory[]
+  dappConnectInfo: DappConnectInfo
 }
 
 const initialState: State = {
@@ -44,6 +28,7 @@ const initialState: State = {
   dappsListLoading: false,
   dappsListError: null,
   dappsCategories: [],
+  dappConnectInfo: DappConnectInfo.Default,
 }
 
 export interface DappSelectedAction {
@@ -97,6 +82,7 @@ export const slice = createSlice({
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.dappListApiUrl = action.configValues.dappListApiUrl
+          state.dappConnectInfo = action.configValues.dappConnectInfo
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

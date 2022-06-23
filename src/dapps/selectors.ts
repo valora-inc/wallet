@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
-import { Dapp } from 'src/app/types'
-import { DappCategory } from 'src/dapps/slice'
+import { Dapp, DappCategory } from 'src/dapps/types'
 import { RootState } from 'src/redux/reducers'
 
 export interface CategoryWithDapps extends DappCategory {
@@ -57,3 +56,5 @@ export const dappCategoriesByIdSelector = createSelector(
     return Object.values(mappedCategories).filter(isCategoryWithDapps)
   }
 )
+
+export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
