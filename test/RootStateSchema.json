@@ -320,8 +320,8 @@
         "DappConnectInfo": {
             "enum": [
                 "basic",
-                "full",
-                "none"
+                "default",
+                "full"
             ],
             "type": "string"
         },
