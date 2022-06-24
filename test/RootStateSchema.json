@@ -293,6 +293,38 @@
             ],
             "type": "object"
         },
+        "DappCategory": {
+            "additionalProperties": false,
+            "properties": {
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "fontColor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "backgroundColor",
+                "fontColor",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
+        "DappConnectInfo": {
+            "enum": [
+                "basic",
+                "default",
+                "full"
+            ],
+            "type": "string"
+        },
         "DappSection": {
             "enum": [
                 "all",
@@ -1298,9 +1330,8 @@
                 "ConnectPhoneNumberScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
-                "DappKitAccountAuth",
+                "DappKitAccountScreen",
                 "DappKitSignTxScreen",
-                "DappKitTxDataScreen",
                 "Debug",
                 "DrawerNavigator",
                 "EnableBiometry",
@@ -1456,16 +1487,6 @@
         "State": {
             "additionalProperties": false,
             "properties": {
-                "activeDapp": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/ActiveDapp"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
-                },
                 "activeScreen": {
                     "$ref": "#/definitions/Screens"
                 },
@@ -1491,15 +1512,6 @@
                     "type": "boolean"
                 },
                 "celoWithdrawalEnabledInExchange": {
-                    "type": "boolean"
-                },
-                "dappListApiUrl": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "dappsWebViewEnabled": {
                     "type": "boolean"
                 },
                 "fiatConnectCashInEnabled": {
@@ -1544,9 +1556,6 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
-                "maxNumRecentDapps": {
-                    "type": "number"
-                },
                 "minVersion": {
                     "type": [
                         "null",
@@ -1570,12 +1579,6 @@
                         "null",
                         "number"
                     ]
-                },
-                "recentDapps": {
-                    "items": {
-                        "$ref": "#/definitions/Dapp"
-                    },
-                    "type": "array"
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
@@ -1644,7 +1647,6 @@
                 }
             },
             "required": [
-                "activeDapp",
                 "activeScreen",
                 "analyticsEnabled",
                 "appState",
@@ -1653,8 +1655,6 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
-                "dappListApiUrl",
-                "dappsWebViewEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "finclusiveUnsupportedStates",
@@ -1666,13 +1666,11 @@
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
-                "maxNumRecentDapps",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
                 "pincodeUseExpandedBlocklist",
                 "rampCashInButtonExpEnabled",
-                "recentDapps",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
@@ -2438,6 +2436,76 @@
                 "fetchAvailableRewardsError",
                 "fetchAvailableRewardsLoading",
                 "loading"
+            ],
+            "type": "object"
+        },
+        "State_25": {
+            "additionalProperties": false,
+            "properties": {
+                "activeDapp": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/ActiveDapp"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "dappConnectInfo": {
+                    "$ref": "#/definitions/DappConnectInfo"
+                },
+                "dappListApiUrl": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dappsCategories": {
+                    "items": {
+                        "$ref": "#/definitions/DappCategory"
+                    },
+                    "type": "array"
+                },
+                "dappsList": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                },
+                "dappsListError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dappsListLoading": {
+                    "type": "boolean"
+                },
+                "dappsWebViewEnabled": {
+                    "type": "boolean"
+                },
+                "maxNumRecentDapps": {
+                    "type": "number"
+                },
+                "recentDapps": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "activeDapp",
+                "dappConnectInfo",
+                "dappListApiUrl",
+                "dappsCategories",
+                "dappsList",
+                "dappsListError",
+                "dappsListLoading",
+                "dappsWebViewEnabled",
+                "maxNumRecentDapps",
+                "recentDapps"
             ],
             "type": "object"
         },
@@ -3619,6 +3687,9 @@
         "app": {
             "$ref": "#/definitions/State"
         },
+        "dapps": {
+            "$ref": "#/definitions/State_25"
+        },
         "escrow": {
             "$ref": "#/definitions/State_14"
         },
@@ -3688,6 +3759,7 @@
         "account",
         "alert",
         "app",
+        "dapps",
         "escrow",
         "exchange",
         "fees",

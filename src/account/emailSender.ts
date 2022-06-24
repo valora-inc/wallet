@@ -20,11 +20,11 @@ export async function sendEmailWithNonNativeApp(
   emailSubect: string,
   message: string,
   deviceInfo?: {},
-  combinedLogsPath?: string | false
+  logsPath?: string | false
 ) {
   try {
-    const supportLogsMessage = combinedLogsPath
-      ? `Support logs: ${!combinedLogsPath || (await RNFS.readFile(combinedLogsPath))}`
+    const supportLogsMessage = logsPath
+      ? `Support logs: ${!logsPath || (await RNFS.readFile(logsPath))}`
       : ''
     await openComposer({
       to: CELO_SUPPORT_EMAIL_ADDRESS,
@@ -37,11 +37,7 @@ export async function sendEmailWithNonNativeApp(
   }
 }
 
-export async function sendEmail(
-  email: Email,
-  deviceInfo?: {},
-  combinedLogsPath: string | false = false
-) {
+export async function sendEmail(email: Email, deviceInfo?: {}, logsPath: string | false = false) {
   return new Promise<void>((resolve, reject) => {
     // Try to send with native mail app with logs as attachment
     // if fails user can choose mail app but logs sent in message
@@ -53,7 +49,7 @@ export async function sendEmail(
           email.subject,
           email.body,
           deviceInfo,
-          combinedLogsPath
+          logsPath
         )
         if (emailSent.success) {
           resolve()

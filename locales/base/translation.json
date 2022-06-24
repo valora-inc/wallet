@@ -206,14 +206,15 @@
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number",
-  "connectToWallet": "{{dappName}} would like to confirm a transaction",
+  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "confirmTransaction": "{{dappName}} would like to confirm a transaction",
   "allow": "Allow",
   "address": "Account Address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "Sign TX",
+    "signTX": "Sign transaction",
     "details": "Show details"
   },
   "shareInfo": "This application will be able to access the following information:",
@@ -968,8 +969,8 @@
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",
-    "signTransaction": "Sign a Celo TX",
-    "sendTransaction": "Send a Celo TX",
+    "signTransaction": "Sign a Celo transaction",
+    "sendTransaction": "Send a Celo transaction",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
     "details": "View transaction data",
@@ -1125,6 +1126,8 @@
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
+  "supportExportLogsStart": "Exporting logs...",
+  "supportExportLogsFailed": "Failed to export logs: {{error}}",
   "supportEmailSubject": "{{appName}} support for {{user}}",
   "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later",
   "plaidCreateLinkTokenFail": "Unable to link bank account. Please try again later",
@@ -1308,5 +1311,6 @@
   },
   "webView": {
     "openExternal": "Open in External Browser"
-  }
+  },
+  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk."
 }

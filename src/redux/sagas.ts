@@ -16,6 +16,7 @@ import {
 } from 'src/app/saga'
 import { superchargeSaga } from 'src/consumerIncentives/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
+import { dappsSaga } from 'src/dapps/saga'
 import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { exchangeSaga } from 'src/exchange/saga'
@@ -132,6 +133,7 @@ export function* rootSaga() {
     yield spawn(walletConnectSaga)
     yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
+    yield spawn(dappsSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

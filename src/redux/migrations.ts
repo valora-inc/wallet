@@ -7,6 +7,7 @@ import {
   DEFAULT_SENTRY_NETWORK_ERRORS,
   DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
 } from 'src/config'
+import { DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
@@ -641,5 +642,40 @@ export const migrations = {
     ...(_.omit(state, 'geth') as any),
     account: _.omit(state.account, 'promptFornoIfNeeded', 'retryVerificationWithForno'),
     web3: _.omit(state.web3, 'syncProgress', 'latestBlockNumber', 'fornoMode', 'hadFornoDisabled'),
+  }),
+  54: (state: any) => ({
+    ...state,
+    dapps: {
+      dappsWebViewEnabled: state.app.dappsWebViewEnabled ?? false,
+      activeDapp: state.app.activeDapp ?? null,
+      maxNumRecentDapps: state.app.maxNumRecentDapps,
+      recentDapps: state.app.recentDapps,
+      dappListApiUrl: state.app.dappListApiUrl,
+    },
+    app: _.omit(
+      state.app,
+      'dappsWebViewEnabled',
+      'maxNumRecentDapps',
+      'recentDapps',
+      'dappListApiUrl',
+      'activeDapp'
+    ),
+  }),
+  55: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappsList: [],
+      dappsListLoading: false,
+      dappsListError: null,
+      dappsCategories: [],
+    },
+  }),
+  56: (state: any) => ({
+    ...state,
+    dapps: {
+      ...state.dapps,
+      dappConnectInfo: DappConnectInfo.Default,
+    },
   }),
 }

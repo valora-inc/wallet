@@ -39,6 +39,7 @@ export function WebViewAndroidBottomSheet({
       style={styles.overlay}
       onBackdropPress={onClose}
       onSwipeComplete={onClose}
+      useNativeDriverForBackdrop={true}
     >
       <View style={styles.centerContainer} testID="WebViewAndroidBottomSheet">
         <Pressable

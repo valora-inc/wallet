@@ -3,22 +3,27 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
+import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
 interface Props {
   onAccept(): void
   onDeny(): void
-  dappImageUrl: string
+  dappImageUrl?: string
   title: string
-  description: string
+  description?: string
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
+  dappUrl?: string
   children?: React.ReactNode
 }
 
@@ -32,6 +37,7 @@ function RequestContent({
   description,
   testId,
   requestDetails,
+  dappUrl,
   children,
 }: Props) {
   const { t } = useTranslation()
@@ -39,6 +45,8 @@ function RequestContent({
 
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
+  const isDappListed = useIsDappListed(dappUrl)
 
   const isLoading = isAccepting || isDenying
 
@@ -75,12 +83,14 @@ function RequestContent({
   return (
     <>
       <ScrollView>
-        <View style={styles.logoContainer}>
-          <View style={styles.logoBackground}>
-            <Logo />
+        {dappImageUrl && (
+          <View style={styles.logoContainer}>
+            <View style={styles.logoBackground}>
+              <Logo />
+            </View>
+            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
           </View>
-          <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
-        </View>
+        )}
         <Text style={styles.header} testID={`${testId}Header`}>
           {title}
         </Text>
@@ -97,6 +107,10 @@ function RequestContent({
         )}
 
         {children}
+
+        {dappConnectInfo === DappConnectInfo.Basic && !isDappListed && (
+          <Text style={styles.description}>{t('dappNotListed')}</Text>
+        )}
       </ScrollView>
 
       <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
@@ -125,7 +139,7 @@ function RequestContent({
 const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
-    marginVertical: Spacing.Thick24,
+    marginTop: Spacing.Thick24,
     flexDirection: 'row-reverse',
   },
   detailsContainer: {
@@ -134,6 +148,7 @@ const styles = StyleSheet.create({
   header: {
     ...fontStyles.h2,
     textAlign: 'center',
+    paddingTop: Spacing.Thick24,
     paddingBottom: Spacing.Regular16,
   },
   logoBackground: {

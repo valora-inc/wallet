@@ -17,7 +17,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 export const WALLET_CONNECT_BOTTOM_SHEET_HEIGHT = 600
 
-function WalletConnectRequest({ navigation, route: { params } }: Props) {
+function WalletConnectRequest({ route: { params } }: Props) {
   const { t } = useTranslation()
 
   const initialSnapPoints = useMemo(() => ['25%', 'CONTENT_HEIGHT'], [])

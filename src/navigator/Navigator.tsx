@@ -33,7 +33,6 @@ import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
-import DappKitTxDataScreen from 'src/dappkit/DappKitTxDataScreen'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import ExchangeReview from 'src/exchange/ExchangeReview'
@@ -148,19 +147,22 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={UpgradeScreen.navigationOptions}
       />
       <Navigator.Screen
-        name={Screens.DappKitAccountAuth}
+        name={Screens.DappKitAccountScreen}
         component={DappKitAccountScreen}
-        options={DappKitAccountScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen
         name={Screens.DappKitSignTxScreen}
         component={DappKitSignTxScreen}
-        options={DappKitSignTxScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitTxDataScreen}
-        component={DappKitTxDataScreen}
-        options={DappKitTxDataScreen.navigationOptions}
+        options={{
+          ...modalScreenOptions(),
+          ...noHeader,
+          gestureEnabled: false,
+        }}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
@@ -679,6 +681,15 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
       options={{ ...mainScreenNavOptions(), ...sendConfirmationLegacyScreenNavOptions }}
+    />
+    <Navigator.Screen
+      name={Screens.WalletConnectRequest}
+      component={WalletConnectRequest}
+      options={{
+        ...modalScreenOptions(),
+        ...noHeader,
+        gestureEnabled: false,
+      }}
     />
   </>
 )

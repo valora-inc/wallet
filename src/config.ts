@@ -6,6 +6,7 @@ import { SpendMerchant } from 'src/fiatExchanges/Spend'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
+import { LoggerLevel } from 'src/utils/LoggerLevels'
 
 export * from 'src/brandingConfig'
 
@@ -127,8 +128,18 @@ export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 export const DEFAULT_APP_LANGUAGE = 'en-US'
 
+// Logging and monitoring
 export const DEFAULT_SENTRY_TRACES_SAMPLE_RATE = 0.2
 export const DEFAULT_SENTRY_NETWORK_ERRORS = [
   'network request failed',
   'The network connection was lost',
 ]
+
+const configLoggerLevels: { [key: string]: LoggerLevel } = {
+  debug: LoggerLevel.Debug,
+  info: LoggerLevel.Info,
+  warn: LoggerLevel.Warn,
+  error: LoggerLevel.Error,
+}
+
+export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug

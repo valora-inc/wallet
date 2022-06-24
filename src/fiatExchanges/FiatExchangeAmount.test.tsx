@@ -17,8 +17,13 @@ import { convertBetweenCurrencies } from 'src/localCurrency/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
+import { mockMaxSendAmount } from 'test/values'
 import { CICOFlow } from './utils'
+
+jest.mock('src/fees/hooks', () => ({
+  useMaxSendAmount: () => mockMaxSendAmount,
+}))
 
 expect.extend({ toBeDisabled })
 
@@ -343,10 +348,53 @@ describe('FiatExchangeAmount cashOut', () => {
     flow: CICOFlow.CashOut,
   })
 
+  const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+    currency: Currency.Euro,
+    flow: CICOFlow.CashOut,
+  })
+
+  const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+    currency: Currency.Celo,
+    flow: CICOFlow.CashOut,
+  })
+
   beforeEach(() => {
     jest.clearAllMocks()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
+  })
+
+  it('displays correctly for cUSD when local currency is USD', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+    expect(getByText('amount (cUSD)')).toBeTruthy()
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoDollar @ $1.00')
+    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
+  })
+
+  it('displays correctly for cEUR when local currency is USD', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenPropsEuro} />
+      </Provider>
+    )
+    expect(getByText('amount (cEUR)')).toBeTruthy()
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoEuro @ $1.20')
+    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
+  })
+
+  it('displays correctly for CELO when local currency is USD', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenPropsCelo} />
+      </Provider>
+    )
+    expect(getByText('amount (CELO)')).toBeTruthy()
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $3.00')
+    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
   })
 
   it('disables the next button if the cUSD amount is 0', () => {
@@ -373,26 +421,26 @@ describe('FiatExchangeAmount cashOut', () => {
       expect.arrayContaining([
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
           balance: '1000.00',
-          currency: 'USD',
+          currency: 'cUSD',
         }),
       ])
     )
   })
 
-  it('shows an error banner if the user balance (in non- USD currency) is less than the requested cash-out amount', () => {
+  it('shows an error banner if the user balance minus estimated transaction fee is less than the requested cash-out amount', () => {
     const tree = render(
-      <Provider store={storeWithPHP}>
+      <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
       </Provider>
     )
 
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '75000')
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '999.99999')
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(storeWithPHP.getActions()).toEqual(
+    expect(storeWithUSD.getActions()).toEqual(
       expect.arrayContaining([
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
-          balance: '50000.00',
-          currency: 'PHP',
+          balance: '1000.00',
+          currency: 'cUSD',
         }),
       ])
     )
@@ -413,25 +461,6 @@ describe('FiatExchangeAmount cashOut', () => {
       amount: {
         fiat: 750,
         crypto: 750,
-      },
-    })
-  })
-
-  it('navigates to the SelectProvider if the user balance (in non- USD currency) is greater than the requested cash-out amount', () => {
-    const tree = render(
-      <Provider store={storeWithPHP}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '25000')
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
-      flow: CICOFlow.CashOut,
-      selectedCrypto: Currency.Dollar,
-      amount: {
-        fiat: 25000,
-        crypto: 500,
       },
     })
   })
