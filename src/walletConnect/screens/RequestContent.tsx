@@ -85,7 +85,7 @@ function RequestContent({
             <View style={styles.logoBackground}>
               <Logo />
             </View>
-            {!dappImageUrl ? (
+            {dappImageUrl ? (
               <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
             ) : (
               <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
@@ -202,7 +202,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   placeholderLogoText: {
-    ...fontStyles.h2,
+    ...fontStyles.h1,
+    lineHeight: undefined,
     color: Colors.gray4,
   },
 })
