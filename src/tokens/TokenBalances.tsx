@@ -29,6 +29,7 @@ import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 import Touchable from 'src/components/Touchable'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
@@ -114,7 +115,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
     navigation.navigate(Screens.WebViewScreen, {
-      uri: `https://nfts.valoraapp.com/?address=${walletAddress}&hide-header=true`,
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
     })
   }
 
