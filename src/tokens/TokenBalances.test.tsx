@@ -91,4 +91,26 @@ describe('TokenBalancesScreen', () => {
     expect(getElementText(tree.getByTestId('percentageIndicator:TT'))).toBe('53.85%')
     expect(tree.queryByTestId('percentageIndicator:TT:UpIndicator')).toBeTruthy()
   })
+
+  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is true', () => {
+    const store = createMockStore({ app: { visualizeNFTsEnabledInHomeAssetsPage: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
+  })
+
+  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is false', () => {
+    const store = createMockStore({ app: { visualizeNFTsEnabledInHomeAssetsPage: false } })
+
+    const tree = render(
+      <Provider store={store}>
+        <TokenBalancesScreen {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree.queryByTestId('NftViewerBanner')).toBeFalsy()
+  })
 })

@@ -122,7 +122,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   return (
     <>
       {shouldVisualizeNFTsInHomeAssetsPage && (
-        <Touchable borderless={true} onPress={onPressNFTsBanner}>
+        <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
           <View style={[styles.bannerContainer]}>
             <View style={styles.leftInnerContainer}>
               <Text style={styles.bannerText}>{t('nftViewer')}</Text>
