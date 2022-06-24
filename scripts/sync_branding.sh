@@ -8,7 +8,7 @@ set -euo pipefail
 # Flags:
 # -b (Optional): Name of the branding to use: celo or valora (default)
 
-branding=valora
+branding=kolektivo
 while getopts 'b:' flag; do
   case "${flag}" in
     b) branding="$OPTARG" ;;
@@ -40,10 +40,11 @@ fi
 if [[ "$branding" == "kolektivo" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/kolektivo ]] && ! git clone git@github.com:zed.io/kolektivo-branding.git branding/kolektivo ; then
+  if [[ ! -e branding/kolektivo ]] && ! git clone git@github.com:zed-io/kolektivo-branding.git branding/celo ; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else
+    branding=celo
     pushd "branding/$branding"
     git pull
     popd
