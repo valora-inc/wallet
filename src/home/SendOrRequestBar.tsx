@@ -13,16 +13,14 @@ import { canSendTokensSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 export default function SendOrRequestBar() {
   const sendButtonsDisabled = !useSelector(canSendTokensSelector)
   const requestButtonDisabled = useSelector(tokensListSelector).length === 0
 
   const onPressSend = () => {
-    // ValoraAnalytics.track(HomeEvents.home_send)
-    // navigate(Screens.Send)
-    navigate(Screens.WalletConnectRequest, { type: WalletConnectRequestType.TimeOut })
+    ValoraAnalytics.track(HomeEvents.home_send)
+    navigate(Screens.Send)
   }
 
   const onPressRequest = () => {
