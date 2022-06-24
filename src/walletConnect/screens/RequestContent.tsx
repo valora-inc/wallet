@@ -1,5 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -11,7 +10,6 @@ import Logo from 'src/icons/Logo'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import useStateWithCallback from 'src/utils/useStateWithCallback'
 import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
@@ -41,42 +39,36 @@ function RequestContent({
   children,
 }: Props) {
   const { t } = useTranslation()
-  const navigation = useNavigation()
 
-  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
-  const [isDenying, setIsDenying] = useStateWithCallback(false)
+  const [isAccepting, setIsAccepting] = useState(false)
+  const [isDenying, setIsDenying] = useState(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
 
-  const isLoading = isAccepting || isDenying
+  const isLoading = useRef<boolean>()
 
   const handleAccept = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, onAccept)
+    setIsAccepting(true)
   }
 
   const handleDeny = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, onDeny)
+    setIsDenying(true)
   }
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      console.log('=====hello!')
-      if (isLoading) {
-        return
-      }
-      e.preventDefault()
-      handleDeny()
-    })
-
-    return unsubscribe
-  }, [navigation, handleDeny, isLoading])
+    isLoading.current = isAccepting || isDenying
+    if (isAccepting) {
+      onAccept()
+    } else if (isDenying) {
+      onDeny()
+    }
+  }, [isAccepting, isDenying])
 
   useEffect(() => {
-    console.log('====i am mounted')
     return () => {
-      console.log('====i am unmounted')
+      if (!isLoading.current) {
+        onDeny()
+      }
     }
   }, [])
 
@@ -113,7 +105,7 @@ function RequestContent({
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
+      <View style={styles.buttonContainer} pointerEvents={isLoading.current ? 'none' : undefined}>
         <Button
           style={styles.buttonWithSpace}
           type={BtnTypes.SECONDARY}
@@ -139,7 +131,6 @@ function RequestContent({
 const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
-    marginTop: Spacing.Thick24,
     flexDirection: 'row-reverse',
   },
   detailsContainer: {

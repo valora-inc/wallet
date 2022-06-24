@@ -146,24 +146,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
       />
-      <Navigator.Screen
-        name={Screens.DappKitAccountScreen}
-        component={DappKitAccountScreen}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitSignTxScreen}
-        component={DappKitSignTxScreen}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
-      />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
         name={Screens.PhoneNumberLookupQuota}
@@ -682,15 +664,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       component={SendConfirmationLegacy}
       options={{ ...mainScreenNavOptions(), ...sendConfirmationLegacyScreenNavOptions }}
     />
-    <Navigator.Screen
-      name={Screens.WalletConnectRequest}
-      component={WalletConnectRequest}
-      options={{
-        ...modalScreenOptions(),
-        ...noHeader,
-        gestureEnabled: false,
-      }}
-    />
   </>
 )
 
@@ -700,7 +673,17 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.WalletConnectRequest}
         component={WalletConnectRequest}
-        options={{ snapPoints: ['60%', '100%'] }}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitAccountScreen}
+        component={DappKitAccountScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitSignTxScreen}
+        component={DappKitSignTxScreen}
+        options={{ snapPoints: ['60%'] }}
       />
     </>
   )
