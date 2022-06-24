@@ -71,6 +71,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
+        dappName={dappName}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
