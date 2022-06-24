@@ -21,6 +21,7 @@ interface Props {
   description?: string
   testId: string
   requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
+  dappName: string
   dappUrl?: string
   children?: React.ReactNode
 }
@@ -35,6 +36,7 @@ function RequestContent({
   description,
   testId,
   requestDetails,
+  dappName,
   dappUrl,
   children,
 }: Props) {
@@ -75,12 +77,20 @@ function RequestContent({
   return (
     <>
       <ScrollView>
-        {dappImageUrl && (
+        {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
           <View style={styles.logoContainer}>
             <View style={styles.logoBackground}>
               <Logo />
             </View>
-            <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            {dappImageUrl ? (
+              <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
+            ) : (
+              <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>
+                <Text allowFontScaling={false} style={styles.placeholderLogoText}>
+                  {dappName.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            )}
           </View>
         )}
         <Text style={styles.header} testID={`${testId}Header`}>
@@ -172,6 +182,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
+  },
+  placeholderLogoBackground: {
+    backgroundColor: Colors.light,
+    marginRight: -Spacing.Small12,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+  },
+  placeholderLogoText: {
+    ...fontStyles.h1,
+    lineHeight: undefined,
+    color: Colors.gray4,
   },
 })
 
