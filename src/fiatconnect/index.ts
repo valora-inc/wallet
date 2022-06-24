@@ -1,16 +1,16 @@
 import {
-  AddFiatAccountResponse,
   CryptoType,
   FiatType,
+  PostFiatAccountResponse,
   QuoteErrorResponse,
   QuoteRequestQuery,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import networkConfig from 'src/web3/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { UNLOCK_DURATION } from 'src/web3/consts'
@@ -180,7 +180,7 @@ export async function addNewFiatAccount(
   providerURL: string,
   fiatAccountSchema: string,
   properties: any
-): Promise<AddFiatAccountResponse> {
+): Promise<PostFiatAccountResponse> {
   // TODO: use the SDK to make the request once SDK is published
   throw new Error('Not implemented')
 }

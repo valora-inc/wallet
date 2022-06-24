@@ -1,11 +1,14 @@
-import { FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { addNewFiatAccount } from 'src/fiatconnect'
+import { addNewFiatAccount, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockFiatConnectQuotes } from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/fiatconnect', () => ({
@@ -14,16 +17,13 @@ jest.mock('src/fiatconnect', () => ({
 }))
 
 const store = createMockStore({})
-const providerURL = 'https://superLegitCICOProvider.valoraapp.com'
+const quote = new FiatConnectQuote({
+  quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+  fiatAccountType: FiatAccountType.BankAccount,
+})
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
-  providerURL,
-  fiatAccountSchema: FiatAccountSchema.AccountNumber,
   flow: CICOFlow.CashIn,
-  provider: {
-    name: 'Fake Provider',
-    logo: 'https://fake.logo.url',
-    logoWide: 'https://fake.logo.wide.url',
-  },
+  quote,
 })
 describe('FiatDetailsScreen', () => {
   beforeEach(() => {
@@ -41,7 +41,6 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    expect(getByText('fiatAccountSchema.accountName.label')).toBeTruthy()
     expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
     expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('errorMessage')).toBeFalsy()
@@ -56,12 +55,10 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    expect(getByText('fiatAccountSchema.accountName.label')).toBeTruthy()
     expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
     expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
-    fireEvent.changeText(getByTestId('input-accountName'), 'test account')
     fireEvent.changeText(getByTestId('input-institutionName'), 'ma Chase Bank')
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
@@ -76,27 +73,27 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    const fakeAccountName = 'ma loaded bank account'
     const fakeInstitutionName = 'CapitalTwo Bank'
     const fakeAccountNumber = '1234567890'
-    fireEvent.changeText(getByTestId('input-accountName'), fakeAccountName)
     fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
-      accountName: fakeAccountName,
+      accountName: 'n/a',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',
       fiatAccountType: 'BankAccount',
     }
     await fireEvent.press(getByTestId('nextButton'))
-    expect(addNewFiatAccount).toHaveBeenCalledWith(
-      providerURL,
-      FiatAccountSchema.AccountNumber,
-      expectedBody
-    )
 
-    // TODO: should also expect to navigate to next screen
+    // TODO: should be called
+    expect(addNewFiatAccount).not.toHaveBeenCalled()
+
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+      flow: CICOFlow.CashIn,
+      normalizedQuote: quote,
+      fiatAccount: expectedBody,
+    })
   })
 })
