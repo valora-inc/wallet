@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,11 +13,11 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rings" translatesAutoresizingMaskIntoConstraints="NO" id="LPF-fj-afL">
-                    <rect key="frame" x="215" y="135" width="50" height="50"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logogram" translatesAutoresizingMaskIntoConstraints="NO" id="LPF-fj-afL">
+                    <rect key="frame" x="128.66666666666666" y="40" width="222.99999999999997" height="240"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.25882352941176467" green="0.83921568627450982" blue="0.53725490196078429" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.1647058874" green="0.65098041299999998" blue="0.63137257099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
                 <constraint firstItem="LPF-fj-afL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" id="2h6-D6-NhQ"/>
                 <constraint firstItem="LPF-fj-afL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="bjQ-lY-KrZ"/>
@@ -28,6 +28,6 @@
         </view>
     </objects>
     <resources>
-        <image name="rings" width="50" height="50"/>
+        <image name="Logogram" width="223" height="240"/>
     </resources>
 </document>

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Logo, { LogoTypes } from 'src/icons/Logo'
-import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -20,7 +19,6 @@ function OnboardingSuccessScreen() {
 
   return (
     <View style={styles.container}>
-      <Image source={background} style={styles.backgroundImage} />
       <Logo type={LogoTypes.LIGHT} height={70} />
       <Text style={styles.text}>{t('success.message')}</Text>
     </View>
@@ -31,15 +29,11 @@ OnboardingSuccessScreen.navigationOptions = nuxNavigationOptionsNoBackButton
 
 const styles = StyleSheet.create({
   container: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: Colors.greenBrand,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    resizeMode: 'stretch',
-    width: undefined,
-    height: undefined,
   },
   text: {
     ...fontStyles.h2,

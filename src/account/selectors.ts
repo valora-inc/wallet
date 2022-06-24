@@ -17,6 +17,7 @@ const inferCountryCode = () => {
   return null
 }
 
+export const currentInterestsSelector = (state: RootState) => state.account.currentInterests
 export const devModeSelector = (state: RootState) => state.account.devModeActive
 export const nameSelector = (state: RootState) => state.account.name
 export const e164NumberSelector = (state: RootState) => state.account.e164PhoneNumber

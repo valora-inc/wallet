@@ -27,9 +27,9 @@ import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
+import { startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateInterests } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -98,7 +98,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (!canUsePhoneNumber()) {
       return
     }
-    dispatch(setHasSeenVerificationNux(true))
     dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
   }
 
@@ -107,16 +106,14 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
-    dispatch(setHasSeenVerificationNux(true))
-    navigateHome()
+    navigateInterests()
   }
 
   const onPressContinue = () => {
-    dispatch(setHasSeenVerificationNux(true))
     if (partOfOnboarding) {
       navigate(Screens.OnboardingSuccessScreen)
     } else {
-      navigateHome()
+      navigateInterests()
     }
   }
 
@@ -125,8 +122,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       return
     }
 
-    dispatch(setHasSeenVerificationNux(true))
-    navigateHome()
+    navigateInterests()
   }
 
   const onPressLearnMore = () => {

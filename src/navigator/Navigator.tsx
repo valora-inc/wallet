@@ -11,6 +11,7 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
 import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
+import NuxInterestsScreen from 'src/account/NuxInterests'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
@@ -227,6 +228,11 @@ const verificationScreens = (Navigator: typeof Stack) => {
         name={Screens.VerificationInputScreen}
         component={VerificationInputScreen}
         options={VerificationInputScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.NuxInterests}
+        component={NuxInterestsScreen}
+        options={NuxInterestsScreen.navigationOptions}
       />
     </>
   )

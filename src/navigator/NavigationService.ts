@@ -208,6 +208,18 @@ export function navigateHome(options?: NavigateHomeOptions) {
   })
 }
 
+interface NavigateInterestOptions {
+  params: StackParamList[Screens.NuxInterests]
+}
+
+export function navigateInterests(options?: NavigateInterestOptions) {
+  const { params } = options ?? {}
+  navigationRef.current?.reset({
+    index: 0,
+    routes: [{ name: Screens.NuxInterests, params }],
+  })
+}
+
 export function navigateToError(errorMessage: string, error?: Error) {
   Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })

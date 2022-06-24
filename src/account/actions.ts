@@ -2,6 +2,7 @@ import {
   DailyLimitRequestStatus,
   FinclusiveKycStatus,
   KycStatus,
+  NuxInterestChoice,
   PincodeType,
 } from 'src/account/reducer'
 
@@ -24,6 +25,8 @@ export enum Actions {
   INITIALIZE_ACCOUNT_FAILURE = 'ACCOUNT/INITIALIZE_ACCOUNT_FAILURE',
   SET_BACKUP_COMPLETED = 'ACCOUNT/SET_BACKUP_COMPLETED',
   SET_BACKUP_DELAYED = 'ACCOUNT/SET_BACKUP_DELAYED',
+  ADD_USER_INTEREST = 'ACCOUNT/ADD_USER_INTEREST',
+  REMOVE_USER_INTEREST = 'ACCOUNT/REMOVE_USER_INTEREST',
   TOGGLE_BACKUP_STATE = 'ACCOUNT/TOGGLE_BACKUP_STATE',
   DISMISS_GET_VERIFIED = 'ACCOUNT/DISMISS_GET_VERIFIED',
   DISMISS_GOLD_EDUCATION = 'ACCOUNT/DISMISS_GOLD_EDUCATION',
@@ -127,6 +130,16 @@ export interface SetBackupDelayedAction {
   now: number
 }
 
+export interface AddUserInterestAction {
+  type: Actions.ADD_USER_INTEREST
+  interest: NuxInterestChoice
+}
+
+export interface RemoveUserInterestAction {
+  type: Actions.REMOVE_USER_INTEREST
+  interest: NuxInterestChoice
+}
+
 export interface ToggleBackupState {
   type: Actions.TOGGLE_BACKUP_STATE
 }
@@ -227,6 +240,8 @@ export type ActionTypes =
   | SetAccountCreationAction
   | SetBackupCompletedAction
   | SetBackupDelayedAction
+  | AddUserInterestAction
+  | RemoveUserInterestAction
   | ToggleBackupState
   | DismissGetVerifiedAction
   | DismissGoldEducationAction
@@ -348,6 +363,16 @@ export const setBackupCompleted = (): SetBackupCompletedAction => ({
 export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
   type: Actions.SET_BACKUP_DELAYED,
   now,
+})
+
+export const addUserInterest = (interest: NuxInterestChoice): AddUserInterestAction => ({
+  type: Actions.ADD_USER_INTEREST,
+  interest,
+})
+
+export const removeUserInterest = (interest: NuxInterestChoice): RemoveUserInterestAction => ({
+  type: Actions.REMOVE_USER_INTEREST,
+  interest,
 })
 
 export const toggleBackupState = (): ToggleBackupState => ({

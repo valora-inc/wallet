@@ -1,4 +1,5 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
+import { union, without } from 'lodash'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
@@ -21,6 +22,7 @@ export interface State {
   backupCompleted: boolean
   accountCreationTime: number
   backupRequiredTime: number | null
+  currentInterests: NuxInterestChoice[]
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
   promptFornoIfNeeded: boolean
@@ -79,6 +81,13 @@ export enum FinclusiveKycStatus {
   InReview = 4,
 }
 
+export enum NuxInterestChoice {
+  Kolektivo = 'Kolektivo',
+  Investment = 'Investment',
+  BuyAndSell = 'Buy & Sell',
+  Community = 'Community',
+}
+
 export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
@@ -95,6 +104,7 @@ export const initialState: State = {
   accountCreationTime: 99999999999999,
   backupRequiredTime: null,
   backupCompleted: false,
+  currentInterests: [],
   dismissedGetVerified: false,
   dismissedGoldEducation: false,
   promptFornoIfNeeded: false,
@@ -228,6 +238,16 @@ export const reducer = (
         ...state,
         backupCompleted: !state.backupCompleted,
         backupRequiredTime: null,
+      }
+    case Actions.ADD_USER_INTEREST:
+      return {
+        ...state,
+        currentInterests: union(state.currentInterests, [action.interest]) as NuxInterestChoice[],
+      }
+    case Actions.REMOVE_USER_INTEREST:
+      return {
+        ...state,
+        currentInterests: without(state.currentInterests, action.interest) as NuxInterestChoice[],
       }
     case Actions.DISMISS_GET_VERIFIED:
       return {

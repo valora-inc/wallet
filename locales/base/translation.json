@@ -1304,5 +1304,18 @@
   },
   "transactionHistory": "Transaction History",
   "vendors": "Vendors",
-  "payVendor": "Pay Now"
+  "payVendor": "Pay Now",
+  "NuxInterests": {
+    "title": "Your Interests",
+    "header": "What would you like to see?",
+    "body": "Kolektivo is a community-first organization. This means that to best serve you, we want to know what you're interested in.",
+    "continue": "Continue",
+    "learnMore": "What is this used for?",
+    "skipForNow": "Skip for now"
+  },
+  "InterestsLearnMoreDialog": {
+    "title": "My Interests and {{appName}}",
+    "body": "This helps Kolektivo better understand your needs and how you use the wallet.\n\n<0>Can I do this later?</0>\n\nYes, but we recommend this step to help you get the most out of your wallet experience.\n\n<1>Anonymous</1>\n\n{{appName}} does not store this information alongside any uniquely identifying data.",
+    "dismiss": "Dismiss"
+  }
 }
