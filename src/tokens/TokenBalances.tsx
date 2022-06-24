@@ -124,7 +124,7 @@ function TokenBalancesScreen({ navigation }: Props) {
       {shouldVisualizeNFTsInHomeAssetsPage && (
         <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
           <View style={[styles.bannerContainer]}>
-            <View style={styles.leftInnerContainer}>
+            <View>
               <Text style={styles.bannerText}>{t('nftViewer')}</Text>
             </View>
             <View style={styles.rightInnerContainer}>
@@ -209,6 +209,8 @@ const styles = StyleSheet.create({
   bannerContainer: {
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Thick24,
+    justifyContent: 'space-between',
     height: 40,
     width: '100%',
     alignItems: 'center',
@@ -219,16 +221,8 @@ const styles = StyleSheet.create({
     ...fontStyles.displayName,
     color: Colors.light,
   },
-  leftInnerContainer: {
-    marginLeft: Spacing.Thick24,
-    alignItems: 'flex-start',
-    flex: 5,
-  },
   rightInnerContainer: {
-    marginRight: Spacing.Thick24,
-    alignItems: 'flex-end',
     flexDirection: 'row',
-    flex: 1,
   },
 })
 
