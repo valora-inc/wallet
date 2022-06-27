@@ -48,8 +48,11 @@ function TokenBalancesScreen({ navigation }: Props) {
       <View style={styles.header}>
         <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
         <Text style={styles.subtext}>
-          {localCurrencySymbol}
-          {totalBalance?.toFormat(2)} {t('total')}
+          {totalBalance &&
+            t('totalBalanceWithLocalCurrencySymbol', {
+              localCurrencySymbol,
+              totalBalance: totalBalance.toFormat(2),
+            })}
         </Text>
       </View>
     )

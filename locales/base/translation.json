@@ -1119,6 +1119,7 @@
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Assets",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
   "open": "Open",
