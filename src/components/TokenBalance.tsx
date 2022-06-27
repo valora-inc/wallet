@@ -37,6 +37,11 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokenPriceFresh = useSelector(tokensWithFreshPricesSelector)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTokenBalances())
+  }, [])
 
   if (
     tokenFetchError ||
@@ -86,10 +91,6 @@ function useErrorMessageWithRefresh() {
   const dispatch = useDispatch()
 
   const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
-
-  useEffect(() => {
-    dispatch(fetchTokenBalances())
-  }, [dispatch])
 
   useEffect(() => {
     if (shouldShowError) {
