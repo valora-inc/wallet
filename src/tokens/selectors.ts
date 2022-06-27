@@ -29,7 +29,8 @@ export const tokensByAddressSelector = createSelector(
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
+        usdPrice: usdPrice,
+        stalePrice: tokenUsdPriceIsStale,
       }
     }
     return tokenBalances
@@ -47,6 +48,14 @@ type TokenBalanceWithUsdPrice = TokenBalance & {
 export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  ) as TokenBalanceWithUsdPrice[]
+})
+
+export const tokensWithFreshPricesSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter(
+    (tokenInfo) =>
+      !tokenInfo.stalePrice &&
+      tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   ) as TokenBalanceWithUsdPrice[]
 })
 

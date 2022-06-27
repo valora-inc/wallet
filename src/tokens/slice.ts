@@ -33,6 +33,7 @@ export interface TokenBalance extends BaseToken {
   balance: BigNumber
   usdPrice: BigNumber | null
   historicalUsdPrices?: HistoricalUsdPrices
+  stalePrice?: boolean
 }
 
 export interface StoredTokenBalances {
