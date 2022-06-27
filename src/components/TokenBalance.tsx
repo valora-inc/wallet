@@ -28,6 +28,7 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
+import { fetchTokenBalances } from 'src/tokens/slice'
 
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
@@ -80,6 +81,10 @@ function useErrorMessageWithRefresh() {
   const dispatch = useDispatch()
 
   const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
+
+  useEffect(() => {
+    dispatch(fetchTokenBalances())
+  }, [dispatch])
 
   useEffect(() => {
     if (shouldShowError) {
