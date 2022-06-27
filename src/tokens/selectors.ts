@@ -7,7 +7,7 @@ import {
 } from 'src/config'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
@@ -107,8 +107,9 @@ export const totalTokenBalanceSelector = createSelector(
     tokensWithUsdValueSelector,
     localCurrencyExchangeRatesSelector,
     tokenFetchErrorSelector,
+    tokenFetchLoadingSelector,
   ],
-  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError) => {
+  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError, tokenFetchLoading) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
@@ -122,7 +123,7 @@ export const totalTokenBalanceSelector = createSelector(
       totalBalance = totalBalance.plus(tokenAmount)
     }
 
-    if (totalBalance.isZero() && tokenFetchError) {
+    if (tokenFetchError || tokenFetchLoading) {
       return null
     }
 

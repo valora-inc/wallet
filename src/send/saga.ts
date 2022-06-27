@@ -27,7 +27,6 @@ import {
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { transferStableToken } from 'src/stableToken/actions'
-import { TokenBalance } from 'src/tokens/reducer'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -38,6 +37,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
