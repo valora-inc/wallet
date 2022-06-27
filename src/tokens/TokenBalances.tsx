@@ -9,6 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -26,10 +27,9 @@ import {
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
-import Touchable from 'src/components/Touchable'
-import networkConfig from 'src/web3/networkConfig'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {
@@ -124,9 +124,7 @@ function TokenBalancesScreen({ navigation }: Props) {
       {shouldVisualizeNFTsInHomeAssetsPage && (
         <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
           <View style={[styles.bannerContainer]}>
-            <View>
-              <Text style={styles.bannerText}>{t('nftViewer')}</Text>
-            </View>
+            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
             <View style={styles.rightInnerContainer}>
               <Text style={styles.bannerText}>{t('open')}</Text>
               <OpenLinkIcon />
