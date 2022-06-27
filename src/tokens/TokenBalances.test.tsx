@@ -112,13 +112,11 @@ describe('TokenBalancesScreen', () => {
     )
     expect(tree.queryByTestId('NftViewerBanner')).toBeTruthy()
 
-    if (tree.queryByTestId('NftViewerBanner') != null) {
-      fireEvent.press(tree.queryByTestId('NftViewerBanner')!!)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.view_nft_home_assets)
-      expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
-      })
-    }
+    fireEvent.press(tree.getByTestId('NftViewerBanner'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.view_nft_home_assets)
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
+    })
   })
 
   it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is false', () => {
