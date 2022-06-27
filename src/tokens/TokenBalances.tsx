@@ -14,6 +14,7 @@ import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
 import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -117,7 +118,7 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   const onPressNFTsBanner = () => {
     ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
-    navigation.navigate(Screens.WebViewScreen, {
+    navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
     })
   }
