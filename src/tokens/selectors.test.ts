@@ -23,6 +23,7 @@ const state: any = {
         usdPrice: '1',
         symbol: 'cUSD',
         priceFetchedAt: mockDate,
+        stalePrice: false,
       },
       ['0xeur']: {
         address: '0xeur',
@@ -30,30 +31,35 @@ const state: any = {
         usdPrice: '0.5',
         symbol: 'cEUR',
         priceFetchedAt: mockDate,
+        stalePrice: false,
       },
       ['0x1']: {
         address: '0x1',
         balance: '10',
         usdPrice: '10',
         priceFetchedAt: mockDate,
+        stalePrice: false,
       },
       ['0x3']: {
         address: '0x2',
         usdPrice: '100',
         balance: null,
         priceFetchedAt: mockDate,
+        stalePrice: false,
       },
       ['0x4']: {
         address: '0x4',
         symbol: 'TT',
         balance: '50',
         priceFetchedAt: mockDate,
+        stalePrice: false,
       },
       ['0x5']: {
         address: '0x5',
         balance: '50',
         usdPrice: '500',
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        stalePrice: true,
       },
     },
   },
@@ -98,15 +104,24 @@ describe('tokensByUsdBalanceSelector', () => {
     expect(tokens).toMatchInlineSnapshot(`
       Array [
         Object {
+          "address": "0x5",
+          "balance": "50",
+          "priceFetchedAt": 1588027717518,
+          "stalePrice": true,
+          "usdPrice": "500",
+        },
+        Object {
           "address": "0x1",
           "balance": "10",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "usdPrice": "10",
         },
         Object {
           "address": "0xeur",
           "balance": "50",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "symbol": "cEUR",
           "usdPrice": "0.5",
         },
@@ -114,6 +129,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0xusd",
           "balance": "0",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "symbol": "cUSD",
           "usdPrice": "1",
         },
@@ -121,13 +137,8 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x4",
           "balance": "50",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "symbol": "TT",
-          "usdPrice": null,
-        },
-        Object {
-          "address": "0x5",
-          "balance": "50",
-          "priceFetchedAt": 1588027717518,
           "usdPrice": null,
         },
       ]
@@ -141,15 +152,24 @@ describe('tokensWithUsdValueSelector', () => {
     expect(tokens).toMatchInlineSnapshot(`
       Array [
         Object {
+          "address": "0x5",
+          "balance": "50",
+          "priceFetchedAt": 1588027717518,
+          "stalePrice": true,
+          "usdPrice": "500",
+        },
+        Object {
           "address": "0x1",
           "balance": "10",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "usdPrice": "10",
         },
         Object {
           "address": "0xeur",
           "balance": "50",
           "priceFetchedAt": 1588200517518,
+          "stalePrice": false,
           "symbol": "cEUR",
           "usdPrice": "0.5",
         },

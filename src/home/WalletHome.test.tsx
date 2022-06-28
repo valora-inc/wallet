@@ -143,6 +143,10 @@ describe('WalletHome', () => {
           "type": "supercharge/fetchAvailableRewards",
         },
         Object {
+          "payload": undefined,
+          "type": "tokens/fetchTokenBalances",
+        },
+        Object {
           "type": "ALERT/HIDE",
         },
         Object {

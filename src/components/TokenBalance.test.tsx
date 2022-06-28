@@ -155,6 +155,10 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
         Object {
+          "payload": undefined,
+          "type": "tokens/fetchTokenBalances",
+        },
+        Object {
           "action": Object {
             "type": "HOME/REFRESH_BALANCES",
           },
@@ -193,6 +197,10 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
+        Object {
+          "payload": undefined,
+          "type": "tokens/fetchTokenBalances",
+        },
         Object {
           "action": Object {
             "type": "HOME/REFRESH_BALANCES",
