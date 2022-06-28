@@ -19,6 +19,7 @@ import Touchable from 'src/components/Touchable'
 import { fetchFiatConnectQuotes } from 'src/fiatconnect'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { UniquePaymentSection } from 'src/fiatExchanges/UniquePaymentSection'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -121,6 +122,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
+  const findQuoteIndex = (method: PaymentMethod) =>
+    normalizedQuotes.findIndex((quote) => quote.getPaymentMethod() === method)
+
+  const coinbaseQuoteIndex = findQuoteIndex(PaymentMethod.Coinbase)
+  const coinbaseQuote = normalizedQuotes[coinbaseQuoteIndex]
+
+  if (coinbaseQuoteIndex !== -1) {
+    normalizedQuotes.splice(coinbaseQuoteIndex, 1)
+  }
+
   return (
     <ScrollView>
       <PaymentMethodSection
@@ -138,6 +149,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       <LegacyMobileMoneySection
         providers={asyncProviders.result?.legacyMobileMoneyProviders || []}
         digitalAsset={digitalAsset}
+        flow={flow}
+      />
+      <UniquePaymentSection
+        normalizedQuote={coinbaseQuote}
+        paymentMethod={PaymentMethod.Coinbase}
+        setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
       />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
