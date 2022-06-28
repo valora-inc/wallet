@@ -3241,23 +3241,23 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.3.1.tgz#154a0442bcc3c561be8979b050e1d7a628c647e4"
-  integrity sha512-dijRaaRbjgj5mDo79x+Kk4BqTwRsfZrGnXOOY3DTU1a/q5aPtXRYO+6VBYqqcnuKHgKRQLUjXJHkElWeG0/Bjg==
+"@fiatconnect/fiatconnect-sdk@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.3.2.tgz#2efd550f8ee7bc1dfb1c609cfb42c6b572f90de2"
+  integrity sha512-MbAE0eFhjOwEh5gAgsPC35G/sQOtbEDRw/F36ELIAsRPuI5f62ePORJQonMTY2v803BgbmxnUV1a4uYYcCG9+w==
   dependencies:
     "@badrap/result" "^0.2.12"
-    "@fiatconnect/fiatconnect-types" "^5.0.0"
+    "@fiatconnect/fiatconnect-types" "^6.0.0"
     ethers "^5.6.4"
     fetch-cookie "^2.0.3"
     node-fetch "^2.6.6"
     siwe "^1.1.6"
     tslib "^2.4.0"
 
-"@fiatconnect/fiatconnect-types@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-5.0.0.tgz#29a1d8bf9cfd0f94bd34cad7581bf057a48289bd"
-  integrity sha512-fKNEJJQz1RuQqS/obFFFASy9pavuT6uQaVHIRxyIhM9DTwk8dsJvSzmwjhEhwLq6TTbriCEqmSkVG7ESWVDAVQ==
+"@fiatconnect/fiatconnect-types@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-6.0.0.tgz#ce458140a5af589248460c5270e29aeddc27cf28"
+  integrity sha512-rBYe2Mbjyw6WlP6GY2BzY7jac/aP4VxccDJzbCFkx17aYqj724Bj2yLhBeF9znL44sQoAuYLJeyT0f80xGQR2w==
 
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
