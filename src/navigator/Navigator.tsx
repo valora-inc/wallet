@@ -161,15 +161,6 @@ const commonScreens = (Navigator: typeof Stack) => {
           gestureEnabled: false,
         }}
       />
-      <Navigator.Screen
-        name={Screens.WalletConnectRequest}
-        component={WalletConnectRequest}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
-      />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
         name={Screens.PhoneNumberLookupQuota}
@@ -681,6 +672,15 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
       name={Screens.SendConfirmationLegacyModal}
       component={SendConfirmationLegacy}
       options={sendConfirmationLegacyScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.WalletConnectRequest}
+      component={WalletConnectRequest}
+      options={{
+        ...modalScreenOptions(),
+        ...noHeader,
+        gestureEnabled: false,
+      }}
     />
   </>
 )

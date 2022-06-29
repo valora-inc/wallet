@@ -117,7 +117,6 @@ describe('Account', () => {
     fireEvent.press(tree.getByTestId('ChangePIN'))
     await flushMicrotasksQueue()
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
-      isVerifying: false,
       changePin: true,
     })
   })

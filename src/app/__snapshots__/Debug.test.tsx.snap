@@ -109,39 +109,6 @@ exports[`Debug renders correctly 1`] = `
     style={
       Array [
         Object {
-          "flex": 1,
-        },
-        Object {
-          "flex": 1,
-          "marginTop": 8,
-        },
-      ]
-    }
-  >
-    <Text>
-      Geth Logs
-    </Text>
-    <RCTScrollView
-      onContentSizeChange={[Function]}
-    >
-      <View>
-        <Text
-          onPress={[Function]}
-          style={
-            Object {
-              "fontSize": 10,
-            }
-          }
-        >
-          
-        </Text>
-      </View>
-    </RCTScrollView>
-  </View>
-  <View
-    style={
-      Array [
-        Object {
           "flexDirection": "row",
         },
         Object {

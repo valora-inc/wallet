@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { activeDappSelector } from 'src/app/selectors'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
+import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
+import { DappConnectInfo } from 'src/dapps/types'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -21,13 +22,15 @@ const TAG = 'dappkit/DappKitAccountScreen'
 type Props = StackScreenProps<StackParamList, Screens.DappKitAccountScreen>
 
 const DappKitAccountScreen = ({ route }: Props) => {
+  const { dappKitRequest } = route.params
+
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
+  const dappConnectInfo = useSelector(dappConnectInfoSelector)
+
   const dispatch = useDispatch()
   const { t } = useTranslation()
-
-  const { dappKitRequest } = route.params
 
   const handleAllow = () => {
     if (!dappKitRequest) {
@@ -54,8 +57,13 @@ const DappKitAccountScreen = ({ route }: Props) => {
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
-        dappImageUrl={activeDapp?.iconUrl}
-        title={t('connectToWallet', { dappName: dappKitRequest.dappName })}
+        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        dappName={dappKitRequest.dappName}
+        title={
+          dappConnectInfo === DappConnectInfo.Basic
+            ? t('connectToWallet', { dappName: dappKitRequest.dappName })
+            : t('confirmTransaction', { dappName: dappKitRequest.dappName })
+        }
         description={t('shareInfo')}
         requestDetails={[
           {
@@ -68,6 +76,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
             tapToCopy: true,
           },
         ]}
+        dappUrl={dappKitRequest.callback}
         testId="DappKitSessionRequest"
       />
     </View>

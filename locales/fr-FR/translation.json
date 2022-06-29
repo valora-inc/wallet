@@ -206,14 +206,15 @@
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
   "connectNumber": "Connecter le numéro",
-  "connectToWallet": "{{dappName}} souhaite confirmer une transaction",
+  "connectToWallet": "{{dappName}} demande à se connecter à {{appName}}",
+  "confirmTransaction": "{{dappName}} demande à confirmer une transaction",
   "allow": "Autoriser",
   "address": "Adresse du compte",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
     "data": "Données",
-    "signTX": "Signer TX",
+    "signTX": "Signer la transaction",
     "details": "Afficher les détails"
   },
   "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
@@ -962,12 +963,12 @@
   "loadingFromDeeplink": "Connexion",
   "action": {
     "asking": "Cette appli demande à effectuer l'action suivante",
-    "askingV1_35": "{{dappName}} demande d'effectuer ce qui suit :",
+    "askingV1_35": "{{dappName}} demande d'effectuer cette action :",
     "operation": "Transaction",
     "data": "Données",
     "sign": "Signer une charge utile de données",
-    "signTransaction": "Signer un Celo TX",
-    "sendTransaction": "Envoyer un Celo TX",
+    "signTransaction": "Signe une transaction Celo",
+    "sendTransaction": "Envoyer une transaction Celo",
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
     "details": "Afficher les données de la transaction",
@@ -1123,6 +1124,8 @@
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
     "dismiss": "Ignorer"
   },
+  "supportExportLogsStart": "Exportation en cours...",
+  "supportExportLogsFailed": "Échec de l'exportation des journaux : {{error}}",
   "supportEmailSubject": "Assistance {{appName}} pour {{user}}",
   "personaAccountEndpointFail": "La vérification d'identité n'est pas disponible actuellement. Veuillez réessayer plus tard",
   "plaidCreateLinkTokenFail": "Impossible de relier le compte bancaire. Réessayez plus tard",
@@ -1307,6 +1310,7 @@
   "webView": {
     "openExternal": "Ouvrir dans un navigateur externe"
   },
+  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Utilise-les à tes propres risques.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

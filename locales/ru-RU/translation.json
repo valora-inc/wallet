@@ -206,14 +206,15 @@
   "startSuperchargingNotificationStart": "Начать",
   "cashIn": "Внести {{currency}}",
   "connectNumber": "Подключить номер",
-  "connectToWallet": "{{dappName}} хотел бы подтвердить транзакцию",
+  "connectToWallet": "{{dappName}} запрашивает подключение к {{appName}}",
+  "confirmTransaction": "{{dappName}} запрашивает подтвердить транзакцию",
   "allow": "Разрешить",
   "address": "Адрес аккаунта",
   "phoneNumber": "Номер телефона",
   "transaction": {
     "operation": "Операция",
     "data": "Данные",
-    "signTX": "Подписать TX",
+    "signTX": "Транзакция подписи",
     "details": "Подробнее"
   },
   "shareInfo": "Это приложение сможет получить доступ к следующей информации:",
@@ -970,8 +971,8 @@
     "operation": "Операция",
     "data": "Данные",
     "sign": "Подписать загрузку данных",
-    "signTransaction": "Подписать передачу Celo",
-    "sendTransaction": "Выполнить передачу Celo",
+    "signTransaction": "Заключите сделку с Celo",
+    "sendTransaction": "Отправить транзакцию Celo",
     "decrypt": "Расшифровка загруженных данных",
     "accounts": "Прочитать адрес аккаунта {{appName}}",
     "details": "Просмотр данных о транзакциях",
@@ -1127,6 +1128,8 @@
     "body": "Ваш общий баланс представляет собой приблизительную сумму всех ваших активов Valora. Общий баланс будет меняться по мере колебания цен. Он обновляется каждые 10 минут.\nНекоторые активов, возможно, не будут отображаться в общем балансе из-за отсутствия цены на момент расчета.",
     "dismiss": "Закрыть"
   },
+  "supportExportLogsStart": "Экспорт журналы...",
+  "supportExportLogsFailed": "Не удалось экспортировать журналы: {{error}}",
   "supportEmailSubject": "Поддержка {{appName}} для {{user}}",
   "personaAccountEndpointFail": "Проверка личности в настоящее время недоступна. Повторите попытку позже",
   "plaidCreateLinkTokenFail": "Не удалось привязать банковский счет. Повторите попытку позже",
@@ -1311,6 +1314,7 @@
   "webView": {
     "openExternal": "Открыть во внешнем браузере"
   },
+  "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps - это сторонние приложения. Используй их на свой страх и риск.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
