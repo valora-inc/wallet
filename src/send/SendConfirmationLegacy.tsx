@@ -48,9 +48,7 @@ import {
   getLocalCurrencyCode,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
-import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
-import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
@@ -88,14 +86,6 @@ type OwnProps = StackScreenProps<
   Screens.SendConfirmationLegacy | Screens.SendConfirmationLegacyModal
 >
 type Props = OwnProps
-
-export const sendConfirmationLegacyScreenNavOptions = (navOptions: Props) =>
-  navOptions.route.name === Screens.SendConfirmationLegacyModal
-    ? {
-        ...noHeader,
-        ...modalScreenOptions(),
-      }
-    : noHeader
 
 function SendConfirmationLegacy(props: Props) {
   const [modalVisible, setModalVisible] = useState(false)

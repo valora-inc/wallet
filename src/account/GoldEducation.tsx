@@ -1,4 +1,3 @@
-import { TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
@@ -8,7 +7,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import { setEducationCompleted } from 'src/goldToken/actions'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
-import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
@@ -47,11 +45,6 @@ export default function GoldEducation() {
       buttonText={t('next')}
     />
   )
-}
-
-GoldEducation.navigationOptions = {
-  ...noHeader,
-  ...TransitionPresets.ModalTransition,
 }
 
 function useStep() {

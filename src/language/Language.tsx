@@ -1,4 +1,4 @@
-import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
+import { StackScreenProps } from '@react-navigation/stack'
 import { localesList } from 'locales'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -75,13 +75,8 @@ function LanguageScreen({ route }: Props) {
   )
 }
 
-LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: ScreenProps) => {
-  return navigation.canGoBack()
-    ? {
-        ...headerWithBackButton,
-        ...(withAnimation ? TransitionPresets.ModalTransition : {}),
-      }
-    : emptyHeader
+LanguageScreen.navigationOptions = ({ navigation }: ScreenProps) => {
+  return navigation.canGoBack() ? headerWithBackButton : emptyHeader
 }
 
 const styles = StyleSheet.create({

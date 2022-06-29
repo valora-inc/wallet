@@ -4,6 +4,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
@@ -97,10 +98,8 @@ import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
-import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
-import SendConfirmationLegacy, {
-  sendConfirmationLegacyScreenNavOptions,
-} from 'src/send/SendConfirmationLegacy'
+import SendConfirmation from 'src/send/SendConfirmation'
+import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -108,6 +107,7 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
+import { Spacing } from 'src/styles/styles'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -239,12 +239,12 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
-      options={sendConfirmationScreenNavOptions}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacy}
       component={SendConfirmationLegacy}
-      options={sendConfirmationLegacyScreenNavOptions}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
@@ -417,7 +417,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
-      options={Language.navigationOptions(false)}
+      options={Language.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
@@ -607,65 +607,81 @@ export function MainStackScreen() {
       {consumerIncentivesScreens(Stack)}
       {settingsScreens(Stack)}
       {generalScreens(Stack)}
-      {modalAnimatedScreens(Stack)}
     </Stack.Navigator>
   )
 }
 
-const mainScreenNavOptions = () => ({
-  ...modalScreenOptions(),
-  headerShown: false,
-})
+const SafeAreaBackButton = () => {
+  return (
+    <SafeAreaView
+      style={{ alignItems: 'flex-start', paddingVertical: Spacing.Small12 }}
+      edges={['right', 'left', 'top']}
+    >
+      <BackButton />
+    </SafeAreaView>
+  )
+}
 
-const modalAnimatedScreens = (Navigator: typeof Stack) => (
-  <>
-    <Navigator.Screen
-      name={Screens.PincodeEnter}
-      component={PincodeEnter}
-      options={{ ...mainScreenNavOptions(), ...PincodeEnter.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.QRNavigator}
-      component={QRNavigator}
-      options={{ ...mainScreenNavOptions(), ...QRNavigator.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.RegulatoryTerms}
-      component={RegulatoryTerms}
-      options={{ ...mainScreenNavOptions(), ...RegulatoryTerms.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.GoldEducation}
-      component={GoldEducation}
-      options={{ ...mainScreenNavOptions(), ...GoldEducation.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.AccountKeyEducation}
-      component={AccountKeyEducation}
-      options={{ ...mainScreenNavOptions(), ...AccountKeyEducation.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.LanguageModal}
-      component={Language}
-      options={{ ...mainScreenNavOptions(), ...Language.navigationOptions(true) }}
-    />
-    <Navigator.Screen
-      name={Screens.SelectCountry}
-      component={SelectCountry}
-      options={{ ...mainScreenNavOptions(), ...SelectCountry.navigationOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationModal}
-      component={SendConfirmation}
-      options={{ ...mainScreenNavOptions(), ...sendConfirmationScreenNavOptions }}
-    />
-    <Navigator.Screen
-      name={Screens.SendConfirmationLegacyModal}
-      component={SendConfirmationLegacy}
-      options={{ ...mainScreenNavOptions(), ...sendConfirmationLegacyScreenNavOptions }}
-    />
-  </>
-)
+const modalAnimatedScreens = (Navigator: typeof RootStack) => {
+  return (
+    <>
+      <Navigator.Screen
+        name={Screens.PincodeEnter}
+        component={PincodeEnter}
+        options={{ snapPoints: ['90%'] }}
+      />
+      <Navigator.Screen
+        name={Screens.QRNavigator}
+        // TODO check why share does not work
+        component={QRNavigator}
+        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+      />
+      <Navigator.Screen
+        name={Screens.RegulatoryTerms}
+        component={RegulatoryTerms}
+        options={{
+          snapPoints: ['100%'],
+          handleComponent: SafeAreaBackButton,
+          enablePanDownToClose: false,
+        }}
+      />
+      <Navigator.Screen
+        name={Screens.GoldEducation}
+        component={GoldEducation}
+        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+      />
+      <Navigator.Screen
+        name={Screens.AccountKeyEducation}
+        component={AccountKeyEducation}
+        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+      />
+      <Navigator.Screen
+        name={Screens.LanguageModal}
+        component={Language}
+        options={{
+          snapPoints: ['100%'],
+          handleComponent: SafeAreaBackButton,
+          enablePanDownToClose: false,
+        }}
+      />
+      <Navigator.Screen
+        name={Screens.SelectCountry}
+        component={SelectCountry}
+        options={{ snapPoints: ['95%'] }}
+      />
+      <Navigator.Screen
+        name={Screens.SendConfirmationModal}
+        component={SendConfirmation}
+        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+      />
+      <Navigator.Screen
+        name={Screens.SendConfirmationLegacyModal}
+        component={SendConfirmationLegacy}
+        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+      />
+    </>
+  )
+}
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
@@ -702,6 +718,7 @@ function RootStackScreen() {
       screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
     >
       <RootStack.Screen name={Screens.Main} component={MainStackScreen} />
+      {modalAnimatedScreens(RootStack)}
       {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )

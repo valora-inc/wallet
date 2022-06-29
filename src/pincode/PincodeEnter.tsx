@@ -10,8 +10,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthenticationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { headerWithBackButton } from 'src/navigator/Headers'
-import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { checkPin } from 'src/pincode/authentication'
@@ -84,12 +82,6 @@ export const PincodeEnter = ({ route }: Props) => {
     </SafeAreaView>
   )
 }
-
-PincodeEnter.navigationOptions = () => ({
-  ...modalScreenOptions(),
-  ...headerWithBackButton,
-  gestureEnabled: false,
-})
 
 const styles = StyleSheet.create({
   container: {
