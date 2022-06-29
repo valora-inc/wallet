@@ -36,6 +36,7 @@ SwapScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     paddingHorizontal: variables.contentPadding,
     marginVertical: 16,
   },

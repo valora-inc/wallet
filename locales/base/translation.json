@@ -1233,7 +1233,8 @@
   },
   "swap": {
     "title": "Swap",
-    "select": "Choose"
+    "select": "Choose",
+    "execute": "Swap"
   },
   "services": "Services",
   "selectProviderScreen": {
