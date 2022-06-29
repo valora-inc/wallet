@@ -19,7 +19,18 @@ jest.mock('src/utils/Logger', () => ({
 describe('normalizeQuotes', () => {
   it('sorts and returns both fiatconnect and external quotes', () => {
     const normalizedQuotes = normalizeQuotes(CICOFlow.CashIn, mockFiatConnectQuotes, mockProviders)
-    expect(normalizedQuotes.map((quote) => [quote.getProviderId(), quote.getFee()])).toEqual([
+    expect(
+      normalizedQuotes.map((quote) => [
+        quote.getProviderId(),
+        quote
+          .getFeeInCrypto({
+            cGLD: '1',
+            cUSD: '1',
+            cEUR: '1',
+          })
+          ?.toNumber(),
+      ])
+    ).toEqual([
       ['Simplex', -13],
       ['Ramp', 0],
       ['provider-two', 0.53],
@@ -34,7 +45,9 @@ describe('normalizeFiatConnectQuotes', () => {
     jest.clearAllMocks()
   })
   it('logs quotes with errors and does not normalize them', () => {
-    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes([mockFiatConnectQuotes[0]])
+    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes(CICOFlow.CashIn, [
+      mockFiatConnectQuotes[0],
+    ])
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
       'Error with quote for provider-one. FiatAmountTooHigh'
@@ -43,7 +56,9 @@ describe('normalizeFiatConnectQuotes', () => {
   })
 
   it('logs when normalization fails', () => {
-    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes([mockFiatConnectQuotes[2]])
+    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes(CICOFlow.CashIn, [
+      mockFiatConnectQuotes[2],
+    ])
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
       Error(`Error: provider-three. We don't support KYC for fiatconnect yet`)
@@ -51,7 +66,9 @@ describe('normalizeFiatConnectQuotes', () => {
     expect(normalizedFiatConnectQuotes).toHaveLength(0)
   })
   it('returns normalized quotes', () => {
-    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes([mockFiatConnectQuotes[1]])
+    const normalizedFiatConnectQuotes = normalizeFiatConnectQuotes(CICOFlow.CashIn, [
+      mockFiatConnectQuotes[1],
+    ])
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedFiatConnectQuotes).toHaveLength(1)
   })

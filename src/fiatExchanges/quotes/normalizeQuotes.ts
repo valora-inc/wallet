@@ -1,4 +1,5 @@
 import { FiatAccountType, FiatAccountTypeQuoteData } from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -20,16 +21,22 @@ export function normalizeQuotes(
   externalProviders: FetchProvidersOutput[] = []
 ): NormalizedQuote[] {
   return [
-    ...normalizeFiatConnectQuotes(fiatConnectQuotes),
+    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
     ...normalizeExternalProviders(flow, externalProviders),
   ].sort(quotesByFeeComparator)
 }
 
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
-  const providerFee1 = quote1.getFee() ?? 0
-  const providerFee2 = quote2.getFee() ?? 0
+  // We can use a dummy exchange rate value here since its just a comparator
+  const exchangeRates = {
+    cGLD: '1',
+    cUSD: '1',
+    cEUR: '1',
+  }
+  const providerFee1 = quote1.getFeeInFiat(exchangeRates) ?? new BigNumber(0)
+  const providerFee2 = quote2.getFeeInFiat(exchangeRates) ?? new BigNumber(0)
 
-  return providerFee1 > providerFee2 ? 1 : -1
+  return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
 }
 
 const quoteHasErrors = (
@@ -39,6 +46,7 @@ const quoteHasErrors = (
 }
 
 export function normalizeFiatConnectQuotes(
+  flow: CICOFlow,
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
@@ -54,6 +62,7 @@ export function normalizeFiatConnectQuotes(
             const normalizedQuote = new FiatConnectQuote({
               quote,
               fiatAccountType: key as FiatAccountType,
+              flow,
             })
             normalizedQuotes.push(normalizedQuote)
           } catch (err) {
