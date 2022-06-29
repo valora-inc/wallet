@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
-    ...fontStyles.large,
+    ...fontStyles.notificationHeadline,
   },
   iconContainer: {
     marginLeft: 12,

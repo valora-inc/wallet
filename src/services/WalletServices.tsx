@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    ...fontStyles.regular500,
+    paddingTop: 10,
+    ...fontStyles.regular,
   },
   tile: {
     marginVertical: 30,

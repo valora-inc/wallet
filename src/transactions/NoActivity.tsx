@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     width: 108,
   },
   text: {
-    ...fontStyles.large,
+    ...fontStyles.regular,
     color: colors.gray3,
   },
 })

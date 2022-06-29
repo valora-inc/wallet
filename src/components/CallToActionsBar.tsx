@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   action: {
-    fontSize: 14,
-    lineHeight: 16,
     marginRight: 24,
     minWidth: 48,
     minHeight: 16,
