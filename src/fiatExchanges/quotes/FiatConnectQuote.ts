@@ -4,6 +4,7 @@ import {
   FiatAccountType,
   FiatType,
 } from '@fiatconnect/fiatconnect-types'
+import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
@@ -14,6 +15,11 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { getSigningFunction } from 'src/fiatconnect/index'
+import { getContractKitAsync } from 'src/web3/contracts'
+import { FIATCONNECT_NETWORK } from 'src/config'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -24,6 +30,8 @@ const strings = {
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
   fiatAccountType: FiatAccountType
+  fiatConnectClient?: FiatConnectApiClient
+
   constructor({
     quote,
     fiatAccountType,
@@ -144,5 +152,23 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return fiatAccountSchemas?.find((schema) =>
       SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema)
     ) as FiatAccountSchema
+  }
+
+  async getFiatConnectClient(): Promise<FiatConnectApiClient> {
+    if (this.fiatConnectClient) {
+      return this.fiatConnectClient
+    }
+    const kit = await getContractKitAsync()
+    const wallet = kit.getWallet()! as UnlockableWallet
+    const [account] = wallet.getAccounts()
+    this.fiatConnectClient = new FiatConnectClient(
+      {
+        baseUrl: this.quote.provider.baseUrl,
+        network: FIATCONNECT_NETWORK,
+        accountAddress: account,
+      },
+      getSigningFunction(wallet)
+    )
+    return this.fiatConnectClient
   }
 }

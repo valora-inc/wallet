@@ -12,8 +12,16 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { mockFiatConnectQuotes } from 'test/values'
+import { getContractKitAsync } from 'src/web3/contracts'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/web3/contracts', () => ({
+  getContractKitAsync: jest.fn(() => ({
+    getWallet: jest.fn(() => ({
+      getAccounts: jest.fn(() => ['fake-account']),
+    })),
+  })),
+}))
 
 describe('FiatConnectQuote', () => {
   describe('constructor', () => {
@@ -201,6 +209,25 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getCryptoType()).toEqual(CryptoType.cUSD)
+    })
+  })
+
+  describe('.getFiatConnectClient', () => {
+    it('returns the client if one exists', async () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+
+      expect(quote.fiatConnectClient).toBeUndefined()
+      await quote.getFiatConnectClient()
+      expect(getContractKitAsync).toHaveBeenCalled()
+      expect(quote.fiatConnectClient).not.toBeUndefined()
+
+      jest.clearAllMocks()
+
+      await quote.getFiatConnectClient()
+      expect(getContractKitAsync).not.toHaveBeenCalled()
     })
   })
 })

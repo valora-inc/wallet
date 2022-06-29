@@ -2,6 +2,7 @@ import {
   FiatAccountSchema,
   FiatAccountSchemas,
   FiatAccountType,
+  FiatConnectError,
 } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
@@ -20,6 +21,12 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { showMessage, showError } from 'src/alert/actions'
+import { useDispatch } from 'react-redux'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import Logger from 'src/utils/Logger'
+
+export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
@@ -80,6 +87,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
   const userCountry = useSelector(userLocationDataSelector)
+  const dispatch = useDispatch()
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
 
@@ -140,31 +148,38 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         implicitBody[param.name] = param.value
       })
 
+      const fiatAccountSchema = quote.getFiatAccountSchema()
       const completeBody = {
         ...body,
         ...implicitBody,
       }
 
-      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
-      //   .then((data) => {
-      //     // TODO Tracking here
-      //     dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
-      //   })
-      //   .catch((error) => {
-      //     // TODO Tracking here
-      //     if (error === FiatConnectError.ResourceExists) {
-      //       dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
-      //     } else {
-      //       dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
-      //     }
-      //     Logger.error(TAG, `Error adding fiat account: ${error}`)
-      //   })
-
-      navigate(Screens.FiatConnectReview, {
-        flow,
-        normalizedQuote: quote,
-        fiatAccount: completeBody as FiatAccount,
+      const fiatConnectClient = await quote.getFiatConnectClient()
+      const result = await fiatConnectClient.addFiatAccount({
+        fiatAccountSchema: quote.getFiatAccountSchema(),
+        data: completeBody as FiatAccountSchemas[typeof fiatAccountSchema],
       })
+      if (result.isOk) {
+        // TODO Tracking here
+        dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        navigate(Screens.FiatConnectReview, {
+          flow,
+          normalizedQuote: quote,
+          fiatAccount: completeBody as FiatAccount,
+        })
+      } else {
+        if (result.error.fiatConnectError) {
+          Logger.error(TAG, `Error adding fiat account: ${result.error.fiatConnectError}`)
+        } else {
+          Logger.error(TAG, `Error adding fiat account: ${result.error.message}`)
+        }
+
+        if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
+          dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+        } else {
+          dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
+        }
+      }
     }
   }
 
