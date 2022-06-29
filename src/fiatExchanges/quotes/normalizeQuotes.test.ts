@@ -31,10 +31,10 @@ describe('normalizeQuotes', () => {
           ?.toNumber(),
       ])
     ).toEqual([
-      ['Simplex', -13],
       ['Ramp', 0],
       ['provider-two', 0.53],
       ['Moonpay', 5],
+      ['Simplex', 6],
       ['Moonpay', 10],
     ])
   })

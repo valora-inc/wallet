@@ -73,7 +73,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(-6.5))
+      expect(quote.getFeeInCrypto(mockExchangeRates)).toEqual(new BigNumber(3))
     })
     it('returns converted fee for other', () => {
       const quote = new ExternalQuote({
@@ -92,7 +92,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(-13))
+      expect(quote.getFeeInFiat(mockExchangeRates)).toEqual(new BigNumber(6))
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
