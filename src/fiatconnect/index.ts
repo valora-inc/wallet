@@ -3,7 +3,7 @@ import {
   FiatType,
   PostFiatAccountResponse,
   QuoteErrorResponse,
-  QuoteRequestQuery,
+  QuoteRequestBody,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -134,7 +134,7 @@ export async function getFiatConnectQuotes(
   const fiatType = convertToFiatConnectFiatCurrency(localCurrency)
   if (!fiatType) return []
   const cryptoType = convertToFiatConnectCryptoCurrency(digitalAsset)
-  const quoteParams: QuoteRequestQuery = {
+  const quoteParams: QuoteRequestBody = {
     fiatType,
     cryptoType,
     cryptoAmount: cryptoAmount.toString(),
