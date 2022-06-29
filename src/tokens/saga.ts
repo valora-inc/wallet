@@ -315,7 +315,6 @@ export async function fetchTokenBalancesForAddress(
 
 export function* fetchTokenBalancesSaga() {
   try {
-    yield put(fetchTokenBalances)
     const address: string | null = yield select(walletAddressSelector)
     if (!address) {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
