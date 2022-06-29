@@ -2,8 +2,6 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { cbPay1 } from 'src/images/Images'
-// import { PaymentMethodSectionProps } from 'src/fiatExchanges/PaymentMethodSection'
 import Touchable from 'src/components/Touchable'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -33,19 +31,22 @@ export function UniquePaymentSection({
   return (
     <View style={styles.container}>
       <Touchable>
-        <View style={{ ...styles.expandableContainer, paddingVertical: 27 }}>
+        <View style={{ ...styles.innerContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
             <Text style={styles.category}>
               {paymentMethod === PaymentMethod.Coinbase
                 ? t('selectProviderScreen.coinbase')
-                : t('selectProviderScreen.coinbase')}
+                : t('selectProviderScreen.somePaymentsUnavailable')}
             </Text>
 
             <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
           </View>
 
           <View style={styles.right}>
-            <Image source={cbPay1} resizeMode={'contain'}></Image>
+            <Image
+              source={{ uri: normalizedQuote.getProviderLogo() }}
+              style={styles.providerImage}
+            />
           </View>
         </View>
       </Touchable>
@@ -58,7 +59,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.gray2,
   },
-  expandableContainer: {
+  providerImage: {
+    flex: 1,
+    width: 160,
+    height: 40,
+    resizeMode: 'contain',
+  },
+  innerContainer: {
     paddingHorizontal: 16,
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -71,10 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  // imageContainer: {
-  //   width: 80,
-  //   height: 40,
-  // },
   category: {
     ...fontStyles.small500,
   },
