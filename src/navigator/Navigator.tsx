@@ -632,7 +632,6 @@ const modalAnimatedScreens = (Navigator: typeof RootStack) => {
       />
       <Navigator.Screen
         name={Screens.QRNavigator}
-        // TODO check why share does not work
         component={QRNavigator}
         options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
       />
