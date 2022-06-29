@@ -684,7 +684,7 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
           fiatAccountSchemas: [
             {
               fiatAccountSchema: FiatAccountSchema.AccountNumber,
-              allowedValues: {},
+              allowedValues: { institutionName: ['Bank A', 'Bank B'] },
             },
           ],
           fee: '0.53',
