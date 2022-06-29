@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
