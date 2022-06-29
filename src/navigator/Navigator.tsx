@@ -712,6 +712,10 @@ function RootStackScreen() {
     []
   )
 
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
   return (
     <RootStack.Navigator
       screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
