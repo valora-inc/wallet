@@ -3,6 +3,7 @@ import {
   FiatAccountSchema,
   FiatAccountType,
   FiatType,
+  QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -30,6 +31,7 @@ const strings = {
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
   fiatAccountType: FiatAccountType
+  quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
   fiatConnectClient?: FiatConnectApiClient
 
   constructor({
@@ -48,13 +50,13 @@ export default class FiatConnectQuote extends NormalizedQuote {
         `Error: ${quote.provider.id}. FiatAccountType: ${fiatAccountType} is not supported in the app`
       )
     }
-    // Check if at least one of the FiatAccountSchemas is supported
-    const isFiatAccountSchemaSupported = quote.fiatAccount[
+    // Find a supported FiatAccountSchema
+    const quoteResponseFiatAccountSchema = quote.fiatAccount[
       fiatAccountType
-    ]?.fiatAccountSchemas.some((schema) =>
+    ]?.fiatAccountSchemas.find((schema) =>
       SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema.fiatAccountSchema)
     )
-    if (!isFiatAccountSchemaSupported) {
+    if (!quoteResponseFiatAccountSchema) {
       throw new Error(
         `Error: ${quote.provider.id}. None of the following FiatAccountSchema's are supported: ${quote.fiatAccount[fiatAccountType]?.fiatAccountSchemas}`
       )
@@ -67,6 +69,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
     }
     this.quote = quote
     this.fiatAccountType = fiatAccountType
+    // NOTE: since we only support 1 fiat account schema right now, this is hardcoded to use a single fiat account.
+    // (Providers might support multiple fiat account schemas for the same quote.)
+    this.quoteResponseFiatAccountSchema = quoteResponseFiatAccountSchema
   }
 
   // TODO: Dynamically generate time estimation strings
@@ -144,14 +149,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }
 
   getFiatAccountSchema(): FiatAccountSchema {
-    // NOTE: since we only support 1 fiat account schema right now, this is hardcoded to use a single fiat account.
-    // (Providers might support multiple fiat account schemas for the same quote.)
-    const fiatAccountSchemas = this.quote.fiatAccount[this.fiatAccountType]?.fiatAccountSchemas.map(
-      ({ fiatAccountSchema }) => fiatAccountSchema
-    )
-    return fiatAccountSchemas?.find((schema) =>
-      SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema)
-    ) as FiatAccountSchema
+    return this.quoteResponseFiatAccountSchema.fiatAccountSchema
+  }
+
+  getFiatAccountSchemaAllowedValues(): { [key: string]: string[] } {
+    return this.quoteResponseFiatAccountSchema.allowedValues
   }
 
   async getFiatConnectClient(): Promise<FiatConnectApiClient> {
