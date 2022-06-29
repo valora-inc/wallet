@@ -115,7 +115,10 @@ function RequestContent({
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer} pointerEvents={isLoading.current ? 'none' : undefined}>
+      <View
+        style={styles.buttonContainer}
+        pointerEvents={isAccepting || isDenying ? 'none' : undefined}
+      >
         <Button
           style={styles.buttonWithSpace}
           type={BtnTypes.SECONDARY}
