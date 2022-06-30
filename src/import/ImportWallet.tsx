@@ -190,7 +190,7 @@ function ImportWallet({ navigation, route }: Props) {
                 <CodeInput
                   // TODO: Use a special component instead of CodeInput here,
                   // cause it should be used for entering verification codes only
-                  label={t('accountKey')}
+                  label={t('recoveryPhrase')}
                   status={codeStatus}
                   inputValue={backupPhrase}
                   inputPlaceholder={t('importExistingKey.keyPlaceholder')}
