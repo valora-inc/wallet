@@ -678,4 +678,12 @@ export const migrations = {
       dappConnectInfo: DappConnectInfo.Default,
     },
   }),
+  57: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      visualizeNFTsEnabledInHomeAssetsPage:
+        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+    },
+  }),
 }
