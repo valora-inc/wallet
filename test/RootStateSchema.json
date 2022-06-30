@@ -1608,6 +1608,9 @@
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
                 },
+                "showSwapMenuInDrawerMenu": {
+                  "type": "boolean"
+                },
                 "skipProfilePicture": {
                     "type": "boolean"
                 },
@@ -1680,6 +1683,7 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showPriceChangeIndicatorInBalances",
+                "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
                 "skipVerification",
                 "superchargeApy",

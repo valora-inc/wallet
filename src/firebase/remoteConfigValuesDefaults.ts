@@ -75,4 +75,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   fiatConnectCashOutEnabled: false,
   dappConnectInfo: DappConnectInfo.Default,
   visualizeNFTsEnabledInHomeAssetsPage: false,
+  showSwapMenuInDrawerMenu: false,
 }
