@@ -1394,6 +1394,7 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
+                "SwapScreen",
                 "Sync",
                 "SyncBankAccountScreen",
                 "TokenBalances",
@@ -1609,7 +1610,7 @@
                     "type": "string"
                 },
                 "showSwapMenuInDrawerMenu": {
-                  "type": "boolean"
+                    "type": "boolean"
                 },
                 "skipProfilePicture": {
                     "type": "boolean"
