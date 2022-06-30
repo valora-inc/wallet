@@ -240,12 +240,12 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
-      options={noHeader}
+      options={sendConfirmationScreenNavOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmationLegacy}
       component={SendConfirmationLegacy}
-      options={noHeader}
+      options={sendConfirmationLegacyScreenNavOptions}
     />
     <Navigator.Screen
       name={Screens.ValidateRecipientIntro}
