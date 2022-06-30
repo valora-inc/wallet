@@ -51,7 +51,7 @@ export const countryFeatures = {
     IE: true, // Ireland
     IM: true, // Isle of Man
     IS: true, // Iceland
-    IT: true, // Italy,
+    IT: true, // Italy
     JE: true, // Jersey
     KZ: true, // Kazakhstan
     LI: true, // Liechtenstein
