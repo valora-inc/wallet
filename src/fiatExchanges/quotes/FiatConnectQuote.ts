@@ -5,7 +5,6 @@ import {
   FiatType,
   QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,

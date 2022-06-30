@@ -156,7 +156,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const fiatConnectClient = await quote.getFiatConnectClient()
       const result = await fiatConnectClient.addFiatAccount({
-        fiatAccountSchema: quote.getFiatAccountSchema(),
+        fiatAccountSchema: fiatAccountSchema,
         data: completeBody as FiatAccountSchemas[typeof fiatAccountSchema],
       })
       if (result.isOk) {
@@ -168,12 +168,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           fiatAccount: completeBody as FiatAccount,
         })
       } else {
-        if (result.error.fiatConnectError) {
-          Logger.error(TAG, `Error adding fiat account: ${result.error.fiatConnectError}`)
-        } else {
-          Logger.error(TAG, `Error adding fiat account: ${result.error.message}`)
-        }
-
+        Logger.error(
+          TAG,
+          `Error adding fiat account: ${result.error.fiatConnectError ?? result.error.message}`
+        )
         if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
           dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
         } else {
