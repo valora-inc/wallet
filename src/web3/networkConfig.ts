@@ -33,6 +33,7 @@ interface NetworkConfig {
   inHouseLiquidityURL: string
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
+  nftsValoraAppUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -82,6 +83,8 @@ const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1
 const SET_REGISTRATION_PROPERTIES_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/setRegistrationProperties`
 const SET_REGISTRATION_PROPERTIES_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/setRegistrationProperties`
 
+const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -108,6 +111,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-alfajores.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
+    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -133,6 +137,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     inHouseLiquidityURL: 'https://liquidity-dot-celo-mobile-mainnet.appspot.com',
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
+    nftsValoraAppUrl: NFTS_VALORA_APP_URL,
   },
 }
 
