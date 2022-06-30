@@ -123,11 +123,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
-  const coinbaseProvider =
-    filterProvidersByPaymentMethod(
-      PaymentMethod.Coinbase,
-      asyncProviders.result?.externalProviders
-    ) ?? null
+  const coinbaseProvider = filterProvidersByPaymentMethod(
+    PaymentMethod.Coinbase,
+    asyncProviders.result?.externalProviders
+  )
 
   return (
     <ScrollView>
