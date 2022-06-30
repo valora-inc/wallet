@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
@@ -6,6 +6,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import { accountKey1, accountKey2, accountKey3, accountKey4 } from 'src/images/Images'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -40,6 +41,11 @@ export default function AccountKeyEducation(props: Props) {
       finalButtonType={BtnTypes.PRIMARY}
     />
   )
+}
+
+AccountKeyEducation.navigationOptions = {
+  ...noHeader,
+  ...TransitionPresets.ModalTransition,
 }
 
 function useSteps() {

@@ -4,7 +4,6 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
@@ -98,8 +97,10 @@ import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
-import SendConfirmation from 'src/send/SendConfirmation'
-import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
+import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
+import SendConfirmationLegacy, {
+  sendConfirmationLegacyScreenNavOptions,
+} from 'src/send/SendConfirmationLegacy'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -107,7 +108,6 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
-import { Spacing } from 'src/styles/styles'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import TransactionReview from 'src/transactions/TransactionReview'
@@ -124,6 +124,7 @@ import WebViewScreen from 'src/webview/WebViewScreen'
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
+const ModalStack = createStackNavigator<StackParamList>()
 const RootStack = createBottomSheetNavigator<StackParamList>()
 
 export const modalScreenOptions = () =>
@@ -417,7 +418,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.Language}
       component={Language}
-      options={Language.navigationOptions}
+      options={Language.navigationOptions(false)}
     />
     <Navigator.Screen
       name={Screens.SelectLocalCurrency}
@@ -611,76 +612,62 @@ export function MainStackScreen() {
   )
 }
 
-const SafeAreaBackButton = () => {
-  return (
-    <SafeAreaView
-      style={{ alignItems: 'flex-start', paddingVertical: Spacing.Small12 }}
-      edges={['right', 'left', 'top']}
-    >
-      <BackButton />
-    </SafeAreaView>
-  )
-}
-
-const modalAnimatedScreens = (Navigator: typeof RootStack) => {
+const modalAnimatedScreens = (Navigator: typeof ModalStack) => {
   return (
     <>
       <Navigator.Screen
         name={Screens.PincodeEnter}
         component={PincodeEnter}
-        options={{ snapPoints: ['90%'] }}
+        options={PincodeEnter.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.QRNavigator}
         component={QRNavigator}
-        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+        options={QRNavigator.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.RegulatoryTerms}
         component={RegulatoryTerms}
-        options={{
-          snapPoints: ['100%'],
-          handleComponent: SafeAreaBackButton,
-          enablePanDownToClose: false,
-        }}
+        options={RegulatoryTerms.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.GoldEducation}
         component={GoldEducation}
-        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+        options={GoldEducation.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.AccountKeyEducation}
         component={AccountKeyEducation}
-        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+        options={AccountKeyEducation.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.LanguageModal}
         component={Language}
-        options={{
-          snapPoints: ['100%'],
-          handleComponent: SafeAreaBackButton,
-          enablePanDownToClose: false,
-        }}
+        options={Language.navigationOptions(true)}
       />
       <Navigator.Screen
         name={Screens.SelectCountry}
         component={SelectCountry}
-        options={{ snapPoints: ['95%'] }}
+        options={SelectCountry.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.SendConfirmationModal}
         component={SendConfirmation}
-        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+        options={sendConfirmationScreenNavOptions}
       />
       <Navigator.Screen
         name={Screens.SendConfirmationLegacyModal}
         component={SendConfirmationLegacy}
-        options={{ snapPoints: ['100%'], handleComponent: null, enablePanDownToClose: false }}
+        options={sendConfirmationLegacyScreenNavOptions}
       />
     </>
   )
 }
+
+const mainScreenNavOptions = () => ({
+  ...modalScreenOptions(),
+  headerShown: false,
+})
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
@@ -704,6 +691,19 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
   )
 }
 
+function ModalStackScreen() {
+  return (
+    <ModalStack.Navigator mode="modal">
+      <ModalStack.Screen
+        name={Screens.Main}
+        component={MainStackScreen}
+        options={mainScreenNavOptions}
+      />
+      {modalAnimatedScreens(ModalStack)}
+    </ModalStack.Navigator>
+  )
+}
+
 function RootStackScreen() {
   const renderBackdrop = React.useCallback(
     (props: BottomSheetBackdropProps) => (
@@ -720,8 +720,7 @@ function RootStackScreen() {
     <RootStack.Navigator
       screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
     >
-      <RootStack.Screen name={Screens.Main} component={MainStackScreen} />
-      {modalAnimatedScreens(RootStack)}
+      <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
       {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )

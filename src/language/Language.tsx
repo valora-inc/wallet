@@ -1,9 +1,8 @@
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import { localesList } from 'locales'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ListRenderItemInfo, StyleSheet, Text } from 'react-native'
-import { FlatList, ScrollView } from 'react-native-gesture-handler'
+import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -76,8 +75,13 @@ function LanguageScreen({ route }: Props) {
   )
 }
 
-LanguageScreen.navigationOptions = ({ navigation }: ScreenProps) => {
-  return navigation.canGoBack() ? headerWithBackButton : emptyHeader
+LanguageScreen.navigationOptions = (withAnimation: boolean) => ({ navigation }: ScreenProps) => {
+  return navigation.canGoBack()
+    ? {
+        ...headerWithBackButton,
+        ...(withAnimation ? TransitionPresets.ModalTransition : {}),
+      }
+    : emptyHeader
 }
 
 const styles = StyleSheet.create({

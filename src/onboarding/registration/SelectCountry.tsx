@@ -2,17 +2,17 @@ import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SearchInput from 'src/components/SearchInput'
+import i18n from 'src/i18n'
+import { headerWithCloseButton } from 'src/navigator/Headers'
+import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import SelectCountryItem from 'src/onboarding/registration/SelectCountryItem'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Spacing } from 'src/styles/styles'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 
 const keyExtractor = (item: LocalizedCountry) => item.alpha2
@@ -53,10 +53,7 @@ export default function SelectCountry({ navigation, route }: Props) {
   const inset = useSafeAreaInsets()
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom', 'left', 'right']}>
-      <View style={styles.header}>
-        <Text style={fontStyles.navigationHeader}>{t('selectCountryCode')}</Text>
-      </View>
+    <View style={styles.container}>
       <View style={styles.searchInputContainer}>
         <SearchInput placeholder={t('search')} value={searchText} onChangeText={setSearchText} />
       </View>
@@ -70,19 +67,22 @@ export default function SelectCountry({ navigation, route }: Props) {
         keyExtractor={keyExtractor}
       />
       <KeyboardSpacer />
-    </SafeAreaView>
+    </View>
   )
 }
 
+SelectCountry.navigationOptions = () => ({
+  ...modalScreenOptions(),
+  ...headerWithCloseButton,
+  headerTitle: i18n.t('selectCountryCode'),
+  headerTransparent: false,
+})
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: {
-    alignItems: 'center',
-    paddingTop: Spacing.Regular16,
-    paddingBottom: Spacing.Smallest8,
-  },
   searchInputContainer: {
-    padding: Spacing.Regular16,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     backgroundColor: colors.light,
   },
 })

@@ -1,7 +1,7 @@
+import { TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
@@ -12,6 +12,7 @@ import DevSkipButton from 'src/components/DevSkipButton'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { withTranslation } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
+import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -31,6 +32,11 @@ const mapDispatchToProps: DispatchProps = {
 type Props = WithTranslation & DispatchProps
 
 export class RegulatoryTerms extends React.Component<Props> {
+  static navigationOptions = {
+    ...nuxNavigationOptions,
+    ...TransitionPresets.ModalTransition,
+  }
+
   onPressAccept = () => {
     ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
 
@@ -54,9 +60,13 @@ export class RegulatoryTerms extends React.Component<Props> {
     const { t } = this.props
 
     return (
-      <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
+      <SafeAreaView style={styles.container}>
         <DevSkipButton nextScreen={Screens.NameAndPicture} />
-        <ScrollView contentContainerStyle={styles.scrollContent} testID="scrollView">
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          testID="scrollView"
+        >
           <Logo type={LogoTypes.DARK} height={32} />
           <Text style={styles.title}>{t('terms.title')}</Text>
           <Text style={styles.disclaimer}>
@@ -100,6 +110,9 @@ export default connect<{}, DispatchProps, {}, RootState>(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollView: {
+    marginTop: 40,
   },
   scrollContent: {
     paddingTop: 40,

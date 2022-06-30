@@ -3,7 +3,7 @@ import {
   MaterialTopTabBarProps,
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import { memoize } from 'lodash'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -13,6 +13,7 @@ import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
 import { useDispatch } from 'react-redux'
+import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList } from 'src/navigator/types'
 import QRCode from 'src/qrcode/QRCode'
@@ -149,6 +150,11 @@ export default function QRNavigator() {
       </Tab.Screen>
     </Tab.Navigator>
   )
+}
+
+QRNavigator.navigationOptions = {
+  ...noHeader,
+  ...TransitionPresets.ModalTransition,
 }
 
 const styles = StyleSheet.create({

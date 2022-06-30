@@ -32,7 +32,9 @@ import {
 } from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
+import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
@@ -54,6 +56,14 @@ type OwnProps = StackScreenProps<
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >
 type Props = OwnProps
+
+export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
+  navOptions.route.name === Screens.SendConfirmationModal
+    ? {
+        ...noHeader,
+        ...modalScreenOptions(),
+      }
+    : noHeader
 
 export function useRecipientToSendTo(paramRecipient: Recipient) {
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)

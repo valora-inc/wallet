@@ -2,13 +2,6 @@
 
 exports[`RegulatoryTermsScreen renders correctly 1`] = `
 <RNCSafeAreaView
-  edges={
-    Array [
-      "right",
-      "bottom",
-      "left",
-    ]
-  }
   style={
     Object {
       "flex": 1,
@@ -42,15 +35,17 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
     </Text>
   </RNCSafeAreaView>
   <RCTScrollView
-    collapsable={false}
     contentContainerStyle={
       Object {
         "paddingHorizontal": 24,
         "paddingTop": 40,
       }
     }
-    onGestureHandlerEvent={[Function]}
-    onGestureHandlerStateChange={[Function]}
+    style={
+      Object {
+        "marginTop": 40,
+      }
+    }
     testID="scrollView"
   >
     <View>
