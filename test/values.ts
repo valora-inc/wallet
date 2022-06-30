@@ -654,7 +654,7 @@ export const mockProviders: FetchProvidersOutput[] = [
     logoWide: '',
     quote: undefined,
     cashIn: true,
-    cashOut: true,
+    cashOut: false,
   },
 ]
 
