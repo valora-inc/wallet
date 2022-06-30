@@ -10,6 +10,7 @@ import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -118,14 +119,16 @@ describe('FiatConnectQuote', () => {
   })
 
   describe('.navigate', () => {
-    // Should actualy call navigate when implemented
     it('calls navigate', () => {
       const quote = new FiatConnectQuote({
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.navigate()
-      expect(navigate).not.toHaveBeenCalled()
+      quote.navigate(CICOFlow.CashIn)
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatDetailsScreen, {
+        flow: CICOFlow.CashIn,
+        quote,
+      })
     })
   })
 
@@ -198,6 +201,28 @@ describe('FiatConnectQuote', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       })
       expect(quote.getCryptoType()).toEqual(CryptoType.cUSD)
+    })
+  })
+
+  describe('.getFiatAccountSchema', () => {
+    it('returns fiat account schema', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAccountSchema()).toEqual(FiatAccountSchema.AccountNumber)
+    })
+  })
+
+  describe('.getFiatAccountSchemaAllowedValues', () => {
+    it('returns allowed values', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAccountSchemaAllowedValues()).toEqual({
+        institutionName: ['Bank A', 'Bank B'],
+      })
     })
   })
 })

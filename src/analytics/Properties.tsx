@@ -40,7 +40,7 @@ import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
-import { DappSection } from 'src/dapps/slice'
+import { DappSection } from 'src/dapps/types'
 import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
@@ -141,6 +141,7 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
+  [HomeEvents.view_nft_home_assets]: undefined
 }
 
 interface SettingsEventsProperties {

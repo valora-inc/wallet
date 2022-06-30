@@ -12,9 +12,9 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDappRequestOrigin } from 'src/app/utils'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { activeDappSelector } from 'src/dapps/selectors'
-import { ActiveDapp } from 'src/dapps/slice'
+import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
@@ -438,9 +438,10 @@ function* handlePayloadRequest(action: PayloadRequest) {
 
 function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
+
   if (hasPendingState) {
     yield call(handlePendingState)
-  } else {
+  } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
     navigateBack()
   }
 }

@@ -293,6 +293,38 @@
             ],
             "type": "object"
         },
+        "DappCategory": {
+            "additionalProperties": false,
+            "properties": {
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "fontColor": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "backgroundColor",
+                "fontColor",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
+        "DappConnectInfo": {
+            "enum": [
+                "basic",
+                "default",
+                "full"
+            ],
+            "type": "string"
+        },
         "DappSection": {
             "enum": [
                 "all",
@@ -1323,6 +1355,7 @@
                 "LinkBankAccountErrorScreen",
                 "LinkBankAccountScreen",
                 "Main",
+                "MainModal",
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
@@ -1610,6 +1643,9 @@
                         }
                     ]
                 },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                    "type": "boolean"
+                },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
                 }
@@ -1650,6 +1686,7 @@
                 "superchargeButtonType",
                 "superchargeTokens",
                 "supportedBiometryType",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
             "type": "object"
@@ -2420,11 +2457,35 @@
                         }
                     ]
                 },
+                "dappConnectInfo": {
+                    "$ref": "#/definitions/DappConnectInfo"
+                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
                         "string"
                     ]
+                },
+                "dappsCategories": {
+                    "items": {
+                        "$ref": "#/definitions/DappCategory"
+                    },
+                    "type": "array"
+                },
+                "dappsList": {
+                    "items": {
+                        "$ref": "#/definitions/Dapp"
+                    },
+                    "type": "array"
+                },
+                "dappsListError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "dappsListLoading": {
+                    "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
                     "type": "boolean"
@@ -2441,7 +2502,12 @@
             },
             "required": [
                 "activeDapp",
+                "dappConnectInfo",
                 "dappListApiUrl",
+                "dappsCategories",
+                "dappsList",
+                "dappsListError",
+                "dappsListLoading",
                 "dappsWebViewEnabled",
                 "maxNumRecentDapps",
                 "recentDapps"
