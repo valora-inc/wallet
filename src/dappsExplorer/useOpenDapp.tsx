@@ -54,6 +54,7 @@ const useOpenDapp = () => {
       Logger.error(TAG, 'Internal error. There was no dapp selected')
       return
     }
+
     openDapp(selectedDapp)
     setShowOpenDappConfirmation(false)
   }
