@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Spacing } from 'src/styles/styles'
@@ -44,12 +44,14 @@ const DappKitAccountScreen = ({ route }: Props) => {
     dispatch(approveAccountAuth(dappKitRequest))
   }
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_cancel,
       getDefaultRequestTrackedProperties(route.params.dappKitRequest, activeDapp)
     )
-    navigateBack()
+    if (await isBottomSheetVisible(Screens.DappKitAccountScreen)) {
+      navigateBack()
+    }
   }
 
   return (
