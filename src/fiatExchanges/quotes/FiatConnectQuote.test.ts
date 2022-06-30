@@ -268,6 +268,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFiatAccountSchema', () => {
     it('returns fiat account schema', () => {
       const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
@@ -278,6 +279,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFiatAccountSchemaAllowedValues', () => {
     it('returns allowed values', () => {
       const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })

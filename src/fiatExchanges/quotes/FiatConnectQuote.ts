@@ -1,11 +1,10 @@
-import BigNumber from 'bignumber.js'
 import {
-  CryptoType,
   FiatAccountSchema,
   FiatAccountType,
   FiatType,
   QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
