@@ -311,6 +311,10 @@ export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
 }
 
+export async function cleverTapNotificationsChannel() {
+  return cleverTapReadChannel()
+}
+
 export async function fetchLostAccounts() {
   if (!FIREBASE_ENABLED) {
     return []
@@ -388,6 +392,15 @@ export function simpleReadChannel(key: string) {
     }
 
     return cancel
+  })
+}
+
+export function cleverTapReadChannel() {
+  return eventChannel((emit: any) => {
+    CleverTap.getAllDisplayUnits((err, res: any) => {
+      emit(res)
+    })
+    return () => {}
   })
 }
 
