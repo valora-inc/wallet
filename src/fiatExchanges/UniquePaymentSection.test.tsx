@@ -12,17 +12,20 @@ describe('UniquePaymentSection', () => {
   beforeEach(() => {
     props = {
       paymentMethod: PaymentMethod.Coinbase,
-      uniqueProvider: mockProviders.filter((quote) => quote.paymentMethods[0] === 'Coinbase')[0],
+      uniqueProvider: mockProviders.filter(
+        (quote) => quote.paymentMethods[0] === PaymentMethod.Coinbase
+      )[0],
       setNoPaymentMethods: jest.fn(),
       flow: CICOFlow.CashIn,
     }
   })
   it('shows nothing if unique provider, IE. coinbase, is restricted', async () => {
-    props.uniqueProvider = null
+    props.uniqueProvider!.restricted = true
     const { queryByText } = render(<UniquePaymentSection {...props} />)
     expect(queryByText('selectProviderScreen.coinbase')).toBeFalsy()
   })
   it('shows a card if unique provider is not restricted', async () => {
+    props.uniqueProvider!.restricted = false
     const { queryByText } = render(<UniquePaymentSection {...props} />)
     expect(queryByText('selectProviderScreen.coinbase')).toBeTruthy()
   })

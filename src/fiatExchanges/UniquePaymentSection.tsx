@@ -22,7 +22,7 @@ export function UniquePaymentSection({
 }: UniquePaymentSectionProps) {
   const { t } = useTranslation()
 
-  if (!uniqueProvider) {
+  if (!uniqueProvider || uniqueProvider.restricted) {
     setNoPaymentMethods(true)
     return null
   }
