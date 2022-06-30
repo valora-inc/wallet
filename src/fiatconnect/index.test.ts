@@ -134,32 +134,6 @@ describe('FiatConnect helpers', () => {
       expect(Logger.error).not.toHaveBeenCalled()
     })
   })
-
-  describe('addNewFiatAccount', () => {
-    it('returns a fiat account info with fiat account id on success', async () => {
-      const fakeFiatAccountReturned = {
-        fiatAccountId: 'ZAQWSX1234',
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
-
-      const fakeProviderURL = 'superLegitCICOProvider.valoraapp.com'
-      const fiatAccountSchema = FiatAccountSchema.AccountNumber
-      const reqBody = {
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        accountNumber: '123456789',
-        country: 'NG',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-
-      await expect(
-        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
-      ).rejects.toThrowError('Not implemented')
-    })
-  })
   describe('getSigningFunction', () => {
     const wallet = new KeychainWallet({
       address: 'some address',
