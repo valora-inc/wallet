@@ -284,3 +284,12 @@ export async function fetchExchanges(
     throw error
   }
 }
+
+export const filterProvidersByPaymentMethod = (
+  paymentMethod: PaymentMethod,
+  externalProviders: FetchProvidersOutput[] | undefined
+) => {
+  return externalProviders
+    ? externalProviders?.filter((quote) => quote.paymentMethods[0] === paymentMethod)[0]
+    : null
+}

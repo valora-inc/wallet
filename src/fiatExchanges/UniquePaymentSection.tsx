@@ -3,27 +3,26 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 export interface UniquePaymentSectionProps {
   paymentMethod: PaymentMethod
-  normalizedQuote: NormalizedQuote | null
+  uniqueProvider: FetchProvidersOutput | null
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
   flow: CICOFlow
 }
 
 export function UniquePaymentSection({
   paymentMethod,
-  normalizedQuote,
+  uniqueProvider,
   setNoPaymentMethods,
   flow,
 }: UniquePaymentSectionProps) {
   const { t } = useTranslation()
 
-  if (!normalizedQuote) {
+  if (!uniqueProvider) {
     setNoPaymentMethods(true)
     return null
   }
@@ -43,10 +42,7 @@ export function UniquePaymentSection({
           </View>
 
           <View style={styles.right}>
-            <Image
-              source={{ uri: normalizedQuote.getProviderLogo() }}
-              style={styles.providerImage}
-            />
+            <Image source={{ uri: uniqueProvider.logo }} style={styles.providerImage} />
           </View>
         </View>
       </Touchable>

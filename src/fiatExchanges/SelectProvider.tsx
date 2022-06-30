@@ -39,6 +39,7 @@ import {
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
+  filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
   PaymentMethod,
 } from './utils'
@@ -122,15 +123,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
-  const findQuoteIndex = (method: PaymentMethod) =>
-    normalizedQuotes.findIndex((quote) => quote.getPaymentMethod() === method)
-
-  const coinbaseQuoteIndex = findQuoteIndex(PaymentMethod.Coinbase)
-  const coinbaseQuote = normalizedQuotes[coinbaseQuoteIndex]
-
-  if (coinbaseQuoteIndex !== -1) {
-    normalizedQuotes.splice(coinbaseQuoteIndex, 1)
-  }
+  const coinbaseProvider =
+    filterProvidersByPaymentMethod(
+      PaymentMethod.Coinbase,
+      asyncProviders.result?.externalProviders
+    ) ?? null
 
   return (
     <ScrollView>
@@ -152,7 +149,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow={flow}
       />
       <UniquePaymentSection
-        normalizedQuote={coinbaseQuote}
+        uniqueProvider={coinbaseProvider}
         paymentMethod={PaymentMethod.Coinbase}
         setNoPaymentMethods={setNoPaymentMethods}
         flow={flow}
