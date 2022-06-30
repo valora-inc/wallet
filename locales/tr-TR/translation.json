@@ -1117,8 +1117,11 @@
     "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla işlem ücreti olmadan fon ekleyin."
   },
   "balances": "Varlıklar",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
+  "open": "Aç",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Toplam Bakiye ne demektir?",
     "body": "Toplam Bakiyeniz, tüm Valora varlıklarınızın yaklaşık bir toplamıdır. Fiyatlar dalgalandıkça Toplam Bakiyeniz değişecektir. Her 10 dakikada bir güncellenir.\nBazı varlıklar, hesaplama sırasında fiyat mevcut olmadığı için Toplam Bakiyede gösterilmeyebilir.",
