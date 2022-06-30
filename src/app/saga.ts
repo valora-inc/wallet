@@ -195,6 +195,7 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   dappConnectInfo: DappConnectInfo
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

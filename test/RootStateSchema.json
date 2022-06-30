@@ -1355,6 +1355,7 @@
                 "LinkBankAccountErrorScreen",
                 "LinkBankAccountScreen",
                 "Main",
+                "MainModal",
                 "MerchantPayment",
                 "MoonPayScreen",
                 "NameAndPicture",
@@ -1642,6 +1643,9 @@
                         }
                     ]
                 },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                    "type": "boolean"
+                },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
                 }
@@ -1682,6 +1686,7 @@
                 "superchargeButtonType",
                 "superchargeTokens",
                 "supportedBiometryType",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
             "type": "object"
