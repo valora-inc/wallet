@@ -4,21 +4,32 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import PercentageIndicator from 'src/components/PercentageIndicator'
 import TokenDisplay from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { TIME_OF_SUPPORTED_UNSYNC_HISTORICAL_PRICES } from 'src/config'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { tokensWithTokenBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+import {
+  tokensWithTokenBalanceSelector,
+  totalTokenBalanceSelector,
+  visualizeNFTsEnabledInHomeAssetsPageSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { sortByUsdBalance } from './utils'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
@@ -28,14 +39,21 @@ function TokenBalancesScreen({ navigation }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
+  const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
+    visualizeNFTsEnabledInHomeAssetsPageSelector
+  )
+  const walletAddress = useSelector(walletAddressSelector)
 
   const header = () => {
     return (
       <View style={styles.header}>
         <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
         <Text style={styles.subtext}>
-          {localCurrencySymbol}
-          {totalBalance?.toFormat(2)}
+          {totalBalance &&
+            t('totalBalanceWithLocalCurrencySymbol', {
+              localCurrencySymbol,
+              totalBalance: totalBalance.toFormat(2),
+            })}
         </Text>
       </View>
     )
@@ -98,9 +116,27 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
+  const onPressNFTsBanner = () => {
+    ValoraAnalytics.track(HomeEvents.view_nft_home_assets)
+    navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+    })
+  }
+
   return (
     <>
-      {showPriceChangeIndicatorInBalances && (
+      {shouldVisualizeNFTsInHomeAssetsPage && (
+        <Touchable testID={'NftViewerBanner'} borderless={true} onPress={onPressNFTsBanner}>
+          <View style={[styles.bannerContainer]}>
+            <Text style={styles.bannerText}>{t('nftViewer')}</Text>
+            <View style={styles.rightInnerContainer}>
+              <Text style={styles.bannerText}>{t('open')}</Text>
+              <OpenLinkIcon />
+            </View>
+          </View>
+        </Touchable>
+      )}
+      {!shouldVisualizeNFTsInHomeAssetsPage && showPriceChangeIndicatorInBalances && (
         <View style={styles.lastDayLabel}>
           <Text style={styles.lastDayText}>{t('lastDay')}</Text>
         </View>
@@ -171,6 +207,24 @@ const styles = StyleSheet.create({
   lastDayLabel: {
     marginTop: Spacing.Regular16,
     flexDirection: 'row-reverse',
+  },
+  bannerContainer: {
+    marginTop: Spacing.Smallest8,
+    marginBottom: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Thick24,
+    justifyContent: 'space-between',
+    height: 40,
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: Colors.greenUI,
+    flexDirection: 'row',
+  },
+  bannerText: {
+    ...fontStyles.displayName,
+    color: Colors.light,
+  },
+  rightInnerContainer: {
+    flexDirection: 'row',
   },
 })
 
