@@ -612,57 +612,55 @@ export function MainStackScreen() {
   )
 }
 
-const modalAnimatedScreens = (Navigator: typeof ModalStack) => {
-  return (
-    <>
-      <Navigator.Screen
-        name={Screens.PincodeEnter}
-        component={PincodeEnter}
-        options={PincodeEnter.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.QRNavigator}
-        component={QRNavigator}
-        options={QRNavigator.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.RegulatoryTerms}
-        component={RegulatoryTerms}
-        options={RegulatoryTerms.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.GoldEducation}
-        component={GoldEducation}
-        options={GoldEducation.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.AccountKeyEducation}
-        component={AccountKeyEducation}
-        options={AccountKeyEducation.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.LanguageModal}
-        component={Language}
-        options={Language.navigationOptions(true)}
-      />
-      <Navigator.Screen
-        name={Screens.SelectCountry}
-        component={SelectCountry}
-        options={SelectCountry.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.SendConfirmationModal}
-        component={SendConfirmation}
-        options={sendConfirmationScreenNavOptions}
-      />
-      <Navigator.Screen
-        name={Screens.SendConfirmationLegacyModal}
-        component={SendConfirmationLegacy}
-        options={sendConfirmationLegacyScreenNavOptions}
-      />
-    </>
-  )
-}
+const modalAnimatedScreens = (Navigator: typeof Stack) => (
+  <>
+    <Navigator.Screen
+      name={Screens.PincodeEnter}
+      component={PincodeEnter}
+      options={PincodeEnter.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.QRNavigator}
+      component={QRNavigator}
+      options={QRNavigator.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.RegulatoryTerms}
+      component={RegulatoryTerms}
+      options={RegulatoryTerms.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.GoldEducation}
+      component={GoldEducation}
+      options={GoldEducation.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.AccountKeyEducation}
+      component={AccountKeyEducation}
+      options={AccountKeyEducation.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.LanguageModal}
+      component={Language}
+      options={Language.navigationOptions(true)}
+    />
+    <Navigator.Screen
+      name={Screens.SelectCountry}
+      component={SelectCountry}
+      options={SelectCountry.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationModal}
+      component={SendConfirmation}
+      options={sendConfirmationScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationLegacyModal}
+      component={SendConfirmationLegacy}
+      options={sendConfirmationLegacyScreenNavOptions}
+    />
+  </>
+)
 
 const mainScreenNavOptions = () => ({
   ...modalScreenOptions(),
