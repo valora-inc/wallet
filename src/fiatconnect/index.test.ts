@@ -14,7 +14,6 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  addNewFiatAccount,
   fetchFiatConnectQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
