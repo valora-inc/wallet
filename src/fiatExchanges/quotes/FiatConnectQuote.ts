@@ -33,6 +33,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   }: {
     quote: FiatConnectQuoteSuccess
     fiatAccountType: keyof typeof quote.fiatAccount
+    // TODO: Get flow from the quote object once it is added to the spec https://github.com/fiatconnect/specification/pull/67
     flow: CICOFlow
   }) {
     super()
