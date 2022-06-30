@@ -1643,6 +1643,9 @@
                         }
                     ]
                 },
+                "visualizeNFTsEnabledInHomeAssetsPage": {
+                    "type": "boolean"
+                },
                 "walletConnectV1Enabled": {
                     "type": "boolean"
                 }
@@ -1683,6 +1686,7 @@
                 "superchargeButtonType",
                 "superchargeTokens",
                 "supportedBiometryType",
+                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
             ],
             "type": "object"
