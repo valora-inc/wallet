@@ -48,7 +48,6 @@ const storeData = {
         balance: BALANCE_VALID,
         isCoreToken: true,
         priceFetchedAt: Date.now(),
-        stalePrice: false,
       },
       [mockCeurAddress]: {
         address: mockCeurAddress,
@@ -57,13 +56,11 @@ const storeData = {
         balance: '10',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
-        stalePrice: false,
       },
       [mockTestTokenAddress]: {
         address: mockTestTokenAddress,
         symbol: 'TT',
         balance: '50',
-        stalePrice: false,
       },
     },
   },

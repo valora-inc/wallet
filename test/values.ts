@@ -468,7 +468,6 @@ export const mockTokenBalances = {
     decimals: 18,
     balance: '5',
     priceFetchedAt: Date.now(),
-    stalePrice: false,
   },
   [mockCeurAddress]: {
     usdPrice: '1.16',
@@ -481,7 +480,6 @@ export const mockTokenBalances = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
-    stalePrice: false,
   },
   [mockCusdAddress]: {
     usdPrice: '1.001',
@@ -494,7 +492,6 @@ export const mockTokenBalances = {
     balance: '0',
     isCoreToken: true,
     priceFetchedAt: Date.now(),
-    stalePrice: false,
   },
 }
 
