@@ -9,7 +9,7 @@ import 'src/setupE2eEnv' // This is only for E2E tests and has no effects when n
 if (__DEV__) {
   import('./src/reactotronConfig').then(() => console.log('Reactotron Configured'))
 }
-import { AppRegistry } from 'react-native'
+import { AppRegistry, Platform } from 'react-native'
 import Logger from 'src/utils/Logger'
 // This needs to happen early so any errors (including in the store) get caught
 import Config from 'react-native-config'
@@ -48,5 +48,8 @@ TextInput.defaultProps = {
   adjustsFontSizeToFit: true,
 }
 
-const CPOptions = { updateDialog: true, installMode: CodePush.InstallMode.ON_NEXT_RESTART }
+const CPOptions = {
+  updateDialog: Platform.OS === 'ios' ? true : false,
+  installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+}
 AppRegistry.registerComponent('celo', () => CodePush(CPOptions)(App))

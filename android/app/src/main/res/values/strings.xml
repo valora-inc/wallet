@@ -3,4 +3,6 @@
   <string name="persona_inquiry_start_title">Valora would like to verify your identity</string>
   <string name="persona_inquiry_start_body">Please have a government issued ID ready to continue.</string>
   <string name="persona_inquiry_start_button">Begin Verification</string>
+  <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string> <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+  <string moduleConfig="true" name="CodePushDeploymentKey"></string>
 </resources>

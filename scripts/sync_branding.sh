@@ -40,7 +40,7 @@ fi
 if [[ "$branding" == "kolektivo" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/kolektivo ]] && ! git clone git@github.com:zed-io/kolektivo-branding.git branding/celo ; then
+  if [[ ! -e branding/celo ]] && ! git clone git@github.com:zed-io/kolektivo-branding.git branding/celo ; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else
