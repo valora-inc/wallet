@@ -1,5 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
-import { AccountNumber, FiatAccountSchema, QuoteResponse } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -7,7 +7,7 @@ import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow, FiatExchangeFlow, ProviderInfo, SimplexQuote } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -57,7 +57,7 @@ interface SendConfirmationLegacyParams {
 }
 
 // Union type of supported fiat accounts
-export type FiatAccount = AccountNumber
+export type FiatAccount = FiatAccountSchemas[FiatAccountSchema.AccountNumber]
 
 export type StackParamList = {
   [Screens.BackupComplete]:
@@ -92,12 +92,8 @@ export type StackParamList = {
     fromSyncBankAccountScreen?: boolean
   }
   [Screens.FiatDetailsScreen]: {
-    providerURL: string
-    fiatAccountSchema: FiatAccountSchema
-    allowedValues?: Record<string, string[]>
-    cicoQuote?: QuoteResponse
+    quote: FiatConnectQuote
     flow: CICOFlow
-    provider: ProviderInfo
   }
   [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
@@ -143,7 +139,6 @@ export type StackParamList = {
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
-    fiatAccountSchema: FiatAccountSchema
     fiatAccount: FiatAccount
   }
   [Screens.MoonPayScreen]: {
@@ -191,6 +186,7 @@ export type StackParamList = {
     | undefined
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
+  [Screens.MainModal]: undefined
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
