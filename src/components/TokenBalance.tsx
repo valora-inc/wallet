@@ -20,13 +20,13 @@ import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import {
+  allTokensHaveStalePriceSelector,
   tokenFetchErrorSelector,
   tokenFetchLoadingSelector,
   tokensInfoUnavailableSelector,
-  tokensWithFreshPricesSelector,
   tokensWithTokenBalanceSelector,
   tokensWithUsdValueSelector,
-  totalTokenBalanceSelector,
+  totalTokenBalanceSelector
 } from 'src/tokens/selectors'
 import { fetchTokenBalances } from 'src/tokens/slice'
 
@@ -36,7 +36,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   const totalBalance = useSelector(totalTokenBalanceSelector)
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
-  const tokensWithFreshPrices = useSelector(tokensWithFreshPricesSelector)
+  const tokensAreStale = useSelector(allTokensHaveStalePriceSelector)
 
   const dispatch = useDispatch()
 
@@ -47,7 +47,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   if (
     tokenFetchError ||
     tokenFetchLoading ||
-    tokensWithUsdValue.length !== tokensWithFreshPrices.length
+    tokensAreStale
   ) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
     return (

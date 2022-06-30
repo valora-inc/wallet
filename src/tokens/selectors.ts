@@ -29,8 +29,7 @@ export const tokensByAddressSelector = createSelector(
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
-        usdPrice: usdPrice.isNaN() ? null : usdPrice,
-        stalePrice: tokenUsdPriceIsStale,
+        usdPrice: usdPrice.isNaN() || tokenUsdPriceIsStale ? null : usdPrice,
       }
     }
     return tokenBalances
@@ -51,12 +50,13 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   ) as TokenBalanceWithUsdPrice[]
 })
 
-export const tokensWithFreshPricesSelector = createSelector(tokensListSelector, (tokens) => {
-  return tokens.filter(
-    (tokenInfo) =>
-      !tokenInfo.stalePrice &&
-      tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
-  ) as TokenBalanceWithUsdPrice[]
+export const allTokensHaveStalePriceSelector = createSelector(tokensListSelector, (tokens) => {
+  return (
+    tokens.filter(
+      (tokenInfo) =>
+        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+    ).length === tokens.length
+  )
 })
 
 export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
@@ -106,7 +106,7 @@ export const defaultTokenToSendSelector = createSelector(
       // TODO: ideally we return based on location - cUSD for now.
       return stableCoins.find((coin) => coin.symbol === 'cUSD')?.address ?? ''
     }
-    return tokens.filter((token) => !token.stalePrice)[0].address
+    return tokens[0].address
   }
 )
 
