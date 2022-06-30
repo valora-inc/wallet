@@ -1,5 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -8,12 +7,9 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
-import QuitIcon from 'src/icons/QuitIcon'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import useStateWithCallback from 'src/utils/useStateWithCallback'
 import RequestContentRow, { RequestDetail } from 'src/walletConnect/screens/RequestContentRow'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 
@@ -45,40 +41,41 @@ function RequestContent({
   children,
 }: Props) {
   const { t } = useTranslation()
-  const navigation = useNavigation()
 
-  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
-  const [isDenying, setIsDenying] = useStateWithCallback(false)
+  const [isAccepting, setIsAccepting] = useState(false)
+  const [isDenying, setIsDenying] = useState(false)
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const isDappListed = useIsDappListed(dappUrl)
 
-  const isLoading = isAccepting || isDenying
+  const isLoading = useRef<boolean>()
 
   const handleAccept = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsAccepting(true, onAccept)
+    setIsAccepting(true)
   }
 
   const handleDeny = () => {
-    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
-    setIsDenying(true, onDeny)
+    setIsDenying(true)
   }
 
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        if (isLoading) {
-          return
-        }
-        e.preventDefault()
-        handleDeny()
-      }),
-    [navigation, handleDeny, isLoading]
-  )
+  useEffect(() => {
+    isLoading.current = isAccepting || isDenying
+    if (isAccepting) {
+      onAccept()
+    } else if (isDenying) {
+      onDeny()
+    }
+  }, [isAccepting, isDenying])
+
+  useEffect(() => {
+    return () => {
+      if (!isLoading.current) {
+        onDeny()
+      }
+    }
+  }, [])
 
   return (
-    <View style={styles.container}>
-      <TopBarIconButton icon={<QuitIcon />} style={styles.closeButton} onPress={handleDeny} />
+    <>
       <ScrollView>
         {(dappImageUrl || dappConnectInfo === DappConnectInfo.Basic) && (
           <View style={styles.logoContainer}>
@@ -118,7 +115,10 @@ function RequestContent({
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
+      <View
+        style={styles.buttonContainer}
+        pointerEvents={isAccepting || isDenying ? 'none' : undefined}
+      >
         <Button
           style={styles.buttonWithSpace}
           type={BtnTypes.SECONDARY}
@@ -137,18 +137,13 @@ function RequestContent({
           testID={`${testId}/Allow`}
         />
       </View>
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-  },
   logoContainer: {
     justifyContent: 'center',
-    marginTop: Spacing.Thick24,
     flexDirection: 'row-reverse',
   },
   detailsContainer: {
@@ -190,10 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
-    marginTop: 'auto',
-  },
-  closeButton: {
-    alignSelf: 'flex-end',
   },
   placeholderLogoBackground: {
     backgroundColor: Colors.light,
