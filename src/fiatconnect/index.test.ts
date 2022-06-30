@@ -1,4 +1,3 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
 import { Network } from '@fiatconnect/fiatconnect-types'
 jest.mock('src/pincode/authentication')
