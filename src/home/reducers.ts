@@ -23,18 +23,31 @@ export interface Notification {
   priority?: number
 }
 
+export interface CleverTapNotification {
+  ti: number
+  custom_kv: object
+  type: string
+  dismissed?: boolean
+}
+
 export interface IdToNotification {
   [id: string]: Notification | undefined
+}
+
+export interface IdToCleverTapNotification {
+  [id: string]: CleverTapNotification | undefined
 }
 
 export interface State {
   loading: boolean
   notifications: IdToNotification
+  cleverTapNotifications: IdToCleverTapNotification
 }
 
 export const initialState = {
   loading: false,
   notifications: {},
+  cleverTapNotifications: {},
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -79,6 +92,34 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         ...state,
         notifications: updatedNotifications,
       }
+    case Actions.UPDATE_CLEVER_TAP_NOTIFICATIONS:
+      // Doing it this way removes any notifications not received on the action.
+      let updatedCleverTapNotifications = {}
+      for (const [id, updatedCleverTapNotification] of Object.entries(
+        action.cleverTapNotifications
+      )) {
+        if (!updatedCleverTapNotification) {
+          continue
+        }
+        const existingCleverTapNotification = state.cleverTapNotifications[id]
+        updatedCleverTapNotifications = {
+          ...updatedCleverTapNotifications,
+          [id]: {
+            priority: DEFAULT_PRIORITY,
+            ...updatedCleverTapNotification,
+            // Keep locally modified fields
+            ...(existingCleverTapNotification
+              ? {
+                  dismissed: existingCleverTapNotification.dismissed,
+                }
+              : undefined),
+          },
+        }
+      }
+      return {
+        ...state,
+        cleverTapNotifications: updatedCleverTapNotifications,
+      }
     case Actions.DISMISS_NOTIFICATION:
       const notification = state.notifications[action.id]
       if (!notification) {
@@ -90,6 +131,21 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
           ...state.notifications,
           [action.id]: {
             ...notification,
+            dismissed: true,
+          },
+        },
+      }
+    case Actions.DISMISS_CLEVER_TAP_NOTIFICATION:
+      const cleverTapNotification = state.cleverTapNotifications[action.id]
+      if (!cleverTapNotification) {
+        return state
+      }
+      return {
+        ...state,
+        cleverTapNotifications: {
+          ...state.cleverTapNotifications,
+          [action.id]: {
+            ...cleverTapNotification,
             dismissed: true,
           },
         },

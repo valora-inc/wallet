@@ -11,10 +11,16 @@ import {
   takeLeading,
 } from 'redux-saga/effects'
 import { fetchSentEscrowPayments } from 'src/escrow/actions'
-import { notificationsChannel } from 'src/firebase/firebase'
+import { cleverTapNotificationsChannel, notificationsChannel } from 'src/firebase/firebase'
 import { fetchGoldBalance } from 'src/goldToken/actions'
-import { Actions, refreshAllBalances, setLoading, updateNotifications } from 'src/home/actions'
-import { IdToNotification } from 'src/home/reducers'
+import {
+  Actions,
+  refreshAllBalances,
+  setLoading,
+  updateCleverTapNotifications,
+  updateNotifications,
+} from 'src/home/actions'
+import { IdToCleverTapNotification, IdToNotification } from 'src/home/reducers'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { withTimeout } from 'src/redux/sagas-helpers'
@@ -102,8 +108,32 @@ function* fetchNotifications() {
   }
 }
 
+function* fetchCleverTapNotifications() {
+  const channel = yield call(cleverTapNotificationsChannel)
+  if (!channel) {
+    return
+  }
+  try {
+    while (true) {
+      const cleverTapNotifications: IdToCleverTapNotification = yield take(channel)
+      yield put(updateCleverTapNotifications(cleverTapNotifications))
+    }
+  } catch (error) {
+    Logger.error(
+      `${TAG}@fetchCleverTapNotifications`,
+      'Failed to update cleverTapNotifications',
+      error
+    )
+  } finally {
+    if (yield cancelled()) {
+      channel.close()
+    }
+  }
+}
+
 export function* homeSaga() {
   yield spawn(watchRefreshBalances)
   yield spawn(autoRefreshWatcher)
   yield spawn(fetchNotifications)
+  yield spawn(fetchCleverTapNotifications)
 }

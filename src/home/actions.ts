@@ -1,9 +1,11 @@
-import { IdToNotification } from 'src/home/reducers'
+import { IdToCleverTapNotification, IdToNotification } from 'src/home/reducers'
 
 export enum Actions {
   SET_LOADING = 'HOME/SET_LOADING',
   UPDATE_NOTIFICATIONS = 'HOME/UPDATE_NOTIFICATIONS',
   DISMISS_NOTIFICATION = 'HOME/DISMISS_NOTIFICATION',
+  UPDATE_CLEVER_TAP_NOTIFICATIONS = 'HOME/UPDATE_CLEVER_TAP_NOTIFICATIONS',
+  DISMISS_CLEVER_TAP_NOTIFICATION = 'HOME/DISMISS_CLEVER_TAP_NOTIFICATION',
   REFRESH_BALANCES = 'HOME/REFRESH_BALANCES',
   START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
@@ -19,8 +21,18 @@ export interface UpdateNotificationsAction {
   notifications: IdToNotification
 }
 
+export interface UpdateCleverTapNotificationsAction {
+  type: Actions.UPDATE_CLEVER_TAP_NOTIFICATIONS
+  cleverTapNotifications: IdToCleverTapNotification
+}
+
 export interface DismissNotificationAction {
   type: Actions.DISMISS_NOTIFICATION
+  id: string
+}
+
+export interface DismissCleverTapNotificationAction {
+  type: Actions.DISMISS_CLEVER_TAP_NOTIFICATION
   id: string
 }
 
@@ -28,7 +40,12 @@ export interface RefreshBalancesBalancesAction {
   type: Actions.REFRESH_BALANCES
 }
 
-export type ActionTypes = SetLoadingAction | UpdateNotificationsAction | DismissNotificationAction
+export type ActionTypes =
+  | SetLoadingAction
+  | UpdateNotificationsAction
+  | DismissNotificationAction
+  | UpdateCleverTapNotificationsAction
+  | DismissCleverTapNotificationAction
 
 export const setLoading = (loading: boolean): SetLoadingAction => ({
   type: Actions.SET_LOADING,
@@ -42,8 +59,20 @@ export const updateNotifications = (
   notifications,
 })
 
+export const updateCleverTapNotifications = (
+  cleverTapNotifications: IdToCleverTapNotification
+): UpdateCleverTapNotificationsAction => ({
+  type: Actions.UPDATE_CLEVER_TAP_NOTIFICATIONS,
+  cleverTapNotifications,
+})
+
 export const dismissNotification = (id: string): DismissNotificationAction => ({
   type: Actions.DISMISS_NOTIFICATION,
+  id,
+})
+
+export const dismissCleverTapNotification = (id: string): DismissCleverTapNotificationAction => ({
+  type: Actions.DISMISS_CLEVER_TAP_NOTIFICATION,
   id,
 })
 

@@ -6,6 +6,7 @@ import { RootState } from 'src/redux/reducers'
 import { isVersionInRange } from 'src/utils/versionCheck'
 
 const homeNotificationsSelector = (state: RootState) => state.home.notifications
+const homeCleverTapNotificationsSelector = (state: RootState) => state.home.cleverTapNotifications
 
 export const getExtraNotifications = createSelector(
   [homeNotificationsSelector, userLocationDataSelector],
@@ -24,6 +25,15 @@ export const getExtraNotifications = createSelector(
           ? !!countryCodeAlpha2 && !notification.blockedCountries.includes(countryCodeAlpha2)
           : true)
       )
+    })
+  }
+)
+
+export const getClevertapNotifications = createSelector(
+  [homeCleverTapNotificationsSelector],
+  (cleverTapNotifications) => {
+    return _.pickBy(cleverTapNotifications, (cleverTapNotification) => {
+      return !!cleverTapNotification && !cleverTapNotification.dismissed
     })
   }
 )
