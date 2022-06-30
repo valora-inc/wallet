@@ -53,12 +53,14 @@ import { Invite } from 'src/icons/navigator/Invite'
 import { MenuRings } from 'src/icons/navigator/MenuRings'
 import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
+import { Swap } from 'src/icons/navigator/Swap'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
+import { showSwapMenuInDrawerMenuSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -199,6 +201,8 @@ export default function DrawerNavigator() {
     <CustomDrawerContent {...props} />
   )
 
+  const shouldShowSwapMenuInDrawerMenu = useSelector(showSwapMenuInDrawerMenuSelector)
+
   return (
     <Drawer.Navigator
       initialRouteName={Screens.WalletHome}
@@ -214,21 +218,11 @@ export default function DrawerNavigator() {
         component={WalletHome}
         options={{ title: t('home'), drawerIcon: Home }}
       />
-      {(isCeloEducationComplete && (
+      {shouldShowSwapMenuInDrawerMenu && (
         <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
+          name={Screens.SwapScreen}
+          component={() => null}
+          options={{ title: t('swap'), drawerIcon: Swap }}
         />
       )}
       {dappsListUrl && (
@@ -278,6 +272,23 @@ export default function DrawerNavigator() {
             onPress: () => dispatch(toggleInviteModal(true)),
           }}
           options={{ title: t('invite'), drawerIcon: Invite }}
+        />
+      )}
+      {(isCeloEducationComplete && (
+        <Drawer.Screen
+          name={Screens.ExchangeHomeScreen}
+          component={ExchangeHomeScreen}
+          options={{ title: t('celoGold'), drawerIcon: Gold }}
+        />
+      )) || (
+        <Drawer.Screen
+          name={Screens.GoldEducation}
+          component={GoldEducation}
+          options={{
+            title: t('celoGold'),
+            drawerIcon: Gold,
+            ...TransitionPresets.ModalTransition,
+          }}
         />
       )}
       <Drawer.Screen
