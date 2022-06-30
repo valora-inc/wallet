@@ -15,7 +15,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 
-function WalletConnectRequest({ route: { params } }: Props) {
+function WalletConnectRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation()
 
   return (
