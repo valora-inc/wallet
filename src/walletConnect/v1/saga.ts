@@ -441,7 +441,7 @@ function* handlePendingStateOrNavigateBack() {
 
   if (hasPendingState) {
     yield call(handlePendingState)
-  } else if (yield isBottomSheetVisible(Screens.WalletConnectRequest)) {
+  } else if (yield call(isBottomSheetVisible, Screens.WalletConnectRequest)) {
     navigateBack()
   }
 }
