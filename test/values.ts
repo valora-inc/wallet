@@ -651,7 +651,8 @@ export const mockProviders: FetchProvidersOutput[] = [
     url: undefined,
     logo:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
-    logoWide: '',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
     quote: undefined,
     cashIn: true,
     cashOut: false,

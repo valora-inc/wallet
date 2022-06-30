@@ -289,7 +289,5 @@ export const filterProvidersByPaymentMethod = (
   paymentMethod: PaymentMethod,
   externalProviders: FetchProvidersOutput[] | undefined
 ) => {
-  return externalProviders
-    ? externalProviders?.filter((quote) => quote.paymentMethods[0] === paymentMethod)[0]
-    : null
+  return externalProviders?.find((quote) => quote.paymentMethods[0] === paymentMethod)
 }
