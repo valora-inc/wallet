@@ -264,4 +264,26 @@ describe('FiatConnectQuote', () => {
       expect(quote.getCryptoType()).toEqual(CryptoType.cUSD)
     })
   })
+
+  describe('.getFiatAccountSchema', () => {
+    it('returns fiat account schema', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAccountSchema()).toEqual(FiatAccountSchema.AccountNumber)
+    })
+  })
+
+  describe('.getFiatAccountSchemaAllowedValues', () => {
+    it('returns allowed values', () => {
+      const quote = new FiatConnectQuote({
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+      expect(quote.getFiatAccountSchemaAllowedValues()).toEqual({
+        institutionName: ['Bank A', 'Bank B'],
+      })
+    })
+  })
 })
