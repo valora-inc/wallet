@@ -24,6 +24,7 @@ function getProps(flow: CICOFlow, withFee = false, cryptoType = CryptoType.cUSD)
   const normalizedQuote = new FiatConnectQuote({
     quote: quoteData,
     fiatAccountType: FiatAccountType.BankAccount,
+    flow: CICOFlow.CashOut,
   })
   const fiatAccount: ObfuscatedFiatAccountData = {
     fiatAccountId: '123',
