@@ -257,7 +257,7 @@ export default function DrawerNavigator() {
       <Drawer.Screen
         name={Screens.BackupIntroduction}
         component={BackupIntroduction}
-        options={{ title: t('drawerAccountKey'), drawerIcon: AccountKey }}
+        options={{ title: t('accountKey'), drawerIcon: AccountKey }}
       />
       <Drawer.Screen
         name={Screens.FiatExchange}
