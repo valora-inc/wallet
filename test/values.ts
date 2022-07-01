@@ -560,7 +560,7 @@ export const mockSimplexQuote = {
   fiat_money: {
     currency: 'USD',
     base_amount: 19,
-    total_amount: 6,
+    total_amount: 25,
   },
   valid_until: '2022-05-09T17:18:28.434Z',
   supported_digital_currencies: ['CUSD', 'CELO'],
