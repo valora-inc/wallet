@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   CICOFlow,
@@ -7,8 +8,10 @@ import {
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import { convertLocalAmountToCurrency } from 'src/localCurrency/convert'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency, resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -54,10 +57,26 @@ export default class ExternalQuote extends NormalizedQuote {
     return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
   }
 
-  getFee(): number | null {
+  getCryptoType(): Currency {
     return isSimplexQuote(this.quote)
-      ? this.quote.fiat_money.total_amount - this.quote.fiat_money.base_amount
-      : this.quote.fiatFee
+      ? resolveCurrency(this.quote.digital_money.currency)!
+      : resolveCurrency(this.quote.digitalAsset)!
+  }
+
+  getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+    const cryptoType = this.getCryptoType()
+    return convertLocalAmountToCurrency(
+      this.getFeeInFiat(exchangeRates),
+      exchangeRates[cryptoType]
+    )!
+  }
+
+  getFeeInFiat(_exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+    return isSimplexQuote(this.quote)
+      ? new BigNumber(this.quote.fiat_money.total_amount).minus(
+          new BigNumber(this.quote.fiat_money.base_amount)
+        )
+      : new BigNumber(this.quote.fiatFee)
   }
 
   getKycInfo(): string | null {
