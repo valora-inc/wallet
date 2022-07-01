@@ -184,3 +184,21 @@ export async function addNewFiatAccount(
   // TODO: use the SDK to make the request once SDK is published
   throw new Error('Not implemented')
 }
+
+/**
+ * Get an obfuscated version of a fiat account number.
+ *
+ * For most accounts this will be a series of * followed by the last 4 digits.
+ *
+ * Ensures at least 3 digits are blanked out for user privacy since it is expected that this will be used to
+ *  compute an accountName for the fiat account, which is returned in GET /accounts and thus shouldn't just
+ *  be the user's bank account number. GET /accounts is still authenticated via SIWE, so at least 3 blanked digits
+ *  should be acceptable; the obfuscation is just a secondary layer of security around sensitive info.
+ *
+ * @param accountNumber
+ */
+export function getObfuscatedAccountNumber(accountNumber: string): string {
+  const digitsToReveal = Math.max(0, Math.min(accountNumber.length - 3, 4))
+  const blanks = '*'.repeat(accountNumber.length - digitsToReveal)
+  return digitsToReveal > 0 ? blanks + accountNumber.slice(-digitsToReveal) : blanks
+}

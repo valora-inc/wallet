@@ -20,6 +20,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { getObfuscatedAccountNumber } from './index'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
@@ -75,7 +76,10 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: { name: 'accountName', computeValue: ({ accountNumber }) => '...123' }, // fixme use obfuscated account number
+  accountName: {
+    name: 'accountName',
+    computeValue: ({ accountNumber }) => getObfuscatedAccountNumber(accountNumber ?? ''),
+  },
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
