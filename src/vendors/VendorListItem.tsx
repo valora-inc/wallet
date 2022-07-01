@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    ...fontStyles.displayName,
+    ...fontStyles.regular,
   },
   subtitle: {
-    ...fontStyles.small600,
+    ...fontStyles.small,
     color: Colors.gray3,
   },
 })

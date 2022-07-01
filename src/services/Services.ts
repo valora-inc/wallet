@@ -3,31 +3,31 @@ import SwapInput from 'src/icons/SwapInput'
 import { Screens } from 'src/navigator/Screens'
 
 export const CoreServices = [
-  {
-    title: 'servicesList.buy',
-    icon: Logo,
-    screen: Screens.Swap,
-  },
-  {
-    title: 'servicesList.cico',
-    icon: Logo,
-    screen: Screens.Swap,
-  },
+  // {
+  //   title: 'servicesList.buy',
+  //   icon: Logo,
+  //   screen: Screens.Swap,
+  // },
+  // {
+  //   title: 'servicesList.cico',
+  //   icon: Logo,
+  //   screen: Screens.Swap,
+  // },
   {
     title: 'servicesList.swap',
     icon: SwapInput,
     screen: Screens.Swap,
   },
-  {
-    title: 'servicesList.invest',
-    icon: Logo,
-    screen: Screens.Swap,
-  },
-  {
-    title: 'servicesList.bills',
-    icon: Logo,
-    screen: Screens.Swap,
-  },
+  // {
+  //   title: 'servicesList.invest',
+  //   icon: Logo,
+  //   screen: Screens.Swap,
+  // },
+  // {
+  //   title: 'servicesList.bills',
+  //   icon: Logo,
+  //   screen: Screens.Swap,
+  // },
   {
     title: 'servicesList.vendors',
     icon: Logo,
