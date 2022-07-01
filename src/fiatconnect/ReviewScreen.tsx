@@ -1,4 +1,4 @@
-import { CryptoType, FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { CryptoType, FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -253,17 +253,7 @@ function PaymentMethod({
 }) {
   const { t } = useTranslation()
 
-  // TODO(any): consider merging this with other schema specific stuff in a generic
-  // type and create via a factory
-  let displayText: string
-  switch (fiatAccountSchema) {
-    case FiatAccountSchema.AccountNumber:
-      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
-      displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
-      break
-    default:
-      throw new Error('Unsupported schema type')
-  }
+  const displayText = `${fiatAccount.institutionName} (...${fiatAccount.accountName})`
 
   return (
     <View style={styles.sectionContainer}>
