@@ -20,6 +20,7 @@ const store = createMockStore({})
 const quote = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
   fiatAccountType: FiatAccountType.BankAccount,
+  flow: CICOFlow.CashIn,
 })
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   flow: CICOFlow.CashIn,
