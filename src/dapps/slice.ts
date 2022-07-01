@@ -1,18 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { Dapp } from 'src/app/types'
+import { ActiveDapp, Dapp, DappCategory, DappConnectInfo } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-
-export enum DappSection {
-  RecentlyUsed = 'recently used',
-  Featured = 'featured',
-  All = 'all',
-}
-
-export interface ActiveDapp extends Dapp {
-  openedFrom: DappSection
-}
 
 export interface State {
   dappsWebViewEnabled: boolean
@@ -20,6 +10,12 @@ export interface State {
   maxNumRecentDapps: number
   recentDapps: Dapp[]
   dappListApiUrl: string | null
+  // TODO: update type of recentDapps and activeDapp to be string
+  dappsList: Dapp[]
+  dappsListLoading: boolean
+  dappsListError: string | null
+  dappsCategories: DappCategory[]
+  dappConnectInfo: DappConnectInfo
 }
 
 const initialState: State = {
@@ -28,10 +24,24 @@ const initialState: State = {
   maxNumRecentDapps: REMOTE_CONFIG_VALUES_DEFAULTS.maxNumRecentDapps,
   recentDapps: [],
   dappListApiUrl: null,
+  dappsList: [],
+  dappsListLoading: false,
+  dappsListError: null,
+  dappsCategories: [],
+  dappConnectInfo: DappConnectInfo.Default,
 }
 
 export interface DappSelectedAction {
   dapp: ActiveDapp
+}
+
+export interface FetchDappsListCompletedAction {
+  dapps: Dapp[]
+  categories: DappCategory[]
+}
+
+export interface FetchDappsListErrorAction {
+  error: string
 }
 
 export const slice = createSlice({
@@ -48,6 +58,20 @@ export const slice = createSlice({
     dappSessionEnded: (state) => {
       state.activeDapp = null
     },
+    fetchDappsList: (state) => {
+      state.dappsListLoading = true
+      state.dappsListError = null
+    },
+    fetchDappsListCompleted: (state, action: PayloadAction<FetchDappsListCompletedAction>) => {
+      state.dappsListLoading = false
+      state.dappsListError = null
+      state.dappsList = action.payload.dapps
+      state.dappsCategories = action.payload.categories
+    },
+    fetchDappsListFailed: (state, action: PayloadAction<FetchDappsListErrorAction>) => {
+      state.dappsListLoading = false
+      state.dappsListError = action.payload.error
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,6 +82,7 @@ export const slice = createSlice({
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.dappListApiUrl = action.configValues.dappListApiUrl
+          state.dappConnectInfo = action.configValues.dappConnectInfo
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -68,6 +93,12 @@ export const slice = createSlice({
   },
 })
 
-export const { dappSelected, dappSessionEnded } = slice.actions
+export const {
+  dappSelected,
+  dappSessionEnded,
+  fetchDappsList,
+  fetchDappsListCompleted,
+  fetchDappsListFailed,
+} = slice.actions
 
 export default slice.reducer

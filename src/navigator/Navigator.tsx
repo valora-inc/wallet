@@ -1,5 +1,7 @@
+import { BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 import { RouteProp } from '@react-navigation/core'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { createBottomSheetNavigator } from '@th3rdwave/react-navigation-bottom-sheet'
 import * as React from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
@@ -118,10 +120,12 @@ import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import WalletConnectRequest from 'src/walletConnect/screens/WalletConnectRequest'
 import WebViewScreen from 'src/webview/WebViewScreen'
+
 const TAG = 'Navigator'
 
 const Stack = createStackNavigator<StackParamList>()
-const RootStack = createStackNavigator<StackParamList>()
+const ModalStack = createStackNavigator<StackParamList>()
+const RootStack = createBottomSheetNavigator<StackParamList>()
 
 export const modalScreenOptions = () =>
   Platform.select({
@@ -142,33 +146,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.UpgradeScreen}
         component={UpgradeScreen}
         options={UpgradeScreen.navigationOptions}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitAccountScreen}
-        component={DappKitAccountScreen}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
-      />
-      <Navigator.Screen
-        name={Screens.DappKitSignTxScreen}
-        component={DappKitSignTxScreen}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
-      />
-      <Navigator.Screen
-        name={Screens.WalletConnectRequest}
-        component={WalletConnectRequest}
-        options={{
-          ...modalScreenOptions(),
-          ...noHeader,
-          gestureEnabled: false,
-        }}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
@@ -690,15 +667,59 @@ const mainScreenNavOptions = () => ({
   headerShown: false,
 })
 
-function RootStackScreen() {
+function nativeBottomSheets(BottomSheet: typeof RootStack) {
   return (
-    <RootStack.Navigator mode="modal">
-      <RootStack.Screen
+    <>
+      <BottomSheet.Screen
+        name={Screens.WalletConnectRequest}
+        component={WalletConnectRequest}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitAccountScreen}
+        component={DappKitAccountScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+      <BottomSheet.Screen
+        name={Screens.DappKitSignTxScreen}
+        component={DappKitSignTxScreen}
+        options={{ snapPoints: ['60%'] }}
+      />
+    </>
+  )
+}
+
+function ModalStackScreen() {
+  return (
+    <ModalStack.Navigator mode="modal">
+      <ModalStack.Screen
         name={Screens.Main}
         component={MainStackScreen}
         options={mainScreenNavOptions}
       />
-      {modalAnimatedScreens(RootStack)}
+      {modalAnimatedScreens(ModalStack)}
+    </ModalStack.Navigator>
+  )
+}
+
+function RootStackScreen() {
+  const renderBackdrop = React.useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop opacity={0.25} appearsOnIndex={0} disappearsOnIndex={-1} {...props} />
+    ),
+    []
+  )
+
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
+  return (
+    <RootStack.Navigator
+      screenOptions={{ snapPoints: ['100%'], backdropComponent: renderBackdrop }}
+    >
+      <RootStack.Screen name={Screens.MainModal} component={ModalStackScreen} />
+      {nativeBottomSheets(RootStack)}
     </RootStack.Navigator>
   )
 }

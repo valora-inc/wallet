@@ -1,17 +1,13 @@
-import { scrollIntoView } from '../utils/utils'
+import { scrollIntoView, waitForElementId } from '../utils/utils'
 import { reloadReactNative } from '../utils/retries'
 
 export default RequirePIN = () => {
-  beforeEach(async () => {
+  it('Then should be require PIN on app open', async () => {
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitFor(element(by.id('Settings')))
-      .toBeVisible()
-      .withTimeout(30000)
+    await waitForElementId('Settings')
     await element(by.id('Settings')).tap()
-  })
-
-  it('Then should be require PIN on app open', async () => {
     // Request Pin on App Open disabled by default
     await element(by.id('requirePinOnAppOpenToggle')).tap()
     await expect(element(by.id('requirePinOnAppOpenToggle'))).toHaveToggleValue(true)

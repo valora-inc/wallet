@@ -6,6 +6,7 @@ import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import Logger from 'src/utils/Logger'
 
 export interface RequestDetail {
   label: string
@@ -22,6 +23,7 @@ function RequestContentRow({ label, value, tapToCopy }: RequestDetail) {
       <Touchable
         onPress={() => {
           Clipboard.setString(value)
+          Logger.showMessage(t('addressCopied'))
         }}
         testID="CopyAddressToClipboard"
         disabled={!tapToCopy}

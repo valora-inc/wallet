@@ -11,7 +11,7 @@ export default abstract class NormalizedQuote {
   abstract getProviderLogo(): string
   abstract getProviderId(): string
 
-  abstract navigate(): void
+  abstract navigate(flow: CICOFlow): void
   onPress(flow: CICOFlow) {
     return () => {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
@@ -19,7 +19,7 @@ export default abstract class NormalizedQuote {
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),
       })
-      this.navigate()
+      this.navigate(flow)
     }
   }
 }

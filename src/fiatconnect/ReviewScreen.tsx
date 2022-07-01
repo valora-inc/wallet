@@ -1,4 +1,4 @@
-import { AccountNumber, CryptoType, FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
+import { CryptoType, FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -31,7 +31,7 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
 
-  const { flow, normalizedQuote, fiatAccount, fiatAccountSchema } = route.params
+  const { flow, normalizedQuote, fiatAccount } = route.params
 
   const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
 
@@ -56,7 +56,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         <PaymentMethod
           normalizedQuote={normalizedQuote}
           fiatAccount={fiatAccount}
-          fiatAccountSchema={fiatAccountSchema}
+          fiatAccountSchema={normalizedQuote.getFiatAccountSchema()}
         />
       </View>
       <Button
@@ -258,7 +258,7 @@ function PaymentMethod({
   let displayText: string
   switch (fiatAccountSchema) {
     case FiatAccountSchema.AccountNumber:
-      const account: AccountNumber = fiatAccount
+      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
       displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
       break
     default:
