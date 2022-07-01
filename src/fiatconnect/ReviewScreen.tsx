@@ -1,4 +1,8 @@
-import { CryptoType, FiatAccountSchema } from '@fiatconnect/fiatconnect-types'
+import {
+  CryptoType,
+  FiatAccountSchema,
+  ObfuscatedFiatAccountData,
+} from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -17,7 +21,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -248,7 +252,7 @@ function PaymentMethod({
   fiatAccountSchema,
 }: {
   normalizedQuote: FiatConnectQuote
-  fiatAccount: FiatAccount
+  fiatAccount: ObfuscatedFiatAccountData
   fiatAccountSchema: FiatAccountSchema
 }) {
   const { t } = useTranslation()
