@@ -45,7 +45,7 @@ export default NewAccountOnboarding = () => {
   // Ideally this wouldn't be dependent on the previous test
   it('Setup Recovery Phrase', async () => {
     await element(by.id('Hamburger')).tap()
-    await element(by.id('DrawerItem/Recovery Phrase')).tap()
+    await element(by.id('DrawerItem/Account Key')).tap()
 
     await enterPinUi()
 
