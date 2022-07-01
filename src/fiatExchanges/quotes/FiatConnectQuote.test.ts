@@ -12,14 +12,12 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { mockFiatConnectQuotes } from 'test/values'
-import { getContractKitAsync } from 'src/web3/contracts'
+import { getWalletAsync } from 'src/web3/contracts'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
-  getContractKitAsync: jest.fn(() => ({
-    getWallet: jest.fn(() => ({
-      getAccounts: jest.fn(() => ['fake-account']),
-    })),
+  getWalletAsync: jest.fn(() => ({
+    getAccounts: jest.fn(() => ['fake-account']),
   })),
 }))
 
@@ -242,13 +240,13 @@ describe('FiatConnectQuote', () => {
       })
       expect(quote.fiatConnectClient).toBeUndefined()
       await quote.getFiatConnectClient()
-      expect(getContractKitAsync).toHaveBeenCalled()
+      expect(getWalletAsync).toHaveBeenCalled()
       expect(quote.fiatConnectClient).not.toBeUndefined()
 
       jest.clearAllMocks()
 
       await quote.getFiatConnectClient()
-      expect(getContractKitAsync).not.toHaveBeenCalled()
+      expect(getWalletAsync).not.toHaveBeenCalled()
     })
   })
 })

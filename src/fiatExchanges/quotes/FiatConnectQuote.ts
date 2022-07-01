@@ -18,7 +18,7 @@ import { Screens } from 'src/navigator/Screens'
 import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { getSigningFunction } from 'src/fiatconnect/index'
-import { getContractKitAsync } from 'src/web3/contracts'
+import { getWalletAsync } from 'src/web3/contracts'
 import { FIATCONNECT_NETWORK } from 'src/config'
 
 const strings = {
@@ -159,12 +159,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     if (this.fiatConnectClient) {
       return this.fiatConnectClient
     }
-    const kit = await getContractKitAsync()
-    const wallet = kit.getWallet()! as UnlockableWallet
+    const wallet = (await getWalletAsync()) as UnlockableWallet
     const [account] = wallet.getAccounts()
     this.fiatConnectClient = new FiatConnectClient(
       {
-        baseUrl: this.quote.provider.baseUrl,
+        baseUrl: this.getProviderBaseUrl(),
         network: FIATCONNECT_NETWORK,
         accountAddress: account,
       },
