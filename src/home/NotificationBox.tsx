@@ -25,7 +25,7 @@ import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPayme
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
-import { getExtraNotifications } from 'src/home/selectors'
+import { getClevertapNotifications, getExtraNotifications } from 'src/home/selectors'
 import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -95,6 +95,8 @@ function useSimpleActions() {
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
   const extraNotifications = useSelector(getExtraNotifications)
+  const clevertapNotifications = useSelector(getClevertapNotifications)
+
   const verificationPossible = useSelector(verificationPossibleSelector)
 
   const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
@@ -310,6 +312,53 @@ function useSimpleActions() {
               notificationId: id,
             })
             dispatch(dismissNotification(id))
+          },
+        },
+      ],
+    })
+  }
+  // TODO: needs to be relocated to a proper location.
+  type CleverTapKeyValue = {
+    body: string
+    ctaPrimary: string
+    ctaPrimaryLink: string
+    ctaSecondary: string
+    ctaSecondaryLink: string
+    iconUrl: string
+    priority: string
+  }
+
+  for (const [id, cleverTapNotification] of Object.entries(clevertapNotifications)) {
+    if (!cleverTapNotification) {
+      continue
+    }
+
+    const keyValue: CleverTapKeyValue = cleverTapNotification['custom_kv'] as CleverTapKeyValue
+
+    if (keyValue === undefined) {
+      continue
+    }
+
+    actions.push({
+      id: id,
+      text: 'Haha This is CleverTap! ' + keyValue.body,
+      icon: { uri: keyValue.iconUrl },
+      priority: Number(keyValue.priority),
+      callToActions: [
+        {
+          text: keyValue.ctaPrimary,
+          onPress: () => {
+            //TODO: need to add ValoraAnalytics
+            dispatch(openUrl(keyValue.ctaPrimaryLink, false, true))
+          },
+        },
+        {
+          text: keyValue.ctaSecondary,
+          isSecondary: true,
+          onPress: () => {
+            //TODO: need to add ValoraAnalytics
+            //TODO: need to add dismiss function
+            // dispatch(dismissGetVerified())
           },
         },
       ],
