@@ -7,7 +7,7 @@ import {
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -24,6 +24,7 @@ import fontStyles from 'src/styles/fonts'
 import { showMessage, showError } from 'src/alert/actions'
 import { useDispatch } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
@@ -82,6 +83,7 @@ const getAccountNumberSchema = (implicitParams: {
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { flow, quote } = route.params
+  const [isSending, setIsSending] = useState(false)
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
@@ -138,6 +140,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
 
     if (validInputs) {
+      setIsSending(true)
       const body: Record<string, any> = {}
       for (let i = 0; i < formFields.length; i++) {
         body[formFields[i].name] = inputRefs.current[i]
@@ -167,7 +170,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           normalizedQuote: quote,
           fiatAccount: completeBody as FiatAccount,
         })
+        setTimeout(() => setIsSending(false), 500)
       } else {
+        setIsSending(false)
         Logger.error(
           TAG,
           `Error adding fiat account: ${result.error.fiatConnectError ?? result.error.message}`
@@ -211,6 +216,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     setTextValue(value)
 
     validateInput()
+  }
+
+  if (isSending) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   return (
@@ -332,6 +345,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })
 export default FiatDetailsScreen
