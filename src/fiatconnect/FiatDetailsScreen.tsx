@@ -43,10 +43,16 @@ interface ImplicitParam<T, K extends keyof T> {
   value: T[K]
 }
 
+interface ComputedParam<T, K extends keyof T> {
+  name: string
+  computeValue: (otherFields: T) => T[K] // would be a bit nicer if otherFields type explicitly excluded *this* property
+}
+
 type AccountNumberSchema = {
   [Property in keyof FiatAccountSchemas[FiatAccountSchema.AccountNumber]]:
     | FormFieldParam
     | ImplicitParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
+    | ComputedParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
@@ -69,7 +75,7 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: { name: 'accountName', value: 'n/a' },
+  accountName: { name: 'accountName', computeValue: ({ accountNumber }) => '...123' }, // fixme use accountNumber
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
@@ -102,14 +108,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   function isFormFieldParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is FormFieldParam {
     return 'errorMessage' in item
   }
   function isImplicitParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is ImplicitParam<T, K> {
     return 'value' in item
+  }
+  function isComputedParam<T, K extends keyof T>(
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
+  ): item is ComputedParam<T, K> {
+    return 'computeValue' in item
   }
 
   const schema = getSchema(fiatAccountSchema)
@@ -124,6 +135,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const implicitParameters = useMemo(() => {
     return Object.values(schema).filter(isImplicitParam)
+  }, [fiatAccountSchema])
+
+  const computedParameters = useMemo(() => {
+    return Object.values(schema).filter(isComputedParam)
   }, [fiatAccountSchema])
 
   const onPressNext = async () => {
@@ -144,6 +159,17 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         ...body,
         ...implicitBody,
       }
+
+      computedParameters.forEach((param) => {
+        completeBody[param.name] = param.computeValue(completeBody)
+      })
+
+      // const completeBody = computedParameters.reduce((acc, cur) => {
+      //   acc[cur.name] = cur.computeValue(acc)
+      // }, {
+      //   ...body,
+      //   ...implicitBody,
+      // })
 
       // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
       //   .then((data) => {
