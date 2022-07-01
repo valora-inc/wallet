@@ -45,7 +45,7 @@ interface ImplicitParam<T, K extends keyof T> {
 
 interface ComputedParam<T, K extends keyof T> {
   name: string
-  computeValue: (otherFields: T) => T[K] // would be a bit nicer if otherFields type explicitly excluded *this* property
+  computeValue: (otherFields: Partial<T>) => T[K]
 }
 
 type AccountNumberSchema = {
@@ -75,7 +75,7 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: { name: 'accountName', computeValue: ({ accountNumber }) => '...123' }, // fixme use accountNumber
+  accountName: { name: 'accountName', computeValue: ({ accountNumber }) => '...123' }, // fixme use obfuscated account number
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
@@ -150,28 +150,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      const implicitBody: Record<string, any> = {}
       implicitParameters.forEach((param) => {
-        implicitBody[param.name] = param.value
+        body[param.name] = param.value
       })
-
-      const completeBody = {
-        ...body,
-        ...implicitBody,
-      }
 
       computedParameters.forEach((param) => {
-        completeBody[param.name] = param.computeValue(completeBody)
+        body[param.name] = param.computeValue(body)
       })
-
-      // const completeBody = computedParameters.reduce((acc, cur) => {
-      //   acc[cur.name] = cur.computeValue(acc)
-      // }, {
-      //   ...body,
-      //   ...implicitBody,
-      // })
-
-      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
+      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, body)
       //   .then((data) => {
       //     // TODO Tracking here
       //     dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -189,7 +175,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       navigate(Screens.FiatConnectReview, {
         flow,
         normalizedQuote: quote,
-        fiatAccount: completeBody as FiatAccount,
+        fiatAccount: body as FiatAccount,
       })
     }
   }
