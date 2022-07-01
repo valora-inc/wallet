@@ -126,7 +126,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const coinbaseProvider = filterProvidersByPaymentMethod(
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
-  )!
+  )
 
   return (
     <ScrollView>
@@ -148,9 +148,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow={flow}
       />
       <CoinbasePaymentSection
-        uniqueProvider={coinbaseProvider}
+        coinbaseProvider={coinbaseProvider}
         setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
       />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />

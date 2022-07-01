@@ -1237,7 +1237,6 @@
     "viewExchanges": "View Exchanges",
     "card": "Credit / Debit Card",
     "bank": "Bank Account",
-    "coinbase": "Coinbase Pay",
     "mobileMoney": "Mobile Money",
     "minFee": "Min Fee",
     "numProviders": "{{count}} Providers",

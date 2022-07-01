@@ -3,20 +3,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
-import { CICOFlow, FetchProvidersOutput } from 'src/fiatExchanges/utils'
+import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 export interface CoinbasePaymentSectionProps {
-  coinbaseProvider: FetchProvidersOutput
+  coinbaseProvider: FetchProvidersOutput | undefined
   setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
-  flow: CICOFlow
 }
 
 export function CoinbasePaymentSection({
   coinbaseProvider,
   setNoPaymentMethods,
-  flow,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
 
@@ -30,7 +28,7 @@ export function CoinbasePaymentSection({
       <Touchable>
         <View style={{ ...styles.innerContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
-            <Text style={styles.category}>{t('selectProviderScreen.coinbase')}</Text>
+            <Text style={styles.category}>Coinbase Pay</Text>
 
             <Text style={styles.fee}>{t('selectProviderScreen.feesVary')}</Text>
           </View>
