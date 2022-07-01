@@ -1367,6 +1367,18 @@ export const v57Schema = {
   },
 }
 
+export const v58Schema = {
+  ...v57Schema,
+  _persist: {
+    ...v57Schema._persist,
+    version: 58,
+  },
+  app: {
+    ...v57Schema.app,
+    coinbasePayEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v57Schema as Partial<RootState>
+  return v58Schema as Partial<RootState>
 }

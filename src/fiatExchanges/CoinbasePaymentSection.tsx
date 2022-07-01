@@ -2,6 +2,8 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
 import colors from 'src/styles/colors'
@@ -17,8 +19,9 @@ export function CoinbasePaymentSection({
   setNoPaymentMethods,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
+  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
 
-  if (!coinbaseProvider || coinbaseProvider.restricted) {
+  if (!coinbaseProvider || coinbaseProvider.restricted || !coinbasePayEnabled) {
     setNoPaymentMethods(true)
     return null
   }
