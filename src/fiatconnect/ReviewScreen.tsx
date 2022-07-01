@@ -1,4 +1,4 @@
-import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
