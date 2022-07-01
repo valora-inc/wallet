@@ -85,7 +85,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                   }
                 }
               >
-                recoveryPhrase
+                accountKey
               </Text>
               <View
                 style={
