@@ -10,6 +10,7 @@ import {
   RawProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -29,9 +30,9 @@ export function normalizeQuotes(
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
   // We can use a dummy exchange rate value here since its just a comparator
   const exchangeRates = {
-    cGLD: '1',
-    cUSD: '1',
-    cEUR: '1',
+    [Currency.Celo]: '1',
+    [Currency.Dollar]: '1',
+    [Currency.Euro]: '1',
   }
   const providerFee1 = quote1.getFeeInFiat(exchangeRates) ?? new BigNumber(0)
   const providerFee2 = quote2.getFeeInFiat(exchangeRates) ?? new BigNumber(0)

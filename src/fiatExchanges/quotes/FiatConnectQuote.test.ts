@@ -1,9 +1,4 @@
-import {
-  CryptoType,
-  FiatAccountSchema,
-  FiatAccountType,
-  FiatType,
-} from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,6 +7,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -261,7 +257,7 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      expect(quote.getCryptoType()).toEqual(CryptoType.cUSD)
+      expect(quote.getCryptoType()).toEqual(Currency.Dollar)
     })
   })
 
