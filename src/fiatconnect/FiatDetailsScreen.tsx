@@ -212,7 +212,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               <Text style={styles.inputLabel}>{field.label}</Text>
               {field.name in allowedValues ? (
                 <PickerSelect
-                  style={{ inputIOS: styles.formSelectInput }}
+                  style={{
+                    inputIOS: styles.formSelectInput,
+                    inputAndroid: styles.formSelectInput,
+                  }}
                   onValueChange={(value) => {
                     setInputValue(value, index)
                   }}
