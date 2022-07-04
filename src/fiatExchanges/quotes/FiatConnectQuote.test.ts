@@ -294,6 +294,7 @@ describe('FiatConnectQuote', () => {
   describe('.getFiatConnectClient', () => {
     it('returns the client if one exists', async () => {
       const quote = new FiatConnectQuote({
+        flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
