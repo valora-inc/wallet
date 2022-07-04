@@ -25,6 +25,9 @@ import Logger from 'src/utils/Logger'
 
 Logger.debug('App/init', 'Current Language: ' + i18n.language)
 
+// Explicitly enable screens for react-native-screens
+enableScreens(true)
+
 const ignoreWarnings = [
   'componentWillReceiveProps',
   'Remote debugger', // To avoid "Remote debugger in background tab" warning
@@ -70,7 +73,6 @@ export class App extends React.Component<Props> {
       LogBox.ignoreAllLogs(true)
     }
     await ValoraAnalytics.init()
-    enableScreens(true)
 
     // Handles opening Clevertap deeplinks when app is closed / in background
     CleverTap.getInitialUrl(async (err: any, url) => {
