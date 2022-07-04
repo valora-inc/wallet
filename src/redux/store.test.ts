@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 56,
+          "version": 57,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -181,6 +181,7 @@ describe('store state', () => {
           "superchargeButtonType": "PILL_REWARDS",
           "superchargeTokens": Array [],
           "supportedBiometryType": null,
+          "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
         },
         "dapps": Object {

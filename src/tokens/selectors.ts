@@ -138,3 +138,6 @@ export const tokensInfoUnavailableSelector = createSelector(
     return totalBalance === null
   }
 )
+
+export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
+  state.app.visualizeNFTsEnabledInHomeAssetsPage

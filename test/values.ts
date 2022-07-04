@@ -560,7 +560,7 @@ export const mockSimplexQuote = {
   fiat_money: {
     currency: 'USD',
     base_amount: 19,
-    total_amount: 6,
+    total_amount: 25,
   },
   valid_until: '2022-05-09T17:18:28.434Z',
   supported_digital_currencies: ['CUSD', 'CELO'],
@@ -684,7 +684,7 @@ export const mockGetFiatConnectQuotesResponse: GetFiatConnectQuotesResponse[] = 
           fiatAccountSchemas: [
             {
               fiatAccountSchema: FiatAccountSchema.AccountNumber,
-              allowedValues: {},
+              allowedValues: { institutionName: ['Bank A', 'Bank B'] },
             },
           ],
           fee: '0.53',

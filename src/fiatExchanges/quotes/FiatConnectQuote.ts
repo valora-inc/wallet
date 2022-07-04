@@ -1,12 +1,25 @@
-import { CryptoType, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountSchema,
+  FiatAccountType,
+  FiatType,
+  QuoteResponseFiatAccountSchema,
+} from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
 } from 'src/fiatconnect/FiatDetailsScreen'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
-import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import {
+  convertCurrencyToLocalAmount,
+  convertLocalAmountToCurrency,
+} from 'src/localCurrency/convert'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { Currency, resolveCurrency } from 'src/utils/currencies'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -17,12 +30,17 @@ const strings = {
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
   fiatAccountType: FiatAccountType
+  flow: CICOFlow
+  quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
   constructor({
     quote,
     fiatAccountType,
+    flow,
   }: {
     quote: FiatConnectQuoteSuccess
     fiatAccountType: keyof typeof quote.fiatAccount
+    // TODO: Get flow from the quote object once it is added to the spec https://github.com/fiatconnect/specification/pull/67
+    flow: CICOFlow
   }) {
     super()
 
@@ -33,13 +51,13 @@ export default class FiatConnectQuote extends NormalizedQuote {
         `Error: ${quote.provider.id}. FiatAccountType: ${fiatAccountType} is not supported in the app`
       )
     }
-    // Check if at least one of the FiatAccountSchemas is supported
-    const isFiatAccountSchemaSupported = quote.fiatAccount[
+    // Find a supported FiatAccountSchema
+    const quoteResponseFiatAccountSchema = quote.fiatAccount[
       fiatAccountType
-    ]?.fiatAccountSchemas.some((schema) =>
+    ]?.fiatAccountSchemas.find((schema) =>
       SUPPORTED_FIAT_ACCOUNT_SCHEMAS.has(schema.fiatAccountSchema)
     )
-    if (!isFiatAccountSchemaSupported) {
+    if (!quoteResponseFiatAccountSchema) {
       throw new Error(
         `Error: ${quote.provider.id}. None of the following FiatAccountSchema's are supported: ${quote.fiatAccount[fiatAccountType]?.fiatAccountSchemas}`
       )
@@ -52,6 +70,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     }
     this.quote = quote
     this.fiatAccountType = fiatAccountType
+    this.flow = flow
+    // NOTE: since we only support 1 fiat account schema right now, this is hardcoded to use a single fiat account.
+    // (Providers might support multiple fiat account schemas for the same quote.)
+    this.quoteResponseFiatAccountSchema = quoteResponseFiatAccountSchema
   }
 
   // TODO: Dynamically generate time estimation strings
@@ -62,13 +84,30 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getPaymentMethod(): PaymentMethod {
     const fiatAccountToPaymentMethodMap = {
       [FiatAccountType.BankAccount]: PaymentMethod.Bank,
+      [FiatAccountType.MobileMoney]: PaymentMethod.MobileMoney,
+      [FiatAccountType.DuniaWallet]: PaymentMethod.MobileMoney,
     }
     return fiatAccountToPaymentMethodMap[this.fiatAccountType]
   }
 
-  getFee(): number | null {
+  _getFee(): BigNumber | null {
     const feeString = this.quote.fiatAccount[this.fiatAccountType]?.fee
-    return feeString !== undefined ? parseFloat(feeString) : null
+    return feeString !== undefined ? new BigNumber(feeString) : null
+  }
+  // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
+  getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+    if (this.flow === CICOFlow.CashOut) {
+      return this._getFee()
+    }
+    return convertLocalAmountToCurrency(this._getFee(), exchangeRates[this.getCryptoType()])
+  }
+
+  // FiatConnect quotes denominate fees in fiat & crypto for CashIn & CashOut respectively
+  getFeeInFiat(exchangeRates: { [token in Currency]: string | null }): BigNumber | null {
+    if (this.flow === CICOFlow.CashIn) {
+      return this._getFee()
+    }
+    return convertCurrencyToLocalAmount(this._getFee(), exchangeRates[this.getCryptoType()])
   }
 
   // TODO: make kyc info dynamic based on kyc schema
@@ -83,13 +122,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  // TODO: Integrate the FiatConnectQuote class into the FiatDetailsScreen
-  navigate(): void {
-    // navigate(Screens.FiatDetailsScreen, {
-    //   quote: this,
-    //   fiatAccountType: this.fiatAccountType,
-    //   flow,
-    // })
+  navigate(flow: CICOFlow): void {
+    navigate(Screens.FiatDetailsScreen, {
+      quote: this,
+      flow,
+    })
   }
 
   getProviderName(): string {
@@ -104,6 +141,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.id
   }
 
+  getProviderBaseUrl(): string {
+    return this.quote.provider.baseUrl
+  }
+
   getFiatAmount(): string {
     return this.quote.quote.fiatAmount
   }
@@ -116,7 +157,19 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.cryptoAmount
   }
 
-  getCryptoType(): CryptoType {
-    return this.quote.quote.cryptoType
+  getCryptoType(): Currency {
+    return resolveCurrency(this.quote.quote.cryptoType)!
+  }
+
+  getFiatAccountType(): FiatAccountType {
+    return this.fiatAccountType
+  }
+
+  getFiatAccountSchema(): FiatAccountSchema {
+    return this.quoteResponseFiatAccountSchema.fiatAccountSchema
+  }
+
+  getFiatAccountSchemaAllowedValues(): { [key: string]: string[] } {
+    return this.quoteResponseFiatAccountSchema.allowedValues
   }
 }

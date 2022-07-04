@@ -10,7 +10,7 @@ import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -51,12 +51,14 @@ const DappKitSignTxScreen = ({ route }: Props) => {
     setShowTransactionDetails((prev) => !prev)
   }
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     ValoraAnalytics.track(
       DappKitEvents.dappkit_request_cancel,
       getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
     )
-    navigateBack()
+    if (await isBottomSheetVisible(Screens.DappKitSignTxScreen)) {
+      navigateBack()
+    }
   }
 
   const requestDetails = [
@@ -71,6 +73,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
       <RequestContent
         onAccept={handleAllow}
         onDeny={handleCancel}
+        dappName={dappName}
         dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
         title={t('confirmTransaction', { dappName })}
         description={t('action.askingV1_35', { dappName })}
