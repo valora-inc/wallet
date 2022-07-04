@@ -6,6 +6,7 @@ import { ApolloProvider } from 'react-apollo'
 import { Dimensions, Linking, LogBox, Platform, StatusBar } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { AppEvents } from 'src/analytics/Events'
@@ -69,6 +70,7 @@ export class App extends React.Component<Props> {
       LogBox.ignoreAllLogs(true)
     }
     await ValoraAnalytics.init()
+    enableScreens(true)
 
     // Handles opening Clevertap deeplinks when app is closed / in background
     CleverTap.getInitialUrl(async (err: any, url) => {

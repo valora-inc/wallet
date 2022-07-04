@@ -208,6 +208,9 @@ export default function DrawerNavigator() {
         labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
         activeBackgroundColor: colors.gray2,
       }}
+      defaultScreenOptions={{
+        unmountOnBlur: true,
+      }}
     >
       <Drawer.Screen
         name={Screens.WalletHome}
