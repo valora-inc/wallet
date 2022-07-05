@@ -1117,8 +1117,11 @@
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
   "balances": "Actifs",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
+  "open": "Ouvrir",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
