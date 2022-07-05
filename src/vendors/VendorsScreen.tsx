@@ -4,6 +4,8 @@ import { StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { Vendor } from 'src/vendors/types'
 import VendorDetailBottomSheet from 'src/vendors/VendorDetailBottomSheet'
 import VendorListItem from 'src/vendors/VendorListItem'
@@ -26,6 +28,11 @@ export default function VendorsScreen() {
     return index.toString()
   }
 
+  const handleSelectVendor = () => {
+    navigate(Screens.QRNavigator, { screen: Screens.QRScanner })
+    setCurrentVendor(null)
+  }
+
   return (
     <SafeAreaView>
       <AnimatedFlatList
@@ -36,7 +43,11 @@ export default function VendorsScreen() {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
       />
-      <VendorDetailBottomSheet vendor={currentVendor} dismiss={() => setCurrentVendor(null)} />
+      <VendorDetailBottomSheet
+        vendor={currentVendor}
+        dismiss={() => setCurrentVendor(null)}
+        select={() => handleSelectVendor()}
+      />
     </SafeAreaView>
   )
 }

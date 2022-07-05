@@ -19,13 +19,14 @@ import { Vendor } from 'src/vendors/types'
 type OwnProps = {
   vendor: Vendor | null
   dismiss: () => void
+  select: () => void
 }
 
 type Props = OwnProps
 
-function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
+function VendorDetailBottomSheet({ vendor, dismiss, select }: Props) {
   const { t } = useTranslation()
-  const { title, subtitle, tags, logoURI, address } = vendor || {}
+  const { title, subtitle, tags, logoURI, address, description } = vendor || {}
 
   const recipient: Recipient = { address: address as string }
 
@@ -35,10 +36,6 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
 
   const navigateToSend = () => {
     navigate(Screens.SendAmount, { recipient, origin: SendOrigin.AppSendFlow })
-  }
-
-  const navigateToQR = () => {
-    navigate(Screens.QRNavigator)
   }
 
   return (
@@ -61,9 +58,10 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
             <Times />
           </Touchable>
         </View>
-        <>
+        <View style={styles.innerContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
+          <Text style={styles.description}>{description}</Text>
           <View style={styles.tags}>
             {map(tags, (tag) => (
               <Button
@@ -77,19 +75,20 @@ function VendorDetailBottomSheet({ vendor, dismiss }: Props) {
           </View>
           {/* @todo Add Send button */}
           <View style={styles.actionButtons}>
-            <Button
-              type={BtnTypes.PRIMARY}
-              size={BtnSizes.MEDIUM}
-              text={t('payVendor')}
-              onPress={navigateToSend}
-              disabled={!address}
-            />
-            <TouchableOpacity onPress={navigateToQR}>
+            {address && (
+              <Button
+                type={BtnTypes.PRIMARY}
+                size={BtnSizes.MEDIUM}
+                text={t('payVendor')}
+                onPress={navigateToSend}
+              />
+            )}
+            <TouchableOpacity onPress={select}>
               <QRCodeBorderless />
             </TouchableOpacity>
           </View>
           {/* @todo Add QR scanning button, this should utilize deep linking */}
-        </>
+        </View>
       </View>
     </Modal>
   )
@@ -107,6 +106,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     backgroundColor: 'white',
   },
+  innerContainer: {
+    marginHorizontal: 20,
+  },
   title: {
     ...fontStyles.h2,
     textAlign: 'center',
@@ -118,6 +120,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.gray5,
     paddingHorizontal: 36,
+    marginBottom: 16,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'justify',
+    fontSize: 14,
   },
   sheetHeader: {
     flexDirection: 'row',
@@ -141,12 +149,12 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     borderColor: Colors.gray4,
     borderWidth: StyleSheet.hairlineWidth,
-    backgroundColor: 'white',
   },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
+    marginVertical: 20,
   },
   actionButtons: {
     width: '100%',
