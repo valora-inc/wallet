@@ -15,10 +15,9 @@ describe('CoinbasePaymentSection', () => {
   let mockStore: MockStoreEnhanced
   beforeEach(() => {
     props = {
-      coinbaseProvider: mockProviders.find(
-        (quote) => quote.paymentMethods[0] === PaymentMethod.Coinbase
+      coinbaseProvider: mockProviders.find((quote) =>
+        quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
-      setNoPaymentMethods: jest.fn(),
     }
     mockStore = createMockStore({
       app: {
@@ -34,7 +33,6 @@ describe('CoinbasePaymentSection', () => {
       </Provider>
     )
     expect(queryByText('Coinbase Pay')).toBeFalsy()
-    expect(props.setNoPaymentMethods).toHaveBeenCalled()
   })
   it('shows nothing if coinbase is not restricted but feature flag is false', async () => {
     props.coinbaseProvider!.restricted = false
@@ -44,9 +42,8 @@ describe('CoinbasePaymentSection', () => {
       </Provider>
     )
     expect(queryByText('Coinbase Pay')).toBeFalsy()
-    expect(props.setNoPaymentMethods).toHaveBeenCalled()
   })
-  it('shows nothign if coinbase is restricted and feature flag is true', async () => {
+  it('shows nothing if coinbase is restricted and feature flag is true', async () => {
     props.coinbaseProvider!.restricted = true
     mockStore = createMockStore({
       ...mockStore,
@@ -60,7 +57,6 @@ describe('CoinbasePaymentSection', () => {
       </Provider>
     )
     expect(queryByText('Coinbase Pay')).toBeFalsy()
-    expect(props.setNoPaymentMethods).toHaveBeenCalled()
   })
   it('shows card if coinbase is not restricted and feature flag is true', async () => {
     props.coinbaseProvider!.restricted = false
@@ -76,6 +72,5 @@ describe('CoinbasePaymentSection', () => {
       </Provider>
     )
     expect(queryByText('Coinbase Pay')).toBeTruthy()
-    expect(props.setNoPaymentMethods).not.toHaveBeenCalled()
   })
 })
