@@ -1515,6 +1515,9 @@
                 "celoWithdrawalEnabledInExchange": {
                     "type": "boolean"
                 },
+                "coinbasePayEnabled": {
+                    "type": "boolean"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -1659,6 +1662,7 @@
                 "celoEducationUri",
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
+                "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "finclusiveUnsupportedStates",
