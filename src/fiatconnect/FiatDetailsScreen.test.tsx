@@ -1,5 +1,6 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
+import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { addNewFiatAccount, FiatConnectQuoteSuccess } from 'src/fiatconnect'
@@ -36,49 +37,74 @@ describe('FiatDetailsScreen', () => {
   })
 
   it('can view a list of bank fields', () => {
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { queryByText, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
-    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    // checks presence of picker, testID is hardcoded and not customizable
+    expect(queryByTestId('android_touchable_wrapper')).toBeTruthy()
+
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId('input-accountNumber')).toBeTruthy()
+
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
-    expect(getByTestId('selectedProviderButton')).toBeTruthy()
-    expect(getByTestId('nextButton')).toBeTruthy()
+    expect(queryByTestId('selectedProviderButton')).toBeTruthy()
+    expect(queryByTestId('nextButton')).toBeTruthy()
   })
   it('shows validation error if the input field does not fulfill the requirement', () => {
-    const { getByText, getByTestId, queryByTestId } = render(
+    const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
-    expect(getByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
-    expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
     // Should see an error message saying the account number field is invalid
-    expect(getByTestId('errorMessage')).toBeTruthy()
-    expect(getByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+    expect(queryByTestId('errorMessage')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
   })
   it('sends a request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
-    const { getByTestId, debug } = render(
+    // NOTE: Make a quote with no allowed values since setting a value on picker is hard
+    const mockFcQuote = _.cloneDeep(mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess)
+    mockFcQuote.fiatAccount.BankAccount = {
+      ...mockFcQuote.fiatAccount.BankAccount,
+      fiatAccountSchemas: [
+        {
+          fiatAccountSchema: FiatAccountSchema.AccountNumber,
+          allowedValues: {},
+        },
+      ],
+    }
+
+    const quote = new FiatConnectQuote({
+      quote: mockFcQuote,
+      fiatAccountType: FiatAccountType.BankAccount,
+      flow: CICOFlow.CashIn,
+    })
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+      flow: CICOFlow.CashIn,
+      quote,
+    })
+
+    const { getByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
-    debug()
-
     const fakeInstitutionName = 'CapitalTwo Bank'
     const fakeAccountNumber = '1234567890'
+    fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
-    await fireEvent.press(getByTestId('android_picker_headless'))
 
     const expectedBody = {
       accountName: 'n/a',
