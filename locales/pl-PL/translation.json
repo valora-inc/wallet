@@ -1121,8 +1121,11 @@
     "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Razem",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
+  "open": "Otwórz",
+  "nftViewer": "Przeglądarka NFT",
   "whatTotalValue": {
     "title": "Co oznacza termin „saldo całkowite”?",
     "body": "Twoje saldo całkowite to przybliżona suma wszystkich Twoich aktywów w aplikacji Valora. Saldo całkowite będzie się zmieniać wraz z wahaniami cen. Jest ono aktualizowane co 10 minut.\nNiektóre aktywa mogą nie być widoczne w Saldzie całkowitym, ponieważ ich cena jest niedostępna w momencie obliczania salda.",
