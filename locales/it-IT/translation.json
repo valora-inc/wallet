@@ -1117,8 +1117,11 @@
     "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
   "balances": "Assets",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Totale",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
+  "open": "Aprire",
+  "nftViewer": "Visualizzatore NFT",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
