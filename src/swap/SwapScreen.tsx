@@ -11,18 +11,9 @@ import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 type Props = WithTranslation
 
 function SwapScreen({ t }: Props) {
-  // useBalanceAutoRefresh()
-  // @todo get list of tokens from symmetric (name, symbol, address, imgUrl)
-
-  const { currentAssetIn, currentAssetOut } = useSelector(fetchSelectedSwapAssets)
-
   return (
     <View style={styles.container} testID={'Swap/Main'}>
-      <ExchangeModal
-        defaultInputAsset={currentAssetIn}
-        defaultOutputAsset={currentAssetOut}
-        type={'Swap'}
-      />
+      <ExchangeModal type={'Swap'} />
     </View>
   )
 }
@@ -36,6 +27,7 @@ SwapScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     paddingHorizontal: variables.contentPadding,
     marginVertical: 16,
   },

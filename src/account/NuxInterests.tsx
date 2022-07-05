@@ -80,7 +80,6 @@ function NuxInterestsScreen({ route, navigation }: Props) {
   const [allowContinue, showContinue] = useState(false)
 
   const onPressStart = async () => {
-    // @todo post selections to firebase
     dispatch(setHasSeenVerificationNux(true))
   }
 
@@ -103,8 +102,6 @@ function NuxInterestsScreen({ route, navigation }: Props) {
   }
 
   const onPressContinueWhenVerificationUnavailable = () => {
-    // @todo store selections locally, post to firebase when available
-
     dispatch(setHasSeenVerificationNux(true))
     navigateHome()
   }

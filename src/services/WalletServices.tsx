@@ -66,13 +66,7 @@ function WalletServices() {
   }
 
   const sections = []
-  // @todo Core services section; a list of services the user uses
-  // @todo Pending services section; a list of services not yet implemented
-  // @note Each section is a FlatList. This is because SectionList doesnt support
-  // multiple columns.
-  // @note The section list is a list of two flat lists. Makes sense?
   const walletSection = CoreServices
-  // const businessSection = WalletServices;
 
   sections.push({
     data: [{}],

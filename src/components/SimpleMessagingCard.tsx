@@ -32,7 +32,6 @@ export default function SimpleMessagingCard({
       />
     )
   ) : undefined
-
   return (
     <MessagingCard style={styles.container} testID={testID}>
       <View style={styles.innerContainer}>
@@ -42,7 +41,6 @@ export default function SimpleMessagingCard({
           </Text>
           <CallToActionsBar callToActions={callToActions} testID={`${testID}/CallToActions`} />
         </View>
-        {!!icon && <View style={styles.iconContainer}>{icon}</View>}
       </View>
     </MessagingCard>
   )

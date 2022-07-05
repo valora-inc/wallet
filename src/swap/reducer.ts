@@ -1,3 +1,4 @@
+import { ActionSheetIOS } from 'react-native'
 import { REHYDRATE } from 'redux-persist'
 import { createSelector } from 'reselect'
 import { getRehydratePayload, RehydrateAction } from 'src/redux/persist-helper'
@@ -10,19 +11,30 @@ export interface State {
   isLoading: boolean
   currentAssetIn: UbeswapExprimentalToken | null
   currentAssetOut: UbeswapExprimentalToken | null
+  amountIn: number
+  amountOut: number
 }
 
 export const initialState: State = {
   isLoading: false,
   currentAssetIn: null,
   currentAssetOut: null,
+  amountIn: 0,
+  amountOut: 0,
 }
 
+export const amountInSelector = (state: RootState) => state.swap.amountIn
+export const amountOutSelector = (state: RootState) => state.swap.amountOut
 export const fetchSelectedAssetIn = (state: RootState) => state.swap.currentAssetIn
 export const fetchSelectedAssetOut = (state: RootState) => state.swap.currentAssetOut
 export const fetchSelectedSwapAssets = createSelector(
-  [fetchSelectedAssetIn, fetchSelectedAssetOut],
-  (currentAssetIn, currentAssetOut) => ({ currentAssetIn, currentAssetOut })
+  [fetchSelectedAssetIn, fetchSelectedAssetOut, amountInSelector, amountOutSelector],
+  (currentAssetIn, currentAssetOut, amountIn, amountOut) => ({
+    currentAssetIn,
+    currentAssetOut,
+    amountIn,
+    amountOut,
+  })
 )
 
 export const reducer = (
@@ -56,6 +68,22 @@ export const reducer = (
         return {
           ...state,
           currentAssetOut: action.currentAsset,
+        }
+      }
+      return {
+        ...state,
+      }
+    }
+    case Actions.SET_AMOUNT: {
+      if (action.direction === SwapDirection.IN) {
+        return {
+          ...state,
+          amountIn: action.amount,
+        }
+      } else if (action.direction === SwapDirection.OUT) {
+        return {
+          ...state,
+          amountOut: action.amount,
         }
       }
       return {
