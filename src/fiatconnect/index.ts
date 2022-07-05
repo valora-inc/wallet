@@ -188,7 +188,7 @@ export async function addNewFiatAccount(
 /**
  * Get an obfuscated version of a fiat account number.
  *
- * For most accounts this will be a series of * followed by the last 4 digits.
+ * For most accounts this will be ... followed by the last 4 digits.
  *
  * Ensures at least 3 digits are blanked out for user privacy since it is expected that this will be used to
  *  compute an accountName for the fiat account, which is returned in GET /accounts and thus shouldn't just
