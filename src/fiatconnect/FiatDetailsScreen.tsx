@@ -216,6 +216,8 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                     inputIOS: styles.formSelectInput,
                     inputAndroid: styles.formSelectInput,
                   }}
+                  // NOTE: the below allows customizing the field to look
+                  // similar to other free form text fields
                   useNativeAndroidPickerStyle={false}
                   onValueChange={(value) => {
                     setInputValue(value, index)
