@@ -216,6 +216,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                     inputIOS: styles.formSelectInput,
                     inputAndroid: styles.formSelectInput,
                   }}
+                  useNativeAndroidPickerStyle={false}
                   onValueChange={(value) => {
                     setInputValue(value, index)
                   }}

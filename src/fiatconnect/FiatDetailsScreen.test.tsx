@@ -60,7 +60,6 @@ describe('FiatDetailsScreen', () => {
     expect(getByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
-    fireEvent.changeText(getByTestId('input-institutionName'), 'ma Chase Bank')
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
     // Should see an error message saying the account number field is invalid
@@ -68,16 +67,18 @@ describe('FiatDetailsScreen', () => {
     expect(getByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
   })
   it('sends a request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
-    const { getByTestId } = render(
+    const { getByTestId, debug } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
       </Provider>
     )
 
+    debug()
+
     const fakeInstitutionName = 'CapitalTwo Bank'
     const fakeAccountNumber = '1234567890'
-    fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
+    await fireEvent.press(getByTestId('android_picker_headless'))
 
     const expectedBody = {
       accountName: 'n/a',
