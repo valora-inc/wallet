@@ -535,7 +535,7 @@
   "insufficientBalance": "Your balance is too low to make this transaction",
   "amount": "Amount",
   "currentBalance": "Current Balance (cUSD)",
-  "restore": "Restore",
+  "restore": "Import",
   "commentUnavailable": "Comment Unavailable",
   "accountClearFailed": "There was an error while removing your Recovery Phrase. You might have to reinstall the app to restore all functionality.",
   "withdraw": "Withdraw",
@@ -693,9 +693,9 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "If you can text, you can crypto. Starting now, your phone is your crypto wallet.",
-    "step2": "With {{appName}}, it’s easy to access and easy to grow your crypto.",
-    "step3": "All you need is a mobile phone to send, spend and explore."
+    "step1": "The fastest and easiest way to pay, with your {{appName}}.",
+    "step2": "Empower local impact economies with your {{appName}}.",
+    "step3": "Step into the future of crypto, with your {{appName}}."
   },
   "enableBiometry": {
     "title": "Secure your wallet",
@@ -714,7 +714,7 @@
   "welcome": {
     "title": "Step into the future of crypto with {{appName}}",
     "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "restoreAccount": "Import my account"
   },
   "accessContacts": {
     "disclosure": {
@@ -723,7 +723,7 @@
     }
   },
   "createAccount": "Create Account",
-  "restoreAccount": "Restore My Account",
+  "restoreAccount": "Import My Account",
   "registrationSteps": "Step {{step}} of {{totalSteps}}",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
@@ -769,7 +769,7 @@
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
-    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to import your account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {

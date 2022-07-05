@@ -11,9 +11,6 @@ import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 type Props = WithTranslation
 
 function SwapScreen({ t }: Props) {
-  // useBalanceAutoRefresh()
-  // @todo get list of tokens from symmetric (name, symbol, address, imgUrl)
-
   const { currentAssetIn, currentAssetOut } = useSelector(fetchSelectedSwapAssets)
 
   return (

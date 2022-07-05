@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.gray2,
     paddingBottom: 5,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    maxWidth: '65%',
   },
   right: {
     paddingHorizontal: 30,

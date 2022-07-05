@@ -18,25 +18,22 @@ import { Spacing } from 'src/styles/styles'
 
 function useStep() {
   const { t } = useTranslation()
-
+  // @todo Replace value propositions with ones from Kolektivo
   return React.useMemo(() => {
     return [
       {
         title: t('onboardingEducation.step1'),
         isTopTitle: true,
-        image: onboardingEducation1,
         topic: EducationTopic.onboarding,
       },
       {
         title: t('onboardingEducation.step2'),
         isTopTitle: true,
-        image: onboardingEducation2,
         topic: EducationTopic.onboarding,
       },
       {
         title: t('onboardingEducation.step3'),
         isTopTitle: true,
-        image: onboardingEducation3,
         topic: EducationTopic.onboarding,
       },
     ]

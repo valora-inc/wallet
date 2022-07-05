@@ -347,9 +347,6 @@ function useSimpleActions() {
       ],
     })
   }
-
-  // @todo Register a new notification here
-
   return actions
 }
 

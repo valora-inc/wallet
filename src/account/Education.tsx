@@ -16,6 +16,7 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnTypes } from 'src/components/Button'
 import BackChevron from 'src/icons/BackChevron'
+import Logo from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -170,7 +171,7 @@ export default class Education extends React.Component<Props, State> {
       ...passThroughProps
     } = this.props
     const isLastStep = this.state.step === stepInfo.length - 1
-
+    // @todo Replace screen layout with a better layout
     return (
       <SafeAreaView style={[styles.root, style]} {...passThroughProps}>
         {this.renderEmbeddedNavBar()}
@@ -190,11 +191,13 @@ export default class Education extends React.Component<Props, State> {
                   style={styles.swipedContent}
                   key={i}
                 >
-                  {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
                   <View style={styles.swipedContentInner}>
+                    {step.isTopTitle && <Logo height={64} />}
+                    {step.isTopTitle && <Text style={styles.headingTop}>{step.title}</Text>}
                     {step.image && (
                       <Image source={step.image} style={styles.bodyImage} resizeMode="contain" />
                     )}
+                    {!step.isTopTitle && <Logo height={50} />}
                     {!step.isTopTitle && <Text style={styles.heading}>{step.title}</Text>}
                     {!!step.text && <Text style={styles.bodyText}>{step.text}</Text>}
                   </View>
@@ -219,6 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
@@ -233,7 +237,7 @@ const styles = StyleSheet.create({
   heading: {
     marginTop: 24,
     ...fontStyles.h2,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   headingTop: {
     ...fontStyles.h1,
@@ -250,7 +254,6 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   swipedContent: {
-    flex: 1,
     marginBottom: 24,
     paddingHorizontal: 24,
     overflow: 'scroll',

@@ -13,9 +13,6 @@ type ExchangeFieldProps = {
 }
 
 const ExchangeAssetField = ({ asset, direction, style }: ExchangeFieldProps) => {
-  // // @todo Get required display details for asset
-  // // @todo Actions to interact with elements
-
   const [amount, setAmount] = useState<any>(0)
 
   return (

@@ -129,5 +129,3 @@ export const oldFontsStyles = StyleSheet.create({
   sectionLabelNew: fontStyles.sectionHeader,
   headerTitle: fontStyles.regular600,
 })
-
-// @note buttons on onboarding should use Lato
