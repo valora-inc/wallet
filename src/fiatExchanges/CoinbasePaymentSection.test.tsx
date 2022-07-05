@@ -7,14 +7,18 @@ import {
   CoinbasePaymentSectionProps,
 } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
 
+// TODO - add tests to check for allowed digitalAsset
 describe('CoinbasePaymentSection', () => {
   let props: CoinbasePaymentSectionProps
   let mockStore: MockStoreEnhanced
   beforeEach(() => {
     props = {
+      digitalAsset: CiCoCurrency.CELO,
+      cryptoAmount: 10,
       coinbaseProvider: mockProviders.find((quote) =>
         quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
