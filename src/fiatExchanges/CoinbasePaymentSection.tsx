@@ -2,7 +2,7 @@ import React from 'react'
 
 import { generateOnRampURL } from '@coinbase/cbpay-js'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
@@ -61,7 +61,7 @@ export function CoinbasePaymentSection({
           </View>
 
           <View style={styles.right}>
-            {/* <Image source={{ uri: coinbaseProvider.logo }} style={styles.providerImage} /> */}
+            <Image source={{ uri: coinbaseProvider.logo }} style={styles.providerImage} />
           </View>
         </View>
       </Touchable>

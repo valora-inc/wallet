@@ -11,6 +11,11 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
 
+const restrictedCurrencies = [CiCoCurrency.CEUR, CiCoCurrency.CUSD]
+jest.mock('@coinbase/cbpay-js', () => {
+  return { generateOnRampURL: jest.fn() }
+})
+
 // TODO - add tests to check for allowed digitalAsset
 describe('CoinbasePaymentSection', () => {
   let props: CoinbasePaymentSectionProps
@@ -63,6 +68,40 @@ describe('CoinbasePaymentSection', () => {
     expect(queryByText('Coinbase Pay')).toBeFalsy()
   })
   it('shows card if coinbase is not restricted and feature flag is true', async () => {
+    props.coinbaseProvider!.restricted = false
+    mockStore = createMockStore({
+      ...mockStore,
+      app: {
+        coinbasePayEnabled: true,
+      },
+    })
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <CoinbasePaymentSection {...props} />
+      </Provider>
+    )
+    expect(queryByText('Coinbase Pay')).toBeTruthy()
+  })
+
+  restrictedCurrencies.forEach((currency) => {
+    it('shows nothing if ' + currency + ' is selected', async () => {
+      props.coinbaseProvider!.restricted = false
+      props.digitalAsset = currency
+      mockStore = createMockStore({
+        ...mockStore,
+        app: {
+          coinbasePayEnabled: true,
+        },
+      })
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <CoinbasePaymentSection {...props} />
+        </Provider>
+      )
+      expect(queryByText('Coinbase Pay')).toBeFalsy()
+    })
+  })
+  it('shows card if CELO is selected', async () => {
     props.coinbaseProvider!.restricted = false
     mockStore = createMockStore({
       ...mockStore,
