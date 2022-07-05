@@ -80,7 +80,7 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
-      accountName: '******7890',
+      accountName: 'CapitalTwo Bank ******7890',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',
