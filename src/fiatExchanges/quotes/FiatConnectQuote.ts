@@ -180,6 +180,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quoteResponseFiatAccountSchema.allowedValues
   }
 
+  getQuoteId(): string {
+    return this.quote.quote.quoteId
+  }
+
   async getFiatConnectClient(): Promise<FiatConnectApiClient> {
     if (this.fiatConnectClient) {
       return this.fiatConnectClient

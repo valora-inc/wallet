@@ -1,9 +1,9 @@
 import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -24,13 +24,83 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { useDispatch } from 'react-redux'
+import { sendPaymentOrInvite } from 'src/send/actions'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { feeEstimatesSelector } from 'src/fees/selectors'
+import { estimateFee, FeeType } from 'src/fees/reducer'
+import { isSendingSelector } from 'src/send/selectors'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import BigNumber from 'bignumber.js'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { flow, normalizedQuote, fiatAccount, fiatAccountId } = route.params
+  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())!
+  const tokenAddress = tokenInfo.address
+  const feeType = FeeType.SEND
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
+  const isSending = useSelector(isSendingSelector)
+  const [isSendingFC, setIsSendingFC] = useState(false)
 
-  const { flow, normalizedQuote, fiatAccount } = route.params
+  useEffect(() => {
+    if (!feeEstimate) {
+      dispatch(estimateFee({ feeType, tokenAddress }))
+    }
+  }, [feeEstimate])
+
+  const onPress = async () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+    if (!feeEstimate?.feeInfo) {
+      // This should never happen because the confirm button is disabled if this happens.
+      dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
+      return
+    }
+    setIsSendingFC(true)
+    const fiatConnectClient = await normalizedQuote.getFiatConnectClient()
+    const idempotencyKey = 'temp'
+    const quoteId = normalizedQuote.getQuoteId()
+    const transferOutResult = await fiatConnectClient.transferOut({
+      idempotencyKey,
+      data: {
+        fiatAccountId,
+        quoteId,
+      },
+    })
+    if (!transferOutResult.isOk) {
+      // TODO: Deal with case where FC API call fails
+      // transient network errors should be handled with retries inside of the SDK, re-using the idemopotency key.
+      // we should never have to manually make a call in the wallet re-using the same idemopotency key.
+      setIsSendingFC(false)
+      return
+    }
+    dispatch(
+      sendPaymentOrInvite(
+        new BigNumber(normalizedQuote.getCryptoAmount()),
+        tokenAddress,
+        undefined, // usdAmount
+        undefined, // comment
+        {
+          address: transferOutResult.value.transferAddress,
+        },
+        feeEstimate.feeInfo,
+        false
+      )
+    )
+  }
+
+  if (isSendingFC) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
+  }
 
   return (
     <SafeAreaView style={styles.content}>
@@ -52,11 +122,8 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             ? t('fiatConnectReviewScreen.cashIn.button')
             : t('fiatConnectReviewScreen.cashOut.button')
         }
-        onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
-
-          // TODO(any): submit the transfer
-        }}
+        onPress={onPress}
+        disabled={isSending || isSendingFC || !feeEstimate?.feeInfo}
       />
     </SafeAreaView>
   )
@@ -307,6 +374,12 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     color: colors.gray3,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })
 

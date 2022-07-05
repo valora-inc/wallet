@@ -169,6 +169,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           flow,
           normalizedQuote: quote,
           fiatAccount: completeBody as FiatAccount,
+          fiatAccountId: result.value.fiatAccountId,
         })
         setTimeout(() => setIsSending(false), 500)
       } else {

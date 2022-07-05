@@ -140,6 +140,7 @@ export type StackParamList = {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
     fiatAccount: FiatAccount
+    fiatAccountId: string
   }
   [Screens.MoonPayScreen]: {
     localAmount: number
