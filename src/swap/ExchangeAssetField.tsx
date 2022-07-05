@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import TextInputMask from 'react-native-text-input-mask'
+import { useDispatch, useSelector } from 'react-redux'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { setSwapAssetAmount } from 'src/swap/actions'
+import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 import TokenSelectionButton from 'src/swap/TokenSelectionButton'
 import { SwapDirection } from 'src/swap/types'
 
@@ -13,15 +16,25 @@ type ExchangeFieldProps = {
 }
 
 const ExchangeAssetField = ({ asset, direction, style }: ExchangeFieldProps) => {
-  const [amount, setAmount] = useState<any>(0)
+  // // @todo Get required display details for asset
+  // // @todo Actions to interact with elements
+  const dispatch = useDispatch()
+  const { amountIn, amountOut } = useSelector(fetchSelectedSwapAssets)
+  const amount = direction === SwapDirection.IN ? amountIn : amountOut
 
+  const handleValue = (formatted: any) => {
+    const res = Number(formatted)
+    if (!Number.isNaN(res)) dispatch(setSwapAssetAmount(res, direction))
+    else dispatch(setSwapAssetAmount(0, direction))
+  }
+  
   return (
     <View style={styles.assetRow} {...style}>
       <View style={styles.inputRow}>
         <View style={styles.inputAmounts}>
           <TextInputMask
-            style={[styles.localInput, amount == 0 ? styles.controlled : null]}
-            onChangeText={setAmount}
+            style={[styles.localInput, !amount ? styles.controlled : null]}
+            onChangeText={handleValue}
             placeholder={'0'}
             placeholderTextColor={Colors.gray4}
             testID={`${direction}/Amount`}
