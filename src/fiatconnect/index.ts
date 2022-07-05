@@ -199,6 +199,5 @@ export async function addNewFiatAccount(
  */
 export function getObfuscatedAccountNumber(accountNumber: string): string {
   const digitsToReveal = Math.max(0, Math.min(accountNumber.length - 3, 4))
-  const blanks = '*'.repeat(accountNumber.length - digitsToReveal)
-  return digitsToReveal > 0 ? blanks + accountNumber.slice(-digitsToReveal) : blanks
+  return digitsToReveal > 0 ? '...' + accountNumber.slice(-digitsToReveal) : ''
 }

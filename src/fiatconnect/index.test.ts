@@ -252,21 +252,21 @@ describe('FiatConnect helpers', () => {
   })
   describe('getObfuscatedAccountNumber', () => {
     it('shows last 4 digits for 10 digit account numbers (Nigeria case)', () => {
-      expect(getObfuscatedAccountNumber('1234567890')).toEqual('******7890')
+      expect(getObfuscatedAccountNumber('1234567890')).toEqual('...7890')
     })
     it('shows last 4 digits for 7 digit account numbers', () => {
-      expect(getObfuscatedAccountNumber('1234567')).toEqual('***4567')
+      expect(getObfuscatedAccountNumber('1234567')).toEqual('...4567')
     })
     it('shows only 2 digits for 5 digit account numbers', () => {
-      expect(getObfuscatedAccountNumber('12345')).toEqual('***45')
+      expect(getObfuscatedAccountNumber('12345')).toEqual('...45')
     })
     it('shows only 1 digit for 4 digit account numbers', () => {
-      expect(getObfuscatedAccountNumber('1234')).toEqual('***4')
+      expect(getObfuscatedAccountNumber('1234')).toEqual('...4')
     })
     it('blanks out entire number for 3 digit account numbers and smaller', () => {
-      expect(getObfuscatedAccountNumber('123')).toEqual('***')
-      expect(getObfuscatedAccountNumber('12')).toEqual('**')
-      expect(getObfuscatedAccountNumber('1')).toEqual('*')
+      expect(getObfuscatedAccountNumber('123')).toEqual('')
+      expect(getObfuscatedAccountNumber('12')).toEqual('')
+      expect(getObfuscatedAccountNumber('1')).toEqual('')
     })
   })
 })
