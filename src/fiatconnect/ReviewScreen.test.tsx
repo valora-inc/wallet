@@ -28,7 +28,7 @@ function getProps(flow: CICOFlow, withFee = false, cryptoType = CryptoType.cUSD)
   })
   const fiatAccount: ObfuscatedFiatAccountData = {
     fiatAccountId: '123',
-    accountName: '2345',
+    accountName: 'Chase (...2345)',
     institutionName: 'Chase',
     fiatAccountType: FiatAccountType.BankAccount,
   }

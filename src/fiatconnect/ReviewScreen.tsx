@@ -235,14 +235,12 @@ function PaymentMethod({
 }) {
   const { t } = useTranslation()
 
-  const displayText = `${fiatAccount.institutionName} (...${fiatAccount.accountName})`
-
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
       <View style={styles.sectionMainTextContainer}>
         <Text style={styles.sectionMainText} testID="paymentMethod-text">
-          {displayText}
+          {fiatAccount.accountName}
         </Text>
       </View>
       <View style={styles.sectionSubTextContainer}>
