@@ -225,6 +225,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                     label: item,
                     value: item,
                   }))}
+                  doneText={t('fiatDetailsScreen.selectDone')}
                 />
               ) : (
                 <TextInput
