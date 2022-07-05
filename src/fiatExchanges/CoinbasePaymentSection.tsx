@@ -11,18 +11,13 @@ import fontStyles from 'src/styles/fonts'
 
 export interface CoinbasePaymentSectionProps {
   coinbaseProvider: FetchProvidersOutput | undefined
-  setNoPaymentMethods: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function CoinbasePaymentSection({
-  coinbaseProvider,
-  setNoPaymentMethods,
-}: CoinbasePaymentSectionProps) {
+export function CoinbasePaymentSection({ coinbaseProvider }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
 
   if (!coinbaseProvider || coinbaseProvider.restricted || !coinbasePayEnabled) {
-    setNoPaymentMethods(true)
     return null
   }
 
