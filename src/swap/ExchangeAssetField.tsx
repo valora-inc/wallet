@@ -27,7 +27,7 @@ const ExchangeAssetField = ({ asset, direction, style }: ExchangeFieldProps) => 
     if (!Number.isNaN(res)) dispatch(setSwapAssetAmount(res, direction))
     else dispatch(setSwapAssetAmount(0, direction))
   }
-  
+
   return (
     <View style={styles.assetRow} {...style}>
       <View style={styles.inputRow}>
@@ -40,6 +40,7 @@ const ExchangeAssetField = ({ asset, direction, style }: ExchangeFieldProps) => 
             testID={`${direction}/Amount`}
             value={`${amount}`}
             keyboardType={'decimal-pad'}
+            returnKeyType="done"
           />
           <Text style={[styles.localFiat, styles.controlled]}>$ {Number(0).toPrecision(3)}</Text>
         </View>
