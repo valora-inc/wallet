@@ -1,3 +1,6 @@
+import { ensureLeading0x } from '@celo/utils/lib/address'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   CryptoType,
   FiatType,
@@ -7,14 +10,11 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
-import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
-import { UnlockableWallet } from '@celo/wallet-base'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getPassword } from 'src/pincode/authentication'
-import { ensureLeading0x } from '@celo/utils/lib/address'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'FIATCONNECT'
 
