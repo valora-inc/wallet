@@ -26,6 +26,7 @@ import { reducer as transactions, State as TransactionsState } from 'src/transac
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
+import { reducer as fiatconnect, State as FiatConnectState } from 'src/fiatconnect/reducer'
 
 const appReducer = combineReducers({
   app,
@@ -53,6 +54,7 @@ const appReducer = combineReducers({
   tokens,
   supercharge: superchargeReducer,
   dapps: dappsReducer,
+  fiatconnect,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -101,6 +103,7 @@ export interface RootState {
   tokens: TokensState
   supercharge: SuperchargeState
   dapps: DappsState
+  fiatconnect: FiatConnectState
 }
 
 export interface PersistedRootState {
