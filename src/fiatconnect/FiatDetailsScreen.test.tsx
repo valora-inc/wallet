@@ -54,8 +54,30 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
 }))
 
 const store = createMockStore({})
-const quote = new FiatConnectQuote({
+const quoteWithAllowedValues = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+  fiatAccountType: FiatAccountType.BankAccount,
+  flow: CICOFlow.CashIn,
+})
+const mockScreenPropsWithAllowedValues = getMockStackScreenProps(Screens.FiatDetailsScreen, {
+  flow: CICOFlow.CashIn,
+  quote: quoteWithAllowedValues,
+})
+
+// NOTE: Make a quote with no allowed values since setting a value on picker is hard
+const mockFcQuote = _.cloneDeep(mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess)
+mockFcQuote.fiatAccount.BankAccount = {
+  ...mockFcQuote.fiatAccount.BankAccount,
+  fiatAccountSchemas: [
+    {
+      fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      allowedValues: {},
+    },
+  ],
+}
+
+const quote = new FiatConnectQuote({
+  quote: mockFcQuote,
   fiatAccountType: FiatAccountType.BankAccount,
   flow: CICOFlow.CashIn,
 })
@@ -94,7 +116,7 @@ describe('FiatDetailsScreen', () => {
   it('can view a list of bank fields', () => {
     const { queryByText, queryByTestId } = render(
       <Provider store={store}>
-        <FiatDetailsScreen {...mockScreenProps} />
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
       </Provider>
     )
 
@@ -113,7 +135,7 @@ describe('FiatDetailsScreen', () => {
   it('shows validation error if the input field does not fulfill the requirement', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <FiatDetailsScreen {...mockScreenProps} />
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
       </Provider>
     )
 
@@ -128,28 +150,6 @@ describe('FiatDetailsScreen', () => {
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
   })
   it('sends a successful request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
-    // NOTE: Make a quote with no allowed values since setting a value on picker is hard
-    const mockFcQuote = _.cloneDeep(mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess)
-    mockFcQuote.fiatAccount.BankAccount = {
-      ...mockFcQuote.fiatAccount.BankAccount,
-      fiatAccountSchemas: [
-        {
-          fiatAccountSchema: FiatAccountSchema.AccountNumber,
-          allowedValues: {},
-        },
-      ],
-    }
-
-    const quote = new FiatConnectQuote({
-      quote: mockFcQuote,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashIn,
-    })
-    const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
-      flow: CICOFlow.CashIn,
-      quote,
-    })
-
     const { getByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenProps} />
