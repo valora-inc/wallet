@@ -21,9 +21,6 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { getObfuscatedAccountNumber } from './index'
-import Logger from '../utils/Logger'
-
-const TAG = 'FiatDetailsScreen'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
@@ -59,25 +56,6 @@ type AccountNumberSchema = {
     | ComputedParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
 }
 
-export function getAccountName({
-  accountNumber,
-  institutionName,
-}: {
-  accountNumber?: string
-  institutionName?: string
-}) {
-  if (institutionName && accountNumber) {
-    return `${institutionName} (${getObfuscatedAccountNumber(accountNumber)})`
-  } else {
-    // should never happen, since accountNumber and institutionName are required
-    Logger.error(
-      TAG,
-      'Getting account name with falsy accountNumber and/or institutionName, defaulting to "Linked Account"'
-    )
-    return 'Linked account'
-  }
-}
-
 const getAccountNumberSchema = (implicitParams: {
   country: string
   fiatAccountType: FiatAccountType
@@ -100,7 +78,8 @@ const getAccountNumberSchema = (implicitParams: {
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
   accountName: {
     name: 'accountName',
-    computeValue: getAccountName,
+    computeValue: ({ institutionName, accountNumber }) =>
+      `${institutionName} (${getObfuscatedAccountNumber(accountNumber!)})`,
   },
 })
 
