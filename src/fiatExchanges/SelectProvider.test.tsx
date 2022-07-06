@@ -25,6 +25,10 @@ jest.mock('./utils', () => ({
   fetchLegacyMobileMoneyProviders: jest.fn(),
 }))
 
+jest.mock('@coinbase/cbpay-js', () => {
+  return { generateOnRampURL: jest.fn() }
+})
+
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   {
     name: 'CryptoProvider',
