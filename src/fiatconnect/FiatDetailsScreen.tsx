@@ -2,11 +2,12 @@ import {
   FiatAccountSchema,
   FiatAccountSchemas,
   FiatAccountType,
+  FiatConnectError,
 } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -20,7 +21,14 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { showMessage, showError } from 'src/alert/actions'
+import { useDispatch } from 'react-redux'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import variables from 'src/styles/variables'
+import Logger from 'src/utils/Logger'
 import { getObfuscatedAccountNumber } from './index'
+
+export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
@@ -86,11 +94,13 @@ const getAccountNumberSchema = (implicitParams: {
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const { t } = useTranslation()
   const { flow, quote } = route.params
+  const [isSending, setIsSending] = useState(false)
   const [validInputs, setValidInputs] = useState(false)
   const [textValue, setTextValue] = useState('')
   const [errors, setErrors] = useState(new Set<string>())
   const inputRefs = useRef<string[]>([textValue])
   const userCountry = useSelector(userLocationDataSelector)
+  const dispatch = useDispatch()
 
   const fiatAccountSchema = quote.getFiatAccountSchema()
 
@@ -150,6 +160,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
 
     if (validInputs) {
+      setIsSending(true)
       const body: Record<string, any> = {}
       for (let i = 0; i < formFields.length; i++) {
         body[formFields[i].name] = inputRefs.current[i]
@@ -162,26 +173,36 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       computedParameters.forEach((param) => {
         body[param.name] = param.computeValue(body)
       })
-      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, body)
-      //   .then((data) => {
-      //     // TODO Tracking here
-      //     dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
-      //   })
-      //   .catch((error) => {
-      //     // TODO Tracking here
-      //     if (error === FiatConnectError.ResourceExists) {
-      //       dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
-      //     } else {
-      //       dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
-      //     }
-      //     Logger.error(TAG, `Error adding fiat account: ${error}`)
-      //   })
 
-      navigate(Screens.FiatConnectReview, {
-        flow,
-        normalizedQuote: quote,
-        fiatAccount: body as FiatAccount,
+      const fiatAccountSchema = quote.getFiatAccountSchema()
+
+      const fiatConnectClient = await quote.getFiatConnectClient()
+      const result = await fiatConnectClient.addFiatAccount({
+        fiatAccountSchema: fiatAccountSchema,
+        data: body as FiatAccountSchemas[typeof fiatAccountSchema],
       })
+
+      if (result.isOk) {
+        // TODO Tracking here
+        dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        navigate(Screens.FiatConnectReview, {
+          flow,
+          normalizedQuote: quote,
+          fiatAccount: body as FiatAccount,
+        })
+        setTimeout(() => setIsSending(false), 500)
+      } else {
+        setIsSending(false)
+        Logger.error(
+          TAG,
+          `Error adding fiat account: ${result.error.fiatConnectError ?? result.error.message}`
+        )
+        if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
+          dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
+        } else {
+          dispatch(showError(t('fiatDetailsScreen.addFiatAccountFailed')))
+        }
+      }
     }
   }
 
@@ -215,6 +236,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     setTextValue(value)
 
     validateInput()
+  }
+
+  if (isSending) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   return (
@@ -336,6 +365,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })
 export default FiatDetailsScreen

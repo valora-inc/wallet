@@ -1,4 +1,3 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
 import { Network } from '@fiatconnect/fiatconnect-types'
 jest.mock('src/pincode/authentication')
@@ -14,7 +13,6 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  addNewFiatAccount,
   fetchFiatConnectQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
@@ -134,32 +132,6 @@ describe('FiatConnect helpers', () => {
       const quotes = await getFiatConnectQuotes(getQuotesInput)
       expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
       expect(Logger.error).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('addNewFiatAccount', () => {
-    it('returns a fiat account info with fiat account id on success', async () => {
-      const fakeFiatAccountReturned = {
-        fiatAccountId: 'ZAQWSX1234',
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
-
-      const fakeProviderURL = 'superLegitCICOProvider.valoraapp.com'
-      const fiatAccountSchema = FiatAccountSchema.AccountNumber
-      const reqBody = {
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        accountNumber: '123456789',
-        country: 'NG',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-
-      await expect(
-        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
-      ).rejects.toThrowError('Not implemented')
     })
   })
   describe('getSigningFunction', () => {
