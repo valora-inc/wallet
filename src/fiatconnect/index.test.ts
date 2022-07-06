@@ -1,11 +1,12 @@
-import { FetchMock } from 'jest-fetch-mock'
+import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { Network } from '@fiatconnect/fiatconnect-types'
-jest.mock('src/pincode/authentication')
-
+import { FetchMock } from 'jest-fetch-mock'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 import {
   mockAccount,
   mockFiatConnectProviderInfo,
@@ -13,19 +14,17 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  fetchFiatConnectQuotes,
+  fetchQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
   getFiatConnectProviders,
   getFiatConnectQuotes,
-  QuotesInput,
-  loginWithFiatConnectProvider,
-  getSigningFunction,
   getObfuscatedAccountNumber,
+  getSigningFunction,
+  loginWithFiatConnectProvider,
+  QuotesInput,
 } from './index'
-import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
-import { getPassword } from 'src/pincode/authentication'
+jest.mock('src/pincode/authentication')
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -82,7 +81,7 @@ describe('FiatConnect helpers', () => {
     })
   })
 
-  describe('fetchFiatConnectQuotes', () => {
+  describe('fetchQuotes', () => {
     const fetchQuotesInput: FetchQuotesInput = {
       fiatConnectCashInEnabled: false,
       fiatConnectCashOutEnabled: false,
@@ -94,11 +93,11 @@ describe('FiatConnect helpers', () => {
       country: 'US',
     }
     it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
-      const quotes = await fetchFiatConnectQuotes(fetchQuotesInput)
+      const quotes = await fetchQuotes(fetchQuotesInput)
       expect(quotes).toHaveLength(0)
     })
     it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
-      const quotes = await fetchFiatConnectQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
+      const quotes = await fetchQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
       expect(quotes).toHaveLength(0)
     })
   })
