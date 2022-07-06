@@ -7,7 +7,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
-import { onboardingEducation1, onboardingEducation2, onboardingEducation3 } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -28,11 +27,6 @@ function useStep() {
       },
       {
         title: t('onboardingEducation.step2'),
-        isTopTitle: true,
-        topic: EducationTopic.onboarding,
-      },
-      {
-        title: t('onboardingEducation.step3'),
         isTopTitle: true,
         topic: EducationTopic.onboarding,
       },
