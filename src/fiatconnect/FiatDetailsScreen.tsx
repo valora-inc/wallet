@@ -67,7 +67,7 @@ export function getAccountName({
   institutionName?: string
 }) {
   if (institutionName && accountNumber) {
-    return institutionName + ' ' + getObfuscatedAccountNumber(accountNumber)
+    return `${institutionName} (${getObfuscatedAccountNumber(accountNumber)})`
   } else {
     // should never happen, since accountNumber and institutionName are required
     Logger.error(
