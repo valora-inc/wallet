@@ -19,6 +19,11 @@ import {
 } from 'src/localCurrency/convert'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { FiatConnectApiClient, FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { getSigningFunction } from 'src/fiatconnect/index'
+import { getWalletAsync } from 'src/web3/contracts'
+import { FIATCONNECT_NETWORK } from 'src/config'
 import { Currency, resolveCurrency } from 'src/utils/currencies'
 
 const strings = {
@@ -32,6 +37,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   fiatAccountType: FiatAccountType
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
+  fiatConnectClient?: FiatConnectApiClient
+
   constructor({
     quote,
     fiatAccountType,
@@ -171,5 +178,22 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getFiatAccountSchemaAllowedValues(): { [key: string]: string[] } {
     return this.quoteResponseFiatAccountSchema.allowedValues
+  }
+
+  async getFiatConnectClient(): Promise<FiatConnectApiClient> {
+    if (this.fiatConnectClient) {
+      return this.fiatConnectClient
+    }
+    const wallet = (await getWalletAsync()) as UnlockableWallet
+    const [account] = wallet.getAccounts()
+    this.fiatConnectClient = new FiatConnectClient(
+      {
+        baseUrl: this.getProviderBaseUrl(),
+        network: FIATCONNECT_NETWORK,
+        accountAddress: account,
+      },
+      getSigningFunction(wallet)
+    )
+    return this.fiatConnectClient
   }
 }

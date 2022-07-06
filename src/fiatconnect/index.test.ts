@@ -1,4 +1,3 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
 import { Network } from '@fiatconnect/fiatconnect-types'
 jest.mock('src/pincode/authentication')
@@ -14,7 +13,6 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  addNewFiatAccount,
   fetchFiatConnectQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
@@ -23,6 +21,7 @@ import {
   QuotesInput,
   loginWithFiatConnectProvider,
   getSigningFunction,
+  getObfuscatedAccountNumber,
 } from './index'
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeychainWallet } from 'src/web3/KeychainWallet'
@@ -135,32 +134,6 @@ describe('FiatConnect helpers', () => {
       expect(Logger.error).not.toHaveBeenCalled()
     })
   })
-
-  describe('addNewFiatAccount', () => {
-    it('returns a fiat account info with fiat account id on success', async () => {
-      const fakeFiatAccountReturned = {
-        fiatAccountId: 'ZAQWSX1234',
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
-
-      const fakeProviderURL = 'superLegitCICOProvider.valoraapp.com'
-      const fiatAccountSchema = FiatAccountSchema.AccountNumber
-      const reqBody = {
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        accountNumber: '123456789',
-        country: 'NG',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-
-      await expect(
-        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
-      ).rejects.toThrowError('Not implemented')
-    })
-  })
   describe('getSigningFunction', () => {
     const wallet = new KeychainWallet({
       address: 'some address',
@@ -247,6 +220,25 @@ describe('FiatConnect helpers', () => {
         error: new Error('some error'),
       })
       await expect(loginWithFiatConnectProvider(wallet, fiatConnectClient)).rejects.toThrow()
+    })
+  })
+  describe('getObfuscatedAccountNumber', () => {
+    it('shows last 4 digits for 10 digit account numbers (Nigeria case)', () => {
+      expect(getObfuscatedAccountNumber('1234567890')).toEqual('...7890')
+    })
+    it('shows last 4 digits for 7 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('1234567')).toEqual('...4567')
+    })
+    it('shows only 2 digits for 5 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('12345')).toEqual('...45')
+    })
+    it('shows only 1 digit for 4 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('1234')).toEqual('...4')
+    })
+    it('blanks out entire number for 3 digit account numbers and smaller', () => {
+      expect(getObfuscatedAccountNumber('123')).toEqual('')
+      expect(getObfuscatedAccountNumber('12')).toEqual('')
+      expect(getObfuscatedAccountNumber('1')).toEqual('')
     })
   })
 })
