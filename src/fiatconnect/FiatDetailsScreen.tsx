@@ -9,6 +9,9 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { showError, showMessage } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput from 'src/components/TextInput'
@@ -16,14 +19,11 @@ import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { showMessage, showError } from 'src/alert/actions'
-import { useDispatch } from 'react-redux'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { getObfuscatedAccountNumber } from './index'
@@ -188,7 +188,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         navigate(Screens.FiatConnectReview, {
           flow,
           normalizedQuote: quote,
-          fiatAccount: body as FiatAccount,
+          fiatAccount: result.value,
         })
         setTimeout(() => setIsSending(false), 500)
       } else {
