@@ -8,6 +8,7 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
+import { getWalletAsync } from 'src/web3/contracts'
 import { mockFiatConnectQuotes } from 'test/values'
 import { getWalletAsync } from 'src/web3/contracts'
 

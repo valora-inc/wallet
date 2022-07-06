@@ -2,12 +2,12 @@ import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import { FIREBASE_ENABLED } from 'src/config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import networkConfig from 'src/web3/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'fiatExchanges:utils'
 
@@ -25,6 +25,7 @@ export enum CICOFlow {
 export enum PaymentMethod {
   Bank = 'Bank',
   Card = 'Card',
+  Coinbase = 'Coinbase',
   MobileMoney = 'MobileMoney',
 }
 
@@ -282,4 +283,11 @@ export async function fetchExchanges(
     Logger.error(TAG, 'Failure fetching available exchanges', error)
     throw error
   }
+}
+
+export const filterProvidersByPaymentMethod = (
+  paymentMethod: PaymentMethod,
+  externalProviders: FetchProvidersOutput[] | undefined
+) => {
+  return externalProviders?.find((quote) => quote.paymentMethods.includes(paymentMethod))
 }

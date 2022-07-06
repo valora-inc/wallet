@@ -9,6 +9,9 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { showError, showMessage } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput from 'src/components/TextInput'
@@ -16,7 +19,7 @@ import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -26,6 +29,7 @@ import { useDispatch } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
+import { getObfuscatedAccountNumber } from './index'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
@@ -51,10 +55,16 @@ interface ImplicitParam<T, K extends keyof T> {
   value: T[K]
 }
 
+interface ComputedParam<T, K extends keyof T> {
+  name: string
+  computeValue: (otherFields: Partial<T>) => T[K]
+}
+
 type AccountNumberSchema = {
   [Property in keyof FiatAccountSchemas[FiatAccountSchema.AccountNumber]]:
     | FormFieldParam
     | ImplicitParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
+    | ComputedParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
@@ -77,7 +87,11 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: { name: 'accountName', value: 'n/a' },
+  accountName: {
+    name: 'accountName',
+    computeValue: ({ institutionName, accountNumber }) =>
+      `${institutionName} (${getObfuscatedAccountNumber(accountNumber!)})`,
+  },
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
@@ -112,14 +126,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   function isFormFieldParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is FormFieldParam {
     return 'errorMessage' in item
   }
   function isImplicitParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is ImplicitParam<T, K> {
     return 'value' in item
+  }
+  function isComputedParam<T, K extends keyof T>(
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
+  ): item is ComputedParam<T, K> {
+    return 'computeValue' in item
   }
 
   const schema = getSchema(fiatAccountSchema)
@@ -136,6 +155,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return Object.values(schema).filter(isImplicitParam)
   }, [fiatAccountSchema])
 
+  const computedParameters = useMemo(() => {
+    return Object.values(schema).filter(isComputedParam)
+  }, [fiatAccountSchema])
+
   const onPressNext = async () => {
     validateInput()
 
@@ -146,29 +169,29 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      const implicitBody: Record<string, any> = {}
       implicitParameters.forEach((param) => {
-        implicitBody[param.name] = param.value
+        body[param.name] = param.value
+      })
+
+      computedParameters.forEach((param) => {
+        body[param.name] = param.computeValue(body)
       })
 
       const fiatAccountSchema = quote.getFiatAccountSchema()
-      const completeBody = {
-        ...body,
-        ...implicitBody,
-      }
 
       const fiatConnectClient = await quote.getFiatConnectClient()
       const result = await fiatConnectClient.addFiatAccount({
         fiatAccountSchema: fiatAccountSchema,
-        data: completeBody as FiatAccountSchemas[typeof fiatAccountSchema],
+        data: body as FiatAccountSchemas[typeof fiatAccountSchema],
       })
+
       if (result.isOk) {
         // TODO Tracking here
         dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
         navigate(Screens.FiatConnectReview, {
           flow,
           normalizedQuote: quote,
-          fiatAccount: completeBody as FiatAccount,
+          fiatAccount: result.value,
           fiatAccountId: result.value.fiatAccountId,
         })
         setTimeout(() => setIsSending(false), 500)

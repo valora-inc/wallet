@@ -1,10 +1,10 @@
 import { Result } from '@badrap/result'
-import { FiatAccountType, Network, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import {
   FiatConnectApiClient,
   FiatConnectClient,
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
+import { FiatAccountType, FiatConnectError, Network } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -15,12 +15,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
-import { TAG } from './FiatDetailsScreen'
-import FiatDetailsScreen from './FiatDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { showMessage, showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import i18n from 'src/i18n'
+import FiatDetailsScreen, { TAG } from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
 
@@ -33,7 +32,14 @@ jest.mock('src/utils/Logger', () => ({
   },
 }))
 
-let mockResult = Result.ok(undefined)
+const fakeInstitutionName = 'CapitalTwo Bank'
+const fakeAccountNumber = '1234567890'
+let mockResult = Result.ok({
+  fiatAccountId: '1234',
+  accountName: '7890',
+  institutionName: fakeInstitutionName,
+  fiatAccountType: 'BankAccount',
+})
 jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
   ...(jest.requireActual('@fiatconnect/fiatconnect-sdk') as any),
   FiatConnectClient: jest.fn(() => ({
@@ -56,7 +62,12 @@ describe('FiatDetailsScreen', () => {
   let fiatConnectClient: FiatConnectApiClient
 
   beforeEach(() => {
-    mockResult = Result.ok(undefined)
+    mockResult = Result.ok({
+      fiatAccountId: '1234',
+      accountName: '7890',
+      institutionName: fakeInstitutionName,
+      fiatAccountType: 'BankAccount',
+    })
     fiatConnectClient = new FiatConnectClient(
       {
         baseUrl: 'some-url',
@@ -113,13 +124,11 @@ describe('FiatDetailsScreen', () => {
       </Provider>
     )
 
-    const fakeInstitutionName = 'CapitalTwo Bank'
-    const fakeAccountNumber = '1234567890'
     fireEvent.changeText(getByTestId('input-institutionName'), fakeInstitutionName)
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
-      accountName: 'n/a',
+      accountName: 'CapitalTwo Bank (...7890)',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',
@@ -136,7 +145,7 @@ describe('FiatDetailsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
       flow: CICOFlow.CashIn,
       normalizedQuote: quote,
-      fiatAccount: expectedBody,
+      fiatAccount: mockResult.isOk && mockResult.value,
     })
   })
   it('does not navigate to next page when account already exists', async () => {
@@ -154,7 +163,7 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
-      accountName: 'n/a',
+      accountName: 'CapitalTwo Bank (...7890)',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',
@@ -189,7 +198,7 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
     const expectedBody = {
-      accountName: 'n/a',
+      accountName: 'CapitalTwo Bank (...7890)',
       institutionName: fakeInstitutionName,
       accountNumber: fakeAccountNumber,
       country: 'US',

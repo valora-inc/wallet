@@ -643,6 +643,20 @@ export const mockProviders: FetchProvidersOutput[] = [
       { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
     ],
   },
+  {
+    name: 'CoinbasePay',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Coinbase],
+    url: undefined,
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    quote: undefined,
+    cashIn: true,
+    cashOut: false,
+  },
 ]
 
 export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
