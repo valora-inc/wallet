@@ -17,6 +17,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
 import { fetchFiatConnectQuotes } from 'src/fiatconnect'
+import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import i18n from 'src/i18n'
@@ -38,6 +39,7 @@ import {
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
+  filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
   PaymentMethod,
 } from './utils'
@@ -121,6 +123,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
+  const coinbaseProvider = filterProvidersByPaymentMethod(
+    PaymentMethod.Coinbase,
+    asyncProviders.result?.externalProviders
+  )
+
   return (
     <ScrollView>
       <PaymentMethodSection
@@ -140,6 +147,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset={digitalAsset}
         flow={flow}
       />
+      <CoinbasePaymentSection coinbaseProvider={coinbaseProvider} />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>

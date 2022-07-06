@@ -686,4 +686,11 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
     },
   }),
+  58: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
 }
