@@ -20,6 +20,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { getObfuscatedAccountNumber } from './index'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
@@ -43,10 +44,16 @@ interface ImplicitParam<T, K extends keyof T> {
   value: T[K]
 }
 
+interface ComputedParam<T, K extends keyof T> {
+  name: string
+  computeValue: (otherFields: Partial<T>) => T[K]
+}
+
 type AccountNumberSchema = {
   [Property in keyof FiatAccountSchemas[FiatAccountSchema.AccountNumber]]:
     | FormFieldParam
     | ImplicitParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
+    | ComputedParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
@@ -69,7 +76,11 @@ const getAccountNumberSchema = (implicitParams: {
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
-  accountName: { name: 'accountName', value: 'n/a' },
+  accountName: {
+    name: 'accountName',
+    computeValue: ({ institutionName, accountNumber }) =>
+      `${institutionName} (${getObfuscatedAccountNumber(accountNumber!)})`,
+  },
 })
 
 const FiatDetailsScreen = ({ route, navigation }: Props) => {
@@ -102,14 +113,19 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   function isFormFieldParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is FormFieldParam {
     return 'errorMessage' in item
   }
   function isImplicitParam<T, K extends keyof T>(
-    item: FormFieldParam | ImplicitParam<T, K>
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
   ): item is ImplicitParam<T, K> {
     return 'value' in item
+  }
+  function isComputedParam<T, K extends keyof T>(
+    item: FormFieldParam | ImplicitParam<T, K> | ComputedParam<T, K>
+  ): item is ComputedParam<T, K> {
+    return 'computeValue' in item
   }
 
   const schema = getSchema(fiatAccountSchema)
@@ -126,6 +142,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return Object.values(schema).filter(isImplicitParam)
   }, [fiatAccountSchema])
 
+  const computedParameters = useMemo(() => {
+    return Object.values(schema).filter(isComputedParam)
+  }, [fiatAccountSchema])
+
   const onPressNext = async () => {
     validateInput()
 
@@ -135,17 +155,14 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         body[formFields[i].name] = inputRefs.current[i]
       }
 
-      const implicitBody: Record<string, any> = {}
       implicitParameters.forEach((param) => {
-        implicitBody[param.name] = param.value
+        body[param.name] = param.value
       })
 
-      const completeBody = {
-        ...body,
-        ...implicitBody,
-      }
-
-      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, completeBody)
+      computedParameters.forEach((param) => {
+        body[param.name] = param.computeValue(body)
+      })
+      // await addNewFiatAccount(quote.getProviderBaseUrl(), fiatAccountSchema, body)
       //   .then((data) => {
       //     // TODO Tracking here
       //     dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
@@ -163,7 +180,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       navigate(Screens.FiatConnectReview, {
         flow,
         normalizedQuote: quote,
-        fiatAccount: completeBody as FiatAccount,
+        fiatAccount: body as FiatAccount,
       })
     }
   }
