@@ -22,7 +22,7 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import {
-  allTokensHaveStalePriceSelector,
+  stalePriceSelector,
   tokensWithTokenBalanceSelector,
   totalTokenBalanceSelector,
   visualizeNFTsEnabledInHomeAssetsPageSelector,
@@ -39,7 +39,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  const tokensAreStale = useSelector(allTokensHaveStalePriceSelector)
+  const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
     visualizeNFTsEnabledInHomeAssetsPageSelector

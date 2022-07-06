@@ -50,13 +50,20 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   ) as TokenBalanceWithUsdPrice[]
 })
 
-export const allTokensHaveStalePriceSelector = createSelector(tokensListSelector, (tokens) => {
-  return (
-    tokens.filter(
-      (tokenInfo) =>
-        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-    ).length === tokens.length
-  )
+export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
+  // If tokens with usd value are present check the time price was fetched
+  // Else usd values are not present so we know prices are invalid
+  const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.usdPrice !== null)
+  if (tokensWithUsdValue.length !== 0) {
+    return (
+      tokensWithUsdValue.filter(
+        (tokenInfo) =>
+          (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+      ).length > 0
+    )
+  } else {
+    return true
+  }
 })
 
 export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
