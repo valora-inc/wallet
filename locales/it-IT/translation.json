@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operazione",
     "data": "Dati",
-    "signTX": "Firma la transazione",
+    "signTX": "Transazione",
     "details": "Mostra dettagli"
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
@@ -962,16 +962,16 @@
   "loadingFromScan": "Scansione in corso",
   "loadingFromDeeplink": "Connessione in corso",
   "action": {
-    "asking": "Questa applicazione richiede di eseguire la seguente azione",
-    "askingV1_35": "{{dappName}} chiede di eseguire quanto segue:",
+    "asking": "Questa applicazione richiede di eseguire la seguente azione:",
+    "askingV1_35": "{{dappName}} richiede di eseguire la seguente azione:",
     "operation": "Operazione",
     "data": "Dati",
     "sign": "Firma un payload dati",
-    "signTransaction": "Firma una transazione Celo",
-    "sendTransaction": "Invia una transazione Celo",
+    "signTransaction": "Transazione Celo",
+    "sendTransaction": "Inviare transazione Celo",
     "decrypt": "Decrittografa un payload dati",
     "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
-    "details": "Visualizza i dati della transazione",
+    "details": "Dati della transazione",
     "computeSharedSecret": "Genera segreti",
     "emptyMessage": "Messaggio vuoto"
   },
@@ -1120,8 +1120,8 @@
   "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
-  "open": "Aprire",
-  "nftViewer": "Visualizzatore NFT",
+  "open": "Apri",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
