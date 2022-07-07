@@ -74,13 +74,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cryptoAmount: route.params.amount.crypto,
       })
     )
-  }, [])
+  }, [flow, digitalAsset, route.params.amount.crypto])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
-  }, [])
+  }, [fiatConnectQuotesError])
 
   const asyncProviders = useAsync(async () => {
     if (!account) {

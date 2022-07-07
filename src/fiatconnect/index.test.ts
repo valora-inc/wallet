@@ -1,12 +1,11 @@
-import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { Network } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
+import { Network } from '@fiatconnect/fiatconnect-types'
+jest.mock('src/pincode/authentication')
+
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
 import {
   mockAccount,
   mockFiatConnectProviderInfo,
@@ -19,12 +18,14 @@ import {
   FiatConnectProviderInfo,
   getFiatConnectProviders,
   getFiatConnectQuotes,
-  getObfuscatedAccountNumber,
-  getSigningFunction,
-  loginWithFiatConnectProvider,
   QuotesInput,
+  loginWithFiatConnectProvider,
+  getSigningFunction,
+  getObfuscatedAccountNumber,
 } from './index'
-jest.mock('src/pincode/authentication')
+import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
+import { getPassword } from 'src/pincode/authentication'
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -81,7 +82,7 @@ describe('FiatConnect helpers', () => {
     })
   })
 
-  describe('fetchQuotes', () => {
+  describe('fetchFiatConnectQuotes', () => {
     const fetchQuotesInput: FetchQuotesInput = {
       fiatConnectCashInEnabled: false,
       fiatConnectCashOutEnabled: false,

@@ -26,7 +26,7 @@ export function* handleFetchFiatConnectQuotes({
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
 
   try {
-    // @ts-ignore TS compolains about 'No overload matches this call' and I can't figure it out
+    // @ts-ignore TS complains about 'No overload matches this call' and I can't figure it out
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
       account,
       localCurrency,

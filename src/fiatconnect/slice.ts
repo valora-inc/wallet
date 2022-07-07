@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 export interface State {
@@ -52,6 +53,14 @@ export const slice = createSlice({
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'fiatConnect'),
+      quotesLoading: false,
+      quotesError: null,
+    }))
   },
 })
 
