@@ -1295,7 +1295,9 @@
     "selectedPaymentOption": "Вибраний спосіб оплати",
     "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
     "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
-    "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки."
+    "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки.",
+    "selectItem": "Виберіть варіант...",
+    "selectDone": "Виконано"
   },
   "fiatAccountSchema": {
     "accountName": {
