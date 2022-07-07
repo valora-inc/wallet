@@ -1117,7 +1117,7 @@
     "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
   "balances": "Assets",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Totale",
+  "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
   "open": "Aprire",
@@ -1291,7 +1291,9 @@
     "selectedPaymentOption": "Opzione di pagamento selezionata",
     "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
     "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
-    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico."
+    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico.",
+    "selectItem": "Seleziona un'opzione...",
+    "selectDone": "Fatto"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1315,7 @@
   "webView": {
     "openExternal": "Apri nel browser esterno"
   },
-  "dappNotListed": "Questa dapp non è elencata in {{appName}}. Le dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
+  "dappNotListed": "Questa Dapp non è elencata in {{appName}}. Le Dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
