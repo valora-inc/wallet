@@ -1121,7 +1121,7 @@
     "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Razem",
+  "totalBalanceWithLocalCurrencySymbol": "Łącznie {{totalBalance}} {{localCurrencySymbol}}",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
   "open": "Otwórz",
@@ -1295,7 +1295,9 @@
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
-    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia."
+    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
+    "selectItem": "Wybierz opcję...",
+    "selectDone": "Gotowe"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1317,7 +1319,7 @@
   "webView": {
     "openExternal": "Otwórz w zewnętrznej przeglądarce"
   },
-  "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Mapy są aplikacjami stron trzecich. Używaj ich na własne ryzyko.",
+  "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Dappy są aplikacjami zewnętrznymi. Korzystasz z nich na własne ryzyko.",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
