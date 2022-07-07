@@ -967,7 +967,7 @@
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere eine Daten-Nutzlast",
-    "signTransaction": "Unterschreibe eine Celo-Transaktion",
+    "signTransaction": "Eine Celo-Transaktion unterschreiben",
     "sendTransaction": "Eine Celo-Transaktion senden",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
@@ -1121,7 +1121,7 @@
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
   "open": "Öffnen",
-  "nftViewer": "NFT Viewer",
+  "nftViewer": "NFT-Viewer",
   "whatTotalValue": {
     "title": "Was bedeutet Gesamtguthaben?",
     "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
@@ -1291,7 +1291,9 @@
     "selectedPaymentOption": "Gewählte Zahlungsoption",
     "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support."
+    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
+    "selectItem": "Wähle eine Option aus...",
+    "selectDone": "Fertig"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1315,7 @@
   "webView": {
     "openExternal": "In externen Browser öffnen"
   },
-  "dappNotListed": "Diese Dapp ist nicht in {{appName}}aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
+  "dappNotListed": "Diese Dapp ist nicht in {{appName}} aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
