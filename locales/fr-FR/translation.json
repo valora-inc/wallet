@@ -967,7 +967,7 @@
     "operation": "Transaction",
     "data": "Données",
     "sign": "Signer une charge utile de données",
-    "signTransaction": "Signe une transaction Celo",
+    "signTransaction": "Signer une transaction Celo",
     "sendTransaction": "Envoyer une transaction Celo",
     "decrypt": "Déchiffrer une charge utile de données",
     "accounts": "Lire votre Adresse du compte sur {{appName}}",
@@ -1117,11 +1117,11 @@
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
   "balances": "Actifs",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
   "open": "Ouvrir",
-  "nftViewer": "NFT Viewer",
+  "nftViewer": "Visionneuse NFT",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
@@ -1291,7 +1291,9 @@
     "selectedPaymentOption": "Option de paiement sélectionnée",
     "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
     "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
-    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support."
+    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support.",
+    "selectItem": "Sélectionne une option...",
+    "selectDone": "Terminé"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1315,7 @@
   "webView": {
     "openExternal": "Ouvrir dans un navigateur externe"
   },
-  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Utilise-les à tes propres risques.",
+  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Vous les utilisez à vos propres risques.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
