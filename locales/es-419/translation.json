@@ -1117,7 +1117,7 @@
     "subtitleRamp": "Agrega fondos sin comisión con alguno de nuestros proveedores externos."
   },
   "balances": "Activos",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
   "open": "Abrir",
@@ -1291,7 +1291,9 @@
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Tu cuenta está vinculada a Valora.",
     "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
-    "addFiatAccountFailed": "No fue posible vincular tu cuenta, vuelve a intentarlo o comunícate con el equipo de soporte."
+    "addFiatAccountFailed": "No fue posible vincular tu cuenta, vuelve a intentarlo o comunícate con el equipo de soporte.",
+    "selectItem": "Selecciona una opción...",
+    "selectDone": "Listo"
   },
   "fiatAccountSchema": {
     "accountName": {
