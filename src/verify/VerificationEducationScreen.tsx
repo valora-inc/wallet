@@ -386,6 +386,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         style={styles.recaptchaModal}
         useNativeDriverForBackdrop={true}
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         backdropTransitionOutTiming={0}
       >
         <TopBarTextButton
