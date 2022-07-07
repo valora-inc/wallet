@@ -214,8 +214,8 @@
   "transaction": {
     "operation": "Transaction",
     "data": "Données",
-    "signTX": "Signer la transaction",
-    "details": "Afficher les détails"
+    "signTX": "Effectuer transaction",
+    "details": "Afficher détails"
   },
   "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
   "data": "Données",
@@ -962,16 +962,16 @@
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
   "action": {
-    "asking": "Cette appli demande à effectuer l'action suivante",
-    "askingV1_35": "{{dappName}} demande d'effectuer cette action :",
+    "asking": "Cette appli demande à effectuer l'action suivante :",
+    "askingV1_35": "{{dappName}} demande à effectuer l'action suivante :",
     "operation": "Transaction",
     "data": "Données",
-    "sign": "Signer une charge utile de données",
-    "signTransaction": "Signer une transaction Celo",
-    "sendTransaction": "Envoyer une transaction Celo",
-    "decrypt": "Déchiffrer une charge utile de données",
-    "accounts": "Lire votre Adresse du compte sur {{appName}}",
-    "details": "Afficher les données de la transaction",
+    "sign": "Effectuer charge utile de données",
+    "signTransaction": "Effectuer transaction Celo",
+    "sendTransaction": "Envoyer transaction Celo",
+    "decrypt": "Déchiffrer charge utile de données",
+    "accounts": "Lire votre Adresse du compte {{appName}}",
+    "details": "Afficher données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },
@@ -1121,7 +1121,7 @@
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
   "open": "Ouvrir",
-  "nftViewer": "Visionneuse NFT",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Que signifie Solde total ?",
     "body": "Votre solde total est un montant approximatif de toutes les valeurs que vous détenez sur Valora. Votre solde total changera en fonction de la fluctuation des prix. Il est mis à jour toutes les 10 minutes.\nCertains actifs ne peuvent pas être affichés dans le solde total si leur prix n'est pas disponible au moment du calcul.",
@@ -1292,7 +1292,7 @@
     "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
     "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
     "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support.",
-    "selectItem": "Sélectionne une option...",
+    "selectItem": "Sélectionnez une option...",
     "selectDone": "Terminé"
   },
   "fiatAccountSchema": {
