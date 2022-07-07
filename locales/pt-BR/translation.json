@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operação",
     "data": "Dados",
-    "signTX": "Transacção de sinais",
+    "signTX": "Assinar transação",
     "details": "Mostrar detalhes"
   },
   "shareInfo": "Este aplicativo poderá acessar as seguintes informações:",
@@ -967,8 +967,8 @@
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
-    "signTransaction": "Assinar uma transacção Celo",
-    "sendTransaction": "Enviar uma transacção Celo",
+    "signTransaction": "Assinar uma transação Celo",
+    "sendTransaction": "Enviar uma transação Celo",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Ler o seu Endereço de Conta da {{appName}}",
     "details": "Ver dados da transação",
@@ -1117,11 +1117,11 @@
     "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
   },
   "balances": "Ativos",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} no total",
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
   "open": "Abrir",
-  "nftViewer": "NFT Viewer",
+  "nftViewer": "Visualizador de NFTs",
   "whatTotalValue": {
     "title": "O que significa Saldo total?",
     "body": "O seu Saldo total é uma soma aproximada de todos os seus ativos na Valora. O Saldo total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns ativos não sejam refletidos no Saldo total porque o preço não está disponível no momento do cálculo.",
@@ -1291,7 +1291,9 @@
     "selectedPaymentOption": "Opção de pagamento selecionada",
     "addFiatAccountSuccess": "Sua conta foi vinculada ao Valora.",
     "addFiatAccountResourceExist": "Você já vinculou essa conta ao Valora.",
-    "addFiatAccountFailed": "Seu conta não foi vinculada, tente novamente ou entre em contato com o suporte."
+    "addFiatAccountFailed": "Seu conta não foi vinculada, tente novamente ou entre em contato com o suporte.",
+    "selectItem": "Seleccione uma opção...",
+    "selectDone": "Concluído"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1315,7 @@
   "webView": {
     "openExternal": "Abrir no navegador externo"
   },
-  "dappNotListed": "Esta dapp não está listada em {{appName}}. As dapps são aplicações de terceiros. Utilizados por sua conta e risco.",
+  "dappNotListed": "Este dapp não está listado na {{appName}}. Os dapps são aplicativos de terceiros. Use-o por sua conta e risco.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
