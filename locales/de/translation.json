@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Daten",
-    "signTX": "Transaktion unterschreiben",
+    "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
   "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
@@ -962,16 +962,16 @@
   "loadingFromScan": "Scannen",
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
-    "asking": "Diese Anwendung verlangt folgende Aktion",
-    "askingV1_35": "{{dappName}} möchte Folgendes ausführen:",
+    "asking": "Diese Anwendung verlangt folgende Aktion:",
+    "askingV1_35": "{{dappName}} verlangt folgende Aktion:",
     "operation": "Operation",
     "data": "Daten",
-    "sign": "Signiere eine Daten-Nutzlast",
-    "signTransaction": "Eine Celo-Transaktion unterschreiben",
-    "sendTransaction": "Eine Celo-Transaktion senden",
+    "sign": "Signiere Daten-Nutzlast",
+    "signTransaction": "Celo-Transaktion",
+    "sendTransaction": "Celo-Transaktion senden",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
-    "details": "Transaktionsdaten anzeigen",
+    "details": "Transaktionsdaten",
     "computeSharedSecret": "Geheimnisse generieren",
     "emptyMessage": "Leere Nachricht"
   },
@@ -1292,7 +1292,7 @@
     "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
     "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
-    "selectItem": "Wähle eine Option aus...",
+    "selectItem": "Option auswählen...",
     "selectDone": "Fertig"
   },
   "fiatAccountSchema": {
