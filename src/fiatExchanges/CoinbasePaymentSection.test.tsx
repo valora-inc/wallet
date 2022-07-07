@@ -122,7 +122,7 @@ describe('CoinbasePaymentSection', () => {
         coinbasePayEnabled: true,
       },
     })
-    const { queryByText, getByTestId } = render(
+    const { queryByText } = render(
       <Provider store={mockStore}>
         <CoinbasePaymentSection {...props} />
       </Provider>

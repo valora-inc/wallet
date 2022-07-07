@@ -32,6 +32,9 @@ export function CoinbasePaymentSection({
   const walletAddress = useSelector(walletAddressSelector)!
   const allowedAssets = [CiCoCurrency.CELO]
 
+  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
+  const appId = appIdResponse.result
+
   if (
     !coinbaseProvider ||
     coinbaseProvider.restricted ||
@@ -40,9 +43,6 @@ export function CoinbasePaymentSection({
   ) {
     return null
   }
-
-  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
-  const appId = appIdResponse.result
 
   // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
   const coinbasePayURL = generateOnRampURL({
