@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Операция",
     "data": "Данные",
-    "signTX": "Транзакция подписи",
+    "signTX": "Подписать транзакцию",
     "details": "Подробнее"
   },
   "shareInfo": "Это приложение сможет получить доступ к следующей информации:",
@@ -971,7 +971,7 @@
     "operation": "Операция",
     "data": "Данные",
     "sign": "Подписать загрузку данных",
-    "signTransaction": "Заключите сделку с Celo",
+    "signTransaction": "Подписать транзакцию Celo",
     "sendTransaction": "Отправить транзакцию Celo",
     "decrypt": "Расшифровка загруженных данных",
     "accounts": "Прочитать адрес аккаунта {{appName}}",
@@ -1295,7 +1295,9 @@
     "selectedPaymentOption": "Выбранный способ оплаты",
     "addFiatAccountSuccess": "Ваш аккаунт привязан к системе Valora.",
     "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
-    "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки."
+    "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
+    "selectItem": "Выбери опцию...",
+    "selectDone": "Готово"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1317,7 +1319,7 @@
   "webView": {
     "openExternal": "Открыть во внешнем браузере"
   },
-  "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps - это сторонние приложения. Используй их на свой страх и риск.",
+  "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps — это сторонние приложения. Используйте их на свой страх и риск.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
