@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operacja",
     "data": "Dane",
-    "signTX": "Podpisz transakcję",
+    "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
   "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
@@ -966,16 +966,16 @@
   "loadingFromScan": "Skanowanie",
   "loadingFromDeeplink": "Łączenie",
   "action": {
-    "asking": "Ta aplikacja prosi o wykonanie następującej operacji",
+    "asking": "Ta aplikacja prosi o wykonanie następującej operacji:",
     "askingV1_35": "{{dappName}} prosi o wykonanie następującej operacji:",
     "operation": "Operacja",
     "data": "Dane",
     "sign": "Podpisz ładunek danych",
-    "signTransaction": "Podpisz transakcję w Celo",
-    "sendTransaction": "Wyślij transakcję do Celo",
+    "signTransaction": "Transakcję Celo",
+    "sendTransaction": "Wyślij transakcję Celo",
     "decrypt": "Odszyfruj ładunek danych",
     "accounts": "Odczytaj swój adres konta w {{appName}}",
-    "details": "Zobacz dane transakcji",
+    "details": "Dane transakcji",
     "computeSharedSecret": "Wygeneruj tajne kody",
     "emptyMessage": "Pusta wiadomość"
   },
@@ -1125,7 +1125,7 @@
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
   "open": "Otwórz",
-  "nftViewer": "Przeglądarka NFT",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Co oznacza termin „saldo całkowite”?",
     "body": "Twoje saldo całkowite to przybliżona suma wszystkich Twoich aktywów w aplikacji Valora. Saldo całkowite będzie się zmieniać wraz z wahaniami cen. Jest ono aktualizowane co 10 minut.\nNiektóre aktywa mogą nie być widoczne w Saldzie całkowitym, ponieważ ich cena jest niedostępna w momencie obliczania salda.",
