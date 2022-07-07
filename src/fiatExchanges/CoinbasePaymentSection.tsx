@@ -1,12 +1,14 @@
 import React from 'react'
 
 import { generateOnRampURL } from '@coinbase/cbpay-js'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
@@ -39,9 +41,12 @@ export function CoinbasePaymentSection({
     return null
   }
 
+  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
+  const appId = appIdResponse.result
+
   // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
   const coinbasePayURL = generateOnRampURL({
-    appId: 'ec84aae7-69fd-4c73-aa11-724f18c9cf5c',
+    appId,
     destinationWallets: [{ address: walletAddress, blockchains: ['celo'], assets: ['CGLD'] }],
     presetCryptoAmount: cryptoAmount,
   })
@@ -52,7 +57,7 @@ export function CoinbasePaymentSection({
 
   return (
     <View style={styles.container}>
-      <Touchable onPress={navigateCoinbasePayFlow}>
+      <Touchable onPress={navigateCoinbasePayFlow} testID="coinbasePayCard">
         <View style={{ ...styles.innerContainer, paddingVertical: 27 }}>
           <View style={styles.left}>
             <Text style={styles.category}>Coinbase Pay</Text>
