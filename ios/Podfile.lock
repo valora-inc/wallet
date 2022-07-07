@@ -565,6 +565,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.6):
     - React-Core
+  - RNCPicker (2.4.2):
+    - React-Core
   - RNDeviceInfo (8.3.1):
     - React-Core
   - RNExitApp (1.1.0):
@@ -775,6 +777,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -969,6 +972,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNExitApp:
@@ -1117,6 +1122,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: c298b644a10c0c142055b3ae24d83879ecb13ccd
+  RNCPicker: 0250e95ad170569a96f5b0555cdd5e65b9084dca
   RNDeviceInfo: 7b82d1467b87f7e74d1c7ba9439a9a57d0c68ee9
   RNExitApp: 3ae738c65a8494df166dee74575f2504d0737a28
   RNFBApp: b8704b700f062ed0aa7bbca459b22dd47507a232
