@@ -560,7 +560,7 @@ export const mockSimplexQuote = {
   fiat_money: {
     currency: 'USD',
     base_amount: 19,
-    total_amount: 6,
+    total_amount: 25,
   },
   valid_until: '2022-05-09T17:18:28.434Z',
   supported_digital_currencies: ['CUSD', 'CELO'],
@@ -642,6 +642,20 @@ export const mockProviders: FetchProvidersOutput[] = [
       { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
       { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
     ],
+  },
+  {
+    name: 'CoinbasePay',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Coinbase],
+    url: undefined,
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    logoWide:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FcbPay-button.png?alt=media',
+    quote: undefined,
+    cashIn: true,
+    cashOut: false,
   },
 ]
 

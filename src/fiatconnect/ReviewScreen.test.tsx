@@ -1,8 +1,7 @@
 import {
   CryptoType,
-  FiatAccountSchema,
-  FiatAccountSchemas,
   FiatAccountType,
+  ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
 import { render } from '@testing-library/react-native'
 import _ from 'lodash'
@@ -25,18 +24,18 @@ function getProps(flow: CICOFlow, withFee = false, cryptoType = CryptoType.cUSD)
   const normalizedQuote = new FiatConnectQuote({
     quote: quoteData,
     fiatAccountType: FiatAccountType.BankAccount,
+    flow: CICOFlow.CashOut,
   })
-  const accountNumber: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = {
-    accountName: 'MyAccount',
+  const fiatAccount: ObfuscatedFiatAccountData = {
+    fiatAccountId: '123',
+    accountName: 'Chase (...2345)',
     institutionName: 'Chase',
-    accountNumber: '12345',
-    country: 'US',
     fiatAccountType: FiatAccountType.BankAccount,
   }
   return getMockStackScreenProps(Screens.FiatConnectReview, {
     flow,
     normalizedQuote,
-    fiatAccount: accountNumber,
+    fiatAccount,
   })
 }
 

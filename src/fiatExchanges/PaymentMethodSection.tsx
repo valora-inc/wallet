@@ -4,12 +4,12 @@ import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Expandable from 'src/components/Expandable'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -30,7 +30,7 @@ export function PaymentMethodSection({
   const sectionQuotes = normalizedQuotes.filter(
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
-  const localCurrency = useSelector(getLocalCurrencyCode)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
 
   const isExpandable = sectionQuotes.length > 1
   const [expanded, setExpanded] = useState(false)
@@ -78,7 +78,7 @@ export function PaymentMethodSection({
           <Text style={styles.fee}>
             {
               // quotes assumed to be sorted ascending by fee
-              renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.minFee'))
+              renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.minFee'))
             }
           </Text>
         )}
@@ -101,7 +101,7 @@ export function PaymentMethodSection({
             : t('selectProviderScreen.bank')}
         </Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderFeeAmount(sectionQuotes[0].getFee(), t('selectProviderScreen.fee'))}
+          {renderFeeAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
         </Text>
         <Text style={styles.topInfo}>{renderInfoText()}</Text>
       </View>
@@ -123,26 +123,14 @@ export function PaymentMethodSection({
         ? t('selectProviderScreen.oneHour')
         : t('selectProviderScreen.numDays')
     }`
-  const renderFeeAmount = (feeAmount: number | null, postFix: string) => {
-    if (feeAmount === null) {
-      return null
-    }
-
+  const renderFeeAmount = (normalizedQuote: NormalizedQuote, postFix: string) => {
     return (
       <Text>
-        <CurrencyDisplay
-          amount={{
-            value: 0,
-            localAmount: {
-              value: feeAmount,
-              currencyCode: localCurrency,
-              exchangeRate: 1,
-            },
-            currencyCode: localCurrency,
-          }}
-          showLocalAmount={true}
-          hideSign={true}
-          style={styles.fee}
+        <TokenDisplay
+          amount={normalizedQuote.getFeeInCrypto(exchangeRates)!}
+          currency={normalizedQuote.getCryptoType()}
+          showLocalAmount={flow === CICOFlow.CashIn}
+          hideSign={false}
         />{' '}
         {postFix}
       </Text>
@@ -175,7 +163,7 @@ export function PaymentMethodSection({
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
                 <Text style={styles.expandedFee}>
-                  {renderFeeAmount(normalizedQuote.getFee(), t('selectProviderScreen.fee'))}
+                  {renderFeeAmount(normalizedQuote, t('selectProviderScreen.fee'))}
                 </Text>
                 <Text style={styles.expandedInfo}>{renderInfoText()}</Text>
                 {index === 0 && (
