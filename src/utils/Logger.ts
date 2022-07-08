@@ -171,13 +171,20 @@ class Logger {
   overrideConsoleLogs = () => {
     const logFilePath = this.getReactNativeLogsFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
-    RNFS.stat(logFilePath).then((stat) => {
-      // If the creation time of the file is more than 28 days ago, delete it.
-      if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-        console.debug('Deleting React Native logs file older than 28 days')
-        RNFS.unlink(logFilePath)
-      }
-    })
+
+    // If the creation time of the file is more than 28 days ago, delete it.
+    RNFS.stat(logFilePath)
+      .then((stat) => {
+        if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
+          console.debug('Deleting React Native logs file older than 28 days')
+          RNFS.unlink(logFilePath).catch((err) => {
+            console.warn('Failed to delete React Native logs file: ' + err)
+          })
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed get log file stat: ' + err)
+      })
 
     const consoleFns: { [key: string]: (message?: any, ...optionalParams: any[]) => void } = {
       debug: console.debug,
