@@ -693,4 +693,12 @@ export const migrations = {
       coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
     },
   }),
+  59: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      quotes: [],
+      quotesLoading: false,
+      quotesError: null,
+    },
+  }),
 }

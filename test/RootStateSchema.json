@@ -249,6 +249,15 @@
             },
             "type": "object"
         },
+        "CryptoType": {
+            "enum": [
+                "CELO",
+                "cEUR",
+                "cREAL",
+                "cUSD"
+            ],
+            "type": "string"
+        },
         "Currency": {
             "enum": [
                 "cEUR",
@@ -683,6 +692,88 @@
                 "type"
             ],
             "type": "object"
+        },
+        "FiatAccountSchema": {
+            "enum": [
+                "AccountNumber",
+                "DuniaWallet",
+                "IBANNumber",
+                "IFSCAccount",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
+        "FiatConnectError": {
+            "enum": [
+                "ContractLoginNotSupported",
+                "CryptoAmountTooHigh",
+                "CryptoAmountTooLow",
+                "CryptoNotSupported",
+                "ExpirationTooLong",
+                "FiatAmountTooHigh",
+                "FiatAmountTooLow",
+                "FiatNotSupported",
+                "GeoNotSupported",
+                "InvalidFiatAccount",
+                "InvalidParameters",
+                "InvalidSchema",
+                "InvalidSignature",
+                "IssuedTooEarly",
+                "KycExpired",
+                "NonceInUse",
+                "ResourceExists",
+                "ResourceNotFound",
+                "SessionExpired",
+                "TransferNotAllowed",
+                "Unauthorized",
+                "UnsupportedSchema"
+            ],
+            "type": "string"
+        },
+        "FiatConnectProviderInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "baseUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "providerName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "baseUrl",
+                "id",
+                "imageUrl",
+                "providerName"
+            ],
+            "type": "object"
+        },
+        "FiatType": {
+            "enum": [
+                "BRL",
+                "CNY",
+                "EUR",
+                "GBP",
+                "GHS",
+                "GNF",
+                "INR",
+                "KES",
+                "NGN",
+                "PHP",
+                "RWF",
+                "UGX",
+                "USD",
+                "XAF",
+                "XOF",
+                "ZAR"
+            ],
+            "type": "string"
         },
         "FinclusiveKycStatus": {
             "enum": [
@@ -1151,6 +1242,183 @@
                         "type": "object"
                     }
                 ]
+            },
+            "type": "object"
+        },
+        "Partial<Record<FiatAccountType,FiatAccountTypeQuoteData>>": {
+            "additionalProperties": false,
+            "properties": {
+                "BankAccount": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "DuniaWallet": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                },
+                "MobileMoney": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "fee": {
+                            "type": "string"
+                        },
+                        "feeFrequency": {
+                            "enum": [
+                                "OneTime",
+                                "Recurring"
+                            ],
+                            "type": "string"
+                        },
+                        "feeType": {
+                            "enum": [
+                                "KycFee",
+                                "PlatformFee"
+                            ],
+                            "type": "string"
+                        },
+                        "fiatAccountSchemas": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "allowedValues": {
+                                        "additionalProperties": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "type": "object"
+                                    },
+                                    "fiatAccountSchema": {
+                                        "$ref": "#/definitions/FiatAccountSchema"
+                                    }
+                                },
+                                "required": [
+                                    "allowedValues",
+                                    "fiatAccountSchema"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "settlementTimeLowerBound": {
+                            "type": "string"
+                        },
+                        "settlementTimeUpperBound": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "fiatAccountSchemas"
+                    ],
+                    "type": "object"
+                }
             },
             "type": "object"
         },
@@ -2518,6 +2786,180 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": false,
+            "properties": {
+                "quotes": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "$ref": "#/definitions/FiatConnectError"
+                                    },
+                                    "maximumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "maximumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumCryptoAmount": {
+                                        "type": "string"
+                                    },
+                                    "minimumFiatAmount": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "error": {
+                                        "type": "string"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    }
+                                },
+                                "required": [
+                                    "error",
+                                    "ok",
+                                    "provider"
+                                ],
+                                "type": "object"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "fiatAccount": {
+                                        "$ref": "#/definitions/Partial<Record<FiatAccountType,FiatAccountTypeQuoteData>>"
+                                    },
+                                    "kyc": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "kycRequired": {
+                                                "type": "boolean"
+                                            },
+                                            "kycSchemas": {
+                                                "items": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "allowedValues": {
+                                                            "additionalProperties": {
+                                                                "items": {
+                                                                    "type": "string"
+                                                                },
+                                                                "type": "array"
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "kycSchema": {
+                                                            "enum": [
+                                                                "PersonalDataAndDocuments"
+                                                            ],
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "allowedValues",
+                                                        "kycSchema"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            }
+                                        },
+                                        "required": [
+                                            "kycRequired",
+                                            "kycSchemas"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "ok": {
+                                        "type": "boolean"
+                                    },
+                                    "provider": {
+                                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                                    },
+                                    "quote": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "cryptoAmount": {
+                                                "type": "string"
+                                            },
+                                            "cryptoType": {
+                                                "$ref": "#/definitions/CryptoType"
+                                            },
+                                            "fiatAmount": {
+                                                "type": "string"
+                                            },
+                                            "fiatType": {
+                                                "$ref": "#/definitions/FiatType"
+                                            },
+                                            "guaranteedUntil": {
+                                                "type": "string"
+                                            },
+                                            "quoteId": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "cryptoAmount",
+                                            "cryptoType",
+                                            "fiatAmount",
+                                            "fiatType",
+                                            "guaranteedUntil",
+                                            "quoteId"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "fiatAccount",
+                                    "kyc",
+                                    "ok",
+                                    "provider",
+                                    "quote"
+                                ],
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                "quotesError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "quotesLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "quotes",
+                "quotesError",
+                "quotesLoading"
+            ],
+            "type": "object"
+        },
         "State_4": {
             "additionalProperties": false,
             "properties": {
@@ -3708,6 +4150,9 @@
         "fees": {
             "$ref": "#/definitions/State_15"
         },
+        "fiatConnect": {
+            "$ref": "#/definitions/State_26"
+        },
         "fiatExchanges": {
             "$ref": "#/definitions/State_20"
         },
@@ -3772,6 +4217,7 @@
         "escrow",
         "exchange",
         "fees",
+        "fiatConnect",
         "fiatExchanges",
         "goldToken",
         "home",
