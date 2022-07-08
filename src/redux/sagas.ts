@@ -21,6 +21,7 @@ import { escrowSaga } from 'src/escrow/saga'
 import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
+import { fiatConnectSaga } from 'src/fiatconnect/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { firebaseSaga } from 'src/firebase/saga'
 import { goldTokenSaga } from 'src/goldToken/saga'
@@ -134,6 +135,7 @@ export function* rootSaga() {
     yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
     yield spawn(dappsSaga)
+    yield spawn(fiatConnectSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry
