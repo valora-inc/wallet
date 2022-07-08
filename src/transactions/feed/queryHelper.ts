@@ -5,13 +5,12 @@ import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import config from 'src/web3/networkConfig'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { updateTransactions } from 'src/transactions/actions'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { walletAddressSelector } from 'src/web3/selectors'
+import config from 'src/web3/networkConfig'
 
 export interface QueryHookResult {
   loading: boolean
@@ -62,7 +61,9 @@ function useDeduplicatedTransactions() {
 export function useFetchTransactions(): QueryHookResult {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const address = useSelector(walletAddressSelector)
+  // const address = useSelector(walletAddressSelector)
+  // const address = '0x11489ae0761343c3b03c630a63b00fa025bc4eea'
+  const address = '0x849fa48c8caa2907032f45765d7d6f52da13598d'
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
 
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
@@ -77,6 +78,7 @@ export function useFetchTransactions(): QueryHookResult {
     Logger.info(TAG, `Fetched ${paginatedResult ? 'next page' : 'new'} transactions`)
 
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
+
     if (returnedTransactions?.length) {
       addTransactions(returnedTransactions)
       // We store non-paginated results in redux to show them to the users when they open the app.
@@ -99,6 +101,10 @@ export function useFetchTransactions(): QueryHookResult {
   const { loading, error } = useAsync(
     async () => {
       const result = await queryTransactionsFeed(address, localCurrencyCode)
+      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+      console.log(result)
+      console.log('pageInfo: ', result.data.pageInfo)
+      console.log('transactions: ', result.data.tokenTransactionsV2.transactions)
       handleResult(result, false)
     },
     [counter],

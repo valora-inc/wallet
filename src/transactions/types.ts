@@ -102,7 +102,7 @@ type TransferTransactionType =
   | TokenTransactionType.InviteReceived
   | TokenTransactionType.NetworkFee
 
-export type TokenTransaction = TokenTransfer | TokenExchange
+export type TokenTransaction = TokenTransfer | TokenExchange | NFTsTransaction
 
 export interface TokenAmount {
   value: BigNumber.Value
@@ -144,6 +144,25 @@ export interface TokenTransfer {
 }
 
 export interface TokenTransferMetadata {
+  title?: string
+  subtitle?: string
+  image?: string
+  comment?: string
+}
+
+export interface NFTsTransaction {
+  __typename: 'NFTsTransactionV2'
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  address: string
+  amount: TokenAmount
+  metadata: TokenTransferMetadata
+  fees: Fee[]
+}
+
+export interface NFTsTransactionMetadata {
   title?: string
   subtitle?: string
   image?: string
