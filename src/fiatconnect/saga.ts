@@ -13,20 +13,22 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+
+const TAG = 'FiatConnectSaga'
 
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
   const { flow, digitalAsset, cryptoAmount } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
-  const account: string | null = yield select(currentAccountSelector)
+  const account: string = yield select(currentAccountSelector)!
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
 
   try {
-    // @ts-ignore TS complains about 'No overload matches this call' and I can't figure it out
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
       account,
       localCurrency,
@@ -39,6 +41,7 @@ export function* handleFetchFiatConnectQuotes({
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
+    Logger.error(TAG, 'Could not parse dapps response', error)
     yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch providers' }))
   }
 }
