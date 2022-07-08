@@ -8,18 +8,26 @@ export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
   quotesError: string | null
+  mostRecentFiatAccounts: FiatAccount[]
 }
 
 const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
+  mostRecentFiatAccounts: [],
+}
+
+export interface FiatAccount {
+  fiatAccountId: string
+  providerId: string
 }
 
 export interface FetchQuotesAction {
   flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  providerIds?: string[]
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
@@ -29,6 +37,8 @@ export interface FetchFiatConnectQuotesCompletedAction {
 export interface FetchFiatConnectQuotesFailedAction {
   error: string
 }
+
+export type FiatAccountAddedAction = FiatAccount
 
 export const slice = createSlice({
   name: 'fiatConnect',
@@ -53,6 +63,16 @@ export const slice = createSlice({
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
+    fiatAccountUsed: (state, action: PayloadAction<FiatAccountAddedAction>) => {
+      state.mostRecentFiatAccounts = [
+        action.payload,
+        ...state.mostRecentFiatAccounts.filter(
+          (fiatAccount) =>
+            fiatAccount.providerId !== action.payload.providerId &&
+            fiatAccount.fiatAccountId !== action.payload.fiatAccountId
+        ),
+      ]
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -68,6 +88,7 @@ export const {
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
+  fiatAccountUsed,
 } = slice.actions
 
 export default slice.reducer

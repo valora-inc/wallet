@@ -40,7 +40,7 @@ export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: Normalize
   return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
 }
 
-const quoteHasErrors = (
+export const quoteHasErrors = (
   quote: FiatConnectQuoteSuccess | FiatConnectQuoteError
 ): quote is FiatConnectQuoteError => {
   return !quote.ok
@@ -49,8 +49,8 @@ const quoteHasErrors = (
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
-): NormalizedQuote[] {
-  const normalizedQuotes: NormalizedQuote[] = []
+): FiatConnectQuote[] {
+  const normalizedQuotes: FiatConnectQuote[] = []
 
   quotes.forEach((quote) => {
     if (quoteHasErrors(quote)) {

@@ -18,7 +18,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount } = params
+  const { flow, digitalAsset, cryptoAmount, providerIds } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
   const account: string | null = yield select(currentAccountSelector)
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
@@ -36,6 +36,7 @@ export function* handleFetchFiatConnectQuotes({
       flow,
       fiatConnectCashInEnabled,
       fiatConnectCashOutEnabled,
+      providerList: providerIds,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {

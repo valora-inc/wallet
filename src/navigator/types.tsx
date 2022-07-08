@@ -138,6 +138,11 @@ export type StackParamList = {
     normalizedQuote: FiatConnectQuote
     fiatAccount: ObfuscatedFiatAccountData
   }
+  [Screens.FiatConnectReviewFetch]: {
+    flow: CICOFlow
+    selectedCrypto: Currency
+    cryptoAmount: number
+  }
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode

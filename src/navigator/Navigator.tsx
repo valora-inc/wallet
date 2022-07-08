@@ -41,6 +41,7 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import FiatConnectReviewFetchScreen from 'src/fiatconnect/ReviewFetchScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
@@ -510,6 +511,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={FiatConnectReviewScreen.navigationOptions}
       name={Screens.FiatConnectReview}
       component={FiatConnectReviewScreen}
+    />
+    <Navigator.Screen
+      options={FiatConnectReviewFetchScreen.navigationOptions}
+      name={Screens.FiatConnectReviewFetch}
+      component={FiatConnectReviewFetchScreen}
     />
     <Navigator.Screen
       options={BidaliScreen.navigationOptions}
