@@ -690,6 +690,13 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
+      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
+  59: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
       showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
     },
   }),

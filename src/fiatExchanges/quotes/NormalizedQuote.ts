@@ -1,10 +1,14 @@
+import BigNumber from 'bignumber.js'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { Currency } from 'src/utils/currencies'
 
 export default abstract class NormalizedQuote {
   abstract getPaymentMethod(): PaymentMethod
-  abstract getFee(): number | null
+  abstract getFeeInFiat(exchangeRates: { [token in Currency]: string | null }): BigNumber | null
+  abstract getFeeInCrypto(exchangeRates: { [token in Currency]: string | null }): BigNumber | null
+  abstract getCryptoType(): Currency
   abstract getKycInfo(): string | null
   abstract getTimeEstimation(): string | null
   abstract getProviderName(): string

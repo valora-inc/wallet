@@ -1,21 +1,20 @@
+import { ensureLeading0x } from '@celo/utils/lib/address'
+import { UnlockableWallet } from '@celo/wallet-base'
+import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   CryptoType,
   FiatType,
-  PostFiatAccountResponse,
   QuoteErrorResponse,
   QuoteRequestBody,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import networkConfig from 'src/web3/networkConfig'
-import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
-import { UnlockableWallet } from '@celo/wallet-base'
 import { UNLOCK_DURATION } from 'src/web3/consts'
-import { getPassword } from 'src/pincode/authentication'
-import { ensureLeading0x } from '@celo/utils/lib/address'
+import networkConfig from 'src/web3/networkConfig'
 
 const TAG = 'FIATCONNECT'
 
@@ -176,11 +175,19 @@ export async function fetchFiatConnectQuotes(params: FetchQuotesInput) {
   })
 }
 
-export async function addNewFiatAccount(
-  providerURL: string,
-  fiatAccountSchema: string,
-  properties: any
-): Promise<PostFiatAccountResponse> {
-  // TODO: use the SDK to make the request once SDK is published
-  throw new Error('Not implemented')
+/**
+ * Get an obfuscated version of a fiat account number.
+ *
+ * For most accounts this will be ... followed by the last 4 digits.
+ *
+ * Ensures at least 3 digits are blanked out for user privacy since it is expected that this will be used to
+ *  compute an accountName for the fiat account, which is returned in GET /accounts and thus shouldn't just
+ *  be the user's bank account number. GET /accounts is still authenticated via SIWE, so at least 3 blanked digits
+ *  should be acceptable; the obfuscation is just a secondary layer of security around sensitive info.
+ *
+ * @param accountNumber
+ */
+export function getObfuscatedAccountNumber(accountNumber: string): string {
+  const digitsToReveal = Math.max(0, Math.min(accountNumber.length - 3, 4))
+  return digitsToReveal > 0 ? '...' + accountNumber.slice(-digitsToReveal) : ''
 }
