@@ -39,6 +39,7 @@ export function CoinbasePaymentSection({
     !coinbaseProvider ||
     coinbaseProvider.restricted ||
     !coinbasePayEnabled ||
+    !appId ||
     !allowedAssets.includes(digitalAsset)
   ) {
     return null
