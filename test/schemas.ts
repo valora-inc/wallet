@@ -1390,8 +1390,9 @@ export const v59Schema = {
     quotesLoading: false,
     quotesError: null,
   },
-  
-  export const v60Schema = {
+}
+
+export const v60Schema = {
   ...v59Schema,
   _persist: {
     ...v59Schema._persist,
