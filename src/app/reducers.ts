@@ -54,7 +54,7 @@ export interface State {
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
-  visualizeNFTsEnabledInHomeAssetsPage: boolean  
+  visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
 }
