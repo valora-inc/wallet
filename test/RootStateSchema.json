@@ -1877,11 +1877,11 @@
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
-                "showSwapMenuInDrawerMenu": {
-                  "type": "boolean"
-                },
                 "showRaiseDailyLimitTarget": {
                     "type": "string"
+                },
+                "showSwapMenuInDrawerMenu": {
+                  "type": "boolean"
                 },
                 "skipProfilePicture": {
                     "type": "boolean"
