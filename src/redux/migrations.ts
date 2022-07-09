@@ -695,6 +695,14 @@ export const migrations = {
   }),
   59: (state: any) => ({
     ...state,
+    fiatConnect: {
+      quotes: [],
+      quotesLoading: false,
+      quotesError: null,
+    },
+  }),
+  60: (state: any) => ({
+    ...state,
     app: {
       ...state.app,
       showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,

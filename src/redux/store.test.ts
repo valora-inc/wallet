@@ -217,6 +217,11 @@ describe('store state', () => {
         "fees": Object {
           "estimates": Object {},
         },
+        "fiatConnect": Object {
+          "quotes": Array [],
+          "quotesError": null,
+          "quotesLoading": false,
+        },
         "fiatExchanges": Object {
           "providerLogos": Object {},
           "txHashToProvider": Object {},

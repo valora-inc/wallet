@@ -164,7 +164,7 @@ export type FetchQuotesInput = Omit<QuotesInput, 'fiatConnectProviders'> & {
   account: string
 }
 
-export async function fetchFiatConnectQuotes(params: FetchQuotesInput) {
+export async function fetchQuotes(params: FetchQuotesInput) {
   const { account, fiatConnectCashInEnabled, fiatConnectCashOutEnabled, ...quotesInput } = params
   if (!fiatConnectCashInEnabled && params.flow === CICOFlow.CashIn) return []
   if (!fiatConnectCashOutEnabled && params.flow === CICOFlow.CashOut) return []
