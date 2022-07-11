@@ -30,6 +30,16 @@ function useStep() {
         isTopTitle: true,
         topic: EducationTopic.onboarding,
       },
+      {
+        title: t('onboardingEducation.step3'),
+        isTopTitle: true,
+        topic: EducationTopic.onboarding,
+      },
+      {
+        title: t('onboardingEducation.step4'),
+        isTopTitle: true,
+        topic: EducationTopic.onboarding,
+      },
     ]
   }, [t])
 }

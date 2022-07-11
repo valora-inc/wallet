@@ -693,9 +693,10 @@
     "cta": "Purchase lookups (2)"
   },
   "onboardingEducation": {
-    "step1": "The fastest and easiest way to pay, with your {{appName}}.",
-    "step2": "Empower local impact economies with your {{appName}}.",
-    "step3": "Step into the future of crypto, with your {{appName}}."
+    "step1": "Make fast and reliable digital payments with Kolektivo Guilder.",
+    "step2": "Easily purchase goods and services from local organizations.",
+    "step3": "Participate in a local impact network and help develop Curaçao.",
+    "step4": "Join the revolution by creating your {{appName}}."
   },
   "enableBiometry": {
     "title": "Secure your wallet",
