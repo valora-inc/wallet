@@ -242,7 +242,7 @@ export function* buildSendTx(
   )
 }
 
-function* sendPayment(
+export function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   usdAmount: BigNumber | null,

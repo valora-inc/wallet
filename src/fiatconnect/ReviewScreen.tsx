@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -13,6 +13,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { startFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -29,7 +30,7 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
-
+  const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount } = route.params
 
   return (
@@ -55,7 +56,14 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         onPress={() => {
           ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
-          // TODO(any): submit the transfer
+          dispatch(
+            startFiatConnectTransfer({
+              flow,
+              fiatConnectQuote: normalizedQuote,
+              quoteId: normalizedQuote.getQuoteId(),
+              fiatAccountId: fiatAccount.fiatAccountId,
+            })
+          )
         }}
       />
     </SafeAreaView>
