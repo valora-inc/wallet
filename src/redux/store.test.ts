@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 58,
+          "version": 59,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -215,6 +215,11 @@ describe('store state', () => {
         },
         "fees": Object {
           "estimates": Object {},
+        },
+        "fiatConnect": Object {
+          "quotes": Array [],
+          "quotesError": null,
+          "quotesLoading": false,
         },
         "fiatExchanges": Object {
           "providerLogos": Object {},

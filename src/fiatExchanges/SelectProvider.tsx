@@ -9,14 +9,15 @@ import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  fiatConnectCashInEnabledSelector,
-  fiatConnectCashOutEnabledSelector,
-} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
-import { fetchFiatConnectQuotes } from 'src/fiatconnect'
+import {
+  fiatConnectQuotesErrorSelector,
+  fiatConnectQuotesLoadingSelector,
+  fiatConnectQuotesSelector,
+} from 'src/fiatconnect/selectors'
+import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
@@ -53,8 +54,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const fiatConnectCashInEnabled = useSelector(fiatConnectCashInEnabledSelector)
-  const fiatConnectCashOutEnabled = useSelector(fiatConnectCashOutEnabledSelector)
+  const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
+  const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
 
@@ -64,27 +66,29 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     [Currency.Euro]: CiCoCurrency.CEUR,
   }[route.params.selectedCrypto]
 
+  useEffect(() => {
+    dispatch(
+      fetchFiatConnectQuotes({
+        flow,
+        digitalAsset,
+        cryptoAmount: route.params.amount.crypto,
+      })
+    )
+  }, [flow, digitalAsset, route.params.amount.crypto])
+
+  useEffect(() => {
+    if (fiatConnectQuotesError) {
+      dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    }
+  }, [fiatConnectQuotesError])
+
   const asyncProviders = useAsync(async () => {
     if (!account) {
       Logger.error(TAG, 'No account set')
       return
     }
     try {
-      const [
-        fiatConnectQuotes,
-        externalProviders,
-        rawLegacyMobileMoneyProviders,
-      ] = await Promise.all([
-        fetchFiatConnectQuotes({
-          account,
-          localCurrency,
-          digitalAsset,
-          cryptoAmount: route.params.amount.crypto,
-          country: userLocation?.countryCodeAlpha2 || 'US',
-          flow,
-          fiatConnectCashInEnabled,
-          fiatConnectCashOutEnabled,
-        }),
+      const [externalProviders, rawLegacyMobileMoneyProviders] = await Promise.all([
         fetchProviders({
           userLocation,
           walletAddress: account,
@@ -104,13 +108,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset
       )
 
-      return { externalProviders, legacyMobileMoneyProviders, fiatConnectQuotes }
+      return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [])
 
-  if (asyncProviders.loading) {
+  if (asyncProviders.loading || fiatConnectQuotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
@@ -119,7 +123,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
   const normalizedQuotes = normalizeQuotes(
     flow,
-    asyncProviders.result?.fiatConnectQuotes,
+    fiatConnectQuotes,
     asyncProviders.result?.externalProviders
   )
 

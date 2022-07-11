@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Операція",
     "data": "Дані",
-    "signTX": "Підписати транзакцію",
+    "signTX": "Підписати операцію",
     "details": "Показати деталі"
   },
   "shareInfo": "Цей застосунок зможе отримати доступ до такої інформації:",
@@ -971,8 +971,8 @@
     "operation": "Операція",
     "data": "Дані",
     "sign": "Підписати корисне навантаження даних",
-    "signTransaction": "Підписати операцію Цело",
-    "sendTransaction": "Відправити Celo транзакцію",
+    "signTransaction": "Підписати операцію з Celo",
+    "sendTransaction": "Надіслати операцію з Celo",
     "decrypt": "Розшифрувати корисне завантаження даних",
     "accounts": "Переглянути адресу облікового запису {{appName}}",
     "details": "Переглянути дані транзакції",
@@ -1121,7 +1121,7 @@
     "subtitleRamp": "Додати кошти з нульовою комісією через одного з наших довірених зовнішніх постачальників."
   },
   "balances": "Активи",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Всього",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Усього",
   "totalValue": "Загальний баланс",
   "viewBalances": "Переглянути активи",
   "open": "Відкрити",
@@ -1317,7 +1317,7 @@
   "webView": {
     "openExternal": "Відкрити у зовнішньому браузері"
   },
-  "dappNotListed": "Цей додаток не перерахований в {{appName}}. Dapps є сторонніми додатками. Використовуйте на свій страх і ризик.",
+  "dappNotListed": "Цей застосунок не перелічений у {{appName}}. Ці застосунки є сторонніми застосунками. Ви можете використовувати їх на свій страх і ризик.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

@@ -78,6 +78,11 @@ const mockStore = createMockStore({
   web3: {
     account: mockAccount,
   },
+  fiatConnect: {
+    quotesError: null,
+    quotesLoading: false,
+    quotes: [],
+  },
 })
 
 describe(SelectProviderScreen, () => {
