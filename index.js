@@ -49,7 +49,7 @@ TextInput.defaultProps = {
 }
 
 const CPOptions = {
-  updateDialog: Platform.OS === 'ios' ? true : false,
+  updateDialog: true,
   installMode: CodePush.InstallMode.ON_NEXT_RESTART,
 }
 AppRegistry.registerComponent('celo', () => CodePush(CPOptions)(App))
