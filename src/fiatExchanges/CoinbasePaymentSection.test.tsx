@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react-native'
+import { generateOnRampURL } from '@coinbase/cbpay-js'
+import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
@@ -7,14 +8,34 @@ import {
   CoinbasePaymentSectionProps,
 } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
+const restrictedCurrencies = [CiCoCurrency.CEUR, CiCoCurrency.CUSD]
+const FAKE_APP_ID = 'fake app id'
+const FAKE_URL = 'www.coinbasepay.test'
+
+jest.mock('@coinbase/cbpay-js', () => ({
+  generateOnRampURL: jest.fn(),
+}))
+
+jest.mock('src/firebase/firebase', () => ({
+  readOnceFromFirebase: jest.fn(),
+}))
+
+// TODO - add tests to check for allowed digitalAsset
 describe('CoinbasePaymentSection', () => {
   let props: CoinbasePaymentSectionProps
   let mockStore: MockStoreEnhanced
   beforeEach(() => {
+    jest.useRealTimers()
+    jest.clearAllMocks()
     props = {
+      digitalAsset: CiCoCurrency.CELO,
+      cryptoAmount: 10,
       coinbaseProvider: mockProviders.find((quote) =>
         quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
@@ -58,7 +79,9 @@ describe('CoinbasePaymentSection', () => {
     )
     expect(queryByText('Coinbase Pay')).toBeFalsy()
   })
-  it('shows card if coinbase is not restricted and feature flag is true', async () => {
+  it('shows card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
+    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
+    mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
     props.coinbaseProvider!.restricted = false
     mockStore = createMockStore({
       ...mockStore,
@@ -71,6 +94,25 @@ describe('CoinbasePaymentSection', () => {
         <CoinbasePaymentSection {...props} />
       </Provider>
     )
-    expect(queryByText('Coinbase Pay')).toBeTruthy()
+    await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
+  })
+
+  restrictedCurrencies.forEach((currency) => {
+    it('shows nothing if ' + currency + ' is selected', async () => {
+      props.coinbaseProvider!.restricted = false
+      props.digitalAsset = currency
+      mockStore = createMockStore({
+        ...mockStore,
+        app: {
+          coinbasePayEnabled: true,
+        },
+      })
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <CoinbasePaymentSection {...props} />
+        </Provider>
+      )
+      expect(queryByText('Coinbase Pay')).toBeFalsy()
+    })
   })
 })
