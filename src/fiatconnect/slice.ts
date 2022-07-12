@@ -10,6 +10,7 @@ export interface FiatConnectTransfer {
   quoteId: string
   isSending: boolean
   failed: boolean
+  txHash: string | null // only for cash outs, the hash of the tx to send crypto to the provider
 }
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
@@ -54,6 +55,7 @@ export interface FiatConnectTransferFailedAction {
 export interface FiatConnectTransferSuccessAction {
   flow: CICOFlow
   quoteId: string
+  txHash: string | null
 }
 
 export const slice = createSlice({
@@ -85,6 +87,7 @@ export const slice = createSlice({
         flow: action.payload.flow,
         isSending: true,
         failed: false,
+        txHash: null,
       }
     },
     fiatConnectTransferFailed: (state, action: PayloadAction<FiatConnectTransferFailedAction>) => {
@@ -93,6 +96,7 @@ export const slice = createSlice({
         flow: CICOFlow.CashOut,
         isSending: false,
         failed: true,
+        txHash: null,
       }
     },
     fiatConnectTransferSuccess: (
@@ -104,6 +108,7 @@ export const slice = createSlice({
         flow: CICOFlow.CashOut,
         isSending: false,
         failed: false,
+        txHash: action.payload.txHash,
       }
     },
   },
@@ -113,7 +118,7 @@ export const slice = createSlice({
       ...getRehydratePayload(action, 'fiatConnect'),
       quotesLoading: false,
       quotesError: null,
-      transfer: null,
+      // transfer: null,
     }))
   },
 })

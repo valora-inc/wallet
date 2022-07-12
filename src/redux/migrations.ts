@@ -701,4 +701,11 @@ export const migrations = {
       quotesError: null,
     },
   }),
+  60: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
 }

@@ -43,6 +43,7 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   newTransactionContext,
   TokenTransactionTypeV2,
+  TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -242,7 +243,90 @@ export function* buildSendTx(
   )
 }
 
-export function* sendPayment(
+/**
+ * Sends a payment to an address with an encrypted comment
+ *
+ * @param context the transaction context
+ * @param recipientAddress the address to send the payment to
+ * @param amount the crypto amount to send
+ * @param tokenAddress the crypto token address
+ * @param comment the comment on the transaction
+ * @param feeInfo an object containing the fee information
+ */
+export function* buildAndSendPayment(
+  context: TransactionContext,
+  recipientAddress: string,
+  amount: BigNumber,
+  tokenAddress: string,
+  comment: string,
+  feeInfo: FeeInfo
+) {
+  const userAddress: string = yield call(getConnectedUnlockedAccount)
+
+  const encryptedComment: string = yield call(
+    encryptComment,
+    comment,
+    recipientAddress,
+    userAddress,
+    true
+  )
+
+  Logger.debug(
+    TAG,
+    'Transferring token',
+    context.description ?? 'No description',
+    context.id,
+    tokenAddress,
+    amount,
+    JSON.stringify(feeInfo)
+  )
+
+  yield put(
+    addStandbyTransaction({
+      context,
+      type: TokenTransactionTypeV2.Sent,
+      comment,
+      status: TransactionStatus.Pending,
+      value: amount.negated().toString(),
+      tokenAddress,
+      timestamp: Math.floor(Date.now() / 1000),
+      address: recipientAddress,
+    })
+  )
+
+  const tx: CeloTransactionObject<boolean> = yield call(
+    buildSendTx,
+    tokenAddress,
+    amount,
+    recipientAddress,
+    encryptedComment
+  )
+
+  const { receipt, error } = yield call(
+    sendAndMonitorTransaction,
+    tx,
+    userAddress,
+    context,
+    feeInfo.feeCurrency,
+    feeInfo.gas ? Number(feeInfo.gas) : undefined,
+    feeInfo.gasPrice
+  )
+
+  return { receipt, error }
+}
+
+/**
+ * Sends a payment to an address with an encrypted comment and gives profile
+ * access to the recipient
+ *
+ * @param recipientAddress the address to send the payment to
+ * @param amount the crypto amount to send
+ * @param usdAmount the amount in usd (nullable, used only for analytics)
+ * @param tokenAddress the crypto token address
+ * @param comment the comment on the transaction
+ * @param feeInfo an object containing the fee information
+ */
+function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   usdAmount: BigNumber | null,
@@ -255,55 +339,14 @@ export function* sendPayment(
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    const userAddress: string = yield call(getConnectedUnlockedAccount)
-
-    const encryptedComment: string = yield call(
-      encryptComment,
-      comment,
-      recipientAddress,
-      userAddress,
-      true
-    )
-
-    Logger.debug(
-      TAG,
-      'Transferring token',
-      context.description ?? 'No description',
-      context.id,
-      tokenAddress,
-      amount,
-      JSON.stringify(feeInfo)
-    )
-
-    yield put(
-      addStandbyTransaction({
-        context,
-        type: TokenTransactionTypeV2.Sent,
-        comment,
-        status: TransactionStatus.Pending,
-        value: amount.negated().toString(),
-        tokenAddress,
-        timestamp: Math.floor(Date.now() / 1000),
-        address: recipientAddress,
-      })
-    )
-
-    const tx: CeloTransactionObject<boolean> = yield call(
-      buildSendTx,
-      tokenAddress,
-      amount,
-      recipientAddress,
-      encryptedComment
-    )
-
     yield call(
-      sendAndMonitorTransaction,
-      tx,
-      userAddress,
+      buildAndSendPayment,
       context,
-      feeInfo.feeCurrency,
-      feeInfo.gas ? Number(feeInfo.gas) : undefined,
-      feeInfo.gasPrice
+      recipientAddress,
+      amount,
+      tokenAddress,
+      comment,
+      feeInfo
     )
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {

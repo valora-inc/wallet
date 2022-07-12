@@ -1,9 +1,13 @@
+import { CeloTxReceipt } from '@celo/connect'
 import { TransferResponse } from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, takeEvery, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
+import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import {
   doTransferOut,
   fetchQuotes,
@@ -15,6 +19,7 @@ import {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fiatConnectTransferFailed,
+  fiatConnectTransferSuccess,
   startFiatConnectTransfer,
 } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -22,7 +27,10 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { sendPayment } from 'src/send/saga'
+import { buildAndSendPayment } from 'src/send/saga'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -60,7 +68,7 @@ export function* watchFetchFiatConnectQuotes() {
   yield takeLeading(fetchFiatConnectQuotes.type, handleFetchFiatConnectQuotes)
 }
 
-function* handleStartFiatConnectTransfer({
+export function* handleStartFiatConnectTransfer({
   payload: params,
 }: ReturnType<typeof startFiatConnectTransfer>) {
   const { flow, quoteId, fiatConnectQuote, fiatAccountId } = params
@@ -80,7 +88,33 @@ function* handleStartFiatConnectTransfer({
         JSON.stringify(transferResult)
       )
 
-      yield call(sendPayment, transferResult.transferAddress)
+      const tokenList: TokenBalance[] = yield select(tokensListSelector)
+      const tokenInfo = tokenList.find((token) => token.symbol === fiatConnectQuote.getCryptoType())
+
+      if (!tokenInfo) {
+        throw new Error(`Invalid token: ${fiatConnectQuote.getCryptoType()}`)
+      }
+
+      const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
+      const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
+
+      const context = newTransactionContext(TAG, 'Send crypto to provider for transfer out')
+
+      const { receipt, error }: { receipt: CeloTxReceipt; error: any } = yield call(
+        buildAndSendPayment,
+        context,
+        transferResult.transferAddress,
+        new BigNumber(fiatConnectQuote.getCryptoAmount()),
+        tokenInfo.address,
+        '',
+        feeInfo!
+      )
+
+      if (error) {
+        throw error
+      }
+
+      yield put(fiatConnectTransferSuccess({ flow, quoteId, txHash: receipt.transactionHash }))
     } catch (err) {
       Logger.error(TAG, 'Transfer out failed..', err)
       yield put(fiatConnectTransferFailed({ flow, quoteId }))
@@ -88,8 +122,6 @@ function* handleStartFiatConnectTransfer({
   } else {
     throw new Error('not implemented')
   }
-
-  yield
 }
 
 function* watchFiatConnectTransactions() {
