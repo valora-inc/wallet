@@ -30,6 +30,7 @@ import {
   v53Schema,
   v56Schema,
   v57Schema,
+  v58Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -590,6 +591,19 @@ describe('Redux persist migrations', () => {
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.coinbasePayEnabled = false
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v58 to v59', () => {
+    const oldSchema = v58Schema
+    const migratedSchema = migrations[59](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.fiatConnect = {}
+    expectedSchema.fiatConnect.quotes = []
+    expectedSchema.fiatConnect.quotesLoading = false
+    expectedSchema.fiatConnect.quotesError = null
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })

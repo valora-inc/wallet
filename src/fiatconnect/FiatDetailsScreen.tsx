@@ -8,13 +8,14 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
-import TextInput from 'src/components/TextInput'
+import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -57,17 +58,17 @@ interface ComputedParam<T, K extends keyof T> {
   computeValue: (otherFields: Partial<T>) => T[K]
 }
 
-type AccountNumberSchema = {
-  [Property in keyof FiatAccountSchemas[FiatAccountSchema.AccountNumber]]:
+type FiatAccountFormSchema<T extends FiatAccountSchema> = {
+  [Property in keyof FiatAccountSchemas[T]]:
     | FormFieldParam
-    | ImplicitParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
-    | ComputedParam<FiatAccountSchemas[FiatAccountSchema.AccountNumber], Property>
+    | ImplicitParam<FiatAccountSchemas[T], Property>
+    | ComputedParam<FiatAccountSchemas[T], Property>
 }
 
 const getAccountNumberSchema = (implicitParams: {
   country: string
   fiatAccountType: FiatAccountType
-}): AccountNumberSchema => ({
+}): FiatAccountFormSchema<FiatAccountSchema.AccountNumber> => ({
   institutionName: {
     name: 'institutionName',
     label: i18n.t('fiatAccountSchema.institutionName.label'),
@@ -218,7 +219,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
     let hasEmptyFields = false
     formFields.forEach((field, index) => {
-      const fieldVal = inputRefs.current[index].trim()
+      const fieldVal = inputRefs.current[index]?.trim()
 
       if (!fieldVal) {
         hasEmptyFields = true
@@ -238,6 +239,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     validateInput()
   }
 
+  const allowedValues = quote.getFiatAccountSchemaAllowedValues()
   if (isSending) {
     return (
       <View style={styles.activityIndicatorContainer}>
@@ -253,13 +255,34 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           return (
             <View style={styles.inputView} key={`inputField-${index}`}>
               <Text style={styles.inputLabel}>{field.label}</Text>
-              <TextInput
-                testID={`input-${field.name}`}
-                style={styles.formInput}
-                value={inputRefs.current[index]}
-                placeholder={field.placeholderText}
-                onChangeText={(value) => setInputValue(value, index)}
-              />
+              {field.name in allowedValues ? (
+                <PickerSelect
+                  style={{
+                    inputIOS: styles.formSelectInput,
+                    inputAndroid: styles.formSelectInput,
+                  }}
+                  // NOTE: the below allows customizing the field to look
+                  // similar to other free form text fields
+                  useNativeAndroidPickerStyle={false}
+                  onValueChange={(value) => {
+                    setInputValue(value, index)
+                  }}
+                  placeholder={{ label: t('fiatDetailsScreen.selectItem'), value: null }}
+                  items={allowedValues[field.name].map((item) => ({
+                    label: item,
+                    value: item,
+                  }))}
+                  doneText={t('fiatDetailsScreen.selectDone')}
+                />
+              ) : (
+                <TextInput
+                  testID={`input-${field.name}`}
+                  style={styles.formInput}
+                  value={inputRefs.current[index]}
+                  placeholder={field.placeholderText}
+                  onChangeText={(value) => setInputValue(value, index)}
+                />
+              )}
               {errors.has(field.name) && (
                 <Text testID="errorMessage" style={styles.error}>
                   {field.errorMessage}
@@ -306,6 +329,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    flexGrow: 1,
     flexDirection: 'column',
     paddingHorizontal: 24,
     paddingVertical: 4,
@@ -327,6 +351,18 @@ const styles = StyleSheet.create({
     color: colors.dark,
     alignItems: 'flex-start',
     paddingHorizontal: 8,
+  },
+  formSelectInput: {
+    ...fontStyles.regular,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    borderColor: colors.gray2,
+    marginBottom: 4,
+    color: colors.dark,
+    alignItems: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+    lineHeight: LINE_HEIGHT, // vertical align = center
   },
   error: {
     fontSize: 12,
