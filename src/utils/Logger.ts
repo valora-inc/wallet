@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import * as Sentry from '@sentry/react-native'
+import { format } from 'date-fns'
+import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
@@ -146,15 +148,71 @@ class Logger {
     return error
   }
 
-  getReactNativeLogsFilePath = () => {
-    return RNFS.CachesDirectoryPath + '/rn_logs.txt'
+  getReactNativeLogFilePath = () => {
+    return `${RNFS.CachesDirectoryPath}/rn_logs/${format(new Date(), 'yyyyMMdd')}.txt`
   }
 
-  getLogs = async () => {
-    // TODO(Rossy) Does this technique of passing logs back as a string
-    // fail when the logs get too big?
+  getReactNativeLogsDir = () => {
+    return `${RNFS.CachesDirectoryPath}/rn_logs`
+  }
+
+  getCombinedLogsFilePath = () => {
+    // For now we need to export to a world-readable directory on Android
+    // TODO: use the FileProvider approach so we don't need to do this.
+    // See https://developer.android.com/reference/androidx/core/content/FileProvider
+    // and https://github.com/chirag04/react-native-mail/blame/340618e4ef7f21a29d739d4180c2a267a14093d3/android/src/main/java/com/chirag/RNMail/RNMailModule.java#L106
+    const path = Platform.OS === 'ios' ? RNFS.TemporaryDirectoryPath : RNFS.ExternalDirectoryPath
+    return `${path}/rn_logs.txt`
+  }
+
+  // Initialize the logs directories and files
+  initializeLogs = async () => {
+    const logFileCombinedPath = this.getCombinedLogsFilePath()
+    const logFilePath = this.getReactNativeLogFilePath()
+    const logDir = this.getReactNativeLogsDir()
+    console.debug('React Native logs will be piped to ' + logFilePath)
+
+    // If log folder not present create it
+    if (!(await RNFS.exists(logDir))) {
+      await RNFS.mkdir(logDir)
+    }
+
+    // If daily log file is not present create it
+    if (!(await RNFS.exists(logFilePath))) {
+      await RNFS.writeFile(logFilePath, '', 'utf8')
+    }
+
+    // If legacy log file or combined logs exist, delete it
+    if (await RNFS.exists(logFileCombinedPath)) {
+      await RNFS.unlink(logFileCombinedPath)
+    }
+
+    // Get the list of log files
+    let logFiles = await RNFS.readDir(logDir)
+
+    // Delete log files older than 28 days
+    if (logFiles.length > 0) {
+      logFiles.forEach((file) => {
+        RNFS.stat(file.path)
+          .then((stat) => {
+            if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
+              console.debug('Deleting React Native logs file older than 28 days')
+              RNFS.unlink(file.path).catch((err) => {
+                console.warn('Failed to delete React Native logs file: ' + err)
+              })
+            }
+          })
+          .catch((err) => {
+            console.warn('Failed get log file stat: ' + err)
+          })
+      })
+    }
+  }
+
+  // Gets the logs for the current day
+  getDailyLogs = async () => {
     try {
-      const rnLogsSrc = this.getReactNativeLogsFilePath()
+      const rnLogsSrc = this.getReactNativeLogFilePath()
       let reactNativeLogs = null
       if (await RNFS.exists(rnLogsSrc)) {
         reactNativeLogs = await RNFS.readFile(rnLogsSrc)
@@ -166,25 +224,42 @@ class Logger {
     }
   }
 
+  // Combines logs from the last n days into a single file
+  createCombinedLogs = async () => {
+    try {
+      this.showMessage('Creating combined log...')
+      const combinedLogsPath = this.getCombinedLogsFilePath()
+      const logDir = this.getReactNativeLogsDir()
+
+      // Delete previous combined Logs if present
+      if (await RNFS.exists(combinedLogsPath)) {
+        await RNFS.unlink(combinedLogsPath)
+      }
+
+      // Create empty file to combine log files into
+      await RNFS.writeFile(combinedLogsPath, '', 'utf8')
+
+      // Get all daily log files and combine into one file
+      let logFiles = await RNFS.readDir(logDir)
+      if (logFiles.length > 0) {
+        logFiles.forEach(async (file) => {
+          if (await RNFS.exists(file.path)) {
+            await RNFS.appendFile(combinedLogsPath, await RNFS.readFile(file.path), 'utf8')
+          }
+        })
+      }
+      return combinedLogsPath
+    } catch (e) {
+      this.showError('Failed to combine logs: ' + e)
+      return false
+    }
+  }
+
   // Anything being sent to console.log, console.warn, or console.error is piped into
   // the logfile specified by getReactNativeLogsFilePath()
-  overrideConsoleLogs = () => {
-    const logFilePath = this.getReactNativeLogsFilePath()
+  overrideConsoleLogs = async () => {
+    const logFilePath = this.getReactNativeLogFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
-
-    // If the creation time of the file is more than 28 days ago, delete it.
-    RNFS.stat(logFilePath)
-      .then((stat) => {
-        if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-          console.debug('Deleting React Native logs file older than 28 days')
-          RNFS.unlink(logFilePath).catch((err) => {
-            console.warn('Failed to delete React Native logs file: ' + err)
-          })
-        }
-      })
-      .catch((err) => {
-        console.warn('Failed get log file stat: ' + err)
-      })
 
     const consoleFns: { [key: string]: (message?: any, ...optionalParams: any[]) => void } = {
       debug: console.debug,

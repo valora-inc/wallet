@@ -18,6 +18,7 @@ import { Text, TextInput } from 'react-native'
 
 const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 
+Logger.initializeLogs()
 Logger.overrideConsoleLogs()
 
 const defaultErrorHandler = ErrorUtils.getGlobalHandler()
