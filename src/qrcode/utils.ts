@@ -112,6 +112,9 @@ export function* handleBarcode(
   requesterAddress?: string
 ) {
   const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
+  if (/^0x[a-f0-9]{40}$/gi.test(barcode.data)) {
+    barcode.data = `celo://wallet/pay?address=${barcode.data}`
+  }
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
     yield fork(handleLoadingWithTimeout, WalletConnectPairingOrigin.Scan)
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
