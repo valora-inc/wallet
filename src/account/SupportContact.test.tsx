@@ -7,6 +7,7 @@ import SupportContact from 'src/account/SupportContact'
 import { APP_NAME, CELO_SUPPORT_EMAIL_ADDRESS } from 'src/brandingConfig'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
@@ -22,6 +23,10 @@ describe('Contact', () => {
   })
 
   it('submits email with logs', async () => {
+    const mockedCreateCombinedLogs = Logger.createCombinedLogs as jest.Mock
+    const combinedLogsPath = 'log_path'
+    mockedCreateCombinedLogs.mockResolvedValue(combinedLogsPath)
+
     const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <SupportContact {...mockScreenProps} />
@@ -42,7 +47,7 @@ describe('Contact', () => {
         subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
         attachments: [
           {
-            path: '__EXTERNAL_DIRECTORY_PATH__/rn_logs.txt',
+            path: combinedLogsPath,
             type: 'text',
             name: '',
           },
