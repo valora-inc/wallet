@@ -30,7 +30,6 @@ export function CoinbasePaymentSection({
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const walletAddress = useSelector(walletAddressSelector)!
-  const allowedAssets = [CiCoCurrency.CELO]
 
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
   const appId = appIdResponse.result
@@ -40,7 +39,7 @@ export function CoinbasePaymentSection({
     coinbaseProvider.restricted ||
     !coinbasePayEnabled ||
     !appId ||
-    !allowedAssets.includes(digitalAsset)
+    digitalAsset !== CiCoCurrency.CELO
   ) {
     return null
   }
