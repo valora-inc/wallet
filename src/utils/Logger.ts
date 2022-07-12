@@ -188,7 +188,7 @@ class Logger {
     }
 
     // Get the list of log files
-    let logFiles = await RNFS.readDir(logDir)
+    const logFiles = await RNFS.readDir(logDir)
 
     // Delete log files older than 28 days
     if (logFiles.length > 0) {
@@ -240,7 +240,7 @@ class Logger {
       await RNFS.writeFile(combinedLogsPath, '', 'utf8')
 
       // Get all daily log files and combine into one file
-      let logFiles = await RNFS.readDir(logDir)
+      const logFiles = await RNFS.readDir(logDir)
       if (logFiles.length > 0) {
         logFiles.forEach(async (file) => {
           if (await RNFS.exists(file.path)) {
