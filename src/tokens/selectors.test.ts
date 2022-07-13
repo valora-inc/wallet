@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
+  superchargeTokensSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
@@ -29,6 +30,7 @@ const state: any = {
         balance: '50',
         usdPrice: '0.5',
         symbol: 'cEUR',
+        isSupercharged: true,
         priceFetchedAt: mockDate,
       },
       ['0x1']: {
@@ -47,6 +49,7 @@ const state: any = {
         address: '0x4',
         symbol: 'TT',
         balance: '50',
+        isSupercharged: true,
         priceFetchedAt: mockDate,
       },
       ['0x5']: {
@@ -106,6 +109,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0xeur",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
@@ -120,6 +124,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0x4",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
           "usdPrice": null,
@@ -149,9 +154,36 @@ describe('tokensWithUsdValueSelector', () => {
         Object {
           "address": "0xeur",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
+        },
+      ]
+    `)
+  })
+})
+
+describe('superchargeTokensSelector', () => {
+  it('returns only the tokens that are marked for supercharge', () => {
+    const tokens = superchargeTokensSelector(state)
+    expect(tokens).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "address": "0xeur",
+          "balance": "50",
+          "isSupercharged": true,
+          "priceFetchedAt": 1588200517518,
+          "symbol": "cEUR",
+          "usdPrice": "0.5",
+        },
+        Object {
+          "address": "0x4",
+          "balance": "50",
+          "isSupercharged": true,
+          "priceFetchedAt": 1588200517518,
+          "symbol": "TT",
+          "usdPrice": null,
         },
       ]
     `)

@@ -68,6 +68,10 @@ export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (to
   return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
 })
 
+export const superchargeTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
+  return tokens.filter((tokenInfo) => tokenInfo.isSupercharged === true)
+})
+
 export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
 })
