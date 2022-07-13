@@ -14,7 +14,6 @@ import { updateAccountRegistration } from 'src/account/updateAccountRegistration
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -253,6 +252,14 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
+  const superchargeTokenSymbols = Object.keys(flags)
+    .map((flag) => {
+      // Match keys with the following format `supercharge${token}Min`
+      const symbolMatch = flag.match(/^supercharge(\w+)Min$/)
+      return symbolMatch ? symbolMatch[1] : null
+    })
+    .filter((symbol) => symbol)
+
   return {
     hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
@@ -269,10 +276,10 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
-    superchargeTokens: (Object.keys(SuperchargeToken) as SuperchargeToken[]).map((token) => ({
-      token,
-      minBalance: flags[`supercharge${token}Min`].asNumber(),
-      maxBalance: flags[`supercharge${token}Max`].asNumber(),
+    superchargeTokens: superchargeTokenSymbols.map((tokenSymbol) => ({
+      tokenSymbol,
+      minBalance: flags[`supercharge${tokenSymbol}Min`].asNumber(),
+      maxBalance: flags[`supercharge${tokenSymbol}Max`].asNumber(),
     })),
     komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
     komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -85,7 +84,7 @@ const superchargeSetUp = {
     numberVerified: true,
     superchargeTokens: [
       {
-        token: SuperchargeToken.cUSD,
+        tokenSymbol: 'cUSD',
         minBalance: 10,
         maxBalance: 1000,
       },
@@ -403,6 +402,7 @@ describe('NotificationBox', () => {
         tokenBalances: {
           cUSD: {
             isCoreToken: true,
+            isSupercharged: true,
             balance: '100',
             symbol: 'cUSD',
           },
@@ -432,6 +432,7 @@ describe('NotificationBox', () => {
         tokenBalances: {
           cUSD: {
             isCoreToken: true,
+            isSupercharged: true,
             balance: '100',
             symbol: 'cUSD',
           },

@@ -8,7 +8,6 @@ import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { initialState, State } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,15 +22,17 @@ interface TokenBalances {
 const CUSD_BALANCE: TokenBalances = {
   [mockCusdAddress]: {
     balance: '50',
-    symbol: SuperchargeToken.cUSD,
+    symbol: 'cUSD',
     isCoreToken: true,
+    isSupercharged: true,
   },
 }
 const NO_BALANCES: TokenBalances = {
   [mockCusdAddress]: {
     balance: '5',
-    symbol: SuperchargeToken.cUSD,
+    symbol: 'cUSD',
     isCoreToken: true,
+    isSupercharged: true,
   },
 }
 
@@ -73,12 +74,12 @@ describe('ConsumerIncentivesHomeScreen', () => {
         numberVerified,
         superchargeTokens: [
           {
-            token: SuperchargeToken.cUSD,
+            tokenSymbol: 'cUSD',
             minBalance: 10,
             maxBalance: 1000,
           },
           {
-            token: SuperchargeToken.cREAL,
+            tokenSymbol: 'cREAL',
             minBalance: 50,
             maxBalance: 6000,
           },

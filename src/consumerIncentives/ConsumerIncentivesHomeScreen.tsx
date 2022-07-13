@@ -12,14 +12,10 @@ import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
+import { balanceInfoForSuperchargeSelector } from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import {
-  SuperchargePendingReward,
-  SuperchargeToken,
-  SuperchargeTokenConfig,
-} from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
@@ -32,50 +28,30 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { stablecoinsSelector, tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 
 const onLearnMore = () => {
   ValoraAnalytics.track(RewardsEvents.learn_more_pressed)
   navigate(Screens.WebViewScreen, { uri: SUPERCHARGE_LEARN_MORE })
 }
 
-export function useDefaultTokenToSupercharge(): Partial<SuperchargeTokenConfig> {
+function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
   const { superchargeTokens } = useSelector((state) => state.app)
   const userCountry = useSelector(userLocationDataSelector)
   const { IS_IN_EUROPE } = useCountryFeatures()
 
   const tokenToSupercharge = IS_IN_EUROPE
-    ? SuperchargeToken.cEUR
+    ? 'cEUR'
     : userCountry?.countryCodeAlpha2 === 'BR'
-    ? SuperchargeToken.cREAL
-    : SuperchargeToken.cUSD
+    ? 'cREAL'
+    : 'cUSD'
   return (
-    superchargeTokens.find((token) => token.token === tokenToSupercharge) ?? {
-      token: tokenToSupercharge,
+    superchargeTokens.find((token) => token.tokenSymbol === tokenToSupercharge) ?? {
+      tokenSymbol: tokenToSupercharge,
     }
   )
-}
-
-export function useHasBalanceForSupercharge(): {
-  hasBalanceForSupercharge: boolean
-  superchargingToken?: SuperchargeTokenConfig
-  hasMaxBalance?: boolean
-} {
-  const { superchargeTokens } = useSelector((state) => state.app)
-  const tokens = useSelector(stablecoinsSelector)
-
-  for (const tokenConfig of superchargeTokens) {
-    const tokenUserInfo = tokens.find((t) => t.symbol === tokenConfig.token)
-    if (tokenUserInfo?.balance.gte(tokenConfig.minBalance)) {
-      return {
-        hasBalanceForSupercharge: true,
-        superchargingToken: tokenConfig,
-        hasMaxBalance: tokenUserInfo.balance.gte(tokenConfig.maxBalance),
-      }
-    }
-  }
-  return { hasBalanceForSupercharge: false }
 }
 
 function Header() {
@@ -97,9 +73,11 @@ function SuperchargeInstructions() {
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { superchargeApy } = useSelector((state) => state.app)
-  const { hasBalanceForSupercharge, superchargingToken } = useHasBalanceForSupercharge()
-  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
-  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
+  const { hasBalanceForSupercharge, superchargingTokenConfig } = useSelector(
+    balanceInfoForSuperchargeSelector
+  )
+  const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
+  const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
   return (
     <>
@@ -107,7 +85,10 @@ function SuperchargeInstructions() {
         {t('superchargeTitle')}
       </Text>
       <Text style={styles.description}>
-        {t('superchargeDescription', { token: tokenToSupercharge.token, apy: superchargeApy })}
+        {t('superchargeDescription', {
+          token: tokenConfigToSupercharge.tokenSymbol,
+          apy: superchargeApy,
+        })}
       </Text>
       {!userIsVerified && (
         <View style={styles.section}>
@@ -120,8 +101,8 @@ function SuperchargeInstructions() {
           <Image source={earn2} style={styles.sectionIcon} resizeMode="contain" />
           <Text style={styles.sectionText}>
             {t('superchargeMinimumBalance', {
-              amount: tokenToSupercharge.minBalance,
-              token: tokenToSupercharge.token,
+              amount: tokenConfigToSupercharge.minBalance,
+              token: tokenConfigToSupercharge.tokenSymbol,
             })}{' '}
             <Touchable
               style={styles.tokenDetailsIcon}
@@ -150,17 +131,20 @@ function SuperchargeInstructions() {
 function SuperchargingInfo() {
   const { t } = useTranslation()
   const { superchargeApy } = useSelector((state) => state.app)
-  const { superchargingToken } = useHasBalanceForSupercharge()
-  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
-  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
+  const { superchargingTokenConfig } = useSelector(balanceInfoForSuperchargeSelector)
+  const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
+  const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
   return (
     <>
       <Text style={styles.title} testID="SuperchargingInfo">
-        {t('superchargingTitle', { token: tokenToSupercharge.token })}
+        {t('superchargingTitle', { token: tokenConfigToSupercharge.tokenSymbol })}
       </Text>
       <Text style={styles.description}>
-        {t('superchargingDescription', { token: tokenToSupercharge.token, apy: superchargeApy })}
+        {t('superchargingDescription', {
+          token: tokenConfigToSupercharge.tokenSymbol,
+          apy: superchargeApy,
+        })}
       </Text>
     </>
   )
@@ -214,14 +198,12 @@ export default function ConsumerIncentivesHomeScreen() {
   }, [])
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
-  const {
-    hasBalanceForSupercharge,
-    superchargingToken,
-    hasMaxBalance,
-  } = useHasBalanceForSupercharge()
+  const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } = useSelector(
+    balanceInfoForSuperchargeSelector
+  )
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
-  const defaultTokenToSupercharge = useDefaultTokenToSupercharge()
-  const tokenToSupercharge = superchargingToken ?? defaultTokenToSupercharge
+  const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
+  const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
   const claimRewardsLoading = useSelector((state) => state.supercharge.loading)
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
@@ -275,11 +257,11 @@ export default function ConsumerIncentivesHomeScreen() {
             <Text onPress={onLearnMore} style={styles.learnMoreLink} />
           </Trans>
         ) : hasMaxBalance ? (
-          t('superchargeDisclaimerMaxRewards', { token: superchargingToken })
+          t('superchargeDisclaimerMaxRewards', { token: superchargingTokenConfig.tokenSymbol })
         ) : (
           t('superchargeDisclaimer', {
-            amount: tokenToSupercharge.maxBalance,
-            token: tokenToSupercharge.token,
+            amount: tokenConfigToSupercharge.maxBalance,
+            token: tokenConfigToSupercharge.tokenSymbol,
           })
         )}
       </Text>
@@ -290,7 +272,7 @@ export default function ConsumerIncentivesHomeScreen() {
             canClaimRewards
               ? t('superchargeClaimButton')
               : userIsVerified
-              ? t('cashIn', { currency: tokenToSupercharge.token })
+              ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
               : t('connectNumber')
           }
           icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}

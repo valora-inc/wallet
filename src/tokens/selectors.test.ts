@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
-  superchargeTokensSelector,
+  superchargeTokensByUsdBalanceSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
@@ -164,9 +164,9 @@ describe('tokensWithUsdValueSelector', () => {
   })
 })
 
-describe('superchargeTokensSelector', () => {
+describe('superchargeTokensByUsdBalanceSelector', () => {
   it('returns only the tokens that are marked for supercharge', () => {
-    const tokens = superchargeTokensSelector(state)
+    const tokens = superchargeTokensByUsdBalanceSelector(state)
     expect(tokens).toMatchInlineSnapshot(`
       Array [
         Object {
