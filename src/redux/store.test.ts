@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 58,
+          "version": 60,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -176,6 +176,7 @@ describe('store state', () => {
           "sessionId": "",
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
+          "showSwapMenuInDrawerMenu": false,
           "skipProfilePicture": false,
           "skipVerification": false,
           "superchargeApy": 25,
@@ -215,6 +216,11 @@ describe('store state', () => {
         },
         "fees": Object {
           "estimates": Object {},
+        },
+        "fiatConnect": Object {
+          "quotes": Array [],
+          "quotesError": null,
+          "quotesLoading": false,
         },
         "fiatExchanges": Object {
           "providerLogos": Object {},

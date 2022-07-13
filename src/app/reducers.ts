@@ -56,6 +56,7 @@ export interface State {
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
+  showSwapMenuInDrawerMenu: boolean
 }
 
 const initialState = {
@@ -104,6 +105,7 @@ const initialState = {
   visualizeNFTsEnabledInHomeAssetsPage:
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+  showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
 }
 
 export const appReducer = (
@@ -222,6 +224,7 @@ export const appReducer = (
         visualizeNFTsEnabledInHomeAssetsPage:
           action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
+        showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
