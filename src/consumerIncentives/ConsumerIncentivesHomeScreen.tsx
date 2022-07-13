@@ -257,7 +257,7 @@ export default function ConsumerIncentivesHomeScreen() {
             <Text onPress={onLearnMore} style={styles.learnMoreLink} />
           </Trans>
         ) : hasMaxBalance ? (
-          t('superchargeDisclaimerMaxRewards', { token: superchargingTokenConfig.tokenSymbol })
+          t('superchargeDisclaimerMaxRewards', { token: superchargingTokenConfig?.tokenSymbol })
         ) : (
           t('superchargeDisclaimer', {
             amount: tokenConfigToSupercharge.maxBalance,
