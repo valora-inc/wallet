@@ -21,7 +21,7 @@ import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
-import { Awaited } from 'src/utils/typescript'
+import { Awaited, isPresent } from 'src/utils/typescript'
 
 const TAG = 'firebase/firebase'
 
@@ -252,13 +252,15 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
+  // TODO: maybe expose the supercharge token config under a single Object in the remote config
+  // so we don't have to do this dance here?
   const superchargeTokenSymbols = Object.keys(flags)
     .map((flag) => {
       // Match keys with the following format `supercharge${token}Min`
-      const symbolMatch = flag.match(/^supercharge(\w+)Min$/)
+      const symbolMatch = flag.match(/^supercharge(.+)Min$/)
       return symbolMatch ? symbolMatch[1] : null
     })
-    .filter((symbol) => symbol)
+    .filter(isPresent)
 
   return {
     hideVerification: flags.hideVerification.asBoolean(),
