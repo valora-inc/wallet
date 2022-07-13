@@ -45,6 +45,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         />
       </View>
       <Button
+        testID="submitButton"
         style={styles.submitBtn}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -64,6 +65,8 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
               fiatAccountId: fiatAccount.fiatAccountId,
             })
           )
+
+          // TODO: navigate to success / failure screen
         }}
       />
     </SafeAreaView>
