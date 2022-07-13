@@ -58,6 +58,12 @@ describe('getFiatConnectClient', () => {
     expect(fcClient).toBeInstanceOf(FiatConnectClient)
   })
 
+  it('returns a new client if provider url changes', async () => {
+    const fcClient = await getFiatConnectClient('provider1', 'https://provider1.url/v2')
+    expect(getWalletAsync).toHaveBeenCalled()
+    expect(fcClient).toBeInstanceOf(FiatConnectClient)
+  })
+
   it('returns a new client for a different provider', async () => {
     const fcClient = await getFiatConnectClient('provider2', 'https://provider2.url')
     expect(getWalletAsync).toHaveBeenCalled()

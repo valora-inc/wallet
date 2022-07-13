@@ -1,4 +1,3 @@
-import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
   FiatAccountSchema,
   FiatAccountType,
@@ -33,7 +32,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
   fiatAccountType: FiatAccountType
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
-  fiatConnectClient?: FiatConnectApiClient
 
   constructor({
     quote,
