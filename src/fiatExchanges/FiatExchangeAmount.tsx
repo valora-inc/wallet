@@ -29,6 +29,7 @@ import {
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
+import { mostRecentFiatAccountSelector } from 'src/fiatconnect/selectors'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -84,6 +85,7 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const mostRecentFiatAccount = useSelector(mostRecentFiatAccountSelector)!
 
   const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
@@ -153,17 +155,29 @@ function FiatExchangeAmount({ route }: Props) {
       currency,
       flow,
     })
+    const cryptoAmount = inputCryptoAmount.toNumber()
+    // Rounding up to avoid decimal errors from providers. Won't be
+    // necessary once we support inputting an amount in both crypto and fiat
+    const fiatAmount = Math.round(inputLocalCurrencyAmount.toNumber())
 
-    navigate(Screens.SelectProvider, {
-      flow,
-      selectedCrypto: currency,
-      amount: {
-        crypto: inputCryptoAmount.toNumber(),
-        // Rounding up to avoid decimal errors from providers. Won't be
-        // necessary once we support inputting an amount in both crypto and fiat
-        fiat: Math.round(inputLocalCurrencyAmount.toNumber()),
-      },
-    })
+    // Navigate straight to the review screen if the user has a FiatConnect fiat account saved
+    if (mostRecentFiatAccount) {
+      navigate(Screens.FiatConnectReviewFetch, {
+        flow,
+        selectedCrypto: currency,
+        cryptoAmount,
+        fiatAmount,
+      })
+    } else {
+      navigate(Screens.SelectProvider, {
+        flow,
+        selectedCrypto: currency,
+        amount: {
+          crypto: cryptoAmount,
+          fiat: fiatAmount,
+        },
+      })
+    }
   }
 
   function onPressContinue() {

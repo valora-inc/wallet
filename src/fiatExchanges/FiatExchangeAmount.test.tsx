@@ -57,6 +57,9 @@ const storeWithUSD = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: usdExchangeRates,
   },
+  fiatConnect: {
+    mostRecentFiatAccountIds: [],
+  },
 })
 
 const storeWithEUR = createMockStore({
@@ -71,6 +74,9 @@ const storeWithEUR = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     exchangeRates: eurExchangeRates,
   },
+  fiatConnect: {
+    mostRecentFiatAccountIds: [],
+  },
 })
 
 const storeWithPHP = createMockStore({
@@ -84,6 +90,9 @@ const storeWithPHP = createMockStore({
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
     exchangeRates: phpExchangeRates,
+  },
+  fiatConnect: {
+    mostRecentFiatAccountIds: [],
   },
 })
 

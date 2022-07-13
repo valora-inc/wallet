@@ -142,6 +142,7 @@ export type StackParamList = {
     flow: CICOFlow
     selectedCrypto: Currency
     cryptoAmount: number
+    fiatAmount: number
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

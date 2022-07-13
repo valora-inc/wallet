@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -28,9 +28,6 @@ import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-
   const { flow, normalizedQuote, fiatAccount } = route.params
 
   return (

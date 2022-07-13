@@ -1,3 +1,4 @@
+import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import {
@@ -5,11 +6,14 @@ import {
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
 import { fetchQuotes } from 'src/fiatconnect'
-import { handleFetchFiatConnectQuotes } from 'src/fiatconnect/saga'
+import { handleFetchFiatConnectQuotes, handleFetchQuoteAndFiatAccount } from 'src/fiatconnect/saga'
+import { fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
+  fetchQuoteAndFiatAccount,
+  fetchQuoteAndFiatAccountFailed,
 } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -88,5 +92,66 @@ describe('Fiatconnect saga saga', () => {
         localCurrency: 'USD',
       })
     })
+  })
+
+  describe(handleFetchQuoteAndFiatAccount, () => {
+    it('fails when the quote has errors', async () => {
+      await expectSaga(
+        handleFetchQuoteAndFiatAccount,
+        fetchQuoteAndFiatAccount({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+          providerId: 'test-provider',
+          fiatAccountId: '123',
+          fiatAccountType: FiatAccountType.BankAccount,
+        })
+      )
+        .put(
+          fetchFiatConnectQuotes({
+            flow: CICOFlow.CashIn,
+            digitalAsset: CiCoCurrency.CELO,
+            cryptoAmount: 3,
+            providerIds: ['test-provider'],
+          })
+        )
+        .provide([[select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[0]]]])
+        .put(
+          fetchQuoteAndFiatAccountFailed({
+            error: 'handleFetchQuoteAndFiatAccount failed. Quote has errors: FiatAmountTooHigh',
+          })
+        )
+        .run()
+    })
+    it('fails when fetching the fiatAccount has errors', async () => {
+      await expectSaga(
+        handleFetchQuoteAndFiatAccount,
+        fetchQuoteAndFiatAccount({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+          providerId: 'test-provider',
+          fiatAccountId: '123',
+          fiatAccountType: FiatAccountType.BankAccount,
+        })
+      )
+        .put(
+          fetchFiatConnectQuotes({
+            flow: CICOFlow.CashIn,
+            digitalAsset: CiCoCurrency.CELO,
+            cryptoAmount: 3,
+            providerIds: ['test-provider'],
+          })
+        )
+        .provide([[select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]]])
+        .put(
+          fetchQuoteAndFiatAccountFailed({
+            error: 'handleFetchQuoteAndFiatAccount failed. Quote has errors: FiatAmountTooHigh',
+          })
+        )
+        .run()
+    })
+    it('fails when the specified fiatAccountId is not found and removes the account from state', async () => {})
+    it('saves the fiatAccount to state when all calls are successful', () => {})
   })
 })

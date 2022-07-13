@@ -191,6 +191,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           fiatAccountUsed({
             fiatAccountId: result.value.fiatAccountId,
             providerId: quote.getProviderId(),
+            fiatAccountType: result.value.fiatAccountType,
           })
         )
         navigate(Screens.FiatConnectReview, {

@@ -1,3 +1,4 @@
+import { FiatAccountType, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -8,19 +9,26 @@ export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
   quotesError: string | null
-  mostRecentFiatAccounts: FiatAccount[]
+  fiatAccount: ObfuscatedFiatAccountData | null
+  fiatAccountLoading: boolean
+  fiatAccountError: string | null
+  mostRecentFiatAccountIds: FiatAccount[]
 }
 
 const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
-  mostRecentFiatAccounts: [],
+  fiatAccount: null,
+  fiatAccountLoading: false,
+  fiatAccountError: null,
+  mostRecentFiatAccountIds: [],
 }
 
 export interface FiatAccount {
   fiatAccountId: string
   providerId: string
+  fiatAccountType: FiatAccountType
 }
 
 export interface FetchQuotesAction {
@@ -30,11 +38,21 @@ export interface FetchQuotesAction {
   providerIds?: string[]
 }
 
+export type FetchQuoteAndFiatAccountAction = FiatAccount & {
+  flow: CICOFlow
+  digitalAsset: CiCoCurrency
+  cryptoAmount: number
+}
+
+export interface FetchQuoteAndFiatAccountCompletedAction {
+  fiatAccount: ObfuscatedFiatAccountData | null
+}
+
 export interface FetchFiatConnectQuotesCompletedAction {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
 }
 
-export interface FetchFiatConnectQuotesFailedAction {
+export interface FetchFailedAction {
   error: string
 }
 
@@ -56,22 +74,44 @@ export const slice = createSlice({
       state.quotesError = null
       state.quotes = action.payload.quotes
     },
-    fetchFiatConnectQuotesFailed: (
-      state,
-      action: PayloadAction<FetchFiatConnectQuotesFailedAction>
-    ) => {
+    fetchFiatConnectQuotesFailed: (state, action: PayloadAction<FetchFailedAction>) => {
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
     fiatAccountUsed: (state, action: PayloadAction<FiatAccountAddedAction>) => {
-      state.mostRecentFiatAccounts = [
+      state.mostRecentFiatAccountIds = [
         action.payload,
-        ...state.mostRecentFiatAccounts.filter(
+        ...state.mostRecentFiatAccountIds.filter(
           (fiatAccount) =>
             fiatAccount.providerId !== action.payload.providerId &&
             fiatAccount.fiatAccountId !== action.payload.fiatAccountId
         ),
       ]
+    },
+    fiatAccountRemove: (state, action: PayloadAction<FiatAccountAddedAction>) => {
+      state.mostRecentFiatAccountIds = [
+        ...state.mostRecentFiatAccountIds.filter(
+          (fiatAccount) =>
+            fiatAccount.providerId !== action.payload.providerId &&
+            fiatAccount.fiatAccountId !== action.payload.fiatAccountId
+        ),
+      ]
+    },
+    fetchQuoteAndFiatAccount: (state, action: PayloadAction<FetchQuoteAndFiatAccountAction>) => {
+      state.fiatAccountLoading = true
+      state.fiatAccountError = null
+    },
+    fetchQuoteAndFiatAccountCompleted: (
+      state,
+      action: PayloadAction<FetchQuoteAndFiatAccountCompletedAction>
+    ) => {
+      state.fiatAccountLoading = false
+      state.fiatAccountError = null
+      state.fiatAccount = action.payload.fiatAccount
+    },
+    fetchQuoteAndFiatAccountFailed: (state, action: PayloadAction<FetchFailedAction>) => {
+      state.fiatAccountLoading = false
+      state.fiatAccountError = action.payload.error
     },
   },
   extraReducers: (builder) => {
@@ -89,6 +129,10 @@ export const {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fiatAccountUsed,
+  fiatAccountRemove,
+  fetchQuoteAndFiatAccount,
+  fetchQuoteAndFiatAccountCompleted,
+  fetchQuoteAndFiatAccountFailed,
 } = slice.actions
 
 export default slice.reducer
