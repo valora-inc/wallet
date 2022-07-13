@@ -25,7 +25,6 @@ import Button, { BtnTypes } from 'src/components/Button'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import TextButton from 'src/components/TextButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
-import networkConfig from 'src/web3/networkConfig'
 import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -58,6 +57,7 @@ import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
@@ -102,12 +102,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
   }
 
+  const onPressSkip = () => {
+    ValoraAnalytics.track(VerificationEvents.verification_skip)
+    navigation.setParams({ showSkipDialog: true })
+  }
+
   const onPressSkipCancel = () => {
     navigation.setParams({ showSkipDialog: false })
   }
 
   const onPressSkipConfirm = () => {
     dispatch(setHasSeenVerificationNux(true))
+    ValoraAnalytics.track(VerificationEvents.verification_skip_confirm)
     navigateHome()
   }
 
@@ -159,7 +165,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           <TopBarTextButton
             title={t('skip')}
             testID="VerificationEducationSkipHeader"
-            onPress={() => navigation.setParams({ showSkipDialog: true })}
+            onPress={onPressSkip}
             titleStyle={{ color: colors.goldDark }}
           />
         ),
