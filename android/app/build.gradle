@@ -177,7 +177,7 @@ android {
     }
     signingConfigs {
         release {
-            if (isDetoxTestBuild) {
+            if (isDetoxTestBuild || true) {
                 storeFile file('debug.keystore')
                 storePassword 'android'
                 keyAlias 'androiddebugkey'
