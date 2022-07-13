@@ -151,7 +151,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset={digitalAsset}
         flow={flow}
       />
-      <CoinbasePaymentSection coinbaseProvider={coinbaseProvider} />
+      <CoinbasePaymentSection
+        digitalAsset={digitalAsset}
+        cryptoAmount={route.params.amount.crypto}
+        coinbaseProvider={coinbaseProvider}
+      />
       <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>
