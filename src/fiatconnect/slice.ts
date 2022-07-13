@@ -93,7 +93,7 @@ export const slice = createSlice({
     fiatConnectTransferFailed: (state, action: PayloadAction<FiatConnectTransferFailedAction>) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
-        flow: CICOFlow.CashOut,
+        flow: action.payload.flow,
         isSending: false,
         failed: true,
         txHash: null,
@@ -105,7 +105,7 @@ export const slice = createSlice({
     ) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
-        flow: CICOFlow.CashOut,
+        flow: action.payload.flow,
         isSending: false,
         failed: false,
         txHash: action.payload.txHash,
