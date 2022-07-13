@@ -16,6 +16,7 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FIATCONNECT'
 
@@ -196,7 +197,7 @@ export function getObfuscatedAccountNumber(accountNumber: string): string {
 export async function doTransferOut(fiatConnectQuote: FiatConnectQuote, fiatAccountId: string) {
   const fiatConnectClient = await fiatConnectQuote.getFiatConnectClient()
   const result = await fiatConnectClient.transferOut({
-    idempotencyKey: 'foo',
+    idempotencyKey: uuidv4(),
     data: { quoteId: fiatConnectQuote.getQuoteId(), fiatAccountId },
   })
   return result.unwrap()
