@@ -158,6 +158,8 @@ export enum VerificationEvents {
   verification_error = 'verification_error',
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
+  verification_skip = 'verification_skip',
+  verification_skip_confirm = 'verification_skip_confirm',
 
   verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',

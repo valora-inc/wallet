@@ -1398,12 +1398,24 @@ export const v60Schema = {
     ...v59Schema._persist,
     version: 60,
   },
+  app: {
+    ...v59Schema.app,
+    showSwapMenuInDrawerMenu: false,
+  },
+}
+
+export const v61Schema = {
+  ...v60Schema,
+  _persist: {
+    ...v60Schema._persist,
+    version: 61,
+  },
   fiatConnect: {
-    ...v59Schema.fiatConnect,
+    ...v60Schema.fiatConnect,
     transfer: null,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v60Schema as Partial<RootState>
+  return v61Schema as Partial<RootState>
 }

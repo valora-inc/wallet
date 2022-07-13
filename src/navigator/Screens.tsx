@@ -80,6 +80,7 @@ export enum Screens {
   SupportContact = 'SupportContact',
   Sync = 'Sync',
   SyncBankAccountScreen = 'SyncBankAccountScreen',
+  SwapScreen = 'SwapScreen',
   TokenBalances = 'TokenBalances',
   TransactionDetailsScreen = 'TransactionDetailsScreen',
   TransactionReview = 'TransactionReview',
