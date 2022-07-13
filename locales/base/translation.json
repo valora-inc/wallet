@@ -4,7 +4,7 @@
   "languageSettings": "Language",
   "localCurrencySetting": "Currency",
   "licenses": "Licenses",
-  "removeAccountTitle": "Reset Valora",
+  "removeAccountTitle": "Reset {{appName}}",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
   "security": "Security",
@@ -31,11 +31,11 @@
   },
   "accountKeyModal": {
     "header": "Without your Recovery Phrase you will lose access to your funds forever",
-    "body1": "In order to reset Valora, you will need to confirm you've written your Recovery Phrase.",
-    "body2": "Nobody, not even Valora, can recover your account without your Phrase."
+    "body1": "In order to reset {{appName}}, you will need to confirm you've written your Recovery Phrase.",
+    "body2": "Nobody, not even {{appName}}, can recover your account without your Phrase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to reset Valora?",
+    "header": "Are you sure you want to reset {{appName}}?",
     "body": "You will no longer be able to access your funds or your Recovery Phrase from this device. There is no way to recover your Recovery Phrase if you haven't written it down.",
     "resetNow": "Reset Now"
   },
@@ -272,7 +272,7 @@
   "tokenBalance": "{{token}} Balance",
   "addFunds": "Add Funds",
   "addFundsHeaderWithCurrency": "Add {{token}}",
-  "addFundsSubtitle": "Fund your Valora account",
+  "addFundsSubtitle": "Fund your {{appName}} account",
   "exchanges": "Exchanges",
   "noExchanges": "There are no exchanges available for {{digitalAsset}} in your region.",
   "buySellOnExchanges": "Buy/Sell on Exchanges",
@@ -329,12 +329,12 @@
   },
   "providerFeeDiscountDialog": {
     "title": "Fee Discount",
-    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
+    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of {{appName}}!"
   },
   "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
-  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your Valora account. You'll need your Account Address for this.",
+  "youCanTransferIn": "You can use a third party exchange to send {{digitalAsset}} to your {{appName}} account. You'll need your Account Address for this.",
   "youCanTransferOut": "You can withdraw your funds by sending them to a third party exchange that supports {{digitalAsset}}.",
   "useBalanceWithMerchants": "Use your balance with supporting merchants",
   "findMerchants": "Find local merchants near you",
@@ -525,7 +525,7 @@
   "providerRateFetchFailed": "Could not fetch provider rate. You can continue without a prefilled rate.",
   "helpFindAccount": "Help your contact find their Account Address",
   "close": "Close",
-  "home": "Home",
+  "home": "Wallet",
   "accountKey": "Recovery Phrase",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
@@ -585,12 +585,12 @@
   "escrowPaymentNotificationTitle": "Invited {{mobile}}",
   "inviteDialog": {
     "title": "Invite a Friend",
-    "body": "Connect and share value with your friends and family on Valora.",
+    "body": "Connect and share value with your friends and family on {{appName}}.",
     "button": "Invite"
   },
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
-    "title": "Finish inviting {{name}} to Valora",
+    "title": "Finish inviting {{name}} to {{appName}}",
     "bodyWithRewards": "Once they join & connect a phone number, you both receive {{amount}} {{currency}}. Click below to send and customize your invite.",
     "body": "Share an invitation message with {{name}} to join {{appName}}. Once they join & connect a phone number, they'll receive your payment.",
     "button": "Finish inviting"
@@ -609,8 +609,8 @@
     "heading1": "Data and Privacy",
     "heading2": "Celo Assets and {{appName}} Account",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
-    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant {{appName}} access to your contact list, {{appName}} will import each contact's name, phone number and profile picture to allow users to connect through the {{appName}} app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with {{appName}} you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or {{appName}}, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through {{appName}} (the \"Daily Limit\"). You must contact support@{{appName}}app.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
   },
   "fullName": "Name",
   "fullNamePlaceholder": "First & Last name",
@@ -720,7 +720,7 @@
   "accessContacts": {
     "disclosure": {
       "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
+      "body": "{{appName}} would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through {{appName}}"
     }
   },
   "createAccount": "Create Account",
@@ -766,7 +766,7 @@
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Connecting allows you to send and receive funds with your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but wallets that aren’t connected can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\n{{appName}} uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
@@ -1111,10 +1111,10 @@
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
-    "title": "Add funds to start using Valora!",
+    "title": "Add funds to start using {{appName}}!",
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds",
-    "titleRamp": "Add {{currency}} to start using Valora",
+    "titleRamp": "Add {{currency}} to start using {{appName}}",
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Assets",
@@ -1122,7 +1122,7 @@
   "viewBalances": "View Assets",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
-    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "body": "Your Total Balance is an approximate sum of all your {{appName}} assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
     "dismiss": "Dismiss"
   },
   "supportEmailSubject": "{{appName}} support for {{user}}",
@@ -1159,15 +1159,15 @@
     "stepTwo": {
       "label": "Step 2",
       "disabledTitle": "Link a bank account",
-      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to Valora.",
+      "disabledDescription": "Bank account support coming soon! We'll let you know when you can connect your bank account to {{appName}}.",
       "disabledCta": "Coming Soon!",
       "title": "Enter Bank Details",
-      "description": "You're almost done! Enter bank details to link your account to Valora.",
+      "description": "You're almost done! Enter bank details to link your account to {{appName}}.",
       "cta": "Link Bank Account",
       "error": {
         "title": "Unable to link bank account.",
         "description": "Please try to link your bank account again, or contact support.",
-        "contactSupportPrefill": "I was unable to link my bank account to Valora"
+        "contactSupportPrefill": "I was unable to link my bank account to {{appName}}"
       }
     }
   },
@@ -1200,12 +1200,12 @@
   },
   "dappsScreenHelpDialog": {
     "title": "What are dapps?",
-    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect Valora to a dapp to get started.",
+    "message": "Dapps (decentralized apps) provide new ways to use your crypto, earn rewards, and explore Web3.\n\nConnect {{appName}} to a dapp to get started.",
     "dismiss": "Dismiss"
   },
   "dappsScreenBottomSheet": {
     "title": "{{dappName}} is an external application",
-    "message": "You are about to open an application not operated by Valora.\n\nValora makes no representations about this application. Use at your own risk.",
+    "message": "You are about to open an application not operated by {{appName}}.\n\n{{appName}} makes no representations about this application. Use at your own risk.",
     "button": "Go to {{dappName}}"
   },
   "recentlyUsedDapps": "Recently Used Dapps",
@@ -1230,7 +1230,8 @@
     "swap": "Swap",
     "invest": "Invest",
     "bills": "Pay Bills",
-    "vendors": "Vendors"
+    "vendors": "Vendors",
+    "mobileTopUp": "Top Up"
   },
   "swap": {
     "title": "Swap",
@@ -1283,8 +1284,8 @@
   "fiatDetailsScreen": {
     "header": "Enter Bank Details",
     "selectedPaymentOption": "Selected payment option",
-    "addFiatAccountSuccess": "Your account has been linked to Valora.",
-    "addFiatAccountResourceExist": "You have already linked this account to Valora.",
+    "addFiatAccountSuccess": "Your account has been linked to {{appName}}.",
+    "addFiatAccountResourceExist": "You have already linked this account to {{appName}}.",
     "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
   },
   "fiatAccountSchema": {
@@ -1319,5 +1320,6 @@
     "title": "My Interests and {{appName}}",
     "body": "This helps Kolektivo better understand your needs and how you use the wallet.\n\n<0>Can I do this later?</0>\n\nYes, but we recommend this step to help you get the most out of your wallet experience.\n\n<1>Anonymous</1>\n\n{{appName}} does not store this information alongside any uniquely identifying data.",
     "dismiss": "Dismiss"
-  }
+  },
+  "map": "Map"
 }

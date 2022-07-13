@@ -311,7 +311,7 @@ export function* handleOpenDapp(action: DappSelected) {
   const { dappUrl } = action.dapp
   const dappsWebViewEnabled = yield select(dappsWebViewEnabledSelector)
 
-  if (dappsWebViewEnabled) {
+  if (true) {
     const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, dappUrl)
     if (isDeepLink(dappUrl) || (walletConnectEnabled && isWalletConnectDeepLink(dappUrl))) {
       yield call(handleDeepLink, openDeepLink(dappUrl, true))

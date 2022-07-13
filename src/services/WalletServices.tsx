@@ -8,7 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatGrid } from 'react-native-super-grid'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
+import { DappSection } from 'src/app/reducers'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET } from 'src/config'
+import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -24,7 +26,7 @@ function WalletServices() {
   const { t } = useTranslation()
 
   const isLoading = useSelector((state) => state.home.loading)
-
+  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const scrollPosition = useRef(new Animated.Value(0)).current
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
 
@@ -52,10 +54,18 @@ function WalletServices() {
     return index.toString()
   }
 
+  const handleVendorSelect = (item: any) => {
+    if (item.dapp) {
+      onSelectDapp({ ...item.dapp, openedFrom: DappSection.All })
+    } else if (item.screen) {
+      navigate(item.screen)
+    }
+  }
+
   const renderFlatListItem = ({ item, index }: any) => {
     return (
       <View style={styles.tile}>
-        <TouchableOpacity onPress={() => navigate(item.screen)}>
+        <TouchableOpacity onPress={() => handleVendorSelect(item)}>
           <View style={styles.icon}>
             <item.icon height={30} />
           </View>
@@ -99,6 +109,7 @@ function WalletServices() {
         sections={sections}
         keyExtractor={keyExtractor}
       />
+      {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )
 }

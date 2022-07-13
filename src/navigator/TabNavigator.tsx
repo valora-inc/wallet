@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Support from 'src/account/Support'
-import { Help } from 'src/icons/navigator/Help'
-import { Home } from 'src/icons/navigator/Home'
+import Map from 'src/icons/Map'
 import Services from 'src/icons/Services'
+import Wallet from 'src/icons/Wallet'
 import HomeStackNavigator from 'src/navigator/HomeStackNavigator'
 import { Screens } from 'src/navigator/Screens'
 import ServiceStackNavigator from 'src/navigator/ServiceStackNavigator'
@@ -18,7 +18,7 @@ export default function TabNavigator() {
       <Tabs.Screen
         name={Screens.WalletHome}
         component={HomeStackNavigator}
-        options={{ title: t('home'), tabBarIcon: Home }}
+        options={{ title: t('home'), tabBarIcon: Wallet }}
       />
       <Tabs.Screen
         name={Screens.WalletServices}
@@ -28,7 +28,7 @@ export default function TabNavigator() {
       <Tabs.Screen
         name={Screens.Support}
         component={Support}
-        options={{ title: t('help'), tabBarIcon: Help }}
+        options={{ title: t('map'), tabBarIcon: Map }}
       />
     </Tabs.Navigator>
   )

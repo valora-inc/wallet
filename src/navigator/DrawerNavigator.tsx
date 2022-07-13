@@ -15,14 +15,11 @@ import {
   ParamListBase,
   useLinkBuilder,
 } from '@react-navigation/native'
-import { TransitionPresets } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
-import FiatExchange from 'src/account/FiatExchange'
-import GoldEducation from 'src/account/GoldEducation'
 import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -43,18 +40,15 @@ import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTrack
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DAppsExplorerScreen from 'src/dappsExplorer/DAppsExplorerScreen'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
-import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
-import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
-import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
 import { MenuRings } from 'src/icons/navigator/MenuRings'
 import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
+import Wallet from 'src/icons/navigator/Wallet'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
@@ -65,7 +59,6 @@ import TabNavigator from 'src/navigator/TabNavigator'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import TransactionHistory from 'src/transactions/TransactionHistory'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -216,25 +209,8 @@ export default function DrawerNavigator() {
       <Drawer.Screen
         name={Screens.TabNavigation}
         component={TabNavigator}
-        options={{ title: t('home'), drawerIcon: Home }}
+        options={{ title: t('home'), drawerIcon: Wallet }}
       />
-      {(isCeloEducationComplete && (
-        <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
-        />
-      )}
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
@@ -269,11 +245,6 @@ export default function DrawerNavigator() {
         component={BackupIntroduction}
         options={{ title: t('accountKey'), drawerIcon: AccountKey }}
       />
-      <Drawer.Screen
-        name={Screens.FiatExchange}
-        component={FiatExchange}
-        options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
-      />
       {features.SHOW_INVITE_MENU_ITEM && (
         <Drawer.Screen
           name={'InviteModal'}
@@ -293,11 +264,6 @@ export default function DrawerNavigator() {
         name={Screens.Support}
         component={Support}
         options={{ title: t('help'), drawerIcon: Help }}
-      />
-      <Drawer.Screen
-        name={Screens.TransactionHistory}
-        component={TransactionHistory}
-        options={{ title: t('history'), drawerIcon: Home }}
       />
     </Drawer.Navigator>
   )
