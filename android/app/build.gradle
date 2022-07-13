@@ -92,9 +92,9 @@ project.ext.envConfigFiles = [
     "": ".env.alfajoresdev", // Fallback
 ]
 
-project.ext.sentryCli = [
-    logLevel: "debug"
-]
+// project.ext.sentryCli = [
+//    logLevel: "debug"
+// ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 apply from: "../../node_modules/react-native/react.gradle"
@@ -106,9 +106,9 @@ apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
  */
 def isDetoxTestBuild = Boolean.valueOf(project.properties['isDetoxBuild'] ?: 'false')
 
-if (!isDetoxTestBuild) {
-  apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
-}
+// if (!isDetoxTestBuild) {
+//    apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
+// }
 
 /**
  * Set this to true to create two separate APKs instead of one:
