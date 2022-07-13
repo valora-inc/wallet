@@ -102,7 +102,6 @@ describe('ReviewScreen', () => {
 
     it('dispatches fiat transfer action on clicking button', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
-      mockProps.route.par
 
       const { getByTestId } = render(
         <Provider store={store}>
