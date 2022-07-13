@@ -5,6 +5,8 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { CoinbasePayEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
@@ -37,7 +39,7 @@ export function CoinbasePaymentSection({
   if (
     !coinbaseProvider ||
     coinbaseProvider.restricted ||
-    !coinbasePayEnabled ||
+    // !coinbasePayEnabled ||
     !appId ||
     digitalAsset !== CiCoCurrency.CELO
   ) {
@@ -52,7 +54,8 @@ export function CoinbasePaymentSection({
   })
 
   const navigateCoinbasePayFlow = () => {
-    navigate(Screens.WebViewScreen, { uri: coinbasePayURL })
+    ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_start)
+    navigate(Screens.CoinbasePayScreen, { uri: coinbasePayURL })
   }
 
   return (

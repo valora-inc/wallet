@@ -44,6 +44,7 @@ import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
+import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -156,6 +157,11 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WebViewScreen}
         component={WebViewScreen}
+        options={emptyHeader}
+      />
+      <Navigator.Screen
+        name={Screens.CoinbasePayScreen}
+        component={CoinbasePayScreen}
         options={emptyHeader}
       />
       <Navigator.Screen
