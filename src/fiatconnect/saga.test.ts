@@ -21,16 +21,17 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { mockFiatConnectQuotes } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/fiatconnect')
 
-describe('Fiatconnect saga saga', () => {
+describe('Fiatconnect saga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
   describe('Handles fetching quotes', () => {
-    it('saves the dapps and categories', async () => {
-      ;(fetchQuotes as jest.Mock).mockImplementation(() => mockFiatConnectQuotes)
+    it('saves quotes when fetch is successful', async () => {
+      mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
@@ -62,7 +63,7 @@ describe('Fiatconnect saga saga', () => {
     })
 
     it('saves an error', async () => {
-      ;(fetchQuotes as jest.Mock).mockRejectedValue({})
+      mocked(fetchQuotes).mockRejectedValue({})
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({

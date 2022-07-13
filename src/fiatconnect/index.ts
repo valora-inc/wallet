@@ -1,4 +1,3 @@
-import { ensureLeading0x } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { FiatConnectApiClient } from '@fiatconnect/fiatconnect-sdk'
 import {
@@ -87,17 +86,6 @@ export async function loginWithFiatConnectProvider(
   if (!response.isOk) {
     Logger.error(TAG, `Failure logging in with FiatConnect provider: ${response.error}, throwing`)
     throw response.error
-  }
-}
-
-export function getSigningFunction(wallet: UnlockableWallet): (message: string) => Promise<string> {
-  return async function (message: string): Promise<string> {
-    const [account] = wallet.getAccounts()
-    if (!wallet.isAccountUnlocked(account)) {
-      await wallet.unlockAccount(account, await getPassword(account), UNLOCK_DURATION)
-    }
-    const encodedMessage = ensureLeading0x(Buffer.from(message, 'utf8').toString('hex'))
-    return await wallet.signPersonalMessage(account, encodedMessage)
   }
 }
 
