@@ -1122,7 +1122,7 @@
     "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
-  "totalBalanceWithLocalCurrencySymbol": "Łącznie {{totalBalance}} {{localCurrencySymbol}}",
+  "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
   "open": "Otwórz",
