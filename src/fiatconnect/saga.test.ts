@@ -8,14 +8,14 @@ import {
 } from 'src/app/selectors'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { doTransferOut, fetchQuotes, FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { handleFetchFiatConnectQuotes, handleStartFiatConnectTransfer } from 'src/fiatconnect/saga'
+import { handleCreateFiatConnectTransfer, handleFetchFiatConnectQuotes } from 'src/fiatconnect/saga'
 import {
+  createFiatConnectTransfer,
+  createFiatConnectTransferCompleted,
+  createFiatConnectTransferFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
-  fiatConnectTransferFailed,
-  fiatConnectTransferSuccess,
-  startFiatConnectTransfer,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -114,8 +114,8 @@ describe('Fiatconnect saga', () => {
         transferAddress: '0xabc',
       })
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
@@ -128,7 +128,7 @@ describe('Fiatconnect saga', () => {
           [matches.call.fn(buildAndSendPayment), { receipt: { transactionHash: '0x12345' } }],
         ])
         .put(
-          fiatConnectTransferSuccess({
+          createFiatConnectTransferCompleted({
             flow: CICOFlow.CashOut,
             quoteId: transferOutFcQuote.getQuoteId(),
             txHash: '0x12345',
@@ -142,8 +142,8 @@ describe('Fiatconnect saga', () => {
     it('returns failed event on transfer out failure', async () => {
       mocked(doTransferOut).mockRejectedValueOnce('transfer error')
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
@@ -155,7 +155,7 @@ describe('Fiatconnect saga', () => {
           [select(feeEstimatesSelector), emptyFees],
         ])
         .put(
-          fiatConnectTransferFailed({
+          createFiatConnectTransferFailed({
             flow: CICOFlow.CashOut,
             quoteId: transferOutFcQuote.getQuoteId(),
           })
@@ -172,8 +172,8 @@ describe('Fiatconnect saga', () => {
         transferAddress: '0xabc',
       })
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
@@ -186,7 +186,7 @@ describe('Fiatconnect saga', () => {
           [matches.call.fn(buildAndSendPayment), { error: 'tx error' }],
         ])
         .put(
-          fiatConnectTransferFailed({
+          createFiatConnectTransferFailed({
             flow: CICOFlow.CashOut,
             quoteId: transferOutFcQuote.getQuoteId(),
           })
