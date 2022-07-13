@@ -7,6 +7,7 @@ import {
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
 import { fetchQuotes, FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
   fetchFiatConnectQuotes,
@@ -17,7 +18,6 @@ import {
   fetchQuoteAndFiatAccountFailed,
   fiatAccountRemove,
 } from 'src/fiatconnect/slice'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { quoteHasErrors } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -74,15 +74,20 @@ export function* handleFetchQuoteAndFiatAccount({
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield select(
       fiatConnectQuotesSelector
     )
-    if (quoteHasErrors(quotes[0])) {
-      throw new Error(`Quote has errors: ${quotes[0].error}`)
+    const quote = quotes[0]
+    if (quoteHasErrors(quote)) {
+      throw new Error(`Quote has errors: ${quote.error}`)
     }
-    const normalizedQuote = new FiatConnectQuote({
-      quote: quotes[0],
-      fiatAccountType,
-      flow,
-    })
-    const fiatConnectClient: FiatConnectApiClient = yield call(normalizedQuote.getFiatConnectClient)
+    if (!Object.keys(quote.fiatAccount).includes(fiatAccountType)) {
+      throw new Error(
+        `Provider ${providerId} no longer supports the fiatAccountType ${fiatAccountType}`
+      )
+    }
+    const fiatConnectClient: FiatConnectApiClient = yield call(
+      getFiatConnectClient,
+      quote.provider.id,
+      quote.provider.baseUrl
+    )
 
     Logger.info(TAG, `Fetching fiatAccounts for ${providerId}`)
     const fiatAccountsResponse: Result<ObfuscatedFiatAccountData[], ResponseError> = yield call(
