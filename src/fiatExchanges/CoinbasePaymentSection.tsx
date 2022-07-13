@@ -39,7 +39,7 @@ export function CoinbasePaymentSection({
   if (
     !coinbaseProvider ||
     coinbaseProvider.restricted ||
-    // !coinbasePayEnabled ||
+    !coinbasePayEnabled ||
     !appId ||
     digitalAsset !== CiCoCurrency.CELO
   ) {
