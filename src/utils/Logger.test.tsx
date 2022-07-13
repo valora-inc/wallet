@@ -1,7 +1,44 @@
+/* eslint no-console: 0 */
+// no-console disabled as we are testing console logs are overwritten by the logger
 import 'react-native'
 import { Platform } from 'react-native'
-import { readDir, stat } from '../../__mocks__/react-native-fs'
 import Logger from './Logger'
+
+const mockData = [
+  {
+    // ctime is 29 days ago
+    ctime: new Date(new Date().getTime() - 2505600000),
+    name: 'toDelete.txt',
+    path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt',
+    size: 5318,
+    isFile: true,
+    isDirectory: false,
+  },
+  {
+    ctime: new Date(),
+    name: 'toSave.txt',
+    path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toSave.txt',
+    size: 5318,
+    isFile: true,
+    isDirectory: false,
+  },
+]
+
+jest.mock('react-native-fs', () => {
+  return {
+    readDir: jest.fn(() => Promise.resolve(mockData)),
+    stat: jest
+      .fn()
+      .mockImplementation((filePath) =>
+        Promise.resolve(mockData.find((file) => file.path === filePath))
+      ),
+    exists: jest.fn(),
+    unlink: jest.fn(() => Promise.resolve()),
+    writeFile: jest.fn(() => Promise.resolve()),
+    ExternalDirectoryPath: '__EXTERNAL_DIRECTORY_PATH__',
+    TemporaryDirectoryPath: '__TEMPORARY_DIRECTORY_PATH__',
+  }
+})
 
 describe('utils/Logger', () => {
   it('Logger overrides console.debug', () => {
@@ -38,30 +75,7 @@ describe('utils/Logger', () => {
   })
 
   it('Cleans up old logs', async () => {
-    const mockData = [
-      {
-        // ctime is 29 days ago
-        ctime: new Date(new Date().getTime() - 2505600000),
-        name: 'toDelete.txt',
-        path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt',
-        size: 5318,
-        isFile: true,
-        isDirectory: false,
-      },
-      {
-        ctime: new Date(),
-        name: 'toSave.txt',
-        path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toSave.txt',
-        size: 5318,
-        isFile: true,
-        isDirectory: false,
-      },
-    ]
     console.debug = jest.fn()
-    readDir.mockImplementation(() => mockData)
-    stat.mockImplementation((filePath) =>
-      Promise.resolve(mockData.find((file) => file.path === filePath))
-    )
     await Logger.cleanupOldLogs()
     expect(console.debug).toHaveBeenCalledTimes(1)
     expect(console.debug).toHaveBeenCalledWith('Deleting React Native log file older than 28 days')
