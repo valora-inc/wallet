@@ -263,22 +263,26 @@ class Logger {
     }
 
     const writeLog = async (level: string, message: string) => {
-      // If log folder not present create it
-      if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
-        await RNFS.mkdir(this.getReactNativeLogsDir())
-      }
-
-      // If daily log file is not present create it
-      if (!(await RNFS.exists(logFilePath))) {
-        await RNFS.writeFile(logFilePath, '', 'utf8')
-      }
-
-      const timestamp = new Date().toISOString()
-      RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8').catch(
-        (error) => {
-          consoleFns.debug(`Failed to write to ${logFilePath}`, error)
+      try {
+        // If log folder not present create it
+        if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
+          await RNFS.mkdir(this.getReactNativeLogsDir())
         }
-      )
+
+        // If daily log file is not present create it
+        if (!(await RNFS.exists(logFilePath))) {
+          await RNFS.writeFile(logFilePath, '', 'utf8')
+        }
+
+        const timestamp = new Date().toISOString()
+        RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8').catch(
+          (error) => {
+            consoleFns.debug(`Failed to write to ${logFilePath}`, error)
+          }
+        )
+      } catch (error) {
+        consoleFns.debug('writeLog Failed', error)
+      }
     }
 
     const log = (level: string, message?: any, ...optionalParams: any[]) => {
