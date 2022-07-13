@@ -165,7 +165,7 @@ describe('tokensWithUsdValueSelector', () => {
 })
 
 describe('superchargeTokensByUsdBalanceSelector', () => {
-  it('returns only the tokens that are marked for supercharge', () => {
+  it('returns the supercharged tokens sorted by USD balance in descending order', () => {
     const tokens = superchargeTokensByUsdBalanceSelector(state)
     expect(tokens).toMatchInlineSnapshot(`
       Array [
