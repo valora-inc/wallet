@@ -8,7 +8,6 @@ import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { getWalletAsync } from 'src/web3/contracts'
 import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -288,25 +287,6 @@ describe('FiatConnectQuote', () => {
       expect(quote.getFiatAccountSchemaAllowedValues()).toEqual({
         institutionName: ['Bank A', 'Bank B'],
       })
-    })
-  })
-
-  describe('.getFiatConnectClient', () => {
-    it('returns the client if one exists', async () => {
-      const quote = new FiatConnectQuote({
-        flow: CICOFlow.CashIn,
-        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-        fiatAccountType: FiatAccountType.BankAccount,
-      })
-      expect(quote.fiatConnectClient).toBeUndefined()
-      await quote.getFiatConnectClient()
-      expect(getWalletAsync).toHaveBeenCalled()
-      expect(quote.fiatConnectClient).not.toBeUndefined()
-
-      jest.clearAllMocks()
-
-      await quote.getFiatConnectClient()
-      expect(getWalletAsync).not.toHaveBeenCalled()
     })
   })
 })

@@ -26,7 +26,6 @@ import {
   getFiatConnectProviders,
   getFiatConnectQuotes,
   getObfuscatedAccountNumber,
-  getSigningFunction,
   loginWithFiatConnectProvider,
   QuotesInput,
 } from './index'
@@ -133,34 +132,6 @@ describe('FiatConnect helpers', () => {
       const quotes = await getFiatConnectQuotes(getQuotesInput)
       expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
       expect(Logger.error).not.toHaveBeenCalled()
-    })
-  })
-  describe('getSigningFunction', () => {
-    const wallet = new KeychainWallet({
-      address: 'some address',
-      createdAt: new Date(),
-    })
-    beforeEach(() => {
-      wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
-      wallet.signPersonalMessage = jest.fn().mockResolvedValue('some signed message')
-      wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
-    })
-    it('returns a signing function that signs a message', async () => {
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).not.toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
-    })
-    it('returns a signing function that attempts to unlock accout if locked', async () => {
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(false)
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).toHaveBeenCalled()
-      expect(getPassword).toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
     })
   })
   describe('loginWithFiatConnectProvider', () => {
