@@ -149,7 +149,7 @@ class Logger {
   }
 
   getReactNativeLogFilePath = () => {
-    return `${RNFS.CachesDirectoryPath}/rn_logs/${format(new Date(), 'yyyyMMdd')}.txt`
+    return `${this.getReactNativeLogsDir()}/${format(new Date(), 'yyyyMMdd')}.txt`
   }
 
   getReactNativeLogsDir = () => {
@@ -165,47 +165,38 @@ class Logger {
     return `${path}/rn_logs.txt`
   }
 
-  // Initialize the logs directories and files
-  initializeLogs = async () => {
-    const logFileCombinedPath = this.getCombinedLogsFilePath()
-    const logFilePath = this.getReactNativeLogFilePath()
-    const logDir = this.getReactNativeLogsDir()
-    console.debug('React Native logs will be piped to ' + logFilePath)
+  cleanupOldLogs = async () => {
+    try {
+      const logFileCombinedPath = this.getCombinedLogsFilePath()
+      const logDir = this.getReactNativeLogsDir()
 
-    // If log folder not present create it
-    if (!(await RNFS.exists(logDir))) {
-      await RNFS.mkdir(logDir)
-    }
+      // If legacy log file or combined logs exist, delete it
+      if (await RNFS.exists(logFileCombinedPath)) {
+        await RNFS.unlink(logFileCombinedPath)
+      }
 
-    // If daily log file is not present create it
-    if (!(await RNFS.exists(logFilePath))) {
-      await RNFS.writeFile(logFilePath, '', 'utf8')
-    }
+      // Get the list of log files
+      const logFiles = await RNFS.readDir(logDir)
 
-    // If legacy log file or combined logs exist, delete it
-    if (await RNFS.exists(logFileCombinedPath)) {
-      await RNFS.unlink(logFileCombinedPath)
-    }
-
-    // Get the list of log files
-    const logFiles = await RNFS.readDir(logDir)
-
-    // Delete log files older than 28 days
-    if (logFiles.length > 0) {
-      logFiles.forEach((file) => {
-        RNFS.stat(file.path)
-          .then((stat) => {
-            if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-              console.debug('Deleting React Native logs file older than 28 days')
-              RNFS.unlink(file.path).catch((err) => {
-                console.warn('Failed to delete React Native logs file: ' + err)
-              })
-            }
-          })
-          .catch((err) => {
-            console.warn('Failed get log file stat: ' + err)
-          })
-      })
+      // Delete log files older than 28 days
+      if (logFiles.length > 0) {
+        logFiles.forEach((file) => {
+          RNFS.stat(file.path)
+            .then((stat) => {
+              if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
+                console.debug('Deleting React Native logs file older than 28 days')
+                RNFS.unlink(file.path).catch((err) => {
+                  console.warn('Failed to delete React Native logs file: ' + err)
+                })
+              }
+            })
+            .catch((err) => {
+              console.warn('Failed get log file stat: ' + err)
+            })
+        })
+      }
+    } catch (e) {
+      console.warn('Failed to cleanup old React Native logs: ' + e)
     }
   }
 
@@ -257,7 +248,7 @@ class Logger {
 
   // Anything being sent to console.log, console.warn, or console.error is piped into
   // the logfile specified by getReactNativeLogsFilePath()
-  overrideConsoleLogs = async () => {
+  overrideConsoleLogs = () => {
     const logFilePath = this.getReactNativeLogFilePath()
     console.debug('React Native logs will be piped to ' + logFilePath)
 
@@ -271,7 +262,17 @@ class Logger {
       warn: console.info,
     }
 
-    const writeLog = (level: string, message: string) => {
+    const writeLog = async (level: string, message: string) => {
+      // If log folder not present create it
+      if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
+        await RNFS.mkdir(this.getReactNativeLogsDir())
+      }
+
+      // If daily log file is not present create it
+      if (!(await RNFS.exists(logFilePath))) {
+        await RNFS.writeFile(logFilePath, '', 'utf8')
+      }
+
       const timestamp = new Date().toISOString()
       RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8').catch(
         (error) => {
