@@ -3293,6 +3293,9 @@
                 "isCoreToken": {
                     "type": "boolean"
                 },
+                "isSupercharged": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -3367,14 +3370,6 @@
             ],
             "type": "object"
         },
-        "SuperchargeToken": {
-            "enum": [
-                "cEUR",
-                "cREAL",
-                "cUSD"
-            ],
-            "type": "string"
-        },
         "SuperchargeTokenConfig": {
             "additionalProperties": false,
             "properties": {
@@ -3384,14 +3379,14 @@
                 "minBalance": {
                     "type": "number"
                 },
-                "token": {
-                    "$ref": "#/definitions/SuperchargeToken"
+                "tokenSymbol": {
+                    "type": "string"
                 }
             },
             "required": [
                 "maxBalance",
                 "minBalance",
-                "token"
+                "tokenSymbol"
             ],
             "type": "object"
         },

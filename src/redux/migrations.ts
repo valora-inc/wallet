@@ -701,4 +701,14 @@ export const migrations = {
       quotesError: null,
     },
   }),
+  60: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      superchargeTokens: (state.app.superchargeTokens || []).map((config: any) => ({
+        ..._.omit(config, 'token'),
+        tokenSymbol: config.token,
+      })),
+    },
+  }),
 }

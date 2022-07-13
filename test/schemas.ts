@@ -1392,6 +1392,21 @@ export const v59Schema = {
   },
 }
 
+export const v60Schema = {
+  ...v59Schema,
+  _persist: {
+    ...v59Schema._persist,
+    version: 60,
+  },
+  app: {
+    ...v59Schema.app,
+    superchargeTokens: (v59Schema.app.superchargeTokens || []).map((config) => ({
+      ..._.omit(config, 'token'),
+      tokenSymbol: config.token,
+    })),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v59Schema as Partial<RootState>
+  return v60Schema as Partial<RootState>
 }
