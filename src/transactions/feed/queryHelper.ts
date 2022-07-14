@@ -11,6 +11,7 @@ import { updateTransactions } from 'src/transactions/actions'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface QueryHookResult {
   loading: boolean
@@ -61,9 +62,7 @@ function useDeduplicatedTransactions() {
 export function useFetchTransactions(): QueryHookResult {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  // const address = useSelector(walletAddressSelector)
-  // const address = '0x11489ae0761343c3b03c630a63b00fa025bc4eea'
-  const address = '0x849fa48c8caa2907032f45765d7d6f52da13598d'
+  const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
 
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
@@ -192,6 +191,7 @@ export const TRANSACTIONS_QUERY = `
       }
       transactions {
         ...TokenTransferItemV2
+        ...NFTsTransactionItemV2
         ...TokenExchangeItemV2
       } 
     }
@@ -230,6 +230,24 @@ export const TRANSACTIONS_QUERY = `
           exchangeRate
         }
       }
+    }
+  }
+
+  fragment NFTsTransactionItemV2 on NFTsTransactionV2 {
+    __typename
+    type
+    transactionHash
+    timestamp
+    block
+    transfers {
+      fromAddressHash
+      toAddressHash
+      fromAccountHash
+      toAccountHash
+      token
+      tokenAddress
+      value
+      tokenType
     }
   }
 

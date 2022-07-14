@@ -1,61 +1,39 @@
-import BigNumber from 'bignumber.js'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay from 'src/components/TokenDisplay'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import Touchable from 'src/components/Touchable'
+import DepositIcon from 'src/icons/DepositIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { NFTsTransaction } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   transaction: NFTsTransaction
 }
 
 function NFTsTransactionItem({ transaction }: Props) {
-  const { amount } = transaction
+  const { t } = useTranslation()
+  const walletAddress = useSelector(walletAddressSelector)
 
-  const openTransferDetails = () => {
-    navigate(Screens.TransactionDetailsScreen, { transaction: transaction })
-    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
+  const openNftTransactionDetails = () => {
+    navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
+    })
   }
 
-  const tokenInfo = useTokenInfo(amount.tokenAddress)
-  const showTokenAmount = !amount.localAmount && !tokenInfo?.usdPrice
-  // const { title, subtitle, recipient } = useTransferFeedDetails(transaction)
-
-  const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
-
   return (
-    <Touchable disabled={false} onPress={openTransferDetails}>
+    <Touchable disabled={false} onPress={openNftTransactionDetails}>
       <View style={styles.container}>
-        <View style={styles.descriptionContainer}></View>
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={amount.value}
-            tokenAddress={amount.tokenAddress}
-            localAmount={amount.localAmount}
-            showExplicitPositiveSign={true}
-            showLocalAmount={!showTokenAmount}
-            style={[styles.amount, colorStyle]}
-            testID={'TransferFeedItem/amount'}
-          />
-          {!showTokenAmount && (
-            <TokenDisplay
-              amount={amount.value}
-              tokenAddress={amount.tokenAddress}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={true}
-              style={styles.tokenAmount}
-              testID={'TransferFeedItem/tokenAmount'}
-            />
-          )}
+        <View>{<DepositIcon />}</View>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.title} testID={'TransferFeedItem/title'}>
+            {t('receivedNft')}
+          </Text>
         </View>
       </View>
     </Touchable>
@@ -71,31 +49,10 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginLeft: variables.contentPadding,
     width: '55%',
-  },
-  amountContainer: {
-    marginLeft: variables.contentPadding,
-    flexShrink: 1,
+    justifyContent: 'center',
   },
   title: {
     ...fontStyles.regular500,
-  },
-  subtitle: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingTop: 2,
-  },
-  amount: {
-    ...fontStyles.regular500,
-    marginLeft: 'auto',
-    textAlign: 'right',
-  },
-  tokenAmount: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingTop: 2,
-    marginLeft: 'auto',
-    minWidth: '40%',
-    textAlign: 'right',
   },
 })
 

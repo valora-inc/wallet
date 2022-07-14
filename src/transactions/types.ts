@@ -150,23 +150,25 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
+interface BlockscoutTokenTransfer {
+  fromAddressHash: string
+  toAddressHash: string
+  fromAccountHash: string
+  toAccountHash: string
+  token: string
+  tokenAddress: string
+  value: string
+  tokenType: string
+}
+
 export interface NFTsTransaction {
   __typename: 'NFTsTransactionV2'
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
   block: string
-  address: string
-  amount: TokenAmount
-  metadata: TokenTransferMetadata
+  transfers: BlockscoutTokenTransfer[]
   fees: Fee[]
-}
-
-export interface NFTsTransactionMetadata {
-  title?: string
-  subtitle?: string
-  image?: string
-  comment?: string
 }
 
 // Can we optional the fields `transactionHash` and `block`?
