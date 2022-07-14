@@ -1,4 +1,4 @@
-# Valora Mobile App Test
+# Valora Mobile App
 
 ![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
 ![E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ci.yml/badge.svg)
