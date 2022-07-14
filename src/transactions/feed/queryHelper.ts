@@ -100,10 +100,6 @@ export function useFetchTransactions(): QueryHookResult {
   const { loading, error } = useAsync(
     async () => {
       const result = await queryTransactionsFeed(address, localCurrencyCode)
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-      console.log(result)
-      console.log('pageInfo: ', result.data.pageInfo)
-      console.log('transactions: ', result.data.tokenTransactionsV2.transactions)
       handleResult(result, false)
     },
     [counter],
