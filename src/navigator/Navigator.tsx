@@ -160,11 +160,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         options={emptyHeader}
       />
       <Navigator.Screen
-        name={Screens.CoinbasePayScreen}
-        component={CoinbasePayScreen}
-        options={emptyHeader}
-      />
-      <Navigator.Screen
         name={Screens.TokenBalances}
         component={TokenBalancesScreen}
         options={TokenBalancesScreen.navigationOptions}
@@ -521,6 +516,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.CoinbasePayScreen}
+      component={CoinbasePayScreen}
+      options={emptyHeader}
     />
   </>
 )
