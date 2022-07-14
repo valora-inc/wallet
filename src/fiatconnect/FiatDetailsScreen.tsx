@@ -16,6 +16,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -177,7 +178,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
       const fiatAccountSchema = quote.getFiatAccountSchema()
 
-      const fiatConnectClient = await quote.getFiatConnectClient()
+      const fiatConnectClient = await getFiatConnectClient(
+        quote.getProviderId(),
+        quote.getProviderBaseUrl()
+      )
       const result = await fiatConnectClient.addFiatAccount({
         fiatAccountSchema: fiatAccountSchema,
         data: body as FiatAccountSchemas[typeof fiatAccountSchema],

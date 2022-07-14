@@ -59,11 +59,6 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const [value, setValue] = useState('')
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
 
-  // Handles explorer QR Codes & same behavior as scanner another users QRCode
-  const handleAddressOnly = (value: string) => {
-    return /^0x[a-f0-9]{40}$/gi.test(value) ? `celo://wallet/pay?address=${value}` : value
-  }
-
   const openModal = () => {
     setDisplayEntryModal(true)
   }
@@ -74,7 +69,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   }
 
   const submitModal = () => {
-    onBarCodeDetected({ type: '', data: handleAddressOnly(value) })
+    onBarCodeDetected({ type: '', data: value })
     closeModal()
   }
 

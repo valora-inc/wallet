@@ -136,6 +136,7 @@ ios/celo/Images.xcassets/
 src/brandingConfig.ts
 src/icons/Logo.tsx
 src/icons/DefaultAvatar.tsx
+src/icons/Home.tsx
 src/images/*
 !src/images/Images.ts
 !src/images/link-arrow.png
