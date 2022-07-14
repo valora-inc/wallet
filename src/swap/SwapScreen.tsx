@@ -2,10 +2,10 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
@@ -21,7 +21,7 @@ export function SwapScreen() {
 
   const coreTokens = useSelector(coreTokensSelector)
 
-  const [exchangeRate, setExchangeRate] = useState<BigNumber | null>(new BigNumber(3))
+  const [exchangeRate, setExchangeRate] = useState<string | null>(null)
   const [toToken, setToToken] = useState(
     coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN)
   )
@@ -79,7 +79,7 @@ export function SwapScreen() {
   }
 
   useEffect(() => {
-    setExchangeRate(new BigNumber(3))
+    setExchangeRate('3.5')
     // fetch and set exchange rate
   }, [toToken, fromToken])
 
@@ -91,9 +91,18 @@ export function SwapScreen() {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <DrawerTopBar
-        middleElement={<Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>}
+        middleElement={
+          <View style={styles.headerContainer}>
+            <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
+            {exchangeRate && (
+              <Text style={headerStyles.headerSubTitle}>
+                {`1 ${toToken.symbol} ≈ ${exchangeRate} ${fromToken.symbol}`}
+              </Text>
+            )}
+          </View>
+        }
       />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
@@ -126,7 +135,7 @@ export function SwapScreen() {
           onClose={handleCloseTokenSelect}
           tokens={Object.values(coreTokens)}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   )
 }
@@ -135,12 +144,16 @@ const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
   },
+  headerContainer: {
+    alignItems: 'center',
+  },
   contentContainer: {
     padding: Spacing.Regular16,
     flex: 1,
   },
   swapAmountsContainer: {
     paddingBottom: Spacing.Thick24,
+    flex: 1,
   },
 })
 
