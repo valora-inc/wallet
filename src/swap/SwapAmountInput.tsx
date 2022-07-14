@@ -11,8 +11,8 @@ import { TokenBalance } from 'src/tokens/reducer'
 
 interface Props {
   label: string
-  onInputChange(): void
-  inputValue?: string
+  onInputChange(value: string): void
+  inputValue?: string | null
   onPressMax(): void
   onSelectToken(): void
   token: TokenBalance
@@ -32,7 +32,12 @@ const SwapAmountInput = ({
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
-        <TextInput onChangeText={onInputChange} value={inputValue} style={styles.input} />
+        <TextInput
+          onChangeText={onInputChange}
+          value={inputValue || undefined}
+          placeholder="0"
+          style={styles.input}
+        />
         <Touchable borderless onPress={onPressMax} style={styles.maxButton}>
           <Text style={styles.maxText}>{t('max')}</Text>
         </Touchable>
