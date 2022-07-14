@@ -60,10 +60,10 @@ import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
-import { showSwapMenuInDrawerMenuSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -221,8 +221,8 @@ export default function DrawerNavigator() {
       {shouldShowSwapMenuInDrawerMenu && (
         <Drawer.Screen
           name={Screens.SwapScreen}
-          component={() => null}
-          options={{ title: t('swap'), drawerIcon: Swap }}
+          component={SwapScreen}
+          options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
       )}
       {dappsListUrl && (
