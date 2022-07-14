@@ -115,7 +115,6 @@ describe('ReviewScreen', () => {
         createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
-          quoteId: 'mock_quote_in_id',
           fiatAccountId: '123',
         }),
       ])

@@ -1,4 +1,6 @@
+import { Result } from '@badrap/result'
 import { CeloTxReceipt } from '@celo/connect'
+import { FiatConnectClient, ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import { TransferResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
@@ -8,12 +10,8 @@ import {
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import {
-  doTransferOut,
-  fetchQuotes,
-  FiatConnectQuoteError,
-  FiatConnectQuoteSuccess,
-} from 'src/fiatconnect'
+import { fetchQuotes, FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
@@ -33,6 +31,7 @@ import { tokensListSelector } from 'src/tokens/selectors'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'
 
@@ -71,16 +70,25 @@ export function* watchFetchFiatConnectQuotes() {
 export function* handleCreateFiatConnectTransfer({
   payload: params,
 }: ReturnType<typeof createFiatConnectTransfer>) {
-  const { flow, quoteId, fiatConnectQuote, fiatAccountId } = params
+  const { flow, fiatConnectQuote, fiatAccountId } = params
+  const quoteId = fiatConnectQuote.getQuoteId()
 
   if (flow === CICOFlow.CashOut) {
     try {
       Logger.info(TAG, 'Starting transfer out..')
-      const transferResult: TransferResponse = yield call(
-        doTransferOut,
-        fiatConnectQuote,
-        fiatAccountId
+      const fiatConnectClient: FiatConnectClient = yield call(
+        getFiatConnectClient,
+        fiatConnectQuote.getProviderId(),
+        fiatConnectQuote.getProviderBaseUrl()
       )
+      const result: Result<TransferResponse, ResponseError> = yield call(
+        [fiatConnectClient, 'transferOut'],
+        {
+          idempotencyKey: uuidv4(),
+          data: { quoteId, fiatAccountId },
+        }
+      )
+      const transferResult = result.unwrap()
 
       Logger.info(
         TAG,
@@ -113,7 +121,11 @@ export function* handleCreateFiatConnectTransfer({
       }
 
       yield put(
-        createFiatConnectTransferCompleted({ flow, quoteId, txHash: receipt.transactionHash })
+        createFiatConnectTransferCompleted({
+          flow,
+          quoteId,
+          txHash: receipt.transactionHash,
+        })
       )
     } catch (err) {
       Logger.error(TAG, 'Transfer out failed..', err)

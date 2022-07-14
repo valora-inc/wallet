@@ -7,7 +7,6 @@ import {
   QuoteRequestBody,
   QuoteResponse,
 } from '@fiatconnect/fiatconnect-types'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
@@ -15,7 +14,6 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
-import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FIATCONNECT'
 
@@ -180,13 +178,4 @@ export async function fetchQuotes(params: FetchQuotesInput) {
 export function getObfuscatedAccountNumber(accountNumber: string): string {
   const digitsToReveal = Math.max(0, Math.min(accountNumber.length - 3, 4))
   return digitsToReveal > 0 ? '...' + accountNumber.slice(-digitsToReveal) : ''
-}
-
-export async function doTransferOut(fiatConnectQuote: FiatConnectQuote, fiatAccountId: string) {
-  const fiatConnectClient = await fiatConnectQuote.getFiatConnectClient()
-  const result = await fiatConnectClient.transferOut({
-    idempotencyKey: uuidv4(),
-    data: { quoteId: fiatConnectQuote.getQuoteId(), fiatAccountId },
-  })
-  return result.unwrap()
 }

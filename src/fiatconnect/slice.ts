@@ -43,7 +43,6 @@ export interface FetchFiatConnectQuotesFailedAction {
 export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
-  quoteId: string
   fiatAccountId: string
 }
 
@@ -83,7 +82,7 @@ export const slice = createSlice({
     },
     createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
-        quoteId: action.payload.quoteId,
+        quoteId: action.payload.fiatConnectQuote.getQuoteId(),
         flow: action.payload.flow,
         isSending: true,
         failed: false,

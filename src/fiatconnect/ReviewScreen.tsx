@@ -61,7 +61,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             createFiatConnectTransfer({
               flow,
               fiatConnectQuote: normalizedQuote,
-              quoteId: normalizedQuote.getQuoteId(),
               fiatAccountId: fiatAccount.fiatAccountId,
             })
           )
