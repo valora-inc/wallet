@@ -48,7 +48,6 @@ jest.mock('src/web3/KeychainWallet', () => {
 })
 
 jest.mock('@fiatconnect/fiatconnect-sdk')
-jest.mock('uuid')
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
