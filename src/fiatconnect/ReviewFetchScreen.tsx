@@ -4,12 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import BackButton from 'src/components/BackButton'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CancelButton from 'src/components/CancelButton'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { FiatConnectReview } from 'src/fiatconnect/ReviewScreen'
+import { FiatConnectReview, reviewScreenHeader } from 'src/fiatconnect/ReviewScreen'
 import {
   fiatAccountErrorSelector,
   fiatAccountLoadingSelector,
@@ -20,9 +18,6 @@ import {
 } from 'src/fiatconnect/selectors'
 import { fetchQuoteAndFiatAccount } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
-import i18n from 'src/i18n'
-import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -33,6 +28,7 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReviewFetch>
 
+// This component displays the Review Screen, but tries to re-fetch a quote and FiatAccount beforehand
 export default function ReviewFetchScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -139,18 +135,7 @@ ReviewFetchScreen.navigationOptions = ({
   route,
 }: {
   route: RouteProp<StackParamList, Screens.FiatConnectReviewFetch>
-}) => ({
-  ...emptyHeader,
-  headerLeft: () => <BackButton />,
-  // NOTE: copies for cash in not final
-  headerTitle:
-    route.params.flow === CICOFlow.CashIn
-      ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
-      : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
-  // TODO(any): when tying this component to the flow, add `onCancel` prop to
-  // navigate to correct screen.
-  headerRight: () => <CancelButton style={styles.cancelBtn} />,
-})
+}) => reviewScreenHeader(route.params.flow)
 
 const styles = StyleSheet.create({
   activityIndicatorContainer: {
@@ -181,8 +166,5 @@ const styles = StyleSheet.create({
   },
   contactSupportButton: {
     marginTop: 26,
-  },
-  cancelBtn: {
-    color: colors.gray3,
   },
 })

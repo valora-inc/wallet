@@ -59,6 +59,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           digitalAsset: CiCoCurrency.CELO,
           cryptoAmount: 3,
+          providerIds: ['foo'],
         })
       )
         .provide([
@@ -80,6 +81,7 @@ describe('Fiatconnect saga', () => {
         fiatConnectCashOutEnabled: true,
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
+        providerList: ['foo'],
       })
     })
 

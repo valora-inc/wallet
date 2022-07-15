@@ -323,19 +323,21 @@ const styles = StyleSheet.create({
   },
 })
 
-FiatConnectReviewScreen.navigationOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.FiatConnectReview>
-}) => ({
+export const reviewScreenHeader = (flow: CICOFlow) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   // NOTE: copies for cash in not final
   headerTitle:
-    route.params.flow === CICOFlow.CashIn
+    flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
   // TODO(any): when tying this component to the flow, add `onCancel` prop to
   // navigate to correct screen.
   headerRight: () => <CancelButton style={styles.cancelBtn} />,
 })
+
+FiatConnectReviewScreen.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.FiatConnectReview>
+}) => reviewScreenHeader(route.params.flow)
