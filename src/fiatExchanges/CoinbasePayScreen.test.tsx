@@ -1,6 +1,5 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Provider } from 'react-redux'
 import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,7 +9,6 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
 const MOCK_COINBASE_PAY_URI = 'https://www.google.com'
-const { t } = useTranslation()
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -26,7 +24,7 @@ describe('CoinbasePayScreen', () => {
         />
       </Provider>
     )
-    fireEvent.press(getByText(t('close')))
+    fireEvent.press(getByText('close'))
     await waitFor(() => {
       expect(ValoraAnalytics.track).toBeCalledWith(CoinbasePayEvents.coinbase_pay_flow_exit)
     })
