@@ -179,21 +179,12 @@ class Logger {
       const logFiles = await RNFS.readDir(logDir)
 
       // Delete log files older than 28 days
-      if (logFiles.length > 0) {
-        logFiles.forEach((file) => {
-          RNFS.stat(file.path)
-            .then((stat) => {
-              if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-                console.debug('Deleting React Native log file older than 28 days')
-                RNFS.unlink(file.path).catch((error) => {
-                  console.warn('Failed to delete React Native logs file: ' + error)
-                })
-              }
-            })
-            .catch((error) => {
-              console.warn('Failed get log file stat: ' + error)
-            })
-        })
+      for (const logFile of logFiles) {
+        const stat = await RNFS.stat(logFile.path)
+        if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
+          console.debug('Deleting React Native log file older than 28 days')
+          await RNFS.unlink(logFile.path)
+        }
       }
     } catch (error) {
       console.warn('Failed to cleanup old React Native logs: ' + error)
@@ -232,17 +223,14 @@ class Logger {
 
       // Get all daily log files and combine into one file
       const logFiles = await RNFS.readDir(logDir)
-      if (logFiles.length > 0) {
-        logFiles.forEach(async (file) => {
-          if (await RNFS.exists(file.path)) {
-            await RNFS.appendFile(combinedLogsPath, await RNFS.readFile(file.path), 'utf8')
-          }
-        })
+      for (const logFile of logFiles) {
+        if (await RNFS.exists(logFile.path)) {
+          await RNFS.appendFile(combinedLogsPath, await RNFS.readFile(logFile.path), 'utf8')
+        }
       }
       return combinedLogsPath
     } catch (error) {
       this.showError('Failed to combine logs: ' + error)
-      return false
     }
   }
 
@@ -263,22 +251,21 @@ class Logger {
     }
 
     const writeLog = async (level: string, message: string) => {
-      // If log folder not present create it
-      if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
-        await RNFS.mkdir(this.getReactNativeLogsDir())
-      }
-
-      // If daily log file is not present create it
-      if (!(await RNFS.exists(logFilePath))) {
-        await RNFS.writeFile(logFilePath, '', 'utf8')
-      }
-
-      const timestamp = new Date().toISOString()
-      RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8').catch(
-        (error) => {
-          consoleFns.debug(`Failed to write to ${logFilePath}`, error)
+      try {
+        // If log folder not present create it
+        if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
+          await RNFS.mkdir(this.getReactNativeLogsDir())
         }
-      )
+
+        // If daily log file is not present create it
+        if (!(await RNFS.exists(logFilePath))) {
+          await RNFS.writeFile(logFilePath, '', 'utf8')
+        }
+        const timestamp = new Date().toISOString()
+        await RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8')
+      } catch (error) {
+        consoleFns.debug(`Failed to write to ${logFilePath}`, error)
+      }
     }
 
     const log = (level: string, message?: any, ...optionalParams: any[]) => {
