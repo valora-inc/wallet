@@ -1,6 +1,6 @@
 import { Result } from '@badrap/result'
 import { FiatConnectApiClient, ResponseError } from '@fiatconnect/fiatconnect-sdk'
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import { GetFiatAccountsResponse } from '@fiatconnect/fiatconnect-types'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
@@ -90,13 +90,13 @@ export function* handleFetchQuoteAndFiatAccount({
     )
 
     Logger.info(TAG, `Fetching fiatAccounts for ${providerId}`)
-    const fiatAccountsResponse: Result<ObfuscatedFiatAccountData[], ResponseError> = yield call(
+    const fiatAccountsResponse: Result<GetFiatAccountsResponse, ResponseError> = yield call(
       fiatConnectClient.getFiatAccounts
     )
     if (fiatAccountsResponse.isErr) {
       throw new Error(`FiatAccount has errors: ${fiatAccountsResponse.error.message}`)
     }
-    const fiatAccount = fiatAccountsResponse.value.find(
+    const fiatAccount = fiatAccountsResponse.value[fiatAccountType]?.find(
       (account) => account.fiatAccountId === fiatAccountId
     )
     if (!fiatAccount) {

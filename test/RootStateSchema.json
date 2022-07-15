@@ -693,12 +693,40 @@
             ],
             "type": "object"
         },
+        "FiatAccount": {
+            "additionalProperties": false,
+            "properties": {
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fiatAccountId",
+                "fiatAccountType",
+                "providerId"
+            ],
+            "type": "object"
+        },
         "FiatAccountSchema": {
             "enum": [
                 "AccountNumber",
                 "DuniaWallet",
                 "IBANNumber",
                 "IFSCAccount",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
                 "MobileMoney"
             ],
             "type": "string"
@@ -1610,6 +1638,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectReview",
+                "FiatConnectReviewFetch",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -2794,6 +2823,52 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "fiatAccount": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "accountName": {
+                                    "type": "string"
+                                },
+                                "fiatAccountId": {
+                                    "type": "string"
+                                },
+                                "fiatAccountType": {
+                                    "$ref": "#/definitions/FiatAccountType"
+                                },
+                                "institutionName": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "accountName",
+                                "fiatAccountId",
+                                "fiatAccountType",
+                                "institutionName"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "fiatAccountError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "fiatAccountLoading": {
+                    "type": "boolean"
+                },
+                "mostRecentFiatAccountIds": {
+                    "items": {
+                        "$ref": "#/definitions/FiatAccount"
+                    },
+                    "type": "array"
+                },
                 "quotes": {
                     "items": {
                         "anyOf": [
@@ -2959,6 +3034,10 @@
                 }
             },
             "required": [
+                "fiatAccount",
+                "fiatAccountError",
+                "fiatAccountLoading",
+                "mostRecentFiatAccountIds",
                 "quotes",
                 "quotesError",
                 "quotesLoading"

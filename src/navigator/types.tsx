@@ -1,5 +1,5 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountType, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { LinkError } from 'react-native-plaid-link-sdk'
 import { KycStatus } from 'src/account/reducer'
@@ -143,6 +143,9 @@ export type StackParamList = {
     selectedCrypto: Currency
     cryptoAmount: number
     fiatAmount: number
+    fiatAccountId: string
+    providerId: string
+    fiatAccountType: FiatAccountType
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

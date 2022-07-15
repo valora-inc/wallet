@@ -46,6 +46,9 @@ describe('ReviewFetchScreen', () => {
       selectedCrypto: Currency.Dollar,
       cryptoAmount: 1,
       fiatAmount: 1,
+      providerId: 'provider-two',
+      fiatAccountId: '123',
+      fiatAccountType: FiatAccountType.BankAccount,
     })
 
   beforeEach(() => {
@@ -69,23 +72,6 @@ describe('ReviewFetchScreen', () => {
         fiatAccountType: FiatAccountType.BankAccount,
       },
       type: 'fiatConnect/fetchQuoteAndFiatAccount',
-    })
-  })
-  it('navigates to SelectProvider when there is no mostRecentFiatAccount', () => {
-    const store = mockStore({ mostRecentFiatAccountIds: [] })
-    render(
-      <Provider store={store}>
-        <ReviewFetchScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(store.dispatch).not.toHaveBeenCalled()
-    expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
-      flow: CICOFlow.CashOut,
-      selectedCrypto: Currency.Dollar,
-      amount: {
-        crypto: 1,
-        fiat: 1,
-      },
     })
   })
   describe('Something went wrong view', () => {

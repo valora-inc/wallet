@@ -17,7 +17,6 @@ import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
-  mostRecentFiatAccountSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchQuoteAndFiatAccount } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
@@ -38,9 +37,15 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [tryAgain, setTryAgain] = useState(false)
-  const { flow, selectedCrypto, cryptoAmount, fiatAmount } = route.params
-
-  const mostRecentFiatAccount = useSelector(mostRecentFiatAccountSelector)
+  const {
+    flow,
+    selectedCrypto,
+    cryptoAmount,
+    fiatAmount,
+    fiatAccountId,
+    providerId,
+    fiatAccountType,
+  } = route.params
 
   const fiatAccount = useSelector(fiatAccountSelector)
   const fiatAccountError = useSelector(fiatAccountErrorSelector)
@@ -57,32 +62,17 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
   }[selectedCrypto]
 
   useEffect(() => {
-    if (mostRecentFiatAccount) {
-      const { providerId, fiatAccountId, fiatAccountType } = mostRecentFiatAccount
-      dispatch(
-        fetchQuoteAndFiatAccount({
-          flow,
-          digitalAsset,
-          cryptoAmount,
-          providerId,
-          fiatAccountId,
-          fiatAccountType,
-        })
-      )
-    } else {
-      // If there are no recent fiat accounts, navigate to the select provider screen.
-      // This state can be reached if the provider does have any record of a requested
-      // fiatAccount and we then remove the record of the fiatAccount from redux.
-      navigate(Screens.SelectProvider, {
+    dispatch(
+      fetchQuoteAndFiatAccount({
         flow,
-        selectedCrypto,
-        amount: {
-          crypto: cryptoAmount,
-          fiat: fiatAmount,
-        },
+        digitalAsset,
+        cryptoAmount,
+        providerId,
+        fiatAccountId,
+        fiatAccountType,
       })
-    }
-  }, [flow, digitalAsset, cryptoAmount, mostRecentFiatAccount, tryAgain])
+    )
+  }, [flow, digitalAsset, cryptoAmount, tryAgain, providerId, fiatAccountId, fiatAccountType])
 
   if (fiatAccountLoading || fiatConnectQuotesLoading) {
     return (
@@ -91,18 +81,16 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
       </View>
     )
   }
-  if (fiatAccountError || fiatConnectQuotesError || !fiatAccount || !mostRecentFiatAccount) {
+  if (fiatAccountError || fiatConnectQuotesError || !fiatAccount) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{t('linkBankAccountScreen.stepTwo.error.title')}</Text>
-        <Text style={styles.description}>
-          {t('linkBankAccountScreen.stepTwo.error.description')}
-        </Text>
+        <Text style={styles.title}>{t('fiatConnectReviewScreen.error.title')}</Text>
+        <Text style={styles.description}>{t('fiatConnectReviewScreen.error.description')}</Text>
         <Button
           style={styles.button}
           testID="TryAgain"
           onPress={() => setTryAgain(!tryAgain)}
-          text={t('try again')}
+          text={t('fiatConnectReviewScreen.error.tryAgain')}
           type={BtnTypes.SECONDARY}
           size={BtnSizes.MEDIUM}
         />
@@ -119,7 +107,7 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
               },
             })
           }}
-          text={t('Select New Provider')}
+          text={t('fiatConnectReviewScreen.error.selectNewProvider')}
           type={BtnTypes.SECONDARY}
           size={BtnSizes.MEDIUM}
         />
@@ -139,7 +127,7 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
 
   const normalizedQuote = new FiatConnectQuote({
     quote: fiatConnectQuotes[0] as FiatConnectQuoteSuccess,
-    fiatAccountType: mostRecentFiatAccount.fiatAccountType,
+    fiatAccountType,
     flow,
   })
   return (
@@ -150,7 +138,7 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
 ReviewFetchScreen.navigationOptions = ({
   route,
 }: {
-  route: RouteProp<StackParamList, Screens.FiatConnectReview>
+  route: RouteProp<StackParamList, Screens.FiatConnectReviewFetch>
 }) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
@@ -193,5 +181,8 @@ const styles = StyleSheet.create({
   },
   contactSupportButton: {
     marginTop: 26,
+  },
+  cancelBtn: {
+    color: colors.gray3,
   },
 })

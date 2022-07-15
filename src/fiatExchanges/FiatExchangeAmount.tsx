@@ -162,11 +162,15 @@ function FiatExchangeAmount({ route }: Props) {
 
     // Navigate straight to the review screen if the user has a FiatConnect fiat account saved
     if (mostRecentFiatAccount) {
+      const { providerId, fiatAccountId, fiatAccountType } = mostRecentFiatAccount
       navigate(Screens.FiatConnectReviewFetch, {
         flow,
         selectedCrypto: currency,
         cryptoAmount,
         fiatAmount,
+        providerId,
+        fiatAccountId,
+        fiatAccountType,
       })
     } else {
       navigate(Screens.SelectProvider, {

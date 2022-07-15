@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -13,6 +13,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { fiatAccountUsed } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -45,6 +46,7 @@ export function FiatConnectReview({
   fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   return (
     <SafeAreaView style={styles.content}>
@@ -70,6 +72,15 @@ export function FiatConnectReview({
           ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
           // TODO(any): submit the transfer
+
+          // Record this fiat account as the most recently used
+          dispatch(
+            fiatAccountUsed({
+              fiatAccountId: fiatAccount.fiatAccountId,
+              providerId: normalizedQuote.getProviderId(),
+              fiatAccountType: fiatAccount.fiatAccountType,
+            })
+          )
         }}
       />
     </SafeAreaView>

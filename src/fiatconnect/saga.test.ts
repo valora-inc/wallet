@@ -1,3 +1,4 @@
+import { Result } from '@badrap/result'
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
@@ -6,6 +7,7 @@ import {
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
 import { fetchQuotes } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { handleFetchFiatConnectQuotes, handleFetchQuoteAndFiatAccount } from 'src/fiatconnect/saga'
 import { fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
@@ -13,7 +15,9 @@ import {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fetchQuoteAndFiatAccount,
+  fetchQuoteAndFiatAccountCompleted,
   fetchQuoteAndFiatAccountFailed,
+  fiatAccountRemove,
 } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -24,6 +28,23 @@ import { mockFiatConnectQuotes } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 
 jest.mock('src/fiatconnect')
+
+jest.mock('src/fiatconnect/clients', () => ({
+  getFiatConnectClient: jest.fn(() => ({
+    getFiatAccounts: jest.fn(() => ({
+      value: {
+        BankAccount: [
+          {
+            fiatAccountId: '123',
+            fiatAccountType: 'BankAccount',
+            accountName: '(...1234)',
+            institutionName: 'My Bank',
+          },
+        ],
+      },
+    })),
+  })),
+}))
 
 describe('Fiatconnect saga', () => {
   beforeEach(() => {
@@ -124,7 +145,22 @@ describe('Fiatconnect saga', () => {
         )
         .run()
     })
-    it('fails when fetching the fiatAccount has errors', async () => {
+    it('fails when the specified fiatAccountId is not found and removes the account from state', async () => {
+      mocked(getFiatConnectClient).mockResolvedValueOnce({
+        // @ts-ignore
+        getFiatAccounts: jest.fn(() =>
+          Result.ok({
+            BankAccount: [
+              {
+                fiatAccountId: '023498240',
+                fiatAccountType: 'BankAccount',
+                accountName: '(...1234)',
+                institutionName: 'My Bank',
+              },
+            ],
+          })
+        ),
+      })
       await expectSaga(
         handleFetchQuoteAndFiatAccount,
         fetchQuoteAndFiatAccount({
@@ -146,13 +182,81 @@ describe('Fiatconnect saga', () => {
         )
         .provide([[select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]]])
         .put(
+          fiatAccountRemove({
+            providerId: 'test-provider',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+          })
+        )
+        .put(
           fetchQuoteAndFiatAccountFailed({
-            error: 'handleFetchQuoteAndFiatAccount failed. Quote has errors: FiatAmountTooHigh',
+            error:
+              'handleFetchQuoteAndFiatAccount failed. Error: FiatAccount not found. fiatAccountId: 123, providerId: test-provider',
           })
         )
         .run()
     })
-    it('fails when the specified fiatAccountId is not found and removes the account from state', async () => {})
-    it('saves the fiatAccount to state when all calls are successful', () => {})
+    it('fails when the specified fiatAccountId is not supported by the quote', async () => {
+      await expectSaga(
+        handleFetchQuoteAndFiatAccount,
+        fetchQuoteAndFiatAccount({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+          providerId: 'test-provider',
+          fiatAccountId: '123',
+          fiatAccountType: FiatAccountType.DuniaWallet,
+        })
+      )
+        .put(
+          fetchFiatConnectQuotes({
+            flow: CICOFlow.CashIn,
+            digitalAsset: CiCoCurrency.CELO,
+            cryptoAmount: 3,
+            providerIds: ['test-provider'],
+          })
+        )
+        .provide([[select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]]])
+        .put(
+          fetchQuoteAndFiatAccountFailed({
+            error:
+              'handleFetchQuoteAndFiatAccount failed. Provider test-provider no longer supports the fiatAccountType DuniaWallet',
+          })
+        )
+        .run()
+    })
+    it('saves the fiatAccount to state when all calls are successful', async () => {
+      await expectSaga(
+        handleFetchQuoteAndFiatAccount,
+        fetchQuoteAndFiatAccount({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+          providerId: 'test-provider',
+          fiatAccountId: '123',
+          fiatAccountType: FiatAccountType.BankAccount,
+        })
+      )
+        .put(
+          fetchFiatConnectQuotes({
+            flow: CICOFlow.CashIn,
+            digitalAsset: CiCoCurrency.CELO,
+            cryptoAmount: 3,
+            providerIds: ['test-provider'],
+          })
+        )
+        .provide([[select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]]])
+        .put(
+          fetchQuoteAndFiatAccountCompleted({
+            fiatAccount: {
+              fiatAccountId: '123',
+              fiatAccountType: FiatAccountType.BankAccount,
+              accountName: '(...1234)',
+              institutionName: 'My Bank',
+            },
+          })
+        )
+        .run()
+    })
   })
 })
