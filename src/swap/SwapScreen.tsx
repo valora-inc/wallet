@@ -45,8 +45,8 @@ export function SwapScreen() {
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
 
-  const maxToAmount = useMaxSendAmount(toToken?.address || '', FeeType.SEND)
-  const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SEND)
+  const maxToAmount = useMaxSendAmount(toToken?.address || '', FeeType.SWAP)
+  const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
 
   useEffect(() => {
     setExchangeRate('3.5')
