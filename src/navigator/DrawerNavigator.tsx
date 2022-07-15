@@ -212,11 +212,18 @@ export default function DrawerNavigator() {
         labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
         activeBackgroundColor: colors.gray2,
       }}
+      // Reloads the screen when the user comes back to it - resetting navigation state
+      defaultScreenOptions={{
+        unmountOnBlur: true,
+      }}
+      // Whether inactive screens should be detached from the view hierarchy to save memory.
+      // Defaults to true, but also explicitly set here.
+      detachInactiveScreens={true}
     >
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home }}
+        options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
       />
       {shouldShowSwapMenuInDrawerMenu && (
         <Drawer.Screen
@@ -244,14 +251,14 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
+          options={{ title: t('rewards'), drawerIcon: MenuRings }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
+          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
         />
       )}
       <Drawer.Screen
