@@ -231,6 +231,7 @@ class Logger {
       return combinedLogsPath
     } catch (error) {
       this.showError('Failed to combine logs: ' + error)
+      return false
     }
   }
 
