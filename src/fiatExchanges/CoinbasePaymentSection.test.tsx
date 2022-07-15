@@ -61,7 +61,6 @@ describe('CoinbasePaymentSection', () => {
     expect(queryByText('Coinbase Pay')).toBeFalsy()
   })
   it('shows nothing if coinbase is not restricted but feature flag is false', async () => {
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     props.coinbaseProvider!.restricted = false
     const { queryByText } = render(
       <Provider store={mockStore}>
