@@ -234,7 +234,6 @@
             ],
             "type": "object"
         },
-<<<<<<< samuel/support-NFTs-in-home-feed
         "BlockscoutTokenTransfer": {
             "additionalProperties": false,
             "properties": {
@@ -261,14 +260,13 @@
                 }
             },
             "type": "object"
-=======
+          },
         "CICOFlow": {
             "enum": [
                 "CashIn",
                 "CashOut"
             ],
             "type": "string"
->>>>>>> main
         },
         "ContactMatches": {
             "additionalProperties": {
