@@ -16,7 +16,7 @@ function CoinbasePayScreen({ route, navigation }: Props) {
       ValoraAnalytics.track(CoinbasePayEvents.coinbase_pay_flow_exit)
     })
   }, [])
-  return <WebViewScreen {...{ route, navigation }}></WebViewScreen>
+  return <WebViewScreen {...{route, navigation}}/>
 }
 
 export default CoinbasePayScreen
