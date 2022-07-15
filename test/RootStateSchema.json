@@ -243,6 +243,9 @@
                 "fromAddressHash": {
                     "type": "string"
                 },
+                "toAccountHash": {
+                    "type": "string"
+                },
                 "toAddressHash": {
                     "type": "string"
                 },
@@ -259,8 +262,18 @@
                     "type": "string"
                 }
             },
+            "required": [
+                "fromAccountHash",
+                "fromAddressHash",
+                "toAccountHash",
+                "toAddressHash",
+                "token",
+                "tokenAddress",
+                "tokenType",
+                "value"
+            ],
             "type": "object"
-          },
+        },
         "CICOFlow": {
             "enum": [
                 "CashIn",
@@ -1184,7 +1197,10 @@
                     "type": "string"
                 },
                 "transfers": {
-                    "$ref": "#/definitions/BlockscoutTokenTransfer"
+                    "items": {
+                        "$ref": "#/definitions/BlockscoutTokenTransfer"
+                    },
+                    "type": "array"
                 },
                 "type": {
                     "$ref": "#/definitions/TokenTransactionTypeV2"
@@ -3376,6 +3392,9 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
+                            },
+                            {
+                                "$ref": "#/definitions/NFTsTransaction"
                             }
                         ]
                     },
