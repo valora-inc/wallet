@@ -45,13 +45,25 @@ export function SwapScreen() {
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
 
-  const maxToAmount = useMaxSendAmount(toToken?.address || '', FeeType.SWAP)
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
 
   useEffect(() => {
-    setExchangeRate('3.5')
-    // fetch and set exchange rate
+    setExchangeRate(null)
+    // mimic delay when fetching real exchange rate
+    setTimeout(() => {
+      setExchangeRate(fromToken?.symbol === 'cEUR' ? '7.123' : '3.325')
+    }, 1000)
   }, [toToken, fromToken])
+
+  useEffect(() => {
+    setSwapAmount((prev) => ({
+      ...prev,
+      [Field.TO]:
+        exchangeRate && prev[Field.FROM]
+          ? new BigNumber(prev[Field.FROM] ?? 0).multipliedBy(exchangeRate).toString()
+          : null,
+    }))
+  }, [exchangeRate])
 
   const handleReview = () => {
     // navigate to the review screen, not yet implemented
@@ -66,7 +78,13 @@ export function SwapScreen() {
   }
 
   const handleSelectToken = (tokenAddress: string) => {
-    if (selectingToken === Field.FROM) {
+    if (
+      (selectingToken === Field.FROM && toToken?.address === tokenAddress) ||
+      (selectingToken === Field.TO && fromToken?.address === tokenAddress)
+    ) {
+      setFromToken(toToken)
+      setToToken(fromToken)
+    } else if (selectingToken === Field.FROM) {
       setFromToken(coreTokens.find((token) => token.address === tokenAddress))
     } else if (selectingToken === Field.TO) {
       setToToken(coreTokens.find((token) => token.address === tokenAddress))
@@ -92,18 +110,11 @@ export function SwapScreen() {
     }
   }
 
-  const handleSetMax = (fieldType: Field) => () => {
-    if (fieldType === Field.FROM) {
-      setSwapAmount({
-        [Field.FROM]: maxFromAmount.toString(),
-        [Field.TO]: exchangeRate ? maxFromAmount.multipliedBy(exchangeRate).toString() : null,
-      })
-    } else if (fieldType === Field.TO) {
-      setSwapAmount({
-        [Field.TO]: maxToAmount.toString(),
-        [Field.FROM]: exchangeRate ? maxToAmount.dividedBy(exchangeRate).toString() : null,
-      })
-    }
+  const handleSetMaxFromAmount = () => {
+    setSwapAmount({
+      [Field.FROM]: maxFromAmount.toString(),
+      [Field.TO]: exchangeRate ? maxFromAmount.multipliedBy(exchangeRate).toString() : null,
+    })
   }
 
   const allowReview = useMemo(
@@ -137,7 +148,7 @@ export function SwapScreen() {
             label={t('swapScreen.swapFrom')}
             onInputChange={handleChangeAmount(Field.FROM)}
             inputValue={swapAmount[Field.FROM]}
-            onPressMax={handleSetMax(Field.FROM)}
+            onPressMax={handleSetMaxFromAmount}
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
