@@ -78,6 +78,9 @@ describe('utils/Logger', () => {
     console.debug = jest.fn()
     await Logger.cleanupOldLogs()
     expect(console.debug).toHaveBeenCalledTimes(1)
-    expect(console.debug).toHaveBeenCalledWith('Deleting React Native log file older than 28 days')
+    expect(console.debug).toHaveBeenCalledWith(
+      'Deleting React Native log file older than 28 days',
+      '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt'
+    )
   })
 })

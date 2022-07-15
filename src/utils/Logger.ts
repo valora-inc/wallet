@@ -182,7 +182,7 @@ class Logger {
       for (const logFile of logFiles) {
         const stat = await RNFS.stat(logFile.path)
         if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-          console.debug('Deleting React Native log file older than 28 days')
+          console.debug('Deleting React Native log file older than 28 days', logFile.path)
           await RNFS.unlink(logFile.path)
         }
       }
