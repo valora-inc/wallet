@@ -185,18 +185,18 @@ class Logger {
             .then((stat) => {
               if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
                 console.debug('Deleting React Native log file older than 28 days')
-                RNFS.unlink(file.path).catch((err) => {
-                  console.warn('Failed to delete React Native logs file: ' + err)
+                RNFS.unlink(file.path).catch((error) => {
+                  console.warn('Failed to delete React Native logs file: ' + error)
                 })
               }
             })
-            .catch((err) => {
-              console.warn('Failed get log file stat: ' + err)
+            .catch((error) => {
+              console.warn('Failed get log file stat: ' + error)
             })
         })
       }
-    } catch (e) {
-      console.warn('Failed to cleanup old React Native logs: ' + e)
+    } catch (error) {
+      console.warn('Failed to cleanup old React Native logs: ' + error)
     }
   }
 
@@ -209,8 +209,8 @@ class Logger {
         reactNativeLogs = await RNFS.readFile(rnLogsSrc)
       }
       return reactNativeLogs
-    } catch (e) {
-      this.showError('Failed to read logs: ' + e)
+    } catch (error) {
+      this.showError('Failed to read logs: ' + error)
       return null
     }
   }
@@ -240,8 +240,8 @@ class Logger {
         })
       }
       return combinedLogsPath
-    } catch (e) {
-      this.showError('Failed to combine logs: ' + e)
+    } catch (error) {
+      this.showError('Failed to combine logs: ' + error)
       return false
     }
   }
