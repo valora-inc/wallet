@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,14 +7,28 @@ import { useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import { useMaxSendAmount } from 'src/fees/hooks'
+import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { Spacing } from 'src/styles/styles'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
+export enum Field {
+  FROM = 'FROM',
+  TO = 'TO',
+}
+
 const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
+const DEFAULT_SWAP_AMOUNT: {
+  [Field.FROM]: null | string
+  [Field.TO]: null | string
+} = {
+  [Field.FROM]: null,
+  [Field.TO]: null,
+}
 
 export function SwapScreen() {
   const { t } = useTranslation()
@@ -28,60 +42,75 @@ export function SwapScreen() {
   const [fromToken, setFromToken] = useState(
     coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN)
   )
-  const [isSelectingToToken, setIsSelectingToToken] = useState(false)
-  const [isSelectingFromToken, setIsSelectingFromToken] = useState(false)
-  const [toAmount, setToAmount] = useState<null | string>(null)
-  const [fromAmount, setFromAmount] = useState<null | string>(null)
+  const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
+  const [selectingToken, setSelectingToken] = useState<Field | null>(null)
 
-  const handleReview = () => {}
-
-  const allowReview = false
-
-  const handleSelectFromToken = () => {
-    setIsSelectingFromToken(true)
-  }
-
-  const handleSelectToToken = () => {
-    setIsSelectingToToken(true)
-  }
-
-  const handleCloseTokenSelect = () => {
-    setIsSelectingFromToken(false)
-    setIsSelectingToToken(false)
-  }
-
-  const handleSelectToken = (tokenAddress: string) => {
-    if (isSelectingFromToken) {
-      setFromToken(coreTokens.find((token) => token.address === tokenAddress))
-      setIsSelectingFromToken(false)
-    } else if (isSelectingToToken) {
-      setToToken(coreTokens.find((token) => token.address === tokenAddress))
-      setIsSelectingToToken(false)
-    }
-  }
-
-  const handleChangeFromAmount = (value: string) => {
-    setFromAmount(value)
-    if (!value) {
-      setToAmount(null)
-    } else if (value && exchangeRate) {
-      setToAmount(new BigNumber(value).multipliedBy(exchangeRate).toString())
-    }
-  }
-
-  const handleChangeToAmount = (value: string) => {
-    setToAmount(value)
-    if (!value) {
-      setFromAmount(null)
-    } else if (exchangeRate) {
-      setFromAmount(new BigNumber(value).dividedBy(exchangeRate).toString())
-    }
-  }
+  const maxToAmount = useMaxSendAmount(toToken?.address || '', FeeType.SEND)
+  const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SEND)
 
   useEffect(() => {
     setExchangeRate('3.5')
     // fetch and set exchange rate
   }, [toToken, fromToken])
+
+  const handleReview = () => {
+    // navigate to the review screen, not yet implemented
+  }
+
+  const handleShowTokenSelect = (fieldType: Field) => () => {
+    setSelectingToken(fieldType)
+  }
+
+  const handleCloseTokenSelect = () => {
+    setSelectingToken(null)
+  }
+
+  const handleSelectToken = (tokenAddress: string) => {
+    if (selectingToken === Field.FROM) {
+      setFromToken(coreTokens.find((token) => token.address === tokenAddress))
+    } else if (selectingToken === Field.TO) {
+      setToToken(coreTokens.find((token) => token.address === tokenAddress))
+    }
+    setSelectingToken(null)
+  }
+
+  const handleChangeAmount = (fieldType: Field) => (value: string) => {
+    if (!value) {
+      setSwapAmount(DEFAULT_SWAP_AMOUNT)
+    } else if (fieldType === Field.FROM) {
+      setSwapAmount({
+        [Field.FROM]: value,
+        [Field.TO]: exchangeRate
+          ? new BigNumber(value).multipliedBy(exchangeRate).toString()
+          : null,
+      })
+    } else if (fieldType === Field.TO) {
+      setSwapAmount({
+        [Field.TO]: value,
+        [Field.FROM]: exchangeRate ? new BigNumber(value).dividedBy(exchangeRate).toString() : null,
+      })
+    }
+  }
+
+  const handleSetMax = (fieldType: Field) => () => {
+    if (fieldType === Field.FROM) {
+      setSwapAmount({
+        [Field.FROM]: maxFromAmount.toString(),
+        [Field.TO]: exchangeRate ? maxFromAmount.multipliedBy(exchangeRate).toString() : null,
+      })
+    } else if (fieldType === Field.TO) {
+      setSwapAmount({
+        [Field.TO]: maxToAmount.toString(),
+        [Field.FROM]: exchangeRate ? maxToAmount.dividedBy(exchangeRate).toString() : null,
+      })
+    }
+  }
+
+  const allowReview = useMemo(
+    () =>
+      Object.values(swapAmount).every((amount) => amount !== null && new BigNumber(amount).gt(0)),
+    [swapAmount]
+  )
 
   if (!toToken || !fromToken) {
     // should not happen
@@ -106,18 +135,18 @@ export function SwapScreen() {
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
-            onInputChange={handleChangeFromAmount}
-            inputValue={fromAmount}
-            onPressMax={() => {}}
-            onSelectToken={handleSelectFromToken}
+            onInputChange={handleChangeAmount(Field.FROM)}
+            inputValue={swapAmount[Field.FROM]}
+            onPressMax={handleSetMax(Field.FROM)}
+            onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
+            style={styles.fromSwapAmountInput}
           />
           <SwapAmountInput
             label={t('swapScreen.swapTo')}
-            onInputChange={handleChangeToAmount}
-            inputValue={toAmount}
-            onPressMax={() => {}}
-            onSelectToken={handleSelectToToken}
+            onInputChange={handleChangeAmount(Field.TO)}
+            inputValue={swapAmount[Field.TO]}
+            onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
           />
         </View>
@@ -125,11 +154,11 @@ export function SwapScreen() {
           onPress={handleReview}
           text={t('swapScreen.review')}
           size={BtnSizes.FULL}
-          disabled={allowReview}
+          disabled={!allowReview}
         />
 
         <TokenBottomSheet
-          isVisible={isSelectingToToken || isSelectingFromToken}
+          isVisible={!!selectingToken}
           origin={TokenPickerOrigin.Swap}
           onTokenSelected={handleSelectToken}
           onClose={handleCloseTokenSelect}
@@ -154,6 +183,9 @@ const styles = StyleSheet.create({
   swapAmountsContainer: {
     paddingBottom: Spacing.Thick24,
     flex: 1,
+  },
+  fromSwapAmountInput: {
+    borderBottomWidth: 0,
   },
 })
 

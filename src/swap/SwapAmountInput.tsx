@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -13,9 +13,10 @@ interface Props {
   label: string
   onInputChange(value: string): void
   inputValue?: string | null
-  onPressMax(): void
+  onPressMax?(): void
   onSelectToken(): void
   token: TokenBalance
+  style?: ViewStyle
 }
 
 const SwapAmountInput = ({
@@ -25,11 +26,12 @@ const SwapAmountInput = ({
   onPressMax,
   onSelectToken,
   token,
+  style,
 }: Props) => {
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
         <TextInput
@@ -37,10 +39,13 @@ const SwapAmountInput = ({
           value={inputValue || undefined}
           placeholder="0"
           style={styles.input}
+          keyboardType="numeric"
         />
-        <Touchable borderless onPress={onPressMax} style={styles.maxButton}>
-          <Text style={styles.maxText}>{t('max')}</Text>
-        </Touchable>
+        {onPressMax && (
+          <Touchable borderless onPress={onPressMax} style={styles.maxButton}>
+            <Text style={styles.maxText}>{t('max')}</Text>
+          </Touchable>
+        )}
         <Touchable borderless onPress={onSelectToken} style={styles.tokenSelectButton}>
           <>
             <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
