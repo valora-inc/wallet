@@ -3,12 +3,13 @@ import {
   FiatAccountType,
   ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import { createFiatConnectTransfer, fiatAccountUsed } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
@@ -96,6 +97,31 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
+    })
+
+    it('dispatches fiat transfer action and fiatAccountUsed action on clicking button', async () => {
+      const mockProps = getProps(CICOFlow.CashOut)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      await fireEvent.press(getByTestId('submitButton'))
+
+      expect(store.getActions()).toEqual([
+        createFiatConnectTransfer({
+          flow: CICOFlow.CashOut,
+          fiatConnectQuote: mockProps.route.params.normalizedQuote,
+          fiatAccountId: '123',
+        }),
+        fiatAccountUsed({
+          fiatAccountId: '123',
+          providerId: 'provider-two',
+          fiatAccountType: FiatAccountType.BankAccount,
+        }),
       ])
     })
   })

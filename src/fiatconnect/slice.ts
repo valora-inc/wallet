@@ -1,10 +1,18 @@
 import { FiatAccountType, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { CiCoCurrency } from 'src/utils/currencies'
 
+export interface FiatConnectTransfer {
+  flow: CICOFlow
+  quoteId: string
+  isSending: boolean
+  failed: boolean
+  txHash: string | null // only for cash outs, the hash of the tx to send crypto to the provider
+}
 export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
@@ -13,6 +21,7 @@ export interface State {
   fiatAccountLoading: boolean
   fiatAccountError: string | null
   mostRecentFiatAccountIds: FiatAccount[]
+  transfer: FiatConnectTransfer | null
 }
 
 const initialState: State = {
@@ -23,6 +32,7 @@ const initialState: State = {
   fiatAccountLoading: false,
   fiatAccountError: null,
   mostRecentFiatAccountIds: [],
+  transfer: null,
 }
 
 export interface FiatAccount {
@@ -57,6 +67,22 @@ export interface FetchFailedAction {
 }
 
 export type FiatAccountAddedAction = FiatAccount
+export interface CreateFiatConnectTransferAction {
+  flow: CICOFlow
+  fiatConnectQuote: FiatConnectQuote
+  fiatAccountId: string
+}
+
+export interface CreateFiatConnectTransferFailedAction {
+  flow: CICOFlow
+  quoteId: string
+}
+
+export interface CreateFiatConnectTransferCompletedAction {
+  flow: CICOFlow
+  quoteId: string
+  txHash: string | null
+}
 
 export const slice = createSlice({
   name: 'fiatConnect',
@@ -113,6 +139,39 @@ export const slice = createSlice({
       state.fiatAccountLoading = false
       state.fiatAccountError = action.payload.error
     },
+    createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
+      state.transfer = {
+        quoteId: action.payload.fiatConnectQuote.getQuoteId(),
+        flow: action.payload.flow,
+        isSending: true,
+        failed: false,
+        txHash: null,
+      }
+    },
+    createFiatConnectTransferFailed: (
+      state,
+      action: PayloadAction<CreateFiatConnectTransferFailedAction>
+    ) => {
+      state.transfer = {
+        quoteId: action.payload.quoteId,
+        flow: action.payload.flow,
+        isSending: false,
+        failed: true,
+        txHash: null,
+      }
+    },
+    createFiatConnectTransferCompleted: (
+      state,
+      action: PayloadAction<CreateFiatConnectTransferCompletedAction>
+    ) => {
+      state.transfer = {
+        quoteId: action.payload.quoteId,
+        flow: action.payload.flow,
+        isSending: false,
+        failed: false,
+        txHash: action.payload.txHash,
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -120,6 +179,7 @@ export const slice = createSlice({
       ...getRehydratePayload(action, 'fiatConnect'),
       quotesLoading: false,
       quotesError: null,
+      transfer: null,
     }))
   },
 })
@@ -133,6 +193,9 @@ export const {
   fetchQuoteAndFiatAccount,
   fetchQuoteAndFiatAccountCompleted,
   fetchQuoteAndFiatAccountFailed,
+  createFiatConnectTransfer,
+  createFiatConnectTransferFailed,
+  createFiatConnectTransferCompleted,
 } = slice.actions
 
 export default slice.reducer

@@ -712,6 +712,13 @@ export const migrations = {
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
+  62: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
       fiatAccount: null,
       fiatAccountError: null,
       fiatAccountLoading: false,

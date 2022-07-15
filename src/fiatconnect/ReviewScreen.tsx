@@ -13,7 +13,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { fiatAccountUsed } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer, fiatAccountUsed } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -60,6 +60,7 @@ export function FiatConnectReview({
         />
       </View>
       <Button
+        testID="submitButton"
         style={styles.submitBtn}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -71,8 +72,13 @@ export function FiatConnectReview({
         onPress={() => {
           ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
-          // TODO(any): submit the transfer
-
+          dispatch(
+            createFiatConnectTransfer({
+              flow,
+              fiatConnectQuote: normalizedQuote,
+              fiatAccountId: fiatAccount.fiatAccountId,
+            })
+          )
           // Record this fiat account as the most recently used
           dispatch(
             fiatAccountUsed({
@@ -81,6 +87,8 @@ export function FiatConnectReview({
               fiatAccountType: fiatAccount.fiatAccountType,
             })
           )
+
+          // TODO: navigate to success / failure screen
         }}
       />
     </SafeAreaView>
