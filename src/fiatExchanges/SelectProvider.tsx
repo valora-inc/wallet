@@ -37,6 +37,7 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
@@ -81,6 +82,20 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [fiatConnectQuotesError])
+
+  const asyncExchanges = useAsync(async () => {
+    try {
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        route.params.selectedCrypto
+      )
+
+      return availableExchanges
+    } catch (error) {
+      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
+      return []
+    }
+  }, [])
 
   const asyncProviders = useAsync(async () => {
     if (!account) {
@@ -132,6 +147,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
+  const exchanges = asyncExchanges.result
+
   return (
     <ScrollView>
       <PaymentMethodSection
@@ -156,7 +173,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cryptoAmount={route.params.amount.crypto}
         coinbaseProvider={coinbaseProvider}
       />
-      <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
+      <ExchangesSection
+        numExchanges={exchanges?.length}
+        selectedCurrency={route.params.selectedCrypto}
+        flow={flow}
+      />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>
   )
@@ -209,9 +230,11 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
 }
 
 function ExchangesSection({
+  numExchanges,
   flow,
   selectedCurrency,
 }: {
+  numExchanges: number | undefined
   flow: CICOFlow
   selectedCurrency: Currency
 }) {
@@ -224,6 +247,10 @@ function ExchangesSection({
       currency: selectedCurrency,
       isCashIn: flow === CICOFlow.CashIn,
     })
+  }
+
+  if (!numExchanges) {
+    return null
   }
 
   return (

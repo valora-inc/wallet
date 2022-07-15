@@ -7,10 +7,11 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockProviders } from 'test/values'
+import { mockAccount, mockExchanges, mockProviders } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import {
   CICOFlow,
+  fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   LegacyMobileMoneyProvider,
@@ -23,6 +24,7 @@ jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
   fetchProviders: jest.fn(),
   fetchLegacyMobileMoneyProviders: jest.fn(),
+  fetchExchanges: jest.fn(),
 }))
 
 jest.mock('@coinbase/cbpay-js', () => {
@@ -118,6 +120,7 @@ describe(SelectProviderScreen, () => {
   it('shows the provider sections, mobile money, and exchange section', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -136,6 +139,7 @@ describe(SelectProviderScreen, () => {
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
@@ -144,5 +148,19 @@ describe(SelectProviderScreen, () => {
     await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
     // Visible because there are no card providers
     expect(queryByText('selectProviderScreen.learnMore')).toBeTruthy()
+  })
+  it('does not show exchange section if no exchanges', async () => {
+    mocked(fetchProviders).mockResolvedValue(mockProviders)
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
+    mocked(fetchExchanges).mockResolvedValue([])
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+
+    // Exchange card is not visible as no exchanges are available
+    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
   })
 })

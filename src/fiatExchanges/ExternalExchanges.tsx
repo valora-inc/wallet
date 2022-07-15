@@ -82,6 +82,7 @@ function ExternalExchanges({ route }: Props) {
     }
   }, [])
   const providers = asyncProviders.result
+  console.log(providers)
 
   const supportOnPress = () => navigate(Screens.SupportContact)
 

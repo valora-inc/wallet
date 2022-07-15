@@ -22,6 +22,7 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
@@ -774,3 +775,18 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
 ]
 
 export const mockMaxSendAmount = new BigNumber(999.99995)
+
+export const mockExchanges: ExternalExchangeProvider[] = [
+  {
+    currencies: [Currency.Celo, Currency.Dollar, Currency.Euro],
+    link: 'https://www.kucoin.com/',
+    name: 'KuCoin',
+    supportedRegions: ['global'],
+  },
+  {
+    currencies: [Currency.Celo, Currency.Dollar, Currency.Euro],
+    link: 'https://blockchain.com/',
+    name: 'Blockchain.com',
+    supportedRegions: ['global'],
+  },
+]
