@@ -1,6 +1,7 @@
 import { openComposer } from 'react-native-email-link'
 import Mailer from 'react-native-mail'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
+import Logger from 'src/utils/Logger'
 import { readFileChunked } from 'src/utils/readFile'
 
 export interface Email {
