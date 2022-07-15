@@ -6,6 +6,7 @@ import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
+import { readFileChunked } from 'src/utils/readFile'
 
 class Logger {
   isNetworkConnected: boolean
@@ -178,16 +179,20 @@ class Logger {
       // Get the list of log files
       const logFiles = await RNFS.readDir(logDir)
 
-      // Delete log files older than 28 days
+      // Delete log files older than 14 days
       for (const logFile of logFiles) {
         const stat = await RNFS.stat(logFile.path)
-        if (+stat.ctime < +new Date() - 4 * 7 * 24 * 60 * 60 * 1000) {
-          console.debug('Deleting React Native log file older than 28 days', logFile.path)
+        if (+stat.ctime < +new Date() - 2 * 7 * 24 * 60 * 60 * 1000) {
+          this.debug(
+            'Logger/cleanupOldLogs',
+            'Deleting React Native log file older than 14 days',
+            logFile.path
+          )
           await RNFS.unlink(logFile.path)
         }
       }
     } catch (error) {
-      console.warn('Failed to cleanup old React Native logs: ' + error)
+      this.error('Logger@cleanupOldLogs', 'Failed to cleanupOldLogs', error as Error)
     }
   }
 
@@ -197,7 +202,7 @@ class Logger {
       const rnLogsSrc = this.getReactNativeLogFilePath()
       let reactNativeLogs = null
       if (await RNFS.exists(rnLogsSrc)) {
-        reactNativeLogs = await RNFS.readFile(rnLogsSrc)
+        reactNativeLogs = await readFileChunked(rnLogsSrc)
       }
       return reactNativeLogs
     } catch (error) {
@@ -225,7 +230,11 @@ class Logger {
       const logFiles = await RNFS.readDir(logDir)
       for (const logFile of logFiles) {
         if (await RNFS.exists(logFile.path)) {
-          await RNFS.appendFile(combinedLogsPath, await RNFS.readFile(logFile.path), 'utf8')
+          await RNFS.appendFile(
+            combinedLogsPath,
+            (await readFileChunked(logFile.path)) as string,
+            'utf8'
+          )
         }
       }
       return combinedLogsPath
@@ -262,8 +271,14 @@ class Logger {
         if (!(await RNFS.exists(logFilePath))) {
           await RNFS.writeFile(logFilePath, '', 'utf8')
         }
+
         const timestamp = new Date().toISOString()
-        await RNFS.appendFile(logFilePath, `${level} [${timestamp}] ${message}\n`, 'utf8')
+        // Ensure messages are converted to utf8 as some remote CTA's can have non utf8 characters
+        await RNFS.appendFile(
+          logFilePath,
+          `${level} [${timestamp}] ${Buffer.from(message, 'utf-8').toString()}\n`,
+          'utf8'
+        )
       } catch (error) {
         consoleFns.debug(`Failed to write to ${logFilePath}`, error)
       }
@@ -275,7 +290,7 @@ class Logger {
         const consoleMessage = `[${timestamp}] ${message}`
 
         consoleFns[level](consoleMessage, ...optionalParams)
-        writeLog(level, message).catch((error) => consoleFns.debug('writeLog error', error))
+        writeLog(level, message).catch((error) => consoleFns.debug(error))
       } else {
         consoleFns[level](message, ...optionalParams)
       }
