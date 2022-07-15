@@ -234,6 +234,33 @@
             ],
             "type": "object"
         },
+        "BlockscoutTokenTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "fromAccountHash": {
+                    "type": "string"
+                },
+                "fromAddressHash": {
+                    "type": "string"
+                },
+                "toAddressHash": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "tokenAddress": {
+                    "type": "string"
+                },
+                "tokenType": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -1000,6 +1027,48 @@
                 "currencyCode",
                 "exchangeRate",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NFTsTransaction": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "enum": [
+                        "NFTsTransactionV2"
+                    ],
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "transfers": {
+                    "$ref": "#/definitions/BlockscoutTokenTransfer"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "timestamp",
+                "transactionHash",
+                "transfers",
+                "type"
             ],
             "type": "object"
         },
