@@ -234,6 +234,13 @@
             ],
             "type": "object"
         },
+        "CICOFlow": {
+            "enum": [
+                "CashIn",
+                "CashOut"
+            ],
+            "type": "string"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -751,6 +758,37 @@
                 "id",
                 "imageUrl",
                 "providerName"
+            ],
+            "type": "object"
+        },
+        "FiatConnectTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "failed": {
+                    "type": "boolean"
+                },
+                "flow": {
+                    "$ref": "#/definitions/CICOFlow"
+                },
+                "isSending": {
+                    "type": "boolean"
+                },
+                "quoteId": {
+                    "type": "string"
+                },
+                "txHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "failed",
+                "flow",
+                "isSending",
+                "quoteId",
+                "txHash"
             ],
             "type": "object"
         },
@@ -2956,12 +2994,23 @@
                 },
                 "quotesLoading": {
                     "type": "boolean"
+                },
+                "transfer": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/FiatConnectTransfer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 }
             },
             "required": [
                 "quotes",
                 "quotesError",
-                "quotesLoading"
+                "quotesLoading",
+                "transfer"
             ],
             "type": "object"
         },
