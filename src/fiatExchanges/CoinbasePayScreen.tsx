@@ -9,6 +9,7 @@ import WebViewScreen from 'src/webview/WebViewScreen'
 type RouteProps = StackScreenProps<StackParamList, Screens.WebViewScreen>
 type Props = RouteProps
 
+// Created to hook into the removal of CBPay Screen
 function CoinbasePayScreen({ route, navigation }: Props) {
   useEffect(() => {
     navigation.addListener('beforeRemove', () => {
