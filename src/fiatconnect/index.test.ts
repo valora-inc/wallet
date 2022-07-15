@@ -47,15 +47,7 @@ jest.mock('src/web3/KeychainWallet', () => {
   }
 })
 
-jest.mock('@fiatconnect/fiatconnect-sdk', () => {
-  return {
-    FiatConnectClient: () => {
-      return jest.fn(() => {
-        return {}
-      })
-    },
-  }
-})
+jest.mock('@fiatconnect/fiatconnect-sdk')
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
