@@ -11,6 +11,11 @@ import { Currency } from 'src/utils/currencies'
 import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/web3/contracts', () => ({
+  getWalletAsync: jest.fn(() => ({
+    getAccounts: jest.fn(() => ['fake-account']),
+  })),
+}))
 
 const mockExchangeRates = {
   cGLD: '2',

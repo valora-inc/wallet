@@ -1,4 +1,4 @@
-import { FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
@@ -19,7 +19,7 @@ import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -230,29 +230,17 @@ function PaymentMethod({
   fiatAccountSchema,
 }: {
   normalizedQuote: FiatConnectQuote
-  fiatAccount: FiatAccount
+  fiatAccount: ObfuscatedFiatAccountData
   fiatAccountSchema: FiatAccountSchema
 }) {
   const { t } = useTranslation()
-
-  // TODO(any): consider merging this with other schema specific stuff in a generic
-  // type and create via a factory
-  let displayText: string
-  switch (fiatAccountSchema) {
-    case FiatAccountSchema.AccountNumber:
-      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
-      displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
-      break
-    default:
-      throw new Error('Unsupported schema type')
-  }
 
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
       <View style={styles.sectionMainTextContainer}>
         <Text style={styles.sectionMainText} testID="paymentMethod-text">
-          {displayText}
+          {fiatAccount.accountName}
         </Text>
       </View>
       <View style={styles.sectionSubTextContainer}>

@@ -59,8 +59,7 @@ describe('Given QR Scanner', () => {
       await expect(element(by.id('Review'))).toBeVisible()
     })
 
-    // TODO: Enable or Remove based on if we want this behavior
-    it.skip('Then should handle address only QR', async () => {
+    it('Then should handle address only QR', async () => {
       await waitForElementId('ManualInput')
       await element(by.id('ManualInput')).replaceText('0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846')
       await waitForElementId('ManualSubmit')

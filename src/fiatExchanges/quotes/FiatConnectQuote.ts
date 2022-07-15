@@ -32,6 +32,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
   fiatAccountType: FiatAccountType
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
+
   constructor({
     quote,
     fiatAccountType,

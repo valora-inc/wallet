@@ -501,6 +501,8 @@ interface VerificationEventsProperties {
     attestationsRemaining: number
     actionableAttestations: number
   }
+  [VerificationEvents.verification_skip]: undefined
+  [VerificationEvents.verification_skip_confirm]: undefined
 }
 
 interface IdentityEventsProperties {

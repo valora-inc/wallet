@@ -1,12 +1,12 @@
-import { FiatAccountSchema, FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { FetchMock } from 'jest-fetch-mock'
+import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
 import { Network } from '@fiatconnect/fiatconnect-types'
-jest.mock('src/pincode/authentication')
-
+import { FetchMock } from 'jest-fetch-mock'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getPassword } from 'src/pincode/authentication'
 import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { KeychainWallet } from 'src/web3/KeychainWallet'
 import {
   mockAccount,
   mockFiatConnectProviderInfo,
@@ -14,19 +14,19 @@ import {
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
 import {
-  addNewFiatAccount,
-  fetchFiatConnectQuotes,
+  fetchQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
   getFiatConnectProviders,
   getFiatConnectQuotes,
-  QuotesInput,
+  getObfuscatedAccountNumber,
   loginWithFiatConnectProvider,
-  getSigningFunction,
+  QuotesInput,
 } from './index'
-import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { KeychainWallet } from 'src/web3/KeychainWallet'
-import { getPassword } from 'src/pincode/authentication'
+
+jest.mock('src/pincode/authentication', () => ({
+  getPassword: jest.fn(),
+}))
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -95,11 +95,11 @@ describe('FiatConnect helpers', () => {
       country: 'US',
     }
     it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
-      const quotes = await fetchFiatConnectQuotes(fetchQuotesInput)
+      const quotes = await fetchQuotes(fetchQuotesInput)
       expect(quotes).toHaveLength(0)
     })
     it('returns an empty array if fiatConnectCashOutEnabled is false with cash out', async () => {
-      const quotes = await fetchFiatConnectQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
+      const quotes = await fetchQuotes({ ...fetchQuotesInput, flow: CICOFlow.CashOut })
       expect(quotes).toHaveLength(0)
     })
   })
@@ -133,60 +133,6 @@ describe('FiatConnect helpers', () => {
       const quotes = await getFiatConnectQuotes(getQuotesInput)
       expect(quotes).toEqual([mockFiatConnectQuotes[1], mockFiatConnectQuotes[0]])
       expect(Logger.error).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('addNewFiatAccount', () => {
-    it('returns a fiat account info with fiat account id on success', async () => {
-      const fakeFiatAccountReturned = {
-        fiatAccountId: 'ZAQWSX1234',
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-      mockFetch.mockResponseOnce(JSON.stringify(fakeFiatAccountReturned), { status: 200 })
-
-      const fakeProviderURL = 'superLegitCICOProvider.valoraapp.com'
-      const fiatAccountSchema = FiatAccountSchema.AccountNumber
-      const reqBody = {
-        accountName: 'Fake Account Name',
-        institutionName: 'Fake Institution Name',
-        accountNumber: '123456789',
-        country: 'NG',
-        fiatAccountType: FiatAccountType.BankAccount,
-      }
-
-      await expect(
-        addNewFiatAccount(fakeProviderURL, fiatAccountSchema, reqBody)
-      ).rejects.toThrowError('Not implemented')
-    })
-  })
-  describe('getSigningFunction', () => {
-    const wallet = new KeychainWallet({
-      address: 'some address',
-      createdAt: new Date(),
-    })
-    beforeEach(() => {
-      wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
-      wallet.signPersonalMessage = jest.fn().mockResolvedValue('some signed message')
-      wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
-    })
-    it('returns a signing function that signs a message', async () => {
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).not.toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
-    })
-    it('returns a signing function that attempts to unlock accout if locked', async () => {
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(false)
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).toHaveBeenCalled()
-      expect(getPassword).toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
     })
   })
   describe('loginWithFiatConnectProvider', () => {
@@ -247,6 +193,25 @@ describe('FiatConnect helpers', () => {
         error: new Error('some error'),
       })
       await expect(loginWithFiatConnectProvider(wallet, fiatConnectClient)).rejects.toThrow()
+    })
+  })
+  describe('getObfuscatedAccountNumber', () => {
+    it('shows last 4 digits for 10 digit account numbers (Nigeria case)', () => {
+      expect(getObfuscatedAccountNumber('1234567890')).toEqual('...7890')
+    })
+    it('shows last 4 digits for 7 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('1234567')).toEqual('...4567')
+    })
+    it('shows only 2 digits for 5 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('12345')).toEqual('...45')
+    })
+    it('shows only 1 digit for 4 digit account numbers', () => {
+      expect(getObfuscatedAccountNumber('1234')).toEqual('...4')
+    })
+    it('blanks out entire number for 3 digit account numbers and smaller', () => {
+      expect(getObfuscatedAccountNumber('123')).toEqual('')
+      expect(getObfuscatedAccountNumber('12')).toEqual('')
+      expect(getObfuscatedAccountNumber('1')).toEqual('')
     })
   })
 })
