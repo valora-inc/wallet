@@ -117,6 +117,14 @@ describe(SelectProviderScreen, () => {
       })
     )
   })
+  it('calls fetchExchanges correctly', async () => {
+    render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
+  })
   it('shows the provider sections, mobile money, and exchange section', async () => {
     mocked(fetchProviders).mockResolvedValue(mockProviders)
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
