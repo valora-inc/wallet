@@ -4,9 +4,11 @@ import { format } from 'date-fns'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
+import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { readFileChunked } from 'src/utils/readFile'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 class Logger {
   isNetworkConnected: boolean
@@ -150,11 +152,38 @@ class Logger {
   }
 
   getReactNativeLogFilePath = () => {
-    return `${this.getReactNativeLogsDir()}/${format(new Date(), 'yyyyMMdd')}.txt`
+    return `${this.getReactNativeLogsDir()}/${format(new Date(), 'yyyy-MMM')}.txt`
   }
 
   getReactNativeLogsDir = () => {
     return `${RNFS.CachesDirectoryPath}/rn_logs`
+  }
+
+  getLogsToAttach = async () => {
+    try {
+      const logDir = this.getReactNativeLogsDir()
+      const logFiles = await RNFS.readDir(logDir)
+      const path = Platform.OS === 'ios' ? RNFS.TemporaryDirectoryPath : RNFS.ExternalDirectoryPath
+      const toAttach = []
+      for (const file of logFiles) {
+        // Always remove the logs from the current month and re-copy
+        // But not the logs from previous months if they exist
+        if (file.name === `${format(new Date(), 'yyyy-MMM')}.txt`) {
+          await RNFS.unlink(`${path}/${file.name}`)
+          await RNFS.copyFile(file.path, `${path}/${file.name}`)
+        } else if (!(await RNFS.exists(`${path}/${file.name}`))) {
+          await RNFS.copyFile(file.path, `${path}/${file.name}`)
+        }
+        toAttach.push({
+          path: `${path}/${file.name}`,
+          name: file.name,
+          type: 'text',
+        })
+      }
+      return toAttach as Email['attachments']
+    } catch (error) {
+      this.error('Logger', 'Failed to move logs to share', error as Error)
+    }
   }
 
   getCombinedLogsFilePath = () => {
@@ -171,7 +200,7 @@ class Logger {
       const logFileCombinedPath = this.getCombinedLogsFilePath()
       const logDir = this.getReactNativeLogsDir()
 
-      // If legacy log file or combined logs exist, delete it
+      // If legacy log file exist, delete it
       if (await RNFS.exists(logFileCombinedPath)) {
         await RNFS.unlink(logFileCombinedPath)
       }
@@ -179,13 +208,13 @@ class Logger {
       // Get the list of log files
       const logFiles = await RNFS.readDir(logDir)
 
-      // Delete log files older than 14 days
+      // Delete log files older than 60 days
       for (const logFile of logFiles) {
         const stat = await RNFS.stat(logFile.path)
-        if (+stat.ctime < +new Date() - 2 * 7 * 24 * 60 * 60 * 1000) {
+        if (+stat.ctime < +new Date() - 60 * ONE_DAY_IN_MILLIS) {
           this.debug(
             'Logger/cleanupOldLogs',
-            'Deleting React Native log file older than 14 days',
+            'Deleting React Native log file older than 60 days',
             logFile.path
           )
           await RNFS.unlink(logFile.path)
@@ -197,7 +226,7 @@ class Logger {
   }
 
   // Gets the logs for the current day
-  getDailyLogs = async () => {
+  getMonthLogs = async () => {
     try {
       const rnLogsSrc = this.getReactNativeLogFilePath()
       let reactNativeLogs = null
@@ -208,39 +237,6 @@ class Logger {
     } catch (error) {
       this.showError('Failed to read logs: ' + error)
       return null
-    }
-  }
-
-  // Combines logs from the last n days into a single file
-  createCombinedLogs = async () => {
-    try {
-      this.showMessage('Creating combined log...')
-      const combinedLogsPath = this.getCombinedLogsFilePath()
-      const logDir = this.getReactNativeLogsDir()
-
-      // Delete previous combined Logs if present
-      if (await RNFS.exists(combinedLogsPath)) {
-        await RNFS.unlink(combinedLogsPath)
-      }
-
-      // Create empty file to combine log files into
-      await RNFS.writeFile(combinedLogsPath, '', 'utf8')
-
-      // Get all daily log files and combine into one file
-      const logFiles = await RNFS.readDir(logDir)
-      for (const logFile of logFiles) {
-        if (await RNFS.exists(logFile.path)) {
-          await RNFS.appendFile(
-            combinedLogsPath,
-            (await readFileChunked(logFile.path)) as string,
-            'utf8'
-          )
-        }
-      }
-      return combinedLogsPath
-    } catch (error) {
-      this.showError('Failed to combine logs: ' + error)
-      return false
     }
   }
 

@@ -2,12 +2,13 @@
 // no-console disabled as we are testing console logs are overwritten by the logger
 import 'react-native'
 import { Platform } from 'react-native'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import Logger from './Logger'
 
 const mockData = [
   {
-    // ctime is 29 days ago
-    ctime: new Date(new Date().getTime() - 2505600000),
+    // ctime is 61 days ago
+    ctime: new Date(new Date().getTime() - ONE_DAY_IN_MILLIS * 61),
     name: 'toDelete.txt',
     path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt',
     size: 5318,
@@ -79,7 +80,7 @@ describe('utils/Logger', () => {
     await Logger.cleanupOldLogs()
     expect(console.debug).toHaveBeenCalledTimes(1)
     expect(console.debug).toHaveBeenCalledWith(
-      'Logger/cleanupOldLogs/Deleting React Native log file older than 14 days, __TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt'
+      'Logger/cleanupOldLogs/Deleting React Native log file older than 60 days, __TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt'
     )
   })
 })

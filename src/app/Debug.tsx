@@ -33,7 +33,7 @@ export class Debug extends React.Component<RootState, State> {
   }
 
   updateLogs = async () => {
-    const reactNativeLogs = await Logger.getDailyLogs()
+    const reactNativeLogs = await Logger.getMonthLogs()
     this.setState({
       reactNativeLogs: reactNativeLogs || 'Not Found',
     })

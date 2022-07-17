@@ -48,6 +48,11 @@ function SupportContact({ route }: Props) {
     dispatch(showMessage(t('contactSuccess')))
   }
 
+  // Used to prevent flickering of the activity indicator on quick uploads
+  const minSetInProgress = (setTo: boolean) => {
+    setTimeout(() => setInProgress(setTo), 1000)
+  }
+
   const onPressSendEmail = useCallback(async () => {
     setInProgress(true)
     const deviceInfo = {
@@ -67,26 +72,21 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    let combinedLogsPath: string | false = false
+    // TODO(Tom): use correct typing
+    let attachments: Array<Email['attachments']> | any
     if (attachLogs) {
-      combinedLogsPath = await Logger.createCombinedLogs()
-      if (combinedLogsPath) {
-        email.attachments = [
-          {
-            path: combinedLogsPath, // The absolute path of the file from which to read data.
-            type: 'text', // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-            name: '', // Optional: Custom filename for attachment
-          },
-        ]
+      attachments = await Logger.getLogsToAttach()
+      if (attachments) {
+        email.attachments = attachments
         email.body += (email.body ? '<br/><br/>' : '') + '<b>Support logs are attached...</b>'
       }
     }
-    setInProgress(false)
+    minSetInProgress(false)
     try {
-      await sendEmail(email, deviceInfo, combinedLogsPath)
+      await sendEmail(email, deviceInfo, attachments[0].path ?? false)
       navigateBackAndToast()
     } catch (error) {
-      Logger.error('SupportContact', 'Error while sending logs to support', error)
+      Logger.error('SupportContact', 'Error while sending logs to support', error as Error)
     }
   }, [message, attachLogs, e164PhoneNumber])
 
