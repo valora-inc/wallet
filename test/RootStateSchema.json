@@ -1718,6 +1718,7 @@
                 "BankAccounts",
                 "BidaliScreen",
                 "CashInSuccess",
+                "CoinbasePayScreen",
                 "ConnectPhoneNumberScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
