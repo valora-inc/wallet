@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Mantén tu billetera segura",
-    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
+    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}. Si ya tienes una cuenta, NO HAGAS CLIC para activar la biometría a continuación A MENOS que tengas tu Frase de recuperación a mano. Activar la biometría requerirá que restaures tu cuenta.",
     "cta": "Habilitar {{biometryType}}"
   },
   "biometryType": {
