@@ -300,6 +300,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
+    coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
+    showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
   }
 }
 

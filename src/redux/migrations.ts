@@ -686,4 +686,33 @@ export const migrations = {
         REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
     },
   }),
+  58: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
+  59: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      quotes: [],
+      quotesLoading: false,
+      quotesError: null,
+    },
+  }),
+  60: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+    },
+  }),
+  61: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      transfer: null,
+    },
+  }),
 }

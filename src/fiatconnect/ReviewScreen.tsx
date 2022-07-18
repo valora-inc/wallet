@@ -1,9 +1,10 @@
-import { CryptoType, FiatAccountSchema, FiatAccountSchemas } from '@fiatconnect/fiatconnect-types'
+import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -12,47 +13,31 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
+import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { FiatAccount, StackParamList } from 'src/navigator/types'
+import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'FiatConnectReviewScreen'
+import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
-
+  const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount } = route.params
-
-  const tokenInfo = useTokenInfoBySymbol(normalizedQuote.getCryptoType())
-
-  if (!tokenInfo) {
-    Logger.error(TAG, `Token info not found for ${normalizedQuote.getCryptoType()}`)
-    return null
-  }
 
   return (
     <SafeAreaView style={styles.content}>
       <View>
-        <ReceiveAmount
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          tokenAddress={tokenInfo.address}
-        />
-        <TransactionDetails
-          flow={flow}
-          normalizedQuote={normalizedQuote}
-          tokenAddress={tokenInfo.address}
-        />
+        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
+        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
         <PaymentMethod
           normalizedQuote={normalizedQuote}
           fiatAccount={fiatAccount}
@@ -60,6 +45,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         />
       </View>
       <Button
+        testID="submitButton"
         style={styles.submitBtn}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.FULL}
@@ -71,7 +57,15 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         onPress={() => {
           ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
-          // TODO(any): submit the transfer
+          dispatch(
+            createFiatConnectTransfer({
+              flow,
+              fiatConnectQuote: normalizedQuote,
+              fiatAccountId: fiatAccount.fiatAccountId,
+            })
+          )
+
+          // TODO: navigate to success / failure screen
         }}
       />
     </SafeAreaView>
@@ -81,11 +75,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
 function ReceiveAmount({
   flow,
   normalizedQuote,
-  tokenAddress,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  tokenAddress: string
 }) {
   const { t } = useTranslation()
   return (
@@ -98,7 +90,7 @@ function ReceiveAmount({
           flow === CICOFlow.CashIn ? (
             <TokenDisplay
               amount={normalizedQuote.getCryptoAmount()}
-              tokenAddress={tokenAddress}
+              currency={normalizedQuote.getCryptoType()}
               showLocalAmount={false}
               testID="amount-crypto"
             />
@@ -107,7 +99,7 @@ function ReceiveAmount({
               amount={{
                 // The value here doesn't matter since the component will use `localAmount`
                 value: 0,
-                currencyCode: normalizedQuote.getCryptoType(),
+                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
                 localAmount: {
                   value: normalizedQuote.getFiatAmount(),
                   currencyCode: normalizedQuote.getFiatType(),
@@ -126,12 +118,12 @@ function ReceiveAmount({
 function TransactionDetails({
   flow,
   normalizedQuote,
-  tokenAddress,
 }: {
   flow: CICOFlow
   normalizedQuote: FiatConnectQuote
-  tokenAddress: string
 }) {
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)!
+
   if (flow === CICOFlow.CashIn) {
     // TODO: update below implementation to support CashIn
     throw new Error('Not implemented')
@@ -140,17 +132,17 @@ function TransactionDetails({
   const { t } = useTranslation()
   let tokenDisplay: string
   switch (normalizedQuote.getCryptoType()) {
-    case CryptoType.cUSD:
+    case Currency.Dollar:
       tokenDisplay = t('celoDollar')
       break
-    case CryptoType.cEUR:
+    case Currency.Euro:
       tokenDisplay = t('celoEuro')
       break
     default:
       tokenDisplay = t('total')
   }
 
-  const fee = normalizedQuote.getFee()
+  const fee = normalizedQuote.getFeeInCrypto(exchangeRates)
   const totalConverted = Number(normalizedQuote.getCryptoAmount()) - Number(fee || 0)
   const exchangeRate = Number(normalizedQuote.getFiatAmount()) / totalConverted
 
@@ -166,7 +158,7 @@ function TransactionDetails({
         amount={
           <TokenDisplay
             amount={normalizedQuote.getCryptoAmount()}
-            tokenAddress={tokenAddress}
+            currency={normalizedQuote.getCryptoType()}
             showLocalAmount={false}
             testID="txDetails-total"
           />
@@ -179,7 +171,7 @@ function TransactionDetails({
         amount={
           <TokenDisplay
             amount={totalConverted}
-            tokenAddress={tokenAddress}
+            currency={normalizedQuote.getCryptoType()}
             showLocalAmount={false}
             testID="txDetails-converted"
           />
@@ -192,7 +184,7 @@ function TransactionDetails({
           amount={
             <TokenDisplay
               amount={fee}
-              tokenAddress={tokenAddress}
+              currency={normalizedQuote.getCryptoType()}
               showLocalAmount={false}
               testID="txDetails-fee"
             />
@@ -208,7 +200,7 @@ function TransactionDetails({
             <CurrencyDisplay
               amount={{
                 value: 1,
-                currencyCode: normalizedQuote.getCryptoType(),
+                currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
                 localAmount: {
                   value: exchangeRate,
                   currencyCode: normalizedQuote.getFiatType(),
@@ -225,7 +217,7 @@ function TransactionDetails({
             amount={{
               // The value here doesn't matter since the component will use `localAmount`
               value: 0,
-              currencyCode: normalizedQuote.getCryptoType(),
+              currencyCode: resolveCICOCurrency(normalizedQuote.getCryptoType()),
               localAmount: {
                 value: normalizedQuote.getFiatAmount(),
                 currencyCode: normalizedQuote.getFiatType(),
@@ -248,29 +240,17 @@ function PaymentMethod({
   fiatAccountSchema,
 }: {
   normalizedQuote: FiatConnectQuote
-  fiatAccount: FiatAccount
+  fiatAccount: ObfuscatedFiatAccountData
   fiatAccountSchema: FiatAccountSchema
 }) {
   const { t } = useTranslation()
-
-  // TODO(any): consider merging this with other schema specific stuff in a generic
-  // type and create via a factory
-  let displayText: string
-  switch (fiatAccountSchema) {
-    case FiatAccountSchema.AccountNumber:
-      const account: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = fiatAccount
-      displayText = `${account.institutionName} (...${account.accountNumber.slice(-4)})`
-      break
-    default:
-      throw new Error('Unsupported schema type')
-  }
 
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
       <View style={styles.sectionMainTextContainer}>
         <Text style={styles.sectionMainText} testID="paymentMethod-text">
-          {displayText}
+          {fiatAccount.accountName}
         </Text>
       </View>
       <View style={styles.sectionSubTextContainer}>

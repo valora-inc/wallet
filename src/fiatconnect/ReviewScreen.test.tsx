@@ -1,15 +1,15 @@
 import {
   CryptoType,
-  FiatAccountSchema,
-  FiatAccountSchemas,
   FiatAccountType,
+  ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
@@ -25,18 +25,18 @@ function getProps(flow: CICOFlow, withFee = false, cryptoType = CryptoType.cUSD)
   const normalizedQuote = new FiatConnectQuote({
     quote: quoteData,
     fiatAccountType: FiatAccountType.BankAccount,
+    flow: CICOFlow.CashOut,
   })
-  const accountNumber: FiatAccountSchemas[FiatAccountSchema.AccountNumber] = {
-    accountName: 'MyAccount',
+  const fiatAccount: ObfuscatedFiatAccountData = {
+    fiatAccountId: '123',
+    accountName: 'Chase (...2345)',
     institutionName: 'Chase',
-    accountNumber: '12345',
-    country: 'US',
     fiatAccountType: FiatAccountType.BankAccount,
   }
   return getMockStackScreenProps(Screens.FiatConnectReview, {
     flow,
     normalizedQuote,
-    fiatAccount: accountNumber,
+    fiatAccount,
   })
 }
 
@@ -97,6 +97,26 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-text')?.children).toEqual(['Chase (...2345)'])
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
+      ])
+    })
+
+    it('dispatches fiat transfer action on clicking button', async () => {
+      const mockProps = getProps(CICOFlow.CashOut)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      await fireEvent.press(getByTestId('submitButton'))
+
+      expect(store.getActions()).toEqual([
+        createFiatConnectTransfer({
+          flow: CICOFlow.CashOut,
+          fiatConnectQuote: mockProps.route.params.normalizedQuote,
+          fiatAccountId: '123',
+        }),
       ])
     })
   })

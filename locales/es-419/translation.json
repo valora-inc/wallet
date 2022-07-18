@@ -1117,8 +1117,11 @@
     "subtitleRamp": "Agrega fondos sin comisión con alguno de nuestros proveedores externos."
   },
   "balances": "Activos",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Saldo total",
   "viewBalances": "Ver activos",
+  "open": "Abrir",
+  "nftViewer": "Visor NFT",
   "whatTotalValue": {
     "title": "¿Qué es el saldo total?",
     "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos activos no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",

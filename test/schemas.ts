@@ -1373,12 +1373,61 @@ export const v58Schema = {
     ...v57Schema._persist,
     version: 58,
   },
+  app: {
+    ...v57Schema.app,
+    coinbasePayEnabled: false,
+  },
+}
+
+export const v59Schema = {
+  ...v58Schema,
+  _persist: {
+    ...v58Schema._persist,
+    version: 59,
+  },
+  fiatConnect: {
+    quotes: [],
+    quotesLoading: false,
+    quotesError: null,
+  },
+}
+
+export const v60Schema = {
+  ...v59Schema,
+  _persist: {
+    ...v59Schema._persist,
+    version: 60,
+  },
+  app: {
+    ...v59Schema.app,
+    showSwapMenuInDrawerMenu: false,
+  },
+}
+
+export const v61Schema = {
+  ...v60Schema,
+  _persist: {
+    ...v60Schema._persist,
+    version: 61,
+  },
+  fiatConnect: {
+    ...v60Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v62Schema = {
+  ...v61Schema,
+  _persist: {
+    ...v61Schema._persist,
+    version: 62,
+  },
   home: {
-    ...v57Schema.home,
+    ...v61Schema.home,
     cleverTapNotifications: {},
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v58Schema as Partial<RootState>
+  return v62Schema as Partial<RootState>
 }

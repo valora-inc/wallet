@@ -637,7 +637,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
     deviceHeight={null}
     deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
     onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
@@ -689,7 +689,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       deviceHeight={null}
       deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
       onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
@@ -1727,7 +1727,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
     deviceHeight={null}
     deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
     onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
@@ -1779,7 +1779,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       deviceHeight={null}
       deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
       onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
@@ -2817,7 +2817,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
     deviceHeight={null}
     deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
     onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
@@ -2869,7 +2869,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       deviceHeight={null}
       deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
       onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}
@@ -3902,7 +3902,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
     deviceHeight={null}
     deviceWidth={null}
     hardwareAccelerated={false}
-    hideModalContentWhileAnimating={false}
+    hideModalContentWhileAnimating={true}
     onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
@@ -3954,7 +3954,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       deviceHeight={null}
       deviceWidth={null}
       forwardedRef={[Function]}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
       onBackdropPress={[Function]}
       onModalHide={[Function]}
       onModalWillHide={[Function]}

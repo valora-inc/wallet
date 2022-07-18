@@ -9,6 +9,7 @@ import dappsReducer, { State as DappsState } from 'src/dapps/slice'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
+import fiatConnectReducer, { State as FiatConnectState } from 'src/fiatconnect/slice'
 import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
 import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
@@ -53,6 +54,7 @@ const appReducer = combineReducers({
   tokens,
   supercharge: superchargeReducer,
   dapps: dappsReducer,
+  fiatConnect: fiatConnectReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -101,6 +103,7 @@ export interface RootState {
   tokens: TokensState
   supercharge: SuperchargeState
   dapps: DappsState
+  fiatConnect: FiatConnectState
 }
 
 export interface PersistedRootState {

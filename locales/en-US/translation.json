@@ -1117,8 +1117,11 @@
     "subtitleRamp": "Add funds with zero fees through one of our trusted external providers."
   },
   "balances": "Assets",
+  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
   "totalValue": "Total Balance",
   "viewBalances": "View Assets",
+  "open": "Open",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "What does Total Balance mean?",
     "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome assets may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
