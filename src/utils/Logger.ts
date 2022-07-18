@@ -269,7 +269,7 @@ class Logger {
         }
 
         const timestamp = new Date().toISOString()
-        // Ensure messages are converted to utf8 as some remote CTA's can have non utf8 characters
+        // Ensure messages are converted to utf8 as some remote CTA's can have Non-ASCII characters
         await RNFS.appendFile(
           logFilePath,
           `${level} [${timestamp}] ${Buffer.from(message, 'utf-8').toString()}\n`,

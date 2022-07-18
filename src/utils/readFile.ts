@@ -8,7 +8,7 @@ const readChunk = async (file: string, length: number, position: number) => {
   try {
     return await RNFS.read(file, length, position, 'utf8')
   } catch (error) {
-    Logger.error('Logger@readChunk', 'readChunk error', error as Error)
+    Logger.error('readFile@readChunk', 'readChunk error', error as Error)
     return ''
   }
 }
@@ -18,18 +18,14 @@ const readChunk = async (file: string, length: number, position: number) => {
  * [Credits]{@link: https://stackoverflow.com/a/56284734}
  */
 export const readFileChunked = async (rnLogsSrc = Logger.getReactNativeLogFilePath()) => {
-  try {
-    const length = 4096
-    let chunk = ''
-    let fileContents = ''
-    if (await RNFS.exists(rnLogsSrc)) {
-      do {
-        chunk = await readChunk(rnLogsSrc, length, fileContents.length)
-        fileContents += chunk
-      } while (chunk.length > 0)
-    }
-    return fileContents
-  } catch (error) {
-    Logger.error('Logger@readFileChunked', `Failed to readFileChunked ${rnLogsSrc}`, error as Error)
+  const length = 4096
+  let chunk = ''
+  let fileContents = ''
+  if (await RNFS.exists(rnLogsSrc)) {
+    do {
+      chunk = await readChunk(rnLogsSrc, length, fileContents.length)
+      fileContents += chunk
+    } while (chunk.length > 0)
   }
+  return fileContents
 }
