@@ -402,7 +402,10 @@ export function cleverTapReadChannel() {
     CleverTap.getAllDisplayUnits((err, res: any) => {
       emit(res)
     })
-    return () => {}
+    //TODO: need to figure out what to return.
+    return () => {
+      null
+    }
   })
 }
 
