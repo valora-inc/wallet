@@ -26,13 +26,30 @@ function NFTsTransactionItem({ transaction }: Props) {
     })
   }
 
+  let isReceived: boolean = false
+
+  for (var transfer of transaction.transfers) {
+    if (transfer.tokenType === 'ERC-721') {
+      if (transfer.toAddressHash === walletAddress) {
+        isReceived = true
+      }
+
+      if (transfer.fromAddressHash === walletAddress) {
+        isReceived = false
+      }
+    }
+  }
+
+  // TODO: change icon according to the event
+  // TODO: add testing code
+
   return (
     <Touchable disabled={false} onPress={openNftTransactionDetails}>
       <View style={styles.container}>
         <View>{<DepositIcon />}</View>
         <View style={styles.descriptionContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'}>
-            {t('receivedNft')}
+            {isReceived ? t('receivedNft') : t('sentNft')}
           </Text>
         </View>
       </View>
