@@ -1268,6 +1268,17 @@
       "transactionDetailsAmountConverted": "Amount Withdrawn"
     }
   },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Try Again",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal"
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transfered from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "FC Error Support Prefill"
+    }
+  },
   "fiatExchangeFlow": {
     "cashIn": {
       "fiatExchangeTitle": "Add Funds",

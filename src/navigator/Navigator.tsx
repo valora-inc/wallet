@@ -42,6 +42,7 @@ import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import ExternalExchanges, {
@@ -510,6 +511,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={FiatConnectReviewScreen.navigationOptions}
       name={Screens.FiatConnectReview}
       component={FiatConnectReviewScreen}
+    />
+    <Navigator.Screen
+      options={noHeader}
+      name={Screens.FiatConnectTransferStatus}
+      component={FiatConnectTransferStatusScreen}
     />
     <Navigator.Screen
       options={BidaliScreen.navigationOptions}
