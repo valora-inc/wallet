@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
-    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
+    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}. Wenn du bereits ein Konto hast, BITTE KLICKEN SIE NICHT, um die Biometrie zu aktivieren, AUßER du hast deine Wiederherstellungsphrase. Wenn du die biometrischen Daten aktivierst, musst du dein Konto wiederherstellen.",
     "cta": "{{biometryType}} einschalten"
   },
   "biometryType": {
