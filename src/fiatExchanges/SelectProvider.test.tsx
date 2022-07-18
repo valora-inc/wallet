@@ -171,4 +171,22 @@ describe(SelectProviderScreen, () => {
     // Exchange card is not visible as no exchanges are available
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
   })
+  it('shows no payment screen when no providers or exchanges are available', async () => {
+    mocked(fetchProviders).mockResolvedValue([])
+    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
+    mocked(fetchExchanges).mockResolvedValue([])
+    const { queryByText, getByTestId } = render(
+      <Provider store={mockStore}>
+        <SelectProviderScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    await waitFor(() => expect(fetchLegacyMobileMoneyProviders).toHaveBeenCalled())
+
+    // Only no payment method screen components are visible when no exchanges or providers are available
+    expect(getByTestId('NoPaymentMethods')).toBeTruthy()
+    expect(queryByText('selectProviderScreen.bank')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.card')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
+    expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
+  })
 })

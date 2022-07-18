@@ -162,11 +162,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
 
   const anyProviders =
-    (normalizedQuotes.length ||
-      !coinbaseProvider?.restricted ||
-      externalExchanges?.length ||
-      legacyMobileMoneyProviders?.length) ??
-    false
+    normalizedQuotes.length ||
+    !(coinbaseProvider?.restricted ?? true) ||
+    externalExchanges?.length ||
+    legacyMobileMoneyProviders?.length
 
   return (
     <SafeAreaView style={styles.container}>
@@ -202,9 +201,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
         </ScrollView>
       ) : (
-        <View style={styles.noExchangesContainer}>
-          <Text testID="NoExchanges" style={styles.noExchanges}>
-            {t('noExchanges', { digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag })}
+        <View style={styles.noPaymentMethodsContainer}>
+          <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
+            {t('noPaymentMethods', {
+              digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag,
+            })}
           </Text>
           <TextButton
             testID={'SwitchCurrency'}
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  noExchanges: {
+  noPaymentMethods: {
     ...fontStyles.regular,
     padding: variables.contentPadding,
     textAlign: 'center',
@@ -401,7 +402,7 @@ const styles = StyleSheet.create({
     color: colors.greenUI,
     padding: 8,
   },
-  noExchangesContainer: {
+  noPaymentMethodsContainer: {
     alignItems: 'center',
     padding: 24,
   },
