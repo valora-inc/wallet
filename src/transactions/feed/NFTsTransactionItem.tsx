@@ -28,7 +28,7 @@ function NFTsTransactionItem({ transaction }: Props) {
 
   let isReceived: boolean = false
 
-  for (var transfer of transaction.transfers) {
+  for (let transfer of transaction.transfers) {
     if (transfer.tokenType === 'ERC-721') {
       if (transfer.toAddressHash === walletAddress) {
         isReceived = true
