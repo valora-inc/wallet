@@ -1,26 +1,24 @@
+import { Result } from '@badrap/result'
 import { CeloTxReceipt } from '@celo/connect'
+import { FiatConnectClient, ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import { TransferResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
+import { fetchQuotes, FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
-  doTransferOut,
-  fetchQuotes,
-  FiatConnectQuoteError,
-  FiatConnectQuoteSuccess,
-} from 'src/fiatconnect'
-import {
+  createFiatConnectTransfer,
+  createFiatConnectTransferCompleted,
+  createFiatConnectTransferFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
-  fiatConnectTransferFailed,
-  fiatConnectTransferSuccess,
-  startFiatConnectTransfer,
 } from 'src/fiatconnect/slice'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -33,6 +31,7 @@ import { tokensListSelector } from 'src/tokens/selectors'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'FiatConnectSaga'
 
@@ -68,32 +67,39 @@ export function* watchFetchFiatConnectQuotes() {
   yield takeLeading(fetchFiatConnectQuotes.type, handleFetchFiatConnectQuotes)
 }
 
-export function* handleStartFiatConnectTransfer({
+export function* handleCreateFiatConnectTransfer({
   payload: params,
-}: ReturnType<typeof startFiatConnectTransfer>) {
-  const { flow, quoteId, fiatConnectQuote, fiatAccountId } = params
+}: ReturnType<typeof createFiatConnectTransfer>) {
+  const { flow, fiatConnectQuote, fiatAccountId } = params
+  const quoteId = fiatConnectQuote.getQuoteId()
 
   if (flow === CICOFlow.CashOut) {
     try {
       Logger.info(TAG, 'Starting transfer out..')
-      const transferResult: TransferResponse = yield call(
-        doTransferOut,
-        fiatConnectQuote,
-        fiatAccountId
+      const fiatConnectClient: FiatConnectClient = yield call(
+        getFiatConnectClient,
+        fiatConnectQuote.getProviderId(),
+        fiatConnectQuote.getProviderBaseUrl()
       )
+      const result: Result<TransferResponse, ResponseError> = yield call(
+        [fiatConnectClient, 'transferOut'],
+        {
+          idempotencyKey: uuidv4(),
+          data: { quoteId, fiatAccountId },
+        }
+      )
+      const transferResult = result.unwrap()
 
       Logger.info(
         TAG,
-        'Transfer out $succeeded. Starting transaction..',
+        'Transfer out succeeded. Starting transaction..',
         JSON.stringify(transferResult)
       )
 
       const tokenList: TokenBalance[] = yield select(tokensListSelector)
-      const tokenInfo = tokenList.find((token) => token.symbol === fiatConnectQuote.getCryptoType())
-
-      if (!tokenInfo) {
-        throw new Error(`Invalid token: ${fiatConnectQuote.getCryptoType()}`)
-      }
+      const tokenInfo = tokenList.find(
+        (token) => token.symbol === fiatConnectQuote.getCryptoType()
+      )!
 
       const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
       const feeInfo = feeEstimates[tokenInfo.address]?.[FeeType.SEND]?.feeInfo
@@ -114,21 +120,27 @@ export function* handleStartFiatConnectTransfer({
         throw error
       }
 
-      yield put(fiatConnectTransferSuccess({ flow, quoteId, txHash: receipt.transactionHash }))
+      yield put(
+        createFiatConnectTransferCompleted({
+          flow,
+          quoteId,
+          txHash: receipt.transactionHash,
+        })
+      )
     } catch (err) {
       Logger.error(TAG, 'Transfer out failed..', err)
-      yield put(fiatConnectTransferFailed({ flow, quoteId }))
+      yield put(createFiatConnectTransferFailed({ flow, quoteId }))
     }
   } else {
     throw new Error('not implemented')
   }
 }
 
-function* watchFiatConnectTransactions() {
-  yield takeEvery(startFiatConnectTransfer.type, handleStartFiatConnectTransfer)
+function* watchFiatConnectTransfers() {
+  yield takeLeading(createFiatConnectTransfer.type, handleCreateFiatConnectTransfer)
 }
 
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
-  yield spawn(watchFiatConnectTransactions)
+  yield spawn(watchFiatConnectTransfers)
 }

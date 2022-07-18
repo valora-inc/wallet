@@ -1271,12 +1271,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Try Again",
     "withdraw": {
-      "cancel": "Cancel Withdrawal"
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Success",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in [3-10] business days.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Continue"
+      }
     },
     "requestNotCompleted": {
       "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transfered from Valora. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "FC Error Support Prefill"
+      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
     }
   },
   "fiatExchangeFlow": {

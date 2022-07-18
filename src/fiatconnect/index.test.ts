@@ -1,8 +1,6 @@
-import { Result } from '@badrap/result'
 import { FiatConnectClient } from '@fiatconnect/fiatconnect-sdk'
-import { FiatAccountType, Network, TransferStatus } from '@fiatconnect/fiatconnect-types'
+import { Network } from '@fiatconnect/fiatconnect-types'
 import { FetchMock } from 'jest-fetch-mock'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getPassword } from 'src/pincode/authentication'
@@ -15,18 +13,13 @@ import {
   mockFiatConnectQuotes,
   mockGetFiatConnectQuotesResponse,
 } from 'test/values'
-import { mocked } from 'ts-jest/utils'
-import { v4 as uuidv4 } from 'uuid'
 import {
-  doTransferOut,
   fetchQuotes,
   FetchQuotesInput,
   FiatConnectProviderInfo,
-  FiatConnectQuoteSuccess,
   getFiatConnectProviders,
   getFiatConnectQuotes,
   getObfuscatedAccountNumber,
-  getSigningFunction,
   loginWithFiatConnectProvider,
   QuotesInput,
 } from './index'
@@ -55,7 +48,6 @@ jest.mock('src/web3/KeychainWallet', () => {
 })
 
 jest.mock('@fiatconnect/fiatconnect-sdk')
-jest.mock('uuid')
 
 describe('FiatConnect helpers', () => {
   const mockFetch = fetch as FetchMock
@@ -135,34 +127,6 @@ describe('FiatConnect helpers', () => {
       expect(Logger.error).not.toHaveBeenCalled()
     })
   })
-  describe('getSigningFunction', () => {
-    const wallet = new KeychainWallet({
-      address: 'some address',
-      createdAt: new Date(),
-    })
-    beforeEach(() => {
-      wallet.getAccounts = jest.fn().mockReturnValue(['fakeAccount'])
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(true)
-      wallet.signPersonalMessage = jest.fn().mockResolvedValue('some signed message')
-      wallet.unlockAccount = jest.fn().mockResolvedValue(undefined)
-    })
-    it('returns a signing function that signs a message', async () => {
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).not.toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
-    })
-    it('returns a signing function that attempts to unlock accout if locked', async () => {
-      wallet.isAccountUnlocked = jest.fn().mockReturnValue(false)
-      const signingFunction = getSigningFunction(wallet)
-      const signedMessage = await signingFunction('test')
-      expect(wallet.signPersonalMessage).toHaveBeenCalled()
-      expect(wallet.unlockAccount).toHaveBeenCalled()
-      expect(getPassword).toHaveBeenCalled()
-      expect(signedMessage).toEqual('some signed message')
-    })
-  })
   describe('loginWithFiatConnectProvider', () => {
     const wallet = new KeychainWallet({
       address: 'some address',
@@ -240,47 +204,6 @@ describe('FiatConnect helpers', () => {
       expect(getObfuscatedAccountNumber('123')).toEqual('')
       expect(getObfuscatedAccountNumber('12')).toEqual('')
       expect(getObfuscatedAccountNumber('1')).toEqual('')
-    })
-  })
-
-  describe('doTransferOut', () => {
-    mocked(uuidv4).mockReturnValue('mock-uuidv4')
-
-    const normalizedQuote = new FiatConnectQuote({
-      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-      fiatAccountType: FiatAccountType.BankAccount,
-      flow: CICOFlow.CashOut,
-    })
-
-    const fiatConnectClient = new FiatConnectClient(
-      {
-        baseUrl: 'some url',
-        network: Network.Alfajores,
-        accountAddress: 'some address',
-      },
-      (message: string): Promise<string> => {
-        return Promise.resolve(message)
-      }
-    )
-
-    jest.spyOn(normalizedQuote, 'getFiatConnectClient').mockResolvedValue(fiatConnectClient)
-    const mockTransferOut = jest.spyOn(fiatConnectClient, 'transferOut')
-
-    it('returns transfer response on successful fiatconnect transfer out call', async () => {
-      const expectedResult = {
-        transferId: 'tf1',
-        transferAddress: '0x123',
-        transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
-      }
-      mockTransferOut.mockResolvedValueOnce(Result.ok(expectedResult))
-
-      const result = await doTransferOut(normalizedQuote, 'account1')
-
-      expect(result).toEqual(expectedResult)
-      expect(mockTransferOut).toBeCalledWith({
-        idempotencyKey: 'mock-uuidv4',
-        data: { fiatAccountId: 'account1', quoteId: normalizedQuote.getQuoteId() },
-      })
     })
   })
 })

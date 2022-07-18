@@ -9,7 +9,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import { startFiatConnectTransfer } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
@@ -112,10 +112,9 @@ describe('ReviewScreen', () => {
       await fireEvent.press(getByTestId('submitButton'))
 
       expect(store.getActions()).toEqual([
-        startFiatConnectTransfer({
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
-          quoteId: 'mock_quote_in_id',
           fiatAccountId: '123',
         }),
       ])

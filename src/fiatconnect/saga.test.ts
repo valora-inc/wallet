@@ -1,21 +1,23 @@
+import { Result } from '@badrap/result'
 import { FiatAccountType, TransferStatus } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
 } from 'src/app/selectors'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { doTransferOut, fetchQuotes, FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { handleFetchFiatConnectQuotes, handleStartFiatConnectTransfer } from 'src/fiatconnect/saga'
+import { fetchQuotes, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { handleCreateFiatConnectTransfer, handleFetchFiatConnectQuotes } from 'src/fiatconnect/saga'
 import {
+  createFiatConnectTransfer,
+  createFiatConnectTransferCompleted,
+  createFiatConnectTransferFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
-  fiatConnectTransferFailed,
-  fiatConnectTransferSuccess,
-  startFiatConnectTransfer,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -27,8 +29,10 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { emptyFees, mockFiatConnectQuotes, mockTokenBalances } from 'test/values'
 import { mocked } from 'ts-jest/utils'
+import { v4 as uuidv4 } from 'uuid'
 
 jest.mock('src/fiatconnect')
+jest.mock('uuid')
 
 describe('Fiatconnect saga', () => {
   beforeEach(() => {
@@ -107,17 +111,28 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: FiatAccountType.BankAccount,
     })
 
+    const quoteId = transferOutFcQuote.getQuoteId()
+    const providerId = transferOutFcQuote.getProviderId()
+    const providerBaseUrl = transferOutFcQuote.getProviderBaseUrl()
+
+    const mockTransferOut = jest.fn()
+    const mockFcClient = {
+      transferOut: mockTransferOut,
+    }
+    mocked(uuidv4).mockReturnValue('mock-uuidv4')
+
     it('calls transfer out and sends payment to provider', async () => {
-      mocked(doTransferOut).mockResolvedValueOnce({
-        transferId: 'transfer1',
-        transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
-        transferAddress: '0xabc',
-      })
+      mockTransferOut.mockResolvedValueOnce(
+        Result.ok({
+          transferId: 'transfer1',
+          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
+          transferAddress: '0xabc',
+        })
+      )
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
-          quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
         })
@@ -125,27 +140,30 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
+          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
           [matches.call.fn(buildAndSendPayment), { receipt: { transactionHash: '0x12345' } }],
         ])
         .put(
-          fiatConnectTransferSuccess({
+          createFiatConnectTransferCompleted({
             flow: CICOFlow.CashOut,
-            quoteId: transferOutFcQuote.getQuoteId(),
+            quoteId,
             txHash: '0x12345',
           })
         )
         .run()
 
-      expect(doTransferOut).toHaveBeenCalledWith(transferOutFcQuote, 'account1')
+      expect(mockTransferOut).toHaveBeenCalledWith({
+        data: { fiatAccountId: 'account1', quoteId },
+        idempotencyKey: 'mock-uuidv4',
+      })
     })
 
     it('returns failed event on transfer out failure', async () => {
-      mocked(doTransferOut).mockRejectedValueOnce('transfer error')
+      mockTransferOut.mockResolvedValueOnce(Result.err(new Error('transfer error')))
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
-          quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
         })
@@ -153,29 +171,34 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
+          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
         ])
         .put(
-          fiatConnectTransferFailed({
+          createFiatConnectTransferFailed({
             flow: CICOFlow.CashOut,
-            quoteId: transferOutFcQuote.getQuoteId(),
+            quoteId,
           })
         )
         .run()
 
-      expect(doTransferOut).toHaveBeenCalledWith(transferOutFcQuote, 'account1')
+      expect(mockTransferOut).toHaveBeenCalledWith({
+        data: { fiatAccountId: 'account1', quoteId },
+        idempotencyKey: 'mock-uuidv4',
+      })
     })
 
     it('returns failed event on transaction failure', async () => {
-      mocked(doTransferOut).mockResolvedValueOnce({
-        transferId: 'transfer1',
-        transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
-        transferAddress: '0xabc',
-      })
+      mockTransferOut.mockResolvedValueOnce(
+        Result.ok({
+          transferId: 'transfer1',
+          transferStatus: TransferStatus.TransferReadyForUserToSendCryptoFunds,
+          transferAddress: '0xabc',
+        })
+      )
       await expectSaga(
-        handleStartFiatConnectTransfer,
-        startFiatConnectTransfer({
+        handleCreateFiatConnectTransfer,
+        createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
-          quoteId: transferOutFcQuote.getQuoteId(),
           fiatConnectQuote: transferOutFcQuote,
           fiatAccountId: 'account1',
         })
@@ -183,17 +206,21 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
+          [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
           [matches.call.fn(buildAndSendPayment), { error: 'tx error' }],
         ])
         .put(
-          fiatConnectTransferFailed({
+          createFiatConnectTransferFailed({
             flow: CICOFlow.CashOut,
-            quoteId: transferOutFcQuote.getQuoteId(),
+            quoteId,
           })
         )
         .run()
 
-      expect(doTransferOut).toHaveBeenCalledWith(transferOutFcQuote, 'account1')
+      expect(mockTransferOut).toHaveBeenCalledWith({
+        data: { fiatAccountId: 'account1', quoteId },
+        idempotencyKey: 'mock-uuidv4',
+      })
     })
   })
 })

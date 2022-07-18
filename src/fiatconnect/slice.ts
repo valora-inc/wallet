@@ -40,19 +40,18 @@ export interface FetchFiatConnectQuotesFailedAction {
   error: string
 }
 
-export interface StartFiatConnectTransferAction {
+export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
-  quoteId: string
   fiatAccountId: string
 }
 
-export interface FiatConnectTransferFailedAction {
+export interface CreateFiatConnectTransferFailedAction {
   flow: CICOFlow
   quoteId: string
 }
 
-export interface FiatConnectTransferSuccessAction {
+export interface CreateFiatConnectTransferCompletedAction {
   flow: CICOFlow
   quoteId: string
   txHash: string | null
@@ -81,31 +80,34 @@ export const slice = createSlice({
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
-    startFiatConnectTransfer: (state, action: PayloadAction<StartFiatConnectTransferAction>) => {
+    createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
-        quoteId: action.payload.quoteId,
+        quoteId: action.payload.fiatConnectQuote.getQuoteId(),
         flow: action.payload.flow,
         isSending: true,
         failed: false,
         txHash: null,
       }
     },
-    fiatConnectTransferFailed: (state, action: PayloadAction<FiatConnectTransferFailedAction>) => {
+    createFiatConnectTransferFailed: (
+      state,
+      action: PayloadAction<CreateFiatConnectTransferFailedAction>
+    ) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
-        flow: CICOFlow.CashOut,
+        flow: action.payload.flow,
         isSending: false,
         failed: true,
         txHash: null,
       }
     },
-    fiatConnectTransferSuccess: (
+    createFiatConnectTransferCompleted: (
       state,
-      action: PayloadAction<FiatConnectTransferSuccessAction>
+      action: PayloadAction<CreateFiatConnectTransferCompletedAction>
     ) => {
       state.transfer = {
         quoteId: action.payload.quoteId,
-        flow: CICOFlow.CashOut,
+        flow: action.payload.flow,
         isSending: false,
         failed: false,
         txHash: action.payload.txHash,
@@ -118,7 +120,7 @@ export const slice = createSlice({
       ...getRehydratePayload(action, 'fiatConnect'),
       quotesLoading: false,
       quotesError: null,
-      // transfer: null,
+      transfer: null,
     }))
   },
 })
@@ -127,9 +129,9 @@ export const {
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
-  startFiatConnectTransfer,
-  fiatConnectTransferFailed,
-  fiatConnectTransferSuccess,
+  createFiatConnectTransfer,
+  createFiatConnectTransferFailed,
+  createFiatConnectTransferCompleted,
 } = slice.actions
 
 export default slice.reducer

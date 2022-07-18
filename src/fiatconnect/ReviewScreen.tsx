@@ -13,7 +13,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { startFiatConnectTransfer } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -59,10 +59,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
           dispatch(
-            startFiatConnectTransfer({
+            createFiatConnectTransfer({
               flow,
               fiatConnectQuote: normalizedQuote,
-              quoteId: normalizedQuote.getQuoteId(),
               fiatAccountId: fiatAccount.fiatAccountId,
             })
           )
@@ -72,6 +71,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             normalizedQuote,
             fiatAccount,
           })
+          // TODO: navigate to success / failure screen
         }}
       />
     </SafeAreaView>
