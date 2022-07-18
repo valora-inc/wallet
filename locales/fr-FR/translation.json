@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
-    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
+    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}. Si vous avez déjà un compte, VEUILLEZ NE PAS CLIQUER pour activer les données biométriques ci-dessous À MOINS que vous n'ayez votre phrase de récupération à portée de main. Si vous activez la biométrie, vous devrez restaurer votre compte.",
     "cta": "Activer {{biometryType}}"
   },
   "biometryType": {
