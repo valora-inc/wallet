@@ -330,7 +330,7 @@ describe('store state', () => {
         },
         "tokens": Object {
           "error": false,
-          "loading": true,
+          "loading": false,
           "tokenBalances": Object {},
         },
         "transactions": Object {

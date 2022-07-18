@@ -51,7 +51,7 @@ export interface State {
 
 export const initialState = {
   tokenBalances: {},
-  loading: true,
+  loading: false,
   error: false,
 }
 
