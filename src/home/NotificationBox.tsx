@@ -23,7 +23,7 @@ import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerInce
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { dismissNotification } from 'src/home/actions'
+import { dismissCleverTapNotification, dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getClevertapNotifications, getExtraNotifications } from 'src/home/selectors'
 import { backupKey, boostRewards, getVerified, learnCelo } from 'src/images/Images'
@@ -348,7 +348,11 @@ function useSimpleActions() {
         {
           text: keyValue.ctaPrimary,
           onPress: () => {
-            //TODO: need to add ValoraAnalytics
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.remote_notification,
+              selectedAction: NotificationBannerCTATypes.remote_notification_cta,
+              notificationId: id,
+            })
             dispatch(openUrl(keyValue.ctaPrimaryLink, false, true))
           },
         },
@@ -356,9 +360,12 @@ function useSimpleActions() {
           text: keyValue.ctaSecondary,
           isSecondary: true,
           onPress: () => {
-            //TODO: need to add ValoraAnalytics
-            //TODO: need to add dismiss function
-            // dispatch(dismissGetVerified())
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.remote_notification,
+              selectedAction: NotificationBannerCTATypes.decline,
+              notificationId: id,
+            })
+            dispatch(dismissCleverTapNotification(id))
           },
         },
       ],
