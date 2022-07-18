@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
-    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
+    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}. Se si dispone già di un account, SI PREGA DI NON FARE CLIC per attivare la biometria, a meno che non si abbia a portata di mano la frase di ripristino. L'attivazione della biometria richiederà il ripristino dell'account.",
     "cta": "Abilita {{biometryType}}"
   },
   "biometryType": {
