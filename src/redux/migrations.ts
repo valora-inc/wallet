@@ -715,4 +715,13 @@ export const migrations = {
       transfer: null,
     },
   }),
+  62: (state: any) => ({
+    ...state,
+    home: {
+      ...state.home,
+      ...(Array.isArray(state.home.cleverTapNotifications)
+        ? { cleverTapNotifications: {} }
+        : undefined),
+    },
+  }),
 }
