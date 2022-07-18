@@ -6,6 +6,7 @@ import {
   AuthenticationEvents,
   CeloExchangeEvents,
   CICOEvents,
+  CoinbasePayEvents,
   ContractKitEvents,
   DappExplorerEvents,
   DappKitEvents,
@@ -1194,6 +1195,11 @@ interface WebViewEventsProperties {
   }
 }
 
+interface CoinbasePayEventsProperties {
+  [CoinbasePayEvents.coinbase_pay_flow_start]: undefined
+  [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1217,4 +1223,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   DappKitProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &
-  WebViewEventsProperties
+  WebViewEventsProperties &
+  CoinbasePayEventsProperties

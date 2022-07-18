@@ -173,4 +173,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getFiatAccountSchemaAllowedValues(): { [key: string]: string[] } {
     return this.quoteResponseFiatAccountSchema.allowedValues
   }
+
+  getQuoteId(): string {
+    return this.quote.quote.quoteId
+  }
 }
