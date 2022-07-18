@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
-    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
+    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır. Halihazırda bir hesabınız varsa, kurtarma ifadeniz elinizin altında DEĞİLSE, aşağıda biyometriyi etkinleştirmek için LÜTFEN TIKLAMAYIN. Biyometriyi açmak, hesabınızı geri yüklemenizi gerektirir.",
     "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
