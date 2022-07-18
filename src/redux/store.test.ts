@@ -233,6 +233,7 @@ describe('store state', () => {
           "lastFetch": null,
         },
         "home": Object {
+          "cleverTapNotifications": Object {},
           "loading": false,
           "notifications": Object {},
         },
