@@ -241,6 +241,31 @@
             ],
             "type": "string"
         },
+        "CleverTapNotification": {
+            "additionalProperties": false,
+            "properties": {
+                "custom_kv": {
+                    "additionalProperties": true,
+                    "properties": {},
+                    "type": "object"
+                },
+                "dismissed": {
+                    "type": "boolean"
+                },
+                "ti": {
+                    "type": "number"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "custom_kv",
+                "ti",
+                "type"
+            ],
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -974,6 +999,12 @@
                 "peerId",
                 "peerMeta"
             ],
+            "type": "object"
+        },
+        "IdToCleverTapNotification": {
+            "additionalProperties": {
+                "$ref": "#/definitions/CleverTapNotification"
+            },
             "type": "object"
         },
         "IdToNotification": {
@@ -3184,6 +3215,9 @@
         "State_7": {
             "additionalProperties": false,
             "properties": {
+                "cleverTapNotifications": {
+                    "$ref": "#/definitions/IdToCleverTapNotification"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3192,6 +3226,7 @@
                 }
             },
             "required": [
+                "cleverTapNotifications",
                 "loading",
                 "notifications"
             ],
