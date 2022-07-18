@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -11,6 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
+import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import {
   fiatConnectQuotesErrorSelector,
@@ -31,7 +32,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -40,6 +41,7 @@ import {
   fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
+  FiatExchangeFlow,
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   LegacyMobileMoneyProvider,
@@ -60,6 +62,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
+  const { t } = useTranslation()
+  const isCashIn = route.params.flow === CICOFlow.CashIn
 
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
@@ -147,39 +151,78 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
-  const exchanges = asyncExchanges.result
+  const supportOnPress = () => navigate(Screens.SupportContact)
+
+  const switchCurrencyOnPress = () =>
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+    })
+
+  const externalExchanges = asyncExchanges.result
+  const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
+
+  const anyProviders =
+    (normalizedQuotes.length ||
+      !coinbaseProvider?.restricted ||
+      externalExchanges?.length ||
+      legacyMobileMoneyProviders?.length) ??
+    false
 
   return (
-    <ScrollView>
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Card}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-      />
-      <PaymentMethodSection
-        normalizedQuotes={normalizedQuotes}
-        paymentMethod={PaymentMethod.Bank}
-        setNoPaymentMethods={setNoPaymentMethods}
-        flow={flow}
-      />
-      <LegacyMobileMoneySection
-        providers={asyncProviders.result?.legacyMobileMoneyProviders || []}
-        digitalAsset={digitalAsset}
-        flow={flow}
-      />
-      <CoinbasePaymentSection
-        digitalAsset={digitalAsset}
-        cryptoAmount={route.params.amount.crypto}
-        coinbaseProvider={coinbaseProvider}
-      />
-      <ExchangesSection
-        numExchanges={exchanges?.length}
-        selectedCurrency={route.params.selectedCrypto}
-        flow={flow}
-      />
-      <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      {anyProviders ? (
+        <ScrollView>
+          <PaymentMethodSection
+            normalizedQuotes={normalizedQuotes}
+            paymentMethod={PaymentMethod.Card}
+            setNoPaymentMethods={setNoPaymentMethods}
+            flow={flow}
+          />
+          <PaymentMethodSection
+            normalizedQuotes={normalizedQuotes}
+            paymentMethod={PaymentMethod.Bank}
+            setNoPaymentMethods={setNoPaymentMethods}
+            flow={flow}
+          />
+          <LegacyMobileMoneySection
+            providers={legacyMobileMoneyProviders || []}
+            digitalAsset={digitalAsset}
+            flow={flow}
+          />
+          <CoinbasePaymentSection
+            digitalAsset={digitalAsset}
+            cryptoAmount={route.params.amount.crypto}
+            coinbaseProvider={coinbaseProvider}
+          />
+          <ExchangesSection
+            numExchanges={externalExchanges?.length}
+            selectedCurrency={route.params.selectedCrypto}
+            flow={flow}
+          />
+          <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
+        </ScrollView>
+      ) : (
+        <View style={styles.noExchangesContainer}>
+          <Text testID="NoExchanges" style={styles.noExchanges}>
+            {t('noExchanges', { digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag })}
+          </Text>
+          <TextButton
+            testID={'SwitchCurrency'}
+            style={styles.switchCurrency}
+            onPress={switchCurrencyOnPress}
+          >
+            {t('switchCurrency')}
+          </TextButton>
+          <TextButton
+            testID={'ContactSupport'}
+            style={styles.contactSupport}
+            onPress={supportOnPress}
+          >
+            {t('contactSupport')}
+          </TextButton>
+        </View>
+      )}
+    </SafeAreaView>
   )
 }
 
@@ -348,6 +391,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  noExchanges: {
+    ...fontStyles.regular,
+    padding: variables.contentPadding,
+    textAlign: 'center',
+  },
+  switchCurrency: {
+    ...fontStyles.large500,
+    color: colors.greenUI,
+    padding: 8,
+  },
+  noExchangesContainer: {
+    alignItems: 'center',
+    padding: 24,
+  },
   left: {
     flex: 1,
   },
@@ -379,6 +436,11 @@ const styles = StyleSheet.create({
   dialog: {
     ...fontStyles.regular,
     textAlign: 'center',
+  },
+  contactSupport: {
+    ...fontStyles.large500,
+    color: colors.gray4,
+    padding: 8,
   },
 })
 SelectProviderScreen.navigationOptions = ({

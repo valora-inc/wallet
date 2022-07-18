@@ -10,7 +10,6 @@ import AccountNumber from 'src/components/AccountNumber'
 import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
-import TextButton from 'src/components/TextButton'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
@@ -27,7 +26,6 @@ import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { FiatExchangeFlow } from './utils'
 
 const TAG = 'ExternalExchanges'
 
@@ -83,13 +81,6 @@ function ExternalExchanges({ route }: Props) {
   }, [])
   const providers = asyncProviders.result
 
-  const supportOnPress = () => navigate(Screens.SupportContact)
-
-  const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
-
   const goToCashOut = () => {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
@@ -100,27 +91,7 @@ function ExternalExchanges({ route }: Props) {
       {asyncProviders.loading && (
         <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
       )}
-      {!asyncProviders.loading && providers?.length === 0 ? (
-        <View style={styles.noExchangesContainer}>
-          <Text testID="NoExchanges" style={styles.noExchanges}>
-            {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}
-          </Text>
-          <TextButton
-            testID={'SwitchCurrency'}
-            style={styles.switchCurrency}
-            onPress={switchCurrencyOnPress}
-          >
-            {t('switchCurrency')}
-          </TextButton>
-          <TextButton
-            testID={'ContactSupport'}
-            style={styles.contactSupport}
-            onPress={supportOnPress}
-          >
-            {t('contactSupport')}
-          </TextButton>
-        </View>
-      ) : isCashIn ? (
+      {isCashIn ? (
         <>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
