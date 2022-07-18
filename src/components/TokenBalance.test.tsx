@@ -121,17 +121,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     async (TokenBalanceComponent) => {
       const store = createMockStore({
         tokens: {
-          tokenBalances: {
-            '0xcelo': {
-              name: 'Celo',
-              address: '0xcelo',
-              symbol: 'CELO',
-              balance: '0',
-              usdPrice: '0.90',
-              priceFetchedAt: Date.now(),
-              isCoreToken: true,
-            },
-          },
+          tokenBalances: {},
         },
       })
 

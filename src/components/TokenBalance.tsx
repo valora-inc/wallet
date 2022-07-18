@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
@@ -72,7 +73,7 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {totalBalance?.toFormat(2) ?? '-'}
+        {totalBalance?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
