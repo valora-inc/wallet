@@ -33,7 +33,7 @@ const SwapAmountInput = ({
   const { t } = useTranslation()
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
         <TextInput
@@ -43,13 +43,24 @@ const SwapAmountInput = ({
           style={styles.input}
           keyboardType="numeric"
           autoFocus={autoFocus}
+          testID="SwapAmountInput/Input"
         />
         {onPressMax && (
-          <Touchable borderless onPress={onPressMax} style={styles.maxButton}>
+          <Touchable
+            borderless
+            onPress={onPressMax}
+            style={styles.maxButton}
+            testID="SwapAmountInput/MaxButton"
+          >
             <Text style={styles.maxText}>{t('max')}</Text>
           </Touchable>
         )}
-        <Touchable borderless onPress={onSelectToken} style={styles.tokenSelectButton}>
+        <Touchable
+          borderless
+          onPress={onSelectToken}
+          style={styles.tokenSelectButton}
+          testID="SwapAmountInput/TokenSelect"
+        >
           <>
             <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
             <Text style={styles.tokenName}>{token.symbol}</Text>
@@ -79,6 +90,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    marginRight: Spacing.Smallest8,
   },
   maxButton: {
     backgroundColor: Colors.light,
@@ -87,7 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 2,
     paddingHorizontal: 4,
-    marginHorizontal: Spacing.Smallest8,
+    marginRight: Spacing.Smallest8,
   },
   maxText: {
     ...fontStyles.small,
