@@ -44,6 +44,7 @@ import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
+import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -515,6 +516,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.CoinbasePayScreen}
+      component={CoinbasePayScreen}
+      options={emptyHeader}
     />
   </>
 )
