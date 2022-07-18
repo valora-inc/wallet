@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -70,7 +71,11 @@ export function SwapScreen() {
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
-    setSelectingToken(fieldType)
+    Keyboard.dismiss()
+    // ensure that the keyboard is dismissed before animating token bottom sheet
+    setTimeout(() => {
+      setSelectingToken(fieldType)
+    }, 100)
   }
 
   const handleCloseTokenSelect = () => {
@@ -151,6 +156,7 @@ export function SwapScreen() {
             onPressMax={handleSetMaxFromAmount}
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
+            autoFocus
             style={styles.fromSwapAmountInput}
           />
           <SwapAmountInput
@@ -159,6 +165,7 @@ export function SwapScreen() {
             inputValue={swapAmount[Field.TO]}
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
+            style={styles.toSwapAmountInput}
           />
         </View>
         <Button
@@ -167,6 +174,7 @@ export function SwapScreen() {
           size={BtnSizes.FULL}
           disabled={!allowReview}
         />
+        <KeyboardSpacer topSpacing={Spacing.Regular16} />
 
         <TokenBottomSheet
           isVisible={!!selectingToken}
@@ -197,6 +205,12 @@ const styles = StyleSheet.create({
   },
   fromSwapAmountInput: {
     borderBottomWidth: 0,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+  },
+  toSwapAmountInput: {
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
   },
 })
 

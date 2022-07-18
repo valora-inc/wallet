@@ -16,6 +16,7 @@ interface Props {
   onPressMax?(): void
   onSelectToken(): void
   token: TokenBalance
+  autoFocus?: boolean
   style?: ViewStyle
 }
 
@@ -26,6 +27,7 @@ const SwapAmountInput = ({
   onPressMax,
   onSelectToken,
   token,
+  autoFocus,
   style,
 }: Props) => {
   const { t } = useTranslation()
@@ -40,6 +42,7 @@ const SwapAmountInput = ({
           placeholder="0"
           style={styles.input}
           keyboardType="numeric"
+          autoFocus={autoFocus}
         />
         {onPressMax && (
           <Touchable borderless onPress={onPressMax} style={styles.maxButton}>
@@ -98,8 +101,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
-    paddingVertical: Spacing.Smallest8,
-    paddingHorizontal: Spacing.Regular16,
+    padding: Spacing.Smallest8,
   },
   tokenName: {
     ...fontStyles.displayName,
