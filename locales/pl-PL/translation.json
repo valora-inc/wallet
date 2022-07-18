@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
-    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
+    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}. Jeśli masz już konto, PROSZĘ NIE KLIKAĆ, aby włączyć biometrię poniżej, chyba że masz pod ręką swój zwrot odzyskiwania. Włączenie biometrii będzie wymagało przywrócenia konta.",
     "cta": "Włącz {{biometryType}}"
   },
   "biometryType": {
