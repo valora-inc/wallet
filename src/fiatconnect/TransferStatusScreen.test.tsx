@@ -11,7 +11,6 @@ import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import React from 'react'
 import networkConfig from 'src/web3/networkConfig'
-import i18n from 'i18next'
 
 describe('TransferStatusScreen', () => {
   const mockStore = (overrides: any = {}) => {

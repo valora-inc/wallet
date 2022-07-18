@@ -22,9 +22,8 @@ import colors from 'src/styles/colors'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
-export default function FiatConnectTransferStatusScreen({ route, navigation }: Props) {
+export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
   const { t } = useTranslation()
-  const { normalizedQuote } = route.params
 
   const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)
 
