@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
-    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
+    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}. Se você já tem uma conta POR FAVOR NÃO CLIQUE para ativar a biometria abaixo UNLESS você tem sua Frase de Recuperação. Para ativar a biometria, será necessário que você restaure sua conta.",
     "cta": "Ativar {{biometryType}}"
   },
   "biometryType": {
