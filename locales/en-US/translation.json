@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Secure your wallet",
-    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
+    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}. PLEASE DO NOT CLICK to enable biometrics below UNLESS you have your recovery phrase handy. Turning on biometrics will require you to restore your account.",
     "cta": "Turn on {{biometryType}}"
   },
   "biometryType": {
