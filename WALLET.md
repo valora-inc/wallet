@@ -431,6 +431,10 @@ This allows viewing / debugging the following:
 - Hermes
 - and more ;)
 
+If you're using an Android simulator and the device / app is not showing up,
+navigate to settings (gear icon in the bottom left) and ensure the Android SDK
+location points to your $ANDROID_HOME environment variable.
+
 ### App Profiling
 
 Run `yarn run react-devtools`. It should automatically connect to the running app, and includes a profiler (second tab). Start recording with the profiler, use the app, and then stop recording.
