@@ -1113,6 +1113,7 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftTransaction": "NFT Transaction",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
