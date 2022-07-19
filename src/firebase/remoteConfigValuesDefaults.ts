@@ -11,7 +11,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
   | 'sentryNetworkErrors'
-  | 'superchargeTokens'
   | 'finclusiveUnsupportedStates'
 > & {
   komenciAllowedDeployers: string

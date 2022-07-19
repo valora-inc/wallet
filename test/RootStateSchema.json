@@ -1894,12 +1894,6 @@
                 "superchargeTokenConfigByToken": {
                     "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
-                "superchargeTokens": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargeTokenConfig"
-                    },
-                    "type": "array"
-                },
                 "supportedBiometryType": {
                     "anyOf": [
                         {
@@ -1960,7 +1954,6 @@
                 "superchargeApy",
                 "superchargeButtonType",
                 "superchargeTokenConfigByToken",
-                "superchargeTokens",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
@@ -3297,9 +3290,6 @@
                 "isCoreToken": {
                     "type": "boolean"
                 },
-                "isSupercharged": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -3371,26 +3361,6 @@
                 "index",
                 "proof",
                 "tokenAddress"
-            ],
-            "type": "object"
-        },
-        "SuperchargeTokenConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "maxBalance": {
-                    "type": "number"
-                },
-                "minBalance": {
-                    "type": "number"
-                },
-                "tokenSymbol": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "maxBalance",
-                "minBalance",
-                "tokenSymbol"
             ],
             "type": "object"
         },

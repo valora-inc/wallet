@@ -89,18 +89,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
             maxBalance: 1000,
           },
         },
-        superchargeTokens: [
-          {
-            tokenSymbol: 'cUSD',
-            minBalance: 10,
-            maxBalance: 1000,
-          },
-          {
-            tokenSymbol: 'cREAL',
-            minBalance: 50,
-            maxBalance: 6000,
-          },
-        ],
       },
       tokens: { tokenBalances },
       supercharge,

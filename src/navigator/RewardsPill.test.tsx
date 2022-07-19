@@ -7,11 +7,52 @@ import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 
+const mockCusdAddress = '0xcusd'
+const mockCeurAddress = '0xceur'
+
+const superchargeState = {
+  app: {
+    superchargeTokenConfigByToken: {
+      [mockCusdAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      [mockCeurAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        decimals: 18,
+        balance: '1',
+        isCoreToken: true,
+        usdPrice: '1',
+        priceFetchedAt: Date.now(),
+      },
+      [mockCeurAddress]: {
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        decimals: 18,
+        balance: '0',
+        usdPrice: '1',
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+    },
+  },
+}
+
 describe('RewardsPill', () => {
   it('renders correctly', () => {
     const tree = render(
       <Provider
         store={createMockStore({
+          ...superchargeState,
           web3: { mtwAddress: mockAccount },
         })}
       >
@@ -25,6 +66,7 @@ describe('RewardsPill', () => {
     const { getByTestId } = render(
       <Provider
         store={createMockStore({
+          ...superchargeState,
           web3: { mtwAddress: mockAccount },
         })}
       >

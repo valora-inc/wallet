@@ -58,20 +58,3 @@ export const superchargeInfoSelector = createSelector(
     return superchargeInfo
   }
 )
-
-// function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
-//   const { superchargeTokens } = useSelector((state) => state.app)
-//   const userCountry = useSelector(userLocationDataSelector)
-//   const { IS_IN_EUROPE } = useCountryFeatures()
-
-//   const tokenToSupercharge = IS_IN_EUROPE
-//     ? 'cEUR'
-//     : userCountry?.countryCodeAlpha2 === 'BR'
-//       ? 'cREAL'
-//       : 'cUSD'
-//   return (
-//     superchargeTokens.find((token) => token.tokenSymbol === tokenToSupercharge) ?? {
-//       tokenSymbol: tokenToSupercharge,
-//     }
-//   )
-// }

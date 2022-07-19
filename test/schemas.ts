@@ -1399,12 +1399,17 @@ export const v60Schema = {
     version: 60,
   },
   app: {
-    ...v59Schema.app,
-    superchargeTokenConfigByToken: {},
-    superchargeTokens: (v59Schema.app.superchargeTokens || []).map((config) => ({
-      ..._.omit(config, 'token'),
-      tokenSymbol: config.token,
-    })),
+    ..._.omit(v59Schema.app, 'superchargeTokens'),
+    superchargeTokenConfigByToken: {
+      '0xcusd': {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      '0xceur': {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
   },
 }
 

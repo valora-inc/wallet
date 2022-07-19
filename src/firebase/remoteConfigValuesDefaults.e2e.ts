@@ -9,7 +9,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
-  | 'superchargeTokens'
   | 'finclusiveUnsupportedStates'
 > & {
   komenciAllowedDeployers: string

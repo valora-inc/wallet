@@ -76,32 +76,27 @@ const testReward = {
   tokenAddress: '0xcusd',
 }
 
+const mockSuperchargeConfig = {
+  '0xcusd': {
+    minBalance: 10,
+    maxBalance: 1000,
+  },
+}
+
 const superchargeSetUp = {
   web3: {
     account: 'account',
   },
   app: {
     numberVerified: true,
-    superchargeTokenConfigByToken: {
-      '0xcusd': {
-        minBalance: 10,
-        maxBalance: 1000,
-      },
-    },
-    superchargeTokens: [
-      {
-        tokenSymbol: 'cUSD',
-        minBalance: 10,
-        maxBalance: 1000,
-      },
-    ],
+    superchargeTokenConfigByToken: mockSuperchargeConfig,
   },
   supercharge: {
     availableRewards: [testReward],
   },
 }
 
-const superchargeSetUpWithoutRewards = {
+const superchargeWithoutRewardsSetUp = {
   ...superchargeSetUp,
   supercharge: {
     availableRewards: [],
@@ -128,6 +123,7 @@ describe('NotificationBox', () => {
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       stableToken: { balances: { [Currency.Dollar]: '0.00' } },
       goldToken: { balance: '0.00' },
+      app: { superchargeTokenConfigByToken: mockSuperchargeConfig },
     })
     const tree = render(
       <Provider store={store}>
@@ -412,7 +408,7 @@ describe('NotificationBox', () => {
 
   it('renders keep supercharging notification when expected', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
         tokenBalances: {
           ['0xcusd']: testcUsdBalance,
@@ -437,7 +433,7 @@ describe('NotificationBox', () => {
 
   it('does not renders keep supercharging because is dismissed', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
         tokenBalances: {
           ['0xcusd']: testcUsdBalance,
@@ -460,13 +456,14 @@ describe('NotificationBox', () => {
 
   it('renders start supercharging notification if number is not verified', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
         tokenBalances: {
           ['0xcusd']: testcUsdBalance,
         },
       },
       app: {
+        ...superchargeWithoutRewardsSetUp.app,
         numberVerified: false,
       },
     })
@@ -488,7 +485,7 @@ describe('NotificationBox', () => {
 
   it('renders start supercharging notification if user does not have enough balance', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
         tokenBalances: {
           ['0xcusd']: {
@@ -516,7 +513,7 @@ describe('NotificationBox', () => {
 
   it('does not renders start supercharging because is dismissed', () => {
     const store = createMockStore({
-      ...superchargeSetUpWithoutRewards,
+      ...superchargeWithoutRewardsSetUp,
       tokens: {
         tokenBalances: {
           ['0xcusd']: {
