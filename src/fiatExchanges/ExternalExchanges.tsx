@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -11,7 +10,6 @@ import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
 import TextButton from 'src/components/TextButton'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -19,13 +17,11 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { FiatExchangeFlow } from './utils'
 
@@ -53,8 +49,8 @@ type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
 function ExternalExchanges({ route }: Props) {
   const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
-  const userLocationData = useSelector(userLocationDataSelector)
   const isCashIn = route.params?.isCashIn ?? true
+  const providers = route.params?.exchanges
 
   const goToExchange = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
@@ -67,21 +63,6 @@ function ExternalExchanges({ route }: Props) {
       navigateToURI(link)
     }
   }
-
-  const asyncProviders = useAsync(async () => {
-    try {
-      const availableProviders = await fetchExchanges(
-        userLocationData.countryCodeAlpha2,
-        route.params.currency
-      )
-
-      return availableProviders
-    } catch (error) {
-      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
-      return []
-    }
-  }, [])
-  const providers = asyncProviders.result
 
   const supportOnPress = () => navigate(Screens.SupportContact)
 
@@ -97,10 +78,7 @@ function ExternalExchanges({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {asyncProviders.loading && (
-        <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
-      )}
-      {!asyncProviders.loading && providers?.length === 0 ? (
+      {providers?.length === 0 ? (
         <View style={styles.noExchangesContainer}>
           <Text testID="NoExchanges" style={styles.noExchanges}>
             {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}

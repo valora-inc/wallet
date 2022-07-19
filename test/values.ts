@@ -778,15 +778,21 @@ export const mockMaxSendAmount = new BigNumber(999.99995)
 
 export const mockExchanges: ExternalExchangeProvider[] = [
   {
-    currencies: [Currency.Celo, Currency.Dollar, Currency.Euro],
-    link: 'https://www.kucoin.com/',
-    name: 'KuCoin',
+    name: 'Bittrex',
+    link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
+    currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
   },
   {
-    currencies: [Currency.Celo, Currency.Dollar, Currency.Euro],
-    link: 'https://blockchain.com/',
-    name: 'Blockchain.com',
+    name: 'CoinList Pro',
+    link: 'https://coinlist.co/asset/celo',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+  {
+    name: 'OKCoin',
+    link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
+    currencies: [Currency.Celo, Currency.Dollar],
     supportedRegions: ['global'],
   },
 ]
