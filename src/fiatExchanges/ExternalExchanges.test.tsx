@@ -21,14 +21,13 @@ const mockStore = createMockStore({
   },
 })
 
-// Removed mockFetch testing as fetchExchanges is called in SelectProvider
 describe('ExternalExchanges', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  // ExternalExchanges Screen will always have providers given restructuring of flow
-  it('makes a request to fetch a list of available exchanges based on geolocation and selected currency', async () => {
+  // ExternalExchanges Screen will always have providers passed in via props
+  it('shows list of available exchanges', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
       isCashIn: true,
       currency: Currency.Dollar,

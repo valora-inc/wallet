@@ -148,7 +148,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     asyncProviders.result?.externalProviders
   )
 
-  const exchanges = asyncExchanges.result
+  const exchanges = asyncExchanges.result ?? []
 
   return (
     <ScrollView>
@@ -231,17 +231,17 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
 }
 
 function ExchangesSection({
-  exchanges,
+  exchanges = [],
   flow,
   selectedCurrency,
 }: {
-  exchanges: ExternalExchangeProvider[] | undefined
+  exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
 }) {
   const { t } = useTranslation()
 
-  if (!exchanges?.length) {
+  if (!exchanges.length) {
     return null
   }
 
