@@ -13,8 +13,6 @@ interface BaseToken {
   // This field is for tokens that are part of the core contracts that allow paying for fees and
   // making transfers with a comment.
   isCoreToken?: boolean
-  // Identify tokens which are used for Supercharge. We can't only used symbols because some tokens have the same symbol (example: new and old mcTokens)
-  isSupercharged?: boolean
 }
 
 interface HistoricalUsdPrices {

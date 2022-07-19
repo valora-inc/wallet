@@ -73,7 +73,7 @@ const testReward = {
   createdAt: Date.now(),
   index: 0,
   proof: [],
-  tokenAddress: 'tokenAddress',
+  tokenAddress: '0xcusd',
 }
 
 const superchargeSetUp = {
@@ -82,6 +82,12 @@ const superchargeSetUp = {
   },
   app: {
     numberVerified: true,
+    superchargeTokenConfigByToken: {
+      '0xcusd': {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
     superchargeTokens: [
       {
         tokenSymbol: 'cUSD',
@@ -100,6 +106,15 @@ const superchargeSetUpWithoutRewards = {
   supercharge: {
     availableRewards: [],
   },
+}
+
+const testcUsdBalance = {
+  address: '0xcusd',
+  isCoreToken: true,
+  balance: '100',
+  symbol: 'cUSD',
+  usdPrice: '1',
+  priceFetchedAt: Date.now(),
 }
 
 describe('NotificationBox', () => {
@@ -400,12 +415,7 @@ describe('NotificationBox', () => {
       ...superchargeSetUpWithoutRewards,
       tokens: {
         tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            isSupercharged: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
+          ['0xcusd']: testcUsdBalance,
         },
       },
     })
@@ -430,12 +440,7 @@ describe('NotificationBox', () => {
       ...superchargeSetUpWithoutRewards,
       tokens: {
         tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            isSupercharged: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
+          ['0xcusd']: testcUsdBalance,
         },
       },
       account: {
@@ -458,11 +463,7 @@ describe('NotificationBox', () => {
       ...superchargeSetUpWithoutRewards,
       tokens: {
         tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
-            balance: '100',
-            symbol: 'cUSD',
-          },
+          ['0xcusd']: testcUsdBalance,
         },
       },
       app: {
@@ -490,10 +491,9 @@ describe('NotificationBox', () => {
       ...superchargeSetUpWithoutRewards,
       tokens: {
         tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
+          ['0xcusd']: {
+            ...testcUsdBalance,
             balance: '5',
-            symbol: 'cUSD',
           },
         },
       },
@@ -519,10 +519,9 @@ describe('NotificationBox', () => {
       ...superchargeSetUpWithoutRewards,
       tokens: {
         tokenBalances: {
-          cUSD: {
-            isCoreToken: true,
+          ['0xcusd']: {
+            ...testcUsdBalance,
             balance: '5',
-            symbol: 'cUSD',
           },
         },
       },

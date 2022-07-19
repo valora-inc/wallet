@@ -83,6 +83,9 @@ export const showRaiseDailyLimitSelector = createSelector(
 
 export const superchargeTokenConfigsSelector = (state: RootState) => state.app.superchargeTokens
 
+export const superchargeTokenConfigByTokenSelector = (state: RootState) =>
+  state.app.superchargeTokenConfigByToken
+
 export const rewardsEnabledSelector = createSelector(
   [accountAddressSelector, superchargeTokenConfigsSelector],
   (address, superchargeTokenConfigs) => !!address && superchargeTokenConfigs.length > 0

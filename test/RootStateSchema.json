@@ -1891,6 +1891,9 @@
                 "superchargeButtonType": {
                     "$ref": "#/definitions/SuperchargeButtonType"
                 },
+                "superchargeTokenConfigByToken": {
+                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
+                },
                 "superchargeTokens": {
                     "items": {
                         "$ref": "#/definitions/SuperchargeTokenConfig"
@@ -1956,6 +1959,7 @@
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",
+                "superchargeTokenConfigByToken",
                 "superchargeTokens",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
@@ -3388,6 +3392,25 @@
                 "minBalance",
                 "tokenSymbol"
             ],
+            "type": "object"
+        },
+        "SuperchargeTokenConfigByToken": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "maxBalance": {
+                        "type": "number"
+                    },
+                    "minBalance": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "maxBalance",
+                    "minBalance"
+                ],
+                "type": "object"
+            },
             "type": "object"
         },
         "TokenAmount": {

@@ -40,7 +40,7 @@ import {
 import { SuperchargeButtonType } from 'src/app/types'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { SuperchargeTokenConfig, SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { DappConnectInfo } from 'src/dapps/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -171,6 +171,7 @@ export interface RemoteConfigValues {
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
   superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean

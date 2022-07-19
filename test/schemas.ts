@@ -1400,6 +1400,7 @@ export const v60Schema = {
   },
   app: {
     ...v59Schema.app,
+    superchargeTokenConfigByToken: {},
     superchargeTokens: (v59Schema.app.superchargeTokens || []).map((config) => ({
       ..._.omit(config, 'token'),
       tokenSymbol: config.token,

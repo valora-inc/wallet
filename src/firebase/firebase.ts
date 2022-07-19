@@ -278,6 +278,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
+    // TODO: Not tested
+    superchargeTokenConfigByToken: JSON.parse(flags.superchargeConfigByToken.asString()),
     superchargeTokens: superchargeTokenSymbols.map((tokenSymbol) => ({
       tokenSymbol,
       minBalance: flags[`supercharge${tokenSymbol}Min`].asNumber(),
