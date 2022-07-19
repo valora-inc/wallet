@@ -154,11 +154,11 @@ export interface TokenTransferMetadata {
 interface BlockscoutTokenTransfer {
   fromAddressHash: string
   toAddressHash: string
-  fromAccountHash: string
-  toAccountHash: string
-  token: string
+  fromAccountHash: string | null
+  toAccountHash: string | null
+  token: string | null
   tokenAddress: string
-  value: string
+  value: string | null
   tokenType: string
 }
 
