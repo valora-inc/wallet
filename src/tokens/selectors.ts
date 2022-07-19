@@ -51,12 +51,13 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
 })
 
 export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
-  // If we have no tokens then prices cannot be stale.
+  // If no tokens then prices cannot be stale
   if (tokens.length === 0) return false
-  // If tokens with usd value are present check the time price was fetched
-  // Else usd values are not present so we know prices are invalid
+  // Put tokens with usdPrice into an array
   const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.usdPrice !== null)
-  if (tokensWithUsdValue.length !== 0) {
+  // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
+  // Else tokens usd values are not present so we know prices are stale - return true
+  if (tokensWithUsdValue.length > 0) {
     return (
       tokensWithUsdValue.filter(
         (tokenInfo) =>
