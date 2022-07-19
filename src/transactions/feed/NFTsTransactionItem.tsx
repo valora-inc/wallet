@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import Touchable from 'src/components/Touchable'
 import DepositIcon from 'src/icons/DepositIcon'
 import { navigate } from 'src/navigator/NavigationService'
@@ -9,6 +10,7 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { NFTsTransaction } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   transaction: NFTsTransaction
@@ -16,8 +18,7 @@ interface Props {
 
 function NFTsTransactionItem({ transaction }: Props) {
   const { t } = useTranslation()
-  // const walletAddress = useSelector(walletAddressSelector)
-  const walletAddress = '0x11489ae0761343c3b03c630a63b00fa025bc4eea'
+  const walletAddress = useSelector(walletAddressSelector)
 
   const openNftTransactionDetails = () => {
     navigate(Screens.WebViewScreen, {
