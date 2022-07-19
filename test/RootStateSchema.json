@@ -239,20 +239,20 @@
             "properties": {
                 "fromAccountHash": {
                     "type": [
-                      "null",
-                      "string"
+                        "null",
+                        "string"
                     ]
                 },
                 "fromAddressHash": {
                     "type": [
-                      "null",
-                      "string"
+                        "null",
+                        "string"
                     ]
                 },
                 "toAccountHash": {
                     "type": [
-                      "null",
-                      "string"
+                        "null",
+                        "string"
                     ]
                 },
                 "toAddressHash": {
@@ -260,8 +260,8 @@
                 },
                 "token": {
                     "type": [
-                      "null",
-                      "string"
+                        "null",
+                        "string"
                     ]
                 },
                 "tokenAddress": {
@@ -272,8 +272,8 @@
                 },
                 "value": {
                     "type": [
-                      "null",
-                      "string"
+                        "null",
+                        "string"
                     ]
                 }
             },
