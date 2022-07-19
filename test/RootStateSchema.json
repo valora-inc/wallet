@@ -244,10 +244,7 @@
                     ]
                 },
                 "fromAddressHash": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
+                    "type": "string"
                 },
                 "toAccountHash": {
                     "type": [
