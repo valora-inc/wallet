@@ -25,8 +25,6 @@ import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { FiatExchangeFlow } from './utils'
 
-const TAG = 'ExternalExchanges'
-
 export const externalExchangesScreenOptions = () => {
   const eventName = FiatExchangeEvents.cico_external_exchanges_back
 
