@@ -19,15 +19,96 @@ import OpenLinkIcon from 'src/icons/OpenLinkIcon'
 import Touchable from 'src/components/Touchable'
 import networkConfig from 'src/web3/networkConfig'
 import colors from 'src/styles/colors'
+import { FiatConnectTransfer } from 'src/fiatconnect/slice'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
+
+function onBack() {
+  // TODO: navigate to ReviewFetchScreen once #2699 is merged
+  navigateBack()
+}
+
+function FiatConnectWithdrawFailureSection() {
+  const { t } = useTranslation()
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{t('fiatConnectStatusScreen.requestNotCompleted.title')}</Text>
+      <Text style={styles.description}>
+        {t('fiatConnectStatusScreen.requestNotCompleted.description')}
+      </Text>
+      <Button
+        style={styles.button}
+        testID="TryAgain"
+        onPress={onBack}
+        text={t('fiatConnectStatusScreen.tryAgain')}
+        type={BtnTypes.PRIMARY}
+        size={BtnSizes.MEDIUM}
+      />
+      <Button
+        style={styles.button}
+        testID="SupportContactLink"
+        onPress={() => {
+          navigate(Screens.SupportContact, {
+            prefilledText: t('fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'),
+          })
+        }}
+        text={t('contactSupport')}
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.MEDIUM}
+      />
+    </View>
+  )
+}
+
+function FiatConnectWithdrawSuccessSection({
+  fiatConnectTransfer,
+}: {
+  fiatConnectTransfer: FiatConnectTransfer
+}) {
+  const { t } = useTranslation()
+
+  const onPressTxDetails = () => {
+    navigate(Screens.WebViewScreen, {
+      uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer?.txHash}`,
+    })
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.checkmarkContainer}>
+        <CheckmarkCircle />
+      </View>
+      <Text style={styles.title}>{t('fiatConnectStatusScreen.withdraw.success.title')}</Text>
+      <Text style={styles.description}>
+        {t('fiatConnectStatusScreen.withdraw.success.description')}
+      </Text>
+      <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
+        <View style={styles.txDetailsContainer}>
+          <Text style={styles.txDetails}>
+            {t('fiatConnectStatusScreen.withdraw.success.txDetails')}
+          </Text>
+          <OpenLinkIcon color={colors.gray4} />
+        </View>
+      </Touchable>
+      <Button
+        style={styles.button}
+        testID="Continue"
+        onPress={() => navigateHome()}
+        text={t('fiatConnectStatusScreen.withdraw.success.continue')}
+        type={BtnTypes.SECONDARY}
+        size={BtnSizes.MEDIUM}
+      />
+    </View>
+  )
+}
 
 export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
   const { t } = useTranslation()
 
-  const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)
+  const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)!
 
-  if (fiatConnectTransfer?.failed) {
+  if (fiatConnectTransfer.failed) {
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton testID="Back" onPress={onBack} />,
@@ -37,7 +118,9 @@ export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
         </TextButton>
       ),
     })
-  } else if (fiatConnectTransfer?.txHash) {
+  } else if (fiatConnectTransfer.txHash) {
+    // TODO: This success check only works for cash outs, since no on-chain TX is performed for
+    // cash-ins. Update this when we support cash-ins.
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <View />,
@@ -45,7 +128,7 @@ export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
     })
   }
 
-  if (!fiatConnectTransfer || fiatConnectTransfer.isSending) {
+  if (fiatConnectTransfer.isSending) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
@@ -53,75 +136,12 @@ export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
     )
   }
 
-  const onPressTxDetails = () => {
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer.txHash}`,
-    })
-  }
-
-  function onBack() {
-    // TODO: navigate to ReviewFetchScreen once #2699 is merged
-    navigateBack()
-  }
-
   return (
     <SafeAreaView style={styles.content}>
-      {fiatConnectTransfer.failed && (
-        <View style={styles.container}>
-          <Text style={styles.title}>{t('fiatConnectStatusScreen.requestNotCompleted.title')}</Text>
-          <Text style={styles.description}>
-            {t('fiatConnectStatusScreen.requestNotCompleted.description')}
-          </Text>
-          <Button
-            style={styles.button}
-            testID="TryAgain"
-            onPress={onBack}
-            text={t('fiatConnectStatusScreen.tryAgain')}
-            type={BtnTypes.PRIMARY}
-            size={BtnSizes.MEDIUM}
-          />
-          <Button
-            style={styles.button}
-            testID="SupportContactLink"
-            onPress={() => {
-              navigate(Screens.SupportContact, {
-                prefilledText: t(
-                  'fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'
-                ),
-              })
-            }}
-            text={t('contactSupport')}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-          />
-        </View>
-      )}
-      {fiatConnectTransfer.txHash && (
-        <View style={styles.container}>
-          <View style={styles.checkmarkContainer}>
-            <CheckmarkCircle />
-          </View>
-          <Text style={styles.title}>{t('fiatConnectStatusScreen.withdraw.success.title')}</Text>
-          <Text style={styles.description}>
-            {t('fiatConnectStatusScreen.withdraw.success.description')}
-          </Text>
-          <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
-            <View style={styles.txDetailsContainer}>
-              <Text style={styles.txDetails}>
-                {t('fiatConnectStatusScreen.withdraw.success.txDetails')}
-              </Text>
-              <OpenLinkIcon color={colors.gray4} />
-            </View>
-          </Touchable>
-          <Button
-            style={styles.button}
-            testID="Continue"
-            onPress={() => navigateHome()}
-            text={t('fiatConnectStatusScreen.withdraw.success.continue')}
-            type={BtnTypes.SECONDARY}
-            size={BtnSizes.MEDIUM}
-          />
-        </View>
+      {fiatConnectTransfer.failed ? (
+        <FiatConnectWithdrawFailureSection />
+      ) : (
+        <FiatConnectWithdrawSuccessSection fiatConnectTransfer={fiatConnectTransfer} />
       )}
     </SafeAreaView>
   )

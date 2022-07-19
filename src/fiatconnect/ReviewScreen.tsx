@@ -71,7 +71,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             normalizedQuote,
             fiatAccount,
           })
-          // TODO: navigate to success / failure screen
         }}
       />
     </SafeAreaView>
