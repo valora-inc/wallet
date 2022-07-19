@@ -238,19 +238,31 @@
             "additionalProperties": false,
             "properties": {
                 "fromAccountHash": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                 },
                 "fromAddressHash": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                 },
                 "toAccountHash": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                 },
                 "toAddressHash": {
                     "type": "string"
                 },
                 "token": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                 },
                 "tokenAddress": {
                     "type": "string"
@@ -259,7 +271,10 @@
                     "type": "string"
                 },
                 "value": {
-                    "type": "string"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                 }
             },
             "required": [
