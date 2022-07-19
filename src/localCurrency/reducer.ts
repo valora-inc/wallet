@@ -15,12 +15,10 @@ export interface State {
 const initialState = {
   isLoading: false,
   error: false,
-  exchangeRates: {
-    [Currency.Celo]: null,
-    [Currency.Dollar]: null,
-    [Currency.Euro]: null,
-  },
-}
+  exchangeRates: Object.fromEntries(
+    Object.values(Currency).map((currency) => [currency, null])
+  ) as { [token in Currency]: string | null },
+} // type deducing for exchangeRates only works till `[k: string]: null`
 
 export const reducer = (
   state: State = initialState,

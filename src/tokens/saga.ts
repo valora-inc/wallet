@@ -41,11 +41,10 @@ import * as utf8 from 'utf8'
 const TAG = 'tokens/saga'
 
 // The number of wei that represent one unit in a contract
-const contractWeiPerUnit: Record<Currency, BigNumber> = {
-  [Currency.Celo]: WEI_PER_TOKEN,
-  [Currency.Dollar]: WEI_PER_TOKEN,
-  [Currency.Euro]: WEI_PER_TOKEN,
-}
+const contractWeiPerUnit: Record<Currency, BigNumber> = Object.fromEntries(
+  Object.values(Currency).map(currency => [currency, WEI_PER_TOKEN])
+) as { [token in Currency]: BigNumber } // For each currency, element in an bject resembling { [Currency.Dollar]: WEI_PER_TOKEN, ... }
+
 
 function* getWeiPerUnit(token: Currency) {
   let weiPerUnit = contractWeiPerUnit[token]

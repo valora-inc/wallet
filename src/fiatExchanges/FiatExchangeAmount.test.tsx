@@ -31,6 +31,7 @@ const usdExchangeRates = {
   [Currency.Dollar]: '1',
   [Currency.Euro]: '1.2',
   [Currency.Celo]: '3',
+  [Currency.Real]: '5',
 }
 
 const eurExchangeRates = {

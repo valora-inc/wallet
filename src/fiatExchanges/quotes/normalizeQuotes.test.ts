@@ -27,6 +27,7 @@ describe('normalizeQuotes', () => {
             cGLD: '1',
             cUSD: '1',
             cEUR: '1',
+            cREAL: '1',
           })
           ?.toNumber(),
       ])

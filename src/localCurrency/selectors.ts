@@ -56,15 +56,13 @@ export const localCurrencyExchangeRatesSelector = createSelector(
   (state: RootState) => state.localCurrency.fetchedCurrencyCode,
   getLocalCurrencyCode,
   (exchangeRates, fetchedCurrencyCode, localCurrencyCode) => {
+    // 4th argument, the combiner function for the createSelector()
     if (localCurrencyCode !== fetchedCurrencyCode) {
       // This makes sure we don't return stale exchange rate when the currency code changed
-      return {
-        [Currency.Dollar]: null,
-        [Currency.Euro]: null,
-        [Currency.Celo]: null,
-      }
+      // populate a map with the currency code as key and the exchange rate as null
+      const nullCurrencyRates = Object.values(Currency).map((currency) => [currency, null])
+      return Object.fromEntries(nullCurrencyRates) // returning { [Currency.Dollar]: null, [Currency.Euro]: null, ... }
     }
-
     return exchangeRates
   }
 )
