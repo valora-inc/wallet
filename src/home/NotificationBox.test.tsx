@@ -76,20 +76,12 @@ const testReward = {
   tokenAddress: '0xcusd',
 }
 
-const mockSuperchargeConfig = {
-  '0xcusd': {
-    minBalance: 10,
-    maxBalance: 1000,
-  },
-}
-
 const superchargeSetUp = {
   web3: {
     account: 'account',
   },
   app: {
     numberVerified: true,
-    superchargeTokenConfigByToken: mockSuperchargeConfig,
   },
   supercharge: {
     availableRewards: [testReward],
@@ -123,7 +115,6 @@ describe('NotificationBox', () => {
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
       stableToken: { balances: { [Currency.Dollar]: '0.00' } },
       goldToken: { balance: '0.00' },
-      app: { superchargeTokenConfigByToken: mockSuperchargeConfig },
     })
     const tree = render(
       <Provider store={store}>

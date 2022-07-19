@@ -1401,11 +1401,11 @@ export const v60Schema = {
   app: {
     ..._.omit(v59Schema.app, 'superchargeTokens'),
     superchargeTokenConfigByToken: {
-      '0xcusd': {
+      [mockCusdAddress]: {
         minBalance: 10,
         maxBalance: 1000,
       },
-      '0xceur': {
+      [mockCeurAddress]: {
         minBalance: 10,
         maxBalance: 1000,
       },

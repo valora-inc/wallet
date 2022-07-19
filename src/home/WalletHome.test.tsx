@@ -8,20 +8,7 @@ import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { createMockStore, flushMicrotasksQueue, RecursivePartial } from 'test/utils'
-
-const mockCusdAddress = '0xcusd'
-const mockCeurAddress = '0xceur'
-
-const mockSuperchargeConfigs = {
-  [mockCusdAddress]: {
-    minBalance: 10,
-    maxBalance: 1000,
-  },
-  [mockCeurAddress]: {
-    minBalance: 10,
-    maxBalance: 1000,
-  },
-}
+import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockBalances = {
   tokens: {
@@ -141,7 +128,6 @@ describe('WalletHome', () => {
     const { store, tree } = renderScreen({
       app: {
         numberVerified: true,
-        superchargeTokenConfigByToken: mockSuperchargeConfigs,
       },
       recipients: {
         phoneRecipientCache: {},
@@ -192,7 +178,6 @@ describe('WalletHome', () => {
     const { store } = renderScreen({
       app: {
         numberVerified: false,
-        superchargeTokenConfigByToken: mockSuperchargeConfigs,
       },
       recipients: {
         phoneRecipientCache: {},
