@@ -214,8 +214,8 @@
   "transaction": {
     "operation": "Operação",
     "data": "Dados",
-    "signTX": "Transacção de sinais",
-    "details": "Mostrar detalhes"
+    "signTX": "Transação",
+    "details": "Detalhes"
   },
   "shareInfo": "Este aplicativo poderá acessar as seguintes informações:",
   "data": "Dados",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
   "home": "Página inicial",
+  "swap": "Trocar",
   "accountKey": "Recuperação",
   "addAndWithdraw": "Adicionar e Sacar",
   "settings": "Configurações",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
-    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
+    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}. Se você já tem uma conta POR FAVOR NÃO CLIQUE para ativar a biometria abaixo UNLESS você tem sua Frase de Recuperação. Para ativar a biometria, será necessário que você restaure sua conta.",
     "cta": "Ativar {{biometryType}}"
   },
   "biometryType": {
@@ -962,15 +963,15 @@
   "loadingFromScan": "Escaneando",
   "loadingFromDeeplink": "Conectando",
   "action": {
-    "asking": "Este aplicativo está pedindo para executar a seguinte ação",
-    "askingV1_35": "{{dappName}} está pedindo para executar o seguinte:",
+    "asking": "Este aplicativo está pedindo para executar a seguinte ação:",
+    "askingV1_35": "{{dappName}} está pedindo para executar a seguinte ação:",
     "operation": "Operação",
     "data": "Dados",
-    "sign": "Assinar um payload de dados",
-    "signTransaction": "Assinar uma transacção Celo",
-    "sendTransaction": "Enviar uma transacção Celo",
-    "decrypt": "Descriptografar um payload de dados",
-    "accounts": "Ler o seu Endereço de Conta da {{appName}}",
+    "sign": "Assinar payload de dados",
+    "signTransaction": "Transação Celo",
+    "sendTransaction": "Enviar transação Celo",
+    "decrypt": "Descriptografar payload de dados",
+    "accounts": "Leia o seu Endereço de Conta da {{appName}}",
     "details": "Ver dados da transação",
     "computeSharedSecret": "Gerar segredos",
     "emptyMessage": "Mensagem vazia"
@@ -1117,7 +1118,7 @@
     "subtitleRamp": "Adicione fundos sem taxas com um de nossos provedores externos de confiança."
   },
   "balances": "Ativos",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo total",
   "viewBalances": "Ver ativos",
   "open": "Abrir",
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Opção de pagamento selecionada",
     "addFiatAccountSuccess": "Sua conta foi vinculada ao Valora.",
     "addFiatAccountResourceExist": "Você já vinculou essa conta ao Valora.",
-    "addFiatAccountFailed": "Seu conta não foi vinculada, tente novamente ou entre em contato com o suporte."
+    "addFiatAccountFailed": "Seu conta não foi vinculada, tente novamente ou entre em contato com o suporte.",
+    "selectItem": "Selecione uma opção...",
+    "selectDone": "Concluído"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1316,7 @@
   "webView": {
     "openExternal": "Abrir no navegador externo"
   },
-  "dappNotListed": "Esta dapp não está listada em {{appName}}. As dapps são aplicações de terceiros. Utilizados por sua conta e risco.",
+  "dappNotListed": "Este dapp não está listado na {{appName}}. Os dapps são aplicativos de terceiros. Use-o por sua conta e risco.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
