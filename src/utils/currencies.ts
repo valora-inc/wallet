@@ -2,6 +2,7 @@ export enum Currency {
   Celo = 'cGLD',
   Dollar = 'cUSD',
   Euro = 'cEUR',
+  Real = 'cREAL',
 }
 
 export enum CiCoCurrency {
@@ -37,6 +38,11 @@ export const CURRENCIES: CurrencyObject = {
     symbol: '€',
     displayDecimals: 2,
     cashTag: 'cEUR',
+  },
+  [Currency.Real]: {
+    symbol: 'R$',
+    displayDecimals: 2,
+    cashTag: 'cREAL',
   },
 }
 
