@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operazione",
     "data": "Dati",
-    "signTX": "Firma la transazione",
+    "signTX": "Transazione",
     "details": "Mostra dettagli"
   },
   "shareInfo": "Questa app sarà in grado di accedere alle seguenti informazioni:",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
   "home": "Home",
+  "swap": "Scambia",
   "accountKey": "Frase di recupero",
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
-    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
+    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}. Se si dispone già di un account, SI PREGA DI NON FARE CLIC per attivare la biometria, a meno che non si abbia a portata di mano la frase di ripristino. L'attivazione della biometria richiederà il ripristino dell'account.",
     "cta": "Abilita {{biometryType}}"
   },
   "biometryType": {
@@ -962,16 +963,16 @@
   "loadingFromScan": "Scansione in corso",
   "loadingFromDeeplink": "Connessione in corso",
   "action": {
-    "asking": "Questa applicazione richiede di eseguire la seguente azione",
-    "askingV1_35": "{{dappName}} chiede di eseguire quanto segue:",
+    "asking": "Questa applicazione richiede di eseguire la seguente azione:",
+    "askingV1_35": "{{dappName}} richiede di eseguire la seguente azione:",
     "operation": "Operazione",
     "data": "Dati",
     "sign": "Firma un payload dati",
-    "signTransaction": "Firma una transazione Celo",
-    "sendTransaction": "Invia una transazione Celo",
+    "signTransaction": "Transazione Celo",
+    "sendTransaction": "Inviare transazione Celo",
     "decrypt": "Decrittografa un payload dati",
     "accounts": "Leggi il tuo Indirizzo del conto {{appName}}",
-    "details": "Visualizza i dati della transazione",
+    "details": "Dati della transazione",
     "computeSharedSecret": "Genera segreti",
     "emptyMessage": "Messaggio vuoto"
   },
@@ -1117,11 +1118,11 @@
     "subtitleRamp": "Aggiungi fondi senza pagare commissioni tramite uno dei nostri provider esterni attendibili."
   },
   "balances": "Assets",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Totale",
+  "totalBalanceWithLocalCurrencySymbol": "Totale {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Saldo totale",
   "viewBalances": "Visualizza asset",
-  "open": "Aprire",
-  "nftViewer": "Visualizzatore NFT",
+  "open": "Apri",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Cosa significa saldo totale?",
     "body": "Il saldo totale è una somma approssimativa di tutti i tuoi asset Valora che cambia seguendo le oscillazioni dei prezzi. Viene aggiornato ogni 10 minuti.\nAlcuni asset potrebbero non essere visualizzati nel saldo totale perché il prezzo non è disponibile quando vengono eseguiti i calcoli.",
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Opzione di pagamento selezionata",
     "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
     "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
-    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico."
+    "addFiatAccountFailed": "Il tuo conto non è stato collegato, riprova o contatta il supporto tecnico.",
+    "selectItem": "Seleziona un'opzione...",
+    "selectDone": "Fatto"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1316,7 @@
   "webView": {
     "openExternal": "Apri nel browser esterno"
   },
-  "dappNotListed": "Questa dapp non è elencata in {{appName}}. Le dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
+  "dappNotListed": "Questa Dapp non è elencata in {{appName}}. Le Dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

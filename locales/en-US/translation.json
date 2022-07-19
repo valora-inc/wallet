@@ -527,6 +527,7 @@
   "helpFindAccount": "Help your contact find their Account Address",
   "close": "Close",
   "home": "Home",
+  "swap": "Swap",
   "accountKey": "Recovery Phrase",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Secure your wallet",
-    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
+    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}. If you already have an account PLEASE DO NOT CLICK to enable biometrics below UNLESS you have your recovery phrase handy. Turning on biometrics will require you to restore your account.",
     "cta": "Turn on {{biometryType}}"
   },
   "biometryType": {
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your account has been linked to Valora.",
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",
-    "addFiatAccountFailed": "Your account was not linked, please try again or contact support."
+    "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
+    "selectItem": "Select an option...",
+    "selectDone": "Done"
   },
   "fiatAccountSchema": {
     "accountName": {
