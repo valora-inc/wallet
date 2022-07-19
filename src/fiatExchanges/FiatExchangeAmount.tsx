@@ -98,12 +98,22 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey =
-    currency === Currency.Celo
-      ? 'subtotal'
-      : currency === Currency.Dollar
-      ? 'celoDollar'
-      : 'celoEuro'
+  const displayCurrencyKey = (() => {
+    // i18n key for subtotal
+    // invoked immediately, so we can use the currency name
+    switch (currency) {
+      case Currency.Celo:
+        return 'subtotal'
+      case Currency.Dollar:
+        return 'celoDollar'
+      case Currency.Euro:
+        return 'celoEuro'
+      case Currency.Real:
+        return 'celoReal'
+      default:
+        return 'subtotal'
+    }
+  })()
 
   const localCurrencyMaxAmount =
     useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
@@ -167,6 +177,8 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
+    //TODO refactor layered ifs and returns
+    //TODO put error-return condition first
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)
