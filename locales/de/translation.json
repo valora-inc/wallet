@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Daten",
-    "signTX": "Transaktion unterschreiben",
+    "signTX": "Transaktion",
     "details": "Details anzeigen"
   },
   "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Hilf deinem Kontakt, seine Adresse zu finden",
   "close": "Schließen",
   "home": "Startseite",
+  "swap": "Tauschen",
   "accountKey": "Wiederherstellung",
   "addAndWithdraw": "Guthaben",
   "settings": "Einstellungen",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
-    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
+    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}. Wenn du bereits ein Konto hast, BITTE KLICKEN SIE NICHT, um die Biometrie zu aktivieren, AUßER du hast deine Wiederherstellungsphrase. Wenn du die biometrischen Daten aktivierst, musst du dein Konto wiederherstellen.",
     "cta": "{{biometryType}} einschalten"
   },
   "biometryType": {
@@ -962,16 +963,16 @@
   "loadingFromScan": "Scannen",
   "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
-    "asking": "Diese Anwendung verlangt folgende Aktion",
-    "askingV1_35": "{{dappName}} möchte Folgendes ausführen:",
+    "asking": "Diese Anwendung verlangt folgende Aktion:",
+    "askingV1_35": "{{dappName}} verlangt folgende Aktion:",
     "operation": "Operation",
     "data": "Daten",
-    "sign": "Signiere eine Daten-Nutzlast",
-    "signTransaction": "Unterschreibe eine Celo-Transaktion",
-    "sendTransaction": "Eine Celo-Transaktion senden",
+    "sign": "Signiere Daten-Nutzlast",
+    "signTransaction": "Celo-Transaktion",
+    "sendTransaction": "Celo-Transaktion senden",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
-    "details": "Transaktionsdaten anzeigen",
+    "details": "Transaktionsdaten",
     "computeSharedSecret": "Geheimnisse generieren",
     "emptyMessage": "Leere Nachricht"
   },
@@ -1121,7 +1122,7 @@
   "totalValue": "Gesamtguthaben",
   "viewBalances": "Vermögen ansehen",
   "open": "Öffnen",
-  "nftViewer": "NFT Viewer",
+  "nftViewer": "NFT-Viewer",
   "whatTotalValue": {
     "title": "Was bedeutet Gesamtguthaben?",
     "body": "Dein Gesamtguthaben ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtguthaben ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Vermögen können möglicherweise nicht im Gesamtguthaben angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Gewählte Zahlungsoption",
     "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
-    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support."
+    "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
+    "selectItem": "Option auswählen...",
+    "selectDone": "Fertig"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1316,7 @@
   "webView": {
     "openExternal": "In externen Browser öffnen"
   },
-  "dappNotListed": "Diese Dapp ist nicht in {{appName}}aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
+  "dappNotListed": "Diese Dapp ist nicht in {{appName}} aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "İşlem",
     "data": "Veri",
-    "signTX": "Sign transaction",
+    "signTX": "İşlem",
     "details": "Detayları göster"
   },
   "shareInfo": "Bu uygulama aşağıdaki bilgilere erişebilecek:",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Kişilerinizin Hesap Adresinizi bulmalarına yardımcı olun",
   "close": "Kapat",
   "home": "Ana Sayfa",
+  "swap": "Swap",
   "accountKey": "Kurtarma Kelimeleri",
   "addAndWithdraw": "Ekle & Çek",
   "settings": "Ayarlar",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
-    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
+    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır. Halihazırda bir hesabınız varsa, kurtarma ifadeniz elinizin altında DEĞİLSE, aşağıda biyometriyi etkinleştirmek için LÜTFEN TIKLAMAYIN. Biyometriyi açmak, hesabınızı geri yüklemenizi gerektirir.",
     "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
@@ -967,8 +968,8 @@
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
-    "signTransaction": "Sign a Celo transaction",
-    "sendTransaction": "Send a Celo transaction",
+    "signTransaction": "CELO işlemi",
+    "sendTransaction": "CELO işlemi gönder",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "İşlem verilerini görüntüle",
@@ -1117,7 +1118,7 @@
     "subtitleRamp": "Güvenilir harici sağlayıcılarımızdan biri aracılığıyla işlem ücreti olmadan fon ekleyin."
   },
   "balances": "Varlıklar",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "Toplam {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Toplam Bakiye",
   "viewBalances": "Varlıkları Görüntüle",
   "open": "Aç",
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Seçili ödeme yöntemi",
     "addFiatAccountSuccess": "Hesabınız Valora'ya bağlandı.",
     "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
-    "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun."
+    "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun.",
+    "selectItem": "Bir seçenek seçin...",
+    "selectDone": "Tamamlandı"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1316,7 @@
   "webView": {
     "openExternal": "Harici tarayıcıda aç"
   },
-  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
+  "dappNotListed": "Bu dapp {{appName}}'da listelenmiyor. Kendi sorumluluğunuzda kullanın.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
