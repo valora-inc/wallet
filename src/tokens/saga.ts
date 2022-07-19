@@ -42,9 +42,8 @@ const TAG = 'tokens/saga'
 
 // The number of wei that represent one unit in a contract
 const contractWeiPerUnit: Record<Currency, BigNumber> = Object.fromEntries(
-  Object.values(Currency).map(currency => [currency, WEI_PER_TOKEN])
+  Object.values(Currency).map((currency) => [currency, WEI_PER_TOKEN])
 ) as { [token in Currency]: BigNumber } // For each currency, element in an bject resembling { [Currency.Dollar]: WEI_PER_TOKEN, ... }
-
 
 function* getWeiPerUnit(token: Currency) {
   let weiPerUnit = contractWeiPerUnit[token]
@@ -262,6 +261,8 @@ export async function getCurrencyAddress(currency: Currency) {
       return contractKit.registry.addressFor(CeloContract.StableToken)
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
+    case Currency.Real:
+      return contractKit.registry.addressFor(CeloContract.StableTokenREAL) //FIXME what is the fallback address?
   }
 }
 

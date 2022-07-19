@@ -22,16 +22,19 @@ export const balancesSelector = createSelector<
   string | null,
   string | null,
   string | null,
+  string | null,
   Balances
 >(
   cUsdBalanceSelector,
   cEurBalanceSelector,
   celoTokenBalanceSelector,
-  (cUsdBalance, cEurBalance, celoBalance) => {
+  cRealBalanceSelector, //FIXME what is the balance selector?
+  (cUsdBalance, cEurBalance, celoBalance, cRealBalance) => {
     return {
       [Currency.Dollar]: cUsdBalance ? new BigNumber(cUsdBalance) : null,
       [Currency.Euro]: cEurBalance ? new BigNumber(cEurBalance) : null,
       [Currency.Celo]: celoBalance ? new BigNumber(celoBalance) : null,
+      [Currency.Real]: cRealBalance ? new BigNumber(cRealBalance) : null,
     }
   }
 )
