@@ -189,5 +189,4 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
   })
-
 })
