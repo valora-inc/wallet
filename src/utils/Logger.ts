@@ -166,27 +166,29 @@ class Logger {
     try {
       const logDir = this.getReactNativeLogsDir()
       const logFiles = await RNFS.readDir(logDir)
-      const path = Platform.OS === 'ios' ? RNFS.TemporaryDirectoryPath : RNFS.ExternalDirectoryPath
       const toAttach = []
+      // On Android we need to move the files to a directory we have access to
+      const path = Platform.OS === 'ios' ? logDir : RNFS.ExternalDirectoryPath
       for (const file of logFiles) {
-        // RNFS.TemporaryDirectoryPath (iOS) has a trailing '/'
-        const osSpecificPath =
-          Platform.OS === 'android' ? `${path}/${file.name}` : `${path}${file.name}`
-        // If the file is the current months log file log file
-        if (file.name === this.getCurrentLogFileName()) {
-          // If this file exists delete it as the new one will have more logs
-          if (await RNFS.exists(osSpecificPath)) {
-            await RNFS.unlink(osSpecificPath)
+        const filePath = `${path}/${file.name}`
+        // Android specific file deleting and copying
+        if (Platform.OS === 'android') {
+          // If the file is the current months log file log file, delete the previous copy
+          if (file.name === this.getCurrentLogFileName()) {
+            if (await RNFS.exists(filePath)) {
+              await RNFS.unlink(filePath)
+            }
+            // Then copy it to the folder we have access to
+            await RNFS.copyFile(file.path, filePath)
+            // Else if it is not the current months a log file
+            // And it doesn't exist in the folder we have access to
+            // Then copy it to the folder we have access to
+          } else if (!(await RNFS.exists(filePath))) {
+            await RNFS.copyFile(file.path, filePath)
           }
-          // Then copy it to the folder we have access to
-          await RNFS.copyFile(file.path, osSpecificPath)
-          // Else if the a log file doesn't exist in the folder we have access to
-          // Then copy it to the folder we have access to
-        } else if (!(await RNFS.exists(osSpecificPath))) {
-          await RNFS.copyFile(file.path, osSpecificPath)
         }
         toAttach.push({
-          path: osSpecificPath,
+          path: filePath,
           name: file.name,
           type: 'text',
         })

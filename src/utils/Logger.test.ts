@@ -10,7 +10,7 @@ const mockData = [
     // ctime is 61 days ago
     ctime: new Date(new Date().getTime() - ONE_DAY_IN_MILLIS * 61),
     name: 'toDelete.txt',
-    path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt',
+    path: '__CACHES_DIRECTORY_PATH__/rn_logs/toDelete.txt',
     size: 5318,
     isFile: true,
     isDirectory: false,
@@ -18,7 +18,7 @@ const mockData = [
   {
     ctime: new Date(),
     name: 'toSave.txt',
-    path: '__TEMPORARY_DIRECTORY_PATH__/rn_logs/toSave.txt',
+    path: '__CACHES_DIRECTORY_PATH__/rn_logs/toSave.txt',
     size: 5318,
     isFile: true,
     isDirectory: false,
@@ -37,7 +37,7 @@ jest.mock('react-native-fs', () => {
     unlink: jest.fn(() => Promise.resolve()),
     writeFile: jest.fn(() => Promise.resolve()),
     ExternalDirectoryPath: '__EXTERNAL_DIRECTORY_PATH__',
-    TemporaryDirectoryPath: '__TEMPORARY_DIRECTORY_PATH__',
+    TemporaryDirectoryPath: '__CACHES_DIRECTORY_PATH__',
   }
 })
 
@@ -66,7 +66,7 @@ describe('utils/Logger', () => {
   it('Returns combined logs file path iOS', () => {
     // mock
     Platform.OS = 'ios'
-    expect(Logger.getCombinedLogsFilePath()).toBe('__TEMPORARY_DIRECTORY_PATH__/rn_logs.txt')
+    expect(Logger.getCombinedLogsFilePath()).toBe('__CACHES_DIRECTORY_PATH__/rn_logs.txt')
   })
 
   it('Returns combined logs file path Android', () => {
@@ -80,7 +80,7 @@ describe('utils/Logger', () => {
     await Logger.cleanupOldLogs()
     expect(console.debug).toHaveBeenCalledTimes(1)
     expect(console.debug).toHaveBeenCalledWith(
-      'Logger/cleanupOldLogs/Deleting React Native log file older than 60 days, __TEMPORARY_DIRECTORY_PATH__/rn_logs/toDelete.txt'
+      'Logger/cleanupOldLogs/Deleting React Native log file older than 60 days, __CACHES_DIRECTORY_PATH__/rn_logs/toDelete.txt'
     )
   })
 })
