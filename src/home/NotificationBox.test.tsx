@@ -103,6 +103,55 @@ const superchargeSetUpWithoutRewards = {
   },
 }
 
+const storeDataCleverTapNotificationsEnabled = {
+  home: {
+    cleverTapNotifications: {
+      cleverTapNotification0_1: {
+        custom_kv: {
+          body: 'New feature: Biometrics! Prioritize your wallet’s security by enabling today.',
+          ctaPrimary: 'Enable',
+          ctaPrimaryLink: 'celo://wallet/openScreen?screen=Settings',
+          ctaSecondary: 'Dismiss',
+          ctaSecondaryLink: '',
+          iconUrl:
+            'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FNotification%20Contacts.png?alt=media&token=4321cba8-23a7-4620-950e-105262541b00',
+          priority: '951',
+        },
+        ti: 1601376511,
+        type: 'custom-key-value',
+      },
+      cleverTapNotification0_2: {
+        custom_kv: {
+          body: 'Get rewarded with crypto weekly. Start Supercharging!',
+          ctaPrimary: 'Get rewards',
+          ctaPrimaryLink: 'celo://wallet/openScreen?screen=ConsumerIncentivesHomeScreen',
+          ctaSecondary: 'Dismiss',
+          ctaSecondaryLink: '',
+          iconUrl:
+            'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge.png?alt=media',
+          priority: '440',
+        },
+        ti: 1601376512,
+        type: 'custom-key-value',
+      },
+      cleverTapNotification0_3: {
+        custom_kv: {
+          body: 'Now Available: Buy Gift Cards and Mobile Top Up through Bidali',
+          ctaPrimary: 'Buy Now',
+          ctaPrimaryLink: 'celo://wallet/bidali',
+          ctaSecondary: 'Dismiss',
+          ctaSecondaryLink: '',
+          iconUrl:
+            'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
+          priority: '800',
+        },
+        ti: 1601376513,
+        type: 'custom-key-value',
+      },
+    },
+  },
+}
+
 describe('NotificationBox', () => {
   it('renders correctly for with all notifications', () => {
     const store = createMockStore({
@@ -543,6 +592,7 @@ describe('NotificationBox', () => {
   it('renders CleverTap notification correctly', () => {
     const mockCtaPrimaryLink = 'celo://wallet/openScreen?screen=TokenBalances'
     const store = createMockStore({
+      ...storeDataCleverTapNotificationsEnabled,
       home: {
         cleverTapNotifications: {
           cleverTapNotification1: {
@@ -606,5 +656,18 @@ describe('NotificationBox', () => {
       fetchAvailableRewards(),
       openUrl(mockCtaPrimaryLink, false, true),
     ])
+  })
+
+  it('renders correctly for with all cleverTapNotifications', () => {
+    const store = createMockStore({
+      ...storeDataCleverTapNotificationsEnabled,
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
   })
 })

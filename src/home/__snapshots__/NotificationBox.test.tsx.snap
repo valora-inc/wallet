@@ -1,5 +1,1236 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`NotificationBox renders correctly for with all cleverTapNotifications 1`] = `
+<View
+  style={
+    Object {
+      "maxWidth": 750,
+      "width": 750,
+    }
+  }
+>
+  <RCTScrollView
+    horizontal={true}
+    onScroll={[Function]}
+    pagingEnabled={true}
+    showsHorizontalScrollIndicator={false}
+    testID="CTA/ScrollContainer"
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/backup"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="backup"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="backup/Text"
+              >
+                backupKeyNotification
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="backup/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="backup/CallToActions/introPrimaryAction/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    introPrimaryAction
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/backup-key.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="backup/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/cleverTapNotification0_1"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="cleverTapNotification0_1"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="cleverTapNotification0_1/Text"
+              >
+                New feature: Biometrics! Prioritize your wallet’s security by enabling today.
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="cleverTapNotification0_1/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_1/CallToActions/Enable/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Enable
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_1/CallToActions/Dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2FNotification%20Contacts.png?alt=media&token=4321cba8-23a7-4620-950e-105262541b00",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="cleverTapNotification0_1/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/cleverTapNotification0_3"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="cleverTapNotification0_3"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="cleverTapNotification0_3/Text"
+              >
+                Now Available: Buy Gift Cards and Mobile Top Up through Bidali
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="cleverTapNotification0_3/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_3/CallToActions/Buy Now/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Buy Now
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_3/CallToActions/Dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="cleverTapNotification0_3/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/startSupercharging"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="startSupercharging"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="startSupercharging/Text"
+              >
+                startSuperchargingNotificationBody
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="startSupercharging/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="startSupercharging/CallToActions/startSuperchargingNotificationStart/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    startSuperchargingNotificationStart
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="startSupercharging/CallToActions/dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/boost-rewards.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="startSupercharging/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/cleverTapNotification0_2"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="cleverTapNotification0_2"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="cleverTapNotification0_2/Text"
+              >
+                Get rewarded with crypto weekly. Start Supercharging!
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="cleverTapNotification0_2/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_2/CallToActions/Get rewards/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Get rewards
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="cleverTapNotification0_2/CallToActions/Dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    Dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge.png?alt=media",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="cleverTapNotification0_2/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+        testID="NotificationView/celoEducation"
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+          testID="celoEducation"
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
+                }
+                testID="celoEducation/Text"
+              >
+                whatIsGold
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="celoEducation/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="celoEducation/CallToActions/learnMore/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    learnMore
+                  </Text>
+                </View>
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="celoEducation/CallToActions/dismiss/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    dismiss
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../src/images/learn-celo.png",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+                testID="celoEducation/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "center",
+        },
+        Object {
+          "paddingBottom": 16,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#2E3338",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#9CA4A9",
+          "borderRadius": 5,
+          "flex": 0,
+          "height": 5,
+          "marginHorizontal": 3,
+          "width": 5,
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
 exports[`NotificationBox renders correctly for with all notifications 1`] = `
 <View
   style={
