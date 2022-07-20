@@ -82,9 +82,11 @@ function SupportContact({ route }: Props) {
         email,
         deviceInfo,
         // Get the current months log file to attach as text if sendEmailWithNonNativeApp is used
-        attachments.find(
-          (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
-        ).path ?? false
+        attachments
+          ? attachments.find(
+              (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
+            ).path ?? false
+          : false
       )
       navigateBackAndToast()
     } catch (error) {
