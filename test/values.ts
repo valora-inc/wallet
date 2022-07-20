@@ -22,6 +22,7 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
@@ -774,3 +775,24 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
 ]
 
 export const mockMaxSendAmount = new BigNumber(999.99995)
+
+export const mockExchanges: ExternalExchangeProvider[] = [
+  {
+    name: 'Bittrex',
+    link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+  {
+    name: 'CoinList Pro',
+    link: 'https://coinlist.co/asset/celo',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+  {
+    name: 'OKCoin',
+    link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
+    currencies: [Currency.Celo, Currency.Dollar],
+    supportedRegions: ['global'],
+  },
+]
