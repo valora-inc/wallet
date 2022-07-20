@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "A transferência da custódia falhou",
   "reclaimingEscrowedPaymentFailed": "O pagamento não pôde ser reivindicado",
   "connectingToCelo": "Conectando...",
-  "poorConnection": [
-    "Conexão ruim",
-    "alguns recursos desabilitados"
-  ],
+  "poorConnection": {
+    "0": "Conexão ruim",
+    "1": "alguns recursos desabilitados"
+  },
   "networkConnectionFailed": "Não foi possível conectar-se à rede, confira sua conexão de dados",
   "firebaseFailed": "Não foi possível estabelecer uma conexão com o servidor. Suas informações de conta não podem ser atualizadas até que a conexão seja restabelecida.",
   "gasPriceUpdateFailed": "Não foi possível atualizar a taxa",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Parabéns, seu número de celular está conectado!",
   "notification": {
-    "body": "Conecte o seu número para reivindicar fundos e conectar-se aos seus amigos",
+    "body": "Receba pagamentos diretamente no seu celular",
     "cta": "Conectar"
   },
   "quotaLookup": {
@@ -1023,18 +1023,18 @@
   "sendMoney": "Enviar cripto",
   "verificationFee": "Taxa de confirmação",
   "networkFee": "Taxa de rede",
-  "networkFeeExplanation": [
-    "A cada semana, uma taxa muito pequena (menos de 0,01%) do saldo em Celo Dollars de cada usuário é usada para manter o valor do Celo Dollar estável. Para saber mais sobre as taxas do Celo, acesse ",
-    "Perguntas frequentes"
-  ],
+  "networkFeeExplanation": {
+    "0": "A cada semana, uma taxa muito pequena (menos de 0,01%) do saldo em Celo Dollars de cada usuário é usada para manter o valor do Celo Dollar estável. Para saber mais sobre as taxas do Celo, acesse ",
+    "1": "Perguntas frequentes"
+  },
   "confirmingTransaction": "Confirmando…",
   "confirmingExchange": "Confirmando…",
   "paymentFailed": "Falha no pagamento",
   "loadingActivity": "Carregando seu feed de atividades",
-  "errorLoadingActivity": [
-    "Não foi possível carregar seu feed",
-    "Tente novamente mais tarde"
-  ],
+  "errorLoadingActivity": {
+    "0": "Não foi possível carregar seu feed",
+    "1": "Tente novamente mais tarde"
+  },
   "noTransactionActivity": "Sua atividade será exibida aqui",
   "noExchangeActivity": "Sua atividade será exibida aqui",
   "maybeLater": "Talvez mais tarde",
@@ -1046,10 +1046,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> e mais uma pessoa ainda não aceitaram seus convites",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ainda não aceitaram seus convites",
   "escrowedPaymentReminderSmsNoData": "Um lembrete amigável de que você ainda não resgatou o seu {{currency}} com {{appName}}! Baixe o aplicativo móvel para começar!",
-  "testnetAlert": [
-    "{{testnet}}",
-    "Um lembrete amigável de que você está usando a construção de rede {{testnet}} – os saldos não são reais"
-  ],
+  "testnetAlert": {
+    "0": "{{testnet}}",
+    "1": "Um lembrete amigável de que você está usando a construção de rede {{testnet}} – os saldos não são reais"
+  },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Conta {{address}}",
   "feedItemExchangeTitle": "CELO",
@@ -1264,6 +1264,24 @@
       "button": "Sacar Fundos",
       "transactionDetailsAmount": "Saque total",
       "transactionDetailsAmountConverted": "Quantia retirada"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Repetir",
+    "withdraw": {
+      "cancel": "Cancelar Retirada",
+      "success": {
+        "header": "Sucesso",
+        "title": "Os seus fundos estão a caminho!",
+        "description": "O seu pedido de transacção foi enviado e os seus fundos chegarão em {{duration}}.",
+        "txDetails": "Ver no CeloExplorer",
+        "continue": "Continuar"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "O seu pedido não pôde ser completado.",
+      "description": "Os seus fundos não puderam ser transferidos de Valora. Por favor, tente novamente ou contacte a nossa equipa de apoio para obter ajuda.",
+      "contactSupportPrefill": "Estou a ter dificuldades em retirar os meus fundos da Valora"
     }
   },
   "fiatExchangeFlow": {
