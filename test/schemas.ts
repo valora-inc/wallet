@@ -1441,7 +1441,7 @@ export const v63Schema = {
   ...v62Schema,
   _persist: {
     ...v62Schema._persist,
-    version: 61,
+    version: 63,
   },
   fiatConnect: {
     ...v62Schema.fiatConnect,
