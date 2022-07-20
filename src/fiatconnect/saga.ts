@@ -73,7 +73,7 @@ export function* handleFetchFiatConnectQuotes({
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
-    Logger.error(TAG, 'Could fetch fiatconnect quotes', error)
+    Logger.error(TAG, 'Could not fetch fiatconnect quotes', error)
     yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
