@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Impossibile eseguire il prelievo da deposito in garanzia.",
   "reclaimingEscrowedPaymentFailed": "Impossibile recuperare il pagamento.",
   "connectingToCelo": "Connessione in corso…",
-  "poorConnection": [
-    "Connessione scarsa.",
-    "alcune caratteristiche sono state disabilitate"
-  ],
+  "poorConnection": {
+    "0": "Connessione scarsa.",
+    "1": "alcune caratteristiche sono state disabilitate"
+  },
   "networkConnectionFailed": "Impossibile stabilire il collegamento con la rete, controlla la connessione dati.",
   "firebaseFailed": "La connessione a Internet è debole. Impossibile aggiornare le informazioni del conto fino a quando la connessione non viene ripristinata.",
   "gasPriceUpdateFailed": "Impossibile aggiornare la commissione.",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Congratulazioni, il tuo numero telefonico è ora collegato!",
   "notification": {
-    "body": "Collega il tuo numero per richiedere fondi e connetterti agli amici",
+    "body": "Ricevi pagamenti direttamente sul tuo numero telefonico",
     "cta": "Collega ora"
   },
   "quotaLookup": {
@@ -1023,18 +1023,18 @@
   "sendMoney": "Invia criptovalute",
   "verificationFee": "Commissione di conferma",
   "networkFee": "Commissione di rete",
-  "networkFeeExplanation": [
-    "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore di Celo Dollar e Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
-    "Domande frequenti"
-  ],
+  "networkFeeExplanation": {
+    "0": "Ogni settimana, una commissione molto bassa (inferiore allo 0,01%) applicata al saldo in Celo Dollar di ogni utente viene utilizzata per mantenere stabile il valore di Celo Dollar e Celo Euro. Per ulteriori informazioni sulle commissioni Celo, visita",
+    "1": "Domande frequenti"
+  },
   "confirmingTransaction": "Conferma in corso…",
   "confirmingExchange": "Conferma in corso…",
   "paymentFailed": "Impossibile eseguire il pagamento.",
   "loadingActivity": "Caricamento del feed della tua attività in corso",
-  "errorLoadingActivity": [
-    "Impossibile caricare il feed.",
-    "Riprova più tardi"
-  ],
+  "errorLoadingActivity": {
+    "0": "Impossibile caricare il feed.",
+    "1": "Riprova più tardi"
+  },
   "noTransactionActivity": "La tua attività sarà visualizzata qui",
   "noExchangeActivity": "La tua attività sarà visualizzata qui",
   "maybeLater": "Forse più tardi",
@@ -1046,10 +1046,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> e qualcun altro non hanno ancora accettato l'invito.",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> e altri non hanno ancora accettato l'invito.",
   "escrowedPaymentReminderSmsNoData": "Desideriamo ricordarti che non hai ancora riscattato i tuoi {{currency}} tramite {{appName}}. Per iniziare, scarica l’app per dispositivi mobili.",
-  "testnetAlert": [
-    "{{testnet}}",
-    "Desideriamo ricordarti che stai usando la versione build della rete {{testnet}}. I saldi non sono reali."
-  ],
+  "testnetAlert": {
+    "0": "{{testnet}}",
+    "1": "Desideriamo ricordarti che stai usando la versione build della rete {{testnet}}. I saldi non sono reali."
+  },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Conto {{address}}",
   "feedItemExchangeTitle": "CELO",
@@ -1264,6 +1264,24 @@
       "button": "Preleva fondi",
       "transactionDetailsAmount": "Prelievo totale",
       "transactionDetailsAmountConverted": "Importo prelevato"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Riprova",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Success",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Continua"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
     }
   },
   "fiatExchangeFlow": {
