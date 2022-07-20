@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Nie udało się wypłacić z rachunku escrow",
   "reclaimingEscrowedPaymentFailed": "Nie można odzyskać płatności",
   "connectingToCelo": "Łączenie…",
-  "poorConnection": {
-    "0": "Słabe połączenie z siecią",
-    "1": "niektóre funkcje zostały wyłączone"
-  },
+  "poorConnection": [
+    "Słabe połączenie z siecią",
+    "niektóre funkcje zostały wyłączone"
+  ],
   "networkConnectionFailed": "Nie można połączyć się z siecią, sprawdź połączenie transmisji danych",
   "firebaseFailed": "Słabe połączenie z Internetem. Aby zaktualizować dane konta, poczekaj na przywrócenie połączenia.",
   "gasPriceUpdateFailed": "Nie można zaktualizować opłaty",
@@ -1027,18 +1027,18 @@
   "sendMoney": "Wyślij kryptowalutę",
   "verificationFee": "Opłata za potwierdzenie",
   "networkFee": "Opłata sieciowa",
-  "networkFeeExplanation": {
-    "0": "Co tydzień od salda Celo Dolarów każdego użytkownika pobierana jest niewielka opłata (mniej niż 0,01%) na poczet utrzymania wartości Celo Dolara na stałym poziomie. Aby dowiedzieć się więcej o opłatach Celo, odwiedź ",
-    "1": "FAQ"
-  },
+  "networkFeeExplanation": [
+    "Co tydzień od salda Celo Dolarów każdego użytkownika pobierana jest niewielka opłata (mniej niż 0,01%) na poczet utrzymania wartości Celo Dolara na stałym poziomie. Aby dowiedzieć się więcej o opłatach Celo, odwiedź ",
+    "FAQ"
+  ],
   "confirmingTransaction": "Potwierdzanie…",
   "confirmingExchange": "Potwierdzanie…",
   "paymentFailed": "Płatność nie powiodła się",
   "loadingActivity": "Ładowanie kanału aktywności",
-  "errorLoadingActivity": {
-    "0": "Nie można załadować kanału",
-    "1": "Spróbuj ponownie później"
-  },
+  "errorLoadingActivity": [
+    "Nie można załadować kanału",
+    "Spróbuj ponownie później"
+  ],
   "noTransactionActivity": "Twoje operacje będą widoczne tutaj",
   "noExchangeActivity": "Twoje operacje będą widoczne tutaj",
   "maybeLater": "Może później",
@@ -1050,10 +1050,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> i jeszcze jedna osoba nie zaakceptowali jeszcze swoich zaproszeń",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i inni nie zaakceptowali jeszcze swoich zaproszeń",
   "escrowedPaymentReminderSmsNoData": "Nieśmiało przypominamy, że jeszcze nie wymieniłeś(-aś) swoich {{currency}} w aplikacji {{appName}}! Pobierz aplikację mobilną, aby zacząć!",
-  "testnetAlert": {
-    "0": "{{testnet}}",
-    "1": "Nieśmiało przypominamy, że używasz sieci {{testnet}} – salda nie są prawdziwe"
-  },
+  "testnetAlert": [
+    "{{testnet}}",
+    "Nieśmiało przypominamy, że używasz sieci {{testnet}} – salda nie są prawdziwe"
+  ],
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
   "feedItemExchangeTitle": "CELO",
