@@ -6,6 +6,7 @@ import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
+import { balanceInfoForSuperchargeSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -26,6 +27,7 @@ export const getCurrentUserTraits = createSelector(
     numberVerifiedSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
+    balanceInfoForSuperchargeSelector,
   ],
   (
     walletAddress,
@@ -38,7 +40,8 @@ export const getCurrentUserTraits = createSelector(
     localCurrencyCode,
     hasVerifiedNumber,
     hasCompletedBackup,
-    pincodeType
+    pincodeType,
+    balanceInfoForSupercharge
   ) => {
     const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
@@ -50,6 +53,20 @@ export const getCurrentUserTraits = createSelector(
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
       }
     }
+
+    const { superchargingTokenConfig, hasMaxBalance } = balanceInfoForSupercharge
+    const superchargingToken = superchargingTokenConfig?.tokenSymbol ?? null
+    const superchargingTokenInfo = tokensByUsdBalance.find(
+      (token) => token.symbol === superchargingToken
+    )
+    const superchargingAmount =
+      hasMaxBalance && superchargingTokenConfig
+        ? new BigNumber(superchargingTokenConfig.maxBalance)
+        : superchargingTokenInfo?.balance
+    const superchargingAmountInUsd =
+      superchargingAmount && superchargingTokenInfo
+        ? superchargingAmount.multipliedBy(superchargingTokenInfo.usdPrice ?? '0').toFixed(2)
+        : '0.00'
 
     // Don't rename these unless you have a really good reason!
     // They are used in users analytics profiles + super properties
@@ -92,6 +109,8 @@ export const getCurrentUserTraits = createSelector(
       appBuildNumber: DeviceInfo.getBuildNumber(),
       appBundleId: DeviceInfo.getBundleId(),
       pincodeType,
+      superchargingToken,
+      superchargingAmountInUsd,
     }
   }
 )
