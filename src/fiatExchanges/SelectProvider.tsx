@@ -13,12 +13,14 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
 import {
+  fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
 } from 'src/fiatconnect/selectors'
-import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import i18n from 'src/i18n'
@@ -37,6 +39,7 @@ import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  fetchExchanges,
   fetchLegacyMobileMoneyProviders,
   fetchProviders,
   filterLegacyMobileMoneyProviders,
@@ -57,6 +60,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+  const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
+
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
 
@@ -66,6 +71,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     [Currency.Euro]: CiCoCurrency.CEUR,
   }[route.params.selectedCrypto]
 
+  // If there is no FC providers in the redux cache, try to fetch again
+  useEffect(() => {
+    if (!fiatConnectProviders) {
+      dispatch(fetchFiatConnectProviders())
+    }
+  }, [fiatConnectProviders])
+
   useEffect(() => {
     dispatch(
       fetchFiatConnectQuotes({
@@ -74,13 +86,27 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cryptoAmount: route.params.amount.crypto,
       })
     )
-  }, [flow, digitalAsset, route.params.amount.crypto])
+  }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
   }, [fiatConnectQuotesError])
+
+  const asyncExchanges = useAsync(async () => {
+    try {
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        route.params.selectedCrypto
+      )
+
+      return availableExchanges
+    } catch (error) {
+      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
+      return []
+    }
+  }, [])
 
   const asyncProviders = useAsync(async () => {
     if (!account) {
@@ -114,7 +140,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [])
 
-  if (asyncProviders.loading || fiatConnectQuotesLoading) {
+  if (asyncProviders.loading || fiatConnectQuotesLoading || asyncExchanges.loading) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
@@ -131,6 +157,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
   )
+
+  const exchanges = asyncExchanges.result ?? []
 
   return (
     <ScrollView>
@@ -156,7 +184,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cryptoAmount={route.params.amount.crypto}
         coinbaseProvider={coinbaseProvider}
       />
-      <ExchangesSection selectedCurrency={route.params.selectedCrypto} flow={flow} />
+      <ExchangesSection
+        exchanges={exchanges}
+        selectedCurrency={route.params.selectedCrypto}
+        flow={flow}
+      />
       <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
     </ScrollView>
   )
@@ -209,13 +241,20 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
 }
 
 function ExchangesSection({
+  exchanges = [],
   flow,
   selectedCurrency,
 }: {
+  exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
 }) {
   const { t } = useTranslation()
+
+  if (!exchanges.length) {
+    return null
+  }
+
   const goToExchangesScreen = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
@@ -223,6 +262,7 @@ function ExchangesSection({
     navigate(Screens.ExternalExchanges, {
       currency: selectedCurrency,
       isCashIn: flow === CICOFlow.CashIn,
+      exchanges,
     })
   }
 

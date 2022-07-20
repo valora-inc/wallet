@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppState } from 'src/app/actions'
 import ListItem from 'src/components/ListItem'
 import { FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { FUNDING_LINK } from 'src/config'
+import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -23,7 +25,7 @@ import Logger from 'src/utils/Logger'
 function FiatExchange() {
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
@@ -31,6 +33,11 @@ function FiatExchange() {
       setTimestamp(null)
     }
   }, [appState])
+
+  // Fetch FiatConnect providers silently in the background at the beginning of the CICO funnel
+  useEffect(() => {
+    dispatch(fetchFiatConnectProviders())
+  }, [])
 
   function goToAddFunds() {
     navigate(Screens.FiatExchangeCurrency, {
