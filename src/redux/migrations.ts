@@ -722,4 +722,11 @@ export const migrations = {
       superchargeTokenConfigByToken: {},
     },
   }),
+  63: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
 }
