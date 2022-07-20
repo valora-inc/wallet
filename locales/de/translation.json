@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Abhebung aus dem escrow fehlgeschlagen",
   "reclaimingEscrowedPaymentFailed": "Zahlung konnte nicht zurückgefordert werden",
   "connectingToCelo": "Verbindung wird aufgebaut…",
-  "poorConnection": [
-    "Schlechte Verbindung",
-    "einige Funktionen deaktiviert"
-  ],
+  "poorConnection": {
+    "0": "Schlechte Verbindung",
+    "1": "einige Funktionen deaktiviert"
+  },
   "networkConnectionFailed": "Keine Verbindung zum Netzwerk möglich, bitte überprüfe deine Datenverbindung",
   "firebaseFailed": "Internetverbindung ist schwach. Kontoinformationen können erst aktualisiert werden, wenn die Verbindung wiederhergestellt ist.",
   "gasPriceUpdateFailed": "Gebühr konnte nicht aktualisiert werden",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
   "notification": {
-    "body": "Verbinde deine Nummer, um Geld zu beanspruchen und dich mit Freunden zu verbinden",
+    "body": "Zahlungen direkt an deine Telefonnummer erhalten",
     "cta": "Jetzt verbinden"
   },
   "quotaLookup": {
@@ -1023,18 +1023,18 @@
   "sendMoney": "Krypto senden",
   "verificationFee": "Bestätigungsgebühr",
   "networkFee": "Netzwerkgebühr",
-  "networkFeeExplanation": [
-    "Jede Woche wird eine sehr geringe Gebühr (weniger als 0,01%) des Celo Dollar Guthaben eines jeden Benutzers verwendet, um den Wert des Celo Dollar stabil zu halten. Um mehr über Celo-Gebühren zu erfahren, besuche die ",
-    "FAQ"
-  ],
+  "networkFeeExplanation": {
+    "0": "Jede Woche wird eine sehr geringe Gebühr (weniger als 0,01%) des Celo Dollar Guthaben eines jeden Benutzers verwendet, um den Wert des Celo Dollar stabil zu halten. Um mehr über Celo-Gebühren zu erfahren, besuche die ",
+    "1": "FAQ"
+  },
   "confirmingTransaction": "Wird bestätigt…",
   "confirmingExchange": "Wird bestätigt…",
   "paymentFailed": "Zahlung fehlgeschlagen",
   "loadingActivity": "Aktivitätsfeed wird geladen",
-  "errorLoadingActivity": [
-    "Feed kann nicht geladen werden",
-    "Bitte versuche es später erneut"
-  ],
+  "errorLoadingActivity": {
+    "0": "Feed kann nicht geladen werden",
+    "1": "Bitte versuche es später erneut"
+  },
   "noTransactionActivity": "Deine Aktivitäten werden hier erscheinen",
   "noExchangeActivity": "Deine Aktivität wird hier erscheinen",
   "maybeLater": "Vielleicht später",
@@ -1046,10 +1046,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> und ein anderer haben ihre Einladungen noch nicht angenommen",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> und andere haben ihre Einladungen noch nicht angenommen",
   "escrowedPaymentReminderSmsNoData": "Eine freundliche Erinnerung, dass du deine {{currency}} mit {{appName}} noch nicht eingelöst hast! Lade die mobile App herunter, um loszulegen!",
-  "testnetAlert": [
-    "{{testnet}}",
-    "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
-  ],
+  "testnetAlert": {
+    "0": "{{testnet}}",
+    "1": "Eine freundliche Erinnerung, dass du das {{testnet}} -Netzwerk-Build verwendest - der Guthaben ist nicht real"
+  },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
   "feedItemExchangeTitle": "CELO",
@@ -1264,6 +1264,24 @@
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
       "transactionDetailsAmountConverted": "Betrag abgehoben"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Wiederholen",
+    "withdraw": {
+      "cancel": "Rückzug abbrechen",
+      "success": {
+        "header": "Erfolg",
+        "title": "Dein Geld ist auf dem Weg!",
+        "description": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird auf {{duration}}eingehen.",
+        "txDetails": "Ansicht auf CeloExplorer",
+        "continue": "Weiter"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
+      "description": "Dein Geld konnte nicht von Valora überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Geld von Valora abzuheben"
     }
   },
   "fiatExchangeFlow": {
