@@ -1273,19 +1273,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Повторить попытку",
     "withdraw": {
-      "cancel": "Cancel Withdrawal",
+      "cancel": "Отменить отмену",
       "success": {
         "header": "Успешно",
-        "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-        "txDetails": "View on CeloExplorer",
+        "title": "Твои средства уже в пути!",
+        "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
+        "txDetails": "Посмотреть на CeloExplorer",
         "continue": "Продолжить"
       }
     },
     "requestNotCompleted": {
-      "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
+      "title": "Твой запрос не удалось выполнить.",
+      "description": "Твои средства не удалось перевести из Valora. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
     }
   },
   "fiatExchangeFlow": {
