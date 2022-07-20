@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Не удалось вывести со счета эскроу",
   "reclaimingEscrowedPaymentFailed": "Не удалось вернуть платеж",
   "connectingToCelo": "Подключение…",
-  "poorConnection": [
-    "Плохое соединение",
-    "некоторые функции отключены"
-  ],
+  "poorConnection": {
+    "0": "Плохое соединение",
+    "1": "некоторые функции отключены"
+  },
   "networkConnectionFailed": "Не удалось подключиться к сети, проверьте подключение для передачи данных",
   "firebaseFailed": "Низкая скорость подключения к Интернету. Пока не будет восстановлено соединение, не удастся обновить информация об аккаунте.",
   "gasPriceUpdateFailed": "Не удалось обновить комиссию",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Поздравляем, ваш номер телефона подключен!",
   "notification": {
-    "body": "Подключить номер телефона, чтобы получить средства и связаться с друзьями.",
+    "body": "Получать платежи непосредственно на номер телефона",
     "cta": "Подключить сейчас"
   },
   "quotaLookup": {
@@ -1027,18 +1027,18 @@
   "sendMoney": "Отправить криптовалюту",
   "verificationFee": "Комиссия за подтверждение",
   "networkFee": "Комиссия сообщества",
-  "networkFeeExplanation": [
-    "Каждую неделю с остатка средств в стейблкоины Celo каждого пользователя взимается очень небольшая комиссия (менее 0,01%), используемая для поддержания стабильной цены стейблкоины Celo. Чтобы узнать больше о комиссиях Celo, посетите ",
-    "Часто задаваемые вопросы"
-  ],
+  "networkFeeExplanation": {
+    "0": "Каждую неделю с остатка средств в стейблкоины Celo каждого пользователя взимается очень небольшая комиссия (менее 0,01%), используемая для поддержания стабильной цены стейблкоины Celo. Чтобы узнать больше о комиссиях Celo, посетите ",
+    "1": "Часто задаваемые вопросы"
+  },
   "confirmingTransaction": "Подтверждение…",
   "confirmingExchange": "Подтверждение…",
   "paymentFailed": "Платеж не выполнен",
   "loadingActivity": "Загрузка ленты активности",
-  "errorLoadingActivity": [
-    "Не удается загрузить вашу ленту",
-    "Повторите попытку позже"
-  ],
+  "errorLoadingActivity": {
+    "0": "Не удается загрузить вашу ленту",
+    "1": "Повторите попытку позже"
+  },
   "noTransactionActivity": "Ваша активность появится здесь",
   "noExchangeActivity": "Ваша активность появится здесь",
   "maybeLater": "Может быть, позже",
@@ -1050,10 +1050,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> и еще один источник пока не приняли приглашений",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> и другие еще не приняли приглашений",
   "escrowedPaymentReminderSmsNoData": "Напоминаем о том, что вы еще не совершали обмен {{currency}} с помощью {{appName}}! Чтобы начать, загрузите мобильное приложение!",
-  "testnetAlert": [
-    "{{testnet}}",
-    "Напоминаем о том, что вы используете сетевую сборку {{testnet}}. Остатки средств могут быть неточными"
-  ],
+  "testnetAlert": {
+    "0": "{{testnet}}",
+    "1": "Напоминаем о том, что вы используете сетевую сборку {{testnet}}. Остатки средств могут быть неточными"
+  },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Аккаунт {{address}}",
   "feedItemExchangeTitle": "CELO",
@@ -1268,6 +1268,24 @@
       "button": "Вывод средства",
       "transactionDetailsAmount": "Всего выведено",
       "transactionDetailsAmountConverted": "Сумма выведено"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Повторить попытку",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Успешно",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Продолжить"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
     }
   },
   "fiatExchangeFlow": {
