@@ -150,7 +150,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     PaymentMethod.Coinbase,
     asyncProviders.result?.externalProviders
   )
-
+  
   const supportOnPress = () => navigate(Screens.SupportContact)
 
   const switchCurrencyOnPress = () =>
