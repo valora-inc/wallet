@@ -252,7 +252,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
-  const superchargeConfigByTokenString = flags.superchargeConfigByToken?.asString()
+  const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
 
   return {
     hideVerification: flags.hideVerification.asBoolean(),
