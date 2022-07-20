@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Escrow'dan fon çekme işlemi başarısız",
   "reclaimingEscrowedPaymentFailed": "Ödeme alınamadı",
   "connectingToCelo": "Bağlanıyor...",
-  "poorConnection": {
-    "0": "Zayıf Bağlantı",
-    "1": "bazı özellikler devre dışı bırakıldı"
-  },
+  "poorConnection": [
+    "Zayıf Bağlantı",
+    "bazı özellikler devre dışı bırakıldı"
+  ],
   "networkConnectionFailed": "Ağa bağlanılamadı, lütfen veri bağlantınızı kontrol edin",
   "firebaseFailed": "Zayıf internet bağlantısı. Hesap bilgileri bağlantı tekrar sağlanana kadar güncellenemiyor.",
   "gasPriceUpdateFailed": "İşlem ücreti güncellenemedi",
@@ -1023,18 +1023,18 @@
   "sendMoney": "Kripto Gönder",
   "verificationFee": "Onaylama Ücreti",
   "networkFee": "Ağ Ücreti",
-  "networkFeeExplanation": {
-    "0": "Her hafta, Celo Dollar'ın değerini sabit tutmak için her kullanıcının Celo Dollar Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. Celo ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
-    "1": "SSS"
-  },
+  "networkFeeExplanation": [
+    "Her hafta, Celo Dollar'ın değerini sabit tutmak için her kullanıcının Celo Dollar Bakiyesinden çok küçük bir ücret (%0.01'den az) kullanılır. Celo ücretleri hakkında daha fazla bilgi edinmek için şurayı ziyaret edin ",
+    "SSS"
+  ],
   "confirmingTransaction": "Onaylanıyor…",
   "confirmingExchange": "Onaylanıyor…",
   "paymentFailed": "Ödeme Başarısız",
   "loadingActivity": "Aktivite akışınız yükleniyor",
-  "errorLoadingActivity": {
-    "0": "Akış yükleme başarısız",
-    "1": "Lütfen daha sonra tekrar deneyiniz"
-  },
+  "errorLoadingActivity": [
+    "Akış yükleme başarısız",
+    "Lütfen daha sonra tekrar deneyiniz"
+  ],
   "noTransactionActivity": "İşlemleriniz burada görünecek",
   "noExchangeActivity": "İşlemleriniz burada görünecek",
   "maybeLater": "Belki Daha Sonra",
@@ -1046,10 +1046,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> ve bir kişi daha davetlerini henüz kabul etmedi",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ve bir kaç kişi daha henüz davetlerini kabul etmedi",
   "escrowedPaymentReminderSmsNoData": "{{appName}} ile {{currency}} bakiyenizi henüz almadığınızı hatırlatmak isteriz! Almak için mobil uygulamayı indirin!",
-  "testnetAlert": {
-    "0": "{{testnet}}",
-    "1": "{{testnet}} test ağını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
-  },
+  "testnetAlert": [
+    "{{testnet}}",
+    "{{testnet}} test ağını kullandığınıza dair samimi bir hatırlatma - bakiyeler gerçek değil"
+  ],
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Hesap {{address}}",
   "feedItemExchangeTitle": "CELO",
