@@ -717,6 +717,20 @@ export const migrations = {
   }),
   62: (state: any) => ({
     ...state,
+    app: {
+      ..._.omit(state.app, 'superchargeTokens'),
+      superchargeTokenConfigByToken: {},
+    },
+  }),
+  63: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
+  64: (state: any) => ({
+    ...state,
     home: {
       ...state.home,
       ...(Array.isArray(state.home.cleverTapNotifications)

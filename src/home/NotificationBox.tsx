@@ -19,7 +19,7 @@ import SimpleMessagingCard, {
   Props as SimpleMessagingCardProps,
 } from 'src/components/SimpleMessagingCard'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { useHasBalanceForSupercharge } from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -99,7 +99,7 @@ function useSimpleActions() {
 
   const verificationPossible = useSelector(verificationPossibleSelector)
 
-  const { hasBalanceForSupercharge } = useHasBalanceForSupercharge()
+  const { hasBalanceForSupercharge } = useSelector(superchargeInfoSelector)
   const isSupercharging = numberVerified && hasBalanceForSupercharge
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)

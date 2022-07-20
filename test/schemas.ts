@@ -1422,12 +1422,45 @@ export const v62Schema = {
     ...v61Schema._persist,
     version: 62,
   },
+  app: {
+    ..._.omit(v61Schema.app, 'superchargeTokens'),
+    superchargeTokenConfigByToken: {
+      [mockCusdAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      [mockCeurAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
+  },
+}
+
+export const v63Schema = {
+  ...v62Schema,
+  _persist: {
+    ...v62Schema._persist,
+    version: 63,
+  },
+  fiatConnect: {
+    ...v62Schema.fiatConnect,
+    providers: null,
+  },
+}
+
+export const v64Schema = {
+  ...v63Schema,
+  _persist: {
+    ...v63Schema._persist,
+    version: 64,
+  },
   home: {
-    ...v61Schema.home,
+    ...v63Schema.home,
     cleverTapNotifications: {},
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v62Schema as Partial<RootState>
+  return v64Schema as Partial<RootState>
 }

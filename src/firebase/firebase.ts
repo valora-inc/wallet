@@ -14,7 +14,6 @@ import { updateAccountRegistration } from 'src/account/updateAccountRegistration
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
-import { SuperchargeToken } from 'src/consumerIncentives/types'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -253,6 +252,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
+  const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
+
   return {
     hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
@@ -269,11 +270,9 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
-    superchargeTokens: (Object.keys(SuperchargeToken) as SuperchargeToken[]).map((token) => ({
-      token,
-      minBalance: flags[`supercharge${token}Min`].asNumber(),
-      maxBalance: flags[`supercharge${token}Max`].asNumber(),
-    })),
+    superchargeTokenConfigByToken: superchargeConfigByTokenString
+      ? JSON.parse(superchargeConfigByTokenString)
+      : {},
     komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
     komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),

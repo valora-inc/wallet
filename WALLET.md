@@ -163,6 +163,7 @@ alias mbrew='arch -arm64e /opt/homebrew/bin/brew'
 ```console
 ibrew install rbenv
 ```
+
 4.1. Add rbenv initialization to your shell. For instance in `.zshrc` or `.bashrc`:
 
 ```bash
@@ -228,7 +229,9 @@ which yarn
 -> /Users/[youruser]/.nvm/versions/node/v16.15.0/bin/yarn
 
 ```
+
 Now follow [the steps for iOS installation](#install-cocopods-bundler-and-download-project-dependencies).
+
 ### Android
 
 #### Install Java
@@ -430,6 +433,10 @@ This allows viewing / debugging the following:
 - App preferences
 - Hermes
 - and more ;)
+
+If you're using an Android simulator and the device / app is not showing up,
+navigate to settings (gear icon in the bottom left) and ensure the Android SDK
+location points to the same location as the $ANDROID_HOME environment variable.
 
 ### App Profiling
 
