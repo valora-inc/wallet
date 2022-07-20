@@ -82,7 +82,14 @@ function SupportContact({ route }: Props) {
     }
     minSetInProgress(false)
     try {
-      await sendEmail(email, deviceInfo, attachments[0].path ?? false)
+      await sendEmail(
+        email,
+        deviceInfo,
+        // Get the current months log file to attach as text if sendEmailWithNonNativeApp is used
+        attachments.find(
+          (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
+        ) ?? false
+      )
       navigateBackAndToast()
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)

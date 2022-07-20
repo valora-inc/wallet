@@ -4,7 +4,6 @@ import { format } from 'date-fns'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
-import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { readFileChunked } from 'src/utils/readFile'
@@ -151,8 +150,12 @@ class Logger {
     return error
   }
 
+  getCurrentLogFileName = () => {
+    return `${format(new Date(), 'yyyy-MMM')}.txt`
+  }
+
   getReactNativeLogFilePath = () => {
-    return `${this.getReactNativeLogsDir()}/${format(new Date(), 'yyyy-MMM')}.txt`
+    return `${this.getReactNativeLogsDir()}/${this.getCurrentLogFileName()}`
   }
 
   getReactNativeLogsDir = () => {
@@ -166,16 +169,24 @@ class Logger {
       const path = Platform.OS === 'ios' ? RNFS.TemporaryDirectoryPath : RNFS.ExternalDirectoryPath
       const toAttach = []
       for (const file of logFiles) {
-        // Always remove the logs from the current month and re-copy
-        // But not the logs from previous months if they exist
-        if (file.name === `${format(new Date(), 'yyyy-MMM')}.txt`) {
-          await RNFS.unlink(`${path}/${file.name}`)
-          await RNFS.copyFile(file.path, `${path}/${file.name}`)
-        } else if (!(await RNFS.exists(`${path}/${file.name}`))) {
-          await RNFS.copyFile(file.path, `${path}/${file.name}`)
+        // RNFS.TemporaryDirectoryPath (iOS) has a trailing '/'
+        const osSpecificPath =
+          Platform.OS === 'android' ? `${path}/${file.name}` : `${path}${file.name}`
+        // If the file is the current months log file log file
+        if (file.name === this.getCurrentLogFileName()) {
+          // If this file exists delete it as the new one will have more logs
+          if (await RNFS.exists(osSpecificPath)) {
+            await RNFS.unlink(osSpecificPath)
+          }
+          // Then copy it to the folder we have access to
+          await RNFS.copyFile(file.path, osSpecificPath)
+          // Else if the a log file doesn't exist in the folder we have access to
+          // Then copy it to the folder we have access to
+        } else if (!(await RNFS.exists(osSpecificPath))) {
+          await RNFS.copyFile(file.path, osSpecificPath)
         }
         toAttach.push({
-          path: `${path}/${file.name}`,
+          path: osSpecificPath,
           name: file.name,
           type: 'text',
         })
