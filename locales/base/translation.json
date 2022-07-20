@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Withdrawal from escrow failed",
   "reclaimingEscrowedPaymentFailed": "Payment could not be reclaimed",
   "connectingToCelo": "Connecting…",
-  "poorConnection": {
-    "0": "Bad Connection",
-    "1": "some features disabled"
-  },
+  "poorConnection": [
+    "Bad Connection",
+    "some features disabled"
+  ],
   "networkConnectionFailed": "Could not connect with the network, please check your data connection",
   "firebaseFailed": "Internet connection is weak. Account information cannot be updated until connection is restored.",
   "gasPriceUpdateFailed": "Could not update fee",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connect Now"
   },
   "quotaLookup": {
@@ -1025,18 +1025,18 @@
   "sendMoney": "Send Crypto",
   "verificationFee": "Confirmation Fee",
   "networkFee": "Network Fee",
-  "networkFeeExplanation": {
-    "0": "Each week, a very small fee (less than 0.01%) of every user's Celo Dollar Balance is used to keep the Celo Dollar's value stable. To learn more about Celo fees, visit the ",
-    "1": "FAQ"
-  },
+  "networkFeeExplanation": [
+    "Each week, a very small fee (less than 0.01%) of every user's Celo Dollar Balance is used to keep the Celo Dollar's value stable. To learn more about Celo fees, visit the ",
+    "FAQ"
+  ],
   "confirmingTransaction": "Confirming…",
   "confirmingExchange": "Confirming…",
   "paymentFailed": "Payment Failed",
   "loadingActivity": "Loading your activity feed",
-  "errorLoadingActivity": {
-    "0": "Unable to load your feed",
-    "1": "Please try again later"
-  },
+  "errorLoadingActivity": [
+    "Unable to load your feed",
+    "Please try again later"
+  ],
   "noTransactionActivity": "Your activity will appear here",
   "noExchangeActivity": "Your activity will appear here",
   "maybeLater": "Maybe Later",
@@ -1048,10 +1048,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other haven't accepted their invitations yet",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others haven't accepted their invitations yet",
   "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your {{currency}} with {{appName}}! Download the mobile app to get started!",
-  "testnetAlert": {
-    "0": "{{testnet}}",
-    "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
-  },
+  "testnetAlert": [
+    "{{testnet}}",
+    "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
+  ],
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Account {{address}}",
   "feedItemExchangeTitle": "CELO",
