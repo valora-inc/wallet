@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
   "notification": {
-    "body": "Zahlungen direkt an deine Telefonnummer erhalten",
+    "body": "Verbinde deine Nummer, um Geld zu beanspruchen und dich mit Freunden zu verbinden",
     "cta": "Jetzt verbinden"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
-    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}. Wenn du bereits ein Konto hast, BITTE KLICKEN SIE NICHT, um die Biometrie zu aktivieren, AUßER du hast deine Wiederherstellungsphrase. Wenn du die biometrischen Daten aktivierst, musst du dein Konto wiederherstellen.",
+    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
     "cta": "{{biometryType}} einschalten"
   },
   "biometryType": {
