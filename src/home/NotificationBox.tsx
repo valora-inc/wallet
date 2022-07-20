@@ -91,16 +91,6 @@ function useSimpleActions() {
     dismissedStartSupercharging,
   } = useSelector((state) => state.account)
 
-  Logger.warn(
-    `Account data: ${JSON.stringify({
-      backupCompleted,
-      dismissedGetVerified,
-      dismissedGoldEducation,
-      dismissedKeepSupercharging,
-      dismissedStartSupercharging,
-    })}`
-  )
-
   const numberVerified = useSelector((state) => state.app.numberVerified)
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
 
@@ -113,8 +103,6 @@ function useSimpleActions() {
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
   const { superchargeApy } = useSelector((state) => state.app)
-
-  Logger.warn(`Supercharge state: ${hasBalanceForSupercharge} ${isSupercharging} ${rewardsEnabled}`)
 
   const { t } = useTranslation()
 
@@ -216,7 +204,6 @@ function useSimpleActions() {
       }
 
       if (!isSupercharging && !dismissedStartSupercharging) {
-        Logger.info(`Entro: ${isSupercharging} ${dismissedStartSupercharging}`)
         actions.push({
           id: 'startSupercharging',
           text: t('startSuperchargingNotificationBody'),

@@ -9,7 +9,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
-import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/values'
+import {
+  mockCusdAddress,
+  mockE164Number,
+  mockE164NumberPepper,
+  mockPaymentRequests,
+} from 'test/values'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const RECENT_BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -95,13 +100,26 @@ const superchargeWithoutRewardsSetUp = {
   },
 }
 
-const testcUsdBalance = {
-  address: '0xcusd',
-  isCoreToken: true,
-  balance: '100',
-  symbol: 'cUSD',
-  usdPrice: '1',
-  priceFetchedAt: Date.now(),
+const mockcUsdBalance = {
+  [mockCusdAddress]: {
+    address: mockCusdAddress,
+    isCoreToken: true,
+    balance: '100',
+    symbol: 'cUSD',
+    usdPrice: '1',
+    priceFetchedAt: Date.now(),
+  },
+}
+
+const mockcUsdWithoutEnoughBalance = {
+  [mockCusdAddress]: {
+    address: mockCusdAddress,
+    isCoreToken: true,
+    balance: '5',
+    symbol: 'cUSD',
+    usdPrice: '1',
+    priceFetchedAt: Date.now(),
+  },
 }
 
 describe('NotificationBox', () => {
@@ -401,9 +419,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          ['0xcusd']: testcUsdBalance,
-        },
+        tokenBalances: mockcUsdBalance,
       },
     })
     const { queryByTestId, getByTestId } = render(
@@ -426,9 +442,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          ['0xcusd']: testcUsdBalance,
-        },
+        tokenBalances: mockcUsdBalance,
       },
       account: {
         dismissedKeepSupercharging: true,
@@ -449,9 +463,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          ['0xcusd']: testcUsdBalance,
-        },
+        tokenBalances: mockcUsdBalance,
       },
       app: {
         ...superchargeWithoutRewardsSetUp.app,
@@ -478,12 +490,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          ['0xcusd']: {
-            ...testcUsdBalance,
-            balance: '5',
-          },
-        },
+        tokenBalances: mockcUsdWithoutEnoughBalance,
       },
     })
     const { queryByTestId, getByTestId } = render(
@@ -506,12 +513,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...superchargeWithoutRewardsSetUp,
       tokens: {
-        tokenBalances: {
-          ['0xcusd']: {
-            ...testcUsdBalance,
-            balance: '5',
-          },
-        },
+        tokenBalances: mockcUsdWithoutEnoughBalance,
       },
       account: {
         dismissedStartSupercharging: true,

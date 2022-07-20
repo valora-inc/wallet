@@ -234,7 +234,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
             "createdAt": 1645591363099,
             "index": 0,
             "proof": Array [],
-            "tokenAddress": "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1",
+            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
           },
         ],
         "type": "supercharge/claimRewards",
