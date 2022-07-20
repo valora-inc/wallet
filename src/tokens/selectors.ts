@@ -9,7 +9,6 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
-import Logger from 'src/utils/Logger'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
 type TokenBalanceWithUsdPrice = TokenBalance & {
@@ -32,9 +31,6 @@ export const tokensByAddressSelector = createSelector(
 
       const tokenUsdPriceIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-      if (tokenUsdPriceIsStale) {
-        Logger.warn(`Price is not updated for token ${JSON.stringify(storedState)}`)
-      }
       tokenBalances[tokenAddress] = {
         ...storedState,
         balance: new BigNumber(storedState.balance),
