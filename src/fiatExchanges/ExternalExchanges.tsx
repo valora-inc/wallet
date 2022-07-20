@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,7 +9,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
+import TextButton from 'src/components/TextButton'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -18,16 +17,12 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
-
-const TAG = 'ExternalExchanges'
 
 export const externalExchangesScreenOptions = () => {
   const eventName = FiatExchangeEvents.cico_external_exchanges_back
@@ -51,8 +46,8 @@ type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
 function ExternalExchanges({ route }: Props) {
   const { t } = useTranslation()
   const account = useSelector(currentAccountSelector)
-  const userLocationData = useSelector(userLocationDataSelector)
   const isCashIn = route.params?.isCashIn ?? true
+  const providers = route.params?.exchanges
 
   const goToExchange = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
@@ -66,20 +61,12 @@ function ExternalExchanges({ route }: Props) {
     }
   }
 
-  const asyncProviders = useAsync(async () => {
-    try {
-      const availableProviders = await fetchExchanges(
-        userLocationData.countryCodeAlpha2,
-        route.params.currency
-      )
+  const supportOnPress = () => navigate(Screens.SupportContact)
 
-      return availableProviders
-    } catch (error) {
-      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
-      return []
-    }
-  }, [])
-  const providers = asyncProviders.result
+  const switchCurrencyOnPress = () =>
+    navigate(Screens.FiatExchangeCurrency, {
+      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+    })
 
   const goToCashOut = () => {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
@@ -88,9 +75,6 @@ function ExternalExchanges({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {asyncProviders.loading && (
-        <ActivityIndicator size="large" color={colors.gray2} testID="Loader" />
-      )}
       {isCashIn ? (
         <>
           <Text style={styles.pleaseSelectExchange}>

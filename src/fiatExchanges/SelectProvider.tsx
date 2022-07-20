@@ -20,6 +20,7 @@ import {
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import i18n from 'src/i18n'
@@ -133,7 +134,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [])
 
-  if (asyncProviders.loading || fiatConnectQuotesLoading) {
+  if (asyncProviders.loading || fiatConnectQuotesLoading || asyncExchanges.loading) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
@@ -158,13 +159,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
     })
 
-  const externalExchanges = asyncExchanges.result
+  const exchanges = asyncExchanges.result ?? []
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
 
   const anyProviders =
     normalizedQuotes.length ||
     !(coinbaseProvider?.restricted ?? true) ||
-    externalExchanges?.length ||
+    exchanges.length ||
     legacyMobileMoneyProviders?.length
 
   return (
@@ -194,7 +195,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
             coinbaseProvider={coinbaseProvider}
           />
           <ExchangesSection
-            numExchanges={externalExchanges?.length}
+            exchanges={exchanges}
             selectedCurrency={route.params.selectedCrypto}
             flow={flow}
           />
@@ -274,15 +275,20 @@ function LimitedPaymentMethods({ visible, flow }: { visible: boolean; flow: CICO
 }
 
 function ExchangesSection({
-  numExchanges,
+  exchanges = [],
   flow,
   selectedCurrency,
 }: {
-  numExchanges: number | undefined
+  exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
   selectedCurrency: Currency
 }) {
   const { t } = useTranslation()
+
+  if (!exchanges.length) {
+    return null
+  }
+
   const goToExchangesScreen = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_providers_exchanges_selected, {
       flow,
@@ -290,11 +296,8 @@ function ExchangesSection({
     navigate(Screens.ExternalExchanges, {
       currency: selectedCurrency,
       isCashIn: flow === CICOFlow.CashIn,
+      exchanges,
     })
-  }
-
-  if (!numExchanges) {
-    return null
   }
 
   return (
