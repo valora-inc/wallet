@@ -64,7 +64,6 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
   const { t } = useTranslation()
-  const isCashIn = route.params.flow === CICOFlow.CashIn
 
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
@@ -156,7 +155,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const switchCurrencyOnPress = () =>
     navigate(Screens.FiatExchangeCurrency, {
-      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+      flow:
+        route.params.flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
     })
 
   const exchanges = asyncExchanges.result ?? []

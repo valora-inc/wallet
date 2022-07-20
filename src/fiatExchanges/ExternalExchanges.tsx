@@ -9,7 +9,6 @@ import AccountNumber from 'src/components/AccountNumber'
 import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
-import TextButton from 'src/components/TextButton'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -60,13 +59,6 @@ function ExternalExchanges({ route }: Props) {
       navigateToURI(link)
     }
   }
-
-  const supportOnPress = () => navigate(Screens.SupportContact)
-
-  const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
 
   const goToCashOut = () => {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
@@ -163,25 +155,6 @@ const styles = StyleSheet.create({
   optionTitle: {
     flex: 3,
     ...fontStyles.regular,
-  },
-  noExchangesContainer: {
-    alignItems: 'center',
-    padding: 24,
-  },
-  noExchanges: {
-    ...fontStyles.regular,
-    padding: variables.contentPadding,
-    textAlign: 'center',
-  },
-  switchCurrency: {
-    ...fontStyles.large500,
-    color: colors.greenUI,
-    padding: 8,
-  },
-  contactSupport: {
-    ...fontStyles.large500,
-    color: colors.gray4,
-    padding: 8,
   },
   buttonContainer: {
     flexDirection: 'row',
