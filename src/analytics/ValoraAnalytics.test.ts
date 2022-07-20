@@ -119,6 +119,8 @@ const defaultSuperProperties = {
   sTokenCount: 4,
   sTotalBalanceUsd: 36,
   sWalletAddress: '0x0000000000000000000000000000000000007e57',
+  sSuperchargingAmountInUsd: 24,
+  sSuperchargingToken: 'cEUR',
 }
 
 const defaultProperties = {

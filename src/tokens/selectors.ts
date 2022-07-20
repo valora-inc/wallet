@@ -11,6 +11,10 @@ import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
+type TokenBalanceWithUsdPrice = TokenBalance & {
+  usdPrice: BigNumber
+}
+
 export const tokenFetchLoadingSelector = (state: RootState) => state.tokens.loading
 export const tokenFetchErrorSelector = (state: RootState) => state.tokens.error
 
@@ -24,6 +28,7 @@ export const tokensByAddressSelector = createSelector(
         continue
       }
       const usdPrice = new BigNumber(storedState.usdPrice)
+
       const tokenUsdPriceIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
       tokenBalances[tokenAddress] = {
@@ -40,9 +45,17 @@ export const tokensListSelector = createSelector(tokensByAddressSelector, (token
   return Object.values(tokens).map((token) => token!)
 })
 
-type TokenBalanceWithUsdPrice = TokenBalance & {
-  usdPrice: BigNumber
-}
+export const tokensBySymbolSelector = createSelector(tokensListSelector, (tokens): {
+  [symbol: string]: TokenBalance
+} => {
+  return tokens.reduce(
+    (acc, token) => ({
+      ...acc,
+      [token.symbol]: token,
+    }),
+    {}
+  )
+})
 
 export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
   return tokens.filter((tokenInfo) =>
