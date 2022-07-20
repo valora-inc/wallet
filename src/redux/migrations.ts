@@ -704,11 +704,8 @@ export const migrations = {
   60: (state: any) => ({
     ...state,
     app: {
-      ...state.app,
-      superchargeTokens: (state.app.superchargeTokens || []).map((config: any) => ({
-        ..._.omit(config, 'token'),
-        tokenSymbol: config.token,
-      })),
+      ..._.omit(state.app, 'superchargeTokens'),
+      superchargeTokenConfigByToken: {},
     },
   }),
 }

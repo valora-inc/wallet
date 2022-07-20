@@ -1891,11 +1891,8 @@
                 "superchargeButtonType": {
                     "$ref": "#/definitions/SuperchargeButtonType"
                 },
-                "superchargeTokens": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargeTokenConfig"
-                    },
-                    "type": "array"
+                "superchargeTokenConfigByToken": {
+                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
                 "supportedBiometryType": {
                     "anyOf": [
@@ -1956,7 +1953,7 @@
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",
-                "superchargeTokens",
+                "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
@@ -3293,9 +3290,6 @@
                 "isCoreToken": {
                     "type": "boolean"
                 },
-                "isSupercharged": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -3370,24 +3364,23 @@
             ],
             "type": "object"
         },
-        "SuperchargeTokenConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "maxBalance": {
-                    "type": "number"
+        "SuperchargeTokenConfigByToken": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "maxBalance": {
+                        "type": "number"
+                    },
+                    "minBalance": {
+                        "type": "number"
+                    }
                 },
-                "minBalance": {
-                    "type": "number"
-                },
-                "tokenSymbol": {
-                    "type": "string"
-                }
+                "required": [
+                    "maxBalance",
+                    "minBalance"
+                ],
+                "type": "object"
             },
-            "required": [
-                "maxBalance",
-                "minBalance",
-                "tokenSymbol"
-            ],
             "type": "object"
         },
         "TokenAmount": {

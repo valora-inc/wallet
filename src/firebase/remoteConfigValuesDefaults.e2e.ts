@@ -9,7 +9,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'celoEducationUri'
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
-  | 'superchargeTokens'
   | 'finclusiveUnsupportedStates'
 > & {
   komenciAllowedDeployers: string
@@ -34,7 +33,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: false,
-  superchargeApy: 25,
+  superchargeApy: 12,
   superchargecUSDMin: 10,
   superchargecUSDMax: 1000,
   superchargecEURMin: 10,
@@ -76,4 +75,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
+  superchargeTokenConfigByToken: {},
 }

@@ -6,13 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
 import { SUPERCHARGE_LEARN_MORE } from 'src/brandingConfig'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Pill from 'src/components/Pill'
 import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
-import { balanceInfoForSuperchargeSelector } from 'src/consumerIncentives/selectors'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -28,7 +29,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector, tokensBySymbolSelector } from 'src/tokens/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 
@@ -38,20 +39,21 @@ const onLearnMore = () => {
 }
 
 function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
-  const { superchargeTokens } = useSelector((state) => state.app)
   const userCountry = useSelector(userLocationDataSelector)
   const { IS_IN_EUROPE } = useCountryFeatures()
+  const tokensBySymbol = useSelector(tokensBySymbolSelector)
+  const superchargeTokenConfigByToken = useSelector(superchargeTokenConfigByTokenSelector)
 
   const tokenToSupercharge = IS_IN_EUROPE
-    ? 'cEUR'
+    ? tokensBySymbol['cEUR']
     : userCountry?.countryCodeAlpha2 === 'BR'
-    ? 'cREAL'
-    : 'cUSD'
-  return (
-    superchargeTokens.find((token) => token.tokenSymbol === tokenToSupercharge) ?? {
-      tokenSymbol: tokenToSupercharge,
-    }
-  )
+    ? tokensBySymbol['cREAL']
+    : tokensBySymbol['cUSD']
+
+  return {
+    ...superchargeTokenConfigByToken[tokenToSupercharge.address],
+    tokenSymbol: tokenToSupercharge.symbol,
+  }
 }
 
 function Header() {
@@ -74,7 +76,7 @@ function SuperchargeInstructions() {
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { superchargeApy } = useSelector((state) => state.app)
   const { hasBalanceForSupercharge, superchargingTokenConfig } = useSelector(
-    balanceInfoForSuperchargeSelector
+    superchargeInfoSelector
   )
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
@@ -131,7 +133,7 @@ function SuperchargeInstructions() {
 function SuperchargingInfo() {
   const { t } = useTranslation()
   const { superchargeApy } = useSelector((state) => state.app)
-  const { superchargingTokenConfig } = useSelector(balanceInfoForSuperchargeSelector)
+  const { superchargingTokenConfig } = useSelector(superchargeInfoSelector)
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()
   const tokenConfigToSupercharge = superchargingTokenConfig ?? defaultTokenConfigToSupercharge
 
@@ -199,7 +201,7 @@ export default function ConsumerIncentivesHomeScreen() {
 
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { hasBalanceForSupercharge, superchargingTokenConfig, hasMaxBalance } = useSelector(
-    balanceInfoForSuperchargeSelector
+    superchargeInfoSelector
   )
   const isSupercharging = userIsVerified && hasBalanceForSupercharge
   const defaultTokenConfigToSupercharge = useDefaultTokenConfigToSupercharge()

@@ -614,14 +614,9 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[60](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.app.superchargeTokens = [
-      {
-        tokenSymbol: expectedSchema.app.superchargeTokens[0].token,
-        minBalance: expectedSchema.app.superchargeTokens[0].minBalance,
-        maxBalance: expectedSchema.app.superchargeTokens[0].maxBalance,
-      },
-    ]
+    expectedSchema.app.superchargeTokenConfigByToken = {}
+    delete expectedSchema.app.superchargeTokens
 
-    expect(migratedSchema).toMatchObject(expectedSchema)
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

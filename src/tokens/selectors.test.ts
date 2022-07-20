@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
-  superchargeTokensByUsdBalanceSelector,
   tokensByAddressSelector,
   tokensByUsdBalanceSelector,
   tokensListSelector,
@@ -158,32 +157,6 @@ describe('tokensWithUsdValueSelector', () => {
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
-        },
-      ]
-    `)
-  })
-})
-
-describe('superchargeTokensByUsdBalanceSelector', () => {
-  it('returns the supercharged tokens sorted by USD balance in descending order', () => {
-    const tokens = superchargeTokensByUsdBalanceSelector(state)
-    expect(tokens).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "address": "0xeur",
-          "balance": "50",
-          "isSupercharged": true,
-          "priceFetchedAt": 1588200517518,
-          "symbol": "cEUR",
-          "usdPrice": "0.5",
-        },
-        Object {
-          "address": "0x4",
-          "balance": "50",
-          "isSupercharged": true,
-          "priceFetchedAt": 1588200517518,
-          "symbol": "TT",
-          "usdPrice": null,
         },
       ]
     `)
