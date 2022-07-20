@@ -26,7 +26,7 @@ function NFTsTransactionItem({ transaction }: Props) {
     })
   }
 
-  let isReceived: boolean = false
+  let isReceived: boolean = true
 
   for (const transfer of transaction.transfers) {
     if (transfer.tokenType === 'ERC-721') {
@@ -41,7 +41,6 @@ function NFTsTransactionItem({ transaction }: Props) {
   }
 
   // TODO: change icon according to the event
-  // TODO: add testing code
 
   return (
     <Touchable
@@ -52,9 +51,7 @@ function NFTsTransactionItem({ transaction }: Props) {
       <View style={styles.container}>
         <View>{<DepositIcon />}</View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.title} testID={'NFTsTransactionItem/title'}>
-            {isReceived ? t('receivedNft') : t('sentNft')}
-          </Text>
+          <Text style={styles.title}>{isReceived ? t('receivedNft') : t('sentNft')}</Text>
         </View>
       </View>
     </Touchable>
