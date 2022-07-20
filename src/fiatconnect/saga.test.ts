@@ -123,7 +123,7 @@ describe('Fiatconnect saga', () => {
       })
     })
     it('saves an error when providers is null', async () => {
-      mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
+      mocked(fetchQuotes).mockResolvedValue(mockFiatConnectQuotes)
       await expectSaga(
         handleFetchFiatConnectQuotes,
         fetchFiatConnectQuotes({
