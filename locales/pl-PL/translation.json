@@ -444,10 +444,10 @@
   "escrowWithdrawalFailed": "Nie udało się wypłacić z rachunku escrow",
   "reclaimingEscrowedPaymentFailed": "Nie można odzyskać płatności",
   "connectingToCelo": "Łączenie…",
-  "poorConnection": [
-    "Słabe połączenie z siecią",
-    "niektóre funkcje zostały wyłączone"
-  ],
+  "poorConnection": {
+    "0": "Słabe połączenie z siecią",
+    "1": "niektóre funkcje zostały wyłączone"
+  },
   "networkConnectionFailed": "Nie można połączyć się z siecią, sprawdź połączenie transmisji danych",
   "firebaseFailed": "Słabe połączenie z Internetem. Aby zaktualizować dane konta, poczekaj na przywrócenie połączenia.",
   "gasPriceUpdateFailed": "Nie można zaktualizować opłaty",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Gratulacje, Twój numer telefonu został podłączony!",
   "notification": {
-    "body": "Podłącz swój numer, aby odebrać środki i połączyć się ze znajomymi",
+    "body": "Otrzymuj płatności bezpośrednio na swój numer telefonu",
     "cta": "Podłącz teraz"
   },
   "quotaLookup": {
@@ -1027,18 +1027,18 @@
   "sendMoney": "Wyślij kryptowalutę",
   "verificationFee": "Opłata za potwierdzenie",
   "networkFee": "Opłata sieciowa",
-  "networkFeeExplanation": [
-    "Co tydzień od salda Celo Dolarów każdego użytkownika pobierana jest niewielka opłata (mniej niż 0,01%) na poczet utrzymania wartości Celo Dolara na stałym poziomie. Aby dowiedzieć się więcej o opłatach Celo, odwiedź ",
-    "FAQ"
-  ],
+  "networkFeeExplanation": {
+    "0": "Co tydzień od salda Celo Dolarów każdego użytkownika pobierana jest niewielka opłata (mniej niż 0,01%) na poczet utrzymania wartości Celo Dolara na stałym poziomie. Aby dowiedzieć się więcej o opłatach Celo, odwiedź ",
+    "1": "FAQ"
+  },
   "confirmingTransaction": "Potwierdzanie…",
   "confirmingExchange": "Potwierdzanie…",
   "paymentFailed": "Płatność nie powiodła się",
   "loadingActivity": "Ładowanie kanału aktywności",
-  "errorLoadingActivity": [
-    "Nie można załadować kanału",
-    "Spróbuj ponownie później"
-  ],
+  "errorLoadingActivity": {
+    "0": "Nie można załadować kanału",
+    "1": "Spróbuj ponownie później"
+  },
   "noTransactionActivity": "Twoje operacje będą widoczne tutaj",
   "noExchangeActivity": "Twoje operacje będą widoczne tutaj",
   "maybeLater": "Może później",
@@ -1050,10 +1050,10 @@
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> i jeszcze jedna osoba nie zaakceptowali jeszcze swoich zaproszeń",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> i inni nie zaakceptowali jeszcze swoich zaproszeń",
   "escrowedPaymentReminderSmsNoData": "Nieśmiało przypominamy, że jeszcze nie wymieniłeś(-aś) swoich {{currency}} w aplikacji {{appName}}! Pobierz aplikację mobilną, aby zacząć!",
-  "testnetAlert": [
-    "{{testnet}}",
-    "Nieśmiało przypominamy, że używasz sieci {{testnet}} – salda nie są prawdziwe"
-  ],
+  "testnetAlert": {
+    "0": "{{testnet}}",
+    "1": "Nieśmiało przypominamy, że używasz sieci {{testnet}} – salda nie są prawdziwe"
+  },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
   "feedItemExchangeTitle": "CELO",
@@ -1268,6 +1268,24 @@
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Spróbuj ponownie",
+    "withdraw": {
+      "cancel": "Anuluj wycofanie się z umowy",
+      "success": {
+        "header": "Udało się",
+        "title": "Twoje fundusze są w drodze!",
+        "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą na adres {{duration}}.",
+        "txDetails": "Zobacz na CeloExplorer",
+        "continue": "Kontynuuj"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Twoje żądanie nie mogło zostać zrealizowane.",
+      "description": "Twoje środki nie mogły zostać przekazane z Valory. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
+      "contactSupportPrefill": "Mam problem z wypłatą moich środków z Valory"
     }
   },
   "fiatExchangeFlow": {
