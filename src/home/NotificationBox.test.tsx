@@ -539,4 +539,72 @@ describe('NotificationBox', () => {
     expect(queryByTestId('NotificationView/keepSupercharging')).toBeFalsy()
     expect(queryByTestId('NotificationView/startSupercharging')).toBeFalsy()
   })
+
+  it('renders CleverTap notification correctly', () => {
+    const mockCtaPrimaryLink = 'celo://wallet/openScreen?screen=TokenBalances'
+    const store = createMockStore({
+      home: {
+        cleverTapNotifications: {
+          cleverTapNotification1: {
+            dismissed: true,
+            custom_kv: {
+              body: 'CleverTapNotification 1',
+              ctaPrimary: 'Get rewards',
+              ctaPrimaryLink: 'celo://wallet/openScreen?screen=ConsumerIncentivesHomeScreen',
+              ctaSecondary: 'Dismiss',
+              ctaSecondaryLink: '',
+              iconUrl:
+                'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge.png?alt=media',
+              priority: '230',
+            },
+            ti: 1656376521,
+            type: 'custom-key-value',
+          },
+          cleverTapNotification2: {
+            custom_kv: {
+              body: 'CleverTapNotification 2',
+              ctaPrimary: 'Put rewards',
+              ctaPrimaryLink: 'celo://wallet/openScreen?screen=ConsumerIncentivesHomeScreen',
+              ctaSecondary: 'Dismiss',
+              ctaSecondaryLink: '',
+              iconUrl:
+                'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge.png?alt=media',
+              priority: '370',
+            },
+            ti: 1656376522,
+            type: 'custom-key-value',
+          },
+          cleverTapNotification3: {
+            custom_kv: {
+              body: 'CleverTapNotification 3',
+              ctaPrimary: 'Press Notification 3',
+              ctaPrimaryLink: mockCtaPrimaryLink,
+              ctaSecondary: 'Dismiss',
+              ctaSecondaryLink: '',
+              iconUrl:
+                'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsupercharge.png?alt=media',
+              priority: '440',
+            },
+            ti: 1656376523,
+            type: 'custom-key-value',
+          },
+        },
+      },
+    })
+    const { queryByText, getByText } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+    expect(queryByText('CleverTapNotification 1')).toBeFalsy()
+    expect(queryByText('CleverTapNotification 2')).toBeTruthy()
+    expect(queryByText('CleverTapNotification 3')).toBeTruthy()
+
+    fireEvent.press(getByText('Press Notification 3'))
+
+    expect(store.getActions()).toEqual([
+      fetchAvailableRewards(),
+      openUrl(mockCtaPrimaryLink, false, true),
+    ])
+  })
 })

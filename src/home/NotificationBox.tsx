@@ -341,7 +341,7 @@ function useSimpleActions() {
 
     actions.push({
       id: id,
-      text: 'Haha This is CleverTap! ' + keyValue.body,
+      text: keyValue.body,
       icon: { uri: keyValue.iconUrl },
       priority: Number(keyValue.priority),
       callToActions: [
