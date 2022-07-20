@@ -55,7 +55,11 @@ describe('TransferStatusScreen', () => {
           <TransferStatusScreen {...mockProps} />
         </Provider>
       )
-      expect(mockProps.navigation.setOptions).toBeCalled()
+      expect(mockProps.navigation.setOptions).toBeCalledWith(
+        expect.objectContaining({
+          headerTitle: 'fiatConnectStatusScreen.withdraw.success.header',
+        })
+      )
     })
     it('navigates home on success', () => {
       const store = mockStore()
@@ -86,14 +90,19 @@ describe('TransferStatusScreen', () => {
 
   describe('failure view', () => {
     it('sets header options', () => {
-      const store = mockStore()
+      const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
       const mockProps = mockScreenProps()
       render(
         <Provider store={store}>
           <TransferStatusScreen {...mockProps} />
         </Provider>
       )
-      expect(mockProps.navigation.setOptions).toBeCalled()
+      expect(mockProps.navigation.setOptions).toBeCalledWith(
+        expect.objectContaining({
+          headerLeft: expect.any(Function),
+          headerRight: expect.any(Function),
+        })
+      )
     })
     it('navigates back when try again button is pressed on failure', () => {
       const store = mockStore({ transfer: mockFiatConnectTransfers[1] })

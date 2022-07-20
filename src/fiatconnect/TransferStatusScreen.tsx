@@ -70,6 +70,7 @@ function FiatConnectWithdrawSuccessSection({
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
+  // TODO: Make sure there's fallback text if we can't get the estimate
   const timeEstimation = normalizedQuote.getTimeEstimation()!
 
   const onPressTxDetails = () => {
