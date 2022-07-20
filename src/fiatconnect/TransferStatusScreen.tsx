@@ -20,6 +20,7 @@ import Touchable from 'src/components/Touchable'
 import networkConfig from 'src/web3/networkConfig'
 import colors from 'src/styles/colors'
 import { FiatConnectTransfer } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
@@ -63,10 +64,13 @@ function FiatConnectWithdrawFailureSection() {
 
 function FiatConnectWithdrawSuccessSection({
   fiatConnectTransfer,
+  normalizedQuote,
 }: {
   fiatConnectTransfer: FiatConnectTransfer
+  normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
+  const timeEstimation = normalizedQuote.getTimeEstimation()!
 
   const onPressTxDetails = () => {
     navigate(Screens.WebViewScreen, {
@@ -81,7 +85,7 @@ function FiatConnectWithdrawSuccessSection({
       </View>
       <Text style={styles.title}>{t('fiatConnectStatusScreen.withdraw.success.title')}</Text>
       <Text style={styles.description}>
-        {t('fiatConnectStatusScreen.withdraw.success.description')}
+        {t('fiatConnectStatusScreen.withdraw.success.description', { duration: timeEstimation })}
       </Text>
       <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
         <View style={styles.txDetailsContainer}>
@@ -103,8 +107,9 @@ function FiatConnectWithdrawSuccessSection({
   )
 }
 
-export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
+export default function FiatConnectTransferStatusScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
+  const { normalizedQuote } = route.params
 
   const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)!
 
@@ -141,7 +146,10 @@ export default function FiatConnectTransferStatusScreen({ navigation }: Props) {
       {fiatConnectTransfer.failed ? (
         <FiatConnectWithdrawFailureSection />
       ) : (
-        <FiatConnectWithdrawSuccessSection fiatConnectTransfer={fiatConnectTransfer} />
+        <FiatConnectWithdrawSuccessSection
+          fiatConnectTransfer={fiatConnectTransfer}
+          normalizedQuote={normalizedQuote}
+        />
       )}
     </SafeAreaView>
   )
