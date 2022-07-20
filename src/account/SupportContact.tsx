@@ -84,7 +84,7 @@ function SupportContact({ route }: Props) {
         // Get the current months log file to attach as text if sendEmailWithNonNativeApp is used
         attachments.find(
           (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
-        ) ?? false
+        ).path ?? false
       )
       navigateBackAndToast()
     } catch (error) {
