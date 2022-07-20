@@ -43,22 +43,24 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
+import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
-import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
 import { MenuRings } from 'src/icons/navigator/MenuRings'
 import { MenuSupercharge } from 'src/icons/navigator/MenuSupercharge'
 import { Settings } from 'src/icons/navigator/Settings'
+import { Swap } from 'src/icons/navigator/Swap'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
+import { showSwapMenuInDrawerMenuSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -199,6 +201,8 @@ export default function DrawerNavigator() {
     <CustomDrawerContent {...props} />
   )
 
+  const shouldShowSwapMenuInDrawerMenu = useSelector(showSwapMenuInDrawerMenuSelector)
+
   return (
     <Drawer.Navigator
       initialRouteName={Screens.WalletHome}
@@ -208,27 +212,24 @@ export default function DrawerNavigator() {
         labelStyle: [fontStyles.regular, { marginLeft: -20, fontWeight: 'normal' }],
         activeBackgroundColor: colors.gray2,
       }}
+      // Reloads the screen when the user comes back to it - resetting navigation state
+      defaultScreenOptions={{
+        unmountOnBlur: true,
+      }}
+      // Whether inactive screens should be detached from the view hierarchy to save memory.
+      // Defaults to true, but also explicitly set here.
+      detachInactiveScreens={true}
     >
       <Drawer.Screen
         name={Screens.WalletHome}
         component={WalletHome}
-        options={{ title: t('home'), drawerIcon: Home }}
+        options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
       />
-      {(isCeloEducationComplete && (
+      {shouldShowSwapMenuInDrawerMenu && (
         <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
+          name={Screens.SwapScreen}
+          component={() => null}
+          options={{ title: t('swap'), drawerIcon: Swap }}
         />
       )}
       {dappsListUrl && (
@@ -250,14 +251,14 @@ export default function DrawerNavigator() {
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('rewards'), drawerIcon: MenuRings, unmountOnBlur: true }}
+          options={{ title: t('rewards'), drawerIcon: MenuRings }}
         />
       )}
       {rewardsEnabled && superchargeButtonType === SuperchargeButtonType.MenuSupercharge && (
         <Drawer.Screen
           name={Screens.ConsumerIncentivesHomeScreen}
           component={ConsumerIncentivesHomeScreen}
-          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge, unmountOnBlur: true }}
+          options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
         />
       )}
       <Drawer.Screen
@@ -278,6 +279,23 @@ export default function DrawerNavigator() {
             onPress: () => dispatch(toggleInviteModal(true)),
           }}
           options={{ title: t('invite'), drawerIcon: Invite }}
+        />
+      )}
+      {(isCeloEducationComplete && (
+        <Drawer.Screen
+          name={Screens.ExchangeHomeScreen}
+          component={ExchangeHomeScreen}
+          options={{ title: t('celoGold'), drawerIcon: Gold }}
+        />
+      )) || (
+        <Drawer.Screen
+          name={Screens.GoldEducation}
+          component={GoldEducation}
+          options={{
+            title: t('celoGold'),
+            drawerIcon: Gold,
+            ...TransitionPresets.ModalTransition,
+          }}
         />
       )}
       <Drawer.Screen

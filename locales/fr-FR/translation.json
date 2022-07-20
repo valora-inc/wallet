@@ -214,8 +214,8 @@
   "transaction": {
     "operation": "Transaction",
     "data": "Données",
-    "signTX": "Signer la transaction",
-    "details": "Afficher les détails"
+    "signTX": "Effectuer transaction",
+    "details": "Afficher détails"
   },
   "shareInfo": "Cette appli sera en mesure d'accéder aux informations suivantes :",
   "data": "Données",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Aidez votre contact à trouver son Adresse du compte",
   "close": "Fermer",
   "home": "Accueil",
+  "swap": "Échanger",
   "accountKey": "Récupération",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
-    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
+    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}. Si vous avez déjà un compte, VEUILLEZ NE PAS CLIQUER pour activer les données biométriques ci-dessous À MOINS que vous n'ayez votre phrase de récupération à portée de main. Si vous activez la biométrie, vous devrez restaurer votre compte.",
     "cta": "Activer {{biometryType}}"
   },
   "biometryType": {
@@ -962,16 +963,16 @@
   "loadingFromScan": "Numérisation en cours",
   "loadingFromDeeplink": "Connexion",
   "action": {
-    "asking": "Cette appli demande à effectuer l'action suivante",
-    "askingV1_35": "{{dappName}} demande d'effectuer cette action :",
+    "asking": "Cette appli demande à effectuer l'action suivante :",
+    "askingV1_35": "{{dappName}} demande à effectuer l'action suivante :",
     "operation": "Transaction",
     "data": "Données",
-    "sign": "Signer une charge utile de données",
-    "signTransaction": "Signe une transaction Celo",
-    "sendTransaction": "Envoyer une transaction Celo",
-    "decrypt": "Déchiffrer une charge utile de données",
-    "accounts": "Lire votre Adresse du compte sur {{appName}}",
-    "details": "Afficher les données de la transaction",
+    "sign": "Effectuer charge utile de données",
+    "signTransaction": "Effectuer transaction Celo",
+    "sendTransaction": "Envoyer transaction Celo",
+    "decrypt": "Déchiffrer charge utile de données",
+    "accounts": "Lire votre Adresse du compte {{appName}}",
+    "details": "Afficher données de la transaction",
     "computeSharedSecret": "Générer des secrets",
     "emptyMessage": "Message vide"
   },
@@ -1117,7 +1118,7 @@
     "subtitleRamp": "Ajoutez des fonds sans frais grâce à l'un de nos prestataires externes de confiance."
   },
   "balances": "Actifs",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Total",
+  "totalBalanceWithLocalCurrencySymbol": "Total {{localCurrencySymbol}}{{totalBalance}}",
   "totalValue": "Solde total",
   "viewBalances": "Voir les actifs",
   "open": "Ouvrir",
@@ -1291,7 +1292,9 @@
     "selectedPaymentOption": "Option de paiement sélectionnée",
     "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
     "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
-    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support."
+    "addFiatAccountFailed": "Votre compte n'a pas pu être lié, veuillez réessayer ou contacter le Support.",
+    "selectItem": "Sélectionnez une option...",
+    "selectDone": "Terminé"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1313,7 +1316,7 @@
   "webView": {
     "openExternal": "Ouvrir dans un navigateur externe"
   },
-  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Utilise-les à tes propres risques.",
+  "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Vous les utilisez à vos propres risques.",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

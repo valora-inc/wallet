@@ -197,6 +197,7 @@ export interface RemoteConfigValues {
   dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
+  showSwapMenuInDrawerMenu: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -1399,7 +1399,31 @@ export const v60Schema = {
     version: 60,
   },
   app: {
-    ..._.omit(v59Schema.app, 'superchargeTokens'),
+    ...v59Schema.app,
+    showSwapMenuInDrawerMenu: false,
+  },
+}
+
+export const v61Schema = {
+  ...v60Schema,
+  _persist: {
+    ...v60Schema._persist,
+    version: 61,
+  },
+  fiatConnect: {
+    ...v60Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v62Schema = {
+  ...v61Schema,
+  _persist: {
+    ...v61Schema._persist,
+    version: 62,
+  },
+  app: {
+    ..._.omit(v61Schema.app, 'superchargeTokens'),
     superchargeTokenConfigByToken: {
       [mockCusdAddress]: {
         minBalance: 10,
@@ -1414,5 +1438,5 @@ export const v60Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v60Schema as Partial<RootState>
+  return v62Schema as Partial<RootState>
 }
