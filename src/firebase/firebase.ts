@@ -252,6 +252,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
   // REMOTE_CONFIG_VALUES_DEFAULTS is in remoteConfigValuesDefaults.ts
   // RemoteConfigValues is in app/saga.ts
 
+  const superchargeConfigByTokenString = flags.superchargeTokenConfigByToken?.asString()
+
   return {
     hideVerification: flags.hideVerification.asBoolean(),
     // these next 2 flags are a bit weird because their default is undefined or null
@@ -268,8 +270,9 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
-    // TODO: Not tested
-    superchargeTokenConfigByToken: JSON.parse(flags.superchargeConfigByToken.asString()),
+    superchargeTokenConfigByToken: superchargeConfigByTokenString
+      ? JSON.parse(superchargeConfigByTokenString)
+      : {},
     komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
     komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
@@ -297,6 +300,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
+    showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
   }
 }
 

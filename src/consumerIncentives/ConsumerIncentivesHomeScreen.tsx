@@ -44,15 +44,18 @@ function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
   const tokensBySymbol = useSelector(tokensBySymbolSelector)
   const superchargeTokenConfigByToken = useSelector(superchargeTokenConfigByTokenSelector)
 
-  const tokenToSupercharge = IS_IN_EUROPE
-    ? tokensBySymbol['cEUR']
+  const superchargeTokenSymbol = IS_IN_EUROPE
+    ? 'cEUR'
     : userCountry?.countryCodeAlpha2 === 'BR'
-    ? tokensBySymbol['cREAL']
-    : tokensBySymbol['cUSD']
+    ? 'cREAL'
+    : 'cUSD'
+
+  const superchargeConfig =
+    superchargeTokenConfigByToken[tokensBySymbol[superchargeTokenSymbol]?.address] ?? {}
 
   return {
-    ...superchargeTokenConfigByToken[tokenToSupercharge.address],
-    tokenSymbol: tokenToSupercharge.symbol,
+    ...superchargeConfig,
+    tokenSymbol: superchargeTokenSymbol,
   }
 }
 

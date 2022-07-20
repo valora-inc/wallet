@@ -158,6 +158,8 @@ export enum VerificationEvents {
   verification_error = 'verification_error',
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
+  verification_skip = 'verification_skip',
+  verification_skip_confirm = 'verification_skip_confirm',
 
   verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',
@@ -537,6 +539,11 @@ export enum WebViewEvents {
   webview_open_in_browser = 'webview_open_in_browser', // when user taps "Open in External Browser" from the webview options
 }
 
+export enum CoinbasePayEvents {
+  coinbase_pay_flow_start = 'coinbase_pay_flow_start', // When user is navigated to Coinbase Pay experience
+  coinbase_pay_flow_exit = 'coinbase_pay_flow_exit', // When user exits Coinbase Pay
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -561,3 +568,4 @@ export type AnalyticsEventType =
   | CICOEvents
   | DappExplorerEvents
   | WebViewEvents
+  | CoinbasePayEvents

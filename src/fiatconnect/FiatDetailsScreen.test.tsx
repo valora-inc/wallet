@@ -17,6 +17,7 @@ import { Provider } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -25,6 +26,7 @@ import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
+import { mocked } from 'ts-jest/utils'
 import FiatDetailsScreen, { TAG } from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
@@ -52,6 +54,7 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
     addFiatAccount: jest.fn(() => mockResult),
   })),
 }))
+jest.mock('src/fiatconnect/clients')
 
 const store = createMockStore({})
 const quoteWithAllowedValues = new FiatConnectQuote({
@@ -94,7 +97,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountId: '1234',
       accountName: '7890',
       institutionName: fakeInstitutionName,
-      fiatAccountType: 'BankAccount',
+      fiatAccountType: FiatAccountType.BankAccount,
     })
     fiatConnectClient = new FiatConnectClient(
       {
@@ -105,9 +108,7 @@ describe('FiatDetailsScreen', () => {
       (msg: string) => Promise.resolve(msg)
     )
     store.dispatch = jest.fn()
-    jest
-      .spyOn(FiatConnectQuote.prototype, 'getFiatConnectClient')
-      .mockImplementation(() => Promise.resolve(fiatConnectClient))
+    mocked(getFiatConnectClient).mockResolvedValue(fiatConnectClient)
   })
   afterEach(() => {
     jest.clearAllMocks()
@@ -168,7 +169,10 @@ describe('FiatDetailsScreen', () => {
     }
     await fireEvent.press(getByTestId('nextButton'))
 
-    expect(quote.getFiatConnectClient).toHaveBeenCalled()
+    expect(getFiatConnectClient).toHaveBeenCalledWith(
+      quote.getProviderId(),
+      quote.getProviderBaseUrl()
+    )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
       data: expectedBody,
@@ -204,7 +208,10 @@ describe('FiatDetailsScreen', () => {
 
     await fireEvent.press(getByTestId('nextButton'))
 
-    expect(quote.getFiatConnectClient).toHaveBeenCalled()
+    expect(getFiatConnectClient).toHaveBeenCalledWith(
+      quote.getProviderId(),
+      quote.getProviderBaseUrl()
+    )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
       data: expectedBody,
@@ -239,7 +246,10 @@ describe('FiatDetailsScreen', () => {
 
     await fireEvent.press(getByTestId('nextButton'))
 
-    expect(quote.getFiatConnectClient).toHaveBeenCalled()
+    expect(getFiatConnectClient).toHaveBeenCalledWith(
+      quote.getProviderId(),
+      quote.getProviderBaseUrl()
+    )
     expect(fiatConnectClient.addFiatAccount).toHaveBeenCalledWith({
       fiatAccountSchema: 'AccountNumber',
       data: expectedBody,

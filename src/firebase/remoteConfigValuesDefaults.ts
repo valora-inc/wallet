@@ -12,6 +12,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'dappListApiUrl'
   | 'sentryNetworkErrors'
   | 'finclusiveUnsupportedStates'
+  | 'superchargeTokenConfigByToken'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
@@ -75,5 +76,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappConnectInfo: DappConnectInfo.Default,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
-  superchargeTokenConfigByToken: {},
+  showSwapMenuInDrawerMenu: false,
 }

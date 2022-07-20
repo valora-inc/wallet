@@ -31,7 +31,7 @@ import {
   v56Schema,
   v57Schema,
   v58Schema,
-  v59Schema,
+  v61Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -609,9 +609,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
 
-  it('works for v59 to v60', () => {
-    const oldSchema = v59Schema
-    const migratedSchema = migrations[60](oldSchema)
+  it('works for v61 to v62', () => {
+    const oldSchema = v61Schema
+    const migratedSchema = migrations[62](oldSchema)
 
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.superchargeTokenConfigByToken = {}

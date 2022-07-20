@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import { superchargeTokenConfigByTokenSelector } from 'src/app/selectors'
 import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
-import Logger from 'src/utils/Logger'
 
 interface SuperchargeInfo {
   hasBalanceForSupercharge: boolean
@@ -25,7 +24,6 @@ export const superchargeInfoSelector = createSelector(
     )) {
       const tokenInfo = tokensByAddress[tokenAddress.toLowerCase()]
       if (!tokenInfo || !tokenInfo.usdPrice) {
-        Logger.warn(`A possible supercharged token info couldn't be obtained from firebase`)
         continue
       }
 

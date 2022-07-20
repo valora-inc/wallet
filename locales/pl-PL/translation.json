@@ -214,7 +214,7 @@
   "transaction": {
     "operation": "Operacja",
     "data": "Dane",
-    "signTX": "Podpisz transakcję",
+    "signTX": "Transakcję",
     "details": "Pokaż szczegóły"
   },
   "shareInfo": "Ta aplikacja będzie miała dostęp do następujących informacji:",
@@ -527,6 +527,7 @@
   "helpFindAccount": "Pomóż swojemu kontaktowi znaleźć adres konta",
   "close": "Zamknij",
   "home": "Strona główna",
+  "swap": "Zamieniaj",
   "accountKey": "Fraza odzyskiwania",
   "addAndWithdraw": "Dodaj i wypłać",
   "settings": "Ustawienia",
@@ -700,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
-    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
+    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}. Jeśli masz już konto, PROSZĘ NIE KLIKAĆ, aby włączyć biometrię poniżej, chyba że masz pod ręką swój zwrot odzyskiwania. Włączenie biometrii będzie wymagało przywrócenia konta.",
     "cta": "Włącz {{biometryType}}"
   },
   "biometryType": {
@@ -835,7 +836,7 @@
   "requestUnavailableBody": "Numer {{e164PhoneNumber}} nie ma konta lub jeszcze go nie podłączono. Żądania można wysyłać tylko na podłączone numery.",
   "requestUnavailableNoNumberBody": "Twój kontakt nie ma konta lub jeszcze go nie podłączył. Żądania można wysyłać tylko na podłączone numery.",
   "requesting": "Przesyłanie żądania",
-  "request": "Prześlij żądanie",
+  "request": "Żądanie",
   "requestToken": "Zażądaj {{token}}",
   "requestSent": "Żądanie wysłane",
   "from": "od",
@@ -966,16 +967,16 @@
   "loadingFromScan": "Skanowanie",
   "loadingFromDeeplink": "Łączenie",
   "action": {
-    "asking": "Ta aplikacja prosi o wykonanie następującej operacji",
+    "asking": "Ta aplikacja prosi o wykonanie następującej operacji:",
     "askingV1_35": "{{dappName}} prosi o wykonanie następującej operacji:",
     "operation": "Operacja",
     "data": "Dane",
     "sign": "Podpisz ładunek danych",
-    "signTransaction": "Podpisz transakcję w Celo",
-    "sendTransaction": "Wyślij transakcję do Celo",
+    "signTransaction": "Transakcję Celo",
+    "sendTransaction": "Wyślij transakcję Celo",
     "decrypt": "Odszyfruj ładunek danych",
     "accounts": "Odczytaj swój adres konta w {{appName}}",
-    "details": "Zobacz dane transakcji",
+    "details": "Dane transakcji",
     "computeSharedSecret": "Wygeneruj tajne kody",
     "emptyMessage": "Pusta wiadomość"
   },
@@ -1121,11 +1122,11 @@
     "subtitleRamp": "Dodawaj środki z zerowymi opłatami za pośrednictwem jednego z naszych zaufanych partnerów."
   },
   "balances": "Aktywa",
-  "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Razem",
+  "totalBalanceWithLocalCurrencySymbol": "Razem {{totalBalance}} {{localCurrencySymbol}}",
   "totalValue": "Saldo całkowite",
   "viewBalances": "Zobacz aktywa",
   "open": "Otwórz",
-  "nftViewer": "Przeglądarka NFT",
+  "nftViewer": "NFT Viewer",
   "whatTotalValue": {
     "title": "Co oznacza termin „saldo całkowite”?",
     "body": "Twoje saldo całkowite to przybliżona suma wszystkich Twoich aktywów w aplikacji Valora. Saldo całkowite będzie się zmieniać wraz z wahaniami cen. Jest ono aktualizowane co 10 minut.\nNiektóre aktywa mogą nie być widoczne w Saldzie całkowitym, ponieważ ich cena jest niedostępna w momencie obliczania salda.",
@@ -1295,7 +1296,9 @@
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
-    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia."
+    "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
+    "selectItem": "Wybierz opcję...",
+    "selectDone": "Gotowe"
   },
   "fiatAccountSchema": {
     "accountName": {
@@ -1317,7 +1320,7 @@
   "webView": {
     "openExternal": "Otwórz w zewnętrznej przeglądarce"
   },
-  "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Mapy są aplikacjami stron trzecich. Używaj ich na własne ryzyko.",
+  "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Dappy są aplikacjami zewnętrznymi. Korzystasz z nich na własne ryzyko.",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
