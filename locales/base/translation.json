@@ -1275,7 +1275,7 @@
       "success": {
         "header": "Success",
         "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in [{{duration}}] business days.",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
         "txDetails": "View on CeloExplorer",
         "continue": "Continue"
       }
