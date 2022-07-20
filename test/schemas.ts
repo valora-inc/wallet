@@ -1416,6 +1416,27 @@ export const v61Schema = {
   },
 }
 
+export const v62Schema = {
+  ...v61Schema,
+  _persist: {
+    ...v61Schema._persist,
+    version: 62,
+  },
+  app: {
+    ..._.omit(v61Schema.app, 'superchargeTokens'),
+    superchargeTokenConfigByToken: {
+      [mockCusdAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+      [mockCeurAddress]: {
+        minBalance: 10,
+        maxBalance: 1000,
+      },
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v61Schema as Partial<RootState>
+  return v62Schema as Partial<RootState>
 }

@@ -29,6 +29,7 @@ const state: any = {
         balance: '50',
         usdPrice: '0.5',
         symbol: 'cEUR',
+        isSupercharged: true,
         priceFetchedAt: mockDate,
       },
       ['0x1']: {
@@ -47,6 +48,7 @@ const state: any = {
         address: '0x4',
         symbol: 'TT',
         balance: '50',
+        isSupercharged: true,
         priceFetchedAt: mockDate,
       },
       ['0x5']: {
@@ -106,6 +108,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0xeur",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
@@ -120,6 +123,7 @@ describe('tokensByUsdBalanceSelector', () => {
         Object {
           "address": "0x4",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "TT",
           "usdPrice": null,
@@ -149,6 +153,7 @@ describe('tokensWithUsdValueSelector', () => {
         Object {
           "address": "0xeur",
           "balance": "50",
+          "isSupercharged": true,
           "priceFetchedAt": 1588200517518,
           "symbol": "cEUR",
           "usdPrice": "0.5",
