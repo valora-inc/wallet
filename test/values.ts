@@ -22,8 +22,9 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { FiatConnectTransfer } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
+import { FetchProvidersOutput, PaymentMethod, CICOFlow } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -674,6 +675,23 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     imageUrl:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     baseUrl: 'fakewebsite.valoraapp.com',
+  },
+]
+
+export const mockFiatConnectTransfers: FiatConnectTransfer[] = [
+  {
+    flow: CICOFlow.CashOut,
+    quoteId: 'mock_quote_out_id',
+    isSending: false,
+    failed: false,
+    txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+  },
+  {
+    flow: CICOFlow.CashOut,
+    quoteId: 'mock_quote_out_id',
+    isSending: false,
+    failed: true,
+    txHash: null,
   },
 ]
 
