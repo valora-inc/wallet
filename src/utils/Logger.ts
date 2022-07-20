@@ -180,9 +180,9 @@ class Logger {
           type: 'text',
         })
       }
-      return toAttach as Email['attachments']
+      return toAttach
     } catch (error) {
-      this.error('Logger', 'Failed to move logs to share', error as Error)
+      this.error('Logger', 'Failed to move logs to share', error)
     }
   }
 
@@ -221,7 +221,7 @@ class Logger {
         }
       }
     } catch (error) {
-      this.error('Logger@cleanupOldLogs', 'Failed to cleanupOldLogs', error as Error)
+      this.error('Logger@cleanupOldLogs', 'Failed to cleanupOldLogs', error)
     }
   }
 

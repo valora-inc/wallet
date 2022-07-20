@@ -8,7 +8,7 @@ const readChunk = async (file: string, length: number, position: number) => {
   try {
     return await RNFS.read(file, length, position, 'utf8')
   } catch (error) {
-    Logger.error('readFile@readChunk', 'readChunk error', error as Error)
+    Logger.error('readFile@readChunk', 'readChunk error', error)
     return ''
   }
 }

@@ -72,7 +72,6 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    // TODO(Tom): use correct typing
     let attachments: Array<Email['attachments']> | any
     if (attachLogs) {
       attachments = await Logger.getLogsToAttach()
@@ -86,7 +85,7 @@ function SupportContact({ route }: Props) {
       await sendEmail(email, deviceInfo, attachments[0].path ?? false)
       navigateBackAndToast()
     } catch (error) {
-      Logger.error('SupportContact', 'Error while sending logs to support', error as Error)
+      Logger.error('SupportContact', 'Error while sending logs to support', error)
     }
   }, [message, attachLogs, e164PhoneNumber])
 
