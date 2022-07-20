@@ -47,6 +47,16 @@ describe('TransferStatusScreen', () => {
   })
 
   describe('success view', () => {
+    it('sets header options', () => {
+      const store = mockStore()
+      const mockProps = mockScreenProps()
+      render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockProps} />
+        </Provider>
+      )
+      expect(mockProps.navigation.setOptions).toBeCalled()
+    })
     it('navigates home on success', () => {
       const store = mockStore()
       const { queryByTestId, getByTestId } = render(
@@ -75,6 +85,16 @@ describe('TransferStatusScreen', () => {
   })
 
   describe('failure view', () => {
+    it('sets header options', () => {
+      const store = mockStore()
+      const mockProps = mockScreenProps()
+      render(
+        <Provider store={store}>
+          <TransferStatusScreen {...mockProps} />
+        </Provider>
+      )
+      expect(mockProps.navigation.setOptions).toBeCalled()
+    })
     it('navigates back when try again button is pressed on failure', () => {
       const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
       const { queryByTestId, getByTestId } = render(
