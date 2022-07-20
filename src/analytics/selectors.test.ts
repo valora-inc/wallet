@@ -10,23 +10,16 @@ describe('getCurrentUserTraits', () => {
       goldToken: { balance: '1.01' },
       stableToken: { balances: { [Currency.Dollar]: '2.02', [Currency.Euro]: '3.03' } },
       app: {
-        superchargeTokens: [
-          {
-            tokenSymbol: 'cUSD',
+        superchargeTokenConfigByToken: {
+          '0xcusd': {
             minBalance: 10,
             maxBalance: 1000,
           },
-          {
-            tokenSymbol: 'cEUR',
+          '0xceur': {
             minBalance: 10,
             maxBalance: 1000,
           },
-          {
-            tokenSymbol: 'A',
-            minBalance: 10,
-            maxBalance: 1000,
-          },
-        ],
+        },
       },
       tokens: {
         tokenBalances: {
@@ -40,7 +33,6 @@ describe('getCurrentUserTraits', () => {
             balance: '10',
             priceFetchedAt: Date.now(),
             isCoreToken: true,
-            isSupercharged: true,
           },
           '0xceur': {
             name: 'Celo Euros',
@@ -52,7 +44,6 @@ describe('getCurrentUserTraits', () => {
             balance: '21',
             priceFetchedAt: Date.now(),
             isCoreToken: true,
-            isSupercharged: true,
           },
           '0xcelo': {
             name: 'Celo',
@@ -74,7 +65,6 @@ describe('getCurrentUserTraits', () => {
             usdPrice: '5',
             balance: '1',
             priceFetchedAt: Date.now(),
-            isSupercharged: true,
           },
           '0xb': {
             name: 'b',
@@ -202,7 +192,7 @@ describe('getCurrentUserTraits', () => {
       totalBalanceUsd: 5681.606783945,
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
-      superchargingAmountInUsd: '25.92',
+      superchargingAmountInUsd: 25.9245,
     })
   })
 })
