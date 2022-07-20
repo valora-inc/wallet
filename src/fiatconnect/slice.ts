@@ -21,7 +21,7 @@ export interface State {
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
-  providers: FiatConnectProviderInfo[]
+  providers: FiatConnectProviderInfo[] | null
 }
 
 const initialState: State = {
@@ -29,7 +29,7 @@ const initialState: State = {
   quotesLoading: false,
   quotesError: null,
   transfer: null,
-  providers: [],
+  providers: null,
 }
 
 export interface FetchQuotesAction {

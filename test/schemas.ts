@@ -1424,7 +1424,7 @@ export const v62Schema = {
   },
   fiatConnect: {
     ...v61Schema.fiatConnect,
-    providers: [],
+    providers: null,
   },
 }
 

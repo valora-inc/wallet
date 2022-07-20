@@ -52,9 +52,15 @@ export function* handleFetchFiatConnectQuotes({
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
-  const fiatConnectProviders: FiatConnectProviderInfo[] = yield select(fiatConnectProvidersSelector)
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
 
   try {
+    // null fiatConnectProviders means the providers have never successfully been fetched
+    if (!fiatConnectProviders) {
+      throw new Error('Error fetching fiatconnect providers')
+    }
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
       localCurrency,
       digitalAsset,
@@ -67,8 +73,8 @@ export function* handleFetchFiatConnectQuotes({
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
-    Logger.error(TAG, 'Could not parse dapps response', error)
-    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch providers' }))
+    Logger.error(TAG, 'Could fetch fiatconnect quotes', error)
+    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
 

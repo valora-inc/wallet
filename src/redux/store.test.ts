@@ -218,7 +218,7 @@ describe('store state', () => {
           "estimates": Object {},
         },
         "fiatConnect": Object {
-          "providers": Array [],
+          "providers": null,
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,

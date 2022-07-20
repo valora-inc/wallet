@@ -154,9 +154,7 @@ export async function fetchQuotes(params: FetchQuotesInput) {
   const { fiatConnectCashInEnabled, fiatConnectCashOutEnabled, ...quotesInput } = params
   if (!fiatConnectCashInEnabled && params.flow === CICOFlow.CashIn) return []
   if (!fiatConnectCashOutEnabled && params.flow === CICOFlow.CashOut) return []
-  return getFiatConnectQuotes({
-    ...quotesInput,
-  })
+  return getFiatConnectQuotes(quotesInput)
 }
 
 /**

@@ -108,7 +108,7 @@ describe('Fiatconnect saga', () => {
           [select(fiatConnectCashOutEnabledSelector), true],
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
         ])
-        .put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch providers' }))
+        .put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
         .run()
 
       expect(fetchQuotes).toHaveBeenCalledWith({
@@ -122,13 +122,33 @@ describe('Fiatconnect saga', () => {
         fiatConnectProviders: mockFiatConnectProviderInfo,
       })
     })
+    it('saves an error when providers is null', async () => {
+      mocked(fetchQuotes).mockImplementation(() => Promise.resolve(mockFiatConnectQuotes))
+      await expectSaga(
+        handleFetchFiatConnectQuotes,
+        fetchFiatConnectQuotes({
+          flow: CICOFlow.CashIn,
+          digitalAsset: CiCoCurrency.CELO,
+          cryptoAmount: 3,
+        })
+      )
+        .provide([
+          [select(userLocationDataSelector), { countryCodeAlpha2: 'MX' }],
+          [select(getLocalCurrencyCode), 'USD'],
+          [select(fiatConnectCashInEnabledSelector), false],
+          [select(fiatConnectCashOutEnabledSelector), true],
+          [select(fiatConnectProvidersSelector), null],
+        ])
+        .put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
+        .run()
+
+      expect(fetchQuotes).not.toHaveBeenCalled()
+    })
   })
 
   describe('handles fetching providers', () => {
     it('saves on success', async () => {
-      mocked(getFiatConnectProviders).mockImplementation(() =>
-        Promise.resolve(mockFiatConnectProviderInfo)
-      )
+      mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(currentAccountSelector), '0xabc']])
         .put(fetchFiatConnectProvidersCompleted({ providers: mockFiatConnectProviderInfo }))
@@ -136,9 +156,7 @@ describe('Fiatconnect saga', () => {
       expect(getFiatConnectProviders).toHaveBeenCalledWith('0xabc')
     })
     it('fails when account is null', async () => {
-      mocked(getFiatConnectProviders).mockImplementation(() =>
-        Promise.resolve(mockFiatConnectProviderInfo)
-      )
+      mocked(getFiatConnectProviders).mockResolvedValue(mockFiatConnectProviderInfo)
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(currentAccountSelector), null]])
         .run()
@@ -146,9 +164,7 @@ describe('Fiatconnect saga', () => {
       expect(Logger.error).toHaveBeenCalled()
     })
     it('fails when getProviders fails', async () => {
-      mocked(getFiatConnectProviders).mockImplementation(() => {
-        throw new Error('error')
-      })
+      mocked(getFiatConnectProviders).mockRejectedValue(new Error('error'))
       await expectSaga(handleFetchFiatConnectProviders)
         .provide([[select(currentAccountSelector), '0xabc']])
         .run()

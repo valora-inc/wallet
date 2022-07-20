@@ -2834,10 +2834,17 @@
             "additionalProperties": false,
             "properties": {
                 "providers": {
-                    "items": {
-                        "$ref": "#/definitions/FiatConnectProviderInfo"
-                    },
-                    "type": "array"
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/FiatConnectProviderInfo"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 },
                 "quotes": {
                     "items": {
