@@ -24,6 +24,7 @@ describe('Contact', () => {
 
   it('submits email with logs', async () => {
     const mockedLogAttachments = Logger.getLogsToAttach as jest.Mock
+    Logger.getCurrentLogFileName = jest.fn(() => 'log2.txt')
     const logAttachments = [
       {
         path: 'logs/log1.txt',
