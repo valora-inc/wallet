@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
   "notification": {
-    "body": "Telefon numaranıza doğrudan ödeme alın",
+    "body": "Para talep etmek ve arkadaşlarınızla bağlantı kurmak için numaranızı bağlayın",
     "cta": "Şimdi Bağlan"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
-    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır. Halihazırda bir hesabınız varsa, kurtarma ifadeniz elinizin altında DEĞİLSE, aşağıda biyometriyi etkinleştirmek için LÜTFEN TIKLAMAYIN. Biyometriyi açmak, hesabınızı geri yüklemenizi gerektirir.",
+    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
     "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
