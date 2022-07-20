@@ -2833,6 +2833,12 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "providers": {
+                    "items": {
+                        "$ref": "#/definitions/FiatConnectProviderInfo"
+                    },
+                    "type": "array"
+                },
                 "quotes": {
                     "items": {
                         "anyOf": [
@@ -3008,6 +3014,7 @@
                 }
             },
             "required": [
+                "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",

@@ -715,4 +715,11 @@ export const migrations = {
       transfer: null,
     },
   }),
+  62: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: [],
+    },
+  }),
 }
