@@ -10,6 +10,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'komenciAllowedDeployers'
   | 'sentryNetworkErrors'
   | 'finclusiveUnsupportedStates'
+  | 'superchargeTokenConfigByToken'
 > & {
   komenciAllowedDeployers: string
   sentryNetworkErrors: string
@@ -76,5 +77,4 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
-  superchargeTokenConfigByToken: {},
 }
