@@ -48,11 +48,6 @@ function SupportContact({ route }: Props) {
     dispatch(showMessage(t('contactSuccess')))
   }
 
-  // Used to prevent flickering of the activity indicator on quick uploads
-  const minSetInProgress = (setTo: boolean) => {
-    setTimeout(() => setInProgress(setTo), 1000)
-  }
-
   const onPressSendEmail = useCallback(async () => {
     setInProgress(true)
     const deviceInfo = {
@@ -80,7 +75,8 @@ function SupportContact({ route }: Props) {
         email.body += (email.body ? '<br/><br/>' : '') + '<b>Support logs are attached...</b>'
       }
     }
-    minSetInProgress(false)
+    // Used to prevent flickering of the activity indicator on quick uploads
+    setTimeout(() => setInProgress(false), 1000)
     try {
       await sendEmail(
         email,
