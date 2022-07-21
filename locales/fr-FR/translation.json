@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
   "notification": {
-    "body": "Recevez des paiements directement grâce à votre numéro de téléphone",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connecter maintenant"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Sécurisez votre portefeuille",
-    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}. Si vous avez déjà un compte, VEUILLEZ NE PAS CLIQUER pour activer les données biométriques ci-dessous À MOINS que vous n'ayez votre phrase de récupération à portée de main. Si vous activez la biométrie, vous devrez restaurer votre compte.",
+    "description": "{{biometryType}} sécurise votre compte et simplifie l'utilisation de {{appName}}",
     "cta": "Activer {{biometryType}}"
   },
   "biometryType": {
@@ -1264,6 +1264,24 @@
       "button": "Retirer des fonds",
       "transactionDetailsAmount": "Retrait total",
       "transactionDetailsAmountConverted": "Montant du retrait"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Réessayer",
+    "withdraw": {
+      "cancel": "Annuler le retrait",
+      "success": {
+        "header": "Succès",
+        "title": "Vos fonds sont en route !",
+        "description": "Ta demande de transaction a été envoyée et tes fonds arriveront sur {{duration}}.",
+        "txDetails": "Voir sur CeloExplorer",
+        "continue": "Continuer"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Votre demande n'a pas pu être complétée.",
+      "description": "Tes fonds n'ont pas pu être transférés de Valora. Essaie à nouveau ou contacte notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "J'ai des difficultés à retirer mes fonds de Valora"
     }
   },
   "fiatExchangeFlow": {
