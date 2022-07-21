@@ -43,6 +43,8 @@ const SwapAmountInput = ({
           style={styles.input}
           keyboardType="numeric"
           autoFocus={autoFocus}
+          // unset lineHeight to allow ellipsis on long inputs
+          inputStyle={{ lineHeight: undefined }}
           testID="SwapAmountInput/Input"
         />
         {onPressMax && (
