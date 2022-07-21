@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
   "notification": {
-    "body": "Connect your number to claim funds and connect to friends",
+    "body": "Bakiye talep etmek ve arkadaşlarınızla bağlantı kurmak için numaranızı bağla",
     "cta": "Şimdi Bağlan"
   },
   "quotaLookup": {
