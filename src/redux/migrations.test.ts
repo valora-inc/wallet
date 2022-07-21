@@ -31,6 +31,7 @@ import {
   v56Schema,
   v57Schema,
   v58Schema,
+  v61Schema,
   v7Schema,
   v8Schema,
   vNeg1Schema,
@@ -606,5 +607,16 @@ describe('Redux persist migrations', () => {
     expectedSchema.fiatConnect.quotesError = null
 
     expect(migratedSchema).toMatchObject(expectedSchema)
+  })
+
+  it('works for v61 to v62', () => {
+    const oldSchema = v61Schema
+    const migratedSchema = migrations[62](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.superchargeTokenConfigByToken = {}
+    delete expectedSchema.app.superchargeTokens
+
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

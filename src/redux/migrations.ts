@@ -715,4 +715,18 @@ export const migrations = {
       transfer: null,
     },
   }),
+  62: (state: any) => ({
+    ...state,
+    app: {
+      ..._.omit(state.app, 'superchargeTokens'),
+      superchargeTokenConfigByToken: {},
+    },
+  }),
+  63: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      providers: null,
+    },
+  }),
 }

@@ -6,6 +6,7 @@ import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, pincodeTypeSelector } from 'src/account/selectors'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
+import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -26,6 +27,7 @@ export const getCurrentUserTraits = createSelector(
     numberVerifiedSelector,
     backupCompletedSelector,
     pincodeTypeSelector,
+    superchargeInfoSelector,
   ],
   (
     walletAddress,
@@ -38,7 +40,8 @@ export const getCurrentUserTraits = createSelector(
     localCurrencyCode,
     hasVerifiedNumber,
     hasCompletedBackup,
-    pincodeType
+    pincodeType,
+    superchargeInfo
   ) => {
     const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
@@ -92,6 +95,8 @@ export const getCurrentUserTraits = createSelector(
       appBuildNumber: DeviceInfo.getBuildNumber(),
       appBundleId: DeviceInfo.getBundleId(),
       pincodeType,
+      superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
+      superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
     }
   }
 )
