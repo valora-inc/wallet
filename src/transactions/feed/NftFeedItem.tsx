@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
-import DepositIcon from 'src/icons/DepositIcon'
+import NftReceivedIcon from 'src/icons/NftReceivedIcon'
+import NftSentIcon from 'src/icons/NftSentIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import fontStyles from 'src/styles/fonts'
@@ -29,12 +30,14 @@ function NftFeedItem({ transaction }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  // TODO: change icon according to the event
-
   return (
     <Touchable testID={'NftFeedItem'} disabled={false} onPress={openNftTransactionDetails}>
       <View style={styles.container}>
-        <DepositIcon />
+        {transaction.type === TokenTransactionTypeV2.NftReceived ? (
+          <NftReceivedIcon />
+        ) : (
+          <NftSentIcon />
+        )}
         <View style={styles.descriptionContainer}>
           <Text style={styles.title}>
             {transaction.type === TokenTransactionTypeV2.NftReceived
