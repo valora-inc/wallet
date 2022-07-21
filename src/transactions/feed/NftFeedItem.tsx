@@ -18,7 +18,7 @@ interface Props {
   transaction: NFTsTransaction
 }
 
-function NFTsTransactionItem({ transaction }: Props) {
+function NftFeedItem({ transaction }: Props) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)
 
@@ -32,13 +32,9 @@ function NFTsTransactionItem({ transaction }: Props) {
   // TODO: change icon according to the event
 
   return (
-    <Touchable
-      testID={'ClickNFTsTransactionItem'}
-      disabled={false}
-      onPress={openNftTransactionDetails}
-    >
+    <Touchable testID={'NftFeedItem'} disabled={false} onPress={openNftTransactionDetails}>
       <View style={styles.container}>
-        <View>{<DepositIcon />}</View>
+        <DepositIcon />
         <View style={styles.descriptionContainer}>
           <Text style={styles.title}>
             {transaction.type === TokenTransactionTypeV2.NftReceived
@@ -67,4 +63,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NFTsTransactionItem
+export default NftFeedItem

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import NFTsTransactionItem from 'src/transactions/feed/NFTsTransactionItem'
+import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { Fee, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
@@ -375,7 +375,7 @@ const MOCK_TRANSFERS = [
   },
 ]
 
-describe('NFTsTransactionItem', () => {
+describe('NftFeedItem', () => {
   function renderScreen({
     storeOverrides = {},
     type = TokenTransactionTypeV2.NftReceived,
@@ -393,7 +393,7 @@ describe('NFTsTransactionItem', () => {
 
     const tree = render(
       <Provider store={store}>
-        <NFTsTransactionItem
+        <NftFeedItem
           transaction={{
             __typename: 'NFTsTransactionV2',
             type,
@@ -416,7 +416,7 @@ describe('NFTsTransactionItem', () => {
   it('opens NFT Viewer correctly when NFT transaction item is clicked', () => {
     const tree = renderScreen({})
 
-    fireEvent.press(tree.getByTestId('ClickNFTsTransactionItem'))
+    fireEvent.press(tree.getByTestId('NftFeedItem'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: `${networkConfig.nftsValoraAppUrl}?address=${MOCK_ADDRESS}&hide-header=true`,
