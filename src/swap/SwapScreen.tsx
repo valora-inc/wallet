@@ -3,7 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -33,6 +34,7 @@ const DEFAULT_SWAP_AMOUNT: {
 
 export function SwapScreen() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const coreTokens = useSelector(coreTokensSelector)
 
@@ -45,8 +47,13 @@ export function SwapScreen() {
   )
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
+  const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+
+  useEffect(() => {
+    setFromSwapAmountError(false)
+  }, [fromToken, toToken, swapAmount])
 
   useEffect(() => {
     setExchangeRate(null)
@@ -67,7 +74,12 @@ export function SwapScreen() {
   }, [exchangeRate])
 
   const handleReview = () => {
-    // navigate to the review screen, not yet implemented
+    if (new BigNumber(swapAmount[Field.FROM] ?? 0).gt(maxFromAmount)) {
+      setFromSwapAmountError(true)
+      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
+    } else {
+      // navigate to the review screen, not yet implemented
+    }
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
@@ -157,6 +169,7 @@ export function SwapScreen() {
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             autoFocus
+            inputError={fromSwapAmountError}
             style={styles.fromSwapAmountInput}
           />
           <SwapAmountInput

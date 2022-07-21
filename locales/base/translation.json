@@ -1340,6 +1340,7 @@
     "title": "Swap",
     "review": "Review",
     "swapFrom": "Swap from",
-    "swapTo": "To"
+    "swapTo": "To",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -17,7 +17,8 @@ interface Props {
   onSelectToken(): void
   token: TokenBalance
   autoFocus?: boolean
-  style?: ViewStyle
+  inputError?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 const SwapAmountInput = ({
@@ -28,6 +29,7 @@ const SwapAmountInput = ({
   onSelectToken,
   token,
   autoFocus,
+  inputError,
   style,
 }: Props) => {
   const { t } = useTranslation()
@@ -44,7 +46,7 @@ const SwapAmountInput = ({
           keyboardType="numeric"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs
-          inputStyle={{ lineHeight: undefined }}
+          inputStyle={[{ lineHeight: undefined }, inputError ? styles.inputError : {}]}
           testID="SwapAmountInput/Input"
         />
         {onPressMax && (
@@ -93,6 +95,9 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginRight: Spacing.Smallest8,
+  },
+  inputError: {
+    color: Colors.warning,
   },
   maxButton: {
     backgroundColor: Colors.light,
