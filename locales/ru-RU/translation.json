@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Поздравляем, ваш номер телефона подключен!",
   "notification": {
-    "body": "Получать платежи непосредственно на номер телефона",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Подключить сейчас"
   },
   "quotaLookup": {
@@ -1275,7 +1275,7 @@
     "withdraw": {
       "cancel": "Отменить отмену",
       "success": {
-        "header": "Успешно",
+        "header": "Success",
         "title": "Твои средства уже в пути!",
         "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
         "txDetails": "Посмотреть на CeloExplorer",
