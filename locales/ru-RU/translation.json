@@ -1275,7 +1275,7 @@
     "withdraw": {
       "cancel": "Отменить отмену",
       "success": {
-        "header": "Success",
+        "header": "Успешно",
         "title": "Твои средства уже в пути!",
         "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
         "txDetails": "Посмотреть на CeloExplorer",
