@@ -196,9 +196,8 @@ class Logger {
       }
     } catch (error) {
       this.error('Logger', 'Failed to move logs to share', error)
-    } finally {
-      return toAttach
     }
+    return toAttach
   }
 
   getCombinedLogsFilePath = () => {
