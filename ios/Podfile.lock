@@ -452,7 +452,7 @@ PODS:
     - React-Core
   - react-native-keep-awake (4.0.0):
     - React-Core
-  - react-native-mail (6.0.0):
+  - react-native-mail (6.1.1):
     - React-Core
   - react-native-netinfo (5.8.0):
     - React-Core
@@ -599,7 +599,7 @@ PODS:
     - Firebase/Storage (= 7.11.0)
     - React-Core
     - RNFBApp
-  - RNFS (2.16.6):
+  - RNFS (2.20.0):
     - React-Core
   - RNGestureHandler (1.9.0):
     - React-Core
@@ -1092,7 +1092,7 @@ SPEC CHECKSUMS:
   react-native-fast-crypto: db61bcb2d1224a180449b886f27426a67d7628c0
   react-native-flipper: b9e2e817604af8da0d5a9ba20a8516e780e30f3c
   react-native-keep-awake: 6c078705f3fb2586963b13588d31148adc6bd128
-  react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
+  react-native-mail: 8fdcd3aef007c33a6877a18eb4cf7447a1d4ce4a
   react-native-netinfo: f3f52e6d92372003b78d5cafa3557797c7beee47
   react-native-plaid-link-sdk: 33cb904b956dc3b56799ac3027de8aa6fbb4b0ab
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
@@ -1132,7 +1132,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: b05aa2a76ed2b9fd50f05f036c96b26189a1fce2
   RNFBRemoteConfig: e8d462f46e1759a5921d0e4b76d0ab89aef9baee
   RNFBStorage: 48f869205eb5537749cdd4f53689a526728421f8
-  RNFS: 7161a36db9bbdaab96d91fff660820f94e29ca58
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNImageCropPicker: 9e0bf18cf4184a846fed55747c8e622208b39947
   RNInAppBrowser: 48b95ba7a4eaff5cc223bca338d3e319561dbd1b
