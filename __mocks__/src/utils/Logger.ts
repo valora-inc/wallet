@@ -3,6 +3,6 @@ module.exports = {
   ...jest.requireActual('src/utils/Logger'),
   default: {
     ...jest.requireActual('src/utils/Logger').default,
-    createCombinedLogs: jest.fn(),
+    getLogsToAttach: jest.fn(),
   },
 }
