@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Вітаємо, ваш номер телефону під’єднано!",
   "notification": {
-    "body": "Отримувати платежі безпосередньо на ваш номер телефону",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Під'єднатися зараз"
   },
   "quotaLookup": {
@@ -1275,7 +1275,7 @@
     "withdraw": {
       "cancel": "Скасувати Зняття",
       "success": {
-        "header": "Успішно",
+        "header": "Success",
         "title": "Ваші кошти вже в порядку!",
         "description": "Ваш запит на транзакцію був відправлений, а ваші кошти надійдуть через {{duration}}.",
         "txDetails": "Переглянути на CeloExplorer",
