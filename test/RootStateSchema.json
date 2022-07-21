@@ -1649,6 +1649,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectReview",
+                "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
