@@ -64,13 +64,25 @@ export function SwapScreen() {
   }, [toToken, fromToken])
 
   useEffect(() => {
-    setSwapAmount((prev) => ({
-      ...prev,
-      [Field.TO]:
-        exchangeRate && prev[Field.FROM]
-          ? new BigNumber(prev[Field.FROM] ?? 0).multipliedBy(exchangeRate).toString()
-          : null,
-    }))
+    setSwapAmount((prev) => {
+      // when the token pair changes, we use the updated exchange rate to
+      // calculate the "to" value except when only the "to" value is present
+      if (!prev[Field.FROM] && prev[Field.TO]) {
+        return {
+          ...prev,
+          [Field.FROM]: exchangeRate
+            ? new BigNumber(prev[Field.TO] ?? 0).dividedBy(exchangeRate).toString()
+            : null,
+        }
+      }
+      return {
+        ...prev,
+        [Field.TO]:
+          exchangeRate && prev[Field.FROM]
+            ? new BigNumber(prev[Field.FROM] ?? 0).multipliedBy(exchangeRate).toString()
+            : null,
+      }
+    })
   }, [exchangeRate])
 
   const handleReview = () => {

@@ -111,13 +111,15 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
     expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
-    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    jest.runAllTimers()
-    fireEvent.press(getByTestId('cEURTouchable'))
+    void act(() => {
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runAllTimers()
+      fireEvent.press(getByTestId('cEURTouchable'))
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    jest.runAllTimers()
-    fireEvent.press(getByTestId('CELOTouchable'))
+      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runAllTimers()
+      fireEvent.press(getByTestId('CELOTouchable'))
+    })
 
     expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
@@ -129,9 +131,11 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
     expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
 
-    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    jest.runAllTimers()
-    fireEvent.press(getByTestId('cUSDTouchable'))
+    void act(() => {
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      jest.runAllTimers()
+      fireEvent.press(getByTestId('cUSDTouchable'))
+    })
 
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
@@ -140,7 +144,7 @@ describe('SwapScreen', () => {
   it('should keep the to amount in sync with the exchange rate', () => {
     const { swapFromContainer, swapToContainer, getByText } = renderScreen()
 
-    act(() => {
+    void act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })
@@ -150,11 +154,10 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.review')).not.toBeDisabled()
   })
 
-  it.skip('should keep the from amount in sync with the exchange rate', () => {
-    // TODO figure out why this dtest doesn't pass
+  it('should keep the from amount in sync with the exchange rate', () => {
     const { swapFromContainer, swapToContainer } = renderScreen()
 
-    act(() => {
+    void act(() => {
       fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '3.325')
       jest.runAllTimers()
     })
