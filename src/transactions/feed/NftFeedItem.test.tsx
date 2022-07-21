@@ -32,7 +32,7 @@ describe('NftFeedItem', () => {
       <Provider store={store}>
         <NftFeedItem
           transaction={{
-            __typename: 'NFTsTransactionV2',
+            __typename: 'NftTransferV2',
             type,
             transactionHash: MOCK_TX_HASH,
             timestamp: 1234,

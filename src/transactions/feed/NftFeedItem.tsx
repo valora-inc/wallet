@@ -10,12 +10,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { NFTsTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
-  transaction: NFTsTransaction
+  transaction: NftTransfer
 }
 
 function NftFeedItem({ transaction }: Props) {

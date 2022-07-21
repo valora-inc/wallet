@@ -111,7 +111,7 @@ function TransactionFeed() {
         return <ExchangeFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV2':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
-      case 'NFTsTransactionV2':
+      case 'NftTransferV2':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }

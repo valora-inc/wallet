@@ -1132,12 +1132,12 @@
             ],
             "type": "object"
         },
-        "NFTsTransaction": {
+        "NftTransfer": {
             "additionalProperties": false,
             "properties": {
                 "__typename": {
                     "enum": [
-                        "NFTsTransactionV2"
+                        "NftTransferV2"
                     ],
                     "type": "string"
                 },
@@ -3360,7 +3360,7 @@
                                 "$ref": "#/definitions/TokenExchange"
                             },
                             {
-                                "$ref": "#/definitions/NFTsTransaction"
+                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },

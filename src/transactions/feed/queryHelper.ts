@@ -187,7 +187,7 @@ export const TRANSACTIONS_QUERY = `
       }
       transactions {
         ...TokenTransferItemV2
-        ...NFTsTransactionItemV2
+        ...NftTransferItemV2
         ...TokenExchangeItemV2
       } 
     }
@@ -229,7 +229,7 @@ export const TRANSACTIONS_QUERY = `
     }
   }
 
-  fragment NFTsTransactionItemV2 on NFTsTransactionV2 {
+  fragment NftTransferItemV2 on NftTransferV2 {
     __typename
     type
     transactionHash
