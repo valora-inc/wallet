@@ -235,16 +235,6 @@ export const TRANSACTIONS_QUERY = `
     transactionHash
     timestamp
     block
-    transfers {
-      fromAddressHash
-      toAddressHash
-      fromAccountHash
-      toAccountHash
-      token
-      tokenAddress
-      value
-      tokenType
-    }
   }
 
   fragment TokenExchangeItemV2 on TokenExchangeV2 {
