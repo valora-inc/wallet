@@ -1649,6 +1649,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectReview",
+                "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -1934,11 +1935,8 @@
                 "superchargeButtonType": {
                     "$ref": "#/definitions/SuperchargeButtonType"
                 },
-                "superchargeTokens": {
-                    "items": {
-                        "$ref": "#/definitions/SuperchargeTokenConfig"
-                    },
-                    "type": "array"
+                "superchargeTokenConfigByToken": {
+                    "$ref": "#/definitions/SuperchargeTokenConfigByToken"
                 },
                 "supportedBiometryType": {
                     "anyOf": [
@@ -2000,7 +1998,7 @@
                 "skipVerification",
                 "superchargeApy",
                 "superchargeButtonType",
-                "superchargeTokens",
+                "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV1Enabled"
@@ -2833,6 +2831,19 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "providers": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/FiatConnectProviderInfo"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "quotes": {
                     "items": {
                         "anyOf": [
@@ -3008,6 +3019,7 @@
                 }
             },
             "required": [
+                "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",
@@ -3422,32 +3434,23 @@
             ],
             "type": "object"
         },
-        "SuperchargeToken": {
-            "enum": [
-                "cEUR",
-                "cREAL",
-                "cUSD"
-            ],
-            "type": "string"
-        },
-        "SuperchargeTokenConfig": {
-            "additionalProperties": false,
-            "properties": {
-                "maxBalance": {
-                    "type": "number"
+        "SuperchargeTokenConfigByToken": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "maxBalance": {
+                        "type": "number"
+                    },
+                    "minBalance": {
+                        "type": "number"
+                    }
                 },
-                "minBalance": {
-                    "type": "number"
-                },
-                "token": {
-                    "$ref": "#/definitions/SuperchargeToken"
-                }
+                "required": [
+                    "maxBalance",
+                    "minBalance"
+                ],
+                "type": "object"
             },
-            "required": [
-                "maxBalance",
-                "minBalance",
-                "token"
-            ],
             "type": "object"
         },
         "TokenAmount": {

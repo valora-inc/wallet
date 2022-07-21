@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+} from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -17,6 +21,7 @@ export interface State {
   quotesLoading: boolean
   quotesError: string | null
   transfer: FiatConnectTransfer | null
+  providers: FiatConnectProviderInfo[] | null
 }
 
 const initialState: State = {
@@ -24,6 +29,7 @@ const initialState: State = {
   quotesLoading: false,
   quotesError: null,
   transfer: null,
+  providers: null,
 }
 
 export interface FetchQuotesAction {
@@ -34,6 +40,10 @@ export interface FetchQuotesAction {
 
 export interface FetchFiatConnectQuotesCompletedAction {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
+}
+
+export interface FetchFiatConnectProvidersCompletedAction {
+  providers: FiatConnectProviderInfo[]
 }
 
 export interface FetchFiatConnectQuotesFailedAction {
@@ -113,6 +123,15 @@ export const slice = createSlice({
         txHash: action.payload.txHash,
       }
     },
+    fetchFiatConnectProviders: () => {
+      // no state update
+    },
+    fetchFiatConnectProvidersCompleted: (
+      state,
+      action: PayloadAction<FetchFiatConnectProvidersCompletedAction>
+    ) => {
+      state.providers = action.payload.providers
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -132,6 +151,8 @@ export const {
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
+  fetchFiatConnectProviders,
+  fetchFiatConnectProvidersCompleted,
 } = slice.actions
 
 export default slice.reducer

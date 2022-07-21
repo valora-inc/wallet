@@ -25,6 +25,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
+import { navigate } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -65,7 +66,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             })
           )
 
-          // TODO: navigate to success / failure screen
+          navigate(Screens.FiatConnectTransferStatus, {
+            flow,
+            normalizedQuote,
+            fiatAccount,
+          })
         }}
       />
     </SafeAreaView>
