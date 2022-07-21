@@ -152,24 +152,12 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
-interface BlockscoutTokenTransfer {
-  fromAddressHash: string
-  toAddressHash: string
-  fromAccountHash: string | null
-  toAccountHash: string | null
-  token: string | null
-  tokenAddress: string
-  value: string | null
-  tokenType: string
-}
-
 export interface NFTsTransaction {
   __typename: 'NFTsTransactionV2'
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
   block: string
-  transfers: BlockscoutTokenTransfer[]
   fees: Fee[]
 }
 

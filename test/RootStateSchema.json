@@ -234,58 +234,6 @@
             ],
             "type": "object"
         },
-        "BlockscoutTokenTransfer": {
-            "additionalProperties": false,
-            "properties": {
-                "fromAccountHash": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "fromAddressHash": {
-                    "type": "string"
-                },
-                "toAccountHash": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "toAddressHash": {
-                    "type": "string"
-                },
-                "token": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "tokenAddress": {
-                    "type": "string"
-                },
-                "tokenType": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                }
-            },
-            "required": [
-                "fromAccountHash",
-                "fromAddressHash",
-                "toAccountHash",
-                "toAddressHash",
-                "token",
-                "tokenAddress",
-                "tokenType",
-                "value"
-            ],
-            "type": "object"
-        },
         "CICOFlow": {
             "enum": [
                 "CashIn",
@@ -1208,12 +1156,6 @@
                 "transactionHash": {
                     "type": "string"
                 },
-                "transfers": {
-                    "items": {
-                        "$ref": "#/definitions/BlockscoutTokenTransfer"
-                    },
-                    "type": "array"
-                },
                 "type": {
                     "$ref": "#/definitions/TokenTransactionTypeV2"
                 }
@@ -1224,7 +1166,6 @@
                 "fees",
                 "timestamp",
                 "transactionHash",
-                "transfers",
                 "type"
             ],
             "type": "object"
