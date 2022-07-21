@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
   "notification": {
-    "body": "Recevez des paiements directement grâce à votre numéro de téléphone",
+    "body": "Connectez votre numéro pour réclamer des fonds et vous connecter à des amis",
     "cta": "Connecter maintenant"
   },
   "quotaLookup": {
@@ -1272,14 +1272,14 @@
       "cancel": "Annuler le retrait",
       "success": {
         "header": "Succès",
-        "title": "Tes fonds sont en route !",
+        "title": "Vos fonds sont en route !",
         "description": "Ta demande de transaction a été envoyée et tes fonds arriveront sur {{duration}}.",
         "txDetails": "Voir sur CeloExplorer",
         "continue": "Continuer"
       }
     },
     "requestNotCompleted": {
-      "title": "Ta demande n'a pas pu être complétée.",
+      "title": "Votre demande n'a pas pu être complétée.",
       "description": "Tes fonds n'ont pas pu être transférés de Valora. Essaie à nouveau ou contacte notre équipe d'assistance pour obtenir de l'aide.",
       "contactSupportPrefill": "J'ai des difficultés à retirer mes fonds de Valora"
     }
