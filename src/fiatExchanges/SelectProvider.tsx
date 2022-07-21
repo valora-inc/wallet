@@ -14,11 +14,12 @@ import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
 import Touchable from 'src/components/Touchable'
 import {
+  fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
 } from 'src/fiatconnect/selectors'
-import { fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
@@ -61,6 +62,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+  const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
+
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
   const { t } = useTranslation()
@@ -71,6 +74,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     [Currency.Euro]: CiCoCurrency.CEUR,
   }[route.params.selectedCrypto]
 
+  // If there is no FC providers in the redux cache, try to fetch again
+  useEffect(() => {
+    if (!fiatConnectProviders) {
+      dispatch(fetchFiatConnectProviders())
+    }
+  }, [fiatConnectProviders])
+
   useEffect(() => {
     dispatch(
       fetchFiatConnectQuotes({
@@ -79,7 +89,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         cryptoAmount: route.params.amount.crypto,
       })
     )
-  }, [flow, digitalAsset, route.params.amount.crypto])
+  }, [flow, digitalAsset, route.params.amount.crypto, fiatConnectProviders])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
