@@ -29,7 +29,6 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
-import { fetchTokenBalances } from 'src/tokens/slice'
 
 function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle> }) {
   const tokensWithUsdValue = useSelector(tokensWithUsdValueSelector)
@@ -38,12 +37,6 @@ function TokenBalance({ style = styles.balance }: { style?: StyleProp<TextStyle>
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useSelector(stalePriceSelector)
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchTokenBalances())
-  }, [])
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
