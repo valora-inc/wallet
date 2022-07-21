@@ -67,7 +67,7 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    let attachments: Array<Email['attachments']> | any
+    let attachments: Email['attachments']
     if (attachLogs) {
       attachments = await Logger.getLogsToAttach()
       if (attachments) {
@@ -85,7 +85,7 @@ function SupportContact({ route }: Props) {
         attachments
           ? attachments.find(
               (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
-            ).path ?? false
+            )?.path ?? false
           : false
       )
       navigateBackAndToast()

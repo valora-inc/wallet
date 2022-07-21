@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
+import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { readFileChunked } from 'src/utils/readFile'
@@ -163,10 +164,10 @@ class Logger {
   }
 
   getLogsToAttach = async () => {
+    const toAttach: Email['attachments'] = []
     try {
       const logDir = this.getReactNativeLogsDir()
       const logFiles = await RNFS.readDir(logDir)
-      const toAttach = []
       // On Android we need to move the files to a directory we have access to
       const path = Platform.OS === 'ios' ? logDir : RNFS.ExternalDirectoryPath
       for (const file of logFiles) {
@@ -193,9 +194,10 @@ class Logger {
           type: 'text',
         })
       }
-      return toAttach
     } catch (error) {
       this.error('Logger', 'Failed to move logs to share', error)
+    } finally {
+      return toAttach
     }
   }
 
