@@ -1,8 +1,8 @@
 import { openComposer } from 'react-native-email-link'
-import * as RNFS from 'react-native-fs'
 import Mailer from 'react-native-mail'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import Logger from 'src/utils/Logger'
+import { readFileChunked } from 'src/utils/readFile'
 
 export interface Email {
   subject: string
@@ -24,7 +24,7 @@ export async function sendEmailWithNonNativeApp(
 ) {
   try {
     const supportLogsMessage = logsPath
-      ? `Support logs: ${!logsPath || (await RNFS.readFile(logsPath))}`
+      ? `Support logs: ${!logsPath || (await readFileChunked(logsPath))}`
       : ''
     await openComposer({
       to: CELO_SUPPORT_EMAIL_ADDRESS,
