@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Parabéns, seu número de celular está conectado!",
   "notification": {
-    "body": "Receba pagamentos diretamente no seu celular",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Conectar"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Proteja sua carteira",
-    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}. Se você já tem uma conta POR FAVOR NÃO CLIQUE para ativar a biometria abaixo UNLESS você tem sua Frase de Recuperação. Para ativar a biometria, será necessário que você restaure sua conta.",
+    "description": "{{biometryType}} protege sua conta e faz com que seja mais fácil usar {{appName}}",
     "cta": "Ativar {{biometryType}}"
   },
   "biometryType": {
@@ -1264,6 +1264,24 @@
       "button": "Sacar Fundos",
       "transactionDetailsAmount": "Saque total",
       "transactionDetailsAmountConverted": "Quantia retirada"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Repetir",
+    "withdraw": {
+      "cancel": "Cancelar Retirada",
+      "success": {
+        "header": "Sucesso",
+        "title": "Os seus fundos estão a caminho!",
+        "description": "O seu pedido de transacção foi enviado e os seus fundos chegarão em {{duration}}.",
+        "txDetails": "Ver no CeloExplorer",
+        "continue": "Continuar"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "O seu pedido não pôde ser completado.",
+      "description": "Os seus fundos não puderam ser transferidos de Valora. Por favor, tente novamente ou contacte a nossa equipa de apoio para obter ajuda.",
+      "contactSupportPrefill": "Estou a ter dificuldades em retirar os meus fundos da Valora"
     }
   },
   "fiatExchangeFlow": {
