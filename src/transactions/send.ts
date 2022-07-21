@@ -6,8 +6,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
-import { TokenBalance } from 'src/tokens/reducer'
 import { coreTokensSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import {
   sendTransactionAsync,
   SendTransactionLogEvent,
