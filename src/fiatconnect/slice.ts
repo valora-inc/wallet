@@ -1,6 +1,10 @@
 import { FiatAccountType, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import {
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+} from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -22,6 +26,7 @@ export interface State {
   fiatAccountError: string | null
   mostRecentFiatAccountIds: FiatAccount[]
   transfer: FiatConnectTransfer | null
+  providers: FiatConnectProviderInfo[] | null
 }
 
 const initialState: State = {
@@ -33,6 +38,7 @@ const initialState: State = {
   fiatAccountError: null,
   mostRecentFiatAccountIds: [],
   transfer: null,
+  providers: null,
 }
 
 export interface FiatAccount {
@@ -64,6 +70,9 @@ export interface FetchFiatConnectQuotesCompletedAction {
 
 export interface FetchFailedAction {
   error: string
+}
+export interface FetchFiatConnectProvidersCompletedAction {
+  providers: FiatConnectProviderInfo[]
 }
 
 export type FiatAccountAddedAction = FiatAccount
@@ -172,6 +181,15 @@ export const slice = createSlice({
         txHash: action.payload.txHash,
       }
     },
+    fetchFiatConnectProviders: () => {
+      // no state update
+    },
+    fetchFiatConnectProvidersCompleted: (
+      state,
+      action: PayloadAction<FetchFiatConnectProvidersCompletedAction>
+    ) => {
+      state.providers = action.payload.providers
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -196,6 +214,8 @@ export const {
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
+  fetchFiatConnectProviders,
+  fetchFiatConnectProvidersCompleted,
 } = slice.actions
 
 export default slice.reducer

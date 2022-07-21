@@ -43,8 +43,10 @@ import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
 import FiatConnectReviewFetchScreen from 'src/fiatconnect/ReviewFetchScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
+import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
+import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -518,9 +520,19 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatConnectReviewFetchScreen}
     />
     <Navigator.Screen
+      options={noHeader}
+      name={Screens.FiatConnectTransferStatus}
+      component={FiatConnectTransferStatusScreen}
+    />
+    <Navigator.Screen
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
+    />
+    <Navigator.Screen
+      name={Screens.CoinbasePayScreen}
+      component={CoinbasePayScreen}
+      options={emptyHeader}
     />
   </>
 )

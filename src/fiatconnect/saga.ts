@@ -14,13 +14,21 @@ import {
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { fetchQuotes, FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import {
+  fetchQuotes,
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+  getFiatConnectProviders,
+} from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
-import { fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
+import { fiatConnectProvidersSelector, fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
+  fetchFiatConnectProviders,
+  fetchFiatConnectProvidersCompleted,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
@@ -48,16 +56,21 @@ const TAG = 'FiatConnectSaga'
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount, providerIds } = params
+  const { flow, digitalAsset, cryptoAmount } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
-  const account: string = yield select(currentAccountSelector)!
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
 
   try {
+    // null fiatConnectProviders means the providers have never successfully been fetched
+    if (!fiatConnectProviders) {
+      throw new Error('Error fetching fiatconnect providers')
+    }
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
-      account,
       localCurrency,
       digitalAsset,
       cryptoAmount,
@@ -65,11 +78,12 @@ export function* handleFetchFiatConnectQuotes({
       flow,
       fiatConnectCashInEnabled,
       fiatConnectCashOutEnabled,
-      providerList: providerIds,
+      fiatConnectProviders,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
-    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch providers' }))
+    Logger.error(TAG, 'Could not fetch fiatconnect quotes', error)
+    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
 
@@ -133,6 +147,23 @@ export function* handleFetchQuoteAndFiatAccount({
       })
     )
   }
+}
+
+export function* handleFetchFiatConnectProviders() {
+  const account: string = yield select(currentAccountSelector)
+  try {
+    if (!account) {
+      throw new Error('Cannot fetch fiatconnect providers without an account')
+    }
+    const providers: FiatConnectProviderInfo[] = yield call(getFiatConnectProviders, account)
+    yield put(fetchFiatConnectProvidersCompleted({ providers }))
+  } catch (error) {
+    Logger.error(TAG, 'Error in *handleFetchFiatConnectProviders ', error)
+  }
+}
+
+export function* watchFetchFiatConnectProviders() {
+  yield takeLeading(fetchFiatConnectProviders.type, handleFetchFiatConnectProviders)
 }
 
 export function* handleCreateFiatConnectTransfer({
@@ -220,4 +251,5 @@ export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFetchQuoteAndFiatAccount)
   yield spawn(watchFiatConnectTransfers)
+  yield spawn(watchFetchFiatConnectProviders)
 }

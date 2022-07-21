@@ -6,6 +6,7 @@ import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -93,6 +94,7 @@ export type StackParamList = {
     flow: CICOFlow
   }
   [Screens.BidaliScreen]: { currency?: Currency }
+  [Screens.CoinbasePayScreen]: { uri: string }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountScreen]: {
@@ -124,6 +126,7 @@ export type StackParamList = {
   [Screens.ExternalExchanges]: {
     isCashIn?: boolean
     currency: Currency
+    exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
@@ -146,6 +149,11 @@ export type StackParamList = {
     fiatAccountId: string
     providerId: string
     fiatAccountType: FiatAccountType
+  }
+  [Screens.FiatConnectTransferStatus]: {
+    flow: CICOFlow
+    normalizedQuote: FiatConnectQuote
+    fiatAccount: ObfuscatedFiatAccountData
   }
   [Screens.MoonPayScreen]: {
     localAmount: number

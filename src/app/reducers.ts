@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
-import { SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
 import { Screens } from 'src/navigator/Screens'
@@ -26,7 +26,7 @@ export interface State {
   showRaiseDailyLimitTarget: string | undefined
   walletConnectV1Enabled: boolean
   superchargeApy: number
-  superchargeTokens: SuperchargeTokenConfig[]
+  superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -77,7 +77,7 @@ const initialState = {
   showRaiseDailyLimitTarget: undefined,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
-  superchargeTokens: [],
+  superchargeTokenConfigByToken: {},
   ranVerificationMigrationAt: null,
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
@@ -201,7 +201,7 @@ export const appReducer = (
         celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         superchargeApy: action.configValues.superchargeApy,
-        superchargeTokens: action.configValues.superchargeTokens,
+        superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.configValues.rewardPillText),

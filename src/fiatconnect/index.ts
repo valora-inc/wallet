@@ -53,11 +53,10 @@ export async function getFiatConnectProviders(
     `${networkConfig.getFiatConnectProvidersUrl}?address=${address}&providers=${providerList}`
   )
   if (!response.ok) {
-    Logger.error(
-      TAG,
-      `Failure response fetching FiatConnect providers: ${response} , returning empty list`
+    Logger.error(TAG, `Failure response fetching FiatConnect providers: ${response}`)
+    throw new Error(
+      `Failure response fetching FiatConnect providers. ${response.status}  ${response.statusText}`
     )
-    return []
   }
   const { providers } = await response.json()
   return providers
@@ -146,28 +145,16 @@ export async function getFiatConnectQuotes(
     provider: fiatConnectProviders.find((provider) => provider.id === result.id)!,
   }))
 }
-export type FetchQuotesInput = Omit<QuotesInput, 'fiatConnectProviders'> & {
+export type FetchQuotesInput = QuotesInput & {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
-  account: string
-  providerList?: string[]
 }
 
 export async function fetchQuotes(params: FetchQuotesInput) {
-  const {
-    account,
-    providerList,
-    fiatConnectCashInEnabled,
-    fiatConnectCashOutEnabled,
-    ...quotesInput
-  } = params
+  const { fiatConnectCashInEnabled, fiatConnectCashOutEnabled, ...quotesInput } = params
   if (!fiatConnectCashInEnabled && params.flow === CICOFlow.CashIn) return []
   if (!fiatConnectCashOutEnabled && params.flow === CICOFlow.CashOut) return []
-  const fiatConnectProviders = await getFiatConnectProviders(account, providerList?.join(','))
-  return getFiatConnectQuotes({
-    ...quotesInput,
-    fiatConnectProviders,
-  })
+  return getFiatConnectQuotes(quotesInput)
 }
 
 /**

@@ -67,10 +67,10 @@ describe('FiatConnect helpers', () => {
       const providers = await getFiatConnectProviders(mockAccount)
       expect(providers).toMatchObject([fakeProviderInfo])
     })
-    it('Gives empty list and logs error on failure', async () => {
+    it('Throws an error on failure', async () => {
       mockFetch.mockResponseOnce(JSON.stringify({ providers: [] }), { status: 500 })
-      const providers = await getFiatConnectProviders(mockAccount)
-      expect(providers).toEqual([])
+      await expect(async () => await getFiatConnectProviders(mockAccount)).rejects.toThrow()
+
       expect(Logger.error).toHaveBeenCalled()
     })
   })
@@ -79,12 +79,19 @@ describe('FiatConnect helpers', () => {
     const fetchQuotesInput: FetchQuotesInput = {
       fiatConnectCashInEnabled: false,
       fiatConnectCashOutEnabled: false,
-      account: mockAccount,
       flow: CICOFlow.CashIn,
       localCurrency: LocalCurrencyCode.USD,
       digitalAsset: CiCoCurrency.CUSD,
       cryptoAmount: 100,
       country: 'US',
+      fiatConnectProviders: [
+        {
+          id: 'fake-provider',
+          baseUrl: 'https://fake-provider.valoraapp.com',
+          providerName: 'fake provider name',
+          imageUrl: 'https://fake-icon.valoraapp.com',
+        },
+      ],
     }
     it('returns an empty array if fiatConnectCashInEnabled is false with cash in', async () => {
       const quotes = await fetchQuotes(fetchQuotesInput)

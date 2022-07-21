@@ -12,6 +12,7 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer, fiatAccountUsed } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
@@ -100,7 +101,7 @@ describe('ReviewScreen', () => {
       ])
     })
 
-    it('dispatches fiat transfer action and fiatAccountUsed action on clicking button', async () => {
+    it('dispatches fiat transfer action, fiatAccountUsed action, and navigates on clicking button', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
 
       const { getByTestId } = render(
@@ -123,6 +124,11 @@ describe('ReviewScreen', () => {
           fiatAccountType: FiatAccountType.BankAccount,
         }),
       ])
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {
+        flow: CICOFlow.CashOut,
+        normalizedQuote: mockProps.route.params.normalizedQuote,
+        fiatAccount: mockProps.route.params.fiatAccount,
+      })
     })
   })
 })

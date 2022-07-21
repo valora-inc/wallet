@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 62,
+          "version": 64,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -179,9 +179,9 @@ describe('store state', () => {
           "showSwapMenuInDrawerMenu": false,
           "skipProfilePicture": false,
           "skipVerification": false,
-          "superchargeApy": 25,
+          "superchargeApy": 12,
           "superchargeButtonType": "PILL_REWARDS",
-          "superchargeTokens": Array [],
+          "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
@@ -222,6 +222,7 @@ describe('store state', () => {
           "fiatAccountError": null,
           "fiatAccountLoading": false,
           "mostRecentFiatAccountIds": Array [],
+          "providers": null,
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,

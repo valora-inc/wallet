@@ -16,3 +16,5 @@ export const fiatAccountErrorSelector = (state: RootState): string | null =>
   state.fiatConnect.fiatAccountError
 export const fiatAccountLoadingSelector = (state: RootState): boolean =>
   state.fiatConnect.fiatAccountLoading
+export const fiatConnectTransferSelector = (state: RootState) => state.fiatConnect.transfer
+export const fiatConnectProvidersSelector = (state: RootState) => state.fiatConnect.providers
