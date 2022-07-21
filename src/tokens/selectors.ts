@@ -71,10 +71,9 @@ export const stalePriceSelector = createSelector(tokensListSelector, (tokens) =>
   // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
   // Else tokens usd values are not present so we know prices are stale - return true
   if (tokensWithUsdValue.length > 0) {
-    return (
-      tokensWithUsdValue.some((tokenInfo) =>
+    return tokensWithUsdValue.some(
+      (tokenInfo) =>
         (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
-      )
     )
   } else {
     return true
