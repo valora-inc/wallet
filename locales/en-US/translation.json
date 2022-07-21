@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connect Now"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Secure your wallet",
-    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}. If you already have an account PLEASE DO NOT CLICK to enable biometrics below UNLESS you have your recovery phrase handy. Turning on biometrics will require you to restore your account.",
+    "description": "{{biometryType}} secures your wallet and makes it easier to use {{appName}}",
     "cta": "Turn on {{biometryType}}"
   },
   "biometryType": {
@@ -1264,6 +1264,24 @@
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
       "transactionDetailsAmountConverted": "Amount Withdrawn"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Try Again",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Success",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "Continue"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
     }
   },
   "fiatExchangeFlow": {
