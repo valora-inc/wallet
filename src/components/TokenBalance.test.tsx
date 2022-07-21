@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { HomeTokenBalance, FiatExchangeTokenBalance } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockTokenBalances } from 'test/values'
 
@@ -132,6 +133,41 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       expect(tree.queryByTestId('ViewBalances')).toBeFalsy()
       expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱0.00')
+    }
+  )
+
+  it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
+    'renders correctly with stale balance',
+    async (TokenBalanceComponent) => {
+      const store = createMockStore({
+        tokens: {
+          tokenBalances: {
+            '0xcelo': {
+              name: 'Celo',
+              address: '0xcelo',
+              symbol: 'CELO',
+              balance: '1',
+              usdPrice: '0.90',
+              priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
+              isCoreToken: true,
+            },
+            '0x048F47d358EC521a6cf384461d674750a3cB58C8': {
+              address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
+              symbol: 'TT',
+              balance: '10',
+            },
+          },
+        },
+      })
+
+      const tree = render(
+        <Provider store={store}>
+          <TokenBalanceComponent />
+        </Provider>
+      )
+
+      expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
+      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
     }
   )
 

@@ -18,15 +18,15 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND 
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { e2eTokens } from 'src/tokens/e2eTokens'
+import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 import {
   fetchTokenBalances,
+  fetchTokenBalancesFailure,
   setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
-  tokenBalanceFetchError,
-} from 'src/tokens/reducer'
-import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
+} from 'src/tokens/slice'
 import { addStandbyTransactionLegacy, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -340,7 +340,7 @@ export function* fetchTokenBalancesSaga() {
     yield put(setTokenBalances(tokens))
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
-    yield put(tokenBalanceFetchError())
+    yield put(fetchTokenBalancesFailure())
     Logger.error(TAG, 'error fetching user balances', error.message)
     ValoraAnalytics.track(AppEvents.fetch_balance_error, {
       error: error.message,
