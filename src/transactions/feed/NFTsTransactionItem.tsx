@@ -2,13 +2,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import DepositIcon from 'src/icons/DepositIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { NFTsTransaction } from 'src/transactions/types'
+import { NFTsTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -24,20 +26,7 @@ function NFTsTransactionItem({ transaction }: Props) {
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
     })
-  }
-
-  let isReceived: boolean = true
-
-  for (const transfer of transaction.transfers) {
-    if (transfer.tokenType === 'ERC-721') {
-      if (transfer.toAddressHash === walletAddress) {
-        isReceived = true
-      }
-
-      if (transfer.fromAddressHash === walletAddress) {
-        isReceived = false
-      }
-    }
+    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   // TODO: change icon according to the event
@@ -51,7 +40,11 @@ function NFTsTransactionItem({ transaction }: Props) {
       <View style={styles.container}>
         <View>{<DepositIcon />}</View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.title}>{isReceived ? t('receivedNft') : t('sentNft')}</Text>
+          <Text style={styles.title}>
+            {transaction.type === TokenTransactionTypeV2.NftReceived
+              ? t('receivedNft')
+              : t('sentNft')}
+          </Text>
         </View>
       </View>
     </Touchable>

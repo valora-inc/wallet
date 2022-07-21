@@ -3649,7 +3649,8 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
-                "NFT_TRANSACTION",
+                "NFT_RECEIVED",
+                "NFT_SENT",
                 "RECEIVED",
                 "SENT"
             ],

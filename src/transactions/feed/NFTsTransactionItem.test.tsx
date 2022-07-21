@@ -378,7 +378,7 @@ const MOCK_TRANSFERS = [
 describe('NFTsTransactionItem', () => {
   function renderScreen({
     storeOverrides = {},
-    type = TokenTransactionTypeV2.NftTransaction,
+    type = TokenTransactionTypeV2.NftReceived,
     fees = [],
   }: {
     type?: TokenTransactionTypeV2
