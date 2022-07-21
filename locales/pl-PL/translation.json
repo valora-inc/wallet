@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Gratulacje, Twój numer telefonu został podłączony!",
   "notification": {
-    "body": "Otrzymuj płatności bezpośrednio na swój numer telefonu",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Podłącz teraz"
   },
   "quotaLookup": {
@@ -1275,7 +1275,7 @@
     "withdraw": {
       "cancel": "Anuluj wycofanie się z umowy",
       "success": {
-        "header": "Udało się",
+        "header": "Success",
         "title": "Twoje fundusze są w drodze!",
         "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą na adres {{duration}}.",
         "txDetails": "Zobacz na CeloExplorer",
