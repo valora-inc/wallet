@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Вітаємо, ваш номер телефону під’єднано!",
   "notification": {
-    "body": "Connect your number to claim funds and connect to friends",
+    "body": "Під’єднати свій номер, щоб отримувати кошти та зв'язуватися з друзями",
     "cta": "Під'єднатися зараз"
   },
   "quotaLookup": {
