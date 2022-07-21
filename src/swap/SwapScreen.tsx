@@ -5,6 +5,8 @@ import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -52,6 +54,10 @@ export function SwapScreen() {
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
 
   useEffect(() => {
+    ValoraAnalytics.track(SwapEvents.swap_screen_open)
+  }, [])
+
+  useEffect(() => {
     setFromSwapAmountError(false)
   }, [fromToken, toToken, swapAmount])
 
@@ -86,6 +92,8 @@ export function SwapScreen() {
   }, [exchangeRate])
 
   const handleReview = () => {
+    ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
+
     if (new BigNumber(swapAmount[Field.FROM] ?? 0).gt(maxFromAmount)) {
       setFromSwapAmountError(true)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
@@ -95,6 +103,7 @@ export function SwapScreen() {
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
+    ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
     Keyboard.dismiss()
     // ensure that the keyboard is dismissed before animating token bottom sheet
     setTimeout(() => {
@@ -107,6 +116,14 @@ export function SwapScreen() {
   }
 
   const handleSelectToken = (tokenAddress: string) => {
+    const selectedToken = coreTokens.find((token) => token.address === tokenAddress)
+    if (selectedToken) {
+      ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
+        fieldType: selectingToken === Field.FROM ? Field.FROM : Field.TO,
+        tokenSymbol: selectedToken?.symbol,
+      })
+    }
+
     if (
       (selectingToken === Field.FROM && toToken?.address === tokenAddress) ||
       (selectingToken === Field.TO && fromToken?.address === tokenAddress)
@@ -114,9 +131,9 @@ export function SwapScreen() {
       setFromToken(toToken)
       setToToken(fromToken)
     } else if (selectingToken === Field.FROM) {
-      setFromToken(coreTokens.find((token) => token.address === tokenAddress))
+      setFromToken(selectedToken)
     } else if (selectingToken === Field.TO) {
-      setToToken(coreTokens.find((token) => token.address === tokenAddress))
+      setToToken(selectedToken)
     }
     setSelectingToken(null)
   }
