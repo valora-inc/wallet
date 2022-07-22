@@ -1347,7 +1347,7 @@
     "review": "Перегляд",
     "swapFrom": "Від",
     "swapTo": "До",
-    "insufficientFunds": "Недостатньо балансу {{token}} . Спробуйте більшу суму або виберіть інший маркер."
+    "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте більшу суму або виберіть інший токен."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
