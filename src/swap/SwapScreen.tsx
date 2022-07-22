@@ -120,7 +120,7 @@ export function SwapScreen() {
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
-        tokenSymbol: selectedToken?.symbol,
+        tokenSymbol: selectedToken.symbol,
       })
     }
 
