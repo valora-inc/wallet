@@ -387,8 +387,8 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
-  "receivedNft": "Received NFT",
-  "sentNft": "Sent NFT",
+  "receivedNft": "Alınan NFT",
+  "sentNft": "Gönderilen NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
@@ -1110,8 +1110,8 @@
   "transactionHeaderCeloDeposit": "Yatırılan",
   "transactionHeaderCeloReward": "Ödül Alındı",
   "transactionHeaderEscrowReceived": "Escrow Ödemesi Alındı",
-  "transactionHeaderNftReceived": "NFT Received",
-  "transactionHeaderNftSent": "NFT Sent",
+  "transactionHeaderNftReceived": "NFT Alındı",
+  "transactionHeaderNftSent": "NFT Gönderildi",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
     "title": "Valora'yı kullanmaya başlamak için bakiye ekleyin!",
@@ -1272,19 +1272,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Tekrar Deneyin",
     "withdraw": {
-      "cancel": "Cancel Withdrawal",
+      "cancel": "Para Çekmeyi iptal et",
       "success": {
         "header": "Başarılı",
-        "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-        "txDetails": "View on CeloExplorer",
+        "title": "Paranız yolda!",
+        "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
+        "txDetails": "CeloExplorer'da görüntüle",
         "continue": "İleri"
       }
     },
     "requestNotCompleted": {
-      "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
+      "title": "İsteğiniz gerçekleştirilemedi.",
+      "description": "Paranız Valora'dan aqktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
+      "contactSupportPrefill": "Valora'dan paramı çekerken sorun yaşıyorum"
     }
   },
   "fiatExchangeFlow": {
