@@ -1343,7 +1343,7 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Review",
-    "swapFrom": "Swap from",
+    "swapFrom": "From",
     "swapTo": "To",
     "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
   }
