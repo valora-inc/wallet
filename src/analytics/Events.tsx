@@ -544,6 +544,13 @@ export enum CoinbasePayEvents {
   coinbase_pay_flow_exit = 'coinbase_pay_flow_exit', // When user exits Coinbase Pay
 }
 
+export enum SwapEvents {
+  swap_screen_open = 'swap_screen_open', // When the screen is mounted
+  swap_screen_select_token = 'swap_screen_select_token', // When a user selects a token, prompting the token select bottom sheet
+  swap_screen_confirm_token = 'swap_screen_confirm_token', // When a user selects a token from the bottom sheet
+  swap_screen_review_swap = 'swap_screen_review_swap', // When a user click on the review button to proceed to next step
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -569,3 +576,4 @@ export type AnalyticsEventType =
   | DappExplorerEvents
   | WebViewEvents
   | CoinbasePayEvents
+  | SwapEvents
