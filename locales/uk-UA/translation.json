@@ -388,7 +388,7 @@
   "choose": "Вибрати",
   "receivedPayment": "Отриманий платіж",
   "receivedNft": "Отриманий NFT",
-  "sentNft": "Надіслано NFT",
+  "sentNft": "Надісланий NFT",
   "getStarted": "Почати роботу",
   "manageCeloDollars": "Керувати Celo Dollars",
   "sendCeloDollars": "Надіслати Celo Dollars",
@@ -1116,7 +1116,7 @@
   "transactionHeaderCeloReward": "Отримано винагороду",
   "transactionHeaderEscrowReceived": "Отримано платіж з ескроу-рахунку",
   "transactionHeaderNftReceived": "Отримано NFT",
-  "transactionHeaderNftSent": "NFT Відправлено",
+  "transactionHeaderNftSent": "Надіслано NFT",
   "feedSectionHeaderRecent": "Нещодавні",
   "cashInBottomSheet": {
     "title": "Поповніть кошти, щоб почати використовувати Valora!",
@@ -1277,18 +1277,18 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Спробувати ще",
     "withdraw": {
-      "cancel": "Скасувати Зняття",
+      "cancel": "Скасувати зняття",
       "success": {
         "header": "Успіх",
-        "title": "Ваші кошти вже в порядку!",
-        "description": "Ваш запит на транзакцію був відправлений, а ваші кошти надійдуть через {{duration}}.",
+        "title": "Ваші кошти вже пройшли!",
+        "description": "Ваш запит на транзакцію було відправлено; ваші кошти надійдуть через {{duration}}.",
         "txDetails": "Переглянути на CeloExplorer",
         "continue": "Продовжити"
       }
     },
     "requestNotCompleted": {
-      "title": "Не можливо завершити ваш запит.",
-      "description": "Ваші кошти не можуть бути передані з Valora. Будь ласка, спробуйте ще раз, або зверніться до нашої служби підтримки за допомогою.",
+      "title": "Неможливо завершити ваш запит.",
+      "description": "Ваші кошти не можуть бути передані з Valora. Просимо спробувати ще раз або звернутися до нашої служби підтримки за допомогою.",
       "contactSupportPrefill": "Я не можу зняти свої кошти з Valora"
     }
   },
