@@ -529,7 +529,6 @@
   "helpFindAccount": "Kişilerinizin Hesap Adresinizi bulmalarına yardımcı olun",
   "close": "Kapat",
   "home": "Ana Sayfa",
-  "swap": "Swap",
   "accountKey": "Kurtarma Kelimeleri",
   "addAndWithdraw": "Ekle & Çek",
   "settings": "Ayarlar",
@@ -1339,6 +1338,13 @@
     "openExternal": "Harici tarayıcıda aç"
   },
   "dappNotListed": "Bu dapp {{appName}}'da listelenmiyor. Kendi sorumluluğunuzda kullanın.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Gözden Geçir",
+    "swapFrom": "From",
+    "swapTo": "Kime",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
