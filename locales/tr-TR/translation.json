@@ -1275,7 +1275,7 @@
       "cancel": "Para Çekmeyi iptal et",
       "success": {
         "header": "Başarılı",
-        "title": "Paranız yolda!",
+        "title": "Bakiyen yolda!",
         "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
         "txDetails": "CeloExplorer'da görüntüle",
         "continue": "İleri"
@@ -1341,9 +1341,9 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
-    "swapFrom": "From",
+    "swapFrom": "Tokendan",
     "swapTo": "Kime",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha büyük bir miktar girin veya farklı bir token seçin."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
