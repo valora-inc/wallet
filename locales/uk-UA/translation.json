@@ -529,7 +529,6 @@
   "helpFindAccount": "Допоможіть своєму контакту знайти адресу облікового запису",
   "close": "Закрити",
   "home": "Домашня сторінка",
-  "swap": "Заміна",
   "accountKey": "Фраза для відновлення",
   "addAndWithdraw": "Додати та зняти",
   "settings": "Налаштування",
@@ -1343,6 +1342,13 @@
     "openExternal": "Відкрити у зовнішньому браузері"
   },
   "dappNotListed": "Цей застосунок не перелічений у {{appName}}. Ці застосунки є сторонніми застосунками. Ви можете використовувати їх на свій страх і ризик.",
+  "swapScreen": {
+    "title": "Заміна",
+    "review": "Перегляд",
+    "swapFrom": "Від",
+    "swapTo": "До",
+    "insufficientFunds": "Недостатньо балансу {{token}} . Спробуйте більшу суму або виберіть інший маркер."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
