@@ -29,9 +29,9 @@ function SendAmountHeader({
   const { t } = useTranslation()
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
   const tokensWithBalance = useSelector(tokensWithTokenBalanceSelector)
-  const inviteTokens = useSelector(stablecoinsSelector)
+  const stableTokens = useSelector(stablecoinsSelector)
   const tokenInfo = useTokenInfo(tokenAddress)
-  const tokenList = isInvite ? inviteTokens : tokensWithBalance
+  const tokenList = isInvite ? stableTokens : tokensWithBalance
 
   const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)
@@ -84,12 +84,11 @@ function SendAmountHeader({
         }
       />
       <TokenBottomSheet
-        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
-        isInvite={isInvite}
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Send}
         onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
+        tokens={isInvite || isOutgoingPaymentRequest ? stableTokens : tokensWithBalance}
       />
     </>
   )
