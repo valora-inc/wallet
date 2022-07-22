@@ -529,7 +529,6 @@
   "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
   "home": "Home",
-  "swap": "Scambia",
   "accountKey": "Frase di recupero",
   "addAndWithdraw": "Aggiungi e preleva",
   "settings": "Impostazioni",
@@ -1339,6 +1338,13 @@
     "openExternal": "Apri nel browser esterno"
   },
   "dappNotListed": "Questa Dapp non è elencata in {{appName}}. Le Dapp sono applicazioni di terze parti. Utilizzale a tuo rischio e pericolo.",
+  "swapScreen": {
+    "title": "Scambia",
+    "review": "Rivedi",
+    "swapFrom": "Da",
+    "swapTo": "A",
+    "insufficientFunds": "Saldo insufficiente {{token}} . Prova con un importo maggiore o scegli un altro gettone."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
