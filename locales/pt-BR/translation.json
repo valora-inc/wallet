@@ -529,7 +529,6 @@
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
   "home": "Página inicial",
-  "swap": "Trocar",
   "accountKey": "Recuperação",
   "addAndWithdraw": "Adicionar e Sacar",
   "settings": "Configurações",
@@ -1339,6 +1338,13 @@
     "openExternal": "Abrir no navegador externo"
   },
   "dappNotListed": "Este dapp não está listado na {{appName}}. Os dapps são aplicativos de terceiros. Use-o por sua conta e risco.",
+  "swapScreen": {
+    "title": "Troca",
+    "review": "Revisar",
+    "swapFrom": "A partir de",
+    "swapTo": "Para",
+    "insufficientFunds": "Insuficiente equilíbrio {{token}} . Tente uma quantidade maior ou escolha um sinal diferente."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
