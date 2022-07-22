@@ -529,7 +529,6 @@
   "helpFindAccount": "Помогите контакту найти его адрес аккаунта",
   "close": "Закрыть",
   "home": "Главный экран",
-  "swap": "Обменять",
   "accountKey": "Восстановление",
   "addAndWithdraw": "Внести и вывести",
   "settings": "Настройки",
@@ -1343,6 +1342,13 @@
     "openExternal": "Открыть во внешнем браузере"
   },
   "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps — это сторонние приложения. Используйте их на свой страх и риск.",
+  "swapScreen": {
+    "title": "Обменять",
+    "review": "Проверить",
+    "swapFrom": "С сайта",
+    "swapTo": "Кому",
+    "insufficientFunds": "Недостаточный баланс {{token}} . Попробуй внести большую сумму или выбери другой токен."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
