@@ -529,7 +529,6 @@
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
   "home": "Inicio",
-  "swap": "Cambiar",
   "accountKey": "Recuperación",
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
@@ -1339,6 +1338,13 @@
     "openExternal": "Abrir en navegador externo"
   },
   "dappNotListed": "Esta dapp no se encuentra entre las seleccionadas por {{appName}}. Las dapps son aplicaciones de terceros. Utilízalas bajo tu propia responsabilidad.",
+  "swapScreen": {
+    "title": "Cambia",
+    "review": "Revisar",
+    "swapFrom": "Desde",
+    "swapTo": "Para",
+    "insufficientFunds": "Saldo insuficiente de {{token}} . Prueba con una cantidad mayor o elige una ficha diferente."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
