@@ -1272,12 +1272,12 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Reintentar",
     "withdraw": {
-      "cancel": "Cancelar la retirada",
+      "cancel": "Cancelar el retiro",
       "success": {
         "header": "Éxito",
         "title": "¡Tus fondos están en camino!",
-        "description": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán a {{duration}}.",
-        "txDetails": "Ver en CeloExplorador",
+        "description": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en {{duration}}.",
+        "txDetails": "Ver en CeloExplorer",
         "continue": "Continuar"
       }
     },
