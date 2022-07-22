@@ -117,7 +117,7 @@ export function SwapScreen() {
 
   const handleSelectToken = (tokenAddress: string) => {
     const selectedToken = coreTokens.find((token) => token.address === tokenAddress)
-    if (selectedToken) {
+    if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
         tokenSymbol: selectedToken?.symbol,
