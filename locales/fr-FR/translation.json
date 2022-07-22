@@ -529,7 +529,6 @@
   "helpFindAccount": "Aidez votre contact à trouver son Adresse du compte",
   "close": "Fermer",
   "home": "Accueil",
-  "swap": "Échanger",
   "accountKey": "Récupération",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
@@ -1339,6 +1338,13 @@
     "openExternal": "Ouvrir dans un navigateur externe"
   },
   "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Vous les utilisez à vos propres risques.",
+  "swapScreen": {
+    "title": "Échanger",
+    "review": "Vérifier",
+    "swapFrom": "De",
+    "swapTo": "À",
+    "insufficientFunds": "Le solde de {{token}} est insuffisant. Essaie un montant plus important ou choisis un autre jeton."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
