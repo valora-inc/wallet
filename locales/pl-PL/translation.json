@@ -1276,19 +1276,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Spróbuj ponownie",
     "withdraw": {
-      "cancel": "Anuluj wycofanie się z umowy",
+      "cancel": "Anuluj wypłatę",
       "success": {
         "header": "Sukces",
-        "title": "Twoje fundusze są w drodze!",
-        "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą na adres {{duration}}.",
-        "txDetails": "Zobacz na CeloExplorer",
+        "title": "Twoje środki są w drodze!",
+        "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{duration}}.",
+        "txDetails": "Wyświetl w CeloExplorer",
         "continue": "Kontynuuj"
       }
     },
     "requestNotCompleted": {
       "title": "Twoje żądanie nie mogło zostać zrealizowane.",
-      "description": "Twoje środki nie mogły zostać przekazane z Valory. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
-      "contactSupportPrefill": "Mam problem z wypłatą moich środków z Valory"
+      "description": "Twoje środki nie mogły zostać przekazane z aplikacji Valora. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
+      "contactSupportPrefill": "Mam problem z wypłatą moich środków z aplikacji Valora"
     }
   },
   "fiatExchangeFlow": {
