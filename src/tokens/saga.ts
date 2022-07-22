@@ -262,7 +262,7 @@ export async function getCurrencyAddress(currency: Currency) {
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
     case Currency.Real:
-      return contractKit.registry.addressFor(CeloContract.StableTokenREAL) //FIXME what is the fallback address?
+      return contractKit.registry.addressFor(CeloContract.StableTokenBRL) //FIXME what is the fallback address?
   }
 }
 
