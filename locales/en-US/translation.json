@@ -387,6 +387,8 @@
   "paste": "Paste",
   "choose": "Choose",
   "receivedPayment": "Received Payment",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",

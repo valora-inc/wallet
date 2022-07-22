@@ -387,6 +387,8 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
+  "receivedNft": "Полученный НФТ",
+  "sentNft": "Отправлено NFT",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Поздравляем, ваш номер телефона подключен!",
   "notification": {
-    "body": "Connect your number to claim funds and connect to friends",
+    "body": "Подключите свой номер, запросите средства и связаться с друзьями",
     "cta": "Подключить сейчас"
   },
   "quotaLookup": {
@@ -1113,6 +1115,8 @@
   "transactionHeaderCeloDeposit": "Получен депозит",
   "transactionHeaderCeloReward": "Вознаграждение получено",
   "transactionHeaderEscrowReceived": "Эскроу-платеж получен",
+  "transactionHeaderNftReceived": "Получено НФТ",
+  "transactionHeaderNftSent": "NFT Отправлено",
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
@@ -1275,7 +1279,7 @@
     "withdraw": {
       "cancel": "Отменить отмену",
       "success": {
-        "header": "Success",
+        "header": "Успешно",
         "title": "Твои средства уже в пути!",
         "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
         "txDetails": "Посмотреть на CeloExplorer",
