@@ -17,22 +17,34 @@ describe('ReviewFetchScreen', () => {
         quotes: [mockFiatConnectQuotes[1]],
         quotesLoading: false,
         quotesError: null,
-        fiatAccount: {
-          providerId: 'provider-two',
-          fiatAccountId: '123',
-          fiatAccountType: FiatAccountType.BankAccount,
-          institutionName: 'Bank of Test',
-          accountName: '(...123)',
-        },
-        fiatAccountLoading: false,
-        fiatAccountError: null,
-        mostRecentFiatAccountIds: [
+        fiatAccounts: [
           {
             providerId: 'provider-two',
             fiatAccountId: '123',
             fiatAccountType: FiatAccountType.BankAccount,
+            institutionName: 'Bank of Test',
+            accountName: '(...123)',
           },
         ],
+        fiatAccountsLoading: false,
+        fiatAccountsError: null,
+        cachedFiatAccounts: [
+          {
+            providerId: 'provider-two',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            institutionName: 'Bank of Test',
+            accountName: '(...123)',
+          },
+        ],
+        providers: [
+          {
+            id: 'provider-two',
+            baseUrl: 'www.foo.valoraapp.com',
+            providerName: 'provider two',
+          },
+        ],
+        providersLoading: false,
         ...overrides,
       },
     })
@@ -55,7 +67,7 @@ describe('ReviewFetchScreen', () => {
     jest.clearAllMocks()
   })
 
-  it('calls dispatch fetchQuoteAndFiatAcount when there is a mostRecentFiatAccount', () => {
+  it('calls dispatch fetchFiatConnectQuotes and fetchFiatAccounts when provider exists', () => {
     const store = mockStore()
     render(
       <Provider store={store}>
@@ -67,36 +79,62 @@ describe('ReviewFetchScreen', () => {
         flow: CICOFlow.CashOut,
         digitalAsset: 'CUSD',
         cryptoAmount: 1,
-        providerId: 'provider-two',
-        fiatAccountId: '123',
-        fiatAccountType: FiatAccountType.BankAccount,
+        providerIds: ['provider-two'],
       },
-      type: 'fiatConnect/fetchQuoteAndFiatAccount',
+      type: 'fiatConnect/fetchFiatConnectQuotes',
+    })
+    expect(store.dispatch).toHaveBeenCalledWith({
+      payload: {
+        providerId: 'provider-two',
+        baseUrl: 'www.foo.valoraapp.com',
+      },
+      type: 'fiatConnect/fetchFiatAccounts',
+    })
+  })
+  it('calls dispatch fetchFiatConnectQuotes and fetchFiatConnectProviders when provider does not exist', () => {
+    const store = mockStore({ providers: [] })
+    render(
+      <Provider store={store}>
+        <ReviewFetchScreen {...mockScreenProps()} />
+      </Provider>
+    )
+    expect(store.dispatch).toHaveBeenCalledWith({
+      payload: {
+        flow: CICOFlow.CashOut,
+        digitalAsset: 'CUSD',
+        cryptoAmount: 1,
+        providerIds: ['provider-two'],
+      },
+      type: 'fiatConnect/fetchFiatConnectQuotes',
+    })
+    expect(store.dispatch).toHaveBeenCalledWith({
+      payload: undefined,
+      type: 'fiatConnect/fetchFiatConnectProviders',
     })
   })
   describe('Something went wrong view', () => {
-    it('shows when fiatAccountError or fiatConnectQuotesError are truthy', () => {
+    it('shows when fiatAccountsError or fiatConnectQuotessError are truthy', () => {
       const { queryByTestId } = render(
-        <Provider store={mockStore({ fiatAccountError: 'error is here' })}>
+        <Provider store={mockStore({ fiatAccountsError: 'error is here' })}>
           <ReviewFetchScreen {...mockScreenProps()} />
         </Provider>
       )
       expect(queryByTestId('TryAgain')).toBeTruthy()
     })
-    it('pressing tryAgain calls dispatch fetchQuoteAndFiatAcount again', () => {
-      const store = mockStore({ fiatAccountError: 'error is here' })
+    it('pressing tryAgain calls dispatches again', () => {
+      const store = mockStore({ fiatAccountsError: 'error is here' })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <ReviewFetchScreen {...mockScreenProps()} />
         </Provider>
       )
-      expect(store.dispatch).toHaveBeenCalledTimes(1)
+      expect(store.dispatch).toHaveBeenCalledTimes(2)
       expect(queryByTestId('TryAgain')).toBeTruthy()
       fireEvent.press(getByTestId('TryAgain'))
-      expect(store.dispatch).toHaveBeenCalledTimes(2)
+      expect(store.dispatch).toHaveBeenCalledTimes(4)
     })
     it('pressing selectNewProvider navigates to SelectProvider screen', () => {
-      const store = mockStore({ fiatAccountError: 'error is here' })
+      const store = mockStore({ fiatAccountsError: 'error is here' })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <ReviewFetchScreen {...mockScreenProps()} />
@@ -114,7 +152,7 @@ describe('ReviewFetchScreen', () => {
       })
     })
     it('pressing contact support navigates to SupportContact screen', () => {
-      const store = mockStore({ fiatAccountError: 'error is here' })
+      const store = mockStore({ fiatAccountsError: 'error is here' })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <ReviewFetchScreen {...mockScreenProps()} />

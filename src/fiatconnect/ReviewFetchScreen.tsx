@@ -9,15 +9,22 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { FiatConnectReview, reviewScreenHeader } from 'src/fiatconnect/ReviewScreen'
 import {
-  fiatAccountErrorSelector,
-  fiatAccountLoadingSelector,
-  fiatAccountSelector,
+  fiatAccountsErrorSelector,
+  fiatAccountsLoadingSelector,
+  fiatAccountsSelector,
+  fiatConnectProvidersLoadingSelector,
+  fiatConnectProvidersSelector,
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
 } from 'src/fiatconnect/selectors'
-import { fetchQuoteAndFiatAccount } from 'src/fiatconnect/slice'
+import {
+  fetchFiatAccounts,
+  fetchFiatConnectProviders,
+  fetchFiatConnectQuotes,
+} from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { quoteHasErrors } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -43,13 +50,22 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
     fiatAccountType,
   } = route.params
 
-  const fiatAccount = useSelector(fiatAccountSelector)
-  const fiatAccountError = useSelector(fiatAccountErrorSelector)
-  const fiatAccountLoading = useSelector(fiatAccountLoadingSelector)
+  const fiatAccounts = useSelector(fiatAccountsSelector)
+  const fiatAccountsError = useSelector(fiatAccountsErrorSelector)
+  const fiatAccountsLoading = useSelector(fiatAccountsLoadingSelector)
 
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+
+  const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
+  const fiatConnectProvidersLoading = useSelector(fiatConnectProvidersLoadingSelector)
+
+  const provider = fiatConnectProviders?.find(({ id }) => providerId === id)
+  const fiatAccount = fiatAccounts.find(
+    (account) => account.fiatAccountId === fiatAccountId && account.providerId === providerId
+  )
+  const quote = fiatConnectQuotes.find((q) => !quoteHasErrors(q) && q.provider.id === providerId)
 
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
@@ -59,25 +75,44 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
 
   useEffect(() => {
     dispatch(
-      fetchQuoteAndFiatAccount({
+      fetchFiatConnectQuotes({
         flow,
         digitalAsset,
         cryptoAmount,
-        providerId,
-        fiatAccountId,
-        fiatAccountType,
+        providerIds: [providerId],
       })
     )
-  }, [flow, digitalAsset, cryptoAmount, tryAgain, providerId, fiatAccountId, fiatAccountType])
+    // If we can't find the provider we want, there may have been an error last time providers were fetched.
+    // Try refetching before proceeding.
+    if (!provider) {
+      dispatch(fetchFiatConnectProviders())
+    } else {
+      dispatch(
+        fetchFiatAccounts({
+          providerId,
+          baseUrl: provider.baseUrl,
+        })
+      )
+    }
+  }, [
+    flow,
+    digitalAsset,
+    cryptoAmount,
+    tryAgain,
+    providerId,
+    fiatAccountId,
+    fiatAccountType,
+    provider,
+  ])
 
-  if (fiatAccountLoading || fiatConnectQuotesLoading) {
+  if (fiatAccountsLoading || fiatConnectQuotesLoading || fiatConnectProvidersLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
       </View>
     )
   }
-  if (fiatAccountError || fiatConnectQuotesError || !fiatAccount) {
+  if (fiatAccountsError || fiatConnectQuotesError || !fiatAccount || !provider || !quote) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{t('fiatConnectReviewScreen.error.title')}</Text>
@@ -122,7 +157,7 @@ export default function ReviewFetchScreen({ route, navigation }: Props) {
   }
 
   const normalizedQuote = new FiatConnectQuote({
-    quote: fiatConnectQuotes[0] as FiatConnectQuoteSuccess,
+    quote: quote as FiatConnectQuoteSuccess,
     fiatAccountType,
     flow,
   })

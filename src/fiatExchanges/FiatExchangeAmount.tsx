@@ -29,7 +29,7 @@ import {
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
-import { mostRecentFiatAccountSelector } from 'src/fiatconnect/selectors'
+import { cachedFiatAccountsSelector } from 'src/fiatconnect/selectors'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -85,7 +85,7 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
-  const mostRecentFiatAccount = useSelector(mostRecentFiatAccountSelector)!
+  const cachedFiatAccounts = useSelector(cachedFiatAccountsSelector)!
 
   const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
@@ -161,8 +161,10 @@ function FiatExchangeAmount({ route }: Props) {
     const fiatAmount = Math.round(inputLocalCurrencyAmount.toNumber())
 
     // Navigate straight to the review screen if the user has a FiatConnect fiat account saved
-    if (mostRecentFiatAccount) {
-      const { providerId, fiatAccountId, fiatAccountType } = mostRecentFiatAccount
+    // and the flow is supported
+
+    if (cachedFiatAccounts?.length && cachedFiatAccounts[0].supportedFlows.includes(flow)) {
+      const { providerId, fiatAccountId, fiatAccountType } = cachedFiatAccounts[0]
       navigate(Screens.FiatConnectReviewFetch, {
         flow,
         selectedCrypto: currency,

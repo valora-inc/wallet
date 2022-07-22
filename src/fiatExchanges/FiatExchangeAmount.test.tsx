@@ -59,7 +59,7 @@ const storeWithUSD = createMockStore({
     exchangeRates: usdExchangeRates,
   },
   fiatConnect: {
-    mostRecentFiatAccountIds: [],
+    cachedFiatAccounts: [],
   },
 })
 
@@ -76,7 +76,7 @@ const storeWithEUR = createMockStore({
     exchangeRates: eurExchangeRates,
   },
   fiatConnect: {
-    mostRecentFiatAccountIds: [],
+    cachedFiatAccounts: [],
   },
 })
 
@@ -93,7 +93,7 @@ const storeWithPHP = createMockStore({
     exchangeRates: phpExchangeRates,
   },
   fiatConnect: {
-    mostRecentFiatAccountIds: [],
+    cachedFiatAccounts: [],
   },
 })
 
@@ -488,11 +488,12 @@ describe('FiatExchangeAmount cashOut', () => {
         exchangeRates: usdExchangeRates,
       },
       fiatConnect: {
-        mostRecentFiatAccountIds: [
+        cachedFiatAccounts: [
           {
             providerId: 'provider-two',
             fiatAccountId: '123',
             fiatAccountType: FiatAccountType.BankAccount,
+            supportedFlows: [CICOFlow.CashOut],
           },
         ],
       },

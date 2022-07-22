@@ -700,26 +700,6 @@
             ],
             "type": "object"
         },
-        "FiatAccount": {
-            "additionalProperties": false,
-            "properties": {
-                "fiatAccountId": {
-                    "type": "string"
-                },
-                "fiatAccountType": {
-                    "$ref": "#/definitions/FiatAccountType"
-                },
-                "providerId": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "fiatAccountId",
-                "fiatAccountType",
-                "providerId"
-            ],
-            "type": "object"
-        },
         "FiatAccountSchema": {
             "enum": [
                 "AccountNumber",
@@ -2860,51 +2840,105 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
-                "fiatAccount": {
+                "cachedFiatAccounts": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "accountName": {
-                                    "type": "string"
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "accountName": {
+                                        "type": "string"
+                                    },
+                                    "fiatAccountId": {
+                                        "type": "string"
+                                    },
+                                    "fiatAccountType": {
+                                        "$ref": "#/definitions/FiatAccountType"
+                                    },
+                                    "institutionName": {
+                                        "type": "string"
+                                    },
+                                    "providerId": {
+                                        "type": "string"
+                                    },
+                                    "supportedFlows": {
+                                        "items": {
+                                            "enum": [
+                                                "CashIn",
+                                                "CashOut"
+                                            ],
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
                                 },
-                                "fiatAccountId": {
-                                    "type": "string"
-                                },
-                                "fiatAccountType": {
-                                    "$ref": "#/definitions/FiatAccountType"
-                                },
-                                "institutionName": {
-                                    "type": "string"
-                                }
+                                "required": [
+                                    "accountName",
+                                    "fiatAccountId",
+                                    "fiatAccountType",
+                                    "institutionName",
+                                    "providerId",
+                                    "supportedFlows"
+                                ],
+                                "type": "object"
                             },
-                            "required": [
-                                "accountName",
-                                "fiatAccountId",
-                                "fiatAccountType",
-                                "institutionName"
-                            ],
-                            "type": "object"
+                            "type": "array"
                         },
                         {
                             "type": "null"
                         }
                     ]
                 },
-                "fiatAccountError": {
+                "fiatAccounts": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "accountName": {
+                                "type": "string"
+                            },
+                            "fiatAccountId": {
+                                "type": "string"
+                            },
+                            "fiatAccountType": {
+                                "$ref": "#/definitions/FiatAccountType"
+                            },
+                            "institutionName": {
+                                "type": "string"
+                            },
+                            "providerId": {
+                                "type": "string"
+                            },
+                            "supportedFlows": {
+                                "items": {
+                                    "enum": [
+                                        "CashIn",
+                                        "CashOut"
+                                    ],
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "accountName",
+                            "fiatAccountId",
+                            "fiatAccountType",
+                            "institutionName",
+                            "providerId",
+                            "supportedFlows"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "fiatAccountsError": {
                     "type": [
                         "null",
                         "string"
                     ]
                 },
-                "fiatAccountLoading": {
+                "fiatAccountsLoading": {
                     "type": "boolean"
-                },
-                "mostRecentFiatAccountIds": {
-                    "items": {
-                        "$ref": "#/definitions/FiatAccount"
-                    },
-                    "type": "array"
                 },
                 "providers": {
                     "anyOf": [
@@ -2918,6 +2952,9 @@
                             "type": "null"
                         }
                     ]
+                },
+                "providersLoading": {
+                    "type": "boolean"
                 },
                 "quotes": {
                     "items": {
@@ -3094,11 +3131,12 @@
                 }
             },
             "required": [
-                "fiatAccount",
-                "fiatAccountError",
-                "fiatAccountLoading",
-                "mostRecentFiatAccountIds",
+                "cachedFiatAccounts",
+                "fiatAccounts",
+                "fiatAccountsError",
+                "fiatAccountsLoading",
                 "providers",
+                "providersLoading",
                 "quotes",
                 "quotesError",
                 "quotesLoading",

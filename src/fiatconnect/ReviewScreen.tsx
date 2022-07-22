@@ -19,13 +19,13 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
-import { navigate } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -83,12 +83,11 @@ export function FiatConnectReview({
           // Record this fiat account as the most recently used
           dispatch(
             fiatAccountUsed({
-              fiatAccountId: fiatAccount.fiatAccountId,
+              supportedFlows: [flow],
               providerId: normalizedQuote.getProviderId(),
-              fiatAccountType: fiatAccount.fiatAccountType,
+              ...fiatAccount,
             })
           )
-
           navigate(Screens.FiatConnectTransferStatus, {
             flow,
             normalizedQuote,

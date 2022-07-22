@@ -119,9 +119,12 @@ describe('ReviewScreen', () => {
           fiatAccountId: '123',
         }),
         fiatAccountUsed({
-          fiatAccountId: '123',
           providerId: 'provider-two',
+          fiatAccountId: '123',
+          accountName: 'Chase (...2345)',
+          institutionName: 'Chase',
           fiatAccountType: FiatAccountType.BankAccount,
+          supportedFlows: [CICOFlow.CashOut],
         }),
       ])
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {
