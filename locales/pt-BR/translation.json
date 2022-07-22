@@ -388,7 +388,7 @@
   "choose": "Escolher",
   "receivedPayment": "Pagamento recebido",
   "receivedNft": "NFT recebido",
-  "sentNft": "Enviado NFT",
+  "sentNft": "NFT enviado",
   "getStarted": "Começar",
   "manageCeloDollars": "Gerenciar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -1110,8 +1110,8 @@
   "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
-  "transactionHeaderNftReceived": "NFT Recebido",
-  "transactionHeaderNftSent": "NFT Enviado",
+  "transactionHeaderNftReceived": "NFT recebido",
+  "transactionHeaderNftSent": "NFT enviado",
   "feedSectionHeaderRecent": "Recente",
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
@@ -1283,7 +1283,7 @@
     },
     "requestNotCompleted": {
       "title": "Sua solicitação não pôde ser concluída.",
-      "description": "Seus fundos não puderam ser transferidos da Valora. Tente novamente ou fale com a nossa equipe de suporte para obter ajuda.",
+      "description": "Seus fundos não puderam ser transferidos da Valora. Tente novamente ou entre​ em contato com a nossa equipe de suporte para obter ajuda.",
       "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos da Valora"
     }
   },
@@ -1339,11 +1339,11 @@
   },
   "dappNotListed": "Este dapp não está listado na {{appName}}. Os dapps são aplicativos de terceiros. Use-o por sua conta e risco.",
   "swapScreen": {
-    "title": "Troca",
+    "title": "Trocar",
     "review": "Revisar",
-    "swapFrom": "A partir de",
+    "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Insuficiente equilíbrio {{token}} . Tente uma quantidade maior ou escolha um sinal diferente."
+    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor maior ou escolha um token diferente."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
