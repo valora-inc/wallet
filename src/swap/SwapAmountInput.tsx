@@ -7,7 +7,7 @@ import DownArrowIcon from 'src/icons/DownArrowIcon'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/reducer'
+import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
   label: string
