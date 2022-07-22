@@ -7,7 +7,7 @@ import {
 } from 'src/config'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance, TokenBalances } from 'src/tokens/reducer'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 import { sortByUsdBalance, sortFirstStableThenCeloThenOthersByUsdBalance } from './utils'
 
@@ -61,6 +61,23 @@ export const tokensWithUsdValueSelector = createSelector(tokensListSelector, (to
   return tokens.filter((tokenInfo) =>
     tokenInfo.balance.multipliedBy(tokenInfo.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
   ) as TokenBalanceWithUsdPrice[]
+})
+
+export const stalePriceSelector = createSelector(tokensListSelector, (tokens) => {
+  // If no tokens then prices cannot be stale
+  if (tokens.length === 0) return false
+  // Put tokens with usdPrice into an array
+  const tokensWithUsdValue = tokens.filter((tokenInfo) => tokenInfo.usdPrice !== null)
+  // If tokens with usd value exist, check the time price was fetched and if ANY are stale - return true
+  // Else tokens usd values are not present so we know prices are stale - return true
+  if (tokensWithUsdValue.length > 0) {
+    return tokensWithUsdValue.some(
+      (tokenInfo) =>
+        (tokenInfo.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
+    )
+  } else {
+    return true
+  }
 })
 
 export const tokensWithTokenBalanceSelector = createSelector(tokensListSelector, (tokens) => {
@@ -120,8 +137,9 @@ export const totalTokenBalanceSelector = createSelector(
     tokensWithUsdValueSelector,
     localCurrencyExchangeRatesSelector,
     tokenFetchErrorSelector,
+    tokenFetchLoadingSelector,
   ],
-  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError) => {
+  (tokensList, tokensWithUsdValue, exchangeRate, tokenFetchError, tokenFetchLoading) => {
     const usdRate = exchangeRate[Currency.Dollar]
     if (!usdRate || tokensList.length === 0) {
       return null
@@ -135,7 +153,7 @@ export const totalTokenBalanceSelector = createSelector(
       totalBalance = totalBalance.plus(tokenAmount)
     }
 
-    if (totalBalance.isZero() && tokenFetchError) {
+    if (tokenFetchError || tokenFetchLoading) {
       return null
     }
 

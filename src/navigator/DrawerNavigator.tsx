@@ -226,13 +226,34 @@ export default function DrawerNavigator() {
         component={WalletHome}
         options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
       />
-      {shouldShowSwapMenuInDrawerMenu && (
+      {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
           name={Screens.SwapScreen}
           component={SwapScreen}
           options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
+      ) : (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
       )}
+
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
@@ -282,23 +303,28 @@ export default function DrawerNavigator() {
           options={{ title: t('invite'), drawerIcon: Invite }}
         />
       )}
-      {(isCeloEducationComplete && (
-        <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
-        />
+      {shouldShowSwapMenuInDrawerMenu && (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
       )}
+
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}
