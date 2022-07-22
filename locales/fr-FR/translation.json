@@ -1276,15 +1276,15 @@
       "success": {
         "header": "Succès",
         "title": "Vos fonds sont en route !",
-        "description": "Ta demande de transaction a été envoyée et tes fonds arriveront sur {{duration}}.",
+        "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
         "txDetails": "Voir sur CeloExplorer",
         "continue": "Continuer"
       }
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Tes fonds n'ont pas pu être transférés de Valora. Essaie à nouveau ou contacte notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "J'ai des difficultés à retirer mes fonds de Valora"
+      "description": "Vos fonds n'ont pas pu être transférés depuis Valora. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds de Valora"
     }
   },
   "fiatExchangeFlow": {
