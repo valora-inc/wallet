@@ -387,6 +387,8 @@
   "paste": "Вставити",
   "choose": "Вибрати",
   "receivedPayment": "Отриманий платіж",
+  "receivedNft": "Отриманий NFT",
+  "sentNft": "Надіслано NFT",
   "getStarted": "Почати роботу",
   "manageCeloDollars": "Керувати Celo Dollars",
   "sendCeloDollars": "Надіслати Celo Dollars",
@@ -1113,6 +1115,8 @@
   "transactionHeaderCeloDeposit": "Депозит отримано",
   "transactionHeaderCeloReward": "Отримано винагороду",
   "transactionHeaderEscrowReceived": "Отримано платіж з ескроу-рахунку",
+  "transactionHeaderNftReceived": "Отримано NFT",
+  "transactionHeaderNftSent": "NFT Відправлено",
   "feedSectionHeaderRecent": "Нещодавні",
   "cashInBottomSheet": {
     "title": "Поповніть кошти, щоб почати використовувати Valora!",
