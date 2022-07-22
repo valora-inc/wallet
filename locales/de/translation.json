@@ -387,6 +387,8 @@
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
+  "receivedNft": "Erhaltene NFT",
+  "sentNft": "Gesendet NFT",
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
   "transactionHeaderCeloReward": "Rewards erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
+  "transactionHeaderNftReceived": "NFT erhalten",
+  "transactionHeaderNftSent": "NFT gesendet",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
     "title": "Füge Guthaben hinzu, um loszulegen!",
