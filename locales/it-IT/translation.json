@@ -387,8 +387,8 @@
   "paste": "Incolla",
   "choose": "Scegli",
   "receivedPayment": "Pagamento ricevuto",
-  "receivedNft": "Ricevuto NFT",
-  "sentNft": "Inviato NFT",
+  "receivedNft": "NFT ricevuto",
+  "sentNft": "NFT inviato",
   "getStarted": "Inizia",
   "manageCeloDollars": "Gestisci Celo Dollar",
   "sendCeloDollars": "Invia Celo Dollar",
@@ -1111,7 +1111,7 @@
   "transactionHeaderCeloReward": "Ricompensa ricevuta",
   "transactionHeaderEscrowReceived": "Pagamento per deposito in garanzia ricevuto",
   "transactionHeaderNftReceived": "NFT ricevuto",
-  "transactionHeaderNftSent": "NFT Inviato",
+  "transactionHeaderNftSent": "NFT inviato",
   "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
     "title": "Aggiungi fondi per iniziare a usare Valora!",
@@ -1343,7 +1343,7 @@
     "review": "Rivedi",
     "swapFrom": "Da",
     "swapTo": "A",
-    "insufficientFunds": "Saldo insufficiente {{token}} . Prova con un importo maggiore o scegli un altro gettone."
+    "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo maggiore o scegli un altro token."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
