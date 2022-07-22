@@ -529,7 +529,6 @@
   "helpFindAccount": "Pomóż swojemu kontaktowi znaleźć adres konta",
   "close": "Zamknij",
   "home": "Strona główna",
-  "swap": "Zamieniaj",
   "accountKey": "Fraza odzyskiwania",
   "addAndWithdraw": "Dodaj i wypłać",
   "settings": "Ustawienia",
@@ -1343,6 +1342,13 @@
     "openExternal": "Otwórz w zewnętrznej przeglądarce"
   },
   "dappNotListed": "Ten dapp nie jest wymieniony w {{appName}}. Dappy są aplikacjami zewnętrznymi. Korzystasz z nich na własne ryzyko.",
+  "swapScreen": {
+    "title": "Zamieniaj",
+    "review": "Analizuj",
+    "swapFrom": "Ze strony .",
+    "swapTo": "Do",
+    "insufficientFunds": "Niewystarczające saldo {{token}} . Spróbuj wpłacić większą kwotę lub wybierz inny token."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
