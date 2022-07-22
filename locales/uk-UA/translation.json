@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Вітаємо, ваш номер телефону під’єднано!",
   "notification": {
-    "body": "Отримувати платежі безпосередньо на ваш номер телефону",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Під'єднатися зараз"
   },
   "quotaLookup": {
@@ -701,7 +701,7 @@
   },
   "enableBiometry": {
     "title": "Захистіть свій гаманець",
-    "description": "{{biometryType}} захищає ваш гаманець і полегшує використання {{appName}}. Якщо у вас уже є обліковий запис, БУДЬ ЛАСКА, НЕ НАТИСНІТЬ, щоб увімкнути біометричні дані нижче, ЯКЩО у вас під рукою немає фрази для відновлення. Увімкнення біометрії потребує відновлення облікового запису.",
+    "description": "{{biometryType}} захищає ваш гаманець і полегшує використання {{appName}}",
     "cta": "Увімкнути {{biometryType}}"
   },
   "biometryType": {
@@ -1268,6 +1268,24 @@
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
       "transactionDetailsAmountConverted": "Знята сума"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Спробувати ще",
+    "withdraw": {
+      "cancel": "Скасувати Зняття",
+      "success": {
+        "header": "Success",
+        "title": "Ваші кошти вже в порядку!",
+        "description": "Ваш запит на транзакцію був відправлений, а ваші кошти надійдуть через {{duration}}.",
+        "txDetails": "Переглянути на CeloExplorer",
+        "continue": "Продовжити"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Не можливо завершити ваш запит.",
+      "description": "Ваші кошти не можуть бути передані з Valora. Будь ласка, спробуйте ще раз, або зверніться до нашої служби підтримки за допомогою.",
+      "contactSupportPrefill": "Я не можу зняти свої кошти з Valora"
     }
   },
   "fiatExchangeFlow": {

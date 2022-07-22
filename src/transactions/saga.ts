@@ -20,7 +20,7 @@ import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { fetchTokenBalances } from 'src/tokens/reducer'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   addHashToStandbyTransaction,

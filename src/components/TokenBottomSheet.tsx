@@ -9,7 +9,7 @@ import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/reducer'
+import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 
 export enum TokenPickerOrigin {

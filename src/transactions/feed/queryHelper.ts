@@ -5,12 +5,12 @@ import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import config from 'src/web3/networkConfig'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { updateTransactions } from 'src/transactions/actions'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface QueryHookResult {
@@ -77,6 +77,7 @@ export function useFetchTransactions(): QueryHookResult {
     Logger.info(TAG, `Fetched ${paginatedResult ? 'next page' : 'new'} transactions`)
 
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
+
     if (returnedTransactions?.length) {
       addTransactions(returnedTransactions)
       // We store non-paginated results in redux to show them to the users when they open the app.
@@ -186,6 +187,7 @@ export const TRANSACTIONS_QUERY = `
       }
       transactions {
         ...TokenTransferItemV2
+        ...NftTransferItemV2
         ...TokenExchangeItemV2
       } 
     }
@@ -225,6 +227,14 @@ export const TRANSACTIONS_QUERY = `
         }
       }
     }
+  }
+
+  fragment NftTransferItemV2 on NftTransferV2 {
+    __typename
+    type
+    transactionHash
+    timestamp
+    block
   }
 
   fragment TokenExchangeItemV2 on TokenExchangeV2 {
