@@ -529,7 +529,6 @@
   "helpFindAccount": "Hilf deinem Kontakt, seine Adresse zu finden",
   "close": "Schließen",
   "home": "Startseite",
-  "swap": "Tauschen",
   "accountKey": "Wiederherstellung",
   "addAndWithdraw": "Guthaben",
   "settings": "Einstellungen",
@@ -1339,6 +1338,13 @@
     "openExternal": "In externen Browser öffnen"
   },
   "dappNotListed": "Diese Dapp ist nicht in {{appName}} aufgeführt. Dapps sind Anwendungen von Drittanbietern. Die Verwendung erfolgt auf eigene Gefahr.",
+  "swapScreen": {
+    "title": "Tauschen",
+    "review": "Überprüfen",
+    "swapFrom": "Von",
+    "swapTo": "Zu",
+    "insufficientFunds": "Unzureichendes {{token}} Guthaben. Versuche es mit einem höheren Betrag oder wähle einen anderen Token."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
