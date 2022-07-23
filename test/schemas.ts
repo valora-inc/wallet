@@ -1457,11 +1457,8 @@ export const v64Schema = {
   },
   fiatConnect: {
     ...v63Schema.fiatConnect,
-    fiatAccounts: [],
-    fiatAccountsLoading: false,
-    fiatAccountsError: null,
-    cachedFiatAccounts: null,
-    providersLoading: false,
+    recentlyUsedFiatAccounts: [],
+    attemptReturnUserFlowLoading: false,
   },
 }
 

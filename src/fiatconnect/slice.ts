@@ -1,5 +1,10 @@
-import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountType,
+  FiatType,
+  ObfuscatedFiatAccountData,
+} from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { isEqual } from 'lodash'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
@@ -8,7 +13,7 @@ import {
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export interface FiatConnectTransfer {
   flow: CICOFlow
@@ -21,31 +26,33 @@ export interface State {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
   quotesLoading: boolean
   quotesError: string | null
-  fiatAccounts: FiatAccount[]
-  fiatAccountsLoading: boolean
-  fiatAccountsError: string | null
-  cachedFiatAccounts: FiatAccount[] | null
   transfer: FiatConnectTransfer | null
   providers: FiatConnectProviderInfo[] | null
-  providersLoading: boolean
+  recentlyUsedFiatAccounts: CachedFiatAccountUse[]
+  attemptReturnUserFlowLoading: boolean
 }
 
 const initialState: State = {
   quotes: [],
   quotesLoading: false,
   quotesError: null,
-  fiatAccounts: [],
-  fiatAccountsLoading: false,
-  fiatAccountsError: null,
-  cachedFiatAccounts: null,
   transfer: null,
   providers: null,
-  providersLoading: false,
+  recentlyUsedFiatAccounts: [],
+  attemptReturnUserFlowLoading: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
   providerId: string
-  supportedFlows: CICOFlow[]
+}
+
+export interface CachedFiatAccountUse {
+  fiatAccountId: string
+  providerId: string
+  flow: string
+  cryptoType: Currency
+  fiatType: FiatType
+  fiatAccountType: FiatAccountType
 }
 
 export interface FetchQuotesAction {
@@ -55,13 +62,16 @@ export interface FetchQuotesAction {
   providerIds?: string[]
 }
 
-export type FetchFiatAccountsAction = {
+export interface AttemptReturnUserFlowAction {
+  flow: CICOFlow
+  selectedCrypto: Currency
+  amount: {
+    crypto: number
+    fiat: number
+  }
   providerId: string
-  baseUrl: string
-}
-
-export interface FetchFiatAccountsCompletedAction {
-  fiatAccounts: FiatAccount[]
+  fiatAccountId: string
+  fiatAccountType: FiatAccountType
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
@@ -75,7 +85,7 @@ export interface FetchFiatConnectProvidersCompletedAction {
   providers: FiatConnectProviderInfo[]
 }
 
-export type FiatAccountAddedAction = FiatAccount
+export type FiatAccountUsedAction = CachedFiatAccountUse
 export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
@@ -113,41 +123,19 @@ export const slice = createSlice({
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
-    fiatAccountUsed: (state, action: PayloadAction<FiatAccountAddedAction>) => {
-      const existingAccount = state.cachedFiatAccounts?.find(
-        (fiatAccount) =>
-          fiatAccount.providerId !== action.payload.providerId &&
-          fiatAccount.fiatAccountId !== action.payload.fiatAccountId
-      )
-      state.cachedFiatAccounts = [
-        {
-          ...action.payload,
-          ...(existingAccount?.supportedFlows.length && {
-            supportedFlows: action.payload.supportedFlows.concat(existingAccount.supportedFlows),
-          }),
-        },
-        ...(state.cachedFiatAccounts ?? []).filter(
-          (fiatAccount) =>
-            fiatAccount.providerId !== action.payload.providerId &&
-            fiatAccount.fiatAccountId !== action.payload.fiatAccountId
+    fiatAccountUsed: (state, action: PayloadAction<FiatAccountUsedAction>) => {
+      state.recentlyUsedFiatAccounts = [
+        action.payload,
+        ...state.recentlyUsedFiatAccounts.filter((fiatAccount) =>
+          isEqual(fiatAccount, action.payload)
         ),
       ]
     },
-    fetchFiatAccounts: (state, action: PayloadAction<FetchFiatAccountsAction>) => {
-      state.fiatAccountsLoading = true
-      state.fiatAccountsError = null
+    attemptReturnUserFlow: (state, action: PayloadAction<AttemptReturnUserFlowAction>) => {
+      state.attemptReturnUserFlowLoading = true
     },
-    fetchFiatAccountsCompleted: (
-      state,
-      action: PayloadAction<FetchFiatAccountsCompletedAction>
-    ) => {
-      state.fiatAccountsLoading = false
-      state.fiatAccountsError = null
-      state.fiatAccounts = action.payload.fiatAccounts
-    },
-    fetchFiatAccountsFailed: (state, action: PayloadAction<FetchFailedAction>) => {
-      state.fiatAccountsLoading = false
-      state.fiatAccountsError = action.payload.error
+    attemptReturnUserFlowCompleted: (state) => {
+      state.attemptReturnUserFlowLoading = false
     },
     createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
@@ -183,17 +171,13 @@ export const slice = createSlice({
       }
     },
     fetchFiatConnectProviders: (state) => {
-      state.providersLoading = true
-    },
-    fetchFiatConnectProvidersFailed: (state) => {
-      state.providersLoading = false
+      // no state update
     },
     fetchFiatConnectProvidersCompleted: (
       state,
       action: PayloadAction<FetchFiatConnectProvidersCompletedAction>
     ) => {
       state.providers = action.payload.providers
-      state.providersLoading = false
     },
   },
   extraReducers: (builder) => {
@@ -212,14 +196,12 @@ export const {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fiatAccountUsed,
-  fetchFiatAccounts,
-  fetchFiatAccountsCompleted,
-  fetchFiatAccountsFailed,
+  attemptReturnUserFlow,
+  attemptReturnUserFlowCompleted,
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
   fetchFiatConnectProviders,
-  fetchFiatConnectProvidersFailed,
   fetchFiatConnectProvidersCompleted,
 } = slice.actions
 

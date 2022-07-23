@@ -733,11 +733,8 @@ export const migrations = {
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
-      fiatAccounts: [],
-      fiatAccountsLoading: false,
-      fiatAccountsError: null,
-      cachedFiatAccounts: null,
-      providersLoading: false,
+      recentlyUsedFiatAccounts: [],
+      attemptReturnUserFlowLoading: false,
     },
   }),
 }

@@ -192,11 +192,15 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
         // TODO Tracking here
         dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
         // Record this fiat account as the most recently used
+        const { fiatAccountId, fiatAccountType } = result.value
         dispatch(
           fiatAccountUsed({
-            supportedFlows: [flow],
             providerId: quote.getProviderId(),
-            ...result.value,
+            fiatAccountId,
+            fiatAccountType,
+            flow,
+            cryptoType: quote.getCryptoType(),
+            fiatType: quote.getFiatType(),
           })
         )
         navigate(Screens.FiatConnectReview, {

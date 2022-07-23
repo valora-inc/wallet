@@ -1,4 +1,3 @@
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
@@ -58,9 +57,6 @@ const storeWithUSD = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: usdExchangeRates,
   },
-  fiatConnect: {
-    cachedFiatAccounts: [],
-  },
 })
 
 const storeWithEUR = createMockStore({
@@ -75,9 +71,6 @@ const storeWithEUR = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.EUR,
     exchangeRates: eurExchangeRates,
   },
-  fiatConnect: {
-    cachedFiatAccounts: [],
-  },
 })
 
 const storeWithPHP = createMockStore({
@@ -91,9 +84,6 @@ const storeWithPHP = createMockStore({
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
     exchangeRates: phpExchangeRates,
-  },
-  fiatConnect: {
-    cachedFiatAccounts: [],
   },
 })
 
@@ -472,48 +462,6 @@ describe('FiatExchangeAmount cashOut', () => {
         fiat: 750,
         crypto: 750,
       },
-    })
-  })
-  it('navigates to ReviewFetchScreen if the user has a recent fiat account', () => {
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
-      },
-      goldToken: {
-        balance: '5.5',
-      },
-      localCurrency: {
-        fetchedCurrencyCode: LocalCurrencyCode.USD,
-        preferredCurrencyCode: LocalCurrencyCode.USD,
-        exchangeRates: usdExchangeRates,
-      },
-      fiatConnect: {
-        cachedFiatAccounts: [
-          {
-            providerId: 'provider-two',
-            fiatAccountId: '123',
-            fiatAccountType: FiatAccountType.BankAccount,
-            supportedFlows: [CICOFlow.CashOut],
-          },
-        ],
-      },
-    })
-    const tree = render(
-      <Provider store={store}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '750')
-    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReviewFetch, {
-      flow: CICOFlow.CashOut,
-      selectedCrypto: Currency.Dollar,
-      cryptoAmount: 750,
-      fiatAmount: 750,
-      providerId: 'provider-two',
-      fiatAccountId: '123',
-      fiatAccountType: FiatAccountType.BankAccount,
     })
   })
 })

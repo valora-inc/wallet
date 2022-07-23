@@ -7,7 +7,7 @@ import {
 } from '@fiatconnect/fiatconnect-sdk'
 import { GetFiatAccountsResponse, TransferResponse } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
@@ -22,36 +22,33 @@ import {
   getFiatConnectProviders,
 } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { fiatConnectProvidersSelector, fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
-  cachedFiatAccountsSelector,
-  fiatAccountsSelector,
-  fiatConnectProvidersSelector,
-} from 'src/fiatconnect/selectors'
-import {
+  attemptReturnUserFlow,
+  attemptReturnUserFlowCompleted,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
-  fetchFiatAccounts,
-  fetchFiatAccountsCompleted,
-  fetchFiatAccountsFailed,
   fetchFiatConnectProviders,
   fetchFiatConnectProvidersCompleted,
-  fetchFiatConnectProvidersFailed,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   FiatAccount,
-  fiatAccountUsed,
 } from 'src/fiatconnect/slice'
+import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { newTransactionContext } from 'src/transactions/types'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
@@ -61,7 +58,7 @@ const TAG = 'FiatConnectSaga'
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount } = params
+  const { flow, digitalAsset, cryptoAmount, providerIds } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
@@ -83,7 +80,9 @@ export function* handleFetchFiatConnectQuotes({
       flow,
       fiatConnectCashInEnabled,
       fiatConnectCashOutEnabled,
-      fiatConnectProviders,
+      fiatConnectProviders: providerIds
+        ? fiatConnectProviders.filter(({ id }) => providerIds.includes(id))
+        : fiatConnectProviders,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
@@ -92,39 +91,100 @@ export function* handleFetchFiatConnectQuotes({
   }
 }
 
-export function* handleFetchFiatAccounts({
+export function* handleAttemptReturnUserFlow({
   payload: params,
-}: ReturnType<typeof fetchFiatAccounts>) {
-  const { providerId, baseUrl } = params
-
+}: ReturnType<typeof attemptReturnUserFlow>) {
+  const { amount, flow, selectedCrypto, providerId, fiatAccountId, fiatAccountType } = params
+  const digitalAsset = {
+    [Currency.Celo]: CiCoCurrency.CELO,
+    [Currency.Dollar]: CiCoCurrency.CUSD,
+    [Currency.Euro]: CiCoCurrency.CEUR,
+  }[selectedCrypto]
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
   try {
-    const fiatConnectClient: FiatConnectApiClient = yield call(
-      getFiatConnectClient,
-      providerId,
-      baseUrl
-    )
-    const fiatAccountsResponse: Result<GetFiatAccountsResponse, ResponseError> = yield call([
-      fiatConnectClient,
-      'getFiatAccounts',
-    ])
-
-    const fiatAccountsResults = fiatAccountsResponse.unwrap()
-    const fiatAccounts: FiatAccount[] = Object.values(fiatAccountsResults)
-      .flat()
-      .map((accountData) => ({
-        providerId,
-        supportedFlows: [],
-        ...accountData,
-      })) as FiatAccount[]
-    yield put(fetchFiatAccountsCompleted({ fiatAccounts }))
-  } catch (error) {
-    Logger.debug(TAG, 'Fetching FiatAccounts failed...', error)
+    // Fetch Quote associated with the cached providerId
     yield put(
-      fetchFiatAccountsFailed({
-        error: `handleFetchFiatAccounts failed. ${error}`,
+      fetchFiatConnectQuotes({
+        digitalAsset,
+        cryptoAmount: amount.crypto,
+        flow,
+        providerIds: [providerId],
       })
     )
+    const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield select(
+      fiatConnectQuotesSelector
+    )
+    const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
+    const normalizedQuote = normalizedQuotes.find(
+      (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
+    )
+    if (!normalizedQuote) {
+      throw new Error('Could not find quote')
+    }
+    // Get the provider info
+    const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
+    if (!fiatConnectProvider) {
+      throw new Error('Could not find provider')
+    }
+    // Fetch Fiat Account associated with the cached providerId / fiatAccountId
+    const fiatAccounts: FiatAccount[] = yield call(
+      fetchFiatAccountsSaga,
+      providerId,
+      fiatConnectProvider.baseUrl
+    )
+    const fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
+    if (!fiatAccount) {
+      throw new Error('Could not find fiat account')
+    }
+
+    // Successfully found quote and fiatAccount
+    yield put(attemptReturnUserFlowCompleted())
+    navigate(Screens.FiatConnectReview, {
+      flow,
+      normalizedQuote,
+      fiatAccount,
+    })
+  } catch (error) {
+    // Failed to find a quote and fiatAccount
+    Logger.debug(
+      TAG,
+      'Failed to use previous fiatAccount to take user directly to Review Screen',
+      error
+    )
+    yield put(attemptReturnUserFlowCompleted())
+    // Navigate to Select Provider Screen
+    navigate(Screens.SelectProvider, {
+      flow,
+      selectedCrypto,
+      amount,
+    })
   }
+}
+
+export function* fetchFiatAccountsSaga(providerId: string, baseUrl: string) {
+  const fiatConnectClient: FiatConnectApiClient = yield call(
+    getFiatConnectClient,
+    providerId,
+    baseUrl
+  )
+  const fiatAccountsResponse: Result<GetFiatAccountsResponse, ResponseError> = yield call([
+    fiatConnectClient,
+    'getFiatAccounts',
+  ])
+
+  const fiatAccountsResults = fiatAccountsResponse.unwrap()
+  const fiatAccounts = Object.values(fiatAccountsResults)
+    .flat()
+    .map(
+      (accountData) =>
+        ({
+          providerId,
+          ...accountData,
+        } as FiatAccount)
+    )
+  return fiatAccounts
 }
 
 export function* handleFetchFiatConnectProviders() {
@@ -136,7 +196,6 @@ export function* handleFetchFiatConnectProviders() {
     const providers: FiatConnectProviderInfo[] = yield call(getFiatConnectProviders, account)
     yield put(fetchFiatConnectProvidersCompleted({ providers }))
   } catch (error) {
-    yield put(fetchFiatConnectProvidersFailed())
     Logger.error(TAG, 'Error in *handleFetchFiatConnectProviders ', error)
   }
 }
@@ -210,32 +269,6 @@ export function* handleCreateFiatConnectTransfer({
   }
 }
 
-/**
- * This saga is meant to only run when a user succesfully fetches fiatConnectProviders
- * and only actually fetches fiatAccounts when cachedFiatAccounts has not been instantiated yet.
- * This is designed to replenish the cache in a scenario where the user restored their wallet and lost redux state.
- */
-export function* handleFetchAndCacheFiatAccounts({
-  payload: params,
-}: ReturnType<typeof fetchFiatConnectProvidersCompleted>) {
-  const cachedFiatAccounts: FiatAccount[] | null = yield select(cachedFiatAccountsSelector)
-
-  if (!cachedFiatAccounts) {
-    const { providers } = params
-    for (const { id, baseUrl } of providers) {
-      try {
-        yield put(fetchFiatAccounts({ providerId: id, baseUrl }))
-        const fiatAccounts: FiatAccount[] = yield select(fiatAccountsSelector)
-        for (const fiatAccount of fiatAccounts) {
-          yield put(fiatAccountUsed(fiatAccount))
-        }
-      } catch (error) {
-        Logger.error(TAG, `Failed to retrieve FiatAccounts for provider ${id}`, error)
-      }
-    }
-  }
-}
-
 function* watchFiatConnectTransfers() {
   yield takeLeading(createFiatConnectTransfer.type, handleCreateFiatConnectTransfer)
 }
@@ -244,22 +277,17 @@ export function* watchFetchFiatConnectQuotes() {
   yield takeLeading(fetchFiatConnectQuotes.type, handleFetchFiatConnectQuotes)
 }
 
-export function* watchFetchFiatAccounts() {
-  yield takeEvery(fetchFiatAccounts.type, handleFetchFiatAccounts)
-}
-
 export function* watchFetchFiatConnectProviders() {
   yield takeLeading(fetchFiatConnectProviders.type, handleFetchFiatConnectProviders)
 }
 
-function* watchFetchFiatConnectProvidersCompleted() {
-  yield takeLeading(fetchFiatConnectProvidersCompleted.type, handleFetchAndCacheFiatAccounts)
+export function* watchAttemptReturnUserFlow() {
+  yield takeLeading(attemptReturnUserFlow.type, handleAttemptReturnUserFlow)
 }
 
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
-  yield spawn(watchFetchFiatAccounts)
   yield spawn(watchFiatConnectTransfers)
   yield spawn(watchFetchFiatConnectProviders)
-  yield spawn(watchFetchFiatConnectProvidersCompleted)
+  yield spawn(watchAttemptReturnUserFlow)
 }

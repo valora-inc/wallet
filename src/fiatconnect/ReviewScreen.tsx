@@ -13,7 +13,7 @@ import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { createFiatConnectTransfer, fiatAccountUsed } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -30,24 +30,9 @@ import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
-  const { flow, normalizedQuote, fiatAccount } = route.params
-
-  return (
-    <FiatConnectReview normalizedQuote={normalizedQuote} flow={flow} fiatAccount={fiatAccount} />
-  )
-}
-
-export function FiatConnectReview({
-  flow,
-  normalizedQuote,
-  fiatAccount,
-}: {
-  flow: CICOFlow
-  normalizedQuote: FiatConnectQuote
-  fiatAccount: ObfuscatedFiatAccountData
-}) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { flow, normalizedQuote, fiatAccount } = route.params
 
   return (
     <SafeAreaView style={styles.content}>
@@ -80,14 +65,7 @@ export function FiatConnectReview({
               fiatAccountId: fiatAccount.fiatAccountId,
             })
           )
-          // Record this fiat account as the most recently used
-          dispatch(
-            fiatAccountUsed({
-              supportedFlows: [flow],
-              providerId: normalizedQuote.getProviderId(),
-              ...fiatAccount,
-            })
-          )
+
           navigate(Screens.FiatConnectTransferStatus, {
             flow,
             normalizedQuote,
@@ -335,21 +313,19 @@ const styles = StyleSheet.create({
   },
 })
 
-export const reviewScreenHeader = (flow: CICOFlow) => ({
+FiatConnectReviewScreen.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.FiatConnectReview>
+}) => ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   // NOTE: copies for cash in not final
   headerTitle:
-    flow === CICOFlow.CashIn
+    route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
   // TODO(any): when tying this component to the flow, add `onCancel` prop to
   // navigate to correct screen.
   headerRight: () => <CancelButton style={styles.cancelBtn} />,
 })
-
-FiatConnectReviewScreen.navigationOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.FiatConnectReview>
-}) => reviewScreenHeader(route.params.flow)

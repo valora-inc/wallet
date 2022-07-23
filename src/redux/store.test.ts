@@ -218,15 +218,12 @@ describe('store state', () => {
           "estimates": Object {},
         },
         "fiatConnect": Object {
-          "cachedFiatAccounts": null,
-          "fiatAccounts": Array [],
-          "fiatAccountsError": null,
-          "fiatAccountsLoading": false,
+          "attemptReturnUserFlowLoading": false,
           "providers": null,
-          "providersLoading": false,
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,
+          "recentlyUsedFiatAccounts": Array [],
           "transfer": null,
         },
         "fiatExchanges": Object {

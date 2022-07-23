@@ -11,37 +11,33 @@ import { feeEstimatesSelector } from 'src/fees/selectors'
 import { fetchQuotes, FiatConnectQuoteSuccess, getFiatConnectProviders } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import {
+  fetchFiatAccountsSaga,
+  handleAttemptReturnUserFlow,
   handleCreateFiatConnectTransfer,
-  handleFetchAndCacheFiatAccounts,
-  handleFetchFiatAccounts,
   handleFetchFiatConnectProviders,
   handleFetchFiatConnectQuotes,
 } from 'src/fiatconnect/saga'
+import { fiatConnectProvidersSelector, fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
 import {
-  cachedFiatAccountsSelector,
-  fiatAccountsSelector,
-  fiatConnectProvidersSelector,
-} from 'src/fiatconnect/selectors'
-import {
+  attemptReturnUserFlow,
+  attemptReturnUserFlowCompleted,
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
-  fetchFiatAccounts,
-  fetchFiatAccountsCompleted,
-  fetchFiatAccountsFailed,
   fetchFiatConnectProvidersCompleted,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
-  fiatAccountUsed,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
@@ -84,7 +80,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashIn,
           digitalAsset: CiCoCurrency.CELO,
           cryptoAmount: 3,
-          providerIds: ['foo'],
+          providerIds: ['provider-one'],
         })
       )
         .provide([
@@ -105,7 +101,7 @@ describe('Fiatconnect saga', () => {
         fiatConnectCashOutEnabled: true,
         flow: CICOFlow.CashIn,
         localCurrency: 'USD',
-        fiatConnectProviders: mockFiatConnectProviderInfo,
+        fiatConnectProviders: [mockFiatConnectProviderInfo[1]],
       })
     })
 
@@ -191,31 +187,136 @@ describe('Fiatconnect saga', () => {
     })
   })
 
-  describe(handleFetchFiatAccounts, () => {
+  describe(handleAttemptReturnUserFlow, () => {
     const mockGetFiatAccounts = jest.fn()
     const mockFcClient = {
       getFiatAccounts: mockGetFiatAccounts,
     }
-    it('fails when the fetching the client errors', async () => {
-      mockGetFiatAccounts.mockResolvedValueOnce(Result.err(new Error('error')))
-      await expectSaga(
-        handleFetchFiatAccounts,
-        fetchFiatAccounts({
-          providerId: 'test-provider',
-          baseUrl: 'www.hello.valoraapp.com',
+    const selectProviderParams = {
+      amount: {
+        crypto: 2,
+        fiat: 2,
+      },
+      flow: CICOFlow.CashOut,
+      selectedCrypto: Currency.Dollar,
+    }
+    const params = attemptReturnUserFlow({
+      ...selectProviderParams,
+      providerId: 'provider-two',
+      fiatAccountId: '123',
+      fiatAccountType: FiatAccountType.BankAccount,
+    })
+    it('navigates to SelectProvider when there is no quote', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(fiatConnectQuotesSelector), []],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+    })
+    it('navigates to SelectProvider when the quote cannot be normalized', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[0]]],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+    })
+    it('navigates to SelectProvider when the quote does not match the fiatAccountType', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, {
+        payload: {
+          ...params.payload,
+          fiatAccountType: FiatAccountType.DuniaWallet,
+        },
+        type: params.type,
+      })
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+    })
+    it('navigates to SelectProvider when the provider cannot be found', async () => {
+      await expectSaga(handleAttemptReturnUserFlow, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), []],
+          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+    })
+    it('navigates to SelectProvider when the fiatAccount cannot be found', async () => {
+      mockGetFiatAccounts.mockResolvedValue(Result.ok({}))
+      await expectSaga(handleAttemptReturnUserFlow, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+        ])
+        .put(attemptReturnUserFlowCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
+    })
+    it('navigates to FiatConnectReview when everything is found and matches', async () => {
+      const fiatAccount = {
+        fiatAccountId: '123',
+        providerId: 'provider-two',
+        accountName: 'provider two',
+        institutionName: 'The fun bank',
+        FiatAccountType: FiatAccountType.BankAccount,
+      }
+      mockGetFiatAccounts.mockResolvedValue(
+        Result.ok({
+          BankAccount: [fiatAccount],
         })
       )
+      await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
-          [call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com'), mockFcClient],
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
         ])
-        .put(
-          fetchFiatAccountsFailed({
-            error: 'handleFetchFiatAccounts failed. Error: error',
-          })
-        )
+        .put(attemptReturnUserFlowCompleted())
         .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        flow: CICOFlow.CashOut,
+        normalizedQuote: new FiatConnectQuote({
+          flow: CICOFlow.CashOut,
+          fiatAccountType: FiatAccountType.BankAccount,
+          quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+        }),
+        fiatAccount,
+      })
     })
-    it('saves the fiatAccount to state when all calls are successful', async () => {
+  })
+
+  describe(fetchFiatAccountsSaga, () => {
+    const mockGetFiatAccounts = jest.fn()
+    const mockFcClient = {
+      getFiatAccounts: mockGetFiatAccounts,
+    }
+    it('throws when fetching the client errors', async () => {
+      mockGetFiatAccounts.mockResolvedValueOnce(Result.err(new Error('error')))
+      await expect(
+        async () =>
+          await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
+            .provide([
+              [
+                call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com'),
+                mockFcClient,
+              ],
+            ])
+            .run()
+      ).rejects.toThrow()
+    })
+    it('returns the fiatAccounts when the call is successful', async () => {
       mockGetFiatAccounts.mockResolvedValue(
         Result.ok({
           BankAccount: [
@@ -228,69 +329,19 @@ describe('Fiatconnect saga', () => {
           ],
         })
       )
-      await expectSaga(
-        handleFetchFiatAccounts,
-        fetchFiatAccounts({
-          providerId: 'test-provider',
-          baseUrl: 'www.hello.valoraapp.com',
-        })
-      )
+      await expectSaga(fetchFiatAccountsSaga, 'test-provider', 'www.hello.valoraapp.com')
         .provide([
           [call(getFiatConnectClient, 'test-provider', 'www.hello.valoraapp.com'), mockFcClient],
         ])
-        .put(
-          fetchFiatAccountsCompleted({
-            fiatAccounts: [
-              {
-                providerId: 'test-provider',
-                fiatAccountId: '123',
-                fiatAccountType: FiatAccountType.BankAccount,
-                accountName: '(...1234)',
-                institutionName: 'My Bank',
-                supportedFlows: [],
-              },
-            ],
-          })
-        )
-        .run()
-    })
-  })
-  describe(handleFetchAndCacheFiatAccounts, () => {
-    const fiatAccount1 = {
-      providerId: 'provider-one',
-      fiatAccountId: '1',
-      fiatAccountType: FiatAccountType.BankAccount,
-      accountName: '(...1234)',
-      institutionName: 'My Bank',
-      supportedFlows: [],
-    }
-    const fiatAccount2 = {
-      providerId: 'provider-one',
-      fiatAccountId: '2',
-      fiatAccountType: FiatAccountType.BankAccount,
-      accountName: '(...1234)',
-      institutionName: 'My Bank',
-      supportedFlows: [],
-    }
-    it('caches all available fiatAccounts', async () => {
-      await expectSaga(
-        handleFetchAndCacheFiatAccounts,
-        fetchFiatConnectProvidersCompleted({
-          providers: mockFiatConnectProviderInfo,
-        })
-      )
-        .provide([
-          [select(cachedFiatAccountsSelector), null],
-          [select(fiatAccountsSelector), [fiatAccount1, fiatAccount2]],
+        .returns([
+          {
+            fiatAccountId: '123',
+            fiatAccountType: 'BankAccount',
+            accountName: '(...1234)',
+            institutionName: 'My Bank',
+            providerId: 'test-provider',
+          },
         ])
-        .put(
-          fetchFiatAccounts({
-            providerId: mockFiatConnectProviderInfo[0].id,
-            baseUrl: mockFiatConnectProviderInfo[0].baseUrl,
-          })
-        )
-        .put(fiatAccountUsed(fiatAccount1))
-        .put(fiatAccountUsed(fiatAccount2))
         .run()
     })
   })
