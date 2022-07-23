@@ -387,6 +387,8 @@
   "paste": "Incolla",
   "choose": "Scegli",
   "receivedPayment": "Pagamento ricevuto",
+  "receivedNft": "Ricevuto NFT",
+  "sentNft": "Inviato NFT",
   "getStarted": "Inizia",
   "manageCeloDollars": "Gestisci Celo Dollar",
   "sendCeloDollars": "Invia Celo Dollar",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Congratulazioni, il tuo numero telefonico è ora collegato!",
   "notification": {
-    "body": "Ricevi pagamenti direttamente sul tuo numero telefonico",
+    "body": "Collega il tuo numero per richiedere fondi e connetterti agli amici",
     "cta": "Collega ora"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Proteggi il tuo portafoglio",
-    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}. Se si dispone già di un account, SI PREGA DI NON FARE CLIC per attivare la biometria, a meno che non si abbia a portata di mano la frase di ripristino. L'attivazione della biometria richiederà il ripristino dell'account.",
+    "description": "{{biometryType}} protegge il tuo portafoglio e rende più facile usare {{appName}}",
     "cta": "Abilita {{biometryType}}"
   },
   "biometryType": {
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Deposito ricevuto",
   "transactionHeaderCeloReward": "Ricompensa ricevuta",
   "transactionHeaderEscrowReceived": "Pagamento per deposito in garanzia ricevuto",
+  "transactionHeaderNftReceived": "NFT ricevuto",
+  "transactionHeaderNftSent": "NFT Inviato",
   "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
     "title": "Aggiungi fondi per iniziare a usare Valora!",
@@ -1264,6 +1268,24 @@
       "button": "Preleva fondi",
       "transactionDetailsAmount": "Prelievo totale",
       "transactionDetailsAmountConverted": "Importo prelevato"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Riprova",
+    "withdraw": {
+      "cancel": "Annullamento del ritiro",
+      "success": {
+        "header": "Il successo",
+        "title": "I tuoi fondi sono in arrivo!",
+        "description": "La richiesta di transazione è stata inviata e i fondi arriveranno su {{duration}}.",
+        "txDetails": "Visualizza su CeloExplorer",
+        "continue": "Continua"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Non è stato possibile completare la richiesta.",
+      "description": "Non è stato possibile trasferire i tuoi fondi da Valora. Riprova o contatta il nostro team di assistenza per ricevere aiuto.",
+      "contactSupportPrefill": "Ho problemi a prelevare i miei fondi da Valora"
     }
   },
   "fiatExchangeFlow": {

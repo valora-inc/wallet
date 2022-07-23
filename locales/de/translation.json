@@ -387,6 +387,8 @@
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
+  "receivedNft": "Erhaltene NFT",
+  "sentNft": "Gesendet NFT",
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
   "notification": {
-    "body": "Zahlungen direkt an deine Telefonnummer erhalten",
+    "body": "Verbinde deine Telefonnummer, um Guthaben zu beanspruchen und dich mit Freunden zu verbinden",
     "cta": "Jetzt verbinden"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Sichere dein Wallet",
-    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}. Wenn du bereits ein Konto hast, BITTE KLICKEN SIE NICHT, um die Biometrie zu aktivieren, AUßER du hast deine Wiederherstellungsphrase. Wenn du die biometrischen Daten aktivierst, musst du dein Konto wiederherstellen.",
+    "description": "{{biometryType}} sichert dein Wallet und erleichtert die Verwendung von {{appName}}",
     "cta": "{{biometryType}} einschalten"
   },
   "biometryType": {
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
   "transactionHeaderCeloReward": "Rewards erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
+  "transactionHeaderNftReceived": "NFT erhalten",
+  "transactionHeaderNftSent": "NFT gesendet",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
     "title": "Füge Guthaben hinzu, um loszulegen!",
@@ -1264,6 +1268,24 @@
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
       "transactionDetailsAmountConverted": "Betrag abgehoben"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Wiederholen",
+    "withdraw": {
+      "cancel": "Rückzug abbrechen",
+      "success": {
+        "header": "Erfolg",
+        "title": "Dein Geld ist auf dem Weg!",
+        "description": "Deine Transaktionsanfrage wurde abgeschickt und dein Geld wird auf {{duration}}eingehen.",
+        "txDetails": "Ansicht auf CeloExplorer",
+        "continue": "Weiter"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Deine Anfrage konnte nicht abgeschlossen werden.",
+      "description": "Dein Geld konnte nicht von Valora überwiesen werden. Bitte versuche es noch einmal oder wende dich an unser Support-Team, um Hilfe zu erhalten.",
+      "contactSupportPrefill": "Ich habe Probleme, mein Geld von Valora abzuheben"
     }
   },
   "fiatExchangeFlow": {

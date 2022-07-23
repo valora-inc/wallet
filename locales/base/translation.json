@@ -387,6 +387,8 @@
   "paste": "Paste",
   "choose": "Choose",
   "receivedPayment": "Received Payment",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
@@ -527,7 +529,6 @@
   "helpFindAccount": "Help your contact find their Account Address",
   "close": "Close",
   "home": "Home",
-  "swap": "Swap",
   "accountKey": "Recovery Phrase",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
@@ -685,7 +686,7 @@
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
+    "body": "Connect your number to claim funds and connect to friends",
     "cta": "Connect Now"
   },
   "quotaLookup": {
@@ -1111,6 +1112,8 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
@@ -1342,5 +1345,12 @@
   "webView": {
     "openExternal": "Open in External Browser"
   },
-  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk."
+  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Review",
+    "swapFrom": "From",
+    "swapTo": "To",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+  }
 }

@@ -22,7 +22,7 @@ import { reducer as paymentRequest, State as PaymentRequestState } from 'src/pay
 import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
-import { reducer as tokens, State as TokensState } from 'src/tokens/reducer'
+import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
@@ -51,7 +51,7 @@ const appReducer = combineReducers({
   paymentRequest,
   fiatExchanges,
   walletConnect,
-  tokens,
+  tokens: tokenReducer,
   supercharge: superchargeReducer,
   dapps: dappsReducer,
   fiatConnect: fiatConnectReducer,

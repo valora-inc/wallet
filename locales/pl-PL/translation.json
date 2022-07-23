@@ -387,6 +387,8 @@
   "paste": "Wklej",
   "choose": "Wybierz",
   "receivedPayment": "Otrzymana płatność",
+  "receivedNft": "Otrzymane NFT",
+  "sentNft": "Wysłane NFT",
   "getStarted": "Rozpocznij",
   "manageCeloDollars": "Zarządzaj Celo Dolarami",
   "sendCeloDollars": "Wyślij Celo Dolary",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Gratulacje, Twój numer telefonu został podłączony!",
   "notification": {
-    "body": "Otrzymuj płatności bezpośrednio na swój numer telefonu",
+    "body": "Podłącz swój numer telefonu, aby odebrać środki i połączyć się ze znajomymi",
     "cta": "Podłącz teraz"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Zabezpiecz swój portfel",
-    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}. Jeśli masz już konto, PROSZĘ NIE KLIKAĆ, aby włączyć biometrię poniżej, chyba że masz pod ręką swój zwrot odzyskiwania. Włączenie biometrii będzie wymagało przywrócenia konta.",
+    "description": "{{biometryType}} zabezpiecza portfel i ułatwia korzystanie z aplikacji {{appName}}",
     "cta": "Włącz {{biometryType}}"
   },
   "biometryType": {
@@ -1113,6 +1115,8 @@
   "transactionHeaderCeloDeposit": "Otrzymano wpłatę",
   "transactionHeaderCeloReward": "Otrzymano nagrodę",
   "transactionHeaderEscrowReceived": "Otrzymano płatność Escrow",
+  "transactionHeaderNftReceived": "Otrzymane NFT",
+  "transactionHeaderNftSent": "NFT Wysłane",
   "feedSectionHeaderRecent": "Najnowsze",
   "cashInBottomSheet": {
     "title": "Dodaj środki, aby rozpocząć korzystanie z aplikacji Valora!",
@@ -1268,6 +1272,24 @@
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Spróbuj ponownie",
+    "withdraw": {
+      "cancel": "Anuluj wycofanie się z umowy",
+      "success": {
+        "header": "Sukces",
+        "title": "Twoje fundusze są w drodze!",
+        "description": "Twoje żądanie transakcji zostało wysłane, a środki dotrą na adres {{duration}}.",
+        "txDetails": "Zobacz na CeloExplorer",
+        "continue": "Kontynuuj"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Twoje żądanie nie mogło zostać zrealizowane.",
+      "description": "Twoje środki nie mogły zostać przekazane z Valory. Spróbuj ponownie lub skontaktuj się z naszym zespołem obsługi klienta, aby uzyskać pomoc.",
+      "contactSupportPrefill": "Mam problem z wypłatą moich środków z Valory"
     }
   },
   "fiatExchangeFlow": {

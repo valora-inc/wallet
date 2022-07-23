@@ -1455,13 +1455,32 @@ export const v64Schema = {
     ...v63Schema._persist,
     version: 64,
   },
+  fees: {
+    ...v63Schema.fees,
+    estimates: Object.entries(v63Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+      return {
+        ...acc,
+        [address]: {
+          ...estimate,
+          swap: undefined,
+        },
+      }
+    }, {}),
+  },
+}
+export const v65Schema = {
+  ...v64Schema,
+  _persist: {
+    ...v64Schema._persist,
+    version: 65,
+  },
   fiatConnect: {
-    ...v63Schema.fiatConnect,
+    ...v64Schema.fiatConnect,
     recentlyUsedFiatAccounts: [],
     attemptReturnUserFlowLoading: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v64Schema as Partial<RootState>
+  return v65Schema as Partial<RootState>
 }

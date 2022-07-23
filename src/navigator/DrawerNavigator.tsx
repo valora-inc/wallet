@@ -64,6 +64,7 @@ import { showSwapMenuInDrawerMenuSelector } from 'src/navigator/selectors'
 import { default as useSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import SwapScreen from 'src/swap/SwapScreen'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -225,13 +226,34 @@ export default function DrawerNavigator() {
         component={WalletHome}
         options={{ title: t('home'), drawerIcon: Home, unmountOnBlur: false }}
       />
-      {shouldShowSwapMenuInDrawerMenu && (
+      {shouldShowSwapMenuInDrawerMenu ? (
         <Drawer.Screen
           name={Screens.SwapScreen}
-          component={() => null}
-          options={{ title: t('swap'), drawerIcon: Swap }}
+          component={SwapScreen}
+          options={{ title: t('swapScreen.title'), drawerIcon: Swap }}
         />
+      ) : (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
       )}
+
       {dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
@@ -281,23 +303,28 @@ export default function DrawerNavigator() {
           options={{ title: t('invite'), drawerIcon: Invite }}
         />
       )}
-      {(isCeloEducationComplete && (
-        <Drawer.Screen
-          name={Screens.ExchangeHomeScreen}
-          component={ExchangeHomeScreen}
-          options={{ title: t('celoGold'), drawerIcon: Gold }}
-        />
-      )) || (
-        <Drawer.Screen
-          name={Screens.GoldEducation}
-          component={GoldEducation}
-          options={{
-            title: t('celoGold'),
-            drawerIcon: Gold,
-            ...TransitionPresets.ModalTransition,
-          }}
-        />
+      {shouldShowSwapMenuInDrawerMenu && (
+        <>
+          {(isCeloEducationComplete && (
+            <Drawer.Screen
+              name={Screens.ExchangeHomeScreen}
+              component={ExchangeHomeScreen}
+              options={{ title: t('celoGold'), drawerIcon: Gold }}
+            />
+          )) || (
+            <Drawer.Screen
+              name={Screens.GoldEducation}
+              component={GoldEducation}
+              options={{
+                title: t('celoGold'),
+                drawerIcon: Gold,
+                ...TransitionPresets.ModalTransition,
+              }}
+            />
+          )}
+        </>
       )}
+
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}

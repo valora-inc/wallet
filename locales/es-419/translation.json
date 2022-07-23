@@ -387,6 +387,8 @@
   "paste": "Pegar",
   "choose": "Elegir",
   "receivedPayment": "Pago recibido",
+  "receivedNft": "Recibido NFT",
+  "sentNft": "Enviado NFT",
   "getStarted": "Primeros pasos",
   "manageCeloDollars": "Administrar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "¡Felicitaciones! tu número de teléfono está conectado.",
   "notification": {
-    "body": "Recibe pagos directamente a tu número de teléfono",
+    "body": "Conecta tu número para reclamar fondos y conectarte con tus amigos",
     "cta": "Conectar"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Mantén tu billetera segura",
-    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}. Si ya tienes una cuenta, NO HAGAS CLIC para activar la biometría a continuación A MENOS que tengas tu Frase de recuperación a mano. Activar la biometría requerirá que restaures tu cuenta.",
+    "description": "{{biometryType}} matiene tu cuenta segura y facilita el uso de {{appName}}",
     "cta": "Habilitar {{biometryType}}"
   },
   "biometryType": {
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Depósito recibido",
   "transactionHeaderCeloReward": "Recompensa recibida",
   "transactionHeaderEscrowReceived": "Pago de garantía recibido",
+  "transactionHeaderNftReceived": "NFT Recibido",
+  "transactionHeaderNftSent": "NFT Enviado",
   "feedSectionHeaderRecent": "Recientes",
   "cashInBottomSheet": {
     "title": "¡Agrega fondos para empezar a usar Valora!",
@@ -1264,6 +1268,24 @@
       "button": "Retirar fondos",
       "transactionDetailsAmount": "Total a retirar",
       "transactionDetailsAmountConverted": "Monto retirado"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Reintentar",
+    "withdraw": {
+      "cancel": "Cancelar la retirada",
+      "success": {
+        "header": "Éxito",
+        "title": "¡Tus fondos están en camino!",
+        "description": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán a {{duration}}.",
+        "txDetails": "Ver en CeloExplorador",
+        "continue": "Continuar"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "No se ha podido completar tu solicitud.",
+      "description": "No se han podido transferir tus fondos desde Valora. Por favor, inténtalo de nuevo o ponte en contacto con nuestro equipo de soporte para obtener ayuda.",
+      "contactSupportPrefill": "Tengo problemas para retirar mis fondos de Valora"
     }
   },
   "fiatExchangeFlow": {

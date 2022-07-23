@@ -387,6 +387,8 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
+  "receivedNft": "Полученный НФТ",
+  "sentNft": "Отправлено NFT",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Поздравляем, ваш номер телефона подключен!",
   "notification": {
-    "body": "Получать платежи непосредственно на номер телефона",
+    "body": "Подключите свой номер, запросите средства и связаться с друзьями",
     "cta": "Подключить сейчас"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Защитите ваш кошелек",
-    "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}. Если у вас уже есть учетная запись, НЕ НАЖИМАЙТЕ на кнопку включения биометрии ниже, если у вас нет под рукой фразы восстановления. Включение биометрии потребует от вас восстановления аккаунта.",
+    "description": "{{biometryType}} поможет защитить ваш кошелек и упростить использование {{appName}}",
     "cta": "Включить {{biometryType}}"
   },
   "biometryType": {
@@ -1113,6 +1115,8 @@
   "transactionHeaderCeloDeposit": "Получен депозит",
   "transactionHeaderCeloReward": "Вознаграждение получено",
   "transactionHeaderEscrowReceived": "Эскроу-платеж получен",
+  "transactionHeaderNftReceived": "Получено НФТ",
+  "transactionHeaderNftSent": "NFT Отправлено",
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
@@ -1268,6 +1272,24 @@
       "button": "Вывод средства",
       "transactionDetailsAmount": "Всего выведено",
       "transactionDetailsAmountConverted": "Сумма выведено"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Повторить попытку",
+    "withdraw": {
+      "cancel": "Отменить отмену",
+      "success": {
+        "header": "Успешно",
+        "title": "Твои средства уже в пути!",
+        "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
+        "txDetails": "Посмотреть на CeloExplorer",
+        "continue": "Продолжить"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Твой запрос не удалось выполнить.",
+      "description": "Твои средства не удалось перевести из Valora. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
     }
   },
   "fiatExchangeFlow": {

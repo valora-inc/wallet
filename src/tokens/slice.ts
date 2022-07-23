@@ -1,7 +1,7 @@
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { RehydrateAction } from 'redux-persist'
-import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { REHYDRATE, RehydrateAction } from 'redux-persist'
+import { getRehydratePayload } from 'src/redux/persist-helper'
 
 interface BaseToken {
   address: string
@@ -55,35 +55,45 @@ export const initialState = {
   error: false,
 }
 
-const rehydrate = createAction<any>(REHYDRATE)
-export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
-export const fetchTokenBalances = createAction('TOKENS/FETCH_TOKEN_BALANCES')
-export const tokenBalanceFetchError = createAction('TOKENS/TOKEN_BALANCES_FETCH_ERROR')
-
-export const reducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(rehydrate, (state, action) => {
-      // hack to allow rehydrate actions here
-      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'tokens')
-      return {
-        ...state,
-        ...hydrated,
-      }
-    })
-    .addCase(setTokenBalances, (state, action) => ({
+const slice = createSlice({
+  name: 'tokens',
+  initialState,
+  reducers: {
+    setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
       ...state,
       tokenBalances: action.payload,
       loading: false,
       error: false,
-    }))
-    .addCase(fetchTokenBalances, (state, action) => ({
+    }),
+    fetchTokenBalances: (state) => ({
       ...state,
       loading: true,
       error: false,
-    }))
-    .addCase(tokenBalanceFetchError, (state, action) => ({
+    }),
+    fetchTokenBalancesSuccess: (state) => ({
+      ...state,
+      loading: false,
+      error: false,
+    }),
+    fetchTokenBalancesFailure: (state) => ({
       ...state,
       loading: false,
       error: true,
+    }),
+  },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
+      ...state,
+      ...getRehydratePayload(action, 'tokens'),
     }))
+  },
 })
+
+export const {
+  setTokenBalances,
+  fetchTokenBalances,
+  fetchTokenBalancesSuccess,
+  fetchTokenBalancesFailure,
+} = slice.actions
+
+export default slice.reducer

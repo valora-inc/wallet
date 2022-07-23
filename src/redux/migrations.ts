@@ -729,7 +729,8 @@ export const migrations = {
       providers: null,
     },
   }),
-  64: (state: any) => ({
+  64: (state: any) => state,
+  65: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,

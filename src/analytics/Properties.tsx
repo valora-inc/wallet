@@ -23,6 +23,7 @@ import {
   RewardsEvents,
   SendEvents,
   SettingsEvents,
+  SwapEvents,
   TransactionEvents,
   VerificationEvents,
   WalletConnectEvents,
@@ -48,6 +49,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { Field } from 'src/swap/SwapScreen'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -1200,6 +1202,18 @@ interface CoinbasePayEventsProperties {
   [CoinbasePayEvents.coinbase_pay_flow_exit]: undefined
 }
 
+interface SwapEventsProperties {
+  [SwapEvents.swap_screen_open]: undefined
+  [SwapEvents.swap_screen_select_token]: {
+    fieldType: Field
+  }
+  [SwapEvents.swap_screen_confirm_token]: {
+    fieldType: Field
+    tokenSymbol: string
+  }
+  [SwapEvents.swap_screen_review_swap]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1224,4 +1238,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   CICOEventsProperties &
   DappExplorerEventsProperties &
   WebViewEventsProperties &
-  CoinbasePayEventsProperties
+  CoinbasePayEventsProperties &
+  SwapEventsProperties

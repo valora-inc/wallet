@@ -387,6 +387,8 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
   "notification": {
-    "body": "Telefon numaranıza doğrudan ödeme alın",
+    "body": "Bakiye talep etmek ve arkadaşlarınızla bağlantı kurmak için numaranızı bağla",
     "cta": "Şimdi Bağlan"
   },
   "quotaLookup": {
@@ -701,7 +703,7 @@
   },
   "enableBiometry": {
     "title": "Cüzdanınızı emniyete alın",
-    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır. Halihazırda bir hesabınız varsa, kurtarma ifadeniz elinizin altında DEĞİLSE, aşağıda biyometriyi etkinleştirmek için LÜTFEN TIKLAMAYIN. Biyometriyi açmak, hesabınızı geri yüklemenizi gerektirir.",
+    "description": "{{biometryType}}, cüzdanınızın güvenliğini sağlar ve {{appName}} kullanımını kolaylaştırır",
     "cta": "{{biometryType}} etkinleştir"
   },
   "biometryType": {
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Yatırılan",
   "transactionHeaderCeloReward": "Ödül Alındı",
   "transactionHeaderEscrowReceived": "Escrow Ödemesi Alındı",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
     "title": "Valora'yı kullanmaya başlamak için bakiye ekleyin!",
@@ -1264,6 +1268,24 @@
       "button": "Bakiye Çek",
       "transactionDetailsAmount": "Çekilen Toplam Tutar",
       "transactionDetailsAmountConverted": "Çekilen Tutar"
+    }
+  },
+  "fiatConnectStatusScreen": {
+    "tryAgain": "Tekrar Deneyin",
+    "withdraw": {
+      "cancel": "Cancel Withdrawal",
+      "success": {
+        "header": "Başarılı",
+        "title": "Your funds are on their way!",
+        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
+        "txDetails": "View on CeloExplorer",
+        "continue": "İleri"
+      }
+    },
+    "requestNotCompleted": {
+      "title": "Your request could not be completed.",
+      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
+      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
     }
   },
   "fiatExchangeFlow": {
