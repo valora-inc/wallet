@@ -62,7 +62,7 @@
     ]
   },
   "dependencies": {
-    "@badrap/result": "^0.2.12",
+    "@badrap/result": "~0.2.12",
     "@celo/connect": "~1.2.0",
     "@celo/contractkit": "~1.2.0",
     "@celo/identity": "~1.2.0",
