@@ -1269,12 +1269,6 @@
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
       "transactionDetailsAmountConverted": "Amount Withdrawn"
-    },
-    "error": {
-      "title": "Connection lost!",
-      "description": "We were not able to establish a connection between your accounts. \n\nThis may be due to a poor internet connection or server issue. Please try to reconnect or select a different provider.",
-      "tryAgain": "Try Again",
-      "selectNewProvider": "Select New Provider"
     }
   },
   "fiatConnectStatusScreen": {

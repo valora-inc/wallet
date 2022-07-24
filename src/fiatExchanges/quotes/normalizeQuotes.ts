@@ -40,7 +40,7 @@ export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: Normalize
   return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
 }
 
-export const quoteHasErrors = (
+const quoteHasErrors = (
   quote: FiatConnectQuoteSuccess | FiatConnectQuoteError
 ): quote is FiatConnectQuoteError => {
   return !quote.ok

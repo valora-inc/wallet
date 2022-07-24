@@ -90,7 +90,12 @@ export function* handleFetchFiatConnectQuotes({
     yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
-
+/**
+ * This saga attempts to fetch a quote and matching fiatAccount for a provider that the user
+ * has previously used in the CICO flow.
+ * If successful: Navigates the user to the FiatConnectReview screen
+ * If fail: Navigates the user to the SelectProvider screen
+ */
 export function* handleAttemptReturnUserFlow({
   payload: params,
 }: ReturnType<typeof attemptReturnUserFlow>) {

@@ -1,3 +1,4 @@
+import { FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 // @ts-ignore
 import { toBeDisabled } from '@testing-library/jest-native'
 import { fireEvent, render } from '@testing-library/react-native'
@@ -7,6 +8,7 @@ import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
+import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
@@ -463,5 +465,58 @@ describe('FiatExchangeAmount cashOut', () => {
         crypto: 750,
       },
     })
+  })
+  it('calls diapatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
+    const store = createMockStore({
+      stableToken: {
+        balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
+      },
+      goldToken: {
+        balance: '5.5',
+      },
+      localCurrency: {
+        fetchedCurrencyCode: LocalCurrencyCode.USD,
+        preferredCurrencyCode: LocalCurrencyCode.USD,
+        exchangeRates: usdExchangeRates,
+      },
+      fiatConnect: {
+        recentlyUsedFiatAccounts: [
+          {
+            providerId: 'provider-two',
+            fiatAccountId: '123',
+            fiatAccountType: FiatAccountType.BankAccount,
+            flow: CICOFlow.CashOut,
+            cryptoType: Currency.Dollar,
+            fiatType: FiatType.USD,
+          },
+        ],
+      },
+    })
+    store.dispatch = jest.fn()
+    const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      flow: CICOFlow.CashOut,
+    })
+    const tree = render(
+      <Provider store={store}>
+        <FiatExchangeAmount {...screenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '750')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(store.dispatch).toHaveBeenLastCalledWith(
+      attemptReturnUserFlow({
+        flow: CICOFlow.CashOut,
+        selectedCrypto: Currency.Dollar,
+        amount: {
+          crypto: 750,
+          fiat: 750,
+        },
+        providerId: 'provider-two',
+        fiatAccountId: '123',
+        fiatAccountType: FiatAccountType.BankAccount,
+      })
+    )
   })
 })

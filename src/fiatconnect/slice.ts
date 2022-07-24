@@ -170,7 +170,7 @@ export const slice = createSlice({
         txHash: action.payload.txHash,
       }
     },
-    fetchFiatConnectProviders: (state) => {
+    fetchFiatConnectProviders: () => {
       // no state update
     },
     fetchFiatConnectProvidersCompleted: (
