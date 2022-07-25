@@ -1341,8 +1341,8 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
-    "swapFrom": "Tokendan",
-    "swapTo": "Kime",
+    "swapFrom": "Bu Token’dan",
+    "swapTo": "Şu Token’a",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha büyük bir miktar girin veya farklı bir token seçin."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
