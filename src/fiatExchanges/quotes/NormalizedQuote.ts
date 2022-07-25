@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { Dispatch } from 'redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -15,15 +16,15 @@ export default abstract class NormalizedQuote {
   abstract getProviderLogo(): string
   abstract getProviderId(): string
 
-  abstract navigate(flow: CICOFlow): void
-  onPress(flow: CICOFlow) {
+  abstract navigate(dispatch: Dispatch): void
+  onPress(flow: CICOFlow, dispatch: Dispatch) {
     return () => {
       ValoraAnalytics.track(FiatExchangeEvents.cico_providers_quote_selected, {
         flow,
         paymentMethod: this.getPaymentMethod(),
         provider: this.getProviderId(),
       })
-      this.navigate(flow)
+      this.navigate(dispatch)
     }
   }
 }

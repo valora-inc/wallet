@@ -137,6 +137,9 @@ export const slice = createSlice({
     attemptReturnUserFlowCompleted: (state) => {
       state.attemptReturnUserFlowLoading = false
     },
+    selectFiatConnectQuote: (state, action: PayloadAction<{ quote: FiatConnectQuote }>) => {
+      // no state update
+    },
     createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
         quoteId: action.payload.fiatConnectQuote.getQuoteId(),
@@ -199,6 +202,7 @@ export const {
   fiatAccountUsed,
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
+  selectFiatConnectQuote,
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,

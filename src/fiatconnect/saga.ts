@@ -39,6 +39,8 @@ import {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   FiatAccount,
+  fiatAccountUsed,
+  selectFiatConnectQuote,
 } from 'src/fiatconnect/slice'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -190,10 +192,12 @@ function* _getFiatAccount({
   fiatConnectProviders,
   providerId,
   fiatAccountId,
+  fiatAccountType,
 }: {
   fiatConnectProviders: FiatConnectProviderInfo[] | null
   providerId: string
-  fiatAccountId: string
+  fiatAccountId?: string
+  fiatAccountType?: FiatAccountType
 }) {
   // Get the provider info
   const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
@@ -206,11 +210,54 @@ function* _getFiatAccount({
     providerId,
     fiatConnectProvider.baseUrl
   )
-  const fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
+
+  let fiatAccount: FiatAccount | undefined
+  if (fiatAccountType) {
+    fiatAccount = fiatAccounts.find((account) => account.fiatAccountType === fiatAccountType)
+  } else if (fiatAccountId) {
+    fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
+  }
   if (!fiatAccount) {
     throw new Error('Could not find fiat account')
   }
   return fiatAccount
+}
+
+export function* handleSelectFiatConnectQuote({
+  payload: params,
+}: ReturnType<typeof selectFiatConnectQuote>) {
+  const { quote } = params
+  try {
+    // Check for an existing fiatAccount and navigate to Review if we find one
+    const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
+      fiatConnectProviders: [quote.quote.provider],
+      providerId: quote.getProviderId(),
+      fiatAccountType: quote.getFiatAccountType(),
+    })
+    // Save the fiatAccount in cache
+    yield put(
+      fiatAccountUsed({
+        providerId: quote.getProviderId(),
+        fiatAccountId: fiatAccount.fiatAccountId,
+        fiatAccountType: quote.getFiatAccountType(),
+        flow: quote.flow,
+        cryptoType: quote.getCryptoType(),
+        fiatType: quote.getFiatType(),
+      })
+    )
+    navigate(Screens.FiatConnectReview, {
+      flow: quote.flow,
+      normalizedQuote: quote,
+      fiatAccount,
+    })
+  } catch (error) {
+    // Ignore error and navigate to FiatDetails screen.
+    // This is expected when the user has not yet created a fiatAccount with the provider
+    navigate(Screens.FiatDetailsScreen, {
+      quote,
+      flow: quote.flow,
+    })
+  }
 }
 
 export function* fetchFiatAccountsSaga(providerId: string, baseUrl: string) {
@@ -335,9 +382,14 @@ export function* watchAttemptReturnUserFlow() {
   yield takeLeading(attemptReturnUserFlow.type, handleAttemptReturnUserFlow)
 }
 
+function* watchSelectFiatConnectQuote() {
+  yield takeLeading(selectFiatConnectQuote.type, handleSelectFiatConnectQuote)
+}
+
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
   yield spawn(watchFetchFiatConnectProviders)
   yield spawn(watchAttemptReturnUserFlow)
+  yield spawn(watchSelectFiatConnectQuote)
 }
