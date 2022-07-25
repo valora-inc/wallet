@@ -12,11 +12,11 @@ describe('stableToken reducer', () => {
     expect(
       reducer(undefined, {
         type: Actions.SET_BALANCE,
-        balances: { [Currency.Dollar]: '10', [Currency.Euro]: null },
+        balances: { [Currency.Dollar]: '10', [Currency.Euro]: null, [Currency.Real]: null },
       })
     ).toEqual({
       ...initialState,
-      balances: { [Currency.Dollar]: '10', [Currency.Euro]: null },
+      balances: { [Currency.Dollar]: '10', [Currency.Euro]: null, [Currency.Real]: null },
       lastFetch: expect.any(Number),
     })
   })

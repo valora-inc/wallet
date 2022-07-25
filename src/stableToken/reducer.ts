@@ -14,6 +14,7 @@ export const initialState = {
   balances: {
     [Currency.Dollar]: null,
     [Currency.Euro]: null,
+    [Currency.Real]: null,
   },
   lastFetch: null,
   educationCompleted: false,
