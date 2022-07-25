@@ -98,7 +98,7 @@ function FiatConnectWithdrawSuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_view_tx, {
       flow,
       provider,
-      txHash: fiatConnectTransfer?.txHash,
+      txHash: fiatConnectTransfer.txHash!,
     })
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer?.txHash}`,
@@ -109,7 +109,7 @@ function FiatConnectWithdrawSuccessSection({
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
       flow,
       provider,
-      txHash: fiatConnectTransfer?.txHash,
+      txHash: fiatConnectTransfer.txHash!,
     })
     navigateHome()
   }
