@@ -387,8 +387,8 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
-  "receivedNft": "Полученный NFT",
-  "sentNft": "Отправленный NFT",
+  "receivedNft": "NFT получен",
+  "sentNft": "NFT отправлен",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -1345,8 +1345,8 @@
   "swapScreen": {
     "title": "Обменять",
     "review": "Проверить",
-    "swapFrom": "От кого",
-    "swapTo": "Кому",
+    "swapFrom": "От",
+    "swapTo": "К",
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести большую сумму или выберите другой токен."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
