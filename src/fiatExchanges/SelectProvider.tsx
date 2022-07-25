@@ -9,6 +9,7 @@ import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import TextButton from 'src/components/TextButton'
@@ -23,6 +24,7 @@ import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { PaymentMethodSection } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -64,6 +66,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
   const { t } = useTranslation()
+  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
+  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
+  const appId = appIdResponse.result
 
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
@@ -162,9 +167,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const exchanges = asyncExchanges.result ?? []
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
 
+  const coinbasePayVisible =
+    coinbaseProvider &&
+    !coinbaseProvider.restricted &&
+    coinbasePayEnabled &&
+    appId &&
+    digitalAsset === CiCoCurrency.CELO
+
   const anyProviders =
     normalizedQuotes.length ||
-    !(coinbaseProvider?.restricted ?? true) ||
+    coinbasePayVisible ||
     exchanges.length ||
     legacyMobileMoneyProviders?.length
 
@@ -190,9 +202,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
             flow={flow}
           />
           <CoinbasePaymentSection
-            digitalAsset={digitalAsset}
             cryptoAmount={route.params.amount.crypto}
             coinbaseProvider={coinbaseProvider}
+            visible={coinbasePayVisible}
+            appId={appId}
           />
           <ExchangesSection
             exchanges={exchanges}

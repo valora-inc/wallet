@@ -1,48 +1,36 @@
 import React from 'react'
 
 import { generateOnRampURL } from '@coinbase/cbpay-js'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
 import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface CoinbasePaymentSectionProps {
-  digitalAsset: CiCoCurrency
   cryptoAmount: number
   coinbaseProvider: FetchProvidersOutput | undefined
+  visible: boolean
+  appId: string
 }
 
 export function CoinbasePaymentSection({
-  digitalAsset,
   cryptoAmount,
   coinbaseProvider,
+  visible,
+  appId,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
-  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const walletAddress = useSelector(walletAddressSelector)!
 
-  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
-  const appId = appIdResponse.result
-
-  if (
-    !coinbaseProvider ||
-    coinbaseProvider.restricted ||
-    !coinbasePayEnabled ||
-    !appId ||
-    digitalAsset !== CiCoCurrency.CELO
-  ) {
+  if (!visible) {
     return null
   }
 
@@ -69,7 +57,7 @@ export function CoinbasePaymentSection({
           </View>
 
           <View style={styles.right}>
-            <Image source={{ uri: coinbaseProvider.logo }} style={styles.providerImage} />
+            <Image source={{ uri: coinbaseProvider!.logo }} style={styles.providerImage} />
           </View>
         </View>
       </Touchable>
