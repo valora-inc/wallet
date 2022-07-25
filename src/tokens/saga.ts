@@ -101,6 +101,7 @@ export async function getStableCurrencyFromAddress(tokenAddress: string): Promis
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
+    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
   if (celoContract.address === tokenAddress) {
     return Currency.Celo
@@ -262,7 +263,8 @@ export async function getCurrencyAddress(currency: Currency) {
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
     case Currency.Real:
-      return contractKit.registry.addressFor(CeloContract.StableTokenREAL) //FIXME what is the fallback address?
+      return '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787'
+    // return contractKit.registry.addressFor(CeloContract.StableTokenBRL)
   }
 }
 
