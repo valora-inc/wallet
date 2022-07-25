@@ -32,7 +32,7 @@ import { FeeType } from 'src/fees/reducer'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
 import {
   attemptReturnUserFlowLoadingSelector,
-  cachedFiatAccountsSelector,
+  cachedFiatAccountUsesSelector,
 } from 'src/fiatconnect/selectors'
 import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
@@ -90,7 +90,7 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
-  const cachedFiatAccounts = useSelector(cachedFiatAccountsSelector)
+  const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
   const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
 
   const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
@@ -168,7 +168,7 @@ function FiatExchangeAmount({ route }: Props) {
       fiat: Math.round(inputLocalCurrencyAmount.toNumber()),
     }
 
-    const previousFiatAccount = cachedFiatAccounts.find(
+    const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
         account.cryptoType === currency &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode) &&

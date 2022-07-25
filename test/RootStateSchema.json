@@ -3088,7 +3088,7 @@
                 "quotesLoading": {
                     "type": "boolean"
                 },
-                "recentlyUsedFiatAccounts": {
+                "cachedFiatAccountUses": {
                     "items": {
                         "$ref": "#/definitions/CachedFiatAccountUse"
                     },
@@ -3111,7 +3111,7 @@
                 "quotes",
                 "quotesError",
                 "quotesLoading",
-                "recentlyUsedFiatAccounts",
+                "cachedFiatAccountUses",
                 "transfer"
             ],
             "type": "object"

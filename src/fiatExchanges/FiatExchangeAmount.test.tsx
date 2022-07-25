@@ -480,7 +480,7 @@ describe('FiatExchangeAmount cashOut', () => {
         exchangeRates: usdExchangeRates,
       },
       fiatConnect: {
-        recentlyUsedFiatAccounts: [
+        cachedFiatAccountUses: [
           {
             providerId: 'provider-two',
             fiatAccountId: '123',

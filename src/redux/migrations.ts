@@ -734,7 +734,7 @@ export const migrations = {
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
-      recentlyUsedFiatAccounts: [],
+      cachedFiatAccountUses: [],
       attemptReturnUserFlowLoading: false,
     },
   }),
