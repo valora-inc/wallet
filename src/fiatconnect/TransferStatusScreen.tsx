@@ -21,17 +21,38 @@ import networkConfig from 'src/web3/networkConfig'
 import colors from 'src/styles/colors'
 import { FiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CICOFlow } from 'src/fiatExchanges/utils'
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
-function onBack() {
+function onBack(flow: CICOFlow, provider: string) {
   // TODO: navigate to ReviewFetchScreen once #2699 is merged
+  ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
+    flow,
+    provider,
+  })
   navigateBack()
 }
 
-function FiatConnectWithdrawFailureSection() {
+function FiatConnectWithdrawFailureSection({
+  normalizedQuote,
+  flow,
+}: {
+  normalizedQuote: FiatConnectQuote
+  flow: CICOFlow
+}) {
   const { t } = useTranslation()
 
+  const onPressSupport = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_contact_support, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigate(Screens.SupportContact, {
+      prefilledText: t('fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'),
+    })
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t('fiatConnectStatusScreen.requestNotCompleted.title')}</Text>
@@ -41,7 +62,7 @@ function FiatConnectWithdrawFailureSection() {
       <Button
         style={styles.button}
         testID="TryAgain"
-        onPress={onBack}
+        onPress={() => onBack(flow, normalizedQuote.getProviderId())}
         text={t('fiatConnectStatusScreen.tryAgain')}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
@@ -49,11 +70,7 @@ function FiatConnectWithdrawFailureSection() {
       <Button
         style={styles.button}
         testID="SupportContactLink"
-        onPress={() => {
-          navigate(Screens.SupportContact, {
-            prefilledText: t('fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'),
-          })
-        }}
+        onPress={onPressSupport}
         text={t('contactSupport')}
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
@@ -63,20 +80,37 @@ function FiatConnectWithdrawFailureSection() {
 }
 
 function FiatConnectWithdrawSuccessSection({
+  flow,
   fiatConnectTransfer,
   normalizedQuote,
 }: {
+  flow: CICOFlow
   fiatConnectTransfer: FiatConnectTransfer
   normalizedQuote: FiatConnectQuote
 }) {
   const { t } = useTranslation()
   // TODO: Make sure there's fallback text if we can't get the estimate
   const timeEstimation = normalizedQuote.getTimeEstimation()!
+  const provider = normalizedQuote.getProviderId()
 
   const onPressTxDetails = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_view_tx, {
+      flow,
+      provider,
+      txHash: fiatConnectTransfer?.txHash,
+    })
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTxUrl}${fiatConnectTransfer?.txHash}`,
     })
+  }
+
+  const onPressContinue = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success_complete, {
+      flow,
+      provider,
+      txHash: fiatConnectTransfer?.txHash,
+    })
+    navigateHome()
   }
 
   return (
@@ -99,7 +133,7 @@ function FiatConnectWithdrawSuccessSection({
       <Button
         style={styles.button}
         testID="Continue"
-        onPress={() => navigateHome()}
+        onPress={onPressContinue}
         text={t('fiatConnectStatusScreen.withdraw.success.continue')}
         type={BtnTypes.SECONDARY}
         size={BtnSizes.MEDIUM}
@@ -110,16 +144,26 @@ function FiatConnectWithdrawSuccessSection({
 
 export default function FiatConnectTransferStatusScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
-  const { normalizedQuote } = route.params
+  const { normalizedQuote, flow } = route.params
 
   const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)!
+
+  const onPressCancel = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_cancel, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigateHome()
+  }
 
   if (fiatConnectTransfer.failed) {
     navigation.setOptions({
       ...emptyHeader,
-      headerLeft: () => <BackButton testID="Back" onPress={onBack} />,
+      headerLeft: () => (
+        <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote.getProviderId())} />
+      ),
       headerRight: () => (
-        <TextButton testID="Cancel" style={styles.cancelBtn} onPress={() => navigateHome()}>
+        <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
           {t('fiatConnectStatusScreen.withdraw.cancel')}
         </TextButton>
       ),
@@ -145,9 +189,10 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   return (
     <SafeAreaView style={styles.content}>
       {fiatConnectTransfer.failed ? (
-        <FiatConnectWithdrawFailureSection />
+        <FiatConnectWithdrawFailureSection flow={flow} normalizedQuote={normalizedQuote} />
       ) : (
         <FiatConnectWithdrawSuccessSection
+          flow={flow}
           fiatConnectTransfer={fiatConnectTransfer}
           normalizedQuote={normalizedQuote}
         />
