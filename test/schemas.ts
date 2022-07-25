@@ -14,6 +14,7 @@ import {
   mockCeloAddress,
   mockCeurAddress,
   mockCusdAddress,
+  mockCrealAddress,
   mockTestTokenAddress,
 } from 'test/values'
 
@@ -569,6 +570,7 @@ export const v16Schema = {
     balances: {
       [Currency.Euro]: null,
       [Currency.Dollar]: v15Schema.stableToken.balance ?? null,
+      [Currency.Real]: null,
     },
     balance: undefined,
   },
@@ -657,6 +659,16 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '1.2',
         balance: '20',
+        isCoreToken: true,
+      },
+      [mockCrealAddress]: {
+        name: 'Celo Reales',
+        address: mockCrealAddress,
+        symbol: 'cREAL',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '0.5',
+        balance: '40',
         isCoreToken: true,
       },
       [mockCeloAddress]: {
@@ -821,6 +833,17 @@ export const v25Schema = {
         imageUrl: '',
         usdPrice: '1.2',
         balance: '20',
+        isCoreToken: true,
+        priceFetchedAt: Date.now(),
+      },
+      [mockCrealAddress]: {
+        name: 'Celo Reales',
+        address: mockCrealAddress,
+        symbol: 'cREAL',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '0.5',
+        balance: '40',
         isCoreToken: true,
         priceFetchedAt: Date.now(),
       },
