@@ -5,7 +5,7 @@ import {
   QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
@@ -19,7 +19,7 @@ import {
 } from 'src/localCurrency/convert'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency, resolveCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -130,6 +130,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     })
   }
 
+  getProvider(): FiatConnectProviderInfo {
+    return this.quote.provider
+  }
+
   getProviderName(): string {
     return this.quote.provider.providerName
   }
@@ -162,6 +166,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return resolveCurrency(this.quote.quote.cryptoType)!
   }
 
+  getCicoCryptoType(): CiCoCurrency {
+    return resolveCICOCurrency(this.quote.quote.cryptoType)
+  }
+
   getFiatAccountType(): FiatAccountType {
     return this.fiatAccountType
   }
@@ -176,5 +184,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getQuoteId(): string {
     return this.quote.quote.quoteId
+  }
+
+  getGuaranteedUntil(): string {
+    return this.quote.quote.guaranteedUntil
   }
 }

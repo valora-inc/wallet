@@ -1,9 +1,9 @@
 import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -11,21 +11,27 @@ import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import {
+  fiatConnectQuotesLoadingSelector,
+  fiatConnectQuotesSelector,
+} from 'src/fiatconnect/selectors'
+import { createFiatConnectTransfer, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
-import { navigate } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -34,15 +40,68 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount } = route.params
 
+  const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
+  const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
+
+  const [useOriginalQuote, setUseOriginalQuote] = useState(true)
+  const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
+
+  if (!useOriginalQuote && !fiatConnectQuotes[0]?.ok) {
+    setUseOriginalQuote(true)
+  }
+
+  let quote = normalizedQuote
+  if (!useOriginalQuote && fiatConnectQuotes[0]?.ok) {
+    quote = new FiatConnectQuote({
+      quote: fiatConnectQuotes[0] as FiatConnectQuoteSuccess,
+      fiatAccountType: normalizedQuote.fiatAccountType,
+      flow,
+    })
+  }
+
+  const quoteTimestamp = new Date(quote.getGuaranteedUntil())
+  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
+    setShowingExpiredQuoteDialog(true)
+    setUseOriginalQuote(false)
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.content}>
+      <Dialog
+        testID="expiredQuoteDialog"
+        isVisible={showingExpiredQuoteDialog}
+        title={t('fiatConnectReviewScreen.quoteExpiredDialog.title')}
+        actionText={t('fiatConnectReviewScreen.quoteExpiredDialog.continue')}
+        actionPress={() => {
+          dispatch(
+            fetchFiatConnectQuotes({
+              flow,
+              digitalAsset: normalizedQuote.getCicoCryptoType(),
+              cryptoAmount: parseFloat(normalizedQuote.getCryptoAmount()),
+              provider: normalizedQuote.getProvider(),
+            })
+          )
+          setShowingExpiredQuoteDialog(false)
+          setUseOriginalQuote(false)
+        }}
+      >
+        {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
+      </Dialog>
       <View>
-        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
-        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
+        <ReceiveAmount flow={flow} normalizedQuote={quote} />
+        <TransactionDetails flow={flow} normalizedQuote={quote} />
         <PaymentMethod
-          normalizedQuote={normalizedQuote}
+          normalizedQuote={quote}
           fiatAccount={fiatAccount}
-          fiatAccountSchema={normalizedQuote.getFiatAccountSchema()}
+          fiatAccountSchema={quote.getFiatAccountSchema()}
         />
       </View>
       <Button
@@ -56,21 +115,25 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+          if (quoteTimestamp < new Date()) {
+            setShowingExpiredQuoteDialog(true)
+          } else {
+            ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
 
-          dispatch(
-            createFiatConnectTransfer({
+            dispatch(
+              createFiatConnectTransfer({
+                flow,
+                fiatConnectQuote: quote,
+                fiatAccountId: fiatAccount.fiatAccountId,
+              })
+            )
+
+            navigate(Screens.FiatConnectTransferStatus, {
               flow,
-              fiatConnectQuote: normalizedQuote,
-              fiatAccountId: fiatAccount.fiatAccountId,
+              normalizedQuote: quote,
+              fiatAccount,
             })
-          )
-
-          navigate(Screens.FiatConnectTransferStatus, {
-            flow,
-            normalizedQuote,
-            fiatAccount,
-          })
+          }
         }}
       />
     </SafeAreaView>

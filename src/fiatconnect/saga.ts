@@ -47,14 +47,17 @@ const TAG = 'FiatConnectSaga'
 export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
-  const { flow, digitalAsset, cryptoAmount } = params
+  const { flow, digitalAsset, cryptoAmount, provider } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
-  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
-    fiatConnectProvidersSelector
-  )
+  let fiatConnectProviders: FiatConnectProviderInfo[] | null
+  if (provider) {
+    fiatConnectProviders = [provider]
+  } else {
+    fiatConnectProviders = yield select(fiatConnectProvidersSelector)
+  }
 
   try {
     // null fiatConnectProviders means the providers have never successfully been fetched
@@ -130,7 +133,9 @@ export function* handleCreateFiatConnectTransfer({
 
       const tokenList: TokenBalance[] = yield select(tokensListSelector)
       const tokenInfo = tokenList.find(
-        (token) => token.symbol === fiatConnectQuote.getCryptoType()
+        (token) =>
+          token.symbol === fiatConnectQuote.getCryptoType() ||
+          token.symbol === fiatConnectQuote.getCicoCryptoType()
       )!
 
       const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)

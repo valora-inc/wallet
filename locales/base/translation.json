@@ -1266,6 +1266,11 @@
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
       "transactionDetailsAmountConverted": "Amount Withdrawn"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {

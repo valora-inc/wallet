@@ -36,6 +36,7 @@ export interface FetchQuotesAction {
   flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
+  provider?: FiatConnectProviderInfo
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
