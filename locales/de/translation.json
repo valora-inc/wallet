@@ -387,8 +387,8 @@
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
-  "receivedNft": "Erhaltene NFT",
-  "sentNft": "Gesendet NFT",
+  "receivedNft": "Erhaltenes NFT",
+  "sentNft": "Gesendetes NFT",
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
@@ -1343,7 +1343,7 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}} Guthaben. Versuche es mit einem höheren Betrag oder wähle einen anderen Token."
+    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem höheren Betrag oder wähle einen anderen Token."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
