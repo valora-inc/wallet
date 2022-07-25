@@ -16,6 +16,8 @@ export const cUsdBalanceSelector = (state: RootState) =>
   state.stableToken.balances[Currency.Dollar] ?? null
 export const cEurBalanceSelector = (state: RootState) =>
   state.stableToken.balances[Currency.Euro] ?? null
+export const cRealBalanceSelector = (state: RootState) =>
+  state.stableToken.balances[Currency.Real] ?? null
 
 export const balancesSelector = createSelector<
   RootState,
