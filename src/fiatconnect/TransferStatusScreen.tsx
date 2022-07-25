@@ -43,11 +43,12 @@ function FiatConnectWithdrawFailureSection({
   flow: CICOFlow
 }) {
   const { t } = useTranslation()
+  const provider = normalizedQuote.getProviderId()
 
   const onPressSupport = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_contact_support, {
       flow,
-      provider: normalizedQuote.getProviderId(),
+      provider,
     })
     navigate(Screens.SupportContact, {
       prefilledText: t('fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill'),
@@ -62,7 +63,7 @@ function FiatConnectWithdrawFailureSection({
       <Button
         style={styles.button}
         testID="TryAgain"
-        onPress={() => onBack(flow, normalizedQuote.getProviderId())}
+        onPress={() => onBack(flow, provider)}
         text={t('fiatConnectStatusScreen.tryAgain')}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
