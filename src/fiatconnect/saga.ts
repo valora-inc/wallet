@@ -5,9 +5,13 @@ import {
   FiatConnectClient,
   ResponseError,
 } from '@fiatconnect/fiatconnect-sdk'
-import { GetFiatAccountsResponse, TransferResponse } from '@fiatconnect/fiatconnect-types'
+import {
+  FiatAccountType,
+  GetFiatAccountsResponse,
+  TransferResponse,
+} from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { all, call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
@@ -98,7 +102,7 @@ export function* handleFetchFiatConnectQuotes({
  */
 export function* handleAttemptReturnUserFlow({
   payload: params,
-}: ReturnType<typeof attemptReturnUserFlow>) {
+}: ReturnType<typeof attemptReturnUserFlow>): any {
   const { amount, flow, selectedCrypto, providerId, fiatAccountId, fiatAccountType } = params
   const digitalAsset = {
     [Currency.Celo]: CiCoCurrency.CELO,
@@ -109,41 +113,20 @@ export function* handleAttemptReturnUserFlow({
     fiatConnectProvidersSelector
   )
   try {
-    // Fetch Quote associated with the cached providerId
-    yield put(
-      fetchFiatConnectQuotes({
+    const [normalizedQuote, fiatAccount] = yield all([
+      call(_getQuote, {
         digitalAsset,
         cryptoAmount: amount.crypto,
         flow,
-        providerIds: [providerId],
-      })
-    )
-    const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield select(
-      fiatConnectQuotesSelector
-    )
-    const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
-    const normalizedQuote = normalizedQuotes.find(
-      (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
-    )
-    if (!normalizedQuote) {
-      throw new Error('Could not find quote')
-    }
-    // Get the provider info
-    const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
-    if (!fiatConnectProvider) {
-      throw new Error('Could not find provider')
-    }
-    // Fetch Fiat Account associated with the cached providerId / fiatAccountId
-    const fiatAccounts: FiatAccount[] = yield call(
-      fetchFiatAccountsSaga,
-      providerId,
-      fiatConnectProvider.baseUrl
-    )
-    const fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
-    if (!fiatAccount) {
-      throw new Error('Could not find fiat account')
-    }
-
+        providerId,
+        fiatAccountType,
+      }),
+      call(_getFiatAccount, {
+        fiatConnectProviders,
+        providerId,
+        fiatAccountId,
+      }),
+    ])
     // Successfully found quote and fiatAccount
     yield put(attemptReturnUserFlowCompleted())
     navigate(Screens.FiatConnectReview, {
@@ -166,6 +149,68 @@ export function* handleAttemptReturnUserFlow({
       amount,
     })
   }
+}
+
+function* _getQuote({
+  digitalAsset,
+  cryptoAmount,
+  flow,
+  providerId,
+  fiatAccountType,
+}: {
+  digitalAsset: CiCoCurrency
+  cryptoAmount: number
+  flow: CICOFlow
+  providerId: string
+  fiatAccountType: FiatAccountType
+}) {
+  // Fetch Quote associated with the cached providerId
+  yield put(
+    fetchFiatConnectQuotes({
+      digitalAsset,
+      cryptoAmount,
+      flow,
+      providerIds: [providerId],
+    })
+  )
+  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield select(
+    fiatConnectQuotesSelector
+  )
+  const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
+  const normalizedQuote = normalizedQuotes.find(
+    (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
+  )
+  if (!normalizedQuote) {
+    throw new Error('Could not find quote')
+  }
+  return normalizedQuote
+}
+
+function* _getFiatAccount({
+  fiatConnectProviders,
+  providerId,
+  fiatAccountId,
+}: {
+  fiatConnectProviders: FiatConnectProviderInfo[] | null
+  providerId: string
+  fiatAccountId: string
+}) {
+  // Get the provider info
+  const fiatConnectProvider = fiatConnectProviders?.find((provider) => provider.id === providerId)
+  if (!fiatConnectProvider) {
+    throw new Error('Could not find provider')
+  }
+  // Fetch Fiat Account associated with the cached providerId / fiatAccountId
+  const fiatAccounts: FiatAccount[] = yield call(
+    fetchFiatAccountsSaga,
+    providerId,
+    fiatConnectProvider.baseUrl
+  )
+  const fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
+  if (!fiatAccount) {
+    throw new Error('Could not find fiat account')
+  }
+  return fiatAccount
 }
 
 export function* fetchFiatAccountsSaga(providerId: string, baseUrl: string) {

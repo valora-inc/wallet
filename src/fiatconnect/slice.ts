@@ -126,8 +126,8 @@ export const slice = createSlice({
     fiatAccountUsed: (state, action: PayloadAction<FiatAccountUsedAction>) => {
       state.recentlyUsedFiatAccounts = [
         action.payload,
-        ...state.recentlyUsedFiatAccounts.filter((fiatAccount) =>
-          isEqual(fiatAccount, action.payload)
+        ...state.recentlyUsedFiatAccounts.filter(
+          (fiatAccount) => !isEqual(fiatAccount, action.payload)
         ),
       ]
     },
@@ -187,6 +187,7 @@ export const slice = createSlice({
       quotesLoading: false,
       quotesError: null,
       transfer: null,
+      attemptReturnUserFlowLoading: false,
     }))
   },
 })
