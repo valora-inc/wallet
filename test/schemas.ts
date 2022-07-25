@@ -1468,7 +1468,19 @@ export const v64Schema = {
     }, {}),
   },
 }
+export const v65Schema = {
+  ...v64Schema,
+  _persist: {
+    ...v64Schema._persist,
+    version: 65,
+  },
+  fiatConnect: {
+    ...v64Schema.fiatConnect,
+    cachedFiatAccountUses: [],
+    attemptReturnUserFlowLoading: false,
+  },
+}
 
 export function getLatestSchema(): Partial<RootState> {
-  return v64Schema as Partial<RootState>
+  return v65Schema as Partial<RootState>
 }

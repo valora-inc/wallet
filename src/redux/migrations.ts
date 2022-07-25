@@ -730,4 +730,12 @@ export const migrations = {
     },
   }),
   64: (state: any) => state,
+  65: (state: any) => ({
+    ...state,
+    fiatConnect: {
+      ...state.fiatConnect,
+      cachedFiatAccountUses: [],
+      attemptReturnUserFlowLoading: false,
+    },
+  }),
 }
