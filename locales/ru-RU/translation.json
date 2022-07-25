@@ -387,8 +387,8 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
-  "receivedNft": "Полученный НФТ",
-  "sentNft": "Отправлено NFT",
+  "receivedNft": "Полученный NFT",
+  "sentNft": "Отправленный NFT",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -1114,8 +1114,8 @@
   "transactionHeaderCeloDeposit": "Получен депозит",
   "transactionHeaderCeloReward": "Вознаграждение получено",
   "transactionHeaderEscrowReceived": "Эскроу-платеж получен",
-  "transactionHeaderNftReceived": "Получено НФТ",
-  "transactionHeaderNftSent": "NFT Отправлено",
+  "transactionHeaderNftReceived": "NFT получен",
+  "transactionHeaderNftSent": "NFT отправлен",
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
@@ -1345,9 +1345,9 @@
   "swapScreen": {
     "title": "Обменять",
     "review": "Проверить",
-    "swapFrom": "С сайта",
+    "swapFrom": "От кого",
     "swapTo": "Кому",
-    "insufficientFunds": "Недостаточный баланс {{token}} . Попробуй внести большую сумму или выбери другой токен."
+    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести большую сумму или выберите другой токен."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
