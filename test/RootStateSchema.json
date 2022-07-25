@@ -1649,6 +1649,7 @@
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
                 "FiatConnectReview",
+                "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
                 "FiatExchange",
                 "FiatExchangeAmount",
@@ -2830,6 +2831,19 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "providers": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/FiatConnectProviderInfo"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "quotes": {
                     "items": {
                         "anyOf": [
@@ -3005,6 +3019,7 @@
                 }
             },
             "required": [
+                "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",

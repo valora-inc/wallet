@@ -10,12 +10,21 @@ import {
 } from 'src/app/selectors'
 import { FeeType, State as FeeEstimatesState } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { fetchQuotes, FiatConnectQuoteError, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import {
+  fetchQuotes,
+  FiatConnectProviderInfo,
+  FiatConnectQuoteError,
+  FiatConnectQuoteSuccess,
+  getFiatConnectProviders,
+} from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   createFiatConnectTransfer,
   createFiatConnectTransferCompleted,
   createFiatConnectTransferFailed,
+  fetchFiatConnectProviders,
+  fetchFiatConnectProvidersCompleted,
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
@@ -26,8 +35,8 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
-import { TokenBalance } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -40,14 +49,19 @@ export function* handleFetchFiatConnectQuotes({
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
   const { flow, digitalAsset, cryptoAmount } = params
   const userLocation: UserLocationData = yield select(userLocationDataSelector)
-  const account: string = yield select(currentAccountSelector)!
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
 
   try {
+    // null fiatConnectProviders means the providers have never successfully been fetched
+    if (!fiatConnectProviders) {
+      throw new Error('Error fetching fiatconnect providers')
+    }
     const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
-      account,
       localCurrency,
       digitalAsset,
       cryptoAmount,
@@ -55,16 +69,34 @@ export function* handleFetchFiatConnectQuotes({
       flow,
       fiatConnectCashInEnabled,
       fiatConnectCashOutEnabled,
+      fiatConnectProviders,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
-    Logger.error(TAG, 'Could not parse dapps response', error)
-    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch providers' }))
+    Logger.error(TAG, 'Could not fetch fiatconnect quotes', error)
+    yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
 
 export function* watchFetchFiatConnectQuotes() {
   yield takeLeading(fetchFiatConnectQuotes.type, handleFetchFiatConnectQuotes)
+}
+
+export function* handleFetchFiatConnectProviders() {
+  const account: string = yield select(currentAccountSelector)
+  try {
+    if (!account) {
+      throw new Error('Cannot fetch fiatconnect providers without an account')
+    }
+    const providers: FiatConnectProviderInfo[] = yield call(getFiatConnectProviders, account)
+    yield put(fetchFiatConnectProvidersCompleted({ providers }))
+  } catch (error) {
+    Logger.error(TAG, 'Error in *handleFetchFiatConnectProviders ', error)
+  }
+}
+
+export function* watchFetchFiatConnectProviders() {
+  yield takeLeading(fetchFiatConnectProviders.type, handleFetchFiatConnectProviders)
 }
 
 export function* handleCreateFiatConnectTransfer({
@@ -143,4 +175,5 @@ function* watchFiatConnectTransfers() {
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
+  yield spawn(watchFetchFiatConnectProviders)
 }

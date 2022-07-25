@@ -42,8 +42,8 @@ import {
   useTokenInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
-import { fetchTokenBalances } from 'src/tokens/reducer'
 import { defaultTokenToSendSelector, stablecoinsSelector } from 'src/tokens/selectors'
+import { fetchTokenBalances } from 'src/tokens/slice'
 import { Currency } from 'src/utils/currencies'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
