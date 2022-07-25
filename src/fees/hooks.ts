@@ -47,7 +47,7 @@ export function usePaidFees(fees: Fee[]) {
 // also optionally fetches new fee estimations if the current ones are missing or out of date
 export function useMaxSendAmount(
   tokenAddress: string,
-  feeType: FeeType.SEND | FeeType.INVITE,
+  feeType: FeeType.SEND | FeeType.INVITE | FeeType.SWAP,
   shouldRefresh: boolean = true
 ) {
   const dispatch = useDispatch()
@@ -59,6 +59,7 @@ export function useMaxSendAmount(
     if (!shouldRefresh) return
     const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
     if (
+      (feeType === FeeType.SWAP && balance.gt(0)) ||
       !feeEstimate ||
       feeEstimate.error ||
       feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS

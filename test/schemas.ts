@@ -1449,6 +1449,26 @@ export const v63Schema = {
   },
 }
 
+export const v64Schema = {
+  ...v63Schema,
+  _persist: {
+    ...v63Schema._persist,
+    version: 64,
+  },
+  fees: {
+    ...v63Schema.fees,
+    estimates: Object.entries(v63Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+      return {
+        ...acc,
+        [address]: {
+          ...estimate,
+          swap: undefined,
+        },
+      }
+    }, {}),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v63Schema as Partial<RootState>
+  return v64Schema as Partial<RootState>
 }
