@@ -1114,8 +1114,8 @@
   "transactionHeaderCeloDeposit": "Otrzymano wpłatę",
   "transactionHeaderCeloReward": "Otrzymano nagrodę",
   "transactionHeaderEscrowReceived": "Otrzymano płatność Escrow",
-  "transactionHeaderNftReceived": "Otrzymane NFT",
-  "transactionHeaderNftSent": "NFT Wysłane",
+  "transactionHeaderNftReceived": "NFT otrzymane",
+  "transactionHeaderNftSent": "NFT wysłane",
   "feedSectionHeaderRecent": "Najnowsze",
   "cashInBottomSheet": {
     "title": "Dodaj środki, aby rozpocząć korzystanie z aplikacji Valora!",
@@ -1345,9 +1345,9 @@
   "swapScreen": {
     "title": "Zamieniaj",
     "review": "Analizuj",
-    "swapFrom": "Ze strony .",
+    "swapFrom": "Od",
     "swapTo": "Do",
-    "insufficientFunds": "Niewystarczające saldo {{token}} . Spróbuj wpłacić większą kwotę lub wybierz inny token."
+    "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić większą kwotę lub wybierz inny token."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
