@@ -1114,8 +1114,8 @@
   "transactionHeaderCeloDeposit": "Депозит отримано",
   "transactionHeaderCeloReward": "Отримано винагороду",
   "transactionHeaderEscrowReceived": "Отримано платіж з ескроу-рахунку",
-  "transactionHeaderNftReceived": "Отримано NFT",
-  "transactionHeaderNftSent": "Надіслано NFT",
+  "transactionHeaderNftReceived": "Отриманий NFT",
+  "transactionHeaderNftSent": "Надісланий NFT",
   "feedSectionHeaderRecent": "Нещодавні",
   "cashInBottomSheet": {
     "title": "Поповніть кошти, щоб почати використовувати Valora!",
