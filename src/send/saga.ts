@@ -26,7 +26,8 @@ import {
   sendPaymentOrInviteSuccess,
   ShareQRCodeAction,
 } from 'src/send/actions'
-import { TransactionHub } from 'src/sentry/transactionHub'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { transferStableToken } from 'src/stableToken/actions'
 import {
   BasicTokenTransfer,
@@ -379,11 +380,7 @@ export function* sendPaymentOrInviteSagaLegacy({
 }: SendPaymentOrInviteActionLegacy) {
   try {
     yield call(getConnectedUnlockedAccount)
-    TransactionHub.getInstance().startTransaction({
-      op: 'sendPaymentOrInviteLegacy',
-      name: 'Send Payment or Invite Legacy',
-      trimEnd: true,
-    })
+    SentryTransactionHub.startTransaction(SentrySpan.send_payment_or_invite_legacy)
     const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
       tokensByCurrencySelector
     )
@@ -416,7 +413,7 @@ export function* sendPaymentOrInviteSagaLegacy({
     }
 
     yield put(sendPaymentOrInviteSuccess(amount))
-    TransactionHub.getInstance().finishTransaction('sendPaymentOrInviteLegacy')
+    SentryTransactionHub.finishTransaction(SentrySpan.send_payment_or_invite_legacy)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
     yield put(sendPaymentOrInviteFailure())
@@ -438,11 +435,7 @@ export function* sendPaymentOrInviteSaga({
 }: SendPaymentOrInviteAction) {
   try {
     yield call(getConnectedUnlockedAccount)
-    TransactionHub.getInstance().startTransaction({
-      op: 'sendPaymentOrInvite',
-      name: 'Send Payment or Invite',
-      trimEnd: true,
-    })
+    SentryTransactionHub.startTransaction(SentrySpan.send_payment_or_invite)
     const tokenInfo: TokenBalance | undefined = yield call(getTokenInfo, tokenAddress)
     if (recipient.address) {
       yield call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
@@ -464,7 +457,7 @@ export function* sendPaymentOrInviteSaga({
     }
 
     yield put(sendPaymentOrInviteSuccess(amount))
-    TransactionHub.getInstance().finishTransaction('sendPaymentOrInvite')
+    SentryTransactionHub.finishTransaction(SentrySpan.send_payment_or_invite)
   } catch (e) {
     yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
     yield put(sendPaymentOrInviteFailure())
