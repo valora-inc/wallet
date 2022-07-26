@@ -453,8 +453,8 @@ export enum FiatExchangeEvents {
   // Fiat Connect transfer status screen
   cico_fc_transfer_error_retry = 'cico_fc_transfer_error_retry',
   cico_fc_transfer_error_cancel = 'cico_fc_transfer_error_cancel',
-  cico_fc_transfer_error_contact_support = 'cico_transfer_error_contact_support',
-  cico_fc_transfer_success_complete = 'cico_transfer_success_complete',
+  cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
+  cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
   cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
 }
 
