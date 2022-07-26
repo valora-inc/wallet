@@ -35,29 +35,9 @@ describe('CoinbasePaymentSection', () => {
       coinbaseProvider: mockProviders.find((quote) =>
         quote.paymentMethods.includes(PaymentMethod.Coinbase)
       )!,
-      visible: true,
       appId: FAKE_APP_ID,
     }
     mockStore = createMockStore()
-  })
-  it('shows card if visible prop is true', async () => {
-    mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
-    props.visible = true
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <CoinbasePaymentSection {...props} />
-      </Provider>
-    )
-    expect(queryByText('Coinbase Pay')).toBeTruthy()
-  })
-  it('shows nothing if visible prop is false', async () => {
-    props.visible = false
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <CoinbasePaymentSection {...props} />
-      </Provider>
-    )
-    expect(queryByText('Coinbase Pay')).toBeFalsy()
   })
 
   it('navigates to coinbase flow when card is pressed', async () => {

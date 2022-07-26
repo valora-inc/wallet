@@ -211,12 +211,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
             digitalAsset={digitalAsset}
             flow={flow}
           />
-          <CoinbasePaymentSection
-            cryptoAmount={route.params.amount.crypto}
-            coinbaseProvider={coinbaseProvider}
-            visible={coinbasePayVisible}
-            appId={appId}
-          />
+          {coinbaseProvider && coinbasePayVisible ? (
+            <CoinbasePaymentSection
+              cryptoAmount={route.params.amount.crypto}
+              coinbaseProvider={coinbaseProvider}
+              appId={appId}
+            />
+          ) : null}
           <ExchangesSection
             exchanges={exchanges}
             selectedCurrency={route.params.selectedCrypto}

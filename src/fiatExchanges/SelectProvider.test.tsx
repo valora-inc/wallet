@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { MockStoreEnhanced } from 'redux-mock-store'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -36,7 +35,7 @@ jest.mock('@coinbase/cbpay-js', () => {
 })
 
 jest.mock('src/firebase/firebase', () => ({
-  readOnceFromFirebase: jest.fn(),
+  readOnceFromFirebase: jest.fn().mockResolvedValue(FAKE_APP_ID),
 }))
 
 const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
@@ -137,7 +136,6 @@ describe(SelectProviderScreen, () => {
     await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
   })
   it('shows the provider sections, mobile money, and exchange section', async () => {
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     mocked(fetchProviders).mockResolvedValue(mockProviders)
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     mocked(fetchExchanges).mockResolvedValue(mockExchanges)
@@ -157,7 +155,6 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
   })
   it('shows the limit payment methods dialog when one of the provider types has no options', async () => {
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     mocked(fetchProviders).mockResolvedValue([mockProviders[2]])
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     mocked(fetchExchanges).mockResolvedValue(mockExchanges)
@@ -171,7 +168,6 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.learnMore')).toBeTruthy()
   })
   it('does not show exchange section if no exchanges', async () => {
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     mocked(fetchProviders).mockResolvedValue(mockProviders)
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
     mocked(fetchExchanges).mockResolvedValue([])
@@ -186,7 +182,6 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
   })
   it('shows no payment screen when no providers or exchanges are available', async () => {
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     mocked(fetchProviders).mockResolvedValue([])
     mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue([])
     mocked(fetchExchanges).mockResolvedValue([])
@@ -204,81 +199,41 @@ describe(SelectProviderScreen, () => {
     expect(queryByText('selectProviderScreen.cryptoExchange')).toBeFalsy()
     expect(queryByText('selectProviderScreen.mobileMoney')).toBeFalsy()
   })
-  it('does not show coinbase card if coinbase is restricted and feature flag is false', async () => {
-    const mockProvidersAdjusted = mockProviders
-    mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
-    mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(queryByText('Coinbase Pay')).toBeFalsy()
-  })
-  it('does not show coinbase card if coinbase is not restricted but feature flag is false', async () => {
-    const mockProvidersAdjusted = mockProviders
-    mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
-    mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(queryByText('Coinbase Pay')).toBeFalsy()
-  })
-  it('does not show coinbase card if coinbase is restricted and feature flag is true', async () => {
-    const mockProvidersAdjusted = mockProviders
-    mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
-    mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    mockStore = createMockStore({
-      ...mockStore,
-      app: {
-        coinbasePayEnabled: true,
-      },
-    })
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps()} />
-      </Provider>
-    )
-    expect(queryByText('Coinbase Pay')).toBeFalsy()
-  })
-  it('shows coinbase card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
-    const mockProvidersAdjusted = mockProviders
-    mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
-    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
-    mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
-    mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
-    mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-    mockStore = createMockStore({
-      ...mockStore,
-      app: {
-        coinbasePayEnabled: true,
-      },
-    })
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, Currency.Celo)} />
-      </Provider>
-    )
-    await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
-  })
 
-  restrictedCurrencies.forEach((currency) => {
-    it('does not show coinbase card if ' + currency + ' is selected', async () => {
-      mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
-      mocked(fetchProviders).mockResolvedValue(mockProviders)
+  describe('SelectProviderScreen CBPay Card', () => {
+    beforeEach(() => {
+      jest.useRealTimers()
+      jest.clearAllMocks()
       mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
       mocked(fetchExchanges).mockResolvedValue(mockExchanges)
+    })
+    it('does not show coinbase card if coinbase is restricted and feature flag is false', async () => {
+      const mockProvidersAdjusted = mockProviders
+      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
+      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps()} />
+        </Provider>
+      )
+      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
+    })
+    it('does not show coinbase card if coinbase is not restricted but feature flag is false', async () => {
+      const mockProvidersAdjusted = mockProviders
+      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
+      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps()} />
+        </Provider>
+      )
+      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
+    })
+    it('does not show coinbase card if coinbase is restricted and feature flag is true', async () => {
+      const mockProvidersAdjusted = mockProviders
+      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = true
+      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
       mockStore = createMockStore({
         ...mockStore,
         app: {
@@ -287,10 +242,50 @@ describe(SelectProviderScreen, () => {
       })
       const { queryByText } = render(
         <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, currency)} />
+          <SelectProviderScreen {...mockScreenProps()} />
         </Provider>
       )
-      expect(queryByText('Coinbase Pay')).toBeFalsy()
+      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
     })
+    it('shows coinbase card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
+      const mockProvidersAdjusted = mockProviders
+      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
+      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      mockStore = createMockStore({
+        ...mockStore,
+        app: {
+          coinbasePayEnabled: true,
+        },
+      })
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, Currency.Celo)} />
+        </Provider>
+      )
+      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
+    })
+
+    it.each(restrictedCurrencies)(
+      'does not show coinbase card if %s is selected',
+      async (currency) => {
+        const mockProvidersAdjusted = mockProviders
+        mockProvidersAdjusted.find(
+          (provider) => provider.name === 'CoinbasePay'
+        )!.restricted = false
+        mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+        mockStore = createMockStore({
+          ...mockStore,
+          app: {
+            coinbasePayEnabled: true,
+          },
+        })
+        const { queryByText } = render(
+          <Provider store={mockStore}>
+            <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, currency)} />
+          </Provider>
+        )
+        await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
+      }
+    )
   })
 })

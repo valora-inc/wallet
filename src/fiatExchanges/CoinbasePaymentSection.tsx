@@ -16,23 +16,17 @@ import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface CoinbasePaymentSectionProps {
   cryptoAmount: number
-  coinbaseProvider: FetchProvidersOutput | undefined
-  visible: boolean
+  coinbaseProvider: FetchProvidersOutput
   appId: string
 }
 
 export function CoinbasePaymentSection({
   cryptoAmount,
   coinbaseProvider,
-  visible,
   appId,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)!
-
-  if (!visible) {
-    return null
-  }
 
   // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
   const coinbasePayURL = generateOnRampURL({
@@ -57,7 +51,7 @@ export function CoinbasePaymentSection({
           </View>
 
           <View style={styles.right}>
-            <Image source={{ uri: coinbaseProvider!.logo }} style={styles.providerImage} />
+            <Image source={{ uri: coinbaseProvider.logo }} style={styles.providerImage} />
           </View>
         </View>
       </Touchable>
