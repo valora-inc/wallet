@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -190,65 +190,65 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     exchanges.length ||
     legacyMobileMoneyProviders?.length
 
+  if (!anyProviders) {
+    return (
+      <View style={styles.noPaymentMethodsContainer}>
+        <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
+          {t('noPaymentMethods', {
+            digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag,
+          })}
+        </Text>
+        <TextButton
+          testID={'SwitchCurrency'}
+          style={styles.switchCurrency}
+          onPress={switchCurrencyOnPress}
+        >
+          {t('switchCurrency')}
+        </TextButton>
+        <TextButton
+          testID={'ContactSupport'}
+          style={styles.contactSupport}
+          onPress={supportOnPress}
+        >
+          {t('contactSupport')}
+        </TextButton>
+      </View>
+    )
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      {anyProviders ? (
-        <ScrollView>
-          <PaymentMethodSection
-            normalizedQuotes={normalizedQuotes}
-            paymentMethod={PaymentMethod.Card}
-            setNoPaymentMethods={setNoPaymentMethods}
-            flow={flow}
-          />
-          <PaymentMethodSection
-            normalizedQuotes={normalizedQuotes}
-            paymentMethod={PaymentMethod.Bank}
-            setNoPaymentMethods={setNoPaymentMethods}
-            flow={flow}
-          />
-          <LegacyMobileMoneySection
-            providers={legacyMobileMoneyProviders || []}
-            digitalAsset={digitalAsset}
-            flow={flow}
-          />
-          {coinbaseProvider && coinbasePayVisible ? (
-            <CoinbasePaymentSection
-              cryptoAmount={route.params.amount.crypto}
-              coinbaseProvider={coinbaseProvider}
-              appId={appId}
-            />
-          ) : null}
-          <ExchangesSection
-            exchanges={exchanges}
-            selectedCurrency={route.params.selectedCrypto}
-            flow={flow}
-          />
-          <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
-        </ScrollView>
-      ) : (
-        <View style={styles.noPaymentMethodsContainer}>
-          <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
-            {t('noPaymentMethods', {
-              digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag,
-            })}
-          </Text>
-          <TextButton
-            testID={'SwitchCurrency'}
-            style={styles.switchCurrency}
-            onPress={switchCurrencyOnPress}
-          >
-            {t('switchCurrency')}
-          </TextButton>
-          <TextButton
-            testID={'ContactSupport'}
-            style={styles.contactSupport}
-            onPress={supportOnPress}
-          >
-            {t('contactSupport')}
-          </TextButton>
-        </View>
-      )}
-    </SafeAreaView>
+    <ScrollView>
+      <PaymentMethodSection
+        normalizedQuotes={normalizedQuotes}
+        paymentMethod={PaymentMethod.Card}
+        setNoPaymentMethods={setNoPaymentMethods}
+        flow={flow}
+      />
+      <PaymentMethodSection
+        normalizedQuotes={normalizedQuotes}
+        paymentMethod={PaymentMethod.Bank}
+        setNoPaymentMethods={setNoPaymentMethods}
+        flow={flow}
+      />
+      <LegacyMobileMoneySection
+        providers={legacyMobileMoneyProviders || []}
+        digitalAsset={digitalAsset}
+        flow={flow}
+      />
+      {coinbaseProvider && coinbasePayVisible ? (
+        <CoinbasePaymentSection
+          cryptoAmount={route.params.amount.crypto}
+          coinbaseProvider={coinbaseProvider}
+          appId={appId}
+        />
+      ) : null}
+      <ExchangesSection
+        exchanges={exchanges}
+        selectedCurrency={route.params.selectedCrypto}
+        flow={flow}
+      />
+      <LimitedPaymentMethods visible={noPaymentMethods} flow={flow} />
+    </ScrollView>
   )
 }
 
