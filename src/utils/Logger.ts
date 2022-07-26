@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import * as Sentry from '@sentry/react-native'
+import { SeverityLevel } from '@sentry/types'
 import { format } from 'date-fns'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
@@ -69,7 +70,7 @@ class Logger {
     // prevent genuine network errors from being sent to Sentry
     if (!isNetworkError || (this.isNetworkConnected && isNetworkError)) {
       const captureContext = {
-        level: Sentry.Severity.Error,
+        level: 'error' as SeverityLevel,
         extra: {
           tag,
           // TODO: the toString() can be removed after upgrading TS to v4. It is
