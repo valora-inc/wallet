@@ -241,6 +241,38 @@
             ],
             "type": "string"
         },
+        "CachedFiatAccountUse": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cryptoType",
+                "fiatAccountId",
+                "fiatAccountType",
+                "fiatType",
+                "flow",
+                "providerId"
+            ],
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -706,6 +738,14 @@
                 "DuniaWallet",
                 "IBANNumber",
                 "IFSCAccount",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
                 "MobileMoney"
             ],
             "type": "string"
@@ -2869,6 +2909,15 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "attemptReturnUserFlowLoading": {
+                    "type": "boolean"
+                },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3057,6 +3106,8 @@
                 }
             },
             "required": [
+                "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
                 "providers",
                 "quotes",
                 "quotesError",

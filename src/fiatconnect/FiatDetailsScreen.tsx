@@ -17,6 +17,7 @@ import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { fiatAccountUsed } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -190,6 +191,18 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       if (result.isOk) {
         // TODO Tracking here
         dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        // Record this fiat account as the most recently used
+        const { fiatAccountId, fiatAccountType } = result.value
+        dispatch(
+          fiatAccountUsed({
+            providerId: quote.getProviderId(),
+            fiatAccountId,
+            fiatAccountType,
+            flow,
+            cryptoType: quote.getCryptoType(),
+            fiatType: quote.getFiatType(),
+          })
+        )
         navigate(Screens.FiatConnectReview, {
           flow,
           normalizedQuote: quote,
