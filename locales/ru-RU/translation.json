@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingDescription": "Из-за ошибки вознаграждение за Supercharge было задержано на неделю. Вы получите двойное вознаграждение на следующей неделе. Мы пришлем вам уведомление, когда ваши награды будут готовы к получению.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
