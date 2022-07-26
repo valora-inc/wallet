@@ -189,7 +189,7 @@
     "dismiss": "Ignora"
   },
   "superchargingTitle": "Stai ricevendo ricompense sui tuoi {{token}}",
-  "superchargingDescription": "Ogni settimana riceverai una notifica quando le tue ricompense saranno pronte, torna qui per richiederle.",
+  "superchargingDescription": "A causa di un bug, le ricompense Supercharge sono state posticipate di una settimana. Riceverai una ricompensa doppia la prossima settimana. Vi invieremo una notifica quando le ricompense saranno pronte per essere richieste.",
   "superchargeRewardsAvailable": "Hai {{amount}} {{token}} disponibili per reclamare!",
   "superchargeRewardsAvailableMultipleTokens": "Hai {{amounts}} disponibili per reclamare!",
   "superchargeClaimText": "Richiedi le tue ricompense per aggiungerle al tuo saldo",
