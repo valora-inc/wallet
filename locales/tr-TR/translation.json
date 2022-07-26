@@ -189,7 +189,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingDescription": "Bir hata nedeniyle, Supercharge ödülleri bir hafta ertelendi. Önümüzdeki hafta çifte ödül alacaksınız. Ödülleriniz alınmaya hazır olduğunda size bir bildirim göndereceğiz.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
