@@ -17,19 +17,13 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import { Spacing } from 'src/styles/styles'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
+import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
-export enum Field {
-  FROM = 'FROM',
-  TO = 'TO',
-}
-
+const FETCH_UPDATED_QUOTE_TIMEOUT = 500
 const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
-const DEFAULT_SWAP_AMOUNT: {
-  [Field.FROM]: null | string
-  [Field.TO]: null | string
-} = {
+const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: null,
   [Field.TO]: null,
 }
@@ -40,7 +34,6 @@ export function SwapScreen() {
 
   const coreTokens = useSelector(coreTokensSelector)
 
-  const [exchangeRate, setExchangeRate] = useState<string | null>(null)
   const [toToken, setToToken] = useState(
     coreTokens.find((token) => token.symbol === DEFAULT_TO_TOKEN)
   )
@@ -48,10 +41,12 @@ export function SwapScreen() {
     coreTokens.find((token) => token.symbol === DEFAULT_FROM_TOKEN)
   )
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
+  const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
+  const { exchangeRate, refreshQuote } = useSwapQuote()
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -59,36 +54,38 @@ export function SwapScreen() {
 
   useEffect(() => {
     setFromSwapAmountError(false)
+    const debouncedRefreshQuote = setTimeout(() => {
+      const isExchangeRateRefreshed =
+        exchangeRate &&
+        new BigNumber(swapAmount[Field.FROM] ?? 0)
+          .multipliedBy(new BigNumber(exchangeRate))
+          .toString() === swapAmount[Field.TO]
+      if (toToken && fromToken && !isExchangeRateRefreshed) {
+        void refreshQuote(fromToken, toToken, swapAmount, updatedField)
+      }
+    }, FETCH_UPDATED_QUOTE_TIMEOUT)
+
+    return () => {
+      clearTimeout(debouncedRefreshQuote)
+    }
   }, [fromToken, toToken, swapAmount])
 
   useEffect(() => {
-    setExchangeRate(null)
-    // mimic delay when fetching real exchange rate
-    setTimeout(() => {
-      setExchangeRate(fromToken?.symbol === 'cEUR' ? '7.123' : '3.325')
-    }, 1000)
-  }, [toToken, fromToken])
-
-  useEffect(() => {
-    setSwapAmount((prev) => {
-      // when the token pair changes, we use the updated exchange rate to
-      // calculate the "to" value except when only the "to" value is present
-      if (!prev[Field.FROM] && prev[Field.TO]) {
-        return {
-          ...prev,
-          [Field.FROM]: exchangeRate
-            ? new BigNumber(prev[Field.TO] ?? 0).dividedBy(exchangeRate).toString()
-            : null,
-        }
-      }
-      return {
+    if (updatedField === Field.TO && swapAmount[updatedField]) {
+      setSwapAmount((prev) => ({
         ...prev,
-        [Field.TO]:
-          exchangeRate && prev[Field.FROM]
-            ? new BigNumber(prev[Field.FROM] ?? 0).multipliedBy(exchangeRate).toString()
-            : null,
-      }
-    })
+        [Field.FROM]: exchangeRate
+          ? new BigNumber(prev[updatedField]!).dividedBy(new BigNumber(exchangeRate)).toString()
+          : null,
+      }))
+    } else if (updatedField === Field.FROM && swapAmount[updatedField]) {
+      setSwapAmount((prev) => ({
+        ...prev,
+        [Field.TO]: exchangeRate
+          ? new BigNumber(prev[updatedField]!).multipliedBy(new BigNumber(exchangeRate)).toString()
+          : null,
+      }))
+    }
   }, [exchangeRate])
 
   const handleReview = () => {
@@ -141,26 +138,21 @@ export function SwapScreen() {
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
     if (!value) {
       setSwapAmount(DEFAULT_SWAP_AMOUNT)
-    } else if (fieldType === Field.FROM) {
-      setSwapAmount({
-        [Field.FROM]: value,
-        [Field.TO]: exchangeRate
-          ? new BigNumber(value).multipliedBy(exchangeRate).toString()
-          : null,
-      })
-    } else if (fieldType === Field.TO) {
-      setSwapAmount({
-        [Field.TO]: value,
-        [Field.FROM]: exchangeRate ? new BigNumber(value).dividedBy(exchangeRate).toString() : null,
-      })
+    } else {
+      setUpdatedField(fieldType)
+      setSwapAmount((prev) => ({
+        ...prev,
+        [fieldType]: value,
+      }))
     }
   }
 
   const handleSetMaxFromAmount = () => {
-    setSwapAmount({
+    setUpdatedField(Field.FROM)
+    setSwapAmount((prev) => ({
+      ...prev,
       [Field.FROM]: maxFromAmount.toString(),
-      [Field.TO]: exchangeRate ? maxFromAmount.multipliedBy(exchangeRate).toString() : null,
-    })
+    }))
   }
 
   const allowReview = useMemo(
@@ -194,12 +186,12 @@ export function SwapScreen() {
             label={t('swapScreen.swapFrom')}
             onInputChange={handleChangeAmount(Field.FROM)}
             inputValue={swapAmount[Field.FROM]}
-            onPressMax={handleSetMaxFromAmount}
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
+            style={styles.fromSwapAmountInput}
             autoFocus
             inputError={fromSwapAmountError}
-            style={styles.fromSwapAmountInput}
+            onPressMax={handleSetMaxFromAmount}
           />
           <SwapAmountInput
             label={t('swapScreen.swapTo')}
