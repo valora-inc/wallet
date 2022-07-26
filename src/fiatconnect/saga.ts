@@ -11,7 +11,7 @@ import {
   TransferResponse,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
@@ -41,6 +41,7 @@ import {
   FiatAccount,
   fiatAccountUsed,
   selectFiatConnectQuote,
+  selectFiatConnectQuoteCompleted,
 } from 'src/fiatconnect/slice'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -229,6 +230,7 @@ export function* handleSelectFiatConnectQuote({
   const { quote } = params
   try {
     // Check for an existing fiatAccount and navigate to Review if we find one
+    // TODO: Also verify that fiatSchemaType matches once it is added to the fiatAccount spec
     const fiatAccount: FiatAccount = yield call(_getFiatAccount, {
       fiatConnectProviders: [quote.quote.provider],
       providerId: quote.getProviderId(),
@@ -250,6 +252,8 @@ export function* handleSelectFiatConnectQuote({
       normalizedQuote: quote,
       fiatAccount,
     })
+    yield delay(500) // to avoid a screen flash
+    yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {
     // Ignore error and navigate to FiatDetails screen.
     // This is expected when the user has not yet created a fiatAccount with the provider
@@ -257,6 +261,8 @@ export function* handleSelectFiatConnectQuote({
       quote,
       flow: quote.flow,
     })
+    yield delay(500) // to avoid a screen flash
+    yield put(selectFiatConnectQuoteCompleted())
   }
 }
 

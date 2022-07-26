@@ -9,5 +9,7 @@ export const cachedFiatAccountUsesSelector = (state: RootState) =>
   state.fiatConnect.cachedFiatAccountUses
 export const attemptReturnUserFlowLoadingSelector = (state: RootState) =>
   state.fiatConnect.attemptReturnUserFlowLoading
+export const selectFiatConnectQuoteLoadingSelector = (state: RootState) =>
+  state.fiatConnect.selectFiatConnectQuoteLoading
 export const fiatConnectTransferSelector = (state: RootState) => state.fiatConnect.transfer
 export const fiatConnectProvidersSelector = (state: RootState) => state.fiatConnect.providers

@@ -31,6 +31,7 @@ import {
   fetchFiatConnectQuotesFailed,
   fiatAccountUsed,
   selectFiatConnectQuote,
+  selectFiatConnectQuoteCompleted,
 } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
@@ -173,6 +174,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: FiatAccountType.BankAccount,
       flow: CICOFlow.CashOut,
     })
+    const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
     it('navigates to fiatDetails screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
         fiatAccountId: '123',
@@ -192,7 +194,9 @@ describe('Fiatconnect saga', () => {
       )
         .provide([
           [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+          { call: provideDelay },
         ])
+        .put(selectFiatConnectQuoteCompleted())
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.FiatDetailsScreen, {
         quote: normalizedQuote,
@@ -218,6 +222,7 @@ describe('Fiatconnect saga', () => {
       )
         .provide([
           [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+          { call: provideDelay },
         ])
         .put(
           fiatAccountUsed({
@@ -229,6 +234,7 @@ describe('Fiatconnect saga', () => {
             fiatType: normalizedQuote.getFiatType(),
           })
         )
+        .put(selectFiatConnectQuoteCompleted())
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         normalizedQuote,

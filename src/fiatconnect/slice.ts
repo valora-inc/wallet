@@ -30,6 +30,7 @@ export interface State {
   providers: FiatConnectProviderInfo[] | null
   cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
+  selectFiatConnectQuoteLoading: boolean
 }
 
 const initialState: State = {
@@ -40,6 +41,7 @@ const initialState: State = {
   providers: null,
   cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
+  selectFiatConnectQuoteLoading: false,
 }
 
 export type FiatAccount = ObfuscatedFiatAccountData & {
@@ -138,7 +140,10 @@ export const slice = createSlice({
       state.attemptReturnUserFlowLoading = false
     },
     selectFiatConnectQuote: (state, action: PayloadAction<{ quote: FiatConnectQuote }>) => {
-      // no state update
+      state.selectFiatConnectQuoteLoading = true
+    },
+    selectFiatConnectQuoteCompleted: (state) => {
+      state.selectFiatConnectQuoteLoading = false
     },
     createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
@@ -191,6 +196,7 @@ export const slice = createSlice({
       quotesError: null,
       transfer: null,
       attemptReturnUserFlowLoading: false,
+      selectFiatConnectQuoteLoading: false,
     }))
   },
 })
@@ -203,6 +209,7 @@ export const {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
   selectFiatConnectQuote,
+  selectFiatConnectQuoteCompleted,
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,
