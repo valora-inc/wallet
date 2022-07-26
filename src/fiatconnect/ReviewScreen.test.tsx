@@ -52,13 +52,11 @@ function getProps(
 }
 
 describe('ReviewScreen', () => {
-  const store = createMockStore()
-
   describe('cashIn', () => {
     it('throws not implemented', () => {
       expect(() => {
         render(
-          <Provider store={store}>
+          <Provider store={createMockStore()}>
             <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, true)} />
           </Provider>
         )
@@ -69,7 +67,7 @@ describe('ReviewScreen', () => {
   describe('cashOut', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
-        <Provider store={store}>
+        <Provider store={createMockStore()}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, true, CryptoType.cEUR)} />
         </Provider>
       )
@@ -91,7 +89,7 @@ describe('ReviewScreen', () => {
 
     it('shows fiat amount, transaction details and payment method without fee', () => {
       const { queryByTestId, queryByText } = render(
-        <Provider store={store}>
+        <Provider store={createMockStore()}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut)} />
         </Provider>
       )
@@ -111,11 +109,15 @@ describe('ReviewScreen', () => {
       ])
     })
 
-    it('shows review screen when quote is expired', async () => {
+    it('shows expired dialog when quote is expired', async () => {
       const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, -1)
-      const expiredMockStore = createMockStore()
+      const store = createMockStore({
+        fiatConnect: {
+          quotes: [_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess],
+        },
+      })
       const { getByTestId, queryByTestId } = render(
-        <Provider store={expiredMockStore}>
+        <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
         </Provider>
       )
@@ -124,7 +126,7 @@ describe('ReviewScreen', () => {
 
       await fireEvent.press(getByTestId('expiredQuoteDialog/PrimaryAction'))
 
-      expect(expiredMockStore.getActions()).toEqual([
+      expect(store.getActions()).toEqual([
         fetchFiatConnectQuotes({
           flow: CICOFlow.CashOut,
           digitalAsset: CiCoCurrency.CUSD,
@@ -135,9 +137,10 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
     })
 
-    it('shows review screen when submitting expired quote', async () => {
+    it('shows expired dialog when submitting expired quote', async () => {
       const expirySecs = 1
       const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expirySecs)
+      const store = createMockStore()
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
@@ -155,7 +158,7 @@ describe('ReviewScreen', () => {
 
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
-
+      const store = createMockStore()
       const { getByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
