@@ -2912,6 +2912,12 @@
                 "attemptReturnUserFlowLoading": {
                     "type": "boolean"
                 },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3088,12 +3094,6 @@
                 "quotesLoading": {
                     "type": "boolean"
                 },
-                "recentlyUsedFiatAccounts": {
-                    "items": {
-                        "$ref": "#/definitions/CachedFiatAccountUse"
-                    },
-                    "type": "array"
-                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3107,11 +3107,11 @@
             },
             "required": [
                 "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
                 "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",
-                "recentlyUsedFiatAccounts",
                 "transfer"
             ],
             "type": "object"

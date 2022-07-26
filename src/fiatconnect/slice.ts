@@ -28,7 +28,7 @@ export interface State {
   quotesError: string | null
   transfer: FiatConnectTransfer | null
   providers: FiatConnectProviderInfo[] | null
-  recentlyUsedFiatAccounts: CachedFiatAccountUse[]
+  cachedFiatAccountUses: CachedFiatAccountUse[]
   attemptReturnUserFlowLoading: boolean
 }
 
@@ -38,7 +38,7 @@ const initialState: State = {
   quotesError: null,
   transfer: null,
   providers: null,
-  recentlyUsedFiatAccounts: [],
+  cachedFiatAccountUses: [],
   attemptReturnUserFlowLoading: false,
 }
 
@@ -124,9 +124,9 @@ export const slice = createSlice({
       state.quotesError = action.payload.error
     },
     fiatAccountUsed: (state, action: PayloadAction<FiatAccountUsedAction>) => {
-      state.recentlyUsedFiatAccounts = [
+      state.cachedFiatAccountUses = [
         action.payload,
-        ...state.recentlyUsedFiatAccounts.filter(
+        ...state.cachedFiatAccountUses.filter(
           (fiatAccount) => !isEqual(fiatAccount, action.payload)
         ),
       ]

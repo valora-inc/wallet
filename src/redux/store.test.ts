@@ -219,11 +219,11 @@ describe('store state', () => {
         },
         "fiatConnect": Object {
           "attemptReturnUserFlowLoading": false,
+          "cachedFiatAccountUses": Array [],
           "providers": null,
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,
-          "recentlyUsedFiatAccounts": Array [],
           "transfer": null,
         },
         "fiatExchanges": Object {
