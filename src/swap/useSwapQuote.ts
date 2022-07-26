@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
+import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -19,6 +20,7 @@ export type SwapAmount = {
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const [exchangeRate, setExchangeRate] = useState<string | null>(null)
+  const [hasError, setHasError] = useState(false)
 
   const refreshQuote = async (
     fromToken: TokenBalance,
@@ -26,6 +28,8 @@ const useSwapQuote = () => {
     swapAmount: SwapAmount,
     updatedField: Field
   ) => {
+    setHasError(false)
+
     if (!swapAmount[updatedField]) {
       setExchangeRate(null)
       return
@@ -39,18 +43,29 @@ const useSwapQuote = () => {
         swapAmount[updatedField]!
       ).toString()}&userAddress=${walletAddress}`
     )
-    const quote = await quoteResponse.json()
-    const swapPrice = quote.unvalidatedSwapTransaction.price
-    setExchangeRate(
-      updatedField === Field.FROM
-        ? swapPrice
-        : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
-    )
+
+    if (quoteResponse.ok) {
+      const quote = await quoteResponse.json()
+      const swapPrice = quote.unvalidatedSwapTransaction.price
+      setExchangeRate(
+        updatedField === Field.FROM
+          ? swapPrice
+          : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
+      )
+    } else {
+      setHasError(true)
+      Logger.warn(
+        'SwapScreen@useSwapQuote',
+        'error from approve swap url',
+        await quoteResponse.text()
+      )
+    }
   }
 
   return {
     exchangeRate,
     refreshQuote,
+    hasError,
   }
 }
 
