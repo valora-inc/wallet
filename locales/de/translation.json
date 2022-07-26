@@ -189,7 +189,7 @@
     "dismiss": "Verwerfen"
   },
   "superchargingTitle": "Dein {{token}} wird aufgeladen",
-  "superchargingDescription": "Du erhältst jede Woche eine Benachrichtigung, wenn deine Rewards bereit sind – komm hierher zurück, um sie in Anspruch zu nehmen.",
+  "superchargingDescription": "Aufgrund eines Fehlers wurden die Supercharge-Belohnungen um eine Woche verschoben. Du wirst nächste Woche eine doppelte Reward erhalten. Wir werden dich benachrichtigen, wenn du deine Rewards beanspruchen können.",
   "superchargeRewardsAvailable": "Du hast {{amount}} {{token}} verfügbar zum Abholen!",
   "superchargeRewardsAvailableMultipleTokens": "Du hast {{amounts}} verfügbar zum Abholen!",
   "superchargeClaimText": "Beanspruche deine Rewards, um sie deinem Guthaben hinzuzufügen.",
