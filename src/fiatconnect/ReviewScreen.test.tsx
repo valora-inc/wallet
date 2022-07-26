@@ -3,7 +3,7 @@ import {
   FiatAccountType,
   ObfuscatedFiatAccountData,
 } from '@fiatconnect/fiatconnect-types'
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -154,6 +154,35 @@ describe('ReviewScreen', () => {
 
       expect(store.getActions().length).toEqual(0)
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
+    })
+
+    it('can submit transaction after expired dialog', async () => {
+      const expirySecs = -1
+      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expirySecs)
+      const validQuote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      const expiredQuote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      expiredQuote.quote.guaranteedUntil = new Date(Date.now() - 1).toISOString()
+      const store = createMockStore({
+        fiatConnect: {
+          quotes: [validQuote],
+        },
+      })
+      console.log(store.getState().fiatConnect.quotes)
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
+
+      await fireEvent.press(getByTestId('expiredQuoteDialog/PrimaryAction'))
+
+      expect(store.getActions().length).toEqual(1)
+      expect(store.getActions()[0].type).toEqual('fiatConnect/fetchFiatConnectQuotes')
+
+      await waitFor(() => expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(false))
     })
 
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
