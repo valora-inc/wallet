@@ -46,10 +46,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const [useOriginalQuote, setUseOriginalQuote] = useState(true)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
 
-  if (!useOriginalQuote && !fiatConnectQuotes[0].ok) {
-    setUseOriginalQuote(true)
-  }
-
   let quote = normalizedQuote
   if (!useOriginalQuote && fiatConnectQuotes[0].ok) {
     quote = new FiatConnectQuote({
