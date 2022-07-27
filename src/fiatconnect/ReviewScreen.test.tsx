@@ -17,7 +17,6 @@ import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
-import { setTimeout } from 'timers/promises'
 
 function getProps(
   flow: CICOFlow,
@@ -134,25 +133,6 @@ describe('ReviewScreen', () => {
           providerIds: [mockFiatConnectQuotes[1].provider.id],
         }),
       ])
-      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
-    })
-
-    it('shows expired dialog when submitting expired quote', async () => {
-      const expirySecs = 1
-      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expirySecs)
-      const store = createMockStore()
-      const { getByTestId, queryByTestId } = render(
-        <Provider store={store}>
-          <FiatConnectReviewScreen {...mockProps} />
-        </Provider>
-      )
-
-      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(false)
-
-      await setTimeout(expirySecs * 1000)
-      await fireEvent.press(getByTestId('submitButton'))
-
-      expect(store.getActions().length).toEqual(0)
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
     })
 
