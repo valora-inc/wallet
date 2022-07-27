@@ -51,8 +51,8 @@ export const PincodeEnter = ({ route }: Props) => {
     const onSuccess = route.params.onSuccess
     if (onSuccess) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
-      SentryTransactionHub.finishTransaction(SentrySpan.pincode_enter)
       onSuccess(pin)
+      SentryTransactionHub.finishTransaction(SentrySpan.pincode_enter)
     }
   }
 
