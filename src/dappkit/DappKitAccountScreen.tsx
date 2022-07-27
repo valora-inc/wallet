@@ -12,6 +12,8 @@ import { DappConnectInfo } from 'src/dapps/types'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
@@ -42,6 +44,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
       return
     }
     dispatch(approveAccountAuth(dappKitRequest))
+    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_connection)
   }
 
   const handleCancel = async () => {
@@ -52,6 +55,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
     if (await isBottomSheetVisible(Screens.DappKitAccountScreen)) {
       navigateBack()
     }
+    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_connection)
   }
 
   return (

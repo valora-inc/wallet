@@ -7,6 +7,8 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Logo from 'src/icons/Logo'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -51,10 +53,12 @@ function RequestContent({
 
   const handleAccept = () => {
     setIsAccepting(true)
+    SentryTransactionHub.finishTransaction(SentrySpan.wallet_connect_connection)
   }
 
   const handleDeny = () => {
     setIsDenying(true)
+    SentryTransactionHub.finishTransaction(SentrySpan.wallet_connect_connection)
   }
 
   useEffect(() => {

@@ -20,6 +20,8 @@ import i18n from 'src/i18n'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { getWeb3 } from 'src/web3/contracts'
@@ -184,6 +186,7 @@ export function* handleDappkitDeepLink(deeplink: string) {
           DappKitEvents.dappkit_request_propose,
           getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
+        SentryTransactionHub.startTransaction(SentrySpan.dappkit_connection)
         navigate(Screens.DappKitAccountScreen, { dappKitRequest })
         break
       case DappKitRequestTypes.SIGN_TX:
@@ -191,6 +194,7 @@ export function* handleDappkitDeepLink(deeplink: string) {
           DappKitEvents.dappkit_request_propose,
           getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
+        SentryTransactionHub.startTransaction(SentrySpan.dappkit_transaction)
         navigate(Screens.DappKitSignTxScreen, { dappKitRequest })
         break
       default:

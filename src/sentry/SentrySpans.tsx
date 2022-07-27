@@ -4,17 +4,29 @@ interface SentrySpanInfo {
 }
 
 export enum SentrySpan {
+  dappkit_connection = 'DappKitConnection',
+  dappkit_transaction = 'DappKitTransaction',
   fetch_balances = 'FetchBalances',
   import_contacts = 'ImportContacts',
   pincode_enter = 'PincodeEnter',
   pincode_set = 'PincodeSet',
   send_payment_or_invite = 'SendPaymentOrInvite',
   send_payment_or_invite_legacy = 'SendPaymentOrInviteLegacy',
+  wallet_connect_connection = 'WalletConnectConnection',
+  wallet_connect_transaction = 'WalletConnectTransaction',
 }
 
 type values = typeof SentrySpan[keyof typeof SentrySpan]
 
 export const SentrySpans: Record<values, SentrySpanInfo> = {
+  DappKitConnection: {
+    name: 'DappKitConnection',
+    op: 'dappkit_connection',
+  },
+  DappKitTransaction: {
+    name: 'DappKitTransaction',
+    op: 'dappkit_transaction',
+  },
   FetchBalances: {
     name: 'Fetch Balances',
     op: 'fetch_balances',
@@ -38,5 +50,13 @@ export const SentrySpans: Record<values, SentrySpanInfo> = {
   PincodeSet: {
     name: 'Pincode Set',
     op: 'pincode_set',
+  },
+  WalletConnectConnection: {
+    name: 'Wallet Connect Connection',
+    op: 'wallet_connect_connection',
+  },
+  WalletConnectTransaction: {
+    name: 'Wallet Connect Transaction',
+    op: 'wallet_connect_transaction',
   },
 }
