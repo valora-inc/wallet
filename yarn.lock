@@ -3264,6 +3264,11 @@
   resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-6.0.0.tgz#ce458140a5af589248460c5270e29aeddc27cf28"
   integrity sha512-rBYe2Mbjyw6WlP6GY2BzY7jac/aP4VxccDJzbCFkx17aYqj724Bj2yLhBeF9znL44sQoAuYLJeyT0f80xGQR2w==
 
+"@fiatconnect/fiatconnect-types@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-6.1.0.tgz#9d9ef7eefa7fdccfba73c1ca2ed3849c17f3cc67"
+  integrity sha512-1SlJeHlH70AvASCuEGcdB/h5+AmParZ/+dcxtAJc8s2da14KMpP4q8+rDXtsSrkaNpwHM7Ec+7cs+7gZ5bCfhw==
+
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.8.1.tgz#1313c55bb66df88f69bf7c828135fae25fbd2036"
