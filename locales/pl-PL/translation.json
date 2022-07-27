@@ -189,7 +189,7 @@
     "dismiss": "Odrzuć"
   },
   "superchargingTitle": "Twoje tokeny {{token}} biorą udział w programie Supercharge",
-  "superchargingDescription": "Z powodu błędu, nagrody Supercharge zostały opóźnione o tydzień. W przyszłym tygodniu otrzymasz podwójną nagrodę. Wyślemy Ci powiadomienie, gdy nagrody będą gotowe do odebrania.",
+  "superchargingDescription": "Otrzymujesz {{apy}}% rocznie. Co tydzień otrzymasz powiadomienie, gdy nagrody będą gotowe. Wróć tutaj, aby je odebrać.",
   "superchargeRewardsAvailable": "Masz {{amount}} {{token}} dostępne do odbioru!",
   "superchargeRewardsAvailableMultipleTokens": "Masz {{amounts}} dostępne do odbioru!",
   "superchargeClaimText": "Odbierz nagrody, aby dodać je do swojego salda.",
