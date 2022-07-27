@@ -387,8 +387,6 @@
   "paste": "Colar",
   "choose": "Escolher",
   "receivedPayment": "Pagamento recebido",
-  "receivedNft": "NFT recebido",
-  "sentNft": "NFT enviado",
   "getStarted": "Começar",
   "manageCeloDollars": "Gerenciar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -1110,8 +1108,6 @@
   "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
-  "transactionHeaderNftReceived": "NFT recebido",
-  "transactionHeaderNftSent": "NFT enviado",
   "feedSectionHeaderRecent": "Recente",
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
