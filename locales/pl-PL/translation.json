@@ -387,8 +387,6 @@
   "paste": "Wklej",
   "choose": "Wybierz",
   "receivedPayment": "Otrzymana płatność",
-  "receivedNft": "NFT otrzymane",
-  "sentNft": "NFT wysłane",
   "getStarted": "Rozpocznij",
   "manageCeloDollars": "Zarządzaj Celo Dolarami",
   "sendCeloDollars": "Wyślij Celo Dolary",
@@ -1114,8 +1112,6 @@
   "transactionHeaderCeloDeposit": "Otrzymano wpłatę",
   "transactionHeaderCeloReward": "Otrzymano nagrodę",
   "transactionHeaderEscrowReceived": "Otrzymano płatność Escrow",
-  "transactionHeaderNftReceived": "NFT otrzymane",
-  "transactionHeaderNftSent": "NFT wysłane",
   "feedSectionHeaderRecent": "Najnowsze",
   "cashInBottomSheet": {
     "title": "Dodaj środki, aby rozpocząć korzystanie z aplikacji Valora!",
