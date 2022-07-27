@@ -131,7 +131,7 @@ describe('ReviewScreen', () => {
           flow: CICOFlow.CashOut,
           digitalAsset: CiCoCurrency.CUSD,
           cryptoAmount: 100,
-          provider: mockFiatConnectQuotes[1].provider,
+          providerIds: [mockFiatConnectQuotes[1].provider.id],
         }),
       ])
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)

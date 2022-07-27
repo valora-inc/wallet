@@ -67,12 +67,9 @@ export function* handleFetchFiatConnectQuotes({
   const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
   const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
   const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
-  let fiatConnectProviders: FiatConnectProviderInfo[] | null
-  if (provider) {
-    fiatConnectProviders = [provider]
-  } else {
-    fiatConnectProviders = yield select(fiatConnectProvidersSelector)
-  }
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
 
   try {
     // null fiatConnectProviders means the providers have never successfully been fetched

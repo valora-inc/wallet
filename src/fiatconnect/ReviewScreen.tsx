@@ -82,7 +82,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
               flow,
               digitalAsset: normalizedQuote.getCicoCryptoType(),
               cryptoAmount: parseFloat(normalizedQuote.getCryptoAmount()),
-              provider: normalizedQuote.getProvider(),
+              providerIds: [normalizedQuote.getProviderId()],
             })
           )
           setShowingExpiredQuoteDialog(false)
