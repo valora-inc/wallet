@@ -387,8 +387,6 @@
   "paste": "Incolla",
   "choose": "Scegli",
   "receivedPayment": "Pagamento ricevuto",
-  "receivedNft": "NFT ricevuto",
-  "sentNft": "NFT inviato",
   "getStarted": "Inizia",
   "manageCeloDollars": "Gestisci Celo Dollar",
   "sendCeloDollars": "Invia Celo Dollar",
@@ -1110,8 +1108,6 @@
   "transactionHeaderCeloDeposit": "Deposito ricevuto",
   "transactionHeaderCeloReward": "Ricompensa ricevuta",
   "transactionHeaderEscrowReceived": "Pagamento per deposito in garanzia ricevuto",
-  "transactionHeaderNftReceived": "NFT ricevuto",
-  "transactionHeaderNftSent": "NFT inviato",
   "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
     "title": "Aggiungi fondi per iniziare a usare Valora!",
