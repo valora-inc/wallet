@@ -5,7 +5,7 @@ import {
   QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
@@ -129,10 +129,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
       quote: this,
       flow,
     })
-  }
-
-  getProvider(): FiatConnectProviderInfo {
-    return this.quote.provider
   }
 
   getProviderName(): string {
