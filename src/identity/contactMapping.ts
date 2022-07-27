@@ -43,6 +43,8 @@ import {
 import { ImportContactsStatus } from 'src/identity/types'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
 import { checkContactsPermission } from 'src/utils/permissions'
@@ -93,6 +95,7 @@ function* doImportContacts(doMatchmaking: boolean) {
 
   ValoraAnalytics.track(IdentityEvents.contacts_import_start)
 
+  SentryTransactionHub.startTransaction(SentrySpan.import_contacts)
   yield put(updateImportContactsProgress(ImportContactsStatus.Importing))
 
   const contacts: MinimalContact[] = yield call(getAllContacts)
@@ -128,6 +131,7 @@ function* doImportContacts(doMatchmaking: boolean) {
   ValoraAnalytics.track(IdentityEvents.contacts_matchmaking_complete, {
     matchCount: Object.keys(matchContacts).length,
   })
+  SentryTransactionHub.finishTransaction(SentrySpan.import_contacts)
   return true
 }
 
