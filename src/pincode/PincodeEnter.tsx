@@ -17,6 +17,8 @@ import { StackParamList } from 'src/navigator/types'
 import { checkPin } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
 import useSelector from 'src/redux/useSelector'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.PincodeEnter>
@@ -30,6 +32,7 @@ export const PincodeEnter = ({ route }: Props) => {
 
   useEffect(() => {
     ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_start)
+    SentryTransactionHub.startTransaction(SentrySpan.pincode_enter)
     return () => {
       const onCancel = route.params.onCancel
       if (onCancel && !pinIsCorrect) {
@@ -48,6 +51,7 @@ export const PincodeEnter = ({ route }: Props) => {
     const onSuccess = route.params.onSuccess
     if (onSuccess) {
       ValoraAnalytics.track(AuthenticationEvents.get_pincode_with_input_complete)
+      SentryTransactionHub.finishTransaction(SentrySpan.pincode_enter)
       onSuccess(pin)
     }
   }
