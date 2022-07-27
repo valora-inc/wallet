@@ -387,6 +387,8 @@
   "paste": "Incolla",
   "choose": "Scegli",
   "receivedPayment": "Pagamento ricevuto",
+  "receivedNft": "Ricevuto NFT",
+  "sentNft": "Inviato NFT",
   "getStarted": "Inizia",
   "manageCeloDollars": "Gestisci Celo Dollar",
   "sendCeloDollars": "Invia Celo Dollar",
@@ -685,7 +687,7 @@
   },
   "congratsVerified": "Congratulazioni, il tuo numero telefonico è ora collegato!",
   "notification": {
-    "body": "Connect your number to claim funds and connect to friends",
+    "body": "Collega il tuo numero per richiedere fondi e connetterti agli amici",
     "cta": "Collega ora"
   },
   "quotaLookup": {
@@ -1109,6 +1111,8 @@
   "transactionHeaderCeloDeposit": "Deposito ricevuto",
   "transactionHeaderCeloReward": "Ricompensa ricevuta",
   "transactionHeaderEscrowReceived": "Pagamento per deposito in garanzia ricevuto",
+  "transactionHeaderNftReceived": "NFT ricevuto",
+  "transactionHeaderNftSent": "NFT Inviato",
   "feedSectionHeaderRecent": "Recenti",
   "cashInBottomSheet": {
     "title": "Aggiungi fondi per iniziare a usare Valora!",

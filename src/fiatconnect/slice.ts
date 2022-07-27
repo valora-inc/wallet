@@ -1,4 +1,10 @@
+import {
+  FiatAccountType,
+  FiatType,
+  ObfuscatedFiatAccountData,
+} from '@fiatconnect/fiatconnect-types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { isEqual } from 'lodash'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
@@ -7,7 +13,7 @@ import {
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 export interface FiatConnectTransfer {
   flow: CICOFlow
@@ -22,6 +28,8 @@ export interface State {
   quotesError: string | null
   transfer: FiatConnectTransfer | null
   providers: FiatConnectProviderInfo[] | null
+  cachedFiatAccountUses: CachedFiatAccountUse[]
+  attemptReturnUserFlowLoading: boolean
 }
 
 const initialState: State = {
@@ -30,27 +38,54 @@ const initialState: State = {
   quotesError: null,
   transfer: null,
   providers: null,
+  cachedFiatAccountUses: [],
+  attemptReturnUserFlowLoading: false,
+}
+
+export type FiatAccount = ObfuscatedFiatAccountData & {
+  providerId: string
+}
+
+export interface CachedFiatAccountUse {
+  fiatAccountId: string
+  providerId: string
+  flow: string
+  cryptoType: Currency
+  fiatType: FiatType
+  fiatAccountType: FiatAccountType
 }
 
 export interface FetchQuotesAction {
   flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
-  provider?: FiatConnectProviderInfo
+  providerIds?: string[]
+}
+
+export interface AttemptReturnUserFlowAction {
+  flow: CICOFlow
+  selectedCrypto: Currency
+  amount: {
+    crypto: number
+    fiat: number
+  }
+  providerId: string
+  fiatAccountId: string
+  fiatAccountType: FiatAccountType
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
 }
 
+export interface FetchFailedAction {
+  error: string
+}
 export interface FetchFiatConnectProvidersCompletedAction {
   providers: FiatConnectProviderInfo[]
 }
 
-export interface FetchFiatConnectQuotesFailedAction {
-  error: string
-}
-
+export type FiatAccountUsedAction = CachedFiatAccountUse
 export interface CreateFiatConnectTransferAction {
   flow: CICOFlow
   fiatConnectQuote: FiatConnectQuote
@@ -84,12 +119,23 @@ export const slice = createSlice({
       state.quotesError = null
       state.quotes = action.payload.quotes
     },
-    fetchFiatConnectQuotesFailed: (
-      state,
-      action: PayloadAction<FetchFiatConnectQuotesFailedAction>
-    ) => {
+    fetchFiatConnectQuotesFailed: (state, action: PayloadAction<FetchFailedAction>) => {
       state.quotesLoading = false
       state.quotesError = action.payload.error
+    },
+    fiatAccountUsed: (state, action: PayloadAction<FiatAccountUsedAction>) => {
+      state.cachedFiatAccountUses = [
+        action.payload,
+        ...state.cachedFiatAccountUses.filter(
+          (fiatAccount) => !isEqual(fiatAccount, action.payload)
+        ),
+      ]
+    },
+    attemptReturnUserFlow: (state, action: PayloadAction<AttemptReturnUserFlowAction>) => {
+      state.attemptReturnUserFlowLoading = true
+    },
+    attemptReturnUserFlowCompleted: (state) => {
+      state.attemptReturnUserFlowLoading = false
     },
     createFiatConnectTransfer: (state, action: PayloadAction<CreateFiatConnectTransferAction>) => {
       state.transfer = {
@@ -141,6 +187,7 @@ export const slice = createSlice({
       quotesLoading: false,
       quotesError: null,
       transfer: null,
+      attemptReturnUserFlowLoading: false,
     }))
   },
 })
@@ -149,6 +196,9 @@ export const {
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
+  fiatAccountUsed,
+  attemptReturnUserFlow,
+  attemptReturnUserFlowCompleted,
   createFiatConnectTransfer,
   createFiatConnectTransferFailed,
   createFiatConnectTransferCompleted,

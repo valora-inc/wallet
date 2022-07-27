@@ -2294,7 +2294,7 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@badrap/result@^0.2.12":
+"@badrap/result@^0.2.12", "@badrap/result@~0.2.12":
   version "0.2.12"
   resolved "https://registry.yarnpkg.com/@badrap/result/-/result-0.2.12.tgz#ab5690ae04ee474ef6c912210b4126c56e7a0a9d"
   integrity sha512-tSFeaiqM9p/2AtB0XNiTaZ0l+8icGxNTmF+v6sYBeV+JrFgoxhGn4BaM/SfP54Hc0eM3d8TwY0Q2k5AdSRaHIw==
@@ -3263,6 +3263,11 @@
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-6.0.0.tgz#ce458140a5af589248460c5270e29aeddc27cf28"
   integrity sha512-rBYe2Mbjyw6WlP6GY2BzY7jac/aP4VxccDJzbCFkx17aYqj724Bj2yLhBeF9znL44sQoAuYLJeyT0f80xGQR2w==
+
+"@fiatconnect/fiatconnect-types@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-types/-/fiatconnect-types-6.1.0.tgz#9d9ef7eefa7fdccfba73c1ca2ed3849c17f3cc67"
+  integrity sha512-1SlJeHlH70AvASCuEGcdB/h5+AmParZ/+dcxtAJc8s2da14KMpP4q8+rDXtsSrkaNpwHM7Ec+7cs+7gZ5bCfhw==
 
 "@google-cloud/common@^3.8.1":
   version "3.8.1"
@@ -16129,10 +16134,10 @@ react-native-dotenv@^3.2.0:
   dependencies:
     dotenv "^10.0.0"
 
-react-native-email-link@^1.12.2:
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.12.2.tgz#61e8718dca98b362b3a847d7d05aa2b930ad7206"
-  integrity sha512-tr/Md3J0YuR7RO7R7c/N6bmM5r/44ZEUnbeJVO69/X4kTfvTUbCaAwNChqSRLnr2nXAtdTbaap0lBnHu2uyy8w==
+react-native-email-link@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-email-link/-/react-native-email-link-1.14.0.tgz#e90e1abea8d170946a0cb973a2f93e9c0a841653"
+  integrity sha512-RecW/hNE2at7AlE2/4f3cO12J6YSalRL7jv+z8X2DVrRZNv2lMavcLEEXh3z5ikRFXkMc0OYs+h6SrsalpN1lg==
 
 "react-native-exit-app@https://github.com/wumke/react-native-exit-app#5a022a7":
   version "1.1.0"
@@ -16162,9 +16167,10 @@ react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-"react-native-fs@git+https://github.com/celo-org/react-native-fs#04669ac":
-  version "2.16.6"
-  resolved "git+https://github.com/celo-org/react-native-fs#04669ac9de33ff9e8c266cec4443f88229d740e0"
+react-native-fs@^2.20.0:
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
+  integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
@@ -16226,10 +16232,10 @@ react-native-localize@^2.1.7:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-2.1.7.tgz#f1dda0c6fd58ab06b5b119cb4a507ab8800b9823"
   integrity sha512-phimOUtDLiqY2ba7Rjk9KpuaVSo7iGMNnwr7rjBVqlhmtTF3ShQ1FPFPxOyUrzDU9jLtj1xMi7MXWYuiVg660Q==
 
-react-native-mail@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-mail/-/react-native-mail-6.0.0.tgz#7e8014cccff794098f8de012fc822c57d28f7d72"
-  integrity sha512-aQjCxKmPIwwX+voC2oK5Lj54Gfuvkodhp9lYFpPMxYYCXXtADuuZMsNWN7jSeqVuQHQzJZvYhgRtYqx0UDoKoQ==
+react-native-mail@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-mail/-/react-native-mail-6.1.1.tgz#f1b1f8034c84d2510a93e4a2a795f0db5a13595e"
+  integrity sha512-pTs180wwyh7hN/iyTC9SfOX579U4YhDlHOLxi47IGvhPJENqO/QFdBq+wWKxyhNqdQuVSy+LoeIxLreWnIeYmg==
 
 react-native-modal@^13.0.1:
   version "13.0.1"

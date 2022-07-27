@@ -241,6 +241,38 @@
             ],
             "type": "string"
         },
+        "CachedFiatAccountUse": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cryptoType",
+                "fiatAccountId",
+                "fiatAccountType",
+                "fiatType",
+                "flow",
+                "providerId"
+            ],
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -710,6 +742,14 @@
             ],
             "type": "string"
         },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
         "FiatConnectError": {
             "enum": [
                 "ContractLoginNotSupported",
@@ -794,19 +834,32 @@
         },
         "FiatType": {
             "enum": [
+                "ARS",
+                "BOB",
                 "BRL",
+                "CLP",
                 "CNY",
+                "COP",
                 "EUR",
+                "FKP",
                 "GBP",
                 "GHS",
                 "GNF",
+                "GYD",
                 "INR",
                 "KES",
+                "MXN",
                 "NGN",
+                "PAB",
+                "PEN",
                 "PHP",
+                "PYG",
                 "RWF",
+                "SRD",
                 "UGX",
                 "USD",
+                "UYU",
+                "VES",
                 "XAF",
                 "XOF",
                 "ZAR"
@@ -1129,6 +1182,44 @@
                 "currencyCode",
                 "exchangeRate",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NftTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "enum": [
+                        "NftTransferV2"
+                    ],
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "timestamp",
+                "transactionHash",
+                "type"
             ],
             "type": "object"
         },
@@ -2459,7 +2550,7 @@
             "properties": {
                 "estimates": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}"
+                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
                     },
                     "type": "object"
                 }
@@ -2831,6 +2922,15 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "attemptReturnUserFlowLoading": {
+                    "type": "boolean"
+                },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3019,6 +3119,8 @@
                 }
             },
             "required": [
+                "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
                 "providers",
                 "quotes",
                 "quotesError",
@@ -3320,6 +3422,9 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
+                            },
+                            {
+                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },
@@ -3549,6 +3654,8 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
+                "NFT_RECEIVED",
+                "NFT_SENT",
                 "RECEIVED",
                 "SENT"
             ],
@@ -4000,7 +4107,7 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}": {
+        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
@@ -4016,6 +4123,9 @@
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "send": {
+                    "$ref": "#/definitions/FeeEstimateState"
+                },
+                "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
                 }
             },

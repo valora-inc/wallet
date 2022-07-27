@@ -309,6 +309,7 @@ function PaymentMethod({
 }) {
   const { t } = useTranslation()
 
+  // TODO: allow this to be pressable and navigate back to Select Providers screen
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>

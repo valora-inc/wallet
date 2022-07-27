@@ -29,6 +29,12 @@ import {
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
+import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
+import {
+  attemptReturnUserFlowLoadingSelector,
+  cachedFiatAccountUsesSelector,
+} from 'src/fiatconnect/selectors'
+import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -84,6 +90,8 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const cachedFiatAccountUses = useSelector(cachedFiatAccountUsesSelector)
+  const attemptReturnUserFlowLoading = useSelector(attemptReturnUserFlowLoadingSelector)
 
   const cryptoSymbol = currency === Currency.Celo ? 'CELO' : currency
   const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
@@ -153,17 +161,40 @@ function FiatExchangeAmount({ route }: Props) {
       currency,
       flow,
     })
+    const amount = {
+      crypto: inputCryptoAmount.toNumber(),
+      // Rounding up to avoid decimal errors from providers. Won't be
+      // necessary once we support inputting an amount in both crypto and fiat
+      fiat: Math.round(inputLocalCurrencyAmount.toNumber()),
+    }
 
-    navigate(Screens.SelectProvider, {
-      flow,
-      selectedCrypto: currency,
-      amount: {
-        crypto: inputCryptoAmount.toNumber(),
-        // Rounding up to avoid decimal errors from providers. Won't be
-        // necessary once we support inputting an amount in both crypto and fiat
-        fiat: Math.round(inputLocalCurrencyAmount.toNumber()),
-      },
-    })
+    const previousFiatAccount = cachedFiatAccountUses.find(
+      (account) =>
+        account.cryptoType === currency &&
+        account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode) &&
+        account.flow === flow
+    )
+    if (previousFiatAccount) {
+      // This will attempt to navigate to the Review Screen if the proper quote and fiatAccount are found
+      // If not, then the user will be navigated to the SelectProvider screen as normal
+      const { providerId, fiatAccountId, fiatAccountType } = previousFiatAccount
+      dispatch(
+        attemptReturnUserFlow({
+          flow,
+          selectedCrypto: currency,
+          amount,
+          providerId,
+          fiatAccountId,
+          fiatAccountType,
+        })
+      )
+    } else {
+      navigate(Screens.SelectProvider, {
+        flow,
+        selectedCrypto: currency,
+        amount,
+      })
+    }
   }
 
   function onPressContinue() {
@@ -299,7 +330,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRates[Currency.Dollar] === null}
+        showLoading={exchangeRates[Currency.Dollar] === null || attemptReturnUserFlowLoading}
         text={t('next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('next')}

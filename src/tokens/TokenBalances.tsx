@@ -21,12 +21,13 @@ import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { TokenBalance } from 'src/tokens/reducer'
 import {
+  stalePriceSelector,
   tokensWithTokenBalanceSelector,
   totalTokenBalanceSelector,
   visualizeNFTsEnabledInHomeAssetsPageSelector,
 } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -38,6 +39,7 @@ function TokenBalancesScreen({ navigation }: Props) {
   const tokens = useSelector(tokensWithTokenBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
+  const tokensAreStale = useSelector(stalePriceSelector)
   const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
     visualizeNFTsEnabledInHomeAssetsPageSelector
@@ -49,11 +51,18 @@ function TokenBalancesScreen({ navigation }: Props) {
       <View style={styles.header}>
         <Text style={fontStyles.navigationHeader}>{t('balances')}</Text>
         <Text style={styles.subtext}>
-          {totalBalance &&
+          {tokensAreStale ? (
+            <Text>
+              {localCurrencySymbol}
+              {'-'}
+            </Text>
+          ) : (
+            totalBalance &&
             t('totalBalanceWithLocalCurrencySymbol', {
               localCurrencySymbol,
               totalBalance: totalBalance.toFormat(2),
-            })}
+            })
+          )}
         </Text>
       </View>
     )
