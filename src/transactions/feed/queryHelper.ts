@@ -80,7 +80,9 @@ export function useFetchTransactions(): QueryHookResult {
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
     if (returnedTransactions?.length) {
       // Avoid adding empty transactions to redux
-      let filteredTransactions = returnedTransactions.filter((transaction) => !isEmpty(transaction))
+      const filteredTransactions = returnedTransactions.filter(
+        (transaction) => !isEmpty(transaction)
+      )
       addTransactions(filteredTransactions)
       // We store non-paginated results in redux to show them to the users when they open the app.
       if (!paginatedResult) {
