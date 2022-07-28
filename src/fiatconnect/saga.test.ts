@@ -1,5 +1,6 @@
 import { Result } from '@badrap/result'
-import { FiatAccountType, TransferStatus } from '@fiatconnect/fiatconnect-types'
+import { FiatConnectError, FiatAccountType, TransferStatus } from '@fiatconnect/fiatconnect-types'
+import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
@@ -52,7 +53,10 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 
+jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
 jest.mock('uuid')
 jest.mock('src/utils/Logger', () => ({
@@ -482,10 +486,24 @@ describe('Fiatconnect saga', () => {
         data: { fiatAccountId: 'account1', quoteId },
         idempotencyKey: 'mock-uuidv4',
       })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_success,
+        {
+          provider: providerId,
+          flow: CICOFlow.CashOut,
+          transferAddress: '0xabc',
+          txHash: '0x12345',
+        }
+      )
     })
 
     it('returns failed event on transfer out failure', async () => {
-      mockTransferOut.mockResolvedValueOnce(Result.err(new Error('transfer error')))
+      mockTransferOut.mockResolvedValueOnce(
+        Result.err(
+          new ResponseError('FiatConnect API Error', { error: FiatConnectError.Unauthorized })
+        )
+      )
       await expectSaga(
         handleCreateFiatConnectTransfer,
         createFiatConnectTransfer({
@@ -511,6 +529,16 @@ describe('Fiatconnect saga', () => {
         data: { fiatAccountId: 'account1', quoteId },
         idempotencyKey: 'mock-uuidv4',
       })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_api_error,
+        {
+          provider: providerId,
+          flow: CICOFlow.CashOut,
+          fiatConnectError: FiatConnectError.Unauthorized,
+          error: 'FiatConnect API Error',
+        }
+      )
     })
 
     it('returns failed event on transaction failure', async () => {
@@ -533,7 +561,7 @@ describe('Fiatconnect saga', () => {
           [select(tokensListSelector), Object.values(mockTokenBalances)],
           [select(feeEstimatesSelector), emptyFees],
           [call(getFiatConnectClient, providerId, providerBaseUrl), mockFcClient],
-          [matches.call.fn(buildAndSendPayment), { error: 'tx error' }],
+          [matches.call.fn(buildAndSendPayment), { error: new Error('tx error') }],
         ])
         .put(
           createFiatConnectTransferFailed({
@@ -547,6 +575,16 @@ describe('Fiatconnect saga', () => {
         data: { fiatAccountId: 'account1', quoteId },
         idempotencyKey: 'mock-uuidv4',
       })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_tx_error,
+        {
+          provider: providerId,
+          flow: CICOFlow.CashOut,
+          transferAddress: '0xabc',
+          error: 'tx error',
+        }
+      )
     })
   })
 })

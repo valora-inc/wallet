@@ -29,6 +29,7 @@ import {
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
+import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import {
   BackQuizProgress,
   DappRequestOrigin,
@@ -994,6 +995,72 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
+  [FiatExchangeEvents.cico_cancel_transfer]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_success]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_cancel]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_reselect]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fiat_details_error]: {
+    fiatConnectError?: FiatConnectError
+    error?: string
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_api_error]: {
+    fiatConnectError?: FiatConnectError
+    error?: string
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_tx_error]: {
+    error: string
+    transferAddress: string
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_success]: {
+    txHash?: string
+    transferAddress?: string
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_cancel]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_transfer_success_complete]: {
+    provider: string
+    flow: CICOFlow
+    txHash?: string
+  }
+  [FiatExchangeEvents.cico_fc_transfer_success_view_tx]: {
+    provider: string
+    flow: CICOFlow
+    txHash?: string
+  }
 }
 
 interface ContractKitEventsProperties {

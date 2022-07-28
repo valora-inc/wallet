@@ -187,6 +187,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         flow={flow}
       />
       <CoinbasePaymentSection
+        flow={flow}
         digitalAsset={digitalAsset}
         cryptoAmount={route.params.amount.crypto}
         coinbaseProvider={coinbaseProvider}
