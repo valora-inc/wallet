@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -5,12 +6,12 @@ import Toast from 'react-native-simple-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import config from 'src/web3/networkConfig'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { updateTransactions } from 'src/transactions/actions'
 import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface QueryHookResult {
@@ -78,10 +79,12 @@ export function useFetchTransactions(): QueryHookResult {
 
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
     if (returnedTransactions?.length) {
-      addTransactions(returnedTransactions)
+      // Avoid adding empty transactions to redux
+      let filteredTransactions = returnedTransactions.filter((transaction) => !isEmpty(transaction))
+      addTransactions(filteredTransactions)
       // We store non-paginated results in redux to show them to the users when they open the app.
       if (!paginatedResult) {
-        dispatch(updateTransactions(returnedTransactions))
+        dispatch(updateTransactions(filteredTransactions))
       }
     }
 
