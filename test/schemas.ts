@@ -1385,11 +1385,6 @@ export const v59Schema = {
     ...v58Schema._persist,
     version: 59,
   },
-  fiatConnect: {
-    quotes: [],
-    quotesLoading: false,
-    quotesError: null,
-  },
 }
 
 export const v60Schema = {
@@ -1398,9 +1393,10 @@ export const v60Schema = {
     ...v59Schema._persist,
     version: 60,
   },
-  app: {
-    ...v59Schema.app,
-    showSwapMenuInDrawerMenu: false,
+  fiatConnect: {
+    quotes: [],
+    quotesLoading: false,
+    quotesError: null,
   },
 }
 
@@ -1410,9 +1406,9 @@ export const v61Schema = {
     ...v60Schema._persist,
     version: 61,
   },
-  fiatConnect: {
-    ...v60Schema.fiatConnect,
-    transfer: null,
+  app: {
+    ...v60Schema.app,
+    showSwapMenuInDrawerMenu: false,
   },
 }
 
@@ -1422,8 +1418,20 @@ export const v62Schema = {
     ...v61Schema._persist,
     version: 62,
   },
+  fiatConnect: {
+    ...v61Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v63Schema = {
+  ...v62Schema,
+  _persist: {
+    ...v62Schema._persist,
+    version: 63,
+  },
   app: {
-    ..._.omit(v61Schema.app, 'superchargeTokens'),
+    ..._.omit(v62Schema.app, 'superchargeTokens'),
     superchargeTokenConfigByToken: {
       [mockCusdAddress]: {
         minBalance: 10,
@@ -1437,18 +1445,18 @@ export const v62Schema = {
   },
 }
 
-export const v63Schema = {
-  ...v62Schema,
+export const v64Schema = {
+  ...v63Schema,
   _persist: {
-    ...v62Schema._persist,
-    version: 63,
+    ...v63Schema._persist,
+    version: 64,
   },
   fiatConnect: {
-    ...v62Schema.fiatConnect,
+    ...v63Schema.fiatConnect,
     providers: null,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v63Schema as Partial<RootState>
+  return v64Schema as Partial<RootState>
 }
