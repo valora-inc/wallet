@@ -123,6 +123,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
+  // TODO: Navigate to the Review screen if a fiatAccount is already saved
   navigate(flow: CICOFlow): void {
     navigate(Screens.FiatDetailsScreen, {
       quote: this,
