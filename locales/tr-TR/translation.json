@@ -354,6 +354,7 @@
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
   "noProviders": "Bölgenizde {{digitalAsset}} için kullanılabilecek sağlayıcı bulunmuyor.",
+  "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
   "switchCurrency": "Para Birimini Değiştir",
   "accept": "Kabul Et",
   "at": "saat",
