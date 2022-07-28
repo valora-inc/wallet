@@ -22,14 +22,14 @@ function getProps(
   flow: CICOFlow,
   withFee = false,
   cryptoType = CryptoType.cUSD,
-  quoteExpireSecs = 0
+  quoteExpireMs = 0
 ) {
   const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
   if (!withFee) {
     delete quoteData.fiatAccount.BankAccount?.fee
   }
-  if (quoteExpireSecs) {
-    quoteData.quote.guaranteedUntil = new Date(Date.now() + quoteExpireSecs * 1000).toISOString()
+  if (quoteExpireMs) {
+    quoteData.quote.guaranteedUntil = new Date(Date.now() + quoteExpireMs).toISOString()
   }
   quoteData.quote.cryptoType = cryptoType
   const normalizedQuote = new FiatConnectQuote({
@@ -109,10 +109,13 @@ describe('ReviewScreen', () => {
     })
 
     it('shows expired dialog when quote is expired', async () => {
-      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, -1)
+      const expireMs = -100
+      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expireMs)
+      const quote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+      quote.quote.guaranteedUntil = new Date(Date.now() + expireMs).toISOString()
       const store = createMockStore({
         fiatConnect: {
-          quotes: [_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess],
+          quotes: [quote],
         },
       })
       const { getByTestId, queryByTestId } = render(
@@ -135,7 +138,24 @@ describe('ReviewScreen', () => {
       ])
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
     })
+    it('shows expired dialog when submitting expired quote', async () => {
+      jest.useRealTimers()
+      const expireMs = 100
+      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expireMs)
+      const store = createMockStore()
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
 
+      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(false)
+      await sleep(expireMs)
+      await fireEvent.press(getByTestId('submitButton'))
+
+      expect(store.getActions().length).toEqual(0)
+      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
+    })
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
       const store = createMockStore()

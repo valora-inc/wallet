@@ -39,17 +39,19 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount } = route.params
+  const providerId = normalizedQuote.getProviderId()
 
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
-
-  const [useOriginalQuote, setUseOriginalQuote] = useState(true)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
 
+  const updatedQuoteData = fiatConnectQuotes.find(
+    (quote) => quote.provider.id === providerId && quote.ok
+  )
   let quote = normalizedQuote
-  if (!useOriginalQuote && fiatConnectQuotes[0].ok) {
+  if (updatedQuoteData) {
     quote = new FiatConnectQuote({
-      quote: fiatConnectQuotes[0] as FiatConnectQuoteSuccess,
+      quote: updatedQuoteData as FiatConnectQuoteSuccess,
       fiatAccountType: normalizedQuote.fiatAccountType,
       flow,
     })
@@ -81,11 +83,10 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
               flow,
               digitalAsset: normalizedQuote.getCicoCryptoType(),
               cryptoAmount: parseFloat(normalizedQuote.getCryptoAmount()),
-              providerIds: [normalizedQuote.getProviderId()],
+              providerIds: [providerId],
             })
           )
           setShowingExpiredQuoteDialog(false)
-          setUseOriginalQuote(false)
         }}
       >
         {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
