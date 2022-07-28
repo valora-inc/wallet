@@ -698,7 +698,7 @@ export const migrations = {
     ...state,
     transactions: {
       ...state.transactions,
-      transactions: state.transactions.transactions.filter(
+      transactions: (state.transactions.transactions || []).filter(
         (transaction: TokenTransaction) => Object.keys(transaction).length > 0
       ),
     },
