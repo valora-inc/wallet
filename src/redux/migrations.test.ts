@@ -593,4 +593,47 @@ describe('Redux persist migrations', () => {
 
     expect(migratedSchema).toMatchObject(expectedSchema)
   })
+
+  it('works for v58 to v59', () => {
+    const oldTransactions = [
+      {
+        metadata: {
+          title: null,
+          comment: '',
+          subtitle: null,
+          image: null,
+        },
+        __typename: 'TokenTransferV2',
+        block: '14255636',
+        transactionHash: '0xf4e59db43c9051947ffe8a29a09c8f85dcf540699855166aa68f11cda3014b72',
+        type: 'RECEIVED',
+        amount: {
+          value: '0.01',
+          tokenAddress: '0x765de816845861e75a25fca122bb6898b8b1282a',
+          localAmount: {
+            currencyCode: 'USD',
+            exchangeRate: '1',
+            value: '0.01',
+          },
+        },
+        fees: null,
+        timestamp: 1658945996000,
+        address: '0xde33e71faecdead20e6a8af8f362d2236cba005f',
+      },
+      {},
+    ]
+    const oldSchema = {
+      ...v57Schema,
+      transactions: {
+        ...v57Schema.transactions,
+        transactions: oldTransactions,
+      },
+    }
+    const migratedSchema = migrations[59](oldSchema)
+
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.transactions.transactions = [oldTransactions[0]]
+
+    expect(migratedSchema).toMatchObject(expectedSchema)
+  })
 })

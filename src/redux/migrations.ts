@@ -13,6 +13,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
@@ -691,6 +692,15 @@ export const migrations = {
     app: {
       ...state.app,
       coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
+    },
+  }),
+  59: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      transactions: state.transactions.transactions.filter(
+        (transaction: TokenTransaction) => Object.keys(transaction).length > 0
+      ),
     },
   }),
 }
