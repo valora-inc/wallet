@@ -354,6 +354,7 @@
   "restrictedRegion": "Prise en charge limitée dans le pays",
   "unsupportedPaymentMethod": "Le paiement avec {{paymentMethod}} n'est pas pris en charge dans votre pays",
   "noProviders": "Il n'y a pas de prestataires disponibles pour {{digitalAsset}} dans votre pays.",
+  "noPaymentMethods": "Il n'y a pas de méthode de paiement disponible pour {{digitalAsset}} dans ta région.",
   "switchCurrency": "Changer de devise",
   "accept": "Accepter",
   "at": "à",
