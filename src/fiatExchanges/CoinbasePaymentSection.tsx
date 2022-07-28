@@ -1,53 +1,32 @@
 import React from 'react'
 
 import { generateOnRampURL } from '@coinbase/cbpay-js'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
-import { CICOFlow, FetchProvidersOutput } from 'src/fiatExchanges/utils'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface CoinbasePaymentSectionProps {
-  flow: CICOFlow
-  digitalAsset: CiCoCurrency
   cryptoAmount: number
-  coinbaseProvider: FetchProvidersOutput | undefined
+  coinbaseProvider: FetchProvidersOutput
+  appId: string
 }
 
 export function CoinbasePaymentSection({
-  flow,
-  digitalAsset,
   cryptoAmount,
   coinbaseProvider,
+  appId,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
-  const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const walletAddress = useSelector(walletAddressSelector)!
-
-  const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
-  const appId = appIdResponse.result
-
-  if (
-    flow !== CICOFlow.CashIn ||
-    !coinbaseProvider ||
-    coinbaseProvider.restricted ||
-    !coinbasePayEnabled ||
-    !appId ||
-    digitalAsset !== CiCoCurrency.CELO
-  ) {
-    return null
-  }
 
   // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
   const coinbasePayURL = generateOnRampURL({
