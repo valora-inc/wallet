@@ -19,6 +19,7 @@ import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
+  selectFiatConnectQuoteLoadingSelector,
 } from 'src/fiatconnect/selectors'
 import { fetchFiatConnectProviders, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
 import { CoinbasePaymentSection } from 'src/fiatExchanges/CoinbasePaymentSection'
@@ -65,6 +66,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectProviders = useSelector(fiatConnectProvidersSelector)
+  const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
 
   const [noPaymentMethods, setNoPaymentMethods] = useState(false)
   const { flow } = route.params
@@ -148,7 +150,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     }
   }, [])
 
-  if (asyncProviders.loading || fiatConnectQuotesLoading || asyncExchanges.loading) {
+  if (
+    asyncProviders.loading ||
+    fiatConnectQuotesLoading ||
+    asyncExchanges.loading ||
+    selectFiatConnectQuoteLoading
+  ) {
     return (
       <View style={styles.activityIndicatorContainer}>
         <ActivityIndicator size="large" color={colors.greenBrand} />
