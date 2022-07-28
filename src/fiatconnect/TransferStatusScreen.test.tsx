@@ -11,6 +11,10 @@ import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import React from 'react'
 import networkConfig from 'src/web3/networkConfig'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 describe('TransferStatusScreen', () => {
   const mockStore = (overrides: any = {}) => {
@@ -71,6 +75,15 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('Continue')).toBeTruthy()
       fireEvent.press(getByTestId('Continue'))
       expect(navigateHome).toHaveBeenCalledWith()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_success_complete,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+          txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+        }
+      )
     })
 
     it('shows TX details on Celo Explorer on success', () => {
@@ -85,6 +98,15 @@ describe('TransferStatusScreen', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
         uri: `${networkConfig.celoExplorerBaseTxUrl}${mockFiatConnectTransfers[0].txHash}`,
       })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_success_view_tx,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+          txHash: '0xc7a9b0f4354e6279cb476d4c91d5bbc5db6ad29aa8611408de7aee6d2e7fe7c72',
+        }
+      )
     })
   })
 
@@ -114,6 +136,14 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('TryAgain')).toBeTruthy()
       fireEvent.press(getByTestId('TryAgain'))
       expect(navigateBack).toHaveBeenCalledWith()
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_error_retry,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+        }
+      )
     })
 
     it('navigates to support page when contact support button is pressed on failure', () => {
@@ -128,6 +158,14 @@ describe('TransferStatusScreen', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
         prefilledText: 'fiatConnectStatusScreen.requestNotCompleted.contactSupportPrefill',
       })
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        FiatExchangeEvents.cico_fc_transfer_error_contact_support,
+        {
+          provider: 'provider-two',
+          flow: CICOFlow.CashOut,
+        }
+      )
     })
   })
 })
