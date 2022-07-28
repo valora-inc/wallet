@@ -29,9 +29,12 @@ export function normalizeQuotes(
 
 export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
   // We can use a dummy exchange rate value here since its just a comparator
-  const exchangeRates = Object.fromEntries(
-    Object.values(Currency).map((currency) => [currency, '1'])
-  ) as { [token in Currency]: string | null }
+  const exchangeRates = {
+    [Currency.Euro]: '1',
+    [Currency.Dollar]: '1',
+    [Currency.Celo]: '1',
+    [Currency.Real]: '1',
+  }
   const providerFee1 = quote1.getFeeInFiat(exchangeRates) ?? new BigNumber(0)
   const providerFee2 = quote2.getFeeInFiat(exchangeRates) ?? new BigNumber(0)
 

@@ -177,8 +177,6 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    //TODO refactor layered ifs and returns
-    //TODO put error-return condition first
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)

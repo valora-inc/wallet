@@ -156,10 +156,14 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
     const exchangeRates: Record<Currency, Record<Currency, string>> = Object.keys(
       CURRENCIES
     ).reduce((rates, currency) => {
-      // populate a map (js object) with the currency code as key and the exchange rate as ''
       // Empty strings will be replaced by real values before dispatching to the store or an error will be thrown.
-      const emptyCurrencyRates = Object.values(Currency).map((currency) => [currency, ''])
-      return (rates[currency as Currency] = Object.fromEntries(emptyCurrencyRates)) // returning { [Currency.Dollar]: '', [Currency.Euro]: '', ... }
+      rates[currency as Currency] = {
+        [Currency.Dollar]: '',
+        [Currency.Euro]: '',
+        [Currency.Celo]: '',
+        [Currency.Real]: '',
+      }
+      return rates
     }, {} as Record<Currency, Record<Currency, string>>)
 
     // TODO: Consider making all the fetches for exchange rates in parallel to reduce the time this loop takes.
