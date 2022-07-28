@@ -287,5 +287,23 @@ describe(SelectProviderScreen, () => {
         await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
       }
     )
+
+    it('does not show coinbase pay card in withdraw flow', async () => {
+      const mockProvidersAdjusted = mockProviders
+      mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted = false
+      mocked(fetchProviders).mockResolvedValue(mockProvidersAdjusted)
+      mockStore = createMockStore({
+        ...mockStore,
+        app: {
+          coinbasePayEnabled: true,
+        },
+      })
+      const { queryByText } = render(
+        <Provider store={mockStore}>
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, Currency.Celo)} />
+        </Provider>
+      )
+      await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
+    })
   })
 })

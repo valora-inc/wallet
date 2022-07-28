@@ -56,6 +56,8 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 const TAG = 'FiatConnectSaga'
 
@@ -271,6 +273,17 @@ export function* handleCreateFiatConnectTransfer({
           data: { quoteId, fiatAccountId },
         }
       )
+
+      if (result.isErr) {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_api_error, {
+          flow,
+          fiatConnectError: result.error.fiatConnectError,
+          error: result.error.message,
+          provider: fiatConnectQuote.getProviderId(),
+        })
+        throw result.error
+      }
+
       const transferResult = result.unwrap()
 
       Logger.info(
@@ -300,9 +313,21 @@ export function* handleCreateFiatConnectTransfer({
       )
 
       if (error) {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_tx_error, {
+          flow,
+          error: error.message,
+          transferAddress: transferResult.transferAddress,
+          provider: fiatConnectQuote.getProviderId(),
+        })
         throw error
       }
 
+      ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_success, {
+        txHash: receipt.transactionHash,
+        transferAddress: transferResult.transferAddress,
+        provider: fiatConnectQuote.getProviderId(),
+        flow,
+      })
       yield put(
         createFiatConnectTransferCompleted({
           flow,

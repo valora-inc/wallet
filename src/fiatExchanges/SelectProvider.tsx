@@ -178,6 +178,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const legacyMobileMoneyProviders = asyncProviders.result?.legacyMobileMoneyProviders
 
   const coinbasePayVisible =
+    flow === CICOFlow.CashIn &&
     coinbaseProvider &&
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
@@ -235,13 +236,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         digitalAsset={digitalAsset}
         flow={flow}
       />
-      {coinbaseProvider && coinbasePayVisible ? (
+      {coinbaseProvider && coinbasePayVisible && (
         <CoinbasePaymentSection
           cryptoAmount={route.params.amount.crypto}
           coinbaseProvider={coinbaseProvider}
           appId={appId}
         />
-      ) : null}
+      )}
       <ExchangesSection
         exchanges={exchanges}
         selectedCurrency={route.params.selectedCrypto}

@@ -834,19 +834,32 @@
         },
         "FiatType": {
             "enum": [
+                "ARS",
+                "BOB",
                 "BRL",
+                "CLP",
                 "CNY",
+                "COP",
                 "EUR",
+                "FKP",
                 "GBP",
                 "GHS",
                 "GNF",
+                "GYD",
                 "INR",
                 "KES",
+                "MXN",
                 "NGN",
+                "PAB",
+                "PEN",
                 "PHP",
+                "PYG",
                 "RWF",
+                "SRD",
                 "UGX",
                 "USD",
+                "UYU",
+                "VES",
                 "XAF",
                 "XOF",
                 "ZAR"
@@ -1169,44 +1182,6 @@
                 "currencyCode",
                 "exchangeRate",
                 "value"
-            ],
-            "type": "object"
-        },
-        "NftTransfer": {
-            "additionalProperties": false,
-            "properties": {
-                "__typename": {
-                    "enum": [
-                        "NftTransferV2"
-                    ],
-                    "type": "string"
-                },
-                "block": {
-                    "type": "string"
-                },
-                "fees": {
-                    "items": {
-                        "$ref": "#/definitions/Fee"
-                    },
-                    "type": "array"
-                },
-                "timestamp": {
-                    "type": "number"
-                },
-                "transactionHash": {
-                    "type": "string"
-                },
-                "type": {
-                    "$ref": "#/definitions/TokenTransactionTypeV2"
-                }
-            },
-            "required": [
-                "__typename",
-                "block",
-                "fees",
-                "timestamp",
-                "transactionHash",
-                "type"
             ],
             "type": "object"
         },
@@ -3409,9 +3384,6 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
-                            },
-                            {
-                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },
@@ -3641,8 +3613,6 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
-                "NFT_RECEIVED",
-                "NFT_SENT",
                 "RECEIVED",
                 "SENT"
             ],
