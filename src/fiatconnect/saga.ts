@@ -275,6 +275,7 @@ export function* handleSelectFiatConnectQuote({
       `handleSelectFiatConnectQuote* Error while attempting to fetch the fiatAccount for provider ${quote.getProviderId()}`,
       error
     )
+    yield put(selectFiatConnectQuoteCompleted())
     yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
   }
 }

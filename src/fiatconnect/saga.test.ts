@@ -257,7 +257,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
         ])
-
+        .put(selectFiatConnectQuoteCompleted())
         .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
         .run()
     })
