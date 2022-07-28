@@ -12,6 +12,10 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { all, call, delay, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
@@ -59,8 +63,6 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 const TAG = 'FiatConnectSaga'
 
@@ -132,6 +134,9 @@ export function* handleAttemptReturnUserFlow({
         fiatAccountId,
       }),
     ])
+    if (!fiatAccount) {
+      throw new Error('Could not find fiat account')
+    }
     // Successfully found quote and fiatAccount
     yield put(attemptReturnUserFlowCompleted())
     navigate(Screens.FiatConnectReview, {
@@ -220,10 +225,7 @@ function* _getFiatAccount({
   } else if (fiatAccountId) {
     fiatAccount = fiatAccounts.find((account) => account.fiatAccountId === fiatAccountId)
   }
-  if (!fiatAccount) {
-    throw new Error('Could not find fiat account')
-  }
-  return fiatAccount
+  return fiatAccount || null
 }
 
 export function* handleSelectFiatConnectQuote({
@@ -238,6 +240,16 @@ export function* handleSelectFiatConnectQuote({
       providerId: quote.getProviderId(),
       fiatAccountType: quote.getFiatAccountType(),
     })
+    if (!fiatAccount) {
+      // This is expected when the user has not yet created a fiatAccount with the provider
+      navigate(Screens.FiatDetailsScreen, {
+        quote,
+        flow: quote.flow,
+      })
+      yield delay(500) // to avoid a screen flash
+      yield put(selectFiatConnectQuoteCompleted())
+      return
+    }
     // Save the fiatAccount in cache
     yield put(
       fiatAccountUsed({
@@ -257,14 +269,13 @@ export function* handleSelectFiatConnectQuote({
     yield delay(500) // to avoid a screen flash
     yield put(selectFiatConnectQuoteCompleted())
   } catch (error) {
-    // Ignore error and navigate to FiatDetails screen.
-    // This is expected when the user has not yet created a fiatAccount with the provider
-    navigate(Screens.FiatDetailsScreen, {
-      quote,
-      flow: quote.flow,
-    })
-    yield delay(500) // to avoid a screen flash
-    yield put(selectFiatConnectQuoteCompleted())
+    // Error while attempting fetching the fiatConnect account
+    Logger.debug(
+      TAG,
+      `handleSelectFiatConnectQuote* Error while attempting to fetch the fiatAccount for provider ${quote.getProviderId()}`,
+      error
+    )
+    yield put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
   }
 }
 

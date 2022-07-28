@@ -20,13 +20,13 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { Currency, resolveCICOCurrency } from 'src/utils/currencies'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
 
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 
@@ -271,7 +271,7 @@ function PaymentMethod({
   }
 
   return (
-    <Touchable testID={`provider-change`} onPress={onPress}>
+    <Touchable onPress={onPress}>
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
         <View style={styles.sectionMainTextContainer}>

@@ -1,9 +1,13 @@
 import { Result } from '@badrap/result'
-import { FiatConnectError, FiatAccountType, TransferStatus } from '@fiatconnect/fiatconnect-types'
 import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
+import { FiatAccountType, FiatConnectError, TransferStatus } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   fiatConnectCashInEnabledSelector,
   fiatConnectCashOutEnabledSelector,
@@ -53,8 +57,6 @@ import {
 } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import { v4 as uuidv4 } from 'uuid'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
@@ -245,6 +247,19 @@ describe('Fiatconnect saga', () => {
         flow: normalizedQuote.flow,
         fiatAccount,
       })
+    })
+    it('shows an error if there is an issue fetching the fiatAccount', async () => {
+      mockGetFiatAccounts.mockResolvedValue(Result.err(new Error('error')))
+      await expectSaga(
+        handleSelectFiatConnectQuote,
+        selectFiatConnectQuote({ quote: normalizedQuote })
+      )
+        .provide([
+          [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
+        ])
+
+        .put(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+        .run()
     })
   })
 
