@@ -354,6 +354,7 @@
   "restrictedRegion": "Обмежена підтримка в регіоні",
   "unsupportedPaymentMethod": "Оплата з {{paymentMethod}} не підтримується у вашому регіоні",
   "noProviders": "У вашому регіоні немає доступних провайдерів для {{digitalAsset}}.",
+  "noPaymentMethods": "У вашому регіоні немає способів оплати, доступних для {{digitalAsset}}.",
   "switchCurrency": "Змінити валюту",
   "accept": "Прийняти",
   "at": "в",
