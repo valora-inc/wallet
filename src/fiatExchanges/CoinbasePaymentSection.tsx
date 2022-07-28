@@ -9,7 +9,7 @@ import { CoinbasePayEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { coinbasePayEnabledSelector } from 'src/app/selectors'
 import Touchable from 'src/components/Touchable'
-import { FetchProvidersOutput } from 'src/fiatExchanges/utils'
+import { CICOFlow, FetchProvidersOutput } from 'src/fiatExchanges/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -19,12 +19,14 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface CoinbasePaymentSectionProps {
+  flow: CICOFlow
   digitalAsset: CiCoCurrency
   cryptoAmount: number
   coinbaseProvider: FetchProvidersOutput | undefined
 }
 
 export function CoinbasePaymentSection({
+  flow,
   digitalAsset,
   cryptoAmount,
   coinbaseProvider,
@@ -37,6 +39,7 @@ export function CoinbasePaymentSection({
   const appId = appIdResponse.result
 
   if (
+    flow !== CICOFlow.CashIn ||
     !coinbaseProvider ||
     coinbaseProvider.restricted ||
     !coinbasePayEnabled ||
