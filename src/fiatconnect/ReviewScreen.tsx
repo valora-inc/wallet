@@ -62,14 +62,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     setShowingExpiredQuoteDialog(true)
   }
 
-  if (fiatConnectQuotesLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => <BackButton testID="backButton" onPress={onPressBack} />,
@@ -82,6 +74,14 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       provider: normalizedQuote.getProviderId(),
     })
     navigateBack()
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   return (
