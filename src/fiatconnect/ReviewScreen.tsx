@@ -1,7 +1,7 @@
 import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
@@ -68,6 +68,20 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         <ActivityIndicator size="large" color={colors.greenBrand} />
       </View>
     )
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <BackButton testID="backButton" onPress={onPressBack} />,
+    })
+  }, [navigation])
+
+  const onPressBack = async () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigateBack()
   }
 
   return (

@@ -9,7 +9,7 @@ import {
   CoinbasePaymentSection,
   CoinbasePaymentSectionProps,
 } from 'src/fiatExchanges/CoinbasePaymentSection'
-import { PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { navigate } from 'src/navigator/NavigationService'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -39,6 +39,7 @@ describe('CoinbasePaymentSection', () => {
     jest.useRealTimers()
     jest.clearAllMocks()
     props = {
+      flow: CICOFlow.CashIn,
       digitalAsset: CiCoCurrency.CELO,
       cryptoAmount: 10,
       coinbaseProvider: mockProviders.find((quote) =>
@@ -84,7 +85,7 @@ describe('CoinbasePaymentSection', () => {
     )
     expect(queryByText('Coinbase Pay')).toBeFalsy()
   })
-  it('shows card if coinbase is not restricted, feature flag is true, and CELO is selected', async () => {
+  it('shows card if coinbase is not restricted, feature flag is true, CELO is selected, and user is adding funds', async () => {
     mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
     mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
     props.coinbaseProvider!.restricted = false
@@ -142,5 +143,24 @@ describe('CoinbasePaymentSection', () => {
       expect(ValoraAnalytics.track).toBeCalledWith(CoinbasePayEvents.coinbase_pay_flow_start)
       expect(navigate).toBeCalled()
     })
+  })
+
+  it('does not show coinbase pay card in withdraw flow', async () => {
+    mocked(readOnceFromFirebase).mockResolvedValue(FAKE_APP_ID)
+    mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
+    props.coinbaseProvider!.restricted = false
+    props.flow = CICOFlow.CashOut
+    mockStore = createMockStore({
+      ...mockStore,
+      app: {
+        coinbasePayEnabled: true,
+      },
+    })
+    const { queryByText } = render(
+      <Provider store={mockStore}>
+        <CoinbasePaymentSection {...props} />
+      </Provider>
+    )
+    await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
   })
 })
