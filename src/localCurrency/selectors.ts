@@ -56,7 +56,6 @@ export const localCurrencyExchangeRatesSelector = createSelector(
   (state: RootState) => state.localCurrency.fetchedCurrencyCode,
   getLocalCurrencyCode,
   (exchangeRates, fetchedCurrencyCode, localCurrencyCode) => {
-    // 4th argument, the combiner function for the createSelector()
     if (localCurrencyCode !== fetchedCurrencyCode) {
       // This makes sure we don't return stale exchange rate when the currency code changes
       return {
