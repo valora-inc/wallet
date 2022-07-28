@@ -1481,6 +1481,18 @@ export const v65Schema = {
   },
 }
 
+export const v66Schema = {
+  ...v65Schema,
+  _persist: {
+    ...v65Schema._persist,
+    version: 66,
+  },
+  transactions: {
+    ...v65Schema.transactions,
+    transactions: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v65Schema as Partial<RootState>
+  return v66Schema as Partial<RootState>
 }
