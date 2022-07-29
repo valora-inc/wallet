@@ -3,11 +3,11 @@ import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
+import { createMockStore } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -167,23 +167,22 @@ describe('FiatConnectQuote', () => {
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.onPress(CICOFlow.CashIn)()
+      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })
   })
 
   describe('.navigate', () => {
-    it('calls navigate', () => {
+    const store = createMockStore()
+    store.dispatch = jest.fn()
+    it('calls dispatch', () => {
       const quote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
       })
-      quote.navigate(CICOFlow.CashIn)
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatDetailsScreen, {
-        flow: CICOFlow.CashIn,
-        quote,
-      })
+      quote.navigate(store.dispatch)
+      expect(store.dispatch).toHaveBeenCalledWith(selectFiatConnectQuote({ quote }))
     })
   })
 

@@ -9,7 +9,6 @@ import AccountNumber from 'src/components/AccountNumber'
 import BackButton from 'src/components/BackButton'
 import Button from 'src/components/Button'
 import ListItem from 'src/components/ListItem'
-import TextButton from 'src/components/TextButton'
 import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -23,7 +22,6 @@ import variables from 'src/styles/variables'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { FiatExchangeFlow } from './utils'
 
 export const externalExchangesScreenOptions = () => {
   const eventName = FiatExchangeEvents.cico_external_exchanges_back
@@ -62,13 +60,6 @@ function ExternalExchanges({ route }: Props) {
     }
   }
 
-  const supportOnPress = () => navigate(Screens.SupportContact)
-
-  const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: isCashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
-
   const goToCashOut = () => {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
@@ -76,27 +67,7 @@ function ExternalExchanges({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {providers?.length === 0 ? (
-        <View style={styles.noExchangesContainer}>
-          <Text testID="NoExchanges" style={styles.noExchanges}>
-            {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}
-          </Text>
-          <TextButton
-            testID={'SwitchCurrency'}
-            style={styles.switchCurrency}
-            onPress={switchCurrencyOnPress}
-          >
-            {t('switchCurrency')}
-          </TextButton>
-          <TextButton
-            testID={'ContactSupport'}
-            style={styles.contactSupport}
-            onPress={supportOnPress}
-          >
-            {t('contactSupport')}
-          </TextButton>
-        </View>
-      ) : isCashIn ? (
+      {isCashIn ? (
         <>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
@@ -184,25 +155,6 @@ const styles = StyleSheet.create({
   optionTitle: {
     flex: 3,
     ...fontStyles.regular,
-  },
-  noExchangesContainer: {
-    alignItems: 'center',
-    padding: 24,
-  },
-  noExchanges: {
-    ...fontStyles.regular,
-    padding: variables.contentPadding,
-    textAlign: 'center',
-  },
-  switchCurrency: {
-    ...fontStyles.large500,
-    color: colors.greenUI,
-    padding: 8,
-  },
-  contactSupport: {
-    ...fontStyles.large500,
-    color: colors.gray4,
-    padding: 8,
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -437,6 +437,25 @@ export enum FiatExchangeEvents {
 
   // Fiat connect review screen
   cico_submit_transfer = 'cico_submit_transfer',
+  cico_cancel_transfer = 'cico_cancel_transfer',
+
+  // Fiat Connect fiat details screen
+  cico_fiat_details_success = 'cico_fiat_details_success',
+  cico_fiat_details_cancel = 'cico_fiat_details_cancel',
+  cico_fiat_details_error = 'cico_fiat_details_error',
+  cico_fiat_details_reselect = 'cico_fiat_details_reselect',
+
+  // Fiat Connect transfer analytics
+  cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',
+  cico_fc_transfer_tx_error = 'cico_fc_transfer_tx_error',
+  cico_fc_transfer_success = 'cico_fc_transfer_success',
+
+  // Fiat Connect transfer status screen
+  cico_fc_transfer_error_retry = 'cico_fc_transfer_error_retry',
+  cico_fc_transfer_error_cancel = 'cico_fc_transfer_error_cancel',
+  cico_fc_transfer_error_contact_support = 'cico_fc_transfer_error_contact_support',
+  cico_fc_transfer_success_complete = 'cico_fc_transfer_success_complete',
+  cico_fc_transfer_success_view_tx = 'cico_fc_transfer_success_view_tx',
 }
 
 export enum ContractKitEvents {
