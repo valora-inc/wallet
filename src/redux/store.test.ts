@@ -224,6 +224,7 @@ describe('store state', () => {
           "quotes": Array [],
           "quotesError": null,
           "quotesLoading": false,
+          "selectFiatConnectQuoteLoading": false,
           "transfer": null,
         },
         "fiatExchanges": Object {
