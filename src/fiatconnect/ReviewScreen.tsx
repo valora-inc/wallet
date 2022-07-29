@@ -72,7 +72,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const onPressBack = async () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
       flow,
-      provider: normalizedQuote.getProviderId(),
+      provider: providerId,
     })
     navigateBack()
   }

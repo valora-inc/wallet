@@ -184,7 +184,7 @@ describe('ReviewScreen', () => {
       const mockProps = getProps(CICOFlow.CashOut)
 
       const { getByTestId } = render(
-        <Provider store={store}>
+        <Provider store={createMockStore()}>
           <FiatConnectReviewScreen {...mockProps} />
         </Provider>
       )
