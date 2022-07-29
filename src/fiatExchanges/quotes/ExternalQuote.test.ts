@@ -4,6 +4,7 @@ import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
+import { createMockStore } from 'test/utils'
 import { mockProviders } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -141,7 +142,7 @@ describe('ExternalQuote', () => {
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
-      quote.onPress(CICOFlow.CashIn)()
+      quote.onPress(CICOFlow.CashIn, createMockStore().dispatch)()
       expect(ValoraAnalytics.track).toHaveBeenCalled()
     })
   })
