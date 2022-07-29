@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Você está recebendo recompensas de Supercharge no seus {{token}}",
-  "superchargingDescription": "Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
+  "superchargingDescription": "Você recebe {{apy}}% anualmente. Toda semana você receberá uma notificação avisando quando as suas recompensas estiverem pronta. Basta voltar aqui para resgatá-las.",
   "superchargeRewardsAvailable": "Você tem {{amount}} {{token}} disponíveis para resgatar!",
   "superchargeRewardsAvailableMultipleTokens": "Você tem {{amounts}} disponíveis para resgatar!",
   "superchargeClaimText": "Resgate suas recompensas para adicioná-las ao seu saldo.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
   "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em sua região.",
+  "noPaymentMethods": "Não há métodos de pagamento disponíveis para {{digitalAsset}} na sua região.",
   "switchCurrency": "Trocar moeda",
   "accept": "Aceitar",
   "at": "em",
@@ -387,8 +388,6 @@
   "paste": "Colar",
   "choose": "Escolher",
   "receivedPayment": "Pagamento recebido",
-  "receivedNft": "NFT recebido",
-  "sentNft": "Enviado NFT",
   "getStarted": "Começar",
   "manageCeloDollars": "Gerenciar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -529,7 +528,6 @@
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
   "home": "Página inicial",
-  "swap": "Trocar",
   "accountKey": "Recuperação",
   "addAndWithdraw": "Adicionar e Sacar",
   "settings": "Configurações",
@@ -1111,8 +1109,6 @@
   "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
-  "transactionHeaderNftReceived": "NFT Recebido",
-  "transactionHeaderNftSent": "NFT Enviado",
   "feedSectionHeaderRecent": "Recente",
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
@@ -1273,19 +1269,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Repetir",
     "withdraw": {
-      "cancel": "Cancelar Retirada",
+      "cancel": "Cancelar saque",
       "success": {
         "header": "Sucesso",
-        "title": "Os seus fundos estão a caminho!",
-        "description": "O seu pedido de transacção foi enviado e os seus fundos chegarão em {{duration}}.",
+        "title": "Seus fundos estão a caminho!",
+        "description": "Sua solicitação de transação foi enviada e seus fundos chegarão em {{duration}}.",
         "txDetails": "Ver no CeloExplorer",
         "continue": "Continuar"
       }
     },
     "requestNotCompleted": {
-      "title": "O seu pedido não pôde ser completado.",
-      "description": "Os seus fundos não puderam ser transferidos de Valora. Por favor, tente novamente ou contacte a nossa equipa de apoio para obter ajuda.",
-      "contactSupportPrefill": "Estou a ter dificuldades em retirar os meus fundos da Valora"
+      "title": "Sua solicitação não pôde ser concluída.",
+      "description": "Seus fundos não puderam ser transferidos da Valora. Tente novamente ou entre​ em contato com a nossa equipe de suporte para obter ajuda.",
+      "contactSupportPrefill": "Estou tento dificuldade para sacar meus fundos da Valora"
     }
   },
   "fiatExchangeFlow": {
@@ -1339,6 +1335,13 @@
     "openExternal": "Abrir no navegador externo"
   },
   "dappNotListed": "Este dapp não está listado na {{appName}}. Os dapps são aplicativos de terceiros. Use-o por sua conta e risco.",
+  "swapScreen": {
+    "title": "Trocar",
+    "review": "Revisar",
+    "swapFrom": "De",
+    "swapTo": "Para",
+    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor maior ou escolha um token diferente."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

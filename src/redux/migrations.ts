@@ -13,6 +13,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { PaymentDeepLinkHandler } from 'src/merchantPayment/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
@@ -695,42 +696,51 @@ export const migrations = {
   }),
   59: (state: any) => ({
     ...state,
+    transactions: {
+      ...state.transactions,
+      transactions: (state.transactions.transactions || []).filter(
+        (transaction: TokenTransaction) => Object.keys(transaction).length > 0
+      ),
+    },
+  }),
+  60: (state: any) => ({
+    ...state,
     fiatConnect: {
       quotes: [],
       quotesLoading: false,
       quotesError: null,
     },
   }),
-  60: (state: any) => ({
+  61: (state: any) => ({
     ...state,
     app: {
       ...state.app,
       showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
     },
   }),
-  61: (state: any) => ({
+  62: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
       transfer: null,
     },
   }),
-  62: (state: any) => ({
+  63: (state: any) => ({
     ...state,
     app: {
       ..._.omit(state.app, 'superchargeTokens'),
       superchargeTokenConfigByToken: {},
     },
   }),
-  63: (state: any) => ({
+  64: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
       providers: null,
     },
   }),
-  64: (state: any) => state,
-  65: (state: any) => ({
+  65: (state: any) => state,
+  66: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
@@ -738,7 +748,7 @@ export const migrations = {
       attemptReturnUserFlowLoading: false,
     },
   }),
-  66: (state: any) => ({
+  67: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
