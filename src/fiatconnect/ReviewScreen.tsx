@@ -1,4 +1,4 @@
-import { FiatAccountSchema, ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
+import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
@@ -14,6 +14,7 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   fiatConnectQuotesLoadingSelector,
@@ -108,11 +109,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       <View>
         <ReceiveAmount flow={flow} normalizedQuote={quote} />
         <TransactionDetails flow={flow} normalizedQuote={quote} />
-        <PaymentMethod
-          normalizedQuote={quote}
-          fiatAccount={fiatAccount}
-          fiatAccountSchema={quote.getFiatAccountSchema()}
-        />
+        <PaymentMethod normalizedQuote={quote} fiatAccount={fiatAccount} />
       </View>
       <Button
         testID="submitButton"
@@ -315,31 +312,41 @@ function TransactionDetails({
 function PaymentMethod({
   normalizedQuote,
   fiatAccount,
-  fiatAccountSchema,
 }: {
   normalizedQuote: FiatConnectQuote
   fiatAccount: ObfuscatedFiatAccountData
-  fiatAccountSchema: FiatAccountSchema
 }) {
   const { t } = useTranslation()
 
-  // TODO: allow this to be pressable and navigate back to Select Providers screen
+  const onPress = () => {
+    navigate(Screens.SelectProvider, {
+      flow: normalizedQuote.flow,
+      selectedCrypto: normalizedQuote.getCryptoType(),
+      amount: {
+        fiat: parseFloat(normalizedQuote.getFiatAmount()),
+        crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+      },
+    })
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
-      <View style={styles.sectionMainTextContainer}>
-        <Text style={styles.sectionMainText} testID="paymentMethod-text">
-          {fiatAccount.accountName}
-        </Text>
+    <Touchable onPress={onPress}>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
+        <View style={styles.sectionMainTextContainer}>
+          <Text style={styles.sectionMainText} testID="paymentMethod-text">
+            {fiatAccount.accountName}
+          </Text>
+        </View>
+        <View style={styles.sectionSubTextContainer}>
+          <Text style={styles.sectionSubText} testID="paymentMethod-via">
+            {t('fiatConnectReviewScreen.paymentMethodVia', {
+              providerName: normalizedQuote.getProviderName(),
+            })}
+          </Text>
+        </View>
       </View>
-      <View style={styles.sectionSubTextContainer}>
-        <Text style={styles.sectionSubText} testID="paymentMethod-via">
-          {t('fiatConnectReviewScreen.paymentMethodVia', {
-            providerName: normalizedQuote.getProviderName(),
-          })}
-        </Text>
-      </View>
-    </View>
+    </Touchable>
   )
 }
 

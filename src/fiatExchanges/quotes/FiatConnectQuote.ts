@@ -5,11 +5,13 @@ import {
   QuoteResponseFiatAccountSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
+import { Dispatch } from 'redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
   SUPPORTED_FIAT_ACCOUNT_TYPES,
 } from 'src/fiatconnect/FiatDetailsScreen'
+import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -17,8 +19,6 @@ import {
   convertCurrencyToLocalAmount,
   convertLocalAmountToCurrency,
 } from 'src/localCurrency/convert'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency, Currency, resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 
 const strings = {
@@ -123,12 +123,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  // TODO: Navigate to the Review screen if a fiatAccount is already saved
-  navigate(flow: CICOFlow): void {
-    navigate(Screens.FiatDetailsScreen, {
-      quote: this,
-      flow,
-    })
+  navigate(dispatch: Dispatch): void {
+    dispatch(selectFiatConnectQuote({ quote: this }))
   }
 
   getProviderName(): string {

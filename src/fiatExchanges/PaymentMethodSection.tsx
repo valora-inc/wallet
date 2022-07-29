@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, LayoutAnimation, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Expandable from 'src/components/Expandable'
@@ -27,6 +27,7 @@ export function PaymentMethodSection({
   flow,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const sectionQuotes = normalizedQuotes.filter(
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
@@ -138,7 +139,7 @@ export function PaymentMethodSection({
   }
   return (
     <View style={styles.container}>
-      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow)}>
+      <Touchable onPress={isExpandable ? toggleExpanded : sectionQuotes[0].onPress(flow, dispatch)}>
         <View>
           <Expandable
             arrowColor={colors.greenUI}
@@ -158,7 +159,7 @@ export function PaymentMethodSection({
           <Touchable
             key={index}
             testID={`${paymentMethod}/provider-${index}`}
-            onPress={normalizedQuote.onPress(flow)}
+            onPress={normalizedQuote.onPress(flow, dispatch)}
           >
             <View style={styles.expandedContainer}>
               <View style={styles.left}>
