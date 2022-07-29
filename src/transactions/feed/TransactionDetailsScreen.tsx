@@ -18,6 +18,7 @@ import {
   TokenTransactionTypeV2,
   TokenTransfer,
 } from 'src/transactions/types'
+import { coinbaseAddresses } from 'src/transactions/utils'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
 import CeloExchangeContent from './detailContent/CeloExchangeContent'
@@ -44,13 +45,16 @@ function useHeaderTitle(transaction: TokenTransaction) {
     case TokenTransactionTypeV2.Received:
       const transfer = transaction as TokenTransfer
       const isCeloReception = transfer.amount.tokenAddress === celoAddress
+      const isCoinbaseDeposit = coinbaseAddresses.includes(transfer.address)
       if (
         rewardsSenders.includes(transfer.address) ||
         addressToDisplayName[transfer.address]?.isCeloRewardSender
       ) {
         return t('transactionHeaderCeloReward')
       } else {
-        return isCeloReception ? t('transactionHeaderCeloDeposit') : t('transactionHeaderReceived')
+        return isCeloReception || isCoinbaseDeposit
+          ? t('transactionHeaderCeloDeposit')
+          : t('transactionHeaderReceived')
       }
     case TokenTransactionTypeV2.InviteSent:
       return t('transactionHeaderEscrowSent')
