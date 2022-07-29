@@ -189,7 +189,7 @@
     "dismiss": "Yoksay"
   },
   "superchargingTitle": "Supercharge uygulanan varlık: {{token}}",
-  "superchargingDescription": "Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
+  "superchargingDescription": "Yıllık %{{apy}} alıyorsunuz. Ödülleriniz hazır olduğunda her hafta bir bildirim alacaksınız, onları almak için buraya geri gelin.",
   "superchargeRewardsAvailable": "{{amount}} {{token}} almaya hak kazandınız!",
   "superchargeRewardsAvailableMultipleTokens": "{{amounts}} almaya hak kazandınız!",
   "superchargeClaimText": "Ödüllerinizi alın ve bakiyenize ekleyin.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Bölgenizde sınırlı destek mevcut",
   "unsupportedPaymentMethod": "{{paymentMethod}} ile ödeme bölgenizde desteklenmiyor",
   "noProviders": "Bölgenizde {{digitalAsset}} için kullanılabilecek sağlayıcı bulunmuyor.",
+  "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
   "switchCurrency": "Para Birimini Değiştir",
   "accept": "Kabul Et",
   "at": "saat",
@@ -387,8 +388,6 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
-  "receivedNft": "Received NFT",
-  "sentNft": "Sent NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
@@ -529,7 +528,6 @@
   "helpFindAccount": "Kişilerinizin Hesap Adresinizi bulmalarına yardımcı olun",
   "close": "Kapat",
   "home": "Ana Sayfa",
-  "swap": "Swap",
   "accountKey": "Kurtarma Kelimeleri",
   "addAndWithdraw": "Ekle & Çek",
   "settings": "Ayarlar",
@@ -1111,8 +1109,6 @@
   "transactionHeaderCeloDeposit": "Yatırılan",
   "transactionHeaderCeloReward": "Ödül Alındı",
   "transactionHeaderEscrowReceived": "Escrow Ödemesi Alındı",
-  "transactionHeaderNftReceived": "NFT Received",
-  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
     "title": "Valora'yı kullanmaya başlamak için bakiye ekleyin!",
@@ -1273,19 +1269,19 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Tekrar Deneyin",
     "withdraw": {
-      "cancel": "Cancel Withdrawal",
+      "cancel": "Para Çekmeyi iptal et",
       "success": {
         "header": "Başarılı",
-        "title": "Your funds are on their way!",
-        "description": "Your transaction request has been sent & your funds will arrive in {{duration}}.",
-        "txDetails": "View on CeloExplorer",
+        "title": "Bakiyen yolda!",
+        "description": "İşlem talebiniz gönderildi ve paranız {{duration}} içinde ulaşacak.",
+        "txDetails": "CeloExplorer'da görüntüle",
         "continue": "İleri"
       }
     },
     "requestNotCompleted": {
-      "title": "Your request could not be completed.",
-      "description": "Your funds were not able to be transferred from Valora. Please try again or contact our support team for help.",
-      "contactSupportPrefill": "I'm having trouble withdrawing my funds from Valora"
+      "title": "İsteğiniz gerçekleştirilemedi.",
+      "description": "Paranız Valora'dan aqktarılamadı. Lütfen tekrar deneyin veya yardım için destek ekibimizle iletişime geçin.",
+      "contactSupportPrefill": "Valora'dan paramı çekerken sorun yaşıyorum"
     }
   },
   "fiatExchangeFlow": {
@@ -1339,6 +1335,13 @@
     "openExternal": "Harici tarayıcıda aç"
   },
   "dappNotListed": "Bu dapp {{appName}}'da listelenmiyor. Kendi sorumluluğunuzda kullanın.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Gözden Geçir",
+    "swapFrom": "Bu Token’dan",
+    "swapTo": "Şu Token’a",
+    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha büyük bir miktar girin veya farklı bir token seçin."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
