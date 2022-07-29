@@ -189,7 +189,7 @@
     "dismiss": "Отклонить"
   },
   "superchargingTitle": "Для вашего {{token}} действует программа Supercharge",
-  "superchargingDescription": "По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
+  "superchargingDescription": "Вы получаете {{apy}}% годовых. По готовности вознаграждений вы будете еженедельно получать уведомление. Вернитесь сюда, чтобы потребовать их.",
   "superchargeRewardsAvailable": "Вы можете заявить {{amount}} {{token}}!",
   "superchargeRewardsAvailableMultipleTokens": "У вас есть {{amounts}} для подачи заявки!",
   "superchargeClaimText": "Заявите о своих вознаграждениях, чтобы добавить их на свой баланс.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Ограниченная поддержка в регионе",
   "unsupportedPaymentMethod": "Оплата {{paymentMethod}} не поддерживается в вашем регионе",
   "noProviders": "В вашем регионе отсутствуют доступные поставщики для {{digitalAsset}}.",
+  "noPaymentMethods": "В твоем регионе недоступны способы оплаты для {{digitalAsset}} .",
   "switchCurrency": "Изменить валюту",
   "accept": "Принять",
   "at": "в",
@@ -387,8 +388,6 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
-  "receivedNft": "Полученный НФТ",
-  "sentNft": "Отправлено NFT",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -529,7 +528,6 @@
   "helpFindAccount": "Помогите контакту найти его адрес аккаунта",
   "close": "Закрыть",
   "home": "Главный экран",
-  "swap": "Обменять",
   "accountKey": "Восстановление",
   "addAndWithdraw": "Внести и вывести",
   "settings": "Настройки",
@@ -1115,8 +1113,6 @@
   "transactionHeaderCeloDeposit": "Получен депозит",
   "transactionHeaderCeloReward": "Вознаграждение получено",
   "transactionHeaderEscrowReceived": "Эскроу-платеж получен",
-  "transactionHeaderNftReceived": "Получено НФТ",
-  "transactionHeaderNftSent": "NFT Отправлено",
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
@@ -1277,18 +1273,18 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Повторить попытку",
     "withdraw": {
-      "cancel": "Отменить отмену",
+      "cancel": "Отменить вывод",
       "success": {
         "header": "Успешно",
-        "title": "Твои средства уже в пути!",
-        "description": "Твой запрос на транзакцию был отправлен, и твои средства поступят на {{duration}}.",
-        "txDetails": "Посмотреть на CeloExplorer",
+        "title": "Ваши средства уже в пути!",
+        "description": "Ваш запрос на транзакцию был отправлен, и ваши средства поступят на {{duration}}.",
+        "txDetails": "Просмотреть в CeloExplorer",
         "continue": "Продолжить"
       }
     },
     "requestNotCompleted": {
-      "title": "Твой запрос не удалось выполнить.",
-      "description": "Твои средства не удалось перевести из Valora. Пожалуйста, попробуй еще раз или обратись за помощью в нашу службу поддержки.",
+      "title": "Ваш запрос не удалось выполнить.",
+      "description": "Ваши средства не удалось перевести из Valora. Повторите попытку или обратитесь за помощью в нашу службу поддержки.",
       "contactSupportPrefill": "У меня возникли проблемы с выводом средств из Valora"
     }
   },
@@ -1343,6 +1339,13 @@
     "openExternal": "Открыть во внешнем браузере"
   },
   "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps — это сторонние приложения. Используйте их на свой страх и риск.",
+  "swapScreen": {
+    "title": "Обменять",
+    "review": "Проверить",
+    "swapFrom": "От",
+    "swapTo": "К",
+    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести большую сумму или выберите другой токен."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

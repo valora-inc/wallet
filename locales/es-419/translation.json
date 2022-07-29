@@ -189,7 +189,7 @@
     "dismiss": "Ignorar"
   },
   "superchargingTitle": "Estás participando en Supercharge con tus {{token}}",
-  "superchargingDescription": "Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
+  "superchargingDescription": "Estás recibiendo un {{apy}}% anual en recompensas. Recibirás una notificación cada semana cuando las recompensas estén listas, vuelve a esta pantalla para reclamarlas.",
   "superchargeRewardsAvailable": "¡Has acumulado {{amount}} {{token}} en recompensas!",
   "superchargeRewardsAvailableMultipleTokens": "¡Has acumulado {{amounts}} en recompensas!",
   "superchargeClaimText": "Reclama tus recompensas y multiplica tu saldo.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Soporte limitado en la región",
   "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
   "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu región.",
+  "noPaymentMethods": "No hay métodos de pago disponibles para {{digitalAsset}} en tu región.",
   "switchCurrency": "Cambiar moneda",
   "accept": "Aceptar",
   "at": "a",
@@ -387,8 +388,6 @@
   "paste": "Pegar",
   "choose": "Elegir",
   "receivedPayment": "Pago recibido",
-  "receivedNft": "Recibido NFT",
-  "sentNft": "Enviado NFT",
   "getStarted": "Primeros pasos",
   "manageCeloDollars": "Administrar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -529,7 +528,6 @@
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
   "home": "Inicio",
-  "swap": "Cambiar",
   "accountKey": "Recuperación",
   "addAndWithdraw": "Agregar y retirar",
   "settings": "Configuración",
@@ -1111,8 +1109,6 @@
   "transactionHeaderCeloDeposit": "Depósito recibido",
   "transactionHeaderCeloReward": "Recompensa recibida",
   "transactionHeaderEscrowReceived": "Pago de garantía recibido",
-  "transactionHeaderNftReceived": "NFT Recibido",
-  "transactionHeaderNftSent": "NFT Enviado",
   "feedSectionHeaderRecent": "Recientes",
   "cashInBottomSheet": {
     "title": "¡Agrega fondos para empezar a usar Valora!",
@@ -1273,18 +1269,18 @@
   "fiatConnectStatusScreen": {
     "tryAgain": "Reintentar",
     "withdraw": {
-      "cancel": "Cancelar la retirada",
+      "cancel": "Cancelar retiro",
       "success": {
-        "header": "Éxito",
+        "header": "Retiro exitoso",
         "title": "¡Tus fondos están en camino!",
-        "description": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán a {{duration}}.",
-        "txDetails": "Ver en CeloExplorador",
+        "description": "Tu solicitud ha sido enviada y tus fondos llegarán en {{duration}}.",
+        "txDetails": "Ver en CeloExplorer",
         "continue": "Continuar"
       }
     },
     "requestNotCompleted": {
       "title": "No se ha podido completar tu solicitud.",
-      "description": "No se han podido transferir tus fondos desde Valora. Por favor, inténtalo de nuevo o ponte en contacto con nuestro equipo de soporte para obtener ayuda.",
+      "description": "No se han podido transferir tus fondos desde Valora. Inténtalo de nuevo o comunícate con nuestro equipo de soporte técnico para obtener ayuda.",
       "contactSupportPrefill": "Tengo problemas para retirar mis fondos de Valora"
     }
   },
@@ -1339,6 +1335,13 @@
     "openExternal": "Abrir en navegador externo"
   },
   "dappNotListed": "Esta dapp no se encuentra entre las seleccionadas por {{appName}}. Las dapps son aplicaciones de terceros. Utilízalas bajo tu propia responsabilidad.",
+  "swapScreen": {
+    "title": "Cambiar",
+    "review": "Revisar",
+    "swapFrom": "De",
+    "swapTo": "Para",
+    "insufficientFunds": "Saldo en {{token}} insuficiente. Por favor, ingresa un monto mayor o elige otro token."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
