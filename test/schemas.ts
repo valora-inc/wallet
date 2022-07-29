@@ -1488,18 +1488,18 @@ export const v66Schema = {
     attemptReturnUserFlowLoading: false,
   },
 }
-export const v66Schema = {
-  ...v65Schema,
+export const v67Schema = {
+  ...v66Schema,
   _persist: {
-    ...v65Schema._persist,
-    version: 66,
+    ...v66Schema._persist,
+    version: 67,
   },
   fiatConnect: {
-    ...v65Schema.fiatConnect,
+    ...v66Schema.fiatConnect,
     selectFiatConnectQuoteLoading: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v66Schema as Partial<RootState>
+  return v67Schema as Partial<RootState>
 }

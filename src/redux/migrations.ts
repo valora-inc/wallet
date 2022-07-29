@@ -748,7 +748,7 @@ export const migrations = {
       attemptReturnUserFlowLoading: false,
     },
   }),
-  66: (state: any) => ({
+  67: (state: any) => ({
     ...state,
     fiatConnect: {
       ...state.fiatConnect,
