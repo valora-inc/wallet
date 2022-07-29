@@ -273,9 +273,7 @@ class Logger {
     const writeLog = async (level: string, message: string) => {
       try {
         // If log folder not present create it
-        if (!(await RNFS.exists(this.getReactNativeLogsDir()))) {
-          await RNFS.mkdir(this.getReactNativeLogsDir())
-        }
+        await RNFS.mkdir(this.getReactNativeLogsDir())
 
         // If daily log file is not present create it
         if (!(await RNFS.exists(logFilePath))) {
