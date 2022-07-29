@@ -44,6 +44,7 @@ import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
+import { vendorsSaga } from 'src/vendors/saga'
 import { verifySaga } from 'src/verify/saga'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
@@ -137,6 +138,7 @@ export function* rootSaga() {
     yield spawn(walletConnectSaga)
     yield spawn(superchargeSaga)
     yield spawn(checkAndroidMobileServicesSaga)
+    yield spawn(vendorsSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

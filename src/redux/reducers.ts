@@ -24,6 +24,7 @@ import { reducer as stableToken, State as StableTokenState } from 'src/stableTok
 import { reducer as swap, State as SwapState } from 'src/swap/reducer'
 import { reducer as tokens, State as TokensState } from 'src/tokens/reducer'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
+import { reducer as vendors, State as VendorState } from 'src/vendors/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
@@ -55,6 +56,7 @@ const appReducer = combineReducers({
   tokens,
   supercharge: superchargeReducer,
   swap: swap,
+  vendors,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -104,6 +106,7 @@ export interface RootState {
   tokens: TokensState
   supercharge: SuperchargeState
   swap: SwapState
+  vendors: VendorState
 }
 
 export interface PersistedRootState {
