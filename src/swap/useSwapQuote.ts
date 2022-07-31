@@ -20,7 +20,7 @@ export type SwapAmount = {
 const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const [exchangeRate, setExchangeRate] = useState<string | null>(null)
-  const [hasError, setHasError] = useState(false)
+  const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
 
   const refreshQuote = async (
     fromToken: TokenBalance,
@@ -28,7 +28,7 @@ const useSwapQuote = () => {
     swapAmount: SwapAmount,
     updatedField: Field
   ) => {
-    setHasError(false)
+    setFetchSwapQuoteError(false)
 
     if (!swapAmount[updatedField]) {
       setExchangeRate(null)
@@ -53,7 +53,7 @@ const useSwapQuote = () => {
           : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
       )
     } else {
-      setHasError(true)
+      setFetchSwapQuoteError(true)
       Logger.warn(
         'SwapScreen@useSwapQuote',
         'error from approve swap url',
@@ -65,7 +65,7 @@ const useSwapQuote = () => {
   return {
     exchangeRate,
     refreshQuote,
-    hasError,
+    fetchSwapQuoteError,
   }
 }
 

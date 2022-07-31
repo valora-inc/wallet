@@ -46,11 +46,17 @@ export function SwapScreen() {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
-  const { exchangeRate, refreshQuote } = useSwapQuote()
+  const { exchangeRate, refreshQuote, fetchSwapQuoteError } = useSwapQuote()
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
   }, [])
+
+  useEffect(() => {
+    if (fetchSwapQuoteError) {
+      dispatch(showError(t('swapScreen.fetchSwapQuoteFailed')))
+    }
+  }, [fetchSwapQuoteError])
 
   useEffect(() => {
     setFromSwapAmountError(false)
