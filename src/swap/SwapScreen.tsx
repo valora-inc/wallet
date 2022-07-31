@@ -20,7 +20,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
-const FETCH_UPDATED_QUOTE_TIMEOUT = 500
+const FETCH_UPDATED_QUOTE_TIMEOUT = 300
 const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -185,7 +185,7 @@ export function SwapScreen() {
             <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
             {exchangeRate && (
               <Text style={headerStyles.headerSubTitle}>
-                {`1 ${toToken.symbol} ≈ ${exchangeRate} ${fromToken.symbol}`}
+                {`1 ${toToken.symbol} ≈ ${exchangeRate.substring(0, 7)} ${fromToken.symbol}`}
               </Text>
             )}
           </View>
