@@ -138,6 +138,11 @@ export function SwapScreen() {
     } else if (selectingToken === Field.TO) {
       setToToken(selectedToken)
     }
+
+    if (fromToken && toToken && selectingToken) {
+      void refreshQuote(fromToken, toToken, swapAmount, selectingToken)
+    }
+
     setSelectingToken(null)
   }
 
