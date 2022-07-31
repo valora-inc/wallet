@@ -35,13 +35,17 @@ const useSwapQuote = () => {
       return
     }
 
+    const swapAmountInWei = multiplyByWei(swapAmount[updatedField]!)
+    if (swapAmountInWei.lte(0)) {
+      setExchangeRate(null)
+      return
+    }
+
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
     const quoteResponse = await fetch(
       `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
         fromToken.address
-      }&${swapAmountParam}=${multiplyByWei(
-        swapAmount[updatedField]!
-      ).toString()}&userAddress=${walletAddress}`
+      }&${swapAmountParam}=${swapAmountInWei.toString().split('.')[0]}&userAddress=${walletAddress}`
     )
 
     if (quoteResponse.ok) {
