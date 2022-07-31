@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import TextInput from 'src/components/TextInput'
@@ -33,13 +33,17 @@ const SwapAmountInput = ({
   style,
 }: Props) => {
   const { t } = useTranslation()
+  const [startPosition, setStartPosition] = useState<number | undefined>(0)
 
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
         <TextInput
-          onChangeText={onInputChange}
+          onChangeText={(value) => {
+            setStartPosition(undefined)
+            onInputChange(value)
+          }}
           value={inputValue || undefined}
           placeholder="0"
           style={styles.input}
@@ -48,6 +52,13 @@ const SwapAmountInput = ({
           // unset lineHeight to allow ellipsis on long inputs
           inputStyle={[{ lineHeight: undefined }, inputError ? styles.inputError : {}]}
           testID="SwapAmountInput/Input"
+          onEndEditing={() => {
+            setStartPosition(0)
+          }}
+          onFocus={() => {
+            setStartPosition(inputValue?.length ?? 0)
+          }}
+          selection={typeof startPosition === 'number' ? { start: startPosition } : undefined}
         />
         {onPressMax && (
           <Touchable
