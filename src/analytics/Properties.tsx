@@ -1,4 +1,5 @@
 import { DappKitRequestTypes } from '@celo/utils'
+import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -29,7 +30,6 @@ import {
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
-import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import {
   BackQuizProgress,
   DappRequestOrigin,
@@ -50,7 +50,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { Field } from 'src/swap/SwapScreen'
+import { Field } from 'src/swap/useSwapQuote'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
