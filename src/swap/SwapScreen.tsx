@@ -61,12 +61,7 @@ export function SwapScreen() {
   useEffect(() => {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
-      const isExchangeRateRefreshed =
-        exchangeRate &&
-        new BigNumber(swapAmount[Field.FROM] ?? 0)
-          .multipliedBy(new BigNumber(exchangeRate))
-          .toString() === swapAmount[Field.TO]
-      if (toToken && fromToken && !isExchangeRateRefreshed) {
+      if (toToken && fromToken) {
         void refreshQuote(fromToken, toToken, swapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_TIMEOUT)
@@ -137,10 +132,6 @@ export function SwapScreen() {
       setFromToken(selectedToken)
     } else if (selectingToken === Field.TO) {
       setToToken(selectedToken)
-    }
-
-    if (fromToken && toToken && selectingToken) {
-      void refreshQuote(fromToken, toToken, swapAmount, selectingToken)
     }
 
     setSelectingToken(null)
