@@ -6,6 +6,8 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call } from 'redux-saga/effects'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
@@ -73,6 +75,8 @@ export function* handleRequest({ method, params }: { method: string; params: any
   const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
   yield call(unlockAccount, account)
+  // Call Sentry performance monitoring after entering pin if required
+  SentryTransactionHub.startTransaction(SentrySpan.wallet_connect_transaction)
 
   switch (method) {
     case SupportedActions.eth_signTransaction: {

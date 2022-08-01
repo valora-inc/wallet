@@ -124,6 +124,8 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     Logger.debug(TAG, 'Producing tx signature')
 
     yield call(getConnectedUnlockedAccount)
+    // Call Sentry performance monitoring after entering pin if required
+    SentryTransactionHub.startTransaction(SentrySpan.dappkit_transaction)
     const web3 = yield call(getWeb3)
 
     const rawTxs = yield Promise.all(
@@ -162,6 +164,7 @@ function* produceTxSignature(action: RequestTxSignatureAction) {
     const responseDeeplink = produceResponseDeeplink(action.request, SignTxResponseSuccess(rawTxs))
     yield call(handleNavigationWithDeeplink, responseDeeplink)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
+    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_transaction)
   } catch (error) {
     Logger.error(TAG, 'Failed to produce tx signature', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {
@@ -186,7 +189,6 @@ export function* handleDappkitDeepLink(deeplink: string) {
           DappKitEvents.dappkit_request_propose,
           getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
-        SentryTransactionHub.startTransaction(SentrySpan.dappkit_connection)
         navigate(Screens.DappKitAccountScreen, { dappKitRequest })
         break
       case DappKitRequestTypes.SIGN_TX:
@@ -194,7 +196,6 @@ export function* handleDappkitDeepLink(deeplink: string) {
           DappKitEvents.dappkit_request_propose,
           getDefaultRequestTrackedProperties(dappKitRequest, activeDapp)
         )
-        SentryTransactionHub.startTransaction(SentrySpan.dappkit_transaction)
         navigate(Screens.DappKitSignTxScreen, { dappKitRequest })
         break
       default:

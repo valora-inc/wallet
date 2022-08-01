@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
+import { SentrySpan } from 'src/sentry/SentrySpans'
+import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import RequestContent from 'src/walletConnect/screens/RequestContent'
 import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { acceptSession, denySession } from 'src/walletConnect/v1/actions'
@@ -36,6 +38,7 @@ function SessionRequest({ pendingSession }: Props) {
   return (
     <RequestContent
       onAccept={() => {
+        SentryTransactionHub.startTransaction(SentrySpan.wallet_connect_connection)
         dispatch(acceptSession(pendingSession))
       }}
       onDeny={() => {

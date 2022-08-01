@@ -7,8 +7,6 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import { ActiveDapp } from 'src/dapps/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { SentrySpan } from 'src/sentry/SentrySpans'
-import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -52,9 +50,6 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   // connection request
   if (link.includes('?')) {
     yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
-  } else {
-    // action request
-    SentryTransactionHub.startTransaction(SentrySpan.wallet_connect_transaction)
   }
 
   // action request, we can do nothing

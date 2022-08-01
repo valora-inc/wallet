@@ -55,7 +55,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
     if (await isBottomSheetVisible(Screens.DappKitAccountScreen)) {
       navigateBack()
     }
-    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_connection)
   }
 
   return (
