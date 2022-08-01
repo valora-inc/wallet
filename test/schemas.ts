@@ -1385,11 +1385,6 @@ export const v59Schema = {
     ...v58Schema._persist,
     version: 59,
   },
-  fiatConnect: {
-    quotes: [],
-    quotesLoading: false,
-    quotesError: null,
-  },
 }
 
 export const v60Schema = {
@@ -1398,9 +1393,10 @@ export const v60Schema = {
     ...v59Schema._persist,
     version: 60,
   },
-  app: {
-    ...v59Schema.app,
-    showSwapMenuInDrawerMenu: false,
+  fiatConnect: {
+    quotes: [],
+    quotesLoading: false,
+    quotesError: null,
   },
 }
 
@@ -1410,9 +1406,9 @@ export const v61Schema = {
     ...v60Schema._persist,
     version: 61,
   },
-  fiatConnect: {
-    ...v60Schema.fiatConnect,
-    transfer: null,
+  app: {
+    ...v60Schema.app,
+    showSwapMenuInDrawerMenu: false,
   },
 }
 
@@ -1422,8 +1418,20 @@ export const v62Schema = {
     ...v61Schema._persist,
     version: 62,
   },
+  fiatConnect: {
+    ...v61Schema.fiatConnect,
+    transfer: null,
+  },
+}
+
+export const v63Schema = {
+  ...v62Schema,
+  _persist: {
+    ...v62Schema._persist,
+    version: 63,
+  },
   app: {
-    ..._.omit(v61Schema.app, 'superchargeTokens'),
+    ..._.omit(v62Schema.app, 'superchargeTokens'),
     superchargeTokenConfigByToken: {
       [mockCusdAddress]: {
         minBalance: 10,
@@ -1437,27 +1445,27 @@ export const v62Schema = {
   },
 }
 
-export const v63Schema = {
-  ...v62Schema,
-  _persist: {
-    ...v62Schema._persist,
-    version: 63,
-  },
-  fiatConnect: {
-    ...v62Schema.fiatConnect,
-    providers: null,
-  },
-}
-
 export const v64Schema = {
   ...v63Schema,
   _persist: {
     ...v63Schema._persist,
     version: 64,
   },
+  fiatConnect: {
+    ...v63Schema.fiatConnect,
+    providers: null,
+  },
+}
+
+export const v65Schema = {
+  ...v64Schema,
+  _persist: {
+    ...v64Schema._persist,
+    version: 64,
+  },
   fees: {
-    ...v63Schema.fees,
-    estimates: Object.entries(v63Schema.fees.estimates).reduce((acc, [address, estimate]) => {
+    ...v64Schema.fees,
+    estimates: Object.entries(v64Schema.fees.estimates).reduce((acc, [address, estimate]) => {
       return {
         ...acc,
         [address]: {
@@ -1468,30 +1476,39 @@ export const v64Schema = {
     }, {}),
   },
 }
-export const v65Schema = {
-  ...v64Schema,
-  _persist: {
-    ...v64Schema._persist,
-    version: 65,
-  },
-  fiatConnect: {
-    ...v64Schema.fiatConnect,
-    cachedFiatAccountUses: [],
-    attemptReturnUserFlowLoading: false,
-  },
-}
 export const v66Schema = {
   ...v65Schema,
   _persist: {
     ...v65Schema._persist,
     version: 66,
   },
-  recipients: {
-    ...v65Schema.recipients,
-    coinbasePaySenders: [],
+  fiatConnect: {
+    ...v65Schema.fiatConnect,
+    cachedFiatAccountUses: [],
+    attemptReturnUserFlowLoading: false,
   },
 }
+export const v67Schema = {
+  ...v66Schema,
+  _persist: {
+    ...v66Schema._persist,
+    version: 67,
+  },
+  fiatConnect: {
+    ...v66Schema.fiatConnect,
+    selectFiatConnectQuoteLoading: false,
+  },
+}
+export const v68Schema = {
+  ...v67Schema,
+  _persist: {
+    ...v67Schema._persist,
+    version: 67,
+  },
+  recipients: {
+    ...v67Schema.recipients,
+    coinbasePaySenders: [],
 
 export function getLatestSchema(): Partial<RootState> {
-  return v66Schema as Partial<RootState>
+  return v68Schema as Partial<RootState>
 }
