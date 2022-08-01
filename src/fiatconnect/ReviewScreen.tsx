@@ -96,7 +96,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           dispatch(
             fetchFiatConnectQuotes({
               flow,
-              digitalAsset: normalizedQuote.getCicoCryptoType(),
+              digitalAsset: resolveCICOCurrency(normalizedQuote.quote.quote.cryptoType),
               cryptoAmount: parseFloat(normalizedQuote.getCryptoAmount()),
               providerIds: [providerId],
             })

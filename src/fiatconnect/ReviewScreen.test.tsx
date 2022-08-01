@@ -136,7 +136,6 @@ describe('ReviewScreen', () => {
           providerIds: [mockFiatConnectQuotes[1].provider.id],
         }),
       ])
-      expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
     })
     it('shows expired dialog when submitting expired quote', async () => {
       jest.useRealTimers()

@@ -19,7 +19,7 @@ import {
   convertCurrencyToLocalAmount,
   convertLocalAmountToCurrency,
 } from 'src/localCurrency/convert'
-import { CiCoCurrency, Currency, resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
+import { Currency, resolveCurrency } from 'src/utils/currencies'
 
 const strings = {
   oneHour: i18n.t('selectProviderScreen.oneHour'),
@@ -157,10 +157,6 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getCryptoType(): Currency {
     return resolveCurrency(this.quote.quote.cryptoType)!
-  }
-
-  getCicoCryptoType(): CiCoCurrency {
-    return resolveCICOCurrency(this.quote.quote.cryptoType)
   }
 
   getFiatAccountType(): FiatAccountType {

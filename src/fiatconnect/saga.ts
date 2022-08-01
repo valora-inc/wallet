@@ -359,9 +359,7 @@ export function* handleCreateFiatConnectTransfer({
 
       const tokenList: TokenBalance[] = yield select(tokensListSelector)
       const tokenInfo = tokenList.find(
-        (token) =>
-          token.symbol === fiatConnectQuote.getCryptoType() ||
-          token.symbol === fiatConnectQuote.getCicoCryptoType()
+        (token) => token.symbol === fiatConnectQuote.getCryptoType()
       )!
 
       const feeEstimates: FeeEstimatesState['estimates'] = yield select(feeEstimatesSelector)
