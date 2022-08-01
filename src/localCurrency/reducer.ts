@@ -21,7 +21,7 @@ const initialState = {
     [Currency.Euro]: null,
     [Currency.Real]: null,
   },
-} // type deducing for exchangeRates only works till `[k: string]: null`
+}
 
 export const reducer = (
   state: State = initialState,
