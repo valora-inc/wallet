@@ -2542,13 +2542,20 @@
                 },
                 "valoraRecipientCache": {
                     "$ref": "#/definitions/AddressToRecipient"
+                },
+                "coinbasePaySenders": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
                 }
             },
             "required": [
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
                 "rewardsSenders",
-                "valoraRecipientCache"
+                "valoraRecipientCache",
+                "coinbasePaySenders"
             ],
             "type": "object"
         },

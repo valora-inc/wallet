@@ -95,8 +95,3 @@ export const transferReviewHeader = (
 
   return headerText
 }
-
-export const coinbaseAddresses: string[] = [
-  '0xa203bbf51a5bc4a8a82f8e145d01d0333471d411',
-  '0x0c888f91d246e6da1b56400c5c074362564f3bde',
-]

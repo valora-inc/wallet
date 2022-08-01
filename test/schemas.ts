@@ -1480,7 +1480,18 @@ export const v65Schema = {
     attemptReturnUserFlowLoading: false,
   },
 }
+export const v66Schema = {
+  ...v65Schema,
+  _persist: {
+    ...v65Schema._persist,
+    version: 66,
+  },
+  recipients: {
+    ...v65Schema.recipients,
+    coinbasePaySenders: [],
+  },
+}
 
 export function getLatestSchema(): Partial<RootState> {
-  return v65Schema as Partial<RootState>
+  return v66Schema as Partial<RootState>
 }

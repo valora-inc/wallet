@@ -25,6 +25,7 @@ import {
   RecipientInfo,
 } from 'src/recipients/recipient'
 import {
+  coinbasePaySendersSelector,
   inviteRewardsSendersSelector,
   phoneRecipientCacheSelector,
   recipientInfoSelector,
@@ -39,7 +40,6 @@ import {
   recentTxRecipientsCacheSelector,
 } from 'src/transactions/reducer'
 import { TokenTransactionTypeV2, TokenTransfer, TransactionStatus } from 'src/transactions/types'
-import { coinbaseAddresses } from 'src/transactions/utils'
 import { isPresent } from 'src/utils/typescript'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
@@ -286,6 +286,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const commentKey = useSelector(dataEncryptionKeySelector)
   const tokenInfo = useTokenInfo(transfer.amount.tokenAddress)
+  const coinbasePaySenders = useSelector(coinbasePaySendersSelector)
 
   const {
     type,
@@ -316,7 +317,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
       // This is for invite rewards.
       const isInviteRewardSender = inviteRewardSenders.includes(address)
       const providerInfo = txHashToFeedInfo[transfer.transactionHash]
-      const isCoinbaseDeposit = recipient.address && coinbaseAddresses.includes(recipient.address)
+      const isCoinbasePaySender = coinbasePaySenders.includes(address)
 
       if (isCeloRewardSender) {
         title = t('feedItemCeloRewardReceivedTitle')
@@ -332,9 +333,9 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
       } else if (providerInfo) {
         title = t('feedItemReceivedTitle', { displayName })
         subtitle = t('tokenDeposit', { token: tokenInfo?.symbol ?? '' })
-      } else if (isCoinbaseDeposit) {
-        title = t('feedItemReceivedTitle', { displayName })
-        subtitle = t('feedItemDepositInfo', { context: !comment ? 'noComment' : null, comment })
+      } else if (isCoinbasePaySender) {
+        title = 'Deposit'
+        subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })

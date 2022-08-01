@@ -336,6 +336,10 @@ export async function fetchInviteRewardsSenders() {
   return fetchListFromFirebase('inviteRewardAddresses')
 }
 
+export async function fetchCoinbasePaySenders() {
+  return fetchListFromFirebase('coinbasePayAddresses')
+}
+
 async function fetchListFromFirebase(path: string) {
   if (!FIREBASE_ENABLED) {
     return []
