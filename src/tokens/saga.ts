@@ -39,7 +39,8 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
 
 const TAG = 'tokens/saga'
-
+const CREAL_ADDRESS = '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787'
+// 0xC5375c73a627105eb4DF00867717F6e301966C32 //alfajores
 // The number of wei that represent one unit in a contract
 const contractWeiPerUnit: Record<Currency, BigNumber> = Object.fromEntries(
   Object.values(Currency).map((currency) => [currency, WEI_PER_TOKEN])
@@ -101,7 +102,6 @@ export async function getStableCurrencyFromAddress(tokenAddress: string): Promis
     contractKit.contracts.getGoldToken(),
     contractKit.contracts.getStableToken(StableToken.cUSD),
     contractKit.contracts.getStableToken(StableToken.cEUR),
-    contractKit.contracts.getStableToken(StableToken.cREAL),
   ])
   if (celoContract.address === tokenAddress) {
     return Currency.Celo
@@ -109,6 +109,8 @@ export async function getStableCurrencyFromAddress(tokenAddress: string): Promis
     return Currency.Dollar
   } else if (cEurContract.address === tokenAddress) {
     return Currency.Euro
+  } else if (CREAL_ADDRESS === tokenAddress) {
+    return Currency.Real
   }
   return null
 }
@@ -263,7 +265,7 @@ export async function getCurrencyAddress(currency: Currency) {
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
     case Currency.Real:
-      return '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787'
+      return CREAL_ADDRESS
     // return contractKit.registry.addressFor(CeloContract.StableTokenBRL)
   }
 }
