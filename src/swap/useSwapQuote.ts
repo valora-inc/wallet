@@ -58,6 +58,7 @@ const useSwapQuote = () => {
       )
     } else {
       setFetchSwapQuoteError(true)
+      setExchangeRate(null)
       Logger.warn(
         'SwapScreen@useSwapQuote',
         'error from approve swap url',
