@@ -62,16 +62,7 @@ export function SwapScreen() {
   useEffect(() => {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
-      // `isExchangeRateAlreadyRefreshed` prevents the quote from being fetched
-      // again, as this hook is triggered by an updated `swapAmount` from the
-      // previous exchange rate update
-      const isExchangeRateAlreadyRefreshed =
-        exchangeRate &&
-        new BigNumber(swapAmount[Field.FROM] ?? 0)
-          .multipliedBy(new BigNumber(exchangeRate))
-          .toString() === swapAmount[Field.TO]
-
-      if (toToken && fromToken && !isExchangeRateAlreadyRefreshed) {
+      if (toToken && fromToken) {
         void refreshQuote(fromToken, toToken, swapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_TIMEOUT)
@@ -142,10 +133,6 @@ export function SwapScreen() {
       setFromToken(selectedToken)
     } else if (selectingToken === Field.TO) {
       setToToken(selectedToken)
-    }
-
-    if (toToken && fromToken) {
-      void refreshQuote(fromToken, toToken, swapAmount, selectingToken ?? updatedField)
     }
 
     setUpdatedField((prev) => selectingToken ?? prev)

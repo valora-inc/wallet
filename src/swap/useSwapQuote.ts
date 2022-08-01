@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
@@ -22,6 +22,11 @@ const useSwapQuote = () => {
   const [exchangeRate, setExchangeRate] = useState<string | null>(null)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
 
+  // refreshQuote requests are generated when the swap input amounts are
+  // changed, but the quote response / updated exchange rate updates the swap
+  // input amounts. this variable prevents duplicated requests in this scenario
+  const requestUrlRef = useRef<string>('')
+
   const refreshQuote = async (
     fromToken: TokenBalance,
     toToken: TokenBalance,
@@ -42,15 +47,19 @@ const useSwapQuote = () => {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+    const requestUrl = `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
+      fromToken.address
+    }&${swapAmountParam}=${swapAmountInWei.toString().split('.')[0]}&userAddress=${walletAddress}`
+
+    if (requestUrl === requestUrlRef.current) {
+      // do nothing if the previous request url is the same as the current
+      return
+    }
+
+    requestUrlRef.current = requestUrl
 
     try {
-      const quoteResponse = await fetch(
-        `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
-          fromToken.address
-        }&${swapAmountParam}=${
-          swapAmountInWei.toString().split('.')[0]
-        }&userAddress=${walletAddress}`
-      )
+      const quoteResponse = await fetch(requestUrlRef.current)
 
       if (quoteResponse.ok) {
         const quote = await quoteResponse.json()
