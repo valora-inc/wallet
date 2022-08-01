@@ -57,10 +57,6 @@ describe('stableToken saga', () => {
       StableToken.cEUR,
       new BigNumber(CEUR_BALANCE).multipliedBy(WEI_PER_TOKEN)
     )
-    await mockStableBalance(
-      StableToken.cREAL,
-      new BigNumber(CREAL_BALANCE).multipliedBy(WEI_PER_TOKEN)
-    )
     await expectSaga(watchFetchStableBalances)
       .withState(state)
       .dispatch(fetchStableBalances())
