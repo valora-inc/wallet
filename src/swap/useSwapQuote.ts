@@ -42,31 +42,39 @@ const useSwapQuote = () => {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const quoteResponse = await fetch(
-      `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
-        fromToken.address
-      }&${swapAmountParam}=${swapAmountInWei.toString().split('.')[0]}&userAddress=${walletAddress}`
-    )
 
-    if (quoteResponse.ok) {
-      const quote = await quoteResponse.json()
-      const swapPrice = quote.unvalidatedSwapTransaction.price
-      setExchangeRate(
-        updatedField === Field.FROM
-          ? swapPrice
-          : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
+    try {
+      const quoteResponse = await fetch(
+        `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
+          fromToken.address
+        }&${swapAmountParam}=${
+          swapAmountInWei.toString().split('.')[0]
+        }&userAddress=${walletAddress}`
       )
-    } else {
+
+      if (quoteResponse.ok) {
+        const quote = await quoteResponse.json()
+        const swapPrice = quote.unvalidatedSwapTransaction.price
+        setExchangeRate(
+          updatedField === Field.FROM
+            ? swapPrice
+            : new BigNumber(1).div(new BigNumber(swapPrice)).toString()
+        )
+      } else {
+        setFetchSwapQuoteError(true)
+        setExchangeRate(null)
+        Logger.warn(
+          'SwapScreen@useSwapQuote',
+          'error from approve swap url',
+          await quoteResponse.text()
+        )
+      }
+    } catch (error) {
       setFetchSwapQuoteError(true)
       setExchangeRate(null)
-      Logger.warn(
-        'SwapScreen@useSwapQuote',
-        'error from approve swap url',
-        await quoteResponse.text()
-      )
+      Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
     }
   }
-
   return {
     exchangeRate,
     refreshQuote,

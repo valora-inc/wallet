@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button, { BtnSizes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -54,14 +55,23 @@ export function SwapScreen() {
 
   useEffect(() => {
     if (fetchSwapQuoteError) {
-      dispatch(showError(t('swapScreen.fetchSwapQuoteFailed')))
+      dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
     }
   }, [fetchSwapQuoteError])
 
   useEffect(() => {
     setFromSwapAmountError(false)
     const debouncedRefreshQuote = setTimeout(() => {
-      if (toToken && fromToken) {
+      // `isExchangeRateAlreadyRefreshed` prevents the quote from being fetched
+      // again, as this hook is triggered by an updated `swapAmount` from the
+      // previous exchange rate update
+      const isExchangeRateAlreadyRefreshed =
+        exchangeRate &&
+        new BigNumber(swapAmount[Field.FROM] ?? 0)
+          .multipliedBy(new BigNumber(exchangeRate))
+          .toString() === swapAmount[Field.TO]
+
+      if (toToken && fromToken && !isExchangeRateAlreadyRefreshed) {
         void refreshQuote(fromToken, toToken, swapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_TIMEOUT)
@@ -177,7 +187,7 @@ export function SwapScreen() {
             <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
             {exchangeRate && (
               <Text style={headerStyles.headerSubTitle}>
-                {`1 ${toToken.symbol} ≈ ${exchangeRate.substring(0, 7)} ${fromToken.symbol}`}
+                {`1 ${fromToken.symbol} ≈ ${exchangeRate.substring(0, 7)} ${toToken.symbol}`}
               </Text>
             )}
           </View>
