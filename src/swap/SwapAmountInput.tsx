@@ -1,6 +1,14 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextInput as RNTextInput,
+  View,
+  ViewStyle,
+} from 'react-native'
 import TextInput from 'src/components/TextInput'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -33,13 +41,19 @@ const SwapAmountInput = ({
   style,
 }: Props) => {
   const { t } = useTranslation()
+
+  // the startPosition and textInputRef variables exist to ensure TextInput
+  // displays the start of the value for long values on Android
+  // https://github.com/facebook/react-native/issues/14845
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
+  const textInputRef = useRef<RNTextInput | null>(null)
 
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
         <TextInput
+          forwardedRef={textInputRef}
           onChangeText={(value) => {
             setStartPosition(undefined)
             onInputChange(value)
@@ -49,10 +63,10 @@ const SwapAmountInput = ({
           style={styles.input}
           keyboardType="numeric"
           autoFocus={autoFocus}
-          // unset lineHeight to allow ellipsis on long inputs
+          // unset lineHeight to allow ellipsis on long inputs on iOS
           inputStyle={[{ lineHeight: undefined }, inputError ? styles.inputError : {}]}
           testID="SwapAmountInput/Input"
-          onEndEditing={() => {
+          onBlur={() => {
             setStartPosition(0)
           }}
           onFocus={() => {
@@ -63,7 +77,10 @@ const SwapAmountInput = ({
         {onPressMax && (
           <Touchable
             borderless
-            onPress={onPressMax}
+            onPress={() => {
+              onPressMax()
+              textInputRef.current?.blur()
+            }}
             style={styles.maxButton}
             testID="SwapAmountInput/MaxButton"
           >
