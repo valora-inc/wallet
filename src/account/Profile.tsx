@@ -33,6 +33,10 @@ function Profile({ navigation, route }: Props) {
 
   useLayoutEffect(() => {
     const onSave = () => {
+      if (newName.length === 0) {
+        dispatch(showError(ErrorMessages.MISSING_FULL_NAME))
+        return
+      }
       dispatch(saveNameAndPicture(newName, newPictureUri))
       dispatch(showMessage(t('namePictureSaved')))
       navigation.goBack()
