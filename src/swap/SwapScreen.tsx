@@ -144,6 +144,10 @@ export function SwapScreen() {
       setToToken(selectedToken)
     }
 
+    if (toToken && fromToken) {
+      void refreshQuote(fromToken, toToken, swapAmount, selectingToken ?? updatedField)
+    }
+
     setUpdatedField((prev) => selectingToken ?? prev)
     setSelectingToken(null)
   }
