@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Image,
+  Platform,
   StyleProp,
   StyleSheet,
   Text,
@@ -48,6 +49,12 @@ const SwapAmountInput = ({
   const [startPosition, setStartPosition] = useState<number | undefined>(0)
   const textInputRef = useRef<RNTextInput | null>(null)
 
+  const handleSetStartPosition = (value?: number) => {
+    if (Platform.OS === 'android') {
+      setStartPosition(value)
+    }
+  }
+
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
@@ -55,7 +62,7 @@ const SwapAmountInput = ({
         <TextInput
           forwardedRef={textInputRef}
           onChangeText={(value) => {
-            setStartPosition(undefined)
+            handleSetStartPosition(undefined)
             onInputChange(value)
           }}
           value={inputValue || undefined}
@@ -67,12 +74,16 @@ const SwapAmountInput = ({
           inputStyle={[{ lineHeight: undefined }, inputError ? styles.inputError : {}]}
           testID="SwapAmountInput/Input"
           onBlur={() => {
-            setStartPosition(0)
+            handleSetStartPosition(0)
           }}
           onFocus={() => {
-            setStartPosition(inputValue?.length ?? 0)
+            handleSetStartPosition(inputValue?.length ?? 0)
           }}
-          selection={typeof startPosition === 'number' ? { start: startPosition } : undefined}
+          selection={
+            Platform.OS === 'android' && typeof startPosition === 'number'
+              ? { start: startPosition }
+              : undefined
+          }
         />
         {onPressMax && (
           <Touchable
