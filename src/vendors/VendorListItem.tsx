@@ -8,12 +8,12 @@ import { navigateToURI } from 'src/utils/linking'
 import { Vendor } from 'src/vendors/types'
 
 type Props = {
-  key: string
+  id: string
   vendor: Vendor
   onPress: () => void
 }
 
-export default function VendorListItem({ vendor, key, onPress }: Props) {
+export default function VendorListItem({ vendor, id, onPress }: Props) {
   const { title, subtitle, logoURI } = vendor
 
   const goToVendor = (vendor: Vendor) => {
@@ -24,7 +24,7 @@ export default function VendorListItem({ vendor, key, onPress }: Props) {
   }
 
   return (
-    <TouchableOpacity key={key} onPress={onPress} testID={`Vendors/VendorItem`}>
+    <TouchableOpacity key={id} onPress={onPress} testID={`Vendors/VendorItem`}>
       <View style={styles.vendorItem}>
         <Image source={{ uri: logoURI }} style={styles.vendorIcon} />
         <View style={styles.vendorDetails}>
