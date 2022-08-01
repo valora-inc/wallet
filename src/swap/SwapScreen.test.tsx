@@ -155,7 +155,7 @@ describe('SwapScreen', () => {
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    act(() => {
+    void act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })
@@ -237,7 +237,7 @@ describe('SwapScreen', () => {
 
     const { swapFromContainer, swapToContainer, getByText, store } = renderScreen({})
 
-    act(() => {
+    void act(() => {
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
       jest.runAllTimers()
     })

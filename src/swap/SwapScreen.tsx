@@ -21,7 +21,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
 import { coreTokensSelector } from 'src/tokens/selectors'
 
-const FETCH_UPDATED_QUOTE_TIMEOUT = 300
+const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_TO_TOKEN = 'cUSD'
 const DEFAULT_FROM_TOKEN = 'CELO'
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -65,7 +65,7 @@ export function SwapScreen() {
       if (toToken && fromToken) {
         void refreshQuote(fromToken, toToken, swapAmount, updatedField)
       }
-    }, FETCH_UPDATED_QUOTE_TIMEOUT)
+    }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
     return () => {
       clearTimeout(debouncedRefreshQuote)
