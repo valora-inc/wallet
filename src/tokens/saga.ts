@@ -37,10 +37,10 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
+import { CREAL_ADDRESS } from 'src/config'
 
 const TAG = 'tokens/saga'
-const CREAL_ADDRESS = '0xe8537a3d056DA446677B9E9d6c5dB704EaAb4787'
-// 0xC5375c73a627105eb4DF00867717F6e301966C32 //alfajores
+
 // The number of wei that represent one unit in a contract
 const contractWeiPerUnit: Record<Currency, BigNumber> = Object.fromEntries(
   Object.values(Currency).map((currency) => [currency, WEI_PER_TOKEN])

@@ -148,3 +148,7 @@ const configLoggerLevels: { [key: string]: LoggerLevel } = {
 }
 
 export const LOGGER_LEVEL = configLoggerLevels[Config.LOGGER_LEVEL] || LoggerLevel.Debug
+
+// The address for cReal, used for cReal balance, while contractkit does not recognize cReal
+
+export const CREAL_ADDRESS = Config.CREAL_ADDRESS
