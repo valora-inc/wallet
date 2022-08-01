@@ -1503,11 +1503,13 @@ export const v68Schema = {
   ...v67Schema,
   _persist: {
     ...v67Schema._persist,
-    version: 67,
+    version: 68,
   },
   recipients: {
     ...v67Schema.recipients,
     coinbasePaySenders: [],
+  },
+}
 
 export function getLatestSchema(): Partial<RootState> {
   return v68Schema as Partial<RootState>
