@@ -575,7 +575,7 @@ export const migrations = {
     },
     app: {
       ...state.app,
-      finclusiveUnsupportedStates: [],
+      finclusiveUnsupportedStates: ['NY', 'TX'],
     },
   }),
   45: (state: any) => state,
