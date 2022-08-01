@@ -168,7 +168,6 @@ interface SettingsEventsProperties {
   [SettingsEvents.change_pin_new_pin_entered]: undefined
   [SettingsEvents.change_pin_new_pin_confirmed]: undefined
   [SettingsEvents.change_pin_new_pin_error]: undefined
-  [SettingsEvents.settings_link_bank_account]: undefined
   [SettingsEvents.settings_biometry_opt_in_enable]: undefined
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
@@ -1202,38 +1201,10 @@ interface DappKitProperties {
 }
 
 interface CICOEventsProperties {
-  [CICOEvents.link_bank_account_cancel]: undefined
   [CICOEvents.persona_kyc_start]: undefined
   [CICOEvents.persona_kyc_success]: undefined
   [CICOEvents.persona_kyc_cancel]: undefined
   [CICOEvents.persona_kyc_error]: undefined
-  [CICOEvents.connect_phone_start]: undefined
-  [CICOEvents.connect_phone_cancel]: undefined
-  [CICOEvents.add_initial_bank_account_start]: undefined
-  [CICOEvents.add_bank_account_start]: undefined
-  [CICOEvents.delete_bank_account]: { id: number }
-  [CICOEvents.plaid_open_link_flow]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_select_institution]: {
-    linkSessionId: string
-    institutionId: string
-    institutionName: string
-  }
-  [CICOEvents.plaid_submit_credentials]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_exit]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_handoff]: {
-    linkSessionId: string
-  }
-  [CICOEvents.plaid_error]: {
-    linkSessionId: string
-    errorType: string
-    errorCode: string
-  }
 }
 
 interface DappEventProperties {
