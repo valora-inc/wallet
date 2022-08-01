@@ -2,18 +2,19 @@ import * as Sentry from '@sentry/react-native'
 import { Transaction } from '@sentry/types'
 import { SentrySpan, SentrySpans } from 'src/sentry/SentrySpans'
 
+let transactions = [] as Array<Transaction>
+
 export const SentryTransactionHub = {
-  transactions: [] as Array<Transaction>,
   startTransaction(name: SentrySpan) {
     const transaction = Sentry.startTransaction({ ...SentrySpans[name], trimEnd: true })
-    this.transactions.push(transaction)
+    transactions.push(transaction)
   },
   finishTransaction(name: SentrySpan) {
     // get span operation - 'op'
     const op = SentrySpans[name].op
 
     // Find all the transactions with this op.
-    const selectedTransactions = this.transactions.filter(
+    const selectedTransactions = transactions.filter(
       (transaction) => transaction.op === SentrySpans[name].op
     )
 
@@ -21,6 +22,6 @@ export const SentryTransactionHub = {
     selectedTransactions.forEach((t) => t.finish())
 
     // Remove these finished transactions from the transaction hub
-    this.transactions = this.transactions.filter((transaction) => transaction.op !== op)
+    transactions = transactions.filter((transaction) => transaction.op !== op)
   },
 }
