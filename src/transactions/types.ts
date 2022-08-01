@@ -128,6 +128,7 @@ export enum TokenTransactionTypeV2 {
   Sent = 'SENT',
   InviteSent = 'INVITE_SENT',
   InviteReceived = 'INVITE_RECEIVED',
+  SwapTransaction = 'SWAP_TRANSACTION',
 }
 
 // Can we optional the fields `transactionHash` and `block`?

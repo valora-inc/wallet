@@ -22,6 +22,7 @@ import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
 import CeloExchangeContent from './detailContent/CeloExchangeContent'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
+import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
 
 type Props = StackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
@@ -56,6 +57,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('transactionHeaderEscrowSent')
     case TokenTransactionTypeV2.InviteReceived:
       return t('transactionHeaderEscrowReceived')
+    case TokenTransactionTypeV2.SwapTransaction:
+      return 'Swap'
   }
 }
 
@@ -94,6 +97,9 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       ) : (
         <TransferReceivedContent transfer={transfer} />
       )
+      break
+    case TokenTransactionTypeV2.SwapTransaction:
+      content = <SwapContent exchange={transaction as TokenExchange} />
       break
   }
 

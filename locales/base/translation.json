@@ -1343,5 +1343,11 @@
     "swapFrom": "From",
     "swapTo": "To",
     "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+  },
+  "swapContent": {
+    "swapFrom": "Swap from",
+    "swapTo": "Swap to",
+    "rate": "Rate",
+    "estimatedFee": "Estimated Fee"
   }
 }
