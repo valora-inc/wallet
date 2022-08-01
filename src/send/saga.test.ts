@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
-import { giveProfileAccess } from 'src/account/profileInfo'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -326,7 +325,6 @@ describe(sendPaymentOrInviteSagaLegacy, () => {
         [select(currentAccountSelector), account],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
       ])
-      .call.fn(giveProfileAccess)
       .run()
   })
 })
@@ -419,7 +417,6 @@ describe(sendPaymentOrInviteSaga, () => {
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
         [call(getStableTokenContract, mockCusdAddress), mockContract],
       ])
-      .call.fn(giveProfileAccess)
       .run()
   })
 })
