@@ -831,7 +831,7 @@
   "requestUnavailableNoDisplayNameHeader": "El número de teléfono de tu contacto no está conectado a una Dirección de cuenta.",
   "requestUnavailableBody": "El número {{e164PhoneNumber}} no tiene una cuenta o no se ha conectado. Solo es posible enviar solicitudes a números conectados.",
   "requestUnavailableNoNumberBody": "Tu contacto no tiene una cuenta o aún no ha conectado su número de teléfono. Solo es posible enviar solicitudes a números conectados.",
-  "requesting": "Solicitando",
+  "requesting": "Solicitar a",
   "request": "Solicitar",
   "requestToken": "Solicitar {{token}}",
   "requestSent": "Solicitud enviada",

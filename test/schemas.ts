@@ -1505,12 +1505,32 @@ export const v68Schema = {
     ...v67Schema._persist,
     version: 68,
   },
+  app: _.omit(
+    v67Schema.app,
+    'linkBankAccountEnabled',
+    'linkBankAccountStepTwoEnabled',
+    'finclusiveUnsupportedStates'
+  ),
+  account: _.omit(
+    v67Schema.account,
+    'hasLinkedBankAccount',
+    'finclusiveRegionSupported',
+    'finclusiveKycStatus',
+    'kycStatus'
+  ),
+}
+export const v69Schema = {
+  ...v68Schema,
+  _persist: {
+    ...v68Schema._persist,
+    version: 69,
+  },
   recipients: {
-    ...v67Schema.recipients,
+    ...v68Schema.recipients,
     coinbasePaySenders: [],
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v68Schema as Partial<RootState>
+  return v69Schema as Partial<RootState>
 }

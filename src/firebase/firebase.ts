@@ -281,8 +281,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     rampCashInButtonExpEnabled: flags.rampCashInButtonExpEnabled.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
-    linkBankAccountEnabled: flags.linkBankAccountEnabled.asBoolean(),
-    linkBankAccountStepTwoEnabled: flags.linkBankAccountStepTwoEnabled.asBoolean(),
     sentryTracesSampleRate: flags.sentryTracesSampleRate.asNumber(),
     sentryNetworkErrors: flags.sentryNetworkErrors.asString().split(','),
     biometryEnabled: flags.biometryEnabled.asBoolean(),
@@ -293,7 +291,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
     dappsWebViewEnabled: flags.dappsWebViewEnabled.asBoolean(),
     skipProfilePicture: flags.skipProfilePicture.asBoolean(),
-    finclusiveUnsupportedStates: flags.finclusiveUnsupportedStates.asString().split(','),
     celoWithdrawalEnabledInExchange: flags.celoWithdrawalEnabledInExchange.asBoolean(),
     fiatConnectCashInEnabled: flags.fiatConnectCashInEnabled.asBoolean(),
     fiatConnectCashOutEnabled: flags.fiatConnectCashOutEnabled.asBoolean(),
@@ -364,10 +361,6 @@ async function fetchListFromFirebase(path: string) {
 
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
-}
-
-export async function kycStatusChannel(mtwAddress: string) {
-  return simpleReadChannel(`inHouseLiquidity/${mtwAddress}/kycStatus`)
 }
 
 export function simpleReadChannel(key: string) {

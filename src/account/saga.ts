@@ -10,11 +10,8 @@ import {
   ClearStoredAccountAction,
   initializeAccountSuccess,
   saveSignedMessage,
-  setFinclusiveKyc,
   updateCusdDailyLimit,
-  updateKycStatus,
 } from 'src/account/actions'
-import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -22,10 +19,9 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
-import { cUsdDailyLimitChannel, firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
+import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
 import { refreshAllBalances } from 'src/home/actions'
 import { currentLanguageSelector } from 'src/i18n/selectors'
-import { getFinclusiveComplianceStatus, verifyWalletAddress } from 'src/in-house-liquidity'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -42,7 +38,6 @@ import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { clearStoredAccounts } from 'src/web3/KeychainSigner'
 import { getOrCreateAccount, getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { finclusiveKycStatusSelector } from './selectors'
 
 const TAG = 'account/saga'
 
@@ -91,20 +86,6 @@ function* initializeAccount() {
   }
 }
 
-export function* fetchFinclusiveKyc() {
-  try {
-    const walletAddress = yield call(getWalletAddress)
-
-    const complianceStatus = yield call(
-      getFinclusiveComplianceStatus,
-      verifyWalletAddress({ walletAddress })
-    )
-    yield put(setFinclusiveKyc(complianceStatus))
-  } catch (error) {
-    Logger.error(`${TAG}@fetchFinclusiveKyc`, 'Failed to fetch finclusive KYC', error)
-  }
-}
-
 export function* watchDailyLimit() {
   const account = yield call(getWalletAddress)
   const channel = yield call(cUsdDailyLimitChannel, account)
@@ -122,38 +103,6 @@ export function* watchDailyLimit() {
     }
   } catch (error) {
     Logger.error(`${TAG}@watchDailyLimit`, 'Failed to watch daily limit', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
-  }
-}
-
-export function* watchKycStatus() {
-  const walletAddress = yield call(getWalletAddress)
-  const channel = yield call(kycStatusChannel, walletAddress)
-
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const kycStatus = yield take(channel)
-      if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
-        yield put(updateKycStatus(kycStatus))
-        const finclusiveKycStatus = yield select(finclusiveKycStatusSelector)
-        if (
-          kycStatus === KycStatus.Approved &&
-          finclusiveKycStatus !== FinclusiveKycStatus.Accepted
-        ) {
-          yield call(fetchFinclusiveKyc)
-        }
-      } else {
-        Logger.warn(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
-      }
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@watchKycStatus`, 'Failed to update KYC status', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
@@ -247,10 +196,6 @@ export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
 }
 
-export function* watchFetchFinclusiveKYC() {
-  yield takeLeading(Actions.FETCH_FINCLUSIVE_KYC, fetchFinclusiveKyc)
-}
-
 export function* watchSignedMessage() {
   yield take(Actions.SAVE_SIGNED_MESSAGE)
   yield call(handleUpdateAccountRegistration)
@@ -260,8 +205,6 @@ export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(watchDailyLimit)
-  yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
-  yield spawn(watchFetchFinclusiveKYC)
   yield spawn(watchSignedMessage)
 }

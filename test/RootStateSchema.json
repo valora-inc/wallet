@@ -866,16 +866,6 @@
             ],
             "type": "string"
         },
-        "FinclusiveKycStatus": {
-            "enum": [
-                0,
-                1,
-                2,
-                3,
-                4
-            ],
-            "type": "number"
-        },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
             "properties": {
@@ -1683,11 +1673,9 @@
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
-                "BankAccounts",
                 "BidaliScreen",
                 "CashInSuccess",
                 "CoinbasePayScreen",
-                "ConnectPhoneNumberScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
@@ -1713,8 +1701,6 @@
                 "Language",
                 "LanguageModal",
                 "Licenses",
-                "LinkBankAccountErrorScreen",
-                "LinkBankAccountScreen",
                 "Main",
                 "MainModal",
                 "MerchantPayment",
@@ -1757,7 +1743,6 @@
                 "SupportContact",
                 "SwapScreen",
                 "Sync",
-                "SyncBankAccountScreen",
                 "TokenBalances",
                 "TransactionDetailsScreen",
                 "TransactionReview",
@@ -1886,12 +1871,6 @@
                 "fiatConnectCashOutEnabled": {
                     "type": "boolean"
                 },
-                "finclusiveUnsupportedStates": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -1906,12 +1885,6 @@
                 },
                 "lastTimeBackgrounded": {
                     "type": "number"
-                },
-                "linkBankAccountEnabled": {
-                    "type": "boolean"
-                },
-                "linkBankAccountStepTwoEnabled": {
-                    "type": "boolean"
                 },
                 "locked": {
                     "type": "boolean"
@@ -2027,12 +2000,9 @@
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
-                "linkBankAccountEnabled",
-                "linkBankAccountStepTwoEnabled",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
@@ -2411,31 +2381,8 @@
                         "string"
                     ]
                 },
-                "finclusiveKycStatus": {
-                    "$ref": "#/definitions/FinclusiveKycStatus"
-                },
-                "finclusiveRegionSupported": {
-                    "type": "boolean"
-                },
-                "hasLinkedBankAccount": {
-                    "type": "boolean"
-                },
                 "hasMigratedToNewBip39": {
                     "type": "boolean"
-                },
-                "kycStatus": {
-                    "enum": [
-                        "approved",
-                        "completed",
-                        "created",
-                        "declined",
-                        "expired",
-                        "failed",
-                        "needs-review",
-                        "not-created",
-                        "pending"
-                    ],
-                    "type": "string"
                 },
                 "name": {
                     "type": [
@@ -2477,9 +2424,6 @@
                 "dismissedKeepSupercharging",
                 "dismissedStartSupercharging",
                 "e164PhoneNumber",
-                "finclusiveKycStatus",
-                "finclusiveRegionSupported",
-                "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
