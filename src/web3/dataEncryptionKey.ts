@@ -24,7 +24,6 @@ import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import { KomenciKit } from '@komenci/kit/lib/kit'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select } from 'redux-saga/effects'
-import { checkIfProfileUploaded } from 'src/account/profileInfo'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -144,7 +143,6 @@ export function* registerAccountDek() {
         `${TAG}@registerAccountDek`,
         'Skipping DEK registration because its already registered'
       )
-      yield call(checkIfProfileUploaded)
       return
     }
 
@@ -219,7 +217,6 @@ export function* registerAccountDek() {
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,
     })
-    yield call(checkIfProfileUploaded)
   } catch (error) {
     // DEK registration failures are not considered fatal. Swallow the error and allow calling saga to proceed.
     // Registration will be re-attempted on next payment send
@@ -306,8 +303,6 @@ export function* registerWalletAndDekViaKomenci(
     newRegistration: true,
     feeless: true,
   })
-
-  yield call(checkIfProfileUploaded)
 }
 
 // Check if account address and DEK match what's in
