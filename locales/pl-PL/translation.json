@@ -354,7 +354,7 @@
   "restrictedRegion": "Ograniczona obsługa w tym regionie",
   "unsupportedPaymentMethod": "Płatności za pośrednictwem {{paymentMethod}} nie są obsługiwane w Twoim regionie",
   "noProviders": "W Twoim regionie nie ma dostępnych dostawców obsługujących {{digitalAsset}}.",
-  "noPaymentMethods": "W Twoim regionie nie ma dostępnych metod płatności dla strony {{digitalAsset}} .",
+  "noPaymentMethods": "W Twoim regionie nie ma dostępnych metod płatności obsługujących {{digitalAsset}}.",
   "switchCurrency": "Zmień walutę",
   "accept": "Akceptuj",
   "at": "o",
