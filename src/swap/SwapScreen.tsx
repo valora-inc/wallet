@@ -135,7 +135,6 @@ export function SwapScreen() {
       setToToken(selectedToken)
     }
 
-    setUpdatedField((prev) => selectingToken ?? prev)
     setSelectingToken(null)
   }
 
