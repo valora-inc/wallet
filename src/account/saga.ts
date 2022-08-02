@@ -4,16 +4,7 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
-import {
-  call,
-  cancelled,
-  put,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'redux-saga/effects'
+import { call, cancelled, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
   ClearStoredAccountAction,
@@ -23,7 +14,6 @@ import {
   updateCusdDailyLimit,
   updateKycStatus,
 } from 'src/account/actions'
-import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { FinclusiveKycStatus, KycStatus } from 'src/account/reducer'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { showError } from 'src/alert/actions'
@@ -257,10 +247,6 @@ export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
 }
 
-export function* watchSaveNameAndPicture() {
-  yield takeEvery(Actions.SAVE_NAME_AND_PICTURE, uploadNameAndPicture)
-}
-
 export function* watchFetchFinclusiveKYC() {
   yield takeLeading(Actions.FETCH_FINCLUSIVE_KYC, fetchFinclusiveKyc)
 }
@@ -273,7 +259,6 @@ export function* watchSignedMessage() {
 export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
-  yield spawn(watchSaveNameAndPicture)
   yield spawn(watchDailyLimit)
   yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)

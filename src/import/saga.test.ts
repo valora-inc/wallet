@@ -5,7 +5,6 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { dynamic } from 'redux-saga-test-plan/providers'
 import { call, delay, fork, select } from 'redux-saga/effects'
 import { initializeAccount, setBackupCompleted } from 'src/account/actions'
-import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -68,7 +67,6 @@ describe('Import wallet saga', () => {
         [call(storeMnemonic, phrase, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), false],
-        [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
@@ -97,7 +95,6 @@ describe('Import wallet saga', () => {
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), true],
-        [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
@@ -142,7 +139,6 @@ describe('Import wallet saga', () => {
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
         [select(skipVerificationSelector), false],
-        [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
       .put(refreshAllBalances())
