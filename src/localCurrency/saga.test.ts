@@ -36,6 +36,7 @@ describe(watchFetchCurrentRate, () => {
         [call(fetchExchangeRate, Currency.Dollar, LocalCurrencyCode.PHP), '1.33'],
         [call(fetchExchangeRate, Currency.Euro, LocalCurrencyCode.PHP), '2.12'],
         [call(fetchExchangeRate, Currency.Celo, LocalCurrencyCode.PHP), '3.543'],
+        [call(fetchExchangeRate, Currency.Real, LocalCurrencyCode.PHP), '4.321'],
       ])
       .put(
         fetchCurrentRateSuccess(

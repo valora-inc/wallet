@@ -560,7 +560,7 @@ export const v16Schema = {
       [Currency.Celo]: '3',
       [Currency.Euro]: '2',
       [Currency.Dollar]: v15Schema.localCurrency.exchangeRate,
-      [Currency.Real]: '4',
+      [Currency.Real]: '2',
     },
     exchangeRate: undefined,
     fetchRateFailed: false,

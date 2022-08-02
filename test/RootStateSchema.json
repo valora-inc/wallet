@@ -269,7 +269,8 @@
             "enum": [
                 "cEUR",
                 "cGLD",
-                "cUSD"
+                "cUSD",
+                "cREAL"
             ],
             "type": "string"
         },
@@ -485,12 +486,16 @@
                 },
                 "cUSD": {
                     "$ref": "#/definitions/Record<Currency,string>"
+                },
+                "cREAL": {
+                    "$ref": "#/definitions/Record<Currency,string>"
                 }
             },
             "required": [
                 "cEUR",
                 "cGLD",
-                "cUSD"
+                "cUSD",
+                "cREAL"
             ],
             "type": "object"
         },
@@ -1611,12 +1616,16 @@
                 },
                 "cUSD": {
                     "type": "string"
+                },
+                "cREAL": {
+                    "type": "string"
                 }
             },
             "required": [
                 "cEUR",
                 "cGLD",
-                "cUSD"
+                "cUSD",
+                "cREAL"
             ],
             "type": "object"
         },
@@ -1770,11 +1779,18 @@
                         "null",
                         "string"
                     ]
+                },
+                "cREAL": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
                 "cEUR",
-                "cUSD"
+                "cUSD",
+                "cREAL"
             ],
             "type": "object"
         },
@@ -2508,7 +2524,7 @@
                     "type": "boolean"
                 },
                 "exchangeRates": {
-                    "$ref": "#/definitions/{cGLD:string|null;cUSD:string|null;cEUR:string|null;}"
+                    "$ref": "#/definitions/{cGLD:string|null;cUSD:string|null;cEUR:string|cREAL:string|null;}"
                 },
                 "fetchedCurrencyCode": {
                     "enum": [
@@ -3968,7 +3984,7 @@
             ],
             "type": "object"
         },
-        "{cGLD:string|null;cUSD:string|null;cEUR:string|null;}": {
+        "{cGLD:string|null;cUSD:string|null;cEUR:string|cREAL:string|null;}": {
             "additionalProperties": false,
             "properties": {
                 "cEUR": {
@@ -3988,12 +4004,19 @@
                         "null",
                         "string"
                     ]
+                },
+                "cREAL": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 }
             },
             "required": [
                 "cEUR",
                 "cGLD",
-                "cUSD"
+                "cUSD",
+                "cREAL"
             ],
             "type": "object"
         },

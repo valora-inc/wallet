@@ -17,7 +17,7 @@ describe(getHigherBalanceCurrency, () => {
       [Currency.Dollar]: '1',
       [Currency.Euro]: '2',
       [Currency.Celo]: '3',
-      [Currency.Real]: '4',
+      [Currency.Real]: '2',
     }
 
     expect(
