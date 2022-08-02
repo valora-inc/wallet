@@ -219,6 +219,9 @@ class Logger {
         await RNFS.unlink(logFileCombinedPath)
       }
 
+      // If log folder not present create it
+      await RNFS.mkdir(logDir)
+
       // Get the list of log files
       const logFiles = await RNFS.readDir(logDir)
 
