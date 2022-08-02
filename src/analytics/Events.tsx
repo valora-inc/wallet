@@ -43,7 +43,6 @@ export enum SettingsEvents {
   settings_profile_edit = 'settings_profile_edit',
   settings_profile_name_edit = 'settings_profile_name_edit',
   settings_verify_number = 'settings_verify_number',
-  settings_link_bank_account = 'settings_link_bank_account', // when "Link Bank Account" is pressed
   language_select = 'language_select',
   pin_require_on_load = 'pin_require_on_load',
   licenses_view = 'licenses_view',
@@ -521,25 +520,10 @@ export enum DappKitEvents {
 }
 
 export enum CICOEvents {
-  link_bank_account_cancel = 'link_bank_account_cancel', // when a user who has verified their # presses the X button after entering "Link Bank Account"
-
   persona_kyc_start = 'persona_kyc_start', // when a user begins the Persona KYC process
   persona_kyc_success = 'persona_kyc_success', // when the onSuccess callback is called for a Persona inquiry
   persona_kyc_cancel = 'persona_kyc_cancel', // when the onCancelled callback is called for a Persona inquiry
   persona_kyc_error = 'persona_kyc_error', // when the onError callback is called for a Persona inquiry
-
-  connect_phone_start = 'connect_phone_start', // when a user who has not verified their # presses the "Connect" button after entering "Link Bank Account"
-  connect_phone_cancel = 'connect_phone_cancel', // when a user who has not verified their # presses the "X" button after entering "Link Bank Account"
-
-  add_initial_bank_account_start = 'add_initial_bank_account_start', // When a user who has not added any accounts clicks on the initial “Link Bank Account” button
-  add_bank_account_start = 'add_bank_account_start', // When a user adds another bank account after the first (using the “Add new bank account” button)
-  delete_bank_account = 'delete_bank_account', // When a user deletes a bank account
-  plaid_open_link_flow = 'plaid_open_link_flow', // When a user opens the Plaid Link flow
-  plaid_select_institution = 'plaid_select_institution', // When a user selects an institution within the Plaid Link flow
-  plaid_submit_credentials = 'plaid_submit_credentials', // When a user submits credentials for an institution within the Plaid Link flow
-  plaid_exit = 'plaid_exit', // When a user exits the Plaid Link flow without connecting a bank account
-  plaid_handoff = 'plaid_handoff', // When a user exits the Plaid Link flow after successfully connecting a bank account
-  plaid_error = 'plaid_error', // When the Plaid Link flow encounters an unrecoverable error
 }
 
 export enum DappExplorerEvents {

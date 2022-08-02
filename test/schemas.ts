@@ -1499,7 +1499,27 @@ export const v67Schema = {
     selectFiatConnectQuoteLoading: false,
   },
 }
+export const v68Schema = {
+  ...v67Schema,
+  _persist: {
+    ...v67Schema._persist,
+    version: 68,
+  },
+  app: _.omit(
+    v67Schema.app,
+    'linkBankAccountEnabled',
+    'linkBankAccountStepTwoEnabled',
+    'finclusiveUnsupportedStates'
+  ),
+  account: _.omit(
+    v67Schema.account,
+    'hasLinkedBankAccount',
+    'finclusiveRegionSupported',
+    'finclusiveKycStatus',
+    'kycStatus'
+  ),
+}
 
 export function getLatestSchema(): Partial<RootState> {
-  return v67Schema as Partial<RootState>
+  return v68Schema as Partial<RootState>
 }
