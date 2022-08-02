@@ -7,18 +7,13 @@ import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import AccounSetupFailureScreen from 'src/account/AccountSetupFailureScreen'
-import BankAccounts from 'src/account/BankAccounts'
-import ConnectPhoneNumberScreen from 'src/account/ConnectPhoneNumberScreen'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
-import LinkBankAccountErrorScreen from 'src/account/LinkBankAccountErrorScreen'
-import LinkBankAccountScreen from 'src/account/LinkBankAccountScreen'
 import Profile from 'src/account/Profile'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
-import SyncBankAccountScreen from 'src/account/SyncBankAccountScreen'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
@@ -70,7 +65,6 @@ import {
   HeaderTitleWithBalance,
   headerWithBackButton,
   headerWithBackEditButtons,
-  headerWithCloseButton,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
@@ -427,31 +421,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SelectLocalCurrency}
       component={SelectLocalCurrency}
       options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.LinkBankAccountScreen}
-      component={LinkBankAccountScreen}
-      options={headerWithBackButton}
-    />
-    <Navigator.Screen
-      name={Screens.LinkBankAccountErrorScreen}
-      component={LinkBankAccountErrorScreen}
-      options={headerWithCloseButton}
-    />
-    <Navigator.Screen
-      name={Screens.SyncBankAccountScreen}
-      component={SyncBankAccountScreen}
-      options={SyncBankAccountScreen.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.BankAccounts}
-      component={BankAccounts}
-      options={BankAccounts.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.ConnectPhoneNumberScreen}
-      component={ConnectPhoneNumberScreen}
-      options={headerWithCloseButton}
     />
     <Navigator.Screen
       name={Screens.WalletConnectSessions}
