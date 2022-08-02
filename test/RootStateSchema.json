@@ -241,6 +241,38 @@
             ],
             "type": "string"
         },
+        "CachedFiatAccountUse": {
+            "additionalProperties": false,
+            "properties": {
+                "cryptoType": {
+                    "$ref": "#/definitions/Currency"
+                },
+                "fiatAccountId": {
+                    "type": "string"
+                },
+                "fiatAccountType": {
+                    "$ref": "#/definitions/FiatAccountType"
+                },
+                "fiatType": {
+                    "$ref": "#/definitions/FiatType"
+                },
+                "flow": {
+                    "type": "string"
+                },
+                "providerId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cryptoType",
+                "fiatAccountId",
+                "fiatAccountType",
+                "fiatType",
+                "flow",
+                "providerId"
+            ],
+            "type": "object"
+        },
         "ContactMatches": {
             "additionalProperties": {
                 "additionalProperties": false,
@@ -710,6 +742,14 @@
             ],
             "type": "string"
         },
+        "FiatAccountType": {
+            "enum": [
+                "BankAccount",
+                "DuniaWallet",
+                "MobileMoney"
+            ],
+            "type": "string"
+        },
         "FiatConnectError": {
             "enum": [
                 "ContractLoginNotSupported",
@@ -794,34 +834,37 @@
         },
         "FiatType": {
             "enum": [
+                "ARS",
+                "BOB",
                 "BRL",
+                "CLP",
                 "CNY",
+                "COP",
                 "EUR",
+                "FKP",
                 "GBP",
                 "GHS",
                 "GNF",
+                "GYD",
                 "INR",
                 "KES",
+                "MXN",
                 "NGN",
+                "PAB",
+                "PEN",
                 "PHP",
+                "PYG",
                 "RWF",
+                "SRD",
                 "UGX",
                 "USD",
+                "UYU",
+                "VES",
                 "XAF",
                 "XOF",
                 "ZAR"
             ],
             "type": "string"
-        },
-        "FinclusiveKycStatus": {
-            "enum": [
-                0,
-                1,
-                2,
-                3,
-                4
-            ],
-            "type": "number"
         },
         "HistoricalUsdPrices": {
             "additionalProperties": false,
@@ -1668,11 +1711,9 @@
                 "BackupIntroduction",
                 "BackupPhrase",
                 "BackupQuiz",
-                "BankAccounts",
                 "BidaliScreen",
                 "CashInSuccess",
                 "CoinbasePayScreen",
-                "ConnectPhoneNumberScreen",
                 "ConsumerIncentivesHomeScreen",
                 "DAppsExplorerScreen",
                 "DappKitAccountScreen",
@@ -1698,8 +1739,6 @@
                 "Language",
                 "LanguageModal",
                 "Licenses",
-                "LinkBankAccountErrorScreen",
-                "LinkBankAccountScreen",
                 "Main",
                 "MainModal",
                 "MerchantPayment",
@@ -1742,7 +1781,6 @@
                 "SupportContact",
                 "SwapScreen",
                 "Sync",
-                "SyncBankAccountScreen",
                 "TokenBalances",
                 "TransactionDetailsScreen",
                 "TransactionReview",
@@ -1871,12 +1909,6 @@
                 "fiatConnectCashOutEnabled": {
                     "type": "boolean"
                 },
-                "finclusiveUnsupportedStates": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "googleMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -1891,12 +1923,6 @@
                 },
                 "lastTimeBackgrounded": {
                     "type": "number"
-                },
-                "linkBankAccountEnabled": {
-                    "type": "boolean"
-                },
-                "linkBankAccountStepTwoEnabled": {
-                    "type": "boolean"
                 },
                 "locked": {
                     "type": "boolean"
@@ -2012,12 +2038,9 @@
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
-                "finclusiveUnsupportedStates",
                 "hideVerification",
                 "inviteModalVisible",
                 "lastTimeBackgrounded",
-                "linkBankAccountEnabled",
-                "linkBankAccountStepTwoEnabled",
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
@@ -2396,31 +2419,8 @@
                         "string"
                     ]
                 },
-                "finclusiveKycStatus": {
-                    "$ref": "#/definitions/FinclusiveKycStatus"
-                },
-                "finclusiveRegionSupported": {
-                    "type": "boolean"
-                },
-                "hasLinkedBankAccount": {
-                    "type": "boolean"
-                },
                 "hasMigratedToNewBip39": {
                     "type": "boolean"
-                },
-                "kycStatus": {
-                    "enum": [
-                        "approved",
-                        "completed",
-                        "created",
-                        "declined",
-                        "expired",
-                        "failed",
-                        "needs-review",
-                        "not-created",
-                        "pending"
-                    ],
-                    "type": "string"
                 },
                 "name": {
                     "type": [
@@ -2462,9 +2462,6 @@
                 "dismissedKeepSupercharging",
                 "dismissedStartSupercharging",
                 "e164PhoneNumber",
-                "finclusiveKycStatus",
-                "finclusiveRegionSupported",
-                "hasLinkedBankAccount",
                 "hasMigratedToNewBip39",
                 "name",
                 "photosNUXClicked",
@@ -2497,7 +2494,7 @@
             "properties": {
                 "estimates": {
                     "additionalProperties": {
-                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}"
+                        "$ref": "#/definitions/{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}"
                     },
                     "type": "object"
                 }
@@ -2869,6 +2866,15 @@
         "State_26": {
             "additionalProperties": false,
             "properties": {
+                "attemptReturnUserFlowLoading": {
+                    "type": "boolean"
+                },
+                "cachedFiatAccountUses": {
+                    "items": {
+                        "$ref": "#/definitions/CachedFiatAccountUse"
+                    },
+                    "type": "array"
+                },
                 "providers": {
                     "anyOf": [
                         {
@@ -3045,6 +3051,9 @@
                 "quotesLoading": {
                     "type": "boolean"
                 },
+                "selectFiatConnectQuoteLoading": {
+                    "type": "boolean"
+                },
                 "transfer": {
                     "anyOf": [
                         {
@@ -3057,10 +3066,13 @@
                 }
             },
             "required": [
+                "attemptReturnUserFlowLoading",
+                "cachedFiatAccountUses",
                 "providers",
                 "quotes",
                 "quotesError",
                 "quotesLoading",
+                "selectFiatConnectQuoteLoading",
                 "transfer"
             ],
             "type": "object"
@@ -4043,7 +4055,7 @@
             ],
             "type": "object"
         },
-        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;}": {
+        "{invite:FeeEstimateState|undefined;send:FeeEstimateState|undefined;exchange:FeeEstimateState|undefined;\"reclaim-escrow\":FeeEstimateState|undefined;\"register-dek\":FeeEstimateState|undefined;swap:FeeEstimateState|undefined;}": {
             "additionalProperties": false,
             "properties": {
                 "exchange": {
@@ -4059,6 +4071,9 @@
                     "$ref": "#/definitions/FeeEstimateState"
                 },
                 "send": {
+                    "$ref": "#/definitions/FeeEstimateState"
+                },
+                "swap": {
                     "$ref": "#/definitions/FeeEstimateState"
                 }
             },

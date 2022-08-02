@@ -17,6 +17,7 @@ import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
+import { fiatAccountUsed } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -29,6 +30,9 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { getObfuscatedAccountNumber } from './index'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
@@ -109,8 +113,18 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: i18n.t('fiatDetailsScreen.header'),
+      headerLeft: () => <BackButton onPress={onPressBack} />,
     })
   }, [navigation])
+
+  const onPressBack = async () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_cancel, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema,
+    })
+    navigateBack()
+  }
 
   const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
     switch (fiatAccountSchema) {
@@ -188,8 +202,24 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
       })
 
       if (result.isOk) {
-        // TODO Tracking here
         dispatch(showMessage(t('fiatDetailsScreen.addFiatAccountSuccess')))
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_success, {
+          flow,
+          provider: quote.getProviderId(),
+          fiatAccountSchema,
+        })
+        // Record this fiat account as the most recently used
+        const { fiatAccountId, fiatAccountType } = result.value
+        dispatch(
+          fiatAccountUsed({
+            providerId: quote.getProviderId(),
+            fiatAccountId,
+            fiatAccountType,
+            flow,
+            cryptoType: quote.getCryptoType(),
+            fiatType: quote.getFiatType(),
+          })
+        )
         navigate(Screens.FiatConnectReview, {
           flow,
           normalizedQuote: quote,
@@ -202,6 +232,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           TAG,
           `Error adding fiat account: ${result.error.fiatConnectError ?? result.error.message}`
         )
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_error, {
+          flow,
+          provider: quote.getProviderId(),
+          fiatAccountSchema,
+          fiatConnectError: result.error.fiatConnectError,
+          error: result.error.message,
+        })
         if (result.error.fiatConnectError === FiatConnectError.ResourceExists) {
           dispatch(showError(ErrorMessages.ADD_FIAT_ACCOUNT_RESOURCE_EXIST))
         } else {
@@ -212,8 +249,11 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   const onPressSelectedPaymentOption = () => {
-    // TODO: tracking here
-
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_reselect, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema,
+    })
     navigateBack()
   }
 

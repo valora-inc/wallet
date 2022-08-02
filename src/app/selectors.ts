@@ -105,11 +105,6 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
 
-export const linkBankAccountEnabledSelector = (state: RootState) => state.app.linkBankAccountEnabled
-
-export const linkBankAccountStepTwoEnabledSelector = (state: RootState) =>
-  state.app.linkBankAccountStepTwoEnabled && state.account.finclusiveRegionSupported
-
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
 export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors
@@ -127,9 +122,6 @@ export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
 export const superchargeButtonTypeSelector = (state: RootState) => state.app.superchargeButtonType
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
-
-export const finclusiveUnsupportedStatesSelector = (state: RootState) =>
-  state.app.finclusiveUnsupportedStates
 
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>
   state.app.fiatConnectCashInEnabled

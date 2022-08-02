@@ -189,7 +189,7 @@
     "dismiss": "Ignorer"
   },
   "superchargingTitle": "Vos {{token}} sont Superchargé",
-  "superchargingDescription": "Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
+  "superchargingDescription": "Vous recevez {{apy}}% par an. Chaque semaine, vous recevrez une notification quand vos récompenses seront prêtes, revenez ici pour les demander.",
   "superchargeRewardsAvailable": "Vous avez {{amount}} {{token}} à réclamer !",
   "superchargeRewardsAvailableMultipleTokens": "Vous avez {{amounts}} à réclamer !",
   "superchargeClaimText": "Réclamez vos récompenses pour les ajouter à votre solde.",
@@ -354,6 +354,7 @@
   "restrictedRegion": "Prise en charge limitée dans le pays",
   "unsupportedPaymentMethod": "Le paiement avec {{paymentMethod}} n'est pas pris en charge dans votre pays",
   "noProviders": "Il n'y a pas de prestataires disponibles pour {{digitalAsset}} dans votre pays.",
+  "noPaymentMethods": "Il n'y a pas de méthode de paiement disponible pour {{digitalAsset}} dans ta région.",
   "switchCurrency": "Changer de devise",
   "accept": "Accepter",
   "at": "à",
@@ -527,7 +528,6 @@
   "helpFindAccount": "Aidez votre contact à trouver son Adresse du compte",
   "close": "Fermer",
   "home": "Accueil",
-  "swap": "Échanger",
   "accountKey": "Récupération",
   "addAndWithdraw": "Ajouter et retirer",
   "settings": "Paramètres",
@@ -685,7 +685,7 @@
   },
   "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
   "notification": {
-    "body": "Connect your number to claim funds and connect to friends",
+    "body": "Connectez votre numéro pour réclamer des fonds et vous connecter à des amis",
     "cta": "Connecter maintenant"
   },
   "quotaLookup": {
@@ -1273,15 +1273,15 @@
       "success": {
         "header": "Succès",
         "title": "Vos fonds sont en route !",
-        "description": "Ta demande de transaction a été envoyée et tes fonds arriveront sur {{duration}}.",
+        "description": "Votre demande de transaction a été envoyée et vos fonds arriveront dans {{duration}}.",
         "txDetails": "Voir sur CeloExplorer",
         "continue": "Continuer"
       }
     },
     "requestNotCompleted": {
       "title": "Votre demande n'a pas pu être complétée.",
-      "description": "Tes fonds n'ont pas pu être transférés de Valora. Essaie à nouveau ou contacte notre équipe d'assistance pour obtenir de l'aide.",
-      "contactSupportPrefill": "J'ai des difficultés à retirer mes fonds de Valora"
+      "description": "Vos fonds n'ont pas pu être transférés depuis Valora. Veuillez réessayer ou contactez notre équipe d'assistance pour obtenir de l'aide.",
+      "contactSupportPrefill": "Je n'arrive pas à retirer mes fonds de Valora"
     }
   },
   "fiatExchangeFlow": {
@@ -1335,6 +1335,13 @@
     "openExternal": "Ouvrir dans un navigateur externe"
   },
   "dappNotListed": "Cette dapp n'est pas répertoriée dans {{appName}}. Les dapps sont des applications tierces. Vous les utilisez à vos propres risques.",
+  "swapScreen": {
+    "title": "Échanger",
+    "review": "Vérifier",
+    "swapFrom": "De",
+    "swapTo": "À",
+    "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant plus élevé ou choisissez un autre jeton."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

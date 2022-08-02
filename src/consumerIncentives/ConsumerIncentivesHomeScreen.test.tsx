@@ -12,7 +12,7 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { StoredTokenBalance } from 'src/tokens/reducer'
+import { StoredTokenBalance } from 'src/tokens/slice'
 import { createMockStore } from 'test/utils'
 interface TokenBalances {
   [address: string]: StoredTokenBalance

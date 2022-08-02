@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -79,10 +80,13 @@ export function useFetchTransactions(): QueryHookResult {
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
 
     if (returnedTransactions?.length) {
-      addTransactions(returnedTransactions)
+      const nonEmptyTransactions = returnedTransactions.filter(
+        (returnedTransaction) => !isEmpty(returnedTransaction)
+      )
+      addTransactions(nonEmptyTransactions)
       // We store non-paginated results in redux to show them to the users when they open the app.
       if (!paginatedResult) {
-        dispatch(updateTransactions(returnedTransactions))
+        dispatch(updateTransactions(nonEmptyTransactions))
       }
     }
 

@@ -49,8 +49,8 @@ const quoteHasErrors = (
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
-): NormalizedQuote[] {
-  const normalizedQuotes: NormalizedQuote[] = []
+): FiatConnectQuote[] {
+  const normalizedQuotes: FiatConnectQuote[] = []
 
   quotes.forEach((quote) => {
     if (quoteHasErrors(quote)) {

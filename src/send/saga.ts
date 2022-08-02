@@ -2,7 +2,6 @@ import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/conn
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
-import { giveProfileAccess } from 'src/account/profileInfo'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -27,7 +26,6 @@ import {
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { transferStableToken } from 'src/stableToken/actions'
-import { TokenBalance } from 'src/tokens/reducer'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
@@ -38,6 +36,7 @@ import {
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
@@ -210,7 +209,6 @@ function* sendPaymentLegacy(
       tokenAddress: currency,
       usdAmount: '',
     })
-    yield call(giveProfileAccess, recipientAddress)
   } catch (error) {
     Logger.debug(`${TAG}/sendPaymentLegacy`, 'Could not send payment', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
@@ -356,7 +354,6 @@ function* sendPayment(
       usdAmount: usdAmount?.toString(),
       tokenAddress,
     })
-    yield call(giveProfileAccess, recipientAddress)
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not make token transfer', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })

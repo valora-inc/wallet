@@ -12,8 +12,9 @@ import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { Screens } from 'src/navigator/Screens'
 import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
@@ -123,6 +124,26 @@ describe('ReviewScreen', () => {
         flow: CICOFlow.CashOut,
         normalizedQuote: mockProps.route.params.normalizedQuote,
         fiatAccount: mockProps.route.params.fiatAccount,
+      })
+    })
+    it('navigates back to select providers screen when the provider is pressed', async () => {
+      const mockProps = getProps(CICOFlow.CashOut)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...mockProps} />
+        </Provider>
+      )
+
+      await fireEvent.press(getByTestId('paymentMethod-text'))
+
+      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
+        flow: CICOFlow.CashOut,
+        selectedCrypto: Currency.Dollar,
+        amount: {
+          fiat: 100,
+          crypto: 100,
+        },
       })
     })
   })

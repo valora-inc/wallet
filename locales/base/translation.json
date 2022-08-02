@@ -354,6 +354,7 @@
   "restrictedRegion": "Limited support in region",
   "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
   "noProviders": "There are no providers available for {{digitalAsset}} in your region.",
+  "noPaymentMethods": "There are no payment methods available for {{digitalAsset}} in your region.",
   "switchCurrency": "Switch Currency",
   "accept": "Accept",
   "at": "at",
@@ -529,7 +530,6 @@
   "helpFindAccount": "Help your contact find their Account Address",
   "close": "Close",
   "home": "Home",
-  "swap": "Swap",
   "accountKey": "Recovery Phrase",
   "addAndWithdraw": "Add & Withdraw",
   "settings": "Settings",
@@ -1340,5 +1340,12 @@
   "webView": {
     "openExternal": "Open in External Browser"
   },
-  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk."
+  "dappNotListed": "This dapp is not listed in {{appName}}. Dapps are third party applications. Use at your own risk.",
+  "swapScreen": {
+    "title": "Swap",
+    "review": "Review",
+    "swapFrom": "From",
+    "swapTo": "To",
+    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+  }
 }
