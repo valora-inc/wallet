@@ -575,9 +575,7 @@ export const migrations = {
     },
     app: {
       ...state.app,
-      finclusiveUnsupportedStates: REMOTE_CONFIG_VALUES_DEFAULTS.finclusiveUnsupportedStates.split(
-        ','
-      ),
+      finclusiveUnsupportedStates: ['NY', 'TX'],
     },
   }),
   45: (state: any) => state,
@@ -754,5 +752,21 @@ export const migrations = {
       ...state.fiatConnect,
       selectFiatConnectQuoteLoading: false,
     },
+  }),
+  68: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'linkBankAccountEnabled',
+      'linkBankAccountStepTwoEnabled',
+      'finclusiveUnsupportedStates'
+    ),
+    account: _.omit(
+      state.account,
+      'hasLinkedBankAccount',
+      'finclusiveRegionSupported',
+      'finclusiveKycStatus',
+      'kycStatus'
+    ),
   }),
 }

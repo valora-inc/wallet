@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 67,
+          "version": 68,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -116,11 +116,7 @@ describe('store state', () => {
           "dismissedKeepSupercharging": false,
           "dismissedStartSupercharging": false,
           "e164PhoneNumber": "+14155556666",
-          "finclusiveKycStatus": 0,
-          "finclusiveRegionSupported": false,
-          "hasLinkedBankAccount": false,
           "hasMigratedToNewBip39": false,
-          "kycStatus": undefined,
           "name": "John Doe",
           "photosNUXClicked": false,
           "pictureUri": null,
@@ -141,17 +137,11 @@ describe('store state', () => {
           "coinbasePayEnabled": false,
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
-          "finclusiveUnsupportedStates": Array [
-            "NY",
-            "TX",
-          ],
           "googleMobileServicesAvailable": undefined,
           "hideVerification": false,
           "huaweiMobileServicesAvailable": undefined,
           "inviteModalVisible": false,
           "lastTimeBackgrounded": 0,
-          "linkBankAccountEnabled": false,
-          "linkBankAccountStepTwoEnabled": false,
           "locked": false,
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
