@@ -278,7 +278,7 @@ class Logger {
         // If log folder not present create it
         await RNFS.mkdir(this.getReactNativeLogsDir())
 
-        // If daily log file is not present create it
+        // If monthly log file is not present create it
         if (!(await RNFS.exists(logFilePath))) {
           await RNFS.writeFile(logFilePath, '', 'utf8')
         }
