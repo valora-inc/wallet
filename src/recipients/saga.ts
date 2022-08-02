@@ -71,7 +71,7 @@ function* fetchCoinbasePaySendersSaga() {
   } catch (error) {
     Logger.error(
       `${TAG}@fetchCoinbasePaySendersSaga`,
-      'Failed to fetch invite rewards senders',
+      'Failed to fetch coinbase pay senders',
       error
     )
   } finally {

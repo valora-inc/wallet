@@ -334,7 +334,7 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
         title = t('feedItemReceivedTitle', { displayName })
         subtitle = t('tokenDeposit', { token: tokenInfo?.symbol ?? '' })
       } else if (isCoinbasePaySender) {
-        title = 'Deposit'
+        title = t('feedItemDepositTitle')
         subtitle = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
       } else {
         title = t('feedItemReceivedTitle', { displayName })

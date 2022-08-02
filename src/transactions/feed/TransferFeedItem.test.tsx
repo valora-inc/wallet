@@ -493,7 +493,7 @@ describe('TransferFeedItem', () => {
     })
     expectDisplay({
       getByTestId,
-      expectedTitleSections: ['Deposit'],
+      expectedTitleSections: ['feedItemDepositTitle'],
       expectedSubtitleSections: ['feedItemReceivedInfo'],
       expectedAmount: '+₱13.30',
       expectedTokenAmount: '10.00 cUSD',
