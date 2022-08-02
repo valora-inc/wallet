@@ -107,7 +107,7 @@ describe(createMigrate, () => {
 
     const migrate = createMigrate(failingMigrations)
     await expect(migrate(vNeg1Stub, 7)).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Cannot read property 'doesNotExist' of undefined"`
+      `Cannot read properties of undefined (reading 'doesNotExist')`
     )
   })
 })
