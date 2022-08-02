@@ -173,6 +173,10 @@ class Logger {
       for (const file of logFiles) {
         const filePath = `${path}/${file.name}`
         // Android specific file deleting and copying
+        // For now we need to export to a world-readable directory on Android
+        // TODO: use the FileProvider approach so we don't need to do this.
+        // See https://developer.android.com/reference/androidx/core/content/FileProvider
+        // and https://github.com/chirag04/react-native-mail/blame/340618e4ef7f21a29d739d4180c2a267a14093d3/android/src/main/java/com/chirag/RNMail/RNMailModule.java#L106
         if (Platform.OS === 'android') {
           // If the file is the current months log file log file, delete the previous copy
           if (file.name === this.getCurrentLogFileName()) {
@@ -201,10 +205,6 @@ class Logger {
   }
 
   getCombinedLogsFilePath = () => {
-    // For now we need to export to a world-readable directory on Android
-    // TODO: use the FileProvider approach so we don't need to do this.
-    // See https://developer.android.com/reference/androidx/core/content/FileProvider
-    // and https://github.com/chirag04/react-native-mail/blame/340618e4ef7f21a29d739d4180c2a267a14093d3/android/src/main/java/com/chirag/RNMail/RNMailModule.java#L106
     const path = Platform.OS === 'ios' ? RNFS.TemporaryDirectoryPath : RNFS.ExternalDirectoryPath
     return `${path}/rn_logs.txt`
   }
