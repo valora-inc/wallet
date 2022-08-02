@@ -1,4 +1,5 @@
 import { DappKitRequestTypes } from '@celo/utils'
+import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -29,7 +30,6 @@ import {
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
-import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import {
   BackQuizProgress,
   DappRequestOrigin,
@@ -996,6 +996,11 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_cancel_transfer]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_continue]: {
+    fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
   }
