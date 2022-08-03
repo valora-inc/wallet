@@ -25,6 +25,7 @@ interface Props {
   onPressMax?(): void
   onSelectToken(): void
   token: TokenBalance
+  loading: boolean
   autoFocus?: boolean
   inputError?: boolean
   style?: StyleProp<ViewStyle>
@@ -37,6 +38,7 @@ const SwapAmountInput = ({
   onPressMax,
   onSelectToken,
   token,
+  loading,
   autoFocus,
   inputError,
   style,
@@ -71,7 +73,11 @@ const SwapAmountInput = ({
           keyboardType="numeric"
           autoFocus={autoFocus}
           // unset lineHeight to allow ellipsis on long inputs on iOS
-          inputStyle={[{ lineHeight: undefined }, inputError ? styles.inputError : {}]}
+          inputStyle={[
+            { lineHeight: undefined },
+            inputError ? styles.inputError : {},
+            loading ? styles.inputLoading : {},
+          ]}
           testID="SwapAmountInput/Input"
           onBlur={() => {
             handleSetStartPosition(0)
@@ -137,6 +143,9 @@ const styles = StyleSheet.create({
   },
   inputError: {
     color: Colors.warning,
+  },
+  inputLoading: {
+    color: Colors.gray3,
   },
   maxButton: {
     backgroundColor: Colors.light,

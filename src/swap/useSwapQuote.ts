@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TokenBalance } from 'src/tokens/slice'
 import { multiplyByWei } from 'src/utils/formatting'
@@ -21,6 +21,11 @@ const useSwapQuote = () => {
   const walletAddress = useSelector(walletAddressSelector)
   const [exchangeRate, setExchangeRate] = useState<string | null>(null)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
+  const [fetchingSwapQuote, setFetchingSwapQuote] = useState(false)
+
+  useEffect(() => {
+    setFetchingSwapQuote(false)
+  }, [exchangeRate])
 
   // refreshQuote requests are generated when the swap input amounts are
   // changed, but the quote response / updated exchange rate updates the swap
@@ -59,6 +64,7 @@ const useSwapQuote = () => {
     requestUrlRef.current = requestUrl
 
     try {
+      setFetchingSwapQuote(true)
       const quoteResponse = await fetch(requestUrlRef.current)
 
       if (quoteResponse.ok) {
@@ -88,6 +94,7 @@ const useSwapQuote = () => {
     exchangeRate,
     refreshQuote,
     fetchSwapQuoteError,
+    fetchingSwapQuote,
   }
 }
 

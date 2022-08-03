@@ -16,6 +16,7 @@ import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
+import Colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import useSwapQuote, { Field, SwapAmount } from 'src/swap/useSwapQuote'
@@ -47,7 +48,7 @@ export function SwapScreen() {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
 
   const maxFromAmount = useMaxSendAmount(fromToken?.address || '', FeeType.SWAP)
-  const { exchangeRate, refreshQuote, fetchSwapQuoteError } = useSwapQuote()
+  const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote } = useSwapQuote()
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -176,7 +177,9 @@ export function SwapScreen() {
           <View style={styles.headerContainer}>
             <Text style={headerStyles.headerTitle}>{t('swapScreen.title')}</Text>
             {exchangeRate && (
-              <Text style={headerStyles.headerSubTitle}>
+              <Text
+                style={[headerStyles.headerSubTitle, fetchingSwapQuote ? styles.mutedHeader : {}]}
+              >
                 {`1 ${fromToken.symbol} ≈ ${exchangeRate.substring(0, 7)} ${toToken.symbol}`}
               </Text>
             )}
@@ -192,6 +195,7 @@ export function SwapScreen() {
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
+            loading={updatedField === Field.TO && fetchingSwapQuote}
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
@@ -203,6 +207,7 @@ export function SwapScreen() {
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
             style={styles.toSwapAmountInput}
+            loading={updatedField === Field.FROM && fetchingSwapQuote}
           />
         </View>
         <Button
@@ -248,6 +253,9 @@ const styles = StyleSheet.create({
   toSwapAmountInput: {
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
+  },
+  mutedHeader: {
+    color: Colors.gray3,
   },
 })
 
