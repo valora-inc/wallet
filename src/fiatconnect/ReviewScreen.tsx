@@ -48,14 +48,28 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
+  const [quote, setQuote] = useState(normalizedQuote)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
   const [usingUpdatedQuote, setUsingUpdatedQuote] = useState(false)
 
   useEffect(() => {
-    if (!fiatConnectQuotesLoading && usingUpdatedQuote && fiatConnectQuotesError) {
-      dispatch(showError(ErrorMessages.QUOTE_UPDATE_FAILED))
+    if (!fiatConnectQuotesLoading && usingUpdatedQuote) {
+      const updatedQuoteData = fiatConnectQuotes.find(
+        (quote) => quote.provider.id === providerId && quote.ok
+      )
+      if (fiatConnectQuotesError || !updatedQuoteData) {
+        dispatch(showError(ErrorMessages.QUOTE_UPDATE_FAILED))
+      } else {
+        setQuote(
+          new FiatConnectQuote({
+            quote: updatedQuoteData as FiatConnectQuoteSuccess,
+            fiatAccountType: normalizedQuote.fiatAccountType,
+            flow,
+          })
+        )
+      }
     }
-  }, [fiatConnectQuotesLoading, usingUpdatedQuote])
+  }, [fiatConnectQuotesLoading])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,20 +83,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       provider: providerId,
     })
     navigateBack()
-  }
-
-  let quote = normalizedQuote
-  if (usingUpdatedQuote) {
-    const updatedQuoteData = fiatConnectQuotes.find(
-      (quote) => quote.provider.id === providerId && quote.ok
-    )
-    if (updatedQuoteData) {
-      quote = new FiatConnectQuote({
-        quote: updatedQuoteData as FiatConnectQuoteSuccess,
-        fiatAccountType: normalizedQuote.fiatAccountType,
-        flow,
-      })
-    }
   }
 
   const quoteTimestamp = new Date(quote.getGuaranteedUntil())
