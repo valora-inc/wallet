@@ -1252,8 +1252,8 @@
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
       "header": "Vincular uma conta bancária",
-      "bodyTitle": "Introduza os dados da conta bancária",
-      "description": "Introduza os dados da sua conta bancária para ligar a sua conta à Valora. As suas transacções serão alimentadas por <0>{{providerName}}</0>."
+      "bodyTitle": "Insira os dados bancários",
+      "description": "Insira os dados bancários para vincular a sua conta a Valora. As suas transacções serão suportadas por <0>{{providerName}}</0>."
     },
     "continue": "Continuar"
   },
