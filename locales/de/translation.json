@@ -1253,7 +1253,7 @@
     "bankAccount": {
       "header": "Bankkonto verknüpfen",
       "bodyTitle": "Bankkontodaten eingeben",
-      "description": "Gib deine Kontodaten ein, um dein Konto mit Valora zu verknüpfen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
     },
     "continue": "Weiter"
   },
