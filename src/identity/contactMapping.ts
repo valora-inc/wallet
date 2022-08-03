@@ -121,6 +121,7 @@ function* doImportContacts(doMatchmaking: boolean) {
   yield put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
+  SentryTransactionHub.finishTransaction(SentrySpan.import_contacts)
 
   if (!doMatchmaking) {
     return true
@@ -131,7 +132,6 @@ function* doImportContacts(doMatchmaking: boolean) {
   ValoraAnalytics.track(IdentityEvents.contacts_matchmaking_complete, {
     matchCount: Object.keys(matchContacts).length,
   })
-  SentryTransactionHub.finishTransaction(SentrySpan.import_contacts)
   return true
 }
 
