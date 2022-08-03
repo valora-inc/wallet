@@ -30,10 +30,6 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
-  kycStatus: KycStatus | undefined
-  hasLinkedBankAccount: boolean
-  finclusiveKycStatus: FinclusiveKycStatus
-  finclusiveRegionSupported: boolean
   dismissedKeepSupercharging: boolean
   dismissedStartSupercharging: boolean
 }
@@ -68,9 +64,10 @@ export enum KycStatus {
   NotCreated = 'not-created',
 }
 
+// Maintaining this as it's required for migrations
 export enum FinclusiveKycStatus {
-  NotSubmitted = 0, // this represents state before sending to Finclusive. (Finclusive doesn't have this as a status.)
-  Submitted = 1, // finclusive calls this "Pending"
+  NotSubmitted = 0,
+  Submitted = 1,
   Accepted = 2,
   Rejected = 3,
   InReview = 4,
@@ -102,10 +99,6 @@ export const initialState: State = {
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dailyLimitRequestStatus: undefined,
-  kycStatus: undefined,
-  hasLinkedBankAccount: false,
-  finclusiveKycStatus: FinclusiveKycStatus.NotSubmitted,
-  finclusiveRegionSupported: false,
   dismissedKeepSupercharging: false,
   dismissedStartSupercharging: false,
 }
@@ -256,11 +249,6 @@ export const reducer = (
         ...state,
         dailyLimitRequestStatus: action.dailyLimitRequestStatus,
       }
-    case Actions.UPDATE_KYC_STATUS:
-      return {
-        ...state,
-        kycStatus: action.kycStatus,
-      }
     case Web3Actions.SET_ACCOUNT: {
       return {
         ...state,
@@ -271,24 +259,6 @@ export const reducer = (
       return {
         ...state,
         profileUploaded: true,
-      }
-    }
-    case Actions.SET_HAS_LINKED_BANK_ACCOUNT: {
-      return {
-        ...state,
-        hasLinkedBankAccount: true,
-      }
-    }
-    case Actions.SET_FINCLUSIVE_KYC: {
-      return {
-        ...state,
-        finclusiveKycStatus: action.finclusiveKycStatus,
-      }
-    }
-    case Actions.SET_FINCLUSIVE_REGION_SUPPORTED: {
-      return {
-        ...state,
-        finclusiveRegionSupported: true,
       }
     }
     case Actions.DISMISS_KEEP_SUPERCHARGING:
