@@ -1249,6 +1249,14 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Link Bank Account",
+      "bodyTitle": "Enter Bank Account Details",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Continue"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
