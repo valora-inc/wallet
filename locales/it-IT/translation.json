@@ -1252,8 +1252,8 @@
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
       "header": "Collegare un conto bancario",
-      "bodyTitle": "Inserisci i dati del conto corrente bancario",
-      "description": "Inserisci le coordinate bancarie per collegare il tuo conto a Valora. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
+      "bodyTitle": "Immetti i dettagli bancari",
+      "description": "Immetti i dettagli bancari per collegare il tuo conto a Valora. Le tue transazioni saranno effettuate da <0>{{providerName}}</0>."
     },
     "continue": "Continua"
   },
