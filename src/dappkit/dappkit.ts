@@ -106,6 +106,7 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
     yield call(handleNavigationWithDeeplink, responseDeeplink)
 
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_success, defaultTrackedProperties)
+    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_connection)
   } catch (error) {
     Logger.error(TAG, 'Failed to respond to account auth', error)
     ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_error, {

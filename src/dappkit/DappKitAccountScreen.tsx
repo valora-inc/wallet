@@ -43,8 +43,8 @@ const DappKitAccountScreen = ({ route }: Props) => {
       Logger.error(TAG, 'No account set up for this wallet')
       return
     }
+    SentryTransactionHub.startTransaction(SentrySpan.dappkit_connection)
     dispatch(approveAccountAuth(dappKitRequest))
-    SentryTransactionHub.finishTransaction(SentrySpan.dappkit_connection)
   }
 
   const handleCancel = async () => {
