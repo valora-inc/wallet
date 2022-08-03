@@ -1249,6 +1249,14 @@
     "bestRate": "Meilleur taux",
     "header": "Mode de paiement"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Relier un compte bancaire",
+      "bodyTitle": "Saisis les détails du compte bancaire",
+      "description": "Saisis les coordonnées du compte bancaire pour lier ton compte à Valora. Tes transactions seront alimentées par <0>{{providerName}}</0>."
+    },
+    "continue": "Continuer"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
     "transactionDetails": "Détails de transaction",
