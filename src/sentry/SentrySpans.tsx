@@ -4,8 +4,8 @@ interface SentrySpanInfo {
 }
 
 export enum SentrySpan {
-  dappkit_connection = 'DappKitConnection',
-  dappkit_transaction = 'DappKitTransaction',
+  dappkit_connection = 'DAppKitConnection',
+  dappkit_transaction = 'DAppKitTransaction',
   fetch_balances = 'FetchBalances',
   import_contacts = 'ImportContacts',
   pincode_enter = 'PincodeEnter',
@@ -19,12 +19,12 @@ export enum SentrySpan {
 type values = typeof SentrySpan[keyof typeof SentrySpan]
 
 export const SentrySpans: Record<values, SentrySpanInfo> = {
-  DappKitConnection: {
-    name: 'DappKitConnection',
+  DAppKitConnection: {
+    name: 'DAppKit Connection',
     op: 'dappkit_connection',
   },
-  DappKitTransaction: {
-    name: 'DappKitTransaction',
+  DAppKitTransaction: {
+    name: 'DAppKit Transaction',
     op: 'dappkit_transaction',
   },
   FetchBalances: {
