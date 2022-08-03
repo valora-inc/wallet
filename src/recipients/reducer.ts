@@ -37,7 +37,7 @@ export const inviteRewardsSendersFetched = createAction<string[]>(
   'RECIPIENTS/INVITE_REWARDS_SENDERS_FETCHED'
 )
 export const coinbasePaySendersFetched = createAction<string[]>(
-  'RECIPIENTS/COINBASE_PAY_SENDERS_FETECHED'
+  'RECIPIENTS/COINBASE_PAY_SENDERS_FETCHED'
 )
 
 export const recipientsReducer = createReducer(initialState, (builder) => {
