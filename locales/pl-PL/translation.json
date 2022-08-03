@@ -1253,6 +1253,14 @@
     "bestRate": "Najlepsza stawka",
     "header": "Wybierz metodę płatności"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Powiąż konto bankowe",
+      "bodyTitle": "Wprowadź dane konta bankowego",
+      "description": "Wprowadź dane konta bankowego, aby połączyć swoje konto z Valorą. Twoje transakcje będą zasilane przez <0>{{providerName}}</0>."
+    },
+    "continue": "Kontynuuj"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Metoda płatności",
     "transactionDetails": "Szczegóły transakcji",
