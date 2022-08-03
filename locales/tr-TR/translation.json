@@ -1249,6 +1249,14 @@
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Banka Hesabı Bağla",
+      "bodyTitle": "Enter Bank Account Details",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "İleri"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
