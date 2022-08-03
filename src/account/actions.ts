@@ -1,9 +1,4 @@
-import {
-  DailyLimitRequestStatus,
-  FinclusiveKycStatus,
-  KycStatus,
-  PincodeType,
-} from 'src/account/reducer'
+import { DailyLimitRequestStatus, PincodeType } from 'src/account/reducer'
 
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
@@ -33,12 +28,7 @@ export enum Actions {
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
-  UPDATE_KYC_STATUS = 'ACCOUNT/UPDATE_KYC_STATUS',
   SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
-  SET_HAS_LINKED_BANK_ACCOUNT = 'ACCOUNT/SET_HAS_LINKED_BANK_ACCOUNT',
-  FETCH_FINCLUSIVE_KYC = 'ACCOUNT/FETCH_FINCLUSIVE_KYC',
-  SET_FINCLUSIVE_KYC = 'ACCOUNT/SET_FINCLUSIVE_KYC',
-  SET_FINCLUSIVE_REGION_SUPPORTED = 'ACCOUNT/SET_FINCLUSIVE_REGION_SUPPORTED',
   DISMISS_KEEP_SUPERCHARGING = 'ACCOUNT/DISMISS_KEEP_SUPERCHARGING',
   DISMISS_START_SUPERCHARGING = 'ACCOUNT/DISMISS_START_SUPERCHARGING',
   SAVE_SIGNED_MESSAGE = 'ACCOUNT/SAVE_SIGNED_MESSAGE',
@@ -163,28 +153,6 @@ export interface UpdateDailyLimitRequestStatusAction {
   dailyLimitRequestStatus: DailyLimitRequestStatus
 }
 
-export interface UpdateKycStatusAction {
-  type: Actions.UPDATE_KYC_STATUS
-  kycStatus?: KycStatus
-}
-
-export interface SetHasLinkedBankAccount {
-  type: Actions.SET_HAS_LINKED_BANK_ACCOUNT
-}
-
-export interface FetchFinclusiveKyc {
-  type: Actions.FETCH_FINCLUSIVE_KYC
-}
-
-export interface SetFinclusiveKyc {
-  type: Actions.SET_FINCLUSIVE_KYC
-  finclusiveKycStatus: FinclusiveKycStatus
-}
-
-export interface SetFinclusiveRegionSupported {
-  type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED
-}
-
 export interface DismissKeepSuperchargingAction {
   type: Actions.DISMISS_KEEP_SUPERCHARGING
 }
@@ -224,11 +192,6 @@ export type ActionTypes =
   | ProfileUploadedAction
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
-  | UpdateKycStatusAction
-  | SetHasLinkedBankAccount
-  | FetchFinclusiveKyc
-  | SetFinclusiveKyc
-  | SetFinclusiveRegionSupported
   | DismissKeepSuperchargingAction
   | DismissStartSuperchargingAction
   | SaveSignedMessage
@@ -378,28 +341,6 @@ export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction =
 export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
   type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
   dailyLimitRequestStatus: status,
-})
-
-export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
-  type: Actions.UPDATE_KYC_STATUS,
-  kycStatus,
-})
-
-export const setHasLinkedBankAccount = (): SetHasLinkedBankAccount => ({
-  type: Actions.SET_HAS_LINKED_BANK_ACCOUNT,
-})
-
-export const fetchFinclusiveKyc = (): FetchFinclusiveKyc => ({
-  type: Actions.FETCH_FINCLUSIVE_KYC,
-})
-
-export const setFinclusiveKyc = (finclusiveKycStatus: FinclusiveKycStatus): SetFinclusiveKyc => ({
-  type: Actions.SET_FINCLUSIVE_KYC,
-  finclusiveKycStatus,
-})
-
-export const setFinclusiveRegionSupported = (): SetFinclusiveRegionSupported => ({
-  type: Actions.SET_FINCLUSIVE_REGION_SUPPORTED,
 })
 
 export const dismissKeepSupercharging = (): DismissKeepSuperchargingAction => ({

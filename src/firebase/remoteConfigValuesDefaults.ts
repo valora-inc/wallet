@@ -11,7 +11,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   | 'komenciAllowedDeployers'
   | 'dappListApiUrl'
   | 'sentryNetworkErrors'
-  | 'finclusiveUnsupportedStates'
   | 'superchargeTokenConfigByToken'
 > & {
   komenciAllowedDeployers: string
@@ -22,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecEURMax: number
   superchargecREALMin: number
   superchargecREALMax: number
-  finclusiveUnsupportedStates: string
 } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
@@ -57,8 +55,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
-  linkBankAccountEnabled: false,
-  linkBankAccountStepTwoEnabled: false,
   sentryTracesSampleRate: DEFAULT_SENTRY_TRACES_SAMPLE_RATE,
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   biometryEnabled: false,
@@ -69,7 +65,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
   dappsWebViewEnabled: false,
   skipProfilePicture: false,
-  finclusiveUnsupportedStates: 'NY,TX',
   celoWithdrawalEnabledInExchange: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
