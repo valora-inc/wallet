@@ -24,7 +24,7 @@ import {
 } from 'src/fiatconnect'
 import { FiatConnectTransfer } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { FetchProvidersOutput, PaymentMethod, CICOFlow } from 'src/fiatExchanges/utils'
+import { CICOFlow, FetchProvidersOutput, PaymentMethod } from 'src/fiatExchanges/utils'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -668,6 +668,7 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     imageUrl:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     baseUrl: 'fakewebsite.valoraapp.com',
+    websiteUrl: 'https://fakewebsite.valorapp.com',
   },
   {
     id: 'provider-one',
@@ -675,6 +676,7 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
     imageUrl:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     baseUrl: 'fakewebsite.valoraapp.com',
+    websiteUrl: 'https://fakewebsite.valorapp.com',
   },
 ]
 
@@ -747,6 +749,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       baseUrl: 'fakewebsite.valoraapp.com',
+      websiteUrl: 'https://fakewebsite.valorapp.com',
     },
     ok: false,
     error: FiatConnectError.FiatAmountTooHigh,
@@ -764,6 +767,7 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
       imageUrl:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       baseUrl: 'fakewebsite.valoraapp.com',
+      websiteUrl: 'https://fakewebsite.valorapp.com',
     },
     ok: true,
     quote: {
