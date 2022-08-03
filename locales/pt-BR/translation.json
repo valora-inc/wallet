@@ -1249,6 +1249,14 @@
     "bestRate": "Melhor taxa",
     "header": "Método de pagamento"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Vincular uma conta bancária",
+      "bodyTitle": "Introduza os dados da conta bancária",
+      "description": "Introduza os dados da sua conta bancária para ligar a sua conta à Valora. As suas transacções serão alimentadas por <0>{{providerName}}</0>."
+    },
+    "continue": "Continuar"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pagamento",
     "transactionDetails": "Detalhes de transação",
