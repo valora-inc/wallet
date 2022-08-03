@@ -204,7 +204,7 @@
   "superchargingNotificationStart": "Mehr Infos",
   "startSuperchargingNotificationBody": "Wöchentliche Rewards erhalten. Supercharge ist da!",
   "startSuperchargingNotificationStart": "Erste Schritte",
-  "cashIn": "Füge {{currency}} hinzu",
+  "cashIn": "{{currency}} hinzufügen",
   "connectNumber": "Nummer verbinden",
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
   "confirmTransaction": "{{dappName}} möchte sich eine Transaktion bestätigen",
@@ -1289,7 +1289,7 @@
       "fiatExchangeTitle": "Guthaben hinzufügen",
       "fiatExchangeSubtitle": "Lade dein {{appName}}-Konto über eine Bank, eine Karte oder eine Börse auf.",
       "selectCurrencyTitle": "Guthaben hinzufügen",
-      "exchangeAmountTitle": "Füge {{currency}} hinzu",
+      "exchangeAmountTitle": "{{currency}} hinzufügen",
       "selectProviderHeader": "Zahlungsmethode auswählen"
     },
     "cashOut": {
