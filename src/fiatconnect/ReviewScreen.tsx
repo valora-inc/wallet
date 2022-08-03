@@ -5,8 +5,10 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -45,17 +47,22 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
+  const [usingUpdatedQuote, setUsingUpdatedQuote] = useState(false)
 
-  const updatedQuoteData = fiatConnectQuotes.find(
-    (quote) => quote.provider.id === providerId && quote.ok
-  )
   let quote = normalizedQuote
-  if (updatedQuoteData) {
-    quote = new FiatConnectQuote({
-      quote: updatedQuoteData as FiatConnectQuoteSuccess,
-      fiatAccountType: normalizedQuote.fiatAccountType,
-      flow,
-    })
+  if (usingUpdatedQuote) {
+    const updatedQuoteData = fiatConnectQuotes.find(
+      (quote) => quote.provider.id === providerId && quote.ok
+    )
+    if (updatedQuoteData) {
+      quote = new FiatConnectQuote({
+        quote: updatedQuoteData as FiatConnectQuoteSuccess,
+        fiatAccountType: normalizedQuote.fiatAccountType,
+        flow,
+      })
+    } else {
+      dispatch(showError(ErrorMessages.QUOTE_UPDATE_FAILED))
+    }
   }
 
   const quoteTimestamp = new Date(quote.getGuaranteedUntil())
@@ -102,6 +109,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             })
           )
           setShowingExpiredQuoteDialog(false)
+          setUsingUpdatedQuote(true)
         }}
       >
         {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
