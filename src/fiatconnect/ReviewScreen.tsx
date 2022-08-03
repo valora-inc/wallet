@@ -1,7 +1,7 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,6 +19,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
+  fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
   fiatConnectQuotesSelector,
 } from 'src/fiatconnect/selectors'
@@ -44,31 +45,17 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { flow, normalizedQuote, fiatAccount } = route.params
   const providerId = normalizedQuote.getProviderId()
 
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
   const [usingUpdatedQuote, setUsingUpdatedQuote] = useState(false)
 
-  let quote = normalizedQuote
-  if (usingUpdatedQuote) {
-    const updatedQuoteData = fiatConnectQuotes.find(
-      (quote) => quote.provider.id === providerId && quote.ok
-    )
-    if (updatedQuoteData) {
-      quote = new FiatConnectQuote({
-        quote: updatedQuoteData as FiatConnectQuoteSuccess,
-        fiatAccountType: normalizedQuote.fiatAccountType,
-        flow,
-      })
-    } else {
+  useEffect(() => {
+    if (!fiatConnectQuotesLoading && usingUpdatedQuote && fiatConnectQuotesError) {
       dispatch(showError(ErrorMessages.QUOTE_UPDATE_FAILED))
     }
-  }
-
-  const quoteTimestamp = new Date(quote.getGuaranteedUntil())
-  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
-    setShowingExpiredQuoteDialog(true)
-  }
+  }, [fiatConnectQuotesLoading, usingUpdatedQuote])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -82,6 +69,25 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       provider: providerId,
     })
     navigateBack()
+  }
+
+  let quote = normalizedQuote
+  if (usingUpdatedQuote) {
+    const updatedQuoteData = fiatConnectQuotes.find(
+      (quote) => quote.provider.id === providerId && quote.ok
+    )
+    if (updatedQuoteData) {
+      quote = new FiatConnectQuote({
+        quote: updatedQuoteData as FiatConnectQuoteSuccess,
+        fiatAccountType: normalizedQuote.fiatAccountType,
+        flow,
+      })
+    }
+  }
+
+  const quoteTimestamp = new Date(quote.getGuaranteedUntil())
+  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
+    setShowingExpiredQuoteDialog(true)
   }
 
   if (fiatConnectQuotesLoading) {
