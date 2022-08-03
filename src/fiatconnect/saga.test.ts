@@ -181,7 +181,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
     })
     const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
-    it('navigates to fiatDetails screen if the fiatAccount is not found', async () => {
+    it('navigates to link account screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
         fiatAccountId: '123',
         providerId: 'provider-two',
@@ -204,7 +204,7 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatDetailsScreen, {
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
         quote: normalizedQuote,
         flow: normalizedQuote.flow,
       })
