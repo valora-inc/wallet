@@ -1002,6 +1002,21 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
+  [FiatExchangeEvents.cico_fc_link_account_continue]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_provider_website]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
   [FiatExchangeEvents.cico_fiat_details_success]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
