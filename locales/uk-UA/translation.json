@@ -1253,6 +1253,14 @@
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Прив'язати банківський рахунок",
+      "bodyTitle": "Введіть дані банківського рахунку",
+      "description": "Введіть банківські реквізити рахунку для зв'язку з Valora. Ваші операції будуть ввімкнені <0>{{providerName}}</0>."
+    },
+    "continue": "Продовжити"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі транзакції",
