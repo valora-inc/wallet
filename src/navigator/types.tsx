@@ -1,8 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest } from '@celo/utils'
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { LinkError } from 'react-native-plaid-link-sdk'
-import { KycStatus } from 'src/account/reducer'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -85,10 +83,6 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BankAccounts]: {
-    newPublicToken?: string
-    fromSyncBankAccountScreen?: boolean
-  }
   [Screens.FiatDetailsScreen]: {
     quote: FiatConnectQuote
     flow: CICOFlow
@@ -274,9 +268,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Sync]: undefined
-  [Screens.SyncBankAccountScreen]: {
-    publicToken: string
-  }
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
@@ -307,13 +298,6 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
-  [Screens.LinkBankAccountErrorScreen]:
-    | {
-        error?: Error | LinkError
-      }
-    | undefined
-  [Screens.LinkBankAccountScreen]: { kycStatus: KycStatus | undefined }
-  [Screens.ConnectPhoneNumberScreen]: undefined
   [Screens.VerificationInputScreen]:
     | {
         showHelpDialog?: boolean

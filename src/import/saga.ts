@@ -21,7 +21,6 @@ import {
   takeLeading,
 } from 'redux-saga/effects'
 import { initializeAccount, setBackupCompleted } from 'src/account/actions'
-import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -154,7 +153,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set backup complete so user isn't prompted to do backup flow
     yield put(setBackupCompleted())
     yield put(refreshAllBalances())
-    yield call(uploadNameAndPicture)
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
