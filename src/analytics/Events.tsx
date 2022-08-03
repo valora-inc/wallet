@@ -438,6 +438,7 @@ export enum FiatExchangeEvents {
   // Fiat connect review screen
   cico_submit_transfer = 'cico_submit_transfer',
   cico_cancel_transfer = 'cico_cancel_transfer',
+  cico_back_transfer = 'cico_back_transfer',
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',

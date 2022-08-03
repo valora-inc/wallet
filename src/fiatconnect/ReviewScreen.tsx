@@ -71,7 +71,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   }
 
   const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_back_transfer, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
@@ -377,9 +377,16 @@ FiatConnectReviewScreen.navigationOptions = ({
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
-  // TODO(any): when tying this component to the flow, add `onCancel` prop to
-  // navigate to correct screen.
   headerRight: () => (
-    <CancelButton onCancel={() => navigate(Screens.FiatExchange)} style={styles.cancelBtn} />
+    <CancelButton
+      onCancel={() => {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+          flow: route.params.flow,
+          provider: route.params.normalizedQuote.getProviderId(),
+        })
+        navigate(Screens.FiatExchange)
+      }}
+      style={styles.cancelBtn}
+    />
   ),
 })
