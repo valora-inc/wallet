@@ -1077,7 +1077,7 @@
   "feedItemSentInfo_noComment": "Paiement envoyé",
   "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Supercharge",
-  "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
+  "feedItemRewardReceivedInfo": "Récompenses",
   "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Récompense reçue",
   "feedItemReceivedTitle": "{{displayName}}",
@@ -1247,7 +1247,7 @@
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
     "bestRate": "Meilleur taux",
-    "header": "Sélectionnez le mode de paiement"
+    "header": "Mode de paiement"
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
@@ -1290,14 +1290,14 @@
       "fiatExchangeSubtitle": "Créditer votre compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de paiement"
+      "selectProviderHeader": "Mode de paiement"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
       "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de retrait"
+      "selectProviderHeader": "Mode de retrait"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
