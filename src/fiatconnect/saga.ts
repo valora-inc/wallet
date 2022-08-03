@@ -279,7 +279,7 @@ export function* handleSelectFiatConnectQuote({
     })
     if (!fiatAccount) {
       // This is expected when the user has not yet created a fiatAccount with the provider
-      navigate(Screens.FiatDetailsScreen, {
+      navigate(Screens.FiatConnectLinkAccount, {
         quote,
         flow: quote.flow,
       })

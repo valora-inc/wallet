@@ -1,18 +1,18 @@
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectTransfers, mockFiatConnectQuotes } from 'test/values'
-import { Screens } from 'src/navigator/Screens'
-import { fireEvent, render } from '@testing-library/react-native'
-import { Provider } from 'react-redux'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { CICOFlow } from 'src/fiatExchanges/utils'
+import { fireEvent, render } from '@testing-library/react-native'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
-import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import React from 'react'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatExchangeEvents } from 'src/analytics/Events'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockFiatConnectQuotes, mockFiatConnectTransfers } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -126,7 +126,7 @@ describe('TransferStatusScreen', () => {
         })
       )
     })
-    it('navigates back when try again button is pressed on failure', () => {
+    it('navigates to review screen when try again button is pressed on failure', () => {
       const store = mockStore({ transfer: mockFiatConnectTransfers[1] })
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
@@ -135,7 +135,17 @@ describe('TransferStatusScreen', () => {
       )
       expect(queryByTestId('TryAgain')).toBeTruthy()
       fireEvent.press(getByTestId('TryAgain'))
-      expect(navigateBack).toHaveBeenCalledWith()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        flow: CICOFlow.CashOut,
+        fiatAccount: {
+          fiatAccountId: 'some-fiat-account-id',
+          accountName: 'some-friendly-name',
+          institutionName: 'some-bank',
+          fiatAccountType: FiatAccountType.BankAccount,
+        },
+        normalizedQuote: mockQuote,
+        shouldRefetchQuote: true,
+      })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         FiatExchangeEvents.cico_fc_transfer_error_retry,
