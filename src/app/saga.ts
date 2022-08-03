@@ -178,8 +178,6 @@ export interface RemoteConfigValues {
   cashInButtonExpEnabled: boolean
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
-  linkBankAccountEnabled: boolean
-  linkBankAccountStepTwoEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
   biometryEnabled: boolean
@@ -190,7 +188,6 @@ export interface RemoteConfigValues {
   paymentDeepLinkHandler: PaymentDeepLinkHandler
   dappsWebViewEnabled: boolean
   skipProfilePicture: boolean
-  finclusiveUnsupportedStates: string[]
   celoWithdrawalEnabledInExchange: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
