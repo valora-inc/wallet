@@ -354,7 +354,7 @@
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in deiner Region.",
-  "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}} .",
+  "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
   "switchCurrency": "Währung wechseln",
   "accept": "Akzeptieren",
   "at": "bei",
