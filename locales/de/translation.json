@@ -1249,6 +1249,14 @@
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Bankkonto verknüpfen",
+      "bodyTitle": "Bankkontodaten eingeben",
+      "description": "Gib deine Kontodaten ein, um dein Konto mit Valora zu verknüpfen. Deine Transaktionen werden durchgeführt von <0>{{providerName}}</0>."
+    },
+    "continue": "Weiter"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
