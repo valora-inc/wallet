@@ -27,13 +27,14 @@ const mockData = [
 
 jest.mock('react-native-fs', () => {
   return {
+    exists: jest.fn(),
+    mkdir: jest.fn(),
     readDir: jest.fn(() => Promise.resolve(mockData)),
     stat: jest
       .fn()
       .mockImplementation((filePath) =>
         Promise.resolve(mockData.find((file) => file.path === filePath))
       ),
-    exists: jest.fn(),
     unlink: jest.fn(() => Promise.resolve()),
     writeFile: jest.fn(() => Promise.resolve()),
     ExternalDirectoryPath: '__EXTERNAL_DIRECTORY_PATH__',

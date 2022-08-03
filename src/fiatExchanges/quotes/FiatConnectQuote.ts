@@ -143,6 +143,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.baseUrl
   }
 
+  getProviderWebsiteUrl(): string {
+    return this.quote.provider.websiteUrl
+  }
+
   getFiatAmount(): string {
     return this.quote.quote.fiatAmount
   }

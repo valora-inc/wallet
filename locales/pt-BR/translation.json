@@ -204,7 +204,7 @@
   "superchargingNotificationStart": "Saiba mais",
   "startSuperchargingNotificationBody": "Ganhe recompensas semanalmente. Entre no Supercharge!",
   "startSuperchargingNotificationStart": "Ganhe recompensas",
-  "cashIn": "Adicione {{currency}}",
+  "cashIn": "Adicionar {{currency}}",
   "connectNumber": "Conectar o número",
   "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
   "confirmTransaction": "{{dappName}} gostaria de confirmar uma transação",
@@ -354,7 +354,7 @@
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
   "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em sua região.",
-  "noPaymentMethods": "Não há métodos de pagamento disponíveis para {{digitalAsset}} na sua região.",
+  "noPaymentMethods": "Não há métodos de pagamento disponíveis para {{digitalAsset}} em sua região.",
   "switchCurrency": "Trocar moeda",
   "accept": "Aceitar",
   "at": "em",
@@ -421,7 +421,7 @@
   "reclaim": "Reivindicar",
   "celoGold": "CELO",
   "celoEuros": "Celo Euros",
-  "balanceAvailable": "<0></0> disponível",
+  "balanceAvailable": "<0></0> disponíveis",
   "subtotal": "Subtotal",
   "total": "Total",
   "totalInDollars": "Celo Dollars @ <0></0>",
@@ -831,7 +831,7 @@
   "requestUnavailableNoDisplayNameHeader": "O número de celular do seu contato não está conectado a um Endereço de conta.",
   "requestUnavailableBody": "O número {{e164PhoneNumber}} não tem uma conta ou ainda não foi conectou. As solicitações só podem ser enviadas para números conectados.",
   "requestUnavailableNoNumberBody": "Seu contato não tem uma conta ou ainda não a conectou. As solicitações só podem ser enviadas para números conectados.",
-  "requesting": "Solicitando",
+  "requesting": "Solicitar para",
   "request": "Solicitar",
   "requestToken": "Solicitar {{token}}",
   "requestSent": "Solicitação enviada",
@@ -1247,7 +1247,7 @@
     "numDays": "1-3 dias",
     "oneHour": "Menos de 1 hora",
     "bestRate": "Melhor taxa",
-    "header": "Selecione o método de pagamento"
+    "header": "Método de pagamento"
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pagamento",
@@ -1289,15 +1289,15 @@
       "fiatExchangeTitle": "Adicionar Fundos",
       "fiatExchangeSubtitle": "Adicione fundos à sua conta {{appName}} de um banco, cartão ou exchange.",
       "selectCurrencyTitle": "Adicionar Fundos",
-      "exchangeAmountTitle": "Adicione {{currency}}",
-      "selectProviderHeader": "Selecione o método de pagamento"
+      "exchangeAmountTitle": "Adicionar {{currency}}",
+      "selectProviderHeader": "Método de pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Sacar Fundos",
       "fiatExchangeSubtitle": "Saque fundos do {{appName}} para uma conta bancária, cartão, exchange de criptos ou dinheiro móvel.",
       "selectCurrencyTitle": "Sacar Fundos",
-      "exchangeAmountTitle": "Transferir {{currency}}",
-      "selectProviderHeader": "Selecione o método de saque"
+      "exchangeAmountTitle": "Sacar {{currency}}",
+      "selectProviderHeader": "Método de saque"
     },
     "spend": {
       "fiatExchangeTitle": "Gastar Fundos",
