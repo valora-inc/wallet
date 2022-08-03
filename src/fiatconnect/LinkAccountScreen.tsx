@@ -1,3 +1,4 @@
+import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -29,6 +30,11 @@ export default function FiatConnectLinkAccountScreen({ route }: Props) {
   }
 
   const onPressProvider = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_link_account_provider_website, {
+      flow,
+      provider: quote.getProviderId(),
+      fiatAccountSchema: quote.getFiatAccountSchema(),
+    })
     navigate(Screens.WebViewScreen, { uri: quote.getProviderWebsiteUrl() })
   }
 
@@ -55,9 +61,22 @@ export default function FiatConnectLinkAccountScreen({ route }: Props) {
   )
 }
 
-FiatConnectLinkAccountScreen.navigationOptions = () => ({
+FiatConnectLinkAccountScreen.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.FiatConnectLinkAccount>
+}) => ({
   ...emptyHeader,
-  headerLeft: () => <BackButton />,
+  headerLeft: () => (
+    <BackButton
+      eventName={FiatExchangeEvents.cico_fc_link_account_back}
+      eventProperties={{
+        flow: route.params.flow,
+        provider: route.params.quote.getProviderId(),
+        fiatAccountSchema: route.params.quote.getFiatAccountSchema(),
+      }}
+    />
+  ),
   // NOTE: title should be dynamic when we support multiple fiat account types
   headerTitle: i18n.t('fiatConnectLinkAccountScreen.bankAccount.header'),
 })

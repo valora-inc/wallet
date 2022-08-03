@@ -440,6 +440,8 @@ export enum FiatExchangeEvents {
 
   // Fiat Connect link account screen
   cico_fc_link_account_continue = 'cico_fc_link_account_continue',
+  cico_fc_link_account_back = 'cico_fc_link_account_back',
+  cico_fc_link_account_provider_website = 'cico_fc_link_account_provider_website',
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',

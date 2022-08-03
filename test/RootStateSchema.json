@@ -791,13 +791,17 @@
                 },
                 "providerName": {
                     "type": "string"
+                },
+                "websiteUrl": {
+                    "type": "string"
                 }
             },
             "required": [
                 "baseUrl",
                 "id",
                 "imageUrl",
-                "providerName"
+                "providerName",
+                "websiteUrl"
             ],
             "type": "object"
         },
@@ -1689,6 +1693,7 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectLinkAccount",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
