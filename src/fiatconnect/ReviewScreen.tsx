@@ -71,7 +71,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   }
 
   const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_back_transfer, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
@@ -96,7 +96,10 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+          ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+            flow,
+            provider: normalizedQuote.getProviderId(),
+          })
 
           dispatch(
             createFiatConnectTransfer({
@@ -380,7 +383,7 @@ FiatConnectReviewScreen.navigationOptions = ({
   headerRight: () => (
     <CancelButton
       onCancel={() => {
-        ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
           flow: route.params.flow,
           provider: route.params.normalizedQuote.getProviderId(),
         })

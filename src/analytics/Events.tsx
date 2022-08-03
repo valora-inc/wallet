@@ -435,9 +435,9 @@ export enum FiatExchangeEvents {
   cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
 
   // Fiat connect review screen
-  cico_submit_transfer = 'cico_submit_transfer',
-  cico_cancel_transfer = 'cico_cancel_transfer',
-  cico_back_transfer = 'cico_back_transfer',
+  cico_fc_review_submit = 'cico_fc_review_submit',
+  cico_fc_review_cancel = 'cico_fc_review_cancel',
+  cico_fc_review_back = 'cico_fc_review_back',
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',
