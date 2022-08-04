@@ -36,6 +36,7 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -496,6 +497,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.CoinbasePayScreen}
       component={CoinbasePayScreen}
       options={emptyHeader}
+    />
+    <Navigator.Screen
+      options={FiatConnectLinkAccountScreen.navigationOptions}
+      name={Screens.FiatConnectLinkAccount}
+      component={FiatConnectLinkAccountScreen}
     />
   </>
 )
