@@ -598,8 +598,8 @@
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
-    "title": "Wyślij kryptowalutę, aby zaprosić znajomego (beta)",
-    "body": "Gdy Twój znajomy skonfiguruje swój portfel w aplikacji {{appName}}, każdy z Was otrzyma {{amount}} {{currency}} w postaci nagrody. Możesz zdobyć aż <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Wyślij kryptowalutę, aby zaprosić przyjaciela",
+    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z was otrzyma nieuchwytne NFT. <0>Dowiedz się więcej</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
