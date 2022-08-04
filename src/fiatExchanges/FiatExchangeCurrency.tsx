@@ -145,6 +145,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
             body="(cREAL)"
             selected={selectedCurrency === Currency.Real}
             onSelect={() => setSelectedCurrency(Currency.Real)}
+            enabled={flow === FiatExchangeFlow.CashIn}
             containerStyle={{
               borderTopWidth: 0.5,
               borderBottomWidth: 0.5,
