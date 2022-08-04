@@ -598,7 +598,7 @@
     "button": "Dokończ zaproszenie"
   },
   "inviteRewardsBanner": {
-    "title": "Wyślij kryptowalutę, aby zaprosić przyjaciela",
+    "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
     "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z was otrzyma nieuchwytne NFT. <0>Dowiedz się więcej</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
