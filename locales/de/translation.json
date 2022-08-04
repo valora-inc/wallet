@@ -598,8 +598,8 @@
     "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
-    "title": "Krypto senden, um einen Freund einzuladen (Beta)",
-    "body": "Sobald sie ihre Brieftasche {{appName}} eingerichtet haben, erhaltet ihr jeweils {{amount}} {{currency}} Belohnungen. Verdiene bis zu <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Krypto senden, um einen Freund einzuladen",
+    "body": "Sobald sie ihr {{appName}} Portemonnaie eingerichtet und ihre Nummer verbunden haben, erhält jeder von euch ein schwer fassbares NFT. <0>Mehr erfahren</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
