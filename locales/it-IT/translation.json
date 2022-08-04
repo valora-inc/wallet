@@ -598,8 +598,8 @@
     "button": "Completa l'invito"
   },
   "inviteRewardsBanner": {
-    "title": "Invia criptovalute per invitare un amico (beta)",
-    "body": "Dopo che avrà configurato il {{appName}} wallet, riceverete entrambi {{amount}} {{currency}} in ricompense. Guadagna fino a <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Invia cripto per invitare un amico",
+    "body": "Una volta che avranno configurato il loro portafoglio {{appName}} e collegato il loro numero, ognuno di voi riceverà uno sfuggente NFT. <0>Per saperne di più</0>"
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
