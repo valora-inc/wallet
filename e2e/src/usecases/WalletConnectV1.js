@@ -3,7 +3,13 @@ import { hashMessageWithPrefix, verifySignature } from '@celo/utils/lib/signatur
 import NodeWalletConnect from '@walletconnect/node'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
+import {
+  enterPinUiIfNecessary,
+  isElementVisible,
+  scrollIntoView,
+  sleep,
+  waitForElementId,
+} from '../utils/utils'
 
 const fromAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -331,9 +337,7 @@ export default WalletConnect = () => {
     await sleep(3 * 1000)
 
     // Wait for hamburger to be visible
-    await waitFor(element(by.id('Hamburger')))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
+    await waitForElementId('Hamburger')
 
     // Tap Hamburger
     await element(by.id('Hamburger')).tap()
