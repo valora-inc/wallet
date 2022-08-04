@@ -598,8 +598,8 @@
     "button": "Termine de convidar"
   },
   "inviteRewardsBanner": {
-    "title": "Enviar criptograma para convidar um amigo",
-    "body": "Uma vez que eles tenham preparado a sua carteira {{appName}} e ligado o seu número, cada um receberá um NFT elusivo. <0>Saiba mais</0>"
+    "title": "Envie criptomoedas para convidar um amigo",
+    "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
