@@ -61,6 +61,7 @@ export enum SettingsEvents {
   settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
+  settings_recovery_phrase = 'ettings_recovery_phrase',
 }
 
 export enum OnboardingEvents {

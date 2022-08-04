@@ -54,6 +54,7 @@ export interface State {
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSetting: boolean
 }
 
 const initialState = {
@@ -100,6 +101,8 @@ const initialState = {
     REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
+  shouldShowRecoveryPhraseInSetting:
+    REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSetting,
 }
 
 export const appReducer = (
@@ -216,6 +219,7 @@ export const appReducer = (
           action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
+        shouldShowRecoveryPhraseInSetting: action.configValues.shouldShowRecoveryPhraseInSetting,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

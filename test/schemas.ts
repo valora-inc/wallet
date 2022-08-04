@@ -1476,6 +1476,7 @@ export const v65Schema = {
     }, {}),
   },
 }
+
 export const v66Schema = {
   ...v65Schema,
   _persist: {
@@ -1488,6 +1489,7 @@ export const v66Schema = {
     attemptReturnUserFlowLoading: false,
   },
 }
+
 export const v67Schema = {
   ...v66Schema,
   _persist: {
@@ -1499,6 +1501,7 @@ export const v67Schema = {
     selectFiatConnectQuoteLoading: false,
   },
 }
+
 export const v68Schema = {
   ...v67Schema,
   _persist: {
@@ -1520,6 +1523,18 @@ export const v68Schema = {
   ),
 }
 
+export const v69Schema = {
+  ...v68Schema,
+  _persist: {
+    ...v68Schema._persist,
+    version: 69,
+  },
+  app: {
+    ...v68Schema.app,
+    shouldShowRecoveryPhraseInSetting: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v68Schema as Partial<RootState>
+  return v69Schema as Partial<RootState>
 }

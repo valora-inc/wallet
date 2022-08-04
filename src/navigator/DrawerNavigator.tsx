@@ -23,7 +23,13 @@ import deviceInfoModule from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import FiatExchange from 'src/account/FiatExchange'
 import GoldEducation from 'src/account/GoldEducation'
-import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
+import {
+  backupCompletedSelector,
+  defaultCountryCodeSelector,
+  e164NumberSelector,
+  nameSelector,
+  shouldShowRecoveryPhraseInSettingSelector,
+} from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
@@ -198,6 +204,9 @@ export default function DrawerNavigator() {
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
   const dispatch = useDispatch()
 
+  const shouldShowRecoveryPhraseInSetting = useSelector(shouldShowRecoveryPhraseInSettingSelector)
+  const backupCompleted = useSelector(backupCompletedSelector)
+
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
     <CustomDrawerContent {...props} />
   )
@@ -283,11 +292,13 @@ export default function DrawerNavigator() {
           options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
         />
       )}
-      <Drawer.Screen
-        name={Screens.BackupIntroduction}
-        component={BackupIntroduction}
-        options={{ title: t('accountKey'), drawerIcon: AccountKey }}
-      />
+      {(!backupCompleted || !shouldShowRecoveryPhraseInSetting) && (
+        <Drawer.Screen
+          name={Screens.BackupIntroduction}
+          component={BackupIntroduction}
+          options={{ title: t('accountKey'), drawerIcon: AccountKey }}
+        />
+      )}
       <Drawer.Screen
         name={Screens.FiatExchange}
         component={FiatExchange}

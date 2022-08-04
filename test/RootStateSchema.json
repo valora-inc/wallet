@@ -1945,6 +1945,9 @@
                 "sessionId": {
                     "type": "string"
                 },
+                "shouldShowRecoveryPhraseInSetting": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -2020,6 +2023,7 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "shouldShowRecoveryPhraseInSetting",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",

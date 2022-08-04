@@ -195,6 +195,7 @@ export interface RemoteConfigValues {
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
+  shouldShowRecoveryPhraseInSetting: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
