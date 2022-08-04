@@ -598,8 +598,8 @@
     "button": "Valider l'invitation"
   },
   "inviteRewardsBanner": {
-    "title": "Envoie un crypto pour inviter un ami",
-    "body": "Une fois qu'ils auront configuré leur portefeuille {{appName}} et connecté leur numéro, vous recevrez chacun un NFT insaisissable. <0>En savoir plus</0>"
+    "title": "Envoyez des crypto pour inviter un ami",
+    "body": "Vous recevrez tous les deux un NFT une fois qu'ils ont configuré leur compte {{appName}}. <0>En savoir plus</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
