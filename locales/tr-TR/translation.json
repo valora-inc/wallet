@@ -598,8 +598,8 @@
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Bir arkadaş davet etmek için kripto gönderin (beta)",
-    "body": "{{appName}} cüzdanlarını oluşturduklarında, her biriniz {{amount}}{{currency}} ödül alırsınız. <0>{{maxAmount}}{{currency}}</0> tutarına kadar kazanın!"
+    "title": "Send crypto to invite a friend",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you'll each get an elusive NFT. <0>Learn more</0>"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
