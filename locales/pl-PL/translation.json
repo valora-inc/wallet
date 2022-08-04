@@ -599,7 +599,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Wyślij kryptowalutę, aby zaprosić znajomego",
-    "body": "Po skonfigurowaniu portfela {{appName}} i podłączeniu swojego numeru, każdy z was otrzyma nieuchwytne NFT. <0>Dowiedz się więcej</0>"
+    "body": "Gdy Twój znajomy skonfiguruje swój portfel w aplikacji {{appName}}, każdy z Was otrzyma NFT. <0>Dowiedz się więcej</0>"
   },
   "getReward": "Otrzymaj ${{reward}}",
   "welcomeCelo": "Witamy w aplikacji {{appName}}",
