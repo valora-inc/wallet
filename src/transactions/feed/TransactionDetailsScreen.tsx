@@ -60,6 +60,10 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('transactionHeaderEscrowSent')
     case TokenTransactionTypeV2.InviteReceived:
       return t('transactionHeaderEscrowReceived')
+    case TokenTransactionTypeV2.NftReceived:
+      return t('transactionHeaderNftReceived')
+    case TokenTransactionTypeV2.NftSent:
+      return t('transactionHeaderNftSent')
   }
 }
 
