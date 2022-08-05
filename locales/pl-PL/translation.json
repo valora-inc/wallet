@@ -1352,8 +1352,8 @@
     "review": "Analizuj",
     "swapFrom": "Od",
     "swapTo": "Do",
-    "insufficientFunds": "Niewystarczające saldo {{token}} . Spróbuj mniejszej kwoty lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Uzyskanie najlepszego kursu wymiany trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut."
+    "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
