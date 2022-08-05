@@ -1352,8 +1352,8 @@
     "review": "Проверить",
     "swapFrom": "От",
     "swapTo": "К",
-    "insufficientFunds": "Недостаточный баланс {{token}} . Попробуй меньшую сумму или выбери другой токен.",
-    "fetchSwapQuoteFailed": "Извини за задержку! Это занимает больше времени, чем обычно, чтобы получить лучший курс обмена. Пожалуйста, повтори попытку через несколько минут."
+    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
