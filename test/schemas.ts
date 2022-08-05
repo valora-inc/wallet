@@ -1519,7 +1519,18 @@ export const v68Schema = {
     'kycStatus'
   ),
 }
+export const v69Schema = {
+  ...v68Schema,
+  _persist: {
+    ...v68Schema._persist,
+    version: 69,
+  },
+  recipients: {
+    ...v68Schema.recipients,
+    coinbasePaySenders: [],
+  },
+}
 
 export function getLatestSchema(): Partial<RootState> {
-  return v68Schema as Partial<RootState>
+  return v69Schema as Partial<RootState>
 }
