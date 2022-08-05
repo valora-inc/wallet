@@ -320,7 +320,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
         <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
         {formFields.map((field, index) => {
@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.gray4,
     paddingBottom: 12,
+    paddingTop: 24,
   },
   inputLabel: {
     ...fontStyles.regular500,
