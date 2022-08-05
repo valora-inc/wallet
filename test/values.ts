@@ -669,6 +669,8 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
   },
   {
     id: 'provider-one',
@@ -677,6 +679,8 @@ export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
   },
 ]
 
@@ -750,6 +754,8 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       baseUrl: 'fakewebsite.valoraapp.com',
       websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     },
     ok: false,
     error: FiatConnectError.FiatAmountTooHigh,
@@ -768,6 +774,8 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       baseUrl: 'fakewebsite.valoraapp.com',
       websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     },
     ok: true,
     quote: {

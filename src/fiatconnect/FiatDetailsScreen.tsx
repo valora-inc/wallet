@@ -396,9 +396,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     paddingBottom: 4,
   },
-  inputLabelActive: {
-    color: colors.greenUI,
-  },
   inputView: {
     paddingVertical: 12,
   },
