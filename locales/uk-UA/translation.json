@@ -598,8 +598,8 @@
     "button": "Завершення запрошення"
   },
   "inviteRewardsBanner": {
-    "title": "Надіслати криптовалюту, щоб запросити друга (бета-версія)",
-    "body": "Щойно вони створять {{appName}} гаманець, ви отримаєте {{amount}} {{currency}} в нагородах. Заробіть до <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Надіслати криптовалюту, щоб запросити друга",
+    "body": "Ви обидва отримаєте NFT, коли вони закінчать налаштування свого облікового запису. <0>Дізнатися більше</0>"
   },
   "getReward": "Отримати винагороду ${{reward}}",
   "welcomeCelo": "Ласкаво просимо до {{appName}}",
@@ -1253,6 +1253,14 @@
     "bestRate": "Найкращий тариф",
     "header": "Виберіть спосіб оплати"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Прив'язати банківський рахунок",
+      "bodyTitle": "Введіть банківські реквізити",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Продовжити"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі транзакції",
@@ -1344,7 +1352,8 @@
     "review": "Перегляд",
     "swapFrom": "Від",
     "swapTo": "До",
-    "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте більшу суму або виберіть інший токен."
+    "insufficientFunds": "Недостатньо балансу {{token}} . Спробуйте менший обсяг або виберіть інший маркер.",
+    "fetchSwapQuoteFailed": "Вибачте за затримку! На це займає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
