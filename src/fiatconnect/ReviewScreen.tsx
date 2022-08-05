@@ -1,9 +1,9 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -41,12 +41,41 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     })
   }, [navigation])
 
+  useEffect(() => {
+    function hardwareBackPress() {
+      goBack()
+      return true
+    }
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', hardwareBackPress)
+    return function cleanup() {
+      backHandler.remove()
+    }
+  }, [])
+
+  const goBack = () => {
+    // Navigate Back unless the previous screen was FiatDetailsScreen
+    const routes = navigation.getState().routes
+    const previousScreen = routes[routes.length - 2]
+    if (previousScreen?.name === Screens.FiatDetailsScreen) {
+      navigate(Screens.SelectProvider, {
+        flow: normalizedQuote.flow,
+        selectedCrypto: normalizedQuote.getCryptoType(),
+        amount: {
+          fiat: parseFloat(normalizedQuote.getFiatAmount()),
+          crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+        },
+      })
+    } else {
+      navigateBack()
+    }
+  }
+
   const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
       flow,
       provider: normalizedQuote.getProviderId(),
     })
-    navigateBack()
+    goBack()
   }
 
   return (
@@ -67,7 +96,10 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+          ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+            flow,
+            provider: normalizedQuote.getProviderId(),
+          })
 
           dispatch(
             createFiatConnectTransfer({
@@ -343,11 +375,21 @@ FiatConnectReviewScreen.navigationOptions = ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   // NOTE: copies for cash in not final
+
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
-  // TODO(any): when tying this component to the flow, add `onCancel` prop to
-  // navigate to correct screen.
-  headerRight: () => <CancelButton style={styles.cancelBtn} />,
+  headerRight: () => (
+    <CancelButton
+      onCancel={() => {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
+          flow: route.params.flow,
+          provider: route.params.normalizedQuote.getProviderId(),
+        })
+        navigate(Screens.FiatExchange)
+      }}
+      style={styles.cancelBtn}
+    />
+  ),
 })
