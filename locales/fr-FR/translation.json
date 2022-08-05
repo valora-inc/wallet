@@ -1348,8 +1348,8 @@
     "review": "Vérifier",
     "swapFrom": "De",
     "swapTo": "À",
-    "insufficientFunds": "Le solde de {{token}} est insuffisant. Essaie un montant plus petit ou choisis un autre jeton.",
-    "fetchSwapQuoteFailed": "Désolé pour le retard ! Cela prend plus de temps que d'habitude pour obtenir le meilleur taux de change. Essaie à nouveau dans quelques minutes."
+    "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre jeton.",
+    "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
