@@ -130,7 +130,6 @@ describe('FiatDetailsScreen', () => {
 
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
-    expect(queryByTestId('selectedProviderButton')).toBeTruthy()
     expect(queryByTestId('nextButton')).toBeTruthy()
   })
   it('shows validation error if the input field does not fulfill the requirement', () => {
