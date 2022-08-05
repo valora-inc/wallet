@@ -1348,7 +1348,8 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem höheren Betrag oder wähle einen anderen Token."
+    "insufficientFunds": "Unzureichendes {{token}} Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
+    "fetchSwapQuoteFailed": "Entschuldigung für die Verzögerung! Es dauert länger als sonst, den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten noch einmal."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
