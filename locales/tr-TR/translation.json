@@ -1348,7 +1348,8 @@
     "review": "Gözden Geçir",
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
-    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha büyük bir miktar girin veya farklı bir token seçin."
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
