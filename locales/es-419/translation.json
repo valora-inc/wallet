@@ -1348,7 +1348,8 @@
     "review": "Revisar",
     "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Saldo en {{token}} insuficiente. Por favor, ingresa un monto mayor o elige otro token."
+    "insufficientFunds": "Saldo insuficiente de {{token}} . Prueba con una cantidad menor o elige otra ficha.",
+    "fetchSwapQuoteFailed": "¡Perdón por el retraso! Se está tardando más de lo habitual en conseguir el mejor tipo de cambio. Por favor, inténtalo de nuevo en unos minutos."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
