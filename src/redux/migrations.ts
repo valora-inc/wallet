@@ -769,4 +769,11 @@ export const migrations = {
       'kycStatus'
     ),
   }),
+  69: (state: any) => ({
+    ...state,
+    recipients: {
+      ...state.recipients,
+      coinbasePaySenders: [],
+    },
+  }),
 }

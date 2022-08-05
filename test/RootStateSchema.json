@@ -2512,6 +2512,12 @@
         "State_16": {
             "additionalProperties": false,
             "properties": {
+                "coinbasePaySenders": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "inviteRewardsSenders": {
                     "items": {
                         "type": "string"
@@ -2532,6 +2538,7 @@
                 }
             },
             "required": [
+                "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
                 "rewardsSenders",
