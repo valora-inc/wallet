@@ -4188,6 +4188,7 @@
                                         "simplexPurchaseFetchFailed",
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
+                                        "swapScreen.fetchSwapQuoteFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",
