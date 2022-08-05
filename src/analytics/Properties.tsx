@@ -1025,10 +1025,6 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_fc_review_error_contact_support]: {
-    provider: string
-    flow: CICOFlow
-  }
   [FiatExchangeEvents.cico_fiat_details_success]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
