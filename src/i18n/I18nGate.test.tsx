@@ -15,7 +15,6 @@ jest.mock('src/i18n', () => ({
   initI18n: jest.fn(),
   changeLanguage: jest.fn(() => new Promise(setImmediate)),
   t: jest.fn(),
-  withTranslation: jest.requireActual('src/i18n').withTranslation,
 }))
 
 jest.mock('src/navigator/NavigationService', () => ({
