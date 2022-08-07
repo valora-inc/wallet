@@ -119,6 +119,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
           <View style={styles.headerSubTitleContainer}>
             <View style={styles.headerImageContainer}>
               <Image
+                testID="headerProviderIcon"
                 style={styles.headerImage}
                 source={{ uri: quote.getProviderIcon() }}
                 resizeMode="contain"

@@ -25,7 +25,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
 import { mocked } from 'ts-jest/utils'
 import FiatDetailsScreen, { TAG } from './FiatDetailsScreen'
 
@@ -131,6 +131,29 @@ describe('FiatDetailsScreen', () => {
     expect(queryByTestId('errorMessage')).toBeFalsy()
 
     expect(queryByTestId('nextButton')).toBeTruthy()
+  })
+  it('renders header with provider image', () => {
+    let headerTitle: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerTitle = options.headerTitle()
+    })
+
+    render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
+      </Provider>
+    )
+
+    const { queryByTestId, getByTestId, queryByText } = render(
+      <Provider store={store}>{headerTitle}</Provider>
+    )
+
+    expect(queryByText('fiatDetailsScreen.header')).toBeTruthy()
+    expect(
+      queryByText('fiatDetailsScreen.headerSubTitle, {"provider":"Provider Two"}')
+    ).toBeTruthy()
+    expect(queryByTestId('headerProviderIcon')).toBeTruthy()
+    expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
   })
   it('shows validation error if the input field does not fulfill the requirement', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
