@@ -155,6 +155,24 @@ describe('FiatDetailsScreen', () => {
     expect(queryByTestId('headerProviderIcon')).toBeTruthy()
     expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
   })
+  it('cancel button navigates to fiat exchange screen', () => {
+    let headerRight: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerRight = options.headerRight()
+    })
+
+    render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
+      </Provider>
+    )
+
+    const { getByText, queryByText } = render(<Provider store={store}>{headerRight}</Provider>)
+
+    expect(queryByText('cancel')).toBeTruthy()
+    fireEvent.press(getByText('cancel'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
+  })
   it('shows validation error if the input field does not fulfill the requirement', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
