@@ -179,7 +179,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.quoteId
   }
 
-  getGuaranteedUntil(): string {
-    return this.quote.quote.guaranteedUntil
+  getGuaranteedUntil(): Date {
+    return new Date(this.quote.quote.guaranteedUntil)
   }
 }

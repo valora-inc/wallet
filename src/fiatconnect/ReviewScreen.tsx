@@ -120,7 +120,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     )
   }
 
-  const quoteTimestamp = new Date(normalizedQuote.getGuaranteedUntil())
+  const quoteTimestamp = normalizedQuote.getGuaranteedUntil()
   if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
     setShowingExpiredQuoteDialog(true)
   }
