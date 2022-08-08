@@ -439,6 +439,8 @@ export enum FiatExchangeEvents {
   cico_fc_review_submit = 'cico_fc_review_submit',
   cico_fc_review_cancel = 'cico_fc_review_cancel',
   cico_fc_review_back = 'cico_fc_review_back',
+  cico_fc_review_error_contact_support = 'cico_fc_review_error_contact_support',
+  cico_fc_review_error_retry = 'cico_fc_review_error_retry',
 
   // Fiat Connect link account screen
   cico_fc_link_account_continue = 'cico_fc_link_account_continue',

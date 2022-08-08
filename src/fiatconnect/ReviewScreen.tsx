@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,7 +14,11 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
+import {
+  fiatConnectQuotesErrorSelector,
+  fiatConnectQuotesLoadingSelector,
+} from 'src/fiatconnect/selectors'
+import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -33,7 +37,21 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { flow, normalizedQuote, fiatAccount } = route.params
+  const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
+  const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+
+  useEffect(() => {
+    if (shouldRefetchQuote) {
+      dispatch(
+        refetchQuote({
+          flow,
+          quote: normalizedQuote,
+          fiatAccount,
+        })
+      )
+    }
+  }, [shouldRefetchQuote])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,6 +94,62 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       provider: normalizedQuote.getProviderId(),
     })
     goBack()
+  }
+
+  const onPressSupport = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigate(Screens.SupportContact)
+  }
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    dispatch(
+      refetchQuote({
+        flow,
+        quote: normalizedQuote,
+        fiatAccount,
+      })
+    )
+  }
+
+  if (fiatConnectQuotesError) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{t('fiatConnectReviewScreen.failedRefetch.title')}</Text>
+        <Text style={styles.description}>
+          {t('fiatConnectReviewScreen.failedRefetch.description')}
+        </Text>
+        <Button
+          style={styles.button}
+          testID="TryAgain"
+          onPress={onPressTryAgain}
+          text={t('fiatConnectReviewScreen.failedRefetch.tryAgain')}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.MEDIUM}
+        />
+        <Button
+          style={styles.button}
+          testID="SupportContactLink"
+          onPress={onPressSupport}
+          text={t('contactSupport')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.MEDIUM}
+        />
+      </View>
+    )
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   return (
@@ -364,6 +438,30 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     color: colors.gray3,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.h2,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  button: {
+    marginTop: 13,
   },
 })
 

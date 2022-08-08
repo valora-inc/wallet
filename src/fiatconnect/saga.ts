@@ -30,7 +30,7 @@ import {
   getFiatConnectProviders,
 } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
-import { fiatConnectProvidersSelector, fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
+import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
@@ -44,9 +44,13 @@ import {
   fetchFiatConnectQuotesFailed,
   FiatAccount,
   fiatAccountUsed,
+  refetchQuote,
+  refetchQuoteCompleted,
+  refetchQuoteFailed,
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
 } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { normalizeFiatConnectQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -59,7 +63,7 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { newTransactionContext } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency, resolveCICOCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { v4 as uuidv4 } from 'uuid'
@@ -101,6 +105,33 @@ export function* handleFetchFiatConnectQuotes({
     yield put(fetchFiatConnectQuotesFailed({ error: 'Could not fetch fiatconnect quotes' }))
   }
 }
+
+/**
+ * Handles Refetching a single quote for the Review Screen
+ */
+export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
+  const { quote, flow, fiatAccount } = params
+  try {
+    const newQuote: FiatConnectQuote = yield call(_getQuote, {
+      flow,
+      digitalAsset: resolveCICOCurrency(quote.getCryptoType()),
+      cryptoAmount: parseFloat(quote.getCryptoAmount()),
+      providerId: quote.getProviderId(),
+      fiatAccountType: fiatAccount.fiatAccountType,
+    })
+    yield put(refetchQuoteCompleted())
+    navigate(Screens.FiatConnectReview, {
+      flow,
+      normalizedQuote: newQuote,
+      fiatAccount,
+      shouldRefetchQuote: false,
+    })
+  } catch (error) {
+    Logger.debug(TAG, 'handleRefetchQuote: could not refetch quote', error)
+    yield put(refetchQuoteFailed({ error: 'could not refetch quote' }))
+  }
+}
+
 /**
  * This saga attempts to fetch a quote and matching fiatAccount for a provider that the user
  * has previously used in the CICO flow.
@@ -161,7 +192,7 @@ export function* handleAttemptReturnUserFlow({
   }
 }
 
-function* _getQuote({
+export function* _getQuote({
   digitalAsset,
   cryptoAmount,
   flow,
@@ -174,18 +205,24 @@ function* _getQuote({
   providerId: string
   fiatAccountType: FiatAccountType
 }) {
-  // Fetch Quote associated with the cached providerId
-  yield put(
-    fetchFiatConnectQuotes({
-      digitalAsset,
-      cryptoAmount,
-      flow,
-      providerIds: [providerId],
-    })
+  const userLocation: UserLocationData = yield select(userLocationDataSelector)
+  const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
+  const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
+  const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
   )
-  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield select(
-    fiatConnectQuotesSelector
-  )
+  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
+    localCurrency,
+    digitalAsset,
+    cryptoAmount,
+    country: userLocation?.countryCodeAlpha2 || 'US',
+    flow,
+    fiatConnectCashInEnabled,
+    fiatConnectCashOutEnabled,
+    fiatConnectProviders:
+      fiatConnectProviders?.filter((provider) => provider.id === providerId) ?? [],
+  })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
   const normalizedQuote = normalizedQuotes.find(
     (q) => q.getFiatAccountType() === fiatAccountType && q.getProviderId() === providerId
@@ -393,6 +430,7 @@ export function* handleCreateFiatConnectTransfer({
         provider: fiatConnectQuote.getProviderId(),
         flow,
       })
+
       yield put(
         createFiatConnectTransferCompleted({
           flow,
@@ -429,10 +467,15 @@ function* watchSelectFiatConnectQuote() {
   yield takeLeading(selectFiatConnectQuote.type, handleSelectFiatConnectQuote)
 }
 
+function* watchRefetchQuote() {
+  yield takeLeading(refetchQuote.type, handleRefetchQuote)
+}
+
 export function* fiatConnectSaga() {
   yield spawn(watchFetchFiatConnectQuotes)
   yield spawn(watchFiatConnectTransfers)
   yield spawn(watchFetchFiatConnectProviders)
   yield spawn(watchAttemptReturnUserFlow)
   yield spawn(watchSelectFiatConnectQuote)
+  yield spawn(watchRefetchQuote)
 }
