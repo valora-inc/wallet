@@ -1542,7 +1542,7 @@ export const v70Schema = {
   },
   app: {
     ...v69Schema.app,
-    shouldShowRecoveryPhraseInSetting: false,
+    shouldShowRecoveryPhraseInSettings: false,
   },
 }
 

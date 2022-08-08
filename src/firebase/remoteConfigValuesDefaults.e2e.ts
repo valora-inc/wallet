@@ -72,5 +72,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
-  shouldShowRecoveryPhraseInSetting: false,
+  shouldShowRecoveryPhraseInSettings: false,
 }

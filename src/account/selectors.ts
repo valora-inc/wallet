@@ -67,5 +67,5 @@ export const plaidParamsSelector = createSelector(
 
 export const accountCreationTimeSelector = (state: RootState) => state.account.accountCreationTime
 
-export const shouldShowRecoveryPhraseInSettingSelector = (state: RootState) =>
-  state.app.shouldShowRecoveryPhraseInSetting
+export const shouldShowRecoveryPhraseInSettingsSelector = (state: RootState) =>
+  state.app.shouldShowRecoveryPhraseInSettings

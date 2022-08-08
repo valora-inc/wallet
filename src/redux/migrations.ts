@@ -780,8 +780,8 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      shouldShowRecoveryPhraseInSetting:
-        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSetting,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
     },
   }),
 }

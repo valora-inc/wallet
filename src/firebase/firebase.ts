@@ -298,7 +298,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
-    shouldShowRecoveryPhraseInSetting: flags.shouldShowRecoveryPhraseInSetting.asBoolean(),
+    shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
   }
 }
 

@@ -24,7 +24,7 @@ import {
 import { PincodeType } from 'src/account/reducer'
 import {
   pincodeTypeSelector,
-  shouldShowRecoveryPhraseInSettingSelector,
+  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -95,7 +95,7 @@ interface StateProps {
   walletConnectEnabled: boolean
   biometryEnabled: boolean
   supportedBiometryType: BIOMETRY_TYPE | null
-  shouldShowRecoveryPhraseInSetting: boolean
+  shouldShowRecoveryPhraseInSettings: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -120,7 +120,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     walletConnectEnabled: v1,
     biometryEnabled: biometryEnabledSelector(state),
     supportedBiometryType: supportedBiometryTypeSelector(state),
-    shouldShowRecoveryPhraseInSetting: shouldShowRecoveryPhraseInSettingSelector(state),
+    shouldShowRecoveryPhraseInSettings: shouldShowRecoveryPhraseInSettingsSelector(state),
   }
 }
 
@@ -410,7 +410,7 @@ export class Account extends React.Component<Props, State> {
               />
             )}
             <SectionHead text={t('security')} style={styles.sectionTitle} />
-            {this.props.shouldShowRecoveryPhraseInSetting && (
+            {this.props.shouldShowRecoveryPhraseInSettings && (
               <SettingsItemTextValue
                 title={t('accountKey')}
                 onPress={this.goToRecoveryPhrase}

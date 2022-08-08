@@ -28,7 +28,7 @@ import {
   defaultCountryCodeSelector,
   e164NumberSelector,
   nameSelector,
-  shouldShowRecoveryPhraseInSettingSelector,
+  shouldShowRecoveryPhraseInSettingsSelector,
 } from 'src/account/selectors'
 import SettingsScreen from 'src/account/Settings'
 import Support from 'src/account/Support'
@@ -204,7 +204,7 @@ export default function DrawerNavigator() {
   const superchargeButtonType = useSelector(superchargeButtonTypeSelector)
   const dispatch = useDispatch()
 
-  const shouldShowRecoveryPhraseInSetting = useSelector(shouldShowRecoveryPhraseInSettingSelector)
+  const shouldShowRecoveryPhraseInSettings = useSelector(shouldShowRecoveryPhraseInSettingsSelector)
   const backupCompleted = useSelector(backupCompletedSelector)
 
   const drawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => (
@@ -292,7 +292,7 @@ export default function DrawerNavigator() {
           options={{ title: t('supercharge'), drawerIcon: MenuSupercharge }}
         />
       )}
-      {(!backupCompleted || !shouldShowRecoveryPhraseInSetting) && (
+      {(!backupCompleted || !shouldShowRecoveryPhraseInSettings) && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
           component={BackupIntroduction}
