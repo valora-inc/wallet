@@ -5,6 +5,7 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import ExchangeFeedItem from 'src/transactions/feed/ExchangeFeedItem'
+import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { useFetchTransactions } from 'src/transactions/feed/queryHelper'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
@@ -115,6 +116,8 @@ function TransactionFeed() {
         }
       case 'TokenTransferV2':
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
+      case 'NftTransferV2':
+        return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }
 

@@ -598,8 +598,8 @@
     "button": "Valider l'invitation"
   },
   "inviteRewardsBanner": {
-    "title": "Envoyez des crypto pour inviter un ami (bêta)",
-    "body": "Une fois qu'ils ont configuré leur portefeuille {{appName}}, vous recevrez chacun {{amount}} {{currency}}. Gagne jusqu'à <0>{{maxAmount}} {{currency}}</0> !"
+    "title": "Envoyez des crypto pour inviter un ami",
+    "body": "Vous recevrez tous les deux un NFT une fois qu'ils ont configuré leur compte {{appName}}. <0>En savoir plus</0>"
   },
   "getReward": "Obtenez {{reward}}$",
   "welcomeCelo": "Bienvenue sur {{appName}}",
@@ -1077,7 +1077,7 @@
   "feedItemSentInfo_noComment": "Paiement envoyé",
   "feedItemCeloRewardReceivedTitle": "CELO gagnés",
   "feedItemRewardReceivedTitle": "Supercharge",
-  "feedItemRewardReceivedInfo": "Récompenses hebdomadaires",
+  "feedItemRewardReceivedInfo": "Récompenses",
   "feedItemInviteRewardReceivedTitle": "{{appName}}",
   "feedItemInviteRewardReceivedInfo": "Récompense reçue",
   "feedItemReceivedTitle": "{{displayName}}",
@@ -1247,7 +1247,15 @@
     "numDays": "1-3 jours",
     "oneHour": "Moins d'une heure",
     "bestRate": "Meilleur taux",
-    "header": "Sélectionnez le mode de paiement"
+    "header": "Mode de paiement"
+  },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Relier un compte bancaire",
+      "bodyTitle": "Saisissez les coordonnées bancaires",
+      "description": "Saisissez les coordonnées bancaires pour relier votre compte à Valora. Vos transactions seront propulsées par <0>{{providerName}}</0>."
+    },
+    "continue": "Continuer"
   },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Mode de paiement",
@@ -1290,14 +1298,14 @@
       "fiatExchangeSubtitle": "Créditer votre compte {{appName}} depuis une banque, une carte ou un échange.",
       "selectCurrencyTitle": "Ajouter des fonds",
       "exchangeAmountTitle": "Ajouter {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de paiement"
+      "selectProviderHeader": "Mode de paiement"
     },
     "cashOut": {
       "fiatExchangeTitle": "Retirer des fonds",
       "fiatExchangeSubtitle": "Retirez vos fonds de {{appName}} et les déposez sur un compte bancaire, une carte, un échange de cryptomonnaie ou sur de l'argent digital.",
       "selectCurrencyTitle": "Retirer des fonds",
       "exchangeAmountTitle": "Retirer {{currency}}",
-      "selectProviderHeader": "Sélectionnez le mode de retrait"
+      "selectProviderHeader": "Mode de retrait"
     },
     "spend": {
       "fiatExchangeTitle": "Dépenser des fonds",
@@ -1340,7 +1348,8 @@
     "review": "Vérifier",
     "swapFrom": "De",
     "swapTo": "À",
-    "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant plus élevé ou choisissez un autre jeton."
+    "insufficientFunds": "Le solde de {{token}} est insuffisant. Essaie un montant plus petit ou choisis un autre jeton.",
+    "fetchSwapQuoteFailed": "Désolé pour le retard ! Cela prend plus de temps que d'habitude pour obtenir le meilleur taux de change. Essaie à nouveau dans quelques minutes."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
