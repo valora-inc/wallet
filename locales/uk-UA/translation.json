@@ -1060,7 +1060,7 @@
   "feedItemAddress": "Рахунок {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Депозит отримано",
-  "feedItemDepositTitle": "Поповнити",
+  "feedItemDepositTitle": "Депозит",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Куплено <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Продано <0></0> CELO",
@@ -1283,6 +1283,11 @@
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
       "transactionDetailsAmountConverted": "Знята сума"
+    },
+    "failedRefetch": {
+      "title": "З'єднання втрачено!",
+      "description": "Нам не вдалося встановити зв'язок між вашими рахунками.\n\nЦе може бути через поганий зв'язок з Інтернетом або проблеми з сервером. Будь ласка, спробуйте відновити підключення.",
+      "tryAgain": "Спробувати ще"
     }
   },
   "fiatConnectStatusScreen": {
