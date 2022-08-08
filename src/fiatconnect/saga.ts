@@ -74,30 +74,12 @@ export function* handleFetchFiatConnectQuotes({
   payload: params,
 }: ReturnType<typeof fetchFiatConnectQuotes>) {
   const { flow, digitalAsset, cryptoAmount, providerIds } = params
-  const userLocation: UserLocationData = yield select(userLocationDataSelector)
-  const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
-  const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
-  const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
-  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
-    fiatConnectProvidersSelector
-  )
-
   try {
-    // null fiatConnectProviders means the providers have never successfully been fetched
-    if (!fiatConnectProviders) {
-      throw new Error('Error fetching fiatconnect providers')
-    }
-    const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
-      localCurrency,
+    const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
+      flow,
       digitalAsset,
       cryptoAmount,
-      country: userLocation?.countryCodeAlpha2 || 'US',
-      flow,
-      fiatConnectCashInEnabled,
-      fiatConnectCashOutEnabled,
-      fiatConnectProviders: providerIds
-        ? fiatConnectProviders.filter(({ id }) => providerIds.includes(id))
-        : fiatConnectProviders,
+      providerIds,
     })
     yield put(fetchFiatConnectQuotesCompleted({ quotes }))
   } catch (error) {
@@ -112,7 +94,7 @@ export function* handleFetchFiatConnectQuotes({
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
   const { quote, flow, fiatAccount } = params
   try {
-    const newQuote: FiatConnectQuote = yield call(_getQuote, {
+    const newQuote: FiatConnectQuote = yield call(_getSpecificQuote, {
       flow,
       digitalAsset: resolveCICOCurrency(quote.getCryptoType()),
       cryptoAmount: parseFloat(quote.getCryptoAmount()),
@@ -152,7 +134,7 @@ export function* handleAttemptReturnUserFlow({
   )
   try {
     const [normalizedQuote, fiatAccount] = yield all([
-      call(_getQuote, {
+      call(_getSpecificQuote, {
         digitalAsset,
         cryptoAmount: amount.crypto,
         flow,
@@ -192,7 +174,44 @@ export function* handleAttemptReturnUserFlow({
   }
 }
 
-export function* _getQuote({
+export function* _getQuotes({
+  digitalAsset,
+  cryptoAmount,
+  flow,
+  providerIds,
+}: {
+  digitalAsset: CiCoCurrency
+  cryptoAmount: number
+  flow: CICOFlow
+  providerIds?: string[]
+}) {
+  const userLocation: UserLocationData = yield select(userLocationDataSelector)
+  const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
+  const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
+  const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
+  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
+    fiatConnectProvidersSelector
+  )
+  // null fiatConnectProviders means the providers have never successfully been fetched
+  if (!fiatConnectProviders) {
+    throw new Error('Error fetching fiatconnect providers')
+  }
+  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
+    localCurrency,
+    digitalAsset,
+    cryptoAmount,
+    country: userLocation?.countryCodeAlpha2 || 'US',
+    flow,
+    fiatConnectCashInEnabled,
+    fiatConnectCashOutEnabled,
+    fiatConnectProviders: providerIds
+      ? fiatConnectProviders.filter(({ id }) => providerIds.includes(id))
+      : fiatConnectProviders,
+  })
+  return quotes
+}
+
+export function* _getSpecificQuote({
   digitalAsset,
   cryptoAmount,
   flow,
@@ -205,23 +224,11 @@ export function* _getQuote({
   providerId: string
   fiatAccountType: FiatAccountType
 }) {
-  const userLocation: UserLocationData = yield select(userLocationDataSelector)
-  const localCurrency: LocalCurrencyCode = yield select(getLocalCurrencyCode)
-  const fiatConnectCashInEnabled: boolean = yield select(fiatConnectCashInEnabledSelector)
-  const fiatConnectCashOutEnabled: boolean = yield select(fiatConnectCashOutEnabledSelector)
-  const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield select(
-    fiatConnectProvidersSelector
-  )
-  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(fetchQuotes, {
-    localCurrency,
+  const quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = yield call(_getQuotes, {
+    flow,
     digitalAsset,
     cryptoAmount,
-    country: userLocation?.countryCodeAlpha2 || 'US',
-    flow,
-    fiatConnectCashInEnabled,
-    fiatConnectCashOutEnabled,
-    fiatConnectProviders:
-      fiatConnectProviders?.filter((provider) => provider.id === providerId) ?? [],
+    providerIds: [providerId],
   })
   const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
   const normalizedQuote = normalizedQuotes.find(

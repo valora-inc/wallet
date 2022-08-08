@@ -24,7 +24,7 @@ import {
   handleFetchFiatConnectQuotes,
   handleRefetchQuote,
   handleSelectFiatConnectQuote,
-  _getQuote,
+  _getSpecificQuote,
 } from 'src/fiatconnect/saga'
 import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
@@ -319,7 +319,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
               flow: params.payload.flow,
@@ -337,7 +337,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 100,
               flow: params.payload.flow,
@@ -387,7 +387,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
@@ -412,7 +412,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
@@ -431,7 +431,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
@@ -451,7 +451,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
@@ -483,7 +483,7 @@ describe('Fiatconnect saga', () => {
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
           [
-            call(_getQuote, {
+            call(_getSpecificQuote, {
               digitalAsset: CiCoCurrency.CUSD,
               cryptoAmount: 2,
               flow: params.payload.flow,
