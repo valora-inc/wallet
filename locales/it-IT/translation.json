@@ -1279,6 +1279,11 @@
       "button": "Preleva fondi",
       "transactionDetailsAmount": "Prelievo totale",
       "transactionDetailsAmountConverted": "Importo prelevato"
+    },
+    "failedRefetch": {
+      "title": "Connessione persa!",
+      "description": "Non siamo riusciti a stabilire una connessione tra i tuoi account.\n\nQuesto potrebbe essere dovuto a una scarsa connessione a internet o a un problema del server. Prova a riconnetterti.",
+      "tryAgain": "Riprova"
     }
   },
   "fiatConnectStatusScreen": {
