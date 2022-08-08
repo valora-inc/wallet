@@ -1279,6 +1279,11 @@
       "button": "Retirar fondos",
       "transactionDetailsAmount": "Total a retirar",
       "transactionDetailsAmountConverted": "Monto retirado"
+    },
+    "failedRefetch": {
+      "title": "Se ha perdido la conexión.",
+      "description": "No hemos podido establecer una conexión entre tus cuentas.\n\nEsto puede deberse a una mala conexión a Internet o a un problema del servidor. Por favor, intenta volver a conectarte.",
+      "tryAgain": "Reintentar"
     }
   },
   "fiatConnectStatusScreen": {
