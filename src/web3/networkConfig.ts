@@ -89,8 +89,8 @@ const ExECUTE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/executeSwap`
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
-    blockchainApiUrl: 'http://127.0.0.1:8080',
-    // blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
+    // blockchainApiUrl: 'http://127.0.0.1:8080',
+    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -117,8 +117,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
   [Testnets.mainnet]: {
     networkId: '42220',
-    blockchainApiUrl: 'http://127.0.0.1:8080',
-    // blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
+    blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     komenciUrl: KOMENCI_URL_MAINNET,

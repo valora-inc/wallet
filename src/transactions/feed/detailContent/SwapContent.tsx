@@ -1,4 +1,3 @@
-// import BigNumber from 'bignumber.js'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,8 +12,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { TokenExchange } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-// import { usePaidFees } from 'src/fees/hooks'
-// import { useConvertBetweenTokens, useTokenInfoBySymbol } from 'src/tokens/hooks'
 
 export interface Props {
   exchange: TokenExchange
@@ -24,19 +21,7 @@ export interface Props {
 export default function SwapContent({ exchange }: Props) {
   const { t } = useTranslation()
 
-  // const { securityFee, dekFee, totalFee, feeTokenAddress, feeCurrency } = usePaidFees(exchange.fees)
-  // const totalFromFeesInLocal = exchange.fees.reduce(
-  //   (sum, fee) => sum.plus(fee.amount?.localAmount?.value ?? 0),
-  //   new BigNumber(0)
-  // )
-  // const feeInStableToken = useConvertBetweenTokens(
-  //   totalFee,
-  //   feeTokenAddress,
-  //   stableAmount.tokenAddress
-  // )
-
   //TODO: veryfying fee part.
-
   const onPressTxDetails = () => {
     navigate(Screens.WebViewScreen, {
       uri: `${networkConfig.celoExplorerBaseTxUrl}${exchange.transactionHash}`,

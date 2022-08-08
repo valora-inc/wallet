@@ -66,7 +66,7 @@ function useHeaderTitle(transaction: TokenTransaction) {
     case TokenTransactionTypeV2.NftSent:
       return t('transactionHeaderNftSent')
     case TokenTransactionTypeV2.SwapTransaction:
-      return 'Swap'
+      return t('swapScreen.title')
   }
 }
 
