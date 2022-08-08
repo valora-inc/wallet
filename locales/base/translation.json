@@ -1336,7 +1336,8 @@
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",
     "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
     "selectItem": "Select an option...",
-    "selectDone": "Done"
+    "selectDone": "Done",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "accountName": {

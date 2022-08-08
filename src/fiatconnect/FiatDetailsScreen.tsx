@@ -44,6 +44,12 @@ type Props = ScreenProps
 
 const SHOW_ERROR_DELAY_MS = 1500
 
+enum Progress {
+  NOT_STARTED,
+  IN_PROGRESS,
+  COMPLETED,
+}
+
 interface FormFieldParam {
   name: string
   label: string
@@ -103,7 +109,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   const [isSending, setIsSending] = useState(false)
   const [validInputs, setValidInputs] = useState(false)
   const [errors, setErrors] = useState(new Set<number>())
+  const [progress, setProgress] = useState(Progress.NOT_STARTED)
+  const [currentField, setCurrentField] = useState(0)
   const fieldValues = useRef<string[]>([])
+  const inputRefs = useRef<React.MutableRefObject<any>[]>([])
   const userCountry = useSelector(userLocationDataSelector)
   const dispatch = useDispatch()
 
@@ -192,6 +201,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     const fields = Object.values(schema).filter(isFormFieldParam)
     for (let i = 0; i < fields.length; i++) {
       fieldValues.current.push('')
+      inputRefs.current.push(React.createRef())
     }
     return fields
   }, [fiatAccountSchema])
@@ -204,7 +214,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return Object.values(schema).filter(isComputedParam)
   }, [fiatAccountSchema])
 
-  const onPressNext = async () => {
+  const onPressSubmit = async () => {
     validateInput()
 
     if (validInputs) {
@@ -281,6 +291,16 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     }
   }
 
+  const goToField = (field: number) => {
+    const nextRef = inputRefs.current[field]?.current
+    if (nextRef?.focus) {
+      nextRef.focus()
+    } else {
+      inputRefs.current[currentField].current.blur()
+    }
+    setCurrentField(field)
+  }
+
   const validateInput = () => {
     setValidInputs(false)
     const newErrorSet = new Set<number>()
@@ -321,20 +341,51 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             hasError={errors.has(index)}
             onChange={(value) => {
               setInputValue(value, index)
+              if (index === formFields.length - 1) {
+                // when last field's value changes, set progress to completed,
+                // the button will change to Submit & Continue and remain as is
+                // even if other fields are edited
+                setProgress(Progress.COMPLETED)
+              }
+            }}
+            onFocus={() => {
+              // the first time a field comes into focus, change to in_progress
+              // so button is changed to next
+              if (progress === Progress.NOT_STARTED) {
+                setProgress(Progress.IN_PROGRESS)
+              }
+              setCurrentField(index)
+            }}
+            onNext={() => {
+              goToField(index + 1)
             }}
             allowedValues={allowedValues[field.name]}
+            fieldRef={inputRefs.current[index]}
           />
         ))}
       </KeyboardAwareScrollView>
 
-      <Button
-        testID="nextButton"
-        text={t('next')}
-        onPress={onPressNext}
-        disabled={!validInputs}
-        style={styles.nextButton}
-        size={BtnSizes.FULL}
-      />
+      {progress === Progress.IN_PROGRESS ? (
+        <Button
+          testID="nextButton"
+          text={t('next')}
+          onPress={() => {
+            goToField(currentField + 1)
+          }}
+          disabled={!fieldValues.current[currentField]?.trim() || errors.has(currentField)}
+          style={styles.nextButton}
+          size={BtnSizes.FULL}
+        />
+      ) : (
+        <Button
+          testID="submitButton"
+          text={t('fiatDetailsScreen.submitAndContinue')}
+          onPress={onPressSubmit}
+          disabled={!validInputs}
+          style={styles.nextButton}
+          size={BtnSizes.FULL}
+        />
+      )}
       <KeyboardSpacer />
     </SafeAreaView>
   )
@@ -347,6 +398,9 @@ function FormField({
   allowedValues,
   hasError,
   onChange,
+  onFocus,
+  onNext,
+  fieldRef,
 }: {
   field: FormFieldParam
   index: number
@@ -354,6 +408,9 @@ function FormField({
   allowedValues?: string[]
   hasError: boolean
   onChange: (value: any) => void
+  onFocus: () => void
+  onNext: () => void
+  fieldRef: React.MutableRefObject<any>
 }) {
   const { t } = useTranslation()
   const [showError, setShowError] = useState(false)
@@ -383,22 +440,30 @@ function FormField({
           // NOTE: the below allows customizing the field to look
           // similar to other free form text fields
           useNativeAndroidPickerStyle={false}
-          onValueChange={onInputChange}
+          onValueChange={(value) => {
+            onFocus()
+            onInputChange(value)
+            onNext()
+          }}
           placeholder={{ label: t('fiatDetailsScreen.selectItem'), value: null }}
           items={allowedValues.map((item) => ({
             label: item,
             value: item,
           }))}
+          // onOpen={onFocus}
           doneText={t('fiatDetailsScreen.selectDone')}
+          ref={fieldRef}
         />
       ) : (
         <TextInput
+          ref={fieldRef}
           testID={`input-${field.name}`}
           style={styles.formInput}
           value={value}
           placeholder={field.placeholderText}
           onChangeText={onInputChange}
           keyboardType={field.keyboardType}
+          onFocus={onFocus}
           onBlur={() => {
             // set show error to true if field loses focus only if the field has
             // been typed at least once
