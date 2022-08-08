@@ -388,6 +388,8 @@
   "paste": "Вставить",
   "choose": "Выбрать",
   "receivedPayment": "Полученный платеж",
+  "receivedNft": "NFT получен",
+  "sentNft": "NFT отправлен",
   "getStarted": "Начать",
   "manageCeloDollars": "Управление Celo Dollars",
   "sendCeloDollars": "Отправить Celo Dollars",
@@ -598,8 +600,8 @@
     "button": "Завершить приглашение"
   },
   "inviteRewardsBanner": {
-    "title": "Отправьте криптовалюту, чтобы пригласить друга/подруги (бета-версия)",
-    "body": "Как только они создадут свой {{appName}} кошелек, каждый из вас получит по {{amount}} {{currency}} в виде вознаграждения. Заработайте до <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Отправьте криптовалюту, чтобы пригласить друга/подруги",
+    "body": "Вы оба получите NFT, когда ваш друг/подруга завершит регистрацию своей учетной записи. <0> Подробнее </0>"
   },
   "getReward": "Получить ${{reward}}",
   "welcomeCelo": "Добро пожаловать в {{appName}}",
@@ -1056,6 +1058,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Аккаунт {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Получен депозит",
+  "feedItemDepositTitle": "Депозит",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Куплено <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Продано <0></0> CELO",
@@ -1113,6 +1118,8 @@
   "transactionHeaderCeloDeposit": "Получен депозит",
   "transactionHeaderCeloReward": "Вознаграждение получено",
   "transactionHeaderEscrowReceived": "Эскроу-платеж получен",
+  "transactionHeaderNftReceived": "NFT получен",
+  "transactionHeaderNftSent": "NFT отправлен",
   "feedSectionHeaderRecent": "Последние",
   "cashInBottomSheet": {
     "title": "Внесите средства, чтобы начать использовать Valora!",
@@ -1253,6 +1260,14 @@
     "bestRate": "Лучший курс",
     "header": "Выберите способ оплаты"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Привязать банковский счет",
+      "bodyTitle": "Введите банковские реквизиты",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Продолжить"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Способ оплаты",
     "transactionDetails": "Детали транзакции",
@@ -1344,7 +1359,8 @@
     "review": "Проверить",
     "swapFrom": "От",
     "swapTo": "К",
-    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести большую сумму или выберите другой токен."
+    "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выберите другой токен.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

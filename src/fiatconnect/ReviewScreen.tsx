@@ -3,12 +3,10 @@ import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
@@ -17,13 +15,11 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   fiatConnectQuotesErrorSelector,
   fiatConnectQuotesLoadingSelector,
-  fiatConnectQuotesSelector,
 } from 'src/fiatconnect/selectors'
-import { createFiatConnectTransfer, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -42,34 +38,23 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { flow, normalizedQuote, fiatAccount } = route.params
+  const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
   const providerId = normalizedQuote.getProviderId()
-
-  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
-  const fiatConnectQuotes = useSelector(fiatConnectQuotesSelector)
-  const [quote, setQuote] = useState(normalizedQuote)
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
-  const [usingUpdatedQuote, setUsingUpdatedQuote] = useState(false)
 
   useEffect(() => {
-    if (!fiatConnectQuotesLoading && usingUpdatedQuote) {
-      const updatedQuoteData = fiatConnectQuotes.find(
-        (quote) => quote.provider.id === providerId && quote.ok
+    if (shouldRefetchQuote) {
+      dispatch(
+        refetchQuote({
+          flow,
+          quote: normalizedQuote,
+          fiatAccount,
+        })
       )
-      if (fiatConnectQuotesError || !updatedQuoteData) {
-        dispatch(showError(ErrorMessages.QUOTE_UPDATE_FAILED))
-      } else {
-        setQuote(
-          new FiatConnectQuote({
-            quote: updatedQuoteData as FiatConnectQuoteSuccess,
-            fiatAccountType: normalizedQuote.fiatAccountType,
-            flow,
-          })
-        )
-      }
     }
-  }, [fiatConnectQuotesLoading])
+  }, [shouldRefetchQuote])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -77,12 +62,97 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     })
   }, [navigation])
 
+  useEffect(() => {
+    function hardwareBackPress() {
+      goBack()
+      return true
+    }
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', hardwareBackPress)
+    return function cleanup() {
+      backHandler.remove()
+    }
+  }, [])
+
+  const goBack = () => {
+    // Navigate Back unless the previous screen was FiatDetailsScreen
+    const routes = navigation.getState().routes
+    const previousScreen = routes[routes.length - 2]
+    if (previousScreen?.name === Screens.FiatDetailsScreen) {
+      navigate(Screens.SelectProvider, {
+        flow: normalizedQuote.flow,
+        selectedCrypto: normalizedQuote.getCryptoType(),
+        amount: {
+          fiat: parseFloat(normalizedQuote.getFiatAmount()),
+          crypto: parseFloat(normalizedQuote.getCryptoAmount()),
+        },
+      })
+    } else {
+      navigateBack()
+    }
+  }
+
   const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_cancel_transfer, {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_back, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    goBack()
+  }
+
+  const onPressSupport = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigate(Screens.SupportContact)
+  }
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
       flow,
       provider: providerId,
     })
-    navigateBack()
+    dispatch(
+      refetchQuote({
+        flow,
+        quote: normalizedQuote,
+        fiatAccount,
+      })
+    )
+  }
+
+  if (fiatConnectQuotesError) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{t('fiatConnectReviewScreen.failedRefetch.title')}</Text>
+        <Text style={styles.description}>
+          {t('fiatConnectReviewScreen.failedRefetch.description')}
+        </Text>
+        <Button
+          style={styles.button}
+          testID="TryAgain"
+          onPress={onPressTryAgain}
+          text={t('fiatConnectReviewScreen.failedRefetch.tryAgain')}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.MEDIUM}
+        />
+        <Button
+          style={styles.button}
+          testID="SupportContactLink"
+          onPress={onPressSupport}
+          text={t('contactSupport')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.MEDIUM}
+        />
+      </View>
+    )
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
   }
 
   const quoteTimestamp = new Date(quote.getGuaranteedUntil())
@@ -139,7 +209,10 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
           if (quoteTimestamp < new Date()) {
             setShowingExpiredQuoteDialog(true)
           } else {
-            ValoraAnalytics.track(FiatExchangeEvents.cico_submit_transfer, { flow })
+            ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
+              flow,
+              provider: normalizedQuote.getProviderId(),
+            })
 
             dispatch(
               createFiatConnectTransfer({
@@ -406,6 +479,30 @@ const styles = StyleSheet.create({
   cancelBtn: {
     color: colors.gray3,
   },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.h2,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  button: {
+    marginTop: 13,
+  },
 })
 
 FiatConnectReviewScreen.navigationOptions = ({
@@ -416,11 +513,21 @@ FiatConnectReviewScreen.navigationOptions = ({
   ...emptyHeader,
   headerLeft: () => <BackButton />,
   // NOTE: copies for cash in not final
+
   headerTitle:
     route.params.flow === CICOFlow.CashIn
       ? i18n.t(`fiatConnectReviewScreen.cashIn.header`)
       : i18n.t(`fiatConnectReviewScreen.cashOut.header`),
-  // TODO(any): when tying this component to the flow, add `onCancel` prop to
-  // navigate to correct screen.
-  headerRight: () => <CancelButton style={styles.cancelBtn} />,
+  headerRight: () => (
+    <CancelButton
+      onCancel={() => {
+        ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_cancel, {
+          flow: route.params.flow,
+          provider: route.params.normalizedQuote.getProviderId(),
+        })
+        navigate(Screens.FiatExchange)
+      }}
+      style={styles.cancelBtn}
+    />
+  ),
 })

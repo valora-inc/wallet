@@ -9,7 +9,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
-import { createFiatConnectTransfer, fetchFiatConnectQuotes } from 'src/fiatconnect/slice'
+import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
@@ -18,13 +18,15 @@ import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
+const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+
 function getProps(
   flow: CICOFlow,
   withFee = false,
   cryptoType = CryptoType.cUSD,
+  shouldRefetchQuote = false,
   quoteExpireMs = 0
 ) {
-  const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
   if (!withFee) {
     delete quoteData.fiatAccount.BankAccount?.fee
   }
@@ -43,14 +45,20 @@ function getProps(
     institutionName: 'Chase',
     fiatAccountType: FiatAccountType.BankAccount,
   }
+
   return getMockStackScreenProps(Screens.FiatConnectReview, {
     flow,
     normalizedQuote,
     fiatAccount,
+    shouldRefetchQuote,
   })
 }
 
 describe('ReviewScreen', () => {
+  const store = createMockStore()
+  beforeEach(() => {
+    store.dispatch = jest.fn()
+  })
   describe('cashIn', () => {
     it('throws not implemented', () => {
       expect(() => {
@@ -84,6 +92,51 @@ describe('ReviewScreen', () => {
       expect(queryByTestId('paymentMethod-via')?.children).toEqual([
         'fiatConnectReviewScreen.paymentMethodVia, {"providerName":"Provider Two"}',
       ])
+    })
+    it('dispatches refetchQuote when shouldRefetchQuote is true', () => {
+      const props = getProps(CICOFlow.CashOut, true, CryptoType.cEUR, true)
+      render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(store.dispatch).toHaveBeenCalledWith(
+        refetchQuote({
+          flow: CICOFlow.CashOut,
+          quote: props.route.params.normalizedQuote,
+          fiatAccount: props.route.params.fiatAccount,
+        })
+      )
+    })
+    it('shows an error page when fiatConnectQuotesError is truthy, try again button dispatches refetchQuote', async () => {
+      const props = getProps(CICOFlow.CashOut, true, CryptoType.cEUR, false)
+      const store = createMockStore({
+        fiatConnect: {
+          quotesError: 'error',
+        },
+      })
+      store.dispatch = jest.fn()
+      const { queryByTestId, getByTestId } = render(
+        <Provider store={store}>
+          <FiatConnectReviewScreen {...props} />
+        </Provider>
+      )
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        refetchQuote({
+          flow: CICOFlow.CashOut,
+          quote: props.route.params.normalizedQuote,
+          fiatAccount: props.route.params.fiatAccount,
+        })
+      )
+      expect(queryByTestId('TryAgain')).toBeTruthy()
+      await fireEvent.press(getByTestId('TryAgain'))
+      expect(store.dispatch).toHaveBeenCalledWith(
+        refetchQuote({
+          flow: CICOFlow.CashOut,
+          quote: props.route.params.normalizedQuote,
+          fiatAccount: props.route.params.fiatAccount,
+        })
+      )
     })
 
     it('shows fiat amount, transaction details and payment method without fee', () => {
@@ -166,13 +219,13 @@ describe('ReviewScreen', () => {
 
       await fireEvent.press(getByTestId('submitButton'))
 
-      expect(store.getActions()).toEqual([
+      expect(store.dispatch).toHaveBeenCalledWith(
         createFiatConnectTransfer({
           flow: CICOFlow.CashOut,
           fiatConnectQuote: mockProps.route.params.normalizedQuote,
           fiatAccountId: '123',
-        }),
-      ])
+        })
+      )
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectTransferStatus, {
         flow: CICOFlow.CashOut,
         normalizedQuote: mockProps.route.params.normalizedQuote,

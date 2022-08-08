@@ -22,6 +22,7 @@ export interface FiatConnectProviderInfo {
   providerName: string
   imageUrl: string
   baseUrl: string
+  websiteUrl: string
 }
 
 // A bit hacky. This function returns the currency code if localCurrency is in

@@ -130,10 +130,15 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.FiatConnectLinkAccount]: {
+    quote: FiatConnectQuote
+    flow: CICOFlow
+  }
   [Screens.FiatConnectReview]: {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
     fiatAccount: ObfuscatedFiatAccountData
+    shouldRefetchQuote?: boolean
   }
   [Screens.FiatConnectTransferStatus]: {
     flow: CICOFlow

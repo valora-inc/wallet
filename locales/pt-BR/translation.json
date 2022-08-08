@@ -388,6 +388,8 @@
   "paste": "Colar",
   "choose": "Escolher",
   "receivedPayment": "Pagamento recebido",
+  "receivedNft": "NFT recebido",
+  "sentNft": "NFT enviado",
   "getStarted": "Começar",
   "manageCeloDollars": "Gerenciar Celo Dollars",
   "sendCeloDollars": "Enviar Celo Dollars",
@@ -598,8 +600,8 @@
     "button": "Termine de convidar"
   },
   "inviteRewardsBanner": {
-    "title": "Envie criptomoedas para convidar um amigo (beta)",
-    "body": "Depois que seu amigo configurar a carteira {{appName}} dele, vocês dois receberão {{amount}} {{currency}} em recompensas. Ganhe até <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Envie criptomoedas para convidar um amigo",
+    "body": "Depois que seu amigo configurar a carteira dele, vocês dois receberão um NFT. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}",
   "welcomeCelo": "Bem-vindo à {{appName}}",
@@ -1052,6 +1054,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Conta {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Depósito Recebido",
+  "feedItemDepositTitle": "Depósito",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Comprou <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO vendidos",
@@ -1109,6 +1114,8 @@
   "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
+  "transactionHeaderNftReceived": "NFT recebido",
+  "transactionHeaderNftSent": "NFT enviado",
   "feedSectionHeaderRecent": "Recente",
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
@@ -1249,6 +1256,14 @@
     "bestRate": "Melhor taxa",
     "header": "Método de pagamento"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Vincular uma conta bancária",
+      "bodyTitle": "Insira os dados bancários",
+      "description": "Insira os dados bancários para vincular a sua conta a Valora. As suas transacções serão suportadas por <0>{{providerName}}</0>."
+    },
+    "continue": "Continuar"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Método de pagamento",
     "transactionDetails": "Detalhes de transação",
@@ -1340,7 +1355,8 @@
     "review": "Revisar",
     "swapFrom": "De",
     "swapTo": "Para",
-    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor maior ou escolha um token diferente."
+    "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um token diferente.",
+    "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

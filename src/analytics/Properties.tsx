@@ -1,4 +1,5 @@
 import { DappKitRequestTypes } from '@celo/utils'
+import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -29,7 +30,6 @@ import {
   WalletConnectEvents,
   WebViewEvents,
 } from 'src/analytics/Events'
-import { FiatAccountSchema, FiatConnectError } from '@fiatconnect/fiatconnect-types'
 import {
   BackQuizProgress,
   DappRequestOrigin,
@@ -50,7 +50,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { Field } from 'src/swap/SwapScreen'
+import { Field } from 'src/swap/useSwapQuote'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -172,6 +172,7 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
+  [SettingsEvents.settings_recovery_phrase]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -993,8 +994,35 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_providers_exchanges_selected]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_impression]: { flow: CICOFlow }
   [FiatExchangeEvents.cico_providers_unavailable_selected]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_submit_transfer]: { flow: CICOFlow }
-  [FiatExchangeEvents.cico_cancel_transfer]: {
+  [FiatExchangeEvents.cico_fc_review_submit]: { flow: CICOFlow; provider: string }
+  [FiatExchangeEvents.cico_fc_review_cancel]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_back]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_continue]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_back]: {
+    fiatAccountSchema: FiatAccountSchema
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_link_account_provider_website]: {
+    fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
   }

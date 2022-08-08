@@ -21,6 +21,7 @@ import ErrorScreen from 'src/app/ErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
+import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
@@ -36,6 +37,7 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import FiatDetailsScreen from 'src/fiatconnect/FiatDetailsScreen'
+import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import FiatConnectTransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -401,6 +403,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       component={AccounSetupFailureScreen}
       options={AccounSetupFailureScreen.navOptions}
     />
+    <Navigator.Screen
+      name={Screens.BackupIntroduction}
+      component={BackupIntroduction}
+      options={headerWithBackButton}
+    />
   </>
 )
 
@@ -496,6 +503,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.CoinbasePayScreen}
       component={CoinbasePayScreen}
       options={emptyHeader}
+    />
+    <Navigator.Screen
+      options={FiatConnectLinkAccountScreen.navigationOptions}
+      name={Screens.FiatConnectLinkAccount}
+      component={FiatConnectLinkAccountScreen}
     />
   </>
 )

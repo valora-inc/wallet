@@ -791,13 +791,17 @@
                 },
                 "providerName": {
                     "type": "string"
+                },
+                "websiteUrl": {
+                    "type": "string"
                 }
             },
             "required": [
                 "baseUrl",
                 "id",
                 "imageUrl",
-                "providerName"
+                "providerName",
+                "websiteUrl"
             ],
             "type": "object"
         },
@@ -1172,6 +1176,44 @@
                 "currencyCode",
                 "exchangeRate",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NftTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "enum": [
+                        "NftTransferV2"
+                    ],
+                    "type": "string"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "block",
+                "fees",
+                "timestamp",
+                "transactionHash",
+                "type"
             ],
             "type": "object"
         },
@@ -1689,6 +1731,7 @@
                 "ExchangeReview",
                 "ExchangeTradeScreen",
                 "ExternalExchanges",
+                "FiatConnectLinkAccount",
                 "FiatConnectReview",
                 "FiatConnectTransferStatus",
                 "FiatDetailsScreen",
@@ -1940,6 +1983,9 @@
                 "sessionId": {
                     "type": "string"
                 },
+                "shouldShowRecoveryPhraseInSettings": {
+                    "type": "boolean"
+                },
                 "showPriceChangeIndicatorInBalances": {
                     "type": "boolean"
                 },
@@ -2015,6 +2061,7 @@
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
                 "sessionId",
+                "shouldShowRecoveryPhraseInSettings",
                 "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipProfilePicture",
@@ -2469,6 +2516,12 @@
         "State_16": {
             "additionalProperties": false,
             "properties": {
+                "coinbasePaySenders": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "inviteRewardsSenders": {
                     "items": {
                         "type": "string"
@@ -2489,6 +2542,7 @@
                 }
             },
             "required": [
+                "coinbasePaySenders",
                 "inviteRewardsSenders",
                 "phoneRecipientCache",
                 "rewardsSenders",
@@ -3332,6 +3386,9 @@
                             },
                             {
                                 "$ref": "#/definitions/TokenExchange"
+                            },
+                            {
+                                "$ref": "#/definitions/NftTransfer"
                             }
                         ]
                     },
@@ -3561,6 +3618,8 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
+                "NFT_RECEIVED",
+                "NFT_SENT",
                 "RECEIVED",
                 "SENT"
             ],
@@ -4184,6 +4243,7 @@
                                         "simplexPurchaseFetchFailed",
                                         "superchargeClaimFailure",
                                         "superchargeFetchRewardsFailed",
+                                        "swapScreen.fetchSwapQuoteFailed",
                                         "transactionFailed",
                                         "transactionTimeout",
                                         "verificationFailure",

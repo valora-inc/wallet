@@ -12,7 +12,10 @@ import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import BackButton from 'src/components/BackButton'
 import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
@@ -30,21 +33,12 @@ import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
 import { getObfuscatedAccountNumber } from './index'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BackButton from 'src/components/BackButton'
 
 export const TAG = 'FIATCONNECT/FiatDetailsScreen'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.FiatDetailsScreen>
 
 type Props = ScreenProps
-
-export const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
-// TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
-export const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([
-  FiatAccountSchema.AccountNumber,
-])
 
 interface FormFieldParam {
   name: string

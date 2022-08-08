@@ -388,6 +388,8 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
+  "receivedNft": "Alınan NFT",
+  "sentNft": "Gönderilen NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
   "sendCeloDollars": "Celo Dollar Gönderin",
@@ -598,8 +600,8 @@
     "button": "Daveti tamamla"
   },
   "inviteRewardsBanner": {
-    "title": "Bir arkadaş davet etmek için kripto gönderin (beta)",
-    "body": "{{appName}} cüzdanlarını oluşturduklarında, her biriniz {{amount}}{{currency}} ödül alırsınız. <0>{{maxAmount}}{{currency}}</0> tutarına kadar kazanın!"
+    "title": "Bir arkadaş davet etmek için kripto gönderin",
+    "body": "Hesaplarını ayarlamayı bitirdiklerinden sonra ikiniz de bir NFT alacaksınız. <0>Daha fazla bilgi edinin</0>"
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
@@ -1052,6 +1054,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Hesap {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Yatırılan",
+  "feedItemDepositTitle": "Deposit",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO alındı",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO satıldı",
@@ -1109,6 +1114,8 @@
   "transactionHeaderCeloDeposit": "Yatırılan",
   "transactionHeaderCeloReward": "Ödül Alındı",
   "transactionHeaderEscrowReceived": "Escrow Ödemesi Alındı",
+  "transactionHeaderNftReceived": "NFT Alındı",
+  "transactionHeaderNftSent": "NFT Gönderildi",
   "feedSectionHeaderRecent": "En son",
   "cashInBottomSheet": {
     "title": "Valora'yı kullanmaya başlamak için bakiye ekleyin!",
@@ -1249,6 +1256,14 @@
     "bestRate": "En İyi Oran",
     "header": "Ödeme Yöntemi Seç"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Banka Hesabı Bağla",
+      "bodyTitle": "Banka Bilgilerini Girin",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "İleri"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
@@ -1340,7 +1355,8 @@
     "review": "Gözden Geçir",
     "swapFrom": "Bu Token’dan",
     "swapTo": "Şu Token’a",
-    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha büyük bir miktar girin veya farklı bir token seçin."
+    "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir token seçin.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

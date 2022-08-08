@@ -388,6 +388,8 @@
   "paste": "Paste",
   "choose": "Choose",
   "receivedPayment": "Received Payment",
+  "receivedNft": "Received NFT",
+  "sentNft": "Sent NFT",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
@@ -598,8 +600,8 @@
     "button": "Finish inviting"
   },
   "inviteRewardsBanner": {
-    "title": "Send crypto to invite a friend (beta)",
-    "body": "Once they set up their {{appName}} wallet, you each get {{amount}} {{currency}} in rewards. Earn up to <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Send crypto to invite a friend",
+    "body": "Once they set up their {{appName}} wallet and connect their number, you'll each get an elusive NFT. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}",
   "welcomeCelo": "Welcome to {{appName}}",
@@ -1054,6 +1056,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Account {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Deposit Received",
+  "feedItemDepositTitle": "Deposit",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
@@ -1111,6 +1116,8 @@
   "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
+  "transactionHeaderNftReceived": "NFT Received",
+  "transactionHeaderNftSent": "NFT Sent",
   "feedSectionHeaderRecent": "Recent",
   "cashInBottomSheet": {
     "title": "Add funds to start using Valora!",
@@ -1252,6 +1259,14 @@
     "bestRate": "Best Rate",
     "header": "Select Payment Method"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Link Bank Account",
+      "bodyTitle": "Enter Bank Account Details",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Continue"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
@@ -1267,6 +1282,11 @@
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
       "transactionDetailsAmountConverted": "Amount Withdrawn"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
     },
     "quoteExpiredDialog": {
       "title": "Review amounts & fees",
@@ -1348,6 +1368,7 @@
     "review": "Review",
     "swapFrom": "From",
     "swapTo": "To",
-    "insufficientFunds": "Insufficient {{token}} balance. Try a larger amount or choose a different token."
+    "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   }
 }

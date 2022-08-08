@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 68,
+          "version": 70,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -164,6 +164,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "shouldShowRecoveryPhraseInSettings": false,
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,
@@ -292,6 +293,7 @@ describe('store state', () => {
           "outgoingPaymentRequests": Array [],
         },
         "recipients": Object {
+          "coinbasePaySenders": Array [],
           "inviteRewardsSenders": Array [],
           "phoneRecipientCache": Object {},
           "rewardsSenders": Array [],

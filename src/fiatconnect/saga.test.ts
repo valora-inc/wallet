@@ -3,6 +3,7 @@ import { ResponseError } from '@fiatconnect/fiatconnect-sdk'
 import { FiatAccountType, FiatConnectError, TransferStatus } from '@fiatconnect/fiatconnect-types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matches from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -21,9 +22,11 @@ import {
   handleCreateFiatConnectTransfer,
   handleFetchFiatConnectProviders,
   handleFetchFiatConnectQuotes,
+  handleRefetchQuote,
   handleSelectFiatConnectQuote,
+  _getSpecificQuote,
 } from 'src/fiatconnect/saga'
-import { fiatConnectProvidersSelector, fiatConnectQuotesSelector } from 'src/fiatconnect/selectors'
+import { fiatConnectProvidersSelector } from 'src/fiatconnect/selectors'
 import {
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,
@@ -35,6 +38,9 @@ import {
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
   fiatAccountUsed,
+  refetchQuote,
+  refetchQuoteCompleted,
+  refetchQuoteFailed,
   selectFiatConnectQuote,
   selectFiatConnectQuoteCompleted,
 } from 'src/fiatconnect/slice'
@@ -181,7 +187,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
     })
     const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
-    it('navigates to fiatDetails screen if the fiatAccount is not found', async () => {
+    it('navigates to link account screen if the fiatAccount is not found', async () => {
       const fiatAccount = {
         fiatAccountId: '123',
         providerId: 'provider-two',
@@ -204,7 +210,7 @@ describe('Fiatconnect saga', () => {
         ])
         .put(selectFiatConnectQuoteCompleted())
         .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.FiatDetailsScreen, {
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectLinkAccount, {
         quote: normalizedQuote,
         flow: normalizedQuote.flow,
       })
@@ -290,6 +296,68 @@ describe('Fiatconnect saga', () => {
     })
   })
 
+  describe(handleRefetchQuote, () => {
+    const fiatAccount = {
+      fiatAccountId: '123',
+      providerId: 'provider-two',
+      accountName: 'provider two',
+      institutionName: 'The fun bank',
+      fiatAccountType: FiatAccountType.BankAccount,
+    }
+    const quote = new FiatConnectQuote({
+      flow: CICOFlow.CashOut,
+      fiatAccountType: FiatAccountType.BankAccount,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    })
+    const params = refetchQuote({
+      flow: CICOFlow.CashOut,
+      quote,
+      fiatAccount,
+    })
+    it('calls refetchQuoteFailed if the _getQuote throws an error', async () => {
+      await expectSaga(handleRefetchQuote, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 100,
+              flow: params.payload.flow,
+              providerId: params.payload.quote.getProviderId(),
+              fiatAccountType: params.payload.fiatAccount.fiatAccountType,
+            }),
+            throwError(new Error('Could not find quote')),
+          ],
+        ])
+        .put(refetchQuoteFailed({ error: 'could not refetch quote' }))
+        .run()
+    })
+    it('navigates to FiatConnectReview when _getQuote returns the quote', async () => {
+      await expectSaga(handleRefetchQuote, params)
+        .provide([
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 100,
+              flow: params.payload.flow,
+              providerId: params.payload.quote.getProviderId(),
+              fiatAccountType: params.payload.fiatAccount.fiatAccountType,
+            }),
+            quote,
+          ],
+        ])
+        .put(refetchQuoteCompleted())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
+        flow: params.payload.flow,
+        normalizedQuote: quote,
+        fiatAccount,
+        shouldRefetchQuote: false,
+      })
+    })
+  })
+
   describe(handleAttemptReturnUserFlow, () => {
     const mockGetFiatAccounts = jest.fn()
     const mockFcClient = {
@@ -309,21 +377,25 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
     })
+    const expectedNormalizedQuote = new FiatConnectQuote({
+      flow: CICOFlow.CashOut,
+      fiatAccountType: FiatAccountType.BankAccount,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    })
     it('navigates to SelectProvider when there is no quote', async () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [select(fiatConnectQuotesSelector), []],
-        ])
-        .put(attemptReturnUserFlowCompleted())
-        .run()
-      expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, selectProviderParams)
-    })
-    it('navigates to SelectProvider when the quote cannot be normalized', async () => {
-      await expectSaga(handleAttemptReturnUserFlow, params)
-        .provide([
-          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[0]]],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccountType: params.payload.fiatAccountType,
+            }),
+            throwError(new Error('Could not find quote')),
+          ],
         ])
         .put(attemptReturnUserFlowCompleted())
         .run()
@@ -339,7 +411,16 @@ describe('Fiatconnect saga', () => {
       })
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccountType: params.payload.fiatAccountType,
+            }),
+            expectedNormalizedQuote,
+          ],
         ])
         .put(attemptReturnUserFlowCompleted())
         .run()
@@ -348,8 +429,17 @@ describe('Fiatconnect saga', () => {
     it('navigates to SelectProvider when the provider cannot be found', async () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
-          [select(fiatConnectProvidersSelector), []],
-          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccountType: params.payload.fiatAccountType,
+            }),
+            expectedNormalizedQuote,
+          ],
         ])
         .put(attemptReturnUserFlowCompleted())
         .run()
@@ -360,7 +450,16 @@ describe('Fiatconnect saga', () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccountType: params.payload.fiatAccountType,
+            }),
+            expectedNormalizedQuote,
+          ],
           [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
         ])
         .put(attemptReturnUserFlowCompleted())
@@ -383,18 +482,23 @@ describe('Fiatconnect saga', () => {
       await expectSaga(handleAttemptReturnUserFlow, params)
         .provide([
           [select(fiatConnectProvidersSelector), mockFiatConnectProviderInfo],
-          [select(fiatConnectQuotesSelector), [mockFiatConnectQuotes[1]]],
+          [
+            call(_getSpecificQuote, {
+              digitalAsset: CiCoCurrency.CUSD,
+              cryptoAmount: 2,
+              flow: params.payload.flow,
+              providerId: params.payload.providerId,
+              fiatAccountType: params.payload.fiatAccountType,
+            }),
+            expectedNormalizedQuote,
+          ],
           [call(getFiatConnectClient, 'provider-two', 'fakewebsite.valoraapp.com'), mockFcClient],
         ])
         .put(attemptReturnUserFlowCompleted())
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.FiatConnectReview, {
         flow: CICOFlow.CashOut,
-        normalizedQuote: new FiatConnectQuote({
-          flow: CICOFlow.CashOut,
-          fiatAccountType: FiatAccountType.BankAccount,
-          quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
-        }),
+        normalizedQuote: expectedNormalizedQuote,
         fiatAccount,
       })
     })
