@@ -1060,7 +1060,7 @@
   "feedItemAddress": "Konto {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Otrzymano wpłatę",
-  "feedItemDepositTitle": "Depozyt",
+  "feedItemDepositTitle": "Wpłatę",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Kupiono <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sprzedano <0></0> CELO",
@@ -1283,6 +1283,11 @@
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota"
+    },
+    "failedRefetch": {
+      "title": "Połączenie zostało utracone!",
+      "description": "Nie udało nam się nawiązać połączenia między waszymi kontami.\n\nMoże to być spowodowane słabym połączeniem internetowym lub problemem z serwerem. Spróbuj ponownie nawiązać połączenie.",
+      "tryAgain": "Spróbuj ponownie"
     }
   },
   "fiatConnectStatusScreen": {
