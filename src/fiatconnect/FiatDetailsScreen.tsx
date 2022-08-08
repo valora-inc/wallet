@@ -139,6 +139,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             provider: quote.getProviderId(),
             fiatAccountSchema,
           }}
+          testID="backButton"
         />
       ),
       headerRight: () => (

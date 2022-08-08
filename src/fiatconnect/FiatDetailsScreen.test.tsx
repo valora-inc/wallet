@@ -15,13 +15,15 @@ import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError, showMessage } from 'src/alert/actions'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -30,6 +32,7 @@ import { mocked } from 'ts-jest/utils'
 import FiatDetailsScreen, { TAG } from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
+jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
@@ -155,7 +158,7 @@ describe('FiatDetailsScreen', () => {
     expect(queryByTestId('headerProviderIcon')).toBeTruthy()
     expect(getByTestId('headerProviderIcon').props.source.uri).toEqual(mockFiatConnectProviderIcon)
   })
-  it('cancel button navigates to fiat exchange screen', () => {
+  it('cancel button navigates to fiat exchange screen and fires analytics event', () => {
     let headerRight: React.ReactNode
     ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
       headerRight = options.headerRight()
@@ -172,6 +175,37 @@ describe('FiatDetailsScreen', () => {
     expect(queryByText('cancel')).toBeTruthy()
     fireEvent.press(getByText('cancel'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchange)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      FiatExchangeEvents.cico_fiat_details_cancel,
+      {
+        flow: mockScreenPropsWithAllowedValues.route.params.flow,
+        provider: quoteWithAllowedValues.getProviderId(),
+        fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
+      }
+    )
+  })
+  it('back button navigates back and fires analytics event', () => {
+    let headerLeft: React.ReactNode
+    ;(mockNavigation.setOptions as jest.Mock).mockImplementation((options) => {
+      headerLeft = options.headerLeft()
+    })
+
+    render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
+      </Provider>
+    )
+
+    const { getByTestId, queryByTestId } = render(<Provider store={store}>{headerLeft}</Provider>)
+
+    expect(queryByTestId('backButton')).toBeTruthy()
+    fireEvent.press(getByTestId('backButton'))
+    expect(navigateBack).toHaveBeenCalledWith()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(FiatExchangeEvents.cico_fiat_details_back, {
+      flow: mockScreenPropsWithAllowedValues.route.params.flow,
+      provider: quoteWithAllowedValues.getProviderId(),
+      fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
+    })
   })
   it('shows validation error if the input field does not fulfill the requirement', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
