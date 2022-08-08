@@ -14,7 +14,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
@@ -63,7 +63,7 @@ describe('ReviewScreen', () => {
     it('throws not implemented', () => {
       expect(() => {
         render(
-          <Provider store={createMockStore()}>
+          <Provider store={store}>
             <FiatConnectReviewScreen {...getProps(CICOFlow.CashIn, true)} />
           </Provider>
         )
@@ -74,7 +74,7 @@ describe('ReviewScreen', () => {
   describe('cashOut', () => {
     it('shows fiat amount, transaction details and payment method', () => {
       const { queryByTestId, queryByText } = render(
-        <Provider store={createMockStore()}>
+        <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut, true, CryptoType.cEUR)} />
         </Provider>
       )
@@ -141,7 +141,7 @@ describe('ReviewScreen', () => {
 
     it('shows fiat amount, transaction details and payment method without fee', () => {
       const { queryByTestId, queryByText } = render(
-        <Provider store={createMockStore()}>
+        <Provider store={store}>
           <FiatConnectReviewScreen {...getProps(CICOFlow.CashOut)} />
         </Provider>
       )
@@ -163,7 +163,7 @@ describe('ReviewScreen', () => {
 
     it('shows expired dialog when quote is expired', async () => {
       const expireMs = -100
-      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expireMs)
+      const props = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
       const quote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
       quote.quote.guaranteedUntil = new Date(Date.now() + expireMs).toISOString()
       const store = createMockStore({
@@ -173,7 +173,7 @@ describe('ReviewScreen', () => {
       })
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
-          <FiatConnectReviewScreen {...mockProps} />
+          <FiatConnectReviewScreen {...props} />
         </Provider>
       )
 
@@ -182,18 +182,17 @@ describe('ReviewScreen', () => {
       await fireEvent.press(getByTestId('expiredQuoteDialog/PrimaryAction'))
 
       expect(store.getActions()).toEqual([
-        fetchFiatConnectQuotes({
+        refetchQuote({
           flow: CICOFlow.CashOut,
-          digitalAsset: CiCoCurrency.CUSD,
-          cryptoAmount: 100,
-          providerIds: [mockFiatConnectQuotes[1].provider.id],
+          quote: props.route.params.normalizedQuote,
+          fiatAccount: props.route.params.fiatAccount,
         }),
       ])
     })
     it('shows expired dialog when submitting expired quote', async () => {
       jest.useRealTimers()
       const expireMs = 100
-      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, expireMs)
+      const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
       const store = createMockStore()
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
@@ -210,7 +209,7 @@ describe('ReviewScreen', () => {
     })
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
       const mockProps = getProps(CICOFlow.CashOut)
-      const store = createMockStore()
+
       const { getByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
@@ -236,7 +235,7 @@ describe('ReviewScreen', () => {
       const mockProps = getProps(CICOFlow.CashOut)
 
       const { getByTestId } = render(
-        <Provider store={createMockStore()}>
+        <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
         </Provider>
       )

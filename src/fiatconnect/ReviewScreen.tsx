@@ -39,7 +39,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
-  const providerId = normalizedQuote.getProviderId()
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
@@ -106,10 +105,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     })
     navigate(Screens.SupportContact)
   }
+
   const onPressTryAgain = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
       flow,
-      provider: providerId,
+      provider: normalizedQuote.getProviderId(),
     })
     dispatch(
       refetchQuote({
@@ -118,6 +118,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         fiatAccount,
       })
     )
+  }
+
+  const quoteTimestamp = new Date(normalizedQuote.getGuaranteedUntil())
+  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
+    setShowingExpiredQuoteDialog(true)
   }
 
   if (fiatConnectQuotesError) {
@@ -155,19 +160,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     )
   }
 
-  const quoteTimestamp = new Date(quote.getGuaranteedUntil())
-  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
-    setShowingExpiredQuoteDialog(true)
-  }
-
-  if (fiatConnectQuotesLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
-      </View>
-    )
-  }
-
   return (
     <SafeAreaView style={styles.content}>
       <Dialog
@@ -177,23 +169,21 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         actionText={t('fiatConnectReviewScreen.quoteExpiredDialog.continue')}
         actionPress={() => {
           dispatch(
-            fetchFiatConnectQuotes({
+            refetchQuote({
               flow,
-              digitalAsset: resolveCICOCurrency(normalizedQuote.quote.quote.cryptoType),
-              cryptoAmount: parseFloat(normalizedQuote.getCryptoAmount()),
-              providerIds: [providerId],
+              quote: normalizedQuote,
+              fiatAccount,
             })
           )
           setShowingExpiredQuoteDialog(false)
-          setUsingUpdatedQuote(true)
         }}
       >
         {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
       </Dialog>
       <View>
-        <ReceiveAmount flow={flow} normalizedQuote={quote} />
-        <TransactionDetails flow={flow} normalizedQuote={quote} />
-        <PaymentMethod normalizedQuote={quote} fiatAccount={fiatAccount} />
+        <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
+        <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
+        <PaymentMethod normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <Button
         testID="submitButton"
@@ -217,14 +207,14 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             dispatch(
               createFiatConnectTransfer({
                 flow,
-                fiatConnectQuote: quote,
+                fiatConnectQuote: normalizedQuote,
                 fiatAccountId: fiatAccount.fiatAccountId,
               })
             )
 
             navigate(Screens.FiatConnectTransferStatus, {
               flow,
-              normalizedQuote: quote,
+              normalizedQuote,
               fiatAccount,
             })
           }

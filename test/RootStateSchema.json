@@ -4227,7 +4227,6 @@
                                         "qrFailedInvalidAddress",
                                         "qrFailedInvalidRecipient",
                                         "qrFailedNoPhoneNumber",
-                                        "quoteUpdateFailed",
                                         "raiseLimitEmailNotSent",
                                         "reclaimingEscrowedPaymentFailed",
                                         "redeemFailed",

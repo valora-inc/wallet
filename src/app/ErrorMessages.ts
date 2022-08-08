@@ -81,7 +81,6 @@ export enum ErrorMessages {
   PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
-  QUOTE_UPDATE_FAILED = 'quoteUpdateFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   RAISE_LIMIT_EMAIL_NOT_SENT = 'raiseLimitEmailNotSent',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
