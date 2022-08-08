@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 69,
+          "version": 70,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -164,6 +164,7 @@ describe('store state', () => {
           ],
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
+          "shouldShowRecoveryPhraseInSettings": false,
           "showPriceChangeIndicatorInBalances": false,
           "showRaiseDailyLimitTarget": undefined,
           "showSwapMenuInDrawerMenu": false,

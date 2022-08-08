@@ -776,4 +776,12 @@ export const migrations = {
       coinbasePaySenders: [],
     },
   }),
+  70: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      shouldShowRecoveryPhraseInSettings:
+        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+    },
+  }),
 }

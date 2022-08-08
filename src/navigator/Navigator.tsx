@@ -21,6 +21,7 @@ import ErrorScreen from 'src/app/ErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
+import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
 import BackButton from 'src/components/BackButton'
@@ -401,6 +402,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       name={Screens.AccounSetupFailureScreen}
       component={AccounSetupFailureScreen}
       options={AccounSetupFailureScreen.navOptions}
+    />
+    <Navigator.Screen
+      name={Screens.BackupIntroduction}
+      component={BackupIntroduction}
+      options={headerWithBackButton}
     />
   </>
 )
