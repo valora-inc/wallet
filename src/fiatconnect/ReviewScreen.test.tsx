@@ -18,8 +18,6 @@ import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
-const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
-
 function getProps(
   flow: CICOFlow,
   withFee = false,
@@ -27,6 +25,7 @@ function getProps(
   shouldRefetchQuote = false,
   quoteExpireMs = 0
 ) {
+  const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
   if (!withFee) {
     delete quoteData.fiatAccount.BankAccount?.fee
   }
@@ -171,6 +170,7 @@ describe('ReviewScreen', () => {
           quotes: [quote],
         },
       })
+      store.dispatch = jest.fn()
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...props} />
@@ -181,19 +181,18 @@ describe('ReviewScreen', () => {
 
       await fireEvent.press(getByTestId('expiredQuoteDialog/PrimaryAction'))
 
-      expect(store.getActions()).toEqual([
+      expect(store.dispatch).toHaveBeenCalledWith(
         refetchQuote({
           flow: CICOFlow.CashOut,
           quote: props.route.params.normalizedQuote,
           fiatAccount: props.route.params.fiatAccount,
-        }),
-      ])
+        })
+      )
     })
     it('shows expired dialog when submitting expired quote', async () => {
       jest.useRealTimers()
       const expireMs = 100
       const mockProps = getProps(CICOFlow.CashOut, false, CryptoType.cUSD, false, expireMs)
-      const store = createMockStore()
       const { getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <FiatConnectReviewScreen {...mockProps} />
@@ -204,7 +203,7 @@ describe('ReviewScreen', () => {
       await sleep(expireMs)
       await fireEvent.press(getByTestId('submitButton'))
 
-      expect(store.getActions().length).toEqual(0)
+      expect(store.dispatch).not.toHaveBeenCalled()
       expect(queryByTestId('expiredQuoteDialog')?.props.visible).toEqual(true)
     })
     it('dispatches fiat transfer action and navigates on clicking button', async () => {
