@@ -1279,6 +1279,11 @@
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
       "transactionDetailsAmountConverted": "Betrag abgehoben"
+    },
+    "failedRefetch": {
+      "title": "Verbindung verloren!",
+      "description": "Wir waren nicht in der Lage, eine Verbindung zwischen deinen Konten herzustellen.\n\nDas kann an einer schlechten Internetverbindung oder einem Serverproblem liegen. Bitte versuche, dich erneut zu verbinden.",
+      "tryAgain": "Wiederholen"
     }
   },
   "fiatConnectStatusScreen": {
