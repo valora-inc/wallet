@@ -1055,7 +1055,7 @@
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Conta {{address}}",
   "feedItemDepositInfo": "{{comment}}",
-  "feedItemDepositInfo_noComment": "Depósito Recebido",
+  "feedItemDepositInfo_noComment": "Depósito recebido",
   "feedItemDepositTitle": "Depósito",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Comprou <0></0> CELO",
@@ -1111,7 +1111,7 @@
   "transactionHeaderWithdrewCelo": "Transferência de CELO",
   "transactionHeaderEscrowSent": "Pagamento de caução enviado",
   "transactionHeaderReceived": "Pagamento recebido",
-  "transactionHeaderCeloDeposit": "Depósito Recebido",
+  "transactionHeaderCeloDeposit": "Depósito recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
   "transactionHeaderNftReceived": "NFT recebido",
@@ -1279,6 +1279,11 @@
       "button": "Sacar Fundos",
       "transactionDetailsAmount": "Saque total",
       "transactionDetailsAmountConverted": "Quantia retirada"
+    },
+    "failedRefetch": {
+      "title": "Ligação perdida!",
+      "description": "Não fomos capazes de estabelecer uma ligação entre as suas contas.\n\nIsto pode dever-se a uma má ligação à Internet ou a um problema no servidor. Por favor, tente restabelecer a ligação.",
+      "tryAgain": "Repetir"
     }
   },
   "fiatConnectStatusScreen": {
