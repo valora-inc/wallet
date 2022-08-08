@@ -293,6 +293,7 @@ describe('store state', () => {
           "outgoingPaymentRequests": Array [],
         },
         "recipients": Object {
+          "coinbasePaySenders": Array [],
           "inviteRewardsSenders": Array [],
           "phoneRecipientCache": Object {},
           "rewardsSenders": Array [],

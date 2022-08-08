@@ -771,10 +771,9 @@ export const migrations = {
   }),
   69: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
-      shouldShowRecoveryPhraseInSetting:
-        REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSetting,
+    recipients: {
+      ...state.recipients,
+      coinbasePaySenders: [],
     },
   }),
 }
