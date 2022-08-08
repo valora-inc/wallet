@@ -1534,18 +1534,18 @@ export const v69Schema = {
   },
 }
 
-export const v69Schema = {
-  ...v68Schema,
+export const v70Schema = {
+  ...v69Schema,
   _persist: {
-    ...v68Schema._persist,
-    version: 69,
+    ...v69Schema._persist,
+    version: 70,
   },
   app: {
-    ...v68Schema.app,
+    ...v69Schema.app,
     shouldShowRecoveryPhraseInSetting: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v69Schema as Partial<RootState>
+  return v70Schema as Partial<RootState>
 }
