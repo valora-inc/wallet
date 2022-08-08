@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import qs from 'qs'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TokenBalance } from 'src/tokens/slice'
@@ -52,10 +53,13 @@ const useSwapQuote = () => {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const requestUrl = `${networkConfig.approveSwapUrl}?buyToken=${toToken.address}&sellToken=${
-      fromToken.address
-    }&${swapAmountParam}=${swapAmountInWei.toString().split('.')[0]}&userAddress=${walletAddress}`
-
+    const params = {
+      buyToken: toToken.address,
+      sellToken: fromToken.address,
+      [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
+      takerAddress: walletAddress,
+    }
+    const requestUrl = `${networkConfig.priceSwapUrl}${qs.stringify(params)}`
     if (requestUrl === requestUrlRef.current) {
       // do nothing if the previous request url is the same as the current
       return
@@ -65,11 +69,11 @@ const useSwapQuote = () => {
 
     try {
       setFetchingSwapQuote(true)
-      const quoteResponse = await fetch(requestUrlRef.current)
+      const priceResponse = await fetch(requestUrlRef.current)
 
-      if (quoteResponse.ok) {
-        const quote = await quoteResponse.json()
-        const swapPrice = quote.unvalidatedSwapTransaction.price
+      if (priceResponse.ok) {
+        const price = await priceResponse.json()
+        const swapPrice = price.price
         setExchangeRate(
           updatedField === Field.FROM
             ? swapPrice
@@ -81,7 +85,7 @@ const useSwapQuote = () => {
         Logger.warn(
           'SwapScreen@useSwapQuote',
           'error from approve swap url',
-          await quoteResponse.text()
+          await priceResponse.text()
         )
       }
     } catch (error) {

@@ -55,6 +55,7 @@ export interface State {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
+  maxSwapSlippagePercentage: number
 }
 
 const initialState = {
@@ -103,6 +104,7 @@ const initialState = {
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
 }
 
 export const appReducer = (
@@ -220,6 +222,7 @@ export const appReducer = (
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
+        maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
