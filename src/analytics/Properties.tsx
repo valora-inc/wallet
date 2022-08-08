@@ -1002,6 +1002,14 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
+  [FiatExchangeEvents.cico_fc_review_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
   [FiatExchangeEvents.cico_fc_link_account_continue]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
