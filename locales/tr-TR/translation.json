@@ -388,7 +388,7 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
-  "receivedNft": "Alınan NFT",
+  "receivedNft": "NFT Alındı",
   "sentNft": "Gönderilen NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
@@ -1279,6 +1279,11 @@
       "button": "Bakiye Çek",
       "transactionDetailsAmount": "Çekilen Toplam Tutar",
       "transactionDetailsAmountConverted": "Çekilen Tutar"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Tekrar Deneyin"
     }
   },
   "fiatConnectStatusScreen": {
