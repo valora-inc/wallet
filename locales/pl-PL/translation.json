@@ -388,6 +388,8 @@
   "paste": "Wklej",
   "choose": "Wybierz",
   "receivedPayment": "Otrzymana płatność",
+  "receivedNft": "NFT otrzymane",
+  "sentNft": "NFT wysłane",
   "getStarted": "Rozpocznij",
   "manageCeloDollars": "Zarządzaj Celo Dolarami",
   "sendCeloDollars": "Wyślij Celo Dolary",
@@ -1056,6 +1058,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Otrzymano wpłatę",
+  "feedItemDepositTitle": "Depozyt",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Kupiono <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sprzedano <0></0> CELO",
@@ -1113,6 +1118,8 @@
   "transactionHeaderCeloDeposit": "Otrzymano wpłatę",
   "transactionHeaderCeloReward": "Otrzymano nagrodę",
   "transactionHeaderEscrowReceived": "Otrzymano płatność Escrow",
+  "transactionHeaderNftReceived": "NFT otrzymane",
+  "transactionHeaderNftSent": "NFT wysłane",
   "feedSectionHeaderRecent": "Najnowsze",
   "cashInBottomSheet": {
     "title": "Dodaj środki, aby rozpocząć korzystanie z aplikacji Valora!",
@@ -1352,8 +1359,8 @@
     "review": "Analizuj",
     "swapFrom": "Od",
     "swapTo": "Do",
-    "insufficientFunds": "Niewystarczające saldo {{token}} . Spróbuj mniejszej kwoty lub wybierz inny token.",
-    "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Uzyskanie najlepszego kursu wymiany trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut."
+    "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
