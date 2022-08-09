@@ -46,7 +46,8 @@ export function SwapReviewScreen(props: Props) {
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
-  const maxSlippagePercent = `${useSelector(maxSwapSlippagePercentageSelector) / 100}`
+  const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
+  const maxSlippageDecimal = `${maxSlippagePercent / 100}`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -85,7 +86,7 @@ export function SwapReviewScreen(props: Props) {
         buyToken: toToken,
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
-        slippagePercentage: maxSlippagePercent,
+        slippagePercentage: maxSlippageDecimal,
       }
       const response = await fetch(`${networkConfig.quoteSwapUrl}${qs.stringify(params)}`)
       if (!response.ok) {
@@ -232,7 +233,9 @@ export function SwapReviewScreen(props: Props) {
         isActionHighlighted={false}
         onBackgroundPress={() => setEstimatedDialogVisible(false)}
       >
-        {t('swapReviewScreen.estimatedAmountBody')}
+        {t('swapReviewScreen.estimatedAmountBody', {
+          slippagePercent: maxSlippagePercent,
+        })}
       </Dialog>
     </SafeAreaView>
   )
