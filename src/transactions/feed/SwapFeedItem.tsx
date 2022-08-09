@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import SwapIcon from 'src/icons/SwapIcon'
@@ -23,6 +25,7 @@ function SwapFeedItem({ exchange }: Props) {
 
   const openTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
+    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
   return (
