@@ -1327,6 +1327,8 @@
   },
   "fiatDetailsScreen": {
     "header": "Bankdaten eingeben",
+    "headerSubTitle": "Angetrieben von {{provider}}",
+    "description": "Füge deine Informationen hinzu, um dein Bankkonto mit Valora zu verknüpfen",
     "selectedPaymentOption": "Gewählte Zahlungsoption",
     "addFiatAccountSuccess": "Dein Konto wurde mit Valora verknüpft.",
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
