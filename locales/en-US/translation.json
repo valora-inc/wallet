@@ -1326,7 +1326,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Details",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your account has been linked to Valora.",
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",
