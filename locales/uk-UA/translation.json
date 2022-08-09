@@ -1330,7 +1330,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Введіть банківські реквізити",
+    "header": "Введіть дані банку",
+    "headerSubTitle": "Працює на {{provider}}",
+    "description": "Додайте вашу інформацію, щоб пов'язати ваш банківський рахунок з Valora",
     "selectedPaymentOption": "Вибраний спосіб оплати",
     "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
     "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
