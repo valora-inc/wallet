@@ -1056,6 +1056,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Account {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Deposit Received",
+  "feedItemDepositTitle": "Deposit",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sold <0></0> CELO",
@@ -1278,6 +1281,11 @@
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
       "transactionDetailsAmountConverted": "Amount Withdrawn"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1320,7 +1328,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Details",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Selected payment option",
     "addFiatAccountSuccess": "Your account has been linked to Valora.",
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",

@@ -298,6 +298,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
+    shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
   }
 }
 
@@ -331,6 +332,10 @@ export async function fetchRewardsSenders() {
 
 export async function fetchInviteRewardsSenders() {
   return fetchListFromFirebase('inviteRewardAddresses')
+}
+
+export async function fetchCoinbasePaySenders() {
+  return fetchListFromFirebase('coinbasePayAddresses')
 }
 
 async function fetchListFromFirebase(path: string) {

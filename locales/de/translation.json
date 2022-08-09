@@ -388,6 +388,8 @@
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
+  "receivedNft": "NFT erhalten",
+  "sentNft": "NFT gesendet",
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
@@ -1052,6 +1054,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Anzahlung erhalten",
+  "feedItemDepositTitle": "Einzahlung",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO gekauft",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO verkauft",
@@ -1109,6 +1114,8 @@
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
   "transactionHeaderCeloReward": "Rewards erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
+  "transactionHeaderNftReceived": "NFT erhalten",
+  "transactionHeaderNftSent": "NFT gesendet",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
     "title": "Füge Guthaben hinzu, um loszulegen!",
@@ -1348,8 +1355,8 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}} Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
-    "fetchSwapQuoteFailed": "Entschuldigung für die Verzögerung! Es dauert länger als sonst, den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten noch einmal."
+    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

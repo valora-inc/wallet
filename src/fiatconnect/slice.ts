@@ -105,6 +105,12 @@ export interface CreateFiatConnectTransferCompletedAction {
   txHash: string | null
 }
 
+interface RefetchQuoteAction {
+  flow: CICOFlow
+  quote: FiatConnectQuote
+  fiatAccount: ObfuscatedFiatAccountData
+}
+
 export const slice = createSlice({
   name: 'fiatConnect',
   initialState,
@@ -122,6 +128,18 @@ export const slice = createSlice({
       state.quotes = action.payload.quotes
     },
     fetchFiatConnectQuotesFailed: (state, action: PayloadAction<FetchFailedAction>) => {
+      state.quotesLoading = false
+      state.quotesError = action.payload.error
+    },
+    refetchQuote: (state, action: PayloadAction<RefetchQuoteAction>) => {
+      state.quotesLoading = true
+      state.quotesError = null
+    },
+    refetchQuoteCompleted: (state) => {
+      state.quotesLoading = false
+      state.quotesError = null
+    },
+    refetchQuoteFailed: (state, action: PayloadAction<{ error: string }>) => {
       state.quotesLoading = false
       state.quotesError = action.payload.error
     },
@@ -205,6 +223,9 @@ export const {
   fetchFiatConnectQuotes,
   fetchFiatConnectQuotesCompleted,
   fetchFiatConnectQuotesFailed,
+  refetchQuote,
+  refetchQuoteCompleted,
+  refetchQuoteFailed,
   fiatAccountUsed,
   attemptReturnUserFlow,
   attemptReturnUserFlowCompleted,

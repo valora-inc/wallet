@@ -481,4 +481,22 @@ describe('TransferFeedItem', () => {
       expectedTokenAmount: '10.00 CELO',
     })
   })
+
+  it('renders correctly for deposits from Coinbase Pay', async () => {
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.Received,
+      storeOverrides: {
+        recipients: {
+          coinbasePaySenders: [MOCK_ADDRESS],
+        },
+      },
+    })
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemDepositTitle'],
+      expectedSubtitleSections: ['feedItemReceivedInfo'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
 })
