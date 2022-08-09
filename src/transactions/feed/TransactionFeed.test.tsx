@@ -11,7 +11,7 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import { createMockStore, RecursivePartial } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const STAND_BY_TRANSACTION_SUBTITLE_KEY = 'confirmingTransaction'
 
@@ -54,6 +54,31 @@ const MOCK_RESPONSE: QueryResponse = {
           transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
           type: TokenTransactionTypeV2.Received,
         },
+        {
+          __typename: 'TokenExchangeV2',
+          type: TokenTransactionTypeV2.SwapTransaction,
+          transactionHash: '0x99B86JUE4H1Ie36S0xZ4f8j1QGVECz083k82Gj2lummPt8i2ssu6Z7G5947Qe3Td',
+          timestamp: 1154636121000,
+          block: '11489458',
+          metadata: {},
+          inAmount: {
+            value: '0.5',
+            tokenAddress: mockCeurAddress,
+          },
+          outAmount: {
+            value: '0.5',
+            tokenAddress: mockCusdAddress,
+          },
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.0001217335',
+                tokenAddress: mockCusdAddress,
+              },
+            },
+          ],
+        },
       ],
     },
   },
@@ -82,6 +107,31 @@ const MOCK_RESPONSE_NEXT_PAGE: QueryResponse = {
           timestamp: 1500306110,
           transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8a',
           type: TokenTransactionTypeV2.Received,
+        },
+        {
+          __typename: 'TokenExchangeV2',
+          type: TokenTransactionTypeV2.SwapTransaction,
+          transactionHash: '0x99B86JUE4H1Ie36S0xZ4f8j1QGVECz083k82Gj2lummPt8i2ssu6Z7G5947Qe3Td',
+          timestamp: 1154636121000,
+          block: '11489458',
+          metadata: {},
+          inAmount: {
+            value: '0.5',
+            tokenAddress: mockCeurAddress,
+          },
+          outAmount: {
+            value: '0.5',
+            tokenAddress: mockCusdAddress,
+          },
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.0001217335',
+                tokenAddress: mockCusdAddress,
+              },
+            },
+          ],
         },
       ],
     },

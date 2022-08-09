@@ -162,7 +162,7 @@ describe('TransactionDetailsScreen', () => {
       __typename: 'TokenExchangeV2',
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
-      timestamp: 1542306118,
+      timestamp: 1531306119,
       block: '7523159',
       inAmount,
       outAmount,
