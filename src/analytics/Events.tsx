@@ -449,9 +449,9 @@ export enum FiatExchangeEvents {
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',
+  cico_fiat_details_back = 'cico_fiat_details_back',
   cico_fiat_details_cancel = 'cico_fiat_details_cancel',
   cico_fiat_details_error = 'cico_fiat_details_error',
-  cico_fiat_details_reselect = 'cico_fiat_details_reselect',
 
   // Fiat Connect transfer analytics
   cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',

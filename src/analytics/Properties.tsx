@@ -1031,12 +1031,12 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_fiat_details_cancel]: {
+  [FiatExchangeEvents.cico_fiat_details_back]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_fiat_details_reselect]: {
+  [FiatExchangeEvents.cico_fiat_details_cancel]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
