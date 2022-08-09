@@ -1326,7 +1326,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Ingresa los datos bancarios",
+    "header": "Introduce la información bancaria",
+    "headerSubTitle": "Desarrollado por {{provider}}",
+    "description": "Añade tus datos para vincular tu cuenta bancaria a Valora",
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Tu cuenta está vinculada a Valora.",
     "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
