@@ -1326,7 +1326,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Saisir les coordonnées bancaires",
+    "header": "Saisir les informations bancaires",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Ajoute tes informations pour lier ton compte bancaire à Valora.",
     "selectedPaymentOption": "Option de paiement sélectionnée",
     "addFiatAccountSuccess": "Votre compte a bien été associé à Valora.",
     "addFiatAccountResourceExist": "Vous avez déjà lié ce compte à Valora.",
