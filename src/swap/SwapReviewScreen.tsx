@@ -41,7 +41,7 @@ const TAG = 'SWAP_REVIEW_SCREEN'
 
 export function SwapReviewScreen(props: Props) {
   const { toToken, fromToken, swapAmount, updatedField } = props.route.params
-  const [swapInfo, setSwapInfo] = useState(null)
+  const [swapInfo, setSwapInfo] = useState(null as any)
   const [loading, setLoading] = useState(false)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
