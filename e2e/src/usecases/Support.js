@@ -1,5 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import { scrollIntoView } from '../utils/utils'
+import { scrollIntoView, waitForElementId } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
@@ -33,9 +33,7 @@ export default Support = () => {
 
   jest.retryTimes(2)
   it('Send Message to Support', async () => {
-    await waitFor(element(by.id('Hamburger')))
-      .toBeVisible()
-      .withTimeout(5000)
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Help', 'SettingsScrollView')
     await waitFor(element(by.id('Help')))
