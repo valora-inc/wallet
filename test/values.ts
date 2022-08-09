@@ -661,22 +661,27 @@ export const mockProviders: FetchProvidersOutput[] = [
   },
 ]
 
+export const mockFiatConnectProviderImage =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media'
+export const mockFiatConnectProviderIcon =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex-icon.jpg?alt=media'
+
 export const mockFiatConnectProviderInfo: FiatConnectProviderInfo[] = [
   {
     id: 'provider-two',
     providerName: 'Provider Two',
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    imageUrl: mockFiatConnectProviderImage,
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl: mockFiatConnectProviderIcon,
   },
   {
     id: 'provider-one',
     providerName: 'Provider One',
-    imageUrl:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    imageUrl: mockFiatConnectProviderImage,
     baseUrl: 'fakewebsite.valoraapp.com',
     websiteUrl: 'https://fakewebsite.valorapp.com',
+    iconUrl: mockFiatConnectProviderIcon,
   },
 ]
 
@@ -746,10 +751,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     provider: {
       id: 'provider-one',
       providerName: 'Provider One',
-      imageUrl:
-        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      imageUrl: mockFiatConnectProviderImage,
       baseUrl: 'fakewebsite.valoraapp.com',
       websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl: mockFiatConnectProviderIcon,
     },
     ok: false,
     error: FiatConnectError.FiatAmountTooHigh,
@@ -764,10 +769,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     provider: {
       id: 'provider-three',
       providerName: 'Provider Three',
-      imageUrl:
-        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      imageUrl: mockFiatConnectProviderImage,
       baseUrl: 'fakewebsite.valoraapp.com',
       websiteUrl: 'https://fakewebsite.valorapp.com',
+      iconUrl: mockFiatConnectProviderIcon,
     },
     ok: true,
     quote: {

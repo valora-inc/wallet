@@ -117,6 +117,10 @@
       "$address": {
         ".read": true
       }
+    },
+    "coinbasePayAddresses": {
+      ".read": true,
+      ".write": false
     }
   }
 }

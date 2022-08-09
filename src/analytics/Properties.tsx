@@ -50,7 +50,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { Field } from 'src/swap/SwapScreen'
+import { Field } from 'src/swap/useSwapQuote'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -172,6 +172,7 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_biometry_opt_in_complete]: undefined
   [SettingsEvents.settings_biometry_opt_in_error]: undefined
   [SettingsEvents.settings_biometry_opt_in_disable]: undefined
+  [SettingsEvents.settings_recovery_phrase]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -1002,6 +1003,14 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
+  [FiatExchangeEvents.cico_fc_review_error_retry]: {
+    provider: string
+    flow: CICOFlow
+  }
+  [FiatExchangeEvents.cico_fc_review_error_contact_support]: {
+    provider: string
+    flow: CICOFlow
+  }
   [FiatExchangeEvents.cico_fc_link_account_continue]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
@@ -1022,12 +1031,12 @@ interface FiatExchangeEventsProperties {
     provider: string
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_fiat_details_cancel]: {
+  [FiatExchangeEvents.cico_fiat_details_back]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow
   }
-  [FiatExchangeEvents.cico_fiat_details_reselect]: {
+  [FiatExchangeEvents.cico_fiat_details_cancel]: {
     fiatAccountSchema: FiatAccountSchema
     provider: string
     flow: CICOFlow

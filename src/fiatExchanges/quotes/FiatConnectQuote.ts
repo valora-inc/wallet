@@ -7,10 +7,6 @@ import {
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import {
-  SUPPORTED_FIAT_ACCOUNT_SCHEMAS,
-  SUPPORTED_FIAT_ACCOUNT_TYPES,
-} from 'src/fiatconnect/FiatDetailsScreen'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
@@ -26,6 +22,10 @@ const strings = {
   numDays: i18n.t('selectProviderScreen.numDays'),
   idRequired: i18n.t('selectProviderScreen.idRequired'),
 }
+
+// TODO: When we add support for more types be sure to add more unit tests to the FiatConnectQuotes class
+const SUPPORTED_FIAT_ACCOUNT_TYPES = new Set<FiatAccountType>([FiatAccountType.BankAccount])
+const SUPPORTED_FIAT_ACCOUNT_SCHEMAS = new Set<FiatAccountSchema>([FiatAccountSchema.AccountNumber])
 
 export default class FiatConnectQuote extends NormalizedQuote {
   quote: FiatConnectQuoteSuccess
@@ -145,6 +145,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getProviderWebsiteUrl(): string {
     return this.quote.provider.websiteUrl
+  }
+
+  getProviderIcon(): string {
+    return this.quote.provider.iconUrl
   }
 
   getFiatAmount(): string {

@@ -138,6 +138,7 @@ export type StackParamList = {
     flow: CICOFlow
     normalizedQuote: FiatConnectQuote
     fiatAccount: ObfuscatedFiatAccountData
+    shouldRefetchQuote?: boolean
   }
   [Screens.FiatConnectTransferStatus]: {
     flow: CICOFlow

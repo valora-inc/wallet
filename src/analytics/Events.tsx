@@ -61,6 +61,7 @@ export enum SettingsEvents {
   settings_biometry_opt_in_disable = 'settings_biometry_opt_in_disable',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
+  settings_recovery_phrase = 'settings_recovery_phrase',
 }
 
 export enum OnboardingEvents {
@@ -438,6 +439,8 @@ export enum FiatExchangeEvents {
   cico_fc_review_submit = 'cico_fc_review_submit',
   cico_fc_review_cancel = 'cico_fc_review_cancel',
   cico_fc_review_back = 'cico_fc_review_back',
+  cico_fc_review_error_contact_support = 'cico_fc_review_error_contact_support',
+  cico_fc_review_error_retry = 'cico_fc_review_error_retry',
 
   // Fiat Connect link account screen
   cico_fc_link_account_continue = 'cico_fc_link_account_continue',
@@ -446,9 +449,9 @@ export enum FiatExchangeEvents {
 
   // Fiat Connect fiat details screen
   cico_fiat_details_success = 'cico_fiat_details_success',
+  cico_fiat_details_back = 'cico_fiat_details_back',
   cico_fiat_details_cancel = 'cico_fiat_details_cancel',
   cico_fiat_details_error = 'cico_fiat_details_error',
-  cico_fiat_details_reselect = 'cico_fiat_details_reselect',
 
   // Fiat Connect transfer analytics
   cico_fc_transfer_api_error = 'cico_fc_transfer_api_error',

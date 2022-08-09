@@ -275,7 +275,7 @@
   "addFundsHeaderWithCurrency": "Füge {{token}} hinzu",
   "addFundsSubtitle": "Dein Valora-Konto aufladen",
   "exchanges": "Kryptobörsen",
-  "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deiner Region",
+  "noExchanges": "In deiner Region gibt es keine Börsen für {{digitalAsset}}.",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
   "cashOut": "Guthaben abheben",
   "cashOutSubtitle": "Verwende Dein Guthaben für Geschenkgutscheine und Einkäufe oder sende es an Kryptobörsen",
@@ -353,8 +353,8 @@
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
-  "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in deiner Region.",
-  "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}} .",
+  "noProviders": "In deiner Region gibt es keine Anbieter für {{digitalAsset}}.",
+  "noPaymentMethods": "In deiner Region gibt es keine Zahlungsmethoden für {{digitalAsset}}.",
   "switchCurrency": "Währung wechseln",
   "accept": "Akzeptieren",
   "at": "bei",
@@ -388,6 +388,8 @@
   "paste": "Einfügen",
   "choose": "Auswählen",
   "receivedPayment": "Erhaltene Zahlung",
+  "receivedNft": "NFT erhalten",
+  "sentNft": "NFT gesendet",
   "getStarted": "Erste Schritte",
   "manageCeloDollars": "Celo Dollars verwalten",
   "sendCeloDollars": "Celo Dollars senden",
@@ -598,8 +600,8 @@
     "button": "Einladung beenden"
   },
   "inviteRewardsBanner": {
-    "title": "Krypto senden, um einen Freund einzuladen (Beta)",
-    "body": "Sobald sie ihre Brieftasche {{appName}} eingerichtet haben, erhaltet ihr jeweils {{amount}} {{currency}} Belohnungen. Verdiene bis zu <0>{{maxAmount}} {{currency}}</0>!"
+    "title": "Krypto senden, um einen Freund einzuladen",
+    "body": "Ihr erhaltet ein NFT, sobald dein Freund sein {{appName}}-Konto eingerichtet hat. <0>Mehr erfahren</0>"
   },
   "getReward": "Erhalte ${{reward}}",
   "welcomeCelo": "Willkommen bei {{appName}}",
@@ -831,7 +833,7 @@
   "requestUnavailableNoDisplayNameHeader": "Die Telefonnummer deines Kontakts ist nicht mit einer Konto-Adresse verbunden.",
   "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an bestätigte Nummern gesendet werden.",
   "requestUnavailableNoNumberBody": "Dein Kontakt hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an verbundene Nummern gesendet werden.",
-  "requesting": "Wird angefordert",
+  "requesting": "Anfragen von",
   "request": "Anfragen",
   "requestToken": "{{token}} anfordern",
   "requestSent": "Anfrage gesendet",
@@ -1052,6 +1054,9 @@
   },
   "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Konto {{address}}",
+  "feedItemDepositInfo": "{{comment}}",
+  "feedItemDepositInfo_noComment": "Anzahlung erhalten",
+  "feedItemDepositTitle": "Einzahlung",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "<0></0> CELO gekauft",
   "feedItemExchangeInfo_soldGold": "<0></0> CELO verkauft",
@@ -1109,6 +1114,8 @@
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
   "transactionHeaderCeloReward": "Rewards erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
+  "transactionHeaderNftReceived": "NFT erhalten",
+  "transactionHeaderNftSent": "NFT gesendet",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
     "title": "Füge Guthaben hinzu, um loszulegen!",
@@ -1249,6 +1256,14 @@
     "bestRate": "Bester Tarif",
     "header": "Zahlungsmethode auswählen"
   },
+  "fiatConnectLinkAccountScreen": {
+    "bankAccount": {
+      "header": "Bankkonto verknüpfen",
+      "bodyTitle": "Bankkontodaten eingeben",
+      "description": "Enter bank account details to link your account to Valora. Your transactions will be powered by <0>{{providerName}}</0>."
+    },
+    "continue": "Weiter"
+  },
   "fiatConnectReviewScreen": {
     "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
@@ -1340,7 +1355,8 @@
     "review": "Überprüfen",
     "swapFrom": "Von",
     "swapTo": "Zu",
-    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem höheren Betrag oder wähle einen anderen Token."
+    "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle einen anderen Token.",
+    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

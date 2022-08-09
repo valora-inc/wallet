@@ -1,46 +1,57 @@
+import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { StackScreenProps } from '@react-navigation/stack'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
-import { useSelector } from 'react-redux'
-import variables from 'src/styles/variables'
-import fontStyles from 'src/styles/fonts'
 import React from 'react'
-import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import BackButton from 'src/components/BackButton'
-import TextButton from 'src/components/TextButton'
-import { emptyHeader } from 'src/navigator/Headers'
-import { Spacing } from 'src/styles/styles'
 import { useTranslation } from 'react-i18next'
-import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import CheckmarkCircle from 'src/icons/CheckmarkCircle'
-import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import Touchable from 'src/components/Touchable'
-import networkConfig from 'src/web3/networkConfig'
-import colors from 'src/styles/colors'
-import { FiatConnectTransfer } from 'src/fiatconnect/slice'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BackButton from 'src/components/BackButton'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import TextButton from 'src/components/TextButton'
+import Touchable from 'src/components/Touchable'
+import { fiatConnectTransferSelector } from 'src/fiatconnect/selectors'
+import { FiatConnectTransfer } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import CheckmarkCircle from 'src/icons/CheckmarkCircle'
+import OpenLinkIcon from 'src/icons/OpenLinkIcon'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
+import networkConfig from 'src/web3/networkConfig'
 type Props = StackScreenProps<StackParamList, Screens.FiatConnectTransferStatus>
 
-function onBack(flow: CICOFlow, provider: string) {
-  // TODO: navigate to ReviewFetchScreen once #2699 is merged
+function onBack(
+  flow: CICOFlow,
+  normalizedQuote: FiatConnectQuote,
+  fiatAccount: ObfuscatedFiatAccountData
+) {
   ValoraAnalytics.track(FiatExchangeEvents.cico_fc_transfer_error_retry, {
     flow,
-    provider,
+    provider: normalizedQuote.getProviderId(),
   })
-  navigateBack()
+  navigate(Screens.FiatConnectReview, {
+    flow,
+    normalizedQuote,
+    fiatAccount,
+    shouldRefetchQuote: true,
+  })
 }
 
 function FiatConnectWithdrawFailureSection({
   normalizedQuote,
   flow,
+  fiatAccount,
 }: {
   normalizedQuote: FiatConnectQuote
   flow: CICOFlow
+  fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
   const provider = normalizedQuote.getProviderId()
@@ -63,7 +74,7 @@ function FiatConnectWithdrawFailureSection({
       <Button
         style={styles.button}
         testID="TryAgain"
-        onPress={() => onBack(flow, provider)}
+        onPress={() => onBack(flow, normalizedQuote, fiatAccount)}
         text={t('fiatConnectStatusScreen.tryAgain')}
         type={BtnTypes.PRIMARY}
         size={BtnSizes.MEDIUM}
@@ -145,7 +156,7 @@ function FiatConnectWithdrawSuccessSection({
 
 export default function FiatConnectTransferStatusScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
-  const { normalizedQuote, flow } = route.params
+  const { normalizedQuote, flow, fiatAccount } = route.params
 
   const fiatConnectTransfer = useSelector(fiatConnectTransferSelector)!
 
@@ -161,7 +172,7 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => (
-        <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote.getProviderId())} />
+        <BackButton testID="Back" onPress={() => onBack(flow, normalizedQuote, fiatAccount)} />
       ),
       headerRight: () => (
         <TextButton testID="Cancel" style={styles.cancelBtn} onPress={onPressCancel}>
@@ -190,7 +201,11 @@ export default function FiatConnectTransferStatusScreen({ route, navigation }: P
   return (
     <SafeAreaView style={styles.content}>
       {fiatConnectTransfer.failed ? (
-        <FiatConnectWithdrawFailureSection flow={flow} normalizedQuote={normalizedQuote} />
+        <FiatConnectWithdrawFailureSection
+          flow={flow}
+          normalizedQuote={normalizedQuote}
+          fiatAccount={fiatAccount}
+        />
       ) : (
         <FiatConnectWithdrawSuccessSection
           flow={flow}
