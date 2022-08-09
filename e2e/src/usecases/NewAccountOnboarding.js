@@ -1,6 +1,6 @@
 import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import { enterPinUi, sleep } from '../utils/utils'
+import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
 
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
@@ -44,6 +44,7 @@ export default NewAccountOnboarding = () => {
 
   // Ideally this wouldn't be dependent on the previous test
   it('Setup Recovery Phrase', async () => {
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await element(by.id('DrawerItem/Recovery Phrase')).tap()
 

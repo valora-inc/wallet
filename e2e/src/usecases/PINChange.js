@@ -35,6 +35,7 @@ export default ChangePIN = () => {
 
     // Reload app and navigate to change pin
     await reloadReactNative()
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitFor(element(by.id('Settings')))
