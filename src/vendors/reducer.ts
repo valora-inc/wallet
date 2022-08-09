@@ -1,14 +1,16 @@
 import { Actions, ActionTypes } from 'src/vendors/actions'
-import { Vendors } from 'src/vendors/types'
+import { Vendor, Vendors } from 'src/vendors/types'
 
 export interface State {
   allVendors: Vendors
   loading: boolean
+  currentVendor: Vendor | undefined
 }
 
 export const initialState = {
   allVendors: {},
   loading: false,
+  currentVendor: undefined,
 }
 
 export const reducer = (state: State | undefined = initialState, action: ActionTypes): State => {
@@ -24,6 +26,11 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
       return {
         ...state,
         loading: action.loading,
+      }
+    case Actions.SET_CURRENT_VENDOR:
+      return {
+        ...state,
+        currentVendor: action.currentVendor,
       }
     default:
       return state

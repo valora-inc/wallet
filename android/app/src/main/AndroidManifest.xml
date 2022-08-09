@@ -59,5 +59,6 @@
       </intent-filter>
     </service>
     <meta-data android:name="CLEVERTAP_NOTIFICATION_ICON" android:value="ic_notification_small"/>
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDkHa4zhqNATWbZygFehXAYua9j37VKIKk" />
   </application>
 </manifest>

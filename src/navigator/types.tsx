@@ -182,6 +182,7 @@ export type StackParamList = {
     | undefined
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
+  [Screens.Map]: { typeFilter: string | undefined }
   [Screens.MerchantPayment]: { referenceId: string; apiBase: string }
   [Screens.NuxInterests]:
     | {

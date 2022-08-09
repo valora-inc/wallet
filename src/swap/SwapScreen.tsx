@@ -3,10 +3,8 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
-import useSelector from 'src/redux/useSelector'
 import variables from 'src/styles/variables'
 import ExchangeModal from 'src/swap/ExchangeModal'
-import { fetchSelectedSwapAssets } from 'src/swap/reducer'
 
 type Props = WithTranslation
 

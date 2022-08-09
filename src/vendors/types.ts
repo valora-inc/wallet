@@ -1,7 +1,4 @@
-export type Coordinates = {
-  latitude: string
-  longitude: string
-}
+import { LatLng } from 'react-native-maps'
 
 export type Vendor = {
   title: string
@@ -11,10 +8,14 @@ export type Vendor = {
   description: string
   tags: Array<string>
   currencies: Array<string>
-  location: Coordinates
-  address?: String
+  address?: string
+  phoneNumber?: string
+}
+
+export type VendorWithLocation = Vendor & {
+  location: LatLng
 }
 
 export type Vendors = {
-  [name: string]: Vendor
+  [name: string]: Vendor | VendorWithLocation
 }

@@ -1321,5 +1321,7 @@
     "body": "This helps Kolektivo better understand your needs and how you use the wallet.\n\n<0>Can I do this later?</0>\n\nYes, but we recommend this step to help you get the most out of your wallet experience.\n\n<1>Anonymous</1>\n\n{{appName}} does not store this information alongside any uniquely identifying data.",
     "dismiss": "Dismiss"
   },
-  "map": "Map"
+  "map": {
+    "title": "Map"
+  }
 }

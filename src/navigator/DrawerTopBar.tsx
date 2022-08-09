@@ -12,10 +12,11 @@ interface Props {
   middleElement?: React.ReactNode
   rightElement?: React.ReactNode
   scrollPosition?: Animated.Value<number>
+  style?: any
   testID?: string
 }
 
-function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: Props) {
+function DrawerTopBar({ style, middleElement, rightElement, scrollPosition, testID }: Props) {
   const navigation = useNavigation()
   const viewStyle = React.useMemo(
     () => ({
@@ -39,7 +40,11 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
 
   return (
     <Animated.View testID={testID} style={viewStyle}>
-      <TouchableOpacity style={styles.hamburger} onPress={onPressHamburger} hitSlop={iconHitslop}>
+      <TouchableOpacity
+        style={style ? [style, styles.hamburger] : styles.hamburger}
+        onPress={onPressHamburger}
+        hitSlop={iconHitslop}
+      >
         <Hamburger />
       </TouchableOpacity>
       {middleElement}

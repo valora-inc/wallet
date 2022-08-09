@@ -1,31 +1,29 @@
 import * as React from 'react'
-import { PixelRatio } from 'react-native'
-import Svg, { Path } from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg'
 import colors from 'src/styles/colors'
 
-interface Props {
-  size?: number
-  color?: colors
-  scaledSize?: number
-}
-
-const getSizing = (baseSize: number = 16, maxSize: number = 28) => {
-  return baseSize * PixelRatio.getFontScale() < maxSize
-    ? baseSize * PixelRatio.getFontScale()
-    : maxSize
-}
-
-function Pin({ size = 16, scaledSize = getSizing(size), color = colors.dark }: Props) {
+function Pin({ size = 25, color = colors.dark as string }) {
   return (
-    <Svg width={scaledSize} height={scaledSize} viewBox="0 0 28 34" fill="none">
-      <Path
-        d="M13.0584 32.5202L13.0574 32.5194C8.99189 28.9444 5.95037 25.6104 3.92662 22.5179C1.90253 19.425 0.905184 16.5869 0.905184 13.9987C0.905184 5.83789 7.12417 0.570833 13.9997 0.570833C20.8752 0.570833 27.0942 5.83789 27.0942 13.9987C27.0942 16.5869 26.0969 19.425 24.0748 22.518C22.0531 25.6105 19.0157 28.9445 14.9585 32.5195L14.9577 32.5202C14.4482 32.9731 13.5679 32.9731 13.0584 32.5202Z"
-        fill="#45ADA8"
-        stroke="white"
-        stroke-width="0.477604"
-      />
+    <Svg width={size} height={size} viewBox="0 0 95 107">
+      <G id="Kolektivo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <G id="Artboard" transform="translate(-1115.000000, -88.000000)" fill-rule="nonzero">
+          <G id="map" transform="translate(1115.287937, 88.295764)">
+            <Path
+              d="M46.9660184,100.416711 L22.8328763,73.8446376 C9.99923543,59.7140097 10.3666287,38.0396772 23.6718049,24.3521182 C36.3801516,11.2785414 57.2805302,10.9824638 70.354107,23.6908105 C70.5776544,23.9081128 70.7981125,24.1285708 71.0154148,24.3521182 C84.3484798,38.0683675 84.8001762,59.7612533 72.0496287,74.0206242 L48.4517262,100.410961 C48.0835912,100.822659 47.4514119,100.857974 47.039714,100.489839 C47.0138992,100.466755 46.9893008,100.442347 46.9660184,100.416711 Z"
+              id="Path-3"
+              stroke={color}
+              strokeWidth="10"
+            ></Path>
+            <Path
+              d="M47.7120627,58.7042365 C42.2120627,58.7042365 37.7120627,54.2042365 37.7120627,48.7042365 C37.7120627,43.2042365 42.2120627,38.7042365 47.7120627,38.7042365 C53.2120627,38.7042365 57.7120627,43.2042365 57.7120627,48.7042365 C57.7120627,54.2042365 53.2120627,58.7042365 47.7120627,58.7042365 Z"
+              id="Path"
+              fill={color}
+            ></Path>
+          </G>
+        </G>
+      </G>
     </Svg>
   )
 }
 
-export default React.memo(Pin)
+export default Pin

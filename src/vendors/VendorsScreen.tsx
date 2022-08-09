@@ -10,6 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { fetchVendors } from 'src/vendors/actions'
+import { vendorLoadingSelector, vendorsSelector } from 'src/vendors/selector'
 import { Vendor } from 'src/vendors/types'
 import VendorDetailBottomSheet from 'src/vendors/VendorDetailBottomSheet'
 import VendorListItem from 'src/vendors/VendorListItem'
@@ -18,8 +19,8 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 export default function VendorsScreen() {
   const dispatch = useDispatch()
-  const vendors = useSelector((state) => state.vendors.allVendors)
-  const isLoading = useSelector((state) => state.vendors.loading)
+  const vendors = useSelector(vendorsSelector)
+  const isLoading = useSelector(vendorLoadingSelector)
 
   const sections = map(vendors, (vendor: Vendor) => {
     return vendor

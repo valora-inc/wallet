@@ -11,7 +11,6 @@ export function* watchFetchVendors(): any {
       if (vendorsInitialized) yield take(Actions.FETCH_VENDORS)
       yield put(setLoading(true))
       const vendors: any = yield call(fetchAllVendors)
-
       const formattedVendorObject = formatVendors(vendors)
       yield put(setVendors(formattedVendorObject))
       yield put(setLoading(false))
