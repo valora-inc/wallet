@@ -93,7 +93,7 @@ describe('store state', () => {
       Object {
         "_persist": Object {
           "rehydrated": true,
-          "version": 70,
+          "version": 71,
         },
         "account": Object {
           "acceptedTerms": false,
@@ -145,6 +145,7 @@ describe('store state', () => {
           "locked": false,
           "logPhoneNumberTypeEnabled": false,
           "loggedIn": false,
+          "maxSwapSlippagePercentage": 2,
           "minVersion": null,
           "numberVerified": false,
           "paymentDeepLinkHandler": "",

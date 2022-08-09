@@ -1938,6 +1938,9 @@
                 "loggedIn": {
                     "type": "boolean"
                 },
+                "maxSwapSlippagePercentage": {
+                    "type": "number"
+                },
                 "minVersion": {
                     "type": [
                         "null",
@@ -2052,6 +2055,7 @@
                 "locked",
                 "logPhoneNumberTypeEnabled",
                 "loggedIn",
+                "maxSwapSlippagePercentage",
                 "minVersion",
                 "numberVerified",
                 "paymentDeepLinkHandler",
