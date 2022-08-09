@@ -41,6 +41,7 @@ export default function SwapContent({ exchange }: Props) {
             showSymbol={true}
             showExplicitPositiveSign={true}
             hideSign={true}
+            testID="SwapContent/swapTo"
           />
         </View>
         <View style={styles.amountRow}>
@@ -52,12 +53,12 @@ export default function SwapContent({ exchange }: Props) {
             showLocalAmount={false}
             showSymbol={true}
             hideSign={true}
+            testID="SwapContent/swapFrom"
           />
         </View>
         <HorizontalLine />
         <View style={styles.amountRow}>
           <Text style={styles.exchangeBodyText}>{t('swapContent.rate')}</Text>
-
           <View style={styles.rowContainer}>
             <TokenDisplay
               style={styles.currencyAmountText}
@@ -66,6 +67,7 @@ export default function SwapContent({ exchange }: Props) {
               showLocalAmount={false}
               showSymbol={true}
               hideSign={true}
+              testID="SwapContent/rateFrom"
             />
             <Text style={styles.rowContainer}>{'  ≈  '}</Text>
             <TokenDisplay
@@ -75,6 +77,7 @@ export default function SwapContent({ exchange }: Props) {
               showLocalAmount={false}
               showSymbol={true}
               hideSign={true}
+              testID="SwapContent/rateTo"
             />
           </View>
         </View>
@@ -87,6 +90,7 @@ export default function SwapContent({ exchange }: Props) {
             showLocalAmount={false}
             showSymbol={true}
             hideSign={true}
+            testID="SwapContent/estimatedFee"
           />
         </View>
         <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
