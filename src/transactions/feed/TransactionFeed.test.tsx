@@ -54,31 +54,6 @@ const MOCK_RESPONSE: QueryResponse = {
           transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b',
           type: TokenTransactionTypeV2.Received,
         },
-        {
-          __typename: 'TokenExchangeV2',
-          type: TokenTransactionTypeV2.SwapTransaction,
-          transactionHash: '0x99B86JUE4H1Ie36S0xZ4f8j1QGVECz083k82Gj2lummPt8i2ssu6Z7G5947Qe3Td',
-          timestamp: 1154636121000,
-          block: '11489458',
-          metadata: {},
-          inAmount: {
-            value: '0.5',
-            tokenAddress: mockCeurAddress,
-          },
-          outAmount: {
-            value: '0.5',
-            tokenAddress: mockCusdAddress,
-          },
-          fees: [
-            {
-              type: 'SECURITY_FEE',
-              amount: {
-                value: '0.0001217335',
-                tokenAddress: mockCusdAddress,
-              },
-            },
-          ],
-        },
       ],
     },
   },
@@ -108,6 +83,21 @@ const MOCK_RESPONSE_NEXT_PAGE: QueryResponse = {
           transactionHash: '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8a',
           type: TokenTransactionTypeV2.Received,
         },
+      ],
+    },
+  },
+}
+
+const SWAP_MOCK_RESPONSE: QueryResponse = {
+  data: {
+    tokenTransactionsV2: {
+      pageInfo: {
+        startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
+        endCursor: END_CURSOR,
+        hasNextPage: true,
+        hasPreviousPage: false,
+      },
+      transactions: [
         {
           __typename: 'TokenExchangeV2',
           type: TokenTransactionTypeV2.SwapTransaction,
@@ -260,5 +250,18 @@ describe('TransactionFeed', () => {
     fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(tree.getByTestId('TransactionList').props.data.length).toBe(2)
+  })
+
+  it('renders swap feed item correctly', async () => {
+    mockFetch.mockResponse(JSON.stringify(SWAP_MOCK_RESPONSE))
+
+    const tree = renderScreen({})
+
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+
+    expect(tree).toMatchSnapshot()
   })
 })
