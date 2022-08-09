@@ -91,6 +91,7 @@ export default NewAccountPhoneVerification = () => {
         .withTimeout(45 * 1000)
 
       // Assert that correct phone number is present in sidebar
+      await waitForElementId('Hamburger')
       await element(by.id('Hamburger')).tap()
       await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
 
@@ -149,6 +150,7 @@ export default NewAccountPhoneVerification = () => {
         .withTimeout(30 * 1000)
 
       // Assert that correct phone number is present in sidebar
+      await waitForElementId('Hamburger')
       await element(by.id('Hamburger')).tap()
       await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
 
@@ -194,6 +196,7 @@ export default NewAccountPhoneVerification = () => {
     await waitForElementId('SendOrRequestBar')
 
     // Assert that 'Connect phone number' is present in settings
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Settings', 'SettingsScrollView')
     await waitForElementId('Settings')
