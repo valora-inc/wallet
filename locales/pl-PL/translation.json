@@ -1330,7 +1330,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Wprowadź dane banku",
+    "header": "Wprowadź informacje o banku",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Dodaj swoje dane, aby połączyć swoje konto bankowe z Valorą",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
