@@ -5,6 +5,7 @@ const jestExpect = require('expect')
 export default onRamps = () => {
   beforeEach(async () => {
     await reloadReactNative()
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
     await waitForElementId('addFunds')

@@ -1,6 +1,6 @@
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { formatUri } from '../utils/encoding'
-import { scrollIntoView, sleep } from '../utils/utils'
+import { scrollIntoView, sleep, waitForElementId } from '../utils/utils'
 
 const WalletConnectAPIKey = process.env.WALLET_CONNECT_API_KEY || ''
 let uri, walletConnector
@@ -53,13 +53,12 @@ export default WalletConnect = () => {
 
   it('Then should be able to disconnect a session', async () => {
     // Tap Hamburger
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
 
     // Scroll to settings
     await scrollIntoView('Settings', 'SettingsScrollView')
-    await waitFor(element(by.id('Settings')))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
+    await waitForElementId('Settings')
     await element(by.id('Settings')).tap()
     await element(by.id('ConnectedApplications')).tap()
     await element(by.text('Tap to Disconnect')).tap()
