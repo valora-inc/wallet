@@ -1326,7 +1326,9 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Immetti i dettagli della banca",
+    "header": "Inserisci le informazioni sulla banca",
+    "headerSubTitle": "Alimentato da {{provider}}",
+    "description": "Aggiungi i tuoi dati per collegare il tuo conto corrente a Valora",
     "selectedPaymentOption": "Opzione di pagamento selezionata",
     "addFiatAccountSuccess": "Il tuo conto è stato collegato a Valora.",
     "addFiatAccountResourceExist": "Hai già collegato questo conto a Valora.",
