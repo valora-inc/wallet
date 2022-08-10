@@ -7,7 +7,7 @@ import {
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, KeyboardType, StyleSheet, Text, View } from 'react-native'
 import PickerSelect from 'react-native-picker-select'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -16,14 +16,16 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
-import BorderlessButton from 'src/components/BorderlessButton'
 import Button, { BtnSizes } from 'src/components/Button'
+import CancelButton from 'src/components/CancelButton'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
 import { getFiatConnectClient } from 'src/fiatconnect/clients'
 import { fiatAccountUsed } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
-import ForwardChevron from 'src/icons/ForwardChevron'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { styles as headerStyles } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -46,6 +48,7 @@ interface FormFieldParam {
   regex: RegExp
   placeholderText: string
   errorMessage: string
+  keyboardType: KeyboardType
 }
 interface ImplicitParam<T, K extends keyof T> {
   name: string
@@ -74,6 +77,7 @@ const getAccountNumberSchema = (implicitParams: {
     regex: /.*?/,
     placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
     errorMessage: i18n.t('fiatAccountSchema.institutionName.errorMessage'),
+    keyboardType: 'default',
   },
   accountNumber: {
     name: 'accountNumber',
@@ -81,6 +85,7 @@ const getAccountNumberSchema = (implicitParams: {
     regex: /^[0-9]{10}$/,
     placeholderText: i18n.t('fiatAccountSchema.accountNumber.placeholderText'),
     errorMessage: i18n.t('fiatAccountSchema.accountNumber.errorMessage'),
+    keyboardType: 'number-pad',
   },
   country: { name: 'country', value: implicitParams.country },
   fiatAccountType: { name: 'fiatAccountType', value: FiatAccountType.BankAccount },
@@ -106,19 +111,52 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: i18n.t('fiatDetailsScreen.header'),
-      headerLeft: () => <BackButton onPress={onPressBack} />,
+      headerTitle: () => (
+        <View style={headerStyles.header}>
+          <Text style={headerStyles.headerTitle} numberOfLines={1}>
+            {t('fiatDetailsScreen.header')}
+          </Text>
+          <View style={styles.headerSubTitleContainer}>
+            <View style={styles.headerImageContainer}>
+              <Image
+                testID="headerProviderIcon"
+                style={styles.headerImage}
+                source={{ uri: quote.getProviderIcon() }}
+                resizeMode="contain"
+              />
+            </View>
+            <Text numberOfLines={1} style={headerStyles.headerSubTitle}>
+              {t('fiatDetailsScreen.headerSubTitle', { provider: quote.getProviderName() })}
+            </Text>
+          </View>
+        </View>
+      ),
+      headerLeft: () => (
+        <BackButton
+          eventName={FiatExchangeEvents.cico_fiat_details_back}
+          eventProperties={{
+            flow,
+            provider: quote.getProviderId(),
+            fiatAccountSchema,
+          }}
+          testID="backButton"
+        />
+      ),
+      headerRight: () => (
+        <CancelButton
+          onCancel={() => {
+            ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_cancel, {
+              flow: flow,
+              provider: quote.getProviderId(),
+              fiatAccountSchema,
+            })
+            navigate(Screens.FiatExchange)
+          }}
+          style={styles.cancelBtn}
+        />
+      ),
     })
   }, [navigation])
-
-  const onPressBack = async () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_cancel, {
-      flow,
-      provider: quote.getProviderId(),
-      fiatAccountSchema,
-    })
-    navigateBack()
-  }
 
   const getSchema = (fiatAccountSchema: FiatAccountSchema) => {
     switch (fiatAccountSchema) {
@@ -242,15 +280,6 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     }
   }
 
-  const onPressSelectedPaymentOption = () => {
-    ValoraAnalytics.track(FiatExchangeEvents.cico_fiat_details_reselect, {
-      flow,
-      provider: quote.getProviderId(),
-      fiatAccountSchema,
-    })
-    navigateBack()
-  }
-
   const validateInput = () => {
     setValidInputs(false)
     const newErrorSet = new Set<string>()
@@ -287,8 +316,9 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
+        <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
         {formFields.map((field, index) => {
           return (
             <View style={styles.inputView} key={`inputField-${index}`}>
@@ -319,6 +349,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
                   value={inputRefs.current[index]}
                   placeholder={field.placeholderText}
                   onChangeText={(value) => setInputValue(value, index)}
+                  keyboardType={field.keyboardType}
                 />
               )}
               {errors.has(field.name) && (
@@ -329,49 +360,34 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
             </View>
           )
         })}
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
-      <View style={styles.footer}>
-        <View style={styles.paymentOption}>
-          <BorderlessButton onPress={onPressSelectedPaymentOption} testID="selectedProviderButton">
-            <View style={styles.paymentOptionButton}>
-              <Text style={styles.paymentOptionText}>
-                {t('fiatDetailsScreen.selectedPaymentOption')}
-              </Text>
-              <ForwardChevron color={colors.gray4} />
-              <Image
-                source={{
-                  uri: quote.getProviderLogo(),
-                }}
-                style={styles.iconImage}
-                resizeMode="contain"
-              />
-            </View>
-          </BorderlessButton>
-        </View>
-        <View>
-          <Button
-            testID="nextButton"
-            text={t('next')}
-            onPress={onPressNext}
-            disabled={!validInputs}
-            style={styles.nextButton}
-            size={BtnSizes.FULL}
-          />
-        </View>
-      </View>
+      <Button
+        testID="nextButton"
+        text={t('next')}
+        onPress={onPressNext}
+        disabled={!validInputs}
+        style={styles.nextButton}
+        size={BtnSizes.FULL}
+      />
+      <KeyboardSpacer />
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    paddingHorizontal: 24,
-    paddingVertical: 4,
     flex: 1,
+    justifyContent: 'space-between',
+  },
+  contentContainers: {
+    paddingHorizontal: 16,
+  },
+  descriptionText: {
+    ...fontStyles.regular,
+    color: colors.gray4,
+    paddingBottom: 12,
+    paddingTop: 24,
   },
   inputLabel: {
     ...fontStyles.regular500,
@@ -400,51 +416,35 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 12,
-    lineHeight: LINE_HEIGHT, // vertical align = center
+    lineHeight: LINE_HEIGHT,
   },
   error: {
     fontSize: 12,
     color: '#FF0000', // color red
   },
-  footer: {
-    flex: 1,
-    flexDirection: 'column',
-    paddingBottom: 28,
-  },
-  paymentOption: {
-    flex: 1,
-    color: colors.gray2,
-    marginBottom: 4,
-    justifyContent: 'center',
-  },
-  paymentOptionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    textAlign: 'center',
-    flexWrap: 'nowrap',
-  },
-  paymentOptionText: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    marginLeft: 16,
-    paddingRight: 4,
-  },
-  iconImage: {
-    marginLeft: 16,
-    height: 48,
-    width: 48,
-  },
   nextButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+    padding: variables.contentPadding,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
     flex: 1,
     alignContent: 'center',
     justifyContent: 'center',
+  },
+  cancelBtn: {
+    color: colors.gray4,
+  },
+  headerSubTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerImageContainer: {
+    height: 12,
+    width: 12,
+    marginRight: 6,
+  },
+  headerImage: {
+    flex: 1,
   },
 })
 export default FiatDetailsScreen
