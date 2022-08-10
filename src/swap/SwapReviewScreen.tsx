@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -39,7 +40,6 @@ const TAG = 'SWAP_REVIEW_SCREEN'
 
 export function SwapReviewScreen(props: Props) {
   const { toToken, fromToken, swapAmount, updatedField } = props.route.params
-  const [swapInfo, setSwapInfo] = useState(null as any)
   const [loading, setLoading] = useState(false)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
@@ -69,10 +69,6 @@ export function SwapReviewScreen(props: Props) {
       toToken,
       fromToken,
       buyAmount: swapAmount[Field.TO] ?? '',
-    })
-
-    void getSwapInfo().then((data) => {
-      setSwapInfo(data)
     })
   }, [])
 
@@ -108,6 +104,9 @@ export function SwapReviewScreen(props: Props) {
     }
   }
 
+  // Get swap info on load
+  const swapInfo = useAsync(getSwapInfo, [])
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
@@ -124,14 +123,14 @@ export function SwapReviewScreen(props: Props) {
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.tokenText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
+                  amount={divideByWei(swapInfo?.result?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'FromSwapAmountToken'}
                 />
                 <TokenDisplay
                   style={styles.tokenSubText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
+                  amount={divideByWei(swapInfo?.result?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={true}
                   testID={`FromSwapAmountTokenLocal`}
@@ -144,8 +143,8 @@ export function SwapReviewScreen(props: Props) {
                 <TokenDisplay
                   style={[styles.tokenText, { color: colors.greenUI }]}
                   amount={divideByWei(
-                    swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                      swapInfo?.unvalidatedSwapTransaction?.gas
+                    swapInfo?.result?.unvalidatedSwapTransaction?.buyAmount -
+                      swapInfo?.result?.unvalidatedSwapTransaction?.gas
                   )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
@@ -173,7 +172,7 @@ export function SwapReviewScreen(props: Props) {
               <Text style={styles.label}>{t('exchangeRate')}</Text>
               <Text style={styles.transactionDetailsRightText}>
                 {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                  new BigNumber(swapInfo?.unvalidatedSwapTransaction?.price)
+                  new BigNumber(swapInfo?.result?.unvalidatedSwapTransaction?.price)
                 )} ${toTokenSymbol}`}
               </Text>
             </View>
@@ -182,7 +181,7 @@ export function SwapReviewScreen(props: Props) {
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.transactionDetailsRightText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas)}
+                  amount={divideByWei(swapInfo?.result?.unvalidatedSwapTransaction?.gas)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'EstimatedGas'}
