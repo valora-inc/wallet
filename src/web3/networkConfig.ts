@@ -34,6 +34,7 @@ interface NetworkConfig {
   nftsValoraAppUrl: string
   celoExplorerBaseTxUrl: string
   approveSwapUrl: string
+  executeSwapUrl: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -84,6 +85,7 @@ const CELO_EXPLORER_BASE_TX_URL_MAINNET = 'https://explorer.celo.org/tx/'
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
+const EXECUTE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/executeSwap`
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -112,6 +114,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
     approveSwapUrl: APPROVE_SWAP_URL,
+    executeSwapUrl: EXECUTE_SWAP_URL,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -138,6 +141,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
     approveSwapUrl: APPROVE_SWAP_URL,
+    executeSwapUrl: EXECUTE_SWAP_URL,
   },
 }
 
