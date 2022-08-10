@@ -1913,10 +1913,7 @@
                     "type": "boolean"
                 },
                 "createAccountCopyTestConfig": {
-                    "type": [
-                      "null",
-                      "string"
-                    ]
+                    "type": "string"
                 },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"

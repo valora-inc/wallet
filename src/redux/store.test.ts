@@ -135,7 +135,7 @@ describe('store state', () => {
           "celoEuroEnabled": true,
           "celoWithdrawalEnabledInExchange": true,
           "coinbasePayEnabled": false,
-          "createAccountCopyTestConfig": null,
+          "createAccountCopyTestConfig": "control",
           "fiatConnectCashInEnabled": false,
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,

@@ -58,7 +58,7 @@ export default function Welcome() {
         <Button
           onPress={onPressCreateAccount}
           text={
-            createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+            createAccountCopyTestConfig === 'control'
               ? t('welcome.createAccount')
               : t('welcome.createNewWallet')
           }
@@ -70,7 +70,7 @@ export default function Welcome() {
         <Button
           onPress={onPressRestoreAccount}
           text={
-            createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+            createAccountCopyTestConfig === 'control'
               ? t('welcome.restoreAccount')
               : createAccountCopyTestConfig === 'treatment1'
               ? t('welcome.restoreWallet')

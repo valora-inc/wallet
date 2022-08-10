@@ -51,7 +51,7 @@ function NameAndPicture({ navigation }: Props) {
           title={t(
             choseToRestoreAccount
               ? 'restoreAccount'
-              : createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+              : createAccountCopyTestConfig === 'control'
               ? 'createAccount'
               : 'createProfile'
           )}

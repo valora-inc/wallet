@@ -73,5 +73,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   shouldShowRecoveryPhraseInSettings: false,
-  createAccountCopyTestConfig: null,
+  createAccountCopyTestConfig: 'control',
 }

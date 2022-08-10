@@ -55,7 +55,7 @@ export interface State {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
-  createAccountCopyTestConfig: string | null
+  createAccountCopyTestConfig: string
 }
 
 const initialState = {

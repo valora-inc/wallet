@@ -196,7 +196,7 @@ export interface RemoteConfigValues {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
-  createAccountCopyTestConfig: string | null
+  createAccountCopyTestConfig: string
 }
 
 export function* appRemoteFeatureFlagSaga() {
