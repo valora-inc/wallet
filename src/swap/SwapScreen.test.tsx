@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import { act } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import SwapScreen from 'src/swap/SwapScreen'
 import { createMockStore } from 'test/utils'
 import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
@@ -247,5 +249,32 @@ describe('SwapScreen', () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
     )
+  })
+
+  it('should be able to navigate to swap review screen', () => {
+    mockFetch.mockResponse(
+      JSON.stringify({
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
+      })
+    )
+    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
+
+    void act(() => {
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+      jest.runAllTimers()
+    })
+
+    fireEvent.press(getByText('swapScreen.review'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen, {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      updatedField: 'FROM',
+      swapAmount: {
+        FROM: '10',
+        TO: '12.345678',
+      },
+    })
   })
 })
