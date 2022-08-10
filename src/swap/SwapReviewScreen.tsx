@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { PixelRatio, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -17,11 +17,9 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import InfoIcon from 'src/icons/InfoIcon'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
-import Times from 'src/icons/Times'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
@@ -112,10 +110,7 @@ export function SwapReviewScreen(props: Props) {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <CustomHeader
-        title={t('swapReviewScreen.title')}
-        left={<BackButton />}
-      />
+      <CustomHeader title={t('swapReviewScreen.title')} left={<BackButton />} />
       <DisconnectBanner />
       {loading || fetchSwapQuoteError ? (
         <View style={styles.loadingContentContainer}>
