@@ -58,6 +58,7 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
   })),
 }))
 jest.mock('src/fiatconnect/clients')
+jest.useFakeTimers()
 
 const store = createMockStore({})
 const quoteWithAllowedValues = new FiatConnectQuote({
@@ -207,7 +208,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
     })
   })
-  it('shows validation error if the input field does not fulfill the requirement', () => {
+  it('shows validation error if the input field does not fulfill the requirement after delay', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
@@ -221,6 +222,28 @@ describe('FiatDetailsScreen', () => {
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
     // Should see an error message saying the account number field is invalid
+    // after delay
+    expect(queryByTestId('errorMessage')).toBeFalsy()
+    jest.advanceTimersByTime(1500)
+    expect(queryByTestId('errorMessage')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+  })
+  it('shows validation error if the input field does not fulfill the requirement immediately on blur', () => {
+    const { queryByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId('errorMessage')).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
+    fireEvent(getByTestId('input-accountNumber'), 'blur')
+
+    // Should see an error message saying the account number field is invalid
+    // immediately since the field loses focus
     expect(queryByTestId('errorMessage')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
   })
