@@ -259,7 +259,7 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
+    const { getByText, getByTestId } = renderScreen({})
 
     void act(() => {
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
