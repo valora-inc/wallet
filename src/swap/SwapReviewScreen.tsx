@@ -145,7 +145,7 @@ export function SwapReviewScreen(props: Props) {
                   style={[styles.tokenText, { color: colors.greenUI }]}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                    swapInfo?.unvalidatedSwapTransaction?.gas
+                      swapInfo?.unvalidatedSwapTransaction?.gas
                   )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
