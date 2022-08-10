@@ -1254,7 +1254,7 @@
     "numDays": "1-3 giorni",
     "oneHour": "Meno di un'ora",
     "bestRate": "Miglior tasso",
-    "header": "Seleziona il metodo di pagamento"
+    "header": "Metodo di pagamento"
   },
   "fiatConnectLinkAccountScreen": {
     "bankAccount": {
@@ -1310,14 +1310,14 @@
       "fiatExchangeSubtitle": "Aggiunta di fondi in il tuo conto {{appName}} con una banca, una carta o un exchange.",
       "selectCurrencyTitle": "Aggiungi fondi",
       "exchangeAmountTitle": "Aggiungi {{currency}}",
-      "selectProviderHeader": "Seleziona il metodo di pagamento"
+      "selectProviderHeader": "Metodo di pagamento"
     },
     "cashOut": {
       "fiatExchangeTitle": "Preleva fondi",
       "fiatExchangeSubtitle": "Preleva di fondi da {{appName}} per trasferirli su un conto bancario, una carta, un exchange di criptovalute o denaro mobile.",
       "selectCurrencyTitle": "Preleva fondi",
       "exchangeAmountTitle": "Preleva {{currency}}",
-      "selectProviderHeader": "Seleziona il metodo di prelievo"
+      "selectProviderHeader": "Metodo di prelievo"
     },
     "spend": {
       "fiatExchangeTitle": "Spendi fondi",
