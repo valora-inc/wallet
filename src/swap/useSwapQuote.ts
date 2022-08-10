@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import qs from 'qs'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TokenBalance } from 'src/tokens/slice'
@@ -59,7 +58,8 @@ const useSwapQuote = () => {
       [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
       userAddress: walletAddress,
     }
-    const requestUrl = `${networkConfig.approveSwapUrl}?${qs.stringify(params)}`
+    const queryParams = new URLSearchParams({ ...(params as Record<string, string>) }).toString()
+    const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
     if (requestUrl === requestUrlRef.current) {
       // do nothing if the previous request url is the same as the current
       return

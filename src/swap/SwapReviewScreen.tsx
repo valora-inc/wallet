@@ -1,6 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import qs from 'qs'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PixelRatio, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -91,7 +90,8 @@ export function SwapReviewScreen(props: Props) {
         slippagePercentage: maxSlippageDecimal,
         userAddress: walletAddress,
       }
-      const requestUrl = `${networkConfig.approveSwapUrl}?${qs.stringify(params)}`
+      const queryParams = new URLSearchParams({ ...(params as Record<string, string>) }).toString()
+      const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
       const response = await fetch(requestUrl)
       if (!response.ok) {
         Logger.error(TAG, `Failure response fetching token Swap: ${response}`)
