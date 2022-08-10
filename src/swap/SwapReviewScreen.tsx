@@ -33,7 +33,7 @@ import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
-import { accountAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
@@ -47,7 +47,7 @@ export function SwapReviewScreen(props: Props) {
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
-  const walletAddress = useSelector(accountAddressSelector)
+  const walletAddress = useSelector(walletAddressSelector)
   const maxSlippageDecimal = `${maxSlippagePercent / 100}`
 
   const { t } = useTranslation()
