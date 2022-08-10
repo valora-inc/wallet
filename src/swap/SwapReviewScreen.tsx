@@ -68,7 +68,7 @@ export function SwapReviewScreen(props: Props) {
     ValoraAnalytics.track(SwapEvents.swap_review_screen_open, {
       toToken,
       fromToken,
-      swapAmount,
+      buyAmount: swapAmount[Field.TO] ?? '',
     })
 
     void getSwapInfo().then((data) => {

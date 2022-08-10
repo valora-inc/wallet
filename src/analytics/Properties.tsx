@@ -50,7 +50,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { RecipientType } from 'src/recipients/recipient'
-import { Field, SwapAmount } from 'src/swap/useSwapQuote'
+import { Field } from 'src/swap/useSwapQuote'
 import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -1281,7 +1281,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_review_screen_open]: {
     toToken: string
     fromToken: string
-    swapAmount: SwapAmount
+    buyAmount: string
   }
 }
 
