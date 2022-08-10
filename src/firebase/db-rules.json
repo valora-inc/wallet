@@ -87,8 +87,11 @@
       ".write": false
     },
     "persona": {
-      ".write": false,
-      ".read": true
+      ".write": "auth.uid === 'ihl-service-worker'",
+      ".read": "auth.uid === 'ihl-service-worker'",
+      "$address": {
+        ".read": true
+      }
     },
     "inHouseLiquidity": {
       ".write": "auth.uid === 'ihl-service-worker'",
