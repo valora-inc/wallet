@@ -10,7 +10,7 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { registrationStepsSelector } from 'src/app/selectors'
+import { createAccountCopyTestConfigSelector, registrationStepsSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -20,7 +20,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
-import useTypedSelector from 'src/redux/useSelector'
+import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { saveProfilePicture } from 'src/utils/image'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -42,11 +42,19 @@ function NameAndPicture({ navigation }: Props) {
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
+  const createAccountCopyTestConfig = useSelector(createAccountCopyTestConfigSelector)
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
+          title={t(
+            choseToRestoreAccount
+              ? 'restoreAccount'
+              : createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+              ? 'createAccount'
+              : 'createProfile'
+          )}
           subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),

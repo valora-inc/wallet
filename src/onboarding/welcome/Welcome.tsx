@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { createAccountCopyTestConfigSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
@@ -23,6 +24,8 @@ export default function Welcome() {
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()
+
+  const createAccountCopyTestConfig = useSelector(createAccountCopyTestConfigSelector)
 
   const navigateNext = () => {
     if (!acceptedTerms) {
@@ -54,7 +57,11 @@ export default function Welcome() {
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
         <Button
           onPress={onPressCreateAccount}
-          text={t('welcome.createAccount')}
+          text={
+            createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+              ? t('welcome.createAccount')
+              : t('welcome.createNewWallet')
+          }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
           style={styles.createAccountButton}
@@ -62,7 +69,13 @@ export default function Welcome() {
         />
         <Button
           onPress={onPressRestoreAccount}
-          text={t('welcome.restoreAccount')}
+          text={
+            createAccountCopyTestConfig === null || createAccountCopyTestConfig === 'control'
+              ? t('welcome.restoreAccount')
+              : createAccountCopyTestConfig === 'treatment1'
+              ? t('welcome.restoreWallet')
+              : t('welcome.iAlreadyHaveAWallet')
+          }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING_SECONDARY}
           testID={'RestoreAccountButton'}

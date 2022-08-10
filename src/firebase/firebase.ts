@@ -299,6 +299,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
+    createAccountCopyTestConfig: flags.createAccountCopyTestConfig.asString(),
   }
 }
 

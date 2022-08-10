@@ -55,6 +55,7 @@ export interface State {
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
+  createAccountCopyTestConfig: string | null
 }
 
 const initialState = {
@@ -103,6 +104,7 @@ const initialState = {
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
+  createAccountCopyTestConfig: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestConfig,
 }
 
 export const appReducer = (
@@ -220,6 +222,7 @@ export const appReducer = (
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         shouldShowRecoveryPhraseInSettings: action.configValues.shouldShowRecoveryPhraseInSettings,
+        createAccountCopyTestConfig: action.configValues.createAccountCopyTestConfig,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
