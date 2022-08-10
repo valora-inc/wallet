@@ -356,7 +356,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
               }
               setCurrentField(index)
             }}
-            onNext={() => {
+            goToNextField={() => {
               goToField(index + 1)
             }}
             allowedValues={allowedValues[field.name]}
@@ -399,7 +399,7 @@ function FormField({
   hasError,
   onChange,
   onFocus,
-  onNext,
+  goToNextField,
   fieldRef,
 }: {
   field: FormFieldParam
@@ -409,7 +409,7 @@ function FormField({
   hasError: boolean
   onChange: (value: any) => void
   onFocus: () => void
-  onNext: () => void
+  goToNextField: () => void
   fieldRef: React.MutableRefObject<any>
 }) {
   const { t } = useTranslation()
@@ -441,16 +441,17 @@ function FormField({
           // similar to other free form text fields
           useNativeAndroidPickerStyle={false}
           onValueChange={(value) => {
+            // onOpen doesn't work on android, so this is just invoked here
             onFocus()
             onInputChange(value)
-            onNext()
+            // go to next field after a selection is made
+            goToNextField()
           }}
           placeholder={{ label: t('fiatDetailsScreen.selectItem'), value: null }}
           items={allowedValues.map((item) => ({
             label: item,
             value: item,
           }))}
-          // onOpen={onFocus}
           doneText={t('fiatDetailsScreen.selectDone')}
           ref={fieldRef}
         />
