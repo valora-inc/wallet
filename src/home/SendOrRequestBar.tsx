@@ -1,11 +1,3 @@
-import {
-  CryptoType,
-  FeeFrequency,
-  FeeType,
-  FiatAccountSchema,
-  FiatAccountType,
-  FiatType,
-} from '@fiatconnect/fiatconnect-types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -13,8 +5,6 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow } from 'src/fiatExchanges/utils'
 import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -40,53 +30,7 @@ export default function SendOrRequestBar() {
 
   const onPressQrCode = () => {
     ValoraAnalytics.track(HomeEvents.home_qr)
-    navigate(Screens.FiatDetailsScreen, {
-      flow: CICOFlow.CashOut,
-      quote: new FiatConnectQuote({
-        flow: CICOFlow.CashOut,
-        quote: {
-          provider: {
-            id: 'provider-two',
-            providerName: 'Provider Two',
-            imageUrl:
-              'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png',
-            baseUrl: 'fakewebsite.valoraapp.com',
-            websiteUrl: 'https://valoraapp.com',
-            iconUrl:
-              'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png',
-          },
-          ok: true,
-          quote: {
-            fiatType: FiatType.USD,
-            cryptoType: CryptoType.cUSD,
-            fiatAmount: '100',
-            cryptoAmount: '100',
-            quoteId: 'mock_quote_in_id',
-            guaranteedUntil: '2099-04-27T19:22:36.000Z',
-          },
-          kyc: {
-            kycRequired: false,
-            kycSchemas: [],
-          },
-          fiatAccount: {
-            BankAccount: {
-              fiatAccountSchemas: [
-                {
-                  fiatAccountSchema: FiatAccountSchema.AccountNumber,
-                  allowedValues: {},
-                },
-              ],
-              fee: '0.53',
-              feeType: FeeType.PlatformFee,
-              feeFrequency: FeeFrequency.OneTime,
-              settlementTimeLowerBound: `300`, // Five minutes
-              settlementTimeUpperBound: `7200`, // Two hours
-            },
-          },
-        },
-        fiatAccountType: FiatAccountType.BankAccount,
-      }),
-    })
+    navigate(Screens.QRNavigator)
   }
 
   const { t } = useTranslation()

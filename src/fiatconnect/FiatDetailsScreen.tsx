@@ -190,10 +190,10 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
 
   const formFields = useMemo(() => {
     const fields = Object.values(schema).filter(isFormFieldParam)
-    for (let i = 0; i < 3 * fields.length; i++) {
+    for (let i = 0; i < fields.length; i++) {
       fieldValues.current.push('')
     }
-    return [...fields, ...fields, ...fields]
+    return fields
   }, [fiatAccountSchema])
 
   const implicitParameters = useMemo(() => {
