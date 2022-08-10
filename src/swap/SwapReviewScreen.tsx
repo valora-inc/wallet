@@ -115,23 +115,6 @@ export function SwapReviewScreen(props: Props) {
       <CustomHeader
         title={t('swapReviewScreen.title')}
         left={<BackButton />}
-        // handle large text size to avoid overlaps in header
-        right={
-          PixelRatio.getFontScale() > 1.35 ? (
-            <TopBarIconButton
-              icon={<Times />}
-              testID="CancelButton"
-              onPress={navigateHome}
-              style={{ paddingRight: Spacing.Regular16 }}
-            />
-          ) : (
-            <TopBarTextButton
-              title={t('cancel')}
-              onPress={navigateHome}
-              titleStyle={{ color: colors.gray4 }}
-            />
-          )
-        }
       />
       <DisconnectBanner />
       {loading || fetchSwapQuoteError ? (
@@ -142,10 +125,8 @@ export function SwapReviewScreen(props: Props) {
         <ScrollView style={styles.contentContainer}>
           <View style={styles.subContentContainer}>
             <View style={styles.tallRow}>
-              <View style={styles.column}>
-                <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
-              </View>
-              <View style={[styles.column, styles.tokenDisplayView]}>
+              <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
+              <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.tokenText}
                   amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
@@ -163,15 +144,13 @@ export function SwapReviewScreen(props: Props) {
               </View>
             </View>
             <View style={styles.tallRow}>
-              <View style={styles.column}>
-                <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
-              </View>
-              <View style={[styles.column, styles.tokenDisplayView]}>
+              <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
+              <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={[styles.tokenText, { color: colors.greenUI }]}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.buyAmount -
-                      swapInfo?.unvalidatedSwapTransaction?.gas
+                    swapInfo?.unvalidatedSwapTransaction?.gas
                   )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
@@ -196,22 +175,16 @@ export function SwapReviewScreen(props: Props) {
               {t('swapReviewScreen.transactionDetails')}
             </Text>
             <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.label}>{t('exchangeRate')}</Text>
-              </View>
-              <View style={styles.column}>
-                <Text style={styles.transactionDetailsRightText}>
-                  {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                    new BigNumber(swapInfo?.unvalidatedSwapTransaction?.price)
-                  )} ${toTokenSymbol}`}
-                </Text>
-              </View>
+              <Text style={styles.label}>{t('exchangeRate')}</Text>
+              <Text style={styles.transactionDetailsRightText}>
+                {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
+                  new BigNumber(swapInfo?.unvalidatedSwapTransaction?.price)
+                )} ${toTokenSymbol}`}
+              </Text>
             </View>
             <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
-              </View>
-              <View style={[styles.column, styles.tokenDisplayView]}>
+              <Text style={styles.label}>{t('swapReviewScreen.estimatedGas')}</Text>
+              <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.transactionDetailsRightText}
                   amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas)}
@@ -275,11 +248,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: Spacing.Smallest8,
   },
-  // Used for large text display
-  column: {
-    maxWidth: '50%',
-  },
   tokenDisplayView: {
+    flex: 1,
     justifyContent: 'space-between',
   },
   separator: {
@@ -287,18 +257,17 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colors.gray2,
   },
-  // No shared font styles for this label - done manually
   transactionDetailsRightText: {
+    ...fontStyles.regular,
+    flex: 1,
     alignSelf: 'flex-end',
     textAlign: 'right',
     textAlignVertical: 'center',
     fontWeight: '400',
-    fontSize: 16,
     lineHeight: 24,
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
   },
   touchableRow: {
+    alignSelf: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -309,15 +278,14 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   label: {
+    flex: 1,
     ...fontStyles.regular,
   },
   tokenText: {
-    alignSelf: 'flex-end',
     textAlign: 'right',
     ...fontStyles.large,
   },
   tokenSubText: {
-    alignSelf: 'flex-end',
     textAlign: 'right',
     ...fontStyles.small,
     color: colors.gray4,
