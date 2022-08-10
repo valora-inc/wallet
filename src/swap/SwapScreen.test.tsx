@@ -148,7 +148,9 @@ describe('SwapScreen', () => {
   it('should keep the to amount in sync with the exchange rate', () => {
     mockFetch.mockResponse(
       JSON.stringify({
-        price: '1.2345678',
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
       })
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
@@ -169,7 +171,9 @@ describe('SwapScreen', () => {
   it('should keep the from amount in sync with the exchange rate', () => {
     mockFetch.mockResponse(
       JSON.stringify({
-        price: '0.12345678',
+        unvalidatedSwapTransaction: {
+          price: '0.12345678',
+        },
       })
     )
     const { swapFromContainer, swapToContainer, getByText } = renderScreen({})
@@ -190,7 +194,9 @@ describe('SwapScreen', () => {
   it('should set max from value', () => {
     mockFetch.mockResponse(
       JSON.stringify({
-        price: '1.2345678',
+        unvalidatedSwapTransaction: {
+          price: '1.2345678',
+        },
       })
     )
     const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})

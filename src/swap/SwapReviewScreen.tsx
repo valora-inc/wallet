@@ -34,6 +34,7 @@ import { coreTokensSelector } from 'src/tokens/selectors'
 import { divideByWei, multiplyByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.SwapReviewScreen>
 
@@ -47,6 +48,7 @@ export function SwapReviewScreen(props: Props) {
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
   const coreTokens = useSelector(coreTokensSelector)
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
+  const walletAddress = useSelector(accountAddressSelector)
   const maxSlippageDecimal = `${maxSlippagePercent / 100}`
 
   const { t } = useTranslation()
@@ -87,8 +89,10 @@ export function SwapReviewScreen(props: Props) {
         sellToken: fromToken,
         [swapAmountParam]: swapAmountInWei.toString().split('.')[0],
         slippagePercentage: maxSlippageDecimal,
+        userAddress: walletAddress,
       }
-      const response = await fetch(`${networkConfig.quoteSwapUrl}${qs.stringify(params)}`)
+      const requestUrl = `${networkConfig.approveSwapUrl}?${qs.stringify(params)}`
+      const response = await fetch(requestUrl)
       if (!response.ok) {
         Logger.error(TAG, `Failure response fetching token Swap: ${response}`)
         throw new Error(
@@ -144,14 +148,14 @@ export function SwapReviewScreen(props: Props) {
               <View style={[styles.column, styles.tokenDisplayView]}>
                 <TokenDisplay
                   style={styles.tokenText}
-                  amount={divideByWei(swapInfo?.sellAmount)}
+                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'FromSwapAmountToken'}
                 />
                 <TokenDisplay
                   style={styles.tokenSubText}
-                  amount={divideByWei(swapInfo?.sellAmount)}
+                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={true}
                   testID={`FromSwapAmountTokenLocal`}
@@ -165,7 +169,10 @@ export function SwapReviewScreen(props: Props) {
               <View style={[styles.column, styles.tokenDisplayView]}>
                 <TokenDisplay
                   style={[styles.tokenText, { color: colors.greenUI }]}
-                  amount={divideByWei(swapInfo?.buyAmount - swapInfo?.gas)}
+                  amount={divideByWei(
+                    swapInfo?.unvalidatedSwapTransaction?.buyAmount -
+                      swapInfo?.unvalidatedSwapTransaction?.gas
+                  )}
                   tokenAddress={toToken}
                   showLocalAmount={false}
                   testID={'ToSwapAmountToken'}
@@ -176,7 +183,7 @@ export function SwapReviewScreen(props: Props) {
                   hitSlop={variables.iconHitslop}
                 >
                   <Text style={[styles.tokenSubText, { marginRight: 4 }]}>
-                    {t('swapReviewScreen.estimatedGas')}
+                    {t('swapReviewScreen.estimatedAmountTitle')}
                   </Text>
                   <InfoIcon size={12} color={colors.gray4} />
                 </TouchableOpacity>
@@ -195,7 +202,7 @@ export function SwapReviewScreen(props: Props) {
               <View style={styles.column}>
                 <Text style={styles.transactionDetailsRightText}>
                   {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
-                    new BigNumber(swapInfo?.price)
+                    new BigNumber(swapInfo?.unvalidatedSwapTransaction?.price)
                   )} ${toTokenSymbol}`}
                 </Text>
               </View>
@@ -207,7 +214,7 @@ export function SwapReviewScreen(props: Props) {
               <View style={[styles.column, styles.tokenDisplayView]}>
                 <TokenDisplay
                   style={styles.transactionDetailsRightText}
-                  amount={divideByWei(swapInfo?.gas)}
+                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'EstimatedGas'}
