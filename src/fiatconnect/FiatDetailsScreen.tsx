@@ -76,7 +76,7 @@ const getAccountNumberSchema = (implicitParams: {
   institutionName: {
     name: 'institutionName',
     label: i18n.t('fiatAccountSchema.institutionName.label'),
-    regex: /.*?/,
+    regex: /.+/,
     placeholderText: i18n.t('fiatAccountSchema.institutionName.placeholderText'),
     keyboardType: 'default',
   },
@@ -407,7 +407,7 @@ function FormField({
         />
       )}
       {field.errorMessage && hasError && showError && (
-        <Text testID="errorMessage" style={styles.error}>
+        <Text testID={`errorMessage-${field.name}`} style={styles.error}>
           {field.errorMessage}
         </Text>
       )}
