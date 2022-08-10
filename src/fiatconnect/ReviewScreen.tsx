@@ -120,8 +120,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     )
   }
 
-  const quoteTimestamp = normalizedQuote.getGuaranteedUntil()
-  if (!showingExpiredQuoteDialog && quoteTimestamp < new Date()) {
+  if (!showingExpiredQuoteDialog && normalizedQuote.getGuaranteedUntil() < new Date()) {
     setShowingExpiredQuoteDialog(true)
   }
 
@@ -196,7 +195,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          if (quoteTimestamp < new Date()) {
+          if (normalizedQuote.getGuaranteedUntil() < new Date()) {
             setShowingExpiredQuoteDialog(true)
           } else {
             ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
