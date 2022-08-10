@@ -39,4 +39,52 @@ describe('Welcome', () => {
       ]
     `)
   })
+
+  it('render header title correctly when createAccountCopyTestConfig is "control"', () => {
+    const store = createMockStore({
+      app: {
+        createAccountCopyTestConfig: 'control',
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+
+    expect(queryByTestId('CreateAccountButton')).toHaveTextContent('welcome.createAccount')
+    expect(queryByTestId('RestoreAccountButton')).toHaveTextContent('welcome.restoreAccount')
+  })
+
+  it('render header title correctly when createAccountCopyTestConfig is "treatment1"', () => {
+    const store = createMockStore({
+      app: {
+        createAccountCopyTestConfig: 'treatment1',
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+
+    expect(queryByTestId('CreateAccountButton')).toHaveTextContent('welcome.createNewWallet')
+    expect(queryByTestId('RestoreAccountButton')).toHaveTextContent('welcome.restoreWallet')
+  })
+
+  it('render header title correctly when createAccountCopyTestConfig is "treatment2"', () => {
+    const store = createMockStore({
+      app: {
+        createAccountCopyTestConfig: 'treatment2',
+      },
+    })
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <Welcome />
+      </Provider>
+    )
+
+    expect(queryByTestId('CreateAccountButton')).toHaveTextContent('welcome.createNewWallet')
+    expect(queryByTestId('RestoreAccountButton')).toHaveTextContent('welcome.iAlreadyHaveAWallet')
+  })
 })
