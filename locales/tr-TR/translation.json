@@ -1284,6 +1284,11 @@
       "title": "Connection lost!",
       "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
       "tryAgain": "Tekrar Deneyin"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "İleri"
     }
   },
   "fiatConnectStatusScreen": {
