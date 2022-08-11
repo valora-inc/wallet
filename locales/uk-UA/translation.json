@@ -1341,15 +1341,9 @@
     "selectDone": "Виконано"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Ім’я облікового запису",
-      "placeholderText": "Ім’я для облікового запису",
-      "errorMessage": "Ім’я облікового запису обов’язкове"
-    },
     "institutionName": {
       "label": "Назва банку",
-      "placeholderText": "Введіть назву банку",
-      "errorMessage": "Назва банку обов’язкова"
+      "placeholderText": "Введіть назву банку"
     },
     "accountNumber": {
       "label": "Номер рахунку",
