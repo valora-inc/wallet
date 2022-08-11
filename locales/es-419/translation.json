@@ -1284,6 +1284,11 @@
       "title": "Se ha perdido la conexión.",
       "description": "No hemos podido establecer una conexión entre tus cuentas.\n\nEsto puede deberse a una mala conexión a Internet o a un problema del servidor. Por favor, intenta volver a conectarte.",
       "tryAgain": "Reintentar"
+    },
+    "quoteExpiredDialog": {
+      "title": "Revisar los importes y las tasas",
+      "body": "Los importes de las criptomonedas y las comisiones pueden cambiar debido a las fluctuaciones del mercado de las criptomonedas.\n\nPor favor, revisa el importe final y las comisiones antes de enviarlas",
+      "continue": "Continuar"
     }
   },
   "fiatConnectStatusScreen": {
