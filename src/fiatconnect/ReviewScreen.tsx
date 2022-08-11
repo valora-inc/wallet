@@ -41,7 +41,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
   const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
-  const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(false)
+  const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
+    normalizedQuote.getGuaranteedUntil() < new Date()
+  )
 
   useEffect(() => {
     if (shouldRefetchQuote) {
@@ -118,10 +120,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
         fiatAccount,
       })
     )
-  }
-
-  if (!showingExpiredQuoteDialog && normalizedQuote.getGuaranteedUntil() < new Date()) {
-    setShowingExpiredQuoteDialog(true)
   }
 
   if (fiatConnectQuotesError) {
