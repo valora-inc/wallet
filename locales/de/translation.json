@@ -1337,15 +1337,9 @@
     "selectDone": "Fertig"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Kontoname",
-      "placeholderText": "Ein Name für das Konto",
-      "errorMessage": "Ein Kontoname ist erforderlich"
-    },
     "institutionName": {
       "label": "Bankname",
-      "placeholderText": "Bankname eingeben",
-      "errorMessage": "Ein Bankname ist erforderlich"
+      "placeholderText": "Bankname eingeben"
     },
     "accountNumber": {
       "label": "Kontonummer",
