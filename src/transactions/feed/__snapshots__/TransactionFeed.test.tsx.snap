@@ -411,102 +411,91 @@ exports[`TransactionFeed renders swap feed item correctly 1`] = `
               }
             }
           >
-            <View
+            <Text
               style={
                 Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
+                  "color": "#2E3338",
+                  "flexShrink": 1,
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 16,
+                  "lineHeight": 22,
                 }
               }
+              testID="SwapFeedItem/title"
             >
-              <Text
-                style={
+              swapScreen.title
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+              testID="SwapFeedItem/subtitle"
+            >
+              cUSD
+               
+              to
+               
+              cEUR
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
                   Object {
                     "color": "#2E3338",
-                    "flexShrink": 1,
+                    "flexWrap": "wrap",
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
-                  }
-                }
-                testID="SwapFeedItem/title"
-              >
-                swapScreen.title
-              </Text>
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "flexWrap": "wrap",
-                      "fontFamily": "Inter-Medium",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                      "marginLeft": "auto",
-                      "minWidth": "40%",
-                      "paddingLeft": 10,
-                      "textAlign": "right",
-                    },
-                    Object {
-                      "color": "#1AB775",
-                    },
-                  ]
-                }
-                testID="SwapFeedItem/incomingAmount"
-              >
-                +
-                0.50
-                 cEUR
-              </Text>
-            </View>
-            <View
+                    "marginLeft": "auto",
+                    "paddingLeft": 10,
+                    "textAlign": "right",
+                  },
+                  Object {
+                    "color": "#1AB775",
+                  },
+                ]
+              }
+              testID="SwapFeedItem/incomingAmount"
+            >
+              +
+              0.50
+               cEUR
+            </Text>
+            <Text
               style={
                 Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
+                  "color": "#9CA4A9",
+                  "flexWrap": "wrap",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "marginLeft": "auto",
+                  "paddingLeft": 10,
+                  "paddingTop": 2,
+                  "textAlign": "right",
                 }
               }
+              testID="SwapFeedItem/outgoingAmount"
             >
-              <Text
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                    "paddingTop": 2,
-                  }
-                }
-                testID="SwapFeedItem/subtitle"
-              >
-                cUSD
-                 
-                to
-                 
-                cEUR
-              </Text>
-              <Text
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "flexWrap": "wrap",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                    "marginLeft": "auto",
-                    "minWidth": "40%",
-                    "paddingLeft": 10,
-                    "paddingTop": 2,
-                    "textAlign": "right",
-                  }
-                }
-                testID="SwapFeedItem/outgoingAmount"
-              >
-                -
-                0.50
-                 cUSD
-              </Text>
-            </View>
+              -
+              0.50
+               cUSD
+            </Text>
           </View>
         </View>
       </View>
