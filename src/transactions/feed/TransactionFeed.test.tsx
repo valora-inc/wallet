@@ -59,7 +59,7 @@ const MOCK_RESPONSE: QueryResponse = {
         hasPreviousPage: false,
       },
       transactions: [
-        mockTransaction('0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b'),
+        mockTransaction('0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b2'),
       ],
     },
   },
@@ -75,7 +75,7 @@ const MOCK_RESPONSE_NO_NEXT_PAGE: QueryResponse = {
         hasPreviousPage: false,
       },
       transactions: [
-        mockTransaction('0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b2'),
+        mockTransaction('0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b'),
       ],
     },
   },
@@ -201,7 +201,7 @@ describe('TransactionFeed', () => {
     expect(pendingSubtitles.length).toBe(1)
   })
 
-  it('tries to fetch 10 transactions, until the end is reached', async () => {
+  it('tries to fetch 10 transactions, unless the end is reached', async () => {
     mockFetch.mockImplementation((url: any, request: any) => {
       const body: string = request.body
       let response = ''
