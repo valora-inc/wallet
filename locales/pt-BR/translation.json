@@ -1284,6 +1284,11 @@
       "title": "Ligação perdida!",
       "description": "Não fomos capazes de estabelecer uma ligação entre as suas contas.\n\nIsto pode dever-se a uma má ligação à Internet ou a um problema no servidor. Por favor, tente restabelecer a ligação.",
       "tryAgain": "Repetir"
+    },
+    "quoteExpiredDialog": {
+      "title": "Revisar montantes e taxas",
+      "body": "As quantias e taxas criptográficas podem mudar devido a flutuações no mercado criptográfico.\n\nPor favor, reveja o seu montante final & taxas antes de submeter",
+      "continue": "Continuar"
     }
   },
   "fiatConnectStatusScreen": {
