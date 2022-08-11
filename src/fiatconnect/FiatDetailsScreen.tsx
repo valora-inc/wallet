@@ -395,7 +395,8 @@ function FormField({
       ) : (
         <TextInput
           testID={`input-${field.name}`}
-          style={styles.formInput}
+          style={styles.formInputContainer}
+          inputStyle={styles.formInput}
           value={value}
           placeholder={field.placeholderText}
           onChangeText={onInputChange}
@@ -438,15 +439,16 @@ const styles = StyleSheet.create({
   inputView: {
     paddingVertical: 12,
   },
-  formInput: {
-    ...fontStyles.regular,
+  formInputContainer: {
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: colors.gray2,
     marginBottom: 4,
-    color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
+  },
+  formInput: {
+    ...fontStyles.regular,
+    color: colors.dark,
   },
   formSelectInput: {
     ...fontStyles.regular,
@@ -455,7 +457,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     marginBottom: 4,
     color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 12,
     lineHeight: LINE_HEIGHT,
