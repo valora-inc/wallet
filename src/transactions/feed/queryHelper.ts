@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -66,7 +66,7 @@ export function useFetchTransactions(): QueryHookResult {
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
 
-  const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
+  const pageInfo = useRef<PageInfo | null>(null)
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
   const { transactions, addTransactions } = useDeduplicatedTransactions()
 
@@ -91,8 +91,8 @@ export function useFetchTransactions(): QueryHookResult {
     }
 
     const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo
-    if ((!pageInfo || paginatedResult) && returnedPageInfo) {
-      setPageInfo(returnedPageInfo)
+    if ((!pageInfo.current || paginatedResult) && returnedPageInfo) {
+      pageInfo.current = returnedPageInfo
     }
   }
 
@@ -115,12 +115,16 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for next page of transaction if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !pageInfo?.hasNextPage) {
+      if (!fetchingMoreTransactions || !pageInfo.current?.hasNextPage) {
         setFetchingMoreTransactions(false)
         return
       }
 
-      const result = await queryTransactionsFeed(address, localCurrencyCode, pageInfo?.endCursor)
+      const result = await queryTransactionsFeed(
+        address,
+        localCurrencyCode,
+        pageInfo.current?.endCursor
+      )
       setFetchingMoreTransactions(false)
       handleResult(result, true)
     },
@@ -134,23 +138,40 @@ export function useFetchTransactions(): QueryHookResult {
     }
   )
 
+  useEffect(() => {
+    // this hook ensures that we populate the screen with transactions on load
+    // so that future refetches can be correctly triggered by `onEndReached`,
+    // in the event that blockchain-api returns a small number of results for
+    // the first page
+    if (
+      !loading &&
+      transactions.length > 0 &&
+      transactions.length < 10 &&
+      pageInfo.current?.hasNextPage
+    ) {
+      setFetchingMoreTransactions(true)
+    }
+  }, [transactions, pageInfo.current, loading])
+
+  const fetchMoreTransactions = () => {
+    if (!pageInfo) {
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+    } else if (!pageInfo.current?.hasNextPage) {
+      // If the user has a few transactions, don't show any message
+      if (transactions.length > 20) {
+        Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
+      }
+    } else {
+      setFetchingMoreTransactions(true)
+    }
+  }
+
   return {
     loading,
     error,
     transactions,
     fetchingMoreTransactions,
-    fetchMoreTransactions: () => {
-      if (!pageInfo) {
-        dispatch(showError(ErrorMessages.FETCH_FAILED))
-      } else if (!pageInfo.hasNextPage) {
-        // If the user has a few transactions, don't show any message
-        if (transactions.length > 20) {
-          Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-        }
-      } else {
-        setFetchingMoreTransactions(true)
-      }
-    },
+    fetchMoreTransactions,
   }
 }
 
