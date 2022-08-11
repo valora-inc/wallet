@@ -1343,7 +1343,8 @@
     "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
     "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
     "selectItem": "Выбери опцию...",
-    "selectDone": "Готово"
+    "selectDone": "Готово",
+    "submitAndContinue": "Отправить и продолжить"
   },
   "fiatAccountSchema": {
     "institutionName": {
