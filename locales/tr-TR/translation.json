@@ -1339,7 +1339,8 @@
     "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
     "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun.",
     "selectItem": "Bir seçenek seçin...",
-    "selectDone": "Tamamlandı"
+    "selectDone": "Tamamlandı",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "institutionName": {
