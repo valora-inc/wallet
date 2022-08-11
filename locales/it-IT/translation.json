@@ -1284,6 +1284,11 @@
       "title": "Connessione persa!",
       "description": "Non siamo riusciti a stabilire una connessione tra i tuoi account.\n\nQuesto potrebbe essere dovuto a una scarsa connessione a internet o a un problema del server. Prova a riconnetterti.",
       "tryAgain": "Riprova"
+    },
+    "quoteExpiredDialog": {
+      "title": "Verifica gli importi e le tariffe",
+      "body": "Gli importi e le commissioni delle criptovalute possono cambiare a causa delle fluttuazioni del mercato delle criptovalute.\n\nControlla l'importo finale e le commissioni prima di inviare l'offerta.",
+      "continue": "Continua"
     }
   },
   "fiatConnectStatusScreen": {
