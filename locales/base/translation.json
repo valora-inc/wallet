@@ -1274,7 +1274,7 @@
       "header": "Review Add Funds",
       "button": "Add Funds",
       "transactionDetailsAmount": "Total Price",
-      "paymentMethodHeader": "Payment Method"
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Review",
