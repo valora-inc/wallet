@@ -81,10 +81,10 @@ export function useFetchTransactions(): QueryHookResult {
   const handleResult = (result: QueryResponse, hasPreviousPage: boolean) => {
     Logger.info(TAG, `Fetched ${hasPreviousPage ? 'next page' : 'new'} transactions`)
 
-    const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
+    const returnedTransactions = result.data?.tokenTransactionsV2?.transactions ?? []
     const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo
 
-    if (returnedTransactions?.length) {
+    if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
       setFetchedResult((prev) => ({
         transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
         pageInfo: returnedPageInfo ?? null,
@@ -148,12 +148,7 @@ export function useFetchTransactions(): QueryHookResult {
     // `onEndReached`, in the event that blockchain-api returns a small number
     // of results for the first page(s)
     const { transactions, pageInfo } = fetchedResult
-    if (
-      !loading &&
-      transactions.length > 0 &&
-      transactions.length < MIN_NUM_TRANSACTIONS &&
-      pageInfo?.hasNextPage
-    ) {
+    if (!loading && transactions.length < MIN_NUM_TRANSACTIONS && pageInfo?.hasNextPage) {
       setFetchingMoreTransactions(true)
     }
   }, [fetchedResult, loading])

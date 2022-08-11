@@ -49,6 +49,20 @@ const MOCK_STANDBY_TRANSACTIONS: StandbyTransaction[] = [
 
 const END_CURSOR = 'YXJyYXljb25uZWN0aW9uOjk='
 
+const MOCK_EMPTY_RESPONSE: QueryResponse = {
+  data: {
+    tokenTransactionsV2: {
+      pageInfo: {
+        startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
+        endCursor: END_CURSOR,
+        hasNextPage: true,
+        hasPreviousPage: false,
+      },
+      transactions: [],
+    },
+  },
+}
+
 const MOCK_RESPONSE: QueryResponse = {
   data: {
     tokenTransactionsV2: {
@@ -217,6 +231,24 @@ describe('TransactionFeed', () => {
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(2)
+  })
+
+  it('tries to fetch 10 transactions, and stores empty pages', async () => {
+    mockFetch.mockImplementation((url: any, request: any) => {
+      const body: string = request.body
+      let response = ''
+      if (body.includes(END_CURSOR)) {
+        response = JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE)
+      } else {
+        response = JSON.stringify(MOCK_EMPTY_RESPONSE)
+      }
+      return Promise.resolve(new Response(response))
+    })
+
+    const tree = renderScreen({})
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(1)
   })
 
   it('fetches the next page by scrolling to the end of the list', async () => {
