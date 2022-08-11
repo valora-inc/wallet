@@ -1339,7 +1339,8 @@
     "addFiatAccountResourceExist": "Du hast dieses Konto bereits mit Valora verknüpft.",
     "addFiatAccountFailed": "Dein Konto wurde nicht verlinkt. Bitte versuche es erneut oder kontaktiere den Support.",
     "selectItem": "Option auswählen...",
-    "selectDone": "Fertig"
+    "selectDone": "Fertig",
+    "submitAndContinue": "Einreichen & Fortfahren"
   },
   "fiatAccountSchema": {
     "institutionName": {
