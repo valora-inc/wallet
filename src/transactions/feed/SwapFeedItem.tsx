@@ -35,35 +35,33 @@ function SwapFeedItem({ exchange }: Props) {
           <SwapIcon />
         </View>
         <View style={styles.contentContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} testID={'SwapFeedItem/title'}>
-              {t('swapScreen.title')}
-            </Text>
-            <TokenDisplay
-              amount={exchange.inAmount.value}
-              tokenAddress={exchange.inAmount.tokenAddress}
-              showLocalAmount={false}
-              showSymbol={true}
-              showExplicitPositiveSign={true}
-              hideSign={false}
-              style={[styles.amount, { color: colors.greenUI }]}
-              testID={'SwapFeedItem/incomingAmount'}
-            />
-          </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'}>
-              {outgoingTokenInfo?.symbol} {'to'} {incomingTokenInfo?.symbol}
-            </Text>
-            <TokenDisplay
-              amount={-exchange.outAmount.value}
-              tokenAddress={exchange.outAmount.tokenAddress}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={false}
-              style={styles.tokenAmount}
-              testID={'SwapFeedItem/outgoingAmount'}
-            />
-          </View>
+          <Text style={styles.title} testID={'SwapFeedItem/title'}>
+            {t('swapScreen.title')}
+          </Text>
+          <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'}>
+            {outgoingTokenInfo?.symbol} {'to'} {incomingTokenInfo?.symbol}
+          </Text>
+        </View>
+        <View style={styles.contentContainer}>
+          <TokenDisplay
+            amount={exchange.inAmount.value}
+            tokenAddress={exchange.inAmount.tokenAddress}
+            showLocalAmount={false}
+            showSymbol={true}
+            showExplicitPositiveSign={true}
+            hideSign={false}
+            style={[styles.amount, { color: colors.greenUI }]}
+            testID={'SwapFeedItem/incomingAmount'}
+          />
+          <TokenDisplay
+            amount={-exchange.outAmount.value}
+            tokenAddress={exchange.outAmount.tokenAddress}
+            showLocalAmount={false}
+            showSymbol={true}
+            hideSign={false}
+            style={styles.tokenAmount}
+            testID={'SwapFeedItem/outgoingAmount'}
+          />
         </View>
       </View>
     </Touchable>
@@ -86,10 +84,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: variables.contentPadding,
   },
-  titleContainer: {
-    flexDirection: 'row',
-    marginTop: -1,
-  },
   title: {
     ...fontStyles.regular500,
     flexShrink: 1,
@@ -103,7 +97,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     marginLeft: 'auto',
     paddingLeft: 10,
-    minWidth: '40%',
     textAlign: 'right',
     flexWrap: 'wrap',
   },
@@ -113,7 +106,6 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingLeft: 10,
     marginLeft: 'auto',
-    minWidth: '40%',
     textAlign: 'right',
     flexWrap: 'wrap',
   },
