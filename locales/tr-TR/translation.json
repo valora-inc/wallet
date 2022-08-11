@@ -1337,15 +1337,9 @@
     "selectDone": "Tamamlandı"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Hesap Adı",
-      "placeholderText": "Hesap için bir ad",
-      "errorMessage": "Hesap adı gereklidir"
-    },
     "institutionName": {
       "label": "Banka Adı",
-      "placeholderText": "Banka Adını Girin",
-      "errorMessage": "Banka gereklidir"
+      "placeholderText": "Banka Adını Girin"
     },
     "accountNumber": {
       "label": "Hesap Numarası",
