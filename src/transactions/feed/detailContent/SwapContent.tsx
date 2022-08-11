@@ -67,7 +67,7 @@ export default function SwapContent({ exchange }: Props) {
       <View style={styles.separator} />
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.exchangeBodyText}>{t('swapContent.rate')}</Text>
-        <Text style={styles.currencyAmountText}>
+        <Text testID="SwapContent/rate" style={styles.currencyAmountText}>
           {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
             new BigNumber(exchange.inAmount.value).dividedBy(exchange.outAmount.value)
           )} ${toTokenSymbol}`}

@@ -344,11 +344,8 @@ describe('TransactionDetailsScreen', () => {
     const swapFrom = getByTestId('SwapContent/swapFrom')
     expect(getElementText(swapFrom)).toEqual('17.00 cUSD')
 
-    const rateFrom = getByTestId('SwapContent/rateFrom')
-    expect(getElementText(rateFrom)).toEqual('1.00 cUSD')
-
-    const rateTo = getByTestId('SwapContent/rateTo')
-    expect(getElementText(rateTo)).toEqual('2.00 cEUR')
+    const rate = getByTestId('SwapContent/rate')
+    expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
 
     // Includes the fee
     const estimatedFee = getByTestId('SwapContent/estimatedFee')
