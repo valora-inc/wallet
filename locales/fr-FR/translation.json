@@ -1284,6 +1284,11 @@
       "title": "Connexion perdue !",
       "description": "Nous n'avons pas réussi à établir une connexion entre tes comptes.\n\nCela peut être dû à une mauvaise connexion Internet ou à un problème de serveur. Essaie de te reconnecter.",
       "tryAgain": "Réessayer"
+    },
+    "quoteExpiredDialog": {
+      "title": "Examine les montants et les frais",
+      "body": "Les montants & frais de crypto peuvent changer en raison des fluctuations du marché de la crypto.\n\nVérifie le montant final et les frais avant d'envoyer.",
+      "continue": "Continuer"
     }
   },
   "fiatConnectStatusScreen": {
