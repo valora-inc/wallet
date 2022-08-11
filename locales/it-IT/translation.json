@@ -1337,15 +1337,9 @@
     "selectDone": "Fatto"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Nome del conto",
-      "placeholderText": "Un nome per il conto",
-      "errorMessage": "Il nome del conto è obbligatorio"
-    },
     "institutionName": {
       "label": "Nome della banca",
-      "placeholderText": "Inserisci il nome della banca",
-      "errorMessage": "È necessario indicare il nome della banca"
+      "placeholderText": "Inserisci il nome della banca"
     },
     "accountNumber": {
       "label": "Numero di conto",
