@@ -1288,6 +1288,11 @@
       "title": "Połączenie zostało utracone!",
       "description": "Nie udało nam się nawiązać połączenia między waszymi kontami.\n\nMoże to być spowodowane słabym połączeniem internetowym lub problemem z serwerem. Spróbuj ponownie nawiązać połączenie.",
       "tryAgain": "Spróbuj ponownie"
+    },
+    "quoteExpiredDialog": {
+      "title": "Przegląd kwot i opłat",
+      "body": "Kwoty i opłaty za kryptowaluty mogą ulec zmianie z powodu wahań na rynku kryptowalut.\n\nProsimy o zapoznanie się z ostateczną kwotą i opłatami przed wysłaniem",
+      "continue": "Kontynuuj"
     }
   },
   "fiatConnectStatusScreen": {
