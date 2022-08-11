@@ -58,6 +58,7 @@ jest.mock('@fiatconnect/fiatconnect-sdk', () => ({
   })),
 }))
 jest.mock('src/fiatconnect/clients')
+jest.useFakeTimers()
 
 const store = createMockStore({})
 const quoteWithAllowedValues = new FiatConnectQuote({
@@ -131,9 +132,10 @@ describe('FiatDetailsScreen', () => {
     expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
     expect(queryByTestId('input-accountNumber')).toBeTruthy()
 
-    expect(queryByTestId('errorMessage')).toBeFalsy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     expect(queryByTestId('nextButton')).toBeTruthy()
+    expect(queryByTestId('nextButton')).toBeDisabled()
   })
   it('renders header with provider image', () => {
     let headerTitle: React.ReactNode
@@ -207,7 +209,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountSchema: quoteWithAllowedValues.getFiatAccountSchema(),
     })
   })
-  it('shows validation error if the input field does not fulfill the requirement', () => {
+  it('button remains disabled if required input field is empty', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
@@ -216,13 +218,52 @@ describe('FiatDetailsScreen', () => {
 
     expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
-    expect(queryByTestId('errorMessage')).toBeFalsy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
+
+    expect(queryByTestId('nextButton')).toBeDisabled()
+  })
+  it('shows validation error if the input field does not fulfill the requirement after delay', () => {
+    const { queryByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenPropsWithAllowedValues} />
+      </Provider>
+    )
+
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
     fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
 
     // Should see an error message saying the account number field is invalid
-    expect(queryByTestId('errorMessage')).toBeTruthy()
+    // after delay
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+    jest.advanceTimersByTime(1500)
+    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+    expect(queryByTestId('nextButton')).toBeDisabled()
+  })
+  it('shows validation error if the input field does not fulfill the requirement immediately on blur', () => {
+    const { queryByText, getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <FiatDetailsScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+    expect(queryByText('fiatAccountSchema.institutionName.label')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.label')).toBeTruthy()
+    expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
+
+    fireEvent.changeText(getByTestId('input-accountNumber'), '12dtfa')
+    fireEvent(getByTestId('input-accountNumber'), 'blur')
+
+    // Should see an error message saying the account number field is invalid
+    // immediately since the field loses focus
+    expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
+    expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
+    expect(queryByTestId('nextButton')).toBeDisabled()
   })
   it('sends a successful request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
     const { getByTestId } = render(
