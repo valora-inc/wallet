@@ -157,7 +157,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
       <View>
         <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
         <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
-        <PaymentMethod normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
+        <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <Button
         testID="submitButton"
@@ -357,9 +357,11 @@ function TransactionDetails({
 }
 
 function PaymentMethod({
+  flow,
   normalizedQuote,
   fiatAccount,
 }: {
+  flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   fiatAccount: ObfuscatedFiatAccountData
 }) {
@@ -379,7 +381,11 @@ function PaymentMethod({
   return (
     <Touchable onPress={onPress}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
+        <Text style={styles.sectionHeaderText}>
+          {flow === CICOFlow.CashIn
+            ? t('fiatConnectReviewScreen.cashIn.paymentMethodHeader')
+            : t('fiatConnectReviewScreen.cashOut.paymentMethodHeader')}
+        </Text>
         <View style={styles.sectionMainTextContainer}>
           <Text style={styles.sectionMainText} testID="paymentMethod-text">
             {fiatAccount.accountName}
