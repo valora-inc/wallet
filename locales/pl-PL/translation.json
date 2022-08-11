@@ -1341,15 +1341,9 @@
     "selectDone": "Gotowe"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Nazwa konta",
-      "placeholderText": "Nazwa konta",
-      "errorMessage": "Wymagane jest podanie nazwy konta"
-    },
     "institutionName": {
       "label": "Nazwa banku",
-      "placeholderText": "Wpisz nazwę banku",
-      "errorMessage": "Wymagane jest podanie nazwy banku"
+      "placeholderText": "Wpisz nazwę banku"
     },
     "accountNumber": {
       "label": "Numer konta",
