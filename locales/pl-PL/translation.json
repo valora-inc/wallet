@@ -1343,7 +1343,8 @@
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
     "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
     "selectItem": "Wybierz opcję...",
-    "selectDone": "Gotowe"
+    "selectDone": "Gotowe",
+    "submitAndContinue": "Prześlij i kontynuuj"
   },
   "fiatAccountSchema": {
     "institutionName": {
