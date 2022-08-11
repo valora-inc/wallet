@@ -1341,15 +1341,9 @@
     "selectDone": "Готово"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Имя аккаунта",
-      "placeholderText": "Имя для аккаунта",
-      "errorMessage": "Требуется имя аккаунта"
-    },
     "institutionName": {
       "label": "Название банка",
-      "placeholderText": "Введите название банка",
-      "errorMessage": "Требуется название банка"
+      "placeholderText": "Введите название банка"
     },
     "accountNumber": {
       "label": "Номер счета",
