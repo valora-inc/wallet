@@ -106,12 +106,21 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey =
-    currency === Currency.Celo
-      ? 'subtotal'
-      : currency === Currency.Dollar
-      ? 'celoDollar'
-      : 'celoEuro'
+  const displayCurrencyKey: string = (() => {
+    // i18n key for subtotal
+    switch (currency) {
+      case Currency.Celo:
+        return 'subtotal'
+      case Currency.Dollar:
+        return 'celoDollar'
+      case Currency.Euro:
+        return 'celoEuro'
+      case 'cREAL':
+        return 'celoReal'
+      default:
+        return 'subtotal'
+    }
+  })()
 
   const localCurrencyMaxAmount =
     useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
