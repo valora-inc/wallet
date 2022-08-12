@@ -13,15 +13,15 @@ export const SentryTransactionHub = {
     // get span operation - 'op'
     const op = SentryTransactions[name].op
 
-    // Find all the transactions with this op.
-    const selectedTransactions = transactions.filter(
-      (transaction) => transaction.op === SentrySpans[name].op
+    // Find first the transaction with this op.
+    const selectedTransaction = transactions.find(
+      (transaction) => transaction.op === SentryTransactions[name].op
     )
 
-    // Finish each of the transactions with this op.
-    selectedTransactions.forEach((t) => t.finish())
+    // Finish the selected transaction
+    selectedTransaction?.finish()
 
-    // Remove these finished transactions from the transaction hub
+    // Remove all transactions matching op from the transaction hub
     transactions = transactions.filter((transaction) => transaction.op !== op)
   },
 }
