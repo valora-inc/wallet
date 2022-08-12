@@ -119,7 +119,7 @@ export type StackParamList = {
   }
   [Screens.ExternalExchanges]: {
     isCashIn?: boolean
-    currency: Currency
+    currency: Currency | 'cREAL'
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchange]: undefined

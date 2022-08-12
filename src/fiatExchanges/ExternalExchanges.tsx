@@ -71,7 +71,10 @@ function ExternalExchanges({ route }: Props) {
         <>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
-              digitalAsset: CURRENCIES[route.params.currency].cashTag,
+              digitalAsset:
+                route.params.currency === 'cREAL'
+                  ? 'cREAL'
+                  : CURRENCIES[route.params.currency].cashTag,
             })}
           </Text>
           <View testID="accountBox" style={styles.accountBox}>
@@ -82,7 +85,7 @@ function ExternalExchanges({ route }: Props) {
       ) : (
         <Text style={styles.pleaseSelectExchange}>
           {t('youCanTransferOut', {
-            digitalAsset: CURRENCIES[route.params.currency].cashTag,
+            digitalAsset: CURRENCIES[route.params.currency as Currency].cashTag,
           })}
         </Text>
       )}
@@ -108,7 +111,7 @@ function ExternalExchanges({ route }: Props) {
               testID="WithdrawCeloButton"
               style={styles.celoOutButton}
               text={t('withdrawToken', {
-                token: CURRENCIES[route.params.currency].cashTag,
+                token: CURRENCIES[route.params.currency as Currency].cashTag,
               })}
               onPress={() => goToCashOut()}
             />

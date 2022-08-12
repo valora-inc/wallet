@@ -313,7 +313,7 @@ function ExchangesSection({
 }: {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
-  selectedCurrency: Currency
+  selectedCurrency: Currency | 'cREAL'
 }) {
   const { t } = useTranslation()
 
