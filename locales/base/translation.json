@@ -1267,20 +1267,21 @@
     "continue": "Continue"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Payment Method",
     "transactionDetails": "Transaction Details",
     "paymentMethodVia": "Linked via {{providerName}}",
     "receiveAmount": "You will receive",
     "cashIn": {
       "header": "Review Add Funds",
       "button": "Add Funds",
-      "transactionDetailsAmount": "Total Price"
+      "transactionDetailsAmount": "Total Price",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Review",
       "button": "Withdraw Funds",
       "transactionDetailsAmount": "Total Withdraw",
-      "transactionDetailsAmountConverted": "Amount Withdrawn"
+      "transactionDetailsAmountConverted": "Amount Withdrawn",
+      "paymentMethodHeader": "Withdraw To"
     },
     "failedRefetch": {
       "title": "Connection lost!",
@@ -1341,7 +1342,8 @@
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",
     "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
     "selectItem": "Select an option...",
-    "selectDone": "Done"
+    "selectDone": "Done",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "institutionName": {
