@@ -1265,20 +1265,21 @@
     "continue": "İleri"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "receiveAmount": "Alacağınız",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
-      "transactionDetailsAmount": "Toplam fiyat"
+      "transactionDetailsAmount": "Toplam fiyat",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Gözden Geçir",
       "button": "Bakiye Çek",
       "transactionDetailsAmount": "Çekilen Toplam Tutar",
-      "transactionDetailsAmountConverted": "Çekilen Tutar"
+      "transactionDetailsAmountConverted": "Çekilen Tutar",
+      "paymentMethodHeader": "Withdraw To"
     },
     "failedRefetch": {
       "title": "Connection lost!",
