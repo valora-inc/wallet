@@ -204,7 +204,7 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     return Object.values(schema).filter(isComputedParam)
   }, [fiatAccountSchema])
 
-  const onPressNext = async () => {
+  const onPressSubmit = async () => {
     validateInput()
 
     if (validInputs) {
@@ -313,29 +313,30 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainers}>
-        <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
-        {formFields.map((field, index) => (
-          <FormField
-            field={field}
-            index={index}
-            value={fieldValues.current[index]}
-            hasError={errors.has(index)}
-            onChange={(value) => {
-              setInputValue(value, index)
-            }}
-            allowedValues={allowedValues[field.name]}
-          />
-        ))}
+        <View>
+          <Text style={styles.descriptionText}>{t('fiatDetailsScreen.description')}</Text>
+          {formFields.map((field, index) => (
+            <FormField
+              field={field}
+              index={index}
+              value={fieldValues.current[index]}
+              hasError={errors.has(index)}
+              onChange={(value) => {
+                setInputValue(value, index)
+              }}
+              allowedValues={allowedValues[field.name]}
+            />
+          ))}
+        </View>
+        <Button
+          testID="submitButton"
+          text={t('fiatDetailsScreen.submitAndContinue')}
+          onPress={onPressSubmit}
+          disabled={!validInputs}
+          style={styles.submitButton}
+          size={BtnSizes.FULL}
+        />
       </KeyboardAwareScrollView>
-
-      <Button
-        testID="nextButton"
-        text={t('next')}
-        onPress={onPressNext}
-        disabled={!validInputs}
-        style={styles.nextButton}
-        size={BtnSizes.FULL}
-      />
       <KeyboardSpacer />
     </SafeAreaView>
   )
@@ -395,7 +396,8 @@ function FormField({
       ) : (
         <TextInput
           testID={`input-${field.name}`}
-          style={styles.formInput}
+          style={styles.formInputContainer}
+          inputStyle={styles.formInput}
           value={value}
           placeholder={field.placeholderText}
           onChangeText={onInputChange}
@@ -419,9 +421,10 @@ function FormField({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   contentContainers: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
   descriptionText: {
@@ -437,15 +440,16 @@ const styles = StyleSheet.create({
   inputView: {
     paddingVertical: 12,
   },
-  formInput: {
-    ...fontStyles.regular,
+  formInputContainer: {
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: colors.gray2,
     marginBottom: 4,
-    color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
+  },
+  formInput: {
+    ...fontStyles.regular,
+    color: colors.dark,
   },
   formSelectInput: {
     ...fontStyles.regular,
@@ -454,7 +458,6 @@ const styles = StyleSheet.create({
     borderColor: colors.gray2,
     marginBottom: 4,
     color: colors.dark,
-    alignItems: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 12,
     lineHeight: LINE_HEIGHT,
@@ -463,7 +466,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FF0000', // color red
   },
-  nextButton: {
+  submitButton: {
     padding: variables.contentPadding,
   },
   activityIndicatorContainer: {

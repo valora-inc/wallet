@@ -134,8 +134,9 @@ describe('FiatDetailsScreen', () => {
 
     expect(queryByTestId(/errorMessage-.+/)).toBeFalsy()
 
-    expect(queryByTestId('nextButton')).toBeTruthy()
-    expect(queryByTestId('nextButton')).toBeDisabled()
+    expect(queryByTestId('submitButton')).toBeTruthy()
+    expect(queryByTestId('submitButton')).toBeDisabled()
+    expect(queryByText('fiatDetailsScreen.submitAndContinue')).toBeTruthy()
   })
   it('renders header with provider image', () => {
     let headerTitle: React.ReactNode
@@ -222,7 +223,7 @@ describe('FiatDetailsScreen', () => {
 
     fireEvent.changeText(getByTestId('input-accountNumber'), fakeAccountNumber)
 
-    expect(queryByTestId('nextButton')).toBeDisabled()
+    expect(queryByTestId('submitButton')).toBeDisabled()
   })
   it('shows validation error if the input field does not fulfill the requirement after delay', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
@@ -243,7 +244,7 @@ describe('FiatDetailsScreen', () => {
     jest.advanceTimersByTime(1500)
     expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
-    expect(queryByTestId('nextButton')).toBeDisabled()
+    expect(queryByTestId('submitButton')).toBeDisabled()
   })
   it('shows validation error if the input field does not fulfill the requirement immediately on blur', () => {
     const { queryByText, getByTestId, queryByTestId } = render(
@@ -263,7 +264,7 @@ describe('FiatDetailsScreen', () => {
     // immediately since the field loses focus
     expect(queryByTestId('errorMessage-accountNumber')).toBeTruthy()
     expect(queryByText('fiatAccountSchema.accountNumber.errorMessage')).toBeTruthy()
-    expect(queryByTestId('nextButton')).toBeDisabled()
+    expect(queryByTestId('submitButton')).toBeDisabled()
   })
   it('sends a successful request to add new fiat account after pressing the next button [Schema: AccountName]', async () => {
     const { getByTestId } = render(
@@ -282,7 +283,7 @@ describe('FiatDetailsScreen', () => {
       country: 'US',
       fiatAccountType: 'BankAccount',
     }
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
@@ -322,7 +323,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountType: 'BankAccount',
     }
 
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
@@ -361,7 +362,7 @@ describe('FiatDetailsScreen', () => {
       fiatAccountType: 'BankAccount',
     }
 
-    await fireEvent.press(getByTestId('nextButton'))
+    await fireEvent.press(getByTestId('submitButton'))
 
     expect(getFiatConnectClient).toHaveBeenCalledWith(
       quote.getProviderId(),
