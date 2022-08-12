@@ -80,21 +80,27 @@ export function useFetchTransactions(): QueryHookResult {
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  const handleResult = (result: QueryResponse, hasPreviousPage: boolean) => {
-    Logger.info(TAG, `Fetched ${hasPreviousPage ? 'next page' : 'new'} transactions`)
+  const handleResult = (result: QueryResponse, isPollResult: boolean) => {
+    Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
 
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions ?? []
-    const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo
+    const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo ?? null
+    // the initial feed fetch is from polling, exclude polled updates form that scenario
+    const isPolledUpdate = isPollResult && fetchedResult.pageInfo !== null
 
     if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
       setFetchedResult((prev) => ({
         transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
-        pageInfo: returnedPageInfo ?? null,
-        hasReturnedTransactions: returnedTransactions.length > 0,
+        // avoid updating pageInfo and hasReturnedTransactions for polled
+        // updates, as these variables are used for fetching the next pages
+        pageInfo: isPolledUpdate ? prev.pageInfo : returnedPageInfo,
+        hasReturnedTransactions: isPolledUpdate
+          ? prev.hasReturnedTransactions
+          : returnedTransactions.length > 0,
       }))
 
-      // We store the first page in redux to show them to the users when they open the app.
-      if (!hasPreviousPage) {
+      if (isPollResult && returnedTransactions.length) {
+        // We store the first page in redux to show them to the users when they open the app.
         const nonEmptyTransactions = returnedTransactions.filter(
           (returnedTransaction) => !isEmpty(returnedTransaction)
         )
@@ -111,7 +117,7 @@ export function useFetchTransactions(): QueryHookResult {
   const { loading, error } = useAsync(
     async () => {
       const result = await queryTransactionsFeed(address, localCurrencyCode)
-      handleResult(result, false)
+      handleResult(result, true)
     },
     [counter],
     {
@@ -133,7 +139,7 @@ export function useFetchTransactions(): QueryHookResult {
         fetchedResult.pageInfo?.endCursor
       )
       setFetchingMoreTransactions(false)
-      handleResult(result, true)
+      handleResult(result, false)
     },
     [fetchingMoreTransactions],
     {
