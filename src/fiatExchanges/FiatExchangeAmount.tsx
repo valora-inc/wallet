@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { cUsdDailyLimitSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+// import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -156,11 +156,13 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    /*
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency,
       flow,
     })
+    */
     const amount = {
       crypto: inputCryptoAmount.toNumber(),
       // Rounding up to avoid decimal errors from providers. Won't be
@@ -201,11 +203,13 @@ function FiatExchangeAmount({ route }: Props) {
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)
+        /*
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
           currency,
           flow,
         })
+        */
         return
       }
       if (
