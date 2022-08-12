@@ -1,9 +1,9 @@
 import { ObfuscatedFiatAccountData } from '@fiatconnect/fiatconnect-types'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, BackHandler, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -11,10 +11,15 @@ import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import { createFiatConnectTransfer } from 'src/fiatconnect/slice'
+import {
+  fiatConnectQuotesErrorSelector,
+  fiatConnectQuotesLoadingSelector,
+} from 'src/fiatconnect/selectors'
+import { createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
@@ -33,7 +38,24 @@ type Props = StackScreenProps<StackParamList, Screens.FiatConnectReview>
 export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { flow, normalizedQuote, fiatAccount } = route.params
+  const { flow, normalizedQuote, fiatAccount, shouldRefetchQuote } = route.params
+  const fiatConnectQuotesLoading = useSelector(fiatConnectQuotesLoadingSelector)
+  const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
+  const [showingExpiredQuoteDialog, setShowingExpiredQuoteDialog] = useState(
+    normalizedQuote.getGuaranteedUntil() < new Date()
+  )
+
+  useEffect(() => {
+    if (shouldRefetchQuote) {
+      dispatch(
+        refetchQuote({
+          flow,
+          quote: normalizedQuote,
+          fiatAccount,
+        })
+      )
+    }
+  }, [shouldRefetchQuote])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -78,12 +100,87 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     goBack()
   }
 
+  const onPressSupport = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_contact_support, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    navigate(Screens.SupportContact)
+  }
+
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_error_retry, {
+      flow,
+      provider: normalizedQuote.getProviderId(),
+    })
+    dispatch(
+      refetchQuote({
+        flow,
+        quote: normalizedQuote,
+        fiatAccount,
+      })
+    )
+  }
+
+  if (fiatConnectQuotesError) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{t('fiatConnectReviewScreen.failedRefetch.title')}</Text>
+        <Text style={styles.description}>
+          {t('fiatConnectReviewScreen.failedRefetch.description')}
+        </Text>
+        <Button
+          style={styles.button}
+          testID="TryAgain"
+          onPress={onPressTryAgain}
+          text={t('fiatConnectReviewScreen.failedRefetch.tryAgain')}
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.MEDIUM}
+        />
+        <Button
+          style={styles.button}
+          testID="SupportContactLink"
+          onPress={onPressSupport}
+          text={t('contactSupport')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.MEDIUM}
+        />
+      </View>
+    )
+  }
+
+  if (fiatConnectQuotesLoading) {
+    return (
+      <View style={styles.activityIndicatorContainer}>
+        <ActivityIndicator size="large" color={colors.greenBrand} />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.content}>
+      <Dialog
+        testID="expiredQuoteDialog"
+        isVisible={showingExpiredQuoteDialog}
+        title={t('fiatConnectReviewScreen.quoteExpiredDialog.title')}
+        actionText={t('fiatConnectReviewScreen.quoteExpiredDialog.continue')}
+        actionPress={() => {
+          dispatch(
+            refetchQuote({
+              flow,
+              quote: normalizedQuote,
+              fiatAccount,
+            })
+          )
+          setShowingExpiredQuoteDialog(false)
+        }}
+      >
+        {t('fiatConnectReviewScreen.quoteExpiredDialog.body')}
+      </Dialog>
       <View>
         <ReceiveAmount flow={flow} normalizedQuote={normalizedQuote} />
         <TransactionDetails flow={flow} normalizedQuote={normalizedQuote} />
-        <PaymentMethod normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
+        <PaymentMethod flow={flow} normalizedQuote={normalizedQuote} fiatAccount={fiatAccount} />
       </View>
       <Button
         testID="submitButton"
@@ -96,24 +193,28 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
             : t('fiatConnectReviewScreen.cashOut.button')
         }
         onPress={() => {
-          ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
-            flow,
-            provider: normalizedQuote.getProviderId(),
-          })
-
-          dispatch(
-            createFiatConnectTransfer({
+          if (normalizedQuote.getGuaranteedUntil() < new Date()) {
+            setShowingExpiredQuoteDialog(true)
+          } else {
+            ValoraAnalytics.track(FiatExchangeEvents.cico_fc_review_submit, {
               flow,
-              fiatConnectQuote: normalizedQuote,
-              fiatAccountId: fiatAccount.fiatAccountId,
+              provider: normalizedQuote.getProviderId(),
             })
-          )
 
-          navigate(Screens.FiatConnectTransferStatus, {
-            flow,
-            normalizedQuote,
-            fiatAccount,
-          })
+            dispatch(
+              createFiatConnectTransfer({
+                flow,
+                fiatConnectQuote: normalizedQuote,
+                fiatAccountId: fiatAccount.fiatAccountId,
+              })
+            )
+
+            navigate(Screens.FiatConnectTransferStatus, {
+              flow,
+              normalizedQuote,
+              fiatAccount,
+            })
+          }
         }}
       />
     </SafeAreaView>
@@ -283,9 +384,11 @@ function TransactionDetails({
 }
 
 function PaymentMethod({
+  flow,
   normalizedQuote,
   fiatAccount,
 }: {
+  flow: CICOFlow
   normalizedQuote: FiatConnectQuote
   fiatAccount: ObfuscatedFiatAccountData
 }) {
@@ -305,7 +408,11 @@ function PaymentMethod({
   return (
     <Touchable onPress={onPress}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionHeaderText}>{t('fiatConnectReviewScreen.paymentMethod')}</Text>
+        <Text style={styles.sectionHeaderText}>
+          {flow === CICOFlow.CashIn
+            ? t('fiatConnectReviewScreen.cashIn.paymentMethodHeader')
+            : t('fiatConnectReviewScreen.cashOut.paymentMethodHeader')}
+        </Text>
         <View style={styles.sectionMainTextContainer}>
           <Text style={styles.sectionMainText} testID="paymentMethod-text">
             {fiatAccount.accountName}
@@ -364,6 +471,30 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     color: colors.gray3,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    ...fontStyles.h2,
+  },
+  description: {
+    ...fontStyles.regular,
+    textAlign: 'center',
+    marginTop: 12,
+    paddingHorizontal: 48,
+    paddingBottom: 24,
+  },
+  button: {
+    marginTop: 13,
   },
 })
 

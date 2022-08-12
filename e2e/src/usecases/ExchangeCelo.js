@@ -7,6 +7,7 @@ import {
   isElementVisible,
   padTrailingZeros,
   sleep,
+  waitForElementId,
   waitForExpectNotVisible,
 } from '../utils/utils'
 
@@ -49,6 +50,7 @@ export default ExchangeCelo = () => {
   beforeEach(async () => {
     await reloadReactNative()
     // Tap Hamburger Menu
+    await waitForElementId('Hamburger')
     await element(by.id('Hamburger')).tap()
     // Tap CELO
     await element(by.id('CELO')).tap()

@@ -147,6 +147,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.provider.websiteUrl
   }
 
+  getProviderIcon(): string {
+    return this.quote.provider.iconUrl
+  }
+
   getFiatAmount(): string {
     return this.quote.quote.fiatAmount
   }
@@ -177,5 +181,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
 
   getQuoteId(): string {
     return this.quote.quote.quoteId
+  }
+
+  getGuaranteedUntil(): Date {
+    return new Date(this.quote.quote.guaranteedUntil)
   }
 }
