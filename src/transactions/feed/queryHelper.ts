@@ -164,22 +164,20 @@ export function useFetchTransactions(): QueryHookResult {
     }
   }, [fetchedResult, loading])
 
-  const fetchMoreTransactions = () => {
-    if (!fetchedResult.pageInfo) {
-      dispatch(showError(ErrorMessages.FETCH_FAILED))
-    } else if (!fetchedResult.pageInfo?.hasNextPage) {
-      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-    } else {
-      setFetchingMoreTransactions(true)
-    }
-  }
-
   return {
     loading,
     error,
     transactions: fetchedResult.transactions,
     fetchingMoreTransactions,
-    fetchMoreTransactions,
+    fetchMoreTransactions: () => {
+      if (!fetchedResult.pageInfo) {
+        dispatch(showError(ErrorMessages.FETCH_FAILED))
+      } else if (!fetchedResult.pageInfo?.hasNextPage) {
+        Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
+      } else {
+        setFetchingMoreTransactions(true)
+      }
+    },
   }
 }
 
