@@ -127,6 +127,10 @@ export default class FiatConnectQuote extends NormalizedQuote {
     dispatch(selectFiatConnectQuote({ quote: this }))
   }
 
+  getProviderApiKey(): string | undefined {
+    return this.quote.provider.apiKey
+  }
+
   getProviderName(): string {
     return this.quote.provider.providerName
   }
