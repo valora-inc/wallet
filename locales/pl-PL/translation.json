@@ -1276,24 +1276,24 @@
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
       "transactionDetailsAmount": "Cena całkowita",
-      "paymentMethodHeader": "Wpłata Od"
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Analizuj",
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
       "transactionDetailsAmountConverted": "Wypłacona kwota",
-      "paymentMethodHeader": "Wycofaj się do"
+      "paymentMethodHeader": "Withdraw To"
     },
     "failedRefetch": {
-      "title": "Połączenie zostało utracone!",
-      "description": "Nie udało nam się nawiązać połączenia między waszymi kontami.\n\nMoże to być spowodowane słabym połączeniem internetowym lub problemem z serwerem. Spróbuj ponownie nawiązać połączenie.",
-      "tryAgain": "Spróbuj ponownie"
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
     },
     "quoteExpiredDialog": {
-      "title": "Przegląd kwot i opłat",
-      "body": "Kwoty i opłaty za kryptowaluty mogą ulec zmianie z powodu wahań na rynku kryptowalut.\n\nProsimy o zapoznanie się z ostateczną kwotą i opłatami przed wysłaniem",
-      "continue": "Kontynuuj"
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1336,16 +1336,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Wprowadź informacje o banku",
+    "header": "Enter Bank Information",
     "headerSubTitle": "Powered by {{provider}}",
-    "description": "Dodaj swoje dane, aby połączyć swoje konto bankowe z Valorą",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
     "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
     "selectItem": "Wybierz opcję...",
     "selectDone": "Gotowe",
-    "submitAndContinue": "Prześlij i kontynuuj"
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "institutionName": {
