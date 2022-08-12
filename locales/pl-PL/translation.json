@@ -1269,20 +1269,21 @@
     "continue": "Kontynuuj"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Metoda płatności",
     "transactionDetails": "Szczegóły transakcji",
     "paymentMethodVia": "Powiązana przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
-      "transactionDetailsAmount": "Cena całkowita"
+      "transactionDetailsAmount": "Cena całkowita",
+      "paymentMethodHeader": "Wpłata Od"
     },
     "cashOut": {
       "header": "Analizuj",
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
-      "transactionDetailsAmountConverted": "Wypłacona kwota"
+      "transactionDetailsAmountConverted": "Wypłacona kwota",
+      "paymentMethodHeader": "Wycofaj się do"
     },
     "failedRefetch": {
       "title": "Połączenie zostało utracone!",
