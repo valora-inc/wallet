@@ -1269,20 +1269,21 @@
     "continue": "Продовжити"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Спосіб оплати",
     "transactionDetails": "Деталі транзакції",
     "paymentMethodVia": "Пов'язані через {{providerName}}",
     "receiveAmount": "Ви отримаєте",
     "cashIn": {
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
-      "transactionDetailsAmount": "Сума"
+      "transactionDetailsAmount": "Сума",
+      "paymentMethodHeader": "Поповнити з"
     },
     "cashOut": {
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
-      "transactionDetailsAmountConverted": "Знята сума"
+      "transactionDetailsAmountConverted": "Знята сума",
+      "paymentMethodHeader": "Зняти на"
     },
     "failedRefetch": {
       "title": "З'єднання втрачено!",
