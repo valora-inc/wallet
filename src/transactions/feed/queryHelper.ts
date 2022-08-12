@@ -78,14 +78,7 @@ export function useFetchTransactions(): QueryHookResult {
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  // Store the lastFetchEndCursor so that we can fetch older transactions after polling for awhile
-  const [lastFetchEndCursor, setLastFetchEndCursor] = useState<string | null>(null)
-
   const handleResult = (result: QueryResponse, hasPreviousPage: boolean) => {
-    // Handle polling resetting last page info
-    if (hasPreviousPage) {
-      setLastFetchEndCursor(result.data?.tokenTransactionsV2?.pageInfo.endCursor)
-    }
     Logger.info(TAG, `Fetched ${hasPreviousPage ? 'next page' : 'new'} transactions`)
 
     const returnedTransactions = result.data?.tokenTransactionsV2?.transactions ?? []
@@ -131,7 +124,11 @@ export function useFetchTransactions(): QueryHookResult {
         return
       }
 
-      const result = await queryTransactionsFeed(address, localCurrencyCode, lastFetchEndCursor)
+      const result = await queryTransactionsFeed(
+        address,
+        localCurrencyCode,
+        fetchedResult.pageInfo?.endCursor
+      )
       setFetchingMoreTransactions(false)
       handleResult(result, true)
     },
@@ -181,7 +178,7 @@ export function useFetchTransactions(): QueryHookResult {
 async function queryTransactionsFeed(
   address: string | null,
   localCurrencyCode: string,
-  afterCursor?: string | null
+  afterCursor?: string
 ) {
   Logger.info(
     `Request to fetch transactions with params: ${JSON.stringify({
