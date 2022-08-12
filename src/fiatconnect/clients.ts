@@ -24,7 +24,6 @@ export async function getFiatConnectClient(
   providerBaseUrl: string,
   providerApiKey?: string
 ): Promise<FiatConnectApiClient> {
-  //TODO: I don't think the second check actually does anything. Testing with manually changing the url didn't update the baseUrl
   if (!fiatConnectClients[providerId] || fiatConnectClients[providerId].url !== providerBaseUrl) {
     const wallet = (await getWalletAsync()) as UnlockableWallet
     const [account] = wallet.getAccounts()
