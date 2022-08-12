@@ -92,7 +92,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const { t } = useTranslation()
   const { flow } = route.params
 
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.Dollar)
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency | 'cREAL'>(Currency.Dollar)
 
   const goToProvider = () => {
     /*
@@ -103,7 +103,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     */
     if (flow === FiatExchangeFlow.Spend) {
       return navigate(Screens.BidaliScreen, {
-        currency: selectedCurrency,
+        currency: selectedCurrency as Currency,
       })
     }
     navigate(Screens.FiatExchangeAmount, {
@@ -141,6 +141,18 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
               borderBottomWidth: 0.5,
             }}
             testID="radio/cEUR"
+          />
+          <CurrencyRadioItem
+            title={'Celo Brazilian Real'}
+            body="(cREAL)"
+            selected={selectedCurrency === 'cREAL'}
+            enabled={flow === FiatExchangeFlow.CashIn}
+            onSelect={() => setSelectedCurrency('cREAL')}
+            containerStyle={{
+              borderTopWidth: 0.5,
+              borderBottomWidth: 0.5,
+            }}
+            testID="radio/cREAL"
           />
           <CurrencyRadioItem
             title="CELO"
