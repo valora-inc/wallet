@@ -178,7 +178,14 @@ function FiatExchangeAmount({ route }: Props) {
       // necessary once we support inputting an amount in both crypto and fiat
       fiat: Math.round(inputLocalCurrencyAmount.toNumber()),
     }
-
+    if (flow === CICOFlow.CashIn && currency === 'cREAL') {
+      navigate(Screens.SelectProvider, {
+        flow,
+        selectedCrypto: currency as Currency,
+        amount,
+      })
+      return
+    }
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
         account.cryptoType === currency &&
@@ -316,10 +323,7 @@ function FiatExchangeAmount({ route }: Props) {
           title={
             <Trans>
               {`${t(displayCurrencyKey)} @ `}
-              <CurrencyDisplay
-                amount={oneUnitAmount(currency)}
-                showLocalAmount={true}
-              />
+              <CurrencyDisplay amount={oneUnitAmount(currency)} showLocalAmount={true} />
             </Trans>
           }
           amount={

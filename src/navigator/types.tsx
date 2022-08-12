@@ -238,7 +238,7 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {
     flow: CICOFlow
-    selectedCrypto: Currency
+    selectedCrypto: Currency | 'cREAL'
     amount: {
       crypto: number
       fiat: number
