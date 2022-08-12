@@ -182,4 +182,8 @@ export default class FiatConnectQuote extends NormalizedQuote {
   getQuoteId(): string {
     return this.quote.quote.quoteId
   }
+
+  getGuaranteedUntil(): Date {
+    return new Date(this.quote.quote.guaranteedUntil)
+  }
 }

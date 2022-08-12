@@ -1286,6 +1286,11 @@
       "title": "Connection lost!",
       "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
       "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1336,18 +1341,13 @@
     "addFiatAccountResourceExist": "You have already linked this account to Valora.",
     "addFiatAccountFailed": "Your account was not linked, please try again or contact support.",
     "selectItem": "Select an option...",
-    "selectDone": "Done"
+    "selectDone": "Done",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Account Name",
-      "placeholderText": "A name for the account",
-      "errorMessage": "An account name is required"
-    },
     "institutionName": {
       "label": "Bank Name",
-      "placeholderText": "Enter Bank Name",
-      "errorMessage": "A bank name is required"
+      "placeholderText": "Enter Bank Name"
     },
     "accountNumber": {
       "label": "Account Number",
