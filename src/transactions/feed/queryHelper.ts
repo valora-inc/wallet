@@ -68,9 +68,11 @@ export function useFetchTransactions(): QueryHookResult {
   const [fetchedResult, setFetchedResult] = useState<{
     transactions: TokenTransaction[]
     pageInfo: PageInfo | null
+    hasReturnedTransactions: boolean
   }>({
     transactions: [],
     pageInfo: null,
+    hasReturnedTransactions: false,
   })
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
 
@@ -88,6 +90,7 @@ export function useFetchTransactions(): QueryHookResult {
       setFetchedResult((prev) => ({
         transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
         pageInfo: returnedPageInfo ?? null,
+        hasReturnedTransactions: returnedTransactions.length > 0,
       }))
 
       // We store the first page in redux to show them to the users when they open the app.
@@ -143,12 +146,20 @@ export function useFetchTransactions(): QueryHookResult {
   )
 
   useEffect(() => {
-    // this hook ensures that we populate the entire screen with transactions
-    // on load so that future refetches can be correctly triggered by
-    // `onEndReached`, in the event that blockchain-api returns a small number
-    // of results for the first page(s)
-    const { transactions, pageInfo } = fetchedResult
-    if (!loading && transactions.length < MIN_NUM_TRANSACTIONS && pageInfo?.hasNextPage) {
+    // this hook does 2 things:
+    // 1. ensures that we populate the entire screen with transactions on load
+    //    so that future refetches can be correctly triggered by `onEndReached`,
+    //    in the event that blockchain-api returns a small number of results for
+    //    the first page(s)
+    // 2. sometimes blockchain-api returns 0 transactions for a page (as we only
+    //    display certain transaction types in the app) and for this case,
+    //    automatically fetch the next page(s) until some transactions are returned
+    const { transactions, pageInfo, hasReturnedTransactions } = fetchedResult
+    if (
+      !loading &&
+      pageInfo?.hasNextPage &&
+      (transactions.length < MIN_NUM_TRANSACTIONS || !hasReturnedTransactions)
+    ) {
       setFetchingMoreTransactions(true)
     }
   }, [fetchedResult, loading])
@@ -157,10 +168,7 @@ export function useFetchTransactions(): QueryHookResult {
     if (!fetchedResult.pageInfo) {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
     } else if (!fetchedResult.pageInfo?.hasNextPage) {
-      // If the user has a few transactions, don't show any message
-      if (fetchedResult.transactions.length > 20) {
-        Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-      }
+      Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
     } else {
       setFetchingMoreTransactions(true)
     }

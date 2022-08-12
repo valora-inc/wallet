@@ -273,4 +273,33 @@ describe('TransactionFeed', () => {
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(11)
   })
+
+  it('fetches the next page automatically if there are no transactions returned and next page exists', async () => {
+    let mockFetchCount = 0
+    mockFetch.mockImplementation(() => {
+      let response = ''
+      switch (mockFetchCount) {
+        case 1:
+          response = JSON.stringify(MOCK_EMPTY_RESPONSE)
+          break
+        case 2:
+          response = JSON.stringify(MOCK_RESPONSE)
+          break
+        default:
+          response = JSON.stringify(MOCK_RESPONSE_MANY_ITEMS)
+      }
+      mockFetchCount += 1
+      return Promise.resolve(new Response(response))
+    })
+
+    const tree = renderScreen({})
+    await waitFor(() => tree.getByTestId('TransactionList'))
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(10)
+
+    fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
+    expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(11)
+  })
 })
