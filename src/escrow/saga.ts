@@ -165,7 +165,9 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
     )
     if (receipt) {
       yield put(fetchSentEscrowPayments())
-      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
+      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete, {
+        paymentId,
+      })
     } else {
       throw error
     }
@@ -279,7 +281,9 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
 
     if (escrowPaymentIds.length === 0) {
       Logger.debug(TAG + '@withdrawFromEscrow', 'No pending payments in escrow')
-      ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
+      ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete, {
+        paymentId: null,
+      })
       return
     }
 
@@ -342,6 +346,9 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
           }
         }
         withdrawTxSuccess.push(true)
+        ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete, {
+          paymentId,
+        })
       } catch (error) {
         withdrawTxSuccess.push(false)
         Logger.error(TAG + '@withdrawFromEscrow', 'Unable to withdraw from escrow. Error: ', error)
@@ -355,7 +362,6 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     yield put(fetchStableBalances())
     yield put(fetchTokenBalances())
     Logger.showMessage(i18n.t('transferDollarsToAccount'))
-    ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
     Logger.error(TAG + '@withdrawFromEscrow', 'Error withdrawing payment from escrow', e)
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_error, { error: e.message })
