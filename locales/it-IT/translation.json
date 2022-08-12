@@ -1265,20 +1265,21 @@
     "continue": "Continua"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Metodo di pagamento",
     "transactionDetails": "Dettagli della transazione",
     "paymentMethodVia": "Collegati via {{providerName}}",
     "receiveAmount": "Riceverai",
     "cashIn": {
       "header": "Rivedi - Aggiungi fondi",
       "button": "Aggiungi fondi",
-      "transactionDetailsAmount": "Prezzo totale"
+      "transactionDetailsAmount": "Prezzo totale",
+      "paymentMethodHeader": "Deposito Da"
     },
     "cashOut": {
       "header": "Rivedi",
       "button": "Preleva fondi",
       "transactionDetailsAmount": "Prelievo totale",
-      "transactionDetailsAmountConverted": "Importo prelevato"
+      "transactionDetailsAmountConverted": "Importo prelevato",
+      "paymentMethodHeader": "Ritiro a"
     },
     "failedRefetch": {
       "title": "Connessione persa!",
