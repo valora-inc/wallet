@@ -26,7 +26,6 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import InfoIcon from 'src/icons/InfoIcon'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -66,9 +65,6 @@ export function SwapReviewScreen(props: Props) {
   useEffect(() => {
     if (fetchSwapQuoteError) {
       dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
-      setTimeout(() => {
-        navigateBack()
-      }, 300)
     }
   }, [fetchSwapQuoteError])
 
