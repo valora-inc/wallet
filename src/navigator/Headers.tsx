@@ -129,7 +129,7 @@ export const headerWithCloseButton: StackNavigationOptions = {
 
 interface Props {
   title: string | JSX.Element
-  token: Currency
+  token: Currency | 'cREAL'
   switchTitleAndSubtitle?: boolean
   displayCrypto?: boolean
 }
@@ -140,8 +140,8 @@ export function HeaderTitleWithBalance({
   switchTitleAndSubtitle = false,
   displayCrypto = false,
 }: Props) {
-  const balance = useBalance(token)
   const tokenInfo = useTokenInfoBySymbol(token == Currency.Celo ? 'CELO' : token)
+  const balance = token === 'cREAL' ? tokenInfo?.balance : useBalance(token as Currency)
 
   const subTitle =
     balance != null ? (
