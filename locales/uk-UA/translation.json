@@ -1276,24 +1276,24 @@
       "header": "Перегляд - Поповнити кошти",
       "button": "Додати кошти",
       "transactionDetailsAmount": "Сума",
-      "paymentMethodHeader": "Поповнити з"
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Перегляд",
       "button": "Вивести кошти",
       "transactionDetailsAmount": "Всього Зняття",
       "transactionDetailsAmountConverted": "Знята сума",
-      "paymentMethodHeader": "Зняти на"
+      "paymentMethodHeader": "Withdraw To"
     },
     "failedRefetch": {
-      "title": "З'єднання втрачено!",
-      "description": "Нам не вдалося встановити зв'язок між вашими рахунками.\n\nЦе може бути через поганий зв'язок з Інтернетом або проблеми з сервером. Будь ласка, спробуйте відновити підключення.",
-      "tryAgain": "Спробувати ще"
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
     },
     "quoteExpiredDialog": {
-      "title": "Переглянути суми та тарифи",
-      "body": "Суми криптовалют і збори можуть змінитися через коливання на ринку криптовалюти.\n\nБудь ласка, перегляньте вашу остаточну суму і комісію перед відправкою",
-      "continue": "Продовжити"
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1336,16 +1336,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Введіть дані банку",
-    "headerSubTitle": "Працює на {{provider}}",
-    "description": "Додайте вашу інформацію, щоб пов'язати ваш банківський рахунок з Valora",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Вибраний спосіб оплати",
     "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
     "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
     "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки.",
     "selectItem": "Виберіть варіант...",
     "selectDone": "Виконано",
-    "submitAndContinue": "Надіслати та продовжити"
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "institutionName": {
