@@ -88,9 +88,9 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
 
-    const { queryByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
-    expect(queryByText('createAccount')).toBeTruthy()
+    expect(getByText('createAccount')).toBeTruthy()
   })
 
   it('render header title correctly when createAccountCopyTestConfig is "treatment1"', () => {
@@ -114,9 +114,9 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
 
-    const { queryByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
-    expect(queryByText('createProfile')).toBeTruthy()
+    expect(getByText('createProfile')).toBeTruthy()
   })
 
   it('render header title correctly when createAccountCopyTestConfig is "treatment2"', () => {
@@ -140,8 +140,8 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
 
-    const { queryByText } = render(<Provider store={store}>{headerTitle}</Provider>)
+    const { getByText } = render(<Provider store={store}>{headerTitle}</Provider>)
 
-    expect(queryByText('createProfile')).toBeTruthy()
+    expect(getByText('createProfile')).toBeTruthy()
   })
 })
