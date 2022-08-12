@@ -1272,24 +1272,24 @@
       "header": "Revisión - Agregar fondos",
       "button": "Agregar fondos",
       "transactionDetailsAmount": "Precio total",
-      "paymentMethodHeader": "Depósito de"
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Revisar",
       "button": "Retirar fondos",
       "transactionDetailsAmount": "Total a retirar",
       "transactionDetailsAmountConverted": "Monto retirado",
-      "paymentMethodHeader": "Retirarse a"
+      "paymentMethodHeader": "Withdraw To"
     },
     "failedRefetch": {
-      "title": "Se ha perdido la conexión.",
-      "description": "No hemos podido establecer una conexión entre tus cuentas.\n\nEsto puede deberse a una mala conexión a Internet o a un problema del servidor. Por favor, intenta volver a conectarte.",
-      "tryAgain": "Reintentar"
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
     },
     "quoteExpiredDialog": {
-      "title": "Revisar los importes y las tasas",
-      "body": "Los importes de las criptomonedas y las comisiones pueden cambiar debido a las fluctuaciones del mercado de las criptomonedas.\n\nPor favor, revisa el importe final y las comisiones antes de enviarlas",
-      "continue": "Continuar"
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1332,16 +1332,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Introduce la información bancaria",
-    "headerSubTitle": "Desarrollado por {{provider}}",
-    "description": "Añade tus datos para vincular tu cuenta bancaria a Valora",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Método de pago seleccionado",
     "addFiatAccountSuccess": "Tu cuenta está vinculada a Valora.",
     "addFiatAccountResourceExist": "Ya has vinculado esta cuenta a Valora.",
     "addFiatAccountFailed": "No fue posible vincular tu cuenta, vuelve a intentarlo o comunícate con el equipo de soporte.",
     "selectItem": "Selecciona una opción...",
     "selectDone": "Listo",
-    "submitAndContinue": "Enviar y continuar"
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
     "institutionName": {
