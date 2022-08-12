@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+// import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import i18n from 'src/i18n'
@@ -95,10 +95,12 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.Dollar)
 
   const goToProvider = () => {
+    /*
     ValoraAnalytics.track(FiatExchangeEvents.cico_currency_chosen, {
       flow,
-      currency: selectedCurrency,
+      currency: selectedCurrency, //TODO update FiatExchangeFlow to account for cReal selection
     })
+    */
     if (flow === FiatExchangeFlow.Spend) {
       return navigate(Screens.BidaliScreen, {
         currency: selectedCurrency,
