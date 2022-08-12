@@ -84,7 +84,7 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const inputConvertedToCrypto =
-    useLocalAmountToCurrency(parsedInputAmount, currency as Currency) || new BigNumber(0) //! check Local Amount conversion
+    useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
   const inputConvertedToLocalCurrency =
     useCurrencyToLocalAmount(parsedInputAmount, currency as Currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
@@ -133,9 +133,8 @@ function FiatExchangeAmount({ route }: Props) {
     useConvertBetweenCurrencies(
       new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
       Currency.Dollar,
-      currency as Currency
+      currency
     ) || new BigNumber(0)
-  //! check max amount conversion
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString =
@@ -181,7 +180,7 @@ function FiatExchangeAmount({ route }: Props) {
     if (flow === CICOFlow.CashIn && currency === 'cREAL') {
       navigate(Screens.SelectProvider, {
         flow,
-        selectedCrypto: currency as Currency,
+        selectedCrypto: currency,
         amount,
       })
       return
