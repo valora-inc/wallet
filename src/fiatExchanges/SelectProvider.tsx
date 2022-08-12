@@ -79,6 +79,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
+    ['cREAL']: CiCoCurrency.CREAL,
   }[route.params.selectedCrypto]
 
   // If there is no FC providers in the redux cache, try to fetch again
@@ -203,7 +204,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       <View style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
-            digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag,
+            digitalAsset:
+              digitalAsset === CiCoCurrency.CREAL
+                ? 'cREAL'
+                : CURRENCIES[route.params.selectedCrypto as Currency].cashTag,
           })}
         </Text>
         <TextButton
