@@ -66,7 +66,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
 type Props = RouteProps
 
-const oneUnitAmount = (currency: Currency) => ({
+const oneUnitAmount = (currency: Currency | 'cREAL') => ({
   value: new BigNumber('1'),
   currencyCode: currency,
 })
@@ -84,9 +84,9 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const inputConvertedToCrypto =
-    useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
+    useLocalAmountToCurrency(parsedInputAmount, currency as Currency) || new BigNumber(0) //! check Local Amount conversion
   const inputConvertedToLocalCurrency =
-    useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
+    useCurrencyToLocalAmount(parsedInputAmount, currency as Currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
@@ -133,9 +133,9 @@ function FiatExchangeAmount({ route }: Props) {
     useConvertBetweenCurrencies(
       new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
       Currency.Dollar,
-      currency
+      currency as Currency
     ) || new BigNumber(0)
-
+  //! check max amount conversion
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString =
@@ -192,7 +192,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         attemptReturnUserFlow({
           flow,
-          selectedCrypto: currency,
+          selectedCrypto: currency as Currency,
           amount,
           providerId,
           fiatAccountId,
@@ -202,7 +202,7 @@ function FiatExchangeAmount({ route }: Props) {
     } else {
       navigate(Screens.SelectProvider, {
         flow,
-        selectedCrypto: currency,
+        selectedCrypto: currency as Currency,
         amount,
       })
     }
@@ -316,7 +316,10 @@ function FiatExchangeAmount({ route }: Props) {
           title={
             <Trans>
               {`${t(displayCurrencyKey)} @ `}
-              <CurrencyDisplay amount={oneUnitAmount(currency)} showLocalAmount={true} />
+              <CurrencyDisplay
+                amount={oneUnitAmount(currency)}
+                showLocalAmount={true}
+              />
             </Trans>
           }
           amount={

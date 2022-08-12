@@ -124,7 +124,7 @@ export type StackParamList = {
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
-    currency: Currency
+    currency: Currency | 'cREAL'
     flow: CICOFlow
   }
   [Screens.FiatExchangeCurrency]: {
