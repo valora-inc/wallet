@@ -40,7 +40,7 @@ export default function SwapContent({ exchange }: Props) {
   return (
     <View style={styles.contentContainer}>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
-        <Text style={styles.exchangeBodyText}>{t('swapContent.swapTo')}</Text>
+        <Text style={styles.bodyText}>{t('swapContent.swapTo')}</Text>
         <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.outAmount.value}
@@ -52,7 +52,7 @@ export default function SwapContent({ exchange }: Props) {
         />
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
-        <Text style={styles.exchangeBodyText}>{t('swapContent.swapFrom')}</Text>
+        <Text style={styles.bodyText}>{t('swapContent.swapFrom')}</Text>
         <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.inAmount.value}
@@ -66,7 +66,7 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={styles.separator} />
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
-        <Text style={styles.exchangeBodyText}>{t('swapContent.rate')}</Text>
+        <Text style={styles.bodyText}>{t('swapContent.rate')}</Text>
         <Text testID="SwapContent/rate" style={styles.currencyAmountText}>
           {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
             new BigNumber(exchange.inAmount.value).dividedBy(exchange.outAmount.value)
@@ -74,7 +74,7 @@ export default function SwapContent({ exchange }: Props) {
         </Text>
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
-        <Text style={styles.exchangeBodyText}>{t('swapContent.estimatedFee')}</Text>
+        <Text style={styles.bodyText}>{t('swapContent.estimatedFee')}</Text>
         <TokenDisplay
           style={styles.currencyAmountText}
           amount={exchange.fees[0].amount.value}
@@ -106,10 +106,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  exchangeBodyText: {
+  bodyText: {
     ...fontStyles.large,
     width: '40%',
-    textAlign: 'left',
   },
   currencyAmountText: {
     ...fontStyles.large,
