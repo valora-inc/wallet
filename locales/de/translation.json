@@ -1265,20 +1265,21 @@
     "continue": "Weiter"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Zahlungsmethode",
     "transactionDetails": "Transaktiondetails",
     "paymentMethodVia": "Verknüpft über {{providerName}}",
     "receiveAmount": "Du wirst erhalten",
     "cashIn": {
       "header": "Guthaben hinzufügen überprüfen",
       "button": "Guthaben hinzufügen",
-      "transactionDetailsAmount": "Gesamtpreis"
+      "transactionDetailsAmount": "Gesamtpreis",
+      "paymentMethodHeader": "Einzahlung von"
     },
     "cashOut": {
       "header": "Überprüfen",
       "button": "Guthaben abheben",
       "transactionDetailsAmount": "Gesamt abgehoben",
-      "transactionDetailsAmountConverted": "Betrag abgehoben"
+      "transactionDetailsAmountConverted": "Betrag abgehoben",
+      "paymentMethodHeader": "Zurückziehen nach"
     },
     "failedRefetch": {
       "title": "Verbindung verloren!",
