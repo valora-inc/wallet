@@ -1,9 +1,9 @@
-interface SentrySpanInfo {
+interface SentryTransactionInfo {
   name: string
   op: string
 }
 
-export enum SentrySpan {
+export enum SentryTransaction {
   dappkit_connection = 'DAppKitConnection',
   dappkit_transaction = 'DAppKitTransaction',
   fetch_balances = 'FetchBalances',
@@ -16,9 +16,9 @@ export enum SentrySpan {
   wallet_connect_transaction = 'WalletConnectTransaction',
 }
 
-type values = typeof SentrySpan[keyof typeof SentrySpan]
+type values = typeof SentryTransaction[keyof typeof SentryTransaction]
 
-export const SentrySpans: Record<values, SentrySpanInfo> = {
+export const SentryTransactions: Record<values, SentryTransactionInfo> = {
   DAppKitConnection: {
     name: 'DAppKit Connection',
     op: 'dappkit_connection',

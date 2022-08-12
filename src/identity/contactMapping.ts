@@ -43,8 +43,8 @@ import {
 import { ImportContactsStatus } from 'src/identity/types'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
-import { SentrySpan } from 'src/sentry/SentrySpans'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
 import { checkContactsPermission } from 'src/utils/permissions'
@@ -95,7 +95,7 @@ function* doImportContacts(doMatchmaking: boolean) {
 
   ValoraAnalytics.track(IdentityEvents.contacts_import_start)
 
-  SentryTransactionHub.startTransaction(SentrySpan.import_contacts)
+  SentryTransactionHub.startTransaction(SentryTransaction.import_contacts)
   yield put(updateImportContactsProgress(ImportContactsStatus.Importing))
 
   const contacts: MinimalContact[] = yield call(getAllContacts)
@@ -121,7 +121,7 @@ function* doImportContacts(doMatchmaking: boolean) {
   yield put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
-  SentryTransactionHub.finishTransaction(SentrySpan.import_contacts)
+  SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
 
   if (!doMatchmaking) {
     return true

@@ -17,8 +17,8 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import { SentrySpan } from 'src/sentry/SentrySpans'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import { tokensListSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 import {
@@ -322,7 +322,7 @@ export function* fetchTokenBalancesSaga() {
       Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
       return
     }
-    SentryTransactionHub.startTransaction(SentrySpan.fetch_balances)
+    SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
@@ -341,7 +341,7 @@ export function* fetchTokenBalancesSaga() {
       }
     }
     yield put(setTokenBalances(tokens))
-    SentryTransactionHub.finishTransaction(SentrySpan.fetch_balances)
+    SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
     yield put(fetchTokenBalancesFailure())

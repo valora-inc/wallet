@@ -16,8 +16,8 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { SentrySpan } from 'src/sentry/SentrySpans'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
+import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import Logger from 'src/utils/Logger'
 import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
@@ -129,7 +129,7 @@ function* acceptSession(session: AcceptSession) {
     yield put(storeSession(connector.session))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
     yield call(showWalletConnectionSuccessMessage, peerMeta.name)
-    SentryTransactionHub.finishTransaction(SentrySpan.wallet_connect_connection)
+    SentryTransactionHub.finishTransaction(SentryTransaction.wallet_connect_connection)
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -221,7 +221,7 @@ function* acceptRequest(r: AcceptRequest) {
       yield call(showWalletConnectionSuccessMessage, connector.session.peerMeta.name)
     }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
-    SentryTransactionHub.finishTransaction(SentrySpan.wallet_connect_transaction)
+    SentryTransactionHub.finishTransaction(SentryTransaction.wallet_connect_transaction)
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
     connector?.rejectRequest({ id, jsonrpc, error: e.message })

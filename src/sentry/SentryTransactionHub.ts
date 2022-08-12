@@ -1,17 +1,17 @@
 import * as Sentry from '@sentry/react-native'
 import { Transaction } from '@sentry/types'
-import { SentrySpan, SentrySpans } from 'src/sentry/SentrySpans'
+import { SentryTransaction, SentryTransactions } from 'src/sentry/SentryTransactions'
 
 let transactions = [] as Array<Transaction>
 
 export const SentryTransactionHub = {
-  startTransaction(name: SentrySpan) {
-    const transaction = Sentry.startTransaction({ ...SentrySpans[name], trimEnd: true })
+  startTransaction(name: SentryTransaction) {
+    const transaction = Sentry.startTransaction({ ...SentryTransactions[name], trimEnd: true })
     transactions.push(transaction)
   },
-  finishTransaction(name: SentrySpan) {
+  finishTransaction(name: SentryTransaction) {
     // get span operation - 'op'
-    const op = SentrySpans[name].op
+    const op = SentryTransactions[name].op
 
     // Find all the transactions with this op.
     const selectedTransactions = transactions.filter(
