@@ -68,11 +68,11 @@ export function useFetchTransactions(): QueryHookResult {
   const [fetchedResult, setFetchedResult] = useState<{
     transactions: TokenTransaction[]
     pageInfo: PageInfo | null
-    hasReturnedTransactions: boolean
+    hasTransactionsOnCurrentPage: boolean
   }>({
     transactions: [],
     pageInfo: null,
-    hasReturnedTransactions: false,
+    hasTransactionsOnCurrentPage: false,
   })
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
 
@@ -94,8 +94,8 @@ export function useFetchTransactions(): QueryHookResult {
         // avoid updating pageInfo and hasReturnedTransactions for polled
         // updates, as these variables are used for fetching the next pages
         pageInfo: isPolledUpdate ? prev.pageInfo : returnedPageInfo,
-        hasReturnedTransactions: isPolledUpdate
-          ? prev.hasReturnedTransactions
+        hasTransactionsOnCurrentPage: isPolledUpdate
+          ? prev.hasTransactionsOnCurrentPage
           : returnedTransactions.length > 0,
       }))
 
@@ -160,11 +160,11 @@ export function useFetchTransactions(): QueryHookResult {
     // 2. sometimes blockchain-api returns 0 transactions for a page (as we only
     //    display certain transaction types in the app) and for this case,
     //    automatically fetch the next page(s) until some transactions are returned
-    const { transactions, pageInfo, hasReturnedTransactions } = fetchedResult
+    const { transactions, pageInfo, hasTransactionsOnCurrentPage } = fetchedResult
     if (
       !loading &&
       pageInfo?.hasNextPage &&
-      (transactions.length < MIN_NUM_TRANSACTIONS || !hasReturnedTransactions)
+      (transactions.length < MIN_NUM_TRANSACTIONS || !hasTransactionsOnCurrentPage)
     ) {
       setFetchingMoreTransactions(true)
     }
