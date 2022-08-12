@@ -21,6 +21,7 @@ export function useDollarToLocalRate() {
   return useSelector(getLocalCurrencyToDollarsExchangeRate)
 }
 
+//TODO check/implement cReal compatibility
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
   const amountCurrency = amount.currencyCode as Currency
@@ -53,6 +54,7 @@ export function useLocalCurrencySymbol() {
   return useSelector(getLocalCurrencySymbol)
 }
 
+//TODO check/implement cReal compatibility
 export function useLocalAmountToCurrency(amount: BigNumber, currency: Currency): BigNumber | null {
   const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
   return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
@@ -73,6 +75,7 @@ export function convertBetweenCurrencies(
   return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
 }
 
+//TODO check/implement cReal compatibility
 export function useConvertBetweenCurrencies(amount: BigNumber, from: Currency, to: Currency) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   return useMemo(() => {

@@ -136,7 +136,7 @@ export default function CurrencyDisplay({
     amount,
     currencyInfo
   )
-
+  // TODO how much of these are compatible with cREAL?
   // Show local amount only if explicitly set to true when currency is CELO
   const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
