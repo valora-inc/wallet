@@ -1060,7 +1060,7 @@
   "feedItemAddress": "Konto {{address}}",
   "feedItemDepositInfo": "{{comment}}",
   "feedItemDepositInfo_noComment": "Otrzymano wpłatę",
-  "feedItemDepositTitle": "Depozyt",
+  "feedItemDepositTitle": "Wpłatę",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Kupiono <0></0> CELO",
   "feedItemExchangeInfo_soldGold": "Sprzedano <0></0> CELO",
@@ -1269,20 +1269,31 @@
     "continue": "Kontynuuj"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Metoda płatności",
     "transactionDetails": "Szczegóły transakcji",
     "paymentMethodVia": "Powiązana przez {{providerName}}",
     "receiveAmount": "Otrzymasz",
     "cashIn": {
       "header": "Analizuj – Dodaj środki",
       "button": "Dodaj środki",
-      "transactionDetailsAmount": "Cena całkowita"
+      "transactionDetailsAmount": "Cena całkowita",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Analizuj",
       "button": "Wypłać środki",
       "transactionDetailsAmount": "Całkowita wypłata",
-      "transactionDetailsAmountConverted": "Wypłacona kwota"
+      "transactionDetailsAmountConverted": "Wypłacona kwota",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1325,24 +1336,21 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Wprowadź dane banku",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Wybrana opcja płatności",
     "addFiatAccountSuccess": "Twoje konto zostało połączone z aplikacją Valora.",
     "addFiatAccountResourceExist": "Twoje konto jest już połączone z aplikacją Valora.",
     "addFiatAccountFailed": "Twoje konto nie zostało połączone, spróbuj ponownie lub skontaktuj się z Działem wsparcia.",
     "selectItem": "Wybierz opcję...",
-    "selectDone": "Gotowe"
+    "selectDone": "Gotowe",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Nazwa konta",
-      "placeholderText": "Nazwa konta",
-      "errorMessage": "Wymagane jest podanie nazwy konta"
-    },
     "institutionName": {
       "label": "Nazwa banku",
-      "placeholderText": "Wpisz nazwę banku",
-      "errorMessage": "Wymagane jest podanie nazwy banku"
+      "placeholderText": "Wpisz nazwę banku"
     },
     "accountNumber": {
       "label": "Numer konta",
