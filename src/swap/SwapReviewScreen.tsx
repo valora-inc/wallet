@@ -209,7 +209,7 @@ export function SwapReviewScreen(props: Props) {
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.transactionDetailsRightText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas)}
+                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas * swapInfo?.unvalidatedSwapTransaction.gasPrice)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'EstimatedGas'}
