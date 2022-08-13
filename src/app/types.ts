@@ -6,7 +6,7 @@ export enum SuperchargeButtonType {
 }
 
 export enum CreateAccountCopyTestType {
-  Account = 'ACOUNT',
+  Account = 'ACCOUNT',
   Wallet = 'WALLET',
   AlreadyHaveWallet = 'ALREADY_HAVE_WALLET',
 }
