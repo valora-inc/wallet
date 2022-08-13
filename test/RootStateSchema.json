@@ -291,8 +291,8 @@
         "CreateAccountCopyTestType": {
             "enum": [
                 "ACCOUNT",
-                "WALLET",
-                "ALREADY_HAVE_WALLET"
+                "ALREADY_HAVE_WALLET",
+                "WALLET"
             ],
             "type": "string"
         },
