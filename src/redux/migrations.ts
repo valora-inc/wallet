@@ -789,6 +789,8 @@ export const migrations = {
     app: {
       ...state.app,
       maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+      swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+      swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
     },
   }),
 }

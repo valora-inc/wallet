@@ -1555,6 +1555,8 @@ export const v71Schema = {
   app: {
     ...v70Schema.app,
     maxSwapSlippagePercentage: 2,
+    swapFeeEnabled: false,
+    swapFeePercentage: 0.00743,
   },
 }
 

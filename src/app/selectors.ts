@@ -133,6 +133,10 @@ export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinba
 export const maxSwapSlippagePercentageSelector = (state: RootState) =>
   state.app.maxSwapSlippagePercentage
 
+export const swapFeeEnabledSelector = (state: RootState) => state.app.swapFeeEnabled
+
+export const swapFeePercentageSelector = (state: RootState) => state.app.swapFeePercentage
+
 type StoreWipeRecoveryScreens = Extract<
   Screens,
   | Screens.NameAndPicture

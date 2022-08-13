@@ -197,6 +197,8 @@ export interface RemoteConfigValues {
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
 }
 
 export function* appRemoteFeatureFlagSaga() {

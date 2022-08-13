@@ -175,6 +175,8 @@ describe('store state', () => {
           "superchargeButtonType": "PILL_REWARDS",
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
+          "swapFeeEnabled": false,
+          "swapFeePercentage": 0.00743,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
         },

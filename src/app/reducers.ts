@@ -56,6 +56,8 @@ export interface State {
   showSwapMenuInDrawerMenu: boolean
   shouldShowRecoveryPhraseInSettings: boolean
   maxSwapSlippagePercentage: number
+  swapFeeEnabled: boolean
+  swapFeePercentage: number
 }
 
 const initialState = {
@@ -105,6 +107,8 @@ const initialState = {
   shouldShowRecoveryPhraseInSettings:
     REMOTE_CONFIG_VALUES_DEFAULTS.shouldShowRecoveryPhraseInSettings,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
+  swapFeeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeeEnabled,
+  swapFeePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.swapFeePercentage,
 }
 
 export const appReducer = (

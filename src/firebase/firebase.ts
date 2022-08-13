@@ -300,6 +300,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
+    swapFeeEnabled: flags.swapFeeEnabled.asBoolean(),
+    swapFeePercentage: flags.swapFeePercentage.asNumber(),
   }
 }
 

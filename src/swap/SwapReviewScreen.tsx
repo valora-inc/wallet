@@ -18,7 +18,11 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
+import {
+  maxSwapSlippagePercentageSelector,
+  swapFeeEnabledSelector,
+  swapFeePercentageSelector,
+} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
@@ -49,10 +53,17 @@ export function SwapReviewScreen(props: Props) {
   const [loading, setLoading] = useState(false)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
+  const [swapFeeModalVisible, setSwapFeeModalVisible] = useState(false)
   const [swapInfo, setSwapInfo] = useState(null as any)
   const coreTokens = useSelector(coreTokensSelector)
-  const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
   const walletAddress = useSelector(walletAddressSelector)
+
+  // Items set for remote config
+  const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
+  const swapFeeEnabled = useSelector(swapFeeEnabledSelector)
+  const swapFeePercentage = useSelector(swapFeePercentageSelector)
+
+  // Display items
   const maxSlippageDecimal = `${maxSlippagePercent / 100}`
 
   const { t } = useTranslation()
@@ -150,14 +161,14 @@ export function SwapReviewScreen(props: Props) {
               <Text style={styles.label}>{t('swapReviewScreen.swapFrom')}</Text>
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
-                  style={styles.tokenText}
+                  style={styles.amountText}
                   amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'FromSwapAmountToken'}
                 />
                 <TokenDisplay
-                  style={styles.tokenSubText}
+                  style={styles.amountSubText}
                   amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount)}
                   tokenAddress={fromToken}
                   showLocalAmount={true}
@@ -169,7 +180,7 @@ export function SwapReviewScreen(props: Props) {
               <Text style={styles.label}>{t('swapReviewScreen.swapTo')}</Text>
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
-                  style={[styles.tokenText, { color: colors.greenUI }]}
+                  style={[styles.amountText, { color: colors.greenUI }]}
                   amount={divideByWei(
                     swapInfo?.unvalidatedSwapTransaction?.buyAmount -
                       swapInfo?.unvalidatedSwapTransaction?.gas
@@ -183,7 +194,7 @@ export function SwapReviewScreen(props: Props) {
                   onPress={() => setEstimatedDialogVisible(true)}
                   hitSlop={variables.iconHitslop}
                 >
-                  <Text style={[styles.tokenSubText, { marginRight: 4 }]}>
+                  <Text style={[styles.amountSubText, { marginRight: 4 }]}>
                     {t('swapReviewScreen.estimatedAmountTitle')}
                   </Text>
                   <InfoIcon size={12} color={colors.gray4} />
@@ -209,12 +220,36 @@ export function SwapReviewScreen(props: Props) {
               <View style={styles.tokenDisplayView}>
                 <TokenDisplay
                   style={styles.transactionDetailsRightText}
-                  amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.gas * swapInfo?.unvalidatedSwapTransaction.gasPrice)}
+                  amount={divideByWei(
+                    swapInfo?.unvalidatedSwapTransaction?.gas *
+                      swapInfo?.unvalidatedSwapTransaction.gasPrice
+                  )}
                   tokenAddress={fromToken}
                   showLocalAmount={false}
                   testID={'EstimatedGas'}
                 />
               </View>
+            </View>
+            <View style={styles.row}>
+              <TouchableOpacity
+                style={styles.touchableRow}
+                onPress={() => setSwapFeeModalVisible(true)}
+                hitSlop={variables.iconHitslop}
+              >
+                <Text style={{ marginRight: 4, ...fontStyles.regular }}>
+                  {t('swapReviewScreen.swapFee')}
+                </Text>
+                <InfoIcon size={12} color={colors.gray4} />
+              </TouchableOpacity>
+              <TokenDisplay
+                style={[styles.transactionDetailsRightText, !swapFeeEnabled && styles.feeWaived]}
+                amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.buyAmount).multipliedBy(
+                  swapFeePercentage
+                )}
+                tokenAddress={fromToken}
+                showLocalAmount={true}
+                testID={'SwapFee'}
+              />
             </View>
           </View>
         </ScrollView>
@@ -237,6 +272,19 @@ export function SwapReviewScreen(props: Props) {
       >
         {t('swapReviewScreen.estimatedAmountBody', {
           slippagePercent: maxSlippagePercent,
+        })}
+      </Dialog>
+      {/** App fee dialog */}
+      <Dialog
+        title={t('swapReviewScreen.swapFeeTitle')}
+        isVisible={swapFeeModalVisible}
+        actionText={t('dismiss')}
+        actionPress={() => setSwapFeeModalVisible(false)}
+        isActionHighlighted={false}
+        onBackgroundPress={() => setSwapFeeModalVisible(false)}
+      >
+        {t('swapReviewScreen.swapFeeBody', {
+          swapFee: swapFeePercentage,
         })}
       </Dialog>
     </SafeAreaView>
@@ -303,14 +351,18 @@ const styles = StyleSheet.create({
     flex: 1,
     ...fontStyles.regular,
   },
-  tokenText: {
+  amountText: {
     textAlign: 'right',
     ...fontStyles.large,
   },
-  tokenSubText: {
+  amountSubText: {
     textAlign: 'right',
     ...fontStyles.small,
     color: colors.gray4,
+  },
+  feeWaived: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
   },
 })
 
