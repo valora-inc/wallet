@@ -10,7 +10,8 @@ import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { createAccountCopyTestConfigSelector, registrationStepsSelector } from 'src/app/selectors'
+import { createAccountCopyTestTypeSelector, registrationStepsSelector } from 'src/app/selectors'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import DevSkipButton from 'src/components/DevSkipButton'
 import FormInput from 'src/components/FormInput'
@@ -42,7 +43,7 @@ function NameAndPicture({ navigation }: Props) {
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
-  const createAccountCopyTestConfig = useSelector(createAccountCopyTestConfigSelector)
+  const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,9 +52,10 @@ function NameAndPicture({ navigation }: Props) {
           title={t(
             choseToRestoreAccount
               ? 'restoreAccount'
-              : createAccountCopyTestConfig === 'control'
-              ? 'createAccount'
-              : 'createProfile'
+              : createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+                createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? 'createProfile'
+              : 'createAccount'
           )}
           subTitle={t('registrationSteps', { step, totalSteps })}
         />

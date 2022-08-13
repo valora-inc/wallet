@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { createAccountCopyTestConfigSelector } from 'src/app/selectors'
+import { createAccountCopyTestTypeSelector } from 'src/app/selectors'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
@@ -25,7 +26,7 @@ export default function Welcome() {
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()
 
-  const createAccountCopyTestConfig = useSelector(createAccountCopyTestConfigSelector)
+  const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
   const navigateNext = () => {
     if (!acceptedTerms) {
@@ -58,9 +59,10 @@ export default function Welcome() {
         <Button
           onPress={onPressCreateAccount}
           text={
-            createAccountCopyTestConfig === 'control'
-              ? t('welcome.createAccount')
-              : t('welcome.createNewWallet')
+            createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? t('welcome.createNewWallet')
+              : t('welcome.createAccount')
           }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
@@ -70,11 +72,11 @@ export default function Welcome() {
         <Button
           onPress={onPressRestoreAccount}
           text={
-            createAccountCopyTestConfig === 'control'
-              ? t('welcome.restoreAccount')
-              : createAccountCopyTestConfig === 'treatment1'
+            createAccountCopyTestType === CreateAccountCopyTestType.Wallet
               ? t('welcome.restoreWallet')
-              : t('welcome.iAlreadyHaveAWallet')
+              : createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? t('welcome.iAlreadyHaveAWallet')
+              : t('welcome.restoreAccount')
           }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING_SECONDARY}

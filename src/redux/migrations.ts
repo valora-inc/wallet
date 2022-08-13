@@ -788,7 +788,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      createAccountCopyTestConfig: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestConfig,
+      createAccountCopyTestType: REMOTE_CONFIG_VALUES_DEFAULTS.createAccountCopyTestType,
     },
   }),
 }

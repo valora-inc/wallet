@@ -130,8 +130,8 @@ export const fiatConnectCashOutEnabledSelector = (state: RootState) =>
 
 export const coinbasePayEnabledSelector = (state: RootState) => state.app.coinbasePayEnabled
 
-export const createAccountCopyTestConfigSelector = (state: RootState) =>
-  state.app.createAccountCopyTestConfig
+export const createAccountCopyTestTypeSelector = (state: RootState) =>
+  state.app.createAccountCopyTestType
 
 type StoreWipeRecoveryScreens = Extract<
   Screens,

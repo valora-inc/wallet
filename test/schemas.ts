@@ -1554,7 +1554,7 @@ export const v71Schema = {
   },
   app: {
     ...v70Schema.app,
-    createAccountCopyTestConfig: 'control',
+    createAccountCopyTestType: 'ACCOUNT',
   },
 }
 

@@ -12,7 +12,7 @@ import { call, take } from 'redux-saga/effects'
 import { handleUpdateAccountRegistration } from 'src/account/saga'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
 import { RemoteConfigValues } from 'src/app/saga'
-import { SuperchargeButtonType } from 'src/app/types'
+import { CreateAccountCopyTestType, SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { DappConnectInfo } from 'src/dapps/types'
 import { handleNotification } from 'src/firebase/notifications'
@@ -299,7 +299,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     shouldShowRecoveryPhraseInSettings: flags.shouldShowRecoveryPhraseInSettings.asBoolean(),
-    createAccountCopyTestConfig: flags.createAccountCopyTestConfig.asString(),
+    createAccountCopyTestType: flags.createAccountCopyTestType.asString() as CreateAccountCopyTestType,
   }
 }
 

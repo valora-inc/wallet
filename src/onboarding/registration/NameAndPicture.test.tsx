@@ -4,6 +4,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -67,13 +68,13 @@ describe('NameAndPictureScreen', () => {
     expect(queryByTestId('PictureInput')).toBeNull()
   })
 
-  it('render header title correctly when createAccountCopyTestConfig is "control"', () => {
+  it('render header title correctly when createAccountCopyTestType is "Account"', () => {
     const store = createMockStore({
       account: {
         choseToRestoreAccount: false,
       },
       app: {
-        createAccountCopyTestConfig: 'control',
+        createAccountCopyTestType: CreateAccountCopyTestType.Account,
       },
     })
 
@@ -93,13 +94,13 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('createAccount')).toBeTruthy()
   })
 
-  it('render header title correctly when createAccountCopyTestConfig is "treatment1"', () => {
+  it('render header title correctly when createAccountCopyTestType is "Wallet"', () => {
     const store = createMockStore({
       account: {
         choseToRestoreAccount: false,
       },
       app: {
-        createAccountCopyTestConfig: 'treatment1',
+        createAccountCopyTestType: CreateAccountCopyTestType.Wallet,
       },
     })
 
@@ -119,13 +120,13 @@ describe('NameAndPictureScreen', () => {
     expect(getByText('createProfile')).toBeTruthy()
   })
 
-  it('render header title correctly when createAccountCopyTestConfig is "treatment2"', () => {
+  it('render header title correctly when createAccountCopyTestType is "AlreadyHaveWallet"', () => {
     const store = createMockStore({
       account: {
         choseToRestoreAccount: false,
       },
       app: {
-        createAccountCopyTestConfig: 'treatment2',
+        createAccountCopyTestType: CreateAccountCopyTestType.AlreadyHaveWallet,
       },
     })
 
