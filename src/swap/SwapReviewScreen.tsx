@@ -49,7 +49,7 @@ export function SwapReviewScreen(props: Props) {
   const [loading, setLoading] = useState(false)
   const [fetchSwapQuoteError, setFetchSwapQuoteError] = useState(false)
   const [estimatedModalVisible, setEstimatedDialogVisible] = useState(false)
-  const [swapInfo, setSwapInfo] = useState(null)
+  const [swapInfo, setSwapInfo] = useState(null as any)
   const coreTokens = useSelector(coreTokensSelector)
   const maxSlippagePercent = useSelector(maxSwapSlippagePercentageSelector)
   const walletAddress = useSelector(walletAddressSelector)
