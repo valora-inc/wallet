@@ -178,7 +178,10 @@ export function useFetchTransactions(): QueryHookResult {
     fetchMoreTransactions: () => {
       if (!fetchedResult.pageInfo) {
         dispatch(showError(ErrorMessages.FETCH_FAILED))
-      } else if (!fetchedResult.pageInfo?.hasNextPage) {
+      } else if (
+        !fetchedResult.pageInfo?.hasNextPage &&
+        fetchedResult.transactions.length > MIN_NUM_TRANSACTIONS
+      ) {
         Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
       } else {
         setFetchingMoreTransactions(true)
