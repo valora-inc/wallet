@@ -388,7 +388,7 @@
   "paste": "Yapıştır",
   "choose": "Seçiniz",
   "receivedPayment": "Alınan Ödeme",
-  "receivedNft": "Alınan NFT",
+  "receivedNft": "NFT Alındı",
   "sentNft": "Gönderilen NFT",
   "getStarted": "Kullanmaya Başlayın",
   "manageCeloDollars": "Celo Dollar'ları Yönetin",
@@ -1265,20 +1265,31 @@
     "continue": "İleri"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Ödeme yöntemi",
     "transactionDetails": "İşlem detayları",
     "paymentMethodVia": "{{providerName}} üzerinden bağlantı",
     "receiveAmount": "Alacağınız",
     "cashIn": {
       "header": "Gözden Geçir - Bakiye Ekle",
       "button": "Bakiye Ekle",
-      "transactionDetailsAmount": "Toplam fiyat"
+      "transactionDetailsAmount": "Toplam fiyat",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Gözden Geçir",
       "button": "Bakiye Çek",
       "transactionDetailsAmount": "Çekilen Toplam Tutar",
-      "transactionDetailsAmountConverted": "Çekilen Tutar"
+      "transactionDetailsAmountConverted": "Çekilen Tutar",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1321,24 +1332,21 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Banka Bilgilerini Girin",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Seçili ödeme yöntemi",
     "addFiatAccountSuccess": "Hesabınız Valora'ya bağlandı.",
     "addFiatAccountResourceExist": "Bu hesabı zaten Valora'ya bağladınız.",
     "addFiatAccountFailed": "Hesabınız bağlanmadı, lütfen tekrar deneyin veya desteğe başvurun.",
     "selectItem": "Bir seçenek seçin...",
-    "selectDone": "Tamamlandı"
+    "selectDone": "Tamamlandı",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Hesap Adı",
-      "placeholderText": "Hesap için bir ad",
-      "errorMessage": "Hesap adı gereklidir"
-    },
     "institutionName": {
       "label": "Banka Adı",
-      "placeholderText": "Banka Adını Girin",
-      "errorMessage": "Banka gereklidir"
+      "placeholderText": "Banka Adını Girin"
     },
     "accountNumber": {
       "label": "Hesap Numarası",
