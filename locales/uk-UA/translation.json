@@ -1292,7 +1292,7 @@
     },
     "quoteExpiredDialog": {
       "title": "Переглянути суми та тарифи",
-      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "body": "Суми криптовалют і комісії можуть змінитися через коливання на ринку криптовалюти.\n\nПерегляньте вашу остаточну суму та комісію перед відправленням",
       "continue": "Continue"
     }
   },
@@ -1336,16 +1336,16 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Enter Bank Information",
-    "headerSubTitle": "Powered by {{provider}}",
-    "description": "Add your information to link your bank account to Valora",
+    "header": "Введіть дані банку",
+    "headerSubTitle": "За підтримки {{provider}}",
+    "description": "Додайте вашу інформацію, щоб пов’язати ваш банківський рахунок із Valora",
     "selectedPaymentOption": "Вибраний спосіб оплати",
     "addFiatAccountSuccess": "Ваш обліковий запис було зв'язано з Valora.",
     "addFiatAccountResourceExist": "Ви вже зв'язали цей обліковий запис із Valora.",
     "addFiatAccountFailed": "Ваш обліковий запис не пов’язано. Спробуйте ще раз або зверніться до служби підтримки.",
     "selectItem": "Виберіть варіант...",
     "selectDone": "Виконано",
-    "submitAndContinue": "Submit & Continue"
+    "submitAndContinue": "Надіслати та продовжити"
   },
   "fiatAccountSchema": {
     "institutionName": {
@@ -1368,7 +1368,7 @@
     "swapFrom": "Від",
     "swapTo": "До",
     "insufficientFunds": "Недостатньо балансу на {{token}}. Спробуйте меншу суму або виберіть інший токен.",
-    "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes."
+    "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
