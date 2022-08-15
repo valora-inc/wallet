@@ -75,5 +75,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   shouldShowRecoveryPhraseInSettings: false,
   maxSwapSlippagePercentage: 2,
   swapFeeEnabled: false,
-  swapFeePercentage: 0.00743,
+  swapFeePercentage: 0.743,
 }

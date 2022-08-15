@@ -63,8 +63,9 @@ export function SwapReviewScreen(props: Props) {
   const swapFeeEnabled = useSelector(swapFeeEnabledSelector)
   const swapFeePercentage = useSelector(swapFeePercentageSelector)
 
-  // Display items
+  // Remote configs converted to decimals strings
   const maxSlippageDecimal = `${maxSlippagePercent / 100}`
+  const swapFeeDecimal = `${swapFeePercentage / 100}`
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -243,8 +244,8 @@ export function SwapReviewScreen(props: Props) {
               </TouchableOpacity>
               <TokenDisplay
                 style={[styles.transactionDetailsRightText, !swapFeeEnabled && styles.feeWaived]}
-                amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.buyAmount).multipliedBy(
-                  swapFeePercentage
+                amount={divideByWei(swapInfo?.unvalidatedSwapTransaction?.sellAmount).multipliedBy(
+                  swapFeeDecimal
                 )}
                 tokenAddress={fromToken}
                 showLocalAmount={true}

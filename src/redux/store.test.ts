@@ -176,7 +176,7 @@ describe('store state', () => {
           "superchargeTokenConfigByToken": Object {},
           "supportedBiometryType": null,
           "swapFeeEnabled": false,
-          "swapFeePercentage": 0.00743,
+          "swapFeePercentage": 0.743,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
         },
