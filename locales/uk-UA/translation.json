@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Крок у майбутнє криптовалюти з {{appName}}",
     "createAccount": "Створити новий обліковий запис",
-    "restoreAccount": "Відновити мій обліковий запис"
+    "restoreAccount": "Відновити мій обліковий запис",
+    "createNewWallet": "Створити гаманець",
+    "restoreWallet": "Відновити гаманець",
+    "iAlreadyHaveAWallet": "У мене вже є гаманець"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Створити обліковий запис",
+  "createProfile": "Створити профіль",
   "restoreAccount": "Відновити мій обліковий запис",
   "registrationSteps": "Крок {{step}} із {{totalSteps}}",
   "selectCountryCode": "Виберіть код країни",
