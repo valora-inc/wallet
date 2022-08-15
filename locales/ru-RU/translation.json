@@ -1269,20 +1269,31 @@
     "continue": "Продолжить"
   },
   "fiatConnectReviewScreen": {
-    "paymentMethod": "Способ оплаты",
     "transactionDetails": "Детали транзакции",
     "paymentMethodVia": "связь через {{providerName}}.",
     "receiveAmount": "Ты получишь",
     "cashIn": {
       "header": "Проверить - Внести средства",
       "button": "Внести средства",
-      "transactionDetailsAmount": "Общая цена"
+      "transactionDetailsAmount": "Общая цена",
+      "paymentMethodHeader": "Deposit From"
     },
     "cashOut": {
       "header": "Проверить",
       "button": "Вывод средства",
       "transactionDetailsAmount": "Всего выведено",
-      "transactionDetailsAmountConverted": "Сумма выведено"
+      "transactionDetailsAmountConverted": "Сумма выведено",
+      "paymentMethodHeader": "Withdraw To"
+    },
+    "failedRefetch": {
+      "title": "Connection lost!",
+      "description": "We were not able to establish a connection between your accounts.\n\nThis may be due to a poor internet connection or server issue. Please try to reconnect.",
+      "tryAgain": "Try Again"
+    },
+    "quoteExpiredDialog": {
+      "title": "Review amounts & fees",
+      "body": "Crypto amounts & fees can change due to fluctuations in the crypto market.\n\nPlease review your final amount & fees before submitting",
+      "continue": "Continue"
     }
   },
   "fiatConnectStatusScreen": {
@@ -1325,24 +1336,21 @@
     }
   },
   "fiatDetailsScreen": {
-    "header": "Введите банковские реквизиты",
+    "header": "Enter Bank Information",
+    "headerSubTitle": "Powered by {{provider}}",
+    "description": "Add your information to link your bank account to Valora",
     "selectedPaymentOption": "Выбранный способ оплаты",
     "addFiatAccountSuccess": "Ваш аккаунт привязан к системе Valora.",
     "addFiatAccountResourceExist": "Вы уже привязали этот аккаунт к Valora.",
     "addFiatAccountFailed": "Ваш аккаунт не был привязан, повторите попытку или обратитесь в службу поддержки.",
     "selectItem": "Выбери опцию...",
-    "selectDone": "Готово"
+    "selectDone": "Готово",
+    "submitAndContinue": "Submit & Continue"
   },
   "fiatAccountSchema": {
-    "accountName": {
-      "label": "Имя аккаунта",
-      "placeholderText": "Имя для аккаунта",
-      "errorMessage": "Требуется имя аккаунта"
-    },
     "institutionName": {
       "label": "Название банка",
-      "placeholderText": "Введите название банка",
-      "errorMessage": "Требуется название банка"
+      "placeholderText": "Введите название банка"
     },
     "accountNumber": {
       "label": "Номер счета",
