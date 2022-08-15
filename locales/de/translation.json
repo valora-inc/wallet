@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Steige mit {{appName}} in die Zukunft von Krypto ein.",
     "createAccount": "Neues Konto erstellen",
-    "restoreAccount": "Mein Konto wiederherstellen"
+    "restoreAccount": "Mein Konto wiederherstellen",
+    "createNewWallet": "Neue Brieftasche erstellen",
+    "restoreWallet": "Brieftasche wiederherstellen",
+    "iAlreadyHaveAWallet": "Ich habe bereits ein Portemonnaie"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Konto erstellen",
+  "createProfile": "Profil erstellen",
   "restoreAccount": "Mein Konto wiederherstellen",
   "registrationSteps": "Schritt {{step}} von {{totalSteps}}",
   "selectCountryCode": "Ländercode auswählen",
