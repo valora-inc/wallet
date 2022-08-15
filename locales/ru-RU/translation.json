@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Сделайте шаг в будущее криптовалют с помощью {{appName}}",
     "createAccount": "Создать новый аккаунт",
-    "restoreAccount": "Восстановить мой аккаунт"
+    "restoreAccount": "Восстановить мой аккаунт",
+    "createNewWallet": "Создайте новый кошелек",
+    "restoreWallet": "Восстановление кошелька",
+    "iAlreadyHaveAWallet": "У меня уже есть кошелек"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Создать аккаунт",
+  "createProfile": "Создать профиль",
   "restoreAccount": "Восстановить мой аккаунт",
   "registrationSteps": "Шаг {{step}} из {{totalSteps}}",
   "selectCountryCode": "Выберите код страны",
