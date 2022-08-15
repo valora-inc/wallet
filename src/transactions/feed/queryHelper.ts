@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
@@ -13,6 +13,8 @@ import { TokenTransaction } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+
+const MIN_NUM_TRANSACTIONS = 10
 
 export interface QueryHookResult {
   loading: boolean
@@ -41,23 +43,18 @@ const TAG = 'transactions/feed/queryHelper'
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
 
-function useDeduplicatedTransactions() {
-  const [transactions, setTransactions] = useState<TokenTransaction[]>([])
-  const addTransactions = (newTransactions: TokenTransaction[]) => {
-    const currentHashes = new Set(transactions.map((tx) => tx.transactionHash))
-    const transactionsWithoutDuplicatedHash = transactions.concat(
-      newTransactions.filter((tx) => !currentHashes.has(tx.transactionHash))
-    )
-    transactionsWithoutDuplicatedHash.sort((a, b) => {
-      return b.timestamp - a.timestamp
-    })
-    setTransactions(transactionsWithoutDuplicatedHash)
-  }
-
-  return {
-    transactions,
-    addTransactions,
-  }
+const deduplicateTransactions = (
+  existingTxs: TokenTransaction[],
+  incomingTxs: TokenTransaction[]
+) => {
+  const currentHashes = new Set(existingTxs.map((tx) => tx.transactionHash))
+  const transactionsWithoutDuplicatedHash = existingTxs.concat(
+    incomingTxs.filter((tx) => !isEmpty(tx) && !currentHashes.has(tx.transactionHash))
+  )
+  transactionsWithoutDuplicatedHash.sort((a, b) => {
+    return b.timestamp - a.timestamp
+  })
+  return transactionsWithoutDuplicatedHash
 }
 
 export function useFetchTransactions(): QueryHookResult {
@@ -66,33 +63,49 @@ export function useFetchTransactions(): QueryHookResult {
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
 
-  const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
+  // track cumulative transactions and most recent page info in one state, so
+  // that they do not become out of sync
+  const [fetchedResult, setFetchedResult] = useState<{
+    transactions: TokenTransaction[]
+    pageInfo: PageInfo | null
+    hasTransactionsOnCurrentPage: boolean
+  }>({
+    transactions: [],
+    pageInfo: null,
+    hasTransactionsOnCurrentPage: false,
+  })
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  const { transactions, addTransactions } = useDeduplicatedTransactions()
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
   useInterval(() => setCounter((n) => n + 1), POLL_INTERVAL)
 
-  const handleResult = (result: QueryResponse, paginatedResult: boolean) => {
-    Logger.info(TAG, `Fetched ${paginatedResult ? 'next page' : 'new'} transactions`)
+  const handleResult = (result: QueryResponse, isPollResult: boolean) => {
+    Logger.info(TAG, `Fetched ${isPollResult ? 'new' : 'next page of'} transactions`)
 
-    const returnedTransactions = result.data?.tokenTransactionsV2?.transactions
+    const returnedTransactions = result.data?.tokenTransactionsV2?.transactions ?? []
+    const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo ?? null
+    // the initial feed fetch is from polling, exclude polled updates form that scenario
+    const isPolledUpdate = isPollResult && fetchedResult.pageInfo !== null
 
-    if (returnedTransactions?.length) {
-      const nonEmptyTransactions = returnedTransactions.filter(
-        (returnedTransaction) => !isEmpty(returnedTransaction)
-      )
-      addTransactions(nonEmptyTransactions)
-      // We store non-paginated results in redux to show them to the users when they open the app.
-      if (!paginatedResult) {
+    if (returnedTransactions?.length || returnedPageInfo?.hasNextPage) {
+      setFetchedResult((prev) => ({
+        transactions: deduplicateTransactions(prev.transactions, returnedTransactions),
+        // avoid updating pageInfo and hasReturnedTransactions for polled
+        // updates, as these variables are used for fetching the next pages
+        pageInfo: isPolledUpdate ? prev.pageInfo : returnedPageInfo,
+        hasTransactionsOnCurrentPage: isPolledUpdate
+          ? prev.hasTransactionsOnCurrentPage
+          : returnedTransactions.length > 0,
+      }))
+
+      if (isPollResult && returnedTransactions.length) {
+        // We store the first page in redux to show them to the users when they open the app.
+        const nonEmptyTransactions = returnedTransactions.filter(
+          (returnedTransaction) => !isEmpty(returnedTransaction)
+        )
         dispatch(updateTransactions(nonEmptyTransactions))
       }
-    }
-
-    const returnedPageInfo = result.data?.tokenTransactionsV2?.pageInfo
-    if ((!pageInfo || paginatedResult) && returnedPageInfo) {
-      setPageInfo(returnedPageInfo)
     }
   }
 
@@ -104,7 +117,7 @@ export function useFetchTransactions(): QueryHookResult {
   const { loading, error } = useAsync(
     async () => {
       const result = await queryTransactionsFeed(address, localCurrencyCode)
-      handleResult(result, false)
+      handleResult(result, true)
     },
     [counter],
     {
@@ -115,14 +128,18 @@ export function useFetchTransactions(): QueryHookResult {
   // Query for next page of transaction if requested
   useAsync(
     async () => {
-      if (!fetchingMoreTransactions || !pageInfo?.hasNextPage) {
+      if (!fetchingMoreTransactions || !fetchedResult.pageInfo?.hasNextPage) {
         setFetchingMoreTransactions(false)
         return
       }
 
-      const result = await queryTransactionsFeed(address, localCurrencyCode, pageInfo?.endCursor)
+      const result = await queryTransactionsFeed(
+        address,
+        localCurrencyCode,
+        fetchedResult.pageInfo?.endCursor
+      )
       setFetchingMoreTransactions(false)
-      handleResult(result, true)
+      handleResult(result, false)
     },
     [fetchingMoreTransactions],
     {
@@ -134,19 +151,38 @@ export function useFetchTransactions(): QueryHookResult {
     }
   )
 
+  useEffect(() => {
+    // this hook does 2 things:
+    // 1. ensures that we populate the entire screen with transactions on load
+    //    so that future refetches can be correctly triggered by `onEndReached`,
+    //    in the event that blockchain-api returns a small number of results for
+    //    the first page(s)
+    // 2. sometimes blockchain-api returns 0 transactions for a page (as we only
+    //    display certain transaction types in the app) and for this case,
+    //    automatically fetch the next page(s) until some transactions are returned
+    const { transactions, pageInfo, hasTransactionsOnCurrentPage } = fetchedResult
+    if (
+      !loading &&
+      pageInfo?.hasNextPage &&
+      (transactions.length < MIN_NUM_TRANSACTIONS || !hasTransactionsOnCurrentPage)
+    ) {
+      setFetchingMoreTransactions(true)
+    }
+  }, [fetchedResult, loading])
+
   return {
     loading,
     error,
-    transactions,
+    transactions: fetchedResult.transactions,
     fetchingMoreTransactions,
     fetchMoreTransactions: () => {
-      if (!pageInfo) {
+      if (!fetchedResult.pageInfo) {
         dispatch(showError(ErrorMessages.FETCH_FAILED))
-      } else if (!pageInfo.hasNextPage) {
-        // If the user has a few transactions, don't show any message
-        if (transactions.length > 20) {
-          Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
-        }
+      } else if (
+        !fetchedResult.pageInfo?.hasNextPage &&
+        fetchedResult.transactions.length > MIN_NUM_TRANSACTIONS
+      ) {
+        Toast.showWithGravity(t('noMoreTransactions'), Toast.SHORT, Toast.CENTER)
       } else {
         setFetchingMoreTransactions(true)
       }
