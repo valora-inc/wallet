@@ -1104,6 +1104,7 @@
   "feedItemGoldPurchased": "Purchased",
   "feedItemGoldWithdrawal": "Withdrawal to {{displayName}}",
   "feedItemGoldReceived": "Received from {{displayName}}",
+  "feedItemSwapPath": "{{token1}} to {{token2}}",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",

@@ -39,7 +39,10 @@ function SwapFeedItem({ exchange }: Props) {
             {t('swapScreen.title')}
           </Text>
           <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'}>
-            {outgoingTokenInfo?.symbol} {'to'} {incomingTokenInfo?.symbol}
+            {t('feedItemSwapPath', {
+              token1: outgoingTokenInfo?.symbol,
+              token2: incomingTokenInfo?.symbol,
+            })}
           </Text>
         </View>
         <View style={styles.contentContainer}>
