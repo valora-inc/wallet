@@ -38,7 +38,6 @@ import { attemptReturnUserFlow } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
-  useConvertBetweenCurrencies,
   useCurrencyToLocalAmount,
   useLocalAmountToCurrency,
   useLocalCurrencyCode,
@@ -85,6 +84,7 @@ function FiatExchangeAmount({ route }: Props) {
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const inputConvertedToCrypto =
     useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
+
   const inputConvertedToLocalCurrency =
     useCurrencyToLocalAmount(parsedInputAmount, currency as Currency) || new BigNumber(0)
   const localCurrencyCode = useLocalCurrencyCode()
@@ -101,7 +101,7 @@ function FiatExchangeAmount({ route }: Props) {
   const inputCryptoAmount = inputIsCrypto ? parsedInputAmount : inputConvertedToCrypto
   const inputLocalCurrencyAmount = inputIsCrypto ? inputConvertedToLocalCurrency : parsedInputAmount
 
-  const { address } = useTokenInfoBySymbol(cryptoSymbol)!
+  const { address, usdPrice } = useTokenInfoBySymbol(cryptoSymbol)!
   const maxWithdrawAmount = useMaxSendAmount(address, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
@@ -129,12 +129,10 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyDailyLimitAmount =
     useCurrencyToLocalAmount(new BigNumber(dailyLimitCusd), Currency.Dollar) || new BigNumber(0)
 
-  const currencyMaxAmount =
-    useConvertBetweenCurrencies(
-      new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-      Currency.Dollar,
-      currency
-    ) || new BigNumber(0)
+  const currencyMaxAmount = usdPrice
+    ? new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT).dividedBy(usdPrice)
+    : new BigNumber(0)
+
   let overLocalLimitDisplayString = ''
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString =
