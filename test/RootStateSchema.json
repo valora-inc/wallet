@@ -288,6 +288,14 @@
             },
             "type": "object"
         },
+        "CreateAccountCopyTestType": {
+            "enum": [
+                "ACCOUNT",
+                "ALREADY_HAVE_WALLET",
+                "WALLET"
+            ],
+            "type": "string"
+        },
         "CryptoType": {
             "enum": [
                 "CELO",
@@ -1913,6 +1921,9 @@
                 "coinbasePayEnabled": {
                     "type": "boolean"
                 },
+                "createAccountCopyTestType": {
+                    "$ref": "#/definitions/CreateAccountCopyTestType"
+                },
                 "fiatConnectCashInEnabled": {
                     "type": "boolean"
                 },
@@ -2058,6 +2069,7 @@
                 "celoEuroEnabled",
                 "celoWithdrawalEnabledInExchange",
                 "coinbasePayEnabled",
+                "createAccountCopyTestType",
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hideVerification",

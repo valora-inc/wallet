@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { createAccountCopyTestTypeSelector } from 'src/app/selectors'
+import { CreateAccountCopyTestType } from 'src/app/types'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
@@ -23,6 +25,8 @@ export default function Welcome() {
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()
+
+  const createAccountCopyTestType = useSelector(createAccountCopyTestTypeSelector)
 
   const navigateNext = () => {
     if (!acceptedTerms) {
@@ -54,7 +58,12 @@ export default function Welcome() {
       <View style={{ marginBottom: Math.max(0, 40 - insets.bottom) }}>
         <Button
           onPress={onPressCreateAccount}
-          text={t('welcome.createAccount')}
+          text={
+            createAccountCopyTestType === CreateAccountCopyTestType.Wallet ||
+            createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? t('welcome.createNewWallet')
+              : t('welcome.createAccount')
+          }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING}
           style={styles.createAccountButton}
@@ -62,7 +71,13 @@ export default function Welcome() {
         />
         <Button
           onPress={onPressRestoreAccount}
-          text={t('welcome.restoreAccount')}
+          text={
+            createAccountCopyTestType === CreateAccountCopyTestType.Wallet
+              ? t('welcome.restoreWallet')
+              : createAccountCopyTestType === CreateAccountCopyTestType.AlreadyHaveWallet
+              ? t('welcome.iAlreadyHaveAWallet')
+              : t('welcome.restoreAccount')
+          }
           size={BtnSizes.FULL}
           type={BtnTypes.ONBOARDING_SECONDARY}
           testID={'RestoreAccountButton'}
