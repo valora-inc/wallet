@@ -43,7 +43,7 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        <View style={styles.contentContainer}>
+        <View style={styles.tokenAmountContainer}>
           <TokenDisplay
             amount={exchange.inAmount.value}
             tokenAddress={exchange.inAmount.tokenAddress}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginLeft: variables.contentPadding,
+    paddingHorizontal: variables.contentPadding,
   },
   title: {
     ...fontStyles.regular500,
@@ -89,20 +89,20 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     paddingTop: 2,
   },
+  tokenAmountContainer: {
+    flex: 1,
+    marginLeft: variables.contentPadding,
+    paddingLeft: 10,
+    alignItems: 'flex-end',
+  },
   amount: {
     ...fontStyles.regular500,
-    marginLeft: 'auto',
-    paddingLeft: 10,
-    textAlign: 'right',
     flexWrap: 'wrap',
   },
   tokenAmount: {
     ...fontStyles.small,
     color: colors.gray4,
     paddingTop: 2,
-    paddingLeft: 10,
-    marginLeft: 'auto',
-    textAlign: 'right',
     flexWrap: 'wrap',
   },
 })
