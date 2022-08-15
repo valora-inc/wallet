@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Fai un salto nel futuro delle criptovalute con {{appName}}",
     "createAccount": "Crea nuovo conto",
-    "restoreAccount": "Ripristina il mio conto"
+    "restoreAccount": "Ripristina il mio conto",
+    "createNewWallet": "Crea un nuovo portafoglio",
+    "restoreWallet": "Ripristina il portafoglio",
+    "iAlreadyHaveAWallet": "Ho già un portafoglio"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Crea conto",
+  "createProfile": "Crea profilo",
   "restoreAccount": "Ripristina il mio conto",
   "registrationSteps": "Passaggio {{step}} di {{totalSteps}}",
   "selectCountryCode": "Seleziona il codice del Paese",
