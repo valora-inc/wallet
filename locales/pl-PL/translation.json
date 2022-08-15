@@ -718,7 +718,10 @@
   "welcome": {
     "title": "Wkrocz w przyszłość kryptowalut z aplikacją {{appName}}",
     "createAccount": "Utwórz nowe konto",
-    "restoreAccount": "Przywróć konto"
+    "restoreAccount": "Przywróć konto",
+    "createNewWallet": "Utwórz nowy portfel",
+    "restoreWallet": "Przywróć portfel",
+    "iAlreadyHaveAWallet": "Ja już mam portfel"
   },
   "accessContacts": {
     "disclosure": {
@@ -727,6 +730,7 @@
     }
   },
   "createAccount": "Utwórz konto",
+  "createProfile": "Utwórz profil",
   "restoreAccount": "Przywróć konto",
   "registrationSteps": "Krok {{step}} z {{totalSteps}}",
   "selectCountryCode": "Wybierz kod kraju",
